@@ -25,7 +25,9 @@
     {"code": "FME07Z-0185", "name": "Fred Meyer", "tier": "A", "cycle": "07Z", "address": "3184 Ocean Beach Highway", "city": "Longview", "state": "WA", "zip": "98632", "singlead": 5100.00, "doublead": 7140.00, "singlemin": 4590.00, "doublemin": 6426.00},
     {"code": "SAF07Z-0091", "name": "Safeway", "tier": "A", "cycle": "07Z", "address": "1227 15Th Ave", "city": "Longview", "state": "WA", "zip": "98632", "singlead": 4050.00, "doublead": 5670.00, "singlemin": 3645.00, "doublemin": 5103.00},
     {"code": "SAF07Z-1078", "name": "Safeway", "tier": "A", "cycle": "07Z", "address": "2930 Ocean Beach Highway", "city": "Longview", "state": "WA", "zip": "98632", "singlead": 2850.00, "doublead": 3990.00, "singlemin": 2565.00, "doublemin": 3591.00},
-    {"code": "ROS07Z-0042", "name": "Rosauers", "tier": "C", "cycle": "07Z", "address": "101 S. 47th Avenue", "city": "Ridgefield", "state": "WA", "zip": "98642", "singlead": 3425.00, "doublead": 4795.00, "singlemin": 3082.50, "doublemin": 4315.50}
+    {"code": "ROS07Z-0042", "name": "Rosauers", "tier": "C", "cycle": "07Z", "address": "101 S. 47th Avenue", "city": "Ridgefield", "state": "WA", "zip": "98642", "singlead": 3425.00, "doublead": 4795.00, "singlemin": 3082.50, "doublemin": 4315.50},
+    {"code": "FME07Z-0372", "name": "Fred Meyer", "tier": "A", "cycle": "07Z", "address": "1215 W 6Th St", "city": "The Dalles", "state": "OR", "zip": "97058", "singlead": 5325.00, "doublead": 7455.00, "singlemin": 4792.50, "doublemin": 6709.50},
+    {"code": "SAF07Z-1489", "name": "Safeway", "tier": "A", "cycle": "07Z", "address": "520 Mount Hood Street", "city": "The Dalles", "state": "OR", "zip": "97058", "singlead": 4400.00, "doublead": 6160.00, "singlemin": 3960.00, "doublemin": 5544.00}
   ],
   "pricing_adjustments": {
     "cushion_singlead": 1325.00,
