@@ -14,6 +14,11 @@
 ## Boundaries & Rules
 - **No emails sent without explicit permission** — I draft, preview, or ask first. Never auto-send.
 
+## Recent Wins
+- **Feb 17, 2026:** Closed deal at Taqueria Pelayos (Seaside, OR) with Megan Wink
+  - Megan had been cold this month ($0 in sales), but worked with her and closed a deal
+  - Good momentum builder for her going forward
+
 ## Store Rates Skill (Created Feb 17, 2026)
 Built a custom skill for IndoorMedia store rates database. Features:
 - 380+ stores across OR/WA with rates for Fred Meyer, Safeway, Albertsons, etc.
