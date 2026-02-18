@@ -36,16 +36,16 @@ def calculate_adjusted_rates(store: dict, lowest_price: bool = False) -> dict:
     """
     Calculate adjusted rates for a store.
     
-    If lowest_price=False:
-    - Standard rates with $1,325 cushion on ad rates
-    - $125 floor on minimums
+    If lowest_price=False (default):
+    - "Base rate" = SingleAd/DoubleAd WITH $1,325 cushion included
+    - Monthly minimum with $125 floor
     
     If lowest_price=True:
-    - Shows pricing WITHOUT cushion
+    - "Lowest price" = monthly minimum WITHOUT cushion, then discounts, then +$125
     - Multiple payment term options:
       * Monthly: base + $125
-      * 6-month: base * 0.925 + $125 (7.5% off)
-      * 3-month: base * 0.90 + $125 (10% off)
+      * 6-month paid: base * 0.925 + $125 (7.5% off)
+      * 3-month paid: base * 0.90 + $125 (10% off)
       * Paid in full: base * 0.85 + $125 (15% off)
     """
     
@@ -58,33 +58,26 @@ def calculate_adjusted_rates(store: dict, lowest_price: bool = False) -> dict:
     }
     
     if not lowest_price:
-        # Standard rates WITH cushion
-        result["singlead_base"] = store["singlead"]
-        result["singlead_with_cushion"] = store["singlead"] + PRICING["cushion_singlead"]
-        result["doublead_base"] = store["doublead"]
-        result["doublead_with_cushion"] = store["doublead"] + PRICING["cushion_doublead"]
-        result["singlemin_base"] = store["singlemin"]
-        result["singlemin_with_floor"] = store["singlemin"] + PRICING["minimum_singlemin"]
-        result["doublemin_base"] = store["doublemin"]
-        result["doublemin_with_floor"] = store["doublemin"] + PRICING["minimum_doublemin"]
+        # Standard rates: Base rates WITH $1,325 cushion included
+        result["singlead_base_rate"] = store["singlead"] + PRICING["cushion_singlead"]
+        result["doublead_base_rate"] = store["doublead"] + PRICING["cushion_doublead"]
+        result["singlemin_monthly"] = store["singlemin"] + PRICING["minimum_singlemin"]
+        result["doublemin_monthly"] = store["doublemin"] + PRICING["minimum_doublemin"]
     else:
-        # Lowest price options WITHOUT cushion, multiple payment terms
+        # Lowest price options: monthly min WITHOUT cushion, apply discounts, then add $125
         floor = PRICING["minimum_singlemin"]
         
-        result["singlead_monthly"] = store["singlead"] + floor
-        result["singlead_6month"] = store["singlead"] * 0.925 + floor
-        result["singlead_3month"] = store["singlead"] * 0.90 + floor
-        result["singlead_paid_in_full"] = store["singlead"] * 0.85 + floor
+        # Single Ad lowest prices
+        result["singlead_monthly"] = store["singlemin"] + floor
+        result["singlead_6month"] = store["singlemin"] * 0.925 + floor
+        result["singlead_3month"] = store["singlemin"] * 0.90 + floor
+        result["singlead_paid_in_full"] = store["singlemin"] * 0.85 + floor
         
-        result["doublead_monthly"] = store["doublead"] + floor
-        result["doublead_6month"] = store["doublead"] * 0.925 + floor
-        result["doublead_3month"] = store["doublead"] * 0.90 + floor
-        result["doublead_paid_in_full"] = store["doublead"] * 0.85 + floor
-        
-        result["min_monthly"] = store["singlemin"] + floor
-        result["min_6month"] = store["singlemin"] * 0.925 + floor
-        result["min_3month"] = store["singlemin"] * 0.90 + floor
-        result["min_paid_in_full"] = store["singlemin"] * 0.85 + floor
+        # Double Ad lowest prices
+        result["doublead_monthly"] = store["doublemin"] + floor
+        result["doublead_6month"] = store["doublemin"] * 0.925 + floor
+        result["doublead_3month"] = store["doublemin"] * 0.90 + floor
+        result["doublead_paid_in_full"] = store["doublemin"] * 0.85 + floor
     
     return result
 
@@ -96,37 +89,25 @@ def format_rate_display(rates: dict, lowest_price: bool = False) -> str:
     output.append(f"   Store Code: {rates['store_code']}")
     
     if not lowest_price:
-        # Standard rates display
-        output.append("\n   SINGLE AD:")
-        output.append(f"      Base: ${rates['singlead_base']:,.2f}")
-        output.append(f"      With Cushion (+$1,325): ${rates['singlead_with_cushion']:,.2f}")
-        
-        output.append("\n   DOUBLE AD:")
-        output.append(f"      Base: ${rates['doublead_base']:,.2f}")
-        output.append(f"      With Cushion (+$1,325): ${rates['doublead_with_cushion']:,.2f}")
-        
-        output.append("\n   MINIMUM (Monthly):")
-        output.append(f"      Single Min: ${rates['singlemin_with_floor']:,.2f} (base ${rates['singlemin_base']:,.2f} + $125)")
-        output.append(f"      Double Min: ${rates['doublemin_with_floor']:,.2f} (base ${rates['doublemin_base']:,.2f} + $125)")
+        # Standard rates display (with $1,325 cushion included)
+        output.append("\n   BASE RATES (includes $1,325 cushion):")
+        output.append(f"      Single Ad: ${rates['singlead_base_rate']:,.2f}")
+        output.append(f"      Double Ad: ${rates['doublead_base_rate']:,.2f}")
+        output.append(f"      Single Min (Monthly): ${rates['singlemin_monthly']:,.2f}")
+        output.append(f"      Double Min (Monthly): ${rates['doublemin_monthly']:,.2f}")
     else:
         # Lowest price display with payment term options
-        output.append("\n   SINGLE AD (Lowest Price):")
-        output.append(f"      Monthly: ${rates['singlead_monthly']:,.2f}")
-        output.append(f"      6-Month (7.5% off): ${rates['singlead_6month']:,.2f}")
-        output.append(f"      3-Month (10% off): ${rates['singlead_3month']:,.2f}")
-        output.append(f"      Paid in Full (15% off): ${rates['singlead_paid_in_full']:,.2f} ⭐")
+        output.append("\n   LOWEST PRICE - SINGLE AD:")
+        output.append(f"      Month-to-month: ${rates['singlead_monthly']:,.2f}")
+        output.append(f"      6-month prepaid (7.5% off): ${rates['singlead_6month']:,.2f}")
+        output.append(f"      3-month prepaid (10% off): ${rates['singlead_3month']:,.2f}")
+        output.append(f"      Paid in full (15% off): ${rates['singlead_paid_in_full']:,.2f} ⭐")
         
-        output.append("\n   DOUBLE AD (Lowest Price):")
-        output.append(f"      Monthly: ${rates['doublead_monthly']:,.2f}")
-        output.append(f"      6-Month (7.5% off): ${rates['doublead_6month']:,.2f}")
-        output.append(f"      3-Month (10% off): ${rates['doublead_3month']:,.2f}")
-        output.append(f"      Paid in Full (15% off): ${rates['doublead_paid_in_full']:,.2f} ⭐")
-        
-        output.append("\n   MONTHLY MINIMUM (Lowest Price):")
-        output.append(f"      Monthly: ${rates['min_monthly']:,.2f}")
-        output.append(f"      6-Month (7.5% off): ${rates['min_6month']:,.2f}")
-        output.append(f"      3-Month (10% off): ${rates['min_3month']:,.2f}")
-        output.append(f"      Paid in Full (15% off): ${rates['min_paid_in_full']:,.2f} ⭐")
+        output.append("\n   LOWEST PRICE - DOUBLE AD:")
+        output.append(f"      Month-to-month: ${rates['doublead_monthly']:,.2f}")
+        output.append(f"      6-month prepaid (7.5% off): ${rates['doublead_6month']:,.2f}")
+        output.append(f"      3-month prepaid (10% off): ${rates['doublead_3month']:,.2f}")
+        output.append(f"      Paid in full (15% off): ${rates['doublead_paid_in_full']:,.2f} ⭐")
     
     return "\n".join(output)
 
