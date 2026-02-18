@@ -5,64 +5,67 @@ description: Look up tape advertising rates for IndoorMedia store network across
 
 # Store Rates Skill
 
-Quick access to IndoorMedia's tape advertising rates across Oregon & Washington stores, with automatic pricing adjustments baked in.
+Quick access to IndoorMedia's tape advertising rates across Oregon & Washington stores (245 locations, 99 cities) with automatic pricing calculations.
 
 ## What This Skill Does
 
-- **Store lookups** by city and chain name (Fred Meyer, Safeway, Albertsons, etc.)
-- **Automatic pricing adjustments:**
-  - **Cushion:** +$1,325 on SingleAd and DoubleAd rates by default
-  - **Minimum floor:** +$125 on SingleMin and DoubleMin
-  - **Paid-in-full discount:** 5% off all adjusted rates when paid upfront
-- **Simple, flexible queries:** "Fred Meyer in Longview?", "minimum for Bend stores?", etc.
+- **Store lookups** by city and chain name (Fred Meyer, Safeway, Albertsons, Quality Food Center, Haggen, Rosauers, etc.)
+- **Two pricing displays:**
+  - **Standard (Base Rates):** SingleAd/DoubleAd + $1,325 cushion, minimum + $125 floor
+  - **Lowest Price:** Monthly minimum with payment term discounts (-7.5% for 6mo, -10% for 3mo, -15% paid in full), then +$125
+- **Simple, flexible queries:** "Safeway in Chehalis?", "all stores in Portland?", etc.
 
 ## Quick Examples
 
-### Query 1: "What's the rate for the Fred Meyer in Longview?"
+### Query 1: "What's the base rate for Safeway in Chehalis?"
 
 Run:
 ```bash
-python scripts/rate_calculator.py Longview "Fred Meyer"
+python scripts/rate_calculator.py Chehalis Safeway
 ```
 
 Output:
 ```
-📍 Fred Meyer | Tier A | Longview, WA
-   Store Code: FME07Z-0185
+📍 Safeway | Tier A | Chehalis, US
+   Store Code: SAF07Z-3525
 
-   SINGLE AD:
-      Base: $5,100.00
-      With Cushion (+$1,325): $6,425.00
-
-   DOUBLE AD:
-      Base: $7,140.00
-      With Cushion (+$1,325): $8,465.00
-
-   MINIMUM (Monthly):
-      Single Min Base: $4,590.00
-      Single Min Adjusted (+$125): $4,715.00
-      Double Min Base: $6,426.00
-      Double Min Adjusted (+$125): $6,551.00
+   BASE RATES (includes $1,325 cushion):
+      Single Ad: $6,325.00
+      Double Ad: $8,325.00
+      Single Min (Monthly): $4,625.00
+      Double Min (Monthly): $6,425.00
 ```
 
-### Query 2: "What's the minimum monthly price for that store with paid-in-full discount?"
+### Query 2: "Show me the lowest prices with different payment terms"
 
 Run:
 ```bash
-python scripts/rate_calculator.py Longview "Fred Meyer" --paid-in-full
+python scripts/rate_calculator.py Chehalis Safeway --lowest
 ```
 
-Output: Same as above, plus:
+Output:
 ```
-      Single Min Paid in Full (5% off): $4,479.25
-      Double Min Paid in Full (5% off): $6,223.45
+📍 Safeway | Tier A | Chehalis, US
+   Store Code: SAF07Z-3525
+
+   LOWEST PRICE - SINGLE AD:
+      Month-to-month: $4,625.00
+      6-month prepaid (7.5% off): $4,287.50
+      3-month prepaid (10% off): $4,175.00
+      Paid in full (15% off): $3,950.00 ⭐
+
+   LOWEST PRICE - DOUBLE AD:
+      Month-to-month: $6,425.00
+      6-month prepaid (7.5% off): $5,952.50
+      3-month prepaid (10% off): $5,795.00
+      Paid in full (15% off): $5,480.00 ⭐
 ```
 
-### Query 3: "Show me all Safeway rates in Bend"
+### Query 3: "Show me all stores in Bend"
 
 Run:
 ```bash
-python scripts/rate_calculator.py Bend Safeway
+python scripts/rate_calculator.py Bend
 ```
 
 ## How to Use
@@ -92,48 +95,64 @@ print(format_rate_display(rates_discounted, include_discount=True))
 ### From CLI
 
 ```bash
-# Find Fred Meyer in Longview (base + cushion)
+# Standard (base rates with cushion)
+python scripts/rate_calculator.py Chehalis Safeway
+
+# Show lowest prices with payment term discounts
+python scripts/rate_calculator.py Chehalis Safeway --lowest
+
+# Find all Fred Meyer locations in Longview
 python scripts/rate_calculator.py Longview "Fred Meyer"
 
-# Find all stores in Portland
+# Find all stores in Portland (base rates)
 python scripts/rate_calculator.py Portland
 
-# Find all stores in Portland with 5% paid-in-full discount
-python scripts/rate_calculator.py Portland --paid-in-full
+# Find all stores in Portland with lowest prices
+python scripts/rate_calculator.py Portland --lowest
 ```
 
 ## Data Files
 
-- **`references/store_data.json`** - Complete store database with base rates, cycles, tiers, and adjustment rules
-  - 380+ stores across OR and WA
+- **`references/store_data.json`** - Complete store database with base rates, cycles, tiers
+  - **245 stores across 99 cities** in Oregon and Washington
   - Fields: code, name, tier, cycle, address, city, state, zip, singlead, doublead, singlemin, doublemin
-  - Adjustment settings: $1,325 cushion, $125 minimum floor, 5% paid-in-full discount
+  - Pricing rules: $1,325 cushion on ads, $125 minimum floor, payment term discounts (-7.5%, -10%, -15%)
 
 ## Pricing Model
 
-### Base Rates (from reference file)
-- **SingleAd:** Price per instance
-- **DoubleAd:** Price per instance (2x size)
-- **SingleMin:** Monthly minimum for single ads
-- **DoubleMin:** Monthly minimum for double ads
+### Two Display Modes
 
-### Adjustments Applied
-1. **Cushion (+$1,325):** Added to both SingleAd and DoubleAd
-2. **Minimum Floor (+$125):** Added to both SingleMin and DoubleMin
-3. **Paid-in-Full Discount (5%):** Applied to all adjusted prices when flagged
+#### 1. Standard (Base Rates) — Default
+Shows rates WITH $1,325 cushion and $125 minimum floor included.
+- **SingleAd (Base Rate):** SingleAd + $1,325
+- **DoubleAd (Base Rate):** DoubleAd + $1,325
+- **SingleMin (Monthly):** SingleMin + $125
+- **DoubleMin (Monthly):** DoubleMin + $125
+
+#### 2. Lowest Price — With `--lowest` flag
+Shows monthly minimum WITHOUT cushion, then applies payment term discounts, then adds $125.
+
+**Payment Term Discounts:**
+- **Month-to-month:** Base + $125 (no discount)
+- **6-month prepaid:** Base × 0.925 + $125 (7.5% off)
+- **3-month prepaid:** Base × 0.90 + $125 (10% off)
+- **Paid in full:** Base × 0.85 + $125 (15% off)
 
 ### Example Calculation
 
-Fred Meyer in Longview (FME07Z-0185):
-- Base SingleAd: $5,100
-- Adjusted SingleAd (+ $1,325): **$6,425**
-- Paid-in-Full (5% off $6,425): **$6,103.75**
+**Safeway in Chehalis (SAF07Z-3525):**
 
----
+**Standard Display:**
+- Base SingleAd: $5,000
+- Base Rate (+ $1,325 cushion): **$6,325**
+- Base SingleMin: $4,500
+- Monthly Min (+ $125 floor): **$4,625**
 
-Base SingleMin: $4,590
-- Adjusted SingleMin (+ $125): **$4,715**
-- Paid-in-Full (5% off $4,715): **$4,479.25**
+**Lowest Price Display:**
+- Month-to-month: $4,500 + $125 = **$4,625**
+- 6-month: ($4,500 × 0.925) + $125 = **$4,287.50**
+- 3-month: ($4,500 × 0.90) + $125 = **$4,175**
+- Paid in full: ($4,500 × 0.85) + $125 = **$3,950** ⭐
 
 ## Extending the Skill
 
