@@ -22,16 +22,15 @@
 ## Store Rates Skill (Updated Feb 18, 2026)
 Custom skill for IndoorMedia store rates database. Features:
 - **245 stores across 99 cities** (OR/WA) — Fred Meyer, Safeway, Albertsons, Quality Food Center, etc.
-- **Pricing Model:**
-  - **Base rates** = per-ad rates WITH $1,325 cushion + $125 minimum floor (default display)
-  - **Lowest price** = monthly minimum WITHOUT cushion, then apply discount tiers, then +$125:
+- **Pricing Model:** $1,325 cushion = $1,200 negotiable padding + $125 nonnegotiable production charge
+  - **Standard (base rates)**: SingleAd/DoubleAd + $1,325 cushion, minimums at base only
+  - **Lowest price** (--lowest): monthly minimum, apply discounts, add $125 production:
     * Month-to-month: base + $125
     * 6-month prepaid: base × 0.925 + $125 (7.5% off)
     * 3-month prepaid: base × 0.90 + $125 (10% off)
     * Paid in full: base × 0.85 + $125 (15% off)
 - **CLI Usage:**
-  - Standard (base rates): `python skills/store-rates/scripts/rate_calculator.py <city> [chain]`
-  - Lowest prices: `python skills/store-rates/scripts/rate_calculator.py <city> [chain] --lowest`
-  - Example: `python skills/store-rates/scripts/rate_calculator.py Chehalis Safeway --lowest`
+  - Standard: `python skills/store-rates/scripts/rate_calculator.py Chehalis Safeway`
+  - Lowest: `python skills/store-rates/scripts/rate_calculator.py Chehalis Safeway --lowest`
 - **Data persisted to git** — survives session boundaries
 - Location: `/Users/tylervansant/.openclaw/workspace/skills/store-rates/`

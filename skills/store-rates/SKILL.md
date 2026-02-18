@@ -11,8 +11,8 @@ Quick access to IndoorMedia's tape advertising rates across Oregon & Washington 
 
 - **Store lookups** by city and chain name (Fred Meyer, Safeway, Albertsons, Quality Food Center, Haggen, Rosauers, etc.)
 - **Two pricing displays:**
-  - **Standard (Base Rates):** SingleAd/DoubleAd + $1,325 cushion, minimum + $125 floor
-  - **Lowest Price:** Monthly minimum with payment term discounts (-7.5% for 6mo, -10% for 3mo, -15% paid in full), then +$125
+  - **Standard (Base Rates):** SingleAd/DoubleAd + $1,325 cushion ($1,200 padding + $125 production), minimums at base rate
+  - **Lowest Price:** Monthly minimum with payment term discounts (-7.5% for 6mo, -10% for 3mo, -15% paid in full), then +$125 production charge
 - **Simple, flexible queries:** "Safeway in Chehalis?", "all stores in Portland?", etc.
 
 ## Quick Examples
@@ -120,17 +120,19 @@ python scripts/rate_calculator.py Portland --lowest
 
 ## Pricing Model
 
+**Note:** $1,325 cushion = $1,200 negotiable padding + $125 nonnegotiable production charge.
+
 ### Two Display Modes
 
 #### 1. Standard (Base Rates) — Default
-Shows rates WITH $1,325 cushion and $125 minimum floor included.
-- **SingleAd (Base Rate):** SingleAd + $1,325
-- **DoubleAd (Base Rate):** DoubleAd + $1,325
-- **SingleMin (Monthly):** SingleMin + $125
-- **DoubleMin (Monthly):** DoubleMin + $125
+Shows rates WITH $1,325 cushion (includes production charge) on ads. Minimums are base only.
+- **SingleAd (Base Rate):** SingleAd + $1,325 (= $1,200 padding + $125 production)
+- **DoubleAd (Base Rate):** DoubleAd + $1,325 (= $1,200 padding + $125 production)
+- **SingleMin (Monthly):** SingleMin (base only)
+- **DoubleMin (Monthly):** DoubleMin (base only)
 
 #### 2. Lowest Price — With `--lowest` flag
-Shows monthly minimum WITHOUT cushion, then applies payment term discounts, then adds $125.
+Shows monthly minimum WITHOUT cushion, applies payment term discounts, then adds $125 production charge.
 
 **Payment Term Discounts:**
 - **Month-to-month:** Base + $125 (no discount)
@@ -142,13 +144,12 @@ Shows monthly minimum WITHOUT cushion, then applies payment term discounts, then
 
 **Safeway in Chehalis (SAF07Z-3525):**
 
-**Standard Display:**
+**Standard Display (with $1,325 cushion on ads):**
 - Base SingleAd: $5,000
-- Base Rate (+ $1,325 cushion): **$6,325**
-- Base SingleMin: $4,500
-- Monthly Min (+ $125 floor): **$4,625**
+- Base Rate (+ $1,325 = $1,200 padding + $125 production): **$6,325**
+- SingleMin (base only): **$4,500** (no production charge in standard)
 
-**Lowest Price Display:**
+**Lowest Price Display (base minimum + payment terms, then +$125 production):**
 - Month-to-month: $4,500 + $125 = **$4,625**
 - 6-month: ($4,500 × 0.925) + $125 = **$4,287.50**
 - 3-month: ($4,500 × 0.90) + $125 = **$4,175**

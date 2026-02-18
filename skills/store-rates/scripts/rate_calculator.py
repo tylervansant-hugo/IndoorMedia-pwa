@@ -58,11 +58,11 @@ def calculate_adjusted_rates(store: dict, lowest_price: bool = False) -> dict:
     }
     
     if not lowest_price:
-        # Standard rates: Base rates WITH $1,325 cushion included
+        # Standard rates: Base rates WITH $1,325 cushion (includes $125 production charge)
         result["singlead_base_rate"] = store["singlead"] + PRICING["cushion_singlead"]
         result["doublead_base_rate"] = store["doublead"] + PRICING["cushion_doublead"]
-        result["singlemin_monthly"] = store["singlemin"] + PRICING["minimum_singlemin"]
-        result["doublemin_monthly"] = store["doublemin"] + PRICING["minimum_doublemin"]
+        result["singlemin_monthly"] = store["singlemin"]
+        result["doublemin_monthly"] = store["doublemin"]
     else:
         # Lowest price options: monthly min WITHOUT cushion, apply discounts, then add $125
         floor = PRICING["minimum_singlemin"]
