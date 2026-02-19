@@ -189,7 +189,8 @@ def is_internal_meeting(event):
         if keyword in summary:
             return True
     
-    # If ALL attendees are internal, it's internal
+    # If ALL attendees are internal, it might be internal
+    # BUT if it has a physical address/location, it's likely a business visit
     attendees = event.get('attendees', [])
     if attendees:
         all_internal = all(
@@ -198,7 +199,11 @@ def is_internal_meeting(event):
             if a.get('email')
         )
         if all_internal and not is_business_title(summary):
-            return True
+            # Check if there's a real street address in the location
+            location = event.get('location', '')
+            has_street_address = bool(re.search(r'\d+\s+\w+.*(st|ave|blvd|rd|dr|ln|way|hwy|pkwy)', location, re.IGNORECASE))
+            if not has_street_address:
+                return True
     
     return False
 
@@ -393,21 +398,26 @@ def parse_event(event):
             info['state'] = state
         return info
     
-    # Fallback: has IndoorMedia attendees + non-internal title
-    if any(is_indoormedia_email(a.get('email', '')) for a in attendees):
-        # Check for non-internal attendees (possible business contact)
-        has_external = any(
-            not is_indoormedia_email(a.get('email', ''))
-            for a in attendees
-            if a.get('email')
-        )
-        if has_external or is_business_title(summary):
-            info['business_name'] = summary  # Use full title as business name
-            info['business_type'] = infer_business_type(summary)
-            city, state = extract_city_from_title_or_location(event)
-            info['city'] = city
-            info['state'] = state
-            return info
+    # Fallback: has IndoorMedia attendees + not clearly internal
+    has_indoormedia = any(is_indoormedia_email(a.get('email', '')) for a in attendees)
+    has_external = any(
+        not is_indoormedia_email(a.get('email', ''))
+        for a in attendees
+        if a.get('email')
+    )
+    
+    # Also check: if the event has a location with a real address, it's likely a business visit
+    has_location = bool(event.get('location', '').strip())
+    
+    if has_indoormedia and (has_external or is_business_title(summary) or has_location):
+        info['business_name'] = summary.strip()
+        info['business_type'] = infer_business_type(summary)
+        
+        # Try to get city/state from location field
+        city, state = extract_city_from_title_or_location(event)
+        info['city'] = city
+        info['state'] = state
+        return info
     
     return None
 
