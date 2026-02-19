@@ -98,6 +98,41 @@ CATEGORY_MAP = {
     'fitness & health': ['beauty'],
 }
 
+# Known large chains / franchises to deprioritize when --local is used
+LARGE_CHAINS = {
+    # Pizza chains
+    'little caesars', "little caesar's", 'dominos', "domino's", 'pizza hut',
+    "papa john's", 'papa johns', "papa murphy's", 'papa murphys',
+    "hungry howie's", 'hungry howies', "marco's pizza", 'marcos pizza',
+    "jet's pizza", 'jets pizza', 'cicis pizza', "cici's pizza",
+    # Fast food / QSR
+    "mcdonald's", 'mcdonalds', 'burger king', 'wendy\'s', 'wendys',
+    'subway', 'taco bell', 'chick-fil-a', 'popeyes', "popeye's",
+    'sonic drive-in', 'sonic', 'arby\'s', 'arbys', 'jack in the box',
+    'five guys', 'whataburger', 'wingstop', 'raising cane\'s',
+    # Casual dining chains
+    'ihop', "denny's", 'dennys', "applebee's", 'applebees', 'chilis',
+    "chili's", 'olive garden', 'red lobster', 'buffalo wild wings',
+    "culver's", 'culvers', 'cracker barrel', "waffle house",
+    # Coffee / dessert chains
+    'starbucks', 'dunkin donuts', "dunkin'", 'baskin robbins',
+    'cold stone creamery', 'dairy queen', 'tropical smoothie cafe',
+    'biggby coffee', 'nothing bundt cakes',
+    # Retail / service chains
+    'great clips', 'supercuts', 'sport clips', 'big 5 sporting goods',
+    'comet cleaners', 'grease monkey', 'jiffy lube', 'valvoline',
+    'meineke', 'midas', 'firestone', 'pep boys',
+    'fanatic u',
+}
+
+def is_large_chain(business_name):
+    """Check if a business name matches a known large chain."""
+    name_lower = business_name.lower().strip()
+    for chain in LARGE_CHAINS:
+        if chain in name_lower or name_lower in chain:
+            return True
+    return False
+
 def load_testimonials():
     """Load written testimonials cache."""
     # Go up from skills/testimonial-picker/scripts to workspace root
@@ -203,9 +238,15 @@ def find_video_match(category, video_index):
     food_videos = [v for v in video_index if v['category'] in ['food_drink', 'general']]
     return food_videos[0] if food_videos else video_index[0]
 
-def calculate_score(testimonial, target_category):
+def calculate_score(testimonial, target_category, local_only=False):
     """Calculate composite score for testimonial relevance."""
     score = 0
+    
+    # Chain penalty when local_only mode is active
+    if local_only:
+        business_name = testimonial['full'].get('businessName', '')
+        if is_large_chain(business_name):
+            score -= 500  # Heavy penalty to push chains to the bottom
     
     # Category match (most important)
     test_cat = normalize_category(testimonial['full'].get('category', ''))
@@ -386,6 +427,7 @@ def main():
     parser.add_argument('city', nargs='?', help='City name (e.g., "Longview")')
     parser.add_argument('--category', help='Explicit category')
     parser.add_argument('--state', help='State abbreviation (e.g., "WA")')
+    parser.add_argument('--local', action='store_true', help='Prefer small/local businesses over large chains')
     
     args = parser.parse_args()
     
@@ -410,13 +452,14 @@ def main():
     video = find_video_match(category, video_index)
     
     # 2. Find 3-4 strong written testimonials
+    local_only = args.local
     scored = []
     for t in testimonials:
         t_cat = t['full'].get('category', '')
         if not t_cat:
             continue
         
-        score = calculate_score(t, category)
+        score = calculate_score(t, category, local_only=local_only)
         scored.append((score, t))
     
     # Sort by score and take top 4
