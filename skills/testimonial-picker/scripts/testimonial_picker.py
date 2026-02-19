@@ -51,6 +51,37 @@ CITY_COORDS = {
     'corvallis': (44.5646, -123.2620),
     'albany': (44.6365, -123.1059),
     'hood river': (45.7054, -121.5215),
+    'seaside': (45.9932, -123.9226),
+    'astoria': (46.1879, -123.8313),
+    'tillamook': (45.4562, -123.8426),
+    'cannon beach': (45.8918, -123.9615),
+    'lincoln city': (44.9582, -124.0177),
+    'newport': (44.6368, -124.0535),
+    'coos bay': (43.3665, -124.2179),
+    'brookings': (42.0526, -124.2840),
+    'roseburg': (43.2165, -123.3417),
+    'grants pass': (42.4390, -123.3284),
+    'klamath falls': (42.2249, -121.7817),
+    'the dalles': (45.5946, -121.1787),
+    'hermiston': (45.8404, -119.2895),
+    'pendleton': (45.6721, -118.7886),
+    'la grande': (45.3243, -118.0877),
+    'baker city': (44.7749, -117.8344),
+    'ontario': (43.9749, -116.9629),
+    'mcminnville': (45.2101, -123.1986),
+    'newberg': (45.3007, -122.9731),
+    'woodburn': (45.1437, -122.8559),
+    'silverton': (44.9984, -122.7834),
+    'dallas': (44.9193, -123.3171),
+    'cottage grove': (43.7965, -123.0595),
+    'florence': (43.9826, -124.0999),
+    'longview': (46.1382, -122.9382),
+    'kelso': (46.1479, -122.9085),
+    'centralia': (46.7162, -122.9543),
+    'chehalis': (46.6621, -122.9640),
+    'aberdeen': (46.9754, -123.8157),
+    'port angeles': (48.1184, -123.4307),
+    'sequim': (48.0795, -123.1017),
 }
 
 # Category mapping: written testimonial categories -> video categories
@@ -122,7 +153,18 @@ LARGE_CHAINS = {
     'great clips', 'supercuts', 'sport clips', 'big 5 sporting goods',
     'comet cleaners', 'grease monkey', 'jiffy lube', 'valvoline',
     'meineke', 'midas', 'firestone', 'pep boys',
-    'fanatic u',
+    'fanatic u', "mountain mike's", 'mountain mikes',
+}
+
+# Known large chain VIDEO names to filter (name fragments from video index)
+LARGE_CHAIN_VIDEOS = {
+    'jet', 'jets', "jet's", 'papa murphy', 'papamurphy', 'domino', 'little caesar',
+    'pizza hut', 'papa john', 'round table', 'roundtable', 'blaze pizza',
+    'great clips', 'supercuts', 'sport clips',
+    'mcdonald', 'burger king', 'wendy', 'taco bell', 'subway',
+    'dairy queen', 'dunkin', 'starbucks', 'ihop', "denny's", 'dennys',
+    'culver', 'buffalo wild wings', 'applebee', 'chili',
+    'mountain mike', 'round_table',
 }
 
 def is_large_chain(business_name):
@@ -132,6 +174,24 @@ def is_large_chain(business_name):
         if chain in name_lower or name_lower in chain:
             return True
     return False
+
+def is_chain_video(video_name):
+    """Check if a video is from a known large chain."""
+    name_lower = video_name.lower().strip()
+    for chain in LARGE_CHAIN_VIDEOS:
+        if chain in name_lower:
+            return True
+    return False
+
+def auto_detect_local(business_name):
+    """Auto-detect if a business is likely local/small based on name.
+    
+    Returns True if the business appears to be local (not a known chain).
+    When True, we should use local-mode filtering for testimonials.
+    """
+    if not business_name:
+        return True  # Default to local if unknown
+    return not is_large_chain(business_name)
 
 def load_testimonials():
     """Load written testimonials cache."""
@@ -197,13 +257,27 @@ def get_video_categories(written_category):
     # Default for restaurants/food
     return ['food_drink']
 
-def find_video_match(category, video_index):
-    """Find best matching video testimonial."""
+def find_video_match(category, video_index, local_only=False):
+    """Find best matching video testimonial.
+    
+    When local_only=True, filters out videos from known large chains
+    so the video testimonial is from a relatable small business.
+    """
     video_categories = get_video_categories(category)
     
+    # Filter out chain videos when in local mode
+    if local_only:
+        filtered_index = [v for v in video_index if not is_chain_video(v.get('name', ''))]
+    else:
+        filtered_index = video_index
+    
+    # Fall back to unfiltered if filtering removed everything
+    if not filtered_index:
+        filtered_index = video_index
+    
     # Prefer flat folder (more recent, OR/WA region) but only if it's an exact match
-    flat_videos = [v for v in video_index if v['folder_source'] == 'flat']
-    categorized_videos = [v for v in video_index if v['folder_source'] == 'categorized']
+    flat_videos = [v for v in filtered_index if v['folder_source'] == 'flat']
+    categorized_videos = [v for v in filtered_index if v['folder_source'] == 'categorized']
     
     # Try exact match on first (most specific) category in flat folder
     if video_categories:
@@ -235,8 +309,8 @@ def find_video_match(category, video_index):
     if food_flat:
         return food_flat[0]
     
-    food_videos = [v for v in video_index if v['category'] in ['food_drink', 'general']]
-    return food_videos[0] if food_videos else video_index[0]
+    food_videos = [v for v in filtered_index if v['category'] in ['food_drink', 'general']]
+    return food_videos[0] if food_videos else filtered_index[0]
 
 def calculate_score(testimonial, target_category, local_only=False):
     """Calculate composite score for testimonial relevance."""
@@ -304,34 +378,41 @@ def haversine_distance(coord1, coord2):
     
     return R * c
 
-def find_nearby_testimonial(city, state, testimonials, exclude_ids):
-    """Find geographically closest testimonial."""
+def find_nearby_testimonial(city, state, testimonials, exclude_ids, local_only=False):
+    """Find geographically closest testimonial (ANY category).
+    
+    This intentionally ignores business category — the nearby testimonial
+    proves that IndoorMedia works in the prospect's geographic area,
+    regardless of what type of business it is.
+    """
     city_norm = city.lower().strip()
     target_coords = CITY_COORDS.get(city_norm)
     
-    # If target city not in our coords, find by state and city name similarity
     candidates = []
     
     for t in testimonials:
         if t['id'] in exclude_ids:
             continue
         
+        # Skip chains in local mode
+        if local_only and is_large_chain(t['full'].get('businessName', '')):
+            continue
+        
         t_city = (t['full'].get('city') or '').lower().strip()
         t_state = (t['full'].get('state') or '').strip().upper()
         
-        # Same state preference
-        if state and t_state == state.upper():
-            if target_coords:
-                # Calculate distance if we have coords
-                t_coords = CITY_COORDS.get(t_city)
-                if t_coords:
-                    distance = haversine_distance(target_coords, t_coords)
-                    candidates.append((distance, t))
-                else:
-                    # Same state, unknown distance
-                    candidates.append((500 if t_city != city_norm else 0, t))
-            else:
-                # No target coords, prefer exact city match
+        # Consider all states but weight same-state heavily
+        if target_coords:
+            t_coords = CITY_COORDS.get(t_city)
+            if t_coords:
+                distance = haversine_distance(target_coords, t_coords)
+                candidates.append((distance, t))
+            elif state and t_state == state.upper():
+                # Same state, unknown coords — reasonable fallback
+                candidates.append((500 if t_city != city_norm else 0, t))
+        else:
+            # No target coords at all
+            if state and t_state == state.upper():
                 candidates.append((0 if t_city == city_norm else 500, t))
     
     # Sort by distance
@@ -404,19 +485,23 @@ def format_output(video, written_matches, nearby, target_category):
         output.append(f"   📄 PDF: {pdf_url}")
         output.append("")
     
-    # Nearby testimonial
+    # Nearby testimonial (any category — proves IndoorMedia works in their area)
     if nearby:
-        output.append("📍 NEARBY TESTIMONIAL")
         full = nearby['full']
         business = full.get('businessName', 'Unknown')
         grocery = full.get('groceryStore', 'N/A')
         city = full.get('city', 'Unknown')
         state = full.get('state', '')
+        category = full.get('category', '')
+        per_month = full.get('perMonth', 0) or 0
         quote = extract_quote(full.get('comments', ''))
         pdf_url = f"https://testimonials.indoormedia.com/home/pdf/{nearby['id']}.pdf"
         
+        output.append(f"📍 NEARBY TESTIMONIAL ({category})")
         output.append(f"{business} | {grocery} | {city}, {state}")
         output.append(f'"{quote}"')
+        if per_month > 0:
+            output.append(f"📊 {int(per_month)} redemptions/month")
         output.append(f"📄 PDF: {pdf_url}")
     
     return '\n'.join(output)
@@ -427,7 +512,9 @@ def main():
     parser.add_argument('city', nargs='?', help='City name (e.g., "Longview")')
     parser.add_argument('--category', help='Explicit category')
     parser.add_argument('--state', help='State abbreviation (e.g., "WA")')
-    parser.add_argument('--local', action='store_true', help='Prefer small/local businesses over large chains')
+    parser.add_argument('--business', help='Name of the business you are meeting with (for auto size detection)')
+    parser.add_argument('--local', action='store_true', help='Force local/small business mode')
+    parser.add_argument('--chain', action='store_true', help='Force chain/large business mode (overrides auto-detect)')
     
     args = parser.parse_args()
     
@@ -442,17 +529,38 @@ def main():
     
     city = args.city or ''
     state = args.state or ''
+    business_name = args.business or ''
+    
+    # Auto-detect local vs chain mode
+    if args.chain:
+        local_only = False
+        size_label = "chain (forced)"
+    elif args.local:
+        local_only = True
+        size_label = "local (forced)"
+    elif business_name:
+        local_only = auto_detect_local(business_name)
+        size_label = "local (auto-detected)" if local_only else "chain (auto-detected)"
+    else:
+        # Default to local — most of Tyler's prospects are small businesses
+        local_only = True
+        size_label = "local (default)"
     
     # Load data
-    print(f"Loading testimonials for: {category} in {city}, {state}...\n")
+    print(f"Loading testimonials for: {category} in {city}, {state}")
+    if business_name:
+        print(f"Business: {business_name} → {size_label}")
+    else:
+        print(f"Size mode: {size_label}")
+    print()
+    
     testimonials = load_testimonials()
     video_index = load_video_index()
     
-    # 1. Find video match
-    video = find_video_match(category, video_index)
+    # 1. Find video match (respects local mode)
+    video = find_video_match(category, video_index, local_only=local_only)
     
-    # 2. Find 3-4 strong written testimonials
-    local_only = args.local
+    # 2. Find 3 strong written testimonials (category-matched)
     scored = []
     for t in testimonials:
         t_cat = t['full'].get('category', '')
@@ -462,13 +570,13 @@ def main():
         score = calculate_score(t, category, local_only=local_only)
         scored.append((score, t))
     
-    # Sort by score and take top 4
+    # Sort by score and take top 3 (leaving room for the nearby one)
     scored.sort(key=lambda x: x[0], reverse=True)
-    written_matches = [t for score, t in scored[:4]]
+    written_matches = [t for score, t in scored[:3]]
     
-    # 3. Find nearby testimonial (exclude the ones already selected)
+    # 3. Find nearby testimonial (ANY category, geographically close)
     exclude_ids = {t['id'] for t in written_matches}
-    nearby = find_nearby_testimonial(city, state, testimonials, exclude_ids)
+    nearby = find_nearby_testimonial(city, state, testimonials, exclude_ids, local_only=local_only)
     
     # Format and print
     output = format_output(video, written_matches, nearby, category)
