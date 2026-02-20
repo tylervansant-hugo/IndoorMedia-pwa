@@ -48,3 +48,37 @@ Custom skill for IndoorMedia store rates database. Features:
   - Lowest: `python skills/store-rates/scripts/rate_calculator.py Chehalis Safeway --lowest`
 - **Data persisted to git** — survives session boundaries
 - Location: `/Users/tylervansant/.openclaw/workspace/skills/store-rates/`
+
+## Business Card Pipeline System (In Development - Feb 20, 2026)
+**Problem:** Team gets 25-50 business cards/month in field, but no systematic follow-up → momentum dies, deals lost.
+
+**Solution:** Photo → OCR → Draft → Track in B2Bappointments.net
+
+**Key Requirements:**
+- Team-accessible (Telegram for field submissions preferred)
+- Auto-create/organize folders in B2Bappointments.net **by city**
+- Draft text messages (email backup) with nearby store reference
+- Tracking log (sent status, responses, follow-up reminders)
+- Pull testimonials for added credibility in outreach
+
+**Waiting For:**
+- B2Bappointments.net API credentials from Tyler
+  - Need: API endpoint, auth method, folder structure preferences
+  - Alternatively: Web automation if no API available
+
+**What I Can Build Now:**
+- OCR + contact extraction (phone, email, company name)
+- Message drafting logic + templating
+- Tracking spreadsheet
+- Telegram bot for team submissions (basic version)
+
+**Phase 1 (Ready to Start):**
+- OCR contact extraction
+- Message drafting
+- Shared tracking (Google Sheet or workspace log)
+- B2Bappointments integration (once API keys arrive)
+
+**Phase 2:**
+- Telegram bot for field submissions
+- Auto-follow-up reminders
+- Response tracking dashboard
