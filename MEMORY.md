@@ -49,6 +49,30 @@ Custom skill for IndoorMedia store rates database. Features:
 - **Data persisted to git** — survives session boundaries
 - Location: `/Users/tylervansant/.openclaw/workspace/skills/store-rates/`
 
+## Telegram Rates Bot (Live - Feb 20, 2026)
+**Status:** ✅ RUNNING
+- **Bot username:** @IndoorMediaRatesBot (ask Tyler to confirm actual name)
+- **Token:** Stored in `scripts/telegram_rates_bot.py`
+- **Script location:** `scripts/telegram_rates_bot.py`
+- **Process:** Running in background (pid monitored by OpenClaw)
+
+**Features:**
+- Team members query: `"Longview Safeway single"` or `"Bend Fred Meyer double 6-month"`
+- Bot replies with all payment plan options + annual totals
+- Supports aliases: `monthly`, `3-month`, `6-month`, `paid-in-full` (or `12`, `3`, `6`, `full`)
+- `/cities` command lists all 99 available cities
+- `/start` for help
+
+**How team uses it:**
+1. Open Telegram, find @IndoorMediaRatesBot
+2. Send: `Longview Safeway single`
+3. Bot replies with pricing for all payment plans
+
+**Rate Calculator Accuracy:**
+- Base rates = ANNUAL totals (not monthly)
+- Discounts applied: 10% (3-month), 7.5% (6-month), 15% (paid in full)
+- Base + $125 production charge included
+
 ## Business Card Pipeline System (In Development - Feb 20, 2026)
 **Problem:** Team gets 25-50 business cards/month in field, but no systematic follow-up → momentum dies, deals lost.
 
