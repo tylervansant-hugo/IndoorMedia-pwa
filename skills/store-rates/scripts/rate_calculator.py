@@ -64,23 +64,24 @@ def calculate_annual_price(monthly_base: float, discount_rate: float) -> float:
 
 def calculate_payment_plans(store: dict, ad_type: str) -> dict:
     """
-    Calculate annual totals and payment breakdowns for all payment plans.
+    Calculate payment breakdowns for all payment plans.
+    Base rates (singlemin/doublemin) are ALREADY annual totals.
     
     ad_type: "single" or "double"
     Returns dict with all payment plan details
     """
     if ad_type == "single":
-        monthly_base = store["singlemin"] + PRICING["minimum_singlemin"]
+        annual_total_base = store["singlemin"] + PRICING["minimum_singlemin"]
     else:
-        monthly_base = store["doublemin"] + PRICING["minimum_doublemin"]
+        annual_total_base = store["doublemin"] + PRICING["minimum_doublemin"]
     
     plans = {}
     
     # Monthly (12 installments, no discount)
-    annual_total = monthly_base * 12
+    annual_total = annual_total_base
     plans["monthly"] = {
         "annual_total": annual_total,
-        "installment_amount": monthly_base,
+        "installment_amount": annual_total / 12,
         "num_installments": 12,
         "discount": 0,
         "description": "12 monthly payments"
@@ -88,7 +89,7 @@ def calculate_payment_plans(store: dict, ad_type: str) -> dict:
     
     # 3-month prepaid (3 installments, 10% off)
     discount_rate = DISCOUNTS["3month"]
-    annual_total = monthly_base * 12 * (1 - discount_rate)
+    annual_total = annual_total_base * (1 - discount_rate)
     plans["3month"] = {
         "annual_total": annual_total,
         "installment_amount": annual_total / 3,
@@ -99,7 +100,7 @@ def calculate_payment_plans(store: dict, ad_type: str) -> dict:
     
     # 6-month prepaid (6 installments, 7.5% off)
     discount_rate = DISCOUNTS["6month"]
-    annual_total = monthly_base * 12 * (1 - discount_rate)
+    annual_total = annual_total_base * (1 - discount_rate)
     plans["6month"] = {
         "annual_total": annual_total,
         "installment_amount": annual_total / 6,
@@ -110,7 +111,7 @@ def calculate_payment_plans(store: dict, ad_type: str) -> dict:
     
     # Paid in full (1 payment, 15% off)
     discount_rate = DISCOUNTS["paid_full"]
-    annual_total = monthly_base * 12 * (1 - discount_rate)
+    annual_total = annual_total_base * (1 - discount_rate)
     plans["paid_full"] = {
         "annual_total": annual_total,
         "installment_amount": annual_total,
