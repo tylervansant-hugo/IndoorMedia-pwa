@@ -35,7 +35,7 @@ Custom keyword search for IndoorMedia testimonials database.
 
 ## Store Rates Skill (Updated Feb 24, 2026)
 Custom skill for IndoorMedia store rates database. Features:
-- **245+ stores across 99 cities** (OR/WA) — Fred Meyer, Safeway, Albertsons, Quality Food Center, etc.
+- **438+ stores across 332 cities** (CA, OR, WA) — Fred Meyer, Safeway, Albertsons, Stater Bros., Ralphs, Food 4 Less, Vons, Haggen, Saars, Quality Food Center, etc.
 - **Pricing Structure** (Standard for all stores):
   * **Monthly (12 payments):** base + $125
   * **3-month prepaid (3 payments):** (base × 0.90) + $125 = 10% off
@@ -44,12 +44,24 @@ Custom skill for IndoorMedia store rates database. Features:
   - $125 = production charge (nonnegotiable)
   - Discounts apply to base annual price only, then add $125
 - **Zones:**
+  - **05X** = California stores (added Feb 24, 2026)
+  - **07X** = Washington/Northern states (added Feb 24, 2026)
   - **07Y** = Oregon stores
-  - **07Z** = Washington stores (updated Feb 24, 2026)
+  - **07Z** = Washington stores
 - **CLI Usage:**
   - `python skills/store-rates/scripts/rate_calculator.py Chehalis Safeway`
 - **Data persisted to git** — survives session boundaries
 - Location: `/Users/tylervansant/.openclaw/workspace/skills/store-rates/`
+
+## IndoorMediaRatesBot (Live - Feb 24, 2026)
+**Status:** ✅ RUNNING
+- **Bot username:** @IndoorMediaRatesBot
+- **438+ stores ready to query**
+- **Features:**
+  - Query by store number: `0415`
+  - Query by city+chain: `Longview Safeway`
+  - Automatic single & double ad pricing
+  - Button-based plan switching (no retyping)
 
 ## Telegram Rates Bot (Live - Feb 20, 2026)
 **Status:** ✅ RUNNING
