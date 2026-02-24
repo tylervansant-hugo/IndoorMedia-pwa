@@ -33,19 +33,21 @@ Custom keyword search for IndoorMedia testimonials database.
 - **Examples:** 'ROI', 'skeptical', 'parking lot', 'thank you', 'started slow'
 - **Notes:** Searches full text of business name, comments, category, keywords. API has ~29,308 total testimonials; 2,000 cache covers recent + historical mix.
 
-## Store Rates Skill (Updated Feb 18, 2026)
+## Store Rates Skill (Updated Feb 24, 2026)
 Custom skill for IndoorMedia store rates database. Features:
-- **245 stores across 99 cities** (OR/WA) — Fred Meyer, Safeway, Albertsons, Quality Food Center, etc.
-- **Pricing Model:** $1,325 cushion = $1,200 negotiable padding + $125 nonnegotiable production charge
-  - **Standard (base rates)**: SingleAd/DoubleAd + $1,325 cushion, minimums at base only
-  - **Lowest price** (--lowest): monthly minimum, apply discounts, add $125 production:
-    * Month-to-month: base + $125
-    * 6-month prepaid: base × 0.925 + $125 (7.5% off)
-    * 3-month prepaid: base × 0.90 + $125 (10% off)
-    * Paid in full: base × 0.85 + $125 (15% off)
+- **245+ stores across 99 cities** (OR/WA) — Fred Meyer, Safeway, Albertsons, Quality Food Center, etc.
+- **Pricing Structure** (Standard for all stores):
+  * **Monthly (12 payments):** base + $125
+  * **3-month prepaid (3 payments):** (base × 0.90) + $125 = 10% off
+  * **6-month prepaid (6 payments):** (base × 0.925) + $125 = 7.5% off
+  * **Paid in full:** (base × 0.85) + $125 = 15% off
+  - $125 = production charge (nonnegotiable)
+  - Discounts apply to base annual price only, then add $125
+- **Zones:**
+  - **07Y** = Oregon stores
+  - **07Z** = Washington stores (updated Feb 24, 2026)
 - **CLI Usage:**
-  - Standard: `python skills/store-rates/scripts/rate_calculator.py Chehalis Safeway`
-  - Lowest: `python skills/store-rates/scripts/rate_calculator.py Chehalis Safeway --lowest`
+  - `python skills/store-rates/scripts/rate_calculator.py Chehalis Safeway`
 - **Data persisted to git** — survives session boundaries
 - Location: `/Users/tylervansant/.openclaw/workspace/skills/store-rates/`
 

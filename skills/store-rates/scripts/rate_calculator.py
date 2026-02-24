@@ -65,58 +65,59 @@ def calculate_annual_price(monthly_base: float, discount_rate: float) -> float:
 def calculate_payment_plans(store: dict, ad_type: str) -> dict:
     """
     Calculate payment breakdowns for all payment plans.
-    Base rates (singlemin/doublemin) are ALREADY annual totals.
+    Pricing formula: base + $125 production charge, then apply discounts for prepaid.
     
     ad_type: "single" or "double"
     Returns dict with all payment plan details
     """
+    # Get base annual price from store data
     if ad_type == "single":
-        annual_total_base = store["singlemin"] + PRICING["minimum_singlemin"]
+        base_price = store["singlead"]
     else:
-        annual_total_base = store["doublemin"] + PRICING["minimum_doublemin"]
+        base_price = store["doublead"]
+    
+    # Production charge
+    production_charge = 125.0
     
     plans = {}
     
-    # Monthly (12 installments, no discount)
-    annual_total = annual_total_base
+    # Monthly (12 installments, no discount): base + $125
+    annual_total = base_price + production_charge
     plans["monthly"] = {
-        "annual_total": annual_total,
-        "installment_amount": annual_total / 12,
+        "annual_total": round(annual_total, 2),
+        "installment_amount": round(annual_total / 12, 2),
         "num_installments": 12,
         "discount": 0,
         "description": "12 monthly payments"
     }
     
-    # 3-month prepaid (3 installments, 10% off)
-    discount_rate = DISCOUNTS["3month"]
-    annual_total = annual_total_base * (1 - discount_rate)
+    # 3-month prepaid (3 installments, 10% off): (base × 0.90) + $125
+    annual_total = (base_price * 0.90) + production_charge
     plans["3month"] = {
-        "annual_total": annual_total,
-        "installment_amount": annual_total / 3,
+        "annual_total": round(annual_total, 2),
+        "installment_amount": round(annual_total / 3, 2),
         "num_installments": 3,
-        "discount": discount_rate * 100,
+        "discount": 10,
         "description": "3 payments (10% off)"
     }
     
-    # 6-month prepaid (6 installments, 7.5% off)
-    discount_rate = DISCOUNTS["6month"]
-    annual_total = annual_total_base * (1 - discount_rate)
+    # 6-month prepaid (6 installments, 7.5% off): (base × 0.925) + $125
+    annual_total = (base_price * 0.925) + production_charge
     plans["6month"] = {
-        "annual_total": annual_total,
-        "installment_amount": annual_total / 6,
+        "annual_total": round(annual_total, 2),
+        "installment_amount": round(annual_total / 6, 2),
         "num_installments": 6,
-        "discount": discount_rate * 100,
+        "discount": 7.5,
         "description": "6 payments (7.5% off)"
     }
     
-    # Paid in full (1 payment, 15% off)
-    discount_rate = DISCOUNTS["paid_full"]
-    annual_total = annual_total_base * (1 - discount_rate)
+    # Paid in full (1 payment, 15% off): (base × 0.85) + $125
+    annual_total = (base_price * 0.85) + production_charge
     plans["paid_full"] = {
-        "annual_total": annual_total,
-        "installment_amount": annual_total,
+        "annual_total": round(annual_total, 2),
+        "installment_amount": round(annual_total, 2),
         "num_installments": 1,
-        "discount": discount_rate * 100,
+        "discount": 15,
         "description": "One upfront payment (15% off)"
     }
     
@@ -129,7 +130,7 @@ def format_rate_display(store: dict, ad_type: str = "single") -> str:
     plans = calculate_payment_plans(store, ad_type)
     
     output = []
-    output.append(f"\n📍 {store['name']} | Tier {store['tier']}")
+    output.append(f"\n📍 {store['name']} | {store['tier']} cycle")
     output.append(f"   {ad_label} - Year-long Campaign\n")
     
     for plan_key in ["monthly", "3month", "6month", "paid_full"]:
