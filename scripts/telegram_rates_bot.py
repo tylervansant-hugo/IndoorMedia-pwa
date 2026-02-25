@@ -108,11 +108,18 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
     if text.startswith("/"):
         return
     
+    # Check for double ad request
+    ad_type = "single"
+    if "double" in text.lower():
+        ad_type = "double"
+        # Remove "double ad" or "double" from text
+        text = text.lower().replace("double ad", "").replace("double", "").strip()
+    
     parts = text.split()
     
     # Need at least 2 parts
     if len(parts) < 2:
-        await update.message.reply_text("Format: store# case_count or city chain case_count\nE.g.: `0415 25` or `Bend Safeway 20`")
+        await update.message.reply_text("Format: [double] store# case_count or [double] city chain case_count\nE.g.: `0415 25` or `Bend Safeway 20` or `double Bend Safeway 20`")
         return
     
     # Case 1: Store number + case count (e.g., "0415 25")
@@ -130,7 +137,7 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
             city = store.get("city", "")
             chain = store.get("name", "")
             
-            data = call_rate_calc([city, chain, str(case_count), "single"])
+            data = call_rate_calc([city, chain, str(case_count), ad_type])
             if data:
                 context.user_data["last_store"] = data
                 msg = format_pricing_message(data)
@@ -153,7 +160,7 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
             await update.message.reply_text("❌ Last parameter must be case count (number)")
             return
         
-        data = call_rate_calc([city, chain, str(case_count), "single"])
+        data = call_rate_calc([city, chain, str(case_count), ad_type])
         if data:
             context.user_data["last_store"] = data
             msg = format_pricing_message(data)
@@ -163,7 +170,7 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
             await update.message.reply_text(f"❌ No stores found for {city} {chain}")
             return
     
-    await update.message.reply_text("❌ Invalid format. Try: `0415 25` or `Bend Safeway 20`")
+    await update.message.reply_text("❌ Invalid format. Try: `0415 25` or `Bend Safeway 20` or `double Bend Safeway 20`")
 
 
 async def button_callback(update: Update, context: ContextTypes.DEFAULT_TYPE):
