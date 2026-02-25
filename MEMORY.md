@@ -57,11 +57,17 @@ Custom skill for IndoorMedia store rates database. Features:
 **Status:** ✅ RUNNING
 - **Bot username:** @IndoorMediaRatesBot
 - **438+ stores ready to query**
+- **Query Methods:**
+  1. **Store number:** `0415` → Direct pricing lookup
+  2. **City + Chain:** `Longview Safeway` → All pricing options
+  3. **Street name:** `Walker Rd` → List all stores on that street
+     - Detects street keywords: Rd, Road, St, Street, Ave, Avenue, Blvd, Boulevard, Dr, Drive, Way, Hwy, Highway, Pkwy, Parkway, Ln, Lane
+     - Returns list of matching stores
+     - User taps store number to get full pricing
 - **Features:**
-  - Query by store number: `0415`
-  - Query by city+chain: `Longview Safeway`
-  - Automatic single & double ad pricing
-  - Button-based plan switching (no retyping)
+  - Automatic single & double ad pricing for all stores
+  - Button-based plan switching (Monthly / 3-Month / 6-Month / Paid-in-Full)
+  - Real-time pricing using $125 production charge + discounts
 
 ## Telegram Rates Bot (Live - Feb 20, 2026)
 **Status:** ✅ RUNNING

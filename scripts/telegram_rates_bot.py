@@ -317,19 +317,22 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
 
 Get pricing for any store — we show both single & double ads automatically.
 
-*Quick lookup by store number:*
-`0415` (Lincoln City Safeway)
-`0042` (Any store by 4-digit #)
+*3 Ways to Search:*
 
-*Or by location:*
+1️⃣ *By store number:*
+`0415` or `0482`
+
+2️⃣ *By city + chain:*
 `Longview Safeway`
-`Lincoln City Safeway`
 `Bend Fred Meyer`
 `Portland Albertsons`
 
-We automatically show all payment plans for both ad types. Tap the buttons to switch plans instantly — no retyping needed!
+3️⃣ *By street name:*
+`Walker Rd`
+`Magnolia Avenue`
+`Division Street`
 
-*Payment Plans:* monthly, 3-month, 6-month, paid-in-full
+We automatically show all payment plans for both ad types. Tap the buttons to switch plans instantly — no retyping needed!
 
 *Need a city list?* Type `/cities`"""
 
