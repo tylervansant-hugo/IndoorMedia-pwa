@@ -69,51 +69,43 @@ python3 scripts/pricing_calculator.py FME07Y-0165 single
 → Returns JSON with all 4 payment plans (each showing per-installment + total)
 ```
 
-## IndoorMediaRatesBot (Live - Feb 24, 2026 - REBUILT)
-**Status:** ✅ RUNNING (Case Count Based Pricing)
+## IndoorMediaRatesBot v2 (Live - Feb 24, 2026 - STORE-SPECIFIC)
+**Status:** ✅ RUNNING (Store-Specific Pricing, 612 stores)
 - **Bot username:** @IndoorMediaRatesBot
-- **438+ stores indexed**
+- **Script:** `scripts/telegram_rates_bot_v2.py`
+- **PID:** 80201 (monitored)
 
-**NEW PRICING MODEL (Case Count Based):**
-- 8-14 cases: $2,400 + $150/case
-- 15-22 cases: $3,300 + $125/case  
-- 23-30 cases: $4,300 + $100/case
-- 31-40 cases: $5,100 + $75/case
-- **Double ads:** Always 1.4X single price
+**Query Types Supported:**
+1. **Store number:** `FME07Y-0165` → Klamath Falls Fred Meyer
+2. **City + Chain:** `Klamath Falls Fred Meyer`
+3. **Cycle + City:** `A Cycle Beaverton` (store scheduling)
+4. **Street search:** `Shasta Way` (finds all stores on that street)
+5. **Double ad prefix:** `double Klamath Falls Fred Meyer`
 
-**Payment Plans:**
-- Monthly: base + $125
-- 3-month: (base × 0.90) + $125
-- 6-month: (base × 0.925) + $125
-- Paid in full: (base × 0.85) + $125
+**Payment Plans (Dual Display):**
+Each shows per-installment + total:
+- Monthly: `$300/mo × 12 = $3,600`
+- 3-month: `$1,200 × 3 = $3,600` (10% off)
+- 6-month: `$600 × 6 = $3,600` (7.5% off)  
+- Paid-in-full: `$3,060` (15% off)
 
-**Query Format:**
-- Store #: `0415 25` (store# case_count)
-- City/Chain: `Bend Safeway 20` (city chain case_count)
+**Commands:**
+- `/start` or `/help` — Shows query formats
+- `/cities` — Lists all 612 cities
+- `/chains` — Lists all chains
+- Buttons: Toggle single/double ad after query
 
-## Telegram Rates Bot (Live - Feb 20, 2026)
-**Status:** ✅ RUNNING
-- **Bot username:** @IndoorMediaRatesBot (ask Tyler to confirm actual name)
-- **Token:** Stored in `scripts/telegram_rates_bot.py`
-- **Script location:** `scripts/telegram_rates_bot.py`
-- **Process:** Running in background (pid monitored by OpenClaw)
+**Formula (per Tyler's spec):**
+- Monthly: `(base + $125) ÷ 12` → shows per month + total
+- 3-month: `((base × 0.90) + $125) ÷ 3` → shows per payment + total
+- 6-month: `((base × 0.925) + $125) ÷ 6` → shows per payment + total
+- Paid-in-full: `(base × 0.85) + $125` → one payment
 
-**Features:**
-- Team members query: `"Longview Safeway single"` or `"Bend Fred Meyer double 6-month"`
-- Bot replies with all payment plan options + annual totals
-- Supports aliases: `monthly`, `3-month`, `6-month`, `paid-in-full` (or `12`, `3`, `6`, `full`)
-- `/cities` command lists all 99 available cities
-- `/start` for help
-
-**How team uses it:**
-1. Open Telegram, find @IndoorMediaRatesBot
-2. Send: `Longview Safeway single`
-3. Bot replies with pricing for all payment plans
-
-**Rate Calculator Accuracy:**
-- Base rates = ANNUAL totals (not monthly)
-- Discounts applied: 10% (3-month), 7.5% (6-month), 15% (paid in full)
-- Base + $125 production charge included
+**Database:**
+- 612 stores (CA/OR/WA)
+- Zones: 05X (CA), 07X (WA North), 07Y (OR), 07Z (OR/WA South)
+- Chains: Safeway, Fred Meyer, Albertsons, Stater Bros., Food 4 Less, Quality Food Center, Haggen, Vons, Ralphs, Saars, Rosauers, Sherms, Shop N Kart, Food Pavillion
+- Each store: unique SingleAd & DoubleAd pricing
 
 ## Business Card Pipeline System (In Development - Feb 20, 2026)
 **Problem:** Team gets 25-50 business cards/month in field, but no systematic follow-up → momentum dies, deals lost.
