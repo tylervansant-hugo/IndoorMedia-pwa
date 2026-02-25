@@ -53,23 +53,27 @@ Custom skill for IndoorMedia store rates database. Features:
 - **Data persisted to git** — survives session boundaries
 - Location: `/Users/tylervansant/.openclaw/workspace/skills/store-rates/`
 
-## IndoorMediaRatesBot (Live - Feb 24, 2026)
-**Status:** ✅ RUNNING
+## IndoorMediaRatesBot (Live - Feb 24, 2026 - REBUILT)
+**Status:** ✅ RUNNING (Case Count Based Pricing)
 - **Bot username:** @IndoorMediaRatesBot
-- **438+ stores ready to query**
-- **Query Methods:**
-  1. **Store number:** `0415` → Direct pricing lookup
-  2. **City + Chain:** `Longview Safeway` → All pricing options
-  3. **Street name:** `Walker Rd` → List all stores on that street
-     - Detects street keywords: Rd, Road, St, Street, Ave, Avenue, Blvd, Boulevard, Dr, Drive, Way, Hwy, Highway, Pkwy, Parkway, Ln, Lane
-     - Returns list of matching stores with **clickable buttons**
-     - Street name included in pricing display
-- **Features:**
-  - Automatic single & double ad pricing for all stores
-  - Button-based plan switching (Monthly / 3-Month / 6-Month / Paid-in-Full)
-  - Street context preserved throughout pricing lookup
-  - Real-time pricing using $125 production charge + discounts
-  - No typing needed for street store selections (buttons do it automatically)
+- **438+ stores indexed**
+
+**NEW PRICING MODEL (Case Count Based):**
+- 8-14 cases: $2,400 + $150/case
+- 15-22 cases: $3,300 + $125/case  
+- 23-30 cases: $4,300 + $100/case
+- 31-40 cases: $5,100 + $75/case
+- **Double ads:** Always 1.4X single price
+
+**Payment Plans:**
+- Monthly: base + $125
+- 3-month: (base × 0.90) + $125
+- 6-month: (base × 0.925) + $125
+- Paid in full: (base × 0.85) + $125
+
+**Query Format:**
+- Store #: `0415 25` (store# case_count)
+- City/Chain: `Bend Safeway 20` (city chain case_count)
 
 ## Telegram Rates Bot (Live - Feb 20, 2026)
 **Status:** ✅ RUNNING
