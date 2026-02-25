@@ -187,3 +187,57 @@ python3 scripts/prospecting_tool_enhanced.py FME07Z-0236 10
 3. Build Telegram bot interface for field reps
 4. Add newspaper/local media advertising detection
 5. Scale to all 612 stores with batch processing
+
+## Telegram Bots - Live & Running (Feb 25, 2026)
+
+### @IndoorMediaRatesBot (PID 80201) ✅
+- **Purpose:** Store pricing queries
+- **Input:** Store # or city+chain (e.g., `Klamath Falls Fred Meyer`)
+- **Output:** 4 payment plans with per-installment + total
+- **Features:** Single/double ad toggle, `/cities` and `/chains` commands
+
+### @IndoorMediaProspectBot (PID 13737) ✅ NEW!
+- **Purpose:** "Find Today's Deal" — Top 10 prospects for field reps
+- **Input:** Store number (e.g., `FME07Z-0236`)
+- **Output:** Ranked prospects (0-100 likelihood)
+- **Features:**
+  - Distance from store (within 2 miles)
+  - Google rating + review velocity
+  - Advertising signals (Greet Magazine + Facebook Ads)
+  - Smart emoji ranking (🔥 hot, ⭐ good, 👀 decent)
+  - Phone numbers for outreach
+
+### Advertising Signal Detection
+**Sources:**
+- Greet Magazine: +40 pts
+- Facebook Ads Library: +50 pts
+- Combined: Up to 90 pt boost (massive competitive edge)
+
+**Example Scores:**
+- No advertising: 50-65/100
+- On Greet Magazine: 90-100/100 (significant boost)
+- Active Facebook Ads: 95-100/100 (strong marketing indicator)
+
+### Commands
+- `/start` — Help message
+- `/examples` — Sample store numbers to try
+- `/help` — Full instructions
+
+### Field Rep Workflow
+1. "Find Today's Deal" for a store
+2. Get 10 ranked prospects
+3. Call high-likelihood prospects (80+)
+4. Note which are advertising actively
+5. Use rates bot for quick pricing if they bite
+
+### Files
+- `scripts/telegram_prospecting_bot.py` — Prospect bot
+- `scripts/facebook_ads_checker.py` — Facebook Ads integration
+- `scripts/prospecting_tool_enhanced.py` — Enhanced scoring
+- `data/store-rates/greet_cache.json` — Persistent caching
+
+### Status: ✅ PRODUCTION READY
+- Both bots monitored by OpenClaw
+- Auto-restart if crash
+- Tested end-to-end
+- Field-ready for team use
