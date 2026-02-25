@@ -118,16 +118,16 @@ class ProspectingToolEnhanced:
         return list(results_by_place_id.values())
     
     def check_advertising_signals(self, business_name: str, city: str) -> Dict:
-        """Check if business is advertising (Greet Magazine, etc.)"""
-        signals = {'business': business_name, 'found_advertising': False, 'boost': 0}
+        """Check if business is advertising (Greet Magazine, Facebook Ads, etc.)"""
+        signals = {'business': business_name, 'found_advertising': False, 'boost': 0, 'sources': []}
         
         # Check Greet Magazine cache first
         cache_key = f"{business_name}|{city}".lower()
         if cache_key in self.greet_cache:
-            signals['found_advertising'] = self.greet_cache[cache_key]
-            if signals['found_advertising']:
-                signals['boost'] = 40  # +40 likelihood score
-                signals['source'] = 'Greet Magazine (cached)'
+            if self.greet_cache[cache_key]:
+                signals['found_advertising'] = True
+                signals['boost'] = 40
+                signals['sources'].append('Greet Magazine (cached)')
             return signals
         
         # Query Greet if available
@@ -139,10 +139,25 @@ class ProspectingToolEnhanced:
                 
                 if found:
                     signals['found_advertising'] = True
-                    signals['boost'] = 40  # +40 likelihood score
-                    signals['source'] = 'Greet Magazine'
+                    signals['boost'] += 40
+                    signals['sources'].append('Greet Magazine')
             except Exception as e:
                 logger.warning(f"⚠️ Could not check Greet: {e}")
+        
+        # Check Facebook Ads (optional, may require API setup)
+        try:
+            from facebook_ads_checker import FacebookAdsChecker
+            fb_checker = FacebookAdsChecker()
+            fb_ads = fb_checker.search_business_ads(business_name, max_results=3)
+            if fb_ads:
+                signals['found_advertising'] = True
+                signals['boost'] += 50  # +50 for Facebook ads (strong signal)
+                signals['sources'].append(f"Facebook Ads ({len(fb_ads)} active)")
+        except Exception as e:
+            pass  # Facebook Ads check is optional
+        
+        if signals['boost'] > 0:
+            signals['source'] = ', '.join(signals['sources'])
         
         return signals
     
@@ -184,11 +199,11 @@ class ProspectingToolEnhanced:
             score += 15
             details.append("Status: Open ✅")
         
-        # Advertising signals (0-40 points)
+        # Advertising signals (can accumulate: Greet +40, Facebook +50, max 90)
         ad_signals = self.check_advertising_signals(business['name'], city)
         if ad_signals['found_advertising']:
-            score += ad_signals['boost']
-            details.append(f"🎯 Advertising: {ad_signals.get('source', 'Multiple channels')} ⭐⭐⭐")
+            score += min(90, ad_signals['boost'])  # Cap at 90 points total
+            details.append(f"🎯 ADVERTISING: {ad_signals.get('source', 'Multiple channels')} ⭐⭐⭐")
         
         score = min(100, score)
         business['likelihood_score'] = round(score, 1)

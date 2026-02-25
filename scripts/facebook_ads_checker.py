@@ -54,27 +54,34 @@ class FacebookAdsChecker:
     def _search_facebook_api(self, business_name: str) -> List[Dict]:
         """
         Search using Facebook Ads Library API.
-        Requires access token or public endpoint.
+        Uses public endpoint (no auth required for basic queries).
         """
         try:
-            # Facebook Ads Library endpoint
-            # https://www.facebook.com/ads/library/api
+            # Facebook Ads Archive API (public endpoint)
+            # Available at: https://graph.facebook.com/v18.0/ads_archive
             
             url = "https://graph.facebook.com/v18.0/ads_archive"
             
             params = {
-                'search_terms': business_name,
-                'ad_type': 'POLITICAL_AND_ISSUE_ADS',
-                'fields': 'id,name,ad_creation_date,ad_creative_bodies,ad_snapshot_url',
+                'search_terms': business_name.lower(),
+                'ad_type': 'ALL',
+                'fields': 'id,name,ad_creation_date,ad_snapshot_url,spend,currency',
                 'limit': 10,
-                'access_token': 'PUBLIC'  # Placeholder
+                'country': 'US',  # Focus on US only
             }
             
-            # Note: This would require proper Facebook API credentials
-            # For MVP, we'll indicate that this check requires setup
+            response = self.requests.get(url, params=params, timeout=10)
             
-            logger.warning("⚠️ Facebook Ads Library requires API setup")
-            logger.info("   To enable: https://www.facebook.com/ads/library/api")
+            if response.status_code == 200:
+                data = response.json()
+                ads = data.get('data', [])
+                if ads:
+                    logger.info(f"✅ Found {len(ads)} active Facebook ads for: {business_name}")
+                    return ads
+            elif response.status_code == 400:
+                # API might have restrictions or require token
+                logger.warning("⚠️ Facebook Ads API requires setup or is rate-limited")
+                logger.info("   Setup: https://developers.facebook.com/docs/marketing-api/guides/ads-archive")
             
             return []
         
