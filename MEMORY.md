@@ -33,25 +33,41 @@ Custom keyword search for IndoorMedia testimonials database.
 - **Examples:** 'ROI', 'skeptical', 'parking lot', 'thank you', 'started slow'
 - **Notes:** Searches full text of business name, comments, category, keywords. API has ~29,308 total testimonials; 2,000 cache covers recent + historical mix.
 
-## Store Rates Skill (Updated Feb 24, 2026)
-Custom skill for IndoorMedia store rates database. Features:
-- **438+ stores across 332 cities** (CA, OR, WA) — Fred Meyer, Safeway, Albertsons, Stater Bros., Ralphs, Food 4 Less, Vons, Haggen, Saars, Quality Food Center, etc.
-- **Pricing Structure** (Standard for all stores):
-  * **Monthly (12 payments):** base + $125
-  * **3-month prepaid (3 payments):** (base × 0.90) + $125 = 10% off
-  * **6-month prepaid (6 payments):** (base × 0.925) + $125 = 7.5% off
-  * **Paid in full:** (base × 0.85) + $125 = 15% off
-  - $125 = production charge (nonnegotiable)
-  - Discounts apply to base annual price only, then add $125
-- **Zones:**
-  - **05X** = California stores (added Feb 24, 2026)
-  - **07X** = Washington/Northern states (added Feb 24, 2026)
-  - **07Y** = Oregon stores
-  - **07Z** = Washington stores
-- **CLI Usage:**
-  - `python skills/store-rates/scripts/rate_calculator.py Chehalis Safeway`
-- **Data persisted to git** — survives session boundaries
-- Location: `/Users/tylervansant/.openclaw/workspace/skills/store-rates/`
+## Store Rates Framework (REBUILT Feb 24, 2026)
+**New: Store-Specific Pricing** (old case-count model deleted)
+
+**Database:**
+- **612 stores** across CA, OR, WA (Safeway, Fred Meyer, Albertsons, Stater Bros., Food 4 Less, Quality Food Center, Haggen, Vons, Ralphs, Saars, Shop N Kart, etc.)
+- Each store has unique SingleAd & DoubleAd pricing
+- Cycles: A, B, C (store scheduling)
+- Zones: 05X (CA), 07X (WA North), 07Y (OR), 07Z (OR/WA South)
+
+**Payment Plans (Applied to each store's base price):**
+- **Monthly:** `(base + $125) ÷ 12` = shows $X/month × 12 = $total
+- **3-month:** `((base × 0.90) + $125) ÷ 3` = 10% discount (shows $X × 3 = $total)
+- **6-month:** `((base × 0.925) + $125) ÷ 6` = 7.5% discount (shows $X × 6 = $total)
+- **Paid-in-full:** `(base × 0.85) + $125` = 15% discount (one payment)
+- **Note:** $125 production charge added AFTER discount % applied
+
+**Query Types Supported:**
+- **Store number:** `FME07Y-0165`
+- **City + Chain:** `Klamath Falls Fred Meyer`
+- **Cycle + City:** `A Cycle Beaverton`
+- **Street name:** `Lincoln City` (searches all stores with that street)
+
+**Files:**
+- `store_data.csv` — Raw 612-store dataset
+- `scripts/store_loader.py` — Load CSV, build indexes
+- `scripts/pricing_calculator.py` — Pricing with dual display
+- `scripts/store_search.py` — Query interface
+- `data/store-rates/stores.json` — Persistent store DB
+- `data/store-rates/indexes.json` — Search indexes (by store#, city+chain, street, cycle)
+
+**Example Usage:**
+```bash
+python3 scripts/pricing_calculator.py FME07Y-0165 single
+→ Returns JSON with all 4 payment plans (each showing per-installment + total)
+```
 
 ## IndoorMediaRatesBot (Live - Feb 24, 2026 - REBUILT)
 **Status:** ✅ RUNNING (Case Count Based Pricing)
