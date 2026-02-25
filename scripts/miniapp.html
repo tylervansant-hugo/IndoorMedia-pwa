@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IndoorMedia - Find Today's Deal</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #f5f5f5;
+            color: #333;
+        }
+        
+        .container {
+            max-width: 500px;
+            margin: 0 auto;
+            padding: 10px;
+        }
+        
+        header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        
+        header h1 {
+            font-size: 24px;
+            margin-bottom: 5px;
+        }
+        
+        header p {
+            font-size: 12px;
+            opacity: 0.9;
+        }
+        
+        .search-box {
+            background: white;
+            padding: 15px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        
+        .search-box input {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 16px;
+            margin-bottom: 10px;
+        }
+        
+        .search-box input:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+        
+        .button-group {
+            display: flex;
+            gap: 10px;
+        }
+        
+        button {
+            flex: 1;
+            padding: 12px;
+            border: none;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .btn-search {
+            background: #667eea;
+            color: white;
+        }
+        
+        .btn-search:active {
+            background: #5568d3;
+        }
+        
+        .btn-toggle {
+            background: #f0f0f0;
+            color: #333;
+        }
+        
+        .btn-toggle.active {
+            background: #667eea;
+            color: white;
+        }
+        
+        .store-info {
+            background: white;
+            padding: 15px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            display: none;
+        }
+        
+        .store-info.show {
+            display: block;
+        }
+        
+        .store-header {
+            border-bottom: 2px solid #f0f0f0;
+            padding-bottom: 12px;
+            margin-bottom: 12px;
+        }
+        
+        .store-header h2 {
+            font-size: 18px;
+            color: #667eea;
+        }
+        
+        .store-header p {
+            font-size: 12px;
+            color: #666;
+        }
+        
+        .pricing-section {
+            background: #f9f9f9;
+            padding: 12px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+        }
+        
+        .pricing-section h3 {
+            font-size: 14px;
+            margin-bottom: 8px;
+            color: #333;
+        }
+        
+        .plan {
+            background: white;
+            padding: 10px;
+            margin-bottom: 8px;
+            border-radius: 6px;
+            font-size: 12px;
+            border-left: 3px solid #667eea;
+        }
+        
+        .prospect-card {
+            background: white;
+            padding: 12px;
+            margin-bottom: 10px;
+            border-radius: 8px;
+            border-left: 4px solid #667eea;
+            box-shadow: 0 1px 4px rgba(0,0,0,0.1);
+        }
+        
+        .prospect-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: start;
+            margin-bottom: 8px;
+        }
+        
+        .prospect-name {
+            flex: 1;
+            font-weight: 600;
+            color: #333;
+        }
+        
+        .prospect-score {
+            background: #667eea;
+            color: white;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 600;
+            text-align: center;
+            min-width: 50px;
+        }
+        
+        .prospect-score.hot {
+            background: #ff6b6b;
+        }
+        
+        .prospect-score.good {
+            background: #ffd93d;
+            color: #333;
+        }
+        
+        .prospect-emoji {
+            font-size: 20px;
+            margin-right: 8px;
+        }
+        
+        .prospect-details {
+            font-size: 12px;
+            color: #666;
+            line-height: 1.6;
+        }
+        
+        .prospect-details strong {
+            color: #333;
+        }
+        
+        .prospect-phone {
+            background: #f0f0f0;
+            padding: 4px 8px;
+            border-radius: 4px;
+            text-decoration: none;
+            color: #667eea;
+            font-weight: 600;
+        }
+        
+        .prospect-phone:active {
+            background: #e0e0e0;
+        }
+        
+        .ad-signal {
+            background: #fff3cd;
+            color: #856404;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 11px;
+            font-weight: 600;
+            margin-top: 8px;
+            display: inline-block;
+        }
+        
+        .loading {
+            text-align: center;
+            padding: 40px 20px;
+            color: #999;
+        }
+        
+        .error {
+            background: #ff6b6b;
+            color: white;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            font-size: 14px;
+        }
+        
+        .tab-buttons {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+        
+        .tab-buttons button {
+            flex: 1;
+            padding: 10px;
+            background: #f0f0f0;
+            color: #333;
+            border: 2px solid transparent;
+        }
+        
+        .tab-buttons button.active {
+            background: #667eea;
+            color: white;
+            border-color: #667eea;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🎯 Find Today's Deal</h1>
+            <p>IndoorMedia Prospect Finder</p>
+        </header>
+        
+        <div class="search-box">
+            <input 
+                type="text" 
+                id="storeInput" 
+                placeholder="Enter store # (e.g., FME07Z-0236)"
+                autofocus
+            >
+            <div class="button-group">
+                <button class="btn-search" onclick="searchStore()">Search</button>
+                <button class="btn-toggle" id="adToggle" onclick="toggleAdType()">Double Ad</button>
+            </div>
+        </div>
+        
+        <div id="error"></div>
+        <div id="loading" class="loading" style="display:none;">⏳ Loading...</div>
+        
+        <div id="storeInfo" class="store-info">
+            <div class="store-header">
+                <h2 id="storeName"></h2>
+                <p id="storeLocation"></p>
+            </div>
+            
+            <div class="tab-buttons">
+                <button class="tab-btn active" onclick="showTab('prospects')">Prospects</button>
+                <button class="tab-btn" onclick="showTab('pricing')">Pricing</button>
+            </div>
+            
+            <div id="prospectsTab">
+                <div id="prospectsList"></div>
+            </div>
+            
+            <div id="pricingTab" style="display:none;">
+                <div class="pricing-section">
+                    <h3>Payment Plans</h3>
+                    <div id="pricingPlans"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        const API_BASE = 'http://localhost:5000/api';
+        let currentStore = null;
+        let currentAdType = 'single';
+        
+        function showError(msg) {
+            document.getElementById('error').innerHTML = `<div class="error">${msg}</div>`;
+            setTimeout(() => {
+                document.getElementById('error').innerHTML = '';
+            }, 5000);
+        }
+        
+        function showLoading(show) {
+            document.getElementById('loading').style.display = show ? 'block' : 'none';
+        }
+        
+        async function searchStore() {
+            const storeNum = document.getElementById('storeInput').value.trim().toUpperCase();
+            
+            if (!storeNum) {
+                showError('Enter a store number');
+                return;
+            }
+            
+            showLoading(true);
+            
+            try {
+                // Fetch store info
+                const storeRes = await fetch(`${API_BASE}/store/${storeNum}`);
+                if (!storeRes.ok) throw new Error('Store not found');
+                const store = await storeRes.json();
+                currentStore = store;
+                
+                // Update header
+                document.getElementById('storeName').textContent = `${store.chain} - ${store.city}`;
+                document.getElementById('storeLocation').textContent = store.address;
+                
+                // Fetch prospects
+                const prospectRes = await fetch(`${API_BASE}/prospects/${storeNum}?limit=10`);
+                if (!prospectRes.ok) throw new Error('Could not fetch prospects');
+                const data = await prospectRes.json();
+                
+                // Display prospects
+                displayProspects(data.prospects);
+                
+                // Fetch pricing
+                const pricingRes = await fetch(`${API_BASE}/pricing/${storeNum}?ad_type=${currentAdType}`);
+                if (!pricingRes.ok) throw new Error('Could not fetch pricing');
+                const pricing = await pricingRes.json();
+                displayPricing(pricing);
+                
+                document.getElementById('storeInfo').classList.add('show');
+                showLoading(false);
+            } catch (e) {
+                showLoading(false);
+                showError(e.message);
+            }
+        }
+        
+        function displayProspects(prospects) {
+            let html = '';
+            prospects.forEach(p => {
+                const scoreClass = p.likelihood_score >= 80 ? 'hot' : p.likelihood_score >= 70 ? 'good' : '';
+                html += `
+                    <div class="prospect-card">
+                        <div class="prospect-header">
+                            <div class="prospect-name">
+                                <span class="prospect-emoji">${p.emoji}</span>
+                                ${p.name}
+                            </div>
+                            <div class="prospect-score ${scoreClass}">${p.likelihood_score}</div>
+                        </div>
+                        <div class="prospect-details">
+                            <strong>📍</strong> ${p.distance_miles.toFixed(2)} mi<br>
+                            <strong>⭐</strong> ${p.rating}/5 (${p.reviews} reviews)<br>
+                            <strong>📞</strong> <a href="tel:${p.phone}" class="prospect-phone">${p.phone || 'N/A'}</a>
+                        </div>
+                        ${p.advertising ? '<div class="ad-signal">🎯 ADVERTISING ACTIVE</div>' : ''}
+                    </div>
+                `;
+            });
+            document.getElementById('prospectsList').innerHTML = html;
+        }
+        
+        function displayPricing(pricing) {
+            let html = `
+                <strong>${pricing.ad_type === 'single' ? '📄' : '📋'} ${pricing.ad_type.toUpperCase()} AD</strong><br>
+                Base: $${pricing.base_price.toLocaleString()}<br><br>
+            `;
+            
+            html += `<strong>Monthly:</strong> ${pricing.plans.monthly.display}<br>`;
+            html += `<strong>3-Month:</strong> ${pricing.plans['3month'].display}<br>`;
+            html += `<strong>6-Month:</strong> ${pricing.plans['6month'].display}<br>`;
+            html += `<strong>Paid-in-Full:</strong> ${pricing.plans.paid_full.display}`;
+            
+            document.getElementById('pricingPlans').innerHTML = html;
+        }
+        
+        function showTab(tab) {
+            document.getElementById('prospectsTab').style.display = tab === 'prospects' ? 'block' : 'none';
+            document.getElementById('pricingTab').style.display = tab === 'pricing' ? 'block' : 'none';
+            
+            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+        }
+        
+        function toggleAdType() {
+            currentAdType = currentAdType === 'single' ? 'double' : 'single';
+            document.getElementById('adToggle').textContent = currentAdType === 'single' ? 'Single Ad' : 'Double Ad';
+            document.getElementById('adToggle').classList.toggle('active');
+            
+            if (currentStore) {
+                fetchUpdatedPricing();
+            }
+        }
+        
+        async function fetchUpdatedPricing() {
+            try {
+                const res = await fetch(`${API_BASE}/pricing/${currentStore.store_number}?ad_type=${currentAdType}`);
+                if (res.ok) {
+                    const pricing = await res.json();
+                    displayPricing(pricing);
+                }
+            } catch (e) {
+                console.error('Error fetching pricing:', e);
+            }
+        }
+        
+        // Handle Enter key
+        document.getElementById('storeInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') searchStore();
+        });
+    </script>
+</body>
+</html>
