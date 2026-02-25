@@ -1,0 +1,5080 @@
+{
+  "by_store_number": [
+    "SAF07X-1546",
+    "STB05X-0176",
+    "SAF07Y-1659",
+    "FME07Y-0005",
+    "SAF07Y-1889",
+    "SAF07Y-3557",
+    "STB05X-0053",
+    "SAF07X-0593",
+    "FFL05X-0782",
+    "ALB05X-6513",
+    "STB05X-0110",
+    "STB05X-0178",
+    "SAF07X-1522",
+    "SAF07X-0534",
+    "SAF07Y-3212",
+    "ALB07Y-0573",
+    "SAF07Z-2627",
+    "SAR07X-0622",
+    "HAG07X-3438",
+    "SAF07X-4483",
+    "SAF07X-0531",
+    "FME07X-0019",
+    "SAF07X-1252",
+    "ALB05X-6512",
+    "FFL05X-0312",
+    "STB05X-0101",
+    "ALB07Z-2592",
+    "SAF07Z-4313",
+    "FME07Z-0614",
+    "FFL05X-0386",
+    "STB05X-0086",
+    "STB05X-0173",
+    "SAF07Y-1073",
+    "SAF07Y-2631",
+    "FME07Y-0482",
+    "FME07Y-0035",
+    "QFC07X-0101",
+    "SAF07X-1571",
+    "QFC07X-0859",
+    "QFC07X-0822",
+    "QFC07X-0826",
+    "QFC07X-0874",
+    "SAF07X-1444",
+    "SAF07X-0490",
+    "SAF07X-1600",
+    "FME07X-0023",
+    "QFC07X-0808",
+    "HAG07X-3460",
+    "HAG07X-3430",
+    "HAG07X-3439",
+    "HAG07X-0043",
+    "SAF07X-3285",
+    "FME07X-0667",
+    "FME07X-0025",
+    "ALB07Z-2599",
+    "ALB07Z-3553",
+    "SAF07Z-0514",
+    "SAF07Z-1888",
+    "FME07Z-0021",
+    "SAF07Z-1504",
+    "RAL05X-0681",
+    "VON05X-2374",
+    "STB05X-0091",
+    "STB05X-0061",
+    "ALB05X-6587",
+    "FME07Z-0041",
+    "SAF07X-1413",
+    "QFC07X-0819",
+    "QFC07X-0850",
+    "SAF07X-0535",
+    "SAF07X-1864",
+    "FME07X-0457",
+    "SAF07X-1467",
+    "SAF07X-1524",
+    "FME07X-0171",
+    "FME07Y-0030",
+    "SAF07X-3120",
+    "SAF07X-1664",
+    "FME07X-0028",
+    "HAG07X-0015",
+    "FME07X-0024",
+    "SAF07Y-4469",
+    "STB05X-0071",
+    "STB05X-0205",
+    "SAF07Z-1287",
+    "SAF07Y-2604",
+    "FME07Y-0651",
+    "FFL05X-0308",
+    "STB05X-0183",
+    "STB05X-0127",
+    "ALB07Y-0595",
+    "SNK07Z-0381",
+    "SAF07Z-1495",
+    "SAF07Z-3525",
+    "STB05X-0052",
+    "ALB05X-6524",
+    "STB05X-0209",
+    "STB05X-0184",
+    "ALB05X-6515",
+    "STB05X-0169",
+    "ALB05X-6592",
+    "FME07Y-0063",
+    "SAF07Z-1231",
+    "STB05X-0049",
+    "VON05X-2155",
+    "SAF07Y-4318",
+    "FFL05X-0517",
+    "FFL05X-0786",
+    "STB05X-0003",
+    "STB05X-0117",
+    "FME07Y-0050",
+    "SAF07Y-1556",
+    "SAF07Y-4262",
+    "FME07Y-0060",
+    "STB05X-0103",
+    "VON05X-2381",
+    "STB05X-0062",
+    "STB05X-0171",
+    "VON05X-2596",
+    "RAL05X-0136",
+    "RAL05X-0045",
+    "STB05X-0170",
+    "ALB05X-6641",
+    "ALB05X-6728",
+    "VON05X-2818",
+    "SAF07Y-1690",
+    "SAF07Y-4333",
+    "FME07Y-0070",
+    "SAF07Y-1765",
+    "SAF07Y-1458",
+    "FME07X-0053",
+    "SAF07Y-4404",
+    "SAF07Z-0521",
+    "SAF07X-1186",
+    "SAF07X-3540",
+    "VON05X-2177",
+    "STB05X-0084",
+    "SAF07X-1572",
+    "VON05X-2688",
+    "SAF07X-1297",
+    "QFC07X-0851",
+    "SAF07Y-0371",
+    "QFC07Z-0863",
+    "SAF07Z-0494",
+    "ALB07Y-0560",
+    "ALB07Y-3564",
+    "SAF07Y-4513",
+    "ALB07Y-0572",
+    "ALB07Y-3529",
+    "ALB07Y-0513",
+    "SAF07Y-0420",
+    "SAF07Y-4288",
+    "FME07Y-0417",
+    "FME07Y-0325",
+    "QFC07X-0852",
+    "QFC07X-0853",
+    "SAF07X-2645",
+    "SAF07X-1461",
+    "SAF07X-0503",
+    "SAF07X-0474",
+    "SAF07X-3298",
+    "SAF07X-1484",
+    "FME07X-0458",
+    "SAF07X-0477",
+    "SAF07X-1555",
+    "FME07X-0111",
+    "HAG07X-0063",
+    "SAF07Y-0363",
+    "FME07Y-0464",
+    "FFL05X-0389",
+    "STB05X-0005",
+    "STB05X-0095",
+    "RAL05X-0113",
+    "STB05X-0179",
+    "VON05X-1742",
+    "STB05X-0175",
+    "SAF07Y-0406",
+    "SAF07X-3321",
+    "FME07X-0691",
+    "SAF07X-4406",
+    "SAF07Y-4387",
+    "SAF07Z-0547",
+    "STB05X-0188",
+    "SAF07Y-0290",
+    "ALB07Y-3541",
+    "SAF07Y-0379",
+    "FME07Y-0126",
+    "SAF07Z-0430",
+    "SAF07Z-1070",
+    "FME07Z-0127",
+    "FME07Z-0153",
+    "FME07Z-0694",
+    "STB05X-0122",
+    "STB05X-0190",
+    "ALB05X-6503",
+    "STB05X-0058",
+    "FFL05X-0385",
+    "STB05X-0210",
+    "STB05X-0182",
+    "ALB07Y-0590",
+    "SAF07Y-1203",
+    "SAF07Y-0591",
+    "FME07Y-0661",
+    "SAF07Y-1230",
+    "FME07Y-0143",
+    "SAF07Z-1123",
+    "ROS07Z-0016",
+    "STB05X-0094",
+    "FFL05X-0765",
+    "RAL05X-0160",
+    "QFC07X-0821",
+    "SAF07X-1624",
+    "FME07X-0658",
+    "SAF07X-3006",
+    "SAF07Y-0386",
+    "SAF07Y-1516",
+    "SAF07Z-2637",
+    "SAF07X-3500",
+    "QFC07X-0803",
+    "SAF07X-0459",
+    "SAF07X-1294",
+    "SAF07X-0792",
+    "SAF07X-1966",
+    "FME07X-0215",
+    "SAF07Y-1478",
+    "SAF07X-0186",
+    "QFC07X-0828",
+    "QFC07X-0894",
+    "QFC07X-0838",
+    "SAF07X-0526",
+    "SAF07X-1142",
+    "FME07X-0391",
+    "SAF07X-2734",
+    "ALB07Y-0577",
+    "FME07Y-0165",
+    "SAF07Y-1827",
+    "STB05X-0128",
+    "VON05X-2175",
+    "STB05X-0048",
+    "VON05X-2832",
+    "QFC07Z-0126",
+    "SAF07Z-1977",
+    "FME07Z-0186",
+    "STB05X-0092",
+    "ALB07X-3416",
+    "SAF07Y-0508",
+    "ALB07Y-3531",
+    "SAF07Y-1047",
+    "HAG07X-0071",
+    "SAF07X-1803",
+    "SAF07Y-4316",
+    "SAF07Z-3411",
+    "SAF07Z-1645",
+    "SAF07Y-1558",
+    "SAF07Y-0415",
+    "STB05X-0081",
+    "SAF07Z-1078",
+    "SAF07Z-0091",
+    "FME07Z-0185",
+    "FPV07X-0441",
+    "SAF07X-1930",
+    "SAF07X-0485",
+    "QFC07X-0835",
+    "SAF07X-0469",
+    "SAF07X-3523",
+    "FME07X-0688",
+    "FME07X-0180",
+    "SAF07Z-1960",
+    "QFC07X-0837",
+    "SAF07X-1471",
+    "FME07X-0682",
+    "HAG07X-3604",
+    "SAF07X-1485",
+    "ALB07X-0471",
+    "FME07X-0209",
+    "ALB07Y-0528",
+    "SAF07Y-1601",
+    "ALB07Y-3508",
+    "SAF07Y-1643",
+    "SAF07Y-0525",
+    "ALB07Y-3593",
+    "FME07Y-0196",
+    "FME07Y-0195",
+    "QFC07X-0806",
+    "QFC07X-0839",
+    "SAF07X-0458",
+    "SAF07Z-3545",
+    "SAF07Z-2690",
+    "SAF07Y-2696",
+    "FME07Y-0240",
+    "STB05X-0088",
+    "SAF07Y-1751",
+    "SAF07X-0537",
+    "FME07X-0210",
+    "STB05X-0073",
+    "FFL05X-0302",
+    "STB05X-0185",
+    "FFL05X-0398",
+    "STB05X-0193",
+    "STB05X-0172",
+    "HAG07X-0069",
+    "SAF07X-1472",
+    "QFC07X-0857",
+    "SAF07X-0414",
+    "QFC07X-0832",
+    "SAF07Y-2623",
+    "FME07Y-0220",
+    "QFC07X-0827",
+    "SAF07X-0558",
+    "SAF07Y-0378",
+    "FME07Y-0227",
+    "STB05X-0044",
+    "STB05X-0199",
+    "QFC07X-0829",
+    "SAF07X-1528",
+    "SAF07Y-1557",
+    "SAR07X-0610",
+    "HAG07X-3427",
+    "SAF07X-0402",
+    "SAF07Z-1952",
+    "HAG07Z-3444",
+    "ALB07Z-3417",
+    "SAF07Z-0543",
+    "SAF07Z-1173",
+    "SAF07Z-1464",
+    "FFL05X-0320",
+    "RAL05X-0752",
+    "STB05X-0108",
+    "STB05X-0059",
+    "STB05X-0204",
+    "STB05X-0085",
+    "STB05X-0208",
+    "ALB07Y-0571",
+    "SAF07Y-2993",
+    "FME07Y-0242",
+    "SAF07Z-1844",
+    "RAL05X-0027",
+    "ALB05X-6567",
+    "STB05X-0181",
+    "ALB05X-6559",
+    "VON05X-2384",
+    "ALB05X-6569",
+    "RAL05X-0181",
+    "STB05X-0126",
+    "RAL05X-0611",
+    "SAR07Z-0488",
+    "STB05X-0116",
+    "STB05X-0019",
+    "FFL05X-0358",
+    "SAR07X-0630",
+    "SAF07X-1922",
+    "SAF07X-1492",
+    "QFC07X-0870",
+    "SAF07X-3317",
+    "ALB07X-0475",
+    "ALB07X-0419",
+    "FME07X-0655",
+    "SAF07X-4608",
+    "QFC07X-0106",
+    "SAF07X-0538",
+    "ALB07Y-0596",
+    "QFC07Z-0206",
+    "QFC07Y-0202",
+    "QFC07Z-0205",
+    "ALB07Z-0564",
+    "QFC07Y-0201",
+    "SAF07Y-3136",
+    "ALB07Z-0575",
+    "SAF07Y-2448",
+    "SAF07Z-0382",
+    "SAF07Y-2790",
+    "SAF07Z-3134",
+    "SAF07Z-1612",
+    "SAF07Z-0509",
+    "SAF07Z-1627",
+    "FME07Z-0075",
+    "FME07Z-0255",
+    "SAF07Z-1951",
+    "SAF07Y-1525",
+    "FME07Z-0125",
+    "SAF07Z-1523",
+    "FME07Y-0360",
+    "SAF07Z-1447",
+    "FME07Z-0600",
+    "FME07Y-0040",
+    "FME07Z-0135",
+    "FME07Y-0285",
+    "FME07Z-0150",
+    "SAF07X-3148",
+    "ALB07Z-3106",
+    "SAF07Z-0422",
+    "SAF07Z-1798",
+    "SAF07Z-2729",
+    "SAF07Z-3228",
+    "FME07Z-0265",
+    "SAF07Z-2640",
+    "VON05X-1914",
+    "ALB05X-6520",
+    "RAL05X-0700",
+    "RAL05X-0717",
+    "FFL05X-0328",
+    "VON05X-2147",
+    "ALB05X-3177",
+    "STB05X-0078",
+    "STB05X-0200",
+    "RAL05X-0013",
+    "ALB05X-6586",
+    "FFL05X-0311",
+    "VON05X-1734",
+    "STB05X-0112",
+    "STB05X-0018",
+    "ALB05X-6519",
+    "STB05X-0191",
+    "QFC07X-0878",
+    "ALB07X-2072",
+    "QFC07X-0820",
+    "SAF07X-0496",
+    "SAF07X-0464",
+    "QFC07X-0860",
+    "SAF07Z-1665",
+    "FME07Z-0650",
+    "SAF07Y-0284",
+    "SAR07X-0490",
+    "ALB07X-0453",
+    "SAF07X-0366",
+    "SAF07X-0519",
+    "QFC07X-0871",
+    "FME07X-0459",
+    "SAF07X-1563",
+    "SAF07X-3319",
+    "FME07X-0031",
+    "FFL05X-0303",
+    "STB05X-0012",
+    "STB05X-0043",
+    "ROS07Z-0042",
+    "RAL05X-0098",
+    "FFL05X-0343",
+    "STB05X-0014",
+    "STB05X-0115",
+    "STB05X-0001",
+    "STB05X-0042",
+    "STB05X-0069",
+    "STB05X-0090",
+    "RAL05X-0144",
+    "RAL05X-0609",
+    "FFL05X-0329",
+    "STB05X-0080",
+    "VON05X-2659",
+    "ALB05X-6572",
+    "STB05X-0207",
+    "STB05X-0022",
+    "STB05X-0192",
+    "STB05X-0114",
+    "ALB05X-6514",
+    "STB05X-0201",
+    "SHM07Y-0004",
+    "SAF07Y-1666",
+    "FME07Y-0281",
+    "SAF07Y-0429",
+    "SAF07Y-1629",
+    "SAF07Y-0412",
+    "SAF07Y-1935",
+    "FME07Y-0225",
+    "FME07Y-0355",
+    "FME07Y-0090",
+    "QFC07X-0824",
+    "QFC07X-0840",
+    "SAF07X-0555",
+    "FFL05X-0301",
+    "STB05X-0002",
+    "RAL05X-0753",
+    "STB05X-0008",
+    "STB05X-0024",
+    "STB05X-0107",
+    "STB05X-0036",
+    "SAF07Z-0782",
+    "FME07Z-0663",
+    "FME07Z-0462",
+    "SAF07Z-1260",
+    "ALB07X-0408",
+    "QFC07X-0883",
+    "SAF07X-0219",
+    "QFC07X-0825",
+    "QFC07X-0849",
+    "QFC07X-0872",
+    "SAF07X-1062",
+    "SAF07X-1885",
+    "QFC07X-0891",
+    "QFC07X-0805",
+    "QFC07X-0881",
+    "SAF07X-3275",
+    "SAF07X-0423",
+    "SAR07X-0530",
+    "QFC07X-0807",
+    "QFC07X-0866",
+    "QFC07X-0811",
+    "QFC07X-0858",
+    "QFC07X-0869",
+    "QFC07X-0887",
+    "SAF07X-1493",
+    "SAF07X-1477",
+    "SAF07X-1508",
+    "QFC07X-0847",
+    "SAF07X-1586",
+    "SAF07X-2932",
+    "SAF07X-1993",
+    "SAF07X-1550",
+    "SAF07X-1965",
+    "SAF07X-1551",
+    "SAF07X-3091",
+    "SAF07X-1143",
+    "SAF07X-1923",
+    "FME07X-0608",
+    "FME07X-0122",
+    "FPV07X-0022",
+    "QFC07X-0841",
+    "SAF07X-1448",
+    "FME07X-0603",
+    "SAF07X-0585",
+    "SAF07Y-1800",
+    "QFC07X-0816",
+    "SAF07X-0497",
+    "SAF07X-3213",
+    "FME07X-0013",
+    "SAF07X-1680",
+    "SAF07Y-1580",
+    "SAF07X-1076",
+    "SAF07X-3419",
+    "HAG07X-0057",
+    "FME07X-0681",
+    "SAF07X-3613",
+    "FME07Z-0424",
+    "FME07Z-0604",
+    "ALB07Y-0570",
+    "SAF07Y-1094",
+    "FME07Y-0328",
+    "ALB07Y-0574",
+    "SAF07Z-0424",
+    "HAG07X-3480",
+    "QFC07X-0879",
+    "SAF07Y-1527",
+    "SAF07Z-0544",
+    "FME07Z-0665",
+    "SAF07Y-1710",
+    "QFC07Z-0105",
+    "SAF07Z-0329",
+    "QFC07Z-0831",
+    "ALB07Z-0493",
+    "SAF07Z-1437",
+    "SAF07Z-1594",
+    "SAF07Z-3424",
+    "SAF07Z-3305",
+    "SAF07Z-0486",
+    "FME07Z-0605",
+    "FME07Z-0390",
+    "SAF07Z-1436",
+    "SAF07X-1978",
+    "SAF07Z-1489",
+    "FME07Z-0372",
+    "SAF07Y-3542",
+    "FME07Y-0375",
+    "SAF07Y-2723",
+    "FME07Y-0377",
+    "SAF07Z-0536",
+    "FME07Y-0393",
+    "SAR07X-0624",
+    "SAF07Z-1407",
+    "SAF07Z-1503",
+    "FME07Z-0659",
+    "STB05X-0105",
+    "FME07Z-0615",
+    "STB05X-0045",
+    "STB05X-0065",
+    "VON05X-2681",
+    "ALB05X-0599",
+    "SAF07Z-0400",
+    "SAF07Z-1103",
+    "QFC07Z-0212",
+    "SAF07Z-1842",
+    "ALB07Z-0580",
+    "FME07Z-0140",
+    "SAF07Z-1611",
+    "SAF07Z-1704",
+    "SAF07Z-4405",
+    "FME07Z-0208",
+    "FME07Z-0093",
+    "SAF07Z-1653",
+    "FME07Z-0683",
+    "FME07Z-0236",
+    "FME07Z-0460",
+    "FFL05X-0397",
+    "VON05X-2131",
+    "FFL05X-0305",
+    "STB05X-0123",
+    "STB05X-0118",
+    "FME07Z-0218",
+    "SAF07Z-1687",
+    "SAF07Y-1713",
+    "SAF07Y-0285",
+    "FME07Y-0516",
+    "FME07Z-0660",
+    "SAF07Y-1976",
+    "SAF07X-0533",
+    "HAG07X-3498",
+    "SAF07Z-1762",
+    "SAF07Z-1619",
+    "STB05X-0023",
+    "STB05X-0125",
+    "VON05X-1796",
+    "VON05X-3058",
+    "STB05X-0096",
+    "STB05X-0120"
+  ],
+  "by_city_chain": {
+    "aberdeen-safeway": [
+      "SAF07X-1546"
+    ],
+    "adelanto-stater bros.": [
+      "STB05X-0176"
+    ],
+    "albany-safeway": [
+      "SAF07Y-1659"
+    ],
+    "albany-fred meyer": [
+      "FME07Y-0005"
+    ],
+    "aloha-safeway": [
+      "SAF07Y-1889",
+      "SAF07Y-3557"
+    ],
+    "alta loma-stater bros.": [
+      "STB05X-0053"
+    ],
+    "anacortes-safeway": [
+      "SAF07X-0593"
+    ],
+    "apple valley-food 4 less": [
+      "FFL05X-0782"
+    ],
+    "apple valley-albertsons": [
+      "ALB05X-6513"
+    ],
+    "apple valley-stater bros.": [
+      "STB05X-0110",
+      "STB05X-0178"
+    ],
+    "arlington-safeway": [
+      "SAF07X-1522",
+      "SAF07X-0534"
+    ],
+    "ashland-safeway": [
+      "SAF07Y-3212"
+    ],
+    "ashland-albertsons": [
+      "ALB07Y-0573"
+    ],
+    "astoria-safeway": [
+      "SAF07Z-2627"
+    ],
+    "auburn-saars": [
+      "SAR07X-0622"
+    ],
+    "auburn-haggen": [
+      "HAG07X-3438"
+    ],
+    "auburn-safeway": [
+      "SAF07X-4483",
+      "SAF07X-0531"
+    ],
+    "auburn-fred meyer": [
+      "FME07X-0019"
+    ],
+    "bainbridge island-safeway": [
+      "SAF07X-1252"
+    ],
+    "banning-albertsons": [
+      "ALB05X-6512"
+    ],
+    "barstow-food 4 less": [
+      "FFL05X-0312"
+    ],
+    "barstow-stater bros.": [
+      "STB05X-0101"
+    ],
+    "battle ground-albertsons": [
+      "ALB07Z-2592"
+    ],
+    "battle ground-safeway": [
+      "SAF07Z-4313"
+    ],
+    "battle ground-fred meyer": [
+      "FME07Z-0614"
+    ],
+    "beaumont-food 4 less": [
+      "FFL05X-0386"
+    ],
+    "beaumont-stater bros.": [
+      "STB05X-0086",
+      "STB05X-0173"
+    ],
+    "beaverton-safeway": [
+      "SAF07Y-1073",
+      "SAF07Y-2631"
+    ],
+    "beaverton-fred meyer": [
+      "FME07Y-0482",
+      "FME07Y-0035"
+    ],
+    "belfair-quality food center": [
+      "QFC07X-0101"
+    ],
+    "belfair-safeway": [
+      "SAF07X-1571"
+    ],
+    "bellevue-quality food center": [
+      "QFC07X-0859",
+      "QFC07X-0822",
+      "QFC07X-0826",
+      "QFC07X-0874",
+      "QFC07X-0808"
+    ],
+    "bellevue-safeway": [
+      "SAF07X-1444",
+      "SAF07X-0490",
+      "SAF07X-1600"
+    ],
+    "bellevue-fred meyer": [
+      "FME07X-0023"
+    ],
+    "bellingham-haggen": [
+      "HAG07X-3460",
+      "HAG07X-3430",
+      "HAG07X-3439",
+      "HAG07X-0043"
+    ],
+    "bellingham-safeway": [
+      "SAF07X-3285"
+    ],
+    "bellingham-fred meyer": [
+      "FME07X-0667",
+      "FME07X-0025"
+    ],
+    "bend-albertsons": [
+      "ALB07Z-2599",
+      "ALB07Z-3553"
+    ],
+    "bend-safeway": [
+      "SAF07Z-0514",
+      "SAF07Z-1888",
+      "SAF07Z-1504"
+    ],
+    "bend-fred meyer": [
+      "FME07Z-0021"
+    ],
+    "bermuda dunes-ralphs": [
+      "RAL05X-0681"
+    ],
+    "big bear lake-vons": [
+      "VON05X-2374"
+    ],
+    "big bear lake-stater bros.": [
+      "STB05X-0091"
+    ],
+    "bloomington-stater bros.": [
+      "STB05X-0061"
+    ],
+    "blythe-albertsons": [
+      "ALB05X-6587"
+    ],
+    "bonney lake-fred meyer": [
+      "FME07Z-0041"
+    ],
+    "bothell-safeway": [
+      "SAF07X-1413",
+      "SAF07X-0535",
+      "SAF07X-1864"
+    ],
+    "bothell-quality food center": [
+      "QFC07X-0819",
+      "QFC07X-0850"
+    ],
+    "bothell-fred meyer": [
+      "FME07X-0457"
+    ],
+    "bremerton-safeway": [
+      "SAF07X-1467",
+      "SAF07X-1524"
+    ],
+    "bremerton-fred meyer": [
+      "FME07X-0171"
+    ],
+    "brookings-fred meyer": [
+      "FME07Y-0030"
+    ],
+    "burien-safeway": [
+      "SAF07X-3120",
+      "SAF07X-1664"
+    ],
+    "burien-fred meyer": [
+      "FME07X-0028"
+    ],
+    "burlington-haggen": [
+      "HAG07X-0015"
+    ],
+    "burlington-fred meyer": [
+      "FME07X-0024"
+    ],
+    "burns-safeway": [
+      "SAF07Y-4469"
+    ],
+    "calimesa-stater bros.": [
+      "STB05X-0071",
+      "STB05X-0205"
+    ],
+    "camas-safeway": [
+      "SAF07Z-1287"
+    ],
+    "canby-safeway": [
+      "SAF07Y-2604"
+    ],
+    "canby-fred meyer": [
+      "FME07Y-0651"
+    ],
+    "cathedral city-food 4 less": [
+      "FFL05X-0308"
+    ],
+    "cathedral city-stater bros.": [
+      "STB05X-0183",
+      "STB05X-0127"
+    ],
+    "central point-albertsons": [
+      "ALB07Y-0595"
+    ],
+    "centralia-shop n kart": [
+      "SNK07Z-0381"
+    ],
+    "centralia-safeway": [
+      "SAF07Z-1495"
+    ],
+    "chehalis-safeway": [
+      "SAF07Z-3525"
+    ],
+    "chino-stater bros.": [
+      "STB05X-0052",
+      "STB05X-0209",
+      "STB05X-0184"
+    ],
+    "chino-albertsons": [
+      "ALB05X-6524"
+    ],
+    "chino hills-albertsons": [
+      "ALB05X-6515",
+      "ALB05X-6592"
+    ],
+    "chino hills-stater bros.": [
+      "STB05X-0169"
+    ],
+    "clackamas-fred meyer": [
+      "FME07Y-0063"
+    ],
+    "clackamas-safeway": [
+      "SAF07Z-1231"
+    ],
+    "claremont-stater bros.": [
+      "STB05X-0049"
+    ],
+    "claremont-vons": [
+      "VON05X-2155"
+    ],
+    "clatskanie-safeway": [
+      "SAF07Y-4318"
+    ],
+    "coachella-food 4 less": [
+      "FFL05X-0517"
+    ],
+    "colton-food 4 less": [
+      "FFL05X-0786"
+    ],
+    "colton-stater bros.": [
+      "STB05X-0003",
+      "STB05X-0117"
+    ],
+    "coos bay-fred meyer": [
+      "FME07Y-0050"
+    ],
+    "coos bay-safeway": [
+      "SAF07Y-1556"
+    ],
+    "coquille-safeway": [
+      "SAF07Y-4262"
+    ],
+    "cornelius-fred meyer": [
+      "FME07Y-0060"
+    ],
+    "corona-stater bros.": [
+      "STB05X-0103",
+      "STB05X-0062",
+      "STB05X-0171",
+      "STB05X-0170"
+    ],
+    "corona-vons": [
+      "VON05X-2381",
+      "VON05X-2596",
+      "VON05X-2818"
+    ],
+    "corona-ralphs": [
+      "RAL05X-0136",
+      "RAL05X-0045"
+    ],
+    "corona-albertsons": [
+      "ALB05X-6641",
+      "ALB05X-6728"
+    ],
+    "corvallis-safeway": [
+      "SAF07Y-1690",
+      "SAF07Y-4333",
+      "SAF07Y-1765"
+    ],
+    "corvallis-fred meyer": [
+      "FME07Y-0070"
+    ],
+    "cottage grove-safeway": [
+      "SAF07Y-1458"
+    ],
+    "covington-fred meyer": [
+      "FME07X-0053"
+    ],
+    "dallas-safeway": [
+      "SAF07Y-4404"
+    ],
+    "damascus-safeway": [
+      "SAF07Z-0521"
+    ],
+    "des moines-safeway": [
+      "SAF07X-1186",
+      "SAF07X-3540"
+    ],
+    "desert hot springs-vons": [
+      "VON05X-2177"
+    ],
+    "desert hot springs-stater bros.": [
+      "STB05X-0084"
+    ],
+    "duvall-safeway": [
+      "SAF07X-1572"
+    ],
+    "eastvale-vons": [
+      "VON05X-2688"
+    ],
+    "edmonds-safeway": [
+      "SAF07X-1297"
+    ],
+    "edmonds-quality food center": [
+      "QFC07X-0851"
+    ],
+    "enterprise-safeway": [
+      "SAF07Y-0371"
+    ],
+    "enumclaw-quality food center": [
+      "QFC07Z-0863"
+    ],
+    "enumclaw-safeway": [
+      "SAF07Z-0494"
+    ],
+    "eugene-albertsons": [
+      "ALB07Y-0560",
+      "ALB07Y-3564",
+      "ALB07Y-0572",
+      "ALB07Y-3529",
+      "ALB07Y-0513"
+    ],
+    "eugene-safeway": [
+      "SAF07Y-4513",
+      "SAF07Y-0420",
+      "SAF07Y-4288"
+    ],
+    "eugene-fred meyer": [
+      "FME07Y-0417",
+      "FME07Y-0325"
+    ],
+    "everett-quality food center": [
+      "QFC07X-0852",
+      "QFC07X-0853"
+    ],
+    "everett-safeway": [
+      "SAF07X-2645",
+      "SAF07X-1461",
+      "SAF07X-0503",
+      "SAF07X-0474",
+      "SAF07X-3298",
+      "SAF07X-1484"
+    ],
+    "everett-fred meyer": [
+      "FME07X-0458"
+    ],
+    "federal way-safeway": [
+      "SAF07X-0477",
+      "SAF07X-1555"
+    ],
+    "federal way-fred meyer": [
+      "FME07X-0111"
+    ],
+    "ferndale-haggen": [
+      "HAG07X-0063"
+    ],
+    "florence-safeway": [
+      "SAF07Y-0363"
+    ],
+    "florence-fred meyer": [
+      "FME07Y-0464"
+    ],
+    "fontana-food 4 less": [
+      "FFL05X-0389"
+    ],
+    "fontana-stater bros.": [
+      "STB05X-0005",
+      "STB05X-0095",
+      "STB05X-0179",
+      "STB05X-0175"
+    ],
+    "fontana-ralphs": [
+      "RAL05X-0113"
+    ],
+    "fontana-vons": [
+      "VON05X-1742"
+    ],
+    "forest grove-safeway": [
+      "SAF07Y-0406"
+    ],
+    "gig harbor-safeway": [
+      "SAF07X-3321",
+      "SAF07X-4406"
+    ],
+    "gig harbor-fred meyer": [
+      "FME07X-0691"
+    ],
+    "gladstone-safeway": [
+      "SAF07Y-4387"
+    ],
+    "graham-safeway": [
+      "SAF07Z-0547"
+    ],
+    "grand terrace-stater bros.": [
+      "STB05X-0188"
+    ],
+    "grants pass-safeway": [
+      "SAF07Y-0290",
+      "SAF07Y-0379"
+    ],
+    "grants pass-albertsons": [
+      "ALB07Y-3541"
+    ],
+    "grants pass-fred meyer": [
+      "FME07Y-0126"
+    ],
+    "gresham-safeway": [
+      "SAF07Z-0430",
+      "SAF07Z-1070"
+    ],
+    "gresham-fred meyer": [
+      "FME07Z-0127"
+    ],
+    "happy valley-fred meyer": [
+      "FME07Z-0153",
+      "FME07Z-0694"
+    ],
+    "hesperia-stater bros.": [
+      "STB05X-0122",
+      "STB05X-0190"
+    ],
+    "highland-albertsons": [
+      "ALB05X-6503"
+    ],
+    "highland-stater bros.": [
+      "STB05X-0058",
+      "STB05X-0210",
+      "STB05X-0182"
+    ],
+    "highland-food 4 less": [
+      "FFL05X-0385"
+    ],
+    "hillsboro-albertsons": [
+      "ALB07Y-0590"
+    ],
+    "hillsboro-safeway": [
+      "SAF07Y-1203",
+      "SAF07Y-0591",
+      "SAF07Y-1230"
+    ],
+    "hillsboro-fred meyer": [
+      "FME07Y-0661",
+      "FME07Y-0143"
+    ],
+    "hood river-safeway": [
+      "SAF07Z-1123"
+    ],
+    "hood river-rosauers": [
+      "ROS07Z-0016"
+    ],
+    "indio-stater bros.": [
+      "STB05X-0094"
+    ],
+    "indio-food 4 less": [
+      "FFL05X-0765"
+    ],
+    "indio-ralphs": [
+      "RAL05X-0160"
+    ],
+    "issaquah-quality food center": [
+      "QFC07X-0821"
+    ],
+    "issaquah-safeway": [
+      "SAF07X-1624",
+      "SAF07X-3006"
+    ],
+    "issaquah-fred meyer": [
+      "FME07X-0658"
+    ],
+    "junction city-safeway": [
+      "SAF07Y-0386"
+    ],
+    "keizer-safeway": [
+      "SAF07Y-1516"
+    ],
+    "kelso-safeway": [
+      "SAF07Z-2637"
+    ],
+    "kenmore-safeway": [
+      "SAF07X-3500"
+    ],
+    "kent-quality food center": [
+      "QFC07X-0803"
+    ],
+    "kent-safeway": [
+      "SAF07X-0459",
+      "SAF07X-1294",
+      "SAF07X-0792",
+      "SAF07X-1966"
+    ],
+    "kent-fred meyer": [
+      "FME07X-0215"
+    ],
+    "king city-safeway": [
+      "SAF07Y-1478"
+    ],
+    "kingston-safeway": [
+      "SAF07X-0186"
+    ],
+    "kirkland-quality food center": [
+      "QFC07X-0828",
+      "QFC07X-0894",
+      "QFC07X-0838"
+    ],
+    "kirkland-safeway": [
+      "SAF07X-0526",
+      "SAF07X-1142",
+      "SAF07X-2734"
+    ],
+    "kirkland-fred meyer": [
+      "FME07X-0391"
+    ],
+    "klamath falls-albertsons": [
+      "ALB07Y-0577"
+    ],
+    "klamath falls-fred meyer": [
+      "FME07Y-0165"
+    ],
+    "la grande-safeway": [
+      "SAF07Y-1827"
+    ],
+    "la quinta-stater bros.": [
+      "STB05X-0128"
+    ],
+    "la quinta-vons": [
+      "VON05X-2175"
+    ],
+    "la verne-stater bros.": [
+      "STB05X-0048"
+    ],
+    "la verne-vons": [
+      "VON05X-2832"
+    ],
+    "lacey-quality food center": [
+      "QFC07Z-0126"
+    ],
+    "lacey-safeway": [
+      "SAF07Z-1977"
+    ],
+    "lacey-fred meyer": [
+      "FME07Z-0186"
+    ],
+    "lake arrowhead-stater bros.": [
+      "STB05X-0092"
+    ],
+    "lake forest park-albertsons": [
+      "ALB07X-3416"
+    ],
+    "lake oswego-safeway": [
+      "SAF07Y-0508",
+      "SAF07Y-1047"
+    ],
+    "lake oswego-albertsons": [
+      "ALB07Y-3531"
+    ],
+    "lake stevens-haggen": [
+      "HAG07X-0071"
+    ],
+    "lake stevens-safeway": [
+      "SAF07X-1803"
+    ],
+    "lakeview-safeway": [
+      "SAF07Y-4316"
+    ],
+    "lakewood-safeway": [
+      "SAF07Z-3411",
+      "SAF07Z-1645"
+    ],
+    "lebanon-safeway": [
+      "SAF07Y-1558"
+    ],
+    "lincoln city-safeway": [
+      "SAF07Y-0415"
+    ],
+    "loma linda-stater bros.": [
+      "STB05X-0081"
+    ],
+    "longview-safeway": [
+      "SAF07Z-1078",
+      "SAF07Z-0091"
+    ],
+    "longview-fred meyer": [
+      "FME07Z-0185"
+    ],
+    "lynden-food pavillion": [
+      "FPV07X-0441"
+    ],
+    "lynden-safeway": [
+      "SAF07X-1930"
+    ],
+    "lynnwood-safeway": [
+      "SAF07X-0485",
+      "SAF07X-0469",
+      "SAF07X-3523"
+    ],
+    "lynnwood-quality food center": [
+      "QFC07X-0835"
+    ],
+    "lynnwood-fred meyer": [
+      "FME07X-0688",
+      "FME07X-0180"
+    ],
+    "madras-safeway": [
+      "SAF07Z-1960"
+    ],
+    "maple valley-quality food center": [
+      "QFC07X-0837"
+    ],
+    "maple valley-safeway": [
+      "SAF07X-1471"
+    ],
+    "maple valley-fred meyer": [
+      "FME07X-0682"
+    ],
+    "marysville-haggen": [
+      "HAG07X-3604"
+    ],
+    "marysville-safeway": [
+      "SAF07X-1485"
+    ],
+    "marysville-albertsons": [
+      "ALB07X-0471"
+    ],
+    "marysville-fred meyer": [
+      "FME07X-0209"
+    ],
+    "mcminnville-albertsons": [
+      "ALB07Y-0528"
+    ],
+    "mcminnville-safeway": [
+      "SAF07Y-1601"
+    ],
+    "medford-albertsons": [
+      "ALB07Y-3508",
+      "ALB07Y-3593"
+    ],
+    "medford-safeway": [
+      "SAF07Y-1643",
+      "SAF07Y-0525"
+    ],
+    "medford-fred meyer": [
+      "FME07Y-0196",
+      "FME07Y-0195"
+    ],
+    "mercer island-quality food center": [
+      "QFC07X-0806",
+      "QFC07X-0839"
+    ],
+    "mill creek-safeway": [
+      "SAF07X-0458"
+    ],
+    "milton-safeway": [
+      "SAF07Z-3545"
+    ],
+    "milwaukie-safeway": [
+      "SAF07Z-2690",
+      "SAF07Y-2696"
+    ],
+    "milwaukie-fred meyer": [
+      "FME07Y-0240"
+    ],
+    "mira loma-stater bros.": [
+      "STB05X-0088"
+    ],
+    "molalla-safeway": [
+      "SAF07Y-1751"
+    ],
+    "monroe-safeway": [
+      "SAF07X-0537"
+    ],
+    "monroe-fred meyer": [
+      "FME07X-0210"
+    ],
+    "montclair-stater bros.": [
+      "STB05X-0073"
+    ],
+    "moreno valley-food 4 less": [
+      "FFL05X-0302",
+      "FFL05X-0398"
+    ],
+    "moreno valley-stater bros.": [
+      "STB05X-0185",
+      "STB05X-0193",
+      "STB05X-0172"
+    ],
+    "mount vernon-haggen": [
+      "HAG07X-0069"
+    ],
+    "mount vernon-safeway": [
+      "SAF07X-1472"
+    ],
+    "mountlake terrace-quality food center": [
+      "QFC07X-0857"
+    ],
+    "mountlake terrace-safeway": [
+      "SAF07X-0414"
+    ],
+    "mukilteo-quality food center": [
+      "QFC07X-0832"
+    ],
+    "newberg-safeway": [
+      "SAF07Y-2623"
+    ],
+    "newberg-fred meyer": [
+      "FME07Y-0220"
+    ],
+    "newcastle-quality food center": [
+      "QFC07X-0827"
+    ],
+    "newcastle-safeway": [
+      "SAF07X-0558"
+    ],
+    "newport-safeway": [
+      "SAF07Y-0378"
+    ],
+    "newport-fred meyer": [
+      "FME07Y-0227"
+    ],
+    "norco-stater bros.": [
+      "STB05X-0044",
+      "STB05X-0199"
+    ],
+    "north bend-quality food center": [
+      "QFC07X-0829"
+    ],
+    "north bend-safeway": [
+      "SAF07X-1528",
+      "SAF07Y-1557"
+    ],
+    "oak harbor-saars": [
+      "SAR07X-0610"
+    ],
+    "oak harbor-haggen": [
+      "HAG07X-3427"
+    ],
+    "oak harbor-safeway": [
+      "SAF07X-0402"
+    ],
+    "olympia-safeway": [
+      "SAF07Z-1952",
+      "SAF07Z-0543",
+      "SAF07Z-1173",
+      "SAF07Z-1464"
+    ],
+    "olympia-haggen": [
+      "HAG07Z-3444"
+    ],
+    "olympia-albertsons": [
+      "ALB07Z-3417"
+    ],
+    "ontario-food 4 less": [
+      "FFL05X-0320"
+    ],
+    "ontario-ralphs": [
+      "RAL05X-0752"
+    ],
+    "ontario-stater bros.": [
+      "STB05X-0108",
+      "STB05X-0059",
+      "STB05X-0204",
+      "STB05X-0085",
+      "STB05X-0208"
+    ],
+    "oregon city-albertsons": [
+      "ALB07Y-0571"
+    ],
+    "oregon city-safeway": [
+      "SAF07Y-2993"
+    ],
+    "oregon city-fred meyer": [
+      "FME07Y-0242"
+    ],
+    "orting-safeway": [
+      "SAF07Z-1844"
+    ],
+    "palm desert-ralphs": [
+      "RAL05X-0027"
+    ],
+    "palm desert-albertsons": [
+      "ALB05X-6567",
+      "ALB05X-6559"
+    ],
+    "palm desert-stater bros.": [
+      "STB05X-0181"
+    ],
+    "palm springs-vons": [
+      "VON05X-2384"
+    ],
+    "palm springs-albertsons": [
+      "ALB05X-6569"
+    ],
+    "palm springs-ralphs": [
+      "RAL05X-0181",
+      "RAL05X-0611"
+    ],
+    "palm springs-stater bros.": [
+      "STB05X-0126"
+    ],
+    "parkland-saars": [
+      "SAR07Z-0488"
+    ],
+    "phelan-stater bros.": [
+      "STB05X-0116"
+    ],
+    "pomona-stater bros.": [
+      "STB05X-0019"
+    ],
+    "pomona-food 4 less": [
+      "FFL05X-0358"
+    ],
+    "port angeles-saars": [
+      "SAR07X-0630"
+    ],
+    "port angeles-safeway": [
+      "SAF07X-1922",
+      "SAF07X-1492"
+    ],
+    "port hadlock-quality food center": [
+      "QFC07X-0870"
+    ],
+    "port orchard-safeway": [
+      "SAF07X-3317"
+    ],
+    "port orchard-albertsons": [
+      "ALB07X-0475",
+      "ALB07X-0419"
+    ],
+    "port orchard-fred meyer": [
+      "FME07X-0655"
+    ],
+    "port townsend-safeway": [
+      "SAF07X-4608",
+      "SAF07X-0538"
+    ],
+    "port townsend-quality food center": [
+      "QFC07X-0106"
+    ],
+    "portland-albertsons": [
+      "ALB07Y-0596",
+      "ALB07Z-0564",
+      "ALB07Z-0575"
+    ],
+    "portland-quality food center": [
+      "QFC07Z-0206",
+      "QFC07Y-0202",
+      "QFC07Z-0205",
+      "QFC07Y-0201"
+    ],
+    "portland-safeway": [
+      "SAF07Y-3136",
+      "SAF07Y-2448",
+      "SAF07Z-0382",
+      "SAF07Y-2790",
+      "SAF07Z-3134",
+      "SAF07Z-1612",
+      "SAF07Z-0509",
+      "SAF07Z-1627",
+      "SAF07Z-1951",
+      "SAF07Y-1525",
+      "SAF07Z-1523",
+      "SAF07Z-1447"
+    ],
+    "portland-fred meyer": [
+      "FME07Z-0075",
+      "FME07Z-0255",
+      "FME07Z-0125",
+      "FME07Y-0360",
+      "FME07Z-0600",
+      "FME07Y-0040",
+      "FME07Z-0135",
+      "FME07Y-0285",
+      "FME07Z-0150"
+    ],
+    "poulsbo-safeway": [
+      "SAF07X-3148"
+    ],
+    "puyallup-albertsons": [
+      "ALB07Z-3106"
+    ],
+    "puyallup-safeway": [
+      "SAF07Z-0422",
+      "SAF07Z-1798",
+      "SAF07Z-2729",
+      "SAF07Z-3228",
+      "SAF07Z-2640"
+    ],
+    "puyallup-fred meyer": [
+      "FME07Z-0265"
+    ],
+    "rancho cucamonga-vons": [
+      "VON05X-1914",
+      "VON05X-2147"
+    ],
+    "rancho cucamonga-albertsons": [
+      "ALB05X-6520",
+      "ALB05X-3177"
+    ],
+    "rancho cucamonga-ralphs": [
+      "RAL05X-0700",
+      "RAL05X-0717",
+      "RAL05X-0013"
+    ],
+    "rancho cucamonga-food 4 less": [
+      "FFL05X-0328"
+    ],
+    "rancho cucamonga-stater bros.": [
+      "STB05X-0078",
+      "STB05X-0200"
+    ],
+    "rancho mirage-albertsons": [
+      "ALB05X-6586"
+    ],
+    "redlands-food 4 less": [
+      "FFL05X-0311"
+    ],
+    "redlands-vons": [
+      "VON05X-1734"
+    ],
+    "redlands-stater bros.": [
+      "STB05X-0112",
+      "STB05X-0018",
+      "STB05X-0191"
+    ],
+    "redlands-albertsons": [
+      "ALB05X-6519"
+    ],
+    "redmond-quality food center": [
+      "QFC07X-0878",
+      "QFC07X-0820",
+      "QFC07X-0860"
+    ],
+    "redmond-albertsons": [
+      "ALB07X-2072"
+    ],
+    "redmond-safeway": [
+      "SAF07X-0496",
+      "SAF07X-0464",
+      "SAF07Z-1665"
+    ],
+    "redmond-fred meyer": [
+      "FME07Z-0650"
+    ],
+    "reedsport-safeway": [
+      "SAF07Y-0284"
+    ],
+    "renton-saars": [
+      "SAR07X-0490"
+    ],
+    "renton-albertsons": [
+      "ALB07X-0453"
+    ],
+    "renton-safeway": [
+      "SAF07X-0366",
+      "SAF07X-0519",
+      "SAF07X-1563",
+      "SAF07X-3319"
+    ],
+    "renton-quality food center": [
+      "QFC07X-0871"
+    ],
+    "renton-fred meyer": [
+      "FME07X-0459",
+      "FME07X-0031"
+    ],
+    "rialto-food 4 less": [
+      "FFL05X-0303"
+    ],
+    "rialto-stater bros.": [
+      "STB05X-0012",
+      "STB05X-0043"
+    ],
+    "ridgefield-rosauers": [
+      "ROS07Z-0042"
+    ],
+    "riverside-ralphs": [
+      "RAL05X-0098",
+      "RAL05X-0144",
+      "RAL05X-0609"
+    ],
+    "riverside-food 4 less": [
+      "FFL05X-0343",
+      "FFL05X-0329"
+    ],
+    "riverside-stater bros.": [
+      "STB05X-0014",
+      "STB05X-0115",
+      "STB05X-0001",
+      "STB05X-0042",
+      "STB05X-0069",
+      "STB05X-0090",
+      "STB05X-0080",
+      "STB05X-0207",
+      "STB05X-0022",
+      "STB05X-0192",
+      "STB05X-0114",
+      "STB05X-0201"
+    ],
+    "riverside-vons": [
+      "VON05X-2659"
+    ],
+    "riverside-albertsons": [
+      "ALB05X-6572",
+      "ALB05X-6514"
+    ],
+    "roseburg-sherms market": [
+      "SHM07Y-0004"
+    ],
+    "roseburg-safeway": [
+      "SAF07Y-1666"
+    ],
+    "roseburg-fred meyer": [
+      "FME07Y-0281"
+    ],
+    "salem-safeway": [
+      "SAF07Y-0429",
+      "SAF07Y-1629",
+      "SAF07Y-0412",
+      "SAF07Y-1935"
+    ],
+    "salem-fred meyer": [
+      "FME07Y-0225",
+      "FME07Y-0355",
+      "FME07Y-0090"
+    ],
+    "sammamish-quality food center": [
+      "QFC07X-0824",
+      "QFC07X-0840"
+    ],
+    "sammamish-safeway": [
+      "SAF07X-0555"
+    ],
+    "san bernardino-food 4 less": [
+      "FFL05X-0301"
+    ],
+    "san bernardino-stater bros.": [
+      "STB05X-0002",
+      "STB05X-0008",
+      "STB05X-0024",
+      "STB05X-0107",
+      "STB05X-0036"
+    ],
+    "san bernardino-ralphs": [
+      "RAL05X-0753"
+    ],
+    "sandy-safeway": [
+      "SAF07Z-0782"
+    ],
+    "sandy-fred meyer": [
+      "FME07Z-0663"
+    ],
+    "scappoose-fred meyer": [
+      "FME07Z-0462"
+    ],
+    "seaside-safeway": [
+      "SAF07Z-1260"
+    ],
+    "seattle-albertsons": [
+      "ALB07X-0408"
+    ],
+    "seattle-quality food center": [
+      "QFC07X-0883",
+      "QFC07X-0825",
+      "QFC07X-0849",
+      "QFC07X-0872",
+      "QFC07X-0891",
+      "QFC07X-0805",
+      "QFC07X-0881",
+      "QFC07X-0807",
+      "QFC07X-0866",
+      "QFC07X-0811",
+      "QFC07X-0858",
+      "QFC07X-0869",
+      "QFC07X-0887",
+      "QFC07X-0847"
+    ],
+    "seattle-safeway": [
+      "SAF07X-0219",
+      "SAF07X-1062",
+      "SAF07X-1885",
+      "SAF07X-3275",
+      "SAF07X-0423",
+      "SAF07X-1493",
+      "SAF07X-1477",
+      "SAF07X-1508",
+      "SAF07X-1586",
+      "SAF07X-2932",
+      "SAF07X-1993",
+      "SAF07X-1550",
+      "SAF07X-1965",
+      "SAF07X-1551",
+      "SAF07X-3091",
+      "SAF07X-1143",
+      "SAF07X-1923"
+    ],
+    "seattle-saars": [
+      "SAR07X-0530"
+    ],
+    "seattle-fred meyer": [
+      "FME07X-0608",
+      "FME07X-0122"
+    ],
+    "sedro woolley-food pavillion": [
+      "FPV07X-0022"
+    ],
+    "sequim-quality food center": [
+      "QFC07X-0841"
+    ],
+    "sequim-safeway": [
+      "SAF07X-1448"
+    ],
+    "shelton-fred meyer": [
+      "FME07X-0603"
+    ],
+    "shelton-safeway": [
+      "SAF07X-0585"
+    ],
+    "sherwood-safeway": [
+      "SAF07Y-1800"
+    ],
+    "shoreline-quality food center": [
+      "QFC07X-0816"
+    ],
+    "shoreline-safeway": [
+      "SAF07X-0497",
+      "SAF07X-3213"
+    ],
+    "shoreline-fred meyer": [
+      "FME07X-0013"
+    ],
+    "silverdale-safeway": [
+      "SAF07X-1680"
+    ],
+    "silverton-safeway": [
+      "SAF07Y-1580"
+    ],
+    "snohomish-safeway": [
+      "SAF07X-1076",
+      "SAF07X-3419"
+    ],
+    "snohomish-haggen": [
+      "HAG07X-0057"
+    ],
+    "snohomish-fred meyer": [
+      "FME07X-0681"
+    ],
+    "snoqualmie-safeway": [
+      "SAF07X-3613"
+    ],
+    "south hill-fred meyer": [
+      "FME07Z-0424"
+    ],
+    "spanaway-fred meyer": [
+      "FME07Z-0604"
+    ],
+    "springfield-albertsons": [
+      "ALB07Y-0570",
+      "ALB07Y-0574"
+    ],
+    "springfield-safeway": [
+      "SAF07Y-1094"
+    ],
+    "springfield-fred meyer": [
+      "FME07Y-0328"
+    ],
+    "st. helens-safeway": [
+      "SAF07Z-0424"
+    ],
+    "stanwood-haggen": [
+      "HAG07X-3480"
+    ],
+    "stanwood-quality food center": [
+      "QFC07X-0879"
+    ],
+    "stayton-safeway": [
+      "SAF07Y-1527"
+    ],
+    "sumner-safeway": [
+      "SAF07Z-0544"
+    ],
+    "sumner-fred meyer": [
+      "FME07Z-0665"
+    ],
+    "sweet home-safeway": [
+      "SAF07Y-1710"
+    ],
+    "tacoma-quality food center": [
+      "QFC07Z-0105",
+      "QFC07Z-0831"
+    ],
+    "tacoma-safeway": [
+      "SAF07Z-0329",
+      "SAF07Z-1437",
+      "SAF07Z-1594",
+      "SAF07Z-3424",
+      "SAF07Z-3305",
+      "SAF07Z-0486",
+      "SAF07Z-1436",
+      "SAF07X-1978"
+    ],
+    "tacoma-albertsons": [
+      "ALB07Z-0493"
+    ],
+    "tacoma-fred meyer": [
+      "FME07Z-0605",
+      "FME07Z-0390"
+    ],
+    "the dalles-safeway": [
+      "SAF07Z-1489"
+    ],
+    "the dalles-fred meyer": [
+      "FME07Z-0372"
+    ],
+    "tigard-safeway": [
+      "SAF07Y-3542"
+    ],
+    "tigard-fred meyer": [
+      "FME07Y-0375"
+    ],
+    "tillamook-safeway": [
+      "SAF07Y-2723"
+    ],
+    "tillamook-fred meyer": [
+      "FME07Y-0377"
+    ],
+    "troutdale-safeway": [
+      "SAF07Z-0536"
+    ],
+    "tualatin-fred meyer": [
+      "FME07Y-0393"
+    ],
+    "tukwila-saars": [
+      "SAR07X-0624"
+    ],
+    "tumwater-safeway": [
+      "SAF07Z-1407",
+      "SAF07Z-1503"
+    ],
+    "tumwater-fred meyer": [
+      "FME07Z-0659"
+    ],
+    "twentynine palms-stater bros.": [
+      "STB05X-0105"
+    ],
+    "university place-fred meyer": [
+      "FME07Z-0615"
+    ],
+    "upland-stater bros.": [
+      "STB05X-0045",
+      "STB05X-0065"
+    ],
+    "upland-vons": [
+      "VON05X-2681"
+    ],
+    "upland-albertsons": [
+      "ALB05X-0599"
+    ],
+    "vancouver-safeway": [
+      "SAF07Z-0400",
+      "SAF07Z-1103",
+      "SAF07Z-1842",
+      "SAF07Z-1611",
+      "SAF07Z-1704",
+      "SAF07Z-4405",
+      "SAF07Z-1653"
+    ],
+    "vancouver-quality food center": [
+      "QFC07Z-0212"
+    ],
+    "vancouver-albertsons": [
+      "ALB07Z-0580"
+    ],
+    "vancouver-fred meyer": [
+      "FME07Z-0140",
+      "FME07Z-0208",
+      "FME07Z-0093",
+      "FME07Z-0683",
+      "FME07Z-0236",
+      "FME07Z-0460"
+    ],
+    "victorville-food 4 less": [
+      "FFL05X-0397",
+      "FFL05X-0305"
+    ],
+    "victorville-vons": [
+      "VON05X-2131"
+    ],
+    "victorville-stater bros.": [
+      "STB05X-0123",
+      "STB05X-0118"
+    ],
+    "warrenton-fred meyer": [
+      "FME07Z-0218"
+    ],
+    "washougal-safeway": [
+      "SAF07Z-1687"
+    ],
+    "west linn-safeway": [
+      "SAF07Y-1713"
+    ],
+    "wilsonville-safeway": [
+      "SAF07Y-0285"
+    ],
+    "wilsonville-fred meyer": [
+      "FME07Y-0516"
+    ],
+    "wood village-fred meyer": [
+      "FME07Z-0660"
+    ],
+    "woodburn-safeway": [
+      "SAF07Y-1976"
+    ],
+    "woodinville-safeway": [
+      "SAF07X-0533"
+    ],
+    "woodinville-haggen": [
+      "HAG07X-3498"
+    ],
+    "woodland-safeway": [
+      "SAF07Z-1762"
+    ],
+    "yelm-safeway": [
+      "SAF07Z-1619"
+    ],
+    "yucaipa-stater bros.": [
+      "STB05X-0023",
+      "STB05X-0125"
+    ],
+    "yucaipa-vons": [
+      "VON05X-1796"
+    ],
+    "yucca valley-vons": [
+      "VON05X-3058"
+    ],
+    "yucca valley-stater bros.": [
+      "STB05X-0096",
+      "STB05X-0120"
+    ]
+  },
+  "by_street": {
+    "221 w heron st": [
+      "SAF07X-1546"
+    ],
+    "14168 us hwy 395": [
+      "STB05X-0176"
+    ],
+    "1990 14th ave se": [
+      "SAF07Y-1659"
+    ],
+    "2500 santiam highway southeast": [
+      "FME07Y-0005"
+    ],
+    "20535 sw tv highway": [
+      "SAF07Y-1889"
+    ],
+    "6055 sw 185th ave": [
+      "SAF07Y-3557"
+    ],
+    "8770 baseline rd": [
+      "STB05X-0053"
+    ],
+    "911 11th street": [
+      "SAF07X-0593"
+    ],
+    "20801 bear valley road": [
+      "FFL05X-0782"
+    ],
+    "20261 hwy 18": [
+      "ALB05X-6513"
+    ],
+    "21602 bear valley rd": [
+      "STB05X-0110"
+    ],
+    "12253 apple valley rd": [
+      "STB05X-0178"
+    ],
+    "20500 olympic place": [
+      "SAF07X-1522"
+    ],
+    "3532 172nd street ne": [
+      "SAF07X-0534"
+    ],
+    "585 siskiyou blvd": [
+      "SAF07Y-3212"
+    ],
+    "2301 ashland st": [
+      "ALB07Y-0573"
+    ],
+    "3250 leif erikson dr": [
+      "SAF07Z-2627"
+    ],
+    "1702 auburn way n": [
+      "SAR07X-0622"
+    ],
+    "1406 lake tapps pkwy e": [
+      "HAG07X-3438"
+    ],
+    "4010 a street": [
+      "SAF07X-4483"
+    ],
+    "101 auburn way s": [
+      "SAF07X-0531"
+    ],
+    "801 auburn way north": [
+      "FME07X-0019"
+    ],
+    "253 high school rd ne": [
+      "SAF07X-1252"
+    ],
+    "300 s highland springs ave #7": [
+      "ALB05X-6512"
+    ],
+    "580 e virginia way": [
+      "FFL05X-0312"
+    ],
+    "957 armory rd": [
+      "STB05X-0101"
+    ],
+    "2108 w main street": [
+      "ALB07Z-2592"
+    ],
+    "904 w main st": [
+      "SAF07Z-4313"
+    ],
+    "401 northwest 12th avenue": [
+      "FME07Z-0614"
+    ],
+    "1691 e 6th st": [
+      "FFL05X-0386"
+    ],
+    "1661 e 6th st": [
+      "STB05X-0086"
+    ],
+    "1430 beaumont ave.": [
+      "STB05X-0173"
+    ],
+    "6194 sw murray blvd": [
+      "SAF07Y-1073"
+    ],
+    "14555 sw teal blvd": [
+      "SAF07Y-2631"
+    ],
+    "15995 southwest walker road": [
+      "FME07Y-0482"
+    ],
+    "11425 sw beaverton hillsdale hwy": [
+      "FME07Y-0035"
+    ],
+    "201 ne state route 300": [
+      "QFC07X-0101"
+    ],
+    "23961 ne state route 3": [
+      "SAF07X-1571"
+    ],
+    "2636 bellevue way ne": [
+      "QFC07X-0859"
+    ],
+    "3550 128th avenue se": [
+      "QFC07X-0822"
+    ],
+    "15600 ne 8th street": [
+      "QFC07X-0826"
+    ],
+    "1510 145th place se": [
+      "QFC07X-0874"
+    ],
+    "15100 s.e. 38th st": [
+      "SAF07X-1444"
+    ],
+    "1645 140th avenue ne": [
+      "SAF07X-0490"
+    ],
+    "300 bellevue way ne": [
+      "SAF07X-1600"
+    ],
+    "2041 148th ave ne": [
+      "FME07X-0023"
+    ],
+    "10116 ne 8th street": [
+      "QFC07X-0808"
+    ],
+    "2900 woburn st": [
+      "HAG07X-3460"
+    ],
+    "2814 meridian st": [
+      "HAG07X-3430"
+    ],
+    "1401 12th st": [
+      "HAG07X-3439"
+    ],
+    "210 36th st": [
+      "HAG07X-0043"
+    ],
+    "1275 e sunset dr": [
+      "SAF07X-3285"
+    ],
+    "1225 west bakerview road": [
+      "FME07X-0667"
+    ],
+    "800 lakeway dr": [
+      "FME07X-0025"
+    ],
+    "1800 n.e. 3rd street": [
+      "ALB07Z-2599"
+    ],
+    "61155 s hwy 97": [
+      "ALB07Z-3553"
+    ],
+    "642 ne 3rd street": [
+      "SAF07Z-0514"
+    ],
+    "320 sw century dr": [
+      "SAF07Z-1888"
+    ],
+    "61535 s hwy 97": [
+      "FME07Z-0021"
+    ],
+    "2650 ne hwy 20": [
+      "SAF07Z-1504"
+    ],
+    "42150 washington street": [
+      "RAL05X-0681"
+    ],
+    "42170 big bear boulevard": [
+      "VON05X-2374"
+    ],
+    "42171 big bear blvd": [
+      "STB05X-0091"
+    ],
+    "1045 bloomington ave": [
+      "STB05X-0061"
+    ],
+    "840 e hobsonway": [
+      "ALB05X-6587"
+    ],
+    "20904 highway 410": [
+      "FME07Z-0041"
+    ],
+    "3322 132nd st s.e.": [
+      "SAF07X-1413"
+    ],
+    "18921 bothell way ne": [
+      "QFC07X-0819"
+    ],
+    "22833 bothell everett hwy": [
+      "QFC07X-0850"
+    ],
+    "20711 bothell everett hwy": [
+      "SAF07X-0535"
+    ],
+    "24040 bothell everett hwy": [
+      "SAF07X-1864"
+    ],
+    "21045 bothell everett hwy": [
+      "FME07X-0457"
+    ],
+    "900 n callow ave": [
+      "SAF07X-1467"
+    ],
+    "1401 n.e. mcwilliams": [
+      "SAF07X-1524"
+    ],
+    "5050 state highway 303 northeast": [
+      "FME07X-0171"
+    ],
+    "325 5th st": [
+      "FME07Y-0030"
+    ],
+    "12725 first ave st": [
+      "SAF07X-3120"
+    ],
+    "138 southwest 148th street": [
+      "SAF07X-1664"
+    ],
+    "14300 1st ave s": [
+      "FME07X-0028"
+    ],
+    "757 haggen drive": [
+      "HAG07X-0015"
+    ],
+    "920 south burlington boulevard": [
+      "FME07X-0024"
+    ],
+    "246 west monroe": [
+      "SAF07Y-4469"
+    ],
+    "1155 calimesa blvd": [
+      "STB05X-0071"
+    ],
+    "1004 cherry valley blvd": [
+      "STB05X-0205"
+    ],
+    "800 ne 3rd ave": [
+      "SAF07Z-1287"
+    ],
+    "1051 sw 1st avenue": [
+      "SAF07Y-2604"
+    ],
+    "1401 southeast first": [
+      "FME07Y-0651"
+    ],
+    "34251 date palm dr": [
+      "FFL05X-0308"
+    ],
+    "67800 vista chino": [
+      "STB05X-0183"
+    ],
+    "69255 ramon rd": [
+      "STB05X-0127"
+    ],
+    "1360 plaza blvd": [
+      "ALB07Y-0595"
+    ],
+    "505 south tower": [
+      "SNK07Z-0381"
+    ],
+    "1129 harrison avenue": [
+      "SAF07Z-1495"
+    ],
+    "1100 s market blvd": [
+      "SAF07Z-3525"
+    ],
+    "4721 riverside drive": [
+      "STB05X-0052"
+    ],
+    "12013 central ave": [
+      "ALB05X-6524"
+    ],
+    "8373 pine ave": [
+      "STB05X-0209"
+    ],
+    "6989 schaefer ave.": [
+      "STB05X-0184"
+    ],
+    "3255 grand ave": [
+      "ALB05X-6515"
+    ],
+    "14250 chino hills pkwy.": [
+      "STB05X-0169"
+    ],
+    "15970 los serranos country club dr": [
+      "ALB05X-6592"
+    ],
+    "16301 se 82nd dr": [
+      "FME07Y-0063"
+    ],
+    "12032 se sunnyside rd": [
+      "SAF07Z-1231"
+    ],
+    "1055 w foothill blvd": [
+      "STB05X-0049"
+    ],
+    "550 east baseline road": [
+      "VON05X-2155"
+    ],
+    "401 e columbia river hwy": [
+      "SAF07Y-4318"
+    ],
+    "49241 grapefruit blvd": [
+      "FFL05X-0517"
+    ],
+    "1150 n pepper ave": [
+      "FFL05X-0786"
+    ],
+    "151 east valley blvd.": [
+      "STB05X-0003"
+    ],
+    "2053 e washington st": [
+      "STB05X-0117"
+    ],
+    "1020 s 1st st": [
+      "FME07Y-0050"
+    ],
+    "230 e johnson ave": [
+      "SAF07Y-1556"
+    ],
+    "155 east first street": [
+      "SAF07Y-4262"
+    ],
+    "2200 baseline st": [
+      "FME07Y-0060"
+    ],
+    "1193 magnolia ave": [
+      "STB05X-0103"
+    ],
+    "535 n mckinley street": [
+      "VON05X-2381"
+    ],
+    "1288 border avenue": [
+      "STB05X-0062"
+    ],
+    "550 hidden valley parkway": [
+      "STB05X-0171"
+    ],
+    "369 magnolia ave": [
+      "VON05X-2596"
+    ],
+    "2661 green river rd": [
+      "RAL05X-0136"
+    ],
+    "12660 limonite ave": [
+      "RAL05X-0045"
+    ],
+    "2243 eagle glen parkway": [
+      "STB05X-0170"
+    ],
+    "7070 archibald ave": [
+      "ALB05X-6641"
+    ],
+    "260 west foothill pkwy": [
+      "ALB05X-6728"
+    ],
+    "11800 de palma rd": [
+      "VON05X-2818"
+    ],
+    "590 ne circle boulevard": [
+      "SAF07Y-1690"
+    ],
+    "450 southwest third avenue": [
+      "SAF07Y-4333"
+    ],
+    "777 kings boulevard": [
+      "FME07Y-0070"
+    ],
+    "5270 sw philomath blvd": [
+      "SAF07Y-1765"
+    ],
+    "1500 e main st": [
+      "SAF07Y-1458"
+    ],
+    "16735 southeast 272nd street": [
+      "FME07X-0053"
+    ],
+    "138 w ellendale ave": [
+      "SAF07Y-4404"
+    ],
+    "20151 southeast highway 212": [
+      "SAF07Z-0521"
+    ],
+    "27035 pacific highway south": [
+      "SAF07X-1186"
+    ],
+    "21401 pacific hwy s": [
+      "SAF07X-3540"
+    ],
+    "14200 palm dr": [
+      "VON05X-2177"
+    ],
+    "13200 palm dr": [
+      "STB05X-0084"
+    ],
+    "14020 main st northeast": [
+      "SAF07X-1572"
+    ],
+    "6170 hamner ave": [
+      "VON05X-2688"
+    ],
+    "23632 hwy 99": [
+      "SAF07X-1297"
+    ],
+    "22828 100th ave w": [
+      "QFC07X-0851"
+    ],
+    "601 west north street": [
+      "SAF07Y-0371"
+    ],
+    "1009 monroe avenue": [
+      "QFC07Z-0863"
+    ],
+    "152 roosevelt ave": [
+      "SAF07Z-0494"
+    ],
+    "55 division ave": [
+      "ALB07Y-0560"
+    ],
+    "3075 hilyard st.": [
+      "ALB07Y-3564"
+    ],
+    "350 e 40th ave": [
+      "SAF07Y-4513"
+    ],
+    "311 coburg rd": [
+      "ALB07Y-0572"
+    ],
+    "1675 w 18th ave": [
+      "ALB07Y-3529"
+    ],
+    "4740 royal ave": [
+      "ALB07Y-0513"
+    ],
+    "1500 coburg rd": [
+      "SAF07Y-0420"
+    ],
+    "145 e 18th ave": [
+      "SAF07Y-4288"
+    ],
+    "3333 w 11th ave": [
+      "FME07Y-0417"
+    ],
+    "60 division ave": [
+      "FME07Y-0325"
+    ],
+    "4919 evergreen way": [
+      "QFC07X-0852"
+    ],
+    "2615 broadway ave": [
+      "QFC07X-0853"
+    ],
+    "5802 134th pl se": [
+      "SAF07X-2645"
+    ],
+    "520 128th st sw": [
+      "SAF07X-1461"
+    ],
+    "11031 19th ave se": [
+      "SAF07X-0503"
+    ],
+    "1715 broadway dr.": [
+      "SAF07X-0474"
+    ],
+    "7601 evergreen way": [
+      "SAF07X-3298"
+    ],
+    "4128 rucker ave": [
+      "SAF07X-1484"
+    ],
+    "12906 bothell-everett hwy": [
+      "FME07X-0458"
+    ],
+    "28810 military rd s.": [
+      "SAF07X-0477"
+    ],
+    "1207 s 320th st": [
+      "SAF07X-1555"
+    ],
+    "33702 21st avenue southwest": [
+      "FME07X-0111"
+    ],
+    "1815 main street": [
+      "HAG07X-0063"
+    ],
+    "700 highway 101": [
+      "SAF07Y-0363"
+    ],
+    "4701 highway 101": [
+      "FME07Y-0464"
+    ],
+    "16991 valley blvd": [
+      "FFL05X-0389"
+    ],
+    "8228 sierra ave": [
+      "STB05X-0005"
+    ],
+    "18140 arrow blvd": [
+      "STB05X-0095"
+    ],
+    "16225 sierra lakes parkway": [
+      "RAL05X-0113"
+    ],
+    "11225 sierra ave": [
+      "STB05X-0179"
+    ],
+    "7390 cherry ave": [
+      "VON05X-1742"
+    ],
+    "15222 summit avenue": [
+      "STB05X-0175"
+    ],
+    "2836 pacific ave": [
+      "SAF07Y-0406"
+    ],
+    "4831 point fosdick dr nw": [
+      "SAF07X-3321"
+    ],
+    "5502 point fosdick dr nw": [
+      "FME07X-0691"
+    ],
+    "11330 n w 51st ave": [
+      "SAF07X-4406"
+    ],
+    "95 82nd drive": [
+      "SAF07Y-4387"
+    ],
+    "10105 224th st e": [
+      "SAF07Z-0547"
+    ],
+    "22201 barton rd": [
+      "STB05X-0188"
+    ],
+    "115 se 7th street": [
+      "SAF07Y-0290"
+    ],
+    "1690 allen creek road": [
+      "ALB07Y-3541"
+    ],
+    "1640 williams highway": [
+      "SAF07Y-0379"
+    ],
+    "1101 grants pass parkway": [
+      "FME07Y-0126"
+    ],
+    "1455 ne division st": [
+      "SAF07Z-0430"
+    ],
+    "1001 sw highland dr": [
+      "SAF07Z-1070"
+    ],
+    "2497 se burnside rd": [
+      "FME07Z-0127"
+    ],
+    "8955 se 82nd ave": [
+      "FME07Z-0153"
+    ],
+    "17005 se sunnyside rd": [
+      "FME07Z-0694"
+    ],
+    "14466 main street": [
+      "STB05X-0122"
+    ],
+    "16904 main st": [
+      "STB05X-0190"
+    ],
+    "7201 boulder ave": [
+      "ALB05X-6503"
+    ],
+    "3633 highland ave": [
+      "STB05X-0058"
+    ],
+    "26529 highland ave": [
+      "FFL05X-0385"
+    ],
+    "27920 greenspot rd.": [
+      "STB05X-0210"
+    ],
+    "28988 greenspot rd": [
+      "STB05X-0182"
+    ],
+    "7500 w baseline": [
+      "ALB07Y-0590"
+    ],
+    "2525 se tualatin valley hwy": [
+      "SAF07Y-1203"
+    ],
+    "888 n.e. 25th ave": [
+      "SAF07Y-0591"
+    ],
+    "22075 northwest imbrie drive": [
+      "FME07Y-0661"
+    ],
+    "2177 nw 185th avenue": [
+      "SAF07Y-1230"
+    ],
+    "6495 se tualatin valley hwy": [
+      "FME07Y-0143"
+    ],
+    "2249 cascade avenue": [
+      "SAF07Z-1123"
+    ],
+    "1867 12th street": [
+      "ROS07Z-0016"
+    ],
+    "81056 us hwy 111": [
+      "STB05X-0094"
+    ],
+    "82124 us highway 111": [
+      "FFL05X-0765"
+    ],
+    "49908 jefferson st": [
+      "RAL05X-0160"
+    ],
+    "1540 gilman boulevard": [
+      "QFC07X-0821"
+    ],
+    "735 n w gilman boulevard": [
+      "SAF07X-1624"
+    ],
+    "6100 e lake sammamish pkwy se": [
+      "FME07X-0658"
+    ],
+    "1451 highlands drive": [
+      "SAF07X-3006"
+    ],
+    "1755 ivy st": [
+      "SAF07Y-0386"
+    ],
+    "4990 river rd n": [
+      "SAF07Y-1516"
+    ],
+    "411 three river drive": [
+      "SAF07Z-2637"
+    ],
+    "6850 n e bothell way": [
+      "SAF07X-3500"
+    ],
+    "13304 se 240th st": [
+      "QFC07X-0803"
+    ],
+    "20830 108th avenue southeast": [
+      "SAF07X-0459"
+    ],
+    "210 washington avenue south": [
+      "SAF07X-1294"
+    ],
+    "17051 se 272nd st": [
+      "SAF07X-0792"
+    ],
+    "13101 se kent kangley road": [
+      "SAF07X-1966"
+    ],
+    "25250 pacific highway south": [
+      "FME07X-0215"
+    ],
+    "15570 sw pacific hwy": [
+      "SAF07Y-1478"
+    ],
+    "8196 ne state highway 104": [
+      "SAF07X-0186"
+    ],
+    "11224 ne 124th street": [
+      "QFC07X-0828"
+    ],
+    "425 urban plaza suite 100": [
+      "QFC07X-0894"
+    ],
+    "14130 juanita dr ne": [
+      "QFC07X-0838"
+    ],
+    "14444 124th avenue n e": [
+      "SAF07X-0526"
+    ],
+    "12519 n e 85th street": [
+      "SAF07X-1142"
+    ],
+    "12221 120th ave ne": [
+      "FME07X-0391"
+    ],
+    "10020 ne 137th st": [
+      "SAF07X-2734"
+    ],
+    "5500 s 6th st": [
+      "ALB07Y-0577"
+    ],
+    "2655 shasta way": [
+      "FME07Y-0165"
+    ],
+    "2111 adams avenue": [
+      "SAF07Y-1827"
+    ],
+    "78630 highway 111": [
+      "STB05X-0128"
+    ],
+    "78271 hwy 111": [
+      "VON05X-2175"
+    ],
+    "2090 foothill blvd": [
+      "STB05X-0048"
+    ],
+    "1600 foothill blvd": [
+      "VON05X-2832"
+    ],
+    "4775 whitman lane southeast": [
+      "QFC07Z-0126"
+    ],
+    "6200 pacific avenue se": [
+      "SAF07Z-1977"
+    ],
+    "700 sleater kinney rd se": [
+      "FME07Z-0186"
+    ],
+    "28100 state highway 189": [
+      "STB05X-0092"
+    ],
+    "17171 bothell way ne": [
+      "ALB07X-3416"
+    ],
+    "401 a avenue": [
+      "SAF07Y-0508"
+    ],
+    "16199 boones ferry road": [
+      "ALB07Y-3531"
+    ],
+    "17779 boones ferry road": [
+      "SAF07Y-1047"
+    ],
+    "8915 market pl": [
+      "HAG07X-0071"
+    ],
+    "717 state route 9 ne": [
+      "SAF07X-1803"
+    ],
+    "244 n f street": [
+      "SAF07Y-4316"
+    ],
+    "8611 steilacoom blvd sw": [
+      "SAF07Z-3411"
+    ],
+    "10223 gravelly lake dr sw": [
+      "SAF07Z-1645"
+    ],
+    "1983 south main street": [
+      "SAF07Y-1558"
+    ],
+    "4101 nw logan road": [
+      "SAF07Y-0415"
+    ],
+    "25630 barton rd": [
+      "STB05X-0081"
+    ],
+    "2930 ocean beach highway": [
+      "SAF07Z-1078"
+    ],
+    "1227 15th ave": [
+      "SAF07Z-0091"
+    ],
+    "3184 ocean beach highway": [
+      "FME07Z-0185"
+    ],
+    "8130 guide meridian road": [
+      "FPV07X-0441"
+    ],
+    "8071 guide meridian rd #101": [
+      "SAF07X-1930"
+    ],
+    "19500 pacific hwy": [
+      "SAF07X-0485"
+    ],
+    "7500 b 196th southwest": [
+      "QFC07X-0835"
+    ],
+    "12811 beverly park rd": [
+      "SAF07X-0469"
+    ],
+    "14826 hwy 99 n": [
+      "SAF07X-3523"
+    ],
+    "2902 164th st sw": [
+      "FME07X-0688"
+    ],
+    "4615 196th st sw ste 175": [
+      "FME07X-0180"
+    ],
+    "80 ne cedar": [
+      "SAF07Z-1960"
+    ],
+    "22131 se 237th street": [
+      "QFC07X-0837"
+    ],
+    "26916 maple valley black diamond rd se": [
+      "SAF07X-1471"
+    ],
+    "26520 maple valley black diamond rd se": [
+      "FME07X-0682"
+    ],
+    "3711 88th street ne": [
+      "HAG07X-3604"
+    ],
+    "1258 state ave": [
+      "SAF07X-1485"
+    ],
+    "301 marysville mall #60": [
+      "ALB07X-0471"
+    ],
+    "9925 state avenue": [
+      "FME07X-0209"
+    ],
+    "615 sw keck dr": [
+      "ALB07Y-0528"
+    ],
+    "2490 ne highway 99w": [
+      "SAF07Y-1601"
+    ],
+    "910 n phoenix road": [
+      "ALB07Y-3508"
+    ],
+    "3169 crater lake highway": [
+      "SAF07Y-1643"
+    ],
+    "1003 medford center": [
+      "SAF07Y-0525"
+    ],
+    "113 ross lane": [
+      "ALB07Y-3593"
+    ],
+    "1301 center drive": [
+      "FME07Y-0196"
+    ],
+    "2424 crater lake hwy": [
+      "FME07Y-0195"
+    ],
+    "8421 se 68th st": [
+      "QFC07X-0806"
+    ],
+    "7823 se 28th street": [
+      "QFC07X-0839"
+    ],
+    "16304 bothell-everett hwy": [
+      "SAF07X-0458"
+    ],
+    "900 e meridian ste 12": [
+      "SAF07Z-3545"
+    ],
+    "4320 se king rd": [
+      "SAF07Z-2690"
+    ],
+    "14840 se webster rd": [
+      "SAF07Y-2696"
+    ],
+    "14700 se mcloughlin blvd": [
+      "FME07Y-0240"
+    ],
+    "11070 limonite avenue": [
+      "STB05X-0088"
+    ],
+    "1525 west main street": [
+      "SAF07Y-1751"
+    ],
+    "19651 u.s. 2": [
+      "SAF07X-0537"
+    ],
+    "18805 state route 2": [
+      "FME07X-0210"
+    ],
+    "9575 central ave": [
+      "STB05X-0073"
+    ],
+    "12200 perris blvd": [
+      "FFL05X-0302"
+    ],
+    "14425 moreno beach dr": [
+      "STB05X-0185"
+    ],
+    "24440 alessandro blvd": [
+      "FFL05X-0398"
+    ],
+    "11875 pigeon pass rd ste a": [
+      "STB05X-0193"
+    ],
+    "25900 iris ave": [
+      "STB05X-0172"
+    ],
+    "2601 e division st": [
+      "HAG07X-0069"
+    ],
+    "315 e college way": [
+      "SAF07X-1472"
+    ],
+    "22803 44th ave w": [
+      "QFC07X-0857"
+    ],
+    "4301 212th st sw": [
+      "SAF07X-0414"
+    ],
+    "11700 mukilteo speedway": [
+      "QFC07X-0832"
+    ],
+    "1140 north springbrook road": [
+      "SAF07Y-2623"
+    ],
+    "3300 portland rd": [
+      "FME07Y-0220"
+    ],
+    "6940 coal creek pkwy se": [
+      "QFC07X-0827"
+    ],
+    "6911 coal creek parkway east": [
+      "SAF07X-0558"
+    ],
+    "2220 n coast hwy": [
+      "SAF07Y-0378"
+    ],
+    "150 northeast 20th street": [
+      "FME07Y-0227"
+    ],
+    "2790 hamner ave": [
+      "STB05X-0044"
+    ],
+    "2430 river rd": [
+      "STB05X-0199"
+    ],
+    "460 east north bend way": [
+      "QFC07X-0829"
+    ],
+    "460 s.w. mt si boulevard": [
+      "SAF07X-1528"
+    ],
+    "1735 virginia ave": [
+      "SAF07Y-1557"
+    ],
+    "32199 hwy 20": [
+      "SAR07X-0610"
+    ],
+    "31565 state route 20": [
+      "HAG07X-3427"
+    ],
+    "1450 sw erie st": [
+      "SAF07X-0402"
+    ],
+    "4280 martin way e": [
+      "SAF07Z-1952"
+    ],
+    "1313 cooper point road sw": [
+      "HAG07Z-3444"
+    ],
+    "3520 pacific ave s e": [
+      "ALB07Z-3417"
+    ],
+    "4700 yelm highway southeast": [
+      "SAF07Z-0543"
+    ],
+    "1243 marvin road ne": [
+      "SAF07Z-1173"
+    ],
+    "3215 harrison ave nw": [
+      "SAF07Z-1464"
+    ],
+    "2246 s. euclid avenue": [
+      "FFL05X-0320"
+    ],
+    "3075 s archibald ave": [
+      "RAL05X-0752"
+    ],
+    "646 w holt blvd": [
+      "STB05X-0108"
+    ],
+    "1105 w. philadelphia street": [
+      "STB05X-0059"
+    ],
+    "3460 e ontario ranch rd": [
+      "STB05X-0204"
+    ],
+    "1939 e 4th st": [
+      "STB05X-0085"
+    ],
+    "930 n. haven ave": [
+      "STB05X-0208"
+    ],
+    "19007 south beavercreek rd": [
+      "ALB07Y-0571"
+    ],
+    "13434 colton place": [
+      "SAF07Y-2993"
+    ],
+    "1839 molalla avenue": [
+      "FME07Y-0242"
+    ],
+    "215 whitesell st nw": [
+      "SAF07Z-1844"
+    ],
+    "74884 country club dr": [
+      "RAL05X-0027"
+    ],
+    "42095 washington street": [
+      "ALB05X-6567"
+    ],
+    "78210 varner rd": [
+      "STB05X-0181"
+    ],
+    "74590 highway 111": [
+      "ALB05X-6559"
+    ],
+    "4733 e. palm canyon drive": [
+      "VON05X-2384"
+    ],
+    "1751 n sunrise way ste 1": [
+      "ALB05X-6569"
+    ],
+    "1733 e palm canyon dr": [
+      "RAL05X-0181"
+    ],
+    "1717 e vista chino": [
+      "STB05X-0126"
+    ],
+    "425 s sunrise way ste a": [
+      "RAL05X-0611"
+    ],
+    "13322 pacific ave s": [
+      "SAR07Z-0488"
+    ],
+    "4059 phelan road": [
+      "STB05X-0116"
+    ],
+    "1045 n garey ave": [
+      "STB05X-0019"
+    ],
+    "2090 s. garey avenue": [
+      "FFL05X-0358"
+    ],
+    "114 e lauridsen blvd": [
+      "SAR07X-0630"
+    ],
+    "2709 e hwy 101": [
+      "SAF07X-1922"
+    ],
+    "110 east 3rd street": [
+      "SAF07X-1492"
+    ],
+    "1890 irondale road": [
+      "QFC07X-0870"
+    ],
+    "3355 bethel rd se": [
+      "SAF07X-3317"
+    ],
+    "1434 olney ave se": [
+      "ALB07X-0475"
+    ],
+    "370 s w sedgwick rd": [
+      "ALB07X-0419"
+    ],
+    "1900 se sedgwick rd": [
+      "FME07X-0655"
+    ],
+    "2611 sims way": [
+      "SAF07X-4608"
+    ],
+    "515 sheridan st": [
+      "QFC07X-0106"
+    ],
+    "442 w sims way": [
+      "SAF07X-0538"
+    ],
+    "18425 nw west union rd": [
+      "ALB07Y-0596"
+    ],
+    "6411 se milwaukie ave": [
+      "QFC07Z-0206"
+    ],
+    "7525 southwest barnes road": [
+      "QFC07Y-0202"
+    ],
+    "5544 east burnside": [
+      "QFC07Z-0205"
+    ],
+    "451 ne 181st ave": [
+      "ALB07Z-0564"
+    ],
+    "4756 northwest bethany boulevard": [
+      "QFC07Y-0201"
+    ],
+    "8145 southwest barbur boulevard": [
+      "SAF07Y-3136"
+    ],
+    "5850 ne prescott st": [
+      "ALB07Z-0575"
+    ],
+    "1010 sw jefferson st": [
+      "SAF07Y-2448"
+    ],
+    "3527 southeast 122nd avenue": [
+      "SAF07Z-0382"
+    ],
+    "1303 northwest lovejoy street": [
+      "SAF07Y-2790"
+    ],
+    "2800 se hawthorne blvd": [
+      "SAF07Z-3134"
+    ],
+    "1100 ne broadway st": [
+      "SAF07Z-1612"
+    ],
+    "5920 ne martin luther king jr blvd": [
+      "SAF07Z-0509"
+    ],
+    "3930 southeast powell boulevard": [
+      "SAF07Z-1627"
+    ],
+    "14700 se division st": [
+      "FME07Z-0075"
+    ],
+    "6850 n lombard st": [
+      "FME07Z-0255"
+    ],
+    "8330 north ivanhoe street": [
+      "SAF07Z-1951"
+    ],
+    "13485 northwest cornell road": [
+      "SAF07Y-1525"
+    ],
+    "6615 ne glisan st": [
+      "FME07Z-0125"
+    ],
+    "4515 se woodstock blvd": [
+      "SAF07Z-1523"
+    ],
+    "100 northwest 20th place": [
+      "FME07Y-0360"
+    ],
+    "6901 ne sandy blvd": [
+      "SAF07Z-1447"
+    ],
+    "3030 ne weidler st": [
+      "FME07Z-0600"
+    ],
+    "7555 sw barbur blvd": [
+      "FME07Y-0040"
+    ],
+    "3805 se hawthorne blvd": [
+      "FME07Z-0135"
+    ],
+    "7700 sw beaverton hillsdale hwy": [
+      "FME07Y-0285"
+    ],
+    "7404 north interstate avenue": [
+      "FME07Z-0150"
+    ],
+    "19245 10th ave ne": [
+      "SAF07X-3148"
+    ],
+    "11012 canyon rd e": [
+      "ALB07Z-3106"
+    ],
+    "611 south meridian": [
+      "SAF07Z-0422"
+    ],
+    "11501 canyon rd e": [
+      "SAF07Z-1798"
+    ],
+    "708 shaw rd e": [
+      "SAF07Z-2729"
+    ],
+    "5616 176th st. east": [
+      "SAF07Z-3228"
+    ],
+    "1100 n meridian ave": [
+      "FME07Z-0265"
+    ],
+    "13308 e meridian ave": [
+      "SAF07Z-2640"
+    ],
+    "6351 haven avenue": [
+      "VON05X-1914"
+    ],
+    "11358 kenyon way": [
+      "ALB05X-6520"
+    ],
+    "12201 highland avenue": [
+      "RAL05X-0700"
+    ],
+    "7243 haven avenue": [
+      "RAL05X-0717"
+    ],
+    "12879 foothill blvd": [
+      "FFL05X-0328"
+    ],
+    "8778 19th st": [
+      "VON05X-2147"
+    ],
+    "8850 foothill blvd": [
+      "ALB05X-3177"
+    ],
+    "9750 19th st.": [
+      "STB05X-0078"
+    ],
+    "7200 day creek blvd": [
+      "STB05X-0200"
+    ],
+    "7369 milliken avenue": [
+      "RAL05X-0013"
+    ],
+    "40101 monterey ave.": [
+      "ALB05X-6586"
+    ],
+    "2070 w. redlands boulevard": [
+      "FFL05X-0311"
+    ],
+    "522 n orange st": [
+      "VON05X-1734"
+    ],
+    "1536 barton road": [
+      "STB05X-0112"
+    ],
+    "11 e colton ave": [
+      "STB05X-0018"
+    ],
+    "450 e cypress ave": [
+      "ALB05X-6519"
+    ],
+    "1775 e lugonia ave": [
+      "STB05X-0191"
+    ],
+    "23475 ne novelity hill road": [
+      "QFC07X-0878"
+    ],
+    "3925 236th ave n e": [
+      "ALB07X-2072"
+    ],
+    "15800 redmond way": [
+      "QFC07X-0820"
+    ],
+    "15000 ne 24th street": [
+      "SAF07X-0496"
+    ],
+    "17246 redmond way": [
+      "SAF07X-0464"
+    ],
+    "8867 161st avenue northeast": [
+      "QFC07X-0860"
+    ],
+    "1705 u.s. 97": [
+      "SAF07Z-1665"
+    ],
+    "944 sw veterans way": [
+      "FME07Z-0650"
+    ],
+    "1499 u.s. 101": [
+      "SAF07Y-0284"
+    ],
+    "3208 ne sunset blvd": [
+      "SAR07X-0490"
+    ],
+    "4621 n. e. sunset blvd": [
+      "ALB07X-0453"
+    ],
+    "2725 ne sunset boulevard": [
+      "SAF07X-0366"
+    ],
+    "17230 140th ave se": [
+      "SAF07X-0519"
+    ],
+    "4800 northeast 4th street": [
+      "QFC07X-0871"
+    ],
+    "365 renton center way sw": [
+      "FME07X-0459"
+    ],
+    "200 s 3rd st": [
+      "SAF07X-1563"
+    ],
+    "4300 ne 4th st": [
+      "SAF07X-3319"
+    ],
+    "17801 108th ave se": [
+      "FME07X-0031"
+    ],
+    "1410 w. foothill boulevard": [
+      "FFL05X-0303"
+    ],
+    "571 e foothill blvd": [
+      "STB05X-0012"
+    ],
+    "168 east baseline rd.": [
+      "STB05X-0043"
+    ],
+    "101 s. 47th avenue": [
+      "ROS07Z-0042"
+    ],
+    "3350 la sierra ave": [
+      "RAL05X-0098"
+    ],
+    "4250 van buren boulevard": [
+      "FFL05X-0343"
+    ],
+    "5571 mission blvd": [
+      "STB05X-0014"
+    ],
+    "3420 la sierra avenue": [
+      "STB05X-0115"
+    ],
+    "9225 magnolia ave": [
+      "STB05X-0001"
+    ],
+    "6160 arlington avenue": [
+      "STB05X-0042"
+    ],
+    "9155 jurupa road": [
+      "STB05X-0069"
+    ],
+    "7770 limonite avenue": [
+      "STB05X-0090"
+    ],
+    "6155 magnolia avenue": [
+      "RAL05X-0144"
+    ],
+    "5225 canyon crest": [
+      "RAL05X-0609"
+    ],
+    "3900 chicago avenue": [
+      "FFL05X-0329"
+    ],
+    "17050 van buren blvd.": [
+      "STB05X-0080"
+    ],
+    "3520 riverside plaza dr": [
+      "VON05X-2659"
+    ],
+    "2975 van buren blvd": [
+      "ALB05X-6572"
+    ],
+    "7200 arlington ave #102": [
+      "STB05X-0207"
+    ],
+    "4680 la sierra ave": [
+      "STB05X-0022"
+    ],
+    "2841 mary st": [
+      "STB05X-0192"
+    ],
+    "2995 iowa avenue": [
+      "STB05X-0114"
+    ],
+    "8938 trautwein rd": [
+      "ALB05X-6514"
+    ],
+    "315 e. alessandro blvd": [
+      "STB05X-0201"
+    ],
+    "2553 nw stewart parkway": [
+      "SHM07Y-0004"
+    ],
+    "1539 ne stephens st.": [
+      "SAF07Y-1666"
+    ],
+    "929 nw garden valley blvd": [
+      "FME07Y-0281"
+    ],
+    "3380 lancaster drive northeast": [
+      "SAF07Y-0429"
+    ],
+    "1265 center street northeast": [
+      "SAF07Y-1629"
+    ],
+    "1455 edgewater st nw": [
+      "SAF07Y-0412"
+    ],
+    "5660 commercial st se": [
+      "SAF07Y-1935"
+    ],
+    "2855 broadway st ne": [
+      "FME07Y-0225"
+    ],
+    "3450 commercial st se": [
+      "FME07Y-0355"
+    ],
+    "3740 market st ne": [
+      "FME07Y-0090"
+    ],
+    "2902 228th avenue se": [
+      "QFC07X-0824"
+    ],
+    "4570 klahanie drive se": [
+      "QFC07X-0840"
+    ],
+    "630 228th avenue n e": [
+      "SAF07X-0555"
+    ],
+    "555 w 2nd st ste a": [
+      "FFL05X-0301"
+    ],
+    "444 e baseline st": [
+      "STB05X-0002"
+    ],
+    "4444 university parkway": [
+      "RAL05X-0753"
+    ],
+    "1085 w highland avenue": [
+      "STB05X-0008"
+    ],
+    "1522 e highland ave": [
+      "STB05X-0024"
+    ],
+    "977 kendall dr": [
+      "STB05X-0107"
+    ],
+    "161 e 40th st": [
+      "STB05X-0036"
+    ],
+    "37601 u.s. 26": [
+      "SAF07Z-0782"
+    ],
+    "16625 362nd avenue": [
+      "FME07Z-0663"
+    ],
+    "51501 south columbia river": [
+      "FME07Z-0462"
+    ],
+    "401 south roosevelt": [
+      "SAF07Z-1260"
+    ],
+    "2550 32nd ave w": [
+      "ALB07X-0408"
+    ],
+    "4550 42nd avenue southwest": [
+      "QFC07X-0883"
+    ],
+    "3900 south othello street": [
+      "SAF07X-0219"
+    ],
+    "2500 sw barton": [
+      "QFC07X-0825"
+    ],
+    "2707 rainier avenue south": [
+      "QFC07X-0849"
+    ],
+    "9999 holman road northwest": [
+      "QFC07X-0872"
+    ],
+    "4754 42nd avenue sw": [
+      "SAF07X-1062"
+    ],
+    "516 1st avenue west": [
+      "SAF07X-1885"
+    ],
+    "5700 24th ave nw": [
+      "QFC07X-0891"
+    ],
+    "17847 first avenue south": [
+      "QFC07X-0805"
+    ],
+    "500 mercer street": [
+      "QFC07X-0881"
+    ],
+    "2100 queen anne avenue n": [
+      "SAF07X-3275"
+    ],
+    "7340 35th avenue northeast": [
+      "SAF07X-0423"
+    ],
+    "10616 16th ave sw": [
+      "SAR07X-0530"
+    ],
+    "2746 ne 45th street": [
+      "QFC07X-0807"
+    ],
+    "11100 roosevelt way ne": [
+      "QFC07X-0866"
+    ],
+    "1600 west dravus": [
+      "QFC07X-0811"
+    ],
+    "1531 ne 145th street": [
+      "QFC07X-0858"
+    ],
+    "1801 n 45th st": [
+      "QFC07X-0869"
+    ],
+    "417 broadway east": [
+      "QFC07X-0887"
+    ],
+    "4011 s 164th st": [
+      "SAF07X-1493"
+    ],
+    "1423 nw market street": [
+      "SAF07X-1477"
+    ],
+    "3820 rainier avenue south": [
+      "SAF07X-1508"
+    ],
+    "1401 broadway ave": [
+      "QFC07X-0847"
+    ],
+    "12318 15th avenue northeast": [
+      "SAF07X-1586"
+    ],
+    "2622 california avenue west": [
+      "SAF07X-2932"
+    ],
+    "2201 east madison street": [
+      "SAF07X-1993"
+    ],
+    "7300 roosevelt way ne": [
+      "SAF07X-1550"
+    ],
+    "9262 rainier avenue south": [
+      "SAF07X-1965"
+    ],
+    "1410 east john street": [
+      "SAF07X-1551"
+    ],
+    "4732 brooklyn ave ne": [
+      "SAF07X-3091"
+    ],
+    "8340 15th avenue nw": [
+      "SAF07X-1143"
+    ],
+    "9620 28th ave sw": [
+      "SAF07X-1923"
+    ],
+    "915 northwest 45th street": [
+      "FME07X-0608"
+    ],
+    "100 northwest  85th street": [
+      "FME07X-0122"
+    ],
+    "530 crossroads square": [
+      "FPV07X-0022"
+    ],
+    "990 east washington street": [
+      "QFC07X-0841"
+    ],
+    "680 w washington st": [
+      "SAF07X-1448"
+    ],
+    "301 e wallace kneeland blvd": [
+      "FME07X-0603"
+    ],
+    "600 w franklin st": [
+      "SAF07X-0585"
+    ],
+    "20685 sw roy rogers road": [
+      "SAF07Y-1800"
+    ],
+    "600 nw richmond beach rd": [
+      "QFC07X-0816"
+    ],
+    "17202 15th avenue n e": [
+      "SAF07X-0497"
+    ],
+    "15332 aurora ave n.": [
+      "SAF07X-3213"
+    ],
+    "18325 aurora avenue north": [
+      "FME07X-0013"
+    ],
+    "2890 nw bucklin hill road": [
+      "SAF07X-1680"
+    ],
+    "301 westfield street": [
+      "SAF07Y-1580"
+    ],
+    "1119 13th st.": [
+      "SAF07X-1076"
+    ],
+    "17520 sr 9 se": [
+      "SAF07X-3419"
+    ],
+    "1301 ave d": [
+      "HAG07X-0057"
+    ],
+    "2801 bickford avenue": [
+      "FME07X-0681"
+    ],
+    "34828 se douglas st.": [
+      "SAF07X-3613"
+    ],
+    "17404 meridian e": [
+      "FME07Z-0424"
+    ],
+    "22303 mountain highway east": [
+      "FME07Z-0604"
+    ],
+    "2000 marcola rd.": [
+      "ALB07Y-0570"
+    ],
+    "1891 pioneer parkway east": [
+      "SAF07Y-1094"
+    ],
+    "650 q street": [
+      "FME07Y-0328"
+    ],
+    "5755 main st": [
+      "ALB07Y-0574"
+    ],
+    "795 columbia river highway": [
+      "SAF07Z-0424"
+    ],
+    "26603 72nd avenue nw": [
+      "HAG07X-3480"
+    ],
+    "27008 92nd avenue nw": [
+      "QFC07X-0879"
+    ],
+    "1535 north 1st street": [
+      "SAF07Y-1527"
+    ],
+    "21301 washington 410": [
+      "SAF07Z-0544"
+    ],
+    "1201 valley ave": [
+      "FME07Z-0665"
+    ],
+    "1540 main street": [
+      "SAF07Y-1710"
+    ],
+    "11104 pacific ave s": [
+      "QFC07Z-0105"
+    ],
+    "1112 south m street": [
+      "SAF07Z-0329"
+    ],
+    "4101 49th ave ne": [
+      "QFC07Z-0831"
+    ],
+    "104 military rd s": [
+      "ALB07Z-0493"
+    ],
+    "1302 s 38th st": [
+      "SAF07Z-1437"
+    ],
+    "707 south 56th street": [
+      "SAF07Z-1594"
+    ],
+    "2411 n proctor st": [
+      "SAF07Z-3424"
+    ],
+    "15805 pacific ave s": [
+      "SAF07Z-3305"
+    ],
+    "3842 bridgeport way west": [
+      "SAF07Z-0486"
+    ],
+    "6901 s 19th st": [
+      "FME07Z-0605"
+    ],
+    "4505 s 19th st": [
+      "FME07Z-0390"
+    ],
+    "1624 72nd st e": [
+      "SAF07Z-1436"
+    ],
+    "2637 north pearl street": [
+      "SAF07X-1978"
+    ],
+    "520 mount hood street": [
+      "SAF07Z-1489"
+    ],
+    "1215 w 6th st": [
+      "FME07Z-0372"
+    ],
+    "14300 sw barrows rd": [
+      "SAF07Y-3542"
+    ],
+    "11565 sw pacific hwy": [
+      "FME07Y-0375"
+    ],
+    "1815 4th street": [
+      "SAF07Y-2723"
+    ],
+    "2500 north main street": [
+      "FME07Y-0377"
+    ],
+    "25691 se stark st": [
+      "SAF07Z-0536"
+    ],
+    "19200 sw martinazzi ave": [
+      "FME07Y-0393"
+    ],
+    "3725 s. 144th": [
+      "SAR07X-0624"
+    ],
+    "705 trosper rd sw": [
+      "SAF07Z-1407"
+    ],
+    "500 cleveland avenue southeast": [
+      "SAF07Z-1503"
+    ],
+    "555 trosper road southwest": [
+      "FME07Z-0659"
+    ],
+    "71727 29 palms highway": [
+      "STB05X-0105"
+    ],
+    "6305 bridgeport way west": [
+      "FME07Z-0615"
+    ],
+    "919 n. mountain avenue": [
+      "STB05X-0045"
+    ],
+    "1619 n mountain ave": [
+      "STB05X-0065"
+    ],
+    "81 w foothill blvd": [
+      "VON05X-2681"
+    ],
+    "1910 n. campus ave.": [
+      "ALB05X-0599"
+    ],
+    "3707 n main st": [
+      "SAF07Z-0400"
+    ],
+    "6701 e mill plain blvd": [
+      "SAF07Z-1103"
+    ],
+    "3505 se 192nd ave": [
+      "QFC07Z-0212"
+    ],
+    "13023 ne hwy 99": [
+      "SAF07Z-1842"
+    ],
+    "14300 ne 20th ave": [
+      "ALB07Z-0580"
+    ],
+    "7700 ne highway 99": [
+      "FME07Z-0140"
+    ],
+    "6711 ne 63rd st": [
+      "SAF07Z-1611"
+    ],
+    "6700 ne 162nd ave ste 500": [
+      "SAF07Z-1704"
+    ],
+    "408 ne 81st st": [
+      "SAF07Z-4405"
+    ],
+    "11325 southeast mill plain blvd": [
+      "FME07Z-0208"
+    ],
+    "16600 southeast mcgillivray boulevard": [
+      "FME07Z-0093"
+    ],
+    "2615 ne 112th ave": [
+      "SAF07Z-1653"
+    ],
+    "2500 columbia house blvd": [
+      "FME07Z-0683"
+    ],
+    "7411 ne 117th ave": [
+      "FME07Z-0236"
+    ],
+    "800 ne tenney rd": [
+      "FME07Z-0460"
+    ],
+    "14738 la paz dr": [
+      "FFL05X-0397"
+    ],
+    "12199 hesperia rd": [
+      "VON05X-2131"
+    ],
+    "16266 bear valley rd": [
+      "FFL05X-0305"
+    ],
+    "15235 hook boulevard": [
+      "STB05X-0123"
+    ],
+    "13760 bear valley road": [
+      "STB05X-0118"
+    ],
+    "695 highway 101": [
+      "FME07Z-0218"
+    ],
+    "3307 se evergreen way ste 5": [
+      "SAF07Z-1687"
+    ],
+    "22000 salamo road": [
+      "SAF07Y-1713"
+    ],
+    "8255 sw wilsonville rd": [
+      "SAF07Y-0285"
+    ],
+    "30300 southwest boones ferry road": [
+      "FME07Y-0516"
+    ],
+    "22855 ne park ln": [
+      "FME07Z-0660"
+    ],
+    "1550 north pacific highway": [
+      "SAF07Y-1976"
+    ],
+    "19150 ne woodinville duvall rd": [
+      "SAF07X-0533"
+    ],
+    "17641 garden way ne": [
+      "HAG07X-3498"
+    ],
+    "1725 pacific ave": [
+      "SAF07Z-1762"
+    ],
+    "1109 yelm avenue": [
+      "SAF07Z-1619"
+    ],
+    "34460 yucaipa blvd": [
+      "STB05X-0023"
+    ],
+    "11365 bryant st": [
+      "STB05X-0125"
+    ],
+    "33644 yucaipa blvd": [
+      "VON05X-1796"
+    ],
+    "57590 29 palms hwy": [
+      "VON05X-3058"
+    ],
+    "57075 twentynine palms hwy.": [
+      "STB05X-0096"
+    ],
+    "58060 29 palms hwy": [
+      "STB05X-0120"
+    ]
+  },
+  "by_cycle": {
+    "c-aberdeen": [
+      "SAF07X-1546"
+    ],
+    "c-adelanto": [
+      "STB05X-0176"
+    ],
+    "c-albany": [
+      "SAF07Y-1659",
+      "FME07Y-0005"
+    ],
+    "a-aloha": [
+      "SAF07Y-1889"
+    ],
+    "b-aloha": [
+      "SAF07Y-3557"
+    ],
+    "b-alta loma": [
+      "STB05X-0053"
+    ],
+    "c-anacortes": [
+      "SAF07X-0593"
+    ],
+    "b-apple valley": [
+      "FFL05X-0782",
+      "ALB05X-6513",
+      "STB05X-0110",
+      "STB05X-0178"
+    ],
+    "a-arlington": [
+      "SAF07X-1522"
+    ],
+    "c-arlington": [
+      "SAF07X-0534"
+    ],
+    "c-ashland": [
+      "SAF07Y-3212",
+      "ALB07Y-0573"
+    ],
+    "a-astoria": [
+      "SAF07Z-2627"
+    ],
+    "b-auburn": [
+      "SAR07X-0622",
+      "SAF07X-4483",
+      "SAF07X-0531"
+    ],
+    "c-auburn": [
+      "HAG07X-3438"
+    ],
+    "a-auburn": [
+      "FME07X-0019"
+    ],
+    "a-bainbridge island": [
+      "SAF07X-1252"
+    ],
+    "b-banning": [
+      "ALB05X-6512"
+    ],
+    "b-barstow": [
+      "FFL05X-0312",
+      "STB05X-0101"
+    ],
+    "a-battle ground": [
+      "ALB07Z-2592",
+      "SAF07Z-4313",
+      "FME07Z-0614"
+    ],
+    "a-beaumont": [
+      "FFL05X-0386"
+    ],
+    "b-beaumont": [
+      "STB05X-0086",
+      "STB05X-0173"
+    ],
+    "c-beaverton": [
+      "SAF07Y-1073",
+      "SAF07Y-2631",
+      "FME07Y-0482"
+    ],
+    "b-beaverton": [
+      "FME07Y-0035"
+    ],
+    "b-belfair": [
+      "QFC07X-0101",
+      "SAF07X-1571"
+    ],
+    "b-bellevue": [
+      "QFC07X-0859",
+      "QFC07X-0874",
+      "FME07X-0023",
+      "QFC07X-0808"
+    ],
+    "c-bellevue": [
+      "QFC07X-0822",
+      "SAF07X-1444"
+    ],
+    "a-bellevue": [
+      "QFC07X-0826",
+      "SAF07X-0490",
+      "SAF07X-1600"
+    ],
+    "b-bellingham": [
+      "HAG07X-3460",
+      "HAG07X-3439",
+      "HAG07X-0043",
+      "FME07X-0667",
+      "FME07X-0025"
+    ],
+    "a-bellingham": [
+      "HAG07X-3430",
+      "SAF07X-3285"
+    ],
+    "a-bend": [
+      "ALB07Z-2599",
+      "SAF07Z-1888",
+      "FME07Z-0021"
+    ],
+    "b-bend": [
+      "ALB07Z-3553",
+      "SAF07Z-0514",
+      "SAF07Z-1504"
+    ],
+    "b-bermuda dunes": [
+      "RAL05X-0681"
+    ],
+    "c-big bear lake": [
+      "VON05X-2374"
+    ],
+    "b-big bear lake": [
+      "STB05X-0091"
+    ],
+    "b-bloomington": [
+      "STB05X-0061"
+    ],
+    "a-blythe": [
+      "ALB05X-6587"
+    ],
+    "c-bonney lake": [
+      "FME07Z-0041"
+    ],
+    "a-bothell": [
+      "SAF07X-1413",
+      "SAF07X-0535"
+    ],
+    "c-bothell": [
+      "QFC07X-0819",
+      "SAF07X-1864",
+      "FME07X-0457"
+    ],
+    "b-bothell": [
+      "QFC07X-0850"
+    ],
+    "c-bremerton": [
+      "SAF07X-1467"
+    ],
+    "b-bremerton": [
+      "SAF07X-1524",
+      "FME07X-0171"
+    ],
+    "c-brookings": [
+      "FME07Y-0030"
+    ],
+    "b-burien": [
+      "SAF07X-3120",
+      "FME07X-0028"
+    ],
+    "c-burien": [
+      "SAF07X-1664"
+    ],
+    "a-burlington": [
+      "HAG07X-0015",
+      "FME07X-0024"
+    ],
+    "b-burns": [
+      "SAF07Y-4469"
+    ],
+    "c-calimesa": [
+      "STB05X-0071",
+      "STB05X-0205"
+    ],
+    "c-camas": [
+      "SAF07Z-1287"
+    ],
+    "b-canby": [
+      "SAF07Y-2604",
+      "FME07Y-0651"
+    ],
+    "a-cathedral city": [
+      "FFL05X-0308",
+      "STB05X-0183",
+      "STB05X-0127"
+    ],
+    "b-central point": [
+      "ALB07Y-0595"
+    ],
+    "c-centralia": [
+      "SNK07Z-0381",
+      "SAF07Z-1495"
+    ],
+    "a-chehalis": [
+      "SAF07Z-3525"
+    ],
+    "a-chino": [
+      "STB05X-0052"
+    ],
+    "c-chino": [
+      "ALB05X-6524"
+    ],
+    "b-chino": [
+      "STB05X-0209",
+      "STB05X-0184"
+    ],
+    "a-chino hills": [
+      "ALB05X-6515",
+      "STB05X-0169",
+      "ALB05X-6592"
+    ],
+    "b-clackamas": [
+      "FME07Y-0063",
+      "SAF07Z-1231"
+    ],
+    "a-claremont": [
+      "STB05X-0049"
+    ],
+    "b-claremont": [
+      "VON05X-2155"
+    ],
+    "a-clatskanie": [
+      "SAF07Y-4318"
+    ],
+    "b-coachella": [
+      "FFL05X-0517"
+    ],
+    "b-colton": [
+      "FFL05X-0786",
+      "STB05X-0117"
+    ],
+    "a-colton": [
+      "STB05X-0003"
+    ],
+    "c-coos bay": [
+      "FME07Y-0050",
+      "SAF07Y-1556"
+    ],
+    "a-coquille": [
+      "SAF07Y-4262"
+    ],
+    "c-cornelius": [
+      "FME07Y-0060"
+    ],
+    "c-corona": [
+      "STB05X-0103",
+      "VON05X-2596",
+      "ALB05X-6728",
+      "VON05X-2818"
+    ],
+    "b-corona": [
+      "VON05X-2381",
+      "STB05X-0062",
+      "STB05X-0171",
+      "RAL05X-0136",
+      "STB05X-0170"
+    ],
+    "a-corona": [
+      "RAL05X-0045",
+      "ALB05X-6641"
+    ],
+    "b-corvallis": [
+      "SAF07Y-1690",
+      "SAF07Y-1765"
+    ],
+    "a-corvallis": [
+      "SAF07Y-4333",
+      "FME07Y-0070"
+    ],
+    "a-cottage grove": [
+      "SAF07Y-1458"
+    ],
+    "c-covington": [
+      "FME07X-0053"
+    ],
+    "a-dallas": [
+      "SAF07Y-4404"
+    ],
+    "c-damascus": [
+      "SAF07Z-0521"
+    ],
+    "b-des moines": [
+      "SAF07X-1186",
+      "SAF07X-3540"
+    ],
+    "b-desert hot springs": [
+      "VON05X-2177"
+    ],
+    "a-desert hot springs": [
+      "STB05X-0084"
+    ],
+    "b-duvall": [
+      "SAF07X-1572"
+    ],
+    "a-eastvale": [
+      "VON05X-2688"
+    ],
+    "b-edmonds": [
+      "SAF07X-1297",
+      "QFC07X-0851"
+    ],
+    "a-enterprise": [
+      "SAF07Y-0371"
+    ],
+    "b-enumclaw": [
+      "QFC07Z-0863",
+      "SAF07Z-0494"
+    ],
+    "c-eugene": [
+      "ALB07Y-0560",
+      "ALB07Y-0572",
+      "ALB07Y-3529",
+      "ALB07Y-0513",
+      "SAF07Y-0420",
+      "FME07Y-0325"
+    ],
+    "a-eugene": [
+      "ALB07Y-3564",
+      "FME07Y-0417"
+    ],
+    "b-eugene": [
+      "SAF07Y-4513",
+      "SAF07Y-4288"
+    ],
+    "a-everett": [
+      "QFC07X-0852",
+      "SAF07X-0474",
+      "FME07X-0458"
+    ],
+    "b-everett": [
+      "QFC07X-0853",
+      "SAF07X-1461",
+      "SAF07X-0503",
+      "SAF07X-1484"
+    ],
+    "c-everett": [
+      "SAF07X-2645",
+      "SAF07X-3298"
+    ],
+    "b-federal way": [
+      "SAF07X-0477"
+    ],
+    "a-federal way": [
+      "SAF07X-1555",
+      "FME07X-0111"
+    ],
+    "a-ferndale": [
+      "HAG07X-0063"
+    ],
+    "b-florence": [
+      "SAF07Y-0363",
+      "FME07Y-0464"
+    ],
+    "c-fontana": [
+      "FFL05X-0389",
+      "STB05X-0095",
+      "RAL05X-0113",
+      "STB05X-0179",
+      "STB05X-0175"
+    ],
+    "a-fontana": [
+      "STB05X-0005",
+      "VON05X-1742"
+    ],
+    "b-forest grove": [
+      "SAF07Y-0406"
+    ],
+    "c-gig harbor": [
+      "SAF07X-3321",
+      "FME07X-0691"
+    ],
+    "b-gig harbor": [
+      "SAF07X-4406"
+    ],
+    "c-gladstone": [
+      "SAF07Y-4387"
+    ],
+    "a-graham": [
+      "SAF07Z-0547"
+    ],
+    "b-grand terrace": [
+      "STB05X-0188"
+    ],
+    "c-grants pass": [
+      "SAF07Y-0290",
+      "FME07Y-0126"
+    ],
+    "a-grants pass": [
+      "ALB07Y-3541",
+      "SAF07Y-0379"
+    ],
+    "c-gresham": [
+      "SAF07Z-0430"
+    ],
+    "b-gresham": [
+      "SAF07Z-1070",
+      "FME07Z-0127"
+    ],
+    "b-happy valley": [
+      "FME07Z-0153",
+      "FME07Z-0694"
+    ],
+    "a-hesperia": [
+      "STB05X-0122"
+    ],
+    "c-hesperia": [
+      "STB05X-0190"
+    ],
+    "b-highland": [
+      "ALB05X-6503",
+      "STB05X-0058",
+      "STB05X-0182"
+    ],
+    "c-highland": [
+      "FFL05X-0385",
+      "STB05X-0210"
+    ],
+    "a-hillsboro": [
+      "ALB07Y-0590"
+    ],
+    "c-hillsboro": [
+      "SAF07Y-1203",
+      "FME07Y-0661",
+      "FME07Y-0143"
+    ],
+    "b-hillsboro": [
+      "SAF07Y-0591",
+      "SAF07Y-1230"
+    ],
+    "c-hood river": [
+      "SAF07Z-1123"
+    ],
+    "b-hood river": [
+      "ROS07Z-0016"
+    ],
+    "a-indio": [
+      "STB05X-0094",
+      "FFL05X-0765",
+      "RAL05X-0160"
+    ],
+    "b-issaquah": [
+      "QFC07X-0821"
+    ],
+    "c-issaquah": [
+      "SAF07X-1624",
+      "FME07X-0658"
+    ],
+    "a-issaquah": [
+      "SAF07X-3006"
+    ],
+    "c-junction city": [
+      "SAF07Y-0386"
+    ],
+    "c-keizer": [
+      "SAF07Y-1516"
+    ],
+    "a-kelso": [
+      "SAF07Z-2637"
+    ],
+    "c-kenmore": [
+      "SAF07X-3500"
+    ],
+    "a-kent": [
+      "QFC07X-0803",
+      "SAF07X-0459",
+      "SAF07X-1294",
+      "SAF07X-0792",
+      "SAF07X-1966"
+    ],
+    "c-kent": [
+      "FME07X-0215"
+    ],
+    "c-king city": [
+      "SAF07Y-1478"
+    ],
+    "b-kingston": [
+      "SAF07X-0186"
+    ],
+    "c-kirkland": [
+      "QFC07X-0828",
+      "QFC07X-0894",
+      "SAF07X-1142",
+      "SAF07X-2734"
+    ],
+    "b-kirkland": [
+      "QFC07X-0838",
+      "SAF07X-0526",
+      "FME07X-0391"
+    ],
+    "b-klamath falls": [
+      "ALB07Y-0577"
+    ],
+    "c-klamath falls": [
+      "FME07Y-0165"
+    ],
+    "b-la grande": [
+      "SAF07Y-1827"
+    ],
+    "c-la quinta": [
+      "STB05X-0128"
+    ],
+    "a-la quinta": [
+      "VON05X-2175"
+    ],
+    "b-la verne": [
+      "STB05X-0048"
+    ],
+    "c-la verne": [
+      "VON05X-2832"
+    ],
+    "a-lacey": [
+      "QFC07Z-0126"
+    ],
+    "b-lacey": [
+      "SAF07Z-1977"
+    ],
+    "c-lacey": [
+      "FME07Z-0186"
+    ],
+    "b-lake arrowhead": [
+      "STB05X-0092"
+    ],
+    "c-lake forest park": [
+      "ALB07X-3416"
+    ],
+    "b-lake oswego": [
+      "SAF07Y-0508"
+    ],
+    "c-lake oswego": [
+      "ALB07Y-3531"
+    ],
+    "a-lake oswego": [
+      "SAF07Y-1047"
+    ],
+    "b-lake stevens": [
+      "HAG07X-0071",
+      "SAF07X-1803"
+    ],
+    "c-lakeview": [
+      "SAF07Y-4316"
+    ],
+    "b-lakewood": [
+      "SAF07Z-3411",
+      "SAF07Z-1645"
+    ],
+    "b-lebanon": [
+      "SAF07Y-1558"
+    ],
+    "a-lincoln city": [
+      "SAF07Y-0415"
+    ],
+    "a-loma linda": [
+      "STB05X-0081"
+    ],
+    "a-longview": [
+      "SAF07Z-1078",
+      "SAF07Z-0091",
+      "FME07Z-0185"
+    ],
+    "a-lynden": [
+      "FPV07X-0441",
+      "SAF07X-1930"
+    ],
+    "c-lynnwood": [
+      "SAF07X-0485",
+      "SAF07X-0469",
+      "FME07X-0180"
+    ],
+    "b-lynnwood": [
+      "QFC07X-0835",
+      "SAF07X-3523",
+      "FME07X-0688"
+    ],
+    "a-madras": [
+      "SAF07Z-1960"
+    ],
+    "a-maple valley": [
+      "QFC07X-0837"
+    ],
+    "c-maple valley": [
+      "SAF07X-1471"
+    ],
+    "b-maple valley": [
+      "FME07X-0682"
+    ],
+    "b-marysville": [
+      "HAG07X-3604",
+      "SAF07X-1485",
+      "ALB07X-0471"
+    ],
+    "a-marysville": [
+      "FME07X-0209"
+    ],
+    "a-mcminnville": [
+      "ALB07Y-0528"
+    ],
+    "b-mcminnville": [
+      "SAF07Y-1601"
+    ],
+    "b-medford": [
+      "ALB07Y-3508",
+      "SAF07Y-1643",
+      "ALB07Y-3593"
+    ],
+    "a-medford": [
+      "SAF07Y-0525",
+      "FME07Y-0196"
+    ],
+    "c-medford": [
+      "FME07Y-0195"
+    ],
+    "a-mercer island": [
+      "QFC07X-0806",
+      "QFC07X-0839"
+    ],
+    "b-mill creek": [
+      "SAF07X-0458"
+    ],
+    "a-milton": [
+      "SAF07Z-3545"
+    ],
+    "a-milwaukie": [
+      "SAF07Z-2690"
+    ],
+    "c-milwaukie": [
+      "SAF07Y-2696",
+      "FME07Y-0240"
+    ],
+    "b-mira loma": [
+      "STB05X-0088"
+    ],
+    "a-molalla": [
+      "SAF07Y-1751"
+    ],
+    "c-monroe": [
+      "SAF07X-0537",
+      "FME07X-0210"
+    ],
+    "b-montclair": [
+      "STB05X-0073"
+    ],
+    "b-moreno valley": [
+      "FFL05X-0302",
+      "STB05X-0185",
+      "FFL05X-0398",
+      "STB05X-0193",
+      "STB05X-0172"
+    ],
+    "c-mount vernon": [
+      "HAG07X-0069"
+    ],
+    "b-mount vernon": [
+      "SAF07X-1472"
+    ],
+    "b-mountlake terrace": [
+      "QFC07X-0857"
+    ],
+    "c-mountlake terrace": [
+      "SAF07X-0414"
+    ],
+    "c-mukilteo": [
+      "QFC07X-0832"
+    ],
+    "b-newberg": [
+      "SAF07Y-2623"
+    ],
+    "c-newberg": [
+      "FME07Y-0220"
+    ],
+    "b-newcastle": [
+      "QFC07X-0827"
+    ],
+    "a-newcastle": [
+      "SAF07X-0558"
+    ],
+    "c-newport": [
+      "SAF07Y-0378"
+    ],
+    "b-newport": [
+      "FME07Y-0227"
+    ],
+    "a-norco": [
+      "STB05X-0044",
+      "STB05X-0199"
+    ],
+    "a-north bend": [
+      "QFC07X-0829"
+    ],
+    "b-north bend": [
+      "SAF07X-1528"
+    ],
+    "c-north bend": [
+      "SAF07Y-1557"
+    ],
+    "c-oak harbor": [
+      "SAR07X-0610",
+      "SAF07X-0402"
+    ],
+    "a-oak harbor": [
+      "HAG07X-3427"
+    ],
+    "b-olympia": [
+      "SAF07Z-1952",
+      "ALB07Z-3417"
+    ],
+    "c-olympia": [
+      "HAG07Z-3444",
+      "SAF07Z-0543",
+      "SAF07Z-1464"
+    ],
+    "a-olympia": [
+      "SAF07Z-1173"
+    ],
+    "a-ontario": [
+      "FFL05X-0320",
+      "STB05X-0059",
+      "STB05X-0204"
+    ],
+    "c-ontario": [
+      "RAL05X-0752",
+      "STB05X-0208"
+    ],
+    "b-ontario": [
+      "STB05X-0108",
+      "STB05X-0085"
+    ],
+    "c-oregon city": [
+      "ALB07Y-0571",
+      "FME07Y-0242"
+    ],
+    "a-oregon city": [
+      "SAF07Y-2993"
+    ],
+    "c-orting": [
+      "SAF07Z-1844"
+    ],
+    "a-palm desert": [
+      "RAL05X-0027"
+    ],
+    "b-palm desert": [
+      "ALB05X-6567"
+    ],
+    "c-palm desert": [
+      "STB05X-0181",
+      "ALB05X-6559"
+    ],
+    "a-palm springs": [
+      "VON05X-2384",
+      "STB05X-0126"
+    ],
+    "b-palm springs": [
+      "ALB05X-6569",
+      "RAL05X-0181",
+      "RAL05X-0611"
+    ],
+    "b-parkland": [
+      "SAR07Z-0488"
+    ],
+    "a-phelan": [
+      "STB05X-0116"
+    ],
+    "b-pomona": [
+      "STB05X-0019",
+      "FFL05X-0358"
+    ],
+    "b-port angeles": [
+      "SAR07X-0630"
+    ],
+    "c-port angeles": [
+      "SAF07X-1922",
+      "SAF07X-1492"
+    ],
+    "a-port hadlock": [
+      "QFC07X-0870"
+    ],
+    "a-port orchard": [
+      "SAF07X-3317",
+      "FME07X-0655"
+    ],
+    "b-port orchard": [
+      "ALB07X-0475"
+    ],
+    "c-port orchard": [
+      "ALB07X-0419"
+    ],
+    "a-port townsend": [
+      "SAF07X-4608",
+      "QFC07X-0106",
+      "SAF07X-0538"
+    ],
+    "a-portland": [
+      "ALB07Y-0596",
+      "QFC07Z-0206",
+      "SAF07Y-2448",
+      "SAF07Y-2790",
+      "FME07Z-0075",
+      "FME07Y-0285"
+    ],
+    "c-portland": [
+      "QFC07Y-0202",
+      "ALB07Z-0575",
+      "SAF07Z-0382",
+      "SAF07Z-1612",
+      "SAF07Z-0509",
+      "FME07Z-0255",
+      "SAF07Z-1951",
+      "SAF07Y-1525",
+      "SAF07Z-1523",
+      "FME07Y-0360",
+      "SAF07Z-1447",
+      "FME07Z-0600"
+    ],
+    "b-portland": [
+      "QFC07Z-0205",
+      "ALB07Z-0564",
+      "QFC07Y-0201",
+      "SAF07Y-3136",
+      "SAF07Z-3134",
+      "SAF07Z-1627",
+      "FME07Z-0125",
+      "FME07Y-0040",
+      "FME07Z-0135",
+      "FME07Z-0150"
+    ],
+    "a-poulsbo": [
+      "SAF07X-3148"
+    ],
+    "b-puyallup": [
+      "ALB07Z-3106",
+      "SAF07Z-0422",
+      "SAF07Z-1798",
+      "SAF07Z-2729",
+      "SAF07Z-3228"
+    ],
+    "a-puyallup": [
+      "FME07Z-0265",
+      "SAF07Z-2640"
+    ],
+    "a-rancho cucamonga": [
+      "VON05X-1914",
+      "ALB05X-6520",
+      "RAL05X-0700",
+      "VON05X-2147"
+    ],
+    "c-rancho cucamonga": [
+      "RAL05X-0717",
+      "STB05X-0200"
+    ],
+    "b-rancho cucamonga": [
+      "FFL05X-0328",
+      "ALB05X-3177",
+      "STB05X-0078",
+      "RAL05X-0013"
+    ],
+    "b-rancho mirage": [
+      "ALB05X-6586"
+    ],
+    "b-redlands": [
+      "FFL05X-0311",
+      "VON05X-1734",
+      "STB05X-0112",
+      "ALB05X-6519"
+    ],
+    "c-redlands": [
+      "STB05X-0018"
+    ],
+    "a-redlands": [
+      "STB05X-0191"
+    ],
+    "b-redmond": [
+      "QFC07X-0878",
+      "QFC07X-0820"
+    ],
+    "a-redmond": [
+      "ALB07X-2072",
+      "SAF07X-0496",
+      "SAF07X-0464",
+      "QFC07X-0860",
+      "FME07Z-0650"
+    ],
+    "c-redmond": [
+      "SAF07Z-1665"
+    ],
+    "a-reedsport": [
+      "SAF07Y-0284"
+    ],
+    "a-renton": [
+      "SAR07X-0490",
+      "FME07X-0459"
+    ],
+    "b-renton": [
+      "ALB07X-0453",
+      "SAF07X-0519",
+      "SAF07X-3319",
+      "FME07X-0031"
+    ],
+    "c-renton": [
+      "SAF07X-0366",
+      "QFC07X-0871",
+      "SAF07X-1563"
+    ],
+    "a-rialto": [
+      "FFL05X-0303"
+    ],
+    "c-rialto": [
+      "STB05X-0012",
+      "STB05X-0043"
+    ],
+    "c-ridgefield": [
+      "ROS07Z-0042"
+    ],
+    "b-riverside": [
+      "RAL05X-0098",
+      "FFL05X-0343",
+      "STB05X-0115",
+      "STB05X-0042",
+      "STB05X-0069",
+      "RAL05X-0144",
+      "RAL05X-0609",
+      "VON05X-2659",
+      "STB05X-0022",
+      "STB05X-0192",
+      "STB05X-0114"
+    ],
+    "c-riverside": [
+      "STB05X-0014",
+      "STB05X-0090",
+      "FFL05X-0329",
+      "STB05X-0201"
+    ],
+    "a-riverside": [
+      "STB05X-0001",
+      "STB05X-0080",
+      "ALB05X-6572",
+      "STB05X-0207",
+      "ALB05X-6514"
+    ],
+    "a-roseburg": [
+      "SHM07Y-0004"
+    ],
+    "b-roseburg": [
+      "SAF07Y-1666",
+      "FME07Y-0281"
+    ],
+    "c-salem": [
+      "SAF07Y-0429",
+      "SAF07Y-0412",
+      "SAF07Y-1935"
+    ],
+    "a-salem": [
+      "SAF07Y-1629",
+      "FME07Y-0225",
+      "FME07Y-0090"
+    ],
+    "b-salem": [
+      "FME07Y-0355"
+    ],
+    "c-sammamish": [
+      "QFC07X-0824",
+      "QFC07X-0840"
+    ],
+    "a-sammamish": [
+      "SAF07X-0555"
+    ],
+    "b-san bernardino": [
+      "FFL05X-0301",
+      "STB05X-0008",
+      "STB05X-0107",
+      "STB05X-0036"
+    ],
+    "a-san bernardino": [
+      "STB05X-0002",
+      "STB05X-0024"
+    ],
+    "c-san bernardino": [
+      "RAL05X-0753"
+    ],
+    "a-sandy": [
+      "SAF07Z-0782",
+      "FME07Z-0663"
+    ],
+    "a-scappoose": [
+      "FME07Z-0462"
+    ],
+    "a-seaside": [
+      "SAF07Z-1260"
+    ],
+    "b-seattle": [
+      "ALB07X-0408",
+      "QFC07X-0872",
+      "SAF07X-1062",
+      "SAF07X-1885",
+      "QFC07X-0805",
+      "QFC07X-0881",
+      "SAF07X-3275",
+      "QFC07X-0811",
+      "QFC07X-0858",
+      "QFC07X-0887",
+      "QFC07X-0847",
+      "SAF07X-2932",
+      "FME07X-0608"
+    ],
+    "c-seattle": [
+      "QFC07X-0883",
+      "SAF07X-0219",
+      "QFC07X-0825",
+      "QFC07X-0807",
+      "QFC07X-0869",
+      "SAF07X-1493",
+      "SAF07X-1477",
+      "SAF07X-1508",
+      "SAF07X-1550",
+      "SAF07X-1965",
+      "SAF07X-1551",
+      "SAF07X-1923",
+      "FME07X-0122"
+    ],
+    "a-seattle": [
+      "QFC07X-0849",
+      "QFC07X-0891",
+      "SAF07X-0423",
+      "SAR07X-0530",
+      "QFC07X-0866",
+      "SAF07X-1586",
+      "SAF07X-1993",
+      "SAF07X-3091",
+      "SAF07X-1143"
+    ],
+    "b-sedro woolley": [
+      "FPV07X-0022"
+    ],
+    "b-sequim": [
+      "QFC07X-0841",
+      "SAF07X-1448"
+    ],
+    "b-shelton": [
+      "FME07X-0603"
+    ],
+    "c-shelton": [
+      "SAF07X-0585"
+    ],
+    "b-sherwood": [
+      "SAF07Y-1800"
+    ],
+    "b-shoreline": [
+      "QFC07X-0816",
+      "SAF07X-0497",
+      "FME07X-0013"
+    ],
+    "c-shoreline": [
+      "SAF07X-3213"
+    ],
+    "a-silverdale": [
+      "SAF07X-1680"
+    ],
+    "a-silverton": [
+      "SAF07Y-1580"
+    ],
+    "c-snohomish": [
+      "SAF07X-1076"
+    ],
+    "a-snohomish": [
+      "SAF07X-3419"
+    ],
+    "b-snohomish": [
+      "HAG07X-0057",
+      "FME07X-0681"
+    ],
+    "b-snoqualmie": [
+      "SAF07X-3613"
+    ],
+    "a-south hill": [
+      "FME07Z-0424"
+    ],
+    "a-spanaway": [
+      "FME07Z-0604"
+    ],
+    "c-springfield": [
+      "ALB07Y-0570",
+      "SAF07Y-1094"
+    ],
+    "b-springfield": [
+      "FME07Y-0328"
+    ],
+    "a-springfield": [
+      "ALB07Y-0574"
+    ],
+    "b-st. helens": [
+      "SAF07Z-0424"
+    ],
+    "b-stanwood": [
+      "HAG07X-3480",
+      "QFC07X-0879"
+    ],
+    "a-stayton": [
+      "SAF07Y-1527"
+    ],
+    "c-sumner": [
+      "SAF07Z-0544"
+    ],
+    "b-sumner": [
+      "FME07Z-0665"
+    ],
+    "c-sweet home": [
+      "SAF07Y-1710"
+    ],
+    "b-tacoma": [
+      "QFC07Z-0105",
+      "QFC07Z-0831",
+      "SAF07Z-1437",
+      "SAF07Z-3424",
+      "SAF07Z-1436",
+      "SAF07X-1978"
+    ],
+    "a-tacoma": [
+      "SAF07Z-0329",
+      "ALB07Z-0493",
+      "SAF07Z-1594",
+      "SAF07Z-3305",
+      "FME07Z-0390"
+    ],
+    "c-tacoma": [
+      "SAF07Z-0486",
+      "FME07Z-0605"
+    ],
+    "a-the dalles": [
+      "SAF07Z-1489",
+      "FME07Z-0372"
+    ],
+    "a-tigard": [
+      "SAF07Y-3542",
+      "FME07Y-0375"
+    ],
+    "c-tillamook": [
+      "SAF07Y-2723",
+      "FME07Y-0377"
+    ],
+    "c-troutdale": [
+      "SAF07Z-0536"
+    ],
+    "c-tualatin": [
+      "FME07Y-0393"
+    ],
+    "b-tukwila": [
+      "SAR07X-0624"
+    ],
+    "b-tumwater": [
+      "SAF07Z-1407",
+      "FME07Z-0659"
+    ],
+    "c-tumwater": [
+      "SAF07Z-1503"
+    ],
+    "a-twentynine palms": [
+      "STB05X-0105"
+    ],
+    "c-university place": [
+      "FME07Z-0615"
+    ],
+    "a-upland": [
+      "STB05X-0045",
+      "STB05X-0065"
+    ],
+    "b-upland": [
+      "VON05X-2681",
+      "ALB05X-0599"
+    ],
+    "c-vancouver": [
+      "SAF07Z-0400",
+      "SAF07Z-1103",
+      "FME07Z-0093",
+      "SAF07Z-1653",
+      "FME07Z-0683"
+    ],
+    "b-vancouver": [
+      "QFC07Z-0212",
+      "SAF07Z-1842",
+      "ALB07Z-0580",
+      "FME07Z-0140",
+      "SAF07Z-4405",
+      "FME07Z-0460"
+    ],
+    "a-vancouver": [
+      "SAF07Z-1611",
+      "SAF07Z-1704",
+      "FME07Z-0208",
+      "FME07Z-0236"
+    ],
+    "c-victorville": [
+      "FFL05X-0397"
+    ],
+    "b-victorville": [
+      "VON05X-2131",
+      "FFL05X-0305",
+      "STB05X-0123"
+    ],
+    "a-victorville": [
+      "STB05X-0118"
+    ],
+    "a-warrenton": [
+      "FME07Z-0218"
+    ],
+    "b-washougal": [
+      "SAF07Z-1687"
+    ],
+    "c-west linn": [
+      "SAF07Y-1713"
+    ],
+    "a-wilsonville": [
+      "SAF07Y-0285"
+    ],
+    "b-wilsonville": [
+      "FME07Y-0516"
+    ],
+    "a-wood village": [
+      "FME07Z-0660"
+    ],
+    "a-woodburn": [
+      "SAF07Y-1976"
+    ],
+    "b-woodinville": [
+      "SAF07X-0533",
+      "HAG07X-3498"
+    ],
+    "a-woodland": [
+      "SAF07Z-1762"
+    ],
+    "c-yelm": [
+      "SAF07Z-1619"
+    ],
+    "c-yucaipa": [
+      "STB05X-0023"
+    ],
+    "b-yucaipa": [
+      "STB05X-0125",
+      "VON05X-1796"
+    ],
+    "a-yucca valley": [
+      "VON05X-3058",
+      "STB05X-0120"
+    ],
+    "b-yucca valley": [
+      "STB05X-0096"
+    ]
+  }
+}
