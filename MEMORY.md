@@ -140,3 +140,50 @@ Each shows per-installment + total:
 - Telegram bot for field submissions
 - Auto-follow-up reminders
 - Response tracking dashboard
+
+## "Find Today's Deal" Prospecting Tool (Built Feb 24, 2026)
+**Status:** ✅ PHASE 1+2 LIVE (Google Places + Greet Magazine)
+
+### Phase 1: Base Prospecting
+- **Input:** Store number (e.g., `FME07Z-0236`)
+- **Output:** Top 10 prospects ranked by likelihood (0-100 score)
+- **Query radius:** 2 miles max
+- **Target businesses:** Restaurants, salons, gyms, vets, retail, auto shops
+
+### Phase 2: Advertising Signals (In Progress)
+- **Greet Magazine detection** ✅ — Check if business advertises on Greet
+- **Facebook Ads Library** ⏳ — Requires API setup (already researched)
+- **Groupon/LivingSocial** ⏳ — Find coupon platforms
+- **Google Local Services Ads** ⏳ — Paid advertising indicator
+- **Indeed jobs** ⏳ — Business growth signal
+
+### Likelihood Score Breakdown (0-100):
+- **Distance** (0-25 pts) — Closer = higher
+- **Google Rating** (0-25 pts) — Higher rating = healthier
+- **Review Velocity** (0-20 pts) — Recent reviews = active
+- **Business Status** (0-15 pts) — Open/closed indicator
+- **Advertising Signals** (0-40 pts) — Found on Greet/Facebook = +40 boost
+
+### Files:
+- `scripts/prospecting_tool.py` — Base version (Google Places only)
+- `scripts/prospecting_tool_enhanced.py` — With advertising signals
+- `scripts/greet_scraper.py` — Greet Magazine web scraper
+- `scripts/facebook_ads_checker.py` — Facebook Ads Library (setup guide)
+- `data/store-rates/geocode_cache.json` — Cached lat/lon for 599 stores
+- `data/store-rates/greet_cache.json` — Cached Greet Magazine results
+
+### Usage:
+```bash
+# Basic (Google Places only)
+python3 scripts/prospecting_tool.py FME07Z-0236 10
+
+# Enhanced (with Greet Magazine signals)
+python3 scripts/prospecting_tool_enhanced.py FME07Z-0236 10
+```
+
+### Next Steps:
+1. Enable Facebook Ads Library scraping (API setup + goplaces integration)
+2. Add Groupon search integration
+3. Build Telegram bot interface for field reps
+4. Add newspaper/local media advertising detection
+5. Scale to all 612 stores with batch processing
