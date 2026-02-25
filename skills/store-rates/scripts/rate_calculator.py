@@ -55,6 +55,29 @@ def find_stores_by_city_and_chain(city: str, chain_name: str) -> list:
     return results
 
 
+def find_stores_by_street(street_name: str) -> list:
+    """Find stores by street name (case-insensitive substring match)."""
+    street_lower = street_name.lower()
+    results = []
+    
+    for store in STORES:
+        # Search in city field (which may contain address fragments)
+        city = store.get('city', '').lower()
+        address = store.get('address', '').lower()
+        
+        # Match if street name appears in city or address
+        if street_lower in city or street_lower in address:
+            result_store = store.copy()
+            # Add state from city reference if available
+            for store_id, store_info in STORES_BY_CODE.items():
+                if store_info['chain'] == store['name'] and store_info['city'].lower() in city:
+                    result_store['actual_state'] = store_info['state']
+                    break
+            results.append(result_store)
+    
+    return results
+
+
 def calculate_annual_price(monthly_base: float, discount_rate: float) -> float:
     """Calculate annual price with discount applied."""
     annual = monthly_base * 12
@@ -176,6 +199,7 @@ def main():
         print("Usage:")
         print("  python rate_calculator.py <city> <chain> <ad_type> [--json]")
         print("  python rate_calculator.py --list-cities")
+        print("  python rate_calculator.py --search-street '<street name>'")
         print("\nParameters:")
         print("  city       Store city (e.g., 'Longview')")
         print("  chain      Store chain (e.g., 'Fred Meyer', 'Safeway')")
@@ -185,11 +209,37 @@ def main():
         print("  python rate_calculator.py Longview 'Fred Meyer' single")
         print("  python rate_calculator.py Longview Safeway double --json")
         print("  python rate_calculator.py --list-cities")
+        print("  python rate_calculator.py --search-street 'Walker Rd'")
         sys.exit(1)
     
     # Handle list-cities flag
     if sys.argv[1] == "--list-cities":
         list_cities()
+        sys.exit(0)
+    
+    # Handle street search
+    if sys.argv[1] == "--search-street":
+        if len(sys.argv) < 3:
+            print("❌ Missing street name. Use: python rate_calculator.py --search-street '<street name>'")
+            sys.exit(1)
+        street = sys.argv[2]
+        stores = find_stores_by_street(street)
+        if stores:
+            # Return JSON array of matching stores with key info
+            results = []
+            for store in stores:
+                results.append({
+                    'code': store.get('code'),
+                    'name': store.get('name'),
+                    'city': store.get('city'),
+                    'state': store.get('state'),
+                    'tier': store.get('tier'),
+                    'singlead': store.get('singlead'),
+                    'doublead': store.get('doublead')
+                })
+            print(json.dumps(results))
+        else:
+            print(json.dumps([]))
         sys.exit(0)
     
     if len(sys.argv) < 3:

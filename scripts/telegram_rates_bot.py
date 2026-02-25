@@ -96,10 +96,13 @@ def parse_query(text: str) -> dict:
     Supports:
     - Store numbers: "0415", "0042"
     - City + Chain: "Lincoln City Safeway", "Bend Fred Meyer"
+    - Street names: "Walker Rd", "Magnolia Ave", etc.
     
     Examples:
       "0415"
       "0042"
+      "Walker Rd"
+      "Magnolia Avenue"
       "Lincoln City Safeway"
       "Longview Safeway"
       "Bend Fred Meyer"
@@ -119,6 +122,20 @@ def parse_query(text: str) -> dict:
             }
         else:
             return None
+    
+    # Check if input looks like a street name (contains street abbreviations)
+    street_keywords = ('rd', 'road', 'st', 'street', 'ave', 'avenue', 'blvd', 'boulevard', 
+                       'dr', 'drive', 'way', 'hwy', 'highway', 'pkwy', 'parkway', 'ln', 'lane')
+    text_lower = text.lower()
+    
+    is_street_query = any(keyword in text_lower for keyword in street_keywords)
+    
+    if is_street_query:
+        return {
+            "street": text,
+            "payment_plan": "monthly",
+            "query_type": "street"
+        }
     
     parts = text.split()
     
@@ -200,6 +217,27 @@ def get_rates(city: str, chain: str, ad_type: str) -> dict:
     except Exception as e:
         logger.error(f"Error calling rate calculator: {e}")
         return None
+
+
+def get_rates_by_street(street: str) -> list:
+    """Get all stores matching a street name."""
+    try:
+        result = subprocess.run(
+            ["python3", str(STORE_RATES_SKILL), "--search-street", street],
+            capture_output=True,
+            text=True,
+            timeout=5,
+        )
+        
+        if result.returncode != 0:
+            return []
+        
+        # Parse JSON array of stores
+        stores = json.loads(result.stdout)
+        return stores if isinstance(stores, list) else []
+    except Exception as e:
+        logger.error(f"Error searching by street: {e}")
+        return []
 
 
 def format_response(single_data: dict, double_data: dict, payment_plan: str, store_number: str = None) -> tuple:
@@ -332,9 +370,31 @@ async def handle_query(update: Update, context: ContextTypes.DEFAULT_TYPE) -> No
     
     if not query:
         await update.message.reply_text(
-            "❌ Could not parse query. Try:\n\n`0415` (store #)\nor\n`Lincoln City Safeway`\n`Bend Fred Meyer`",
+            "❌ Could not parse query. Try:\n\n`0415` (store #)\nor\n`Lincoln City Safeway`\nor\n`Walker Rd`",
             parse_mode="Markdown"
         )
+        return
+    
+    # Handle street searches
+    if query.get("query_type") == "street":
+        stores = get_rates_by_street(query["street"])
+        
+        if not stores:
+            await update.message.reply_text(
+                f"❌ No stores found on {query['street']}",
+                parse_mode="Markdown"
+            )
+            return
+        
+        # Show list of stores found
+        response = f"📍 *Stores on {query['street']}:*\n\n"
+        for store in stores[:10]:  # Limit to 10 results
+            store_num = store.get('code', '').split('-')[-1] if '-' in store.get('code', '') else '?'
+            response += f"• #{store_num} {store.get('name')} in {store.get('city')}, {store.get('state')}\n"
+        
+        response += f"\n_Type the store number (e.g., `{stores[0].get('code', '').split('-')[-1]}`) or ask for city+chain_"
+        
+        await update.message.reply_text(response, parse_mode="Markdown")
         return
     
     # Store query in context for button callbacks
