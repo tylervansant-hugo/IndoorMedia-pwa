@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-IndoorMedia Rates Bot - Clean, simple Telegram interface
+IndoorMedia Rates Bot - Case count based pricing
 """
 
 import json
@@ -16,7 +16,7 @@ logger = logging.getLogger(__name__)
 BOT_TOKEN = "8538356016:AAE3nlsh-He8JRR-9JQGS1InprYlgjZ3tWM"
 RATE_CALC = Path(__file__).parent.parent / "skills" / "store-rates" / "scripts" / "rate_calculator.py"
 
-# Load store index for number lookups
+# Load store index
 STORE_DATA_FILE = Path(__file__).parent.parent / "skills" / "store-rates" / "references" / "store_data.json"
 STORES_BY_NUMBER = {}
 
@@ -32,7 +32,7 @@ except Exception as e:
 
 
 def call_rate_calc(cmd_args):
-    """Call rate calculator and return JSON response."""
+    """Call rate calculator."""
     try:
         result = subprocess.run(
             ["python3", str(RATE_CALC)] + cmd_args,
@@ -47,18 +47,19 @@ def call_rate_calc(cmd_args):
     return None
 
 
-def format_pricing_message(store_data, street_name=None):
+def format_pricing_message(store_data):
     """Format store pricing for display."""
     name = store_data.get("name", "")
     city = store_data.get("city", "")
     state = store_data.get("state", "")
+    case_count = store_data.get("case_count", "")
     pricing = store_data.get("pricing", {})
+    ad_type = store_data.get("ad_type", "single").upper()
     
     msg = f"📍 *{name}* | {city}, {state}\n"
-    if street_name:
-        msg += f"📍 _{street_name}_\n"
-    msg += "\n*💰 SINGLE AD:*\n"
+    msg += f"📦 {case_count} cases | {ad_type} AD\n\n"
     
+    msg += "*💰 Payment Plans:*\n"
     for plan_type in ["monthly", "3month", "6month", "paid_full"]:
         p = pricing.get(plan_type, {})
         if p.get("installments") == 1:
@@ -67,21 +68,6 @@ def format_pricing_message(store_data, street_name=None):
         else:
             star = " ⭐" if plan_type == "paid_full" else ""
             msg += f"• {p.get('desc', '')}: ${p.get('per_month', 0):,.2f}/mo (${p.get('annual', 0):,.2f} total){star}\n"
-    
-    # Get double pricing
-    double_data = call_rate_calc([city, name, "double"])
-    if double_data:
-        pricing_double = double_data.get("pricing", {})
-        msg += "\n*💰 DOUBLE AD:*\n"
-        
-        for plan_type in ["monthly", "3month", "6month", "paid_full"]:
-            p = pricing_double.get(plan_type, {})
-            if p.get("installments") == 1:
-                star = " ⭐" if plan_type == "paid_full" else ""
-                msg += f"• {p.get('desc', '')}: ${p.get('annual', 0):,.2f}{star}\n"
-            else:
-                star = " ⭐" if plan_type == "paid_full" else ""
-                msg += f"• {p.get('desc', '')}: ${p.get('per_month', 0):,.2f}/mo (${p.get('annual', 0):,.2f} total){star}\n"
     
     return msg
 
@@ -104,14 +90,13 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     """Start command."""
     msg = """🐚 *IndoorMedia Rates Bot*
 
-Get store pricing instantly.
+Simple case-count based pricing.
 
 *How to search:*
-• By store #: `0415`
-• By city+chain: `Bend Safeway`
-• By street: `Walker Rd`
+• By store: `0415 25` (store# case_count)
+• By city: `Bend Safeway 20` (city chain case_count)
 
-Then tap buttons to switch payment plans!"""
+Then tap buttons to see payment plans!"""
     
     await update.message.reply_text(msg, parse_mode="Markdown")
 
@@ -123,60 +108,62 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
     if text.startswith("/"):
         return
     
-    # Try store number first (4 digits)
-    if text.isdigit() and len(text) == 4:
-        if text in STORES_BY_NUMBER:
-            store = STORES_BY_NUMBER[text]
+    parts = text.split()
+    
+    # Need at least 2 parts
+    if len(parts) < 2:
+        await update.message.reply_text("Format: store# case_count or city chain case_count\nE.g.: `0415 25` or `Bend Safeway 20`")
+        return
+    
+    # Case 1: Store number + case count (e.g., "0415 25")
+    if parts[0].isdigit() and len(parts[0]) == 4:
+        store_num = parts[0]
+        
+        try:
+            case_count = int(parts[1])
+        except ValueError:
+            await update.message.reply_text("❌ Case count must be a number")
+            return
+        
+        if store_num in STORES_BY_NUMBER:
+            store = STORES_BY_NUMBER[store_num]
             city = store.get("city", "")
             chain = store.get("name", "")
             
-            data = call_rate_calc([city, chain, "single"])
+            data = call_rate_calc([city, chain, str(case_count), "single"])
             if data:
                 context.user_data["last_store"] = data
                 msg = format_pricing_message(data)
                 await update.message.reply_text(msg, parse_mode="Markdown", reply_markup=make_payment_buttons())
                 return
-        
-        await update.message.reply_text(f"❌ Store {text} not found")
-        return
+            else:
+                await update.message.reply_text(f"❌ Error getting pricing for case count {case_count}")
+                return
+        else:
+            await update.message.reply_text(f"❌ Store {store_num} not found")
+            return
     
-    # Try street search (has street keywords)
-    street_keywords = ("rd", "road", "st", "street", "ave", "avenue", "blvd", "dr", "hwy", "pkwy", "ln", "way")
-    if any(kw in text.lower() for kw in street_keywords):
-        results = call_rate_calc(["--search-street", text])
-        if results and isinstance(results, list) and len(results) > 0:
-            context.user_data["street_context"] = text
-            msg = f"📍 *Stores on {text}:*\n\n"
-            
-            buttons = []
-            for store in results[:10]:
-                num = store.get("code", "").split("-")[-1] if "-" in store.get("code", "") else "?"
-                msg += f"• #{num} {store.get('name')} in {store.get('city')}\n"
-                buttons.append([InlineKeyboardButton(f"#{num} {store.get('name')}", callback_data=f"street_{num}")])
-            
-            await update.message.reply_text(msg, parse_mode="Markdown", reply_markup=InlineKeyboardMarkup(buttons))
+    # Case 2: City + chain + case count (e.g., "Bend Safeway 20")
+    if len(parts) >= 3:
+        try:
+            case_count = int(parts[-1])
+            city = parts[0]
+            chain = " ".join(parts[1:-1])
+        except ValueError:
+            await update.message.reply_text("❌ Last parameter must be case count (number)")
             return
         
-        await update.message.reply_text(f"❌ No stores found on {text}")
-        return
-    
-    # Try city + chain (2+ words)
-    parts = text.split()
-    if len(parts) >= 2:
-        city = parts[0]
-        chain = " ".join(parts[1:])
-        
-        data = call_rate_calc([city, chain, "single"])
+        data = call_rate_calc([city, chain, str(case_count), "single"])
         if data:
             context.user_data["last_store"] = data
             msg = format_pricing_message(data)
             await update.message.reply_text(msg, parse_mode="Markdown", reply_markup=make_payment_buttons())
             return
-        
-        await update.message.reply_text(f"❌ No stores found for {city} {chain}")
-        return
+        else:
+            await update.message.reply_text(f"❌ No stores found for {city} {chain}")
+            return
     
-    await update.message.reply_text("❌ Try: store #, city+chain, or street name")
+    await update.message.reply_text("❌ Invalid format. Try: `0415 25` or `Bend Safeway 20`")
 
 
 async def button_callback(update: Update, context: ContextTypes.DEFAULT_TYPE):
@@ -184,31 +171,8 @@ async def button_callback(update: Update, context: ContextTypes.DEFAULT_TYPE):
     query = update.callback_query
     await query.answer()
     
-    # Street store button (format: street_NNNN)
-    if query.data.startswith("street_"):
-        num = query.data.replace("street_", "")
-        
-        if num in STORES_BY_NUMBER:
-            store = STORES_BY_NUMBER[num]
-            city = store.get("city", "")
-            chain = store.get("name", "")
-            
-            data = call_rate_calc([city, chain, "single"])
-            if data:
-                street = context.user_data.get("street_context")
-                context.user_data["last_store"] = data
-                msg = format_pricing_message(data, street)
-                await query.edit_message_text(msg, parse_mode="Markdown", reply_markup=make_payment_buttons())
-                return
-        
-        await query.edit_message_text("❌ Store not found")
-        return
-    
-    # Payment plan buttons (format: plan_PLANTYPE)
-    # For now, just acknowledge - full implementation would show plan-specific message
-    if query.data.startswith("plan_"):
-        await query.answer("Plan selected")
-        return
+    # Just acknowledge for now - could expand to show plan-specific details
+    await query.answer("Plan selected!")
 
 
 def main():
@@ -219,7 +183,7 @@ def main():
     app.add_handler(CallbackQueryHandler(button_callback))
     app.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, handle_message))
     
-    logger.info("🐚 IndoorMedia Rates Bot starting...")
+    logger.info("🐚 IndoorMedia Rates Bot starting (case count based)...")
     app.run_polling(allowed_updates=Update.ALL_TYPES)
 
 

@@ -1,31 +1,85 @@
 #!/usr/bin/env python3
 """
-IndoorMedia Store Rate Calculator - Clean, simple implementation
-Pricing formula: base + $125 (production charge), then apply discounts
+IndoorMedia Rate Calculator - Case Count Based Pricing
+Simple formula: base price per case count + discounts + $125 production
 """
 
 import json
 import sys
 from pathlib import Path
 
-# Load data
+# Case count pricing tiers for SINGLE ads
+CASE_PRICING = {
+    8: 2400,
+    9: 2550,
+    10: 2700,
+    11: 2850,
+    12: 3000,
+    13: 3150,
+    14: 3300,
+    15: 3425,
+    16: 3550,
+    17: 3675,
+    18: 3800,
+    19: 3925,
+    20: 4050,
+    21: 4175,
+    22: 4300,
+    23: 4400,
+    24: 4500,
+    25: 4600,
+    26: 4700,
+    27: 4800,
+    28: 4900,
+    29: 5000,
+    30: 5100,
+    31: 5175,
+    32: 5250,
+    33: 5325,
+    34: 5400,
+    35: 5475,
+    36: 5550,
+    37: 5625,
+    38: 5700,
+    39: 5775,
+    40: 5850,
+}
+
+# Load store data
 script_dir = Path(__file__).parent
 store_file = script_dir.parent / "references" / "store_data.json"
 city_file = script_dir.parent / "references" / "city_chains.json"
 
-with open(store_file) as f:
-    stores = json.load(f)["stores"]
+try:
+    with open(store_file) as f:
+        STORES = {s["code"]: s for s in json.load(f)["stores"]}
+    
+    with open(city_file) as f:
+        data = json.load(f)
+        CITY_CHAINS = data.get("city_chains", {})
+        STORES_BY_CODE = data.get("stores_by_code", {})
+except Exception as e:
+    print(f"Error loading data: {e}")
+    STORES = {}
+    CITY_CHAINS = {}
+    STORES_BY_CODE = {}
 
-with open(city_file) as f:
-    city_data = json.load(f)
 
-STORES = {s["code"]: s for s in stores}
-CITY_CHAINS = city_data.get("city_chains", {})
-STORES_BY_CODE = city_data.get("stores_by_code", {})
+def get_single_price(case_count):
+    """Get base annual price for single ad by case count."""
+    return CASE_PRICING.get(case_count, None)
 
 
-def calculate_pricing(base_price):
-    """Calculate all payment plans for a given base price."""
+def get_double_price(case_count):
+    """Get base annual price for double ad by case count (1.4X single)."""
+    single = get_single_price(case_count)
+    if single:
+        return round(single * 1.4, 2)
+    return None
+
+
+def calculate_plans(base_price):
+    """Calculate all payment plans. $125 added AFTER discounts."""
     prod_charge = 125.0
     
     return {
@@ -57,17 +111,13 @@ def calculate_pricing(base_price):
 
 
 def find_stores_by_city_chain(city, chain):
-    """Find stores by city and chain name."""
+    """Find stores by city and chain."""
     city_title = city.title()
     chain_title = chain.title()
     
-    if city_title not in CITY_CHAINS:
+    if city_title not in CITY_CHAINS or chain_title not in CITY_CHAINS[city_title]:
         return []
     
-    if chain_title not in CITY_CHAINS[city_title]:
-        return []
-    
-    # Find all matching stores
     results = []
     for code, store_info in STORES_BY_CODE.items():
         if store_info["city"] == city_title and store_info["chain"] == chain_title:
@@ -83,7 +133,7 @@ def find_stores_by_street(street):
     street_lower = street.lower()
     results = []
     
-    for store in stores:
+    for store in STORES.values():
         city = store.get("city", "").lower()
         address = store.get("address", "").lower()
         
@@ -93,89 +143,95 @@ def find_stores_by_street(street):
     return results
 
 
-def format_store_response(store, ad_type="single"):
-    """Format store data with pricing for bot."""
+def format_response(store, case_count, ad_type="single"):
+    """Format store response with pricing."""
     if ad_type == "single":
-        base = store["singlead"]
+        base = get_single_price(case_count)
     else:
-        base = store["doublead"]
+        base = get_double_price(case_count)
     
-    pricing = calculate_pricing(base)
+    if not base:
+        return None
+    
+    planning = calculate_plans(base)
     
     return {
         "code": store["code"],
         "name": store["name"],
         "city": store.get("city", ""),
         "state": store.get("state", ""),
-        "tier": store.get("tier", ""),
-        "cycle": store.get("cycle", ""),
+        "case_count": case_count,
         "ad_type": ad_type,
         "base_price": base,
-        "pricing": pricing
+        "pricing": planning
     }
 
 
 def main():
     if len(sys.argv) < 2:
         print("Usage:")
+        print("  python rate_calculator.py CITY CHAIN CASE_COUNT [single|double]")
         print("  python rate_calculator.py --search-street STREET")
-        print("  python rate_calculator.py CITY CHAIN [single|double] --json")
         print("  python rate_calculator.py --list-cities")
         return 1
     
-    # Handle street search
+    # List cities
+    if sys.argv[1] == "--list-cities":
+        for city in sorted(CITY_CHAINS.keys()):
+            print(city)
+        return 0
+    
+    # Search street
     if sys.argv[1] == "--search-street":
         if len(sys.argv) < 3:
             print(json.dumps([]))
             return 0
         
-        street = sys.argv[2]
-        results = find_stores_by_street(street)
-        
-        # Return simplified format for bot
-        output = []
-        for store in results[:20]:  # Limit to 20
-            output.append({
-                "code": store["code"],
-                "name": store["name"],
-                "city": store.get("city", ""),
-                "state": store.get("state", ""),
-                "singlead": store["singlead"],
-                "doublead": store["doublead"]
-            })
-        
+        results = find_stores_by_street(sys.argv[2])
+        output = [
+            {
+                "code": s["code"],
+                "name": s["name"],
+                "city": s.get("city", ""),
+                "state": s.get("state", "")
+            }
+            for s in results[:20]
+        ]
         print(json.dumps(output))
         return 0
     
-    # Handle list cities
-    if sys.argv[1] == "--list-cities":
-        cities = sorted(CITY_CHAINS.keys())
-        for city in cities:
-            print(city)
-        return 0
-    
-    # Normal lookup: CITY CHAIN [single|double]
-    if len(sys.argv) < 3:
-        print("Error: Need CITY and CHAIN")
+    # Normal lookup: CITY CHAIN CASE_COUNT [single|double]
+    if len(sys.argv) < 4:
+        print(json.dumps({"error": "Need CITY, CHAIN, and CASE_COUNT"}))
         return 1
     
     city = sys.argv[1]
     chain = sys.argv[2]
-    ad_type = "single"
     
-    if len(sys.argv) > 3 and sys.argv[3] in ("single", "double"):
-        ad_type = sys.argv[3]
+    try:
+        case_count = int(sys.argv[3])
+    except ValueError:
+        print(json.dumps({"error": "CASE_COUNT must be a number"}))
+        return 1
+    
+    ad_type = "single"
+    if len(sys.argv) > 4 and sys.argv[4] in ("single", "double"):
+        ad_type = sys.argv[4]
     
     # Find stores
     matching = find_stores_by_city_chain(city, chain)
-    
     if not matching:
         print(json.dumps({"error": f"No stores found for {city} {chain}"}))
         return 1
     
-    # Return first match with pricing
-    response = format_store_response(matching[0], ad_type)
-    print(json.dumps(response))
+    # Use first match
+    response = format_response(matching[0], case_count, ad_type)
+    if response:
+        print(json.dumps(response))
+    else:
+        print(json.dumps({"error": f"Invalid case count: {case_count}"}))
+        return 1
+    
     return 0
 
 
