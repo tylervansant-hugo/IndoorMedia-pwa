@@ -243,7 +243,7 @@ def get_rates_by_street(street: str) -> list:
         return []
 
 
-def format_response(single_data: dict, double_data: dict, payment_plan: str, store_number: str = None) -> tuple:
+def format_response(single_data: dict, double_data: dict, payment_plan: str, store_number: str = None, street_name: str = None) -> tuple:
     """
     Format the rate response showing BOTH single and double ads.
     Returns: (message_text, inline_keyboard)
@@ -264,6 +264,8 @@ def format_response(single_data: dict, double_data: dict, payment_plan: str, sto
         store_label = f"{store} #{store_number}"
     
     response = f"📍 *{store_label}* | {tier} tier | {state_label}\n"
+    if street_name:
+        response += f"_📍 {street_name}_\n"
     response += f"_Year-long Campaigns_\n\n"
     
     # Single Ad column
@@ -392,15 +394,28 @@ async def handle_query(update: Update, context: ContextTypes.DEFAULT_TYPE) -> No
             )
             return
         
-        # Show list of stores found
+        # Store street context for later callbacks
+        context.user_data["street_context"] = query["street"]
+        
+        # Show list of stores found with inline buttons
         response = f"📍 *Stores on {query['street']}:*\n\n"
+        
+        # Create buttons for each store
+        buttons = []
         for store in stores[:10]:  # Limit to 10 results
             store_num = store.get('code', '').split('-')[-1] if '-' in store.get('code', '') else '?'
-            response += f"• #{store_num} {store.get('name')} in {store.get('city')}, {store.get('state')}\n"
+            store_name = store.get('name')
+            city = store.get('city')
+            
+            response += f"• #{store_num} {store_name} in {city}\n"
+            
+            # Add button for this store
+            buttons.append(
+                [InlineKeyboardButton(f"#{store_num} {store_name}", callback_data=f"street_store_{store_num}_{query['street']}")]
+            )
         
-        response += f"\n_Type the store number (e.g., `{stores[0].get('code', '').split('-')[-1]}`) or ask for city+chain_"
-        
-        await update.message.reply_text(response, parse_mode="Markdown")
+        keyboard = InlineKeyboardMarkup(buttons)
+        await update.message.reply_text(response, parse_mode="Markdown", reply_markup=keyboard)
         return
     
     # Store query in context for button callbacks
@@ -417,19 +432,44 @@ async def handle_query(update: Update, context: ContextTypes.DEFAULT_TYPE) -> No
         )
         return
     
-    # Format response with both ad types
+    # Format response with both ad types (include street context if available)
     store_number = query.get("store_number")
-    response, keyboard = format_response(single_data, double_data, query["payment_plan"], store_number)
+    street_name = context.user_data.get("street_context")
+    response, keyboard = format_response(single_data, double_data, query["payment_plan"], store_number, street_name)
     
     await update.message.reply_text(response, parse_mode="Markdown", reply_markup=keyboard)
 
 
 async def button_callback(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
-    """Handle payment plan button clicks."""
+    """Handle button clicks (payment plans and street store selections)."""
     query = update.callback_query
     await query.answer()  # Close button loading state
     
-    # Get the selected plan from callback data
+    # Handle street store button clicks (format: street_store_NNNN_StreetName)
+    if query.data.startswith("street_store_"):
+        parts = query.data.split("_", 3)  # Split into [street, store, number, street_name...]
+        store_number = parts[2]
+        street_name = parts[3] if len(parts) > 3 else None
+        
+        # Look up the store by number
+        if store_number in STORES_BY_NUMBER:
+            store_info = STORES_BY_NUMBER[store_number]
+            city = store_info.get("city", "")
+            chain = store_info.get("name", "")
+            
+            # Get rates for both single and double
+            single_data = get_rates(city, chain, "single")
+            double_data = get_rates(city, chain, "double")
+            
+            if single_data and double_data:
+                response, keyboard = format_response(single_data, double_data, "monthly", store_number, street_name)
+                await query.edit_message_text(response, parse_mode="Markdown", reply_markup=keyboard)
+                return
+        
+        await query.edit_message_text("❌ Could not fetch rates for this store.")
+        return
+    
+    # Handle payment plan button clicks (format: plan_PLANTYPE)
     plan_key = query.data.replace("plan_", "")
     
     # Get last query from user data
@@ -445,9 +485,10 @@ async def button_callback(update: Update, context: ContextTypes.DEFAULT_TYPE) ->
         await query.edit_message_text("❌ Could not fetch rates.")
         return
     
-    # Format with new plan
+    # Format with new plan (include street context if available)
     store_number = last_query.get("store_number")
-    response, keyboard = format_response(single_data, double_data, plan_key, store_number)
+    street_name = context.user_data.get("street_context")
+    response, keyboard = format_response(single_data, double_data, plan_key, store_number, street_name)
     
     await query.edit_message_text(response, parse_mode="Markdown", reply_markup=keyboard)
 
