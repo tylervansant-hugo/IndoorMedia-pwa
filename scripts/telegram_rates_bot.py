@@ -409,9 +409,9 @@ async def handle_query(update: Update, context: ContextTypes.DEFAULT_TYPE) -> No
             
             response += f"• #{store_num} {store_name} in {city}\n"
             
-            # Add button for this store
+            # Add button for this store (callback_data limited to 64 chars, so just use store number)
             buttons.append(
-                [InlineKeyboardButton(f"#{store_num} {store_name}", callback_data=f"street_store_{store_num}_{query['street']}")]
+                [InlineKeyboardButton(f"#{store_num} {store_name}", callback_data=f"street_{store_num}")]
             )
         
         keyboard = InlineKeyboardMarkup(buttons)
@@ -445,11 +445,10 @@ async def button_callback(update: Update, context: ContextTypes.DEFAULT_TYPE) ->
     query = update.callback_query
     await query.answer()  # Close button loading state
     
-    # Handle street store button clicks (format: street_store_NNNN_StreetName)
-    if query.data.startswith("street_store_"):
-        parts = query.data.split("_", 3)  # Split into [street, store, number, street_name...]
-        store_number = parts[2]
-        street_name = parts[3] if len(parts) > 3 else None
+    # Handle street store button clicks (format: street_NNNN)
+    if query.data.startswith("street_"):
+        store_number = query.data.replace("street_", "")
+        street_name = context.user_data.get("street_context")
         
         # Look up the store by number
         if store_number in STORES_BY_NUMBER:
