@@ -11,7 +11,9 @@
     "PostalCode": "98520",
     "Case Count": 34,
     "SingleAd": 5400.0,
-    "DoubleAd": 7560.0
+    "DoubleAd": 7560.0,
+    "latitude": 46.9712194,
+    "longitude": -123.8196548
   },
   {
     "StoreName": "STB05X-0176",
@@ -25,7 +27,9 @@
     "PostalCode": "92301",
     "Case Count": 20,
     "SingleAd": 4050.0,
-    "DoubleAd": 5670.0
+    "DoubleAd": 5670.0,
+    "latitude": 34.5827699,
+    "longitude": -117.409215
   },
   {
     "StoreName": "SAF07Y-1659",
@@ -39,7 +43,9 @@
     "PostalCode": "97322",
     "Case Count": 20,
     "SingleAd": 4050.0,
-    "DoubleAd": 5670.0
+    "DoubleAd": 5670.0,
+    "latitude": 44.6272294,
+    "longitude": -123.0795844
   },
   {
     "StoreName": "FME07Y-0005",
@@ -53,7 +59,9 @@
     "PostalCode": "97322",
     "Case Count": 31,
     "SingleAd": 5175.0,
-    "DoubleAd": 7245.0
+    "DoubleAd": 7245.0,
+    "latitude": 44.6320862,
+    "longitude": -123.0748201
   },
   {
     "StoreName": "SAF07Y-1889",
@@ -67,7 +75,9 @@
     "PostalCode": "97006",
     "Case Count": 9,
     "SingleAd": 2550.0,
-    "DoubleAd": 3570.0
+    "DoubleAd": 3570.0,
+    "latitude": 45.4967624,
+    "longitude": -122.8881898
   },
   {
     "StoreName": "SAF07Y-3557",
@@ -81,7 +91,9 @@
     "PostalCode": "97078",
     "Case Count": 11,
     "SingleAd": 2850.0,
-    "DoubleAd": 3990.0
+    "DoubleAd": 3990.0,
+    "latitude": 45.4755939,
+    "longitude": -122.8690208
   },
   {
     "StoreName": "STB05X-0053",
@@ -95,7 +107,9 @@
     "PostalCode": "91701",
     "Case Count": 13,
     "SingleAd": 3150.0,
-    "DoubleAd": 4410.0
+    "DoubleAd": 4410.0,
+    "latitude": 34.1224102,
+    "longitude": -117.6145124
   },
   {
     "StoreName": "SAF07X-0593",
@@ -109,7 +123,9 @@
     "PostalCode": "98221",
     "Case Count": 26,
     "SingleAd": 4700.0,
-    "DoubleAd": 6580.0
+    "DoubleAd": 6580.0,
+    "latitude": 48.5122831,
+    "longitude": -122.6117014
   },
   {
     "StoreName": "FFL05X-0782",
@@ -123,7 +139,9 @@
     "PostalCode": "92308",
     "Case Count": 9,
     "SingleAd": 2550.0,
-    "DoubleAd": 3570.0
+    "DoubleAd": 3570.0,
+    "latitude": 34.4701909,
+    "longitude": -117.2090005
   },
   {
     "StoreName": "ALB05X-6513",
@@ -137,7 +155,9 @@
     "PostalCode": "92307",
     "Case Count": 12,
     "SingleAd": 3000.0,
-    "DoubleAd": 4200.0
+    "DoubleAd": 4200.0,
+    "latitude": 34.5251742,
+    "longitude": -117.2203933
   },
   {
     "StoreName": "STB05X-0110",
@@ -151,7 +171,9 @@
     "PostalCode": "92308",
     "Case Count": 16,
     "SingleAd": 3550.0,
-    "DoubleAd": 4970.0
+    "DoubleAd": 4970.0,
+    "latitude": 34.47286,
+    "longitude": -117.1921857
   },
   {
     "StoreName": "STB05X-0178",
@@ -165,7 +187,9 @@
     "PostalCode": "92308",
     "Case Count": 16,
     "SingleAd": 3550.0,
-    "DoubleAd": 4970.0
+    "DoubleAd": 4970.0,
+    "latitude": 34.4740919,
+    "longitude": -117.240513
   },
   {
     "StoreName": "SAF07X-1522",
@@ -179,7 +203,9 @@
     "PostalCode": "98223",
     "Case Count": 16,
     "SingleAd": 3550.0,
-    "DoubleAd": 4970.0
+    "DoubleAd": 4970.0,
+    "latitude": 48.1824504,
+    "longitude": -122.1279697
   },
   {
     "StoreName": "SAF07X-0534",
@@ -193,7 +219,9 @@
     "PostalCode": "98223",
     "Case Count": 18,
     "SingleAd": 3800.0,
-    "DoubleAd": 5320.0
+    "DoubleAd": 5320.0,
+    "latitude": 48.15159420000001,
+    "longitude": -122.1793292
   },
   {
     "StoreName": "SAF07Y-3212",
@@ -207,7 +235,9 @@
     "PostalCode": "97520",
     "Case Count": 15,
     "SingleAd": 3425.0,
-    "DoubleAd": 4795.0
+    "DoubleAd": 4795.0,
+    "latitude": 42.1935989,
+    "longitude": -122.7062907
   },
   {
     "StoreName": "ALB07Y-0573",
@@ -221,7 +251,9 @@
     "PostalCode": "97520",
     "Case Count": 16,
     "SingleAd": 3550.0,
-    "DoubleAd": 4970.0
+    "DoubleAd": 4970.0,
+    "latitude": 42.1867791,
+    "longitude": -122.6709074
   },
   {
     "StoreName": "SAF07Z-2627",
@@ -235,7 +267,9 @@
     "PostalCode": "97103",
     "Case Count": 9,
     "SingleAd": 2550.0,
-    "DoubleAd": 3570.0
+    "DoubleAd": 3570.0,
+    "latitude": 46.19446,
+    "longitude": -123.7881245
   },
   {
     "StoreName": "SAR07X-0622",
@@ -249,7 +283,9 @@
     "PostalCode": "98002",
     "Case Count": 5,
     "SingleAd": 2400.0,
-    "DoubleAd": 2400.0
+    "DoubleAd": 2400.0,
+    "latitude": 47.3237548,
+    "longitude": -122.2204029
   },
   {
     "StoreName": "HAG07X-3438",
@@ -263,7 +299,9 @@
     "PostalCode": "98092",
     "Case Count": 16,
     "SingleAd": 3550.0,
-    "DoubleAd": 4970.0
+    "DoubleAd": 4970.0,
+    "latitude": 47.2429989,
+    "longitude": -122.2096034
   },
   {
     "StoreName": "SAF07X-4483",
@@ -277,7 +315,9 @@
     "PostalCode": "98002",
     "Case Count": 17,
     "SingleAd": 3675.0,
-    "DoubleAd": 5145.0
+    "DoubleAd": 5145.0,
+    "latitude": 47.2728184,
+    "longitude": -122.2269136
   },
   {
     "StoreName": "SAF07X-0531",
@@ -291,7 +331,9 @@
     "PostalCode": "98002",
     "Case Count": 19,
     "SingleAd": 3925.0,
-    "DoubleAd": 5495.0
+    "DoubleAd": 5495.0,
+    "latitude": 47.30613659999999,
+    "longitude": -122.2272088
   },
   {
     "StoreName": "FME07X-0019",
@@ -305,7 +347,9 @@
     "PostalCode": "98002-4164",
     "Case Count": 27,
     "SingleAd": 4800.0,
-    "DoubleAd": 6720.0
+    "DoubleAd": 6720.0,
+    "latitude": 47.3153343,
+    "longitude": -122.2263852
   },
   {
     "StoreName": "SAF07X-1252",
@@ -319,7 +363,9 @@
     "PostalCode": "98110",
     "Case Count": 19,
     "SingleAd": 3925.0,
-    "DoubleAd": 5495.0
+    "DoubleAd": 5495.0,
+    "latitude": 47.63511889999999,
+    "longitude": -122.5197027
   },
   {
     "StoreName": "ALB05X-6512",
@@ -333,7 +379,9 @@
     "PostalCode": "92220",
     "Case Count": 12,
     "SingleAd": 3000.0,
-    "DoubleAd": 4200.0
+    "DoubleAd": 4200.0,
+    "latitude": 33.9241465,
+    "longitude": -116.9463542
   },
   {
     "StoreName": "FFL05X-0312",
@@ -347,7 +395,9 @@
     "PostalCode": "92311",
     "Case Count": 6,
     "SingleAd": 2400.0,
-    "DoubleAd": 2400.0
+    "DoubleAd": 2400.0,
+    "latitude": 34.8869621,
+    "longitude": -117.0182365
   },
   {
     "StoreName": "STB05X-0101",
@@ -361,7 +411,9 @@
     "PostalCode": "92311",
     "Case Count": 12,
     "SingleAd": 3000.0,
-    "DoubleAd": 4200.0
+    "DoubleAd": 4200.0,
+    "latitude": 34.8851732,
+    "longitude": -117.0131766
   },
   {
     "StoreName": "ALB07Z-2592",
@@ -375,7 +427,9 @@
     "PostalCode": "98604",
     "Case Count": 12,
     "SingleAd": 3000.0,
-    "DoubleAd": 4200.0
+    "DoubleAd": 4200.0,
+    "latitude": 45.7813188,
+    "longitude": -122.5608519
   },
   {
     "StoreName": "SAF07Z-4313",
@@ -389,7 +443,9 @@
     "PostalCode": "98604",
     "Case Count": 14,
     "SingleAd": 3300.0,
-    "DoubleAd": 4620.0
+    "DoubleAd": 4620.0,
+    "latitude": 45.7817691,
+    "longitude": -122.5467575
   },
   {
     "StoreName": "FME07Z-0614",
@@ -403,7 +459,9 @@
     "PostalCode": "98604",
     "Case Count": 27,
     "SingleAd": 4800.0,
-    "DoubleAd": 6720.0
+    "DoubleAd": 6720.0,
+    "latitude": 45.7842837,
+    "longitude": -122.5489717
   },
   {
     "StoreName": "FFL05X-0386",
@@ -417,7 +475,9 @@
     "PostalCode": "92223",
     "Case Count": 10,
     "SingleAd": 2700.0,
-    "DoubleAd": 3780.0
+    "DoubleAd": 3780.0,
+    "latitude": 33.9289152,
+    "longitude": -116.9487362
   },
   {
     "StoreName": "STB05X-0086",
@@ -431,7 +491,9 @@
     "PostalCode": "92223",
     "Case Count": 14,
     "SingleAd": 3300.0,
-    "DoubleAd": 4620.0
+    "DoubleAd": 4620.0,
+    "latitude": 33.9283801,
+    "longitude": -116.9496507
   },
   {
     "StoreName": "STB05X-0173",
@@ -445,7 +507,9 @@
     "PostalCode": "92223",
     "Case Count": 20,
     "SingleAd": 4050.0,
-    "DoubleAd": 5670.0
+    "DoubleAd": 5670.0,
+    "latitude": 33.9482109,
+    "longitude": -116.9756636
   },
   {
     "StoreName": "SAF07Y-1073",
@@ -459,7 +523,9 @@
     "PostalCode": "97008",
     "Case Count": 22,
     "SingleAd": 4300.0,
-    "DoubleAd": 6020.0
+    "DoubleAd": 6020.0,
+    "latitude": 45.47511160000001,
+    "longitude": -122.8251743
   },
   {
     "StoreName": "SAF07Y-2631",
@@ -473,7 +539,9 @@
     "PostalCode": "97007",
     "Case Count": 26,
     "SingleAd": 4700.0,
-    "DoubleAd": 6580.0
+    "DoubleAd": 6580.0,
+    "latitude": 45.4415082,
+    "longitude": -122.8289788
   },
   {
     "StoreName": "FME07Y-0482",
@@ -487,7 +555,9 @@
     "PostalCode": "97006-4944",
     "Case Count": 30,
     "SingleAd": 5100.0,
-    "DoubleAd": 7140.0
+    "DoubleAd": 7140.0,
+    "latitude": 45.5191622,
+    "longitude": -122.8400721
   },
   {
     "StoreName": "FME07Y-0035",
@@ -501,7 +571,9 @@
     "PostalCode": "97005-3050",
     "Case Count": 38,
     "SingleAd": 5700.0,
-    "DoubleAd": 7980.0
+    "DoubleAd": 7980.0,
+    "latitude": 45.4876176,
+    "longitude": -122.79445
   },
   {
     "StoreName": "QFC07X-0101",
@@ -515,7 +587,9 @@
     "PostalCode": "98528",
     "Case Count": 9,
     "SingleAd": 2550.0,
-    "DoubleAd": 3570.0
+    "DoubleAd": 3570.0,
+    "latitude": 47.4531037,
+    "longitude": -122.8287165
   },
   {
     "StoreName": "SAF07X-1571",
@@ -529,7 +603,9 @@
     "PostalCode": "98528",
     "Case Count": 18,
     "SingleAd": 3800.0,
-    "DoubleAd": 5320.0
+    "DoubleAd": 5320.0,
+    "latitude": 47.4539823,
+    "longitude": -122.822685
   },
   {
     "StoreName": "QFC07X-0859",
@@ -543,7 +619,9 @@
     "PostalCode": "98004",
     "Case Count": 7,
     "SingleAd": 2400.0,
-    "DoubleAd": 2400.0
+    "DoubleAd": 2400.0,
+    "latitude": 47.6347986,
+    "longitude": -122.200724
   },
   {
     "StoreName": "QFC07X-0822",
@@ -557,7 +635,9 @@
     "PostalCode": "98006",
     "Case Count": 11,
     "SingleAd": 2850.0,
-    "DoubleAd": 3990.0
+    "DoubleAd": 3990.0,
+    "latitude": 47.5786029,
+    "longitude": -122.1679376
   },
   {
     "StoreName": "QFC07X-0826",
@@ -571,7 +651,9 @@
     "PostalCode": "98008",
     "Case Count": 14,
     "SingleAd": 3300.0,
-    "DoubleAd": 4620.0
+    "DoubleAd": 4620.0,
+    "latitude": 47.6174142,
+    "longitude": -122.1284528
   },
   {
     "StoreName": "QFC07X-0874",
@@ -585,7 +667,9 @@
     "PostalCode": "98007",
     "Case Count": 16,
     "SingleAd": 3550.0,
-    "DoubleAd": 4970.0
+    "DoubleAd": 4970.0,
+    "latitude": 47.5969425,
+    "longitude": -122.1484573
   },
   {
     "StoreName": "SAF07X-1444",
@@ -599,7 +683,9 @@
     "PostalCode": "98006",
     "Case Count": 16,
     "SingleAd": 3550.0,
-    "DoubleAd": 4970.0
+    "DoubleAd": 4970.0,
+    "latitude": 47.5765395,
+    "longitude": -122.1371838
   },
   {
     "StoreName": "SAF07X-0490",
@@ -613,7 +699,9 @@
     "PostalCode": "98005",
     "Case Count": 18,
     "SingleAd": 3800.0,
-    "DoubleAd": 5320.0
+    "DoubleAd": 5320.0,
+    "latitude": 47.62467669999999,
+    "longitude": -122.1541507
   },
   {
     "StoreName": "SAF07X-1600",
@@ -627,7 +715,9 @@
     "PostalCode": "98004",
     "Case Count": 24,
     "SingleAd": 4500.0,
-    "DoubleAd": 6300.0
+    "DoubleAd": 6300.0,
+    "latitude": 47.6129263,
+    "longitude": -122.2010975
   },
   {
     "StoreName": "FME07X-0023",
@@ -641,7 +731,9 @@
     "PostalCode": "98007-3788",
     "Case Count": 25,
     "SingleAd": 4600.0,
-    "DoubleAd": 6440.0
+    "DoubleAd": 6440.0,
+    "latitude": 47.6288614,
+    "longitude": -122.1445578
   },
   {
     "StoreName": "QFC07X-0808",
@@ -655,7 +747,9 @@
     "PostalCode": "98004",
     "Case Count": 26,
     "SingleAd": 4700.0,
-    "DoubleAd": 6580.0
+    "DoubleAd": 6580.0,
+    "latitude": 47.6178935,
+    "longitude": -122.2055307
   },
   {
     "StoreName": "HAG07X-3460",
@@ -669,7 +763,9 @@
     "PostalCode": "98226",
     "Case Count": 10,
     "SingleAd": 2700.0,
-    "DoubleAd": 3780.0
+    "DoubleAd": 3780.0,
+    "latitude": 48.7689899,
+    "longitude": -122.4445853
   },
   {
     "StoreName": "HAG07X-3430",
@@ -683,7 +779,9 @@
     "PostalCode": "98225",
     "Case Count": 11,
     "SingleAd": 2850.0,
-    "DoubleAd": 3990.0
+    "DoubleAd": 3990.0,
+    "latitude": 48.7677706,
+    "longitude": -122.484372
   },
   {
     "StoreName": "HAG07X-3439",
@@ -697,7 +795,9 @@
     "PostalCode": "98225",
     "Case Count": 14,
     "SingleAd": 3300.0,
-    "DoubleAd": 4620.0
+    "DoubleAd": 4620.0,
+    "latitude": 48.719235,
+    "longitude": -122.5014499
   },
   {
     "StoreName": "HAG07X-0043",
@@ -711,7 +811,9 @@
     "PostalCode": "98225",
     "Case Count": 16,
     "SingleAd": 3550.0,
-    "DoubleAd": 4970.0
+    "DoubleAd": 4970.0,
+    "latitude": 48.7321393,
+    "longitude": -122.4713893
   },
   {
     "StoreName": "SAF07X-3285",
@@ -725,7 +827,9 @@
     "PostalCode": "98226",
     "Case Count": 18,
     "SingleAd": 3800.0,
-    "DoubleAd": 5320.0
+    "DoubleAd": 5320.0,
+    "latitude": 48.7745134,
+    "longitude": -122.4585548
   },
   {
     "StoreName": "FME07X-0667",
@@ -739,7 +843,9 @@
     "PostalCode": "98226",
     "Case Count": 33,
     "SingleAd": 5325.0,
-    "DoubleAd": 7455.0
+    "DoubleAd": 7455.0,
+    "latitude": 48.7886584,
+    "longitude": -122.512171
   },
   {
     "StoreName": "FME07X-0025",
@@ -753,7 +859,9 @@
     "PostalCode": "98229-6283",
     "Case Count": 36,
     "SingleAd": 5550.0,
-    "DoubleAd": 7770.0
+    "DoubleAd": 7770.0,
+    "latitude": 48.7435651,
+    "longitude": -122.4640379
   },
   {
     "StoreName": "ALB07Z-2599",
@@ -767,7 +875,9 @@
     "PostalCode": "97701",
     "Case Count": 15,
     "SingleAd": 3425.0,
-    "DoubleAd": 4795.0
+    "DoubleAd": 4795.0,
+    "latitude": 44.06825329999999,
+    "longitude": -121.3014823
   },
   {
     "StoreName": "ALB07Z-3553",
@@ -781,7 +891,9 @@
     "PostalCode": "97702",
     "Case Count": 17,
     "SingleAd": 3675.0,
-    "DoubleAd": 5145.0
+    "DoubleAd": 5145.0,
+    "latitude": 44.0210024,
+    "longitude": -121.3180808
   },
   {
     "StoreName": "SAF07Z-0514",
@@ -795,7 +907,9 @@
     "PostalCode": "97701",
     "Case Count": 18,
     "SingleAd": 3800.0,
-    "DoubleAd": 5320.0
+    "DoubleAd": 5320.0,
+    "latitude": 44.0564918,
+    "longitude": -121.3013044
   },
   {
     "StoreName": "SAF07Z-1888",
@@ -809,7 +923,9 @@
     "PostalCode": "97702",
     "Case Count": 27,
     "SingleAd": 4800.0,
-    "DoubleAd": 6720.0
+    "DoubleAd": 6720.0,
+    "latitude": 44.0470113,
+    "longitude": -121.3298596
   },
   {
     "StoreName": "FME07Z-0021",
@@ -823,7 +939,9 @@
     "PostalCode": "97702",
     "Case Count": 28,
     "SingleAd": 4900.0,
-    "DoubleAd": 6860.0
+    "DoubleAd": 6860.0,
+    "latitude": 44.03354,
+    "longitude": -121.3083345
   },
   {
     "StoreName": "SAF07Z-1504",
@@ -837,7 +955,9 @@
     "PostalCode": "97701",
     "Case Count": 30,
     "SingleAd": 5100.0,
-    "DoubleAd": 7140.0
+    "DoubleAd": 7140.0,
+    "latitude": 44.0578711,
+    "longitude": -121.2646015
   },
   {
     "StoreName": "RAL05X-0681",
@@ -851,7 +971,9 @@
     "PostalCode": "92203",
     "Case Count": 20,
     "SingleAd": 4050.0,
-    "DoubleAd": 5670.0
+    "DoubleAd": 5670.0,
+    "latitude": 33.7420996,
+    "longitude": -116.3024338
   },
   {
     "StoreName": "VON05X-2374",
@@ -865,7 +987,9 @@
     "PostalCode": "92315",
     "Case Count": 14,
     "SingleAd": 3300.0,
-    "DoubleAd": 4620.0
+    "DoubleAd": 4620.0,
+    "latitude": 34.2524179,
+    "longitude": -116.8851669
   },
   {
     "StoreName": "STB05X-0091",
@@ -879,7 +1003,9 @@
     "PostalCode": "92315",
     "Case Count": 19,
     "SingleAd": 3925.0,
-    "DoubleAd": 5495.0
+    "DoubleAd": 5495.0,
+    "latitude": 34.2522128,
+    "longitude": -116.8837881
   },
   {
     "StoreName": "STB05X-0061",
@@ -893,7 +1019,9 @@
     "PostalCode": "92316",
     "Case Count": 11,
     "SingleAd": 2850.0,
-    "DoubleAd": 3990.0
+    "DoubleAd": 3990.0,
+    "latitude": 34.0744852,
+    "longitude": -117.3894949
   },
   {
     "StoreName": "ALB05X-6587",
@@ -907,7 +1035,9 @@
     "PostalCode": "92225",
     "Case Count": 14,
     "SingleAd": 3300.0,
-    "DoubleAd": 4620.0
+    "DoubleAd": 4620.0,
+    "latitude": 33.6092106,
+    "longitude": -114.5873034
   },
   {
     "StoreName": "FME07Z-0041",
@@ -921,7 +1051,9 @@
     "PostalCode": "98390",
     "Case Count": 25,
     "SingleAd": 4600.0,
-    "DoubleAd": 6440.0
+    "DoubleAd": 6440.0,
+    "latitude": 47.1671796,
+    "longitude": -122.1510847
   },
   {
     "StoreName": "SAF07X-1413",
@@ -935,7 +1067,9 @@
     "PostalCode": "98012",
     "Case Count": 9,
     "SingleAd": 2550.0,
-    "DoubleAd": 3570.0
+    "DoubleAd": 3570.0,
+    "latitude": 47.8766073,
+    "longitude": -122.1871492
   },
   {
     "StoreName": "QFC07X-0819",
@@ -949,7 +1083,9 @@
     "PostalCode": "98011",
     "Case Count": 12,
     "SingleAd": 3000.0,
-    "DoubleAd": 4200.0
+    "DoubleAd": 4200.0,
+    "latitude": 47.7652069,
+    "longitude": -122.2116856
   },
   {
     "StoreName": "QFC07X-0850",
@@ -963,7 +1099,9 @@
     "PostalCode": "98021",
     "Case Count": 13,
     "SingleAd": 3150.0,
-    "DoubleAd": 4410.0
+    "DoubleAd": 4410.0,
+    "latitude": 47.7899121,
+    "longitude": -122.2152749
   },
   {
     "StoreName": "SAF07X-0535",
@@ -977,7 +1115,9 @@
     "PostalCode": "98012",
     "Case Count": 15,
     "SingleAd": 3425.0,
-    "DoubleAd": 4795.0
+    "DoubleAd": 4795.0,
+    "latitude": 47.81166959999999,
+    "longitude": -122.2056895
   },
   {
     "StoreName": "SAF07X-1864",
@@ -991,7 +1131,9 @@
     "PostalCode": "98021",
     "Case Count": 24,
     "SingleAd": 4500.0,
-    "DoubleAd": 6300.0
+    "DoubleAd": 6300.0,
+    "latitude": 47.7787443,
+    "longitude": -122.2208158
   },
   {
     "StoreName": "FME07X-0457",
@@ -1005,7 +1147,9 @@
     "PostalCode": "98021",
     "Case Count": 38,
     "SingleAd": 5700.0,
-    "DoubleAd": 7980.0
+    "DoubleAd": 7980.0,
+    "latitude": 47.80744019999999,
+    "longitude": -122.2059515
   },
   {
     "StoreName": "SAF07X-1467",
@@ -1019,7 +1163,9 @@
     "PostalCode": "98312",
     "Case Count": 13,
     "SingleAd": 3150.0,
-    "DoubleAd": 4410.0
+    "DoubleAd": 4410.0,
+    "latitude": 47.56977070000001,
+    "longitude": -122.652778
   },
   {
     "StoreName": "SAF07X-1524",
@@ -1033,7 +1179,9 @@
     "PostalCode": "98311",
     "Case Count": 18,
     "SingleAd": 3800.0,
-    "DoubleAd": 5320.0
+    "DoubleAd": 5320.0,
+    "latitude": 47.6207115,
+    "longitude": -122.6308315
   },
   {
     "StoreName": "FME07X-0171",
@@ -1047,7 +1195,9 @@
     "PostalCode": "98311-3687",
     "Case Count": 32,
     "SingleAd": 5250.0,
-    "DoubleAd": 7350.0
+    "DoubleAd": 7350.0,
+    "latitude": 47.6109161,
+    "longitude": -122.6266545
   },
   {
     "StoreName": "FME07Y-0030",
@@ -1061,7 +1211,9 @@
     "PostalCode": "97415",
     "Case Count": 30,
     "SingleAd": 5100.0,
-    "DoubleAd": 7140.0
+    "DoubleAd": 7140.0,
+    "latitude": 42.0539248,
+    "longitude": -124.2898646
   },
   {
     "StoreName": "SAF07X-3120",
@@ -1075,7 +1227,9 @@
     "PostalCode": "98168",
     "Case Count": 10,
     "SingleAd": 2700.0,
-    "DoubleAd": 3780.0
+    "DoubleAd": 3780.0,
+    "latitude": 47.4890364,
+    "longitude": -122.335814
   },
   {
     "StoreName": "SAF07X-1664",
@@ -1089,7 +1243,9 @@
     "PostalCode": "98166",
     "Case Count": 22,
     "SingleAd": 4300.0,
-    "DoubleAd": 6020.0
+    "DoubleAd": 6020.0,
+    "latitude": 47.4716649,
+    "longitude": -122.336736
   },
   {
     "StoreName": "FME07X-0028",
@@ -1103,7 +1259,9 @@
     "PostalCode": "98168-3490",
     "Case Count": 37,
     "SingleAd": 5625.0,
-    "DoubleAd": 7875.0
+    "DoubleAd": 7875.0,
+    "latitude": 47.4753406,
+    "longitude": -122.3323911
   },
   {
     "StoreName": "HAG07X-0015",
@@ -1117,7 +1275,9 @@
     "PostalCode": "98233",
     "Case Count": 11,
     "SingleAd": 2850.0,
-    "DoubleAd": 3990.0
+    "DoubleAd": 3990.0,
+    "latitude": 48.4694758,
+    "longitude": -122.3385432
   },
   {
     "StoreName": "FME07X-0024",
@@ -1131,7 +1291,9 @@
     "PostalCode": "98233-3310",
     "Case Count": 20,
     "SingleAd": 4050.0,
-    "DoubleAd": 5670.0
+    "DoubleAd": 5670.0,
+    "latitude": 48.4668509,
+    "longitude": -122.3351664
   },
   {
     "StoreName": "SAF07Y-4469",
@@ -1145,7 +1307,9 @@
     "PostalCode": "97720",
     "Case Count": 12,
     "SingleAd": 3000.0,
-    "DoubleAd": 4200.0
+    "DoubleAd": 4200.0,
+    "latitude": 43.5870286,
+    "longitude": -119.0570591
   },
   {
     "StoreName": "STB05X-0071",
@@ -1159,7 +1323,9 @@
     "PostalCode": "92320",
     "Case Count": 14,
     "SingleAd": 3300.0,
-    "DoubleAd": 4620.0
+    "DoubleAd": 4620.0,
+    "latitude": 33.9958566,
+    "longitude": -117.0567656
   },
   {
     "StoreName": "STB05X-0205",
@@ -1173,7 +1339,9 @@
     "PostalCode": "92223",
     "Case Count": 18,
     "SingleAd": 3800.0,
-    "DoubleAd": 5320.0
+    "DoubleAd": 5320.0,
+    "latitude": 33.9666063,
+    "longitude": -117.0358206
   },
   {
     "StoreName": "SAF07Z-1287",
@@ -1187,7 +1355,9 @@
     "PostalCode": "98607",
     "Case Count": 20,
     "SingleAd": 4050.0,
-    "DoubleAd": 5670.0
+    "DoubleAd": 5670.0,
+    "latitude": 45.5869631,
+    "longitude": -122.399498
   },
   {
     "StoreName": "SAF07Y-2604",
@@ -1201,7 +1371,9 @@
     "PostalCode": "97013",
     "Case Count": 10,
     "SingleAd": 2700.0,
-    "DoubleAd": 3780.0
+    "DoubleAd": 3780.0,
+    "latitude": 45.25541200000001,
+    "longitude": -122.7022083
   },
   {
     "StoreName": "FME07Y-0651",
@@ -1215,7 +1387,9 @@
     "PostalCode": "97013",
     "Case Count": 22,
     "SingleAd": 4300.0,
-    "DoubleAd": 6020.0
+    "DoubleAd": 6020.0,
+    "latitude": 45.26628940000001,
+    "longitude": -122.6769682
   },
   {
     "StoreName": "FFL05X-0308",
@@ -1229,7 +1403,9 @@
     "PostalCode": "92234",
     "Case Count": 9,
     "SingleAd": 2550.0,
-    "DoubleAd": 3570.0
+    "DoubleAd": 3570.0,
+    "latitude": 33.7998317,
+    "longitude": -116.4599593
   },
   {
     "StoreName": "STB05X-0183",
@@ -1243,7 +1419,9 @@
     "PostalCode": "92234",
     "Case Count": 12,
     "SingleAd": 3000.0,
-    "DoubleAd": 4200.0
+    "DoubleAd": 4200.0,
+    "latitude": 33.8458264,
+    "longitude": -116.477845
   },
   {
     "StoreName": "STB05X-0127",
@@ -1257,7 +1435,9 @@
     "PostalCode": "92234",
     "Case Count": 16,
     "SingleAd": 3550.0,
-    "DoubleAd": 4970.0
+    "DoubleAd": 4970.0,
+    "latitude": 33.8147848,
+    "longitude": -116.45618
   },
   {
     "StoreName": "ALB07Y-0595",
@@ -1271,7 +1451,9 @@
     "PostalCode": "97502",
     "Case Count": 18,
     "SingleAd": 3800.0,
-    "DoubleAd": 5320.0
+    "DoubleAd": 5320.0,
+    "latitude": 42.3765624,
+    "longitude": -122.9043413
   },
   {
     "StoreName": "SNK07Z-0381",
@@ -1285,7 +1467,9 @@
     "PostalCode": "98531",
     "Case Count": 7,
     "SingleAd": 2400.0,
-    "DoubleAd": 2400.0
+    "DoubleAd": 2400.0,
+    "latitude": 46.7115872,
+    "longitude": -122.9569865
   },
   {
     "StoreName": "SAF07Z-1495",
@@ -1299,7 +1483,9 @@
     "PostalCode": "98531",
     "Case Count": 34,
     "SingleAd": 5400.0,
-    "DoubleAd": 7560.0
+    "DoubleAd": 7560.0,
+    "latitude": 46.7276216,
+    "longitude": -122.9810567
   },
   {
     "StoreName": "SAF07Z-3525",
@@ -1313,7 +1499,9 @@
     "PostalCode": "98532",
     "Case Count": 29,
     "SingleAd": 5000.0,
-    "DoubleAd": 7000.0
+    "DoubleAd": 7000.0,
+    "latitude": 46.6551233,
+    "longitude": -122.9540753
   },
   {
     "StoreName": "STB05X-0052",
@@ -1327,7 +1515,9 @@
     "PostalCode": "91710",
     "Case Count": 15,
     "SingleAd": 3425.0,
-    "DoubleAd": 4795.0
+    "DoubleAd": 4795.0,
+    "latitude": 34.01823660000001,
+    "longitude": -117.7016897
   },
   {
     "StoreName": "ALB05X-6524",
@@ -1341,7 +1531,9 @@
     "PostalCode": "91710",
     "Case Count": 16,
     "SingleAd": 3550.0,
-    "DoubleAd": 4970.0
+    "DoubleAd": 4970.0,
+    "latitude": 34.0349077,
+    "longitude": -117.687926
   },
   {
     "StoreName": "STB05X-0209",
@@ -1355,7 +1547,9 @@
     "PostalCode": "91708",
     "Case Count": 18,
     "SingleAd": 3800.0,
-    "DoubleAd": 5320.0
+    "DoubleAd": 5320.0,
+    "latitude": 33.957301,
+    "longitude": -117.6218494
   },
   {
     "StoreName": "STB05X-0184",
@@ -1369,7 +1563,9 @@
     "PostalCode": "91710",
     "Case Count": 26,
     "SingleAd": 4700.0,
-    "DoubleAd": 6580.0
+    "DoubleAd": 6580.0,
+    "latitude": 34.0033434,
+    "longitude": -117.6525601
   },
   {
     "StoreName": "ALB05X-6515",
@@ -1383,7 +1579,9 @@
     "PostalCode": "91709",
     "Case Count": 12,
     "SingleAd": 3000.0,
-    "DoubleAd": 4200.0
+    "DoubleAd": 4200.0,
+    "latitude": 34.0016731,
+    "longitude": -117.7342238
   },
   {
     "StoreName": "STB05X-0169",
@@ -1397,7 +1595,9 @@
     "PostalCode": "91709",
     "Case Count": 14,
     "SingleAd": 3300.0,
-    "DoubleAd": 4620.0
+    "DoubleAd": 4620.0,
+    "latitude": 33.9938562,
+    "longitude": -117.7588692
   },
   {
     "StoreName": "ALB05X-6592",
@@ -1411,7 +1611,9 @@
     "PostalCode": "91709",
     "Case Count": 20,
     "SingleAd": 4050.0,
-    "DoubleAd": 5670.0
+    "DoubleAd": 5670.0,
+    "latitude": 33.9614709,
+    "longitude": -117.6955129
   },
   {
     "StoreName": "FME07Y-0063",
@@ -1425,7 +1627,9 @@
     "PostalCode": "97015-9521",
     "Case Count": 27,
     "SingleAd": 4800.0,
-    "DoubleAd": 6720.0
+    "DoubleAd": 6720.0,
+    "latitude": 45.4043861,
+    "longitude": -122.5701947
   },
   {
     "StoreName": "SAF07Z-1231",
@@ -1439,7 +1643,9 @@
     "PostalCode": "97015",
     "Case Count": 30,
     "SingleAd": 5100.0,
-    "DoubleAd": 7140.0
+    "DoubleAd": 7140.0,
+    "latitude": 45.4287687,
+    "longitude": -122.5394974
   },
   {
     "StoreName": "STB05X-0049",
@@ -1453,7 +1659,9 @@
     "PostalCode": "91711",
     "Case Count": 13,
     "SingleAd": 3150.0,
-    "DoubleAd": 4410.0
+    "DoubleAd": 4410.0,
+    "latitude": 34.1077162,
+    "longitude": -117.7355047
   },
   {
     "StoreName": "VON05X-2155",
@@ -1467,7 +1675,9 @@
     "PostalCode": "91711",
     "Case Count": 13,
     "SingleAd": 3150.0,
-    "DoubleAd": 4410.0
+    "DoubleAd": 4410.0,
+    "latitude": 34.12056980000001,
+    "longitude": -117.7060732
   },
   {
     "StoreName": "SAF07Y-4318",
@@ -1481,7 +1691,9 @@
     "PostalCode": "97016",
     "Case Count": 7,
     "SingleAd": 2400.0,
-    "DoubleAd": 2400.0
+    "DoubleAd": 2400.0,
+    "latitude": 46.10276409999999,
+    "longitude": -123.2013909
   },
   {
     "StoreName": "FFL05X-0517",
@@ -1495,7 +1707,9 @@
     "PostalCode": "92236",
     "Case Count": 19,
     "SingleAd": 3925.0,
-    "DoubleAd": 5495.0
+    "DoubleAd": 5495.0,
+    "latitude": 33.6899946,
+    "longitude": -116.1853298
   },
   {
     "StoreName": "FFL05X-0786",
@@ -1509,7 +1723,9 @@
     "PostalCode": "92324",
     "Case Count": 11,
     "SingleAd": 2850.0,
-    "DoubleAd": 3990.0
+    "DoubleAd": 3990.0,
+    "latitude": 34.0798013,
+    "longitude": -117.3512727
   },
   {
     "StoreName": "STB05X-0003",
@@ -1523,7 +1739,9 @@
     "PostalCode": "92324",
     "Case Count": 13,
     "SingleAd": 3150.0,
-    "DoubleAd": 4410.0
+    "DoubleAd": 4410.0,
+    "latitude": 34.0675068,
+    "longitude": -117.323359
   },
   {
     "StoreName": "STB05X-0117",
@@ -1537,7 +1755,9 @@
     "PostalCode": "92324",
     "Case Count": 15,
     "SingleAd": 3425.0,
-    "DoubleAd": 4795.0
+    "DoubleAd": 4795.0,
+    "latitude": 34.0499653,
+    "longitude": -117.2914854
   },
   {
     "StoreName": "FME07Y-0050",
@@ -1551,7 +1771,9 @@
     "PostalCode": "97420-1403",
     "Case Count": 16,
     "SingleAd": 3550.0,
-    "DoubleAd": 4970.0
+    "DoubleAd": 4970.0,
+    "latitude": 43.35691,
+    "longitude": -124.2105881
   },
   {
     "StoreName": "SAF07Y-1556",
@@ -1565,7 +1787,9 @@
     "PostalCode": "97420",
     "Case Count": 16,
     "SingleAd": 3550.0,
-    "DoubleAd": 4970.0
+    "DoubleAd": 4970.0,
+    "latitude": 43.3589086,
+    "longitude": -124.2104613
   },
   {
     "StoreName": "SAF07Y-4262",
@@ -1579,7 +1803,9 @@
     "PostalCode": "97423",
     "Case Count": 7,
     "SingleAd": 2400.0,
-    "DoubleAd": 2400.0
+    "DoubleAd": 2400.0,
+    "latitude": 43.1743928,
+    "longitude": -124.1873849
   },
   {
     "StoreName": "FME07Y-0060",
@@ -1593,7 +1819,9 @@
     "PostalCode": "97113-8621",
     "Case Count": 18,
     "SingleAd": 3800.0,
-    "DoubleAd": 5320.0
+    "DoubleAd": 5320.0,
+    "latitude": 45.5218333,
+    "longitude": -123.0446111
   },
   {
     "StoreName": "STB05X-0103",
@@ -1607,7 +1835,9 @@
     "PostalCode": "92879",
     "Case Count": 9,
     "SingleAd": 2550.0,
-    "DoubleAd": 3570.0
+    "DoubleAd": 3570.0,
+    "latitude": 33.8647321,
+    "longitude": -117.5460992
   },
   {
     "StoreName": "VON05X-2381",
@@ -1621,7 +1851,9 @@
     "PostalCode": "92879",
     "Case Count": 10,
     "SingleAd": 2700.0,
-    "DoubleAd": 3780.0
+    "DoubleAd": 3780.0,
+    "latitude": 33.8913722,
+    "longitude": -117.5201397
   },
   {
     "StoreName": "STB05X-0062",
@@ -1635,7 +1867,9 @@
     "PostalCode": "92882",
     "Case Count": 11,
     "SingleAd": 2850.0,
-    "DoubleAd": 3990.0
+    "DoubleAd": 3990.0,
+    "latitude": 33.8693191,
+    "longitude": -117.5942106
   },
   {
     "StoreName": "STB05X-0171",
@@ -1649,7 +1883,9 @@
     "PostalCode": "92879",
     "Case Count": 12,
     "SingleAd": 3000.0,
-    "DoubleAd": 4200.0
+    "DoubleAd": 4200.0,
+    "latitude": 33.8983028,
+    "longitude": -117.5554384
   },
   {
     "StoreName": "VON05X-2596",
@@ -1663,7 +1899,9 @@
     "PostalCode": "92879",
     "Case Count": 12,
     "SingleAd": 3000.0,
-    "DoubleAd": 4200.0
+    "DoubleAd": 4200.0,
+    "latitude": 33.854331,
+    "longitude": -117.5631589
   },
   {
     "StoreName": "RAL05X-0136",
@@ -1677,7 +1915,9 @@
     "PostalCode": "92882",
     "Case Count": 14,
     "SingleAd": 3300.0,
-    "DoubleAd": 4620.0
+    "DoubleAd": 4620.0,
+    "latitude": 33.8715708,
+    "longitude": -117.6218575
   },
   {
     "StoreName": "RAL05X-0045",
@@ -1691,7 +1931,9 @@
     "PostalCode": "92880",
     "Case Count": 17,
     "SingleAd": 3675.0,
-    "DoubleAd": 5145.0
+    "DoubleAd": 5145.0,
+    "latitude": 33.9748221,
+    "longitude": -117.560224
   },
   {
     "StoreName": "STB05X-0170",
@@ -1705,7 +1947,9 @@
     "PostalCode": "92883",
     "Case Count": 19,
     "SingleAd": 3925.0,
-    "DoubleAd": 5495.0
+    "DoubleAd": 5495.0,
+    "latitude": 33.8229453,
+    "longitude": -117.5232587
   },
   {
     "StoreName": "ALB05X-6641",
@@ -1719,7 +1963,9 @@
     "PostalCode": "92880",
     "Case Count": 20,
     "SingleAd": 4050.0,
-    "DoubleAd": 5670.0
+    "DoubleAd": 5670.0,
+    "latitude": 33.9593187,
+    "longitude": -117.5918123
   },
   {
     "StoreName": "ALB05X-6728",
@@ -1733,7 +1979,9 @@
     "PostalCode": "92882",
     "Case Count": 21,
     "SingleAd": 4175.0,
-    "DoubleAd": 5845.0
+    "DoubleAd": 5845.0,
+    "latitude": 33.8436448,
+    "longitude": -117.5742681
   },
   {
     "StoreName": "VON05X-2818",
@@ -1747,7 +1995,9 @@
     "PostalCode": "92883",
     "Case Count": 22,
     "SingleAd": 4300.0,
-    "DoubleAd": 6020.0
+    "DoubleAd": 6020.0,
+    "latitude": 33.7473282,
+    "longitude": -117.4530693
   },
   {
     "StoreName": "SAF07Y-1690",
@@ -1761,7 +2011,9 @@
     "PostalCode": "97330",
     "Case Count": 11,
     "SingleAd": 2850.0,
-    "DoubleAd": 3990.0
+    "DoubleAd": 3990.0,
+    "latitude": 44.5869087,
+    "longitude": -123.2511177
   },
   {
     "StoreName": "SAF07Y-4333",
@@ -1775,7 +2027,9 @@
     "PostalCode": "97333",
     "Case Count": 13,
     "SingleAd": 3150.0,
-    "DoubleAd": 4410.0
+    "DoubleAd": 4410.0,
+    "latitude": 44.5608179,
+    "longitude": -123.2632609
   },
   {
     "StoreName": "FME07Y-0070",
@@ -1789,7 +2043,9 @@
     "PostalCode": "97330-5620",
     "Case Count": 21,
     "SingleAd": 4175.0,
-    "DoubleAd": 5845.0
+    "DoubleAd": 5845.0,
+    "latitude": 44.5752491,
+    "longitude": -123.2742042
   },
   {
     "StoreName": "SAF07Y-1765",
@@ -1803,7 +2059,9 @@
     "PostalCode": "97333",
     "Case Count": 25,
     "SingleAd": 4600.0,
-    "DoubleAd": 6440.0
+    "DoubleAd": 6440.0,
+    "latitude": 44.5542562,
+    "longitude": -123.3006439
   },
   {
     "StoreName": "SAF07Y-1458",
@@ -1817,7 +2075,9 @@
     "PostalCode": "97424",
     "Case Count": 17,
     "SingleAd": 3675.0,
-    "DoubleAd": 5145.0
+    "DoubleAd": 5145.0,
+    "latitude": 43.7981345,
+    "longitude": -123.0520666
   },
   {
     "StoreName": "FME07X-0053",
@@ -1831,7 +2091,9 @@
     "PostalCode": "98042",
     "Case Count": 20,
     "SingleAd": 4050.0,
-    "DoubleAd": 5670.0
+    "DoubleAd": 5670.0,
+    "latitude": 47.35617999999999,
+    "longitude": -122.1202319
   },
   {
     "StoreName": "SAF07Y-4404",
@@ -1845,7 +2107,9 @@
     "PostalCode": "97338",
     "Case Count": 22,
     "SingleAd": 4300.0,
-    "DoubleAd": 6020.0
+    "DoubleAd": 6020.0,
+    "latitude": 44.9296953,
+    "longitude": -123.3126071
   },
   {
     "StoreName": "SAF07Z-0521",
@@ -1859,7 +2123,9 @@
     "PostalCode": "97009",
     "Case Count": 12,
     "SingleAd": 3000.0,
-    "DoubleAd": 4200.0
+    "DoubleAd": 4200.0,
+    "latitude": 45.4181922,
+    "longitude": -122.4551969
   },
   {
     "StoreName": "SAF07X-1186",
@@ -1873,7 +2139,9 @@
     "PostalCode": "98198",
     "Case Count": 13,
     "SingleAd": 3150.0,
-    "DoubleAd": 4410.0
+    "DoubleAd": 4410.0,
+    "latitude": 47.3593921,
+    "longitude": -122.3105355
   },
   {
     "StoreName": "SAF07X-3540",
@@ -1887,7 +2155,9 @@
     "PostalCode": "98198",
     "Case Count": 17,
     "SingleAd": 3675.0,
-    "DoubleAd": 5145.0
+    "DoubleAd": 5145.0,
+    "latitude": 47.4091446,
+    "longitude": -122.2985947
   },
   {
     "StoreName": "VON05X-2177",
@@ -1901,7 +2171,9 @@
     "PostalCode": "92240",
     "Case Count": 18,
     "SingleAd": 3800.0,
-    "DoubleAd": 5320.0
+    "DoubleAd": 5320.0,
+    "latitude": 33.9453633,
+    "longitude": -116.4999554
   },
   {
     "StoreName": "STB05X-0084",
@@ -1915,7 +2187,9 @@
     "PostalCode": "92240",
     "Case Count": 21,
     "SingleAd": 4175.0,
-    "DoubleAd": 5845.0
+    "DoubleAd": 5845.0,
+    "latitude": 33.9525587,
+    "longitude": -116.5004551
   },
   {
     "StoreName": "SAF07X-1572",
@@ -1929,7 +2203,9 @@
     "PostalCode": "98019",
     "Case Count": 12,
     "SingleAd": 3000.0,
-    "DoubleAd": 4200.0
+    "DoubleAd": 4200.0,
+    "latitude": 47.7265026,
+    "longitude": -121.985054
   },
   {
     "StoreName": "VON05X-2688",
@@ -1943,7 +2219,9 @@
     "PostalCode": "91752",
     "Case Count": 17,
     "SingleAd": 3675.0,
-    "DoubleAd": 5145.0
+    "DoubleAd": 5145.0,
+    "latitude": 33.9765251,
+    "longitude": -117.5578394
   },
   {
     "StoreName": "SAF07X-1297",
@@ -1971,7 +2249,9 @@
     "PostalCode": "98020",
     "Case Count": 12,
     "SingleAd": 3000.0,
-    "DoubleAd": 4200.0
+    "DoubleAd": 4200.0,
+    "latitude": 47.79138469999999,
+    "longitude": -122.367687
   },
   {
     "StoreName": "SAF07Y-0371",
@@ -1985,7 +2265,9 @@
     "PostalCode": "97828",
     "Case Count": 9,
     "SingleAd": 2550.0,
-    "DoubleAd": 3570.0
+    "DoubleAd": 3570.0,
+    "latitude": 45.4278455,
+    "longitude": -117.2860359
   },
   {
     "StoreName": "QFC07Z-0863",
@@ -1999,7 +2281,9 @@
     "PostalCode": "98022",
     "Case Count": 14,
     "SingleAd": 3300.0,
-    "DoubleAd": 4620.0
+    "DoubleAd": 4620.0,
+    "latitude": 47.1996461,
+    "longitude": -121.9912743
   },
   {
     "StoreName": "SAF07Z-0494",
@@ -2013,7 +2297,9 @@
     "PostalCode": "98022",
     "Case Count": 20,
     "SingleAd": 4050.0,
-    "DoubleAd": 5670.0
+    "DoubleAd": 5670.0,
+    "latitude": 47.1981755,
+    "longitude": -121.9799197
   },
   {
     "StoreName": "ALB07Y-0560",
@@ -2027,7 +2313,9 @@
     "PostalCode": "97404",
     "Case Count": 11,
     "SingleAd": 2850.0,
-    "DoubleAd": 3990.0
+    "DoubleAd": 3990.0,
+    "latitude": 44.10065669999999,
+    "longitude": -123.1283431
   },
   {
     "StoreName": "ALB07Y-3564",
@@ -2041,7 +2329,9 @@
     "PostalCode": "97405",
     "Case Count": 11,
     "SingleAd": 2850.0,
-    "DoubleAd": 3990.0
+    "DoubleAd": 3990.0,
+    "latitude": 44.02307750000001,
+    "longitude": -123.0809151
   },
   {
     "StoreName": "SAF07Y-4513",
@@ -2055,7 +2345,9 @@
     "PostalCode": "97405",
     "Case Count": 12,
     "SingleAd": 3000.0,
-    "DoubleAd": 4200.0
+    "DoubleAd": 4200.0,
+    "latitude": 44.0108464,
+    "longitude": -123.0887719
   },
   {
     "StoreName": "ALB07Y-0572",
@@ -2069,7 +2361,9 @@
     "PostalCode": "97401",
     "Case Count": 15,
     "SingleAd": 3425.0,
-    "DoubleAd": 4795.0
+    "DoubleAd": 4795.0,
+    "latitude": 44.0645956,
+    "longitude": -123.0738439
   },
   {
     "StoreName": "ALB07Y-3529",
@@ -2083,7 +2377,9 @@
     "PostalCode": "97402",
     "Case Count": 20,
     "SingleAd": 4050.0,
-    "DoubleAd": 5670.0
+    "DoubleAd": 5670.0,
+    "latitude": 44.0415681,
+    "longitude": -123.1167084
   },
   {
     "StoreName": "ALB07Y-0513",
@@ -2097,7 +2393,9 @@
     "PostalCode": "97402",
     "Case Count": 22,
     "SingleAd": 4300.0,
-    "DoubleAd": 6020.0
+    "DoubleAd": 6020.0,
+    "latitude": 44.06850439999999,
+    "longitude": -123.1791412
   },
   {
     "StoreName": "SAF07Y-0420",
@@ -2111,7 +2409,9 @@
     "PostalCode": "97401",
     "Case Count": 23,
     "SingleAd": 4400.0,
-    "DoubleAd": 6160.0
+    "DoubleAd": 6160.0,
+    "latitude": 44.0782122,
+    "longitude": -123.0703195
   },
   {
     "StoreName": "SAF07Y-4288",
@@ -2125,7 +2425,9 @@
     "PostalCode": "97401",
     "Case Count": 23,
     "SingleAd": 4400.0,
-    "DoubleAd": 6160.0
+    "DoubleAd": 6160.0,
+    "latitude": 44.0407106,
+    "longitude": -123.0904631
   },
   {
     "StoreName": "FME07Y-0417",
@@ -2139,7 +2441,9 @@
     "PostalCode": "97402-3053",
     "Case Count": 25,
     "SingleAd": 4600.0,
-    "DoubleAd": 6440.0
+    "DoubleAd": 6440.0,
+    "latitude": 44.0494154,
+    "longitude": -123.1422906
   },
   {
     "StoreName": "FME07Y-0325",
@@ -2153,7 +2457,9 @@
     "PostalCode": "97404-5127",
     "Case Count": 35,
     "SingleAd": 5475.0,
-    "DoubleAd": 7665.0
+    "DoubleAd": 7665.0,
+    "latitude": 44.0979586,
+    "longitude": -123.1241285
   },
   {
     "StoreName": "QFC07X-0852",
@@ -2167,7 +2473,9 @@
     "PostalCode": "98203",
     "Case Count": 10,
     "SingleAd": 2700.0,
-    "DoubleAd": 3780.0
+    "DoubleAd": 3780.0,
+    "latitude": 47.9525026,
+    "longitude": -122.2120411
   },
   {
     "StoreName": "QFC07X-0853",
@@ -2181,7 +2489,9 @@
     "PostalCode": "98201",
     "Case Count": 11,
     "SingleAd": 2850.0,
-    "DoubleAd": 3990.0
+    "DoubleAd": 3990.0,
+    "latitude": 47.9828004,
+    "longitude": -122.2005671
   },
   {
     "StoreName": "SAF07X-2645",
@@ -2195,7 +2505,9 @@
     "PostalCode": "98208",
     "Case Count": 12,
     "SingleAd": 3000.0,
-    "DoubleAd": 4200.0
+    "DoubleAd": 4200.0,
+    "latitude": 47.8754936,
+    "longitude": -122.1537933
   },
   {
     "StoreName": "SAF07X-1461",
@@ -2209,7 +2521,9 @@
     "PostalCode": "98204",
     "Case Count": 12,
     "SingleAd": 3000.0,
-    "DoubleAd": 4200.0
+    "DoubleAd": 4200.0,
+    "latitude": 47.8808004,
+    "longitude": -122.2406129
   },
   {
     "StoreName": "SAF07X-0503",
@@ -2223,7 +2537,9 @@
     "PostalCode": "98208",
     "Case Count": 14,
     "SingleAd": 3300.0,
-    "DoubleAd": 4620.0
+    "DoubleAd": 4620.0,
+    "latitude": 47.89735109999999,
+    "longitude": -122.2051108
   },
   {
     "StoreName": "SAF07X-0474",
@@ -2237,7 +2553,9 @@
     "PostalCode": "98201",
     "Case Count": 15,
     "SingleAd": 3425.0,
-    "DoubleAd": 4795.0
+    "DoubleAd": 4795.0,
+    "latitude": 47.994134,
+    "longitude": -122.2003161
   },
   {
     "StoreName": "SAF07X-3298",
@@ -2251,7 +2569,9 @@
     "PostalCode": "98203",
     "Case Count": 25,
     "SingleAd": 4600.0,
-    "DoubleAd": 6440.0
+    "DoubleAd": 6440.0,
+    "latitude": 47.9285,
+    "longitude": -122.2196711
   },
   {
     "StoreName": "SAF07X-1484",
@@ -2265,7 +2585,9 @@
     "PostalCode": "98203",
     "Case Count": 26,
     "SingleAd": 4700.0,
-    "DoubleAd": 6580.0
+    "DoubleAd": 6580.0,
+    "latitude": 47.962591,
+    "longitude": -122.2120656
   },
   {
     "StoreName": "FME07X-0458",
@@ -2279,7 +2601,9 @@
     "PostalCode": "98208",
     "Case Count": 28,
     "SingleAd": 4900.0,
-    "DoubleAd": 6860.0
+    "DoubleAd": 6860.0,
+    "latitude": 47.8796725,
+    "longitude": -122.2074108
   },
   {
     "StoreName": "SAF07X-0477",
@@ -2293,7 +2617,9 @@
     "PostalCode": "98003",
     "Case Count": 9,
     "SingleAd": 2550.0,
-    "DoubleAd": 3570.0
+    "DoubleAd": 3570.0,
+    "latitude": 47.3425312,
+    "longitude": -122.3000472
   },
   {
     "StoreName": "SAF07X-1555",
@@ -2307,7 +2633,9 @@
     "PostalCode": "98003",
     "Case Count": 24,
     "SingleAd": 4500.0,
-    "DoubleAd": 6300.0
+    "DoubleAd": 6300.0,
+    "latitude": 47.3147799,
+    "longitude": -122.3180134
   },
   {
     "StoreName": "FME07X-0111",
@@ -2321,7 +2649,9 @@
     "PostalCode": "98023-7780",
     "Case Count": 28,
     "SingleAd": 4900.0,
-    "DoubleAd": 6860.0
+    "DoubleAd": 6860.0,
+    "latitude": 47.2984897,
+    "longitude": -122.3589862
   },
   {
     "StoreName": "HAG07X-0063",
@@ -2335,7 +2665,9 @@
     "PostalCode": "98248",
     "Case Count": 22,
     "SingleAd": 4300.0,
-    "DoubleAd": 6020.0
+    "DoubleAd": 6020.0,
+    "latitude": 48.8431095,
+    "longitude": -122.5805664
   },
   {
     "StoreName": "SAF07Y-0363",
@@ -2349,7 +2681,9 @@
     "PostalCode": "97439",
     "Case Count": 15,
     "SingleAd": 3425.0,
-    "DoubleAd": 4795.0
+    "DoubleAd": 4795.0,
+    "latitude": 43.972804,
+    "longitude": -124.1035907
   },
   {
     "StoreName": "FME07Y-0464",
@@ -2363,7 +2697,9 @@
     "PostalCode": "97439",
     "Case Count": 23,
     "SingleAd": 4400.0,
-    "DoubleAd": 6160.0
+    "DoubleAd": 6160.0,
+    "latitude": 44.0077928,
+    "longitude": -124.1026169
   },
   {
     "StoreName": "FFL05X-0389",
@@ -2377,7 +2713,9 @@
     "PostalCode": "92335",
     "Case Count": 10,
     "SingleAd": 2700.0,
-    "DoubleAd": 3780.0
+    "DoubleAd": 3780.0,
+    "latitude": 34.0684612,
+    "longitude": -117.433889
   },
   {
     "StoreName": "STB05X-0005",
@@ -2391,7 +2729,9 @@
     "PostalCode": "92335",
     "Case Count": 11,
     "SingleAd": 2850.0,
-    "DoubleAd": 3990.0
+    "DoubleAd": 3990.0,
+    "latitude": 34.1043781,
+    "longitude": -117.4370094
   },
   {
     "StoreName": "STB05X-0095",
@@ -2405,7 +2745,9 @@
     "PostalCode": "92335",
     "Case Count": 15,
     "SingleAd": 3425.0,
-    "DoubleAd": 4795.0
+    "DoubleAd": 4795.0,
+    "latitude": 34.1009398,
+    "longitude": -117.408557
   },
   {
     "StoreName": "RAL05X-0113",
@@ -2419,7 +2761,9 @@
     "PostalCode": "92336",
     "Case Count": 16,
     "SingleAd": 3550.0,
-    "DoubleAd": 4970.0
+    "DoubleAd": 4970.0,
+    "latitude": 34.1376953,
+    "longitude": -117.4505404
   },
   {
     "StoreName": "STB05X-0179",
@@ -2433,7 +2777,9 @@
     "PostalCode": "92337",
     "Case Count": 20,
     "SingleAd": 4050.0,
-    "DoubleAd": 5670.0
+    "DoubleAd": 5670.0,
+    "latitude": 34.04980010000001,
+    "longitude": -117.4338086
   },
   {
     "StoreName": "VON05X-1742",
@@ -2447,7 +2793,9 @@
     "PostalCode": "92336",
     "Case Count": 20,
     "SingleAd": 4050.0,
-    "DoubleAd": 5670.0
+    "DoubleAd": 5670.0,
+    "latitude": 34.1197828,
+    "longitude": -117.4904151
   },
   {
     "StoreName": "STB05X-0175",
@@ -2461,7 +2809,9 @@
     "PostalCode": "92336",
     "Case Count": 24,
     "SingleAd": 4500.0,
-    "DoubleAd": 6300.0
+    "DoubleAd": 6300.0,
+    "latitude": 34.1513359,
+    "longitude": -117.4755511
   },
   {
     "StoreName": "SAF07Y-0406",
@@ -2475,7 +2825,9 @@
     "PostalCode": "97116",
     "Case Count": 18,
     "SingleAd": 3800.0,
-    "DoubleAd": 5320.0
+    "DoubleAd": 5320.0,
+    "latitude": 45.5194115,
+    "longitude": -123.0953533
   },
   {
     "StoreName": "SAF07X-3321",
@@ -2489,7 +2841,9 @@
     "PostalCode": "98335",
     "Case Count": 20,
     "SingleAd": 4050.0,
-    "DoubleAd": 5670.0
+    "DoubleAd": 5670.0,
+    "latitude": 47.30226400000001,
+    "longitude": -122.5758606
   },
   {
     "StoreName": "FME07X-0691",
@@ -2503,7 +2857,9 @@
     "PostalCode": "98335",
     "Case Count": 21,
     "SingleAd": 4175.0,
-    "DoubleAd": 5845.0
+    "DoubleAd": 5845.0,
+    "latitude": 47.3075436,
+    "longitude": -122.5810844
   },
   {
     "StoreName": "SAF07X-4406",
@@ -2517,7 +2873,9 @@
     "PostalCode": "98332",
     "Case Count": 27,
     "SingleAd": 4800.0,
-    "DoubleAd": 6720.0
+    "DoubleAd": 6720.0,
+    "latitude": 47.3609681,
+    "longitude": -122.6046577
   },
   {
     "StoreName": "SAF07Y-4387",
@@ -2531,7 +2889,9 @@
     "PostalCode": "97027",
     "Case Count": 12,
     "SingleAd": 3000.0,
-    "DoubleAd": 4200.0
+    "DoubleAd": 4200.0,
+    "latitude": 45.3816595,
+    "longitude": -122.5822686
   },
   {
     "StoreName": "SAF07Z-0547",
@@ -2545,7 +2905,9 @@
     "PostalCode": "98338",
     "Case Count": 24,
     "SingleAd": 4500.0,
-    "DoubleAd": 6300.0
+    "DoubleAd": 6300.0,
+    "latitude": 47.05427,
+    "longitude": -122.2963296
   },
   {
     "StoreName": "STB05X-0188",
@@ -2559,7 +2921,9 @@
     "PostalCode": "92313",
     "Case Count": 20,
     "SingleAd": 4050.0,
-    "DoubleAd": 5670.0
+    "DoubleAd": 5670.0,
+    "latitude": 34.0325372,
+    "longitude": -117.3204371
   },
   {
     "StoreName": "SAF07Y-0290",
@@ -2573,7 +2937,9 @@
     "PostalCode": "97526",
     "Case Count": 13,
     "SingleAd": 3150.0,
-    "DoubleAd": 4410.0
+    "DoubleAd": 4410.0,
+    "latitude": 42.4386874,
+    "longitude": -123.324775
   },
   {
     "StoreName": "ALB07Y-3541",
@@ -2587,7 +2953,9 @@
     "PostalCode": "97527",
     "Case Count": 13,
     "SingleAd": 3150.0,
-    "DoubleAd": 4410.0
+    "DoubleAd": 4410.0,
+    "latitude": 42.41932,
+    "longitude": -123.3527693
   },
   {
     "StoreName": "SAF07Y-0379",
@@ -2601,7 +2969,9 @@
     "PostalCode": "97527",
     "Case Count": 14,
     "SingleAd": 3300.0,
-    "DoubleAd": 4620.0
+    "DoubleAd": 4620.0,
+    "latitude": 42.421108,
+    "longitude": -123.3362527
   },
   {
     "StoreName": "FME07Y-0126",
@@ -2615,7 +2985,9 @@
     "PostalCode": "97526-2359",
     "Case Count": 22,
     "SingleAd": 4300.0,
-    "DoubleAd": 6020.0
+    "DoubleAd": 6020.0,
+    "latitude": 42.4355402,
+    "longitude": -123.304887
   },
   {
     "StoreName": "SAF07Z-0430",
@@ -2629,7 +3001,9 @@
     "PostalCode": "97030",
     "Case Count": 17,
     "SingleAd": 3675.0,
-    "DoubleAd": 5145.0
+    "DoubleAd": 5145.0,
+    "latitude": 45.50585539999999,
+    "longitude": -122.4170551
   },
   {
     "StoreName": "SAF07Z-1070",
@@ -2643,7 +3017,9 @@
     "PostalCode": "97080",
     "Case Count": 23,
     "SingleAd": 4400.0,
-    "DoubleAd": 6160.0
+    "DoubleAd": 6160.0,
+    "latitude": 45.4893131,
+    "longitude": -122.4767638
   },
   {
     "StoreName": "FME07Z-0127",
@@ -2657,7 +3033,9 @@
     "PostalCode": "97080-1299",
     "Case Count": 25,
     "SingleAd": 4600.0,
-    "DoubleAd": 6440.0
+    "DoubleAd": 6440.0,
+    "latitude": 45.4958074,
+    "longitude": -122.4068825
   },
   {
     "StoreName": "FME07Z-0153",
@@ -2671,7 +3049,9 @@
     "PostalCode": "97266-6605",
     "Case Count": 30,
     "SingleAd": 5100.0,
-    "DoubleAd": 7140.0
+    "DoubleAd": 7140.0,
+    "latitude": 45.4579241,
+    "longitude": -122.5806917
   },
   {
     "StoreName": "FME07Z-0694",
@@ -2685,7 +3065,9 @@
     "PostalCode": "97015",
     "Case Count": 33,
     "SingleAd": 5325.0,
-    "DoubleAd": 7455.0
+    "DoubleAd": 7455.0,
+    "latitude": 45.4285313,
+    "longitude": -122.4877249
   },
   {
     "StoreName": "STB05X-0122",
@@ -2699,7 +3081,9 @@
     "PostalCode": "92345",
     "Case Count": 15,
     "SingleAd": 3425.0,
-    "DoubleAd": 4795.0
+    "DoubleAd": 4795.0,
+    "latitude": 34.4276014,
+    "longitude": -117.3480592
   },
   {
     "StoreName": "STB05X-0190",
@@ -2713,7 +3097,9 @@
     "PostalCode": "92345",
     "Case Count": 18,
     "SingleAd": 3800.0,
-    "DoubleAd": 5320.0
+    "DoubleAd": 5320.0,
+    "latitude": 34.4220356,
+    "longitude": -117.2946147
   },
   {
     "StoreName": "ALB05X-6503",
@@ -2727,7 +3113,9 @@
     "PostalCode": "92346",
     "Case Count": 8,
     "SingleAd": 2400.0,
-    "DoubleAd": 3360.0
+    "DoubleAd": 3360.0,
+    "latitude": 34.1239047,
+    "longitude": -117.193564
   },
   {
     "StoreName": "STB05X-0058",
@@ -2741,7 +3129,9 @@
     "PostalCode": "92346",
     "Case Count": 11,
     "SingleAd": 2850.0,
-    "DoubleAd": 3990.0
+    "DoubleAd": 3990.0,
+    "latitude": 34.1343363,
+    "longitude": -117.2078247
   },
   {
     "StoreName": "FFL05X-0385",
@@ -2755,7 +3145,9 @@
     "PostalCode": "92346",
     "Case Count": 14,
     "SingleAd": 3300.0,
-    "DoubleAd": 4620.0
+    "DoubleAd": 4620.0,
+    "latitude": 34.1345032,
+    "longitude": -117.2253545
   },
   {
     "StoreName": "STB05X-0210",
@@ -2769,7 +3161,9 @@
     "PostalCode": "92346",
     "Case Count": 15,
     "SingleAd": 3425.0,
-    "DoubleAd": 4795.0
+    "DoubleAd": 4795.0,
+    "latitude": 34.1085088,
+    "longitude": -117.1926781
   },
   {
     "StoreName": "STB05X-0182",
@@ -2783,7 +3177,9 @@
     "PostalCode": "92346",
     "Case Count": 17,
     "SingleAd": 3675.0,
-    "DoubleAd": 5145.0
+    "DoubleAd": 5145.0,
+    "latitude": 34.1110722,
+    "longitude": -117.1724288
   },
   {
     "StoreName": "ALB07Y-0590",
@@ -2797,7 +3193,9 @@
     "PostalCode": "97123",
     "Case Count": 10,
     "SingleAd": 2700.0,
-    "DoubleAd": 3780.0
+    "DoubleAd": 3780.0,
+    "latitude": 45.5146058,
+    "longitude": -122.9041033
   },
   {
     "StoreName": "SAF07Y-1203",
@@ -2811,7 +3209,9 @@
     "PostalCode": "97123",
     "Case Count": 14,
     "SingleAd": 3300.0,
-    "DoubleAd": 4620.0
+    "DoubleAd": 4620.0,
+    "latitude": 45.5058969,
+    "longitude": -122.9543947
   },
   {
     "StoreName": "SAF07Y-0591",
@@ -2825,7 +3225,9 @@
     "PostalCode": "97124",
     "Case Count": 15,
     "SingleAd": 3425.0,
-    "DoubleAd": 4795.0
+    "DoubleAd": 4795.0,
+    "latitude": 45.5294287,
+    "longitude": -122.9562422
   },
   {
     "StoreName": "FME07Y-0661",
@@ -2839,7 +3241,9 @@
     "PostalCode": "97124",
     "Case Count": 27,
     "SingleAd": 4800.0,
-    "DoubleAd": 6720.0
+    "DoubleAd": 6720.0,
+    "latitude": 45.5513308,
+    "longitude": -122.9031384
   },
   {
     "StoreName": "SAF07Y-1230",
@@ -2853,7 +3257,9 @@
     "PostalCode": "97124",
     "Case Count": 29,
     "SingleAd": 5000.0,
-    "DoubleAd": 7000.0
+    "DoubleAd": 7000.0,
+    "latitude": 45.5360798,
+    "longitude": -122.8697631
   },
   {
     "StoreName": "FME07Y-0143",
@@ -2867,7 +3273,9 @@
     "PostalCode": "97123",
     "Case Count": 39,
     "SingleAd": 5775.0,
-    "DoubleAd": 8085.0
+    "DoubleAd": 8085.0,
+    "latitude": 45.4995853,
+    "longitude": -122.9141493
   },
   {
     "StoreName": "SAF07Z-1123",
@@ -2881,7 +3289,9 @@
     "PostalCode": "97031",
     "Case Count": 14,
     "SingleAd": 3300.0,
-    "DoubleAd": 4620.0
+    "DoubleAd": 4620.0,
+    "latitude": 45.7087368,
+    "longitude": -121.5349924
   },
   {
     "StoreName": "ROS07Z-0016",
@@ -2895,7 +3305,9 @@
     "PostalCode": "97031",
     "Case Count": 17,
     "SingleAd": 3675.0,
-    "DoubleAd": 5145.0
+    "DoubleAd": 5145.0,
+    "latitude": 45.6948435,
+    "longitude": -121.5222591
   },
   {
     "StoreName": "STB05X-0094",
@@ -2909,7 +3321,9 @@
     "PostalCode": "92201",
     "Case Count": 11,
     "SingleAd": 2850.0,
-    "DoubleAd": 3990.0
+    "DoubleAd": 3990.0,
+    "latitude": 33.714754,
+    "longitude": -116.2302735
   },
   {
     "StoreName": "FFL05X-0765",
@@ -2923,7 +3337,9 @@
     "PostalCode": "92201",
     "Case Count": 15,
     "SingleAd": 3425.0,
-    "DoubleAd": 4795.0
+    "DoubleAd": 4795.0,
+    "latitude": 33.714754,
+    "longitude": -116.2302735
   },
   {
     "StoreName": "RAL05X-0160",
@@ -2937,7 +3353,9 @@
     "PostalCode": "92201",
     "Case Count": 24,
     "SingleAd": 4500.0,
-    "DoubleAd": 6300.0
+    "DoubleAd": 6300.0,
+    "latitude": 33.6862997,
+    "longitude": -116.2677422
   },
   {
     "StoreName": "QFC07X-0821",
@@ -2951,7 +3369,9 @@
     "PostalCode": "98027",
     "Case Count": 8,
     "SingleAd": 2400.0,
-    "DoubleAd": 3360.0
+    "DoubleAd": 3360.0,
+    "latitude": 47.546601,
+    "longitude": -122.0602521
   },
   {
     "StoreName": "SAF07X-1624",
@@ -2965,7 +3385,9 @@
     "PostalCode": "98027",
     "Case Count": 17,
     "SingleAd": 3675.0,
-    "DoubleAd": 5145.0
+    "DoubleAd": 5145.0,
+    "latitude": 47.5415358,
+    "longitude": -122.0485819
   },
   {
     "StoreName": "FME07X-0658",
@@ -2979,7 +3401,9 @@
     "PostalCode": "98029",
     "Case Count": 27,
     "SingleAd": 4800.0,
-    "DoubleAd": 6720.0
+    "DoubleAd": 6720.0,
+    "latitude": 47.54872839999999,
+    "longitude": -122.0389226
   },
   {
     "StoreName": "SAF07X-3006",
@@ -2993,7 +3417,9 @@
     "PostalCode": "98029",
     "Case Count": 28,
     "SingleAd": 4900.0,
-    "DoubleAd": 6860.0
+    "DoubleAd": 6860.0,
+    "latitude": 47.5422503,
+    "longitude": -122.0175382
   },
   {
     "StoreName": "SAF07Y-0386",
@@ -3007,7 +3433,9 @@
     "PostalCode": "97448",
     "Case Count": 20,
     "SingleAd": 4050.0,
-    "DoubleAd": 5670.0
+    "DoubleAd": 5670.0,
+    "latitude": 44.2291112,
+    "longitude": -123.2060652
   },
   {
     "StoreName": "SAF07Y-1516",
@@ -3021,7 +3449,9 @@
     "PostalCode": "97303",
     "Case Count": 23,
     "SingleAd": 4400.0,
-    "DoubleAd": 6160.0
+    "DoubleAd": 6160.0,
+    "latitude": 44.99635199999999,
+    "longitude": -123.0240245
   },
   {
     "StoreName": "SAF07Z-2637",
@@ -3035,7 +3465,9 @@
     "PostalCode": "98626",
     "Case Count": 12,
     "SingleAd": 3000.0,
-    "DoubleAd": 4200.0
+    "DoubleAd": 4200.0,
+    "latitude": 46.1421532,
+    "longitude": -122.9012653
   },
   {
     "StoreName": "SAF07X-3500",
@@ -3049,7 +3481,9 @@
     "PostalCode": "98028",
     "Case Count": 29,
     "SingleAd": 5000.0,
-    "DoubleAd": 7000.0
+    "DoubleAd": 7000.0,
+    "latitude": 47.7592812,
+    "longitude": -122.2476459
   },
   {
     "StoreName": "QFC07X-0803",
@@ -3063,7 +3497,9 @@
     "PostalCode": "98042",
     "Case Count": 8,
     "SingleAd": 2400.0,
-    "DoubleAd": 3360.0
+    "DoubleAd": 3360.0,
+    "latitude": 47.3875703,
+    "longitude": -122.1634928
   },
   {
     "StoreName": "SAF07X-0459",
@@ -3077,7 +3513,9 @@
     "PostalCode": "98031",
     "Case Count": 9,
     "SingleAd": 2550.0,
-    "DoubleAd": 3570.0
+    "DoubleAd": 3570.0,
+    "latitude": 47.4151463,
+    "longitude": -122.1955555
   },
   {
     "StoreName": "SAF07X-1294",
@@ -3091,7 +3529,9 @@
     "PostalCode": "98032",
     "Case Count": 16,
     "SingleAd": 3550.0,
-    "DoubleAd": 4970.0
+    "DoubleAd": 4970.0,
+    "latitude": 47.3805498,
+    "longitude": -122.2460874
   },
   {
     "StoreName": "SAF07X-0792",
@@ -3105,7 +3545,9 @@
     "PostalCode": "98042",
     "Case Count": 18,
     "SingleAd": 3800.0,
-    "DoubleAd": 5320.0
+    "DoubleAd": 5320.0,
+    "latitude": 47.3569975,
+    "longitude": -122.1143387
   },
   {
     "StoreName": "SAF07X-1966",
@@ -3119,7 +3561,9 @@
     "PostalCode": "98030",
     "Case Count": 23,
     "SingleAd": 4400.0,
-    "DoubleAd": 6160.0
+    "DoubleAd": 6160.0,
+    "latitude": 47.3566693,
+    "longitude": -122.1667983
   },
   {
     "StoreName": "FME07X-0215",
@@ -3133,7 +3577,9 @@
     "PostalCode": "98032",
     "Case Count": 33,
     "SingleAd": 5325.0,
-    "DoubleAd": 7455.0
+    "DoubleAd": 7455.0,
+    "latitude": 47.37500439999999,
+    "longitude": -122.2974884
   },
   {
     "StoreName": "SAF07Y-1478",
@@ -3147,7 +3593,9 @@
     "PostalCode": "97224",
     "Case Count": 24,
     "SingleAd": 4500.0,
-    "DoubleAd": 6300.0
+    "DoubleAd": 6300.0,
+    "latitude": 45.4072213,
+    "longitude": -122.7927096
   },
   {
     "StoreName": "SAF07X-0186",
@@ -3161,7 +3609,9 @@
     "PostalCode": "98346",
     "Case Count": 14,
     "SingleAd": 3300.0,
-    "DoubleAd": 4620.0
+    "DoubleAd": 4620.0,
+    "latitude": 47.8115186,
+    "longitude": -122.5406594
   },
   {
     "StoreName": "QFC07X-0828",
@@ -3175,7 +3625,9 @@
     "PostalCode": "98034",
     "Case Count": 10,
     "SingleAd": 2700.0,
-    "DoubleAd": 3780.0
+    "DoubleAd": 3780.0,
+    "latitude": 47.7123828,
+    "longitude": -122.191207
   },
   {
     "StoreName": "QFC07X-0894",
@@ -3189,7 +3641,9 @@
     "PostalCode": "98033",
     "Case Count": 12,
     "SingleAd": 3000.0,
-    "DoubleAd": 4200.0
+    "DoubleAd": 4200.0,
+    "latitude": 47.6777224,
+    "longitude": -122.1993336
   },
   {
     "StoreName": "QFC07X-0838",
@@ -3203,7 +3657,9 @@
     "PostalCode": "98034",
     "Case Count": 14,
     "SingleAd": 3300.0,
-    "DoubleAd": 4620.0
+    "DoubleAd": 4620.0,
+    "latitude": 47.7291216,
+    "longitude": -122.2430593
   },
   {
     "StoreName": "SAF07X-0526",
@@ -3217,7 +3673,9 @@
     "PostalCode": "98034",
     "Case Count": 17,
     "SingleAd": 3675.0,
-    "DoubleAd": 5145.0
+    "DoubleAd": 5145.0,
+    "latitude": 47.7323717,
+    "longitude": -122.1741692
   },
   {
     "StoreName": "SAF07X-1142",
@@ -3231,7 +3689,9 @@
     "PostalCode": "98033",
     "Case Count": 20,
     "SingleAd": 4050.0,
-    "DoubleAd": 5670.0
+    "DoubleAd": 5670.0,
+    "latitude": 47.678829,
+    "longitude": -122.1734308
   },
   {
     "StoreName": "FME07X-0391",
@@ -3245,7 +3705,9 @@
     "PostalCode": "98034",
     "Case Count": 22,
     "SingleAd": 4300.0,
-    "DoubleAd": 6020.0
+    "DoubleAd": 6020.0,
+    "latitude": 47.7082014,
+    "longitude": -122.1831997
   },
   {
     "StoreName": "SAF07X-2734",
@@ -3259,7 +3721,9 @@
     "PostalCode": "98034",
     "Case Count": 26,
     "SingleAd": 4700.0,
-    "DoubleAd": 6580.0
+    "DoubleAd": 6580.0,
+    "latitude": 47.72298319999999,
+    "longitude": -122.206049
   },
   {
     "StoreName": "ALB07Y-0577",
@@ -3273,7 +3737,9 @@
     "PostalCode": "97603",
     "Case Count": 18,
     "SingleAd": 3800.0,
-    "DoubleAd": 5320.0
+    "DoubleAd": 5320.0,
+    "latitude": 42.2057425,
+    "longitude": -121.7200642
   },
   {
     "StoreName": "FME07Y-0165",
@@ -3287,7 +3753,9 @@
     "PostalCode": "97603-4400",
     "Case Count": 26,
     "SingleAd": 4700.0,
-    "DoubleAd": 6580.0
+    "DoubleAd": 6580.0,
+    "latitude": 42.21576170000001,
+    "longitude": -121.7563617
   },
   {
     "StoreName": "SAF07Y-1827",
@@ -3301,7 +3769,9 @@
     "PostalCode": "97850",
     "Case Count": 17,
     "SingleAd": 3675.0,
-    "DoubleAd": 5145.0
+    "DoubleAd": 5145.0,
+    "latitude": 45.3213057,
+    "longitude": -118.0808673
   },
   {
     "StoreName": "STB05X-0128",
@@ -3315,7 +3785,9 @@
     "PostalCode": "92253",
     "Case Count": 12,
     "SingleAd": 3000.0,
-    "DoubleAd": 4200.0
+    "DoubleAd": 4200.0,
+    "latitude": 33.7150647,
+    "longitude": -116.2923775
   },
   {
     "StoreName": "VON05X-2175",
@@ -3329,7 +3801,9 @@
     "PostalCode": "92253",
     "Case Count": 12,
     "SingleAd": 3000.0,
-    "DoubleAd": 4200.0
+    "DoubleAd": 4200.0,
+    "latitude": 33.714895,
+    "longitude": -116.2981072
   },
   {
     "StoreName": "STB05X-0048",
@@ -3343,7 +3817,9 @@
     "PostalCode": "91750",
     "Case Count": 13,
     "SingleAd": 3150.0,
-    "DoubleAd": 4410.0
+    "DoubleAd": 4410.0,
+    "latitude": 34.1123637,
+    "longitude": -117.7662807
   },
   {
     "StoreName": "VON05X-2832",
@@ -3357,7 +3833,9 @@
     "PostalCode": "91750",
     "Case Count": 17,
     "SingleAd": 3675.0,
-    "DoubleAd": 5145.0
+    "DoubleAd": 5145.0,
+    "latitude": 34.1146123,
+    "longitude": -117.7731454
   },
   {
     "StoreName": "QFC07Z-0126",
@@ -3371,7 +3849,9 @@
     "PostalCode": "98513",
     "Case Count": 8,
     "SingleAd": 2400.0,
-    "DoubleAd": 3360.0
+    "DoubleAd": 3360.0,
+    "latitude": 46.9947632,
+    "longitude": -122.8238645
   },
   {
     "StoreName": "SAF07Z-1977",
@@ -3385,7 +3865,9 @@
     "PostalCode": "98503",
     "Case Count": 12,
     "SingleAd": 3000.0,
-    "DoubleAd": 4200.0
+    "DoubleAd": 4200.0,
+    "latitude": 47.0392599,
+    "longitude": -122.7998451
   },
   {
     "StoreName": "FME07Z-0186",
@@ -3399,7 +3881,9 @@
     "PostalCode": "98503-1113",
     "Case Count": 35,
     "SingleAd": 5475.0,
-    "DoubleAd": 7665.0
+    "DoubleAd": 7665.0,
+    "latitude": 47.0395365,
+    "longitude": -122.8323105
   },
   {
     "StoreName": "STB05X-0092",
@@ -3413,7 +3897,9 @@
     "PostalCode": "92352",
     "Case Count": 15,
     "SingleAd": 3425.0,
-    "DoubleAd": 4795.0
+    "DoubleAd": 4795.0,
+    "latitude": 34.2504713,
+    "longitude": -117.1905184
   },
   {
     "StoreName": "ALB07X-3416",
@@ -3427,7 +3913,9 @@
     "PostalCode": "98155",
     "Case Count": 14,
     "SingleAd": 3300.0,
-    "DoubleAd": 4620.0
+    "DoubleAd": 4620.0,
+    "latitude": 47.754216,
+    "longitude": -122.2797979
   },
   {
     "StoreName": "SAF07Y-0508",
@@ -3441,7 +3929,9 @@
     "PostalCode": "97034",
     "Case Count": 11,
     "SingleAd": 2850.0,
-    "DoubleAd": 3990.0
+    "DoubleAd": 3990.0,
+    "latitude": 45.4208305,
+    "longitude": -122.6684593
   },
   {
     "StoreName": "ALB07Y-3531",
@@ -3455,7 +3945,9 @@
     "PostalCode": "97035",
     "Case Count": 12,
     "SingleAd": 3000.0,
-    "DoubleAd": 4200.0
+    "DoubleAd": 4200.0,
+    "latitude": 45.4095465,
+    "longitude": -122.722927
   },
   {
     "StoreName": "SAF07Y-1047",
@@ -3469,7 +3961,9 @@
     "PostalCode": "97035",
     "Case Count": 17,
     "SingleAd": 3675.0,
-    "DoubleAd": 5145.0
+    "DoubleAd": 5145.0,
+    "latitude": 45.3984123,
+    "longitude": -122.7418823
   },
   {
     "StoreName": "HAG07X-0071",
@@ -3483,7 +3977,9 @@
     "PostalCode": "98258",
     "Case Count": 13,
     "SingleAd": 3150.0,
-    "DoubleAd": 4410.0
+    "DoubleAd": 4410.0,
+    "latitude": 47.9989643,
+    "longitude": -122.1106524
   },
   {
     "StoreName": "SAF07X-1803",
@@ -3497,7 +3993,9 @@
     "PostalCode": "98258",
     "Case Count": 36,
     "SingleAd": 5550.0,
-    "DoubleAd": 7770.0
+    "DoubleAd": 7770.0,
+    "latitude": 48.003747,
+    "longitude": -122.1035074
   },
   {
     "StoreName": "SAF07Y-4316",
@@ -3511,7 +4009,9 @@
     "PostalCode": "97630",
     "Case Count": 8,
     "SingleAd": 2400.0,
-    "DoubleAd": 3360.0
+    "DoubleAd": 3360.0,
+    "latitude": 42.1918044,
+    "longitude": -120.3452553
   },
   {
     "StoreName": "SAF07Z-3411",
@@ -3525,7 +4025,9 @@
     "PostalCode": "98498",
     "Case Count": 25,
     "SingleAd": 4600.0,
-    "DoubleAd": 6440.0
+    "DoubleAd": 6440.0,
+    "latitude": 47.1804004,
+    "longitude": -122.5519646
   },
   {
     "StoreName": "SAF07Z-1645",
@@ -3539,7 +4041,9 @@
     "PostalCode": "98499",
     "Case Count": 30,
     "SingleAd": 5100.0,
-    "DoubleAd": 7140.0
+    "DoubleAd": 7140.0,
+    "latitude": 47.16465059999999,
+    "longitude": -122.5201022
   },
   {
     "StoreName": "SAF07Y-1558",
@@ -3553,7 +4057,9 @@
     "PostalCode": "97355",
     "Case Count": 16,
     "SingleAd": 3550.0,
-    "DoubleAd": 4970.0
+    "DoubleAd": 4970.0,
+    "latitude": 44.5271923,
+    "longitude": -122.9065792
   },
   {
     "StoreName": "SAF07Y-0415",
@@ -3567,7 +4073,9 @@
     "PostalCode": "97367",
     "Case Count": 32,
     "SingleAd": 5250.0,
-    "DoubleAd": 7350.0
+    "DoubleAd": 7350.0,
+    "latitude": 44.997217,
+    "longitude": -124.0062246
   },
   {
     "StoreName": "STB05X-0081",
@@ -3581,7 +4089,9 @@
     "PostalCode": "92354",
     "Case Count": 13,
     "SingleAd": 3150.0,
-    "DoubleAd": 4410.0
+    "DoubleAd": 4410.0,
+    "latitude": 34.0493032,
+    "longitude": -117.2451806
   },
   {
     "StoreName": "SAF07Z-1078",
@@ -3595,7 +4105,9 @@
     "PostalCode": "98632",
     "Case Count": 11,
     "SingleAd": 2850.0,
-    "DoubleAd": 3990.0
+    "DoubleAd": 3990.0,
+    "latitude": 46.148871,
+    "longitude": -122.9609881
   },
   {
     "StoreName": "SAF07Z-0091",
@@ -3609,7 +4121,9 @@
     "PostalCode": "98632",
     "Case Count": 20,
     "SingleAd": 4050.0,
-    "DoubleAd": 5670.0
+    "DoubleAd": 5670.0,
+    "latitude": 46.1370282,
+    "longitude": -122.93781
   },
   {
     "StoreName": "FME07Z-0185",
@@ -3623,7 +4137,9 @@
     "PostalCode": "98632-4395",
     "Case Count": 30,
     "SingleAd": 5100.0,
-    "DoubleAd": 7140.0
+    "DoubleAd": 7140.0,
+    "latitude": 46.1486508,
+    "longitude": -122.9637954
   },
   {
     "StoreName": "FPV07X-0441",
@@ -3637,7 +4153,9 @@
     "PostalCode": "98264",
     "Case Count": 8,
     "SingleAd": 2400.0,
-    "DoubleAd": 3360.0
+    "DoubleAd": 3360.0,
+    "latitude": 48.9365953,
+    "longitude": -122.4827029
   },
   {
     "StoreName": "SAF07X-1930",
@@ -3651,7 +4169,9 @@
     "PostalCode": "98264",
     "Case Count": 35,
     "SingleAd": 5475.0,
-    "DoubleAd": 7665.0
+    "DoubleAd": 7665.0,
+    "latitude": 48.9343255,
+    "longitude": -122.4873086
   },
   {
     "StoreName": "SAF07X-0485",
@@ -3665,7 +4185,9 @@
     "PostalCode": "98036",
     "Case Count": 11,
     "SingleAd": 2850.0,
-    "DoubleAd": 3990.0
+    "DoubleAd": 3990.0,
+    "latitude": 47.8221919,
+    "longitude": -122.3166858
   },
   {
     "StoreName": "QFC07X-0835",
@@ -3679,7 +4201,9 @@
     "PostalCode": "98036",
     "Case Count": 12,
     "SingleAd": 3000.0,
-    "DoubleAd": 4200.0
+    "DoubleAd": 4200.0,
+    "latitude": 47.8204042,
+    "longitude": -122.334896
   },
   {
     "StoreName": "SAF07X-0469",
@@ -3693,7 +4217,9 @@
     "PostalCode": "98037",
     "Case Count": 18,
     "SingleAd": 3800.0,
-    "DoubleAd": 5320.0
+    "DoubleAd": 5320.0,
+    "latitude": 47.8810777,
+    "longitude": -122.2810305
   },
   {
     "StoreName": "SAF07X-3523",
@@ -3707,7 +4233,9 @@
     "PostalCode": "98087",
     "Case Count": 28,
     "SingleAd": 4900.0,
-    "DoubleAd": 6860.0
+    "DoubleAd": 6860.0,
+    "latitude": 47.8638989,
+    "longitude": -122.2828562
   },
   {
     "StoreName": "FME07X-0688",
@@ -3721,7 +4249,9 @@
     "PostalCode": "98087",
     "Case Count": 30,
     "SingleAd": 5100.0,
-    "DoubleAd": 7140.0
+    "DoubleAd": 7140.0,
+    "latitude": 47.8474119,
+    "longitude": -122.2730431
   },
   {
     "StoreName": "FME07X-0180",
@@ -3735,7 +4265,9 @@
     "PostalCode": "98036",
     "Case Count": 38,
     "SingleAd": 5700.0,
-    "DoubleAd": 7980.0
+    "DoubleAd": 7980.0,
+    "latitude": 47.82207229999999,
+    "longitude": -122.2955373
   },
   {
     "StoreName": "SAF07Z-1960",
@@ -3749,7 +4281,9 @@
     "PostalCode": "97741",
     "Case Count": 18,
     "SingleAd": 3800.0,
-    "DoubleAd": 5320.0
+    "DoubleAd": 5320.0,
+    "latitude": 44.6439505,
+    "longitude": -121.1281892
   },
   {
     "StoreName": "QFC07X-0837",
@@ -3763,7 +4297,9 @@
     "PostalCode": "98038",
     "Case Count": 10,
     "SingleAd": 2700.0,
-    "DoubleAd": 3780.0
+    "DoubleAd": 3780.0,
+    "latitude": 47.3880236,
+    "longitude": -122.0450218
   },
   {
     "StoreName": "SAF07X-1471",
@@ -3777,7 +4313,9 @@
     "PostalCode": "98038",
     "Case Count": 23,
     "SingleAd": 4400.0,
-    "DoubleAd": 6160.0
+    "DoubleAd": 6160.0,
+    "latitude": 47.3603731,
+    "longitude": -122.0185168
   },
   {
     "StoreName": "FME07X-0682",
@@ -3791,7 +4329,9 @@
     "PostalCode": "98038",
     "Case Count": 24,
     "SingleAd": 4500.0,
-    "DoubleAd": 6300.0
+    "DoubleAd": 6300.0,
+    "latitude": 47.3635873,
+    "longitude": -122.0188644
   },
   {
     "StoreName": "HAG07X-3604",
@@ -3805,7 +4345,9 @@
     "PostalCode": "98270",
     "Case Count": 10,
     "SingleAd": 2700.0,
-    "DoubleAd": 3780.0
+    "DoubleAd": 3780.0,
+    "latitude": 48.0770143,
+    "longitude": -122.1805802
   },
   {
     "StoreName": "SAF07X-1485",
@@ -3819,7 +4361,9 @@
     "PostalCode": "98270",
     "Case Count": 17,
     "SingleAd": 3675.0,
-    "DoubleAd": 5145.0
+    "DoubleAd": 5145.0,
+    "latitude": 48.0625209,
+    "longitude": -122.1744993
   },
   {
     "StoreName": "ALB07X-0471",
@@ -3833,7 +4377,9 @@
     "PostalCode": "98270",
     "Case Count": 17,
     "SingleAd": 3675.0,
-    "DoubleAd": 5145.0
+    "DoubleAd": 5145.0,
+    "latitude": 48.0506785,
+    "longitude": -122.1776299
   },
   {
     "StoreName": "FME07X-0209",
@@ -3847,7 +4393,9 @@
     "PostalCode": "98270-4238",
     "Case Count": 28,
     "SingleAd": 4900.0,
-    "DoubleAd": 6860.0
+    "DoubleAd": 6860.0,
+    "latitude": 48.085187,
+    "longitude": -122.1707306
   },
   {
     "StoreName": "ALB07Y-0528",
@@ -3861,7 +4409,9 @@
     "PostalCode": "97128",
     "Case Count": 18,
     "SingleAd": 3800.0,
-    "DoubleAd": 5320.0
+    "DoubleAd": 5320.0,
+    "latitude": 45.1966217,
+    "longitude": -123.2052316
   },
   {
     "StoreName": "SAF07Y-1601",
@@ -3875,7 +4425,9 @@
     "PostalCode": "97128",
     "Case Count": 21,
     "SingleAd": 4175.0,
-    "DoubleAd": 5845.0
+    "DoubleAd": 5845.0,
+    "latitude": 45.2282929,
+    "longitude": -123.1748908
   },
   {
     "StoreName": "ALB07Y-3508",
@@ -3889,7 +4441,9 @@
     "PostalCode": "97504",
     "Case Count": 9,
     "SingleAd": 2550.0,
-    "DoubleAd": 3570.0
+    "DoubleAd": 3570.0,
+    "latitude": 42.3168994,
+    "longitude": -122.8151458
   },
   {
     "StoreName": "SAF07Y-1643",
@@ -3903,7 +4457,9 @@
     "PostalCode": "97501",
     "Case Count": 16,
     "SingleAd": 3550.0,
-    "DoubleAd": 4970.0
+    "DoubleAd": 4970.0,
+    "latitude": 42.3626312,
+    "longitude": -122.8586607
   },
   {
     "StoreName": "SAF07Y-0525",
@@ -3917,7 +4473,9 @@
     "PostalCode": "97504",
     "Case Count": 17,
     "SingleAd": 3675.0,
-    "DoubleAd": 5145.0
+    "DoubleAd": 5145.0,
+    "latitude": 42.3334351,
+    "longitude": -122.8636521
   },
   {
     "StoreName": "ALB07Y-3593",
@@ -3931,7 +4489,9 @@
     "PostalCode": "97501",
     "Case Count": 18,
     "SingleAd": 3800.0,
-    "DoubleAd": 5320.0
+    "DoubleAd": 5320.0,
+    "latitude": 42.3251171,
+    "longitude": -122.9008801
   },
   {
     "StoreName": "FME07Y-0196",
@@ -3945,7 +4505,9 @@
     "PostalCode": "97501",
     "Case Count": 27,
     "SingleAd": 4800.0,
-    "DoubleAd": 6720.0
+    "DoubleAd": 6720.0,
+    "latitude": 42.3143161,
+    "longitude": -122.8560981
   },
   {
     "StoreName": "FME07Y-0195",
@@ -3959,7 +4521,9 @@
     "PostalCode": "97504",
     "Case Count": 28,
     "SingleAd": 4900.0,
-    "DoubleAd": 6860.0
+    "DoubleAd": 6860.0,
+    "latitude": 42.3518181,
+    "longitude": -122.8709019
   },
   {
     "StoreName": "QFC07X-0806",
@@ -3973,7 +4537,9 @@
     "PostalCode": "98040",
     "Case Count": 8,
     "SingleAd": 2400.0,
-    "DoubleAd": 3360.0
+    "DoubleAd": 3360.0,
+    "latitude": 47.5410692,
+    "longitude": -122.225994
   },
   {
     "StoreName": "QFC07X-0839",
@@ -3987,7 +4553,9 @@
     "PostalCode": "98040",
     "Case Count": 11,
     "SingleAd": 2850.0,
-    "DoubleAd": 3990.0
+    "DoubleAd": 3990.0,
+    "latitude": 47.5848816,
+    "longitude": -122.2326933
   },
   {
     "StoreName": "SAF07X-0458",
@@ -4001,7 +4569,9 @@
     "PostalCode": "98012",
     "Case Count": 20,
     "SingleAd": 4050.0,
-    "DoubleAd": 5670.0
+    "DoubleAd": 5670.0,
+    "latitude": 47.8508627,
+    "longitude": -122.2200993
   },
   {
     "StoreName": "SAF07Z-3545",
@@ -4015,7 +4585,9 @@
     "PostalCode": "98354",
     "Case Count": 30,
     "SingleAd": 5100.0,
-    "DoubleAd": 7140.0
+    "DoubleAd": 7140.0,
+    "latitude": 47.2481558,
+    "longitude": -122.312899
   },
   {
     "StoreName": "SAF07Z-2690",
@@ -4029,7 +4601,9 @@
     "PostalCode": "97222",
     "Case Count": 17,
     "SingleAd": 3675.0,
-    "DoubleAd": 5145.0
+    "DoubleAd": 5145.0,
+    "latitude": 45.4469682,
+    "longitude": -122.6182945
   },
   {
     "StoreName": "SAF07Y-2696",
@@ -4043,7 +4617,9 @@
     "PostalCode": "97267",
     "Case Count": 18,
     "SingleAd": 3800.0,
-    "DoubleAd": 5320.0
+    "DoubleAd": 5320.0,
+    "latitude": 45.4157501,
+    "longitude": -122.590793
   },
   {
     "StoreName": "FME07Y-0240",
@@ -4057,7 +4633,9 @@
     "PostalCode": "97267-1417",
     "Case Count": 29,
     "SingleAd": 5000.0,
-    "DoubleAd": 7000.0
+    "DoubleAd": 7000.0,
+    "latitude": 45.4167709,
+    "longitude": -122.6303982
   },
   {
     "StoreName": "STB05X-0088",
@@ -4071,7 +4649,9 @@
     "PostalCode": "91752",
     "Case Count": 16,
     "SingleAd": 3550.0,
-    "DoubleAd": 4970.0
+    "DoubleAd": 4970.0,
+    "latitude": 33.9753293,
+    "longitude": -117.5242856
   },
   {
     "StoreName": "SAF07Y-1751",
@@ -4085,7 +4665,9 @@
     "PostalCode": "97038",
     "Case Count": 25,
     "SingleAd": 4600.0,
-    "DoubleAd": 6440.0
+    "DoubleAd": 6440.0,
+    "latitude": 45.1525007,
+    "longitude": -122.6033987
   },
   {
     "StoreName": "SAF07X-0537",
@@ -4099,7 +4681,9 @@
     "PostalCode": "98272",
     "Case Count": 26,
     "SingleAd": 4700.0,
-    "DoubleAd": 6580.0
+    "DoubleAd": 6580.0,
+    "latitude": 47.8601324,
+    "longitude": -121.9674334
   },
   {
     "StoreName": "FME07X-0210",
@@ -4113,7 +4697,9 @@
     "PostalCode": "98272",
     "Case Count": 30,
     "SingleAd": 5100.0,
-    "DoubleAd": 7140.0
+    "DoubleAd": 7140.0,
+    "latitude": 47.8627619,
+    "longitude": -121.9785868
   },
   {
     "StoreName": "STB05X-0073",
@@ -4127,7 +4713,9 @@
     "PostalCode": "91763",
     "Case Count": 15,
     "SingleAd": 3425.0,
-    "DoubleAd": 4795.0
+    "DoubleAd": 4795.0,
+    "latitude": 34.079996,
+    "longitude": -117.6888586
   },
   {
     "StoreName": "FFL05X-0302",
@@ -4141,7 +4729,9 @@
     "PostalCode": "92557",
     "Case Count": 12,
     "SingleAd": 3000.0,
-    "DoubleAd": 4200.0
+    "DoubleAd": 4200.0,
+    "latitude": 33.9439038,
+    "longitude": -117.2247448
   },
   {
     "StoreName": "STB05X-0185",
@@ -4155,7 +4745,9 @@
     "PostalCode": "92555",
     "Case Count": 14,
     "SingleAd": 3300.0,
-    "DoubleAd": 4620.0
+    "DoubleAd": 4620.0,
+    "latitude": 33.9124718,
+    "longitude": -117.1747022
   },
   {
     "StoreName": "FFL05X-0398",
@@ -4169,7 +4761,9 @@
     "PostalCode": "92553",
     "Case Count": 18,
     "SingleAd": 3800.0,
-    "DoubleAd": 5320.0
+    "DoubleAd": 5320.0,
+    "latitude": 33.9196003,
+    "longitude": -117.2360115
   },
   {
     "StoreName": "STB05X-0193",
@@ -4183,7 +4777,9 @@
     "PostalCode": "92557",
     "Case Count": 19,
     "SingleAd": 3925.0,
-    "DoubleAd": 5495.0
+    "DoubleAd": 5495.0,
+    "latitude": 33.9470298,
+    "longitude": -117.262068
   },
   {
     "StoreName": "STB05X-0172",
@@ -4197,7 +4793,9 @@
     "PostalCode": "92551",
     "Case Count": 24,
     "SingleAd": 4500.0,
-    "DoubleAd": 6300.0
+    "DoubleAd": 6300.0,
+    "latitude": 33.8916389,
+    "longitude": -117.2084492
   },
   {
     "StoreName": "HAG07X-0069",
@@ -4211,7 +4809,9 @@
     "PostalCode": "98274",
     "Case Count": 18,
     "SingleAd": 3800.0,
-    "DoubleAd": 5320.0
+    "DoubleAd": 5320.0,
+    "latitude": 48.4222463,
+    "longitude": -122.30759
   },
   {
     "StoreName": "SAF07X-1472",
@@ -4225,7 +4825,9 @@
     "PostalCode": "98273",
     "Case Count": 21,
     "SingleAd": 4175.0,
-    "DoubleAd": 5845.0
+    "DoubleAd": 5845.0,
+    "latitude": 48.4376937,
+    "longitude": -122.3371446
   },
   {
     "StoreName": "QFC07X-0857",
@@ -4239,7 +4841,9 @@
     "PostalCode": "98043",
     "Case Count": 10,
     "SingleAd": 2700.0,
-    "DoubleAd": 3780.0
+    "DoubleAd": 3780.0,
+    "latitude": 47.7905144,
+    "longitude": -122.2907114
   },
   {
     "StoreName": "SAF07X-0414",
@@ -4253,7 +4857,9 @@
     "PostalCode": "98043",
     "Case Count": 13,
     "SingleAd": 3150.0,
-    "DoubleAd": 4410.0
+    "DoubleAd": 4410.0,
+    "latitude": 47.8078229,
+    "longitude": -122.2906637
   },
   {
     "StoreName": "QFC07X-0832",
@@ -4267,7 +4873,9 @@
     "PostalCode": "98275",
     "Case Count": 19,
     "SingleAd": 3925.0,
-    "DoubleAd": 5495.0
+    "DoubleAd": 5495.0,
+    "latitude": 47.8919492,
+    "longitude": -122.2868942
   },
   {
     "StoreName": "SAF07Y-2623",
@@ -4281,7 +4889,9 @@
     "PostalCode": "97132",
     "Case Count": 12,
     "SingleAd": 3000.0,
-    "DoubleAd": 4200.0
+    "DoubleAd": 4200.0,
+    "latitude": 45.3085141,
+    "longitude": -122.9454157
   },
   {
     "StoreName": "FME07Y-0220",
@@ -4295,7 +4905,9 @@
     "PostalCode": "97132-5412",
     "Case Count": 27,
     "SingleAd": 4800.0,
-    "DoubleAd": 6720.0
+    "DoubleAd": 6720.0,
+    "latitude": 45.30551699999999,
+    "longitude": -122.9455368
   },
   {
     "StoreName": "QFC07X-0827",
@@ -4309,7 +4921,9 @@
     "PostalCode": "98059",
     "Case Count": 7,
     "SingleAd": 2400.0,
-    "DoubleAd": 2400.0
+    "DoubleAd": 2400.0,
+    "latitude": 47.5388036,
+    "longitude": -122.1647808
   },
   {
     "StoreName": "SAF07X-0558",
@@ -4323,7 +4937,9 @@
     "PostalCode": "98059",
     "Case Count": 20,
     "SingleAd": 4050.0,
-    "DoubleAd": 5670.0
+    "DoubleAd": 5670.0,
+    "latitude": 47.5390235,
+    "longitude": -122.1687878
   },
   {
     "StoreName": "SAF07Y-0378",
@@ -4337,7 +4953,9 @@
     "PostalCode": "97365",
     "Case Count": 10,
     "SingleAd": 2700.0,
-    "DoubleAd": 3780.0
+    "DoubleAd": 3780.0,
+    "latitude": 44.6524231,
+    "longitude": -124.0519326
   },
   {
     "StoreName": "FME07Y-0227",
@@ -4351,7 +4969,9 @@
     "PostalCode": "97365-1898",
     "Case Count": 25,
     "SingleAd": 4600.0,
-    "DoubleAd": 6440.0
+    "DoubleAd": 6440.0,
+    "latitude": 44.6511291,
+    "longitude": -124.0511828
   },
   {
     "StoreName": "STB05X-0044",
@@ -4365,7 +4985,9 @@
     "PostalCode": "92860",
     "Case Count": 12,
     "SingleAd": 3000.0,
-    "DoubleAd": 4200.0
+    "DoubleAd": 4200.0,
+    "latitude": 33.9226431,
+    "longitude": -117.5603822
   },
   {
     "StoreName": "STB05X-0199",
@@ -4379,7 +5001,9 @@
     "PostalCode": "92860",
     "Case Count": 15,
     "SingleAd": 3425.0,
-    "DoubleAd": 4795.0
+    "DoubleAd": 4795.0,
+    "latitude": 33.9151809,
+    "longitude": -117.5904982
   },
   {
     "StoreName": "QFC07X-0829",
@@ -4393,7 +5017,9 @@
     "PostalCode": "98045",
     "Case Count": 18,
     "SingleAd": 3800.0,
-    "DoubleAd": 5320.0
+    "DoubleAd": 5320.0,
+    "latitude": 47.4933079,
+    "longitude": -121.7804699
   },
   {
     "StoreName": "SAF07X-1528",
@@ -4407,7 +5033,9 @@
     "PostalCode": "98045",
     "Case Count": 20,
     "SingleAd": 4050.0,
-    "DoubleAd": 5670.0
+    "DoubleAd": 5670.0,
+    "latitude": 47.487357,
+    "longitude": -121.7914803
   },
   {
     "StoreName": "SAF07Y-1557",
@@ -4421,7 +5049,9 @@
     "PostalCode": "97459",
     "Case Count": 24,
     "SingleAd": 4500.0,
-    "DoubleAd": 6300.0
+    "DoubleAd": 6300.0,
+    "latitude": 43.40518830000001,
+    "longitude": -124.2355303
   },
   {
     "StoreName": "SAR07X-0610",
@@ -4435,7 +5065,9 @@
     "PostalCode": "98277",
     "Case Count": 12,
     "SingleAd": 3000.0,
-    "DoubleAd": 4200.0
+    "DoubleAd": 4200.0,
+    "latitude": 48.2979619,
+    "longitude": -122.6569512
   },
   {
     "StoreName": "HAG07X-3427",
@@ -4449,7 +5081,9 @@
     "PostalCode": "98277",
     "Case Count": 14,
     "SingleAd": 3300.0,
-    "DoubleAd": 4620.0
+    "DoubleAd": 4620.0,
+    "latitude": 48.2895376,
+    "longitude": -122.6595114
   },
   {
     "StoreName": "SAF07X-0402",
@@ -4463,7 +5097,9 @@
     "PostalCode": "98277",
     "Case Count": 35,
     "SingleAd": 5475.0,
-    "DoubleAd": 7665.0
+    "DoubleAd": 7665.0,
+    "latitude": 48.286568,
+    "longitude": -122.661367
   },
   {
     "StoreName": "SAF07Z-1952",
@@ -4477,7 +5113,9 @@
     "PostalCode": "98516",
     "Case Count": 14,
     "SingleAd": 3300.0,
-    "DoubleAd": 4620.0
+    "DoubleAd": 4620.0,
+    "latitude": 47.0494692,
+    "longitude": -122.8291023
   },
   {
     "StoreName": "HAG07Z-3444",
@@ -4491,7 +5129,9 @@
     "PostalCode": "98502",
     "Case Count": 18,
     "SingleAd": 3800.0,
-    "DoubleAd": 5320.0
+    "DoubleAd": 5320.0,
+    "latitude": 47.0340248,
+    "longitude": -122.9411164
   },
   {
     "StoreName": "ALB07Z-3417",
@@ -4505,7 +5145,9 @@
     "PostalCode": "98501",
     "Case Count": 18,
     "SingleAd": 3800.0,
-    "DoubleAd": 5320.0
+    "DoubleAd": 5320.0,
+    "latitude": 47.0428139,
+    "longitude": -122.8458019
   },
   {
     "StoreName": "SAF07Z-0543",
@@ -4519,7 +5161,9 @@
     "PostalCode": "98503",
     "Case Count": 26,
     "SingleAd": 4700.0,
-    "DoubleAd": 6580.0
+    "DoubleAd": 6580.0,
+    "latitude": 46.9976434,
+    "longitude": -122.8219595
   },
   {
     "StoreName": "SAF07Z-1173",
@@ -4533,7 +5177,9 @@
     "PostalCode": "98516",
     "Case Count": 27,
     "SingleAd": 4800.0,
-    "DoubleAd": 6720.0
+    "DoubleAd": 6720.0,
+    "latitude": 47.05833010000001,
+    "longitude": -122.7668975
   },
   {
     "StoreName": "SAF07Z-1464",
@@ -4547,7 +5193,9 @@
     "PostalCode": "98502",
     "Case Count": 31,
     "SingleAd": 5175.0,
-    "DoubleAd": 7245.0
+    "DoubleAd": 7245.0,
+    "latitude": 47.0455429,
+    "longitude": -122.9419815
   },
   {
     "StoreName": "FFL05X-0320",
@@ -4561,7 +5209,9 @@
     "PostalCode": "91762",
     "Case Count": 8,
     "SingleAd": 2400.0,
-    "DoubleAd": 3360.0
+    "DoubleAd": 3360.0,
+    "latitude": 34.0326111,
+    "longitude": -117.6528351
   },
   {
     "StoreName": "RAL05X-0752",
@@ -4575,7 +5225,9 @@
     "PostalCode": "91761",
     "Case Count": 14,
     "SingleAd": 3300.0,
-    "DoubleAd": 4620.0
+    "DoubleAd": 4620.0,
+    "latitude": 34.0177203,
+    "longitude": -117.5920986
   },
   {
     "StoreName": "STB05X-0108",
@@ -4589,7 +5241,9 @@
     "PostalCode": "91762",
     "Case Count": 16,
     "SingleAd": 3550.0,
-    "DoubleAd": 4970.0
+    "DoubleAd": 4970.0,
+    "latitude": 34.0636633,
+    "longitude": -117.6595809
   },
   {
     "StoreName": "STB05X-0059",
@@ -4603,7 +5257,9 @@
     "PostalCode": "91762",
     "Case Count": 17,
     "SingleAd": 3675.0,
-    "DoubleAd": 5145.0
+    "DoubleAd": 5145.0,
+    "latitude": 34.0328619,
+    "longitude": -117.6694643
   },
   {
     "StoreName": "STB05X-0204",
@@ -4617,7 +5273,9 @@
     "PostalCode": "91761",
     "Case Count": 18,
     "SingleAd": 3800.0,
-    "DoubleAd": 5320.0
+    "DoubleAd": 5320.0,
+    "latitude": 33.9991568,
+    "longitude": -117.5769867
   },
   {
     "StoreName": "STB05X-0085",
@@ -4631,7 +5289,9 @@
     "PostalCode": "91764",
     "Case Count": 19,
     "SingleAd": 3925.0,
-    "DoubleAd": 5495.0
+    "DoubleAd": 5495.0,
+    "latitude": 34.0785318,
+    "longitude": -117.6096528
   },
   {
     "StoreName": "STB05X-0208",
@@ -4645,7 +5305,9 @@
     "PostalCode": "91764",
     "Case Count": 23,
     "SingleAd": 4400.0,
-    "DoubleAd": 6160.0
+    "DoubleAd": 6160.0,
+    "latitude": 34.0755831,
+    "longitude": -117.5739018
   },
   {
     "StoreName": "ALB07Y-0571",
@@ -4659,7 +5321,9 @@
     "PostalCode": "97045",
     "Case Count": 17,
     "SingleAd": 3675.0,
-    "DoubleAd": 5145.0
+    "DoubleAd": 5145.0,
+    "latitude": 45.3298513,
+    "longitude": -122.5733254
   },
   {
     "StoreName": "SAF07Y-2993",
@@ -4673,7 +5337,9 @@
     "PostalCode": "97045",
     "Case Count": 20,
     "SingleAd": 4050.0,
-    "DoubleAd": 5670.0
+    "DoubleAd": 5670.0,
+    "latitude": 45.3344305,
+    "longitude": -122.5912847
   },
   {
     "StoreName": "FME07Y-0242",
@@ -4687,7 +5353,9 @@
     "PostalCode": "97045-4011",
     "Case Count": 40,
     "SingleAd": 5850.0,
-    "DoubleAd": 8190.0
+    "DoubleAd": 8190.0,
+    "latitude": 45.3324259,
+    "longitude": -122.5831665
   },
   {
     "StoreName": "SAF07Z-1844",
@@ -4701,7 +5369,9 @@
     "PostalCode": "98360",
     "Case Count": 18,
     "SingleAd": 3800.0,
-    "DoubleAd": 5320.0
+    "DoubleAd": 5320.0,
+    "latitude": 47.0997906,
+    "longitude": -122.2092531
   },
   {
     "StoreName": "RAL05X-0027",
@@ -4715,7 +5385,9 @@
     "PostalCode": "92260",
     "Case Count": 12,
     "SingleAd": 3000.0,
-    "DoubleAd": 4200.0
+    "DoubleAd": 4200.0,
+    "latitude": 33.7604272,
+    "longitude": -116.357967
   },
   {
     "StoreName": "ALB05X-6567",
@@ -4729,7 +5401,9 @@
     "PostalCode": "92211",
     "Case Count": 12,
     "SingleAd": 3000.0,
-    "DoubleAd": 4200.0
+    "DoubleAd": 4200.0,
+    "latitude": 33.7428456,
+    "longitude": -116.3055706
   },
   {
     "StoreName": "STB05X-0181",
@@ -4743,7 +5417,9 @@
     "PostalCode": "92211",
     "Case Count": 15,
     "SingleAd": 3425.0,
-    "DoubleAd": 4795.0
+    "DoubleAd": 4795.0,
+    "latitude": 33.7622677,
+    "longitude": -116.2994816
   },
   {
     "StoreName": "ALB05X-6559",
@@ -4757,7 +5433,9 @@
     "PostalCode": "92260",
     "Case Count": 21,
     "SingleAd": 4175.0,
-    "DoubleAd": 5845.0
+    "DoubleAd": 5845.0,
+    "latitude": 33.7228565,
+    "longitude": -116.3638462
   },
   {
     "StoreName": "VON05X-2384",
@@ -4771,7 +5449,9 @@
     "PostalCode": "92264",
     "Case Count": 11,
     "SingleAd": 2850.0,
-    "DoubleAd": 3990.0
+    "DoubleAd": 3990.0,
+    "latitude": 33.7922601,
+    "longitude": -116.4942542
   },
   {
     "StoreName": "ALB05X-6569",
@@ -4785,7 +5465,9 @@
     "PostalCode": "92262",
     "Case Count": 14,
     "SingleAd": 3300.0,
-    "DoubleAd": 4620.0
+    "DoubleAd": 4620.0,
+    "latitude": 33.8470958,
+    "longitude": -116.5296325
   },
   {
     "StoreName": "RAL05X-0181",
@@ -4799,7 +5481,9 @@
     "PostalCode": "92264",
     "Case Count": 15,
     "SingleAd": 3425.0,
-    "DoubleAd": 4795.0
+    "DoubleAd": 4795.0,
+    "latitude": 33.7999896,
+    "longitude": -116.5261477
   },
   {
     "StoreName": "STB05X-0126",
@@ -4813,7 +5497,9 @@
     "PostalCode": "92262",
     "Case Count": 15,
     "SingleAd": 3425.0,
-    "DoubleAd": 4795.0
+    "DoubleAd": 4795.0,
+    "latitude": 33.8443775,
+    "longitude": -116.5241182
   },
   {
     "StoreName": "RAL05X-0611",
@@ -4827,7 +5513,9 @@
     "PostalCode": "92262",
     "Case Count": 18,
     "SingleAd": 3800.0,
-    "DoubleAd": 5320.0
+    "DoubleAd": 5320.0,
+    "latitude": 33.8171362,
+    "longitude": -116.5299014
   },
   {
     "StoreName": "SAR07Z-0488",
@@ -4841,7 +5529,9 @@
     "PostalCode": "98444",
     "Case Count": 8,
     "SingleAd": 2400.0,
-    "DoubleAd": 3360.0
+    "DoubleAd": 3360.0,
+    "latitude": 47.13579559999999,
+    "longitude": -122.4361383
   },
   {
     "StoreName": "STB05X-0116",
@@ -4855,7 +5545,9 @@
     "PostalCode": "92371",
     "Case Count": 19,
     "SingleAd": 3925.0,
-    "DoubleAd": 5495.0
+    "DoubleAd": 5495.0,
+    "latitude": 34.4250921,
+    "longitude": -117.573748
   },
   {
     "StoreName": "STB05X-0019",
@@ -4869,7 +5561,9 @@
     "PostalCode": "91767",
     "Case Count": 12,
     "SingleAd": 3000.0,
-    "DoubleAd": 4200.0
+    "DoubleAd": 4200.0,
+    "latitude": 34.06821,
+    "longitude": -117.7533105
   },
   {
     "StoreName": "FFL05X-0358",
@@ -4883,7 +5577,9 @@
     "PostalCode": "91766",
     "Case Count": 14,
     "SingleAd": 3300.0,
-    "DoubleAd": 4620.0
+    "DoubleAd": 4620.0,
+    "latitude": 34.0348379,
+    "longitude": -117.7489342
   },
   {
     "StoreName": "SAR07X-0630",
@@ -4897,7 +5593,9 @@
     "PostalCode": "98362",
     "Case Count": 10,
     "SingleAd": 2700.0,
-    "DoubleAd": 3780.0
+    "DoubleAd": 3780.0,
+    "latitude": 48.1067779,
+    "longitude": -123.4446756
   },
   {
     "StoreName": "SAF07X-1922",
@@ -4911,7 +5609,9 @@
     "PostalCode": "98362",
     "Case Count": 16,
     "SingleAd": 3550.0,
-    "DoubleAd": 4970.0
+    "DoubleAd": 4970.0,
+    "latitude": 48.10602129999999,
+    "longitude": -123.3803249
   },
   {
     "StoreName": "SAF07X-1492",
@@ -4925,7 +5625,9 @@
     "PostalCode": "98362",
     "Case Count": 30,
     "SingleAd": 5100.0,
-    "DoubleAd": 7140.0
+    "DoubleAd": 7140.0,
+    "latitude": 48.1157882,
+    "longitude": -123.4347905
   },
   {
     "StoreName": "QFC07X-0870",
@@ -4939,7 +5641,9 @@
     "PostalCode": "98339",
     "Case Count": 12,
     "SingleAd": 3000.0,
-    "DoubleAd": 4200.0
+    "DoubleAd": 4200.0,
+    "latitude": 48.03257980000001,
+    "longitude": -122.7585318
   },
   {
     "StoreName": "SAF07X-3317",
@@ -4953,7 +5657,9 @@
     "PostalCode": "98366",
     "Case Count": 11,
     "SingleAd": 2850.0,
-    "DoubleAd": 3990.0
+    "DoubleAd": 3990.0,
+    "latitude": 47.5184225,
+    "longitude": -122.6307421
   },
   {
     "StoreName": "ALB07X-0475",
@@ -4967,7 +5673,9 @@
     "PostalCode": "98366",
     "Case Count": 18,
     "SingleAd": 3800.0,
-    "DoubleAd": 5320.0
+    "DoubleAd": 5320.0,
+    "latitude": 47.5357473,
+    "longitude": -122.6105256
   },
   {
     "StoreName": "ALB07X-0419",
@@ -4981,7 +5689,9 @@
     "PostalCode": "98367",
     "Case Count": 19,
     "SingleAd": 3925.0,
-    "DoubleAd": 5495.0
+    "DoubleAd": 5495.0,
+    "latitude": 47.4961035,
+    "longitude": -122.652118
   },
   {
     "StoreName": "FME07X-0655",
@@ -4995,7 +5705,9 @@
     "PostalCode": "98366-9500",
     "Case Count": 30,
     "SingleAd": 5100.0,
-    "DoubleAd": 7140.0
+    "DoubleAd": 7140.0,
+    "latitude": 47.5031575,
+    "longitude": -122.6292031
   },
   {
     "StoreName": "SAF07X-4608",
@@ -5009,7 +5721,9 @@
     "PostalCode": "98368",
     "Case Count": 3,
     "SingleAd": 2400.0,
-    "DoubleAd": 2400.0
+    "DoubleAd": 2400.0,
+    "latitude": 48.1085214,
+    "longitude": -122.7757861
   },
   {
     "StoreName": "QFC07X-0106",
@@ -5023,7 +5737,9 @@
     "PostalCode": "98368",
     "Case Count": 7,
     "SingleAd": 2400.0,
-    "DoubleAd": 2400.0
+    "DoubleAd": 2400.0,
+    "latitude": 48.1037271,
+    "longitude": -122.7917384
   },
   {
     "StoreName": "SAF07X-0538",
@@ -5037,7 +5753,9 @@
     "PostalCode": "98368",
     "Case Count": 20,
     "SingleAd": 4050.0,
-    "DoubleAd": 5670.0
+    "DoubleAd": 5670.0,
+    "latitude": 48.1081113,
+    "longitude": -122.7826665
   },
   {
     "StoreName": "ALB07Y-0596",
@@ -5051,7 +5769,9 @@
     "PostalCode": "97229",
     "Case Count": 7,
     "SingleAd": 2400.0,
-    "DoubleAd": 2400.0
+    "DoubleAd": 2400.0,
+    "latitude": 45.5592523,
+    "longitude": -122.8663095
   },
   {
     "StoreName": "QFC07Z-0206",
@@ -5065,7 +5785,9 @@
     "PostalCode": "97202",
     "Case Count": 8,
     "SingleAd": 2400.0,
-    "DoubleAd": 3360.0
+    "DoubleAd": 3360.0,
+    "latitude": 45.47608510000001,
+    "longitude": -122.649362
   },
   {
     "StoreName": "QFC07Y-0202",
@@ -5079,7 +5801,9 @@
     "PostalCode": "97225",
     "Case Count": 11,
     "SingleAd": 2850.0,
-    "DoubleAd": 3990.0
+    "DoubleAd": 3990.0,
+    "latitude": 45.5158368,
+    "longitude": -122.7548847
   },
   {
     "StoreName": "QFC07Z-0205",
@@ -5093,7 +5817,9 @@
     "PostalCode": "97215",
     "Case Count": 12,
     "SingleAd": 3000.0,
-    "DoubleAd": 4200.0
+    "DoubleAd": 4200.0,
+    "latitude": 45.5225519,
+    "longitude": -122.6063088
   },
   {
     "StoreName": "ALB07Z-0564",
@@ -5107,7 +5833,9 @@
     "PostalCode": "97230",
     "Case Count": 12,
     "SingleAd": 3000.0,
-    "DoubleAd": 4200.0
+    "DoubleAd": 4200.0,
+    "latitude": 45.5255283,
+    "longitude": -122.4790737
   },
   {
     "StoreName": "QFC07Y-0201",
@@ -5121,7 +5849,9 @@
     "PostalCode": "97229",
     "Case Count": 13,
     "SingleAd": 3150.0,
-    "DoubleAd": 4410.0
+    "DoubleAd": 4410.0,
+    "latitude": 45.5535411,
+    "longitude": -122.8350589
   },
   {
     "StoreName": "SAF07Y-3136",
@@ -5135,7 +5865,9 @@
     "PostalCode": "97219",
     "Case Count": 13,
     "SingleAd": 3150.0,
-    "DoubleAd": 4410.0
+    "DoubleAd": 4410.0,
+    "latitude": 45.46563279999999,
+    "longitude": -122.698862
   },
   {
     "StoreName": "ALB07Z-0575",
@@ -5149,7 +5881,9 @@
     "PostalCode": "97218",
     "Case Count": 14,
     "SingleAd": 3300.0,
-    "DoubleAd": 4620.0
+    "DoubleAd": 4620.0,
+    "latitude": 45.5542823,
+    "longitude": -122.6026893
   },
   {
     "StoreName": "SAF07Y-2448",
@@ -5163,7 +5897,9 @@
     "PostalCode": "97201",
     "Case Count": 16,
     "SingleAd": 3550.0,
-    "DoubleAd": 4970.0
+    "DoubleAd": 4970.0,
+    "latitude": 45.5159477,
+    "longitude": -122.6845282
   },
   {
     "StoreName": "SAF07Z-0382",
@@ -5177,7 +5913,9 @@
     "PostalCode": "97236",
     "Case Count": 16,
     "SingleAd": 3550.0,
-    "DoubleAd": 4970.0
+    "DoubleAd": 4970.0,
+    "latitude": 45.4962525,
+    "longitude": -122.5392796
   },
   {
     "StoreName": "SAF07Y-2790",
@@ -5191,7 +5929,9 @@
     "PostalCode": "97209",
     "Case Count": 17,
     "SingleAd": 3675.0,
-    "DoubleAd": 5145.0
+    "DoubleAd": 5145.0,
+    "latitude": 45.5302094,
+    "longitude": -122.6847397
   },
   {
     "StoreName": "SAF07Z-3134",
@@ -5205,7 +5945,9 @@
     "PostalCode": "97214",
     "Case Count": 17,
     "SingleAd": 3675.0,
-    "DoubleAd": 5145.0
+    "DoubleAd": 5145.0,
+    "latitude": 45.5117408,
+    "longitude": -122.6375279
   },
   {
     "StoreName": "SAF07Z-1612",
@@ -5219,7 +5961,9 @@
     "PostalCode": "97232",
     "Case Count": 17,
     "SingleAd": 3675.0,
-    "DoubleAd": 5145.0
+    "DoubleAd": 5145.0,
+    "latitude": 45.5346825,
+    "longitude": -122.6541672
   },
   {
     "StoreName": "SAF07Z-0509",
@@ -5233,7 +5977,9 @@
     "PostalCode": "97211",
     "Case Count": 18,
     "SingleAd": 3800.0,
-    "DoubleAd": 5320.0
+    "DoubleAd": 5320.0,
+    "latitude": 45.5659676,
+    "longitude": -122.6602189
   },
   {
     "StoreName": "SAF07Z-1627",
@@ -5247,7 +5993,9 @@
     "PostalCode": "97202",
     "Case Count": 18,
     "SingleAd": 3800.0,
-    "DoubleAd": 5320.0
+    "DoubleAd": 5320.0,
+    "latitude": 45.4969871,
+    "longitude": -122.6220329
   },
   {
     "StoreName": "FME07Z-0075",
@@ -5261,7 +6009,9 @@
     "PostalCode": "97236-2335",
     "Case Count": 20,
     "SingleAd": 4050.0,
-    "DoubleAd": 5670.0
+    "DoubleAd": 5670.0,
+    "latitude": 45.5029065,
+    "longitude": -122.5120924
   },
   {
     "StoreName": "FME07Z-0255",
@@ -5275,7 +6025,9 @@
     "PostalCode": "97203-6247",
     "Case Count": 20,
     "SingleAd": 4050.0,
-    "DoubleAd": 5670.0
+    "DoubleAd": 5670.0,
+    "latitude": 45.5846643,
+    "longitude": -122.7392999
   },
   {
     "StoreName": "SAF07Z-1951",
@@ -5289,7 +6041,9 @@
     "PostalCode": "97203",
     "Case Count": 20,
     "SingleAd": 4050.0,
-    "DoubleAd": 5670.0
+    "DoubleAd": 5670.0,
+    "latitude": 45.5878366,
+    "longitude": -122.7531276
   },
   {
     "StoreName": "SAF07Y-1525",
@@ -5303,7 +6057,9 @@
     "PostalCode": "97225",
     "Case Count": 22,
     "SingleAd": 4300.0,
-    "DoubleAd": 6020.0
+    "DoubleAd": 6020.0,
+    "latitude": 45.5279917,
+    "longitude": -122.8144749
   },
   {
     "StoreName": "FME07Z-0125",
@@ -5317,7 +6073,9 @@
     "PostalCode": "97213-5068",
     "Case Count": 23,
     "SingleAd": 4400.0,
-    "DoubleAd": 6160.0
+    "DoubleAd": 6160.0,
+    "latitude": 45.527628,
+    "longitude": -122.5960856
   },
   {
     "StoreName": "SAF07Z-1523",
@@ -5331,7 +6089,9 @@
     "PostalCode": "97206",
     "Case Count": 26,
     "SingleAd": 4700.0,
-    "DoubleAd": 6580.0
+    "DoubleAd": 6580.0,
+    "latitude": 45.47954,
+    "longitude": -122.616288
   },
   {
     "StoreName": "FME07Y-0360",
@@ -5345,7 +6105,9 @@
     "PostalCode": "97209-1099",
     "Case Count": 28,
     "SingleAd": 4900.0,
-    "DoubleAd": 6860.0
+    "DoubleAd": 6860.0,
+    "latitude": 45.5241023,
+    "longitude": -122.6928082
   },
   {
     "StoreName": "SAF07Z-1447",
@@ -5359,7 +6121,9 @@
     "PostalCode": "97213",
     "Case Count": 28,
     "SingleAd": 4900.0,
-    "DoubleAd": 6860.0
+    "DoubleAd": 6860.0,
+    "latitude": 45.5480574,
+    "longitude": -122.5930312
   },
   {
     "StoreName": "FME07Z-0600",
@@ -5373,7 +6137,9 @@
     "PostalCode": "97232-1857",
     "Case Count": 31,
     "SingleAd": 5175.0,
-    "DoubleAd": 7245.0
+    "DoubleAd": 7245.0,
+    "latitude": 45.5329779,
+    "longitude": -122.6351061
   },
   {
     "StoreName": "FME07Y-0040",
@@ -5387,7 +6153,9 @@
     "PostalCode": "97219-2836",
     "Case Count": 33,
     "SingleAd": 5325.0,
-    "DoubleAd": 7455.0
+    "DoubleAd": 7455.0,
+    "latitude": 45.4705206,
+    "longitude": -122.6905387
   },
   {
     "StoreName": "FME07Z-0135",
@@ -5401,7 +6169,9 @@
     "PostalCode": "97214-5239",
     "Case Count": 34,
     "SingleAd": 5400.0,
-    "DoubleAd": 7560.0
+    "DoubleAd": 7560.0,
+    "latitude": 45.5126133,
+    "longitude": -122.623766
   },
   {
     "StoreName": "FME07Y-0285",
@@ -5415,7 +6185,9 @@
     "PostalCode": "97225-2101",
     "Case Count": 36,
     "SingleAd": 5550.0,
-    "DoubleAd": 7770.0
+    "DoubleAd": 7770.0,
+    "latitude": 45.485292,
+    "longitude": -122.7560504
   },
   {
     "StoreName": "FME07Z-0150",
@@ -5429,7 +6201,9 @@
     "PostalCode": "97217",
     "Case Count": 38,
     "SingleAd": 5700.0,
-    "DoubleAd": 7980.0
+    "DoubleAd": 7980.0,
+    "latitude": 45.5758482,
+    "longitude": -122.6809888
   },
   {
     "StoreName": "SAF07X-3148",
@@ -5443,7 +6217,9 @@
     "PostalCode": "98370",
     "Case Count": 22,
     "SingleAd": 4300.0,
-    "DoubleAd": 6020.0
+    "DoubleAd": 6020.0,
+    "latitude": 47.738148,
+    "longitude": -122.6368534
   },
   {
     "StoreName": "ALB07Z-3106",
@@ -5457,7 +6233,9 @@
     "PostalCode": "98373",
     "Case Count": 14,
     "SingleAd": 3300.0,
-    "DoubleAd": 4620.0
+    "DoubleAd": 4620.0,
+    "latitude": 47.1569395,
+    "longitude": -122.359116
   },
   {
     "StoreName": "SAF07Z-0422",
@@ -5471,7 +6249,9 @@
     "PostalCode": "98371",
     "Case Count": 17,
     "SingleAd": 3675.0,
-    "DoubleAd": 5145.0
+    "DoubleAd": 5145.0,
+    "latitude": 47.1870135,
+    "longitude": -122.2928475
   },
   {
     "StoreName": "SAF07Z-1798",
@@ -5485,7 +6265,9 @@
     "PostalCode": "98373",
     "Case Count": 18,
     "SingleAd": 3800.0,
-    "DoubleAd": 5320.0
+    "DoubleAd": 5320.0,
+    "latitude": 47.1523102,
+    "longitude": -122.3566884
   },
   {
     "StoreName": "SAF07Z-2729",
@@ -5499,7 +6281,9 @@
     "PostalCode": "98372",
     "Case Count": 18,
     "SingleAd": 3800.0,
-    "DoubleAd": 5320.0
+    "DoubleAd": 5320.0,
+    "latitude": 47.1848767,
+    "longitude": -122.2567848
   },
   {
     "StoreName": "SAF07Z-3228",
@@ -5513,7 +6297,9 @@
     "PostalCode": "98375",
     "Case Count": 20,
     "SingleAd": 4050.0,
-    "DoubleAd": 5670.0
+    "DoubleAd": 5670.0,
+    "latitude": 47.0950731,
+    "longitude": -122.3527862
   },
   {
     "StoreName": "FME07Z-0265",
@@ -5527,7 +6313,9 @@
     "PostalCode": "98371-4488",
     "Case Count": 32,
     "SingleAd": 5250.0,
-    "DoubleAd": 7350.0
+    "DoubleAd": 7350.0,
+    "latitude": 47.2013162,
+    "longitude": -122.2963396
   },
   {
     "StoreName": "SAF07Z-2640",
@@ -5541,7 +6329,9 @@
     "PostalCode": "98373",
     "Case Count": 35,
     "SingleAd": 5475.0,
-    "DoubleAd": 7665.0
+    "DoubleAd": 7665.0,
+    "latitude": 47.1352732,
+    "longitude": -122.2949675
   },
   {
     "StoreName": "VON05X-1914",
@@ -5555,7 +6345,9 @@
     "PostalCode": "91737",
     "Case Count": 8,
     "SingleAd": 2400.0,
-    "DoubleAd": 3360.0
+    "DoubleAd": 3360.0,
+    "latitude": 34.1387311,
+    "longitude": -117.5740727
   },
   {
     "StoreName": "ALB05X-6520",
@@ -5569,7 +6361,9 @@
     "PostalCode": "91737",
     "Case Count": 12,
     "SingleAd": 3000.0,
-    "DoubleAd": 4200.0
+    "DoubleAd": 4200.0,
+    "latitude": 34.1355951,
+    "longitude": -117.5571974
   },
   {
     "StoreName": "RAL05X-0700",
@@ -5583,7 +6377,9 @@
     "PostalCode": "91730",
     "Case Count": 13,
     "SingleAd": 3150.0,
-    "DoubleAd": 4410.0
+    "DoubleAd": 4410.0,
+    "latitude": 34.1350918,
+    "longitude": -117.5389953
   },
   {
     "StoreName": "RAL05X-0717",
@@ -5597,7 +6393,9 @@
     "PostalCode": "91701",
     "Case Count": 14,
     "SingleAd": 3300.0,
-    "DoubleAd": 4620.0
+    "DoubleAd": 4620.0,
+    "latitude": 34.1225257,
+    "longitude": -117.573339
   },
   {
     "StoreName": "FFL05X-0328",
@@ -5611,7 +6409,9 @@
     "PostalCode": "91739",
     "Case Count": 15,
     "SingleAd": 3425.0,
-    "DoubleAd": 4795.0
+    "DoubleAd": 4795.0,
+    "latitude": 34.1048835,
+    "longitude": -117.5244513
   },
   {
     "StoreName": "VON05X-2147",
@@ -5625,7 +6425,9 @@
     "PostalCode": "91701",
     "Case Count": 15,
     "SingleAd": 3425.0,
-    "DoubleAd": 4795.0
+    "DoubleAd": 4795.0,
+    "latitude": 34.1337955,
+    "longitude": -117.6145346
   },
   {
     "StoreName": "ALB05X-3177",
@@ -5639,7 +6441,9 @@
     "PostalCode": "91730",
     "Case Count": 16,
     "SingleAd": 3550.0,
-    "DoubleAd": 4970.0
+    "DoubleAd": 4970.0,
+    "latitude": 34.1082332,
+    "longitude": -117.6121392
   },
   {
     "StoreName": "STB05X-0078",
@@ -5653,7 +6457,9 @@
     "PostalCode": "91737",
     "Case Count": 17,
     "SingleAd": 3675.0,
-    "DoubleAd": 5145.0
+    "DoubleAd": 5145.0,
+    "latitude": 34.1340755,
+    "longitude": -117.5925972
   },
   {
     "StoreName": "STB05X-0200",
@@ -5667,7 +6473,9 @@
     "PostalCode": "91739",
     "Case Count": 19,
     "SingleAd": 3925.0,
-    "DoubleAd": 5495.0
+    "DoubleAd": 5495.0,
+    "latitude": 34.1222824,
+    "longitude": -117.5382108
   },
   {
     "StoreName": "RAL05X-0013",
@@ -5681,7 +6489,9 @@
     "PostalCode": "91730",
     "Case Count": 20,
     "SingleAd": 4050.0,
-    "DoubleAd": 5670.0
+    "DoubleAd": 5670.0,
+    "latitude": 34.1198966,
+    "longitude": -117.5570139
   },
   {
     "StoreName": "ALB05X-6586",
@@ -5695,7 +6505,9 @@
     "PostalCode": "92270",
     "Case Count": 25,
     "SingleAd": 4600.0,
-    "DoubleAd": 6440.0
+    "DoubleAd": 6440.0,
+    "latitude": 33.7565842,
+    "longitude": -116.3924612
   },
   {
     "StoreName": "FFL05X-0311",
@@ -5709,7 +6521,9 @@
     "PostalCode": "92373",
     "Case Count": 7,
     "SingleAd": 2400.0,
-    "DoubleAd": 2400.0
+    "DoubleAd": 2400.0,
+    "latitude": 34.0631623,
+    "longitude": -117.2248885
   },
   {
     "StoreName": "VON05X-1734",
@@ -5723,7 +6537,9 @@
     "PostalCode": "92374",
     "Case Count": 12,
     "SingleAd": 3000.0,
-    "DoubleAd": 4200.0
+    "DoubleAd": 4200.0,
+    "latitude": 34.1409866,
+    "longitude": -117.2130885
   },
   {
     "StoreName": "STB05X-0112",
@@ -5737,7 +6553,9 @@
     "PostalCode": "92373",
     "Case Count": 14,
     "SingleAd": 3300.0,
-    "DoubleAd": 4620.0
+    "DoubleAd": 4620.0,
+    "latitude": 34.04829,
+    "longitude": -117.207071
   },
   {
     "StoreName": "STB05X-0018",
@@ -5751,7 +6569,9 @@
     "PostalCode": "92374",
     "Case Count": 16,
     "SingleAd": 3550.0,
-    "DoubleAd": 4970.0
+    "DoubleAd": 4970.0,
+    "latitude": 34.0637661,
+    "longitude": -117.1818964
   },
   {
     "StoreName": "ALB05X-6519",
@@ -5765,7 +6585,9 @@
     "PostalCode": "92373",
     "Case Count": 17,
     "SingleAd": 3675.0,
-    "DoubleAd": 5145.0
+    "DoubleAd": 5145.0,
+    "latitude": 34.0484751,
+    "longitude": -117.1713459
   },
   {
     "StoreName": "STB05X-0191",
@@ -5779,7 +6601,9 @@
     "PostalCode": "92374",
     "Case Count": 25,
     "SingleAd": 4600.0,
-    "DoubleAd": 6440.0
+    "DoubleAd": 6440.0,
+    "latitude": 34.0715338,
+    "longitude": -117.1402624
   },
   {
     "StoreName": "QFC07X-0878",
@@ -5793,7 +6617,9 @@
     "PostalCode": "98053",
     "Case Count": 7,
     "SingleAd": 2400.0,
-    "DoubleAd": 2400.0
+    "DoubleAd": 2400.0,
+    "latitude": 47.6987872,
+    "longitude": -122.0263063
   },
   {
     "StoreName": "ALB07X-2072",
@@ -5807,7 +6633,9 @@
     "PostalCode": "98053",
     "Case Count": 7,
     "SingleAd": 2400.0,
-    "DoubleAd": 2400.0
+    "DoubleAd": 2400.0,
+    "latitude": 47.6448454,
+    "longitude": -122.0249464
   },
   {
     "StoreName": "QFC07X-0820",
@@ -5821,7 +6649,9 @@
     "PostalCode": "98052",
     "Case Count": 10,
     "SingleAd": 2700.0,
-    "DoubleAd": 3780.0
+    "DoubleAd": 3780.0,
+    "latitude": 47.675708,
+    "longitude": -122.1289846
   },
   {
     "StoreName": "SAF07X-0496",
@@ -5835,7 +6665,9 @@
     "PostalCode": "98052",
     "Case Count": 13,
     "SingleAd": 3150.0,
-    "DoubleAd": 4410.0
+    "DoubleAd": 4410.0,
+    "latitude": 47.6324917,
+    "longitude": -122.1411565
   },
   {
     "StoreName": "SAF07X-0464",
@@ -5849,7 +6681,9 @@
     "PostalCode": "98052",
     "Case Count": 15,
     "SingleAd": 3425.0,
-    "DoubleAd": 4795.0
+    "DoubleAd": 4795.0,
+    "latitude": 47.6720018,
+    "longitude": -122.1099958
   },
   {
     "StoreName": "QFC07X-0860",
@@ -5863,7 +6697,9 @@
     "PostalCode": "98052",
     "Case Count": 20,
     "SingleAd": 4050.0,
-    "DoubleAd": 5670.0
+    "DoubleAd": 5670.0,
+    "latitude": 47.680835,
+    "longitude": -122.1261299
   },
   {
     "StoreName": "SAF07Z-1665",
@@ -5877,7 +6713,9 @@
     "PostalCode": "97756",
     "Case Count": 25,
     "SingleAd": 4600.0,
-    "DoubleAd": 6440.0
+    "DoubleAd": 6440.0,
+    "latitude": 45.8701698,
+    "longitude": -120.759886
   },
   {
     "StoreName": "FME07Z-0650",
@@ -5891,7 +6729,9 @@
     "PostalCode": "97756",
     "Case Count": 29,
     "SingleAd": 5000.0,
-    "DoubleAd": 7000.0
+    "DoubleAd": 7000.0,
+    "latitude": 44.2672977,
+    "longitude": -121.1763065
   },
   {
     "StoreName": "SAF07Y-0284",
@@ -5905,7 +6745,9 @@
     "PostalCode": "97467",
     "Case Count": 8,
     "SingleAd": 2400.0,
-    "DoubleAd": 3360.0
+    "DoubleAd": 3360.0,
+    "latitude": 43.6992549,
+    "longitude": -124.1121998
   },
   {
     "StoreName": "SAR07X-0490",
@@ -5919,7 +6761,9 @@
     "PostalCode": "98056",
     "Case Count": 5,
     "SingleAd": 2400.0,
-    "DoubleAd": 2400.0
+    "DoubleAd": 2400.0,
+    "latitude": 47.5050385,
+    "longitude": -122.177352
   },
   {
     "StoreName": "ALB07X-0453",
@@ -5933,7 +6777,9 @@
     "PostalCode": "98059",
     "Case Count": 11,
     "SingleAd": 2850.0,
-    "DoubleAd": 3990.0
+    "DoubleAd": 3990.0,
+    "latitude": 47.5036882,
+    "longitude": -122.1573279
   },
   {
     "StoreName": "SAF07X-0366",
@@ -5947,7 +6793,9 @@
     "PostalCode": "98056",
     "Case Count": 16,
     "SingleAd": 3550.0,
-    "DoubleAd": 4970.0
+    "DoubleAd": 4970.0,
+    "latitude": 47.4990618,
+    "longitude": -122.1801436
   },
   {
     "StoreName": "SAF07X-0519",
@@ -5961,7 +6809,9 @@
     "PostalCode": "98058",
     "Case Count": 16,
     "SingleAd": 3550.0,
-    "DoubleAd": 4970.0
+    "DoubleAd": 4970.0,
+    "latitude": 47.4475109,
+    "longitude": -122.1524617
   },
   {
     "StoreName": "QFC07X-0871",
@@ -5975,7 +6825,9 @@
     "PostalCode": "98059",
     "Case Count": 17,
     "SingleAd": 3675.0,
-    "DoubleAd": 5145.0
+    "DoubleAd": 5145.0,
+    "latitude": 47.4898687,
+    "longitude": -122.1549555
   },
   {
     "StoreName": "FME07X-0459",
@@ -5989,7 +6841,9 @@
     "PostalCode": "98057-2324",
     "Case Count": 20,
     "SingleAd": 4050.0,
-    "DoubleAd": 5670.0
+    "DoubleAd": 5670.0,
+    "latitude": 47.4768534,
+    "longitude": -122.2179674
   },
   {
     "StoreName": "SAF07X-1563",
@@ -6003,7 +6857,9 @@
     "PostalCode": "98057",
     "Case Count": 20,
     "SingleAd": 4050.0,
-    "DoubleAd": 5670.0
+    "DoubleAd": 5670.0,
+    "latitude": 47.480382,
+    "longitude": -122.2139666
   },
   {
     "StoreName": "SAF07X-3319",
@@ -6017,7 +6873,9 @@
     "PostalCode": "98059",
     "Case Count": 21,
     "SingleAd": 4175.0,
-    "DoubleAd": 5845.0
+    "DoubleAd": 5845.0,
+    "latitude": 47.4894759,
+    "longitude": -122.1613856
   },
   {
     "StoreName": "FME07X-0031",
@@ -6031,7 +6889,9 @@
     "PostalCode": "98055-6423",
     "Case Count": 22,
     "SingleAd": 4300.0,
-    "DoubleAd": 6020.0
+    "DoubleAd": 6020.0,
+    "latitude": 47.4437278,
+    "longitude": -122.1975048
   },
   {
     "StoreName": "FFL05X-0303",
@@ -6045,7 +6905,9 @@
     "PostalCode": "92376",
     "Case Count": 11,
     "SingleAd": 2850.0,
-    "DoubleAd": 3990.0
+    "DoubleAd": 3990.0,
+    "latitude": 34.1080474,
+    "longitude": -117.3992403
   },
   {
     "StoreName": "STB05X-0012",
@@ -6059,7 +6921,9 @@
     "PostalCode": "92376",
     "Case Count": 11,
     "SingleAd": 2850.0,
-    "DoubleAd": 3990.0
+    "DoubleAd": 3990.0,
+    "latitude": 34.1054945,
+    "longitude": -117.3604769
   },
   {
     "StoreName": "STB05X-0043",
@@ -6073,7 +6937,9 @@
     "PostalCode": "92376",
     "Case Count": 15,
     "SingleAd": 3425.0,
-    "DoubleAd": 4795.0
+    "DoubleAd": 4795.0,
+    "latitude": 34.1226372,
+    "longitude": -117.3692621
   },
   {
     "StoreName": "ROS07Z-0042",
@@ -6087,7 +6953,9 @@
     "PostalCode": "98642",
     "Case Count": 15,
     "SingleAd": 3425.0,
-    "DoubleAd": 4795.0
+    "DoubleAd": 4795.0,
+    "latitude": 45.8154128,
+    "longitude": -122.7006433
   },
   {
     "StoreName": "RAL05X-0098",
@@ -6101,7 +6969,9 @@
     "PostalCode": "92503",
     "Case Count": 11,
     "SingleAd": 2850.0,
-    "DoubleAd": 3990.0
+    "DoubleAd": 3990.0,
+    "latitude": 33.8953548,
+    "longitude": -117.4715137
   },
   {
     "StoreName": "FFL05X-0343",
@@ -6115,7 +6985,9 @@
     "PostalCode": "92503",
     "Case Count": 11,
     "SingleAd": 2850.0,
-    "DoubleAd": 3990.0
+    "DoubleAd": 3990.0,
+    "latitude": 33.9275783,
+    "longitude": -117.4534146
   },
   {
     "StoreName": "STB05X-0014",
@@ -6129,7 +7001,9 @@
     "PostalCode": "92509",
     "Case Count": 11,
     "SingleAd": 2850.0,
-    "DoubleAd": 3990.0
+    "DoubleAd": 3990.0,
+    "latitude": 33.9976,
+    "longitude": -117.4055851
   },
   {
     "StoreName": "STB05X-0115",
@@ -6143,7 +7017,9 @@
     "PostalCode": "92503",
     "Case Count": 11,
     "SingleAd": 2850.0,
-    "DoubleAd": 3990.0
+    "DoubleAd": 3990.0,
+    "latitude": 33.89752259999999,
+    "longitude": -117.4731247
   },
   {
     "StoreName": "STB05X-0001",
@@ -6157,7 +7033,9 @@
     "PostalCode": "92503",
     "Case Count": 12,
     "SingleAd": 3000.0,
-    "DoubleAd": 4200.0
+    "DoubleAd": 4200.0,
+    "latitude": 33.9238906,
+    "longitude": -117.4419652
   },
   {
     "StoreName": "STB05X-0042",
@@ -6171,7 +7049,9 @@
     "PostalCode": "92504",
     "Case Count": 12,
     "SingleAd": 3000.0,
-    "DoubleAd": 4200.0
+    "DoubleAd": 4200.0,
+    "latitude": 33.9456064,
+    "longitude": -117.4367877
   },
   {
     "StoreName": "STB05X-0069",
@@ -6185,7 +7065,9 @@
     "PostalCode": "92509",
     "Case Count": 12,
     "SingleAd": 3000.0,
-    "DoubleAd": 4200.0
+    "DoubleAd": 4200.0,
+    "latitude": 33.9985258,
+    "longitude": -117.4830497
   },
   {
     "StoreName": "STB05X-0090",
@@ -6199,7 +7081,9 @@
     "PostalCode": "92509",
     "Case Count": 12,
     "SingleAd": 3000.0,
-    "DoubleAd": 4200.0
+    "DoubleAd": 4200.0,
+    "latitude": 33.9774128,
+    "longitude": -117.4523958
   },
   {
     "StoreName": "RAL05X-0144",
@@ -6213,7 +7097,9 @@
     "PostalCode": "92504",
     "Case Count": 14,
     "SingleAd": 3300.0,
-    "DoubleAd": 4620.0
+    "DoubleAd": 4620.0,
+    "latitude": 33.9590894,
+    "longitude": -117.3944122
   },
   {
     "StoreName": "RAL05X-0609",
@@ -6227,7 +7113,9 @@
     "PostalCode": "92507",
     "Case Count": 14,
     "SingleAd": 3300.0,
-    "DoubleAd": 4620.0
+    "DoubleAd": 4620.0,
+    "latitude": 33.9550257,
+    "longitude": -117.3326217
   },
   {
     "StoreName": "FFL05X-0329",
@@ -6241,7 +7129,9 @@
     "PostalCode": "92507",
     "Case Count": 14,
     "SingleAd": 3300.0,
-    "DoubleAd": 4620.0
+    "DoubleAd": 4620.0,
+    "latitude": 33.9733428,
+    "longitude": -117.3466075
   },
   {
     "StoreName": "STB05X-0080",
@@ -6255,7 +7145,9 @@
     "PostalCode": "92504",
     "Case Count": 14,
     "SingleAd": 3300.0,
-    "DoubleAd": 4620.0
+    "DoubleAd": 4620.0,
+    "latitude": 33.8834373,
+    "longitude": -117.3649747
   },
   {
     "StoreName": "VON05X-2659",
@@ -6269,7 +7161,9 @@
     "PostalCode": "92506",
     "Case Count": 14,
     "SingleAd": 3300.0,
-    "DoubleAd": 4620.0
+    "DoubleAd": 4620.0,
+    "latitude": 33.9548985,
+    "longitude": -117.38951
   },
   {
     "StoreName": "ALB05X-6572",
@@ -6283,7 +7177,9 @@
     "PostalCode": "92503",
     "Case Count": 16,
     "SingleAd": 3550.0,
-    "DoubleAd": 4970.0
+    "DoubleAd": 4970.0,
+    "latitude": 33.9094112,
+    "longitude": -117.4361834
   },
   {
     "StoreName": "STB05X-0207",
@@ -6297,7 +7193,9 @@
     "PostalCode": "92503",
     "Case Count": 16,
     "SingleAd": 3550.0,
-    "DoubleAd": 4970.0
+    "DoubleAd": 4970.0,
+    "latitude": 33.944721,
+    "longitude": -117.4517365
   },
   {
     "StoreName": "STB05X-0022",
@@ -6311,7 +7209,9 @@
     "PostalCode": "92505",
     "Case Count": 18,
     "SingleAd": 3800.0,
-    "DoubleAd": 5320.0
+    "DoubleAd": 5320.0,
+    "latitude": 33.9162227,
+    "longitude": -117.4877085
   },
   {
     "StoreName": "STB05X-0192",
@@ -6325,7 +7225,9 @@
     "PostalCode": "92506",
     "Case Count": 18,
     "SingleAd": 3800.0,
-    "DoubleAd": 5320.0
+    "DoubleAd": 5320.0,
+    "latitude": 33.9341903,
+    "longitude": -117.386343
   },
   {
     "StoreName": "STB05X-0114",
@@ -6339,7 +7241,9 @@
     "PostalCode": "92507",
     "Case Count": 20,
     "SingleAd": 4050.0,
-    "DoubleAd": 5670.0
+    "DoubleAd": 5670.0,
+    "latitude": 33.9857616,
+    "longitude": -117.3414548
   },
   {
     "StoreName": "ALB05X-6514",
@@ -6353,7 +7257,9 @@
     "PostalCode": "92508",
     "Case Count": 20,
     "SingleAd": 4050.0,
-    "DoubleAd": 5670.0
+    "DoubleAd": 5670.0,
+    "latitude": 33.8903374,
+    "longitude": -117.3229072
   },
   {
     "StoreName": "STB05X-0201",
@@ -6367,7 +7273,9 @@
     "PostalCode": "92508",
     "Case Count": 22,
     "SingleAd": 4300.0,
-    "DoubleAd": 6020.0
+    "DoubleAd": 6020.0,
+    "latitude": 33.9131156,
+    "longitude": -117.3259424
   },
   {
     "StoreName": "SHM07Y-0004",
@@ -6381,7 +7289,9 @@
     "PostalCode": "97471",
     "Case Count": 18,
     "SingleAd": 3800.0,
-    "DoubleAd": 5320.0
+    "DoubleAd": 5320.0,
+    "latitude": 43.2380375,
+    "longitude": -123.3676025
   },
   {
     "StoreName": "SAF07Y-1666",
@@ -6395,7 +7305,9 @@
     "PostalCode": "97470",
     "Case Count": 20,
     "SingleAd": 4050.0,
-    "DoubleAd": 5670.0
+    "DoubleAd": 5670.0,
+    "latitude": 43.2294158,
+    "longitude": -123.3496114
   },
   {
     "StoreName": "FME07Y-0281",
@@ -6409,7 +7321,9 @@
     "PostalCode": "97471-1900",
     "Case Count": 24,
     "SingleAd": 4500.0,
-    "DoubleAd": 6300.0
+    "DoubleAd": 6300.0,
+    "latitude": 43.2266983,
+    "longitude": -123.3698611
   },
   {
     "StoreName": "SAF07Y-0429",
@@ -6423,7 +7337,9 @@
     "PostalCode": "97305",
     "Case Count": 17,
     "SingleAd": 3675.0,
-    "DoubleAd": 5145.0
+    "DoubleAd": 5145.0,
+    "latitude": 44.968839,
+    "longitude": -122.982217
   },
   {
     "StoreName": "SAF07Y-1629",
@@ -6437,7 +7353,9 @@
     "PostalCode": "97301",
     "Case Count": 21,
     "SingleAd": 4175.0,
-    "DoubleAd": 5845.0
+    "DoubleAd": 5845.0,
+    "latitude": 44.940822,
+    "longitude": -123.0242449
   },
   {
     "StoreName": "SAF07Y-0412",
@@ -6451,7 +7369,9 @@
     "PostalCode": "97304",
     "Case Count": 23,
     "SingleAd": 4400.0,
-    "DoubleAd": 6160.0
+    "DoubleAd": 6160.0,
+    "latitude": 44.9392282,
+    "longitude": -123.0637467
   },
   {
     "StoreName": "SAF07Y-1935",
@@ -6465,7 +7385,9 @@
     "PostalCode": "97306",
     "Case Count": 24,
     "SingleAd": 4500.0,
-    "DoubleAd": 6300.0
+    "DoubleAd": 6300.0,
+    "latitude": 44.8728876,
+    "longitude": -123.0220891
   },
   {
     "StoreName": "FME07Y-0225",
@@ -6479,7 +7401,9 @@
     "PostalCode": "97303-6502",
     "Case Count": 25,
     "SingleAd": 4600.0,
-    "DoubleAd": 6440.0
+    "DoubleAd": 6440.0,
+    "latitude": 44.9684619,
+    "longitude": -123.0305762
   },
   {
     "StoreName": "FME07Y-0355",
@@ -6493,7 +7417,9 @@
     "PostalCode": "97302-4682",
     "Case Count": 27,
     "SingleAd": 4800.0,
-    "DoubleAd": 6720.0
+    "DoubleAd": 6720.0,
+    "latitude": 44.9056642,
+    "longitude": -123.0409142
   },
   {
     "StoreName": "FME07Y-0090",
@@ -6507,7 +7433,9 @@
     "PostalCode": "97301-1826",
     "Case Count": 32,
     "SingleAd": 5250.0,
-    "DoubleAd": 7350.0
+    "DoubleAd": 7350.0,
+    "latitude": 44.9498568,
+    "longitude": -122.9866459
   },
   {
     "StoreName": "QFC07X-0824",
@@ -6521,7 +7449,9 @@
     "PostalCode": "98075-9516",
     "Case Count": 12,
     "SingleAd": 3000.0,
-    "DoubleAd": 4200.0
+    "DoubleAd": 4200.0,
+    "latitude": 47.5826694,
+    "longitude": -122.0335541
   },
   {
     "StoreName": "QFC07X-0840",
@@ -6535,7 +7465,9 @@
     "PostalCode": "98029-5812",
     "Case Count": 14,
     "SingleAd": 3300.0,
-    "DoubleAd": 4620.0
+    "DoubleAd": 4620.0,
+    "latitude": 47.5656509,
+    "longitude": -122.0034948
   },
   {
     "StoreName": "SAF07X-0555",
@@ -6549,7 +7481,9 @@
     "PostalCode": "98074",
     "Case Count": 16,
     "SingleAd": 3550.0,
-    "DoubleAd": 4970.0
+    "DoubleAd": 4970.0,
+    "latitude": 47.6153679,
+    "longitude": -122.0335183
   },
   {
     "StoreName": "FFL05X-0301",
@@ -6563,7 +7497,9 @@
     "PostalCode": "92401",
     "Case Count": 9,
     "SingleAd": 2550.0,
-    "DoubleAd": 3570.0
+    "DoubleAd": 3570.0,
+    "latitude": 34.1013253,
+    "longitude": -117.295074
   },
   {
     "StoreName": "STB05X-0002",
@@ -6577,7 +7513,9 @@
     "PostalCode": "92410",
     "Case Count": 11,
     "SingleAd": 2850.0,
-    "DoubleAd": 3990.0
+    "DoubleAd": 3990.0,
+    "latitude": 34.12219839999999,
+    "longitude": -117.2757864
   },
   {
     "StoreName": "RAL05X-0753",
@@ -6591,7 +7529,9 @@
     "PostalCode": "92407",
     "Case Count": 13,
     "SingleAd": 3150.0,
-    "DoubleAd": 4410.0
+    "DoubleAd": 4410.0,
+    "latitude": 34.1697827,
+    "longitude": -117.3339189
   },
   {
     "StoreName": "STB05X-0008",
@@ -6605,7 +7545,9 @@
     "PostalCode": "92405",
     "Case Count": 14,
     "SingleAd": 3300.0,
-    "DoubleAd": 4620.0
+    "DoubleAd": 4620.0,
+    "latitude": 34.1349869,
+    "longitude": -117.3081639
   },
   {
     "StoreName": "STB05X-0024",
@@ -6619,7 +7561,9 @@
     "PostalCode": "92404",
     "Case Count": 16,
     "SingleAd": 3550.0,
-    "DoubleAd": 4970.0
+    "DoubleAd": 4970.0,
+    "latitude": 34.1368811,
+    "longitude": -117.2541087
   },
   {
     "StoreName": "STB05X-0107",
@@ -6633,7 +7577,9 @@
     "PostalCode": "92407",
     "Case Count": 18,
     "SingleAd": 3800.0,
-    "DoubleAd": 5320.0
+    "DoubleAd": 5320.0,
+    "latitude": 34.163124,
+    "longitude": -117.304717
   },
   {
     "StoreName": "STB05X-0036",
@@ -6647,7 +7593,9 @@
     "PostalCode": "92404",
     "Case Count": 20,
     "SingleAd": 4050.0,
-    "DoubleAd": 5670.0
+    "DoubleAd": 5670.0,
+    "latitude": 34.1637815,
+    "longitude": -117.282775
   },
   {
     "StoreName": "SAF07Z-0782",
@@ -6661,7 +7609,9 @@
     "PostalCode": "97055",
     "Case Count": 14,
     "SingleAd": 3300.0,
-    "DoubleAd": 4620.0
+    "DoubleAd": 4620.0,
+    "latitude": 45.40127589999999,
+    "longitude": -122.2769154
   },
   {
     "StoreName": "FME07Z-0663",
@@ -6675,7 +7625,9 @@
     "PostalCode": "97055",
     "Case Count": 40,
     "SingleAd": 5850.0,
-    "DoubleAd": 8190.0
+    "DoubleAd": 8190.0,
+    "latitude": 45.4029848,
+    "longitude": -122.2927508
   },
   {
     "StoreName": "FME07Z-0462",
@@ -6689,7 +7641,9 @@
     "PostalCode": "97056",
     "Case Count": 26,
     "SingleAd": 4700.0,
-    "DoubleAd": 6580.0
+    "DoubleAd": 6580.0,
+    "latitude": 45.8538477,
+    "longitude": -122.8263528
   },
   {
     "StoreName": "SAF07Z-1260",
@@ -6703,7 +7657,9 @@
     "PostalCode": "97138",
     "Case Count": 17,
     "SingleAd": 3675.0,
-    "DoubleAd": 5145.0
+    "DoubleAd": 5145.0,
+    "latitude": 45.9908434,
+    "longitude": -123.9200603
   },
   {
     "StoreName": "ALB07X-0408",
@@ -6717,7 +7673,9 @@
     "PostalCode": "98199",
     "Case Count": 6,
     "SingleAd": 2400.0,
-    "DoubleAd": 2400.0
+    "DoubleAd": 2400.0,
+    "latitude": 47.6424716,
+    "longitude": -122.3979475
   },
   {
     "StoreName": "QFC07X-0883",
@@ -6731,7 +7689,9 @@
     "PostalCode": "98116",
     "Case Count": 7,
     "SingleAd": 2400.0,
-    "DoubleAd": 2400.0
+    "DoubleAd": 2400.0,
+    "latitude": 47.5613012,
+    "longitude": -122.3850988
   },
   {
     "StoreName": "SAF07X-0219",
@@ -6745,7 +7705,9 @@
     "PostalCode": "98118",
     "Case Count": 10,
     "SingleAd": 2700.0,
-    "DoubleAd": 3780.0
+    "DoubleAd": 3780.0,
+    "latitude": 47.53747329999999,
+    "longitude": -122.2830534
   },
   {
     "StoreName": "QFC07X-0825",
@@ -6759,7 +7721,9 @@
     "PostalCode": "98126",
     "Case Count": 12,
     "SingleAd": 3000.0,
-    "DoubleAd": 4200.0
+    "DoubleAd": 4200.0,
+    "latitude": 47.5222371,
+    "longitude": -122.3662837
   },
   {
     "StoreName": "QFC07X-0849",
@@ -6773,7 +7737,9 @@
     "PostalCode": "98144",
     "Case Count": 12,
     "SingleAd": 3000.0,
-    "DoubleAd": 4200.0
+    "DoubleAd": 4200.0,
+    "latitude": 47.5787195,
+    "longitude": -122.2988799
   },
   {
     "StoreName": "QFC07X-0872",
@@ -6787,7 +7753,9 @@
     "PostalCode": "98117",
     "Case Count": 12,
     "SingleAd": 3000.0,
-    "DoubleAd": 4200.0
+    "DoubleAd": 4200.0,
+    "latitude": 47.70179900000001,
+    "longitude": -122.3639318
   },
   {
     "StoreName": "SAF07X-1062",
@@ -6801,7 +7769,9 @@
     "PostalCode": "98116",
     "Case Count": 12,
     "SingleAd": 3000.0,
-    "DoubleAd": 4200.0
+    "DoubleAd": 4200.0,
+    "latitude": 47.559553,
+    "longitude": -122.3848967
   },
   {
     "StoreName": "SAF07X-1885",
@@ -6815,7 +7785,9 @@
     "PostalCode": "98119",
     "Case Count": 12,
     "SingleAd": 3000.0,
-    "DoubleAd": 4200.0
+    "DoubleAd": 4200.0,
+    "latitude": 47.6241305,
+    "longitude": -122.3575598
   },
   {
     "StoreName": "QFC07X-0891",
@@ -6829,7 +7801,9 @@
     "PostalCode": "98107",
     "Case Count": 13,
     "SingleAd": 3150.0,
-    "DoubleAd": 4410.0
+    "DoubleAd": 4410.0,
+    "latitude": 47.67061229999999,
+    "longitude": -122.3866649
   },
   {
     "StoreName": "QFC07X-0805",
@@ -6843,7 +7817,9 @@
     "PostalCode": "98148",
     "Case Count": 13,
     "SingleAd": 3150.0,
-    "DoubleAd": 4410.0
+    "DoubleAd": 4410.0,
+    "latitude": 47.4418811,
+    "longitude": -122.3350849
   },
   {
     "StoreName": "QFC07X-0881",
@@ -6857,7 +7833,9 @@
     "PostalCode": "98109",
     "Case Count": 13,
     "SingleAd": 3150.0,
-    "DoubleAd": 4410.0
+    "DoubleAd": 4410.0,
+    "latitude": 47.624798,
+    "longitude": -122.347142
   },
   {
     "StoreName": "SAF07X-3275",
@@ -6871,7 +7849,9 @@
     "PostalCode": "98109",
     "Case Count": 13,
     "SingleAd": 3150.0,
-    "DoubleAd": 4410.0
+    "DoubleAd": 4410.0,
+    "latitude": 47.6376954,
+    "longitude": -122.3561025
   },
   {
     "StoreName": "SAF07X-0423",
@@ -6885,7 +7865,9 @@
     "PostalCode": "98115",
     "Case Count": 13,
     "SingleAd": 3150.0,
-    "DoubleAd": 4410.0
+    "DoubleAd": 4410.0,
+    "latitude": 47.6825128,
+    "longitude": -122.2893391
   },
   {
     "StoreName": "SAR07X-0530",
@@ -6899,7 +7881,9 @@
     "PostalCode": "98146",
     "Case Count": 15,
     "SingleAd": 3425.0,
-    "DoubleAd": 4795.0
+    "DoubleAd": 4795.0,
+    "latitude": 47.5080015,
+    "longitude": -122.3542423
   },
   {
     "StoreName": "QFC07X-0807",
@@ -6913,7 +7897,9 @@
     "PostalCode": "98105",
     "Case Count": 15,
     "SingleAd": 3425.0,
-    "DoubleAd": 4795.0
+    "DoubleAd": 4795.0,
+    "latitude": 47.66171869999999,
+    "longitude": -122.2958692
   },
   {
     "StoreName": "QFC07X-0866",
@@ -6927,7 +7913,9 @@
     "PostalCode": "98125",
     "Case Count": 15,
     "SingleAd": 3425.0,
-    "DoubleAd": 4795.0
+    "DoubleAd": 4795.0,
+    "latitude": 47.709396,
+    "longitude": -122.3172526
   },
   {
     "StoreName": "QFC07X-0811",
@@ -6941,7 +7929,9 @@
     "PostalCode": "98119",
     "Case Count": 16,
     "SingleAd": 3550.0,
-    "DoubleAd": 4970.0
+    "DoubleAd": 4970.0,
+    "latitude": 47.6496262,
+    "longitude": -122.3779145
   },
   {
     "StoreName": "QFC07X-0858",
@@ -6955,7 +7945,9 @@
     "PostalCode": "98155",
     "Case Count": 16,
     "SingleAd": 3550.0,
-    "DoubleAd": 4970.0
+    "DoubleAd": 4970.0,
+    "latitude": 47.7328327,
+    "longitude": -122.3112113
   },
   {
     "StoreName": "QFC07X-0869",
@@ -6969,7 +7961,9 @@
     "PostalCode": "98103",
     "Case Count": 16,
     "SingleAd": 3550.0,
-    "DoubleAd": 4970.0
+    "DoubleAd": 4970.0,
+    "latitude": 47.6617313,
+    "longitude": -122.3358685
   },
   {
     "StoreName": "QFC07X-0887",
@@ -6983,7 +7977,9 @@
     "PostalCode": "98102-4647",
     "Case Count": 16,
     "SingleAd": 3550.0,
-    "DoubleAd": 4970.0
+    "DoubleAd": 4970.0,
+    "latitude": 47.6225306,
+    "longitude": -122.3214759
   },
   {
     "StoreName": "SAF07X-1493",
@@ -6997,7 +7993,9 @@
     "PostalCode": "98188",
     "Case Count": 16,
     "SingleAd": 3550.0,
-    "DoubleAd": 4970.0
+    "DoubleAd": 4970.0,
+    "latitude": 47.455652,
+    "longitude": -122.2824069
   },
   {
     "StoreName": "SAF07X-1477",
@@ -7011,7 +8009,9 @@
     "PostalCode": "98107",
     "Case Count": 17,
     "SingleAd": 3675.0,
-    "DoubleAd": 5145.0
+    "DoubleAd": 5145.0,
+    "latitude": 47.6682171,
+    "longitude": -122.3746951
   },
   {
     "StoreName": "SAF07X-1508",
@@ -7025,7 +8025,9 @@
     "PostalCode": "98118",
     "Case Count": 17,
     "SingleAd": 3675.0,
-    "DoubleAd": 5145.0
+    "DoubleAd": 5145.0,
+    "latitude": 47.5692183,
+    "longitude": -122.288302
   },
   {
     "StoreName": "QFC07X-0847",
@@ -7039,7 +8041,9 @@
     "PostalCode": "98122",
     "Case Count": 18,
     "SingleAd": 3800.0,
-    "DoubleAd": 5320.0
+    "DoubleAd": 5320.0,
+    "latitude": 47.6139196,
+    "longitude": -122.3210437
   },
   {
     "StoreName": "SAF07X-1586",
@@ -7053,7 +8057,9 @@
     "PostalCode": "98125",
     "Case Count": 19,
     "SingleAd": 3925.0,
-    "DoubleAd": 5495.0
+    "DoubleAd": 5495.0,
+    "latitude": 47.7180964,
+    "longitude": -122.3119605
   },
   {
     "StoreName": "SAF07X-2932",
@@ -7067,7 +8073,9 @@
     "PostalCode": "98116",
     "Case Count": 20,
     "SingleAd": 4050.0,
-    "DoubleAd": 5670.0
+    "DoubleAd": 5670.0,
+    "latitude": 47.5801124,
+    "longitude": -122.3858962
   },
   {
     "StoreName": "SAF07X-1993",
@@ -7081,7 +8089,9 @@
     "PostalCode": "98122",
     "Case Count": 21,
     "SingleAd": 4175.0,
-    "DoubleAd": 5845.0
+    "DoubleAd": 5845.0,
+    "latitude": 47.6178326,
+    "longitude": -122.3033646
   },
   {
     "StoreName": "SAF07X-1550",
@@ -7095,7 +8105,9 @@
     "PostalCode": "98115",
     "Case Count": 23,
     "SingleAd": 4400.0,
-    "DoubleAd": 6160.0
+    "DoubleAd": 6160.0,
+    "latitude": 47.681857,
+    "longitude": -122.3170171
   },
   {
     "StoreName": "SAF07X-1965",
@@ -7109,7 +8121,9 @@
     "PostalCode": "98118",
     "Case Count": 23,
     "SingleAd": 4400.0,
-    "DoubleAd": 6160.0
+    "DoubleAd": 6160.0,
+    "latitude": 47.5199565,
+    "longitude": -122.267937
   },
   {
     "StoreName": "SAF07X-1551",
@@ -7123,7 +8137,9 @@
     "PostalCode": "98112",
     "Case Count": 24,
     "SingleAd": 4500.0,
-    "DoubleAd": 6300.0
+    "DoubleAd": 6300.0,
+    "latitude": 47.6204958,
+    "longitude": -122.3132555
   },
   {
     "StoreName": "SAF07X-3091",
@@ -7137,7 +8153,9 @@
     "PostalCode": "98105",
     "Case Count": 24,
     "SingleAd": 4500.0,
-    "DoubleAd": 6300.0
+    "DoubleAd": 6300.0,
+    "latitude": 47.6642917,
+    "longitude": -122.3140022
   },
   {
     "StoreName": "SAF07X-1143",
@@ -7151,7 +8169,9 @@
     "PostalCode": "98117",
     "Case Count": 26,
     "SingleAd": 4700.0,
-    "DoubleAd": 6580.0
+    "DoubleAd": 6580.0,
+    "latitude": 47.6897533,
+    "longitude": -122.3768015
   },
   {
     "StoreName": "SAF07X-1923",
@@ -7165,7 +8185,9 @@
     "PostalCode": "98126",
     "Case Count": 29,
     "SingleAd": 5000.0,
-    "DoubleAd": 7000.0
+    "DoubleAd": 7000.0,
+    "latitude": 47.5168991,
+    "longitude": -122.3674862
   },
   {
     "StoreName": "FME07X-0608",
@@ -7179,7 +8201,9 @@
     "PostalCode": "98107",
     "Case Count": 31,
     "SingleAd": 5175.0,
-    "DoubleAd": 7245.0
+    "DoubleAd": 7245.0,
+    "latitude": 47.6598323,
+    "longitude": -122.3686721
   },
   {
     "StoreName": "FME07X-0122",
@@ -7193,7 +8217,9 @@
     "PostalCode": "98117-3046",
     "Case Count": 32,
     "SingleAd": 5250.0,
-    "DoubleAd": 7350.0
+    "DoubleAd": 7350.0,
+    "latitude": 47.6919776,
+    "longitude": -122.3591754
   },
   {
     "StoreName": "FPV07X-0022",
@@ -7207,7 +8233,9 @@
     "PostalCode": "98284",
     "Case Count": 6,
     "SingleAd": 2400.0,
-    "DoubleAd": 2400.0
+    "DoubleAd": 2400.0,
+    "latitude": 48.505255,
+    "longitude": -122.2489381
   },
   {
     "StoreName": "QFC07X-0841",
@@ -7221,7 +8249,9 @@
     "PostalCode": "98382",
     "Case Count": 8,
     "SingleAd": 2400.0,
-    "DoubleAd": 3360.0
+    "DoubleAd": 3360.0,
+    "latitude": 48.0781295,
+    "longitude": -123.0874822
   },
   {
     "StoreName": "SAF07X-1448",
@@ -7235,7 +8265,9 @@
     "PostalCode": "98382",
     "Case Count": 20,
     "SingleAd": 4050.0,
-    "DoubleAd": 5670.0
+    "DoubleAd": 5670.0,
+    "latitude": 48.08099670000001,
+    "longitude": -123.116975
   },
   {
     "StoreName": "FME07X-0603",
@@ -7249,7 +8281,9 @@
     "PostalCode": "98584-2991",
     "Case Count": 18,
     "SingleAd": 3800.0,
-    "DoubleAd": 5320.0
+    "DoubleAd": 5320.0,
+    "latitude": 47.2312063,
+    "longitude": -123.1242403
   },
   {
     "StoreName": "SAF07X-0585",
@@ -7263,7 +8297,9 @@
     "PostalCode": "98584",
     "Case Count": 18,
     "SingleAd": 3800.0,
-    "DoubleAd": 5320.0
+    "DoubleAd": 5320.0,
+    "latitude": 47.2146426,
+    "longitude": -123.1065143
   },
   {
     "StoreName": "SAF07Y-1800",
@@ -7277,7 +8313,9 @@
     "PostalCode": "97140",
     "Case Count": 16,
     "SingleAd": 3550.0,
-    "DoubleAd": 4970.0
+    "DoubleAd": 4970.0,
+    "latitude": 45.3695377,
+    "longitude": -122.8452069
   },
   {
     "StoreName": "QFC07X-0816",
@@ -7291,7 +8329,9 @@
     "PostalCode": "98177",
     "Case Count": 7,
     "SingleAd": 2400.0,
-    "DoubleAd": 2400.0
+    "DoubleAd": 2400.0,
+    "latitude": 47.765625,
+    "longitude": -122.3657242
   },
   {
     "StoreName": "SAF07X-0497",
@@ -7305,7 +8345,9 @@
     "PostalCode": "98155",
     "Case Count": 12,
     "SingleAd": 3000.0,
-    "DoubleAd": 4200.0
+    "DoubleAd": 4200.0,
+    "latitude": 47.754341,
+    "longitude": -122.3127888
   },
   {
     "StoreName": "SAF07X-3213",
@@ -7319,7 +8361,9 @@
     "PostalCode": "98133",
     "Case Count": 16,
     "SingleAd": 3550.0,
-    "DoubleAd": 4970.0
+    "DoubleAd": 4970.0,
+    "latitude": 47.74090210000001,
+    "longitude": -122.3436341
   },
   {
     "StoreName": "FME07X-0013",
@@ -7333,7 +8377,9 @@
     "PostalCode": "98133-4496",
     "Case Count": 28,
     "SingleAd": 4900.0,
-    "DoubleAd": 6860.0
+    "DoubleAd": 6860.0,
+    "latitude": 47.7620769,
+    "longitude": -122.3477322
   },
   {
     "StoreName": "SAF07X-1680",
@@ -7347,7 +8393,9 @@
     "PostalCode": "98383",
     "Case Count": 37,
     "SingleAd": 5625.0,
-    "DoubleAd": 7875.0
+    "DoubleAd": 7875.0,
+    "latitude": 47.652686,
+    "longitude": -122.6882151
   },
   {
     "StoreName": "SAF07Y-1580",
@@ -7361,7 +8409,9 @@
     "PostalCode": "97381",
     "Case Count": 20,
     "SingleAd": 4050.0,
-    "DoubleAd": 5670.0
+    "DoubleAd": 5670.0,
+    "latitude": 45.00324450000001,
+    "longitude": -122.7939568
   },
   {
     "StoreName": "SAF07X-1076",
@@ -7375,7 +8425,9 @@
     "PostalCode": "98290",
     "Case Count": 8,
     "SingleAd": 2400.0,
-    "DoubleAd": 3360.0
+    "DoubleAd": 3360.0,
+    "latitude": 47.9264177,
+    "longitude": -122.0956164
   },
   {
     "StoreName": "SAF07X-3419",
@@ -7389,7 +8441,9 @@
     "PostalCode": "98296",
     "Case Count": 10,
     "SingleAd": 2700.0,
-    "DoubleAd": 3780.0
+    "DoubleAd": 3780.0,
+    "latitude": 47.8389424,
+    "longitude": -122.1253257
   },
   {
     "StoreName": "HAG07X-0057",
@@ -7403,7 +8457,9 @@
     "PostalCode": "98290",
     "Case Count": 13,
     "SingleAd": 3150.0,
-    "DoubleAd": 4410.0
+    "DoubleAd": 4410.0,
+    "latitude": 47.92772739999999,
+    "longitude": -122.0963967
   },
   {
     "StoreName": "FME07X-0681",
@@ -7417,7 +8473,9 @@
     "PostalCode": "98290",
     "Case Count": 23,
     "SingleAd": 4400.0,
-    "DoubleAd": 6160.0
+    "DoubleAd": 6160.0,
+    "latitude": 47.943812,
+    "longitude": -122.1052239
   },
   {
     "StoreName": "SAF07X-3613",
@@ -7431,7 +8489,9 @@
     "PostalCode": "98065",
     "Case Count": 14,
     "SingleAd": 3300.0,
-    "DoubleAd": 4620.0
+    "DoubleAd": 4620.0,
+    "latitude": 47.5278305,
+    "longitude": -121.8737651
   },
   {
     "StoreName": "FME07Z-0424",
@@ -7445,7 +8505,9 @@
     "PostalCode": "98375",
     "Case Count": 32,
     "SingleAd": 5250.0,
-    "DoubleAd": 7350.0
+    "DoubleAd": 7350.0,
+    "latitude": 47.0986853,
+    "longitude": -122.2967551
   },
   {
     "StoreName": "FME07Z-0604",
@@ -7459,7 +8521,9 @@
     "PostalCode": "98387-7529",
     "Case Count": 21,
     "SingleAd": 4175.0,
-    "DoubleAd": 5845.0
+    "DoubleAd": 5845.0,
+    "latitude": 47.0552925,
+    "longitude": -122.3971279
   },
   {
     "StoreName": "ALB07Y-0570",
@@ -7473,7 +8537,9 @@
     "PostalCode": "97477",
     "Case Count": 8,
     "SingleAd": 2400.0,
-    "DoubleAd": 3360.0
+    "DoubleAd": 3360.0,
+    "latitude": 44.0656901,
+    "longitude": -122.9949774
   },
   {
     "StoreName": "SAF07Y-1094",
@@ -7487,7 +8553,9 @@
     "PostalCode": "97477",
     "Case Count": 16,
     "SingleAd": 3550.0,
-    "DoubleAd": 4970.0
+    "DoubleAd": 4970.0,
+    "latitude": 44.0634329,
+    "longitude": -123.0240309
   },
   {
     "StoreName": "FME07Y-0328",
@@ -7501,7 +8569,9 @@
     "PostalCode": "97477-2325",
     "Case Count": 19,
     "SingleAd": 3925.0,
-    "DoubleAd": 5495.0
+    "DoubleAd": 5495.0,
+    "latitude": 44.0634568,
+    "longitude": -123.0177884
   },
   {
     "StoreName": "ALB07Y-0574",
@@ -7515,7 +8585,9 @@
     "PostalCode": "97478",
     "Case Count": 26,
     "SingleAd": 4700.0,
-    "DoubleAd": 6580.0
+    "DoubleAd": 6580.0,
+    "latitude": 44.0441997,
+    "longitude": -122.9272921
   },
   {
     "StoreName": "SAF07Z-0424",
@@ -7529,7 +8601,9 @@
     "PostalCode": "97051",
     "Case Count": 19,
     "SingleAd": 3925.0,
-    "DoubleAd": 5495.0
+    "DoubleAd": 5495.0,
+    "latitude": 45.8497242,
+    "longitude": -122.8321553
   },
   {
     "StoreName": "HAG07X-3480",
@@ -7543,7 +8617,9 @@
     "PostalCode": "98292",
     "Case Count": 12,
     "SingleAd": 3000.0,
-    "DoubleAd": 4200.0
+    "DoubleAd": 4200.0,
+    "latitude": 48.23782930000001,
+    "longitude": -122.3288067
   },
   {
     "StoreName": "QFC07X-0879",
@@ -7557,7 +8633,9 @@
     "PostalCode": "98292",
     "Case Count": 15,
     "SingleAd": 3425.0,
-    "DoubleAd": 4795.0
+    "DoubleAd": 4795.0,
+    "latitude": 48.240793,
+    "longitude": -122.3578484
   },
   {
     "StoreName": "SAF07Y-1527",
@@ -7571,7 +8649,9 @@
     "PostalCode": "97383",
     "Case Count": 20,
     "SingleAd": 4050.0,
-    "DoubleAd": 5670.0
+    "DoubleAd": 5670.0,
+    "latitude": 44.80575,
+    "longitude": -122.7960352
   },
   {
     "StoreName": "SAF07Z-0544",
@@ -7585,7 +8665,9 @@
     "PostalCode": "98390",
     "Case Count": 19,
     "SingleAd": 3925.0,
-    "DoubleAd": 5495.0
+    "DoubleAd": 5495.0,
+    "latitude": 47.1666692,
+    "longitude": -122.1464274
   },
   {
     "StoreName": "FME07Z-0665",
@@ -7599,7 +8681,9 @@
     "PostalCode": "98390",
     "Case Count": 34,
     "SingleAd": 5400.0,
-    "DoubleAd": 7560.0
+    "DoubleAd": 7560.0,
+    "latitude": 47.2036999,
+    "longitude": -122.2282226
   },
   {
     "StoreName": "SAF07Y-1710",
@@ -7613,7 +8697,9 @@
     "PostalCode": "97386",
     "Case Count": 17,
     "SingleAd": 3675.0,
-    "DoubleAd": 5145.0
+    "DoubleAd": 5145.0,
+    "latitude": 44.3997118,
+    "longitude": -122.7256982
   },
   {
     "StoreName": "QFC07Z-0105",
@@ -7627,7 +8713,9 @@
     "PostalCode": "98444",
     "Case Count": 6,
     "SingleAd": 2400.0,
-    "DoubleAd": 2400.0
+    "DoubleAd": 2400.0,
+    "latitude": 47.1563269,
+    "longitude": -122.4361649
   },
   {
     "StoreName": "SAF07Z-0329",
@@ -7641,7 +8729,9 @@
     "PostalCode": "98405",
     "Case Count": 10,
     "SingleAd": 2700.0,
-    "DoubleAd": 3780.0
+    "DoubleAd": 3780.0,
+    "latitude": 47.2511533,
+    "longitude": -122.4553215
   },
   {
     "StoreName": "QFC07Z-0831",
@@ -7655,7 +8745,9 @@
     "PostalCode": "98422",
     "Case Count": 12,
     "SingleAd": 3000.0,
-    "DoubleAd": 4200.0
+    "DoubleAd": 4200.0,
+    "latitude": 47.2938658,
+    "longitude": -122.3816369
   },
   {
     "StoreName": "ALB07Z-0493",
@@ -7669,7 +8761,9 @@
     "PostalCode": "98444",
     "Case Count": 12,
     "SingleAd": 3000.0,
-    "DoubleAd": 4200.0
+    "DoubleAd": 4200.0,
+    "latitude": 47.1173458,
+    "longitude": -122.4327496
   },
   {
     "StoreName": "SAF07Z-1437",
@@ -7683,7 +8777,9 @@
     "PostalCode": "98418",
     "Case Count": 14,
     "SingleAd": 3300.0,
-    "DoubleAd": 4620.0
+    "DoubleAd": 4620.0,
+    "latitude": 47.2221627,
+    "longitude": -122.4515058
   },
   {
     "StoreName": "SAF07Z-1594",
@@ -7697,7 +8793,9 @@
     "PostalCode": "98408",
     "Case Count": 14,
     "SingleAd": 3300.0,
-    "DoubleAd": 4620.0
+    "DoubleAd": 4620.0,
+    "latitude": 47.2067822,
+    "longitude": -122.4409719
   },
   {
     "StoreName": "SAF07Z-3424",
@@ -7711,7 +8809,9 @@
     "PostalCode": "98406",
     "Case Count": 15,
     "SingleAd": 3425.0,
-    "DoubleAd": 4795.0
+    "DoubleAd": 4795.0,
+    "latitude": 47.26951280000001,
+    "longitude": -122.4880961
   },
   {
     "StoreName": "SAF07Z-3305",
@@ -7725,7 +8825,9 @@
     "PostalCode": "98444",
     "Case Count": 15,
     "SingleAd": 3425.0,
-    "DoubleAd": 4795.0
+    "DoubleAd": 4795.0,
+    "latitude": 47.1129786,
+    "longitude": -122.4322969
   },
   {
     "StoreName": "SAF07Z-0486",
@@ -7739,7 +8841,9 @@
     "PostalCode": "98466",
     "Case Count": 17,
     "SingleAd": 3675.0,
-    "DoubleAd": 5145.0
+    "DoubleAd": 5145.0,
+    "latitude": 47.2216712,
+    "longitude": -122.5393458
   },
   {
     "StoreName": "FME07Z-0605",
@@ -7753,7 +8857,9 @@
     "PostalCode": "98466-5529",
     "Case Count": 18,
     "SingleAd": 3800.0,
-    "DoubleAd": 5320.0
+    "DoubleAd": 5320.0,
+    "latitude": 47.24425400000001,
+    "longitude": -122.5290996
   },
   {
     "StoreName": "FME07Z-0390",
@@ -7767,7 +8873,9 @@
     "PostalCode": "98405-1183",
     "Case Count": 23,
     "SingleAd": 4400.0,
-    "DoubleAd": 6160.0
+    "DoubleAd": 6160.0,
+    "latitude": 47.2436626,
+    "longitude": -122.4977266
   },
   {
     "StoreName": "SAF07Z-1436",
@@ -7781,7 +8889,9 @@
     "PostalCode": "98404",
     "Case Count": 24,
     "SingleAd": 4500.0,
-    "DoubleAd": 6300.0
+    "DoubleAd": 6300.0,
+    "latitude": 47.1900148,
+    "longitude": -122.4071017
   },
   {
     "StoreName": "SAF07X-1978",
@@ -7795,7 +8905,9 @@
     "PostalCode": "98407",
     "Case Count": 34,
     "SingleAd": 5400.0,
-    "DoubleAd": 7560.0
+    "DoubleAd": 7560.0,
+    "latitude": 47.2727071,
+    "longitude": -122.5137634
   },
   {
     "StoreName": "SAF07Z-1489",
@@ -7809,7 +8921,9 @@
     "PostalCode": "97058",
     "Case Count": 23,
     "SingleAd": 4400.0,
-    "DoubleAd": 6160.0
+    "DoubleAd": 6160.0,
+    "latitude": 45.60420149999999,
+    "longitude": -121.1940522
   },
   {
     "StoreName": "FME07Z-0372",
@@ -7823,7 +8937,9 @@
     "PostalCode": "97058-3585",
     "Case Count": 33,
     "SingleAd": 5325.0,
-    "DoubleAd": 7455.0
+    "DoubleAd": 7455.0,
+    "latitude": 45.6068976,
+    "longitude": -121.1994061
   },
   {
     "StoreName": "SAF07Y-3542",
@@ -7837,7 +8953,9 @@
     "PostalCode": "97223",
     "Case Count": 10,
     "SingleAd": 2700.0,
-    "DoubleAd": 3780.0
+    "DoubleAd": 3780.0,
+    "latitude": 45.4312554,
+    "longitude": -122.8238425
   },
   {
     "StoreName": "FME07Y-0375",
@@ -7851,7 +8969,9 @@
     "PostalCode": "97223",
     "Case Count": 34,
     "SingleAd": 5400.0,
-    "DoubleAd": 7560.0
+    "DoubleAd": 7560.0,
+    "latitude": 45.4411241,
+    "longitude": -122.7521191
   },
   {
     "StoreName": "SAF07Y-2723",
@@ -7865,7 +8985,9 @@
     "PostalCode": "97141",
     "Case Count": 16,
     "SingleAd": 3550.0,
-    "DoubleAd": 4970.0
+    "DoubleAd": 4970.0,
+    "latitude": 45.455203,
+    "longitude": -123.8455034
   },
   {
     "StoreName": "FME07Y-0377",
@@ -7879,7 +9001,9 @@
     "PostalCode": "97141",
     "Case Count": 22,
     "SingleAd": 4300.0,
-    "DoubleAd": 6020.0
+    "DoubleAd": 6020.0,
+    "latitude": 45.47366539999999,
+    "longitude": -123.8447892
   },
   {
     "StoreName": "SAF07Z-0536",
@@ -7893,7 +9017,9 @@
     "PostalCode": "97060",
     "Case Count": 18,
     "SingleAd": 3800.0,
-    "DoubleAd": 5320.0
+    "DoubleAd": 5320.0,
+    "latitude": 45.5202018,
+    "longitude": -122.4002806
   },
   {
     "StoreName": "FME07Y-0393",
@@ -7907,7 +9033,9 @@
     "PostalCode": "97062-6357",
     "Case Count": 36,
     "SingleAd": 5550.0,
-    "DoubleAd": 7770.0
+    "DoubleAd": 7770.0,
+    "latitude": 45.38138439999999,
+    "longitude": -122.757028
   },
   {
     "StoreName": "SAR07X-0624",
@@ -7921,7 +9049,9 @@
     "PostalCode": "98168",
     "Case Count": 10,
     "SingleAd": 2700.0,
-    "DoubleAd": 3780.0
+    "DoubleAd": 3780.0,
+    "latitude": 47.4728631,
+    "longitude": -122.2858495
   },
   {
     "StoreName": "SAF07Z-1407",
@@ -7935,7 +9065,9 @@
     "PostalCode": "98512",
     "Case Count": 17,
     "SingleAd": 3675.0,
-    "DoubleAd": 5145.0
+    "DoubleAd": 5145.0,
+    "latitude": 46.998442,
+    "longitude": -122.917572
   },
   {
     "StoreName": "SAF07Z-1503",
@@ -7949,7 +9081,9 @@
     "PostalCode": "98501",
     "Case Count": 18,
     "SingleAd": 3800.0,
-    "DoubleAd": 5320.0
+    "DoubleAd": 5320.0,
+    "latitude": 47.01918329999999,
+    "longitude": -122.8979955
   },
   {
     "StoreName": "FME07Z-0659",
@@ -7963,7 +9097,9 @@
     "PostalCode": "98512",
     "Case Count": 36,
     "SingleAd": 5550.0,
-    "DoubleAd": 7770.0
+    "DoubleAd": 7770.0,
+    "latitude": 46.9980314,
+    "longitude": -122.9148876
   },
   {
     "StoreName": "STB05X-0105",
@@ -7977,7 +9113,9 @@
     "PostalCode": "92277",
     "Case Count": 15,
     "SingleAd": 3425.0,
-    "DoubleAd": 4795.0
+    "DoubleAd": 4795.0,
+    "latitude": 34.1341651,
+    "longitude": -116.0972577
   },
   {
     "StoreName": "FME07Z-0615",
@@ -7991,7 +9129,9 @@
     "PostalCode": "98467",
     "Case Count": 28,
     "SingleAd": 4900.0,
-    "DoubleAd": 6860.0
+    "DoubleAd": 6860.0,
+    "latitude": 47.2006689,
+    "longitude": -122.5288316
   },
   {
     "StoreName": "STB05X-0045",
@@ -8005,7 +9145,9 @@
     "PostalCode": "91786",
     "Case Count": 13,
     "SingleAd": 3150.0,
-    "DoubleAd": 4410.0
+    "DoubleAd": 4410.0,
+    "latitude": 34.105407,
+    "longitude": -117.6708935
   },
   {
     "StoreName": "STB05X-0065",
@@ -8019,7 +9161,9 @@
     "PostalCode": "91784",
     "Case Count": 16,
     "SingleAd": 3550.0,
-    "DoubleAd": 4970.0
+    "DoubleAd": 4970.0,
+    "latitude": 34.1221717,
+    "longitude": -117.6718132
   },
   {
     "StoreName": "VON05X-2681",
@@ -8033,7 +9177,9 @@
     "PostalCode": "91786",
     "Case Count": 16,
     "SingleAd": 3550.0,
-    "DoubleAd": 4970.0
+    "DoubleAd": 4970.0,
+    "latitude": 34.1082225,
+    "longitude": -117.6528715
   },
   {
     "StoreName": "ALB05X-0599",
@@ -8047,7 +9193,9 @@
     "PostalCode": "91784",
     "Case Count": 19,
     "SingleAd": 3925.0,
-    "DoubleAd": 5495.0
+    "DoubleAd": 5495.0,
+    "latitude": 34.1311847,
+    "longitude": -117.637641
   },
   {
     "StoreName": "SAF07Z-0400",
@@ -8061,7 +9209,9 @@
     "PostalCode": "98663",
     "Case Count": 12,
     "SingleAd": 3000.0,
-    "DoubleAd": 4200.0
+    "DoubleAd": 4200.0,
+    "latitude": 45.64852459999999,
+    "longitude": -122.6666247
   },
   {
     "StoreName": "SAF07Z-1103",
@@ -8075,7 +9225,9 @@
     "PostalCode": "98661",
     "Case Count": 12,
     "SingleAd": 3000.0,
-    "DoubleAd": 4200.0
+    "DoubleAd": 4200.0,
+    "latitude": 45.6261154,
+    "longitude": -122.6029303
   },
   {
     "StoreName": "QFC07Z-0212",
@@ -8089,7 +9241,9 @@
     "PostalCode": "98683",
     "Case Count": 13,
     "SingleAd": 3150.0,
-    "DoubleAd": 4410.0
+    "DoubleAd": 4410.0,
+    "latitude": 45.5949787,
+    "longitude": -122.4761271
   },
   {
     "StoreName": "SAF07Z-1842",
@@ -8103,7 +9257,9 @@
     "PostalCode": "98686",
     "Case Count": 13,
     "SingleAd": 3150.0,
-    "DoubleAd": 4410.0
+    "DoubleAd": 4410.0,
+    "latitude": 45.7156771,
+    "longitude": -122.6501589
   },
   {
     "StoreName": "ALB07Z-0580",
@@ -8117,7 +9273,9 @@
     "PostalCode": "98686",
     "Case Count": 13,
     "SingleAd": 3150.0,
-    "DoubleAd": 4410.0
+    "DoubleAd": 4410.0,
+    "latitude": 45.7238405,
+    "longitude": -122.6518
   },
   {
     "StoreName": "FME07Z-0140",
@@ -8131,7 +9289,9 @@
     "PostalCode": "98665-8890",
     "Case Count": 19,
     "SingleAd": 3925.0,
-    "DoubleAd": 5495.0
+    "DoubleAd": 5495.0,
+    "latitude": 45.6764343,
+    "longitude": -122.663266
   },
   {
     "StoreName": "SAF07Z-1611",
@@ -8145,7 +9305,9 @@
     "PostalCode": "98661",
     "Case Count": 19,
     "SingleAd": 3925.0,
-    "DoubleAd": 5495.0
+    "DoubleAd": 5495.0,
+    "latitude": 45.6664205,
+    "longitude": -122.6036331
   },
   {
     "StoreName": "SAF07Z-1704",
@@ -8159,7 +9321,9 @@
     "PostalCode": "98682",
     "Case Count": 24,
     "SingleAd": 4500.0,
-    "DoubleAd": 6300.0
+    "DoubleAd": 6300.0,
+    "latitude": 45.670901,
+    "longitude": -122.507729
   },
   {
     "StoreName": "SAF07Z-4405",
@@ -8173,7 +9337,9 @@
     "PostalCode": "98665",
     "Case Count": 25,
     "SingleAd": 4600.0,
-    "DoubleAd": 6440.0
+    "DoubleAd": 6440.0,
+    "latitude": 45.6818845,
+    "longitude": -122.6685783
   },
   {
     "StoreName": "FME07Z-0208",
@@ -8187,7 +9353,9 @@
     "PostalCode": "98684",
     "Case Count": 28,
     "SingleAd": 4900.0,
-    "DoubleAd": 6860.0
+    "DoubleAd": 6860.0,
+    "latitude": 45.6195418,
+    "longitude": -122.5563169
   },
   {
     "StoreName": "FME07Z-0093",
@@ -8201,7 +9369,9 @@
     "PostalCode": "98683-8421",
     "Case Count": 29,
     "SingleAd": 5000.0,
-    "DoubleAd": 7000.0
+    "DoubleAd": 7000.0,
+    "latitude": 45.6058208,
+    "longitude": -122.5017492
   },
   {
     "StoreName": "SAF07Z-1653",
@@ -8215,7 +9385,9 @@
     "PostalCode": "98684",
     "Case Count": 30,
     "SingleAd": 5100.0,
-    "DoubleAd": 7140.0
+    "DoubleAd": 7140.0,
+    "latitude": 45.641468,
+    "longitude": -122.5567805
   },
   {
     "StoreName": "FME07Z-0683",
@@ -8229,7 +9401,9 @@
     "PostalCode": "98661",
     "Case Count": 32,
     "SingleAd": 5250.0,
-    "DoubleAd": 7350.0
+    "DoubleAd": 7350.0,
+    "latitude": 45.62004779999999,
+    "longitude": -122.6453116
   },
   {
     "StoreName": "FME07Z-0236",
@@ -8243,7 +9417,9 @@
     "PostalCode": "98662",
     "Case Count": 33,
     "SingleAd": 5325.0,
-    "DoubleAd": 7455.0
+    "DoubleAd": 7455.0,
+    "latitude": 45.67743249999999,
+    "longitude": -122.5505718
   },
   {
     "StoreName": "FME07Z-0460",
@@ -8257,7 +9433,9 @@
     "PostalCode": "98685",
     "Case Count": 34,
     "SingleAd": 5400.0,
-    "DoubleAd": 7560.0
+    "DoubleAd": 7560.0,
+    "latitude": 45.72058,
+    "longitude": -122.6625086
   },
   {
     "StoreName": "FFL05X-0397",
@@ -8271,7 +9449,9 @@
     "PostalCode": "92392",
     "Case Count": 12,
     "SingleAd": 3000.0,
-    "DoubleAd": 4200.0
+    "DoubleAd": 4200.0,
+    "latitude": 34.5194204,
+    "longitude": -117.3145433
   },
   {
     "StoreName": "VON05X-2131",
@@ -8285,7 +9465,9 @@
     "PostalCode": "92395",
     "Case Count": 12,
     "SingleAd": 3000.0,
-    "DoubleAd": 4200.0
+    "DoubleAd": 4200.0,
+    "latitude": 34.4723873,
+    "longitude": -117.2897296
   },
   {
     "StoreName": "FFL05X-0305",
@@ -8299,7 +9481,9 @@
     "PostalCode": "92392",
     "Case Count": 16,
     "SingleAd": 3550.0,
-    "DoubleAd": 4970.0
+    "DoubleAd": 4970.0,
+    "latitude": 34.471236,
+    "longitude": -117.3083527
   },
   {
     "StoreName": "STB05X-0123",
@@ -8313,7 +9497,9 @@
     "PostalCode": "92394",
     "Case Count": 16,
     "SingleAd": 3550.0,
-    "DoubleAd": 4970.0
+    "DoubleAd": 4970.0,
+    "latitude": 34.5201637,
+    "longitude": -117.3317152
   },
   {
     "StoreName": "STB05X-0118",
@@ -8327,7 +9513,9 @@
     "PostalCode": "92392",
     "Case Count": 18,
     "SingleAd": 3800.0,
-    "DoubleAd": 5320.0
+    "DoubleAd": 5320.0,
+    "latitude": 34.471833,
+    "longitude": -117.3630247
   },
   {
     "StoreName": "FME07Z-0218",
@@ -8341,7 +9529,9 @@
     "PostalCode": "97146-9527",
     "Case Count": 20,
     "SingleAd": 4050.0,
-    "DoubleAd": 5670.0
+    "DoubleAd": 5670.0,
+    "latitude": 46.160143,
+    "longitude": -123.9016998
   },
   {
     "StoreName": "SAF07Z-1687",
@@ -8355,7 +9545,9 @@
     "PostalCode": "98671",
     "Case Count": 16,
     "SingleAd": 3550.0,
-    "DoubleAd": 4970.0
+    "DoubleAd": 4970.0,
+    "latitude": 45.5789409,
+    "longitude": -122.334508
   },
   {
     "StoreName": "SAF07Y-1713",
@@ -8369,7 +9561,9 @@
     "PostalCode": "97068",
     "Case Count": 22,
     "SingleAd": 4300.0,
-    "DoubleAd": 6020.0
+    "DoubleAd": 6020.0,
+    "latitude": 45.3645911,
+    "longitude": -122.6474927
   },
   {
     "StoreName": "SAF07Y-0285",
@@ -8383,7 +9577,9 @@
     "PostalCode": "97070",
     "Case Count": 23,
     "SingleAd": 4400.0,
-    "DoubleAd": 6160.0
+    "DoubleAd": 6160.0,
+    "latitude": 45.3044424,
+    "longitude": -122.7624195
   },
   {
     "StoreName": "FME07Y-0516",
@@ -8397,7 +9593,9 @@
     "PostalCode": "97070",
     "Case Count": 28,
     "SingleAd": 4900.0,
-    "DoubleAd": 6860.0
+    "DoubleAd": 6860.0,
+    "latitude": 45.3008391,
+    "longitude": -122.7707934
   },
   {
     "StoreName": "FME07Z-0660",
@@ -8411,7 +9609,9 @@
     "PostalCode": "97060",
     "Case Count": 26,
     "SingleAd": 4700.0,
-    "DoubleAd": 6580.0
+    "DoubleAd": 6580.0,
+    "latitude": 45.5304095,
+    "longitude": -122.4283496
   },
   {
     "StoreName": "SAF07Y-1976",
@@ -8425,7 +9625,9 @@
     "PostalCode": "97071",
     "Case Count": 21,
     "SingleAd": 4175.0,
-    "DoubleAd": 5845.0
+    "DoubleAd": 5845.0,
+    "latitude": 45.1501439,
+    "longitude": -122.8296483
   },
   {
     "StoreName": "SAF07X-0533",
@@ -8439,7 +9641,9 @@
     "PostalCode": "98077",
     "Case Count": 16,
     "SingleAd": 3550.0,
-    "DoubleAd": 4970.0
+    "DoubleAd": 4970.0,
+    "latitude": 47.7559882,
+    "longitude": -122.0811858
   },
   {
     "StoreName": "HAG07X-3498",
@@ -8453,7 +9657,9 @@
     "PostalCode": "98072",
     "Case Count": 22,
     "SingleAd": 4300.0,
-    "DoubleAd": 6020.0
+    "DoubleAd": 6020.0,
+    "latitude": 47.75574779999999,
+    "longitude": -122.1572866
   },
   {
     "StoreName": "SAF07Z-1762",
@@ -8467,7 +9673,9 @@
     "PostalCode": "98674",
     "Case Count": 27,
     "SingleAd": 4800.0,
-    "DoubleAd": 6720.0
+    "DoubleAd": 6720.0,
+    "latitude": 45.9125365,
+    "longitude": -122.7485498
   },
   {
     "StoreName": "SAF07Z-1619",
@@ -8481,7 +9689,9 @@
     "PostalCode": "98597",
     "Case Count": 27,
     "SingleAd": 4800.0,
-    "DoubleAd": 6720.0
+    "DoubleAd": 6720.0,
+    "latitude": 46.9494418,
+    "longitude": -122.6215876
   },
   {
     "StoreName": "STB05X-0023",
@@ -8495,7 +9705,9 @@
     "PostalCode": "92399",
     "Case Count": 15,
     "SingleAd": 3425.0,
-    "DoubleAd": 4795.0
+    "DoubleAd": 4795.0,
+    "latitude": 34.03494999999999,
+    "longitude": -117.0532961
   },
   {
     "StoreName": "STB05X-0125",
@@ -8509,7 +9721,9 @@
     "PostalCode": "92399",
     "Case Count": 16,
     "SingleAd": 3550.0,
-    "DoubleAd": 4970.0
+    "DoubleAd": 4970.0,
+    "latitude": 34.0473553,
+    "longitude": -117.0325232
   },
   {
     "StoreName": "VON05X-1796",
@@ -8523,7 +9737,9 @@
     "PostalCode": "92399",
     "Case Count": 17,
     "SingleAd": 3675.0,
-    "DoubleAd": 5145.0
+    "DoubleAd": 5145.0,
+    "latitude": 34.0342329,
+    "longitude": -117.0695304
   },
   {
     "StoreName": "VON05X-3058",
@@ -8537,7 +9753,9 @@
     "PostalCode": "92284",
     "Case Count": 9,
     "SingleAd": 2550.0,
-    "DoubleAd": 3570.0
+    "DoubleAd": 3570.0,
+    "latitude": 34.1268637,
+    "longitude": -116.4082309
   },
   {
     "StoreName": "STB05X-0096",
@@ -8551,7 +9769,9 @@
     "PostalCode": "92284",
     "Case Count": 13,
     "SingleAd": 3150.0,
-    "DoubleAd": 4410.0
+    "DoubleAd": 4410.0,
+    "latitude": 34.1210853,
+    "longitude": -116.4185591
   },
   {
     "StoreName": "STB05X-0120",
@@ -8565,6 +9785,8 @@
     "PostalCode": "92284",
     "Case Count": 14,
     "SingleAd": 3300.0,
-    "DoubleAd": 4620.0
+    "DoubleAd": 4620.0,
+    "latitude": 34.129636,
+    "longitude": -116.397449
   }
 ]
