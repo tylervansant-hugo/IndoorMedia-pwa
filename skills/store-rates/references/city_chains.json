@@ -1,293 +1,5 @@
 {
   "city_chains": {
-    "101 S. 47th Avenue": [
-      "Rosauers"
-    ],
-    "104 Military Rd S": [
-      "Albertsons"
-    ],
-    "1100 N Meridian Ave": [
-      "Fred Meyer"
-    ],
-    "1100 NE Broadway St": [
-      "Safeway"
-    ],
-    "11012 Canyon Rd E": [
-      "Albertsons"
-    ],
-    "1109 Yelm Avenue": [
-      "Safeway"
-    ],
-    "11104 Pacific Ave S": [
-      "Quality Food Center"
-    ],
-    "1112 South M Street": [
-      "Safeway"
-    ],
-    "11325 Southeast Mill Plain Blvd": [
-      "Fred Meyer"
-    ],
-    "11501 Canyon Rd E": [
-      "Safeway"
-    ],
-    "11565 SW Pacific Hwy": [
-      "Fred Meyer"
-    ],
-    "1201 Valley Ave": [
-      "Fred Meyer"
-    ],
-    "1215 W 6Th St": [
-      "Fred Meyer"
-    ],
-    "1265 Center Street Northeast": [
-      "Safeway"
-    ],
-    "1302 S 38th St": [
-      "Safeway"
-    ],
-    "13023 NE Hwy 99": [
-      "Safeway"
-    ],
-    "13308 E Meridian Ave": [
-      "Safeway"
-    ],
-    "14300 NE 20th Ave": [
-      "Albertsons"
-    ],
-    "14300 SW Barrows Rd": [
-      "Safeway"
-    ],
-    "1455 Edgewater St NW": [
-      "Safeway"
-    ],
-    "1499 U.S. 101": [
-      "Safeway"
-    ],
-    "1535 North 1St Street": [
-      "Safeway"
-    ],
-    "1539 NE Stephens St.": [
-      "Safeway"
-    ],
-    "1540 Main Street": [
-      "Safeway"
-    ],
-    "1550 North Pacific Highway": [
-      "Safeway"
-    ],
-    "15805 Pacific Ave S": [
-      "Safeway"
-    ],
-    "1624 72nd St E": [
-      "Safeway"
-    ],
-    "16600 Southeast Mcgillivray Boulevard": [
-      "Fred Meyer"
-    ],
-    "16625 362nd Avenue": [
-      "Fred Meyer"
-    ],
-    "1705 U.S. 97": [
-      "Safeway"
-    ],
-    "1725 Pacific Ave": [
-      "Safeway"
-    ],
-    "17404 Meridian E": [
-      "Fred Meyer"
-    ],
-    "1815 4Th Street": [
-      "Safeway"
-    ],
-    "1891 Pioneer Parkway East": [
-      "Safeway"
-    ],
-    "19200 SW Martinazzi AVE": [
-      "Fred Meyer"
-    ],
-    "2000 Marcola Rd.": [
-      "Albertsons"
-    ],
-    "20685 SW Roy Rogers Road": [
-      "Safeway"
-    ],
-    "21301 Washington 410": [
-      "Safeway"
-    ],
-    "22000 Salamo Road": [
-      "Safeway"
-    ],
-    "22303 Mountain Highway East": [
-      "Fred Meyer"
-    ],
-    "22855 NE Park Ln": [
-      "Fred Meyer"
-    ],
-    "2411 N PROCTOR ST": [
-      "Safeway"
-    ],
-    "2500 Columbia House Blvd": [
-      "Fred Meyer"
-    ],
-    "2500 North Main Street": [
-      "Fred Meyer"
-    ],
-    "2553 NW Stewart Parkway": [
-      "Sherms Market"
-    ],
-    "25691 SE Stark St": [
-      "Safeway"
-    ],
-    "2615 NE 112th Ave": [
-      "Safeway"
-    ],
-    "2800 SE Hawthorne Blvd": [
-      "Safeway"
-    ],
-    "2855 Broadway St NE": [
-      "Fred Meyer"
-    ],
-    "301 Westfield Street": [
-      "Safeway"
-    ],
-    "30300 Southwest boones ferry Road": [
-      "Fred Meyer"
-    ],
-    "3307 SE Evergreen Way Ste 5": [
-      "Safeway"
-    ],
-    "3380 Lancaster Drive Northeast": [
-      "Safeway"
-    ],
-    "3450 Commercial St SE": [
-      "Fred Meyer"
-    ],
-    "3505 SE 192nd Ave": [
-      "Quality Food Center"
-    ],
-    "3527 Southeast 122nd Avenue": [
-      "Safeway"
-    ],
-    "3707 N Main St": [
-      "Safeway"
-    ],
-    "3740 Market St NE": [
-      "Fred Meyer"
-    ],
-    "37601 U.S. 26": [
-      "Safeway"
-    ],
-    "3842 Bridgeport Way West": [
-      "Safeway"
-    ],
-    "3930 Southeast Powell Boulevard": [
-      "Safeway"
-    ],
-    "401 South Roosevelt": [
-      "Safeway"
-    ],
-    "408 NE 81st St": [
-      "Safeway"
-    ],
-    "4101 49th Ave NE": [
-      "Quality Food Center"
-    ],
-    "4505 S 19th St": [
-      "Fred Meyer"
-    ],
-    "451 NE 181st Ave": [
-      "Albertsons"
-    ],
-    "4515 SE Woodstock Blvd": [
-      "Safeway"
-    ],
-    "500 Cleveland Avenue Southeast": [
-      "Safeway"
-    ],
-    "51501 South Columbia River": [
-      "Fred Meyer"
-    ],
-    "520 Mount Hood Street": [
-      "Safeway"
-    ],
-    "555 Trosper Road Southwest": [
-      "Fred Meyer"
-    ],
-    "5616 176Th St. East": [
-      "Safeway"
-    ],
-    "5660 Commercial St SE": [
-      "Safeway"
-    ],
-    "5755 Main St": [
-      "Albertsons"
-    ],
-    "5850 NE Prescott St": [
-      "Albertsons"
-    ],
-    "5920 NE Martin Luther King Jr Blvd": [
-      "Safeway"
-    ],
-    "611 South Meridian": [
-      "Safeway"
-    ],
-    "6305 Bridgeport Way West": [
-      "Fred Meyer"
-    ],
-    "650 Q Street": [
-      "Fred Meyer"
-    ],
-    "6700 NE 162nd Ave Ste 500": [
-      "Safeway"
-    ],
-    "6701 E Mill Plain Blvd": [
-      "Safeway"
-    ],
-    "6711 NE 63rd St": [
-      "Safeway"
-    ],
-    "6901 NE Sandy Blvd": [
-      "Safeway"
-    ],
-    "6901 S 19th St": [
-      "Fred Meyer"
-    ],
-    "695 Highway 101": [
-      "Fred Meyer"
-    ],
-    "705 Trosper Rd SW": [
-      "Safeway"
-    ],
-    "707 South 56Th Street": [
-      "Safeway"
-    ],
-    "708 Shaw Rd E": [
-      "Safeway"
-    ],
-    "7411 NE 117th Ave": [
-      "Fred Meyer"
-    ],
-    "7700 NE Highway 99": [
-      "Fred Meyer"
-    ],
-    "795 Columbia River Highway": [
-      "Safeway"
-    ],
-    "800 NE Tenney Rd": [
-      "Fred Meyer"
-    ],
-    "8255 SW Wilsonville RD": [
-      "Safeway"
-    ],
-    "8330 North Ivanhoe Street": [
-      "Safeway"
-    ],
-    "929 NW Garden Valley Blvd": [
-      "Fred Meyer"
-    ],
-    "944 SW Veterans Way": [
-      "Fred Meyer"
-    ],
     "Albany": [
       "Fred Meyer",
       "Safeway"
@@ -465,11 +177,9 @@
     "Madras": [
       "Safeway"
     ],
-    "McMinnville": [
-      "Safeway"
-    ],
     "Mcminnville": [
-      "Albertsons"
+      "Albertsons",
+      "Safeway"
     ],
     "Medford": [
       "Albertsons",
@@ -519,15 +229,145 @@
       "Quality Food Center",
       "Safeway"
     ],
-    "A Moreno Valley": [
+    "Puyallup": [
+      "Albertsons",
+      "Fred Meyer",
+      "Safeway"
+    ],
+    "Redmond": [
+      "Fred Meyer",
+      "Safeway"
+    ],
+    "Reedsport": [
+      "Safeway"
+    ],
+    "Ridgefield": [
+      "Rosauers"
+    ],
+    "Roseburg": [
+      "Fred Meyer",
+      "Safeway",
+      "Sherms Market"
+    ],
+    "Salem": [
+      "Fred Meyer",
+      "Safeway"
+    ],
+    "Sandy": [
+      "Fred Meyer",
+      "Safeway"
+    ],
+    "Scappoose": [
+      "Fred Meyer"
+    ],
+    "Seaside": [
+      "Safeway"
+    ],
+    "Sherwood": [
+      "Safeway"
+    ],
+    "Silverton": [
+      "Safeway"
+    ],
+    "South Hill": [
+      "Fred Meyer"
+    ],
+    "Spanaway": [
+      "Fred Meyer"
+    ],
+    "Springfield": [
+      "Albertsons",
+      "Fred Meyer",
+      "Safeway"
+    ],
+    "St. Helens": [
+      "Safeway"
+    ],
+    "Stayton": [
+      "Safeway"
+    ],
+    "Sumner": [
+      "Fred Meyer",
+      "Safeway"
+    ],
+    "Sweet Home": [
+      "Safeway"
+    ],
+    "Tacoma": [
+      "Fred Meyer",
+      "Quality Food Center",
+      "Safeway"
+    ],
+    "The Dalles": [
+      "Fred Meyer",
+      "Safeway"
+    ],
+    "Tigard": [
+      "Fred Meyer",
+      "Safeway"
+    ],
+    "Tillamook": [
+      "Fred Meyer",
+      "Safeway"
+    ],
+    "Tualatin": [
+      "Fred Meyer"
+    ],
+    "Tumwater": [
+      "Fred Meyer",
+      "Safeway"
+    ],
+    "University Place": [
+      "Fred Meyer"
+    ],
+    "Vancouver": [
+      "Albertsons",
+      "Fred Meyer",
+      "Quality Food Center",
+      "Safeway"
+    ],
+    "Warrenton": [
+      "Fred Meyer"
+    ],
+    "Washougal": [
+      "Safeway"
+    ],
+    "West Linn": [
+      "Safeway"
+    ],
+    "Wilsonville": [
+      "Fred Meyer",
+      "Safeway"
+    ],
+    "Wood Village": [
+      "Fred Meyer"
+    ],
+    "Woodburn": [
+      "Safeway"
+    ],
+    "Woodland": [
+      "Safeway"
+    ],
+    "Yelm": [
+      "Safeway"
+    ],
+    "104 Military Rd S": [
+      "Albertsons"
+    ],
+    "1624 72nd St E": [
+      "Safeway"
+    ],
+    "25691 SE Stark St": [
+      "Safeway"
+    ],
+    "Moreno Valley": [
       "Stater Bros."
     ],
-    "Lugonia Ave Redlands": [
+    "Redlands": [
       "Stater Bros."
     ],
-    "Avenue Rancho Cucamonga": [
-      "Ralphs",
-      "Vons"
+    "Rancho Cucamonga": [
+      "Ralphs"
     ],
     "Limonite Ave Corona": [
       "Ralphs"
@@ -547,6 +387,10 @@
     ],
     "Canyon Crest Riverside": [
       "Ralphs"
+    ],
+    "Avenue Rancho Cucamonga": [
+      "Ralphs",
+      "Vons"
     ],
     "Archibald Ave Ontario": [
       "Ralphs"
@@ -969,16 +813,17 @@
     "Square Sedro Woolley": [
       "Food Pavillion"
     ],
-    "SE Maple Valley": [
+    "Maple Valley": [
       "Fred Meyer"
     ],
-    "Highlands Drive Issaquah": [
+    "Issaquah": [
       "Safeway"
     ],
-    "Ave NE Poulsbo": [
+    "Poulsbo": [
       "Safeway"
     ],
-    "Pkwy E Auburn": [
+    "Auburn": [
+      "Fred Meyer",
       "Haggen"
     ],
     "Meridian St Bellingham": [
@@ -1044,142 +889,1694 @@
     "Avenue South Seattle": [
       "Quality Food Center"
     ],
-    "Way North Auburn": [
-      "Fred Meyer"
-    ],
     "NE Bellevue": [
       "Fred Meyer"
     ]
   },
   "stores_by_code": {
-    "ROS07Z-0042": {
-      "city": "101 S. 47th Avenue",
+    "SHM07Y-0004": {
+      "city": "Roseburg",
+      "chain": "Sherms Market",
+      "address": "2553 NW Stewart Parkway",
+      "state": "OR",
+      "zip": "97471"
+    },
+    "FME07Y-0030": {
+      "city": "Brookings",
+      "chain": "Fred Meyer",
+      "address": "325 5th St",
+      "state": "OR",
+      "zip": "97415"
+    },
+    "FME07Y-0035": {
+      "city": "Beaverton",
+      "chain": "Fred Meyer",
+      "address": "11425 SW Beaverton Hillsdale Hwy",
+      "state": "OR",
+      "zip": "97005-3050"
+    },
+    "FME07Y-0040": {
+      "city": "Portland",
+      "chain": "Fred Meyer",
+      "address": "7555 SW Barbur Blvd",
+      "state": "OR",
+      "zip": "97219-2836"
+    },
+    "FME07Y-0050": {
+      "city": "Coos Bay",
+      "chain": "Fred Meyer",
+      "address": "1020 S 1st St",
+      "state": "OR",
+      "zip": "97420-1403"
+    },
+    "FME07Y-0060": {
+      "city": "Cornelius",
+      "chain": "Fred Meyer",
+      "address": "2200 Baseline St",
+      "state": "OR",
+      "zip": "97113-8621"
+    },
+    "FME07Y-0063": {
+      "city": "Clackamas",
+      "chain": "Fred Meyer",
+      "address": "16301 SE 82nd Dr",
+      "state": "OR",
+      "zip": "97015-9521"
+    },
+    "FME07Y-0070": {
+      "city": "Corvallis",
+      "chain": "Fred Meyer",
+      "address": "777 Kings Boulevard",
+      "state": "OR",
+      "zip": "97330-5620"
+    },
+    "FME07Y-0090": {
+      "city": "Salem",
+      "chain": "Fred Meyer",
+      "address": "3740 Market St NE",
+      "state": "OR",
+      "zip": "97301-1826"
+    },
+    "FME07Y-0126": {
+      "city": "Grants Pass",
+      "chain": "Fred Meyer",
+      "address": "1101 Grants Pass Parkway",
+      "state": "OR",
+      "zip": "97526-2359"
+    },
+    "FME07Y-0143": {
+      "city": "Hillsboro",
+      "chain": "Fred Meyer",
+      "address": "6495 SE Tualatin Valley Hwy",
+      "state": "OR",
+      "zip": "97123"
+    },
+    "FME07Y-0165": {
+      "city": "Klamath Falls",
+      "chain": "Fred Meyer",
+      "address": "2655 Shasta Way",
+      "state": "OR",
+      "zip": "97603-4400"
+    },
+    "FME07Y-0195": {
+      "city": "Medford",
+      "chain": "Fred Meyer",
+      "address": "2424 Crater Lake Hwy",
+      "state": "OR",
+      "zip": "97504"
+    },
+    "FME07Y-0196": {
+      "city": "Medford",
+      "chain": "Fred Meyer",
+      "address": "1301 Center Drive",
+      "state": "OR",
+      "zip": "97501"
+    },
+    "FME07Y-0220": {
+      "city": "Newberg",
+      "chain": "Fred Meyer",
+      "address": "3300 PORTLAND RD",
+      "state": "OR",
+      "zip": "97132-5412"
+    },
+    "FME07Y-0225": {
+      "city": "Salem",
+      "chain": "Fred Meyer",
+      "address": "2855 Broadway St NE",
+      "state": "OR",
+      "zip": "97303-6502"
+    },
+    "FME07Y-0227": {
+      "city": "Newport",
+      "chain": "Fred Meyer",
+      "address": "150 Northeast 20Th Street",
+      "state": "OR",
+      "zip": "97365-1898"
+    },
+    "FME07Y-0240": {
+      "city": "Milwaukie",
+      "chain": "Fred Meyer",
+      "address": "14700 SE Mcloughlin Blvd",
+      "state": "OR",
+      "zip": "97267-1417"
+    },
+    "FME07Y-0242": {
+      "city": "Oregon City",
+      "chain": "Fred Meyer",
+      "address": "1839 Molalla Avenue",
+      "state": "OR",
+      "zip": "97045-4011"
+    },
+    "FME07Y-0281": {
+      "city": "Roseburg",
+      "chain": "Fred Meyer",
+      "address": "929 NW Garden Valley Blvd",
+      "state": "OR",
+      "zip": "97471-1900"
+    },
+    "FME07Y-0285": {
+      "city": "Portland",
+      "chain": "Fred Meyer",
+      "address": "7700 SW Beaverton Hillsdale Hwy",
+      "state": "OR",
+      "zip": "97225-2101"
+    },
+    "FME07Y-0325": {
+      "city": "Eugene",
+      "chain": "Fred Meyer",
+      "address": "60 Division Ave",
+      "state": "OR",
+      "zip": "97404-5127"
+    },
+    "FME07Y-0328": {
+      "city": "Springfield",
+      "chain": "Fred Meyer",
+      "address": "650 Q Street",
+      "state": "OR",
+      "zip": "97477-2325"
+    },
+    "FME07Y-0355": {
+      "city": "Salem",
+      "chain": "Fred Meyer",
+      "address": "3450 Commercial St SE",
+      "state": "OR",
+      "zip": "97302-4682"
+    },
+    "FME07Y-0360": {
+      "city": "Portland",
+      "chain": "Fred Meyer",
+      "address": "100 Northwest 20Th Place",
+      "state": "OR",
+      "zip": "97209-1099"
+    },
+    "FME07Y-0375": {
+      "city": "Tigard",
+      "chain": "Fred Meyer",
+      "address": "11565 SW Pacific Hwy",
+      "state": "OR",
+      "zip": "97223"
+    },
+    "FME07Y-0377": {
+      "city": "Tillamook",
+      "chain": "Fred Meyer",
+      "address": "2500 North Main Street",
+      "state": "OR",
+      "zip": "97141"
+    },
+    "FME07Y-0393": {
+      "city": "Tualatin",
+      "chain": "Fred Meyer",
+      "address": "19200 SW Martinazzi AVE",
+      "state": "OR",
+      "zip": "97062-6357"
+    },
+    "FME07Y-0417": {
+      "city": "Eugene",
+      "chain": "Fred Meyer",
+      "address": "3333 W 11th Ave",
+      "state": "OR",
+      "zip": "97402-3053"
+    },
+    "FME07Y-0464": {
+      "city": "Florence",
+      "chain": "Fred Meyer",
+      "address": "4701 Highway 101",
+      "state": "OR",
+      "zip": "97439"
+    },
+    "FME07Y-0482": {
+      "city": "Beaverton",
+      "chain": "Fred Meyer",
+      "address": "15995 Southwest Walker Road",
+      "state": "OR",
+      "zip": "97006-4944"
+    },
+    "FME07Y-0651": {
+      "city": "Canby",
+      "chain": "Fred Meyer",
+      "address": "1401 Southeast First",
+      "state": "OR",
+      "zip": "97013"
+    },
+    "FME07Y-0661": {
+      "city": "Hillsboro",
+      "chain": "Fred Meyer",
+      "address": "22075 Northwest Imbrie Drive",
+      "state": "OR",
+      "zip": "97124"
+    },
+    "QFC07Y-0201": {
+      "city": "Portland",
+      "chain": "Quality Food Center",
+      "address": "4756 Northwest Bethany Boulevard",
+      "state": "OR",
+      "zip": "97229"
+    },
+    "QFC07Y-0202": {
+      "city": "Portland",
+      "chain": "Quality Food Center",
+      "address": "7525 Southwest Barnes Road",
+      "state": "OR",
+      "zip": "97225"
+    },
+    "FME07Y-0005": {
+      "city": "Albany",
+      "chain": "Fred Meyer",
+      "address": "2500 Santiam Highway Southeast",
+      "state": "OR",
+      "zip": "97322"
+    },
+    "SAF07Y-0284": {
+      "city": "Reedsport",
+      "chain": "Safeway",
+      "address": "1499 U.S. 101",
+      "state": "OR",
+      "zip": "97467"
+    },
+    "SAF07Y-0290": {
+      "city": "Grants Pass",
+      "chain": "Safeway",
+      "address": "115 SE 7th Street",
+      "state": "OR",
+      "zip": "97526"
+    },
+    "SAF07Y-0363": {
+      "city": "Florence",
+      "chain": "Safeway",
+      "address": "700 Highway 101",
+      "state": "OR",
+      "zip": "97439"
+    },
+    "SAF07Y-0371": {
+      "city": "Enterprise",
+      "chain": "Safeway",
+      "address": "601 West North Street",
+      "state": "OR",
+      "zip": "97828"
+    },
+    "SAF07Y-0378": {
+      "city": "Newport",
+      "chain": "Safeway",
+      "address": "2220 N Coast Hwy",
+      "state": "OR",
+      "zip": "97365"
+    },
+    "SAF07Y-0379": {
+      "city": "Grants Pass",
+      "chain": "Safeway",
+      "address": "1640 Williams Highway",
+      "state": "OR",
+      "zip": "97527"
+    },
+    "SAF07Y-0386": {
+      "city": "Junction City",
+      "chain": "Safeway",
+      "address": "1755 Ivy St",
+      "state": "OR",
+      "zip": "97448"
+    },
+    "SAF07Y-0406": {
+      "city": "Forest Grove",
+      "chain": "Safeway",
+      "address": "2836 Pacific Ave",
+      "state": "OR",
+      "zip": "97116"
+    },
+    "SAF07Y-0412": {
+      "city": "Salem",
+      "chain": "Safeway",
+      "address": "1455 Edgewater St NW",
+      "state": "OR",
+      "zip": "97304"
+    },
+    "SAF07Y-0415": {
+      "city": "Lincoln City",
+      "chain": "Safeway",
+      "address": "4101 NW Logan Road",
+      "state": "OR",
+      "zip": "97367"
+    },
+    "SAF07Y-0420": {
+      "city": "Eugene",
+      "chain": "Safeway",
+      "address": "1500 Coburg Rd",
+      "state": "OR",
+      "zip": "97401"
+    },
+    "SAF07Y-0429": {
+      "city": "Salem",
+      "chain": "Safeway",
+      "address": "3380 Lancaster Drive Northeast",
+      "state": "OR",
+      "zip": "97305"
+    },
+    "SAF07Y-0508": {
+      "city": "Lake Oswego",
+      "chain": "Safeway",
+      "address": "401 A Avenue",
+      "state": "OR",
+      "zip": "97034"
+    },
+    "SAF07Y-3136": {
+      "city": "Portland",
+      "chain": "Safeway",
+      "address": "8145 Southwest Barbur Boulevard",
+      "state": "OR",
+      "zip": "97219"
+    },
+    "SAF07Y-0525": {
+      "city": "Medford",
+      "chain": "Safeway",
+      "address": "1003 Medford Center",
+      "state": "OR",
+      "zip": "97504"
+    },
+    "SAF07Y-1047": {
+      "city": "Lake Oswego",
+      "chain": "Safeway",
+      "address": "17779 Boones Ferry Road",
+      "state": "OR",
+      "zip": "97035"
+    },
+    "SAF07Y-1073": {
+      "city": "Beaverton",
+      "chain": "Safeway",
+      "address": "6194 SW Murray Blvd",
+      "state": "OR",
+      "zip": "97008"
+    },
+    "SAF07Y-1094": {
+      "city": "Springfield",
+      "chain": "Safeway",
+      "address": "1891 Pioneer Parkway East",
+      "state": "OR",
+      "zip": "97477"
+    },
+    "SAF07Y-1203": {
+      "city": "Hillsboro",
+      "chain": "Safeway",
+      "address": "2525 SE Tualatin Valley Hwy",
+      "state": "OR",
+      "zip": "97123"
+    },
+    "SAF07Y-1230": {
+      "city": "Hillsboro",
+      "chain": "Safeway",
+      "address": "2177 NW 185th Avenue",
+      "state": "OR",
+      "zip": "97124"
+    },
+    "SAF07Y-1458": {
+      "city": "Cottage Grove",
+      "chain": "Safeway",
+      "address": "1500 E Main St",
+      "state": "OR",
+      "zip": "97424"
+    },
+    "SAF07Y-1478": {
+      "city": "King City",
+      "chain": "Safeway",
+      "address": "15570 SW Pacific Hwy",
+      "state": "OR",
+      "zip": "97224"
+    },
+    "SAF07Y-1516": {
+      "city": "Keizer",
+      "chain": "Safeway",
+      "address": "4990 River Rd N",
+      "state": "OR",
+      "zip": "97303"
+    },
+    "SAF07Y-1525": {
+      "city": "Portland",
+      "chain": "Safeway",
+      "address": "13485 Northwest Cornell Road",
+      "state": "OR",
+      "zip": "97225"
+    },
+    "SAF07Y-1527": {
+      "city": "Stayton",
+      "chain": "Safeway",
+      "address": "1535 North 1St Street",
+      "state": "OR",
+      "zip": "97383"
+    },
+    "SAF07Y-1556": {
+      "city": "Coos Bay",
+      "chain": "Safeway",
+      "address": "230 E Johnson Ave",
+      "state": "OR",
+      "zip": "97420"
+    },
+    "SAF07Y-1557": {
+      "city": "North Bend",
+      "chain": "Safeway",
+      "address": "1735 Virginia Ave",
+      "state": "OR",
+      "zip": "97459"
+    },
+    "SAF07Y-1558": {
+      "city": "Lebanon",
+      "chain": "Safeway",
+      "address": "1983 South Main Street",
+      "state": "OR",
+      "zip": "97355"
+    },
+    "SAF07Y-1580": {
+      "city": "Silverton",
+      "chain": "Safeway",
+      "address": "301 Westfield Street",
+      "state": "OR",
+      "zip": "97381"
+    },
+    "SAF07Y-1601": {
+      "city": "Mcminnville",
+      "chain": "Safeway",
+      "address": "2490 NE HIGHWAY 99W",
+      "state": "OR",
+      "zip": "97128"
+    },
+    "SAF07Y-1629": {
+      "city": "Salem",
+      "chain": "Safeway",
+      "address": "1265 Center Street Northeast",
+      "state": "OR",
+      "zip": "97301"
+    },
+    "SAF07Y-1643": {
+      "city": "Medford",
+      "chain": "Safeway",
+      "address": "3169 Crater Lake Highway",
+      "state": "OR",
+      "zip": "97501"
+    },
+    "SAF07Y-1659": {
+      "city": "Albany",
+      "chain": "Safeway",
+      "address": "1990 14th Ave SE",
+      "state": "OR",
+      "zip": "97322"
+    },
+    "SAF07Y-1666": {
+      "city": "Roseburg",
+      "chain": "Safeway",
+      "address": "1539 NE Stephens St.",
+      "state": "OR",
+      "zip": "97470"
+    },
+    "SAF07Y-1690": {
+      "city": "Corvallis",
+      "chain": "Safeway",
+      "address": "590 NE Circle Boulevard",
+      "state": "OR",
+      "zip": "97330"
+    },
+    "SAF07Y-1710": {
+      "city": "Sweet Home",
+      "chain": "Safeway",
+      "address": "1540 Main Street",
+      "state": "OR",
+      "zip": "97386"
+    },
+    "SAF07Y-1713": {
+      "city": "West Linn",
+      "chain": "Safeway",
+      "address": "22000 Salamo Road",
+      "state": "OR",
+      "zip": "97068"
+    },
+    "SAF07Y-1751": {
+      "city": "Molalla",
+      "chain": "Safeway",
+      "address": "1525 West Main Street",
+      "state": "OR",
+      "zip": "97038"
+    },
+    "SAF07Y-1765": {
+      "city": "Corvallis",
+      "chain": "Safeway",
+      "address": "5270 SW PHILOMATH BLVD",
+      "state": "OR",
+      "zip": "97333"
+    },
+    "SAF07Y-1800": {
+      "city": "Sherwood",
+      "chain": "Safeway",
+      "address": "20685 SW Roy Rogers Road",
+      "state": "OR",
+      "zip": "97140"
+    },
+    "SAF07Y-1827": {
+      "city": "La Grande",
+      "chain": "Safeway",
+      "address": "2111 Adams Avenue",
+      "state": "OR",
+      "zip": "97850"
+    },
+    "SAF07Y-1889": {
+      "city": "Aloha",
+      "chain": "Safeway",
+      "address": "20535 SW TV Highway",
+      "state": "OR",
+      "zip": "97006"
+    },
+    "SAF07Y-1935": {
+      "city": "Salem",
+      "chain": "Safeway",
+      "address": "5660 Commercial St SE",
+      "state": "OR",
+      "zip": "97306"
+    },
+    "SAF07Y-1976": {
+      "city": "Woodburn",
+      "chain": "Safeway",
+      "address": "1550 North Pacific Highway",
+      "state": "OR",
+      "zip": "97071"
+    },
+    "SAF07Y-2448": {
+      "city": "Portland",
+      "chain": "Safeway",
+      "address": "1010 SW Jefferson St",
+      "state": "OR",
+      "zip": "97201"
+    },
+    "SAF07Y-2604": {
+      "city": "Canby",
+      "chain": "Safeway",
+      "address": "1051 SW 1st Avenue",
+      "state": "OR",
+      "zip": "97013"
+    },
+    "SAF07Y-2623": {
+      "city": "Newberg",
+      "chain": "Safeway",
+      "address": "1140 North Springbrook Road",
+      "state": "OR",
+      "zip": "97132"
+    },
+    "SAF07Y-2631": {
+      "city": "Beaverton",
+      "chain": "Safeway",
+      "address": "14555 SW Teal Blvd",
+      "state": "OR",
+      "zip": "97007"
+    },
+    "SAF07Y-2696": {
+      "city": "Milwaukie",
+      "chain": "Safeway",
+      "address": "14840 SE Webster Rd",
+      "state": "OR",
+      "zip": "97267"
+    },
+    "SAF07Y-2723": {
+      "city": "Tillamook",
+      "chain": "Safeway",
+      "address": "1815 4Th Street",
+      "state": "OR",
+      "zip": "97141"
+    },
+    "SAF07Y-2790": {
+      "city": "Portland",
+      "chain": "Safeway",
+      "address": "1303 Northwest Lovejoy Street",
+      "state": "OR",
+      "zip": "97209"
+    },
+    "SAF07Y-4262": {
+      "city": "Coquille",
+      "chain": "Safeway",
+      "address": "155 East First Street",
+      "state": "OR",
+      "zip": "97423"
+    },
+    "SAF07Y-4288": {
+      "city": "Eugene",
+      "chain": "Safeway",
+      "address": "145 E 18th Ave",
+      "state": "OR",
+      "zip": "97401"
+    },
+    "SAF07Y-4316": {
+      "city": "Lakeview",
+      "chain": "Safeway",
+      "address": "244 N F Street",
+      "state": "OR",
+      "zip": "97630"
+    },
+    "SAF07Y-4318": {
+      "city": "Clatskanie",
+      "chain": "Safeway",
+      "address": "401 E Columbia River Hwy",
+      "state": "OR",
+      "zip": "97016"
+    },
+    "SAF07Y-4333": {
+      "city": "Corvallis",
+      "chain": "Safeway",
+      "address": "450 Southwest Third Avenue",
+      "state": "OR",
+      "zip": "97333"
+    },
+    "SAF07Y-4387": {
+      "city": "Gladstone",
+      "chain": "Safeway",
+      "address": "95 82nd Drive",
+      "state": "OR",
+      "zip": "97027"
+    },
+    "SAF07Y-4404": {
+      "city": "Dallas",
+      "chain": "Safeway",
+      "address": "138 W Ellendale Ave",
+      "state": "OR",
+      "zip": "97338"
+    },
+    "SAF07Y-4469": {
+      "city": "Burns",
+      "chain": "Safeway",
+      "address": "246 West Monroe",
+      "state": "OR",
+      "zip": "97720"
+    },
+    "SAF07Y-4513": {
+      "city": "Eugene",
+      "chain": "Safeway",
+      "address": "350 E 40th Ave",
+      "state": "OR",
+      "zip": "97405"
+    },
+    "SAF07Y-2993": {
+      "city": "Oregon City",
+      "chain": "Safeway",
+      "address": "13434 Colton Place",
+      "state": "OR",
+      "zip": "97045"
+    },
+    "FME07Y-0516": {
+      "city": "Wilsonville",
+      "chain": "Fred Meyer",
+      "address": "30300 Southwest boones ferry Road",
+      "state": "OR",
+      "zip": "97070"
+    },
+    "ALB07Y-3529": {
+      "city": "Eugene",
+      "chain": "Albertsons",
+      "address": "1675 W 18th Ave",
+      "state": "OR",
+      "zip": "97402"
+    },
+    "ALB07Y-3508": {
+      "city": "Medford",
+      "chain": "Albertsons",
+      "address": "910 N Phoenix Road",
+      "state": "OR",
+      "zip": "97504"
+    },
+    "ALB07Y-0513": {
+      "city": "Eugene",
+      "chain": "Albertsons",
+      "address": "4740 Royal Ave",
+      "state": "OR",
+      "zip": "97402"
+    },
+    "ALB07Y-0528": {
+      "city": "Mcminnville",
+      "chain": "Albertsons",
+      "address": "615 SW Keck Dr",
+      "state": "OR",
+      "zip": "97128"
+    },
+    "ALB07Y-3541": {
+      "city": "Grants Pass",
+      "chain": "Albertsons",
+      "address": "1690 Allen Creek Road",
+      "state": "OR",
+      "zip": "97527"
+    },
+    "SAF07Y-3557": {
+      "city": "Aloha",
+      "chain": "Safeway",
+      "address": "6055 SW 185th Ave",
+      "state": "OR",
+      "zip": "97078"
+    },
+    "ALB07Y-0560": {
+      "city": "Eugene",
+      "chain": "Albertsons",
+      "address": "55 Division Ave",
+      "state": "OR",
+      "zip": "97404"
+    },
+    "ALB07Y-3564": {
+      "city": "Eugene",
+      "chain": "Albertsons",
+      "address": "3075 Hilyard St.",
+      "state": "OR",
+      "zip": "97405"
+    },
+    "ALB07Y-0570": {
+      "city": "Springfield",
+      "chain": "Albertsons",
+      "address": "2000 Marcola Rd.",
+      "state": "OR",
+      "zip": "97477"
+    },
+    "ALB07Y-0571": {
+      "city": "Oregon City",
+      "chain": "Albertsons",
+      "address": "19007 South Beavercreek Rd",
+      "state": "OR",
+      "zip": "97045"
+    },
+    "ALB07Y-0572": {
+      "city": "Eugene",
+      "chain": "Albertsons",
+      "address": "311 Coburg Rd",
+      "state": "OR",
+      "zip": "97401"
+    },
+    "ALB07Y-0573": {
+      "city": "Ashland",
+      "chain": "Albertsons",
+      "address": "2301 Ashland St",
+      "state": "OR",
+      "zip": "97520"
+    },
+    "ALB07Y-0574": {
+      "city": "Springfield",
+      "chain": "Albertsons",
+      "address": "5755 Main St",
+      "state": "OR",
+      "zip": "97478"
+    },
+    "SAF07Y-3542": {
+      "city": "Tigard",
+      "chain": "Safeway",
+      "address": "14300 SW Barrows Rd",
+      "state": "OR",
+      "zip": "97223"
+    },
+    "ALB07Y-0577": {
+      "city": "Klamath Falls",
+      "chain": "Albertsons",
+      "address": "5500 S 6th St",
+      "state": "OR",
+      "zip": "97603"
+    },
+    "ALB07Y-0590": {
+      "city": "Hillsboro",
+      "chain": "Albertsons",
+      "address": "7500 W Baseline",
+      "state": "OR",
+      "zip": "97123"
+    },
+    "ALB07Y-3593": {
+      "city": "Medford",
+      "chain": "Albertsons",
+      "address": "113 Ross Lane",
+      "state": "OR",
+      "zip": "97501"
+    },
+    "ALB07Y-0595": {
+      "city": "Central Point",
+      "chain": "Albertsons",
+      "address": "1360 Plaza Blvd",
+      "state": "OR",
+      "zip": "97502"
+    },
+    "ALB07Y-0596": {
+      "city": "Portland",
+      "chain": "Albertsons",
+      "address": "18425 NW West Union Rd",
+      "state": "OR",
+      "zip": "97229"
+    },
+    "SAF07Y-0285": {
+      "city": "Wilsonville",
+      "chain": "Safeway",
+      "address": "8255 SW Wilsonville RD",
+      "state": "OR",
+      "zip": "97070"
+    },
+    "ALB07Y-3531": {
+      "city": "Lake Oswego",
+      "chain": "Albertsons",
+      "address": "16199 Boones Ferry Road",
+      "state": "OR",
+      "zip": "97035"
+    },
+    "SAF07Y-3212": {
+      "city": "Ashland",
+      "chain": "Safeway",
+      "address": "585 Siskiyou Blvd",
+      "state": "OR",
+      "zip": "97520"
+    },
+    "ROS07Z-0016": {
+      "city": "Hood River",
       "chain": "Rosauers",
-      "state": "WA"
+      "address": "1867 12th Street",
+      "state": "OR",
+      "zip": "97031"
+    },
+    "HAG07Z-3444": {
+      "city": "Olympia",
+      "chain": "Haggen",
+      "address": "1313 Cooper Point Road SW",
+      "state": "WA",
+      "zip": "98502"
+    },
+    "SAR07Z-0488": {
+      "city": "Parkland",
+      "chain": "Saars",
+      "address": "13322 Pacific Ave S",
+      "state": "WA",
+      "zip": "98444"
+    },
+    "FME07Z-0021": {
+      "city": "Bend",
+      "chain": "Fred Meyer",
+      "address": "61535 S Hwy 97",
+      "state": "OR",
+      "zip": "97702"
+    },
+    "FME07Z-0075": {
+      "city": "Portland",
+      "chain": "Fred Meyer",
+      "address": "14700 SE Division St",
+      "state": "OR",
+      "zip": "97236-2335"
+    },
+    "FME07Z-0093": {
+      "city": "Vancouver",
+      "chain": "Fred Meyer",
+      "address": "16600 Southeast Mcgillivray Boulevard",
+      "state": "WA",
+      "zip": "98683-8421"
+    },
+    "FME07Z-0125": {
+      "city": "Portland",
+      "chain": "Fred Meyer",
+      "address": "6615 NE Glisan St",
+      "state": "OR",
+      "zip": "97213-5068"
+    },
+    "FME07Z-0127": {
+      "city": "Gresham",
+      "chain": "Fred Meyer",
+      "address": "2497 SE Burnside Rd",
+      "state": "OR",
+      "zip": "97080-1299"
+    },
+    "FME07Z-0135": {
+      "city": "Portland",
+      "chain": "Fred Meyer",
+      "address": "3805 SE Hawthorne Blvd",
+      "state": "OR",
+      "zip": "97214-5239"
+    },
+    "FME07Z-0140": {
+      "city": "Vancouver",
+      "chain": "Fred Meyer",
+      "address": "7700 NE Highway 99",
+      "state": "WA",
+      "zip": "98665-8890"
+    },
+    "FME07Z-0150": {
+      "city": "Portland",
+      "chain": "Fred Meyer",
+      "address": "7404 North Interstate Avenue",
+      "state": "OR",
+      "zip": "97217"
+    },
+    "FME07Z-0153": {
+      "city": "Happy Valley",
+      "chain": "Fred Meyer",
+      "address": "8955 SE 82nd Ave",
+      "state": "OR",
+      "zip": "97266-6605"
+    },
+    "FME07Z-0218": {
+      "city": "Warrenton",
+      "chain": "Fred Meyer",
+      "address": "695 Highway 101",
+      "state": "OR",
+      "zip": "97146-9527"
+    },
+    "FME07Z-0236": {
+      "city": "Vancouver",
+      "chain": "Fred Meyer",
+      "address": "7411 NE 117th Ave",
+      "state": "WA",
+      "zip": "98662"
+    },
+    "FME07Z-0255": {
+      "city": "Portland",
+      "chain": "Fred Meyer",
+      "address": "6850 N Lombard St",
+      "state": "OR",
+      "zip": "97203-6247"
+    },
+    "FME07Z-0372": {
+      "city": "The Dalles",
+      "chain": "Fred Meyer",
+      "address": "1215 W 6Th St",
+      "state": "OR",
+      "zip": "97058-3585"
+    },
+    "FME07Z-0460": {
+      "city": "Vancouver",
+      "chain": "Fred Meyer",
+      "address": "800 NE Tenney Rd",
+      "state": "WA",
+      "zip": "98685"
+    },
+    "FME07Z-0462": {
+      "city": "Scappoose",
+      "chain": "Fred Meyer",
+      "address": "51501 South Columbia River",
+      "state": "OR",
+      "zip": "97056"
+    },
+    "FME07Z-0600": {
+      "city": "Portland",
+      "chain": "Fred Meyer",
+      "address": "3030 NE Weidler St",
+      "state": "OR",
+      "zip": "97232-1857"
+    },
+    "FME07Z-0614": {
+      "city": "Battle Ground",
+      "chain": "Fred Meyer",
+      "address": "401 Northwest 12Th Avenue",
+      "state": "WA",
+      "zip": "98604"
+    },
+    "FME07Z-0650": {
+      "city": "Redmond",
+      "chain": "Fred Meyer",
+      "address": "944 SW Veterans Way",
+      "state": "OR",
+      "zip": "97756"
+    },
+    "FME07Z-0660": {
+      "city": "Wood Village",
+      "chain": "Fred Meyer",
+      "address": "22855 NE Park Ln",
+      "state": "OR",
+      "zip": "97060"
+    },
+    "FME07Z-0663": {
+      "city": "Sandy",
+      "chain": "Fred Meyer",
+      "address": "16625 362nd Avenue",
+      "state": "OR",
+      "zip": "97055"
+    },
+    "FME07Z-0683": {
+      "city": "Vancouver",
+      "chain": "Fred Meyer",
+      "address": "2500 Columbia House Blvd",
+      "state": "WA",
+      "zip": "98661"
+    },
+    "SNK07Z-0381": {
+      "city": "Centralia",
+      "chain": "Shop N Kart",
+      "address": "505 South Tower",
+      "state": "WA",
+      "zip": "98531"
+    },
+    "QFC07Z-0105": {
+      "city": "Tacoma",
+      "chain": "Quality Food Center",
+      "address": "11104 Pacific Ave S",
+      "state": "WA",
+      "zip": "98444"
+    },
+    "QFC07Z-0126": {
+      "city": "Lacey",
+      "chain": "Quality Food Center",
+      "address": "4775 Whitman Lane Southeast",
+      "state": "WA",
+      "zip": "98513"
+    },
+    "QFC07Z-0831": {
+      "city": "Tacoma",
+      "chain": "Quality Food Center",
+      "address": "4101 49th Ave NE",
+      "state": "WA",
+      "zip": "98422"
+    },
+    "QFC07Z-0863": {
+      "city": "Enumclaw",
+      "chain": "Quality Food Center",
+      "address": "1009 Monroe Avenue",
+      "state": "WA",
+      "zip": "98022"
+    },
+    "QFC07Z-0205": {
+      "city": "Portland",
+      "chain": "Quality Food Center",
+      "address": "5544 East Burnside",
+      "state": "OR",
+      "zip": "97215"
+    },
+    "QFC07Z-0206": {
+      "city": "Portland",
+      "chain": "Quality Food Center",
+      "address": "6411 SE Milwaukie Ave",
+      "state": "OR",
+      "zip": "97202"
+    },
+    "QFC07Z-0212": {
+      "city": "Vancouver",
+      "chain": "Quality Food Center",
+      "address": "3505 SE 192nd Ave",
+      "state": "WA",
+      "zip": "98683"
+    },
+    "FME07Z-0041": {
+      "city": "Bonney Lake",
+      "chain": "Fred Meyer",
+      "address": "20904 Highway 410",
+      "state": "WA",
+      "zip": "98390"
+    },
+    "FME07Z-0185": {
+      "city": "Longview",
+      "chain": "Fred Meyer",
+      "address": "3184 Ocean Beach Highway",
+      "state": "WA",
+      "zip": "98632-4395"
+    },
+    "FME07Z-0186": {
+      "city": "Lacey",
+      "chain": "Fred Meyer",
+      "address": "700 Sleater Kinney Rd SE",
+      "state": "WA",
+      "zip": "98503-1113"
+    },
+    "FME07Z-0265": {
+      "city": "Puyallup",
+      "chain": "Fred Meyer",
+      "address": "1100 N Meridian Ave",
+      "state": "WA",
+      "zip": "98371-4488"
+    },
+    "FME07Z-0390": {
+      "city": "Tacoma",
+      "chain": "Fred Meyer",
+      "address": "4505 S 19th St",
+      "state": "WA",
+      "zip": "98405-1183"
+    },
+    "FME07Z-0424": {
+      "city": "South Hill",
+      "chain": "Fred Meyer",
+      "address": "17404 Meridian E",
+      "state": "WA",
+      "zip": "98375"
+    },
+    "FME07Z-0604": {
+      "city": "Spanaway",
+      "chain": "Fred Meyer",
+      "address": "22303 Mountain Highway East",
+      "state": "WA",
+      "zip": "98387-7529"
+    },
+    "FME07Z-0605": {
+      "city": "Tacoma",
+      "chain": "Fred Meyer",
+      "address": "6901 S 19th St",
+      "state": "WA",
+      "zip": "98466-5529"
+    },
+    "FME07Z-0615": {
+      "city": "University Place",
+      "chain": "Fred Meyer",
+      "address": "6305 Bridgeport Way West",
+      "state": "WA",
+      "zip": "98467"
+    },
+    "FME07Z-0659": {
+      "city": "Tumwater",
+      "chain": "Fred Meyer",
+      "address": "555 Trosper Road Southwest",
+      "state": "WA",
+      "zip": "98512"
+    },
+    "FME07Z-0665": {
+      "city": "Sumner",
+      "chain": "Fred Meyer",
+      "address": "1201 Valley Ave",
+      "state": "WA",
+      "zip": "98390"
+    },
+    "SAF07Z-0329": {
+      "city": "Tacoma",
+      "chain": "Safeway",
+      "address": "1112 South M Street",
+      "state": "WA",
+      "zip": "98405"
+    },
+    "SAF07Z-0422": {
+      "city": "Puyallup",
+      "chain": "Safeway",
+      "address": "611 South Meridian",
+      "state": "WA",
+      "zip": "98371"
+    },
+    "SAF07Z-0486": {
+      "city": "Tacoma",
+      "chain": "Safeway",
+      "address": "3842 Bridgeport Way West",
+      "state": "WA",
+      "zip": "98466"
+    },
+    "SAF07Z-0494": {
+      "city": "Enumclaw",
+      "chain": "Safeway",
+      "address": "152 Roosevelt Ave",
+      "state": "WA",
+      "zip": "98022"
+    },
+    "SAF07Z-0543": {
+      "city": "Olympia",
+      "chain": "Safeway",
+      "address": "4700 Yelm Highway Southeast",
+      "state": "WA",
+      "zip": "98503"
+    },
+    "SAF07Z-0544": {
+      "city": "Sumner",
+      "chain": "Safeway",
+      "address": "21301 Washington 410",
+      "state": "WA",
+      "zip": "98390"
+    },
+    "SAF07Z-0547": {
+      "city": "Graham",
+      "chain": "Safeway",
+      "address": "10105 224th St E",
+      "state": "WA",
+      "zip": "98338"
+    },
+    "SAF07Z-1173": {
+      "city": "Olympia",
+      "chain": "Safeway",
+      "address": "1243 Marvin Road Ne",
+      "state": "WA",
+      "zip": "98516"
+    },
+    "SAF07Z-1437": {
+      "city": "Tacoma",
+      "chain": "Safeway",
+      "address": "1302 S 38th St",
+      "state": "WA",
+      "zip": "98418"
+    },
+    "SAF07Z-1464": {
+      "city": "Olympia",
+      "chain": "Safeway",
+      "address": "3215 Harrison Ave NW",
+      "state": "WA",
+      "zip": "98502"
+    },
+    "SAF07Z-1495": {
+      "city": "Centralia",
+      "chain": "Safeway",
+      "address": "1129 Harrison Avenue",
+      "state": "WA",
+      "zip": "98531"
+    },
+    "SAF07Z-1503": {
+      "city": "Tumwater",
+      "chain": "Safeway",
+      "address": "500 Cleveland Avenue Southeast",
+      "state": "WA",
+      "zip": "98501"
+    },
+    "SAF07Z-1594": {
+      "city": "Tacoma",
+      "chain": "Safeway",
+      "address": "707 South 56Th Street",
+      "state": "WA",
+      "zip": "98408"
+    },
+    "SAF07Z-1619": {
+      "city": "Yelm",
+      "chain": "Safeway",
+      "address": "1109 Yelm Avenue",
+      "state": "WA",
+      "zip": "98597"
+    },
+    "SAF07Z-1645": {
+      "city": "Lakewood",
+      "chain": "Safeway",
+      "address": "10223 Gravelly Lake Dr SW",
+      "state": "WA",
+      "zip": "98499"
+    },
+    "SAF07Z-1798": {
+      "city": "Puyallup",
+      "chain": "Safeway",
+      "address": "11501 Canyon Rd E",
+      "state": "WA",
+      "zip": "98373"
+    },
+    "SAF07Z-1844": {
+      "city": "Orting",
+      "chain": "Safeway",
+      "address": "215 Whitesell St NW",
+      "state": "WA",
+      "zip": "98360"
+    },
+    "SAF07Z-1952": {
+      "city": "Olympia",
+      "chain": "Safeway",
+      "address": "4280 Martin Way E",
+      "state": "WA",
+      "zip": "98516"
+    },
+    "SAF07Z-1977": {
+      "city": "Lacey",
+      "chain": "Safeway",
+      "address": "6200 Pacific Avenue SE",
+      "state": "WA",
+      "zip": "98503"
+    },
+    "SAF07Z-2640": {
+      "city": "Puyallup",
+      "chain": "Safeway",
+      "address": "13308 E Meridian Ave",
+      "state": "WA",
+      "zip": "98373"
+    },
+    "SAF07Z-3228": {
+      "city": "Puyallup",
+      "chain": "Safeway",
+      "address": "5616 176Th St. East",
+      "state": "WA",
+      "zip": "98375"
+    },
+    "SAF07Z-3424": {
+      "city": "Tacoma",
+      "chain": "Safeway",
+      "address": "2411 N PROCTOR ST",
+      "state": "WA",
+      "zip": "98406"
+    },
+    "SAF07Z-3525": {
+      "city": "Chehalis",
+      "chain": "Safeway",
+      "address": "1100 S Market Blvd",
+      "state": "WA",
+      "zip": "98532"
+    },
+    "SAF07Z-3545": {
+      "city": "Milton",
+      "chain": "Safeway",
+      "address": "900 E Meridian Ste 12",
+      "state": "WA",
+      "zip": "98354"
+    },
+    "SAF07Z-0091": {
+      "city": "Longview",
+      "chain": "Safeway",
+      "address": "1227 15Th Ave",
+      "state": "WA",
+      "zip": "98632"
+    },
+    "SAF07Z-3134": {
+      "city": "Portland",
+      "chain": "Safeway",
+      "address": "2800 SE Hawthorne Blvd",
+      "state": "OR",
+      "zip": "97214"
+    },
+    "SAF07Z-0382": {
+      "city": "Portland",
+      "chain": "Safeway",
+      "address": "3527 Southeast 122nd Avenue",
+      "state": "OR",
+      "zip": "97236"
+    },
+    "SAF07Z-0400": {
+      "city": "Vancouver",
+      "chain": "Safeway",
+      "address": "3707 N Main St",
+      "state": "WA",
+      "zip": "98663"
+    },
+    "SAF07Z-0424": {
+      "city": "St. Helens",
+      "chain": "Safeway",
+      "address": "795 Columbia River Highway",
+      "state": "OR",
+      "zip": "97051"
+    },
+    "SAF07Z-0430": {
+      "city": "Gresham",
+      "chain": "Safeway",
+      "address": "1455 NE Division St",
+      "state": "OR",
+      "zip": "97030"
+    },
+    "SAF07Z-0509": {
+      "city": "Portland",
+      "chain": "Safeway",
+      "address": "5920 NE Martin Luther King Jr Blvd",
+      "state": "OR",
+      "zip": "97211"
+    },
+    "SAF07Z-0514": {
+      "city": "Bend",
+      "chain": "Safeway",
+      "address": "642 NE 3rd Street",
+      "state": "OR",
+      "zip": "97701"
+    },
+    "SAF07Z-0521": {
+      "city": "Damascus",
+      "chain": "Safeway",
+      "address": "20151 Southeast Highway 212",
+      "state": "OR",
+      "zip": "97009"
+    },
+    "SAF07Z-0782": {
+      "city": "Sandy",
+      "chain": "Safeway",
+      "address": "37601 U.S. 26",
+      "state": "OR",
+      "zip": "97055"
+    },
+    "SAF07Z-1070": {
+      "city": "Gresham",
+      "chain": "Safeway",
+      "address": "1001 SW Highland Dr",
+      "state": "OR",
+      "zip": "97080"
+    },
+    "SAF07Z-1078": {
+      "city": "Longview",
+      "chain": "Safeway",
+      "address": "2930 Ocean Beach Highway",
+      "state": "WA",
+      "zip": "98632"
+    },
+    "SAF07Z-1103": {
+      "city": "Vancouver",
+      "chain": "Safeway",
+      "address": "6701 E Mill Plain Blvd",
+      "state": "WA",
+      "zip": "98661"
+    },
+    "SAF07Z-1123": {
+      "city": "Hood River",
+      "chain": "Safeway",
+      "address": "2249 Cascade Avenue",
+      "state": "OR",
+      "zip": "97031"
+    },
+    "SAF07Z-1231": {
+      "city": "Clackamas",
+      "chain": "Safeway",
+      "address": "12032 SE Sunnyside Rd",
+      "state": "OR",
+      "zip": "97015"
+    },
+    "SAF07Z-1260": {
+      "city": "Seaside",
+      "chain": "Safeway",
+      "address": "401 South Roosevelt",
+      "state": "OR",
+      "zip": "97138"
+    },
+    "SAF07Z-1287": {
+      "city": "Camas",
+      "chain": "Safeway",
+      "address": "800 NE 3rd Ave",
+      "state": "WA",
+      "zip": "98607"
+    },
+    "SAF07Z-1447": {
+      "city": "Portland",
+      "chain": "Safeway",
+      "address": "6901 NE Sandy Blvd",
+      "state": "OR",
+      "zip": "97213"
+    },
+    "SAF07Z-1489": {
+      "city": "The Dalles",
+      "chain": "Safeway",
+      "address": "520 Mount Hood Street",
+      "state": "OR",
+      "zip": "97058"
+    },
+    "SAF07Z-1504": {
+      "city": "Bend",
+      "chain": "Safeway",
+      "address": "2650 NE Hwy 20",
+      "state": "OR",
+      "zip": "97701"
+    },
+    "SAF07Z-1523": {
+      "city": "Portland",
+      "chain": "Safeway",
+      "address": "4515 SE Woodstock Blvd",
+      "state": "OR",
+      "zip": "97206"
+    },
+    "SAF07Z-1611": {
+      "city": "Vancouver",
+      "chain": "Safeway",
+      "address": "6711 NE 63rd St",
+      "state": "WA",
+      "zip": "98661"
+    },
+    "SAF07Z-1612": {
+      "city": "Portland",
+      "chain": "Safeway",
+      "address": "1100 NE Broadway St",
+      "state": "OR",
+      "zip": "97232"
+    },
+    "SAF07Z-1627": {
+      "city": "Portland",
+      "chain": "Safeway",
+      "address": "3930 Southeast Powell Boulevard",
+      "state": "OR",
+      "zip": "97202"
+    },
+    "SAF07Z-1653": {
+      "city": "Vancouver",
+      "chain": "Safeway",
+      "address": "2615 NE 112th Ave",
+      "state": "WA",
+      "zip": "98684"
+    },
+    "SAF07Z-1665": {
+      "city": "Redmond",
+      "chain": "Safeway",
+      "address": "1705 U.S. 97",
+      "state": "OR",
+      "zip": "97756"
+    },
+    "SAF07Z-1687": {
+      "city": "Washougal",
+      "chain": "Safeway",
+      "address": "3307 SE Evergreen Way Ste 5",
+      "state": "WA",
+      "zip": "98671"
+    },
+    "SAF07Z-1704": {
+      "city": "Vancouver",
+      "chain": "Safeway",
+      "address": "6700 NE 162nd Ave Ste 500",
+      "state": "WA",
+      "zip": "98682"
+    },
+    "SAF07Z-1762": {
+      "city": "Woodland",
+      "chain": "Safeway",
+      "address": "1725 Pacific Ave",
+      "state": "WA",
+      "zip": "98674"
+    },
+    "SAF07Z-1842": {
+      "city": "Vancouver",
+      "chain": "Safeway",
+      "address": "13023 NE Hwy 99",
+      "state": "WA",
+      "zip": "98686"
+    },
+    "SAF07Z-1888": {
+      "city": "Bend",
+      "chain": "Safeway",
+      "address": "320 SW Century Dr",
+      "state": "OR",
+      "zip": "97702"
+    },
+    "SAF07Z-1951": {
+      "city": "Portland",
+      "chain": "Safeway",
+      "address": "8330 North Ivanhoe Street",
+      "state": "OR",
+      "zip": "97203"
+    },
+    "SAF07Z-1960": {
+      "city": "Madras",
+      "chain": "Safeway",
+      "address": "80 NE Cedar",
+      "state": "OR",
+      "zip": "97741"
+    },
+    "SAF07Z-2627": {
+      "city": "Astoria",
+      "chain": "Safeway",
+      "address": "3250 Leif Erikson Dr",
+      "state": "OR",
+      "zip": "97103"
+    },
+    "SAF07Z-2637": {
+      "city": "Kelso",
+      "chain": "Safeway",
+      "address": "411 Three River Drive",
+      "state": "WA",
+      "zip": "98626"
+    },
+    "SAF07Z-2690": {
+      "city": "Milwaukie",
+      "chain": "Safeway",
+      "address": "4320 SE King Rd",
+      "state": "OR",
+      "zip": "97222"
+    },
+    "SAF07Z-4313": {
+      "city": "Battle Ground",
+      "chain": "Safeway",
+      "address": "904 W Main St",
+      "state": "WA",
+      "zip": "98604"
+    },
+    "SAF07Z-4405": {
+      "city": "Vancouver",
+      "chain": "Safeway",
+      "address": "408 NE 81st St",
+      "state": "WA",
+      "zip": "98665"
+    },
+    "FME07Z-0208": {
+      "city": "Vancouver",
+      "chain": "Fred Meyer",
+      "address": "11325 Southeast Mill Plain Blvd",
+      "state": "WA",
+      "zip": "98684"
+    },
+    "SAF07Z-1407": {
+      "city": "Tumwater",
+      "chain": "Safeway",
+      "address": "705 Trosper Rd SW",
+      "state": "WA",
+      "zip": "98512"
+    },
+    "SAF07Z-3411": {
+      "city": "Lakewood",
+      "chain": "Safeway",
+      "address": "8611 Steilacoom Blvd SW",
+      "state": "WA",
+      "zip": "98498"
+    },
+    "ALB07Z-0564": {
+      "city": "Portland",
+      "chain": "Albertsons",
+      "address": "451 NE 181st Ave",
+      "state": "OR",
+      "zip": "97230"
+    },
+    "ALB07Z-0575": {
+      "city": "Portland",
+      "chain": "Albertsons",
+      "address": "5850 NE Prescott St",
+      "state": "OR",
+      "zip": "97218"
+    },
+    "ALB07Z-0580": {
+      "city": "Vancouver",
+      "chain": "Albertsons",
+      "address": "14300 NE 20th Ave",
+      "state": "WA",
+      "zip": "98686"
+    },
+    "ALB07Z-2599": {
+      "city": "Bend",
+      "chain": "Albertsons",
+      "address": "1800 N.E. 3rd street",
+      "state": "OR",
+      "zip": "97701"
+    },
+    "ALB07Z-3553": {
+      "city": "Bend",
+      "chain": "Albertsons",
+      "address": "61155 S Hwy 97",
+      "state": "OR",
+      "zip": "97702"
+    },
+    "ALB07Z-2592": {
+      "city": "Battle Ground",
+      "chain": "Albertsons",
+      "address": "2108 W Main Street",
+      "state": "WA",
+      "zip": "98604"
+    },
+    "SAF07Z-3305": {
+      "city": "Tacoma",
+      "chain": "Safeway",
+      "address": "15805 Pacific Ave S",
+      "state": "WA",
+      "zip": "98444"
+    },
+    "FME07Z-0694": {
+      "city": "Happy Valley",
+      "chain": "Fred Meyer",
+      "address": "17005 SE Sunnyside Rd",
+      "state": "OR",
+      "zip": "97015"
+    },
+    "ALB07Z-3417": {
+      "city": "Olympia",
+      "chain": "Albertsons",
+      "address": "3520 Pacific Ave S E",
+      "state": "WA",
+      "zip": "98501"
+    },
+    "ALB07Z-3106": {
+      "city": "Puyallup",
+      "chain": "Albertsons",
+      "address": "11012 Canyon Rd E",
+      "state": "WA",
+      "zip": "98373"
+    },
+    "ROS07Z-0042": {
+      "city": "Ridgefield",
+      "chain": "Rosauers",
+      "address": "101 S. 47th Avenue",
+      "state": "WA",
+      "zip": "98642"
+    },
+    "SAF07Z-2729": {
+      "city": "Puyallup",
+      "chain": "Safeway",
+      "address": "708 Shaw Rd E",
+      "state": "WA",
+      "zip": "98372"
     },
     "ALB07Z-0493": {
       "city": "104 Military Rd S",
       "chain": "Albertsons",
-      "state": "WA"
-    },
-    "FME07Z-0265": {
-      "city": "1100 N Meridian Ave",
-      "chain": "Fred Meyer",
-      "state": "WA"
-    },
-    "SAF07Z-1612": {
-      "city": "1100 NE Broadway St",
-      "chain": "Safeway",
-      "state": "OR"
-    },
-    "ALB07Z-3106": {
-      "city": "11012 Canyon Rd E",
-      "chain": "Albertsons",
-      "state": "WA"
-    },
-    "SAF07Z-1619": {
-      "city": "1109 Yelm Avenue",
-      "chain": "Safeway",
-      "state": "WA"
-    },
-    "QFC07Z-0105": {
-      "city": "11104 Pacific Ave S",
-      "chain": "Quality Food Center",
-      "state": "WA"
-    },
-    "SAF07Z-0329": {
-      "city": "1112 South M Street",
-      "chain": "Safeway",
-      "state": "WA"
-    },
-    "FME07Z-0208": {
-      "city": "11325 Southeast Mill Plain Blvd",
-      "chain": "Fred Meyer",
-      "state": "WA"
-    },
-    "SAF07Z-1798": {
-      "city": "11501 Canyon Rd E",
-      "chain": "Safeway",
-      "state": "WA"
-    },
-    "FME07Y-0375": {
-      "city": "11565 SW Pacific Hwy",
-      "chain": "Fred Meyer",
-      "state": "OR"
-    },
-    "FME07Z-0665": {
-      "city": "1201 Valley Ave",
-      "chain": "Fred Meyer",
-      "state": "WA"
-    },
-    "FME07Z-0372": {
-      "city": "1215 W 6Th St",
-      "chain": "Fred Meyer",
-      "state": "OR"
-    },
-    "SAF07Y-1629": {
-      "city": "1265 Center Street Northeast",
-      "chain": "Safeway",
-      "state": "OR"
-    },
-    "SAF07Z-1437": {
-      "city": "1302 S 38th St",
-      "chain": "Safeway",
-      "state": "WA"
-    },
-    "SAF07Z-1842": {
-      "city": "13023 NE Hwy 99",
-      "chain": "Safeway",
-      "state": "WA"
-    },
-    "SAF07Z-2640": {
-      "city": "13308 E Meridian Ave",
-      "chain": "Safeway",
-      "state": "WA"
-    },
-    "ALB07Z-0580": {
-      "city": "14300 NE 20th Ave",
-      "chain": "Albertsons",
-      "state": "WA"
-    },
-    "SAF07Y-3542": {
-      "city": "14300 SW Barrows Rd",
-      "chain": "Safeway",
-      "state": "OR"
-    },
-    "SAF07Y-0412": {
-      "city": "1455 Edgewater St NW",
-      "chain": "Safeway",
-      "state": "OR"
-    },
-    "SAF07Y-0284": {
-      "city": "1499 U.S. 101",
-      "chain": "Safeway",
-      "state": "OR"
-    },
-    "SAF07Y-1527": {
-      "city": "1535 North 1St Street",
-      "chain": "Safeway",
-      "state": "OR"
-    },
-    "SAF07Y-1666": {
-      "city": "1539 NE Stephens St.",
-      "chain": "Safeway",
-      "state": "OR"
-    },
-    "SAF07Y-1710": {
-      "city": "1540 Main Street",
-      "chain": "Safeway",
-      "state": "OR"
-    },
-    "SAF07Y-1976": {
-      "city": "1550 North Pacific Highway",
-      "chain": "Safeway",
-      "state": "OR"
-    },
-    "SAF07Z-3305": {
-      "city": "15805 Pacific Ave S",
-      "chain": "Safeway",
       "state": "WA"
     },
     "SAF07Z-1436": {
@@ -1187,1103 +2584,28 @@
       "chain": "Safeway",
       "state": "WA"
     },
-    "FME07Z-0093": {
-      "city": "16600 Southeast Mcgillivray Boulevard",
-      "chain": "Fred Meyer",
-      "state": "WA"
-    },
-    "FME07Z-0663": {
-      "city": "16625 362nd Avenue",
-      "chain": "Fred Meyer",
-      "state": "OR"
-    },
-    "SAF07Z-1665": {
-      "city": "1705 U.S. 97",
-      "chain": "Safeway",
-      "state": "OR"
-    },
-    "SAF07Z-1762": {
-      "city": "1725 Pacific Ave",
-      "chain": "Safeway",
-      "state": "WA"
-    },
-    "FME07Z-0424": {
-      "city": "17404 Meridian E",
-      "chain": "Fred Meyer",
-      "state": "WA"
-    },
-    "SAF07Y-2723": {
-      "city": "1815 4Th Street",
-      "chain": "Safeway",
-      "state": "OR"
-    },
-    "SAF07Y-1094": {
-      "city": "1891 Pioneer Parkway East",
-      "chain": "Safeway",
-      "state": "OR"
-    },
-    "FME07Y-0393": {
-      "city": "19200 SW Martinazzi AVE",
-      "chain": "Fred Meyer",
-      "state": "OR"
-    },
-    "ALB07Y-0570": {
-      "city": "2000 Marcola Rd.",
-      "chain": "Albertsons",
-      "state": "OR"
-    },
-    "SAF07Y-1800": {
-      "city": "20685 SW Roy Rogers Road",
-      "chain": "Safeway",
-      "state": "OR"
-    },
-    "SAF07Z-0544": {
-      "city": "21301 Washington 410",
-      "chain": "Safeway",
-      "state": "WA"
-    },
-    "SAF07Y-1713": {
-      "city": "22000 Salamo Road",
-      "chain": "Safeway",
-      "state": "OR"
-    },
-    "FME07Z-0604": {
-      "city": "22303 Mountain Highway East",
-      "chain": "Fred Meyer",
-      "state": "WA"
-    },
-    "FME07Z-0660": {
-      "city": "22855 NE Park Ln",
-      "chain": "Fred Meyer",
-      "state": "OR"
-    },
-    "SAF07Z-3424": {
-      "city": "2411 N PROCTOR ST",
-      "chain": "Safeway",
-      "state": "WA"
-    },
-    "FME07Z-0683": {
-      "city": "2500 Columbia House Blvd",
-      "chain": "Fred Meyer",
-      "state": "WA"
-    },
-    "FME07Y-0377": {
-      "city": "2500 North Main Street",
-      "chain": "Fred Meyer",
-      "state": "OR"
-    },
-    "SHM07Y-0004": {
-      "city": "2553 NW Stewart Parkway",
-      "chain": "Sherms Market",
-      "state": "OR"
-    },
     "SAF07Z-0536": {
       "city": "25691 SE Stark St",
       "chain": "Safeway",
       "state": "OR"
-    },
-    "SAF07Z-1653": {
-      "city": "2615 NE 112th Ave",
-      "chain": "Safeway",
-      "state": "WA"
-    },
-    "SAF07Z-3134": {
-      "city": "2800 SE Hawthorne Blvd",
-      "chain": "Safeway",
-      "state": "OR"
-    },
-    "FME07Y-0225": {
-      "city": "2855 Broadway St NE",
-      "chain": "Fred Meyer",
-      "state": "OR"
-    },
-    "SAF07Y-1580": {
-      "city": "301 Westfield Street",
-      "chain": "Safeway",
-      "state": "OR"
-    },
-    "FME07Y-0516": {
-      "city": "30300 Southwest boones ferry Road",
-      "chain": "Fred Meyer",
-      "state": "OR"
-    },
-    "SAF07Z-1687": {
-      "city": "3307 SE Evergreen Way Ste 5",
-      "chain": "Safeway",
-      "state": "WA"
-    },
-    "SAF07Y-0429": {
-      "city": "3380 Lancaster Drive Northeast",
-      "chain": "Safeway",
-      "state": "OR"
-    },
-    "FME07Y-0355": {
-      "city": "3450 Commercial St SE",
-      "chain": "Fred Meyer",
-      "state": "OR"
-    },
-    "QFC07Z-0212": {
-      "city": "3505 SE 192nd Ave",
-      "chain": "Quality Food Center",
-      "state": "WA"
-    },
-    "SAF07Z-0382": {
-      "city": "3527 Southeast 122nd Avenue",
-      "chain": "Safeway",
-      "state": "OR"
-    },
-    "SAF07Z-0400": {
-      "city": "3707 N Main St",
-      "chain": "Safeway",
-      "state": "WA"
-    },
-    "FME07Y-0090": {
-      "city": "3740 Market St NE",
-      "chain": "Fred Meyer",
-      "state": "OR"
-    },
-    "SAF07Z-0782": {
-      "city": "37601 U.S. 26",
-      "chain": "Safeway",
-      "state": "OR"
-    },
-    "SAF07Z-0486": {
-      "city": "3842 Bridgeport Way West",
-      "chain": "Safeway",
-      "state": "WA"
-    },
-    "SAF07Z-1627": {
-      "city": "3930 Southeast Powell Boulevard",
-      "chain": "Safeway",
-      "state": "OR"
-    },
-    "SAF07Z-1260": {
-      "city": "401 South Roosevelt",
-      "chain": "Safeway",
-      "state": "OR"
-    },
-    "SAF07Z-4405": {
-      "city": "408 NE 81st St",
-      "chain": "Safeway",
-      "state": "WA"
-    },
-    "QFC07Z-0831": {
-      "city": "4101 49th Ave NE",
-      "chain": "Quality Food Center",
-      "state": "WA"
-    },
-    "FME07Z-0390": {
-      "city": "4505 S 19th St",
-      "chain": "Fred Meyer",
-      "state": "WA"
-    },
-    "ALB07Z-0564": {
-      "city": "451 NE 181st Ave",
-      "chain": "Albertsons",
-      "state": "OR"
-    },
-    "SAF07Z-1523": {
-      "city": "4515 SE Woodstock Blvd",
-      "chain": "Safeway",
-      "state": "OR"
-    },
-    "SAF07Z-1503": {
-      "city": "500 Cleveland Avenue Southeast",
-      "chain": "Safeway",
-      "state": "WA"
-    },
-    "FME07Z-0462": {
-      "city": "51501 South Columbia River",
-      "chain": "Fred Meyer",
-      "state": "OR"
-    },
-    "SAF07Z-1489": {
-      "city": "520 Mount Hood Street",
-      "chain": "Safeway",
-      "state": "OR"
-    },
-    "FME07Z-0659": {
-      "city": "555 Trosper Road Southwest",
-      "chain": "Fred Meyer",
-      "state": "WA"
-    },
-    "SAF07Z-3228": {
-      "city": "5616 176Th St. East",
-      "chain": "Safeway",
-      "state": "WA"
-    },
-    "SAF07Y-1935": {
-      "city": "5660 Commercial St SE",
-      "chain": "Safeway",
-      "state": "OR"
-    },
-    "ALB07Y-0574": {
-      "city": "5755 Main St",
-      "chain": "Albertsons",
-      "state": "OR"
-    },
-    "ALB07Z-0575": {
-      "city": "5850 NE Prescott St",
-      "chain": "Albertsons",
-      "state": "OR"
-    },
-    "SAF07Z-0509": {
-      "city": "5920 NE Martin Luther King Jr Blvd",
-      "chain": "Safeway",
-      "state": "OR"
-    },
-    "SAF07Z-0422": {
-      "city": "611 South Meridian",
-      "chain": "Safeway",
-      "state": "WA"
-    },
-    "FME07Z-0615": {
-      "city": "6305 Bridgeport Way West",
-      "chain": "Fred Meyer",
-      "state": "WA"
-    },
-    "FME07Y-0328": {
-      "city": "650 Q Street",
-      "chain": "Fred Meyer",
-      "state": "OR"
-    },
-    "SAF07Z-1704": {
-      "city": "6700 NE 162nd Ave Ste 500",
-      "chain": "Safeway",
-      "state": "WA"
-    },
-    "SAF07Z-1103": {
-      "city": "6701 E Mill Plain Blvd",
-      "chain": "Safeway",
-      "state": "WA"
-    },
-    "SAF07Z-1611": {
-      "city": "6711 NE 63rd St",
-      "chain": "Safeway",
-      "state": "WA"
-    },
-    "SAF07Z-1447": {
-      "city": "6901 NE Sandy Blvd",
-      "chain": "Safeway",
-      "state": "OR"
-    },
-    "FME07Z-0605": {
-      "city": "6901 S 19th St",
-      "chain": "Fred Meyer",
-      "state": "WA"
-    },
-    "FME07Z-0218": {
-      "city": "695 Highway 101",
-      "chain": "Fred Meyer",
-      "state": "OR"
-    },
-    "SAF07Z-1407": {
-      "city": "705 Trosper Rd SW",
-      "chain": "Safeway",
-      "state": "WA"
-    },
-    "SAF07Z-1594": {
-      "city": "707 South 56Th Street",
-      "chain": "Safeway",
-      "state": "WA"
-    },
-    "SAF07Z-2729": {
-      "city": "708 Shaw Rd E",
-      "chain": "Safeway",
-      "state": "WA"
-    },
-    "FME07Z-0236": {
-      "city": "7411 NE 117th Ave",
-      "chain": "Fred Meyer",
-      "state": "WA"
-    },
-    "FME07Z-0140": {
-      "city": "7700 NE Highway 99",
-      "chain": "Fred Meyer",
-      "state": "WA"
-    },
-    "SAF07Z-0424": {
-      "city": "795 Columbia River Highway",
-      "chain": "Safeway",
-      "state": "OR"
-    },
-    "FME07Z-0460": {
-      "city": "800 NE Tenney Rd",
-      "chain": "Fred Meyer",
-      "state": "WA"
-    },
-    "SAF07Y-0285": {
-      "city": "8255 SW Wilsonville RD",
-      "chain": "Safeway",
-      "state": "OR"
-    },
-    "SAF07Z-1951": {
-      "city": "8330 North Ivanhoe Street",
-      "chain": "Safeway",
-      "state": "OR"
-    },
-    "FME07Y-0281": {
-      "city": "929 NW Garden Valley Blvd",
-      "chain": "Fred Meyer",
-      "state": "OR"
-    },
-    "FME07Z-0650": {
-      "city": "944 SW Veterans Way",
-      "chain": "Fred Meyer",
-      "state": "OR"
-    },
-    "FME07Y-0005": {
-      "city": "Albany",
-      "chain": "Fred Meyer",
-      "state": "US"
-    },
-    "SAF07Y-1659": {
-      "city": "Albany",
-      "chain": "Safeway",
-      "state": "US"
-    },
-    "SAF07Y-1889": {
-      "city": "Aloha",
-      "chain": "Safeway",
-      "state": "US"
-    },
-    "SAF07Y-3557": {
-      "city": "Aloha",
-      "chain": "Safeway",
-      "state": "US"
-    },
-    "ALB07Y-0573": {
-      "city": "Ashland",
-      "chain": "Albertsons",
-      "state": "US"
-    },
-    "SAF07Y-3212": {
-      "city": "Ashland",
-      "chain": "Safeway",
-      "state": "US"
-    },
-    "SAF07Z-2627": {
-      "city": "Astoria",
-      "chain": "Safeway",
-      "state": "US"
-    },
-    "ALB07Z-2592": {
-      "city": "Battle Ground",
-      "chain": "Albertsons",
-      "state": "US"
-    },
-    "FME07Z-0614": {
-      "city": "Battle Ground",
-      "chain": "Fred Meyer",
-      "state": "US"
-    },
-    "SAF07Z-4313": {
-      "city": "Battle Ground",
-      "chain": "Safeway",
-      "state": "US"
-    },
-    "FME07Y-0035": {
-      "city": "Beaverton",
-      "chain": "Fred Meyer",
-      "state": "US"
-    },
-    "FME07Y-0482": {
-      "city": "Beaverton",
-      "chain": "Fred Meyer",
-      "state": "US"
-    },
-    "SAF07Y-1073": {
-      "city": "Beaverton",
-      "chain": "Safeway",
-      "state": "US"
-    },
-    "SAF07Y-2631": {
-      "city": "Beaverton",
-      "chain": "Safeway",
-      "state": "US"
-    },
-    "ALB07Z-2599": {
-      "city": "Bend",
-      "chain": "Albertsons",
-      "state": "US"
-    },
-    "ALB07Z-3553": {
-      "city": "Bend",
-      "chain": "Albertsons",
-      "state": "US"
-    },
-    "FME07Z-0021": {
-      "city": "Bend",
-      "chain": "Fred Meyer",
-      "state": "US"
-    },
-    "SAF07Z-0514": {
-      "city": "Bend",
-      "chain": "Safeway",
-      "state": "US"
-    },
-    "SAF07Z-1504": {
-      "city": "Bend",
-      "chain": "Safeway",
-      "state": "US"
-    },
-    "SAF07Z-1888": {
-      "city": "Bend",
-      "chain": "Safeway",
-      "state": "US"
-    },
-    "FME07Z-0041": {
-      "city": "Bonney Lake",
-      "chain": "Fred Meyer",
-      "state": "US"
-    },
-    "FME07Y-0030": {
-      "city": "Brookings",
-      "chain": "Fred Meyer",
-      "state": "US"
-    },
-    "SAF07Y-4469": {
-      "city": "Burns",
-      "chain": "Safeway",
-      "state": "US"
-    },
-    "SAF07Z-1287": {
-      "city": "Camas",
-      "chain": "Safeway",
-      "state": "US"
-    },
-    "FME07Y-0651": {
-      "city": "Canby",
-      "chain": "Fred Meyer",
-      "state": "US"
-    },
-    "SAF07Y-2604": {
-      "city": "Canby",
-      "chain": "Safeway",
-      "state": "US"
-    },
-    "ALB07Y-0595": {
-      "city": "Central Point",
-      "chain": "Albertsons",
-      "state": "US"
-    },
-    "SAF07Z-1495": {
-      "city": "Centralia",
-      "chain": "Safeway",
-      "state": "US"
-    },
-    "SNK07Z-0381": {
-      "city": "Centralia",
-      "chain": "Shop N Kart",
-      "state": "US"
-    },
-    "SAF07Z-3525": {
-      "city": "Chehalis",
-      "chain": "Safeway",
-      "state": "US"
-    },
-    "FME07Y-0063": {
-      "city": "Clackamas",
-      "chain": "Fred Meyer",
-      "state": "US"
-    },
-    "SAF07Z-1231": {
-      "city": "Clackamas",
-      "chain": "Safeway",
-      "state": "US"
-    },
-    "SAF07Y-4318": {
-      "city": "Clatskanie",
-      "chain": "Safeway",
-      "state": "US"
-    },
-    "FME07Y-0050": {
-      "city": "Coos Bay",
-      "chain": "Fred Meyer",
-      "state": "US"
-    },
-    "SAF07Y-1556": {
-      "city": "Coos Bay",
-      "chain": "Safeway",
-      "state": "US"
-    },
-    "SAF07Y-4262": {
-      "city": "Coquille",
-      "chain": "Safeway",
-      "state": "US"
-    },
-    "FME07Y-0060": {
-      "city": "Cornelius",
-      "chain": "Fred Meyer",
-      "state": "US"
-    },
-    "FME07Y-0070": {
-      "city": "Corvallis",
-      "chain": "Fred Meyer",
-      "state": "US"
-    },
-    "SAF07Y-1690": {
-      "city": "Corvallis",
-      "chain": "Safeway",
-      "state": "US"
-    },
-    "SAF07Y-1765": {
-      "city": "Corvallis",
-      "chain": "Safeway",
-      "state": "US"
-    },
-    "SAF07Y-4333": {
-      "city": "Corvallis",
-      "chain": "Safeway",
-      "state": "US"
-    },
-    "SAF07Y-1458": {
-      "city": "Cottage Grove",
-      "chain": "Safeway",
-      "state": "US"
-    },
-    "SAF07Y-4404": {
-      "city": "Dallas",
-      "chain": "Safeway",
-      "state": "US"
-    },
-    "SAF07Z-0521": {
-      "city": "Damascus",
-      "chain": "Safeway",
-      "state": "US"
-    },
-    "SAF07Y-0371": {
-      "city": "Enterprise",
-      "chain": "Safeway",
-      "state": "US"
-    },
-    "QFC07Z-0863": {
-      "city": "Enumclaw",
-      "chain": "Quality Food Center",
-      "state": "US"
-    },
-    "SAF07Z-0494": {
-      "city": "Enumclaw",
-      "chain": "Safeway",
-      "state": "US"
-    },
-    "ALB07Y-3529": {
-      "city": "Eugene",
-      "chain": "Albertsons",
-      "state": "US"
-    },
-    "ALB07Y-0513": {
-      "city": "Eugene",
-      "chain": "Albertsons",
-      "state": "US"
-    },
-    "ALB07Y-0560": {
-      "city": "Eugene",
-      "chain": "Albertsons",
-      "state": "US"
-    },
-    "ALB07Y-3564": {
-      "city": "Eugene",
-      "chain": "Albertsons",
-      "state": "US"
-    },
-    "ALB07Y-0572": {
-      "city": "Eugene",
-      "chain": "Albertsons",
-      "state": "US"
-    },
-    "FME07Y-0325": {
-      "city": "Eugene",
-      "chain": "Fred Meyer",
-      "state": "US"
-    },
-    "FME07Y-0417": {
-      "city": "Eugene",
-      "chain": "Fred Meyer",
-      "state": "US"
-    },
-    "SAF07Y-0420": {
-      "city": "Eugene",
-      "chain": "Safeway",
-      "state": "US"
-    },
-    "SAF07Y-4288": {
-      "city": "Eugene",
-      "chain": "Safeway",
-      "state": "US"
-    },
-    "SAF07Y-4513": {
-      "city": "Eugene",
-      "chain": "Safeway",
-      "state": "US"
-    },
-    "FME07Y-0464": {
-      "city": "Florence",
-      "chain": "Fred Meyer",
-      "state": "US"
-    },
-    "SAF07Y-0363": {
-      "city": "Florence",
-      "chain": "Safeway",
-      "state": "US"
-    },
-    "SAF07Y-0406": {
-      "city": "Forest Grove",
-      "chain": "Safeway",
-      "state": "US"
-    },
-    "SAF07Y-4387": {
-      "city": "Gladstone",
-      "chain": "Safeway",
-      "state": "US"
-    },
-    "SAF07Z-0547": {
-      "city": "Graham",
-      "chain": "Safeway",
-      "state": "US"
-    },
-    "ALB07Y-3541": {
-      "city": "Grants Pass",
-      "chain": "Albertsons",
-      "state": "US"
-    },
-    "FME07Y-0126": {
-      "city": "Grants Pass",
-      "chain": "Fred Meyer",
-      "state": "US"
-    },
-    "SAF07Y-0290": {
-      "city": "Grants Pass",
-      "chain": "Safeway",
-      "state": "US"
-    },
-    "SAF07Y-0379": {
-      "city": "Grants Pass",
-      "chain": "Safeway",
-      "state": "US"
-    },
-    "FME07Z-0127": {
-      "city": "Gresham",
-      "chain": "Fred Meyer",
-      "state": "US"
-    },
-    "SAF07Z-0430": {
-      "city": "Gresham",
-      "chain": "Safeway",
-      "state": "US"
-    },
-    "SAF07Z-1070": {
-      "city": "Gresham",
-      "chain": "Safeway",
-      "state": "US"
-    },
-    "FME07Z-0153": {
-      "city": "Happy Valley",
-      "chain": "Fred Meyer",
-      "state": "US"
-    },
-    "FME07Z-0694": {
-      "city": "Happy Valley",
-      "chain": "Fred Meyer",
-      "state": "US"
-    },
-    "ALB07Y-0590": {
-      "city": "Hillsboro",
-      "chain": "Albertsons",
-      "state": "US"
-    },
-    "FME07Y-0143": {
-      "city": "Hillsboro",
-      "chain": "Fred Meyer",
-      "state": "US"
-    },
-    "FME07Y-0661": {
-      "city": "Hillsboro",
-      "chain": "Fred Meyer",
-      "state": "US"
-    },
-    "SAF07Y-1203": {
-      "city": "Hillsboro",
-      "chain": "Safeway",
-      "state": "US"
-    },
-    "SAF07Y-1230": {
-      "city": "Hillsboro",
-      "chain": "Safeway",
-      "state": "US"
     },
     "SAF07Y-0591": {
       "city": "Hillsboro",
       "chain": "Safeway",
       "state": "US"
     },
-    "ROS07Z-0016": {
-      "city": "Hood River",
-      "chain": "Rosauers",
-      "state": "US"
-    },
-    "SAF07Z-1123": {
-      "city": "Hood River",
-      "chain": "Safeway",
-      "state": "US"
-    },
-    "SAF07Y-0386": {
-      "city": "Junction City",
-      "chain": "Safeway",
-      "state": "US"
-    },
-    "SAF07Y-1516": {
-      "city": "Keizer",
-      "chain": "Safeway",
-      "state": "US"
-    },
-    "SAF07Z-2637": {
-      "city": "Kelso",
-      "chain": "Safeway",
-      "state": "US"
-    },
-    "SAF07Y-1478": {
-      "city": "King City",
-      "chain": "Safeway",
-      "state": "US"
-    },
-    "ALB07Y-0577": {
-      "city": "Klamath Falls",
-      "chain": "Albertsons",
-      "state": "US"
-    },
-    "FME07Y-0165": {
-      "city": "Klamath Falls",
-      "chain": "Fred Meyer",
-      "state": "US"
-    },
-    "SAF07Y-1827": {
-      "city": "La Grande",
-      "chain": "Safeway",
-      "state": "US"
-    },
-    "FME07Z-0186": {
-      "city": "Lacey",
-      "chain": "Fred Meyer",
-      "state": "US"
-    },
-    "QFC07Z-0126": {
-      "city": "Lacey",
-      "chain": "Quality Food Center",
-      "state": "US"
-    },
-    "SAF07Z-1977": {
-      "city": "Lacey",
-      "chain": "Safeway",
-      "state": "US"
-    },
-    "ALB07Y-3531": {
-      "city": "Lake Oswego",
-      "chain": "Albertsons",
-      "state": "US"
-    },
-    "SAF07Y-0508": {
-      "city": "Lake Oswego",
-      "chain": "Safeway",
-      "state": "US"
-    },
-    "SAF07Y-1047": {
-      "city": "Lake Oswego",
-      "chain": "Safeway",
-      "state": "US"
-    },
-    "SAF07Y-4316": {
-      "city": "Lakeview",
-      "chain": "Safeway",
-      "state": "US"
-    },
-    "SAF07Z-1645": {
-      "city": "Lakewood",
-      "chain": "Safeway",
-      "state": "US"
-    },
-    "SAF07Z-3411": {
-      "city": "Lakewood",
-      "chain": "Safeway",
-      "state": "US"
-    },
-    "SAF07Y-1558": {
-      "city": "Lebanon",
-      "chain": "Safeway",
-      "state": "US"
-    },
-    "SAF07Y-0415": {
-      "city": "Lincoln City",
-      "chain": "Safeway",
-      "state": "US"
-    },
-    "FME07Z-0185": {
-      "city": "Longview",
-      "chain": "Fred Meyer",
-      "state": "US"
-    },
-    "SAF07Z-0091": {
-      "city": "Longview",
-      "chain": "Safeway",
-      "state": "US"
-    },
-    "SAF07Z-1078": {
-      "city": "Longview",
-      "chain": "Safeway",
-      "state": "US"
-    },
-    "SAF07Z-1960": {
-      "city": "Madras",
-      "chain": "Safeway",
-      "state": "US"
-    },
-    "SAF07Y-1601": {
-      "city": "McMinnville",
-      "chain": "Safeway",
-      "state": "US"
-    },
-    "ALB07Y-0528": {
-      "city": "Mcminnville",
-      "chain": "Albertsons",
-      "state": "US"
-    },
-    "ALB07Y-3508": {
-      "city": "Medford",
-      "chain": "Albertsons",
-      "state": "US"
-    },
-    "ALB07Y-3593": {
-      "city": "Medford",
-      "chain": "Albertsons",
-      "state": "US"
-    },
-    "FME07Y-0195": {
-      "city": "Medford",
-      "chain": "Fred Meyer",
-      "state": "US"
-    },
-    "FME07Y-0196": {
-      "city": "Medford",
-      "chain": "Fred Meyer",
-      "state": "US"
-    },
-    "SAF07Y-0525": {
-      "city": "Medford",
-      "chain": "Safeway",
-      "state": "US"
-    },
-    "SAF07Y-1643": {
-      "city": "Medford",
-      "chain": "Safeway",
-      "state": "US"
-    },
-    "SAF07Z-3545": {
-      "city": "Milton",
-      "chain": "Safeway",
-      "state": "US"
-    },
-    "FME07Y-0240": {
-      "city": "Milwaukie",
-      "chain": "Fred Meyer",
-      "state": "US"
-    },
-    "SAF07Y-2696": {
-      "city": "Milwaukie",
-      "chain": "Safeway",
-      "state": "US"
-    },
-    "SAF07Z-2690": {
-      "city": "Milwaukie",
-      "chain": "Safeway",
-      "state": "US"
-    },
-    "SAF07Y-1751": {
-      "city": "Molalla",
-      "chain": "Safeway",
-      "state": "US"
-    },
-    "FME07Y-0220": {
-      "city": "Newberg",
-      "chain": "Fred Meyer",
-      "state": "US"
-    },
-    "SAF07Y-2623": {
-      "city": "Newberg",
-      "chain": "Safeway",
-      "state": "US"
-    },
-    "FME07Y-0227": {
-      "city": "Newport",
-      "chain": "Fred Meyer",
-      "state": "US"
-    },
-    "SAF07Y-0378": {
-      "city": "Newport",
-      "chain": "Safeway",
-      "state": "US"
-    },
-    "SAF07Y-1557": {
-      "city": "North Bend",
-      "chain": "Safeway",
-      "state": "US"
-    },
-    "ALB07Z-3417": {
-      "city": "Olympia",
-      "chain": "Albertsons",
-      "state": "US"
-    },
-    "HAG07Z-3444": {
-      "city": "Olympia",
-      "chain": "Haggen",
-      "state": "US"
-    },
-    "SAF07Z-0543": {
-      "city": "Olympia",
-      "chain": "Safeway",
-      "state": "US"
-    },
-    "SAF07Z-1173": {
-      "city": "Olympia",
-      "chain": "Safeway",
-      "state": "US"
-    },
-    "SAF07Z-1464": {
-      "city": "Olympia",
-      "chain": "Safeway",
-      "state": "US"
-    },
-    "SAF07Z-1952": {
-      "city": "Olympia",
-      "chain": "Safeway",
-      "state": "US"
-    },
-    "ALB07Y-0571": {
-      "city": "Oregon City",
-      "chain": "Albertsons",
-      "state": "US"
-    },
-    "FME07Y-0242": {
-      "city": "Oregon City",
-      "chain": "Fred Meyer",
-      "state": "US"
-    },
-    "SAF07Y-2993": {
-      "city": "Oregon City",
-      "chain": "Safeway",
-      "state": "US"
-    },
-    "SAF07Z-1844": {
-      "city": "Orting",
-      "chain": "Safeway",
-      "state": "US"
-    },
-    "SAR07Z-0488": {
-      "city": "Parkland",
-      "chain": "Saars",
-      "state": "US"
-    },
-    "ALB07Y-0596": {
-      "city": "Portland",
-      "chain": "Albertsons",
-      "state": "US"
-    },
-    "FME07Y-0040": {
-      "city": "Portland",
-      "chain": "Fred Meyer",
-      "state": "US"
-    },
-    "FME07Y-0285": {
-      "city": "Portland",
-      "chain": "Fred Meyer",
-      "state": "US"
-    },
-    "FME07Y-0360": {
-      "city": "Portland",
-      "chain": "Fred Meyer",
-      "state": "US"
-    },
-    "FME07Z-0075": {
-      "city": "Portland",
-      "chain": "Fred Meyer",
-      "state": "US"
-    },
-    "FME07Z-0125": {
-      "city": "Portland",
-      "chain": "Fred Meyer",
-      "state": "US"
-    },
-    "FME07Z-0135": {
-      "city": "Portland",
-      "chain": "Fred Meyer",
-      "state": "US"
-    },
-    "FME07Z-0150": {
-      "city": "Portland",
-      "chain": "Fred Meyer",
-      "state": "US"
-    },
-    "FME07Z-0255": {
-      "city": "Portland",
-      "chain": "Fred Meyer",
-      "state": "US"
-    },
-    "FME07Z-0600": {
-      "city": "Portland",
-      "chain": "Fred Meyer",
-      "state": "US"
-    },
-    "QFC07Y-0201": {
-      "city": "Portland",
-      "chain": "Quality Food Center",
-      "state": "US"
-    },
-    "QFC07Y-0202": {
-      "city": "Portland",
-      "chain": "Quality Food Center",
-      "state": "US"
-    },
-    "QFC07Z-0205": {
-      "city": "Portland",
-      "chain": "Quality Food Center",
-      "state": "US"
-    },
-    "QFC07Z-0206": {
-      "city": "Portland",
-      "chain": "Quality Food Center",
-      "state": "US"
-    },
-    "SAF07Y-3136": {
-      "city": "Portland",
-      "chain": "Safeway",
-      "state": "US"
-    },
-    "SAF07Y-1525": {
-      "city": "Portland",
-      "chain": "Safeway",
-      "state": "US"
-    },
-    "SAF07Y-2448": {
-      "city": "Portland",
-      "chain": "Safeway",
-      "state": "US"
-    },
-    "SAF07Y-2790": {
-      "city": "Portland",
-      "chain": "Safeway",
-      "state": "US"
-    },
     "STB05X-0193": {
-      "city": "A Moreno Valley",
+      "city": "Moreno Valley",
       "chain": "Stater Bros.",
       "state": "CA"
     },
     "STB05X-0191": {
-      "city": "Lugonia Ave Redlands",
+      "city": "Redlands",
       "chain": "Stater Bros.",
       "state": "CA"
     },
     "RAL05X-0013": {
-      "city": "Avenue Rancho Cucamonga",
+      "city": "Rancho Cucamonga",
       "chain": "Ralphs",
       "state": "CA"
     },
@@ -3098,22 +3420,22 @@
       "state": "WA"
     },
     "FME07X-0682": {
-      "city": "SE Maple Valley",
+      "city": "Maple Valley",
       "chain": "Fred Meyer",
       "state": "WA"
     },
     "SAF07X-3006": {
-      "city": "Highlands Drive Issaquah",
+      "city": "Issaquah",
       "chain": "Safeway",
       "state": "WA"
     },
     "SAF07X-3148": {
-      "city": "Ave NE Poulsbo",
+      "city": "Poulsbo",
       "chain": "Safeway",
       "state": "WA"
     },
     "HAG07X-3438": {
-      "city": "Pkwy E Auburn",
+      "city": "Auburn",
       "chain": "Haggen",
       "state": "WA"
     },
@@ -3228,7 +3550,7 @@
       "state": "WA"
     },
     "FME07X-0019": {
-      "city": "Way North Auburn",
+      "city": "Auburn",
       "chain": "Fred Meyer",
       "state": "WA"
     },
