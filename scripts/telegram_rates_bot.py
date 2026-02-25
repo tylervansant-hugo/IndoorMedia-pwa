@@ -123,21 +123,24 @@ def parse_query(text: str) -> dict:
         else:
             return None
     
-    # Check if input looks like a street name (contains street abbreviations)
-    street_keywords = ('rd', 'road', 'st', 'street', 'ave', 'avenue', 'blvd', 'boulevard', 
-                       'dr', 'drive', 'way', 'hwy', 'highway', 'pkwy', 'parkway', 'ln', 'lane')
+    parts = text.split()
+    
+    # Check if input looks like a street name (priority: explicit street keywords)
+    # Street keywords with explicit street designators
+    explicit_street_keywords = ('rd', 'road', 'st', 'street', 'ave', 'avenue', 'blvd', 'boulevard', 
+                                'dr', 'drive', 'hwy', 'highway', 'pkwy', 'parkway', 'ln', 'lane')
     text_lower = text.lower()
     
-    is_street_query = any(keyword in text_lower for keyword in street_keywords)
+    # If it has an explicit street keyword, treat as street (unless it's clearly city+chain with 2 words)
+    has_explicit_street = any(keyword in text_lower for keyword in explicit_street_keywords)
     
-    if is_street_query:
+    # If it looks like a street (has explicit keyword) and is 1-3 words, it's probably a street
+    if has_explicit_street and len(parts) <= 3:
         return {
             "street": text,
             "payment_plan": "monthly",
             "query_type": "street"
         }
-    
-    parts = text.split()
     
     if len(parts) < 2:
         return None
