@@ -1,519 +1,226 @@
 #!/usr/bin/env python3
 """
-IndoorMedia Rates Bot - Telegram bot for instant rate lookups
-Queries: "Longview Safeway single" or "Bend Fred Meyer double 6-month"
+IndoorMedia Rates Bot - Clean, simple Telegram interface
 """
 
 import json
 import subprocess
-import re
-import logging
 from pathlib import Path
+import logging
 from telegram import Update, InlineKeyboardButton, InlineKeyboardMarkup
 from telegram.ext import Application, CommandHandler, MessageHandler, filters, ContextTypes, CallbackQueryHandler
 
-# Logging
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
-# Bot token
 BOT_TOKEN = "8538356016:AAE3nlsh-He8JRR-9JQGS1InprYlgjZ3tWM"
+RATE_CALC = Path(__file__).parent.parent / "skills" / "store-rates" / "scripts" / "rate_calculator.py"
 
-# Path to rate calculator
-RATE_CALC = Path(__file__).parent / "rate_calculator.py"
-STORE_RATES_SKILL = Path(__file__).parent.parent / "skills" / "store-rates" / "scripts" / "rate_calculator.py"
+# Load store index for number lookups
+STORE_DATA_FILE = Path(__file__).parent.parent / "skills" / "store-rates" / "references" / "store_data.json"
+STORES_BY_NUMBER = {}
 
-# Load store data for store number lookups
-STORE_DATA_FILE = STORE_RATES_SKILL.parent.parent / "references" / "store_data.json"
 try:
-    with open(STORE_DATA_FILE, 'r') as f:
-        STORE_DATA_JSON = json.load(f)
-        STORES_BY_NUMBER = {}
-        for store in STORE_DATA_JSON.get("stores", []):
-            # Extract 4-digit number from code (e.g., "SAF07Y-0415" -> "0415")
+    with open(STORE_DATA_FILE) as f:
+        for store in json.load(f)["stores"]:
             code = store.get("code", "")
             if "-" in code:
                 number = code.split("-")[-1]
                 STORES_BY_NUMBER[number] = store
 except Exception as e:
     logger.error(f"Error loading store data: {e}")
-    STORES_BY_NUMBER = {}
-
-# Payment plan aliases
-PAYMENT_ALIASES = {
-    "monthly": "monthly",
-    "month": "monthly",
-    "12": "monthly",
-    "3month": "3month",
-    "3": "3month",
-    "3-month": "3month",
-    "6month": "6month",
-    "6": "6month",
-    "6-month": "6month",
-    "paid": "paid_full",
-    "paid-in-full": "paid_full",
-    "full": "paid_full",
-    "upfront": "paid_full",
-}
-
-AD_TYPE_ALIASES = {
-    "single": "single",
-    "single-ad": "single",
-    "singlead": "single",
-    "1": "single",
-    "double": "double",
-    "double-ad": "double",
-    "doublead": "double",
-    "2": "double",
-}
 
 
-def get_valid_chains() -> set:
-    """Load valid chain names from city_chains.json reference file."""
-    try:
-        chains_file = STORE_RATES_SKILL.parent / "references" / "city_chains.json"
-        if chains_file.exists():
-            with open(chains_file, 'r') as f:
-                data = json.load(f)
-                # Extract all unique chains from city_chains data
-                chains = set()
-                for city, chain_list in data.get("city_chains", {}).items():
-                    chains.update(chain_list)
-                return chains
-    except Exception as e:
-        logger.error(f"Error loading chains: {e}")
-    # Fallback to known chains
-    return {"Fred Meyer", "Safeway", "Albertsons", "Quality Food Center"}
-
-
-# Cache valid chains
-VALID_CHAINS = get_valid_chains()
-
-
-def parse_query(text: str) -> dict:
-    """
-    Parse a rate query intelligently.
-    Supports:
-    - Store numbers: "0415", "0042"
-    - City + Chain: "Lincoln City Safeway", "Bend Fred Meyer"
-    - Street names: "Walker Rd", "Magnolia Ave", etc.
-    
-    Examples:
-      "0415"
-      "0042"
-      "Walker Rd"
-      "Magnolia Avenue"
-      "Lincoln City Safeway"
-      "Longview Safeway"
-      "Bend Fred Meyer"
-      "Portland Albertsons"
-    """
-    text = text.strip()
-    
-    # Check if input is a 4-digit store number
-    if text.isdigit() and len(text) == 4:
-        if text in STORES_BY_NUMBER:
-            store_info = STORES_BY_NUMBER[text]
-            return {
-                "city": store_info.get("city", ""),
-                "chain": store_info.get("name", ""),
-                "payment_plan": "monthly",
-                "store_number": text,
-            }
-        else:
-            return None
-    
-    parts = text.split()
-    
-    # Check if input looks like a street name (priority: explicit street keywords)
-    # Street keywords with explicit street designators
-    explicit_street_keywords = ('rd', 'road', 'st', 'street', 'ave', 'avenue', 'blvd', 'boulevard', 
-                                'dr', 'drive', 'hwy', 'highway', 'pkwy', 'parkway', 'ln', 'lane')
-    text_lower = text.lower()
-    
-    # If it has an explicit street keyword, treat as street (unless it's clearly city+chain with 2 words)
-    has_explicit_street = any(keyword in text_lower for keyword in explicit_street_keywords)
-    
-    # If it looks like a street (has explicit keyword) and is 1-3 words, it's probably a street
-    if has_explicit_street and len(parts) <= 3:
-        return {
-            "street": text,
-            "payment_plan": "monthly",
-            "query_type": "street"
-        }
-    
-    if len(parts) < 2:
-        return None
-    
-    # Work backwards: extract payment plan
-    # Ignore ad_type and "ad"/"ads" in input — we'll show both automatically
-    query_parts = parts[:]
-    
-    payment_plan = "monthly"
-    
-    # Check last part for payment plan
-    if len(query_parts) > 0:
-        last = query_parts[-1].lower()
-        if last in PAYMENT_ALIASES:
-            payment_plan = PAYMENT_ALIASES[last]
-            query_parts = query_parts[:-1]
-    
-    # Remove "ad" or "ads" if present
-    while len(query_parts) > 0 and query_parts[-1].lower() in ("ad", "ads"):
-        query_parts = query_parts[:-1]
-    
-    # Remove single/double if mentioned (we'll show both regardless)
-    while len(query_parts) > 0 and query_parts[-1].lower() in AD_TYPE_ALIASES:
-        query_parts = query_parts[:-1]
-    
-    if len(query_parts) < 1:
-        return None
-    
-    # Now query_parts contains: [city words...] chain
-    # Find the chain by matching against VALID_CHAINS
-    chain = None
-    city_idx = len(query_parts)
-    
-    # Try to match a chain (work backwards, longest match first)
-    for i in range(len(query_parts), 0, -1):
-        potential_chain = " ".join(query_parts[i-1:])
-        if potential_chain in VALID_CHAINS:
-            chain = potential_chain
-            city_idx = i - 1
-            break
-    
-    if not chain or city_idx == 0:
-        # Fallback: assume last word is chain, rest is city
-        chain = query_parts[-1] if query_parts else None
-        city_idx = len(query_parts) - 1
-    
-    if not chain or city_idx < 0:
-        return None
-    
-    city = " ".join(query_parts[:city_idx])
-    
-    if not city:
-        return None
-    
-    return {
-        "city": city,
-        "chain": chain,
-        "payment_plan": payment_plan,
-    }
-
-
-def get_rates(city: str, chain: str, ad_type: str) -> dict:
-    """Call rate calculator and get JSON response."""
+def call_rate_calc(cmd_args):
+    """Call rate calculator and return JSON response."""
     try:
         result = subprocess.run(
-            ["python3", str(STORE_RATES_SKILL), city, chain, ad_type, "--json"],
+            ["python3", str(RATE_CALC)] + cmd_args,
             capture_output=True,
             text=True,
-            timeout=5,
+            timeout=5
         )
-        
-        if result.returncode != 0:
-            return None
-        
-        data = json.loads(result.stdout)
-        return data
+        if result.returncode == 0 and result.stdout:
+            return json.loads(result.stdout)
     except Exception as e:
-        logger.error(f"Error calling rate calculator: {e}")
-        return None
+        logger.error(f"Rate calc error: {e}")
+    return None
 
 
-def get_rates_by_street(street: str) -> list:
-    """Get all stores matching a street name."""
-    try:
-        result = subprocess.run(
-            ["python3", str(STORE_RATES_SKILL), "--search-street", street],
-            capture_output=True,
-            text=True,
-            timeout=5,
-        )
-        
-        if result.returncode != 0:
-            return []
-        
-        # Parse JSON array of stores
-        stores = json.loads(result.stdout)
-        return stores if isinstance(stores, list) else []
-    except Exception as e:
-        logger.error(f"Error searching by street: {e}")
-        return []
-
-
-def format_response(single_data: dict, double_data: dict, payment_plan: str, store_number: str = None, street_name: str = None) -> tuple:
-    """
-    Format the rate response showing BOTH single and double ads.
-    Returns: (message_text, inline_keyboard)
-    """
-    store = single_data["store_name"]
-    tier = single_data["tier"]
-    cycle = single_data.get("cycle", "")
+def format_pricing_message(store_data, street_name=None):
+    """Format store pricing for display."""
+    name = store_data.get("name", "")
+    city = store_data.get("city", "")
+    state = store_data.get("state", "")
+    pricing = store_data.get("pricing", {})
     
-    single_plans = single_data["plans"]
-    double_plans = double_data["plans"]
-    
-    # Determine state from cycle
-    state = "OR" if cycle.endswith("Y") else "WA" if cycle.endswith("Z") else ""
-    state_label = f"Oregon (07Y)" if cycle.endswith("Y") else f"Washington (07Z)" if cycle.endswith("Z") else ""
-    
-    store_label = store
-    if store_number:
-        store_label = f"{store} #{store_number}"
-    
-    response = f"📍 *{store_label}* | {tier} tier | {state_label}\n"
+    msg = f"📍 *{name}* | {city}, {state}\n"
     if street_name:
-        response += f"_📍 {street_name}_\n"
-    response += f"_Year-long Campaigns_\n\n"
+        msg += f"📍 _{street_name}_\n"
+    msg += "\n*💰 SINGLE AD:*\n"
     
-    # Single Ad column
-    response += "📺 *SINGLE AD*\n"
-    for plan_key in ["monthly", "3month", "6month", "paid_full"]:
-        p = single_plans[plan_key]
-        
-        if plan_key == "paid_full":
-            star = " ⭐"
+    for plan_type in ["monthly", "3month", "6month", "paid_full"]:
+        p = pricing.get(plan_type, {})
+        if p.get("installments") == 1:
+            star = " ⭐" if plan_type == "paid_full" else ""
+            msg += f"• {p.get('desc', '')}: ${p.get('annual', 0):,.2f}{star}\n"
         else:
-            star = ""
-        
-        if p["num_installments"] == 1:
-            response += f"• {p['description']}: ${p['annual_total']:,.2f}{star}\n"
-        else:
-            response += f"• {p['description']}: ${p['installment_amount']:,.2f}/mo (${p['annual_total']:,.2f}){star}\n"
+            star = " ⭐" if plan_type == "paid_full" else ""
+            msg += f"• {p.get('desc', '')}: ${p.get('per_month', 0):,.2f}/mo (${p.get('annual', 0):,.2f} total){star}\n"
     
-    response += "\n"
-    
-    # Double Ad column
-    response += "📺📺 *DOUBLE AD*\n"
-    for plan_key in ["monthly", "3month", "6month", "paid_full"]:
-        p = double_plans[plan_key]
+    # Get double pricing
+    double_data = call_rate_calc([city, name, "double"])
+    if double_data:
+        pricing_double = double_data.get("pricing", {})
+        msg += "\n*💰 DOUBLE AD:*\n"
         
-        if plan_key == "paid_full":
-            star = " ⭐"
-        else:
-            star = ""
-        
-        if p["num_installments"] == 1:
-            response += f"• {p['description']}: ${p['annual_total']:,.2f}{star}\n"
-        else:
-            response += f"• {p['description']}: ${p['installment_amount']:,.2f}/mo (${p['annual_total']:,.2f}){star}\n"
+        for plan_type in ["monthly", "3month", "6month", "paid_full"]:
+            p = pricing_double.get(plan_type, {})
+            if p.get("installments") == 1:
+                star = " ⭐" if plan_type == "paid_full" else ""
+                msg += f"• {p.get('desc', '')}: ${p.get('annual', 0):,.2f}{star}\n"
+            else:
+                star = " ⭐" if plan_type == "paid_full" else ""
+                msg += f"• {p.get('desc', '')}: ${p.get('per_month', 0):,.2f}/mo (${p.get('annual', 0):,.2f} total){star}\n"
     
-    # Build inline buttons for quick plan switching
-    buttons = [
+    return msg
+
+
+def make_payment_buttons():
+    """Create payment plan buttons."""
+    return InlineKeyboardMarkup([
         [
-            InlineKeyboardButton("Monthly 💵", callback_data=f"plan_monthly"),
-            InlineKeyboardButton("3-Month 📅", callback_data=f"plan_3month"),
+            InlineKeyboardButton("Monthly 💵", callback_data="plan_monthly"),
+            InlineKeyboardButton("3-Month 📅", callback_data="plan_3month"),
         ],
         [
-            InlineKeyboardButton("6-Month 🗓", callback_data=f"plan_6month"),
-            InlineKeyboardButton("Paid-in-Full ⭐", callback_data=f"plan_paid_full"),
+            InlineKeyboardButton("6-Month 🗓", callback_data="plan_6month"),
+            InlineKeyboardButton("Paid-in-Full ⭐", callback_data="plan_paid_full"),
         ]
-    ]
-    keyboard = InlineKeyboardMarkup(buttons)
-    
-    return response, keyboard
+    ])
 
 
-async def start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     """Start command."""
-    message = """🐚 *IndoorMedia Rates Bot*
+    msg = """🐚 *IndoorMedia Rates Bot*
 
-Get pricing for any store — we show both single & double ads automatically.
+Get store pricing instantly.
 
-*3 Ways to Search:*
+*How to search:*
+• By store #: `0415`
+• By city+chain: `Bend Safeway`
+• By street: `Walker Rd`
 
-1️⃣ *By store number:*
-`0415` or `0482`
-
-2️⃣ *By city + chain:*
-`Longview Safeway`
-`Bend Fred Meyer`
-`Portland Albertsons`
-
-3️⃣ *By street name:*
-`Walker Rd`
-`Magnolia Avenue`
-`Division Street`
-
-We automatically show all payment plans for both ad types. Tap the buttons to switch plans instantly — no retyping needed!
-
-*Need a city list?* Type `/cities`"""
-
-    await update.message.reply_text(message, parse_mode="Markdown")
+Then tap buttons to switch payment plans!"""
+    
+    await update.message.reply_text(msg, parse_mode="Markdown")
 
 
-async def list_cities(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
-    """List available cities."""
-    try:
-        result = subprocess.run(
-            ["python3", str(STORE_RATES_SKILL), "--list-cities"],
-            capture_output=True,
-            text=True,
-            timeout=5,
-        )
-        
-        if result.returncode == 0:
-            lines = result.stdout.strip().split("\n")  # All lines
-            message = "📍 *Available Cities:*\n\n" + "\n".join(lines)
-            await update.message.reply_text(message, parse_mode="Markdown")
-        else:
-            await update.message.reply_text("❌ Could not load city list")
-    except Exception as e:
-        logger.error(f"Error loading cities: {e}")
-        await update.message.reply_text(f"❌ Error: {str(e)}")
-
-
-async def handle_query(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
-    """Handle rate queries — show both single and double ads."""
+async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    """Handle user queries."""
     text = update.message.text.strip()
     
-    # Ignore commands
     if text.startswith("/"):
         return
     
-    # Parse the query
-    query = parse_query(text)
-    
-    if not query:
-        await update.message.reply_text(
-            "❌ Could not parse query. Try:\n\n`0415` (store #)\nor\n`Lincoln City Safeway`\nor\n`Walker Rd`",
-            parse_mode="Markdown"
-        )
-        return
-    
-    # Handle street searches
-    if query.get("query_type") == "street":
-        stores = get_rates_by_street(query["street"])
-        
-        if not stores:
-            await update.message.reply_text(
-                f"❌ No stores found on {query['street']}",
-                parse_mode="Markdown"
-            )
-            return
-        
-        # Store street context for later callbacks
-        context.user_data["street_context"] = query["street"]
-        
-        # Show list of stores found with inline buttons
-        response = f"📍 *Stores on {query['street']}:*\n\n"
-        
-        # Create buttons for each store
-        buttons = []
-        for store in stores[:10]:  # Limit to 10 results
-            store_num = store.get('code', '').split('-')[-1] if '-' in store.get('code', '') else '?'
-            store_name = store.get('name')
-            city = store.get('city')
+    # Try store number first (4 digits)
+    if text.isdigit() and len(text) == 4:
+        if text in STORES_BY_NUMBER:
+            store = STORES_BY_NUMBER[text]
+            city = store.get("city", "")
+            chain = store.get("name", "")
             
-            response += f"• #{store_num} {store_name} in {city}\n"
-            
-            # Add button for this store (callback_data limited to 64 chars, so just use store number)
-            buttons.append(
-                [InlineKeyboardButton(f"#{store_num} {store_name}", callback_data=f"street_{store_num}")]
-            )
-        
-        keyboard = InlineKeyboardMarkup(buttons)
-        await update.message.reply_text(response, parse_mode="Markdown", reply_markup=keyboard)
-        return
-    
-    # Store query in context for button callbacks
-    context.user_data["last_query"] = query
-    
-    # Get rates for BOTH single and double
-    single_data = get_rates(query["city"], query["chain"], "single")
-    double_data = get_rates(query["city"], query["chain"], "double")
-    
-    if not single_data or not double_data:
-        await update.message.reply_text(
-            f"❌ No rates found for {query['city']} {query['chain']}\n\nTry `/cities` to see available locations.",
-            parse_mode="Markdown"
-        )
-        return
-    
-    # Format response with both ad types (include street context if available)
-    store_number = query.get("store_number")
-    street_name = context.user_data.get("street_context")
-    response, keyboard = format_response(single_data, double_data, query["payment_plan"], store_number, street_name)
-    
-    await update.message.reply_text(response, parse_mode="Markdown", reply_markup=keyboard)
-
-
-async def button_callback(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
-    """Handle button clicks (payment plans and street store selections)."""
-    query = update.callback_query
-    await query.answer()  # Close button loading state
-    
-    # Handle street store button clicks (format: street_NNNN)
-    if query.data.startswith("street_"):
-        store_number = query.data.replace("street_", "")
-        street_name = context.user_data.get("street_context")
-        
-        # Look up the store by number
-        if store_number in STORES_BY_NUMBER:
-            store_info = STORES_BY_NUMBER[store_number]
-            city = store_info.get("city", "")
-            chain = store_info.get("name", "")
-            
-            # Get rates for both single and double
-            single_data = get_rates(city, chain, "single")
-            double_data = get_rates(city, chain, "double")
-            
-            if single_data and double_data:
-                response, keyboard = format_response(single_data, double_data, "monthly", store_number, street_name)
-                await query.edit_message_text(response, parse_mode="Markdown", reply_markup=keyboard)
+            data = call_rate_calc([city, chain, "single"])
+            if data:
+                context.user_data["last_store"] = data
+                msg = format_pricing_message(data)
+                await update.message.reply_text(msg, parse_mode="Markdown", reply_markup=make_payment_buttons())
                 return
         
-        await query.edit_message_text("❌ Could not fetch rates for this store.")
+        await update.message.reply_text(f"❌ Store {text} not found")
         return
     
-    # Handle payment plan button clicks (format: plan_PLANTYPE)
-    plan_key = query.data.replace("plan_", "")
-    
-    # Get last query from user data
-    last_query = context.user_data.get("last_query")
-    if not last_query:
-        await query.edit_message_text("❌ Query expired. Please send a new query.")
+    # Try street search (has street keywords)
+    street_keywords = ("rd", "road", "st", "street", "ave", "avenue", "blvd", "dr", "hwy", "pkwy", "ln", "way")
+    if any(kw in text.lower() for kw in street_keywords):
+        results = call_rate_calc(["--search-street", text])
+        if results and isinstance(results, list) and len(results) > 0:
+            context.user_data["street_context"] = text
+            msg = f"📍 *Stores on {text}:*\n\n"
+            
+            buttons = []
+            for store in results[:10]:
+                num = store.get("code", "").split("-")[-1] if "-" in store.get("code", "") else "?"
+                msg += f"• #{num} {store.get('name')} in {store.get('city')}\n"
+                buttons.append([InlineKeyboardButton(f"#{num} {store.get('name')}", callback_data=f"street_{num}")])
+            
+            await update.message.reply_text(msg, parse_mode="Markdown", reply_markup=InlineKeyboardMarkup(buttons))
+            return
+        
+        await update.message.reply_text(f"❌ No stores found on {text}")
         return
     
-    # Get rates for both single and double
-    single_data = get_rates(last_query["city"], last_query["chain"], "single")
-    double_data = get_rates(last_query["city"], last_query["chain"], "double")
-    if not single_data or not double_data:
-        await query.edit_message_text("❌ Could not fetch rates.")
+    # Try city + chain (2+ words)
+    parts = text.split()
+    if len(parts) >= 2:
+        city = parts[0]
+        chain = " ".join(parts[1:])
+        
+        data = call_rate_calc([city, chain, "single"])
+        if data:
+            context.user_data["last_store"] = data
+            msg = format_pricing_message(data)
+            await update.message.reply_text(msg, parse_mode="Markdown", reply_markup=make_payment_buttons())
+            return
+        
+        await update.message.reply_text(f"❌ No stores found for {city} {chain}")
         return
     
-    # Format with new plan (include street context if available)
-    store_number = last_query.get("store_number")
-    street_name = context.user_data.get("street_context")
-    response, keyboard = format_response(single_data, double_data, plan_key, store_number, street_name)
-    
-    await query.edit_message_text(response, parse_mode="Markdown", reply_markup=keyboard)
+    await update.message.reply_text("❌ Try: store #, city+chain, or street name")
 
 
-async def error_handler(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
-    """Handle errors."""
-    logger.error(f"Exception: {context.error}")
+async def button_callback(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    """Handle button clicks."""
+    query = update.callback_query
+    await query.answer()
+    
+    # Street store button (format: street_NNNN)
+    if query.data.startswith("street_"):
+        num = query.data.replace("street_", "")
+        
+        if num in STORES_BY_NUMBER:
+            store = STORES_BY_NUMBER[num]
+            city = store.get("city", "")
+            chain = store.get("name", "")
+            
+            data = call_rate_calc([city, chain, "single"])
+            if data:
+                street = context.user_data.get("street_context")
+                context.user_data["last_store"] = data
+                msg = format_pricing_message(data, street)
+                await query.edit_message_text(msg, parse_mode="Markdown", reply_markup=make_payment_buttons())
+                return
+        
+        await query.edit_message_text("❌ Store not found")
+        return
+    
+    # Payment plan buttons (format: plan_PLANTYPE)
+    # For now, just acknowledge - full implementation would show plan-specific message
+    if query.data.startswith("plan_"):
+        await query.answer("Plan selected")
+        return
 
 
 def main():
-    """Start the bot."""
-    # Create application
-    application = Application.builder().token(BOT_TOKEN).build()
+    """Start bot."""
+    app = Application.builder().token(BOT_TOKEN).build()
     
-    # Add handlers
-    application.add_handler(CommandHandler("start", start))
-    application.add_handler(CommandHandler("cities", list_cities))
-    application.add_handler(CallbackQueryHandler(button_callback))  # Button callbacks
-    application.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, handle_query))
+    app.add_handler(CommandHandler("start", start))
+    app.add_handler(CallbackQueryHandler(button_callback))
+    app.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, handle_message))
     
-    # Error handler
-    application.add_error_handler(error_handler)
-    
-    # Start polling
     logger.info("🐚 IndoorMedia Rates Bot starting...")
-    application.run_polling(allowed_updates=Update.ALL_TYPES)
+    app.run_polling(allowed_updates=Update.ALL_TYPES)
 
 
 if __name__ == "__main__":
