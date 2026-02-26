@@ -222,26 +222,68 @@ async def send_prospects_with_actions(
 
 
 async def handle_button_callback(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    """Handle action button clicks."""
+    """Handle action button clicks - integrates with b2bappointments & mappoint."""
     query = update.callback_query
     data = query.data
     
     try:
         if data.startswith("save_b2b_"):
-            # Parse callback data
+            # Parse callback data: save_b2b_City_StoreNum_ProspectIdx
             parts = data.split("_")
             city = parts[2].replace("_", " ")
             store_num = f"{parts[3]}-{parts[4]}" if len(parts) > 4 else parts[3]
             prospect_idx = int(parts[-1])
             
-            await query.answer("💾 Saving to b2bappointments...", show_alert=False)
+            # Extract business name from message
+            message_text = query.message.text
+            business_name = message_text.split("*")[1] if "*" in message_text else "Unknown"
             
-            # Here would call b2bappointments_automation
-            # For now, just acknowledge
-            await query.edit_message_text(
-                text=query.message.text + "\n✅ Saved to b2bappointments",
-                parse_mode="Markdown"
-            )
+            # Extract phone number
+            phone = "N/A"
+            for line in message_text.split("\n"):
+                if "📞" in line:
+                    phone = line.split("📞")[1].strip()
+                    break
+            
+            await query.answer("💾 Creating contact in b2bappointments...", show_alert=False)
+            
+            # Import and call b2bappointments automation
+            try:
+                from b2bappointments_automation import B2BAutomation
+                
+                automation = B2BAutomation()
+                await automation.launch_browser()
+                
+                success = await automation.create_contact(
+                    city=city,
+                    store_number=store_num,
+                    business_name=business_name,
+                    phone=phone,
+                    email=f"{business_name.replace(' ', '').lower()}@example.com",  # Placeholder
+                    likelihood_score=75,  # Can extract from message if needed
+                    category="Prospect"
+                )
+                
+                await automation.close_browser()
+                
+                if success:
+                    await query.edit_message_text(
+                        text=query.message.text + "\n✅ Saved to b2bappointments!",
+                        parse_mode="Markdown"
+                    )
+                    logger.info(f"✅ Contact saved: {business_name} in {city}/{store_num}")
+                else:
+                    await query.edit_message_text(
+                        text=query.message.text + "\n⚠️ Error saving to b2bappointments",
+                        parse_mode="Markdown"
+                    )
+                    
+            except Exception as e:
+                logger.error(f"b2bappointments error: {e}")
+                await query.edit_message_text(
+                    text=query.message.text + f"\n❌ Error: {str(e)[:50]}",
+                    parse_mode="Markdown"
+                )
             
         elif data.startswith("booked_"):
             # Mark as appointment booked
@@ -249,26 +291,83 @@ async def handle_button_callback(update: Update, context: ContextTypes.DEFAULT_T
             city = parts[1].replace("_", " ")
             store_num = f"{parts[2]}-{parts[3]}" if len(parts) > 3 else parts[2]
             
-            await query.answer("🗓️ Updating status...", show_alert=False)
+            # Extract business name from message
+            message_text = query.message.text
+            business_name = message_text.split("*")[1] if "*" in message_text else "Unknown"
             
-            # Update status to "Appointment Booked"
-            # Here would call b2bappointments_automation.update_contact_status()
-            # And trigger nearby_stores_finder
+            await query.answer("🗓️ Updating status & finding nearby stores...", show_alert=False)
             
-            await query.edit_message_text(
-                text=query.message.text + "\n✅ Marked as: Appointment Booked",
-                parse_mode="Markdown"
-            )
-            
-            # Send nearby stores suggestion
-            await update.effective_chat.send_message(
-                "🗺️ Loading nearby store recommendations...\n\n"
-                "[Open Mappoint to add contracts](https://sales.indoormedia.com/Mappoint)",
-                parse_mode="Markdown"
-            )
+            try:
+                from b2bappointments_automation import B2BAutomation
+                
+                automation = B2BAutomation()
+                await automation.launch_browser()
+                
+                # Update status to "Appointment Booked"
+                success = await automation.update_contact_status(
+                    city=city,
+                    store_number=store_num,
+                    business_name=business_name,
+                    status="Appointment Booked"
+                )
+                
+                await automation.close_browser()
+                
+                if success:
+                    await query.edit_message_text(
+                        text=query.message.text + "\n✅ Status: Appointment Booked",
+                        parse_mode="Markdown"
+                    )
+                else:
+                    await query.edit_message_text(
+                        text=query.message.text + "\n⚠️ Could not update status",
+                        parse_mode="Markdown"
+                    )
+                
+                # Find nearby stores
+                try:
+                    from nearby_stores_finder import NearbyStoresFinder
+                    
+                    finder = NearbyStoresFinder()
+                    
+                    # Use city-based approximation (would be better with real lat/lon)
+                    nearby = finder.find_nearby_stores(
+                        prospect_lat=45.6872,  # Default Vancouver, WA
+                        prospect_lon=-122.6151,
+                        max_distance=3.0,
+                        limit=10
+                    )
+                    
+                    if nearby:
+                        bundle = finder.generate_recommendation_bundle(nearby, ad_type="single")
+                        msg = finder.format_for_telegram(business_name, nearby, bundle)
+                        
+                        await update.effective_chat.send_message(
+                            msg,
+                            parse_mode="HTML"
+                        )
+                    else:
+                        await update.effective_chat.send_message(
+                            "📍 No nearby stores found. Open Mappoint to add contracts.\n[🗺️ Mappoint](https://sales.indoormedia.com/Mappoint)",
+                            parse_mode="Markdown"
+                        )
+                        
+                except Exception as e:
+                    logger.error(f"nearby_stores error: {e}")
+                    await update.effective_chat.send_message(
+                        "🗺️ [Open Mappoint to add contracts](https://sales.indoormedia.com/Mappoint)",
+                        parse_mode="Markdown"
+                    )
+                    
+            except Exception as e:
+                logger.error(f"booked callback error: {e}")
+                await query.edit_message_text(
+                    text=query.message.text + f"\n❌ Error: {str(e)[:50]}",
+                    parse_mode="Markdown"
+                )
             
     except Exception as e:
-        logger.error(f"Error handling button: {e}")
+        logger.error(f"Error handling button: {e}", exc_info=True)
         await query.answer(f"Error: {str(e)[:50]}", show_alert=True)
 
 
