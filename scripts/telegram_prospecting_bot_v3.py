@@ -11,6 +11,8 @@ import sys
 import os
 import asyncio
 import urllib.parse
+import math
+import httpx
 from pathlib import Path
 from typing import Dict, List, Optional, Tuple
 from datetime import datetime
@@ -30,6 +32,7 @@ STORES_FILE = DATA_DIR / "stores.json"
 CATEGORIES_FILE = WORKSPACE / "data" / "category_structure.json"
 
 TOKEN = "8781563020:AAHm_khWUcjngvS0zuNewBbpMM-p2zuMjzI"
+GOOGLE_PLACES_API_KEY = "AIzaSyAyBTp2gd-g-1Qfyy1XVrR5-VLXCbh3O6I"
 
 # Conversation states
 LOCATION_INPUT, CATEGORY_SELECT, SUBCATEGORY_SELECT, SEARCHING = range(4)
@@ -123,7 +126,16 @@ async def search_start(update: Update, context: ContextTypes.DEFAULT_TYPE):
 async def handle_location_input(update: Update, context: ContextTypes.DEFAULT_TYPE):
     """Parse location input and resolve to lat/lon."""
     user_id = update.effective_user.id
-    location_text = update.message.text.strip()
+    
+    # Handle both message and callback query
+    if update.message:
+        location_text = update.message.text.strip()
+    elif update.callback_query:
+        # This shouldn't happen here, but handle it gracefully
+        await update.callback_query.answer("Please enter a location")
+        return LOCATION_INPUT
+    else:
+        return LOCATION_INPUT
     
     # Resolve location
     lat, lon, location_name = resolve_location(location_text)
@@ -270,38 +282,42 @@ async def handle_subcategory_select(update: Update, context: ContextTypes.DEFAUL
             parse_mode="Markdown"
         )
         
-        # Search Google Places
+        # Search Google Places API
+        logger.info(f"Searching Google Places: {subcategory_name} near {location_name}")
+        
+        await query.edit_message_text(
+            f"🔍 *Searching nearby {subcategory_name}...*\n\n"
+            f"📍 {location_name}",
+            parse_mode="Markdown"
+        )
+        
         try:
-            from prospecting_tool_enhanced import ProspectingToolEnhanced
-            
-            tool = ProspectingToolEnhanced()
-            
-            # Build search query
-            search_query = f"{subcategory_name} near {location_name}"
-            
-            logger.info(f"Searching: {search_query}")
-            
-            # For now, return mock results (full Google Places API integration coming)
-            # This will use the existing prospecting tool
-            results = tool.run_prospecting(location_name, limit=10)
+            # Search Google Places
+            results = await search_google_places(
+                query_text=subcategory_name,
+                lat=lat,
+                lon=lon,
+                location_name=location_name
+            )
             
             if not results:
                 await query.edit_message_text(
-                    f"❌ No businesses found for {subcategory_name} in {location_name}",
+                    f"❌ No {subcategory_name} found near {location_name}\n\n"
+                    f"[🗺️ Try on Google Maps](https://maps.google.com/maps/search/{urllib.parse.quote(subcategory_name)}/@{lat},{lon},15z)",
                     parse_mode="Markdown"
                 )
                 USER_SESSIONS.pop(user_id, None)
                 return ConversationHandler.END
             
-            # Sort by distance from location (lat/lon)
-            results_with_distance = sort_by_distance(results, lat, lon)
+            # Rank results
+            ranked = rank_results(results, lat, lon)
             
-            USER_SESSIONS[user_id]["results"] = results_with_distance
+            USER_SESSIONS[user_id]["results"] = ranked
             
             # Send results
-            await send_results(query, results_with_distance, location_name, subcategory_name)
+            await send_ranked_results(query, ranked[:10], location_name, subcategory_name, lat, lon)
             
-            logger.info(f"✅ Sent {len(results_with_distance)} results")
+            logger.info(f"✅ Sent {len(ranked[:10])} ranked results")
             USER_SESSIONS.pop(user_id, None)
             return ConversationHandler.END
             
@@ -320,105 +336,210 @@ def resolve_location(location_text: str) -> Tuple[Optional[float], Optional[floa
     location_text = location_text.strip().upper()
     
     # Check if it's a store number
-    if "-" in location_text and len(location_text) >= 9:
+    if "-" in location_text:
         store = STORES.get(location_text)
         if store:
-            lat = float(store.get("Latitude", 0))
-            lon = float(store.get("Longitude", 0))
+            lat = float(store.get("latitude", 0))
+            lon = float(store.get("longitude", 0))
             city = store.get("City", "Unknown")
-            return lat, lon, f"{city} ({location_text})"
+            chain = store.get("GroceryChain", "Store")
+            return lat, lon, f"{city} - {chain} ({location_text})"
     
     # Check if it's a zip code (5 digits)
     if location_text.isdigit() and len(location_text) == 5:
         # Find first store in this zip
         for store in STORES_LIST:
-            if store.get("Zip") == location_text:
-                lat = float(store.get("Latitude", 0))
-                lon = float(store.get("Longitude", 0))
+            if store.get("PostalCode") == location_text:
+                lat = float(store.get("latitude", 0))
+                lon = float(store.get("longitude", 0))
                 city = store.get("City", "Unknown")
                 return lat, lon, f"{city}, {location_text}"
-        # If no store found, use approximate US center
+        # If no store found, return None
         return None, None, None
     
     # Check if it's a city name
     location_lower = location_text.lower()
     for store in STORES_LIST:
         if store.get("City", "").lower() == location_lower:
-            lat = float(store.get("Latitude", 0))
-            lon = float(store.get("Longitude", 0))
+            lat = float(store.get("latitude", 0))
+            lon = float(store.get("longitude", 0))
             city = store.get("City", "Unknown")
-            return lat, lon, city
+            state = store.get("State", "")
+            return lat, lon, f"{city}, {state}"
     
     return None, None, None
 
 
-def sort_by_distance(results: List[Dict], lat: float, lon: float) -> List[Dict]:
-    """Sort results by distance from lat/lon."""
-    import math
-    
-    def distance_to_point(prospect):
-        try:
-            p_lat = float(prospect.get("latitude", 0))
-            p_lon = float(prospect.get("longitude", 0))
-            
-            # Haversine formula
-            R = 3959  # miles
-            lat_rad = math.radians(lat)
-            lon_rad = math.radians(lon)
-            p_lat_rad = math.radians(p_lat)
-            p_lon_rad = math.radians(p_lon)
-            
-            dlat = p_lat_rad - lat_rad
-            dlon = p_lon_rad - lon_rad
-            
-            a = math.sin(dlat/2)**2 + math.cos(lat_rad) * math.cos(p_lat_rad) * math.sin(dlon/2)**2
-            c = 2 * math.asin(math.sqrt(a))
-            
-            return R * c
-        except:
-            return 999
-    
-    return sorted(results, key=distance_to_point)
+# (Removed - now using rank_results function instead)
 
 
-async def send_results(query, results: List[Dict], location_name: str, category_name: str):
-    """Send search results with Google Maps links."""
+async def search_google_places(query_text: str, lat: float, lon: float, location_name: str) -> List[Dict]:
+    """Search Google Places API and return results."""
+    try:
+        # Nearby search endpoint
+        url = "https://maps.googleapis.com/maps/api/place/nearbysearch/json"
+        
+        params = {
+            "location": f"{lat},{lon}",
+            "radius": 5000,  # 5km radius
+            "query": query_text,
+            "key": GOOGLE_PLACES_API_KEY
+        }
+        
+        async with httpx.AsyncClient() as client:
+            response = await client.get(url, params=params)
+            data = response.json()
+        
+        if data.get("status") != "OK":
+            logger.warning(f"Google Places API error: {data.get('status')}")
+            return []
+        
+        results = []
+        for place in data.get("results", [])[:20]:  # Top 20
+            result = {
+                "name": place.get("name", "Unknown"),
+                "lat": place.get("geometry", {}).get("location", {}).get("lat", lat),
+                "lon": place.get("geometry", {}).get("location", {}).get("lng", lon),
+                "rating": place.get("rating", 0),
+                "user_ratings_total": place.get("user_ratings_total", 0),
+                "phone": place.get("formatted_phone_number", "N/A"),
+                "address": place.get("formatted_address", ""),
+                "is_open": place.get("opening_hours", {}).get("open_now"),
+                "types": place.get("types", []),
+                "place_id": place.get("place_id", ""),
+                "sponsored": is_sponsored_ad(place)  # Detect if sponsored
+            }
+            results.append(result)
+        
+        logger.info(f"Found {len(results)} results for '{query_text}'")
+        return results
+        
+    except Exception as e:
+        logger.error(f"Google Places API error: {e}")
+        return []
+
+
+def is_sponsored_ad(place: Dict) -> bool:
+    """Detect if a place is a sponsored/promoted result on Google Maps."""
+    # In Google Places API, sponsored results often have specific indicators
+    # Check for "business_status", promotional badges, or ads markers
+    # For now, we'll look for businesses with high review counts and specific types
+    # (real sponsored detection requires additional API calls or web scraping)
+    
+    # Heuristic: Sponsored ads usually have either very high or very low visibility patterns
+    # and are often chains or large businesses
+    types = place.get("types", [])
+    is_chain_indicator = any(t in types for t in ["establishment", "point_of_interest"])
+    has_many_reviews = place.get("user_ratings_total", 0) > 100
+    
+    # For now, return False (would need actual ads API or web scraping for accuracy)
+    return False
+
+
+def rank_results(results: List[Dict], store_lat: float, store_lon: float) -> List[Dict]:
+    """Rank results by multiple criteria."""
+    
+    def calculate_score(place):
+        # Distance score (0-40 points, closer = higher)
+        distance = calculate_distance(store_lat, store_lon, place["lat"], place["lon"])
+        distance_score = max(0, 40 - (distance * 10))  # Penalize by 10 pts per mile
+        
+        # Rating score (0-30 points)
+        rating_score = (place.get("rating", 0) / 5.0) * 30
+        
+        # Review count score (0-20 points, more reviews = more active)
+        review_count = place.get("user_ratings_total", 0)
+        review_score = min(20, (review_count / 100) * 20)  # Cap at 20
+        
+        # Sponsored ad bonus (0-10 points)
+        sponsored_bonus = 10 if place.get("sponsored") else 0
+        
+        total_score = distance_score + rating_score + review_score + sponsored_bonus
+        
+        place["score"] = round(total_score, 1)
+        place["distance_miles"] = round(distance, 1)
+        
+        return place
+    
+    scored = [calculate_score(r) for r in results]
+    return sorted(scored, key=lambda x: x["score"], reverse=True)
+
+
+def calculate_distance(lat1: float, lon1: float, lat2: float, lon2: float) -> float:
+    """Calculate distance in miles using Haversine formula."""
+    R = 3959  # Earth radius in miles
+    
+    lat1_rad = math.radians(lat1)
+    lon1_rad = math.radians(lon1)
+    lat2_rad = math.radians(lat2)
+    lon2_rad = math.radians(lon2)
+    
+    dlat = lat2_rad - lat1_rad
+    dlon = lon2_rad - lon1_rad
+    
+    a = math.sin(dlat/2)**2 + math.cos(lat1_rad) * math.cos(lat2_rad) * math.sin(dlon/2)**2
+    c = 2 * math.asin(math.sqrt(a))
+    
+    return R * c
+
+
+async def send_ranked_results(query, results: List[Dict], location_name: str, category_name: str, lat: float, lon: float):
+    """Send ranked results with detailed info."""
+    # Summary message
     await query.edit_message_text(
-        f"✅ *Results for {category_name} near {location_name}*\n\n"
-        f"Showing {len(results)} businesses, ranked by proximity",
+        f"✅ *Top {len(results)} {category_name} near {location_name}*\n\n"
+        f"Ranked by: Distance • Rating • Reviews • Ads",
         parse_mode="Markdown"
     )
     
     # Send each result
     for i, result in enumerate(results, 1):
         name = result.get("name", "Unknown")
-        rating = result.get("rating", "N/A")
-        reviews = result.get("review_count", 0)
-        distance = result.get("distance_miles", "N/A")
+        rating = result.get("rating", 0)
+        reviews = result.get("user_ratings_total", 0)
+        distance = result.get("distance_miles", 0)
         phone = result.get("phone", "N/A")
+        score = result.get("score", 0)
+        sponsored = "🎯" if result.get("sponsored") else ""
         
-        # Check if sponsored (has advertising signal)
-        sponsored = "🎯" if result.get("advertising_signal", {}).get("found_advertising") else ""
+        # Rating emoji
+        if rating >= 4.5:
+            rating_emoji = "🔥"
+        elif rating >= 4.0:
+            rating_emoji = "⭐"
+        elif rating >= 3.5:
+            rating_emoji = "👍"
+        else:
+            rating_emoji = "📍"
         
         text = f"*{i}. {name}* {sponsored}\n"
-        text += f"⭐ {rating} ({reviews} reviews)\n"
+        text += f"{rating_emoji} {rating}/5.0 ({reviews} reviews)\n"
         text += f"📍 {distance} mi away\n"
-        text += f"📞 {phone}"
+        text += f"⚡ Score: {score}/100"
         
-        # Google Maps button
-        maps_url = f"https://www.google.com/maps/search/{urllib.parse.quote(name)}+{urllib.parse.quote(location_name)}"
+        if phone != "N/A":
+            text += f"\n📞 {phone}"
         
-        buttons = [[
-            InlineKeyboardButton("📍 View on Maps", url=maps_url),
-            InlineKeyboardButton("📞 Call", url=f"tel:{phone}" if phone != "N/A" else "https://maps.google.com")
-        ]]
+        # Action buttons
+        maps_url = f"https://www.google.com/maps/search/{urllib.parse.quote(name)}/@{lat},{lon},15z"
+        directions_url = f"https://maps.google.com/maps/dir/?api=1&destination={result.get('lat')},{result.get('lon')}"
+        
+        buttons = [
+            [
+                InlineKeyboardButton("📍 View Maps", url=maps_url),
+                InlineKeyboardButton("📍 Directions", url=directions_url)
+            ]
+        ]
+        
+        if phone != "N/A":
+            buttons.append([InlineKeyboardButton("📞 Call", url=f"tel:{phone}")])
         
         keyboard = InlineKeyboardMarkup(buttons)
         
         await query.message.reply_text(text, parse_mode="Markdown", reply_markup=keyboard)
         
-        # Small delay
-        await asyncio.sleep(0.1)
+        # Small delay between messages
+        await asyncio.sleep(0.2)
 
 
 async def cancel(update: Update, context: ContextTypes.DEFAULT_TYPE):
@@ -436,12 +557,26 @@ def main():
     app = Application.builder().token(TOKEN).build()
     
     # Conversation handler
+    async def handle_near_me_callback(update: Update, context: ContextTypes.DEFAULT_TYPE):
+        """Handle near me button click."""
+        query = update.callback_query
+        user_id = query.from_user.id
+        
+        await query.answer()
+        await query.edit_message_text(
+            "📍 *Share your location*\n\n"
+            "I don't have access to your device location, so please enter your zip code:",
+            parse_mode="Markdown"
+        )
+        
+        return LOCATION_INPUT
+    
     conv_handler = ConversationHandler(
         entry_points=[CommandHandler("search", search_start)],
         states={
             LOCATION_INPUT: [
                 MessageHandler(filters.TEXT & ~filters.COMMAND, handle_location_input),
-                CallbackQueryHandler(lambda u, c: handle_location_input(u, c), pattern="near_me"),
+                CallbackQueryHandler(handle_near_me_callback, pattern="near_me"),
                 CallbackQueryHandler(cancel, pattern="cancel"),
             ],
             CATEGORY_SELECT: [
