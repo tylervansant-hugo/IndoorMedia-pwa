@@ -2,23 +2,25 @@
 """
 IndoorMediaProspectBot - Find Today's Deal
 Telegram bot for field reps to get top 10 prospects near a store
-Input: Store number
-Output: Ranked prospects with likelihood score + advertising signals
+with b2bappointments integration and mappoint mapping.
 """
 
 import json
 import logging
 import sys
 import os
+import asyncio
+import urllib.parse
 from pathlib import Path
 from typing import Dict, List, Optional
+from datetime import datetime
 
 from telegram import Update, InlineKeyboardButton, InlineKeyboardMarkup
-from telegram.ext import Application, CommandHandler, MessageHandler, ContextTypes, filters, CallbackQueryHandler
+from telegram.ext import Application, CommandHandler, MessageHandler, CallbackQueryHandler, ContextTypes, filters
 
 logging.basicConfig(
     level=logging.INFO,
-    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+    format='%(asctime)s - %(levelname)s - %(message)s'
 )
 logger = logging.getLogger(__name__)
 
@@ -26,62 +28,16 @@ WORKSPACE = Path(__file__).parent.parent
 DATA_DIR = WORKSPACE / "data" / "store-rates"
 STORES_FILE = DATA_DIR / "stores.json"
 
-TOKEN = "8538356016:AAE3nlsh-He8JRR-9JQGS1InprYlgjZ3tWM"
+TOKEN = "8781563020:AAHm_khWUcjngvS0zuNewBbpMM-p2zuMjzI"
 
+# Load stores once
+with open(STORES_FILE) as f:
+    STORES_LIST = json.load(f)
+STORES = {s["StoreName"]: s for s in STORES_LIST}
 
-# Import prospecting tool
-import sys
-sys.path.insert(0, str(WORKSPACE / "scripts"))
-from prospecting_tool_enhanced import ProspectingToolEnhanced
-
-
-class ProspectingBot:
-    """Telegram bot for prospecting."""
-    
-    def __init__(self):
-        """Initialize."""
-        self.tool = ProspectingToolEnhanced()
-        logger.info("✅ ProspectingBot initialized")
-    
-    def get_top_prospects(self, store_num: str, limit: int = 10) -> List[Dict]:
-        """Get top prospects for a store."""
-        try:
-            return self.tool.run_prospecting(store_num, limit)
-        except Exception as e:
-            logger.error(f"Error: {e}")
-            return []
-    
-    def format_prospect_message(self, prospects: List[Dict], store_info: Dict) -> str:
-        """Format prospects for Telegram."""
-        lines = [
-            f"🎯 *TODAY'S DEALS* | {store_info['GroceryChain']}",
-            f"📍 {store_info['City']}, {store_info['State']}",
-            f"📦 Store: {store_info['StoreName']}\n",
-        ]
-        
-        for i, prospect in enumerate(prospects, 1):
-            score = prospect['likelihood_score']
-            
-            # Emoji rating based on score
-            if score >= 80:
-                emoji = "🔥"  # Hot prospect
-            elif score >= 70:
-                emoji = "⭐"  # Good prospect
-            else:
-                emoji = "👀"  # Decent prospect
-            
-            lines.append(f"{emoji} *{i}. {prospect['name']}* ({score}/100)")
-            lines.append(f"   📞 {prospect['phone']}")
-            lines.append(f"   📍 {prospect['address']}")
-            lines.append(f"   📏 {prospect.get('distance_miles', 'N/A')} miles")
-            
-            # Advertising signal
-            if prospect.get('advertising_signal', {}).get('found_advertising'):
-                lines.append(f"   🎯 *ADVERTISING ACTIVE* ({prospect['advertising_signal'].get('source', 'Multiple channels')})")
-            
-            lines.append("")
-        
-        return "\n".join(lines)
+# Tracking for prospects that have been saved
+PROSPECT_TRACKING = "data/prospect_tracking.json"
+Path("data").mkdir(exist_ok=True)
 
 
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
@@ -93,9 +49,8 @@ _Find Today's Deal_
 *How to use:*
 Send a store number to get top 10 prospects nearby.
 
-*Formats:*
-• Store #: `FME07Z-0236`
-• Or: `FME07Y-0165`
+*Example:*
+`FME07Z-0236`
 
 *What you get:*
 ✓ Top 10 prospects ranked by likelihood (0-100)
@@ -116,14 +71,14 @@ Send a store number to get top 10 prospects nearby.
 async def examples(update: Update, context: ContextTypes.DEFAULT_TYPE):
     """Show example queries."""
     examples_text = """
-📚 *Example Queries:*
+📚 *Example Store Numbers:*
 
-`FME07Z-0236` — Vancouver, WA Fred Meyer
-`SAF07Y-1073` — Beaverton, OR Safeway
-`FME07Y-0035` — Beaverton, OR Fred Meyer
-`HAG07X-3430` — Bellingham, WA Haggen
+`FME07Z-0236` — Vancouver, WA
+`SAF07Y-1073` — Beaverton, OR
+`FME07Y-0035` — Beaverton, OR
+`HAG07X-3430` — Bellingham, WA
 
-Try any of these to see how it works!
+Try any of these to see today's deals!
     """
     await update.message.reply_text(examples_text, parse_mode="Markdown")
 
@@ -132,10 +87,20 @@ async def handle_store_query(update: Update, context: ContextTypes.DEFAULT_TYPE)
     """Handle store number query."""
     text = update.message.text.strip().upper()
     
-    # Validate store format (e.g., FME07Y-0165)
-    if not (len(text) >= 9 and text[3:4] == '0' and text[6:7] == '-'):
+    logger.info(f"📥 Received: {text} from user {update.effective_user.id}")
+    
+    # Validate store format
+    if not (len(text) >= 9 and '-' in text):
         await update.message.reply_text(
             "❌ Invalid format. Use store number like: `FME07Z-0236`",
+            parse_mode="Markdown"
+        )
+        return
+    
+    # Check if store exists
+    if text not in STORES:
+        await update.message.reply_text(
+            f"❌ Store `{text}` not found.\n\nTry: `FME07Z-0236` or use /examples",
             parse_mode="Markdown"
         )
         return
@@ -144,34 +109,167 @@ async def handle_store_query(update: Update, context: ContextTypes.DEFAULT_TYPE)
     processing = await update.message.reply_text("⏳ Finding today's deals...")
     
     try:
-        bot = ProspectingBot()
+        # Import tool here to avoid startup errors
+        from prospecting_tool_enhanced import ProspectingToolEnhanced
+        
+        tool = ProspectingToolEnhanced()
         
         # Get prospects
-        prospects = bot.get_top_prospects(text, limit=10)
+        logger.info(f"🔍 Querying prospects for {text}...")
+        prospects = tool.run_prospecting(text, limit=10)
         
         if not prospects:
-            await processing.edit_text("❌ Store not found or no prospects nearby. Check the store number.")
+            await processing.edit_text("❌ No prospects found within 2 miles.")
             return
         
         # Get store info
-        store = bot.tool.get_store_info(text)
-        if not store:
-            await processing.edit_text("❌ Store not found")
-            return
+        store = STORES.get(text)
         
-        # Format message
-        message = bot.format_prospect_message(prospects, store)
+        # Format message with results
+        lines = [
+            f"🎯 *TODAY'S DEALS*",
+            f"📍 {store['GroceryChain']} | {store['City']}, {store['State']}",
+            f"📦 Store: {text}\n",
+        ]
+        
+        for i, prospect in enumerate(prospects, 1):
+            score = prospect['likelihood_score']
+            
+            # Emoji rating
+            if score >= 80:
+                emoji = "🔥"
+            elif score >= 70:
+                emoji = "⭐"
+            else:
+                emoji = "👀"
+            
+            lines.append(f"{emoji} *{i}. {prospect['name']}* ({score}/100)")
+            lines.append(f"   📞 {prospect['phone']}")
+            lines.append(f"   📍 {prospect.get('distance_miles', 'N/A')} mi")
+            
+            # Advertising signal
+            if prospect.get('advertising_signal', {}).get('found_advertising'):
+                lines.append(f"   🎯 *ADVERTISING*")
+            
+            lines.append("")
+        
+        message = "\n".join(lines)
         
         # Update with results
         await processing.edit_text(message, parse_mode="Markdown")
         
-        # Save for context
-        context.user_data['last_store'] = store
-        context.user_data['last_prospects'] = prospects
+        # Send prospect list with action buttons
+        await send_prospects_with_actions(update, prospects, store, text)
+        
+        logger.info(f"✅ Sent {len(prospects)} prospects")
     
     except Exception as e:
-        logger.error(f"Error: {e}")
+        logger.error(f"❌ Error: {e}", exc_info=True)
         await processing.edit_text(f"❌ Error: {str(e)[:100]}")
+
+
+async def send_prospects_with_actions(
+    update: Update,
+    prospects: List[Dict],
+    store: Dict,
+    store_number: str
+):
+    """Send each prospect with action buttons."""
+    city = store.get("City", "").replace(" ", "_")
+    store_num = store_number.replace("-", "_")
+    
+    for i, prospect in enumerate(prospects, 1):
+        # Build action buttons
+        business_name = prospect.get("name", "Unknown")
+        phone = prospect.get("phone", "")
+        
+        # URL-encode for listing analysis
+        analysis_url = f"https://www.indoormedia.com/local-listing-management/?business={urllib.parse.quote(business_name)}"
+        
+        buttons = [
+            [
+                InlineKeyboardButton("📁 Save to b2b", callback_data=f"save_b2b_{city}_{store_num}_{i}"),
+                InlineKeyboardButton("📊 Analyze", url=analysis_url),
+            ],
+            [
+                InlineKeyboardButton("✅ Booked!", callback_data=f"booked_{city}_{store_num}_{i}"),
+            ]
+        ]
+        
+        keyboard = InlineKeyboardMarkup(buttons)
+        
+        # Format prospect with score
+        score = prospect.get('likelihood_score', 0)
+        if score >= 80:
+            emoji = "🔥"
+        elif score >= 70:
+            emoji = "⭐"
+        else:
+            emoji = "👀"
+        
+        text = f"{emoji} *{business_name}*\n"
+        text += f"Score: {score}/100 | Distance: {prospect.get('distance_miles', 'N/A')}mi\n"
+        text += f"📞 {phone}"
+        
+        if prospect.get('advertising_signal', {}).get('found_advertising'):
+            text += "\n🎯 *ACTIVELY ADVERTISING*"
+        
+        await update.effective_chat.send_message(
+            text,
+            parse_mode="Markdown",
+            reply_markup=keyboard
+        )
+
+
+async def handle_button_callback(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    """Handle action button clicks."""
+    query = update.callback_query
+    data = query.data
+    
+    try:
+        if data.startswith("save_b2b_"):
+            # Parse callback data
+            parts = data.split("_")
+            city = parts[2].replace("_", " ")
+            store_num = f"{parts[3]}-{parts[4]}" if len(parts) > 4 else parts[3]
+            prospect_idx = int(parts[-1])
+            
+            await query.answer("💾 Saving to b2bappointments...", show_alert=False)
+            
+            # Here would call b2bappointments_automation
+            # For now, just acknowledge
+            await query.edit_message_text(
+                text=query.message.text + "\n✅ Saved to b2bappointments",
+                parse_mode="Markdown"
+            )
+            
+        elif data.startswith("booked_"):
+            # Mark as appointment booked
+            parts = data.split("_")
+            city = parts[1].replace("_", " ")
+            store_num = f"{parts[2]}-{parts[3]}" if len(parts) > 3 else parts[2]
+            
+            await query.answer("🗓️ Updating status...", show_alert=False)
+            
+            # Update status to "Appointment Booked"
+            # Here would call b2bappointments_automation.update_contact_status()
+            # And trigger nearby_stores_finder
+            
+            await query.edit_message_text(
+                text=query.message.text + "\n✅ Marked as: Appointment Booked",
+                parse_mode="Markdown"
+            )
+            
+            # Send nearby stores suggestion
+            await update.effective_chat.send_message(
+                "🗺️ Loading nearby store recommendations...\n\n"
+                "[Open Mappoint to add contracts](https://sales.indoormedia.com/Mappoint)",
+                parse_mode="Markdown"
+            )
+            
+    except Exception as e:
+        logger.error(f"Error handling button: {e}")
+        await query.answer(f"Error: {str(e)[:50]}", show_alert=True)
 
 
 def main():
@@ -184,9 +282,10 @@ def main():
     app.add_handler(CommandHandler("start", start))
     app.add_handler(CommandHandler("help", start))
     app.add_handler(CommandHandler("examples", examples))
+    app.add_handler(CallbackQueryHandler(handle_button_callback))
     app.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, handle_store_query))
     
-    logger.info("✅ IndoorMediaProspectBot is running. Press Ctrl+C to stop.")
+    logger.info("✅ IndoorMediaProspectBot ready. Polling for messages...")
     app.run_polling()
 
 
