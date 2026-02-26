@@ -1,0 +1,250 @@
+{
+  "categories": {
+    "🍽️": {
+      "name": "Restaurants",
+      "emoji": "🍽️",
+      "subcategories": {
+        "🌮": {
+          "name": "Mexican",
+          "emoji": "🌮",
+          "google_types": ["mexican_restaurant"]
+        },
+        "🍕": {
+          "name": "Pizza",
+          "emoji": "🍕",
+          "google_types": ["pizza_restaurant"]
+        },
+        "☕": {
+          "name": "Coffee",
+          "emoji": "☕",
+          "google_types": ["cafe", "coffee_shop"]
+        },
+        "🍣": {
+          "name": "Sushi/Asian",
+          "emoji": "🍣",
+          "google_types": ["sushi_restaurant", "asian_restaurant", "chinese_restaurant", "japanese_restaurant"]
+        },
+        "🍔": {
+          "name": "Fast Food/Burgers",
+          "emoji": "🍔",
+          "google_types": ["hamburger_restaurant", "fast_food_restaurant"]
+        },
+        "🥩": {
+          "name": "Steakhouse",
+          "emoji": "🥩",
+          "google_types": ["steakhouse"]
+        },
+        "🍝": {
+          "name": "Italian",
+          "emoji": "🍝",
+          "google_types": ["italian_restaurant"]
+        },
+        "🌮": {
+          "name": "Other Dining",
+          "emoji": "🍴",
+          "google_types": ["restaurant", "bar", "cafe"]
+        }
+      }
+    },
+    "🚗": {
+      "name": "Automotive",
+      "emoji": "🚗",
+      "subcategories": {
+        "🛢️": {
+          "name": "Oil Change/Lube",
+          "emoji": "🛢️",
+          "google_types": ["oil_change_service"]
+        },
+        "🚗": {
+          "name": "Car Wash",
+          "emoji": "🚗",
+          "google_types": ["car_wash"]
+        },
+        "🔧": {
+          "name": "Auto Repair",
+          "emoji": "🔧",
+          "google_types": ["auto_repair", "car_repair"]
+        },
+        "🛞": {
+          "name": "Tires",
+          "emoji": "🛞",
+          "google_types": ["tire_shop"]
+        },
+        "🚙": {
+          "name": "Car Dealer",
+          "emoji": "🚙",
+          "google_types": ["car_dealer"]
+        },
+        "⚙️": {
+          "name": "Transmission/Engine",
+          "emoji": "⚙️",
+          "google_types": ["transmission_repair_service"]
+        }
+      }
+    },
+    "💄": {
+      "name": "Beauty/Health",
+      "emoji": "💄",
+      "subcategories": {
+        "✂️": {
+          "name": "Hair Salon",
+          "emoji": "✂️",
+          "google_types": ["hair_care", "barber_shop"]
+        },
+        "💆": {
+          "name": "Spa/Massage",
+          "emoji": "💆",
+          "google_types": ["spa", "massage_therapy"]
+        },
+        "💪": {
+          "name": "Gym/Fitness",
+          "emoji": "💪",
+          "google_types": ["gym", "fitness_center"]
+        },
+        "🦷": {
+          "name": "Dentist",
+          "emoji": "🦷",
+          "google_types": ["dentist"]
+        },
+        "👁️": {
+          "name": "Optometrist/Eye Care",
+          "emoji": "👁️",
+          "google_types": ["optometrist", "eye_care"]
+        },
+        "🏥": {
+          "name": "Doctor/Medical",
+          "emoji": "🏥",
+          "google_types": ["doctor", "health"]
+        },
+        "💅": {
+          "name": "Nail Salon",
+          "emoji": "💅",
+          "google_types": ["nail_salon"]
+        }
+      }
+    },
+    "🏠": {
+      "name": "Home Services",
+      "emoji": "🏠",
+      "subcategories": {
+        "🏗️": {
+          "name": "General Contractor",
+          "emoji": "🏗️",
+          "google_types": ["general_contractor"]
+        },
+        "🏠": {
+          "name": "Roofing",
+          "emoji": "🏠",
+          "google_types": ["roofing_contractor"]
+        },
+        "🌳": {
+          "name": "Landscaping",
+          "emoji": "🌳",
+          "google_types": ["landscaper", "lawn_care_service"]
+        },
+        "🚰": {
+          "name": "Plumbing",
+          "emoji": "🚰",
+          "google_types": ["plumber"]
+        },
+        "⚡": {
+          "name": "Electrical",
+          "emoji": "⚡",
+          "google_types": ["electrician"]
+        },
+        "🔨": {
+          "name": "Handyman",
+          "emoji": "🔨",
+          "google_types": ["handyman"]
+        },
+        "❄️": {
+          "name": "HVAC",
+          "emoji": "❄️",
+          "google_types": ["heating_and_air_conditioning"]
+        },
+        "🪟": {
+          "name": "Windows/Glass",
+          "emoji": "🪟",
+          "google_types": ["window_treatment_store"]
+        }
+      }
+    },
+    "👔": {
+      "name": "Professionals",
+      "emoji": "👔",
+      "subcategories": {
+        "🏡": {
+          "name": "Real Estate",
+          "emoji": "🏡",
+          "google_types": ["real_estate_agency", "real_estate_agent"]
+        },
+        "📋": {
+          "name": "Insurance",
+          "emoji": "📋",
+          "google_types": ["insurance_agency"]
+        },
+        "💼": {
+          "name": "Financial Adviser",
+          "emoji": "💼",
+          "google_types": ["finance"]
+        },
+        "📊": {
+          "name": "Accountant/CPA",
+          "emoji": "📊",
+          "google_types": ["accountant"]
+        },
+        "⚖️": {
+          "name": "Lawyer/Attorney",
+          "emoji": "⚖️",
+          "google_types": ["lawyer", "attorney"]
+        },
+        "📸": {
+          "name": "Photographer",
+          "emoji": "📸",
+          "google_types": ["photographer"]
+        }
+      }
+    },
+    "🛍️": {
+      "name": "Retail",
+      "emoji": "🛍️",
+      "subcategories": {
+        "👕": {
+          "name": "Clothing",
+          "emoji": "👕",
+          "google_types": ["clothing_store"]
+        },
+        "💻": {
+          "name": "Electronics",
+          "emoji": "💻",
+          "google_types": ["electronics_store", "computer_store"]
+        },
+        "🛒": {
+          "name": "Grocery",
+          "emoji": "🛒",
+          "google_types": ["grocery_store", "supermarket"]
+        },
+        "🏪": {
+          "name": "General Retail",
+          "emoji": "🏪",
+          "google_types": ["store"]
+        },
+        "💍": {
+          "name": "Jewelry",
+          "emoji": "💍",
+          "google_types": ["jewelry_store"]
+        },
+        "🛋️": {
+          "name": "Furniture",
+          "emoji": "🛋️",
+          "google_types": ["furniture_store"]
+        },
+        "📚": {
+          "name": "Books",
+          "emoji": "📚",
+          "google_types": ["book_store"]
+        }
+      }
+    }
+  }
+}
