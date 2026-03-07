@@ -114,12 +114,20 @@ st.set_page_config(page_title="IndoorMedia ROI Calculator", layout="wide")
 st.title("📊 Register Tape ROI Calculator")
 st.markdown("Calculate your advertising ROI with register tape campaigns")
 
+# Check for store parameter in URL
+query_params = st.query_params
+pre_selected_store_num = query_params.get("store", None)
+
 # Store selection
 st.header("1️⃣ Select Your Store")
 col1, col2 = st.columns(2)
 
 with col1:
-    search_type = st.radio("Find by:", ["City, State", "Store Number"], horizontal=True)
+    # If store param provided, default to Store Number search
+    if pre_selected_store_num:
+        search_type = "Store Number"
+    else:
+        search_type = st.radio("Find by:", ["City, State", "Store Number"], horizontal=True)
 
 selected_store = None
 if search_type == "City, State":
@@ -132,11 +140,19 @@ if search_type == "City, State":
             store_num = selected_store_name.split(" - ")[0]
             selected_store = STORES[store_num]
 else:
-    store_number = st.text_input("Store Number (e.g., KRO21Y-0350):")
-    if store_number and store_number in STORES:
-        selected_store = STORES[store_number]
-    elif store_number:
-        st.warning("Store not found")
+    # Pre-fill with store from URL if provided
+    if pre_selected_store_num:
+        if pre_selected_store_num in STORES:
+            selected_store = STORES[pre_selected_store_num]
+            st.success(f"✅ Pre-loaded from link: {pre_selected_store_num}")
+        else:
+            st.warning(f"Store {pre_selected_store_num} not found")
+    else:
+        store_number = st.text_input("Store Number (e.g., KRO21Y-0350):")
+        if store_number and store_number in STORES:
+            selected_store = STORES[store_number]
+        elif store_number:
+            st.warning("Store not found")
 
 if selected_store:
     st.success(f"✅ Selected: {selected_store['StoreName']} - {selected_store['GroceryChain']}, {selected_store['City']}, {selected_store['State']}")

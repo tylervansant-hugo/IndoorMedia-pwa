@@ -2991,6 +2991,9 @@ async def handle_button_callback(update: Update, context: ContextTypes.DEFAULT_T
             if existing_notes:
                 text += f"\n📝 *Notes:* _{existing_notes[:80]}{'...' if len(existing_notes) > 80 else ''}_\n"
             
+            # Get store number for ROI calculator link
+            store_number = prospect.get('store', '')
+            
             # Expanded buttons
             buttons = [
                 [
@@ -3009,14 +3012,19 @@ async def handle_button_callback(update: Update, context: ContextTypes.DEFAULT_T
                     InlineKeyboardButton("🔍 AI Deep Scan", callback_data=f"deepscan_{prospect_id}"),
                     InlineKeyboardButton("✉️ Draft Email", callback_data=f"draftemail_{prospect_id}"),
                 ],
-                [
-                    InlineKeyboardButton("📅 Calendar", callback_data=f"cal_{prospect_id}"),
-                ],
+            ]
+            
+            # Add calendar + ROI buttons
+            cal_row = [InlineKeyboardButton("📅 Calendar", callback_data=f"cal_{prospect_id}")]
+            if store_number:
+                cal_row.append(InlineKeyboardButton("📊 ROI Calc", url=f"http://localhost:8501?store={store_number}"))
+            buttons.append(cal_row)
+            
+            # Add collapse and menu buttons
+            buttons.extend([
                 [InlineKeyboardButton("◀️ Collapse", callback_data=f"collapse_{prospect_id}")],
                 [InlineKeyboardButton("⬅️ Main Menu", callback_data="main_menu")],
-            ]
-            # Remove None buttons
-            buttons = [[b for b in row if b] for row in buttons if any(row)]
+            ])
             
             await query.edit_message_text(text, parse_mode="Markdown", reply_markup=InlineKeyboardMarkup(buttons))
         elif data.startswith("deepscan_"):
