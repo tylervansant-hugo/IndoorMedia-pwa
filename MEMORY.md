@@ -201,7 +201,7 @@ python3 scripts/prospecting_tool_enhanced.py FME07Z-0236 10
 5. Scale to all 612 stores with batch processing
 
 ## ROI Calculator (LIVE - Mar 6, 2026)
-**Status:** ✅ LIVE & RUNNING on localhost:8501
+**Status:** ✅ LIVE & RUNNING on localhost:8501 + INTEGRATED with ProspectBot
 
 **Purpose:** Help reps calculate and visualize ROI for register tape campaigns before pitching customers.
 
@@ -211,11 +211,23 @@ python3 scripts/prospecting_tool_enhanced.py FME07Z-0236 10
 - **Launch script:** `scripts/run_roi_calculator.sh`
 - **Venv:** `.venv_roi` (isolated Python environment)
 
+### Integration with ProspectBot
+**Feature:** `📊 ROI Calc` button on every prospect card
+- Click button → Opens pre-filled ROI calculator
+- Store number auto-selected from URL parameter (?store=STORENUM)
+- Seamless workflow: Find prospect → Check ROI in seconds
+- URL format: `http://localhost:8501?store=ROS07Z-0042`
+
+**Where it appears:**
+- ✅ Prospect expansion panel (next to Calendar)
+- ✅ All prospects with valid store numbers
+
 **Workflow:**
-1. Select store (by city or store number)
-2. Set business metrics (redemptions, ticket, COGS, coupon)
-3. Choose ad size & payment plan
-4. See instant ROI calculations
+1. Find prospect in ProspectBot
+2. Click "▶️ Show Actions" to expand
+3. Click "📊 ROI Calc" button
+4. Streamlit app opens with store pre-selected
+5. Adjust sliders and see instant ROI
 
 **Metrics Shown:**
 - Monthly/annual revenue, profit, ROI
@@ -245,6 +257,7 @@ ROI: 164%
 - Tiers: Co-Op (base + $125) vs Standard (base + $1,200 + $125)
 - All campaigns = 12 months
 - Monthly cost for ROI = Annual ÷ 12
+- URL parameter support: accepts `?store=STORENUM` and pre-fills store
 
 **Data Sources:**
 - Store numbers, prices, case counts from `data/store-rates/stores.json`
