@@ -1,0 +1,43 @@
+{
+  "product": "Digital - LoyaltyBoost",
+  "description": "Annual loyalty/rewards campaign per location",
+  "pricing": {
+    "annual_campaign": 3600,
+    "production_fee": 495,
+    "production_commissionable": false,
+    "production_discount": {
+      "with_testimonial": 125,
+      "note": "Production fee reduced by $125 if renewal contract comes with testimonial letter at submission"
+    },
+    "paid_in_full_discount": {
+      "rate": 0.05,
+      "applies_to": "Package cost and production fee"
+    }
+  },
+  "payment_options": {
+    "paid_in_full": "Full payment with contract. 5% discount allowed on package + production.",
+    "installments_6mo": "6 months with consecutive equal payments from date of sale",
+    "installments_12mo": "12 months with consecutive equal payments from date of sale",
+    "note": "Consecutive means consecutive, equal auto-deducted payments dated 30 days apart"
+  },
+  "commissions": {
+    "with_active_print_ad": {
+      "paid_in_full": {"rate": 0.275, "type": "UF"},
+      "6_or_12mo_6_or_less_payments": {"rate": 0.25, "type": "UF"},
+      "6_or_12mo_7_plus_payments": {"rate": 0.25, "type": "AE"}
+    },
+    "without_active_print_ad": {
+      "6_or_12mo_4_or_less_payments": {"rate": 0.25, "type": "UF"},
+      "6_or_12mo_5_plus_payments": {"rate": 0.25, "type": "AE"}
+    },
+    "all_others": {"rate": 0.25, "type": "AE"},
+    "corporate_web_lead_or_telemarketing": {"override": -0.10, "note": "-10% deduction"},
+    "ach_bonus": {"rate": 0.01, "condition": "ACH payment deposit with 4 pays or less"}
+  },
+  "commission_definitions": {
+    "UF": "Up Front - commission advanced all at once",
+    "AE": "As Earned - commission paid each time customer pays",
+    "PIF": "Paid in Full - payment received with contract, paid As Earned without PO/check/charge",
+    "active_print_ad": "Customer has a Print Ad running for the full term of the Digital Ad"
+  }
+}

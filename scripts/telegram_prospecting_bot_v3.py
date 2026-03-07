@@ -292,12 +292,13 @@ async def handle_subcategory_select(update: Update, context: ContextTypes.DEFAUL
         )
         
         try:
-            # Search Google Places
+            # Search Google Places using type-based filtering
             results = await search_google_places(
                 query_text=subcategory_name,
                 lat=lat,
                 lon=lon,
-                location_name=location_name
+                location_name=location_name,
+                google_types=google_types
             )
             
             if not results:
@@ -373,45 +374,48 @@ def resolve_location(location_text: str) -> Tuple[Optional[float], Optional[floa
 # (Removed - now using rank_results function instead)
 
 
-async def search_google_places(query_text: str, lat: float, lon: float, location_name: str) -> List[Dict]:
-    """Search Google Places API and return results."""
+async def search_google_places(query_text: str, lat: float, lon: float, location_name: str, google_types: List[str] = None) -> List[Dict]:
+    """Search Google Places API using type-based filtering (not text query)."""
     try:
-        # Nearby search endpoint
+        # Nearby search endpoint with type parameter (more accurate than text query)
         url = "https://maps.googleapis.com/maps/api/place/nearbysearch/json"
         
-        params = {
-            "location": f"{lat},{lon}",
-            "radius": 5000,  # 5km radius
-            "query": query_text,
-            "key": GOOGLE_PLACES_API_KEY
-        }
-        
-        async with httpx.AsyncClient() as client:
-            response = await client.get(url, params=params)
-            data = response.json()
-        
-        if data.get("status") != "OK":
-            logger.warning(f"Google Places API error: {data.get('status')}")
-            return []
-        
         results = []
-        for place in data.get("results", [])[:20]:  # Top 20
-            result = {
-                "name": place.get("name", "Unknown"),
-                "lat": place.get("geometry", {}).get("location", {}).get("lat", lat),
-                "lon": place.get("geometry", {}).get("location", {}).get("lng", lon),
-                "rating": place.get("rating", 0),
-                "user_ratings_total": place.get("user_ratings_total", 0),
-                "phone": place.get("formatted_phone_number", "N/A"),
-                "address": place.get("formatted_address", ""),
-                "is_open": place.get("opening_hours", {}).get("open_now"),
-                "types": place.get("types", []),
-                "place_id": place.get("place_id", ""),
-                "sponsored": is_sponsored_ad(place)  # Detect if sponsored
-            }
-            results.append(result)
         
-        logger.info(f"Found {len(results)} results for '{query_text}'")
+        # If we have specific Google types, search for each one
+        if google_types:
+            for gtype in google_types:
+                params = {
+                    "location": f"{lat},{lon}",
+                    "radius": 8000,  # 5 miles in meters
+                    "type": gtype,
+                    "key": GOOGLE_PLACES_API_KEY
+                }
+                
+                async with httpx.AsyncClient() as client:
+                    response = await client.get(url, params=params)
+                    data = response.json()
+                
+                if data.get("status") == "OK":
+                    for place in data.get("results", []):
+                        # Avoid duplicates
+                        if not any(r["place_id"] == place.get("place_id") for r in results):
+                            result = {
+                                "name": place.get("name", "Unknown"),
+                                "lat": place.get("geometry", {}).get("location", {}).get("lat", lat),
+                                "lon": place.get("geometry", {}).get("location", {}).get("lng", lon),
+                                "rating": place.get("rating", 0),
+                                "user_ratings_total": place.get("user_ratings_total", 0),
+                                "phone": place.get("formatted_phone_number", "N/A"),
+                                "address": place.get("formatted_address", ""),
+                                "is_open": place.get("opening_hours", {}).get("open_now"),
+                                "types": place.get("types", []),
+                                "place_id": place.get("place_id", ""),
+                                "sponsored": is_sponsored_ad(place)
+                            }
+                            results.append(result)
+        
+        logger.info(f"Found {len(results)} results for types {google_types}")
         return results
         
     except Exception as e:

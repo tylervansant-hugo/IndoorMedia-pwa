@@ -1,0 +1,52 @@
+{
+  "product": "Cartvertising - Nose of Cart",
+  "info": {
+    "slots_per_store": "1 or 2 (60 or 120 inserts per slot)",
+    "exclusivity_price": 3995,
+    "exclusivity_note": "$3,995 + production per 60 inserts for nose exclusivity (separate from baby seat exclusivity)",
+    "artwork": "Limited to one version per slot",
+    "bulk_threshold": 25,
+    "bulk_note": "25+ stores must be discussed with management before presenting"
+  },
+  "pricing": {
+    "annual": {
+      "base": 2500,
+      "exclusivity": 3995
+    },
+    "six_month": {
+      "base": 2000,
+      "exclusivity": 3995
+    }
+  },
+  "production_fees": {
+    "single_store": 495,
+    "multi_store": 395,
+    "multi_store_note": "Each store @ $395 when all stores sold at one time",
+    "annual_charge": true,
+    "commissionable": false
+  },
+  "payment_options": {
+    "upfront": {
+      "description": "Production fee due first, then up to 4 additional monthly equal payments",
+      "first_payment_note": "First payment (not deposit) must be 30 days from contract signing"
+    },
+    "paid_in_full": {
+      "bonus": "Additional 2% commission bonus on commissionable contract price",
+      "note": "No other option bonuses"
+    },
+    "as_earned": {
+      "description": "Any contract not Upfront will be As Earned (commission paid as customer payments come in)"
+    }
+  },
+  "commissions": {
+    "tiers": [
+      {"annual_min": 0, "annual_max": 2499, "six_month_min": 0, "six_month_max": 1999, "rate": 0.00, "label": "Under Base - 0%"},
+      {"annual_min": 2500, "annual_max": 2500, "six_month_min": 2000, "six_month_max": 2000, "rate": 0.20, "label": "Base - 20%"},
+      {"annual_min": 2501, "annual_max": null, "six_month_min": 2001, "six_month_max": null, "rate_base": 0.20, "rate_overage": 0.40, "label": "Over Base - 20% on base + 40% on overage"}
+    ],
+    "per_slot_per_customer": true,
+    "two_slot_note": "If customer purchases 2 slots, base amount is doubled",
+    "two_customer_note": "If 2 customers on a store, each must be over base individually",
+    "pif_bonus": 0.02
+  }
+}

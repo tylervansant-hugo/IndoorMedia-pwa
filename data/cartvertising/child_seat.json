@@ -1,0 +1,97 @@
+{
+  "product": "Cartvertising - Child Seat",
+  "packages": [
+    {
+      "name": "20% of all carts – Front OR Directory (one side)",
+      "short": "20% One Side",
+      "six_month_rate": 2995,
+      "deposit_25pct": 748.75,
+      "production_fee": 250,
+      "deposit_plus_production": 998.75,
+      "full_pay_5pct_rate": 2845.25,
+      "full_pay_total_with_production": 3095.25,
+      "savings_5pct": 149.75
+    },
+    {
+      "name": "40% of all carts – 20% Front + 20% Directory",
+      "short": "40% Both Sides",
+      "six_month_rate": 4795,
+      "deposit_25pct": 1198.75,
+      "production_fee": 250,
+      "deposit_plus_production": 1448.75,
+      "full_pay_5pct_rate": 4555.25,
+      "full_pay_total_with_production": 4805.25,
+      "savings_5pct": 239.75
+    },
+    {
+      "name": "60% of all carts – 40% Front + 20% Directory",
+      "short": "60% Coverage",
+      "six_month_rate": 5995,
+      "deposit_25pct": 1498.75,
+      "production_fee": 250,
+      "deposit_plus_production": 1748.75,
+      "full_pay_5pct_rate": 5695.25,
+      "full_pay_total_with_production": 5945.25,
+      "savings_5pct": 299.75
+    },
+    {
+      "name": "80% of all carts – 40% Front + 40% Directory",
+      "short": "80% Coverage",
+      "six_month_rate": 7395,
+      "deposit_25pct": 1848.75,
+      "production_fee": 250,
+      "deposit_plus_production": 2098.75,
+      "full_pay_5pct_rate": 7025.25,
+      "full_pay_total_with_production": 7275.25,
+      "savings_5pct": 369.75
+    },
+    {
+      "name": "100% of all carts – 60% Front + 40% Directory",
+      "short": "100% Coverage",
+      "six_month_rate": 8795,
+      "deposit_25pct": 2198.75,
+      "production_fee": 250,
+      "deposit_plus_production": 2448.75,
+      "full_pay_5pct_rate": 8355.25,
+      "full_pay_total_with_production": 8605.25,
+      "savings_5pct": 439.75
+    },
+    {
+      "name": "200% of all carts – 100% Both Sides",
+      "short": "200% Both Sides",
+      "six_month_rate": 12995,
+      "deposit_25pct": 3248.75,
+      "production_fee": 250,
+      "deposit_plus_production": 3498.75,
+      "full_pay_5pct_rate": 12345.25,
+      "full_pay_total_with_production": 12595.25,
+      "savings_5pct": 649.75
+    },
+    {
+      "name": "Header Ads – 50% Top Right Side (Every Other Cart)",
+      "short": "Header 50%",
+      "six_month_rate": 2995,
+      "deposit_25pct": 748.75,
+      "production_fee": 250,
+      "deposit_plus_production": 998.75,
+      "full_pay_5pct_rate": 2845.25,
+      "full_pay_total_with_production": 3095.25,
+      "savings_5pct": 149.75
+    },
+    {
+      "name": "Header Ads – 100% Top Right Side (Every Cart)",
+      "short": "Header 100%",
+      "six_month_rate": 4795,
+      "deposit_25pct": 1198.75,
+      "production_fee": 250,
+      "deposit_plus_production": 1448.75,
+      "full_pay_5pct_rate": 4555.25,
+      "full_pay_total_with_production": 4805.25,
+      "savings_5pct": 239.75
+    }
+  ],
+  "payment_options": {
+    "deposit": "25% of Six Month Rate + $250 Production Fee upfront, remainder in monthly payments",
+    "full_pay": "5% discount on Six Month Rate + $250 Production Fee (one payment)"
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "product": "Digital - ReviewBoost",
+  "description": "Automated review request campaign via Email & SMS to boost Google/online reviews",
+  "includes": [
+    "ReviewKit",
+    "Automated 4-month review request campaign",
+    "Up to 4,000 contacts per campaign",
+    "Email & SMS review requests"
+  ],
+  "pricing": {
+    "base_campaign": 695,
+    "campaign_duration": "4 months",
+    "contacts_included": 4000,
+    "additional_campaign": 495,
+    "additional_contacts": 4000,
+    "additional_note": "$495 per additional 4-month campaign (up to 4,000 extra contacts per cycle)"
+  }
+}

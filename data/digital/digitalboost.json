@@ -1,0 +1,37 @@
+{
+  "product": "Digital - DigitalBoost",
+  "description": "Geofence pin delivering digital banner ad impressions on mobile websites, games, and apps",
+  "pricing": {
+    "per_pin": 3600,
+    "production_fee": 395,
+    "production_covers_up_to": 5,
+    "production_note": "$395 production fee covers up to 5 pins"
+  },
+  "impressions": {
+    "standalone": 240000,
+    "with_tape_or_cart": 360000,
+    "note": "360K impressions when bundled with Register Tape or Cartvertising"
+  },
+  "manager_approved_coop": {
+    "discounted_pin_price": 2400,
+    "production_fee": 395,
+    "production_not_discounted": true,
+    "first_pin_total": 2795,
+    "additional_pins": 2400,
+    "note": "First pin = $2,400 + $395 production = $2,795. Pins 2-5 = $2,400 each (no additional production fee)"
+  },
+  "standard_pricing_examples": {
+    "1_pin": {"price": 3600, "production": 395, "total": 3995},
+    "2_pins": {"price": 7200, "production": 395, "total": 7595},
+    "3_pins": {"price": 10800, "production": 395, "total": 11195},
+    "4_pins": {"price": 14400, "production": 395, "total": 14795},
+    "5_pins": {"price": 18000, "production": 395, "total": 18395}
+  },
+  "coop_pricing_examples": {
+    "1_pin": {"price": 2400, "production": 395, "total": 2795},
+    "2_pins": {"price": 4800, "production": 395, "total": 5195},
+    "3_pins": {"price": 7200, "production": 395, "total": 7595},
+    "4_pins": {"price": 9600, "production": 395, "total": 9995},
+    "5_pins": {"price": 12000, "production": 395, "total": 12395}
+  }
+}

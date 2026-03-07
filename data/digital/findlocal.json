@@ -1,0 +1,43 @@
+{
+  "product": "Digital - FindLocal",
+  "description": "Local SEO / citations / listings management. Claims, creates, and optimizes 50+ business listings across directories, maps, voice assistants, and GPS apps.",
+  "pricing": {
+    "per_location": 695,
+    "google_profile_assistance": 195,
+    "google_profile_note": "+$195 if Google profile assistance needed",
+    "production_fee": 0,
+    "no_volume_discount": true,
+    "requirements": [
+      "Must have a physical location",
+      "Google Business Profile required"
+    ]
+  },
+  "payment_options": {
+    "sold_individually": "Upfront payment for total amount required",
+    "sold_with_other_products": "Can break payments to match the other contract payment schedule"
+  },
+  "commissions": {
+    "rep_commission": 0.25,
+    "override": 0.10
+  },
+  "features": [
+    "50+ business listing submissions",
+    "NAP optimization (name, address, phone)",
+    "Hours, photos, categories management",
+    "Automated monthly progress reports",
+    "Baseline visibility scan",
+    "Google Business Profile sync as blueprint"
+  ],
+  "submission_network": [
+    "Google", "Apple Maps", "Yelp", "Bing", "Waze", "Uber",
+    "Foursquare", "MapQuest", "YP", "Superpages", "DexKnows",
+    "Data Axle/Localeze", "TomTom", "Garmin", "Here",
+    "Alexa", "Siri", "Google Home", "Cortana", "Bixby",
+    "and 30+ more directories"
+  ],
+  "support": {
+    "digital_ops": "digitalops@indoormedia.com",
+    "james_walters": {"email": "james.walters@indoormedia.com", "phone": "281-206-2497"},
+    "eric_shafer": {"email": "eric.shafer@indoormedia.com", "phone": "281-206-2798"}
+  }
+}

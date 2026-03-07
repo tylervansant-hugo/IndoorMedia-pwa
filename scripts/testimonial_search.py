@@ -17,28 +17,53 @@ SITE_URL = "https://testimonials.indoormedia.com"
 API_ENDPOINT = f"{SITE_URL}/Home/Search"
 
 
-def fetch_testimonials_from_api(limit=2000):
-    """Fetch testimonials from the site's DataTables API"""
-    print(f"🔄 Fetching testimonials from API... (up to {limit} records)")
+def fetch_testimonials_from_api(limit=10000, batch_size=2000):
+    """Fetch testimonials from the site's DataTables API in batches."""
+    print(f"🔄 Fetching testimonials from API... (up to {limit} records, {batch_size} per batch)")
     
-    # DataTables parameters for POST request
-    params = {
-        'draw': '1',
-        'start': '0',
-        'length': str(limit),  # Get up to N results
-    }
+    all_data = []
+    start = 0
+    draw = 1
     
-    try:
-        # Build request
-        data = urlencode(params).encode('utf-8')
-        request = Request(API_ENDPOINT, data=data, headers={'User-Agent': 'Mozilla/5.0'})
+    while start < limit:
+        fetch_count = min(batch_size, limit - start)
+        params = {
+            'draw': str(draw),
+            'start': str(start),
+            'length': str(fetch_count),
+        }
         
-        with urlopen(request, timeout=60) as response:
-            json_data = json.loads(response.read().decode('utf-8'))
-            return json_data
-    except Exception as e:
-        print(f"❌ Error fetching API: {e}")
-        return None
+        try:
+            data = urlencode(params).encode('utf-8')
+            request = Request(API_ENDPOINT, data=data, headers={'User-Agent': 'Mozilla/5.0'})
+            
+            with urlopen(request, timeout=120) as response:
+                json_data = json.loads(response.read().decode('utf-8'))
+                
+                records = json_data.get('data', [])
+                if not records:
+                    print(f"   No more records at offset {start}")
+                    break
+                
+                all_data.extend(records)
+                total_available = json_data.get('recordsTotal', 0)
+                print(f"   ✅ Batch {draw}: fetched {len(records)} (total so far: {len(all_data)}/{total_available})")
+                
+                if len(records) < fetch_count:
+                    break  # No more data
+                    
+                start += fetch_count
+                draw += 1
+                
+        except Exception as e:
+            print(f"   ❌ Error at offset {start}: {e}")
+            if all_data:
+                print(f"   Continuing with {len(all_data)} records fetched so far")
+            break
+    
+    if all_data:
+        return {'data': all_data, 'recordsTotal': len(all_data)}
+    return None
 
 
 def clean_testimonial(t):
