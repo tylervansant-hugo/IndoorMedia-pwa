@@ -834,6 +834,12 @@ async def help_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
    Click [📍 Maps] to view & call
    Click [📞 Call] to dial directly
 
+*Tools Available:*
+📊 *ROI Calculator* — Calculate campaign ROI before pitching
+💰 *Store Rates* — Quick pricing lookup
+📋 *Testimonials* — Find relevant case studies
+🏪 *Audit Store* — Track tape inventory
+
 *Button Actions:*
 🔍 New Search — Start over
 📍 Maps — View on Google Maps
@@ -998,6 +1004,48 @@ async def handle_store_query(update: Update, context: ContextTypes.DEFAULT_TYPE)
         context.user_data[AWAITING_RATES] = False
         await do_rates_lookup(update, text)
         return
+    
+    # Handle ROI calculator if awaiting
+    if context.user_data.get(AWAITING_ROI):
+        context.user_data[AWAITING_ROI] = False
+        await open_roi_calculator(update, text)
+        return
+    
+    # Handle ROI text input fields
+    for roi_field, roi_key, roi_label, roi_max in [
+        (AWAITING_ROI_REDEMPTIONS, 'roi_redemptions', 'Redemptions', 1000),
+        (AWAITING_ROI_TICKET, 'roi_ticket', 'Avg Ticket', 50000),
+        (AWAITING_ROI_COUPON, 'roi_coupon', 'Coupon', 10000),
+        (AWAITING_ROI_COGS, 'roi_cogs', 'COGS %', 100),
+    ]:
+        store_num = context.user_data.get(roi_field)
+        if store_num:
+            context.user_data[roi_field] = None
+            # Parse number (strip $, %, commas)
+            cleaned = text.replace('$', '').replace('%', '').replace(',', '').strip()
+            try:
+                value = float(cleaned)
+                if value < 0 or value > roi_max:
+                    await update.message.reply_text(
+                        f"❌ {roi_label} must be between 0 and {roi_max}. Try again:",
+                        parse_mode="Markdown"
+                    )
+                    context.user_data[roi_field] = store_num
+                    return
+                # Store as int if whole number, else float
+                context.user_data[roi_key] = int(value) if value == int(value) else value
+                # Send new message with ROI results
+                store = STORES.get(store_num)
+                if store:
+                    await send_roi_calculator(update, context, store_num)
+                return
+            except ValueError:
+                await update.message.reply_text(
+                    f"❌ Please enter a valid number for {roi_label}.\n\n_Example: 25 or 42.50_",
+                    parse_mode="Markdown"
+                )
+                context.user_data[roi_field] = store_num
+                return
     
     # Handle testimonial keyword search if awaiting
     if context.user_data.get(AWAITING_KEYWORD):
@@ -1928,6 +1976,146 @@ def make_tier_selection_buttons(store_num: str, ad_type: str = "single") -> Inli
     ])
 
 AWAITING_RATES = "awaiting_rates"
+AWAITING_ROI = "awaiting_roi"
+AWAITING_ROI_REDEMPTIONS = "awaiting_roi_redemptions"
+AWAITING_ROI_TICKET = "awaiting_roi_ticket"
+AWAITING_ROI_COUPON = "awaiting_roi_coupon"
+AWAITING_ROI_COGS = "awaiting_roi_cogs"
+
+async def roi_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    """Handle /roi command."""
+    if context.args:
+        store_num = " ".join(context.args).upper()
+        await open_roi_calculator(update, store_num)
+    else:
+        context.user_data[AWAITING_ROI] = True
+        await update.message.reply_text(
+            "📊 *ROI Calculator*\n\n"
+            "Enter a store number to calculate ROI:\n\n"
+            "_Example: `FME07Z-0236` or `SAF07Y-1073`_",
+            parse_mode="Markdown"
+        )
+
+async def show_roi_calculator(query, context: ContextTypes.DEFAULT_TYPE, store_num: str):
+    """Display interactive ROI calculator with adjustment buttons."""
+    store = STORES.get(store_num)
+    if not store:
+        await query.answer("❌ Store not found", show_alert=True)
+        return
+    
+    # Get current parameters from context
+    redemptions = context.user_data.get('roi_redemptions', 20)
+    avg_ticket = context.user_data.get('roi_ticket', 35)
+    cogs_pct = context.user_data.get('roi_cogs', 35)
+    coupon = context.user_data.get('roi_coupon', 10)
+    ad_type = context.user_data.get('roi_ad_type', 'single')
+    payment_plan = context.user_data.get('roi_payment', 'monthly')
+    tier = context.user_data.get('roi_tier', 'coop')
+    
+    # Calculate ROI using same formula as web calculator
+    base = store["DoubleAd"] if ad_type.lower() == "double" else store["SingleAd"]
+    
+    # Pricing tiers
+    PRODUCTION = 125
+    PADDING = 1200
+    
+    if tier.lower() == "coop":
+        base_before = base
+    else:
+        base_before = base + PADDING
+    
+    # Apply payment plan (annual cost basis)
+    if payment_plan.lower() == "paid_full":
+        annual = (base_before * 0.85) + PRODUCTION
+    elif payment_plan.lower() == "paid_3":
+        annual = ((base_before * 0.90) + PRODUCTION) * 3
+    elif payment_plan.lower() == "paid_6":
+        annual = ((base_before * 0.925) + PRODUCTION) * 6
+    else:  # monthly (base + production is the annual cost)
+        annual = base_before + PRODUCTION
+    
+    monthly_cost = annual / 12
+    
+    # Revenue calculations (assuming these are NEW customers acquired via the coupon)
+    # Full ticket amount since these are incremental customers
+    monthly_revenue = redemptions * avg_ticket
+    monthly_profit = monthly_revenue * (1 - cogs_pct / 100)
+    
+    annual_revenue = monthly_revenue * 12
+    annual_profit = monthly_profit * 12
+    annual_cost = annual
+    
+    # ROI
+    monthly_roi = ((monthly_profit - monthly_cost) / monthly_cost * 100) if monthly_cost > 0 else 0
+    annual_roi = ((annual_profit - annual_cost) / annual_cost * 100) if annual_cost > 0 else 0
+    net_monthly = monthly_profit - monthly_cost
+    net_annual = annual_profit - annual_cost
+    
+    # Format display
+    ad_label = "📄 Single" if ad_type == "single" else "📋 Double"
+    tier_label = "Co-Op" if tier == "coop" else "Standard"
+    plan_label = "Monthly" if payment_plan == "monthly" else ("Paid in 3" if payment_plan == "paid_3" else ("Paid in 6" if payment_plan == "paid_6" else "Paid in Full"))
+    
+    # Build message
+    msg = (f"📊 *ROI Calculator*\n\n"
+           f"*Store:* {store['StoreName']} - {store['GroceryChain']}\n"
+           f"*Location:* {store['City']}, {store['State']}\n"
+           f"_Assumes these are NEW customers acquired via coupon_\n\n"
+           f"*Current Settings:*\n"
+           f"• Redemptions: {redemptions}/mo (new customers)\n"
+           f"• Avg Ticket: ${avg_ticket:.0f} (full price)\n"
+           f"• Coupon Cost: ${coupon:.0f} (acquisition expense)\n"
+           f"• COGS: {cogs_pct}%\n"
+           f"• Ad Type: {ad_label}\n"
+           f"• Plan: {plan_label}\n"
+           f"• Tier: {tier_label}\n\n"
+           f"*💰 Monthly Results:*\n"
+           f"New Revenue: ${monthly_revenue:.2f}\n"
+           f"Profit (after COGS): ${monthly_profit:.2f}\n"
+           f"Ad Cost: ${monthly_cost:.2f}\n"
+           f"{'🟢' if net_monthly >= 0 else '🔴'} *NET: ${net_monthly:+,.2f}/mo ({monthly_roi:+.0f}% ROI)*\n\n"
+           f"*📈 Annual Results:*\n"
+           f"New Revenue: ${annual_revenue:,.2f}\n"
+           f"Profit (after COGS): ${annual_profit:,.2f}\n"
+           f"Ad Cost: ${annual_cost:,.2f}\n"
+           f"{'🟢' if net_annual >= 0 else '🔴'} *NET: ${net_annual:+,.2f}/yr ({annual_roi:+.0f}% ROI)*\n\n"
+           f"_Tap buttons below to adjust values_")
+    
+    # Adjustment buttons - organized by parameter
+    buttons = [
+        [InlineKeyboardButton("📊 Redemptions", callback_data=f"roi_adj_redemptions_{store_num}")],
+        [InlineKeyboardButton("💵 Avg Ticket", callback_data=f"roi_adj_ticket_{store_num}")],
+        [InlineKeyboardButton("🏷️ Coupon", callback_data=f"roi_adj_coupon_{store_num}")],
+        [InlineKeyboardButton("📦 COGS %", callback_data=f"roi_adj_cogs_{store_num}")],
+        [InlineKeyboardButton(f"{ad_label} Ad Type", callback_data=f"roi_adj_adtype_{store_num}")],
+        [InlineKeyboardButton(f"📅 {plan_label} Plan", callback_data=f"roi_adj_payment_{store_num}")],
+        [InlineKeyboardButton(f"🎯 {tier_label} Tier", callback_data=f"roi_adj_tier_{store_num}")],
+        [InlineKeyboardButton("⬅️ Back to Rates", callback_data=f"select_store_{store_num}")],
+    ]
+    
+    await query.edit_message_text(msg, parse_mode="Markdown", reply_markup=InlineKeyboardMarkup(buttons))
+
+async def open_roi_calculator(update, store_num: str):
+    """Open ROI calculator for a store."""
+    store_num = store_num.upper().strip()
+    store = STORES.get(store_num)
+    
+    if store:
+        roi_url = f"http://localhost:8501?store={store_num}"
+        msg = (f"📊 *ROI Calculator*\n\n"
+               f"*Store:* {store['StoreName']} - {store['GroceryChain']}\n"
+               f"*Location:* {store['City']}, {store['State']}\n\n"
+               f"[💻 Open Calculator]({roi_url})")
+        buttons = [
+            [InlineKeyboardButton("💻 Open Calculator", url=roi_url)],
+            [InlineKeyboardButton("⬅️ Main Menu", callback_data="main_menu")],
+        ]
+        if isinstance(update, Update) and update.callback_query:
+            await update.callback_query.edit_message_text(msg, parse_mode="Markdown", reply_markup=InlineKeyboardMarkup(buttons))
+        else:
+            await update.message.reply_text(msg, parse_mode="Markdown", reply_markup=InlineKeyboardMarkup(buttons))
+    else:
+        await update.message.reply_text(f"❌ Store `{store_num}` not found.", parse_mode="Markdown")
 
 async def rates_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
     """Handle /rates command."""
@@ -1964,6 +2152,7 @@ async def do_rates_lookup(update, store_num: str, ad_type: str = "single", edit_
             InlineKeyboardButton("📄 Single Ad", callback_data=f"rates_single_{store_num}"),
             InlineKeyboardButton("📋 Double Ad", callback_data=f"rates_double_{store_num}"),
         ],
+        [InlineKeyboardButton("📊 ROI Calculator", callback_data=f"roi_open_{store_num}")],
         [InlineKeyboardButton("🎯 Manager Approved Co-Op", callback_data=f"tier_coop_{ad_type}_{store_num}")],
         [InlineKeyboardButton("🏆 Exclusive Category", callback_data=f"tier_exclusive_{ad_type}_{store_num}")],
         [InlineKeyboardButton("🔧 Contractors", callback_data=f"tier_contractor_{ad_type}_{store_num}")],
@@ -2184,6 +2373,7 @@ async def show_submenu_tools(update: Update, context: ContextTypes.DEFAULT_TYPE)
     query = update.callback_query
     await query.answer()
     buttons = [
+        [InlineKeyboardButton("📊 ROI Calculator", callback_data="roi_calculator")],
         [InlineKeyboardButton("📋 Testimonial Search", callback_data="testimonial_search")],
         [InlineKeyboardButton("🏪 Audit Store", callback_data="audit_store")],
         [InlineKeyboardButton("📜 Register Tape Rates", callback_data="rates_search")],
@@ -4222,6 +4412,16 @@ Send any city name to see all stores!
                 [InlineKeyboardButton("⬅️ Back", callback_data=f"select_store_{store_num}")],
             ]
             await query.edit_message_text(msg, parse_mode="Markdown", reply_markup=InlineKeyboardMarkup(buttons))
+        elif data == "roi_calculator":
+            await query.answer()
+            context.user_data[AWAITING_STORE] = True
+            await query.edit_message_text(
+                "📊 *ROI Calculator*\n\n"
+                "Enter a store number to calculate ROI for register tape campaigns.\n\n"
+                "_Examples: FME07Z-0236, SAF07Y-1073, HAG07X-3430_",
+                parse_mode="Markdown",
+                reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("⬅️ Back", callback_data="menu_tools")]])
+            )
         elif data == "rates_search":
             await query.answer()
             context.user_data[AWAITING_RATES] = True
@@ -4231,6 +4431,144 @@ Send any city name to see all stores!
                 parse_mode="Markdown",
                 reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("⬅️ Main Menu", callback_data="main_menu")]])
             )
+        elif data.startswith("roi_open_"):
+            await query.answer()
+            store_num = data.replace("roi_open_", "")
+            store = STORES.get(store_num)
+            if store:
+                # Initialize ROI parameters with defaults
+                context.user_data['roi_store'] = store_num
+                context.user_data['roi_redemptions'] = 20
+                context.user_data['roi_ticket'] = 35
+                context.user_data['roi_cogs'] = 35
+                context.user_data['roi_coupon'] = 10
+                context.user_data['roi_ad_type'] = 'single'
+                context.user_data['roi_payment'] = 'monthly'
+                context.user_data['roi_tier'] = 'coop'
+                await show_roi_calculator(query, context, store_num)
+            else:
+                await query.answer("❌ Store not found", show_alert=True)
+        
+        # ROI Parameter Adjustments (text input)
+        elif data.startswith("roi_adj_redemptions_"):
+            await query.answer()
+            store_num = data.replace("roi_adj_redemptions_", "")
+            current = context.user_data.get('roi_redemptions', 20)
+            context.user_data[AWAITING_ROI_REDEMPTIONS] = store_num
+            await query.edit_message_text(
+                f"📊 *Enter redemptions per month:*\n\n"
+                f"Current: {current}/mo\n\n"
+                f"_Type a number (e.g., 25 or 150)_",
+                parse_mode="Markdown",
+                reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("⬅️ Cancel", callback_data=f"roi_back_{store_num}")]])
+            )
+        
+        elif data.startswith("roi_adj_ticket_"):
+            await query.answer()
+            store_num = data.replace("roi_adj_ticket_", "")
+            current = context.user_data.get('roi_ticket', 35)
+            context.user_data[AWAITING_ROI_TICKET] = store_num
+            await query.edit_message_text(
+                f"💵 *Enter average ticket amount:*\n\n"
+                f"Current: ${current}\n\n"
+                f"_Type a dollar amount (e.g., 45 or 125)_",
+                parse_mode="Markdown",
+                reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("⬅️ Cancel", callback_data=f"roi_back_{store_num}")]])
+            )
+        
+        elif data.startswith("roi_adj_coupon_"):
+            await query.answer()
+            store_num = data.replace("roi_adj_coupon_", "")
+            current = context.user_data.get('roi_coupon', 10)
+            context.user_data[AWAITING_ROI_COUPON] = store_num
+            await query.edit_message_text(
+                f"🏷️ *Enter coupon value:*\n\n"
+                f"Current: ${current}\n\n"
+                f"_Type a dollar amount (e.g., 5 or 15)_",
+                parse_mode="Markdown",
+                reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("⬅️ Cancel", callback_data=f"roi_back_{store_num}")]])
+            )
+        
+        elif data.startswith("roi_adj_cogs_"):
+            await query.answer()
+            store_num = data.replace("roi_adj_cogs_", "")
+            current = context.user_data.get('roi_cogs', 35)
+            context.user_data[AWAITING_ROI_COGS] = store_num
+            await query.edit_message_text(
+                f"📦 *Enter COGS percentage:*\n\n"
+                f"Current: {current}%\n\n"
+                f"_Type a percentage (e.g., 30 or 40)_",
+                parse_mode="Markdown",
+                reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("⬅️ Cancel", callback_data=f"roi_back_{store_num}")]])
+            )
+        
+        elif data.startswith("roi_adj_adtype_"):
+            await query.answer()
+            store_num = data.replace("roi_adj_adtype_", "")
+            current = context.user_data.get('roi_ad_type', 'single')
+            buttons = [
+                [
+                    InlineKeyboardButton(f"{'✅' if current == 'single' else ''} Single".strip(), callback_data=f"roi_set_adtype_single_{store_num}"),
+                    InlineKeyboardButton(f"{'✅' if current == 'double' else ''} Double".strip(), callback_data=f"roi_set_adtype_double_{store_num}"),
+                ],
+                [InlineKeyboardButton("⬅️ Back", callback_data=f"roi_back_{store_num}")]
+            ]
+            await query.edit_message_text("*Ad type:*", parse_mode="Markdown", reply_markup=InlineKeyboardMarkup(buttons))
+        
+        elif data.startswith("roi_set_adtype_"):
+            await query.answer()
+            parts = data.replace("roi_set_adtype_", "").split("_")
+            value = parts[0]
+            store_num = parts[1]
+            context.user_data['roi_ad_type'] = value
+            await show_roi_calculator(query, context, store_num)
+        
+        elif data.startswith("roi_adj_payment_"):
+            await query.answer()
+            store_num = data.replace("roi_adj_payment_", "")
+            current = context.user_data.get('roi_payment', 'monthly')
+            buttons = [
+                [InlineKeyboardButton(f"{'✅' if current == 'monthly' else ''} Monthly".strip(), callback_data=f"roi_set_payment_monthly_{store_num}")],
+                [InlineKeyboardButton(f"{'✅' if current == 'paid_3' else ''} Paid in 3".strip(), callback_data=f"roi_set_payment_paid_3_{store_num}")],
+                [InlineKeyboardButton(f"{'✅' if current == 'paid_6' else ''} Paid in 6".strip(), callback_data=f"roi_set_payment_paid_6_{store_num}")],
+                [InlineKeyboardButton(f"{'✅' if current == 'paid_full' else ''} Paid in Full".strip(), callback_data=f"roi_set_payment_paid_full_{store_num}")],
+                [InlineKeyboardButton("⬅️ Back", callback_data=f"roi_back_{store_num}")]
+            ]
+            await query.edit_message_text("*Payment plan:*", parse_mode="Markdown", reply_markup=InlineKeyboardMarkup(buttons))
+        
+        elif data.startswith("roi_set_payment_"):
+            await query.answer()
+            parts = data.replace("roi_set_payment_", "").split("_", 1)
+            value = "_".join(parts[:-1])
+            store_num = parts[-1]
+            context.user_data['roi_payment'] = value
+            await show_roi_calculator(query, context, store_num)
+        
+        elif data.startswith("roi_adj_tier_"):
+            await query.answer()
+            store_num = data.replace("roi_adj_tier_", "")
+            current = context.user_data.get('roi_tier', 'coop')
+            buttons = [
+                [
+                    InlineKeyboardButton(f"{'✅' if current == 'coop' else ''} Co-Op".strip(), callback_data=f"roi_set_tier_coop_{store_num}"),
+                    InlineKeyboardButton(f"{'✅' if current == 'standard' else ''} Standard".strip(), callback_data=f"roi_set_tier_standard_{store_num}"),
+                ],
+                [InlineKeyboardButton("⬅️ Back", callback_data=f"roi_back_{store_num}")]
+            ]
+            await query.edit_message_text("*Tier:*", parse_mode="Markdown", reply_markup=InlineKeyboardMarkup(buttons))
+        
+        elif data.startswith("roi_set_tier_"):
+            await query.answer()
+            parts = data.replace("roi_set_tier_", "").split("_")
+            value = parts[0]
+            store_num = parts[1]
+            context.user_data['roi_tier'] = value
+            await show_roi_calculator(query, context, store_num)
+        
+        elif data.startswith("roi_back_"):
+            store_num = data.replace("roi_back_", "")
+            await show_roi_calculator(query, context, store_num)
+        
         elif data.startswith("rates_single_") or data.startswith("rates_double_"):
             await query.answer()
             if data.startswith("rates_single_"):
@@ -4881,6 +5219,7 @@ async def setup_bot_commands(app):
         ("start", "🚀 Start prospect search"),
         ("menu", "📂 Main menu"),
         ("rates", "💰 Store rates & pricing"),
+        ("roi", "📊 ROI calculator"),
         ("keyword", "📋 Search testimonials"),
         ("help", "📖 How to use the bot"),
         ("examples", "📚 Example cities & stores"),
@@ -4916,6 +5255,7 @@ def main():
     app.add_handler(CommandHandler("city", start))
     app.add_handler(CommandHandler("store", start))
     app.add_handler(CommandHandler("rates", rates_command))
+    app.add_handler(CommandHandler("roi", roi_command))
     app.add_handler(CommandHandler("keyword", keyword_command))
     app.add_handler(CommandHandler("reset", reset_command))
     app.add_handler(CommandHandler("dashboard", dashboard))

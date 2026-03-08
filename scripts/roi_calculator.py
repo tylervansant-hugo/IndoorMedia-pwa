@@ -37,31 +37,44 @@ PRODUCTION = 125
 def get_price_for_store(store: dict, ad_type: str = "single", payment_plan: str = "monthly", tier: str = "coop") -> dict:
     """Calculate ad costs for a store.
     
-    Returns dict with 'monthly', 'annual', and 'payment_display' keys.
+    Returns dict with 'per_installment', 'annual', and 'payment_display' keys.
     Base prices in store data are ANNUAL.
     """
     base = store["DoubleAd"] if ad_type.lower() == "double" else store["SingleAd"]
     
-    # Step 1: Determine base annual cost before payment plan adjustments
+    # Step 1: Determine base before discount
     if tier.lower() == "coop":
-        base_annual = base + PRODUCTION
+        base_before = base
     else:
         # Padded pricing (standard/non-co-op)
-        padded_base = base + PRICING_PADDING
-        base_annual = padded_base + PRODUCTION
+        base_before = base + PRICING_PADDING
     
-    # Step 2: Apply payment plan discount
+    # Step 2: Apply payment plan discount and calculate installments
     if payment_plan.lower() == "paid_full":
-        annual = (base_annual * 0.85)  # 15% discount
+        # 15% discount, then add production
+        annual = (base_before * 0.85) + PRODUCTION
+        per_installment = annual
         payment_display = f"${annual:.2f} (one payment, 15% off)"
+    elif payment_plan.lower() == "paid_3":
+        # 10% discount, then add production, divide by 3
+        annual = ((base_before * 0.90) + PRODUCTION) * 3
+        per_installment = ((base_before * 0.90) + PRODUCTION)
+        payment_display = f"${per_installment:.2f} × 3 = ${annual:.2f} (10% off)"
+    elif payment_plan.lower() == "paid_6":
+        # 7.5% discount, then add production, divide by 6
+        annual = ((base_before * 0.925) + PRODUCTION) * 6
+        per_installment = ((base_before * 0.925) + PRODUCTION)
+        payment_display = f"${per_installment:.2f} × 6 = ${annual:.2f} (7.5% off)"
     else:  # monthly
-        annual = base_annual
-        payment_display = f"${annual/12:.2f}/month × 12 = ${annual:.2f}/year"
+        # No discount, add production, multiply by 12
+        annual = (base_before + PRODUCTION) * 12
+        per_installment = base_before + PRODUCTION
+        payment_display = f"${per_installment:.2f}/month × 12 = ${annual:.2f}"
     
     # For ROI purposes, monthly cost is always annual/12
     monthly = annual / 12
     
-    return {"monthly": monthly, "annual": annual, "payment_display": payment_display}
+    return {"per_installment": per_installment, "monthly": monthly, "annual": annual, "payment_display": payment_display}
 
 def calculate_roi(store: dict, ad_type: str, payment_plan: str, tier: str,
                   redemptions: int, avg_ticket: float, cogs_pct: float, coupon: float) -> dict:
@@ -165,7 +178,8 @@ if selected_store:
         redemptions = st.slider("Redemptions/month:", 1, 50, 20, step=1)
     
     with col2:
-        avg_ticket = st.slider("Avg ticket ($):", 10.0, 20000.0, 50.0, step=10.0)
+        avg_ticket = st.slider("Avg ticket ($):", 5.0, 500.0, 35.0, step=5.0,
+                              help="Most restaurants: $20-$100. Adjust for your customer base.")
     
     with col3:
         cogs_pct = st.slider("COGS (%):", 20, 50, 35, step=1)
@@ -181,8 +195,14 @@ if selected_store:
         ad_type = st.radio("Ad Size:", ["Single", "Double"], horizontal=True)
     
     with col2:
-        payment_plan = st.radio("Payment Plan:", ["Monthly", "Paid in Full"], horizontal=True)
-        plan_key = "monthly" if payment_plan == "Monthly" else "paid_full"
+        payment_plan = st.radio("Payment Plan:", ["Monthly", "Paid in 3", "Paid in 6", "Paid in Full"], horizontal=True)
+        plan_map = {
+            "Monthly": "monthly",
+            "Paid in 3": "paid_3",
+            "Paid in 6": "paid_6",
+            "Paid in Full": "paid_full"
+        }
+        plan_key = plan_map[payment_plan]
     
     with col3:
         tier = st.radio("Tier:", ["Co-Op", "Standard"], horizontal=True)
@@ -263,12 +283,15 @@ if selected_store:
         st.metric("Redemptions Needed to Break Even", f"{roi_data['breakeven_redemptions']:.1f}")
     
     with col2:
-        if redemptions >= roi_data['breakeven_redemptions']:
-            pct_above = ((redemptions - roi_data['breakeven_redemptions']) / roi_data['breakeven_redemptions'] * 100)
-            st.metric("Above Break-Even", f"+{pct_above:.0f}%", delta="✅ Profitable")
+        if roi_data['breakeven_redemptions'] > 0:
+            if redemptions >= roi_data['breakeven_redemptions']:
+                pct_above = ((redemptions - roi_data['breakeven_redemptions']) / roi_data['breakeven_redemptions'] * 100)
+                st.metric("Above Break-Even", f"+{pct_above:.0f}%", delta="✅ Profitable")
+            else:
+                pct_below = ((roi_data['breakeven_redemptions'] - redemptions) / roi_data['breakeven_redemptions'] * 100)
+                st.metric("Below Break-Even", f"-{pct_below:.0f}%", delta="⚠️ Not yet")
         else:
-            pct_below = ((roi_data['breakeven_redemptions'] - redemptions) / roi_data['breakeven_redemptions'] * 100)
-            st.metric("Below Break-Even", f"-{pct_below:.0f}%", delta="⚠️ Not yet")
+            st.metric("Status", "Instantly Profitable", delta="✅ No break-even needed")
 
 else:
     st.info("👈 Start by selecting a store to see ROI calculations")
