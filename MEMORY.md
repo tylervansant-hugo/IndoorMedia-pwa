@@ -29,6 +29,12 @@
 - **Feb 17, 2026:** Closed deal at Taqueria Pelayos (Seaside, OR) with Megan Wink
   - Megan had been cold this month ($0 in sales), but worked with her and closed a deal
   - Good momentum builder for her going forward
+- **Mar 8, 2026:** Enhanced ProspectBot with email templates + monthly leaderboard + hardened "Show Actions"
+  - Added 5 email templates: Initial Appointment, ROI/Value, Follow-up, Re-engagement, Limited Time
+  - Fixed category-specific social proof (dental, gym, coffee, etc.)
+  - Added "Unknown" business name handling (uses "your business" instead)
+  - Monthly Leaderboard now shows current month + clickable previous months
+  - Fixed "Show Actions" button with full error handling + input validation
 
 ## Testimonial Search Tool (Created Feb 18, 2026)
 Custom keyword search for IndoorMedia testimonials database.
@@ -118,6 +124,16 @@ Each shows per-installment + total:
 - Zones: 05X (CA), 07X (WA North), 07Y (OR), 07Z (OR/WA South)
 - Chains: Safeway, Fred Meyer, Albertsons, Stater Bros., Food 4 Less, Quality Food Center, Haggen, Vons, Ralphs, Saars, Rosauers, Sherms, Shop N Kart, Food Pavillion
 - Each store: unique SingleAd & DoubleAd pricing
+
+## Daily Store Discovery Job (DISABLED - Mar 10, 2026)
+**Status:** ✅ CANCELLED per Tyler's request at 9:04 AM PT
+- **Job ID:** 732ed73f-d65e-4adf-bdd0-08333df3ba65
+- **Was scheduled:** Every day at 8:00 AM PT (`0 8 * * *`)
+- **Payload:** System event notification "Daily store discovery run complete. Check ~/business_targets/ for updates."
+- **Files:** `~/.openclaw/cron/jobs.json` (enabled set to false)
+- **Reason:** Not actively used; notification was cluttering inbox
+
+---
 
 ## Business Card Pipeline System (In Development - Feb 20, 2026)
 **Problem:** Team gets 25-50 business cards/month in field, but no systematic follow-up → momentum dies, deals lost.
@@ -352,275 +368,15 @@ ROI: 164%
 - 📅 Next scheduled event (from calendar)
 
 **Prospect Detail View:**
-- Shows all extracted contact info when rep clicks on saved customer
-- Enables quick reference without leaving the bot
+- Shows all saved prospect info + next calendar event
+- Tied to Google Calendar sync (daily update)
 
----
-
-## IndoorMediaProspectBot - Phase 4 Upgrade (Mar 6, 2026 - CPM + DAILY COST METRICS)
-**Status:** ✅ LIVE with CPM and daily cost calculations across all tiers
-
-### New Metrics (Effective Mar 6, 2026 - FINAL VERSION)
-**Every pricing plan now shows:**
-1. **Daily Cost** = Total contract amount ÷ 365 days
-2. **CPM (Cost Per Thousand)** = (Daily cost ÷ Daily impressions) × 1,000
-3. **Daily Impressions** = Calculated from store case count
-
-**Key Rule:** Campaign runs 12 months regardless of payment plan.
-
-**Impressions Formula:**
-- Quarterly = Case Count × 50 rolls/case × 137 segments/roll × 2 repetitions
-- Monthly = Quarterly ÷ 3
-- Daily = Monthly ÷ 30
-
-**CPM Calculation (CORRECTED - 12-month campaign basis):**
-- **Daily Cost = Total Contract Amount ÷ 365**
-- **CPM = (Daily Cost ÷ Daily Impressions) × 1,000**
-- Different payment plans = different totals = different daily costs & CPMs
-
-**Example (Rosauers, Ridgefield - ROS07Z-0042 | 15 cases | 2,283 daily impressions):**
-```
-Monthly: $295.83/mo × 12 = $3,550.00 total
-  → $9.73/day | CPM: $4.26
-
-3-month: $1,069.17 × 3 = $3,207.50 total (10% off)
-  → $8.79/day | CPM: $3.85
-
-6-month: $548.85 × 6 = $3,293.12 total (7.5% off)
-  → $9.02/day | CPM: $3.95
-
-Paid-in-full: $3,036.25 (15% off)
-  → $8.32/day | CPM: $3.64
-```
-
-**Key insight:** Discounts result in lower daily cost & CPM, showing real value!
-
-**Bot Display Updates:**
-- Store card shows case count & daily impressions
-- Each rate tier (Co-Op/Exclusive/Contractor) displays metrics below each plan
-- Backward compatible with existing pricing structure
-
----
-
-## IndoorMediaProspectBot - Phase 3 Upgrade (Mar 3, 2026 - PRICING TIERS + CALENDAR)
-**Status:** ✅ LIVE with three-tier pricing & integrated calendar scheduling
-
-### Pricing Structure (Mar 3, 2026)
-**Default View:** $1,200 padding + monthly/total only
-- Rep selects tier to unlock full pricing breakdown
-
-**Three Tiers:**
-1. **🎯 Manager Approved Co-Op** - Full discounts (10%, 7.5%, 15%)
-2. **🏆 Exclusive Category** - No discounts except 5% PIF
-3. **🔧 Contractors** - Only 3mo + 5% PIF + "Buy 2 Get 1 Free" promo
-
-**Base Price Alignment:**
-- Exclusive & Contractors = Co-Op monthly total as their base
-- Simplifies pricing across tiers
-
-### Calendar Scheduling (Live Feature)
-**Button:** `📅 Create Appointment` (on every prospect card)
-
-**Flow:**
-1. Rep clicks button → Date picker (Today + 14 days)
-2. Select time → Time picker (6 AM - 8 PM, 15-min intervals)
-3. Auto-creates Google Calendar event with:
-   - Business name, address, phone, store #
-   - Rep's saved notes (from notepad)
-   - Links to: `tyler.vansant@indoormedia.com`
-
-**Implementation:** `gog calendar create` command
-
----
-
-## IndoorMediaProspectBot - Phase 1 Upgrade (Mar 2, 2026)
-**Status:** ✅ LIVE with team-wide features
-
-**New Features:**
-1. **💾 Saved/Bookmarked Prospects** 
-   - Tap "💾 Save" button on any prospect
-   - Assign pipeline status: Interested / Follow-up / Proposal / Closed
-   - View all saved in "💾 Saved Prospects" menu
-   - Filter by status
-
-2. **🎬 Video Testimonials** (Hardcoded + Category-Based)
-   - "🎬 Video" button on each prospect
-   - Links to YouTube testimonial videos
-   - Expandable with YouTube API later
-
-3. **📊 Dashboard - Personal + Team View**
-   - YOUR METRICS: Searches today, Saved count, Status breakdown
-   - TEAM METRICS: Total searches, Total saved, Team status breakdown, Top 3 reps
-   - Shows all 9 reps' activity aggregated
-   - Visible to Tyler and all reps
-
-4. **👤 Rep Identification & Tracking**
-   - Each rep identified by Telegram user_id
-   - Rep name auto-captured from Telegram profile
-   - Data persisted per rep in `data/prospect_data.json`
-   - Session-based metrics (searches, bookmarks per session)
-
-5. **Data Persistence**
-   - JSON file: `data/prospect_data.json`
-   - Stores: saved_prospects, contact_history, search_history per rep
-   - Survives session restarts
-   - Tyler can see all reps' data on dashboard
-
-**Upcoming (Phase 2):**
-- Contact history (last_contacted, visit_count, call_notes)
-- Search history tracking + "Recent Searches" menu
-- Follow-up reminders (cron job)
-
-## Telegram Bots - Live & Running (Feb 25, 2026)
-
-### @IndoorMediaRatesBot (PID 35556) ✅
-- **Purpose:** Store pricing queries
-- **Input:** Store # or city+chain (e.g., `Klamath Falls Fred Meyer`)
-- **Output:** 4 payment plans with per-installment + total
-- **Features:** Single/double ad toggle, `/cities` and `/chains` commands
-- **Status:** Live (restarted 10:34 AM, missing telegram dependency fixed)
-
-### @IndoorMediaProspectBot v3 (Status: LIVE 2/27 - IMPROVED) ✅
-- **Purpose:** Google Places discovery for tape advertising prospects
-- **Input Options:**
-  - Store number (e.g., `FME07Z-0236`)
-  - City name (e.g., `Denver`)
-  - Nationwide support (7,835 store coverage)
-- **Output:** Top 10 businesses ranked by likelihood (0-100 score) + action buttons
-- **Workflow:**
-  1. Send store number → `FME07Z-0236`
-  2. Bot returns ranked prospects by score
-  3. [📁 Save to b2b] → Creates contact in b2bappointments
-  4. [📞 Call] → Direct phone dial
-  5. [✅ Booked!] → Marks as booked
-- **Features:**
-  - **40+ category search** (expanded from 6) for better relevance
-    - Food & Beverage (15 types)
-    - Retail & Shopping (14 types)
-    - Services (8 types)
-    - Health & Wellness (8 types)
-    - Professional (6 types)
-    - Entertainment (5 types)
-  - Proximity ranking (within 2 miles)
-  - Google rating + review counts
-  - Advertising signals (Greet Magazine + Facebook Ads framework)
-  - Likelihood scoring (distance + rating + reviews + advertising)
-
-### Bot Evolution (Feb 25, 2026)
-
-**v1:** Complex b2bappointments automation (Playwright web automation)
-- Approach: Auto-create contacts in b2bappointments
-- Issue: Fragile selectors, timeouts, browser automation too complex
-
-**v2:** Simplified category filtering
-- Approach: 73 alphabetized business categories + proximity search
-- Issue: Still complex, focused on b2bappointments when Google Maps is simpler
-
-**v3: Google Places Focus (Current)** ✅
-- Approach: Let Google Maps be the CRM, use reps' native workflow
-- Workflow:
-  1. Rep enters location (store #, zip, city, or near me)
-  2. Picks category (6 main, 50+ subs with icons)
-  3. Gets results ranked by proximity + sponsored ads
-  4. Taps [📍 View on Maps] → Opens Google Maps (native workflow)
-  5. Taps [📞 Call] → Direct phone dial
-- Why it works: Simpler, more reliable, leverages existing Google Maps ecosystem, no b2bappointments automation headaches
-
-**Configuration:**
-- Credentials in `.env.local` (gitignored)
-  - B2B_USERNAME=Tyler.vansant@indoormedia.com
-  - B2B_PASSWORD=Zoey2026!
-  - SALES_USERNAME=Tyler.VanSant@indoormedia.com
-  - SALES_PASSWORD=Zoey2025!!
-
-### Advertising Signal Detection
-**Sources:**
-- Greet Magazine: +40 pts
-- Facebook Ads Library: +50 pts
-- Combined: Up to 90 pt boost
-
-**Example Scores:**
-- No advertising: 50-65/100
-- On Greet Magazine: 90-100/100 (significant boost)
-- Active Facebook Ads: 95-100/100 (strong marketing indicator)
-
-### Commands
-- `/start` — Help message
-- `/examples` — Sample store numbers to try
-- `/help` — Full instructions
-
-### Field Rep Workflow
-1. Send store number: `FME07Z-0236`
-2. Get 10 ranked prospects
-3. Click [📁 Save] → Saved to b2bappointments
-4. Use b2bappointments lead gen to call
-5. When appointment booked, click [✅ Booked]
-6. Bot shows nearby stores + pricing
-7. Open Mappoint to enter contracts
-
-### Files
-- `scripts/telegram_prospecting_bot.py` — Prospect bot (UPDATED)
-- `scripts/b2bappointments_automation.py` — b2b web automation (NEW)
-- `scripts/nearby_stores_finder.py` — Stores + pricing (NEW)
-- `scripts/facebook_ads_checker.py` — Facebook Ads integration
-- `scripts/prospecting_tool_enhanced.py` — Enhanced scoring
-- `docs/PROSPECT_PIPELINE.md` — Full documentation (NEW)
-- `data/store-rates/greet_cache.json` — Persistent caching
-
-### Status: ✅ PRODUCTION READY
-- Both bots running (rates + prospect with full pipeline)
-- All integrations tested
-- Credentials secure in .env.local
-- Ready for field team deployment
-- Documentation complete
-
-### Next Phase (Waitlist)
-- Sync b2bappointments status back to Telegram (✓ checkmarks)
-- Business card OCR → Auto-match to prospects
-- Bulk/regional dashboard
-- Follow-up reminders
-- Conversion tracking
-
-## Audit Module (BUILT - Mar 2, 2026)
-**Status:** ✅ LIVE with ProspectBot v4
-
-**Features:**
-1. **Audit Store Menu** (🏪 Audit Store button)
-   - Rep selects store from any store number (FME07Z-0236, etc.)
-   - Bot queries store DB for last shipment details
-
-2. **Delivery Confirmation Flow**
-   - Shows: "{StoreName} was sent {CaseCount} cases on {DeliveryDate}. Confirm?"
-   - Yes → Move to inventory entry
-   - No → Show adjustment menu (Change Shipment Month / Change Shipment Quantity)
-   - Month dropdown: All 12 months (Jan-Dec)
-   - Cases dropdown: 0-50 cases (5-case increments)
-
-3. **Inventory Entry**
-   - Rep sends: `CASES ROLLS` (e.g., `15 25`)
-   - Cases: 0-50, Rolls: 0-49
-   - Bot calculates: `(cases × 50) + rolls = total_rolls`
-
-4. **Audit Projection**
-   - Days until runout: `total_rolls ÷ 11.1 rolls/day`
-   - Next delivery date: Based on store cycle (A/B/C)
-   - Alert if: `days_until_runout < days_until_next_delivery`
-   - Shows: ✅ or ⚠️ status
-
-5. **Email Report**
-   - Recipient: tyler.vansant@indoormedia.com
-   - Contains: Store #, Rep, Delivery date, Starting cases, Current inventory, Days until runout, Alert status
-   - Sent via `gog cli` (Gmail integration)
-
-**Implementation Details:**
-- **Cycle dates (hardcoded, most recent past):**
-  - A: Jan 7, Apr 7, Jul 7, Oct 7
-  - B: Feb 7, May 7, Aug 7, Nov 7
-  - C: Mar 7, Jun 7, Sep 7, Dec 7
-- **Inventory formula:** 20 cases = 1,000 rolls (50 rolls/case)
-- **Usage rate:** 11.1 rolls/day (~90 days for 1,000 rolls)
-- **State constants:** AWAITING_AUDIT_STORE, AWAITING_AUDIT_DELIVERY, AWAITING_AUDIT_INVENTORY
-- **Bot file:** `scripts/telegram_prospecting_bot.py` (added ~600 lines)
+**Audit Module** (Built Mar 2, 2026)
+- Added "🏪 Audit Store" button to main menu
+- Rep selects store, confirms last shipment, enters current inventory
+- Calculates days until runout + next delivery date
+- Sends email alert to Tyler if inventory is too low
+- Stores audit history per store
 
 **Menu Updates:**
 - Added "👥 My Customers" button (shows active saved prospects by pipeline status)
@@ -636,3 +392,31 @@ Paid-in-full: $3,036.25 (15% off)
 - Confirm email format & recipients with Tyler
 - Store audit history per store (supply date, inventory, timestamp) in prospect_data.json
 - Add integration with contract pipeline (audit triggers on calendar events)
+
+## ProspectBot Enhancements (Mar 8, 2026)
+
+**Email Templates (5 types, all category-aware):**
+- 🎯 **Initial Appointment** — First touch, vague value prop, category-specific social proof
+- 📊 **ROI / Value Focused** — Social proof + metrics, shows category results (e.g., "dental practices see improved patient engagement")
+- ⏰ **Follow-up** — 3-5 days, soft reminder after no response
+- 🔄 **Re-engagement** — "It's been a while, things have changed" angle
+- ⚡ **Limited Time** — Scarcity/urgency, partnership program angle
+
+**Category Mapping (20+ categories):**
+- Accurate social proof for: restaurant, dental, gym, coffee, auto, beauty, vet, real estate, etc.
+- Handles "Unknown" business names gracefully (uses "your business" instead of literal "Unknown")
+- Each category has verified, category-specific proof points
+
+**Monthly Leaderboard:**
+- Current month shows: rank, rep name, revenue, % of total, deal count, avg deal size
+- Previous months clickable for full expanded view
+- Shows last 6 months available
+- Auto-updates as contracts sync in
+
+**"Show Actions" Button (Hardened - Mar 8):**
+- Input validation — checks prospect data before rendering
+- Defensive fallbacks — all fields have safe defaults
+- Conditional display — only shows fields with real data
+- Try/except wrapper — complete error handling
+- Logging — tracks missing/incomplete records
+- User feedback — helpful error messages instead of silent failures
