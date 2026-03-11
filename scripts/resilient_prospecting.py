@@ -91,15 +91,17 @@ class ResilientProspectingEngine:
                 logger.info("📍 Trying Google Places API...")
                 prospects = google_places_func(store_number, category, limit)
                 
-                if prospects:
+                if prospects and len(prospects) > 0:
                     # Cache the results
                     if self.cache:
                         self.cache.cache_prospects(store_number, category, prospects)
                         self.cache.record_api_success()
                     
                     return prospects[:limit], "✅ Google Places API"
+                else:
+                    logger.info(f"Google Places returned empty results (prospects={prospects})")
             except Exception as e:
-                logger.warning(f"Google Places failed: {e}")
+                logger.error(f"❌ Google Places error: {e}", exc_info=True)
                 if self.cache:
                     self.cache.record_api_failure()
         

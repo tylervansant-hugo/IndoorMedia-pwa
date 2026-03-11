@@ -50,6 +50,8 @@ class GooglePlacesWrapper:
             return []
         
         try:
+            logger.info(f"🔍 Google Places search: lat={latitude}, lon={longitude}, keyword='{keyword}'")
+            
             results = self.client.places_nearby(
                 location=(latitude, longitude),
                 radius=radius,
@@ -57,11 +59,19 @@ class GooglePlacesWrapper:
                 type="establishment"
             )
             
+            logger.info(f"Results type: {type(results)}, value: {results is not None}")
+            
             if not results or "results" not in results:
+                logger.warning(f"No results from Google Places: {results}")
+                return []
+            
+            results_list = results.get("results", [])
+            if not results_list or results_list is None:
+                logger.warning("Results list is empty or None")
                 return []
             
             prospects = []
-            for place in results.get("results", [])[:limit]:
+            for place in results_list[:limit]:
                 prospect = {
                     "name": place.get("name", "Unknown"),
                     "type": ", ".join(place.get("types", [])),
@@ -124,6 +134,8 @@ def search_google_places(
     # Search with Google Places
     keyword_map = {
         "restaurants": "restaurant",
+        "mexican": "mexican restaurant",
+        "pizza": "pizza",
         "salons": "salon hair",
         "gyms": "gym fitness",
         "coffee": "coffee cafe",
@@ -133,7 +145,12 @@ def search_google_places(
         "real_estate": "real estate",
     }
     
-    keyword = keyword_map.get(category.lower(), category)
+    category_lower = category.lower() if category else "restaurants"
+    keyword = keyword_map.get(category_lower, category_lower if category_lower else "restaurant")
+    
+    if not keyword:
+        logger.warning(f"No keyword found for category: {category}, using 'restaurant'")
+        keyword = "restaurant"
     
     prospects = wrapper.search_nearby(
         coords["lat"],
