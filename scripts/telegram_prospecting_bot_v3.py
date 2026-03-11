@@ -32,7 +32,11 @@ STORES_FILE = DATA_DIR / "stores.json"
 CATEGORIES_FILE = WORKSPACE / "data" / "category_structure.json"
 
 TOKEN = "8781563020:AAHm_khWUcjngvS0zuNewBbpMM-p2zuMjzI"
-GOOGLE_PLACES_API_KEY = "AIzaSyAyBTp2gd-g-1Qfyy1XVrR5-VLXCbh3O6I"
+# DEPRECATED: API key moved to .env file for security
+# Load from .env instead
+from dotenv import load_dotenv
+load_dotenv()
+GOOGLE_PLACES_API_KEY = os.getenv("GOOGLE_PLACES_API_KEY", "")
 
 # Conversation states
 LOCATION_INPUT, CATEGORY_SELECT, SUBCATEGORY_SELECT, SEARCHING = range(4)

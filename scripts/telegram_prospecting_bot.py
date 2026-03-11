@@ -1753,16 +1753,22 @@ async def handle_subcategory_select(update: Update, context: ContextTypes.DEFAUL
         source_info = ""
         try:
             from resilient_prospecting import search_with_resilience
+            from google_places_wrapper import search_google_places
             
             store = STORES.get(store_number)
             store_address = f"{store.get('Address', '')}, {store.get('City', '')}, {store.get('State', '')} {store.get('ZIP', '')}"
+            
+            # Create a wrapper function for Google Places
+            def google_places_search(store_num, category, limit):
+                """Wrapper to pass to resilient engine."""
+                return search_google_places(store_address, category, limit)
             
             # Search with full fallback chain
             prospects, source_info = search_with_resilience(
                 store_number=store_number,
                 store_address=store_address,
                 category=subcat.lower(),
-                google_places_func=None,  # Google Places API not configured; relies on free APIs
+                google_places_func=google_places_search,  # Now configured!
                 limit=10
             )
         except Exception as e:
