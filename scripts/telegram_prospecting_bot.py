@@ -33,6 +33,11 @@ logging.basicConfig(
 )
 logger = logging.getLogger(__name__)
 
+# Ensure scripts directory is in path for imports
+SCRIPTS_DIR = Path(__file__).parent
+if str(SCRIPTS_DIR) not in sys.path:
+    sys.path.insert(0, str(SCRIPTS_DIR))
+
 WORKSPACE = Path(__file__).parent.parent
 DATA_DIR = WORKSPACE / "data" / "store-rates"
 STORES_FILE = DATA_DIR / "stores.json"

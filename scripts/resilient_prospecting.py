@@ -12,19 +12,33 @@ from pathlib import Path
 logger = logging.getLogger(__name__)
 
 # Import our components
+import sys
+from pathlib import Path
+scripts_dir = str(Path(__file__).parent)
+if scripts_dir not in sys.path:
+    sys.path.insert(0, scripts_dir)
+
 try:
     from prospecting_cache import get_cache
     CACHE_AVAILABLE = True
-except ImportError:
+except Exception as e:
     CACHE_AVAILABLE = False
-    logger.warning("Cache module not available")
+    logger.warning(f"Cache module not available: {e}")
 
 try:
     from free_prospecting_api import FreeProspectingAPI
     FREE_API_AVAILABLE = True
-except ImportError:
+except Exception as e:
     FREE_API_AVAILABLE = False
-    logger.warning("Free API module not available")
+    logger.warning(f"Free API module not available: {e}")
+
+try:
+    from fallback_prospects import get_fallback_prospects
+    FALLBACK_AVAILABLE = True
+except Exception as e:
+    FALLBACK_AVAILABLE = False
+    get_fallback_prospects = None
+    logger.warning(f"Fallback prospects module not available: {e}")
 
 
 class ResilientProspectingEngine:
@@ -34,6 +48,7 @@ class ResilientProspectingEngine:
         """Initialize engine."""
         self.cache = get_cache() if CACHE_AVAILABLE else None
         self.free_api = FreeProspectingAPI if FREE_API_AVAILABLE else None
+        self.fallback_available = FALLBACK_AVAILABLE
     
     def search_prospects(
         self,
@@ -111,8 +126,17 @@ class ResilientProspectingEngine:
                 if self.cache:
                     self.cache.record_api_failure()
         
-        # Step 5: Fall back to cached results (even if stale)
-        logger.warning("⚠️ All APIs failed, using stale cache")
+        # Step 5: Fall back to sample/demo prospects
+        if self.fallback_available and get_fallback_prospects:
+            try:
+                logger.warning("⚠️ All APIs failed, using sample prospects")
+                prospects = get_fallback_prospects(category, limit)
+                return prospects, "📦 Sample prospects (APIs unavailable)"
+            except Exception as e:
+                logger.warning(f"Fallback also failed: {e}")
+        
+        # Step 6: Fall back to cached results (even if stale)
+        logger.warning("⚠️ All APIs and fallback failed, using stale cache")
         return self._get_cached_fallback(store_number, category, limit)
     
     def _get_cached_fallback(
