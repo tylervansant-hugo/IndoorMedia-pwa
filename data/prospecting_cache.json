@@ -106,7 +106,241 @@
       ],
       "createdAt": "2026-03-11T12:55:17.337634",
       "count": 9
+    },
+    "d644f1f0880cd2d2": {
+      "storeNumber": "ROS07Z-0042",
+      "category": "restaurants",
+      "prospects": [
+        {
+          "name": "BevRidge Public",
+          "type": "bar, restaurant, food, point_of_interest, establishment",
+          "address": "4315 S Settler Dr suite 100, Ridgefield",
+          "lat": 45.8148014,
+          "lon": -122.7046245,
+          "distance_miles": 0.12,
+          "likelihood_score": 96,
+          "rating": 4.6,
+          "user_ratings_total": 448,
+          "phone": null,
+          "website": null,
+          "place_id": "ChIJuzVLa8JNlFQRzfnAtERud7s",
+          "opening_hours": {
+            "open_now": true
+          },
+          "source": "Google Places"
+        },
+        {
+          "name": "Ichi Teriyaki 30",
+          "type": "restaurant, food, point_of_interest, establishment",
+          "address": "255 S 47th Ave Suite #127, Ridgefield",
+          "lat": 45.8139783,
+          "lon": -122.7012205,
+          "distance_miles": 0.07,
+          "likelihood_score": 95,
+          "rating": 4.3,
+          "user_ratings_total": 225,
+          "phone": null,
+          "website": null,
+          "place_id": "ChIJaWrfZAJNlFQRHAJ3g9u98B4",
+          "opening_hours": {
+            "open_now": true
+          },
+          "source": "Google Places"
+        },
+        {
+          "name": "Country Cafe",
+          "type": "restaurant, food, point_of_interest, establishment",
+          "address": "6370 Pioneer St, Ridgefield",
+          "lat": 45.8173868,
+          "lon": -122.6835804,
+          "distance_miles": 0.91,
+          "likelihood_score": 85,
+          "rating": 4,
+          "user_ratings_total": 1223,
+          "phone": null,
+          "website": null,
+          "place_id": "ChIJI-lp2QFNlFQRUOuq-CQezPg",
+          "opening_hours": {
+            "open_now": true
+          },
+          "source": "Google Places"
+        },
+        {
+          "name": "Fuel Bistro & Wine",
+          "type": "restaurant, food, point_of_interest, establishment",
+          "address": "109 S 65th Ave Ste 108, Ridgefield",
+          "lat": 45.8155632,
+          "lon": -122.6835174,
+          "distance_miles": 0.9,
+          "likelihood_score": 88,
+          "rating": 4.5,
+          "user_ratings_total": 370,
+          "phone": null,
+          "website": null,
+          "place_id": "ChIJYfUQJwJNlFQR1JCptN9PE3Y",
+          "opening_hours": {
+            "open_now": true
+          },
+          "source": "Google Places"
+        },
+        {
+          "name": "La Cocina Real",
+          "type": "restaurant, food, point_of_interest, establishment",
+          "address": "6370 Pioneer St, Ridgefield",
+          "lat": 45.8173805,
+          "lon": -122.6836101,
+          "distance_miles": 0.91,
+          "likelihood_score": 86,
+          "rating": 4.2,
+          "user_ratings_total": 24,
+          "phone": null,
+          "website": null,
+          "place_id": "ChIJG69j0-xNlFQRVd3Oo7lndQo",
+          "opening_hours": {
+            "open_now": true
+          },
+          "source": "Google Places"
+        }
+      ],
+      "createdAt": "2026-03-11T13:00:35.400727",
+      "count": 5
+    },
+    "8d864906747f9382": {
+      "storeNumber": "ROS07Z-0042",
+      "category": "mexican restaurants",
+      "prospects": [
+        {
+          "name": "La Cocina Real",
+          "type": "restaurant, food, point_of_interest, establishment",
+          "address": "6370 Pioneer St, Ridgefield",
+          "lat": 45.8173805,
+          "lon": -122.6836101,
+          "distance_miles": 0.83,
+          "likelihood_score": 87,
+          "rating": 4.2,
+          "user_ratings_total": 24,
+          "phone": "+1 360-887-8201",
+          "website": "http://lacocinarealwa.com/",
+          "place_id": "ChIJG69j0-xNlFQRVd3Oo7lndQo",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 2,
+          "source": "Google Places"
+        },
+        {
+          "name": "Chipotle Mexican Grill",
+          "type": "restaurant, food, point_of_interest, establishment",
+          "address": "200 N 56th Pl, Ridgefield",
+          "lat": 45.8173875,
+          "lon": -122.690306,
+          "distance_miles": 0.52,
+          "likelihood_score": 84,
+          "rating": 3.1,
+          "user_ratings_total": 103,
+          "phone": "+1 360-857-6194",
+          "website": "https://locations.chipotle.com/wa/ridgefield/200-n.-56th-place?utm_source=google&utm_medium=yext&utm_campaign=yext_listings?restaurant=5165",
+          "place_id": "ChIJSfWBl8NNlFQRTeaZbXru6P4",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 1,
+          "source": "Google Places"
+        },
+        {
+          "name": "Country Cafe",
+          "type": "restaurant, food, point_of_interest, establishment",
+          "address": "6370 Pioneer St, Ridgefield",
+          "lat": 45.8173868,
+          "lon": -122.6835804,
+          "distance_miles": 0.83,
+          "likelihood_score": 86,
+          "rating": 4,
+          "user_ratings_total": 1223,
+          "phone": "+1 360-887-8201",
+          "website": "https://thebarkingbus.wixsite.com/countrycafewa",
+          "place_id": "ChIJI-lp2QFNlFQRUOuq-CQezPg",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 2,
+          "source": "Google Places"
+        }
+      ],
+      "createdAt": "2026-03-11T13:02:44.173060",
+      "count": 3
+    },
+    "865989ac793b4071": {
+      "storeNumber": "FME07Y-0165",
+      "category": "coffee",
+      "prospects": [
+        {
+          "name": "Starbucks Coffee Company",
+          "type": "cafe, restaurant, food, store, point_of_interest, establishment",
+          "address": "2922 S 6th St, Klamath Falls",
+          "lat": 42.20883,
+          "lon": -121.75299,
+          "distance_miles": 0.51,
+          "likelihood_score": 89,
+          "rating": 4.1,
+          "user_ratings_total": 815,
+          "phone": "+1 541-880-8123",
+          "website": "https://www.starbucks.com/store-locator/store/1016355/",
+          "place_id": "ChIJK6ouSIXVyFQRCxZD5-7zV4g",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 2,
+          "source": "Google Places"
+        },
+        {
+          "name": "The Human Bean",
+          "type": "cafe, restaurant, food, store, point_of_interest, establishment",
+          "address": "2430 Washburn Way, Klamath Falls",
+          "lat": 42.2058588,
+          "lon": -121.7578266,
+          "distance_miles": 0.69,
+          "likelihood_score": 90,
+          "rating": 4.5,
+          "user_ratings_total": 480,
+          "phone": "+1 541-363-0142",
+          "website": "https://thehumanbean.com/location/klamath-falls-oregon/",
+          "place_id": "ChIJMwOII5zVyFQRBhHGSQKFGBI",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 1,
+          "source": "Google Places"
+        },
+        {
+          "name": "B.S. Coffee CO",
+          "type": "cafe, food, store, point_of_interest, establishment",
+          "address": "417 N Spring St, Klamath Falls",
+          "lat": 42.231258,
+          "lon": -121.7756583,
+          "distance_miles": 1.46,
+          "likelihood_score": 84,
+          "rating": 4.8,
+          "user_ratings_total": 39,
+          "phone": "+1 541-205-8445",
+          "website": "http://www.bs.coffee/",
+          "place_id": "ChIJeyvu5sjVyFQRz1dJ87fAoZM",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 1,
+          "source": "Google Places"
+        }
+      ],
+      "createdAt": "2026-03-11T13:02:45.171369",
+      "count": 3
     }
   },
-  "lastUpdated": "2026-03-11T12:55:17.337647"
+  "lastUpdated": "2026-03-11T13:02:45.171386"
 }

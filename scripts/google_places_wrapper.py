@@ -110,6 +110,23 @@ class GooglePlacesWrapper:
                 
                 score = min(100, max(0, int(score)))
                 
+                # Get phone from places_nearby (international_phone_number)
+                phone = place.get("formatted_phone_number") or place.get("international_phone_number") or None
+                website = place.get("website") or None
+                
+                # Fetch Place Details for phone/website if missing and place_id exists
+                place_id = place.get("place_id")
+                if place_id and (not phone or not website):
+                    try:
+                        details = self.client.place(place_id, fields=['formatted_phone_number', 'website', 'formatted_address'])
+                        detail_result = details.get('result', {})
+                        if not phone:
+                            phone = detail_result.get('formatted_phone_number')
+                        if not website:
+                            website = detail_result.get('website')
+                    except Exception as detail_err:
+                        logger.debug(f"Place Details fetch failed for {place.get('name')}: {detail_err}")
+                
                 prospect = {
                     "name": place.get("name", "Unknown"),
                     "type": ", ".join(place.get("types", [])),
@@ -120,10 +137,12 @@ class GooglePlacesWrapper:
                     "likelihood_score": score,
                     "rating": place.get("rating"),
                     "user_ratings_total": place.get("user_ratings_total", 0),
-                    "phone": place.get("formatted_phone_number"),
-                    "website": place.get("website"),
-                    "place_id": place.get("place_id"),
+                    "phone": phone,
+                    "website": website,
+                    "place_id": place_id,
                     "opening_hours": place.get("opening_hours", {}),
+                    "business_status": place.get("business_status"),
+                    "price_level": place.get("price_level"),
                     "source": "Google Places"
                 }
                 prospects.append(prospect)
@@ -158,46 +177,93 @@ def search_google_places(
     """
     Convenience function: search for prospects using Google Places.
     
-    First geocodes the address, then searches for nearby businesses.
+    Geocodes address using: geocode cache → Google geocoding → Nominatim fallback
+    Then searches for nearby businesses.
     """
-    from free_prospecting_api import FreeProspectingAPI
-    
     wrapper = get_google_places()
     
     if not wrapper.available:
-        logger.warning("Google Places not available, falling back to free API")
+        logger.warning("Google Places not available")
         return []
     
-    # Geocode the address using free API (Nominatim)
-    coords = FreeProspectingAPI.get_store_coordinates(address)
-    if not coords:
-        logger.warning(f"Could not geocode address: {address}")
+    lat, lon = None, None
+    
+    # Step 1: Check geocode cache (fastest)
+    try:
+        geocode_cache_path = Path(__file__).parent.parent / "data" / "store-rates" / "geocode_cache.json"
+        if geocode_cache_path.exists():
+            import json
+            with open(geocode_cache_path) as f:
+                geocode_cache = json.load(f)
+            
+            # Try exact match
+            cached = geocode_cache.get(address)
+            if cached:
+                lat = cached.get("latitude")
+                lon = cached.get("longitude")
+                logger.info(f"✅ Geocode cache hit: {address} → ({lat}, {lon})")
+            else:
+                # Try partial match (address without zip)
+                addr_clean = address.strip().rstrip(",").strip()
+                for cache_key, cache_val in geocode_cache.items():
+                    if addr_clean.lower() in cache_key.lower() or cache_key.lower() in addr_clean.lower():
+                        lat = cache_val.get("latitude")
+                        lon = cache_val.get("longitude")
+                        logger.info(f"✅ Geocode cache partial match: {cache_key} → ({lat}, {lon})")
+                        break
+    except Exception as e:
+        logger.debug(f"Geocode cache read error: {e}")
+    
+    # Step 2: Try Google geocoding (very reliable)
+    if not lat or not lon:
+        try:
+            geocode_result = wrapper.client.geocode(address)
+            if geocode_result:
+                location = geocode_result[0].get("geometry", {}).get("location", {})
+                lat = location.get("lat")
+                lon = location.get("lng")
+                logger.info(f"✅ Google geocode: {address} → ({lat}, {lon})")
+        except Exception as e:
+            logger.warning(f"Google geocode failed: {e}")
+    
+    # Step 3: Try Nominatim (free fallback)
+    if not lat or not lon:
+        try:
+            from free_prospecting_api import FreeProspectingAPI
+            coords = FreeProspectingAPI.get_store_coordinates(address)
+            if coords:
+                lat = coords["lat"]
+                lon = coords["lon"]
+                logger.info(f"✅ Nominatim geocode: {address} → ({lat}, {lon})")
+        except Exception as e:
+            logger.warning(f"Nominatim geocode failed: {e}")
+    
+    if not lat or not lon:
+        logger.error(f"❌ Could not geocode address: {address}")
         return []
     
-    # Search with Google Places
-    keyword_map = {
+    # Map categories to search keywords
+    keyword = category.lower() if category else "restaurant"
+    
+    # Don't over-map — Google Places is smart enough to handle natural language
+    # Just clean up obvious ones
+    keyword_cleanup = {
         "restaurants": "restaurant",
-        "mexican": "mexican restaurant",
-        "pizza": "pizza",
-        "salons": "salon hair",
+        "salons": "salon",
         "gyms": "gym fitness",
-        "coffee": "coffee cafe",
-        "auto": "auto repair car",
+        "coffee": "coffee",
+        "auto": "auto repair",
         "retail": "retail shop",
-        "veterinary": "veterinary vet",
+        "veterinary": "veterinary",
         "real_estate": "real estate",
     }
-    
-    category_lower = category.lower() if category else "restaurants"
-    keyword = keyword_map.get(category_lower, category_lower if category_lower else "restaurant")
+    keyword = keyword_cleanup.get(keyword, keyword)
     
     if not keyword:
-        logger.warning(f"No keyword found for category: {category}, using 'restaurant'")
         keyword = "restaurant"
     
     prospects = wrapper.search_nearby(
-        coords["lat"],
-        coords["lon"],
+        lat, lon,
         keyword=keyword,
         limit=limit
     )

@@ -1862,9 +1862,22 @@ async def send_prospects_with_full_info(update: Update, prospects: List[Dict], s
         
         # Build complete message with all info
         text = f"{emoji} *#{i}. {business_name}*\n"
-        text += f"📊 Score: {score}/100\n"
-        text += f"📏 Distance: {distance} mi\n"
-        text += f"📞 {phone}\n"
+        if score and score > 0:
+            text += f"📊 Score: {score}/100\n"
+        if distance and distance != 'N/A':
+            text += f"📏 Distance: {distance} mi\n"
+        if phone:
+            text += f"📞 {phone}\n"
+        
+        # Rating info
+        rating_val = prospect.get('rating')
+        rating_count = prospect.get('user_ratings_total', 0)
+        if rating_val and rating_val > 0:
+            stars = "⭐" * min(5, round(rating_val))
+            text += f"{stars} {rating_val}/5"
+            if rating_count:
+                text += f" ({rating_count:,} reviews)"
+            text += "\n"
         
         # Address in code block
         if address:
