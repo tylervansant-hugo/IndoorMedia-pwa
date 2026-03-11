@@ -1861,31 +1861,37 @@ async def send_prospects_with_full_info(update: Update, prospects: List[Dict], s
             emoji = "👀"
         
         # Build complete message with all info
-        text = f"{emoji} *#{i}. {business_name}*\n"
+        text = f"{emoji} *{business_name}*\n"
+        
+        # Score and rating on same line
+        info_line = ""
         if score and score > 0:
-            text += f"📊 Score: {score}/100\n"
+            info_line += f"📊 Likelihood: {score}/100"
+        if rating_val := prospect.get('rating'):
+            stars = "⭐" * min(5, round(rating_val))
+            if info_line:
+                info_line += f"  |  {stars} {rating_val}/5"
+            else:
+                info_line += f"{stars} {rating_val}/5"
+        if info_line:
+            text += info_line + "\n"
+        
+        # Distance from store
         if distance and distance != 'N/A':
-            text += f"📏 Distance: {distance} mi\n"
+            text += f"📏 {distance} mi from store\n"
+        
+        # Phone (Telegram auto-links phone numbers)
         if phone:
             text += f"📞 {phone}\n"
         
-        # Rating info
-        rating_val = prospect.get('rating')
-        rating_count = prospect.get('user_ratings_total', 0)
-        if rating_val and rating_val > 0:
-            stars = "⭐" * min(5, round(rating_val))
-            text += f"{stars} {rating_val}/5"
-            if rating_count:
-                text += f" ({rating_count:,} reviews)"
-            text += "\n"
-        
-        # Address in code block
+        # Address
         if address:
-            text += f"📍 `{address}`\n"
+            text += f"📍 {address}\n"
         
         # Website link
         if website:
-            text += f"🌐 [Visit Website]({website})\n"
+            web_url = website if website.startswith("http") else f"https://{website}"
+            text += f"🌐 [Website]({web_url})\n"
         
         # Advertising signals
         advertising_signals = prospect.get('advertising_signal', {})
@@ -1912,10 +1918,32 @@ async def send_prospects_with_full_info(update: Update, prospects: List[Dict], s
         # Create a safe callback ID for this prospect (use hash of name + address)
         prospect_id = hashlib.md5(f"{business_name}{address}".encode()).hexdigest()[:12]
         
-        # Buttons - start collapsed
-        buttons = [
-            [InlineKeyboardButton("▶️ Show Actions", callback_data=f"expand_{prospect_id}")],
-        ]
+        # Buttons - quick actions + expand
+        buttons = []
+        
+        # Quick contact row (phone + website)
+        quick_row = []
+        if phone:
+            clean_phone = phone.replace(" ", "").replace("-", "").replace("(", "").replace(")", "")
+            if not clean_phone.startswith("+"):
+                clean_phone = "+1" + clean_phone.lstrip("1")
+            quick_row.append(InlineKeyboardButton("📞 Call", url=f"tel:{clean_phone}"))
+        if website:
+            web_url = website if website.startswith("http") else f"https://{website}"
+            quick_row.append(InlineKeyboardButton("🌐 Website", url=web_url))
+        if quick_row:
+            buttons.append(quick_row)
+        
+        # Maps row
+        buttons.append([
+            InlineKeyboardButton("📍 Maps", url=google_maps_url),
+            InlineKeyboardButton("🗺️ Mappoint", url=mappoint_url),
+        ])
+        
+        # Expand for more actions
+        buttons.append([
+            InlineKeyboardButton("▶️ Show Actions", callback_data=f"expand_{prospect_id}"),
+        ])
         
         # Store prospect info for callback handlers
         if context:
@@ -3840,6 +3868,21 @@ async def handle_button_callback(update: Update, context: ContextTypes.DEFAULT_T
                 
                 # Expanded buttons (safe construction)
                 buttons = []
+                
+                # Phone & Website row (clickable!)
+                contact_row = []
+                if phone and phone != 'No phone found':
+                    # Clean phone for tel: link
+                    clean_phone = phone.replace(" ", "").replace("-", "").replace("(", "").replace(")", "")
+                    if not clean_phone.startswith("+"):
+                        clean_phone = "+1" + clean_phone.lstrip("1")
+                    contact_row.append(InlineKeyboardButton(f"📞 Call", url=f"tel:{clean_phone}"))
+                if website:
+                    # Ensure website has protocol
+                    web_url = website if website.startswith("http") else f"https://{website}"
+                    contact_row.append(InlineKeyboardButton("🌐 Website", url=web_url))
+                if contact_row:
+                    buttons.append(contact_row)
                 
                 # Maps row
                 maps_row = []
