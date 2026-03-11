@@ -72,15 +72,58 @@ class GooglePlacesWrapper:
             
             prospects = []
             for place in results_list[:limit]:
+                # Calculate distance from store location
+                import math
+                place_lat = place.get("geometry", {}).get("location", {}).get("lat")
+                place_lon = place.get("geometry", {}).get("location", {}).get("lng")
+                
+                distance_miles = None
+                if place_lat and place_lon:
+                    # Haversine formula
+                    dlat = math.radians(place_lat - latitude)
+                    dlon = math.radians(place_lon - longitude)
+                    a = math.sin(dlat/2)**2 + math.cos(math.radians(latitude)) * math.cos(math.radians(place_lat)) * math.sin(dlon/2)**2
+                    c = 2 * math.asin(math.sqrt(a))
+                    distance_miles = round((6371 * c) * 0.621371, 2)  # Convert km to miles
+                
+                # Calculate likelihood score (0-100)
+                rating = place.get("rating", 0)
+                review_count = place.get("user_ratings_total", 0)
+                is_open = place.get("opening_hours", {}).get("open_now", None)
+                
+                # Score formula:
+                # - Rating (0-25): higher rating = higher score
+                # - Reviews (0-25): more reviews = higher score
+                # - Open status (0-10): open now = +10
+                # - Proximity (0-40): closer = higher score
+                score = 0
+                if rating:
+                    score += min(25, int(rating / 5 * 25))
+                if review_count:
+                    score += min(25, int(min(review_count / 10, 1) * 25))
+                if is_open:
+                    score += 10
+                if distance_miles:
+                    # Closer stores get higher proximity score
+                    proximity_score = max(0, 40 - (distance_miles * 10))
+                    score += proximity_score
+                
+                score = min(100, max(0, int(score)))
+                
                 prospect = {
                     "name": place.get("name", "Unknown"),
                     "type": ", ".join(place.get("types", [])),
-                    "address": place.get("vicinity", "Address not available"),
-                    "lat": place.get("geometry", {}).get("location", {}).get("lat"),
-                    "lon": place.get("geometry", {}).get("location", {}).get("lng"),
+                    "address": place.get("formatted_address") or place.get("vicinity", "Address not available"),
+                    "lat": place_lat,
+                    "lon": place_lon,
+                    "distance_miles": distance_miles,
+                    "likelihood_score": score,
                     "rating": place.get("rating"),
+                    "user_ratings_total": place.get("user_ratings_total", 0),
                     "phone": place.get("formatted_phone_number"),
                     "website": place.get("website"),
+                    "place_id": place.get("place_id"),
+                    "opening_hours": place.get("opening_hours", {}),
                     "source": "Google Places"
                 }
                 prospects.append(prospect)

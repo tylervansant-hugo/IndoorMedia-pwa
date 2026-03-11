@@ -1,4 +1,112 @@
 {
-  "cache": {},
-  "lastUpdated": null
+  "cache": {
+    "dea470706abc3236": {
+      "storeNumber": "FME07Z-0660",
+      "category": "mexican",
+      "prospects": [
+        {
+          "name": "Tapatio",
+          "type": "restaurant, food, point_of_interest, establishment",
+          "address": "2441 SW Cherry Park Rd, Troutdale",
+          "lat": 45.5293666,
+          "lon": -122.4093414,
+          "rating": 4.3,
+          "phone": null,
+          "website": null,
+          "source": "Google Places"
+        },
+        {
+          "name": "2 Amigos Mexican Restaurant",
+          "type": "restaurant, food, point_of_interest, establishment",
+          "address": "23609 NE Halsey St Suite 700, Wood Village",
+          "lat": 45.5372577,
+          "lon": -122.4191943,
+          "rating": 4.4,
+          "phone": null,
+          "website": null,
+          "source": "Google Places"
+        },
+        {
+          "name": "La Mixteca",
+          "type": "restaurant, food, point_of_interest, establishment",
+          "address": "1601 NE 223rd Ave, Fairview",
+          "lat": 45.5345627,
+          "lon": -122.434086,
+          "rating": 4.2,
+          "phone": null,
+          "website": null,
+          "source": "Google Places"
+        },
+        {
+          "name": "Wood Village Burrito Shop",
+          "type": "restaurant, food, point_of_interest, establishment",
+          "address": "23423 NE Halsey St, Wood Village",
+          "lat": 45.5365766,
+          "lon": -122.4212836,
+          "rating": 4.7,
+          "phone": null,
+          "website": null,
+          "source": "Google Places"
+        },
+        {
+          "name": "El Toro Birrieria",
+          "type": "restaurant, food, point_of_interest, establishment",
+          "address": "22320 NE Halsey St, Fairview",
+          "lat": 45.53494020000001,
+          "lon": -122.43271,
+          "rating": 4.8,
+          "phone": null,
+          "website": null,
+          "source": "Google Places"
+        },
+        {
+          "name": "Mr. Compadre Taqueria",
+          "type": "restaurant, food, point_of_interest, establishment",
+          "address": "23830 NE Halsey St, Wood Village",
+          "lat": 45.5348467,
+          "lon": -122.4333063,
+          "rating": 4,
+          "phone": null,
+          "website": null,
+          "source": "Google Places"
+        },
+        {
+          "name": "Los Tinos Mexican Food",
+          "type": "restaurant, food, point_of_interest, establishment",
+          "address": "22605 NE Halsey St F, Fairview",
+          "lat": 45.536339,
+          "lon": -122.4298924,
+          "rating": 4.7,
+          "phone": null,
+          "website": null,
+          "source": "Google Places"
+        },
+        {
+          "name": "Sol Tapatio Food Truck",
+          "type": "restaurant, food, point_of_interest, establishment",
+          "address": "21130 SE Stark St, Gresham",
+          "lat": 45.51879419999999,
+          "lon": -122.4456701,
+          "rating": 4.1,
+          "phone": null,
+          "website": null,
+          "source": "Google Places"
+        },
+        {
+          "name": "Chipotle Mexican Grill",
+          "type": "restaurant, food, point_of_interest, establishment",
+          "address": "920 NE Wood Village Blvd, Wood Village",
+          "lat": 45.5287207,
+          "lon": -122.4277444,
+          "rating": 3.2,
+          "phone": null,
+          "website": null,
+          "source": "Google Places"
+        }
+      ],
+      "createdAt": "2026-03-11T12:55:17.337634",
+      "count": 9
+    }
+  },
+  "lastUpdated": "2026-03-11T12:55:17.337647"
 }
