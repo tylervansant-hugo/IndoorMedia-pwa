@@ -1,0 +1,19 @@
+{
+  "date": "03/09/2026",
+  "name": "Rio",
+  "business": "Sumo Sushi AYCE",
+  "address": "205 Kelso Dr\nKelso, WA  98626\nUnited States",
+  "phone": "+1 (360) 998-2499",
+  "coupons_frequency": "week",
+  "coupons_count": 7,
+  "ticket_price": "50.00",
+  "roi_rating": "EXCELLENT",
+  "duration": "2 months",
+  "renew": "YES",
+  "recommend": "YES",
+  "comments": "",
+  "grocery_chain": "Safeway",
+  "zone": "07Z",
+  "store_number": "2637",
+  "coupon_image": "/var/folders/2q/fkw5f4c15hdd8c42hrbx0s8h0000gn/T/tmpvkpa8e3z.jpg"
+}

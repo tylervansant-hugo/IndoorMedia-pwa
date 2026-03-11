@@ -763,6 +763,9 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
         save_prospect_data(data_obj)
         logger.info(f"New rep registered: {rep_name} ({rep_id})")
     
+    # Clear any stale awaiting states from previous interactions
+    clear_awaiting_states(context)
+    
     # Remove any lingering reply keyboard
     cleanup = await update.effective_chat.send_message(
         "🔄",
@@ -871,6 +874,71 @@ async def dashboard(update: Update, context: ContextTypes.DEFAULT_TYPE):
         parse_mode="Markdown",
         reply_markup=keyboard
     )
+
+
+async def handle_photo_upload(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    """Handle photo uploads for testimonial coupon images."""
+    if context.user_data.get(AWAITING_TEST_COUPON_IMAGE):
+        context.user_data[AWAITING_TEST_COUPON_IMAGE] = False
+        
+        # Get the photo file
+        photo = update.message.photo[-1]  # Get highest resolution
+        file = await context.bot.get_file(photo.file_id)
+        
+        # Download the photo
+        import tempfile
+        import os
+        with tempfile.NamedTemporaryFile(delete=False, suffix='.jpg') as tmp:
+            await file.download_to_memory(tmp)
+            photo_path = tmp.name
+        
+        # Store the photo path
+        context.user_data['testimonial_form']['coupon_image'] = photo_path
+        
+        # Build review message
+        form = context.user_data.get('testimonial_form', {})
+        review = f"""
+        📋 *Testimonial Review*
+        
+        *Personal Info:*
+        Name: {form.get('name', '')}
+        Business: {form.get('business', '')}
+        Address: {form.get('address', '')}
+        Phone: {form.get('phone', '')}
+        
+        *Store Info:*
+        Chain: {form.get('grocery_chain', '')}
+        Zone: {form.get('zone', '')}
+        Store #: {form.get('store_number', '')}
+        
+        *Program Details:*
+        Coupons/week: {form.get('coupons_count', '')}
+        Avg Ticket: ${form.get('ticket_price', '')}
+        ROI Rating: {form.get('roi_rating', '')}
+        Duration: {form.get('duration', '')}
+        Would Renew: {form.get('renew', '')}
+        Would Recommend: {form.get('recommend', '')}
+        Comments: {form.get('comments', '') or '(none)'}
+        
+        ✅ Coupon image attached
+        
+        Everything look good?
+        """.strip()
+        
+        buttons = [
+            [InlineKeyboardButton("✅ Submit Testimonial", callback_data="test_final_submit")],
+            [InlineKeyboardButton("❌ Cancel", callback_data="main_menu")],
+        ]
+        
+        await update.message.reply_text(
+            review,
+            parse_mode="Markdown",
+            reply_markup=InlineKeyboardMarkup(buttons)
+        )
+        return
+    
+    # If not awaiting coupon image, acknowledge but ignore
+    await update.message.reply_text("📸 Photo received, but not needed right now.")
 
 
 async def handle_store_query(update: Update, context: ContextTypes.DEFAULT_TYPE):
@@ -1006,46 +1074,117 @@ async def handle_store_query(update: Update, context: ContextTypes.DEFAULT_TYPE)
         return
     
     # Handle ROI calculator if awaiting
-    if context.user_data.get(AWAITING_ROI):
-        context.user_data[AWAITING_ROI] = False
-        await open_roi_calculator(update, text)
+    # Conversational ROI Calculator Flow
+    if context.user_data.get(AWAITING_ROI_ADPRICE):
+        # Step 1: Ad price entered
+        context.user_data[AWAITING_ROI_ADPRICE] = False
+        try:
+            value = float(text.replace('$', '').replace(',', '').strip())
+            if value < 1 or value > 100000:
+                raise ValueError()
+            context.user_data['roi_adprice'] = value
+            context.user_data[AWAITING_ROI_REDEMPTIONS] = True
+            await update.message.reply_text(
+                f"✅ Ad Price: ${value:,.2f}/year\n\n"
+                f"*Step 2:* How many redemptions per month?\n\n"
+                f"_Example: 20 or 50_",
+                parse_mode="Markdown"
+            )
+        except:
+            await update.message.reply_text(
+                f"❌ Please enter a valid dollar amount (1-100000).\n\n_Example: 3000_",
+                parse_mode="Markdown"
+            )
+            context.user_data[AWAITING_ROI_ADPRICE] = True
         return
     
-    # Handle ROI text input fields
-    for roi_field, roi_key, roi_label, roi_max in [
-        (AWAITING_ROI_REDEMPTIONS, 'roi_redemptions', 'Redemptions', 1000),
-        (AWAITING_ROI_TICKET, 'roi_ticket', 'Avg Ticket', 50000),
-        (AWAITING_ROI_COUPON, 'roi_coupon', 'Coupon', 10000),
-        (AWAITING_ROI_COGS, 'roi_cogs', 'COGS %', 100),
-    ]:
-        store_num = context.user_data.get(roi_field)
-        if store_num:
-            context.user_data[roi_field] = None
-            # Parse number (strip $, %, commas)
-            cleaned = text.replace('$', '').replace('%', '').replace(',', '').strip()
-            try:
-                value = float(cleaned)
-                if value < 0 or value > roi_max:
-                    await update.message.reply_text(
-                        f"❌ {roi_label} must be between 0 and {roi_max}. Try again:",
-                        parse_mode="Markdown"
-                    )
-                    context.user_data[roi_field] = store_num
-                    return
-                # Store as int if whole number, else float
-                context.user_data[roi_key] = int(value) if value == int(value) else value
-                # Send new message with ROI results
-                store = STORES.get(store_num)
-                if store:
-                    await send_roi_calculator(update, context, store_num)
-                return
-            except ValueError:
-                await update.message.reply_text(
-                    f"❌ Please enter a valid number for {roi_label}.\n\n_Example: 25 or 42.50_",
-                    parse_mode="Markdown"
-                )
-                context.user_data[roi_field] = store_num
-                return
+    if context.user_data.get(AWAITING_ROI_REDEMPTIONS):
+        # Step 2: Redemptions entered
+        context.user_data[AWAITING_ROI_REDEMPTIONS] = False
+        try:
+            value = int(text.replace(',', '').strip())
+            if value < 1 or value > 1000:
+                raise ValueError()
+            context.user_data['roi_redemptions'] = value
+            context.user_data[AWAITING_ROI_TICKET] = True
+            await update.message.reply_text(
+                f"✅ Redemptions: {value}/mo\n\n"
+                f"*Step 3:* What's the average ticket size?\n\n"
+                f"_Example: 35 or 75_",
+                parse_mode="Markdown"
+            )
+        except:
+            await update.message.reply_text(
+                f"❌ Please enter a valid number (1-1000).\n\n_Example: 20_",
+                parse_mode="Markdown"
+            )
+            context.user_data[AWAITING_ROI_REDEMPTIONS] = True
+        return
+    
+    if context.user_data.get(AWAITING_ROI_TICKET):
+        # Step 3: Ticket size entered
+        context.user_data[AWAITING_ROI_TICKET] = False
+        try:
+            value = float(text.replace('$', '').replace(',', '').strip())
+            if value < 1 or value > 10000:
+                raise ValueError()
+            context.user_data['roi_ticket'] = value
+            context.user_data[AWAITING_ROI_COUPON] = True
+            await update.message.reply_text(
+                f"✅ Avg Ticket: ${value:.2f}\n\n"
+                f"*Step 4:* What's the coupon discount amount?\n\n"
+                f"_Example: 5 or 10_",
+                parse_mode="Markdown"
+            )
+        except:
+            await update.message.reply_text(
+                f"❌ Please enter a valid dollar amount (1-10000).\n\n_Example: 35_",
+                parse_mode="Markdown"
+            )
+            context.user_data[AWAITING_ROI_TICKET] = True
+        return
+    
+    if context.user_data.get(AWAITING_ROI_COUPON):
+        # Step 4: Coupon entered
+        context.user_data[AWAITING_ROI_COUPON] = False
+        try:
+            value = float(text.replace('$', '').replace(',', '').strip())
+            if value < 0 or value > 100:
+                raise ValueError()
+            context.user_data['roi_coupon'] = value
+            context.user_data[AWAITING_ROI_COGS] = True
+            await update.message.reply_text(
+                f"✅ Coupon: ${value:.2f}\n\n"
+                f"*Step 5:* What's your COGS percentage?\n\n"
+                f"_Example: 30 or 40_",
+                parse_mode="Markdown"
+            )
+        except:
+            await update.message.reply_text(
+                f"❌ Please enter a valid dollar amount (0-100).\n\n_Example: 10_",
+                parse_mode="Markdown"
+            )
+            context.user_data[AWAITING_ROI_COUPON] = True
+        return
+    
+    if context.user_data.get(AWAITING_ROI_COGS):
+        # Step 5: COGS entered - now calculate and show results
+        context.user_data[AWAITING_ROI_COGS] = False
+        try:
+            value = float(text.replace('%', '').replace(',', '').strip())
+            if value < 0 or value > 100:
+                raise ValueError()
+            context.user_data['roi_cogs'] = value
+            
+            # Calculate and show results with ad price instead of store lookup
+            await show_roi_results_with_adprice(update, context)
+        except:
+            await update.message.reply_text(
+                f"❌ Please enter a valid percentage (0-100).\n\n_Example: 35_",
+                parse_mode="Markdown"
+            )
+            context.user_data[AWAITING_ROI_COGS] = True
+        return
     
     # Handle testimonial keyword search if awaiting
     if context.user_data.get(AWAITING_KEYWORD):
@@ -1179,6 +1318,160 @@ async def handle_store_query(update: Update, context: ContextTypes.DEFAULT_TYPE)
         ]
         
         await update.message.reply_text(msg, parse_mode="Markdown", reply_markup=InlineKeyboardMarkup(buttons))
+        return
+    
+    # Handle testimonial form fields
+    if context.user_data.get(AWAITING_TEST_NAME):
+        context.user_data[AWAITING_TEST_NAME] = False
+        context.user_data['testimonial_form']['name'] = text.strip()
+        context.user_data[AWAITING_TEST_BUSINESS] = True
+        await update.message.reply_text(
+            "✅ Name saved.\n\n*Step 2:* What is the business name?",
+            parse_mode="Markdown"
+        )
+        return
+    
+    if context.user_data.get(AWAITING_TEST_BUSINESS):
+        context.user_data[AWAITING_TEST_BUSINESS] = False
+        context.user_data['testimonial_form']['business'] = text.strip()
+        context.user_data[AWAITING_TEST_ADDRESS] = True
+        await update.message.reply_text(
+            "✅ Business saved.\n\n*Step 3:* What is the business address?",
+            parse_mode="Markdown"
+        )
+        return
+    
+    if context.user_data.get(AWAITING_TEST_ADDRESS):
+        context.user_data[AWAITING_TEST_ADDRESS] = False
+        context.user_data['testimonial_form']['address'] = text.strip()
+        context.user_data[AWAITING_TEST_PHONE] = True
+        await update.message.reply_text(
+            "✅ Address saved.\n\n*Step 4:* What is the phone number?",
+            parse_mode="Markdown"
+        )
+        return
+    
+    if context.user_data.get(AWAITING_TEST_PHONE):
+        context.user_data[AWAITING_TEST_PHONE] = False
+        context.user_data['testimonial_form']['phone'] = text.strip()
+        context.user_data[AWAITING_TEST_CHAIN] = True
+        await update.message.reply_text(
+            "✅ Phone saved.\n\n*Step 5:* What is the grocery chain? (e.g., Kroger, Safeway, Fred Meyer)",
+            parse_mode="Markdown"
+        )
+        return
+    
+    if context.user_data.get(AWAITING_TEST_CHAIN):
+        context.user_data[AWAITING_TEST_CHAIN] = False
+        context.user_data['testimonial_form']['grocery_chain'] = text.strip()
+        context.user_data[AWAITING_TEST_ZONE] = True
+        await update.message.reply_text(
+            "✅ Chain saved.\n\n*Step 6:* What is the zone? (e.g., 07Z, 05X)",
+            parse_mode="Markdown"
+        )
+        return
+    
+    if context.user_data.get(AWAITING_TEST_ZONE):
+        context.user_data[AWAITING_TEST_ZONE] = False
+        context.user_data['testimonial_form']['zone'] = text.strip()
+        context.user_data[AWAITING_TEST_STORE] = True
+        await update.message.reply_text(
+            "✅ Zone saved.\n\n*Step 7:* What is the store number? (e.g., 0206)",
+            parse_mode="Markdown"
+        )
+        return
+    
+    if context.user_data.get(AWAITING_TEST_STORE):
+        context.user_data[AWAITING_TEST_STORE] = False
+        context.user_data['testimonial_form']['store_number'] = text.strip()
+        context.user_data[AWAITING_TEST_COUPONS] = True
+        await update.message.reply_text(
+            "✅ Store number saved.\n\n*Step 8:* How many coupons per week? (just the number, e.g., 15)",
+            parse_mode="Markdown"
+        )
+        return
+    
+    if context.user_data.get(AWAITING_TEST_COUPONS):
+        context.user_data[AWAITING_TEST_COUPONS] = False
+        try:
+            count = int(text.strip())
+            if count < 0:
+                raise ValueError()
+            context.user_data['testimonial_form']['coupons_count'] = count
+            context.user_data['testimonial_form']['coupons_frequency'] = 'week'
+            context.user_data[AWAITING_TEST_TICKET] = True
+            await update.message.reply_text(
+                f"✅ Coupons: {count}/week saved.\n\n*Step 9:* What is your average ticket price? (e.g., 45 or 75.50)",
+                parse_mode="Markdown"
+            )
+        except ValueError:
+            await update.message.reply_text(
+                "❌ Please enter a valid number.",
+                parse_mode="Markdown"
+            )
+            context.user_data[AWAITING_TEST_COUPONS] = True
+        return
+    
+    if context.user_data.get(AWAITING_TEST_TICKET):
+        context.user_data[AWAITING_TEST_TICKET] = False
+        try:
+            price = float(text.strip().replace('$', ''))
+            context.user_data['testimonial_form']['ticket_price'] = f"{price:.2f}"
+            context.user_data[AWAITING_TEST_ROI] = True
+            
+            # Show ROI rating buttons
+            buttons = [
+                [InlineKeyboardButton("🔥 EXCELLENT", callback_data="test_roi_excellent")],
+                [InlineKeyboardButton("⭐ GOOD", callback_data="test_roi_good")],
+                [InlineKeyboardButton("👀 FAIR", callback_data="test_roi_fair")],
+                [InlineKeyboardButton("😞 POOR", callback_data="test_roi_poor")],
+            ]
+            await update.message.reply_text(
+                f"✅ Ticket price: ${price:.2f} saved.\n\n*Step 10:* How would you rate the ROI?",
+                parse_mode="Markdown",
+                reply_markup=InlineKeyboardMarkup(buttons)
+            )
+        except ValueError:
+            await update.message.reply_text(
+                "❌ Please enter a valid price (e.g., 45 or 75.50).",
+                parse_mode="Markdown"
+            )
+            context.user_data[AWAITING_TEST_TICKET] = True
+        return
+    
+    if context.user_data.get(AWAITING_TEST_DURATION):
+        context.user_data[AWAITING_TEST_DURATION] = False
+        context.user_data['testimonial_form']['duration'] = text.strip()
+        context.user_data[AWAITING_TEST_RENEW] = True
+        
+        # Show renew buttons
+        buttons = [
+            [InlineKeyboardButton("✅ YES", callback_data="test_renew_yes")],
+            [InlineKeyboardButton("❌ NO", callback_data="test_renew_no")],
+        ]
+        await update.message.reply_text(
+            f"✅ Duration: {text.strip()} saved.\n\n*Step 12:* Would you renew this advertising program?",
+            parse_mode="Markdown",
+            reply_markup=InlineKeyboardMarkup(buttons)
+        )
+        return
+    
+    if context.user_data.get(AWAITING_TEST_COMMENTS):
+        context.user_data[AWAITING_TEST_COMMENTS] = False
+        context.user_data['testimonial_form']['comments'] = text.strip()
+        context.user_data[AWAITING_TEST_COUPON_IMAGE] = True
+        
+        await update.message.reply_text(
+            f"✅ Comments saved.\n\n*Step 15:* Now, please attach a photo of a coupon sample.",
+            parse_mode="Markdown"
+        )
+        return
+    
+    if context.user_data.get(AWAITING_TEST_COUPON_IMAGE):
+        await update.message.reply_text(
+            "⚠️ Please attach an image of the coupon. Use the attachment button or send a photo.",
+            parse_mode="Markdown"
+        )
         return
     
     # Check if it's a store number (contains a dash)
@@ -1450,45 +1743,36 @@ async def handle_subcategory_select(update: Update, context: ContextTypes.DEFAUL
         
         logger.info(f"🔍 Querying {store_number} | subcategory: {subcat} | types: {google_types} | keyword: {search_keyword}")
         
-        # Run prospecting with Google Places
-        prospects = None
+        # Run prospecting with resilient engine (cache → Google → Free API → offline cache)
+        prospects = []
+        source_info = ""
         try:
-            prospects = tool.run_prospecting(
-                store_number, 
-                limit=10,
-                category_keywords=google_types,
-                search_keyword=search_keyword,
-                exclude_terms=exclude_terms
+            from resilient_prospecting import search_with_resilience
+            
+            store = STORES.get(store_number)
+            store_address = f"{store.get('Address', '')}, {store.get('City', '')}, {store.get('State', '')} {store.get('ZIP', '')}"
+            
+            # Search with full fallback chain
+            prospects, source_info = search_with_resilience(
+                store_number=store_number,
+                store_address=store_address,
+                category=subcat.lower(),
+                google_places_func=None,  # Google Places API not configured; relies on free APIs
+                limit=10
             )
-        except Exception as places_error:
-            # If Places API fails, try web search fallback
-            if "Invalid API key" in str(places_error):
-                logger.info("⚠️ Places API failed, trying web search fallback...")
-                try:
-                    from web_prospecting_fallback import WebProspectingFallback
-                    fallback_tool = WebProspectingFallback()
-                    prospects = fallback_tool.run_prospecting_fallback(
-                        store_number,
-                        limit=10,
-                        category_keywords=google_types,
-                        search_keyword=search_keyword
-                    )
-                    if prospects:
-                        logger.info(f"✅ Web search fallback found {len(prospects)} results")
-                except Exception as fallback_error:
-                    logger.error(f"Fallback also failed: {fallback_error}")
-                    raise places_error  # Re-raise original error
-            else:
-                raise places_error
+        except Exception as e:
+            logger.error(f"❌ Resilient engine error: {e}", exc_info=True)
+            store = STORES.get(store_number)
+            source_info = f"⚠️ Search failed ({str(e)[:30]})"
         
         if not prospects:
-            await query.edit_message_text("❌ No prospects found with this filter.")
+            await query.edit_message_text(f"⚠️ No prospects found with this filter.\n\n{source_info}\n\nTry a different category or store.")
             return
         
         store = STORES.get(store_number)
         
-        # Format header
-        header = f"🎯 *{subcat}*\n📍 {store['GroceryChain']} | {store['City']}, {store['State']}\n📦 Store: {store_number}\n*Found {len(prospects)} prospects:*\n"
+        # Format header with source info
+        header = f"🎯 *{subcat}*\n📍 {store['GroceryChain']} | {store['City']}, {store['State']}\n📦 Store: {store_number}\n{source_info}\n*Found {len(prospects)} prospects:*\n"
         await query.edit_message_text(header, parse_mode="Markdown")
         
         # Track this search
@@ -1527,16 +1811,11 @@ async def handle_subcategory_select(update: Update, context: ContextTypes.DEFAUL
         logger.info(f"✅ Sent {len(prospects)} prospects")
         
     except Exception as e:
-        logger.error(f"❌ Error: {e}", exc_info=True)
+        logger.error(f"❌ Prospect search error: {e}", exc_info=True)
         
-        # More helpful error messages
-        error_msg = str(e)
-        if "Invalid API key" in error_msg or "API key" in error_msg:
-            display_msg = "⚠️ API Unavailable\n\n(Web search fallback also failed. Try a different category or contact support.)"
-        elif "No prospects" in error_msg:
-            display_msg = "⚠️ No prospects found with these filters.\n\nTry a different category or location."
-        else:
-            display_msg = f"❌ Error: {error_msg[:80]}\n\nPlease try again or choose a different category."
+        # Graceful error handling
+        error_msg = str(e)[:60]
+        display_msg = f"⚠️ Couldn't find prospects for this category.\n\nError: {error_msg}\n\nTry another category or store."
         
         # Add back button
         category = context.user_data.get('selected_category', '')
@@ -1665,6 +1944,13 @@ def search_testimonials(keyword):
     return results
 
 AWAITING_KEYWORD = "awaiting_keyword"
+
+
+def clear_awaiting_states(context):
+    """Clear all AWAITING_* flags from user_data to prevent stale state intercepts."""
+    awaiting_keys = [k for k in context.user_data if k.startswith("awaiting_")]
+    for k in awaiting_keys:
+        context.user_data[k] = False
 
 async def keyword_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
     """Handle /keyword command — search testimonials."""
@@ -1977,10 +2263,14 @@ def make_tier_selection_buttons(store_num: str, ad_type: str = "single") -> Inli
 
 AWAITING_RATES = "awaiting_rates"
 AWAITING_ROI = "awaiting_roi"
+AWAITING_ROI_ADPRICE = "awaiting_roi_adprice"
 AWAITING_ROI_REDEMPTIONS = "awaiting_roi_redemptions"
 AWAITING_ROI_TICKET = "awaiting_roi_ticket"
 AWAITING_ROI_COUPON = "awaiting_roi_coupon"
 AWAITING_ROI_COGS = "awaiting_roi_cogs"
+AWAITING_ROI_ADTYPE = "awaiting_roi_adtype"
+AWAITING_ROI_PAYMENT = "awaiting_roi_payment"
+AWAITING_ROI_TIER = "awaiting_roi_tier"
 
 async def roi_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
     """Handle /roi command."""
@@ -2094,6 +2384,133 @@ async def show_roi_calculator(query, context: ContextTypes.DEFAULT_TYPE, store_n
     ]
     
     await query.edit_message_text(msg, parse_mode="Markdown", reply_markup=InlineKeyboardMarkup(buttons))
+
+async def show_roi_results(update: Update, context: ContextTypes.DEFAULT_TYPE, store_num: str):
+    """Display final ROI results after conversational input."""
+    store = STORES.get(store_num)
+    if not store:
+        await update.message.reply_text("❌ Store not found.", parse_mode="Markdown")
+        return
+    
+    # Get parameters from context
+    redemptions = context.user_data.get('roi_redemptions', 20)
+    avg_ticket = context.user_data.get('roi_ticket', 35)
+    cogs_pct = context.user_data.get('roi_cogs', 35)
+    coupon = context.user_data.get('roi_coupon', 10)
+    ad_type = context.user_data.get('roi_ad_type', 'single')
+    payment_plan = context.user_data.get('roi_payment', 'monthly')
+    tier = context.user_data.get('roi_tier', 'coop')
+    
+    # Calculate ROI
+    base = store["DoubleAd"] if ad_type.lower() == "double" else store["SingleAd"]
+    PRODUCTION = 125
+    PADDING = 1200
+    
+    if tier.lower() == "coop":
+        base_before = base
+    else:
+        base_before = base + PADDING
+    
+    # Apply payment plan
+    if payment_plan.lower() == "paid_full":
+        annual = (base_before * 0.85) + PRODUCTION
+    elif payment_plan.lower() == "paid_3":
+        annual = ((base_before * 0.90) + PRODUCTION) * 3
+    elif payment_plan.lower() == "paid_6":
+        annual = ((base_before * 0.925) + PRODUCTION) * 6
+    else:  # monthly
+        annual = base_before + PRODUCTION
+    
+    monthly_cost = annual / 12
+    
+    # Revenue calculations
+    monthly_revenue = redemptions * avg_ticket
+    monthly_profit = monthly_revenue * (1 - cogs_pct / 100)
+    
+    annual_revenue = monthly_revenue * 12
+    annual_profit = monthly_profit * 12
+    annual_cost = annual
+    
+    # ROI
+    monthly_roi = ((monthly_profit - monthly_cost) / monthly_cost * 100) if monthly_cost > 0 else 0
+    annual_roi = ((annual_profit - annual_cost) / annual_cost * 100) if annual_cost > 0 else 0
+    net_monthly = monthly_profit - monthly_cost
+    net_annual = annual_profit - annual_cost
+    
+    # Build message
+    msg = (f"📊 *ROI RESULTS*\n\n"
+           f"*Store:* {store['StoreName']}\n"
+           f"*Location:* {store['City']}, {store['State']}\n\n"
+           f"*Inputs:*\n"
+           f"• Redemptions: {redemptions}/mo\n"
+           f"• Avg Ticket: ${avg_ticket:.2f}\n"
+           f"• Coupon: ${coupon:.2f}\n"
+           f"• COGS: {cogs_pct}%\n\n"
+           f"*💰 Monthly:*\n"
+           f"Revenue: ${monthly_revenue:,.2f}\n"
+           f"Profit: ${monthly_profit:,.2f}\n"
+           f"Ad Cost: ${monthly_cost:,.2f}\n"
+           f"{'🟢' if net_monthly >= 0 else '🔴'} *NET: ${net_monthly:+,.2f}/mo ({monthly_roi:+.0f}% ROI)*\n\n"
+           f"*📈 Annual:*\n"
+           f"Revenue: ${annual_revenue:,.2f}\n"
+           f"Profit: ${annual_profit:,.2f}\n"
+           f"Ad Cost: ${annual_cost:,.2f}\n"
+           f"{'🟢' if net_annual >= 0 else '🔴'} *NET: ${net_annual:+,.2f}/yr ({annual_roi:+.0f}% ROI)*")
+    
+    buttons = [[InlineKeyboardButton("🔄 Calculate Again", callback_data="roi_calculator")],
+               [InlineKeyboardButton("⬅️ Main Menu", callback_data="main_menu")]]
+    
+    await update.message.reply_text(msg, parse_mode="Markdown", reply_markup=InlineKeyboardMarkup(buttons))
+
+async def show_roi_results_with_adprice(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    """Display final ROI results using ad price directly (no store lookup)."""
+    # Get parameters from context
+    adprice = context.user_data.get('roi_adprice', 3000)
+    redemptions = context.user_data.get('roi_redemptions', 20)
+    avg_ticket = context.user_data.get('roi_ticket', 35)
+    cogs_pct = context.user_data.get('roi_cogs', 35)
+    coupon = context.user_data.get('roi_coupon', 10)
+    
+    # Annual cost is the ad price
+    annual_cost = adprice
+    monthly_cost = annual_cost / 12
+    
+    # Revenue calculations
+    monthly_revenue = redemptions * avg_ticket
+    monthly_profit = monthly_revenue * (1 - cogs_pct / 100)
+    
+    annual_revenue = monthly_revenue * 12
+    annual_profit = monthly_profit * 12
+    
+    # ROI
+    monthly_roi = ((monthly_profit - monthly_cost) / monthly_cost * 100) if monthly_cost > 0 else 0
+    annual_roi = ((annual_profit - annual_cost) / annual_cost * 100) if annual_cost > 0 else 0
+    net_monthly = monthly_profit - monthly_cost
+    net_annual = annual_profit - annual_cost
+    
+    # Build message
+    msg = (f"📊 *ROI RESULTS*\n\n"
+           f"*Inputs:*\n"
+           f"• Ad Price: ${adprice:,.2f}/year\n"
+           f"• Redemptions: {redemptions}/mo\n"
+           f"• Avg Ticket: ${avg_ticket:.2f}\n"
+           f"• Coupon: ${coupon:.2f}\n"
+           f"• COGS: {cogs_pct}%\n\n"
+           f"*💰 Monthly:*\n"
+           f"Revenue: ${monthly_revenue:,.2f}\n"
+           f"Profit: ${monthly_profit:,.2f}\n"
+           f"Ad Cost: ${monthly_cost:,.2f}\n"
+           f"{'🟢' if net_monthly >= 0 else '🔴'} *NET: ${net_monthly:+,.2f}/mo ({monthly_roi:+.0f}% ROI)*\n\n"
+           f"*📈 Annual:*\n"
+           f"Revenue: ${annual_revenue:,.2f}\n"
+           f"Profit: ${annual_profit:,.2f}\n"
+           f"Ad Cost: ${annual_cost:,.2f}\n"
+           f"{'🟢' if net_annual >= 0 else '🔴'} *NET: ${net_annual:+,.2f}/yr ({annual_roi:+.0f}% ROI)*")
+    
+    buttons = [[InlineKeyboardButton("🔄 Calculate Again", callback_data="roi_calculator")],
+               [InlineKeyboardButton("⬅️ Main Menu", callback_data="main_menu")]]
+    
+    await update.message.reply_text(msg, parse_mode="Markdown", reply_markup=InlineKeyboardMarkup(buttons))
 
 async def open_roi_calculator(update, store_num: str):
     """Open ROI calculator for a store."""
@@ -2286,6 +2703,9 @@ def find_nearby_testimonials(store: dict, limit: int = 5) -> list:
 
 async def show_main_menu(update: Update, context: ContextTypes.DEFAULT_TYPE):
     """Display the main menu with 4-category structure."""
+    # Clear any stale awaiting states
+    clear_awaiting_states(context)
+    
     notepad = context.user_data.get('notepad', '').strip()
     
     if notepad:
@@ -2359,6 +2779,7 @@ async def show_submenu_performance(update: Update, context: ContextTypes.DEFAULT
     buttons = [
         [InlineKeyboardButton("📊 Dashboard", callback_data="dashboard_view")],
         [InlineKeyboardButton("👥 Team Sales", callback_data="team_sales_view")],
+        [InlineKeyboardButton("📅 Monthly Leaderboard", callback_data="monthly_leaderboard")],
         [InlineKeyboardButton("⬅️ Main Menu", callback_data="main_menu")],
     ]
     await query.edit_message_text(
@@ -2375,6 +2796,7 @@ async def show_submenu_tools(update: Update, context: ContextTypes.DEFAULT_TYPE)
     buttons = [
         [InlineKeyboardButton("📊 ROI Calculator", callback_data="roi_calculator")],
         [InlineKeyboardButton("📋 Testimonial Search", callback_data="testimonial_search")],
+        [InlineKeyboardButton("📝 Submit Testimonial", callback_data="submit_testimonial")],
         [InlineKeyboardButton("🏪 Audit Store", callback_data="audit_store")],
         [InlineKeyboardButton("📜 Register Tape Rates", callback_data="rates_search")],
         [InlineKeyboardButton("🛒 Cartvertising", callback_data="menu_cartvertising")],
@@ -2953,21 +3375,35 @@ def draft_smart_appointment_email(business_name: str, owner_name: str, category:
         "restaurant": "restaurants and eateries",
         "food": "restaurants and eateries",
         "food & drink": "restaurants and eateries",
+        "bakery": "bakeries and food shops",
+        "coffee": "coffee shops and cafes",
+        "cafe": "coffee shops and cafes",
         "automotive": "auto service and tire shops",
         "auto": "auto service and tire shops",
-        "beauty": "salons, spas, and wellness studios",
-        "wellness": "salons, spas, and wellness studios",
-        "health": "health and medical businesses",
-        "medical": "health and medical businesses",
-        "home services": "home service businesses",
-        "home": "home service businesses",
+        "auto service": "auto service and tire shops",
+        "beauty": "salons, spas, and beauty studios",
+        "salon": "salons, spas, and beauty studios",
+        "spa": "salons, spas, and beauty studios",
+        "wellness": "wellness and fitness studios",
+        "gym": "gyms and fitness centers",
+        "fitness": "gyms and fitness centers",
+        "health": "health and wellness professionals",
+        "medical": "medical and dental practices",
+        "dental": "dental practices",
+        "dentist": "dental practices",
+        "veterinary": "veterinary and pet care businesses",
+        "vet": "veterinary and pet care businesses",
+        "home services": "home service contractors and tradespeople",
+        "home": "home service contractors and tradespeople",
         "professional": "professional service businesses",
-        "retail": "local retail shops",
-        "pets": "pet care businesses",
-        "real estate": "real estate offices",
-        "financial services": "financial and insurance businesses",
-        "dispensar": "dispensaries",
+        "retail": "local retail shops and boutiques",
+        "pets": "pet care and retail businesses",
+        "real estate": "real estate offices and agencies",
+        "financial services": "financial and insurance professionals",
+        "insurance": "insurance professionals and agencies",
+        "dispensary": "dispensaries and specialty retailers",
         "kids": "child care and learning centers",
+        "childcare": "child care and learning centers",
         "clothing": "clothing boutiques and retailers",
     }
     cat_lower = (category or '').lower().strip()
@@ -2980,11 +3416,14 @@ def draft_smart_appointment_email(business_name: str, owner_name: str, category:
     if not category_phrase:
         category_phrase = "businesses like yours"
     
+    # Handle "Unknown" business name gracefully
+    business_ref = business_name if business_name and business_name.lower() != "unknown" else "your business"
+    
     email_body = f"""{greeting}
 
 My name is {rep_name} — I work with IndoorMedia, and we partner with {store_ref} to help local businesses connect with their best customers right at the checkout.
 
-I've been seeing some really strong results with {category_phrase} in your area, and I think there's a real opportunity for {business_name} that I'd love to share with you.
+I've been seeing some really strong results with {category_phrase} in your area, and I think there's a real opportunity for {business_ref} that I'd love to share with you.
 
 Would you have 10–15 minutes this week? I won't waste your time — I'll come to you, show you what's working locally, and you can decide from there if it makes sense.
 
@@ -3019,6 +3458,155 @@ Would you be available this week? I'm flexible with timing.
 Thanks,
 {rep_name}
 IndoorMedia"""
+    
+    return email_body
+
+
+def draft_followup_email(business_name: str, owner_name: str, rep_name: str, store_ref: str) -> str:
+    """Draft a follow-up email (3-5 days after no response)."""
+    if owner_name and owner_name.lower() not in ('unknown', 'n/a', ''):
+        first_name = owner_name.strip().split()[0]
+        greeting = f"Hi {first_name},"
+    else:
+        greeting = f"Hi,"
+    
+    # Handle "Unknown" business name gracefully
+    business_ref = business_name if business_name and business_name.lower() != "unknown" else "your business"
+    followup_ref = f"about {business_ref} and IndoorMedia" if business_ref != "your business" else f"about IndoorMedia"
+    
+    email_body = f"""{greeting}
+
+Just wanted to follow up on my previous message {followup_ref}.
+
+I know life gets busy — no worries if it got lost in the shuffle. I still think there's a real opportunity here, and I'd hate for you to miss out on what's working for similar businesses in your area.
+
+Are you free for a quick 10-minute call this week? I can work around your schedule.
+
+Best,
+{rep_name}
+IndoorMedia"""
+    
+    return email_body
+
+
+def draft_roi_email(business_name: str, owner_name: str, rep_name: str, store_ref: str, category: str) -> str:
+    """Draft an ROI/value-focused email with social proof."""
+    if owner_name and owner_name.lower() not in ('unknown', 'n/a', ''):
+        first_name = owner_name.strip().split()[0]
+        greeting = f"Hi {first_name},"
+    else:
+        greeting = f"Hi,"
+    
+    # Category-specific social proof
+    proof_points = {
+        "restaurant": "restaurants are seeing 15-25% increases in repeat customer traffic",
+        "food": "restaurants are seeing 15-25% increases in repeat customer traffic",
+        "automotive": "auto shops are booking 20-30% more service appointments",
+        "auto service": "auto shops are booking 20-30% more service appointments",
+        "beauty": "salons and spas are getting 25-35% more return visits",
+        "salon": "salons and spas are getting 25-35% more return visits",
+        "spa": "salons and spas are getting 25-35% more return visits",
+        "wellness": "wellness businesses report stronger customer retention and loyalty",
+        "gym": "gyms and fitness centers are seeing stronger membership growth and retention",
+        "fitness": "gyms and fitness centers are seeing stronger membership growth and retention",
+        "health": "health and wellness professionals are attracting more local patients and referrals",
+        "medical": "medical and dental practices see improved patient engagement and loyalty",
+        "dental": "dental practices see improved patient engagement, appointment attendance, and loyalty",
+        "dentist": "dental practices see improved patient engagement, appointment attendance, and loyalty",
+        "home services": "home service contractors are getting 20-30% more qualified local leads",
+        "professional": "professional services are building stronger local networks",
+        "veterinary": "veterinary practices are seeing better appointment fill rates and patient loyalty",
+        "vet": "veterinary practices are seeing better appointment fill rates and patient loyalty",
+        "retail": "retail shops are seeing 15-20% more foot traffic",
+        "pets": "pet care and retail businesses report much higher repeat visit rates",
+        "real estate": "real estate agents are getting more local buyer/seller connections",
+        "financial services": "financial professionals are building stronger local client bases",
+        "insurance": "insurance professionals are building stronger local client bases",
+        "kids": "child care and learning centers are filling spots faster through local awareness",
+        "childcare": "child care and learning centers are filling spots faster through local awareness",
+        "clothing": "boutique retailers are attracting style-conscious local shoppers",
+        "retail": "retail shops are seeing 15-20% more foot traffic",
+        "bakery": "bakeries and food shops are seeing increased weekday and weekend traffic",
+        "coffee": "coffee shops are seeing stronger daily customer traffic and repeat visits",
+        "cafe": "coffee shops are seeing stronger daily customer traffic and repeat visits",
+    }
+    
+    cat_lower = (category or '').lower().strip()
+    proof_point = "local businesses in your category are seeing strong results"
+    for key, proof in proof_points.items():
+        if key in cat_lower or cat_lower in key:
+            proof_point = proof
+            break
+    
+    # Handle "Unknown" business name gracefully
+    business_ref = business_name if business_name and business_name.lower() != "unknown" else "your business"
+    
+    email_body = f"""{greeting}
+
+I wanted to reach out because we've been working with {store_ref}, and right now {proof_point}.
+
+We've got video testimonials from actual business owners showing exactly what they're doing — increased traffic, better customer loyalty, repeat business. {business_ref} is in the perfect position to benefit from this.
+
+If you've ever thought about boosting local visibility, this is a good time. I'd love to share the numbers (literally) and show you a 5-minute case study from someone just like you.
+
+Free consultation, no pressure — just insights that could change your year.
+
+Can we grab 15 minutes this week?
+
+{rep_name}
+IndoorMedia"""
+    
+    return email_body
+
+
+def draft_reengagement_email(business_name: str, owner_name: str, rep_name: str, store_ref: str) -> str:
+    """Draft a re-engagement email (reaching out to past contacts)."""
+    if owner_name and owner_name.lower() not in ('unknown', 'n/a', ''):
+        first_name = owner_name.strip().split()[0]
+        greeting = f"Hi {first_name},"
+    else:
+        greeting = f"Hi,"
+    
+    # Handle "Unknown" business name gracefully
+    business_ref = business_name if business_name and business_name.lower() != "unknown" else "your business"
+    
+    email_body = f"""{greeting}
+
+It's been a while! I wanted to reconnect because things have changed quite a bit at IndoorMedia, and I think {business_ref} could really benefit from what we're doing now.
+
+We've had some major wins with {store_ref} — businesses very similar to yours are seeing measurable results. I'd love to show you what's different this time around.
+
+No strings attached — just a quick conversation about whether this makes sense for your business.
+
+Free to chat this week?
+
+{rep_name}
+IndoorMedia"""
+    
+    return email_body
+
+
+def draft_limited_time_email(business_name: str, owner_name: str, rep_name: str, store_ref: str) -> str:
+    """Draft a limited-time/special offer email."""
+    if owner_name and owner_name.lower() not in ('unknown', 'n/a', ''):
+        first_name = owner_name.strip().split()[0]
+        greeting = f"Hi {first_name},"
+    else:
+        greeting = f"Hi,"
+    
+    # Handle "Unknown" business name gracefully
+    business_ref = business_name if business_name and business_name.lower() != "unknown" else "your business"
+    
+    email_body = f"""{greeting}
+
+Quick heads up: we're running a limited partnership program this quarter with {store_ref}, and I'm reaching out to a few select businesses like {business_ref} before I move to other prospects.
+
+The window is open through end of month. If you've been thinking about running local ads but weren't sure where to start, this could be exactly the right time.
+
+I can show you the numbers in 10 minutes, and you'll know exactly what to expect. Fair?
+
+{rep_name}
+IndoorMedia | Limited Partnership Program"""
     
     return email_body
 
@@ -3059,6 +3647,23 @@ AWAITING_AUDIT_STORE = "awaiting_audit_store"
 AWAITING_AUDIT_DELIVERY = "awaiting_audit_delivery"
 AWAITING_AUDIT_INVENTORY = "awaiting_audit_inventory"
 
+# Testimonial submission flow
+AWAITING_TEST_NAME = "awaiting_test_name"
+AWAITING_TEST_BUSINESS = "awaiting_test_business"
+AWAITING_TEST_ADDRESS = "awaiting_test_address"
+AWAITING_TEST_PHONE = "awaiting_test_phone"
+AWAITING_TEST_COUPONS = "awaiting_test_coupons"
+AWAITING_TEST_TICKET = "awaiting_test_ticket"
+AWAITING_TEST_ROI = "awaiting_test_roi"
+AWAITING_TEST_DURATION = "awaiting_test_duration"
+AWAITING_TEST_RENEW = "awaiting_test_renew"
+AWAITING_TEST_RECOMMEND = "awaiting_test_recommend"
+AWAITING_TEST_COMMENTS = "awaiting_test_comments"
+AWAITING_TEST_CHAIN = "awaiting_test_chain"
+AWAITING_TEST_ZONE = "awaiting_test_zone"
+AWAITING_TEST_STORE = "awaiting_test_store"
+AWAITING_TEST_COUPON_IMAGE = "awaiting_test_coupon_image"
+
 async def handle_button_callback(update: Update, context: ContextTypes.DEFAULT_TYPE):
     """Route callback to appropriate handler."""
     query = update.callback_query
@@ -3070,10 +3675,20 @@ async def handle_button_callback(update: Update, context: ContextTypes.DEFAULT_T
             prospect = context.user_data.get('prospects', {}).get(prospect_id, {})
             await query.answer()
             
-            # Get stored prospect info
+            # Validate prospect data exists
+            if not prospect or not isinstance(prospect, dict):
+                logger.error(f"❌ Prospect not found or invalid: {prospect_id}")
+                await query.edit_message_text(
+                    "❌ Prospect data not found. Please try again or return to main menu.",
+                    parse_mode="Markdown",
+                    reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("⬅️ Main Menu", callback_data="main_menu")]])
+                )
+                return
+            
+            # Get stored prospect info with safe fallbacks
             business_name = prospect.get('name', 'Unknown')
             address = prospect.get('address', '')
-            phone = prospect.get('phone', '')
+            phone = prospect.get('phone', 'No phone found')
             distance = prospect.get('distance_miles', 'N/A')
             score = prospect.get('likelihood_score', 0)
             website = prospect.get('website', '')
@@ -3081,231 +3696,381 @@ async def handle_button_callback(update: Update, context: ContextTypes.DEFAULT_T
             rating_count = prospect.get('user_ratings_total', 0)
             opening_hours = prospect.get('opening_hours')
             
-            # Emoji rating
-            if score >= 80:
-                emoji = "🔥"
-            elif score >= 70:
-                emoji = "⭐"
-            else:
-                emoji = "👀"
+            # Validate critical fields
+            if not business_name or business_name == 'Unknown':
+                logger.warning(f"Missing business name for prospect {prospect_id}")
+            if not address:
+                logger.warning(f"Missing address for prospect {prospect_id}")
             
-            # Build complete message with all info
-            text = f"{emoji} *{business_name}*\n"
-            text += f"📊 Likelihood: {score}/100"
-            
-            # Star rating (separate from likelihood score)
-            if rating and rating > 0:
-                stars = "⭐" * round(rating)
-                text += f"  |  {stars} {rating}/5"
-                if rating_count:
-                    text += f" ({rating_count:,} reviews)"
-            text += "\n"
-            
-            text += f"📏 Distance: {distance} mi\n"
-            text += f"📞 {phone}\n"
-            
-            # Email if available
-            email = prospect.get('email', '')
-            if email:
-                text += f"📧 {email}\n"
-            
-            # Address in code block
-            if address:
-                text += f"📍 `{address}`\n"
-            
-            # Today's hours (from opening_hours)
-            if opening_hours:
-                weekday_text = opening_hours.get('weekday_text', [])
-                open_now = opening_hours.get('open_now')
+            try:
+                # Emoji rating
+                if score >= 80:
+                    emoji = "🔥"
+                elif score >= 70:
+                    emoji = "⭐"
+                else:
+                    emoji = "👀"
                 
-                # Show open/closed status
-                if open_now is True:
-                    text += f"🟢 *Open now*"
-                elif open_now is False:
-                    text += f"🔴 *Closed now*"
+                # Build complete message with all info
+                text = f"{emoji} *{business_name}*\n"
+                text += f"📊 Likelihood: {score}/100"
                 
-                # Show today's hours
-                if weekday_text:
-                    today_idx = datetime.now().weekday()  # 0=Mon, 6=Sun
-                    # weekday_text is [Mon, Tue, Wed, Thu, Fri, Sat, Sun]
-                    day_map = {0: 0, 1: 1, 2: 2, 3: 3, 4: 4, 5: 5, 6: 6}
-                    if today_idx < len(weekday_text):
-                        today_hours = weekday_text[day_map[today_idx]]
-                        # Strip day name (e.g., "Monday: 9:00 AM – 5:00 PM" → "9:00 AM – 5:00 PM")
-                        if ':' in today_hours:
-                            hours_only = today_hours.split(':', 1)[1].strip()
-                            text += f" · {hours_only}"
+                # Star rating (separate from likelihood score)
+                if rating and rating > 0:
+                    try:
+                        stars = "⭐" * round(rating)
+                        text += f"  |  {stars} {rating}/5"
+                        if rating_count:
+                            text += f" ({rating_count:,} reviews)"
+                    except:
+                        pass
                 text += "\n"
-            
-            # Website link
-            if website:
-                text += f"🌐 [Visit Website]({website})\n"
-            
-            # Advertising signals
-            advertising_signals = prospect.get('advertising_signal', {})
-            if advertising_signals:
-                platforms = []
-                if advertising_signals.get('greet_magazine'):
-                    platforms.append("📰 Greet")
-                if advertising_signals.get('facebook_ads'):
-                    platforms.append("📘 Facebook")
-                if advertising_signals.get('google_local_services'):
-                    platforms.append("🔍 Google Local")
-                if advertising_signals.get('groupon'):
-                    platforms.append("🎁 Groupon")
-                if advertising_signals.get('found_advertising'):
-                    platforms.append("📢 Active Ads")
                 
-                if platforms:
-                    text += f"\n💡 *Advertising on:* {' | '.join(platforms)}\n"
-            
-            # Deep scan results if cached
-            deep_scan = prospect.get('deep_scan', {})
-            if deep_scan:
-                text += "\n🔍 *Deep Scan Results:*\n"
-                if deep_scan.get('owner_name'):
-                    text += f"👤 Owner: {deep_scan['owner_name']}\n"
-                if deep_scan.get('founded'):
-                    text += f"📅 Founded: {deep_scan['founded']}\n"
-                if deep_scan.get('locations_note'):
-                    text += f"📍 Locations: {deep_scan['locations_note']}\n"
-                if deep_scan.get('recent_news'):
-                    text += f"📰 Recent: {deep_scan['recent_news']}\n"
-            
-            # Build URLs for buttons
-            mappoint_url = f"https://sales.indoormedia.com/Mappoint?business={urllib.parse.quote(business_name)}&address={urllib.parse.quote(address)}"
-            google_maps_url = f"https://www.google.com/maps/search/{urllib.parse.quote(address)}"
-            
-            # Show inline notepad if notes exist
-            existing_notes = context.user_data.get('prospect_notes', {}).get(prospect_id, {}).get('notes', '')
-            if existing_notes:
-                text += f"\n📝 *Notes:* _{existing_notes[:80]}{'...' if len(existing_notes) > 80 else ''}_\n"
-            
-            # Get store number for ROI calculator link
-            store_number = prospect.get('store', '')
-            
-            # Expanded buttons
-            buttons = [
-                [
-                    InlineKeyboardButton("📍 Maps", url=google_maps_url),
-                    InlineKeyboardButton("🗺️ Mappoint", url=mappoint_url),
-                ],
-                [
+                # Contact info - only add if available
+                if distance and distance != 'N/A':
+                    text += f"📏 Distance: {distance} mi\n"
+                if phone and phone != 'No phone found':
+                    text += f"📞 {phone}\n"
+                
+                # Email if available
+                email = prospect.get('email', '')
+                if email:
+                    text += f"📧 {email}\n"
+                
+                # Address in code block
+                if address:
+                    text += f"📍 `{address}`\n"
+                
+                # Today's hours (from opening_hours)
+                if opening_hours:
+                    weekday_text = opening_hours.get('weekday_text', [])
+                    open_now = opening_hours.get('open_now')
+                    
+                    # Show open/closed status
+                    if open_now is True:
+                        text += f"🟢 *Open now*"
+                    elif open_now is False:
+                        text += f"🔴 *Closed now*"
+                    
+                    # Show today's hours
+                    if weekday_text:
+                        today_idx = datetime.now().weekday()  # 0=Mon, 6=Sun
+                        # weekday_text is [Mon, Tue, Wed, Thu, Fri, Sat, Sun]
+                        day_map = {0: 0, 1: 1, 2: 2, 3: 3, 4: 4, 5: 5, 6: 6}
+                        if today_idx < len(weekday_text):
+                            today_hours = weekday_text[day_map[today_idx]]
+                            # Strip day name (e.g., "Monday: 9:00 AM – 5:00 PM" → "9:00 AM – 5:00 PM")
+                            if ':' in today_hours:
+                                hours_only = today_hours.split(':', 1)[1].strip()
+                                text += f" · {hours_only}"
+                    text += "\n"
+                
+                # Website link
+                if website:
+                    text += f"🌐 [Visit Website]({website})\n"
+                
+                # Advertising signals
+                advertising_signals = prospect.get('advertising_signal', {})
+                if advertising_signals:
+                    platforms = []
+                    if advertising_signals.get('greet_magazine'):
+                        platforms.append("📰 Greet")
+                    if advertising_signals.get('facebook_ads'):
+                        platforms.append("📘 Facebook")
+                    if advertising_signals.get('google_local_services'):
+                        platforms.append("🔍 Google Local")
+                    if advertising_signals.get('groupon'):
+                        platforms.append("🎁 Groupon")
+                    if advertising_signals.get('found_advertising'):
+                        platforms.append("📢 Active Ads")
+                    
+                    if platforms:
+                        text += f"\n💡 *Advertising on:* {' | '.join(platforms)}\n"
+                
+                # Deep scan results if cached
+                deep_scan = prospect.get('deep_scan', {})
+                if deep_scan:
+                    text += "\n🔍 *Deep Scan Results:*\n"
+                    if deep_scan.get('owner_name'):
+                        text += f"👤 Owner: {deep_scan['owner_name']}\n"
+                    if deep_scan.get('founded'):
+                        text += f"📅 Founded: {deep_scan['founded']}\n"
+                    if deep_scan.get('locations_note'):
+                        text += f"📍 Locations: {deep_scan['locations_note']}\n"
+                    if deep_scan.get('recent_news'):
+                        text += f"📰 Recent: {deep_scan['recent_news']}\n"
+                
+                # Build URLs for buttons (safely handle missing values)
+                safe_business = urllib.parse.quote(business_name or "Unknown")
+                safe_address = urllib.parse.quote(address or "")
+                mappoint_url = f"https://sales.indoormedia.com/Mappoint?business={safe_business}&address={safe_address}"
+                google_maps_url = f"https://www.google.com/maps/search/{safe_address}" if safe_address else "https://www.google.com/maps"
+                
+                # Show inline notepad if notes exist
+                existing_notes = context.user_data.get('prospect_notes', {}).get(prospect_id, {}).get('notes', '')
+                if existing_notes:
+                    text += f"\n📝 *Notes:* _{existing_notes[:80]}{'...' if len(existing_notes) > 80 else ''}_\n"
+                
+                # Get store number for ROI calculator link
+                store_number = prospect.get('store', '')
+                
+                # Expanded buttons (safe construction)
+                buttons = []
+                
+                # Maps row
+                maps_row = []
+                if google_maps_url:
+                    maps_row.append(InlineKeyboardButton("📍 Maps", url=google_maps_url))
+                if mappoint_url:
+                    maps_row.append(InlineKeyboardButton("🗺️ Mappoint", url=mappoint_url))
+                if maps_row:
+                    buttons.append(maps_row)
+                
+                # Save & Video row
+                buttons.append([
                     InlineKeyboardButton("💾 Save", callback_data=f"save_{prospect_id}"),
                     InlineKeyboardButton("🎬 Video", callback_data=f"video_{prospect_id}"),
-                ],
-                [
+                ])
+                
+                # Notes & Testimonials row
+                buttons.append([
                     InlineKeyboardButton("📝 Notes", callback_data=f"note_{prospect_id}"),
                     InlineKeyboardButton("📋 Testimonials", callback_data=f"testimonials_{prospect_id}"),
-                ],
-                [
-                    InlineKeyboardButton("🔍 AI Deep Scan", callback_data=f"deepscan_{prospect_id}"),
+                ])
+                
+                # Email row
+                buttons.append([
                     InlineKeyboardButton("✉️ Draft Email", callback_data=f"draftemail_{prospect_id}"),
-                ],
-            ]
-            
-            # Add calendar + ROI buttons
-            cal_row = [InlineKeyboardButton("📅 Calendar", callback_data=f"cal_{prospect_id}")]
-            if store_number:
-                cal_row.append(InlineKeyboardButton("📊 ROI Calc", url=f"http://localhost:8501?store={store_number}"))
-            buttons.append(cal_row)
-            
-            # Add collapse and menu buttons
-            buttons.extend([
-                [InlineKeyboardButton("◀️ Collapse", callback_data=f"collapse_{prospect_id}")],
-                [InlineKeyboardButton("⬅️ Main Menu", callback_data="main_menu")],
-            ])
-            
-            await query.edit_message_text(text, parse_mode="Markdown", reply_markup=InlineKeyboardMarkup(buttons))
+                ])
+                
+                # Calendar button
+                buttons.append([InlineKeyboardButton("📅 Calendar", callback_data=f"cal_{prospect_id}")])
+                
+                # Add collapse and menu buttons
+                buttons.extend([
+                    [InlineKeyboardButton("◀️ Collapse", callback_data=f"collapse_{prospect_id}")],
+                    [InlineKeyboardButton("⬅️ Main Menu", callback_data="main_menu")],
+                ])
+                
+                # Validate text isn't empty
+                if not text or text.strip() == "":
+                    text = f"📍 *{business_name}*\n(No detailed info available)"
+                
+                # Send message
+                logger.info(f"✅ Expanding prospect {prospect_id}: {business_name}")
+                await query.edit_message_text(text, parse_mode="Markdown", reply_markup=InlineKeyboardMarkup(buttons))
+            except Exception as e:
+                logger.error(f"❌ Error expanding prospect {prospect_id}: {str(e)}")
+                logger.error(f"Exception type: {type(e).__name__}")
+                logger.error(f"Traceback: {e}", exc_info=True)
+                try:
+                    error_detail = f"Error: {str(e)[:100]}"
+                    await query.edit_message_text(
+                        f"❌ Error loading prospect details.\n\n{error_detail}\n\nPlease try again.",
+                        parse_mode="Markdown",
+                        reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("⬅️ Main Menu", callback_data="main_menu")]])
+                    )
+                except Exception as edit_err:
+                    logger.error(f"Could not edit message: {edit_err}")
+                    try:
+                        await query.answer("Error occurred. Try again from main menu.", show_alert=True)
+                    except:
+                        pass
         elif data.startswith("deepscan_"):
-            prospect_id = data.replace("deepscan_", "")
-            prospect = context.user_data.get('prospects', {}).get(prospect_id, {})
-            await query.answer("🔍 Scanning... this may take 10-20 seconds")
-            
-            business_name = prospect.get('name', 'Unknown')
-            address = prospect.get('address', '')
-            place_id = prospect.get('place_id', '')
-            
-            # Show scanning message
-            await query.edit_message_text(
-                f"🔍 *AI Deep Scan: {business_name}*\n\n⏳ Searching for owner, founding date, location history...",
-                parse_mode="Markdown"
-            )
-            
-            # Run the deep scan
-            scan_results = await run_deep_scan(business_name, address, place_id)
-            
-            # Cache results in prospect data
-            if 'prospects' in context.user_data and prospect_id in context.user_data['prospects']:
-                context.user_data['prospects'][prospect_id]['deep_scan'] = scan_results
-            
-            # Build result text
-            text = f"🔍 *AI Deep Scan: {business_name}*\n\n"
-            
-            if scan_results.get('owner_name'):
-                text += f"👤 *Owner:* {scan_results['owner_name']}\n"
-            else:
-                text += f"👤 *Owner:* Not found publicly\n"
-            
-            if scan_results.get('founded'):
-                text += f"📅 *Founded / Open Since:* {scan_results['founded']}\n"
-            else:
-                text += f"📅 *Founded:* Unknown\n"
-            
-            if scan_results.get('locations_note'):
-                text += f"📍 *Locations:* {scan_results['locations_note']}\n"
-            
-            if scan_results.get('recent_news'):
-                text += f"\n📰 *Recent News / Changes:*\n_{scan_results['recent_news']}_\n"
-            
-            if scan_results.get('signals'):
-                text += f"\n💡 *Signals:* {scan_results['signals']}\n"
-            
-            text += f"\n_Scanned {datetime.now().strftime('%b %d, %Y %I:%M %p')}_"
-            
-            buttons = [
-                [InlineKeyboardButton("✉️ Draft Email", callback_data=f"draftemail_{prospect_id}")],
-                [InlineKeyboardButton("⬅️ Back to Card", callback_data=f"expand_{prospect_id}")],
-            ]
-            await query.edit_message_text(text, parse_mode="Markdown", reply_markup=InlineKeyboardMarkup(buttons))
+            try:
+                prospect_id = data.replace("deepscan_", "")
+                prospect = context.user_data.get('prospects', {}).get(prospect_id, {})
+                await query.answer("🔍 Scanning... this may take 10-20 seconds")
+                
+                business_name = prospect.get('name', 'Unknown')
+                address = prospect.get('address', '')
+                place_id = prospect.get('place_id', '')
+                
+                # Show scanning message
+                await query.edit_message_text(
+                    f"🔍 *AI Deep Scan: {business_name}*\n\n⏳ Searching for owner, founding date, location history...",
+                    parse_mode="Markdown"
+                )
+                
+                # Run the deep scan
+                scan_results = await run_deep_scan(business_name, address, place_id)
+                
+                # Cache results in prospect data
+                if 'prospects' in context.user_data and prospect_id in context.user_data['prospects']:
+                    context.user_data['prospects'][prospect_id]['deep_scan'] = scan_results
+                
+                # Build result text
+                text = f"🔍 *AI Deep Scan: {business_name}*\n\n"
+                
+                if scan_results.get('owner_name'):
+                    text += f"👤 *Owner:* {scan_results['owner_name']}\n"
+                else:
+                    text += f"👤 *Owner:* Not found publicly\n"
+                
+                if scan_results.get('founded'):
+                    text += f"📅 *Founded / Open Since:* {scan_results['founded']}\n"
+                else:
+                    text += f"📅 *Founded:* Unknown\n"
+                
+                if scan_results.get('locations_note'):
+                    text += f"📍 *Locations:* {scan_results['locations_note']}\n"
+                
+                if scan_results.get('recent_news'):
+                    text += f"\n📰 *Recent News / Changes:*\n_{scan_results['recent_news']}_\n"
+                
+                if scan_results.get('signals'):
+                    text += f"\n💡 *Signals:* {scan_results['signals']}\n"
+                
+                text += f"\n_Scanned {datetime.now().strftime('%b %d, %Y %I:%M %p')}_"
+                
+                buttons = [
+                    [InlineKeyboardButton("✉️ Draft Email", callback_data=f"draftemail_{prospect_id}")],
+                    [InlineKeyboardButton("⬅️ Back to Card", callback_data=f"expand_{prospect_id}")],
+                ]
+                await query.edit_message_text(text, parse_mode="Markdown", reply_markup=InlineKeyboardMarkup(buttons))
+            except Exception as e:
+                logger.error(f"Error in deepscan handler: {e}", exc_info=True)
+                try:
+                    await query.edit_message_text(
+                        f"❌ Error scanning prospect. Please try again.",
+                        parse_mode="Markdown",
+                        reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("⬅️ Back", callback_data=f"expand_{prospect_id}")]])
+                    )
+                except:
+                    try:
+                        await query.answer("Error scanning. Try again.", show_alert=True)
+                    except:
+                        pass
         
         elif data.startswith("draftemail_"):
-            prospect_id = data.replace("draftemail_", "")
-            prospect = context.user_data.get('prospects', {}).get(prospect_id, {})
-            await query.answer()
-            
-            business_name = prospect.get('name', 'Unknown')
-            address = prospect.get('address', '')
-            category = prospect.get('category', '')
-            rep_name = get_rep_name(update)
-            store_dict = prospect.get('store_dict', {})
-            store_num = prospect.get('store', '')
-            
-            # Owner name from deep scan if available
-            deep_scan = prospect.get('deep_scan', {})
-            owner_name = deep_scan.get('owner_name', '') or prospect.get('contact_name', '')
-            
-            # Build smart store reference (e.g., "Fred Meyer on 117th in Vancouver")
-            store_ref = build_store_reference(store_num, store_dict)
-            
-            # Draft the appointment email
-            draft = draft_smart_appointment_email(
-                business_name=business_name,
-                owner_name=owner_name,
-                category=category,
-                rep_name=rep_name,
-                store_ref=store_ref,
-            )
-            
-            text = f"✉️ *Draft Appointment Email*\n\n`{draft}`\n\n"
-            text += "_Copy this and send via email or text. Edit as needed._"
-            if owner_name:
-                text += f"\n\n👤 _Addressed to: {owner_name}_"
-            
-            buttons = [
-                [InlineKeyboardButton("⬅️ Back to Card", callback_data=f"expand_{prospect_id}")],
-            ]
-            await query.edit_message_text(text, parse_mode="Markdown", reply_markup=InlineKeyboardMarkup(buttons))
+            try:
+                prospect_id = data.replace("draftemail_", "")
+                prospect = context.user_data.get('prospects', {}).get(prospect_id, {})
+                await query.answer()
+                
+                # Store prospect info in context for template generation
+                context.user_data['draft_prospect'] = {
+                    'id': prospect_id,
+                    'name': prospect.get('name', 'Unknown'),
+                    'category': prospect.get('category', ''),
+                    'store_dict': prospect.get('store_dict', {}),
+                    'store_num': prospect.get('store', ''),
+                    'contact_name': prospect.get('contact_name', ''),
+                    'deep_scan': prospect.get('deep_scan', {}),
+                }
+                
+                text = "✉️ *Email Templates*\n\nChoose a template for your outreach:\n"
+                
+                buttons = [
+                    [InlineKeyboardButton("🎯 Initial Appointment", callback_data=f"emailtpl_{prospect_id}_initial")],
+                    [InlineKeyboardButton("📊 ROI / Value Focused", callback_data=f"emailtpl_{prospect_id}_roi")],
+                    [InlineKeyboardButton("⏰ Follow-up (No Response)", callback_data=f"emailtpl_{prospect_id}_followup")],
+                    [InlineKeyboardButton("🔄 Re-engagement", callback_data=f"emailtpl_{prospect_id}_reengagement")],
+                    [InlineKeyboardButton("⚡ Limited Time Offer", callback_data=f"emailtpl_{prospect_id}_limited")],
+                    [InlineKeyboardButton("⬅️ Back to Card", callback_data=f"expand_{prospect_id}")],
+                ]
+                
+                await query.edit_message_text(text, parse_mode="Markdown", reply_markup=InlineKeyboardMarkup(buttons))
+            except Exception as e:
+                logger.error(f"Error in draftemail handler: {e}")
+                try:
+                    await query.answer("Error loading email templates. Try again.", show_alert=True)
+                except:
+                    pass
+        elif data.startswith("emailtpl_"):
+            try:
+                # Handle email template selection and generation
+                parts = data.split("_")
+                prospect_id = parts[1]
+                template_type = parts[2] if len(parts) > 2 else "initial"
+                
+                prospect_info = context.user_data.get('draft_prospect', {})
+                if not prospect_info:
+                    await query.answer("Prospect info not found", show_alert=True)
+                    return
+                
+                await query.answer()
+                
+                business_name = prospect_info['name']
+                category = prospect_info['category']
+                rep_name = get_rep_name(update)
+                store_dict = prospect_info['store_dict']
+                store_num = prospect_info['store_num']
+                deep_scan = prospect_info['deep_scan']
+                owner_name = deep_scan.get('owner_name', '') or prospect_info['contact_name']
+                
+                # Build smart store reference
+                store_ref = build_store_reference(store_num, store_dict)
+                
+                # Generate draft based on template type
+                if template_type == "initial":
+                    draft = draft_smart_appointment_email(
+                        business_name=business_name,
+                        owner_name=owner_name,
+                        category=category,
+                        rep_name=rep_name,
+                        store_ref=store_ref,
+                    )
+                    title = "🎯 Initial Appointment Request"
+                elif template_type == "roi":
+                    draft = draft_roi_email(
+                        business_name=business_name,
+                        owner_name=owner_name,
+                        rep_name=rep_name,
+                        store_ref=store_ref,
+                        category=category,
+                    )
+                    title = "📊 ROI / Value Focused"
+                elif template_type == "followup":
+                    draft = draft_followup_email(
+                        business_name=business_name,
+                        owner_name=owner_name,
+                        rep_name=rep_name,
+                        store_ref=store_ref,
+                    )
+                    title = "⏰ Follow-up Email"
+                elif template_type == "reengagement":
+                    draft = draft_reengagement_email(
+                        business_name=business_name,
+                        owner_name=owner_name,
+                        rep_name=rep_name,
+                        store_ref=store_ref,
+                    )
+                    title = "🔄 Re-engagement Email"
+                elif template_type == "limited":
+                    draft = draft_limited_time_email(
+                        business_name=business_name,
+                        owner_name=owner_name,
+                        rep_name=rep_name,
+                        store_ref=store_ref,
+                    )
+                    title = "⚡ Limited Time Offer"
+                else:
+                    draft = draft_smart_appointment_email(
+                        business_name=business_name,
+                        owner_name=owner_name,
+                        category=category,
+                        rep_name=rep_name,
+                        store_ref=store_ref,
+                    )
+                    title = "✉️ Appointment Request"
+                
+                text = f"✉️ *{title}*\n\n`{draft}`\n\n"
+                text += "_Copy this and send via email or text. Edit as needed._"
+                if owner_name:
+                    text += f"\n\n👤 _Addressed to: {owner_name}_"
+                
+                buttons = [
+                    [InlineKeyboardButton("🔄 Choose Template", callback_data=f"draftemail_{prospect_id}")],
+                    [InlineKeyboardButton("⬅️ Back to Card", callback_data=f"expand_{prospect_id}")],
+                ]
+                await query.edit_message_text(text, parse_mode="Markdown", reply_markup=InlineKeyboardMarkup(buttons))
+            except Exception as e:
+                logger.error(f"Error in emailtpl handler: {e}")
+                try:
+                    await query.answer("Error generating email. Try again.", show_alert=True)
+                except:
+                    pass
         
         elif data.startswith("email_"):
             # Legacy email handler — redirect to draftemail
@@ -3511,60 +4276,81 @@ async def handle_button_callback(update: Update, context: ContextTypes.DEFAULT_T
                     reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("⬅️ Back", callback_data=f"expand_{prospect_id}")]])
                 )
         elif data.startswith("collapse_"):
-            prospect_id = data.replace("collapse_", "")
-            prospect = context.user_data.get('prospects', {}).get(prospect_id, {})
-            await query.answer()
-            
-            business_name = prospect.get('name', 'Unknown')
-            
-            # Show collapsed view
-            text = f"📌 *{business_name}*"
-            buttons = [[InlineKeyboardButton("▶️ Show Actions", callback_data=f"expand_{prospect_id}")]]
-            
-            await query.edit_message_text(text, parse_mode="Markdown", reply_markup=InlineKeyboardMarkup(buttons))
+            try:
+                prospect_id = data.replace("collapse_", "")
+                prospect = context.user_data.get('prospects', {}).get(prospect_id, {})
+                await query.answer()
+                
+                business_name = prospect.get('name', 'Unknown')
+                
+                # Show collapsed view
+                text = f"📌 *{business_name}*"
+                buttons = [[InlineKeyboardButton("▶️ Show Actions", callback_data=f"expand_{prospect_id}")]]
+                
+                await query.edit_message_text(text, parse_mode="Markdown", reply_markup=InlineKeyboardMarkup(buttons))
+            except Exception as e:
+                logger.error(f"Error in collapse handler: {e}")
+                try:
+                    await query.answer("Error collapsing prospect. Try again.", show_alert=True)
+                except:
+                    pass
         elif data.startswith("note_"):
-            prospect_id = data.replace("note_", "")
-            prospect = context.user_data.get('prospects', {}).get(prospect_id, {})
-            await query.answer()
-            context.user_data[AWAITING_PROSPECT_NOTE] = prospect_id
-            await query.edit_message_text(
-                f"📝 *Add Notes for {prospect.get('name', 'Prospect')}*\n\n"
-                f"Send your notes (availability, decision timeline, contact person, etc.):\n\n"
-                f"_Example: \"Met with manager, very interested. Follow up next week.\"_",
-                parse_mode="Markdown",
-                reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("⬅️ Back", callback_data=f"expand_{prospect_id}")]])
-            )
+            try:
+                prospect_id = data.replace("note_", "")
+                prospect = context.user_data.get('prospects', {}).get(prospect_id, {})
+                await query.answer()
+                context.user_data[AWAITING_PROSPECT_NOTE] = prospect_id
+                await query.edit_message_text(
+                    f"📝 *Add Notes for {prospect.get('name', 'Prospect')}*\n\n"
+                    f"Send your notes (availability, decision timeline, contact person, etc.):\n\n"
+                    f"_Example: \"Met with manager, very interested. Follow up next week.\"_",
+                    parse_mode="Markdown",
+                    reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("⬅️ Back", callback_data=f"expand_{prospect_id}")]])
+                )
+            except Exception as e:
+                logger.error(f"Error in note handler: {e}")
+                try:
+                    await query.answer("Error loading notes. Try again.", show_alert=True)
+                except:
+                    pass
         elif data.startswith("cal_"):
-            prospect_id = data.replace("cal_", "")
-            prospect = context.user_data.get('prospects', {}).get(prospect_id, {})
-            await query.answer()
-            
-            # Store prospect info for calendar event
-            context.user_data['pending_cal'] = {
-                'prospect_id': prospect_id,
-                'name': prospect.get('name', 'Prospect'),
-                'address': prospect.get('address', ''),
-                'phone': prospect.get('phone', ''),
-                'store': prospect.get('store', ''),
-            }
-            
-            # Show date picker (today + next 14 days)
-            buttons = []
-            for i in range(0, 15):  # 0 = today, 1-14 = next 14 days
-                cal_date = datetime.now() + timedelta(days=i)
-                if i == 0:
-                    date_str = f"Today {cal_date.strftime('%m/%d')}"
-                else:
-                    date_str = cal_date.strftime("%a %m/%d")
-                buttons.append([InlineKeyboardButton(date_str, callback_data=f"caldate_{i}")])
-            
-            buttons.append([InlineKeyboardButton("⬅️ Back", callback_data=f"expand_{prospect_id}")])
-            
-            await query.edit_message_text(
-                f"📅 *Select Date for: {prospect.get('name', 'Prospect')}*\n\n_Pick a date within the next 2 weeks:_",
-                parse_mode="Markdown",
-                reply_markup=InlineKeyboardMarkup(buttons)
-            )
+            try:
+                prospect_id = data.replace("cal_", "")
+                prospect = context.user_data.get('prospects', {}).get(prospect_id, {})
+                await query.answer()
+                
+                # Store prospect info for calendar event
+                context.user_data['pending_cal'] = {
+                    'prospect_id': prospect_id,
+                    'name': prospect.get('name', 'Prospect'),
+                    'address': prospect.get('address', ''),
+                    'phone': prospect.get('phone', ''),
+                    'store': prospect.get('store', ''),
+                }
+                
+                # Show date picker (today + next 14 days)
+                buttons = []
+                for i in range(0, 15):  # 0 = today, 1-14 = next 14 days
+                    cal_date = datetime.now() + timedelta(days=i)
+                    if i == 0:
+                        date_str = f"Today {cal_date.strftime('%m/%d')}"
+                    else:
+                        date_str = cal_date.strftime("%a %m/%d")
+                    buttons.append([InlineKeyboardButton(date_str, callback_data=f"caldate_{i}")])
+                
+                buttons.append([InlineKeyboardButton("⬅️ Back", callback_data=f"expand_{prospect_id}")])
+                
+                await query.edit_message_text(
+                    f"📅 *Select Date for: {prospect.get('name', 'Prospect')}*\n\n_Pick a date within the next 2 weeks:_",
+                    parse_mode="Markdown",
+                    reply_markup=InlineKeyboardMarkup(buttons)
+                )
+            except Exception as e:
+                logger.error(f"Error in calendar handler: {e}")
+                try:
+                    await query.answer("Error loading calendar. Try again.", show_alert=True)
+                except:
+                    pass
         elif data.startswith("caldate_"):
             days_ahead = int(data.replace("caldate_", ""))
             await query.answer()
@@ -3688,28 +4474,36 @@ async def handle_button_callback(update: Update, context: ContextTypes.DEFAULT_T
             context.user_data['pending_cal'] = {}
             return
         if data.startswith("save_"):
-            prospect_id = data.replace("save_", "")
-            prospect = context.user_data.get('prospects', {}).get(prospect_id, {})
-            await query.answer()
-            
-            rep_id = get_rep_id(update)
-            rep_data = load_rep_data(rep_id)
-            
-            # Show status options
-            buttons = [
-                [InlineKeyboardButton("⭐ Interested", callback_data=f"savestatus_{prospect_id}_interested")],
-                [InlineKeyboardButton("🔄 Needs Follow-up", callback_data=f"savestatus_{prospect_id}_follow-up")],
-                [InlineKeyboardButton("📋 Proposal Sent", callback_data=f"savestatus_{prospect_id}_proposal")],
-                [InlineKeyboardButton("✅ Closed", callback_data=f"savestatus_{prospect_id}_closed")],
-                [InlineKeyboardButton("⬅️ Back", callback_data=f"expand_{prospect_id}")],
-            ]
-            
-            await query.edit_message_text(
-                f"💾 *Save Prospect: {prospect.get('name', 'Unknown')}*\n\n"
-                f"Select pipeline status:",
-                parse_mode="Markdown",
-                reply_markup=InlineKeyboardMarkup(buttons)
-            )
+            try:
+                prospect_id = data.replace("save_", "")
+                prospect = context.user_data.get('prospects', {}).get(prospect_id, {})
+                await query.answer()
+                
+                rep_id = get_rep_id(update)
+                rep_data = load_rep_data(rep_id)
+                
+                # Show status options
+                buttons = [
+                    [InlineKeyboardButton("⭐ Interested", callback_data=f"savestatus_{prospect_id}_interested")],
+                    [InlineKeyboardButton("🔄 Needs Follow-up", callback_data=f"savestatus_{prospect_id}_follow-up")],
+                    [InlineKeyboardButton("📋 Proposal Sent", callback_data=f"savestatus_{prospect_id}_proposal")],
+                    [InlineKeyboardButton("✅ Closed", callback_data=f"savestatus_{prospect_id}_closed")],
+                    [InlineKeyboardButton("⬅️ Back", callback_data=f"expand_{prospect_id}")],
+                ]
+                
+                await query.edit_message_text(
+                    f"💾 *Save Prospect: {prospect.get('name', 'Unknown')}*\n\n"
+                    f"Select pipeline status:",
+                    parse_mode="Markdown",
+                    reply_markup=InlineKeyboardMarkup(buttons)
+                )
+            except Exception as e:
+                logger.error(f"Error in save handler: {e}")
+                try:
+                    await query.answer("Error saving prospect. Try again.", show_alert=True)
+                except:
+                    pass
+
         elif data.startswith("savestatus_"):
             parts = data.replace("savestatus_", "").rsplit("_", 1)
             prospect_id = parts[0]
@@ -3751,91 +4545,105 @@ async def handle_button_callback(update: Update, context: ContextTypes.DEFAULT_T
                 reply_markup=InlineKeyboardMarkup(buttons)
             )
         elif data.startswith("testimonials_"):
-            prospect_id = data.replace("testimonials_", "")
-            prospect = context.user_data.get('prospects', {}).get(prospect_id, {})
-            await query.answer()
-            
-            # Get relevant testimonials for this prospect
-            testimonials = get_testimonials_for_prospect(prospect)
-            
-            business_name = prospect.get('name', 'Prospect')
-            
-            if testimonials:
-                text = f"📋 *Written Testimonials - {business_name}*\n\n"
+            try:
+                prospect_id = data.replace("testimonials_", "")
+                prospect = context.user_data.get('prospects', {}).get(prospect_id, {})
+                await query.answer()
                 
-                for i, t in enumerate(testimonials, 1):
-                    bus = t.get('business', 'Unknown')
-                    comment = t.get('comment', '')
-                    url = t.get('url', '')
-                    full = t.get('full', {})
-                    city = full.get('city', '')
-                    state = full.get('state', '')
-                    category = full.get('category', '')
-                    
-                    text += f"*{i}. {bus}*\n"
-                    
-                    # Show location + category
-                    location_info = []
-                    if city and state:
-                        location_info.append(f"{city}, {state}")
-                    if category:
-                        location_info.append(category)
-                    
-                    if location_info:
-                        text += f"📍 {' • '.join(location_info)}\n"
-                    
-                    if comment:
-                        # Truncate long comments
-                        display_comment = comment[:200] + "..." if len(comment) > 200 else comment
-                        text += f"_{display_comment}_\n"
-                    
-                    if url:
-                        text += f"[Read full testimonial]({url})\n"
-                    text += "\n"
+                # Get relevant testimonials for this prospect
+                testimonials = get_testimonials_for_prospect(prospect)
                 
-                buttons = [[InlineKeyboardButton("⬅️ Back", callback_data=f"expand_{prospect_id}")]]
-                
-                await query.edit_message_text(
-                    text,
-                    parse_mode="Markdown",
-                    reply_markup=InlineKeyboardMarkup(buttons)
-                )
-            else:
-                await query.edit_message_text(
-                    f"❌ No testimonials available for this prospect type in your region.",
-                    parse_mode="Markdown",
-                    reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("⬅️ Back", callback_data=f"expand_{prospect_id}")]])
-                )
-        elif data.startswith("video_"):
-            prospect_id = data.replace("video_", "")
-            prospect = context.user_data.get('prospects', {}).get(prospect_id, {})
-            await query.answer()
-            
-            # Get relevant videos for this prospect
-            videos = get_videos_for_prospect(prospect)
-            
-            if videos:
                 business_name = prospect.get('name', 'Prospect')
-                buttons = []
-                for video in videos[:3]:
-                    title = video.get('title', 'Video')
-                    url = video.get('url', '')
-                    if url:
-                        buttons.append([InlineKeyboardButton(f"▶️ {title[:40]}", url=url)])
                 
-                buttons.append([InlineKeyboardButton("⬅️ Back", callback_data=f"expand_{prospect_id}")])
+                if testimonials:
+                    text = f"📋 *Written Testimonials - {business_name}*\n\n"
+                    
+                    for i, t in enumerate(testimonials, 1):
+                        bus = t.get('business', 'Unknown')
+                        comment = t.get('comment', '')
+                        url = t.get('url', '')
+                        full = t.get('full', {})
+                        city = full.get('city', '')
+                        state = full.get('state', '')
+                        category = full.get('category', '')
+                        
+                        text += f"*{i}. {bus}*\n"
+                        
+                        # Show location + category
+                        location_info = []
+                        if city and state:
+                            location_info.append(f"{city}, {state}")
+                        if category:
+                            location_info.append(category)
+                        
+                        if location_info:
+                            text += f"📍 {' • '.join(location_info)}\n"
+                        
+                        if comment:
+                            # Truncate long comments
+                            display_comment = comment[:200] + "..." if len(comment) > 200 else comment
+                            text += f"_{display_comment}_\n"
+                        
+                        if url:
+                            text += f"[Read full testimonial]({url})\n"
+                        text += "\n"
+                    
+                    buttons = [[InlineKeyboardButton("⬅️ Back", callback_data=f"expand_{prospect_id}")]]
+                    
+                    await query.edit_message_text(
+                        text,
+                        parse_mode="Markdown",
+                        reply_markup=InlineKeyboardMarkup(buttons)
+                    )
+                else:
+                    await query.edit_message_text(
+                        f"❌ No testimonials available for this prospect type in your region.",
+                        parse_mode="Markdown",
+                        reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("⬅️ Back", callback_data=f"expand_{prospect_id}")]])
+                    )
+            except Exception as e:
+                logger.error(f"Error in testimonials handler: {e}")
+                try:
+                    await query.answer("Error loading testimonials. Try again.", show_alert=True)
+                except:
+                    pass
+        elif data.startswith("video_"):
+            try:
+                prospect_id = data.replace("video_", "")
+                prospect = context.user_data.get('prospects', {}).get(prospect_id, {})
+                await query.answer()
                 
-                await query.edit_message_text(
-                    f"🎬 *Video Testimonials for {business_name}*",
-                    parse_mode="Markdown",
-                    reply_markup=InlineKeyboardMarkup(buttons)
-                )
-            else:
-                await query.edit_message_text(
-                    f"❌ No videos available for this prospect type.",
-                    parse_mode="Markdown",
-                    reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("⬅️ Back", callback_data=f"expand_{prospect_id}")]])
-                )
+                # Get relevant videos for this prospect
+                videos = get_videos_for_prospect(prospect)
+                
+                if videos:
+                    business_name = prospect.get('name', 'Prospect')
+                    buttons = []
+                    for video in videos[:3]:
+                        title = video.get('title', 'Video')
+                        url = video.get('url', '')
+                        if url:
+                            buttons.append([InlineKeyboardButton(f"▶️ {title[:40]}", url=url)])
+                    
+                    buttons.append([InlineKeyboardButton("⬅️ Back", callback_data=f"expand_{prospect_id}")])
+                    
+                    await query.edit_message_text(
+                        f"🎬 *Video Testimonials for {business_name}*",
+                        parse_mode="Markdown",
+                        reply_markup=InlineKeyboardMarkup(buttons)
+                    )
+                else:
+                    await query.edit_message_text(
+                        f"❌ No videos available for this prospect type.",
+                        parse_mode="Markdown",
+                        reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("⬅️ Back", callback_data=f"expand_{prospect_id}")]])
+                    )
+            except Exception as e:
+                logger.error(f"Error in video handler: {e}")
+                try:
+                    await query.answer("Error loading videos. Try again.", show_alert=True)
+                except:
+                    pass
         elif data == "saved_prospects":
             await query.answer()
             
@@ -4080,6 +4888,144 @@ async def handle_button_callback(update: Update, context: ContextTypes.DEFAULT_T
                 text += f"  {business}: ${amount:,.2f}\n"
             
             buttons = [[InlineKeyboardButton("⬅️ Back", callback_data="team_sales_view")]]
+            await query.edit_message_text(text, parse_mode="Markdown", reply_markup=InlineKeyboardMarkup(buttons))
+        elif data == "monthly_leaderboard":
+            await query.answer()
+            
+            contracts_file = WORKSPACE / "data" / "contracts.json"
+            all_contracts = []
+            try:
+                if contracts_file.exists():
+                    with open(contracts_file) as f:
+                        contracts_data = json.load(f)
+                    all_contracts = contracts_data.get("contracts", []) if isinstance(contracts_data, dict) else []
+                    all_contracts = [c for c in all_contracts if c and isinstance(c, dict)]
+            except Exception as e:
+                logger.error(f"Error loading contracts for monthly view: {e}")
+            
+            if not all_contracts:
+                await query.edit_message_text(
+                    "📅 *Monthly Leaderboard*\n\n_(No sales data yet)_\n\nSales data syncs from Gmail contracts nightly at 8 PM.",
+                    parse_mode="Markdown",
+                    reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("⬅️ Main Menu", callback_data="main_menu")]])
+                )
+                return
+            
+            # Get current month and year
+            today = datetime.now()
+            current_month = today.month
+            current_year = today.year
+            
+            # Group contracts by month and rep
+            monthly_data = {}
+            for c in all_contracts:
+                try:
+                    date_str = c.get("date", "")
+                    if date_str:
+                        # Parse date (format: "2026-03-06 10:13")
+                        contract_date = datetime.strptime(date_str[:10], "%Y-%m-%d")
+                        month_key = contract_date.strftime("%B %Y")  # "March 2026"
+                    else:
+                        month_key = "Unknown"
+                    
+                    if month_key not in monthly_data:
+                        monthly_data[month_key] = {}
+                    
+                    rep = c.get("sales_rep", "Unknown")
+                    if rep not in monthly_data[month_key]:
+                        monthly_data[month_key][rep] = {"count": 0, "total": 0}
+                    
+                    monthly_data[month_key][rep]["count"] += 1
+                    monthly_data[month_key][rep]["total"] += (c.get("total_amount") or 0)
+                except:
+                    pass
+            
+            # Store monthly_data in context for detail view
+            context.user_data["monthly_data"] = monthly_data
+            
+            # Build message showing current month prominently
+            current_month_key = today.strftime("%B %Y")
+            text = f"📅 *Monthly Leaderboard*\n\n"
+            
+            if current_month_key in monthly_data:
+                text += f"*{current_month_key}* (Current)\n"
+                text += "=" * 30 + "\n"
+                
+                # Sort by revenue
+                sorted_reps = sorted(
+                    monthly_data[current_month_key].items(),
+                    key=lambda x: x[1]["total"],
+                    reverse=True
+                )
+                
+                total_revenue = sum(r["total"] for r in monthly_data[current_month_key].values())
+                
+                for i, (rep, stats) in enumerate(sorted_reps, 1):
+                    amount = stats.get("total", 0)
+                    count = stats.get("count", 0)
+                    avg_deal = amount / count if count > 0 else 0
+                    text += f"{i}. {rep}\n"
+                    text += f"   💰 ${amount:,.2f} ({count} deal{'s' if count != 1 else ''})\n"
+                    text += f"   📊 Avg: ${avg_deal:,.2f}\n"
+                
+                text += f"\n💼 *Month Total:* ${total_revenue:,.2f}\n"
+            
+            # Show previous months with clickable buttons
+            other_months = sorted([k for k in monthly_data.keys() if k != current_month_key], reverse=True)
+            if other_months:
+                text += f"\n*Previous Months:*"
+            
+            buttons = []
+            for month_key in other_months[:6]:  # Show up to 6 previous months
+                month_total = sum(r["total"] for r in monthly_data[month_key].values())
+                deal_count = sum(r["count"] for r in monthly_data[month_key].values())
+                # Encode month in callback (replace spaces/special chars)
+                safe_month = month_key.replace(" ", "_")
+                buttons.append([InlineKeyboardButton(f"📊 {month_key} (${month_total:,.0f})", callback_data=f"monthly_detail_{safe_month}")])
+            
+            buttons.append([InlineKeyboardButton("📈 All Time", callback_data="team_sales_view")])
+            buttons.append([InlineKeyboardButton("⬅️ Main Menu", callback_data="main_menu")])
+            
+            await query.edit_message_text(text, parse_mode="Markdown", reply_markup=InlineKeyboardMarkup(buttons))
+        elif data.startswith("monthly_detail_"):
+            await query.answer()
+            
+            # Extract month from callback
+            safe_month = data.replace("monthly_detail_", "")
+            month_key = safe_month.replace("_", " ")
+            
+            monthly_data = context.user_data.get("monthly_data", {})
+            if month_key not in monthly_data:
+                await query.answer("Month data not found", show_alert=True)
+                return
+            
+            # Build full leaderboard for this month
+            text = f"📊 *{month_key} - Full Leaderboard*\n\n"
+            
+            # Sort by revenue
+            sorted_reps = sorted(
+                monthly_data[month_key].items(),
+                key=lambda x: x[1]["total"],
+                reverse=True
+            )
+            
+            total_revenue = sum(r["total"] for r in monthly_data[month_key].values())
+            total_deals = sum(r["count"] for r in monthly_data[month_key].values())
+            
+            for i, (rep, stats) in enumerate(sorted_reps, 1):
+                amount = stats.get("total", 0)
+                count = stats.get("count", 0)
+                avg_deal = amount / count if count > 0 else 0
+                pct_revenue = (amount / total_revenue * 100) if total_revenue > 0 else 0
+                text += f"{i}. {rep}\n"
+                text += f"   💰 ${amount:,.2f} ({pct_revenue:.1f}%)\n"
+                text += f"   📊 {count} deal{'s' if count != 1 else ''} | Avg: ${avg_deal:,.2f}\n\n"
+            
+            text += f"💼 *Month Total:* ${total_revenue:,.2f}\n"
+            text += f"📈 *Total Deals:* {total_deals}\n"
+            
+            buttons = [[InlineKeyboardButton("⬅️ Back", callback_data="monthly_leaderboard")]]
+            
             await query.edit_message_text(text, parse_mode="Markdown", reply_markup=InlineKeyboardMarkup(buttons))
         elif data == "dashboard_view":
             await query.answer()
@@ -4414,11 +5360,11 @@ Send any city name to see all stores!
             await query.edit_message_text(msg, parse_mode="Markdown", reply_markup=InlineKeyboardMarkup(buttons))
         elif data == "roi_calculator":
             await query.answer()
-            context.user_data[AWAITING_STORE] = True
+            context.user_data[AWAITING_ROI_ADPRICE] = True
             await query.edit_message_text(
                 "📊 *ROI Calculator*\n\n"
-                "Enter a store number to calculate ROI for register tape campaigns.\n\n"
-                "_Examples: FME07Z-0236, SAF07Y-1073, HAG07X-3430_",
+                "*Step 1:* What's the ad price (annual cost)?\n\n"
+                "_Example: 3000 or 5000_",
                 parse_mode="Markdown",
                 reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("⬅️ Back", callback_data="menu_tools")]])
             )
@@ -4681,6 +5627,133 @@ Send any city name to see all stores!
             context.user_data['audit_mode'] = False
             
             await query.edit_message_text(msg, parse_mode="Markdown", reply_markup=InlineKeyboardMarkup(buttons))
+        elif data == "submit_testimonial":
+            await handle_testimonial_flow(update, context)
+        elif data.startswith("test_roi_"):
+            await query.answer()
+            rating = data.replace("test_roi_", "").upper()
+            context.user_data[AWAITING_TEST_ROI] = False
+            context.user_data['testimonial_form']['roi_rating'] = rating
+            context.user_data[AWAITING_TEST_DURATION] = True
+            
+            await query.edit_message_text(
+                f"✅ ROI Rating: *{rating}* saved.\n\n*Step 11:* How long have you participated in our program? (e.g., 6 months, 1 year)",
+                parse_mode="Markdown"
+            )
+        elif data.startswith("test_renew_"):
+            await query.answer()
+            answer = "YES" if "yes" in data else "NO"
+            context.user_data[AWAITING_TEST_RENEW] = False
+            context.user_data['testimonial_form']['renew'] = answer
+            context.user_data[AWAITING_TEST_RECOMMEND] = True
+            
+            buttons = [
+                [InlineKeyboardButton("✅ YES", callback_data="test_recommend_yes")],
+                [InlineKeyboardButton("❌ NO", callback_data="test_recommend_no")],
+            ]
+            await query.edit_message_text(
+                f"✅ Renew: *{answer}* saved.\n\n*Step 13:* Would you recommend this program to other businesses?",
+                parse_mode="Markdown",
+                reply_markup=InlineKeyboardMarkup(buttons)
+            )
+        elif data.startswith("test_recommend_"):
+            await query.answer()
+            answer = "YES" if "yes" in data else "NO"
+            context.user_data[AWAITING_TEST_RECOMMEND] = False
+            context.user_data['testimonial_form']['recommend'] = answer
+            context.user_data[AWAITING_TEST_COMMENTS] = True
+            
+            await query.edit_message_text(
+                f"✅ Recommend: *{answer}* saved.\n\n*Step 14 (Optional):* Any additional comments about the program?",
+                parse_mode="Markdown",
+                reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("⏭️ Skip Comments", callback_data="test_skip_comments")]])
+            )
+        elif data == "test_skip_comments":
+            await query.answer()
+            context.user_data[AWAITING_TEST_COMMENTS] = False
+            context.user_data['testimonial_form']['comments'] = ""
+            context.user_data[AWAITING_TEST_COUPON_IMAGE] = True
+            
+            await query.edit_message_text(
+                "✅ Comments skipped.\n\n*Step 15:* Now, please attach a photo of a coupon sample.",
+                parse_mode="Markdown",
+                reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("📸 Attach Photo", callback_data="test_attach_photo")]])
+            )
+        elif data == "test_attach_photo":
+            await query.answer()
+            await query.edit_message_text(
+                "📸 Please send a photo of the coupon sample (or use the attachment button)."
+            )
+        elif data == "test_final_submit":
+            await query.answer()
+            form = context.user_data.get('testimonial_form', {})
+            photo_path = form.get('coupon_image')
+            
+            # Save the testimonial
+            success = await submit_testimonial_email(form, photo_path)
+            
+            if success:
+                # Send success message to rep
+                msg = f"""
+                ✅ *Testimonial Submitted!*
+                
+                Thank you for submitting a testimonial for {form.get('business', '')}.
+                
+                Your filled form has been saved and your coupon image is on file. Tyler will review your submission.
+                """.strip()
+                
+                # Send the filled form back to the rep (as a downloadable file)
+                try:
+                    submission_id = datetime.now().strftime("%Y%m%d_%H%M%S")
+                    business_name = form.get('business', 'Unknown').replace(' ', '_')[:20]
+                    submission_folder = f"/Users/tylervansant/.openclaw/workspace/data/testimonial_submissions/{submission_id}_{business_name}"
+                    
+                    # Send coupon image back to rep
+                    coupon_dest = os.path.join(submission_folder, "coupon.jpg")
+                    if os.path.exists(coupon_dest):
+                        with open(coupon_dest, 'rb') as f:
+                            await update.effective_chat.send_photo(
+                                photo=f,
+                                caption="📸 Your submitted coupon image"
+                            )
+                    
+                    # Send the filled form HTML as a document
+                    html_file = os.path.join(submission_folder, "form_filled.html")
+                    if os.path.exists(html_file):
+                        with open(html_file, 'rb') as f:
+                            await update.effective_chat.send_document(
+                                document=f,
+                                filename=f"testimonial_{business_name}.html",
+                                caption="📝 Your filled testimonial form"
+                            )
+                except Exception as e:
+                    logger.warning(f"Could not send form back to rep: {e}")
+                
+                buttons = [[InlineKeyboardButton("⬅️ Main Menu", callback_data="main_menu")]]
+            else:
+                msg = f"""
+                ⚠️ *Error Submitting*
+                
+                There was an issue saving your testimonial. Please contact Tyler directly.
+                """.strip()
+                buttons = [[InlineKeyboardButton("⬅️ Main Menu", callback_data="main_menu")]]
+            
+            # Clean up temp file
+            if photo_path and os.path.exists(photo_path):
+                try:
+                    os.remove(photo_path)
+                except:
+                    pass
+            
+            # Clear testimonial form data
+            context.user_data.pop('testimonial_form', None)
+            clear_awaiting_states(context)
+            
+            await query.edit_message_text(
+                msg,
+                parse_mode="Markdown",
+                reply_markup=InlineKeyboardMarkup(buttons)
+            )
         elif data == "audit_store":
             await handle_audit_flow(update, context)
         elif data == "client_list":
@@ -4798,6 +5871,7 @@ Send any city name to see all stores!
             await handle_back_to_categories(update, context)
         elif data == "new_search":
             await query.answer()
+            clear_awaiting_states(context)
             await query.edit_message_text("🔍 Send a store number or city name:")
         elif data.startswith("city_"):
             # City selection from multiple matches
@@ -5048,6 +6122,154 @@ _Submitted via @IndoorMediaProspectBot_
         logger.error(f"❌ Error sending audit email: {e}")
         return False
 
+async def handle_testimonial_flow(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    """Start the testimonial submission flow."""
+    query = update.callback_query
+    await query.answer()
+    
+    # Initialize testimonial form data
+    context.user_data['testimonial_form'] = {
+        'date': datetime.now().strftime('%m/%d/%Y'),
+        'name': '',
+        'business': '',
+        'address': '',
+        'phone': '',
+        'coupons_frequency': '',
+        'coupons_count': '',
+        'ticket_price': '',
+        'roi_rating': '',
+        'duration': '',
+        'renew': '',
+        'recommend': '',
+        'comments': '',
+        'grocery_chain': '',
+        'zone': '',
+        'store_number': '',
+        'coupon_image': None,
+    }
+    
+    # Start with name
+    context.user_data[AWAITING_TEST_NAME] = True
+    await query.edit_message_text(
+        "📝 *Submit Testimonial*\n\n"
+        f"Today's date: *{context.user_data['testimonial_form']['date']}*\n\n"
+        f"*Step 1:* What is your name?",
+        parse_mode="Markdown",
+        reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("⬅️ Cancel", callback_data="main_menu")]])
+    )
+
+
+async def submit_testimonial_email(form_data: dict, coupon_image_path: str = None) -> bool:
+    """Save testimonial form and generate filled PDF for the rep to download."""
+    try:
+        import json
+        import shutil
+        from datetime import datetime
+        
+        # Create submissions directory if it doesn't exist
+        submissions_dir = "/Users/tylervansant/.openclaw/workspace/data/testimonial_submissions"
+        os.makedirs(submissions_dir, exist_ok=True)
+        
+        # Create a unique submission folder
+        submission_id = datetime.now().strftime("%Y%m%d_%H%M%S")
+        business_name = form_data.get('business', 'Unknown').replace(' ', '_')[:20]
+        submission_folder = os.path.join(submissions_dir, f"{submission_id}_{business_name}")
+        os.makedirs(submission_folder, exist_ok=True)
+        
+        # Save form data as JSON
+        form_file = os.path.join(submission_folder, "form.json")
+        with open(form_file, 'w') as f:
+            json.dump(form_data, f, indent=2, default=str)
+        
+        # Copy coupon image if provided
+        coupon_dest = None
+        if coupon_image_path and os.path.exists(coupon_image_path):
+            coupon_dest = os.path.join(submission_folder, "coupon.jpg")
+            shutil.copy(coupon_image_path, coupon_dest)
+        
+        # Generate filled form as HTML and convert to PDF
+        html_content = f"""
+        <!DOCTYPE html>
+        <html>
+        <head>
+            <meta charset="UTF-8">
+            <style>
+                body {{ font-family: Arial, sans-serif; color: #333; margin: 20px; }}
+                .header {{ text-align: center; margin-bottom: 30px; }}
+                .header h1 {{ color: #0066cc; margin: 0; }}
+                .header p {{ margin: 5px 0; color: #666; }}
+                table {{ width: 100%; border-collapse: collapse; margin: 20px 0; }}
+                td {{ padding: 12px; border: 1px solid #ddd; }}
+                td:first-child {{ background-color: #f0f0f0; font-weight: bold; width: 35%; }}
+                .section-header {{ background-color: #0066cc; color: white; font-weight: bold; padding: 12px; }}
+                .comments {{ white-space: pre-wrap; word-wrap: break-word; }}
+                .footer {{ margin-top: 40px; padding-top: 20px; border-top: 1px solid #ddd; color: #999; font-size: 12px; }}
+            </style>
+        </head>
+        <body>
+            <div class="header">
+                <h1>📝 Testimonial Form</h1>
+                <p>Register Tapes Unlimited — IndoorMedia</p>
+                <p>Submitted: {form_data.get('date', '')}</p>
+            </div>
+            
+            <table>
+                <tr class="section-header"><td colspan="2">CONTACT INFORMATION</td></tr>
+                <tr><td>Contact Name</td><td>{form_data.get('name', '')}</td></tr>
+                <tr><td>Business Name</td><td>{form_data.get('business', '')}</td></tr>
+                <tr><td>Address</td><td>{form_data.get('address', '')}</td></tr>
+                <tr><td>Phone</td><td>{form_data.get('phone', '')}</td></tr>
+            </table>
+            
+            <table>
+                <tr class="section-header"><td colspan="2">STORE INFORMATION</td></tr>
+                <tr><td>Grocery Chain</td><td>{form_data.get('grocery_chain', '')}</td></tr>
+                <tr><td>Zone</td><td>{form_data.get('zone', '')}</td></tr>
+                <tr><td>Store #</td><td>{form_data.get('store_number', '')}</td></tr>
+            </table>
+            
+            <table>
+                <tr class="section-header"><td colspan="2">PROGRAM PARTICIPATION</td></tr>
+                <tr><td>Coupons per Week</td><td>{form_data.get('coupons_count', '')}</td></tr>
+                <tr><td>Average Ticket Price</td><td>${form_data.get('ticket_price', '')}</td></tr>
+                <tr><td>ROI Rating</td><td><strong>{form_data.get('roi_rating', '')}</strong></td></tr>
+                <tr><td>Program Duration</td><td>{form_data.get('duration', '')}</td></tr>
+            </table>
+            
+            <table>
+                <tr class="section-header"><td colspan="2">FEEDBACK</td></tr>
+                <tr><td>Would Renew?</td><td>{form_data.get('renew', '')}</td></tr>
+                <tr><td>Would Recommend?</td><td>{form_data.get('recommend', '')}</td></tr>
+                <tr><td style="vertical-align: top;">Comments</td><td class="comments">{form_data.get('comments', '(none)')}</td></tr>
+            </table>
+            
+            <div class="footer">
+                <p>Submitted via IndoorMediaProspectBot</p>
+                <p>Archived at: {submission_folder}</p>
+                <p>Timestamp: {datetime.now().strftime('%Y-%m-%d %H:%M:%S PT')}</p>
+            </div>
+        </body>
+        </html>
+        """
+        
+        # Save HTML version
+        html_file = os.path.join(submission_folder, "form_filled.html")
+        with open(html_file, 'w') as f:
+            f.write(html_content)
+        
+        logger.info(f"✅ Testimonial submission saved: {submission_folder}")
+        logger.info(f"   Business: {form_data.get('business')}")
+        logger.info(f"   Rep: {form_data.get('name')}")
+        logger.info(f"   ROI: {form_data.get('roi_rating')}")
+        
+        print(f"\n🎉 NEW TESTIMONIAL SUBMISSION: {submission_folder}\n")
+        
+        return True
+    except Exception as e:
+        logger.error(f"❌ Error processing testimonial: {e}")
+        return False
+
+
 async def handle_audit_flow(update: Update, context: ContextTypes.DEFAULT_TYPE):
     """Start the audit flow - prompt for store number."""
     query = update.callback_query
@@ -5261,6 +6483,7 @@ def main():
     app.add_handler(CommandHandler("dashboard", dashboard))
     app.add_handler(CallbackQueryHandler(handle_button_callback))
     app.add_handler(MessageHandler(filters.LOCATION, handle_location_share))
+    app.add_handler(MessageHandler(filters.PHOTO, handle_photo_upload))
     app.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, handle_store_query))
     
     logger.info("✅ IndoorMediaProspectBot ready. Polling for messages...")
