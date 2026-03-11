@@ -58,10 +58,19 @@ def get_fallback_prospects(category: str, limit: int = 10) -> List[Dict]:
     
     prospects = FALLBACK_PROSPECTS[category_lower][:limit]
     
-    # Add metadata
-    for p in prospects:
+    # Add required UI fields
+    for i, p in enumerate(prospects):
         p["source"] = "sample"
         p["note"] = "Sample prospects (APIs unavailable)"
+        p["distance_miles"] = round(0.3 + (i * 0.2), 2)  # Mock distances: 0.3, 0.5, 0.7, etc
+        p["likelihood_score"] = 65 - (i * 5)  # Mock scores: 65, 60, 55, etc (declining)
+        p["rating"] = None
+        p["user_ratings_total"] = 0
+        p["place_id"] = None
+        p["opening_hours"] = {}
+        p["website"] = None
+        p["lat"] = None
+        p["lon"] = None
     
     logger.warning(f"⚠️ Using fallback prospects for {category} ({len(prospects)} items)")
     return prospects

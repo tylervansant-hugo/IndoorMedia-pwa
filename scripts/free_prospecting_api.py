@@ -143,6 +143,20 @@ class FreeProspectingAPI:
                                 continue
                             
                             # Build prospect entry
+                            # Calculate distance in miles
+                            distance_m = FreeProspectingAPI._haversine(lat, lon, elem_lat, elem_lon)
+                            distance_miles = round(distance_m * 0.000621371, 2)  # Convert m to miles
+                            
+                            # Calculate likelihood score (0-100) - conservative for OSM data
+                            # Without rating/review data, score based on distance + type
+                            score = 60  # Base score
+                            if distance_miles <= 0.5:
+                                score += 20  # Very close
+                            elif distance_miles <= 1.0:
+                                score += 10  # Close
+                            # OSM doesn't have ratings, so we can't factor those in
+                            score = min(100, score)
+                            
                             prospect = {
                                 "name": tags.get("name", "Unknown Business"),
                                 "type": tags.get("amenity") or tags.get("shop", "Business"),
@@ -153,7 +167,11 @@ class FreeProspectingAPI:
                                 "website": tags.get("website"),
                                 "lat": elem_lat,
                                 "lon": elem_lon,
-                                "distance_m": FreeProspectingAPI._haversine(lat, lon, elem_lat, elem_lon),
+                                "distance_miles": distance_miles,
+                                "distance_m": distance_m,
+                                "likelihood_score": score,
+                                "rating": None,
+                                "user_ratings_total": 0,
                                 "source": "OpenStreetMap (Overpass)",
                             }
                             
