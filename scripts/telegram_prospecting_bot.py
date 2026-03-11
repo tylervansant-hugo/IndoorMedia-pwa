@@ -1921,18 +1921,10 @@ async def send_prospects_with_full_info(update: Update, prospects: List[Dict], s
         # Buttons - quick actions + expand
         buttons = []
         
-        # Quick contact row (phone + website)
-        quick_row = []
-        if phone:
-            clean_phone = phone.replace(" ", "").replace("-", "").replace("(", "").replace(")", "")
-            if not clean_phone.startswith("+"):
-                clean_phone = "+1" + clean_phone.lstrip("1")
-            quick_row.append(InlineKeyboardButton("📞 Call", url=f"tel:{clean_phone}"))
+        # Website button (if available)
         if website:
             web_url = website if website.startswith("http") else f"https://{website}"
-            quick_row.append(InlineKeyboardButton("🌐 Website", url=web_url))
-        if quick_row:
-            buttons.append(quick_row)
+            buttons.append([InlineKeyboardButton("🌐 Website", url=web_url)])
         
         # Maps row
         buttons.append([
@@ -3869,20 +3861,10 @@ async def handle_button_callback(update: Update, context: ContextTypes.DEFAULT_T
                 # Expanded buttons (safe construction)
                 buttons = []
                 
-                # Phone & Website row (clickable!)
-                contact_row = []
-                if phone and phone != 'No phone found':
-                    # Clean phone for tel: link
-                    clean_phone = phone.replace(" ", "").replace("-", "").replace("(", "").replace(")", "")
-                    if not clean_phone.startswith("+"):
-                        clean_phone = "+1" + clean_phone.lstrip("1")
-                    contact_row.append(InlineKeyboardButton(f"📞 Call", url=f"tel:{clean_phone}"))
+                # Website button (Telegram doesn't support tel: URLs in buttons)
                 if website:
-                    # Ensure website has protocol
                     web_url = website if website.startswith("http") else f"https://{website}"
-                    contact_row.append(InlineKeyboardButton("🌐 Website", url=web_url))
-                if contact_row:
-                    buttons.append(contact_row)
+                    buttons.append([InlineKeyboardButton("🌐 Website", url=web_url)])
                 
                 # Maps row
                 maps_row = []

@@ -1,0 +1,213 @@
+{
+  "cache": {
+    "74c2f2ea53420532": {
+      "storeNumber": "SAF07Z-1447",
+      "category": "mexican",
+      "prospects": [
+        {
+          "name": "Taqueria La Mestiza",
+          "type": "restaurant, food, point_of_interest, establishment",
+          "address": "8525 NE Fremont St, Portland",
+          "lat": 45.5483419,
+          "lon": -122.5758336,
+          "distance_miles": 0.83,
+          "likelihood_score": 89,
+          "rating": 4.6,
+          "user_ratings_total": 397,
+          "phone": "+1 503-572-8595",
+          "website": "https://www.taquerialamestiza.com/",
+          "place_id": "ChIJ6Qm70cumlVQR_oSK8ETRaqQ",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 1,
+          "source": "Google Places"
+        },
+        {
+          "name": "Ki\u2019ikib\u00e1a",
+          "type": "restaurant, food, point_of_interest, establishment",
+          "address": "3244 NE 82nd Ave, Portland",
+          "lat": 45.5462088,
+          "lon": -122.578609,
+          "distance_miles": 0.71,
+          "likelihood_score": 91,
+          "rating": 4.8,
+          "user_ratings_total": 427,
+          "phone": "+1 971-429-1452",
+          "website": null,
+          "place_id": "ChIJHetS5HuhlVQRzZkEnM7TPto",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 1,
+          "source": "Google Places"
+        },
+        {
+          "name": "Taqueria Mexa",
+          "type": "restaurant, food, point_of_interest, establishment",
+          "address": "3139 NE 82nd Ave, Portland",
+          "lat": 45.5451481,
+          "lon": -122.579226,
+          "distance_miles": 0.7,
+          "likelihood_score": 89,
+          "rating": 4.3,
+          "user_ratings_total": 204,
+          "phone": "+1 503-360-2171",
+          "website": "https://lataqueriamexa.otronivelpdx.net/",
+          "place_id": "ChIJx0WehsWhlVQRBSHOCEidMic",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 2,
+          "source": "Google Places"
+        },
+        {
+          "name": "El Burrito Azteca | Sandy Blvd",
+          "type": "restaurant, food, point_of_interest, establishment",
+          "address": "6728 NE Sandy Blvd, Portland",
+          "lat": 45.54629300000001,
+          "lon": -122.593735,
+          "distance_miles": 0.13,
+          "likelihood_score": 95,
+          "rating": 4.4,
+          "user_ratings_total": 524,
+          "phone": "+1 503-432-8073",
+          "website": "http://elburritoaztecasandyblvd.com/",
+          "place_id": "ChIJQ_bfsjehlVQRov9l9JbZyCc",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 1,
+          "source": "Google Places"
+        },
+        {
+          "name": "JC PDX Taqueria",
+          "type": "restaurant, food, point_of_interest, establishment",
+          "address": "4615 NE Sandy Blvd, Portland",
+          "lat": 45.538229,
+          "lon": -122.6157782,
+          "distance_miles": 1.29,
+          "likelihood_score": 86,
+          "rating": 4.8,
+          "user_ratings_total": 81,
+          "phone": "+1 971-344-2394",
+          "website": null,
+          "place_id": "ChIJcWsG4XWhlVQRKkK3SnG3A20",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        },
+        {
+          "name": "Rose City Burrito",
+          "type": "restaurant, food, point_of_interest, establishment",
+          "address": "6205 NE Prescott St, Portland",
+          "lat": 45.5556019,
+          "lon": -122.599005,
+          "distance_miles": 0.6,
+          "likelihood_score": 93,
+          "rating": 4.8,
+          "user_ratings_total": 158,
+          "phone": "+1 503-206-4478",
+          "website": null,
+          "place_id": "ChIJF6r4fwCnlVQRRm79NZ02X0w",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 1,
+          "source": "Google Places"
+        },
+        {
+          "name": "El Burrito Loco # 3",
+          "type": "restaurant, food, point_of_interest, establishment",
+          "address": "3126 NE 82nd Ave, Portland",
+          "lat": 45.5448923,
+          "lon": -122.5785396,
+          "distance_miles": 0.73,
+          "likelihood_score": 89,
+          "rating": 4.4,
+          "user_ratings_total": 1084,
+          "phone": "+1 503-252-1343",
+          "website": null,
+          "place_id": "ChIJ-6HsOkShlVQRWAu7BqmTTvo",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 1,
+          "source": "Google Places"
+        },
+        {
+          "name": "Pinches Burros",
+          "type": "restaurant, food, point_of_interest, establishment",
+          "address": "5745 NE Prescott St, Portland",
+          "lat": 45.5557315,
+          "lon": -122.6029738,
+          "distance_miles": 0.72,
+          "likelihood_score": 89,
+          "rating": 4.5,
+          "user_ratings_total": 317,
+          "phone": "+1 503-477-5480",
+          "website": "http://pinchesburros.com/",
+          "place_id": "ChIJeYypCcqmlVQRCcCEHwXGJFU",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 1,
+          "source": "Google Places"
+        },
+        {
+          "name": "Taqueria Los Tres Hermanos",
+          "type": "restaurant, food, point_of_interest, establishment",
+          "address": "5555 NE Cully Blvd, Portland",
+          "lat": 45.5633744,
+          "lon": -122.5939565,
+          "distance_miles": 1.06,
+          "likelihood_score": 87,
+          "rating": 4.6,
+          "user_ratings_total": 54,
+          "phone": "+1 971-407-6192",
+          "website": null,
+          "place_id": "ChIJ5TAi4aWmlVQRRUF7relxn4s",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 1,
+          "source": "Google Places"
+        },
+        {
+          "name": "Poblano Pepper PDX",
+          "type": "restaurant, food, point_of_interest, establishment",
+          "address": "6035 NE Halsey St, Portland",
+          "lat": 45.5339053,
+          "lon": -122.6013173,
+          "distance_miles": 1.06,
+          "likelihood_score": 84,
+          "rating": 4,
+          "user_ratings_total": 59,
+          "phone": "+1 360-597-5694",
+          "website": "http://orderpoblanopepperpdx.com/",
+          "place_id": "ChIJAQAAAE-nlVQRpfh8LKYmqwY",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        }
+      ],
+      "createdAt": "2026-03-11T13:10:35.697090",
+      "count": 10
+    }
+  },
+  "lastUpdated": "2026-03-11T13:10:35.697104"
+}
