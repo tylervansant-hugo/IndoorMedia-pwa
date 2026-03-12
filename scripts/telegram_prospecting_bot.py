@@ -2967,6 +2967,7 @@ async def show_submenu_digital(update: Update, context: ContextTypes.DEFAULT_TYP
     query = update.callback_query
     await query.answer()
     buttons = [
+        [InlineKeyboardButton("🎬 Presentation", url="https://drive.google.com/file/d/199IkMptOlSYviHScKNKUlqELQOhWFxnB/view?usp=sharing")],
         [InlineKeyboardButton("🚀 DigitalBoost", callback_data="product_digitalboost")],
         [InlineKeyboardButton("📍 FindLocal", callback_data="product_findlocal")],
         [InlineKeyboardButton("⭐ ReviewBoost", callback_data="product_reviewboost")],
@@ -2974,7 +2975,7 @@ async def show_submenu_digital(update: Update, context: ContextTypes.DEFAULT_TYP
         [InlineKeyboardButton("⬅️ Back to Tools", callback_data="menu_tools")],
     ]
     await query.edit_message_text(
-        "📱 *DIGITAL PRODUCTS*\n\nSelect a product:",
+        "📱 *DIGITAL PRODUCTS*\n\nSales presentation & product pricing.",
         parse_mode="Markdown",
         reply_markup=InlineKeyboardMarkup(buttons)
     )
