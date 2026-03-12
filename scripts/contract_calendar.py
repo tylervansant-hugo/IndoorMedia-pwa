@@ -26,6 +26,55 @@ CONTRACTS_DIR = WORKSPACE / "data" / "contracts"
 PROCESSED_FILE = WORKSPACE / "data" / "contracts" / "processed.json"
 TYLER_EMAIL = "tyler.vansant@indoormedia.com"
 CALENDAR_ID = TYLER_EMAIL  # Use Tyler's calendar
+CONTRACTS_JSON = WORKSPACE / "data" / "contracts.json"
+
+
+def save_to_contracts_json(contract):
+    """Save contract details to the main contracts.json for the bot to use."""
+    # Load existing
+    if CONTRACTS_JSON.exists():
+        with open(CONTRACTS_JSON) as f:
+            data = json.load(f)
+    else:
+        data = {"contracts": []}
+    
+    # Check if already exists
+    contract_num = contract.get('contract_num', '')
+    for existing in data.get("contracts", []):
+        if existing.get("contract_number") == contract_num:
+            # Update existing with any new fields
+            existing.update({
+                "contact_email": contract.get('customer_email') or existing.get('contact_email'),
+                "contact_phone": contract.get('customer_phone') or existing.get('contact_phone'),
+                "contact_name": contract.get('customer_name') or existing.get('contact_name'),
+                "address": contract.get('customer_address', '') or existing.get('address', ''),
+            })
+            with open(CONTRACTS_JSON, 'w') as f:
+                json.dump(data, f, indent=2, default=str)
+            return
+    
+    # New contract entry
+    entry = {
+        "contract_number": contract_num,
+        "date": contract.get('contract_date', ''),
+        "business_name": contract.get('business_name', ''),
+        "contact_name": contract.get('customer_name', ''),
+        "contact_email": contract.get('customer_email', ''),
+        "contact_phone": contract.get('customer_phone', ''),
+        "sales_rep": contract.get('rep_name', ''),
+        "store_name": contract.get('store_chain', ''),
+        "store_number": contract.get('store_number', ''),
+        "product_description": contract.get('ad_type', ''),
+        "total_amount": contract.get('total', 0),
+        "payment_date": contract.get('contract_date', ''),
+        "address": contract.get('customer_address', ''),
+        "customer_city_state": contract.get('customer_city_state', ''),
+        "extracted_at": datetime.now().isoformat(),
+    }
+    data["contracts"].append(entry)
+    
+    with open(CONTRACTS_JSON, 'w') as f:
+        json.dump(data, f, indent=2, default=str)
 
 # Ensure dirs exist
 CONTRACTS_DIR.mkdir(parents=True, exist_ok=True)
@@ -120,28 +169,65 @@ def parse_contract_pdf(pdf_path):
         contract['rep_name'] = m.group(1).strip()
         contract['rep_email'] = m.group(2).strip()
     
-    # Customer / Business name - appears after "Customer Information"
+    # Customer Information section — fields appear in order without labels:
+    # Business Name, Contact Name, Email, Phone, Street Address, City/State/Zip
     m = re.search(r'Customer Information\s*\n(.+?)(?:\n|$)', text)
     contract['business_name'] = m.group(1).strip() if m else None
     
-    # Customer contact name - from "Advertiser's Printed Name:" section
-    m = re.search(r"Advertiser's Printed Name:\s*\n?\s*(.+?)(?:\n|$)", text)
-    if m:
-        name = m.group(1).strip()
-        if name and not name.startswith('Advertiser') and not name.startswith('E-'):
-            contract['customer_name'] = name
+    # Parse the Customer Information block (lines after "Customer Information")
+    lines = text.split('\n')
+    cust_start = None
+    for i, line in enumerate(lines):
+        if 'Customer Information' in line:
+            cust_start = i + 1
+            break
     
-    # Fallback: look for name after business name in Customer Information
+    if cust_start is not None:
+        # pdftotext renders 2-column PDFs with interleaved lines,
+        # so scan ALL lines after "Customer Information" up to "Product" 
+        # and pick out customer fields by pattern (not position)
+        cust_lines = []
+        for j in range(cust_start, min(cust_start + 30, len(lines))):
+            l = lines[j].strip()
+            if l.startswith('Product') or l.startswith('Description') or l.startswith('ConnectionHUB'):
+                break
+            if l:
+                cust_lines.append(l)
+        
+        # Parse fields by pattern recognition
+        for cl in cust_lines:
+            # Email pattern
+            if '@' in cl and not contract.get('customer_email'):
+                email_match = re.search(r'[\w.+-]+@[\w.-]+\.\w+', cl)
+                if email_match:
+                    contract['customer_email'] = email_match.group(0)
+            # Phone pattern (xxx) xxx-xxxx or xxx-xxx-xxxx
+            elif re.search(r'\(?\d{3}\)?[\s.-]?\d{3}[\s.-]?\d{4}', cl) and not contract.get('customer_phone'):
+                phone_match = re.search(r'\(?\d{3}\)?[\s.-]?\d{3}[\s.-]?\d{4}', cl)
+                if phone_match:
+                    contract['customer_phone'] = phone_match.group(0)
+            # Address pattern (starts with number)
+            elif re.match(r'^\d+\s', cl) and not contract.get('customer_address'):
+                contract['customer_address'] = cl
+            # City, State Zip pattern
+            elif re.search(r',\s*[A-Z]{2}\s+\d{5}', cl) and not contract.get('customer_city_state'):
+                contract['customer_city_state'] = cl
+            # Contact name (not business name, no digits, 2+ words, not a section header)
+            elif (not contract.get('customer_name') and 
+                  cl != contract.get('business_name') and
+                  len(cl.split()) >= 2 and 
+                  not any(c.isdigit() for c in cl) and
+                  '@' not in cl and
+                  not any(kw in cl for kw in ['Billing', 'Customer', 'Payment', 'New Customer', 'Frequency', 'amount', 'Paid in'])):
+                contract['customer_name'] = cl
+    
+    # Fallback: Customer name from "Advertiser's Printed Name:" section
     if not contract.get('customer_name'):
-        lines = text.split('\n')
-        for i, line in enumerate(lines):
-            if contract.get('business_name') and contract['business_name'] in line:
-                for j in range(i+1, min(i+8, len(lines))):
-                    candidate = lines[j].strip()
-                    if candidate and not candidate.startswith('New') and not candidate.startswith('Billing') and '@' not in candidate and not candidate.startswith('(') and not candidate.startswith('Payment'):
-                        if len(candidate.split()) >= 2 and not any(c.isdigit() for c in candidate):
-                            contract['customer_name'] = candidate
-                            break
+        m = re.search(r"Advertiser's Printed Name:\s*\n?\s*(.+?)(?:\n|$)", text)
+        if m:
+            name = m.group(1).strip()
+            if name and not name.startswith('Advertiser') and not name.startswith('E-'):
+                contract['customer_name'] = name
     
     # Store info from Register Tape line
     # Pattern: StoreName-NNNN (ZoneCode)\nAddress\nEst. Start: XX MM/DD/YYYY\nAd type
@@ -354,6 +440,9 @@ def process_email(message_id, subject):
     if not contract:
         print(f"❌ Failed to parse PDF for {contract_num}")
         return False
+    
+    # Save to contracts.json (for bot customer views)
+    save_to_contracts_json(contract)
     
     # Create calendar events
     return process_contract(contract)
