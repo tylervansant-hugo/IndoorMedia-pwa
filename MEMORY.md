@@ -125,6 +125,52 @@ Each shows per-installment + total:
 - Chains: Safeway, Fred Meyer, Albertsons, Stater Bros., Food 4 Less, Quality Food Center, Haggen, Vons, Ralphs, Saars, Rosauers, Sherms, Shop N Kart, Food Pavillion
 - Each store: unique SingleAd & DoubleAd pricing
 
+## ProspectBot Resilience System (LIVE - Mar 11, 2026)
+**Status:** ✅ DEPLOYED — No more "API Unavailable" errors
+
+**Search Chain:** Cache (24h) → Google Places API → Free API (Nominatim/Overpass) → Sample Prospects → Stale Cache
+
+**Google Places API Key:** In `.env` as `GOOGLE_PLACES_API_KEY` (Tyler provided Mar 11)
+- Installed `googlemaps` in `.venv_bot`
+- Place Details API fetches phone numbers + websites
+- Geocode cache (611 stores) for instant coordinate lookup
+- Likelihood scores: rating (25) + reviews (25) + proximity (40) + open status (10) = 0-100
+- Distance calculated via haversine formula
+- **Telegram limitation:** `tel:` URLs NOT supported in inline buttons (only http/https)
+
+**New Files:**
+- `scripts/prospecting_cache.py` — 24h cache + circuit breaker
+- `scripts/free_prospecting_api.py` — Nominatim + Overpass (free, no keys)
+- `scripts/resilient_prospecting.py` — Orchestration engine
+- `scripts/fallback_prospects.py` — Sample data when all APIs fail
+- `scripts/google_places_wrapper.py` — Google Places with Place Details
+
+---
+
+## Shipping & Delivery Report (Started - Mar 11, 2026)
+**Status:** 🔧 DATA SCRAPED, INTEGRATION PENDING
+
+**Source:** `https://sales.indoormedia.com/Reports/ReportViewer?Id=129`
+- Login: Google SSO with tyler.vansant@indoormedia.com
+- Tyler's RegionalMgr1 name in system: "Tyler VanSant"
+- National Mgr: "Richard Leibowitz"
+
+**Tyler's Territory (Zone 07Z):**
+- 51 unique stores, 56 total shipments (Jan-Mar 2026)
+- 🔴 20 stores OVERDUE (>45 days since delivery — last Jan 7)
+- 🟡 16 stores APPROACHING (30-45 days — last Feb 6)
+- 🟢 15 stores RECENT (<30 days — last Mar 6)
+
+**Data Fields:** Zone, StoreName, StoreID, DeliveryAddress, NationalMgr, RegionalMgr1/2, ShipmentDate, ShipmentStatus, DeliveryDate, TrackingNumber
+
+**Next Steps:**
+1. Integrate into Audit Tool with real shipment dates
+2. Build auto-scraper for daily/weekly refresh
+3. Add alerts for stores approaching 30/45/60 days
+4. Show "Last delivery" on ProspectBot customer cards
+
+---
+
 ## Daily Store Discovery Job (DISABLED - Mar 10, 2026)
 **Status:** ✅ CANCELLED per Tyler's request at 9:04 AM PT
 - **Job ID:** 732ed73f-d65e-4adf-bdd0-08333df3ba65
