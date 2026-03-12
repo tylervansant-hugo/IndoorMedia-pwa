@@ -3109,7 +3109,9 @@ async def show_product_digitalboost(update: Update, context: ContextTypes.DEFAUL
             "• Bundled w/ Tape or Cart: *360,000*\n\n"
             "_Select number of pins to see total pricing:_"
         )
-        buttons = []
+        buttons = [
+            [InlineKeyboardButton("🎬 Presentation", url="https://drive.google.com/file/d/1LvPJjBk1tvMYFoRAy-AUSugUXV82hUeM/view?usp=sharing")],
+        ]
         for n in range(1, 6):
             buttons.append([InlineKeyboardButton(f"📌 {n} Pin{'s' if n > 1 else ''}", callback_data=f"db_pins_{n}")])
         buttons.append([InlineKeyboardButton("⬅️ Back", callback_data="menu_digital")])
