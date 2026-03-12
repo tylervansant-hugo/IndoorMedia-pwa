@@ -2955,6 +2955,7 @@ async def show_submenu_register_tape(update: Update, context: ContextTypes.DEFAU
     await query.answer()
     buttons = [
         [InlineKeyboardButton("🎬 Presentation", url="https://docs.google.com/presentation/d/1Xs60nX3i6MJkC81GgnK-50jBrkWVPu06xRpmv8z4PIc/edit?usp=sharing")],
+        [InlineKeyboardButton("📹 Explainer Video", url="https://youtu.be/_gdlyEszHfY?si=0_kHou89WrMhvNY_")],
         [InlineKeyboardButton("💰 Register Tape Rates", callback_data="rates_search")],
         [InlineKeyboardButton("⬅️ Back to Tools", callback_data="menu_tools")],
     ]
