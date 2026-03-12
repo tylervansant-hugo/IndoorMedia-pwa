@@ -2967,6 +2967,7 @@ async def show_submenu_digital(update: Update, context: ContextTypes.DEFAULT_TYP
     query = update.callback_query
     await query.answer()
     buttons = [
+        [InlineKeyboardButton("🎬 Presentation", url="https://drive.google.com/file/d/199IkMptOlSYviHScKNKUlqELQOhWFxnB/view?usp=sharing")],
         [InlineKeyboardButton("🚀 DigitalBoost", callback_data="product_digitalboost")],
         [InlineKeyboardButton("📍 FindLocal", callback_data="product_findlocal")],
         [InlineKeyboardButton("⭐ ReviewBoost", callback_data="product_reviewboost")],
@@ -2974,7 +2975,7 @@ async def show_submenu_digital(update: Update, context: ContextTypes.DEFAULT_TYP
         [InlineKeyboardButton("⬅️ Back to Tools", callback_data="menu_tools")],
     ]
     await query.edit_message_text(
-        "📱 *DIGITAL PRODUCTS*\n\nSelect a product:",
+        "📱 *DIGITAL PRODUCTS*\n\nSales presentation & product pricing.",
         parse_mode="Markdown",
         reply_markup=InlineKeyboardMarkup(buttons)
     )
@@ -3108,9 +3109,7 @@ async def show_product_digitalboost(update: Update, context: ContextTypes.DEFAUL
             "• Bundled w/ Tape or Cart: *360,000*\n\n"
             "_Select number of pins to see total pricing:_"
         )
-        buttons = [
-            [InlineKeyboardButton("🎬 Presentation", url="https://drive.google.com/file/d/199IkMptOlSYviHScKNKUlqELQOhWFxnB/view?usp=sharing")],
-        ]
+        buttons = []
         for n in range(1, 6):
             buttons.append([InlineKeyboardButton(f"📌 {n} Pin{'s' if n > 1 else ''}", callback_data=f"db_pins_{n}")])
         buttons.append([InlineKeyboardButton("⬅️ Back", callback_data="menu_digital")])
