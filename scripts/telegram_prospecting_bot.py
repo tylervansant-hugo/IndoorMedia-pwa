@@ -2916,13 +2916,29 @@ async def show_submenu_tools(update: Update, context: ContextTypes.DEFAULT_TYPE)
         [InlineKeyboardButton("📋 Testimonial Search", callback_data="testimonial_search")],
         [InlineKeyboardButton("📝 Submit Testimonial", callback_data="submit_testimonial")],
         [InlineKeyboardButton("🏪 Audit Store", callback_data="audit_store")],
-        [InlineKeyboardButton("📜 Register Tape Rates", callback_data="rates_search")],
+        [InlineKeyboardButton("📜 Register Tape", callback_data="menu_register_tape")],
         [InlineKeyboardButton("🛒 Cartvertising", callback_data="menu_cartvertising")],
         [InlineKeyboardButton("📱 Digital Products", callback_data="menu_digital")],
         [InlineKeyboardButton("⬅️ Main Menu", callback_data="main_menu")],
     ]
     await query.edit_message_text(
         "🛠️ *TOOLS*\n\nSearch, audit, and product pricing.",
+        parse_mode="Markdown",
+        reply_markup=InlineKeyboardMarkup(buttons)
+    )
+
+
+async def show_submenu_register_tape(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    """Show Register Tape submenu with Presentation and Rates."""
+    query = update.callback_query
+    await query.answer()
+    buttons = [
+        [InlineKeyboardButton("🎬 Presentation", url="https://docs.google.com/presentation/d/1Xs60nX3i6MJkC81GgnK-50jBrkWVPu06xRpmv8z4PIc/edit?usp=sharing")],
+        [InlineKeyboardButton("💰 Register Tape Rates", callback_data="rates_search")],
+        [InlineKeyboardButton("⬅️ Back to Tools", callback_data="menu_tools")],
+    ]
+    await query.edit_message_text(
+        "📜 *Register Tape*\n\nSales presentation & store rate lookup.",
         parse_mode="Markdown",
         reply_markup=InlineKeyboardMarkup(buttons)
     )
@@ -5296,6 +5312,8 @@ async def handle_button_callback(update: Update, context: ContextTypes.DEFAULT_T
             await show_submenu_performance(update, context)
         elif data == "menu_tools":
             await show_submenu_tools(update, context)
+        elif data == "menu_register_tape":
+            await show_submenu_register_tape(update, context)
         elif data == "menu_cartvertising":
             await show_submenu_cartvertising(update, context)
         elif data == "menu_digital":
