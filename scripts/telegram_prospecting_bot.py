@@ -3009,7 +3009,9 @@ async def show_product_child_seat(update: Update, context: ContextTypes.DEFAULT_
     data = PRODUCT_DATA.get("child_seat", {})
     packages = data.get("packages", [])
     
-    buttons = []
+    buttons = [
+        [InlineKeyboardButton("🎬 Presentation", url="https://docs.google.com/presentation/d/1xwIF4CaTp07AKunGaJysCSIGqN7VCdbL4fgOH3XEpl4/edit?usp=sharing")],
+    ]
     for i, pkg in enumerate(packages):
         buttons.append([InlineKeyboardButton(
             f"${pkg['six_month_rate']:,} — {pkg['short']}",
