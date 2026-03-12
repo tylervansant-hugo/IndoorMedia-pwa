@@ -2817,6 +2817,28 @@ async def show_roi_results_with_adprice(update: Update, context: ContextTypes.DE
     net_monthly = monthly_profit - monthly_cost
     net_annual = annual_profit - annual_cost
     
+    # Breakeven: how many redemptions/mo to cover the ad cost
+    # profit per redemption = avg_ticket * (1 - cogs_pct/100)
+    profit_per_redemption = avg_ticket * (1 - cogs_pct / 100)
+    if profit_per_redemption > 0:
+        breakeven_monthly = monthly_cost / profit_per_redemption
+        breakeven_daily = breakeven_monthly / 30
+    else:
+        breakeven_monthly = float('inf')
+        breakeven_daily = float('inf')
+    
+    # Customer Lifetime Value — what ONE new customer is worth
+    # Based on avg_ticket after COGS at different visit frequencies
+    profit_per_visit = avg_ticket * (1 - cogs_pct / 100)
+    ltv_1x = profit_per_visit * 1 * 12   # 1 visit/month for a year
+    ltv_2x = profit_per_visit * 2 * 12   # 2 visits/month for a year
+    ltv_4x = profit_per_visit * 4 * 12   # 4 visits/month (weekly)
+    
+    # How many new customers to pay for the ad
+    new_cust_breakeven_1x = annual_cost / ltv_1x if ltv_1x > 0 else float('inf')
+    new_cust_breakeven_2x = annual_cost / ltv_2x if ltv_2x > 0 else float('inf')
+    new_cust_breakeven_4x = annual_cost / ltv_4x if ltv_4x > 0 else float('inf')
+    
     # Build message
     msg = (f"📊 *ROI RESULTS*\n\n"
            f"*Inputs:*\n"
@@ -2834,7 +2856,22 @@ async def show_roi_results_with_adprice(update: Update, context: ContextTypes.DE
            f"Revenue: ${annual_revenue:,.2f}\n"
            f"Profit: ${annual_profit:,.2f}\n"
            f"Ad Cost: ${annual_cost:,.2f}\n"
-           f"{'🟢' if net_annual >= 0 else '🔴'} *NET: ${net_annual:+,.2f}/yr ({annual_roi:+.0f}% ROI)*")
+           f"{'🟢' if net_annual >= 0 else '🔴'} *NET: ${net_annual:+,.2f}/yr ({annual_roi:+.0f}% ROI)*\n\n"
+           f"━━━━━━━━━━━━━━━━━━\n"
+           f"🎯 *BREAKEVEN*\n"
+           f"Profit per redemption: ${profit_per_redemption:,.2f}\n"
+           f"To cover ad cost: *{breakeven_monthly:.1f} redemptions/mo*\n"
+           f"That's only *{breakeven_daily:.1f} per day*\n\n"
+           f"━━━━━━━━━━━━━━━━━━\n"
+           f"👤 *VALUE OF 1 NEW CUSTOMER*\n"
+           f"_(annual profit at ${avg_ticket:.0f} ticket, {cogs_pct:.0f}% COGS)_\n\n"
+           f"• 1x/month: *${ltv_1x:,.2f}/yr*\n"
+           f"• 2x/month: *${ltv_2x:,.2f}/yr*\n"
+           f"• 4x/month (weekly): *${ltv_4x:,.2f}/yr*\n\n"
+           f"🆓 *Customers needed to make it FREE:*\n"
+           f"• 1x/month: *{new_cust_breakeven_1x:.1f} customers*\n"
+           f"• 2x/month: *{new_cust_breakeven_2x:.1f} customers*\n"
+           f"• 4x/month: *{new_cust_breakeven_4x:.1f} customers*")
     
     buttons = [[InlineKeyboardButton("🔄 Calculate Again", callback_data="roi_calculator")],
                [InlineKeyboardButton("⬅️ Main Menu", callback_data="main_menu")]]
