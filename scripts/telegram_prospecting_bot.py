@@ -16,6 +16,16 @@ from pathlib import Path
 from typing import Dict, List, Optional
 from datetime import datetime, timedelta
 
+# Shipping data module for real delivery dates
+try:
+    from shipping_data import (
+        get_delivery_status, get_zone_summary, get_all_zones_summary,
+        format_delivery_card, format_zone_report, get_in_transit
+    )
+    SHIPPING_DATA_AVAILABLE = True
+except ImportError:
+    SHIPPING_DATA_AVAILABLE = False
+
 # Load environment variables from .env
 try:
     from dotenv import load_dotenv
@@ -1285,9 +1295,19 @@ async def handle_store_query(update: Update, context: ContextTypes.DEFAULT_TYPE)
         context.user_data[AWAITING_AUDIT_STORE] = False
         text_upper = text.upper()
         
+        # Check if it's a zone code (e.g., "07Z", "05X")
+        if len(text_upper) <= 4 and text_upper.replace(' ', '') and SHIPPING_DATA_AVAILABLE:
+            zone_code = text_upper.replace(' ', '')
+            summary = get_zone_summary(zone=zone_code)
+            if summary['total_stores'] > 0:
+                report = format_zone_report(zone_code)
+                buttons = [[InlineKeyboardButton("⬅️ Main Menu", callback_data="main_menu")]]
+                await update.message.reply_text(report, parse_mode="Markdown", reply_markup=InlineKeyboardMarkup(buttons))
+                return
+        
         if text_upper not in STORES:
             await update.message.reply_text(
-                f"❌ Store `{text}` not found.\n\nTry: `FME07Z-0236` or use /examples",
+                f"❌ Store `{text}` not found.\n\nTry: `FME07Z-0236` or zone code like `07Z`",
                 parse_mode="Markdown"
             )
             context.user_data[AWAITING_AUDIT_STORE] = True
@@ -1297,7 +1317,60 @@ async def handle_store_query(update: Update, context: ContextTypes.DEFAULT_TYPE)
         cycle = store.get('Cycle', '?')
         starting_cases = store.get('Case Count', 20)
         
-        # Get most recent delivery date for this store's cycle
+        # Use real shipping data if available
+        if SHIPPING_DATA_AVAILABLE:
+            status = get_delivery_status(text_upper)
+            
+            # Build rich audit card with real data
+            msg = f"🏪 *Audit: {text_upper}*\n\n"
+            msg += f"{store.get('GroceryChain', '?')} - {store.get('City', '')}, {store.get('State', '')}\n"
+            if status.get('delivery_address'):
+                msg += f"📍 {status['delivery_address']}\n"
+            msg += f"🔄 Cycle: {cycle}\n\n"
+            
+            # Delivery status
+            msg += f"📦 *Delivery Status:*\n"
+            if status['last_delivery_date']:
+                date_str = status['last_delivery_date'].strftime('%B %d, %Y')
+                msg += f"{status['status_emoji']} Last delivery: *{date_str}*\n"
+                msg += f"⏱ {status['days_since_delivery']} days ago\n"
+            else:
+                msg += f"❓ No delivery records found\n"
+            
+            if status['in_transit']:
+                msg += f"\n🚚 *In Transit:* {status['in_transit_count']} shipment(s)\n"
+                for t in status['in_transit_tracking']:
+                    ship_date = t['ship_date'][:10] if t['ship_date'] else '?'
+                    msg += f"  Shipped: {ship_date}\n"
+            
+            msg += f"\n📊 *Status:* {status['status_text']}\n"
+            msg += f"\n📦 Case count on file: *{starting_cases} cases*\n"
+            msg += f"\nEnter current inventory (rolls remaining):"
+            
+            # Build buttons
+            buttons = []
+            # UPS tracking buttons
+            if status.get('tracking_url'):
+                buttons.append([InlineKeyboardButton("📦 Track Last Delivery", url=status['tracking_url'])])
+            for t in status.get('in_transit_tracking', []):
+                buttons.append([InlineKeyboardButton(f"🚚 Track In-Transit ({t['ship_date'][:10]})", url=t['url'])])
+            buttons.append([InlineKeyboardButton("⬅️ Cancel", callback_data="main_menu")])
+            
+            # Store audit info
+            delivery_date = status['last_delivery_date'] or datetime.now()
+            context.user_data['audit_info'] = {
+                'store_num': text_upper,
+                'cycle': cycle,
+                'delivery_date': delivery_date,
+                'starting_cases': starting_cases,
+                'shipping_status': status,
+            }
+            context.user_data[AWAITING_AUDIT_INVENTORY] = True
+            
+            await update.message.reply_text(msg, parse_mode="Markdown", reply_markup=InlineKeyboardMarkup(buttons))
+            return
+        
+        # Fallback: old cycle-based logic if shipping data not available
         get_delivery_func = get_cycle_delivery_dates()
         delivery_date = get_delivery_func(cycle)
         
@@ -5383,30 +5456,74 @@ Send any city name to see all stores!
             if store_num not in STORES:
                 await query.edit_message_text("❌ Store not found.", reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("⬅️ Main Menu", callback_data="main_menu")]]))
                 return
-            # Trigger audit flow
             store = STORES[store_num]
             cycle = store.get('Cycle', '?')
             starting_cases = store.get('Case Count', 20)
-            get_delivery_func = get_cycle_delivery_dates()
-            delivery_date = get_delivery_func(cycle)
-            context.user_data['audit_info'] = {
-                'store_num': store_num,
-                'cycle': cycle,
-                'delivery_date': delivery_date,
-                'starting_cases': starting_cases,
-            }
-            # Show confirmation
-            msg = f"🏪 *Audit: {store_num}*\n\n"
-            msg += f"{store.get('GroceryChain', '?')} - {store.get('City', '')}, {store.get('State', '')}\n\n"
-            msg += f"📦 *Delivery Confirmation:*\n\n"
-            msg += f"_{store_num}_ was sent *{starting_cases} cases* on *{delivery_date.strftime('%B %d, %Y')}*\n\n"
-            msg += f"Is this correct?"
-            buttons = [
-                [InlineKeyboardButton("✅ Yes, Correct", callback_data="audit_confirm_yes")],
-                [InlineKeyboardButton("❌ No, Adjust", callback_data="audit_confirm_no")],
-                [InlineKeyboardButton("⬅️ Back", callback_data=f"select_store_{store_num}")],
-            ]
-            await query.edit_message_text(msg, parse_mode="Markdown", reply_markup=InlineKeyboardMarkup(buttons))
+            
+            # Use real shipping data if available
+            if SHIPPING_DATA_AVAILABLE:
+                status = get_delivery_status(store_num)
+                delivery_date = status['last_delivery_date'] or datetime.now()
+                
+                msg = f"🏪 *Audit: {store_num}*\n\n"
+                msg += f"{store.get('GroceryChain', '?')} - {store.get('City', '')}, {store.get('State', '')}\n"
+                if status.get('delivery_address'):
+                    msg += f"📍 {status['delivery_address']}\n"
+                msg += f"🔄 Cycle: {cycle}\n\n"
+                
+                msg += f"📦 *Delivery Status:*\n"
+                if status['last_delivery_date']:
+                    date_str = status['last_delivery_date'].strftime('%B %d, %Y')
+                    msg += f"{status['status_emoji']} Last delivery: *{date_str}*\n"
+                    msg += f"⏱ {status['days_since_delivery']} days ago\n"
+                else:
+                    msg += f"❓ No delivery records found\n"
+                
+                if status['in_transit']:
+                    msg += f"\n🚚 *In Transit:* {status['in_transit_count']} shipment(s)\n"
+                
+                msg += f"\n📦 Case count: *{starting_cases} cases*\n"
+                msg += f"\n{status['status_text']}\n"
+                msg += f"\nEnter current inventory (rolls remaining):"
+                
+                buttons = []
+                if status.get('tracking_url'):
+                    buttons.append([InlineKeyboardButton("📦 Track Last Delivery", url=status['tracking_url'])])
+                for t in status.get('in_transit_tracking', []):
+                    buttons.append([InlineKeyboardButton(f"🚚 Track In-Transit", url=t['url'])])
+                buttons.append([InlineKeyboardButton("⬅️ Back", callback_data=f"select_store_{store_num}")])
+                
+                context.user_data['audit_info'] = {
+                    'store_num': store_num,
+                    'cycle': cycle,
+                    'delivery_date': delivery_date,
+                    'starting_cases': starting_cases,
+                    'shipping_status': status,
+                }
+                context.user_data[AWAITING_AUDIT_INVENTORY] = True
+                
+                await query.edit_message_text(msg, parse_mode="Markdown", reply_markup=InlineKeyboardMarkup(buttons))
+            else:
+                # Fallback to old cycle-based logic
+                get_delivery_func = get_cycle_delivery_dates()
+                delivery_date = get_delivery_func(cycle)
+                context.user_data['audit_info'] = {
+                    'store_num': store_num,
+                    'cycle': cycle,
+                    'delivery_date': delivery_date,
+                    'starting_cases': starting_cases,
+                }
+                msg = f"🏪 *Audit: {store_num}*\n\n"
+                msg += f"{store.get('GroceryChain', '?')} - {store.get('City', '')}, {store.get('State', '')}\n\n"
+                msg += f"📦 *Delivery Confirmation:*\n\n"
+                msg += f"_{store_num}_ was sent *{starting_cases} cases* on *{delivery_date.strftime('%B %d, %Y')}*\n\n"
+                msg += f"Is this correct?"
+                buttons = [
+                    [InlineKeyboardButton("✅ Yes, Correct", callback_data="audit_confirm_yes")],
+                    [InlineKeyboardButton("❌ No, Adjust", callback_data="audit_confirm_no")],
+                    [InlineKeyboardButton("⬅️ Back", callback_data=f"select_store_{store_num}")],
+                ]
+                await query.edit_message_text(msg, parse_mode="Markdown", reply_markup=InlineKeyboardMarkup(buttons))
         elif data == "roi_calculator":
             await query.answer()
             context.user_data[AWAITING_ROI_ADPRICE] = True
@@ -5805,6 +5922,18 @@ Send any city name to see all stores!
             )
         elif data == "audit_store":
             await handle_audit_flow(update, context)
+        elif data.startswith("audit_zone_"):
+            zone_code = data.replace("audit_zone_", "")
+            await query.answer()
+            if SHIPPING_DATA_AVAILABLE:
+                report = format_zone_report(zone_code)
+                buttons = [
+                    [InlineKeyboardButton("🏪 Audit a Store", callback_data="audit_store")],
+                    [InlineKeyboardButton("⬅️ Main Menu", callback_data="main_menu")],
+                ]
+                await query.edit_message_text(report, parse_mode="Markdown", reply_markup=InlineKeyboardMarkup(buttons))
+            else:
+                await query.edit_message_text("❌ Shipping data not available.", parse_mode="Markdown")
         elif data == "client_list":
             await show_client_list(update, context)
         elif data == "audit_confirm_yes":
@@ -6327,12 +6456,32 @@ async def handle_audit_flow(update: Update, context: ContextTypes.DEFAULT_TYPE):
     context.user_data['audit_mode'] = True
     context.user_data[AWAITING_AUDIT_STORE] = True
     
+    # Build audit menu with zone overview if shipping data available
+    audit_msg = "🏪 *Audit a Store*\n\n"
+    audit_msg += "Send a store number or zone code:\n\n"
+    audit_msg += "_Store:_ `FME07Z-0236`\n"
+    audit_msg += "_Zone:_ `07Z` or `07Y`\n"
+    
+    buttons = []
+    if SHIPPING_DATA_AVAILABLE:
+        audit_msg += "\n📊 *Quick Zone Reports:*"
+        # Add zone buttons for quick access
+        zone_buttons = []
+        summaries = get_all_zones_summary()
+        for zone, s in sorted(summaries.items()):
+            o = len(s['overdue'])
+            label = f"{zone} ({s['total_stores']}{'🔴' + str(o) if o else ''})"
+            zone_buttons.append(InlineKeyboardButton(label, callback_data=f"audit_zone_{zone}"))
+        # Arrange in rows of 3
+        for i in range(0, len(zone_buttons), 3):
+            buttons.append(zone_buttons[i:i+3])
+    
+    buttons.append([InlineKeyboardButton("⬅️ Cancel", callback_data="main_menu")])
+    
     await query.edit_message_text(
-        "🏪 *Audit a Store*\n\n"
-        "Send the store number to audit:\n\n"
-        "_Example: FME07Z-0236_",
+        audit_msg,
         parse_mode="Markdown",
-        reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("⬅️ Cancel", callback_data="main_menu")]])
+        reply_markup=InlineKeyboardMarkup(buttons)
     )
 
 async def show_client_list(update: Update, context: ContextTypes.DEFAULT_TYPE):
