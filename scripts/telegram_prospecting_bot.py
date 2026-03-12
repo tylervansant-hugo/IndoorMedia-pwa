@@ -3105,6 +3105,7 @@ async def show_product_nose(update: Update, context: ContextTypes.DEFAULT_TYPE):
     )
     
     buttons = [
+        [InlineKeyboardButton("🎬 Presentation", url="https://drive.google.com/file/d/1Bvr0XOWHLO5DMwOmi6NQAcuuk4b9EkFS/view?usp=sharing")],
         [InlineKeyboardButton("⬅️ Back", callback_data="menu_cartvertising")],
     ]
     
