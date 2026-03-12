@@ -207,7 +207,1333 @@
       ],
       "createdAt": "2026-03-11T13:10:35.697090",
       "count": 10
+    },
+    "7fbcfedeaece94c4": {
+      "storeNumber": "FME07Z-0460",
+      "category": "mexican",
+      "prospects": [
+        {
+          "name": "Los Tacos Locos",
+          "type": "restaurant, point_of_interest, food, establishment",
+          "address": "1309 NE 134th St, Vancouver",
+          "lat": 45.71776999999999,
+          "lon": -122.6580488,
+          "distance_miles": 0.29,
+          "likelihood_score": 95,
+          "rating": 4.6,
+          "user_ratings_total": 673,
+          "phone": "+1 360-573-1327",
+          "website": "https://www.lostacoslocos.org/",
+          "place_id": "ChIJ76qeaemtlVQRXRUbtuQ9YMc",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 1,
+          "source": "Google Places"
+        },
+        {
+          "name": "Taqueria Don Jose",
+          "type": "restaurant, point_of_interest, food, establishment",
+          "address": "13218 NE Hwy 99, Vancouver",
+          "lat": 45.7175176,
+          "lon": -122.6529917,
+          "distance_miles": 0.51,
+          "likelihood_score": 89,
+          "rating": 4,
+          "user_ratings_total": 44,
+          "phone": "+1 360-772-5953",
+          "website": "https://taqueriadonjosewa.com/",
+          "place_id": "ChIJmTMFBwCtlVQRuRYLZm8gK80",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 1,
+          "source": "Google Places"
+        },
+        {
+          "name": "Muchas Gracias",
+          "type": "restaurant, point_of_interest, food, establishment",
+          "address": "13009 NE Hwy 99, Vancouver",
+          "lat": 45.7166598,
+          "lon": -122.6501963,
+          "distance_miles": 0.65,
+          "likelihood_score": 87,
+          "rating": 3.8,
+          "user_ratings_total": 472,
+          "phone": "+1 360-573-2125",
+          "website": null,
+          "place_id": "ChIJK8eV_uWtlVQROvmX7v6SCXw",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 1,
+          "source": "Google Places"
+        },
+        {
+          "name": "Chipotle Mexican Grill",
+          "type": "restaurant, point_of_interest, food, establishment",
+          "address": "14003 NE 10th Ave, Vancouver",
+          "lat": 45.7229215,
+          "lon": -122.6611028,
+          "distance_miles": 0.18,
+          "likelihood_score": 91,
+          "rating": 3.6,
+          "user_ratings_total": 137,
+          "phone": "+1 564-236-1201",
+          "website": "https://locations.chipotle.com/wa/vancouver/14003-ne-10th-ave?utm_source=google&utm_medium=yext&utm_campaign=yext_listings?restaurant=4465",
+          "place_id": "ChIJ4SEjFYKtlVQRmMbV55DTKHI",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 1,
+          "source": "Google Places"
+        }
+      ],
+      "createdAt": "2026-03-11T13:24:47.933668",
+      "count": 4
+    },
+    "e775993a51f0a55f": {
+      "storeNumber": "ROS07Z-0042",
+      "category": "dentist",
+      "prospects": [
+        {
+          "name": "PC Smiles Ridgefield",
+          "type": "dentist, point_of_interest, health, establishment",
+          "address": "109 S 65th Ave, Ridgefield",
+          "lat": 45.8156245,
+          "lon": -122.6831319,
+          "distance_miles": 0.84,
+          "likelihood_score": 90,
+          "rating": 4.8,
+          "user_ratings_total": 583,
+          "phone": "+1 360-887-2333",
+          "website": "https://www.pacificcrestsmiles.com/",
+          "place_id": "ChIJF3u8JgJNlFQRslwhoyDxsRA",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        },
+        {
+          "name": "Mountain View Dental",
+          "type": "dentist, point_of_interest, health, establishment",
+          "address": "5284 Pioneer St #120, Ridgefield",
+          "lat": 45.8160374,
+          "lon": -122.6948381,
+          "distance_miles": 0.28,
+          "likelihood_score": 96,
+          "rating": 4.9,
+          "user_ratings_total": 358,
+          "phone": "+1 360-887-1177",
+          "website": "http://www.ridgefielddentist.com/",
+          "place_id": "ChIJW976ywZNlFQRKc-gBs2LHLE",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        },
+        {
+          "name": "Ridgefield Dental Care",
+          "type": "point_of_interest, health, establishment",
+          "address": "4312 S Settler Dr #200, Ridgefield",
+          "lat": 45.815169,
+          "lon": -122.7032316,
+          "distance_miles": 0.13,
+          "likelihood_score": 97,
+          "rating": 4.8,
+          "user_ratings_total": 78,
+          "phone": "+1 360-200-8115",
+          "website": "https://ridgefielddentalwa.com/",
+          "place_id": "ChIJZ-UQ5JJNlFQRnssygnVNl-s",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        },
+        {
+          "name": "Oasis Dental Ridgefield",
+          "type": "dentist, point_of_interest, doctor, health, establishment",
+          "address": "11 S 47th Ave Suite 101, Ridgefield",
+          "lat": 45.8154774,
+          "lon": -122.7015907,
+          "distance_miles": 0.05,
+          "likelihood_score": 98,
+          "rating": 4.9,
+          "user_ratings_total": 489,
+          "phone": "+1 360-727-0335",
+          "website": "https://myoasisdental.com/ridgefield/",
+          "place_id": "ChIJY1eEMKdNlFQREPvyHoH-mvM",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        },
+        {
+          "name": "Dental Care at Union Ridge",
+          "type": "dentist, point_of_interest, health, establishment",
+          "address": "420 N 56th Pl Unit 150, Ridgefield",
+          "lat": 45.8188073,
+          "lon": -122.6904224,
+          "distance_miles": 0.55,
+          "likelihood_score": 44,
+          "rating": null,
+          "user_ratings_total": 0,
+          "phone": "+1 564-236-2950",
+          "website": "https://dentalcareatunionridge.com/",
+          "place_id": "ChIJVbRx96ZNlFQRLVCViKhSghg",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        },
+        {
+          "name": "Brown-Saito Orthodontics",
+          "type": "dentist, point_of_interest, health, establishment",
+          "address": "2 S 56th Pl SUITE 202, Ridgefield",
+          "lat": 45.8154686,
+          "lon": -122.6901277,
+          "distance_miles": 0.51,
+          "likelihood_score": 81,
+          "rating": 5,
+          "user_ratings_total": 5,
+          "phone": "+1 360-256-7220",
+          "website": "https://www.brownsaitoorthodontics.com/",
+          "place_id": "ChIJKwGFiR5NlFQRL28rGp_uOBg",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        }
+      ],
+      "createdAt": "2026-03-11T13:40:17.545147",
+      "count": 6
+    },
+    "56719e7c55f5c22d": {
+      "storeNumber": "FME07W-0351",
+      "category": "mexican",
+      "prospects": [
+        {
+          "name": "Vaqueros Mexican Restaurant & Taqueria Spokane",
+          "type": "restaurant, food, point_of_interest, establishment",
+          "address": "16208 E Indiana Ave Suite #2, Spokane Valley",
+          "lat": 47.6678896,
+          "lon": -117.1870857,
+          "distance_miles": 0.68,
+          "likelihood_score": 89,
+          "rating": 4.3,
+          "user_ratings_total": 1014,
+          "phone": "+1 509-922-0770",
+          "website": "https://www.vaquerosmexicansv.com/",
+          "place_id": "ChIJKwq-sj3fYVMRBNaU9mBH8r0",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 2,
+          "source": "Google Places"
+        },
+        {
+          "name": "Atilano's Mexican Food - Sullivan",
+          "type": "restaurant, food, point_of_interest, establishment",
+          "address": "901 N Sullivan Rd, Spokane Valley",
+          "lat": 47.6652895,
+          "lon": -117.1971439,
+          "distance_miles": 0.49,
+          "likelihood_score": 90,
+          "rating": 4,
+          "user_ratings_total": 948,
+          "phone": "+1 509-340-9109",
+          "website": "http://atilanosmexicanfood.com/",
+          "place_id": "ChIJ_RwOJl_fYVMRMU1SWDycRhc",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 1,
+          "source": "Google Places"
+        },
+        {
+          "name": "Rancho Viejo Spokane Valley",
+          "type": "restaurant, food, point_of_interest, establishment",
+          "address": "14201 E Sprague Ave, Spokane Valley",
+          "lat": 47.6576794,
+          "lon": -117.2138187,
+          "distance_miles": 0.99,
+          "likelihood_score": 86,
+          "rating": 4.3,
+          "user_ratings_total": 1566,
+          "phone": "+1 509-927-8428",
+          "website": "http://www.ranchoviejomexican.net/",
+          "place_id": "ChIJNWQPCHkgnlQR781ugeJ648g",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 2,
+          "source": "Google Places"
+        },
+        {
+          "name": "Mariscos Mi Tierra",
+          "type": "restaurant, food, point_of_interest, establishment",
+          "address": "17005 E Sprague Ave, Spokane Valley",
+          "lat": 47.6574632,
+          "lon": -117.1760883,
+          "distance_miles": 0.78,
+          "likelihood_score": 87,
+          "rating": 4.1,
+          "user_ratings_total": 181,
+          "phone": "+1 509-928-0513",
+          "website": "https://www.mariscosmitierra.com/api/fb/w_n_bmw",
+          "place_id": "ChIJgdFVj5PfYVMR7Z9ZduN0fDQ",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 2,
+          "source": "Google Places"
+        },
+        {
+          "name": "Azteca",
+          "type": "bar, restaurant, food, point_of_interest, establishment",
+          "address": "14700 E Indiana Ave Space 1080, Spokane Valley",
+          "lat": 47.6732553,
+          "lon": -117.205345,
+          "distance_miles": 1.16,
+          "likelihood_score": 84,
+          "rating": 4.2,
+          "user_ratings_total": 1769,
+          "phone": "+1 509-228-9661",
+          "website": "http://www.aztecamex.com/",
+          "place_id": "ChIJq4oOp_LfYVMRioaKHZalTNc",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 2,
+          "source": "Google Places"
+        },
+        {
+          "name": "De Leon Foods",
+          "type": "grocery_or_supermarket, restaurant, food, point_of_interest, store, establishment",
+          "address": "15530 E Sprague Ave, Spokane Valley",
+          "lat": 47.6561314,
+          "lon": -117.1951849,
+          "distance_miles": 0.22,
+          "likelihood_score": 94,
+          "rating": 4.5,
+          "user_ratings_total": 1423,
+          "phone": "+1 509-926-5009",
+          "website": "http://www.deleonfoods.net/",
+          "place_id": "ChIJAdl-QoLfYVMRk7_ZXGPQzRA",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 2,
+          "source": "Google Places"
+        },
+        {
+          "name": "Cafe Rio Fresh Modern Mexican",
+          "type": "restaurant, food, point_of_interest, establishment",
+          "address": "13920 E Indiana Ave, Spokane Valley",
+          "lat": 47.67547099999999,
+          "lon": -117.2144209,
+          "distance_miles": 1.53,
+          "likelihood_score": 80,
+          "rating": 4.3,
+          "user_ratings_total": 1963,
+          "phone": "+1 509-822-4350",
+          "website": "https://www.caferio.com/locations/spokane-valley",
+          "place_id": "ChIJudLgLvLfYVMRj7X6DG0ufy0",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 2,
+          "source": "Google Places"
+        },
+        {
+          "name": "Chipotle Mexican Grill",
+          "type": "restaurant, food, point_of_interest, establishment",
+          "address": "209 N Sullivan Rd, Spokane Valley",
+          "lat": 47.6591055,
+          "lon": -117.1972461,
+          "distance_miles": 0.21,
+          "likelihood_score": 87,
+          "rating": 3,
+          "user_ratings_total": 518,
+          "phone": "+1 509-418-5072",
+          "website": "https://locations.chipotle.com/wa/spokane-valley/209-n-sullivan-rd?utm_source=google&utm_medium=yext&utm_campaign=yext_listings?restaurant=3733",
+          "place_id": "ChIJEbtOLBDfYVMRhBqlzhvhUC8",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 1,
+          "source": "Google Places"
+        }
+      ],
+      "createdAt": "2026-03-11T14:09:55.780960",
+      "count": 8
+    },
+    "8e97bd90f088738d": {
+      "storeNumber": "ROS07Z-0042",
+      "category": "mexican",
+      "prospects": [
+        {
+          "name": "La Cocina Real",
+          "type": "restaurant, point_of_interest, food, establishment",
+          "address": "6370 Pioneer St, Ridgefield",
+          "lat": 45.8173805,
+          "lon": -122.6836101,
+          "distance_miles": 0.83,
+          "likelihood_score": 87,
+          "rating": 4.2,
+          "user_ratings_total": 24,
+          "phone": "+1 360-887-8201",
+          "website": "http://lacocinarealwa.com/",
+          "place_id": "ChIJG69j0-xNlFQRVd3Oo7lndQo",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 2,
+          "source": "Google Places"
+        },
+        {
+          "name": "Chipotle Mexican Grill",
+          "type": "restaurant, point_of_interest, food, establishment",
+          "address": "200 N 56th Pl, Ridgefield",
+          "lat": 45.8173875,
+          "lon": -122.690306,
+          "distance_miles": 0.52,
+          "likelihood_score": 84,
+          "rating": 3.1,
+          "user_ratings_total": 103,
+          "phone": "+1 360-857-6194",
+          "website": "https://locations.chipotle.com/wa/ridgefield/200-n.-56th-place?utm_source=google&utm_medium=yext&utm_campaign=yext_listings?restaurant=5165",
+          "place_id": "ChIJSfWBl8NNlFQRTeaZbXru6P4",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 1,
+          "source": "Google Places"
+        },
+        {
+          "name": "Country Cafe",
+          "type": "restaurant, point_of_interest, food, establishment",
+          "address": "6370 Pioneer St, Ridgefield",
+          "lat": 45.8173868,
+          "lon": -122.6835804,
+          "distance_miles": 0.83,
+          "likelihood_score": 86,
+          "rating": 4,
+          "user_ratings_total": 1223,
+          "phone": "+1 360-887-8201",
+          "website": "https://thebarkingbus.wixsite.com/countrycafewa",
+          "place_id": "ChIJI-lp2QFNlFQRUOuq-CQezPg",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 2,
+          "source": "Google Places"
+        }
+      ],
+      "createdAt": "2026-03-11T16:37:41.677696",
+      "count": 3
+    },
+    "410e2986b5bfd719": {
+      "storeNumber": "ROS07Z-0016",
+      "category": "sushi/japanese",
+      "prospects": [
+        {
+          "name": "Sushi Okalani",
+          "type": "restaurant, point_of_interest, food, establishment",
+          "address": "109 1st St, Hood River",
+          "lat": 45.7091443,
+          "lon": -121.5110848,
+          "distance_miles": 1.13,
+          "likelihood_score": 85,
+          "rating": 4.5,
+          "user_ratings_total": 370,
+          "phone": "+1 541-386-7423",
+          "website": "http://www.sushiokalani.com/",
+          "place_id": "ChIJE2E5NGkOllQRbaYPHWEgvo0",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 2,
+          "source": "Google Places"
+        },
+        {
+          "name": "Mugen Noodle",
+          "type": "restaurant, point_of_interest, food, establishment",
+          "address": "212 4th St, Hood River",
+          "lat": 45.7083499,
+          "lon": -121.5144831,
+          "distance_miles": 1.01,
+          "likelihood_score": 87,
+          "rating": 4.7,
+          "user_ratings_total": 490,
+          "phone": "+1 541-653-2987",
+          "website": "https://www.mugennoodles.com/",
+          "place_id": "ChIJoUrfwOIPllQR6FdP8BfR_WU",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 2,
+          "source": "Google Places"
+        },
+        {
+          "name": "Kobe Sushi + Bar",
+          "type": "meal_takeaway, bar, restaurant, point_of_interest, food, establishment",
+          "address": "33 Nichols Pkwy #190, Hood River",
+          "lat": 45.7111914,
+          "lon": -121.5101255,
+          "distance_miles": 1.27,
+          "likelihood_score": 81,
+          "rating": 3.9,
+          "user_ratings_total": 394,
+          "phone": "+1 541-308-0284",
+          "website": "https://www.kobefoodsgroup.com/",
+          "place_id": "ChIJOxd6nKUPllQRiK9DpBiOljk",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 2,
+          "source": "Google Places"
+        },
+        {
+          "name": "Wicked Sushi, Burgers, Bowls",
+          "type": "bar, restaurant, point_of_interest, food, establishment",
+          "address": "103 4th St, Hood River",
+          "lat": 45.7094438,
+          "lon": -121.5139838,
+          "distance_miles": 1.08,
+          "likelihood_score": 86,
+          "rating": 4.4,
+          "user_ratings_total": 674,
+          "phone": "+1 541-436-4111",
+          "website": "https://www.wickedsushihoodriver.com/",
+          "place_id": "ChIJdT87JG8OllQR9bQdtbVlvO8",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 2,
+          "source": "Google Places"
+        },
+        {
+          "name": "Double Mountain Brewery",
+          "type": "meal_takeaway, bar, restaurant, point_of_interest, food, establishment",
+          "address": "8 4th St, Hood River",
+          "lat": 45.7100328,
+          "lon": -121.5144739,
+          "distance_miles": 1.11,
+          "likelihood_score": 85,
+          "rating": 4.4,
+          "user_ratings_total": 1195,
+          "phone": "+1 541-387-0042",
+          "website": "http://www.doublemountainbrewery.com/",
+          "place_id": "ChIJr1iCHm8OllQRSsJ86Exp9CE",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 2,
+          "source": "Google Places"
+        },
+        {
+          "name": "Hindustani",
+          "type": "restaurant, point_of_interest, food, establishment",
+          "address": "2680 Old Columbia River Dr, Hood River",
+          "lat": 45.7078676,
+          "lon": -121.5023977,
+          "distance_miles": 1.31,
+          "likelihood_score": 84,
+          "rating": 4.7,
+          "user_ratings_total": 110,
+          "phone": "+1 541-300-9788",
+          "website": "https://hindustanior.com/",
+          "place_id": "ChIJg4PobwAPllQRwvbFbgeT6t8",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        },
+        {
+          "name": "ZENSHI Handcrafted Sushi",
+          "type": "restaurant, meal_takeaway, point_of_interest, food, establishment",
+          "address": "2249 Cascade Ave, Hood River",
+          "lat": 45.7087368,
+          "lon": -121.5349924,
+          "distance_miles": 1.14,
+          "likelihood_score": 38,
+          "rating": null,
+          "user_ratings_total": 0,
+          "phone": "+1 541-386-1841",
+          "website": "https://www.zenshisushi.com/",
+          "place_id": "ChIJ4aJqTREPllQRrKmOM4L2FHg",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        },
+        {
+          "name": "Kaze Japanese Restaurant",
+          "type": "restaurant, point_of_interest, food, establishment",
+          "address": "212 4th St, Hood River",
+          "lat": 45.7083502,
+          "lon": -121.514483,
+          "distance_miles": 1.01,
+          "likelihood_score": 75,
+          "rating": 4.3,
+          "user_ratings_total": 103,
+          "phone": "+1 541-387-0434",
+          "website": null,
+          "place_id": "ChIJi5nBSm8OllQRtPak-C-3zVw",
+          "opening_hours": {},
+          "business_status": "CLOSED_PERMANENTLY",
+          "price_level": 2,
+          "source": "Google Places"
+        },
+        {
+          "name": "Nashi Ramen",
+          "type": "restaurant, point_of_interest, food, establishment",
+          "address": "102 5th St, Hood River",
+          "lat": 45.7094819,
+          "lon": -121.515658,
+          "distance_miles": 1.06,
+          "likelihood_score": 56,
+          "rating": 5,
+          "user_ratings_total": 1,
+          "phone": "+1 503-893-8302",
+          "website": "http://nashiramen.com/",
+          "place_id": "ChIJw2KUQNEPllQRL0ZU5sjgX1I",
+          "opening_hours": {},
+          "business_status": "CLOSED_TEMPORARILY",
+          "price_level": null,
+          "source": "Google Places"
+        }
+      ],
+      "createdAt": "2026-03-11T18:49:29.849353",
+      "count": 9
+    },
+    "0290236ad564323c": {
+      "storeNumber": "ROS07Z-0016",
+      "category": "chinese",
+      "prospects": [
+        {
+          "name": "Hood River Restaurant",
+          "type": "restaurant, point_of_interest, food, establishment",
+          "address": "108 2nd St, Hood River",
+          "lat": 45.7092787,
+          "lon": -121.5124535,
+          "distance_miles": 1.1,
+          "likelihood_score": 84,
+          "rating": 4.1,
+          "user_ratings_total": 297,
+          "phone": "+1 541-386-3966",
+          "website": null,
+          "place_id": "ChIJwVft024OllQR3YLvUWx3MwU",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 2,
+          "source": "Google Places"
+        },
+        {
+          "name": "Golden Rose Lounge",
+          "type": "night_club, bar, point_of_interest, establishment",
+          "address": "108 2nd St, Hood River",
+          "lat": 45.7090768,
+          "lon": -121.5124889,
+          "distance_miles": 1.09,
+          "likelihood_score": 83,
+          "rating": 3.8,
+          "user_ratings_total": 89,
+          "phone": "+1 541-386-3966",
+          "website": null,
+          "place_id": "ChIJwVft024OllQRkk0xfeeurx0",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 1,
+          "source": "Google Places"
+        },
+        {
+          "name": "Orange Fine Chinese Cuisine",
+          "type": "restaurant, point_of_interest, food, establishment",
+          "address": "1503 12th St, Hood River",
+          "lat": 45.6993293,
+          "lon": -121.5234144,
+          "distance_miles": 0.31,
+          "likelihood_score": 84,
+          "rating": 4.6,
+          "user_ratings_total": 58,
+          "phone": "+1 971-326-1188",
+          "website": null,
+          "place_id": "ChIJM5xu1EUPllQRa2TKIo-8iKg",
+          "opening_hours": {
+            "open_now": false
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        },
+        {
+          "name": "Mugen Noodle",
+          "type": "restaurant, point_of_interest, food, establishment",
+          "address": "212 4th St, Hood River",
+          "lat": 45.7083499,
+          "lon": -121.5144831,
+          "distance_miles": 1.01,
+          "likelihood_score": 87,
+          "rating": 4.7,
+          "user_ratings_total": 490,
+          "phone": "+1 541-653-2987",
+          "website": "https://www.mugennoodles.com/",
+          "place_id": "ChIJoUrfwOIPllQR6FdP8BfR_WU",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 2,
+          "source": "Google Places"
+        },
+        {
+          "name": "Hot point",
+          "type": "bar, point_of_interest, establishment",
+          "address": "2910 Cascade Ave, Hood River",
+          "lat": 45.7110688,
+          "lon": -121.541448,
+          "distance_miles": 1.45,
+          "likelihood_score": 71,
+          "rating": 4.8,
+          "user_ratings_total": 5,
+          "phone": null,
+          "website": null,
+          "place_id": "ChIJB3l8uloPllQR4yD1f2_JC2w",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        },
+        {
+          "name": "Thai House Hood River",
+          "type": "restaurant, point_of_interest, food, establishment",
+          "address": "1302 13th St, Hood River",
+          "lat": 45.7007462,
+          "lon": -121.5249225,
+          "distance_miles": 0.43,
+          "likelihood_score": 89,
+          "rating": 3.9,
+          "user_ratings_total": 404,
+          "phone": "+1 541-436-0509",
+          "website": "https://order.toasttab.com/online/thai-house-restaurant-1302-13th-st",
+          "place_id": "ChIJb_agHWAOllQRg3I5rHRCf9U",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 2,
+          "source": "Google Places"
+        },
+        {
+          "name": "Farm Stand in the Gorge",
+          "type": "grocery_or_supermarket, store, restaurant, point_of_interest, food, establishment",
+          "address": "1009 12th St, Hood River",
+          "lat": 45.7029376,
+          "lon": -121.5235526,
+          "distance_miles": 0.56,
+          "likelihood_score": 91,
+          "rating": 4.5,
+          "user_ratings_total": 368,
+          "phone": "+1 541-386-4203",
+          "website": "http://farmstandinthegorge.com/",
+          "place_id": "ChIJw3PjVGAOllQRdL36o_kTelc",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        },
+        {
+          "name": "Chicken & Teriyaki",
+          "type": "restaurant, point_of_interest, food, establishment",
+          "address": "1314 12th St, Hood River",
+          "lat": 45.7004519,
+          "lon": -121.5239872,
+          "distance_miles": 0.4,
+          "likelihood_score": 81,
+          "rating": 4,
+          "user_ratings_total": 140,
+          "phone": "+1 541-436-4171",
+          "website": null,
+          "place_id": "ChIJ3fFeBmAOllQRLhePT4Sxlf4",
+          "opening_hours": {},
+          "business_status": "OPERATIONAL",
+          "price_level": 1,
+          "source": "Google Places"
+        },
+        {
+          "name": "Gorge Acupuncture",
+          "type": "health, point_of_interest, establishment",
+          "address": "1790 May St suite b, Hood River",
+          "lat": 45.7041134,
+          "lon": -121.5298805,
+          "distance_miles": 0.74,
+          "likelihood_score": 92,
+          "rating": 5,
+          "user_ratings_total": 17,
+          "phone": "+1 401-742-5076",
+          "website": "http://www.gorge-acupuncture.com/",
+          "place_id": "ChIJ71g1d5MPllQRy6BLq12wGnA",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        },
+        {
+          "name": "Trinity Body Arts",
+          "type": "point_of_interest, establishment",
+          "address": "1412 13th St STE 200, Hood River",
+          "lat": 45.69984119999999,
+          "lon": -121.5248885,
+          "distance_miles": 0.37,
+          "likelihood_score": 66,
+          "rating": 5,
+          "user_ratings_total": 2,
+          "phone": "+1 520-971-5631",
+          "website": "https://www.trinitybodyarts.org/about-us-1",
+          "place_id": "ChIJXT22UvUOllQRGJ4b605IdKk",
+          "opening_hours": {},
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        }
+      ],
+      "createdAt": "2026-03-11T18:59:27.024996",
+      "count": 10
+    },
+    "4a159ccf831b1b52": {
+      "storeNumber": "ROS07Z-0016",
+      "category": "contractor",
+      "prospects": [
+        {
+          "name": "Galindo Construction, LLC",
+          "type": "general_contractor, point_of_interest, establishment",
+          "address": "202 Oak St Suite 150, Hood River",
+          "lat": 45.7089586,
+          "lon": -121.5126799,
+          "distance_miles": 1.08,
+          "likelihood_score": 79,
+          "rating": 5,
+          "user_ratings_total": 16,
+          "phone": "+1 541-490-6346",
+          "website": "https://www.galindoconstruction.net/",
+          "place_id": "ChIJq8Vn4goPllQRA93QLuvQYD8",
+          "opening_hours": {
+            "open_now": false
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        },
+        {
+          "name": "Grove Construction & Painting",
+          "type": "general_contractor, point_of_interest, establishment",
+          "address": "210 May St, Hood River",
+          "lat": 45.7043788,
+          "lon": -121.5126823,
+          "distance_miles": 0.8,
+          "likelihood_score": 91,
+          "rating": 4.9,
+          "user_ratings_total": 14,
+          "phone": "+1 509-637-6363",
+          "website": "https://www.grove.construction/",
+          "place_id": "ChIJB56KPPUPllQRAKykJzGFtF4",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        },
+        {
+          "name": "Serrano GC LLC",
+          "type": "general_contractor, point_of_interest, establishment",
+          "address": "1441 Barker Rd, Hood River",
+          "lat": 45.6801479,
+          "lon": -121.5337937,
+          "distance_miles": 1.16,
+          "likelihood_score": 73,
+          "rating": 5,
+          "user_ratings_total": 8,
+          "phone": "+1 541-490-5909",
+          "website": null,
+          "place_id": "ChIJt0TsPU4UmycRgPcjnCXy7k8",
+          "opening_hours": {
+            "open_now": false
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        },
+        {
+          "name": "Columbia River Gorge Concrete and Excavation LLC",
+          "type": "general_contractor, point_of_interest, establishment",
+          "address": "1 Oak St, Hood River",
+          "lat": 45.708685,
+          "lon": -121.5103501,
+          "distance_miles": 1.12,
+          "likelihood_score": 78,
+          "rating": 5,
+          "user_ratings_total": 14,
+          "phone": "+1 509-310-3580",
+          "website": "https://crgconcreteexcavat.wixsite.com/columbia-river-gor-1",
+          "place_id": "ChIJA8HLHCVZaCoRHtBAyfANwtU",
+          "opening_hours": {
+            "open_now": false
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        },
+        {
+          "name": "Rovianek Homes LLC",
+          "type": "general_contractor, point_of_interest, establishment",
+          "address": "3466 Foster Ct, Hood River",
+          "lat": 45.6962415,
+          "lon": -121.5351649,
+          "distance_miles": 0.63,
+          "likelihood_score": 68,
+          "rating": 5,
+          "user_ratings_total": 4,
+          "phone": "+1 541-490-9657",
+          "website": "https://www.rovianekhomes.com/",
+          "place_id": "ChIJa1cnVb0PllQRpyULZA0Gjos",
+          "opening_hours": {
+            "open_now": false
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        },
+        {
+          "name": "Hood River Contractors Group",
+          "type": "general_contractor, point_of_interest, establishment",
+          "address": "1011 May St, Hood River",
+          "lat": 45.7040043,
+          "lon": -121.5213666,
+          "distance_miles": 0.63,
+          "likelihood_score": 33,
+          "rating": null,
+          "user_ratings_total": 0,
+          "phone": "+1 541-716-6107",
+          "website": null,
+          "place_id": "ChIJYXdbXvUPllQRnIGFmANBeYg",
+          "opening_hours": {
+            "open_now": false
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        },
+        {
+          "name": "Hale Construction Northwest",
+          "type": "general_contractor, point_of_interest, establishment",
+          "address": "510 Cascade Ave Suite 100, Hood River",
+          "lat": 45.7096819,
+          "lon": -121.5160762,
+          "distance_miles": 1.07,
+          "likelihood_score": 59,
+          "rating": 5,
+          "user_ratings_total": 2,
+          "phone": "+1 541-386-5585",
+          "website": "http://www.halecon.net/",
+          "place_id": "ChIJX3hT9GAOllQR1I63DK2Cd3E",
+          "opening_hours": {},
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        },
+        {
+          "name": "Green Thumb Projects LLC",
+          "type": "general_contractor, point_of_interest, establishment",
+          "address": "1767 12th St #248, Hood River",
+          "lat": 45.696185,
+          "lon": -121.522771,
+          "distance_miles": 0.1,
+          "likelihood_score": 84,
+          "rating": 5,
+          "user_ratings_total": 8,
+          "phone": "+1 541-380-1334",
+          "website": "http://greenthumbprojects.com/",
+          "place_id": "ChIJh0aaxfUOllQRWBt_cNTALH8",
+          "opening_hours": {
+            "open_now": false
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        },
+        {
+          "name": "A&E Plumbing, Heating And Air",
+          "type": "plumber, general_contractor, point_of_interest, establishment",
+          "address": "3457 Guignard Dr, Hood River",
+          "lat": 45.6821224,
+          "lon": -121.5324914,
+          "distance_miles": 1.01,
+          "likelihood_score": 78,
+          "rating": 4.9,
+          "user_ratings_total": 2654,
+          "phone": "+1 541-387-3311",
+          "website": "http://aeheatingandcooling.com/?utm_source=gbp&utm_medium=organic",
+          "place_id": "ChIJZx-i0nwOllQRB0THXU7Joe8",
+          "opening_hours": {
+            "open_now": false
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        },
+        {
+          "name": "Mission Construction",
+          "type": "general_contractor, point_of_interest, establishment",
+          "address": "1306 Tucker Rd, Hood River",
+          "lat": 45.682161,
+          "lon": -121.5292308,
+          "distance_miles": 0.94,
+          "likelihood_score": 72,
+          "rating": 4.5,
+          "user_ratings_total": 8,
+          "phone": "+1 541-386-5970",
+          "website": null,
+          "place_id": "ChIJWZ9dYuAOllQREATnnRQtNC8",
+          "opening_hours": {},
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        }
+      ],
+      "createdAt": "2026-03-11T19:04:20.818021",
+      "count": 10
+    },
+    "5d3f23a59201e37f": {
+      "storeNumber": "FME07Z-0208",
+      "category": "sushi/japanese",
+      "prospects": [
+        {
+          "name": "Fuji's Dough & Ramen",
+          "type": "meal_takeaway, restaurant, food, point_of_interest, establishment",
+          "address": "305 SE Chkalov Dr #105, Vancouver",
+          "lat": 45.6188246,
+          "lon": -122.5536569,
+          "distance_miles": 0.14,
+          "likelihood_score": 97,
+          "rating": 4.8,
+          "user_ratings_total": 26,
+          "phone": "+1 360-314-2623",
+          "website": "https://www.fujisdoughnramen.com/",
+          "place_id": "ChIJo2B6dk2llVQR2IO7jXKmLV0",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        },
+        {
+          "name": "Sushi Hana",
+          "type": "restaurant, food, point_of_interest, establishment",
+          "address": "13503 SE Mill Plain Blvd B6, Vancouver",
+          "lat": 45.61764660000001,
+          "lon": -122.5347785,
+          "distance_miles": 1.05,
+          "likelihood_score": 84,
+          "rating": 4.1,
+          "user_ratings_total": 1341,
+          "phone": "+1 360-944-9659",
+          "website": "http://www.sushihanaus.com/index5.html",
+          "place_id": "ChIJL0hIqiGllVQRGbFGh4m8cd4",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 1,
+          "source": "Google Places"
+        },
+        {
+          "name": "Kenji's",
+          "type": "bar, restaurant, food, point_of_interest, establishment",
+          "address": "204 SE Park Plaza Dr #103, Vancouver",
+          "lat": 45.6198,
+          "lon": -122.5399639,
+          "distance_miles": 0.79,
+          "likelihood_score": 89,
+          "rating": 4.4,
+          "user_ratings_total": 2637,
+          "phone": "+1 360-984-6744",
+          "website": "https://kenjisramen.com/",
+          "place_id": "ChIJE4MapBillVQRX6OQN3ZrzBI",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 2,
+          "source": "Google Places"
+        },
+        {
+          "name": "Ichi 18 Teriyaki",
+          "type": "restaurant, food, point_of_interest, establishment",
+          "address": "925 NE 136th Ave, Vancouver",
+          "lat": 45.6298561,
+          "lon": -122.5342788,
+          "distance_miles": 1.28,
+          "likelihood_score": 83,
+          "rating": 4.3,
+          "user_ratings_total": 627,
+          "phone": "+1 360-891-8989",
+          "website": "http://www.ichi18teriyaki.com/",
+          "place_id": "ChIJeZ_9dDqllVQRnwM4JEyZnx4",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 1,
+          "source": "Google Places"
+        },
+        {
+          "name": "Youskyme Teriyaki",
+          "type": "restaurant, food, point_of_interest, establishment",
+          "address": "221 NE 104th Ave, Vancouver",
+          "lat": 45.6220074,
+          "lon": -122.564945,
+          "distance_miles": 0.45,
+          "likelihood_score": 93,
+          "rating": 4.6,
+          "user_ratings_total": 425,
+          "phone": "+1 360-256-8100",
+          "website": "https://orderyouskymeteriyaki.com/",
+          "place_id": "ChIJAfyJyA2llVQRQyiaHyQgq1E",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 1,
+          "source": "Google Places"
+        },
+        {
+          "name": "SNOWFOX",
+          "type": "restaurant, food, point_of_interest, establishment",
+          "address": "11325 SE Mill Plain Blvd, Vancouver",
+          "lat": 45.61822919999999,
+          "lon": -122.555589,
+          "distance_miles": 0.1,
+          "likelihood_score": 39,
+          "rating": null,
+          "user_ratings_total": 0,
+          "phone": null,
+          "website": null,
+          "place_id": "ChIJv3ZtapillVQRq3XsAKdOwXo",
+          "opening_hours": {},
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        }
+      ],
+      "createdAt": "2026-03-11T19:07:35.381213",
+      "count": 6
+    },
+    "e53cbf3e7e5f52a4": {
+      "storeNumber": "FME07Z-0208",
+      "category": "thai",
+      "prospects": [
+        {
+          "name": "Thai Terrace Restaurant",
+          "type": "restaurant, food, point_of_interest, establishment",
+          "address": "700 SE Chkalov Dr #7, Vancouver",
+          "lat": 45.6162024,
+          "lon": -122.5550023,
+          "distance_miles": 0.24,
+          "likelihood_score": 92,
+          "rating": 4.1,
+          "user_ratings_total": 681,
+          "phone": "+1 360-256-8424",
+          "website": "http://www.thaiterracewa.com/",
+          "place_id": "ChIJ_3ZP3ASllVQR-zbG2f0C7P0",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 2,
+          "source": "Google Places"
+        },
+        {
+          "name": "The Chef Thai Cuisine",
+          "type": "restaurant, food, point_of_interest, establishment",
+          "address": "13503 SE Mill Plain Blvd #C3, Vancouver",
+          "lat": 45.6176763,
+          "lon": -122.535233,
+          "distance_miles": 1.03,
+          "likelihood_score": 76,
+          "rating": 4.4,
+          "user_ratings_total": 196,
+          "phone": "+1 360-258-1749",
+          "website": "http://thechefthaicuisine.com/",
+          "place_id": "ChIJCdpCn9ullVQRXwEOUoGKG5Q",
+          "opening_hours": {
+            "open_now": false
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 2,
+          "source": "Google Places"
+        },
+        {
+          "name": "Pho Green Papaya",
+          "type": "restaurant, food, point_of_interest, establishment",
+          "address": "13215 SE Mill Plain Blvd Ste C2, Vancouver",
+          "lat": 45.6180679,
+          "lon": -122.5362341,
+          "distance_miles": 0.98,
+          "likelihood_score": 86,
+          "rating": 4.2,
+          "user_ratings_total": 485,
+          "phone": "+1 360-891-1369",
+          "website": "http://phogreenpapaya.com/",
+          "place_id": "ChIJWQEG6yGllVQRSIDuDoQnuyU",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 1,
+          "source": "Google Places"
+        }
+      ],
+      "createdAt": "2026-03-11T19:10:21.870661",
+      "count": 3
+    },
+    "71dbab57fc78ad6f": {
+      "storeNumber": "FME07Z-0208",
+      "category": "mexican",
+      "prospects": [
+        {
+          "name": "Lindo Mexico Restaurant & Cantina",
+          "type": "bar, restaurant, food, point_of_interest, establishment",
+          "address": "316 SE 123rd Ave D-11, Vancouver",
+          "lat": 45.6186081,
+          "lon": -122.5469185,
+          "distance_miles": 0.46,
+          "likelihood_score": 92,
+          "rating": 4.4,
+          "user_ratings_total": 1141,
+          "phone": "+1 360-433-2296",
+          "website": "http://lindomexicovancouver.com/",
+          "place_id": "ChIJDbd2ghmllVQRj_BxNOgzPII",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 2,
+          "source": "Google Places"
+        },
+        {
+          "name": "Birrieria Carlos",
+          "type": "restaurant, food, point_of_interest, establishment",
+          "address": "10512 SE Mill Plain Blvd, Vancouver",
+          "lat": 45.6215306,
+          "lon": -122.5641417,
+          "distance_miles": 0.4,
+          "likelihood_score": 92,
+          "rating": 4.3,
+          "user_ratings_total": 200,
+          "phone": "+1 360-975-0328",
+          "website": "https://bit.ly/4hcn2zj",
+          "place_id": "ChIJXbE2MhqllVQRUBbzYUokeJo",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        },
+        {
+          "name": "Muchas Gracias Mexican Food",
+          "type": "restaurant, food, point_of_interest, store, establishment",
+          "address": "116 NE 117th Ave, Vancouver",
+          "lat": 45.6216722,
+          "lon": -122.5523972,
+          "distance_miles": 0.24,
+          "likelihood_score": 92,
+          "rating": 4,
+          "user_ratings_total": 1598,
+          "phone": "+1 360-254-8530",
+          "website": "https://muchasgraciasmexicanfood.com/muchasvancouverne117th?utm_source=google",
+          "place_id": "ChIJ_ZrZxhCllVQRVpJzSF-7QwU",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 1,
+          "source": "Google Places"
+        },
+        {
+          "name": "Chipotle Mexican Grill",
+          "type": "restaurant, food, point_of_interest, establishment",
+          "address": "11600 SE Mill Plain Blvd, Vancouver",
+          "lat": 45.6214169,
+          "lon": -122.5535908,
+          "distance_miles": 0.18,
+          "likelihood_score": 91,
+          "rating": 3.6,
+          "user_ratings_total": 643,
+          "phone": "+1 360-896-5342",
+          "website": "https://locations.chipotle.com/wa/vancouver/11600-se-mill-plain-blvd?utm_source=google&utm_medium=yext&utm_campaign=yext_listings?restaurant=2652",
+          "place_id": "ChIJg-WU6xCllVQRv4RzA7O_zD4",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 1,
+          "source": "Google Places"
+        }
+      ],
+      "createdAt": "2026-03-11T19:12:18.596857",
+      "count": 4
     }
   },
-  "lastUpdated": "2026-03-11T13:10:35.697104"
+  "lastUpdated": "2026-03-11T19:12:18.596875"
 }
