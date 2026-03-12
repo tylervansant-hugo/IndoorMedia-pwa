@@ -1085,6 +1085,27 @@ async def handle_store_query(update: Update, context: ContextTypes.DEFAULT_TYPE)
     # Handle rates lookup if awaiting
     if context.user_data.get(AWAITING_RATES):
         context.user_data[AWAITING_RATES] = False
+        # Check if it's a city name first
+        city_match = text.strip().title()
+        if city_match in CITY_INDEX:
+            # Show stores in that city with rates buttons
+            stores_in_city = CITY_INDEX[city_match]
+            buttons = []
+            for store in stores_in_city:
+                store_num = store["StoreName"]
+                chain = store.get("GroceryChain", "")
+                street = store.get("Address", "").split(",")[0] if store.get("Address") else ""
+                street = street.strip()[:20]
+                label = f"💰 {store_num} — {chain} {street}"
+                buttons.append([InlineKeyboardButton(label, callback_data=f"action_rates_{store_num}")])
+            buttons.append([InlineKeyboardButton("⬅️ Back", callback_data="rates_search")])
+            await update.message.reply_text(
+                f"📍 *Stores in {city_match}* ({len(stores_in_city)} found)\n\nTap a store to see rates:",
+                parse_mode="Markdown",
+                reply_markup=InlineKeyboardMarkup(buttons)
+            )
+            return
+        # Otherwise try as a store number
         await do_rates_lookup(update, text)
         return
     
@@ -5567,10 +5588,31 @@ Send any city name to see all stores!
             await query.answer()
             context.user_data[AWAITING_RATES] = True
             await query.edit_message_text(
-                "💰 *Store Rates Lookup*\n\nSend a store number:\n\n"
-                "_Example: `FME07Z-0236` or `SAF07Y-1073`_",
+                "💰 *Register Tape Rates*\n\n"
+                "Type a *city name* or *store number*:\n\n"
+                "_Examples:_\n"
+                "_City: `Portland` or `Eugene`_\n"
+                "_Store: `FME07Z-0236`_\n\n"
+                "Or tap 📍 to find stores near you!",
                 parse_mode="Markdown",
-                reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("⬅️ Main Menu", callback_data="main_menu")]])
+                reply_markup=InlineKeyboardMarkup([
+                    [InlineKeyboardButton("📍 Near Me", callback_data="rates_near_me")],
+                    [InlineKeyboardButton("⬅️ Back", callback_data="menu_register_tape")],
+                ])
+            )
+        elif data == "rates_near_me":
+            # Reuse existing find_stores_near_me flow but set rates mode
+            await query.answer()
+            context.user_data['rates_mode'] = True
+            context.user_data[AWAITING_RATES] = False
+            await query.edit_message_text(
+                "📍 *Find Stores Near You*\n\n"
+                "Send your location using the 📎 attachment button → Location.\n\n"
+                "_Tap the rates for any store that comes up!_",
+                parse_mode="Markdown",
+                reply_markup=InlineKeyboardMarkup([
+                    [InlineKeyboardButton("⬅️ Back", callback_data="rates_search")],
+                ])
             )
         elif data.startswith("roi_open_"):
             await query.answer()
