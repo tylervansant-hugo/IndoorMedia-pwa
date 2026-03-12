@@ -42,12 +42,14 @@ def save_to_contracts_json(contract):
     contract_num = contract.get('contract_num', '')
     for existing in data.get("contracts", []):
         if existing.get("contract_number") == contract_num:
-            # Update existing with any new fields
+            # Update existing with any new/better fields
             existing.update({
                 "contact_email": contract.get('customer_email') or existing.get('contact_email'),
                 "contact_phone": contract.get('customer_phone') or existing.get('contact_phone'),
                 "contact_name": contract.get('customer_name') or existing.get('contact_name'),
                 "address": contract.get('customer_address', '') or existing.get('address', ''),
+                "total_amount": contract.get('total') or existing.get('total_amount', 0),
+                "product_description": contract.get('ad_type') or existing.get('product_description'),
             })
             with open(CONTRACTS_JSON, 'w') as f:
                 json.dump(data, f, indent=2, default=str)
@@ -268,6 +270,22 @@ def parse_contract_pdf(pdf_path):
     # Ad type
     m = re.search(r'(Single|Double)\s+Ad', text)
     contract['ad_type'] = m.group(1) if m else 'Single'
+    
+    # Contract total amount
+    m = re.search(r'Contract Total\s*\$?([\d,]+\.?\d*)', text)
+    if m:
+        try:
+            contract['total'] = float(m.group(1).replace(',', ''))
+        except ValueError:
+            pass
+    # Fallback: Net Price
+    if not contract.get('total'):
+        m = re.search(r'Net Price\s*\$?([\d,]+\.?\d*)', text)
+        if m:
+            try:
+                contract['total'] = float(m.group(1).replace(',', ''))
+            except ValueError:
+                pass
     
     return contract
 

@@ -5697,11 +5697,16 @@ async def handle_button_callback(update: Update, context: ContextTypes.DEFAULT_T
             idx = int(data.replace("customer_events_", ""))
             c = context.user_data.get('customer_list', [{}])[idx] if idx < len(context.user_data.get('customer_list', [])) else {}
             business = c.get('business', '?')
+            owner = c.get('owner', '')
+            store_number = c.get('store_number', '')
+            
+            # IndoorMedia event prefixes — ONLY show these
+            im_prefixes = ['📦 Install', '🔍 Audit', '🔄 Check-in', '🔁 Renewal']
             
             # Fetch calendar events matching this customer
             events_found = []
             try:
-                cmd = ["/opt/homebrew/bin/gog", "calendar", "list", "--json"]
+                cmd = ["/opt/homebrew/bin/gog", "calendar", "list", "--json", "--max", "200"]
                 result = subprocess.run(cmd, capture_output=True, text=True, timeout=30)
                 if result.returncode == 0:
                     events = json.loads(result.stdout)
@@ -5710,7 +5715,20 @@ async def handle_button_callback(update: Update, context: ContextTypes.DEFAULT_T
                     for event in events:
                         if isinstance(event, dict):
                             title = event.get("summary", "")
-                            if business.lower() in title.lower() or c.get('owner', '').lower() in title.lower():
+                            # Must be an IndoorMedia event (starts with our emoji prefixes)
+                            is_im_event = any(title.startswith(p) for p in im_prefixes)
+                            if not is_im_event:
+                                continue
+                            # Must match this customer's business, owner, or store
+                            title_lower = title.lower()
+                            match = False
+                            if business and business.lower() in title_lower:
+                                match = True
+                            elif owner and owner.lower() in title_lower:
+                                match = True
+                            elif store_number and store_number in title:
+                                match = True
+                            if match:
                                 start = event.get("start", {})
                                 start_date = start.get("dateTime", start.get("date", ""))
                                 events_found.append({"title": title, "date": start_date})
@@ -5718,12 +5736,14 @@ async def handle_button_callback(update: Update, context: ContextTypes.DEFAULT_T
                 logger.warning(f"Calendar fetch error: {e}")
             
             if events_found:
-                msg = f"📅 *Calendar Events — {business}*\n\n"
-                for ev in sorted(events_found, key=lambda x: x['date'])[:10]:
+                msg = f"📅 *Events — {business}*\n\n"
+                for ev in sorted(events_found, key=lambda x: x['date'])[:15]:
                     date_str = ev['date'].split('T')[0] if 'T' in ev['date'] else ev['date']
-                    msg += f"• {ev['title']}\n  📆 {date_str}\n\n"
+                    # Clean up emoji prefix for display
+                    title = ev['title']
+                    msg += f"• {title}\n  📆 {date_str}\n\n"
             else:
-                msg = f"📅 *Calendar Events — {business}*\n\n_No upcoming events found._"
+                msg = f"📅 *Events — {business}*\n\n_No IndoorMedia events found._"
             
             buttons = [[InlineKeyboardButton("⬅️ Back", callback_data=f"customer_detail_{idx}")]]
             await query.edit_message_text(msg, parse_mode="Markdown", reply_markup=InlineKeyboardMarkup(buttons))
