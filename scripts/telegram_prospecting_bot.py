@@ -3251,7 +3251,7 @@ async def show_product_loyaltyboost(update: Update, context: ContextTypes.DEFAUL
     
     buttons = [
         [InlineKeyboardButton("🎬 Presentation 1", url="https://drive.google.com/file/d/1BYpsPLnAC2TRfsaQGuMBytaOYAxuNYMK/view?usp=sharing")],
-        [InlineKeyboardButton("🎬 Presentation 2", url="https://drive.google.com/file/d/1cyJzpBLcDarK_s1EPue95Q_K335XuDXC/view?usp=sharing")],
+        [InlineKeyboardButton("📹 Explainer Video", url="https://drive.google.com/file/d/1cyJzpBLcDarK_s1EPue95Q_K335XuDXC/view?usp=sharing")],
         [InlineKeyboardButton("⬅️ Back", callback_data="menu_digital")],
     ]
     await query.edit_message_text(text, parse_mode="Markdown", reply_markup=InlineKeyboardMarkup(buttons))
