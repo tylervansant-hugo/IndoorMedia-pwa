@@ -3237,7 +3237,11 @@ async def show_product_reviewboost(update: Update, context: ContextTypes.DEFAULT
         "• Automated 4-month campaign\n"
     )
     
-    buttons = [[InlineKeyboardButton("⬅️ Back", callback_data="menu_digital")]]
+    buttons = [
+        [InlineKeyboardButton("🎬 Presentation", url="https://drive.google.com/file/d/12hP-Ip7t9vHjBNFctj2X1AiatxS5O1LH/view?usp=sharing")],
+        [InlineKeyboardButton("📹 Explainer Video", url="https://www.youtube.com/watch?v=PBpbUiIoYcM")],
+        [InlineKeyboardButton("⬅️ Back", callback_data="menu_digital")],
+    ]
     await query.edit_message_text(text, parse_mode="Markdown", reply_markup=InlineKeyboardMarkup(buttons))
 
 
