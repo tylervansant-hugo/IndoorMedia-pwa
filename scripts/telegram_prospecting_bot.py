@@ -3132,6 +3132,7 @@ async def show_product_digitalboost(update: Update, context: ContextTypes.DEFAUL
         )
         buttons = [
             [InlineKeyboardButton("🎬 Presentation", url="https://drive.google.com/file/d/1LvPJjBk1tvMYFoRAy-AUSugUXV82hUeM/view?usp=sharing")],
+            [InlineKeyboardButton("📹 Explainer Video", url="https://drive.google.com/file/d/1_QyAlgZRy1bKJSKC1058260d0jPccVTM/view?usp=sharing")],
         ]
         for n in range(1, 6):
             buttons.append([InlineKeyboardButton(f"📌 {n} Pin{'s' if n > 1 else ''}", callback_data=f"db_pins_{n}")])
