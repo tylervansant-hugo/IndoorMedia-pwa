@@ -1258,7 +1258,8 @@ async def handle_store_query(update: Update, context: ContextTypes.DEFAULT_TYPE)
         report += f"{STORES[store_num].get('GroceryChain', '?')} - {STORES[store_num].get('City', '')}, {STORES[store_num].get('State', '')}\n\n"
         report += f"📦 *Delivery:*\n"
         report += f"Date: {delivery_date.strftime('%B %d, %Y')}\n"
-        report += f"Starting: {starting_cases} cases (1,000 rolls)\n\n"
+        starting_rolls = starting_cases * 50
+        report += f"Starting: {starting_cases} cases ({starting_rolls:,} rolls)\n\n"
         report += f"📋 *Current Inventory:*\n"
         report += f"{current_cases} cases + {current_rolls} rolls = {total_rolls} total rolls\n\n"
         report += f"📅 *Projection:*\n"
