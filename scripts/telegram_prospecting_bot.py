@@ -58,6 +58,112 @@ TOKEN = "8781563020:AAHm_khWUcjngvS0zuNewBbpMM-p2zuMjzI"
 # Ensure prospect data directory exists
 PROSPECT_DATA_FILE.parent.mkdir(parents=True, exist_ok=True)
 
+# --- Rep Registry ---
+# Maps Telegram user IDs to contract system rep names
+REP_REGISTRY_FILE = WORKSPACE / "data" / "rep_registry.json"
+
+def load_rep_registry():
+    """Load the rep registry mapping Telegram IDs to contract rep names."""
+    if REP_REGISTRY_FILE.exists():
+        with open(REP_REGISTRY_FILE) as f:
+            return json.load(f)
+    return {}
+
+def save_rep_registry(registry):
+    """Save the rep registry."""
+    with open(REP_REGISTRY_FILE, 'w') as f:
+        json.dump(registry, f, indent=2)
+
+def get_contract_rep_name(telegram_id: str) -> Optional[str]:
+    """Get the contract system rep name for a Telegram user."""
+    registry = load_rep_registry()
+    return registry.get(str(telegram_id), {}).get("contract_name")
+
+def register_rep(telegram_id: str, telegram_name: str, contract_name: str):
+    """Register a rep mapping."""
+    registry = load_rep_registry()
+    registry[str(telegram_id)] = {
+        "telegram_name": telegram_name,
+        "contract_name": contract_name,
+        "registered_at": datetime.now().isoformat(),
+    }
+    save_rep_registry(registry)
+
+def get_all_contract_rep_names():
+    """Get all unique rep names from contracts."""
+    contracts_file = WORKSPACE / "data" / "contracts.json"
+    if not contracts_file.exists():
+        return []
+    with open(contracts_file) as f:
+        data = json.load(f)
+    reps = sorted(set(c.get("sales_rep", "") for c in data.get("contracts", []) if c.get("sales_rep")))
+    return reps
+
+def get_rep_customers(contract_rep_name: str, show_all: bool = False):
+    """Get customers for a specific rep (or all if show_all)."""
+    contracts_file = WORKSPACE / "data" / "contracts.json"
+    if not contracts_file.exists():
+        return []
+    with open(contracts_file) as f:
+        data = json.load(f)
+    
+    customers = []
+    for c in data.get("contracts", []):
+        if not isinstance(c, dict):
+            continue
+        rep = c.get("sales_rep", "")
+        if show_all or rep.lower() == contract_rep_name.lower():
+            customers.append({
+                "contract_number": c.get("contract_number", ""),
+                "business": c.get("business_name", "Unknown"),
+                "owner": c.get("contact_name", ""),
+                "amount": c.get("total_amount", 0),
+                "date": c.get("date", ""),
+                "rep": rep,
+                "email": c.get("contact_email", ""),
+                "phone": c.get("contact_phone", ""),
+                "address": c.get("address", ""),
+                "store": c.get("store_name", ""),
+                "store_number": c.get("store_number", ""),
+                "product": c.get("product_description", ""),
+            })
+    return customers
+
+# Auto-seed registry from existing prospect_data reps
+def _auto_seed_registry():
+    """Try to auto-match Telegram users to contract rep names using fuzzy name matching."""
+    registry = load_rep_registry()
+    contract_reps = get_all_contract_rep_names()
+    
+    try:
+        data = load_prospect_data()
+        for tid, rinfo in data.get("reps", {}).items():
+            if tid in registry:
+                continue
+            tname = rinfo.get("name", "")
+            if not tname:
+                continue
+            # Fuzzy match: check if first name matches
+            tname_lower = tname.lower().strip()
+            for crep in contract_reps:
+                crep_lower = crep.lower().strip()
+                # Match on first name or full name
+                if (tname_lower.split()[0] == crep_lower.split()[0] and 
+                    len(tname_lower.split()) > 0 and len(crep_lower.split()) > 0):
+                    registry[tid] = {
+                        "telegram_name": tname,
+                        "contract_name": crep,
+                        "registered_at": datetime.now().isoformat(),
+                        "auto_matched": True,
+                    }
+                    logger.info(f"Auto-matched rep: {tname} ({tid}) → {crep}")
+                    break
+        save_rep_registry(registry)
+    except Exception as e:
+        logger.warning(f"Auto-seed registry error: {e}")
+
+_auto_seed_registry()
+
 # Load stores once
 with open(STORES_FILE) as f:
     STORES_LIST = json.load(f)
@@ -98,14 +204,6 @@ def save_rep_registry(registry):
     """Save the rep registry."""
     with open(REP_REGISTRY_FILE, 'w') as f:
         json.dump(registry, f, indent=2)
-
-def get_contract_rep_name(update: Update) -> Optional[str]:
-    """Get the rep's contract system name from registry."""
-    user_id = str(update.effective_user.id) if update.effective_user else None
-    if not user_id:
-        return None
-    registry = load_rep_registry()
-    return registry.get(user_id, {}).get('contract_name')
 
 def is_rep_registered(update: Update) -> bool:
     """Check if a rep has completed login/registration."""
@@ -6894,7 +6992,7 @@ async def show_client_list(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await query.answer()
     
     rep_id = get_rep_id(update)
-    contract_name = get_contract_rep_name(update)
+    contract_name = get_contract_rep_name(rep_id)
     rep_name = get_rep_name(update)
     
     # Determine if this is a manager (sees all) or rep (sees own)
