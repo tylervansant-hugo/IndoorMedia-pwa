@@ -5601,18 +5601,16 @@ Send any city name to see all stores!
                 ])
             )
         elif data == "rates_near_me":
-            # Reuse existing find_stores_near_me flow but set rates mode
             await query.answer()
             context.user_data['rates_mode'] = True
+            context.user_data['waiting_for_location'] = True
             context.user_data[AWAITING_RATES] = False
-            await query.edit_message_text(
-                "📍 *Find Stores Near You*\n\n"
-                "Send your location using the 📎 attachment button → Location.\n\n"
-                "_Tap the rates for any store that comes up!_",
+            location_button = KeyboardButton("📍 Share My Location", request_location=True)
+            keyboard = TGReplyKeyboardMarkup([[location_button]], one_time_keyboard=True, resize_keyboard=True)
+            await update.effective_chat.send_message(
+                "📍 *Find Stores Near You*\n\nTap the button below to share your location and see nearby store rates.",
                 parse_mode="Markdown",
-                reply_markup=InlineKeyboardMarkup([
-                    [InlineKeyboardButton("⬅️ Back", callback_data="rates_search")],
-                ])
+                reply_markup=keyboard
             )
         elif data.startswith("roi_open_"):
             await query.answer()
@@ -6683,17 +6681,27 @@ async def handle_location_share(update: Update, context: ContextTypes.DEFAULT_TY
         )
         return
     
+    # Check if user came from rates flow
+    rates_mode = context.user_data.get('rates_mode', False)
+    context.user_data['rates_mode'] = False  # Reset
+    
     # Send back to callback-based UI with store list
-    text = "📍 *Stores Near You*\n\n"
-    text += "Select a store to get started:\n\n"
+    if rates_mode:
+        text = "📍 *Stores Near You*\n\nTap a store to see rates:\n\n"
+    else:
+        text = "📍 *Stores Near You*\n\nSelect a store to get started:\n\n"
     
     buttons = []
     for store in nearest:
         # Format: Chain - Distance (Cycle, Cases) | City
         cycle = store.get('cycle', '?')
         cases = store.get('case_count', '?')
-        store_display = f"{store['chain']} - {store['distance_miles']}mi ({cycle} cycle, {cases} cases)"
-        buttons.append([InlineKeyboardButton(store_display, callback_data=f"nearme_{store['store_num']}")])
+        if rates_mode:
+            store_display = f"💰 {store['chain']} - {store['distance_miles']}mi | {store['city']}"
+            buttons.append([InlineKeyboardButton(store_display, callback_data=f"action_rates_{store['store_num']}")])
+        else:
+            store_display = f"{store['chain']} - {store['distance_miles']}mi ({cycle} cycle, {cases} cases)"
+            buttons.append([InlineKeyboardButton(store_display, callback_data=f"nearme_{store['store_num']}")])
     
     buttons.append([InlineKeyboardButton("⬅️ Main Menu", callback_data="main_menu")])
     
