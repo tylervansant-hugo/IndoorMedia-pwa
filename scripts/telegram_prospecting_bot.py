@@ -83,6 +83,46 @@ def get_store_cycle(store: Dict) -> str:
 CITY_INDEX = build_city_index()
 CITIES_SORTED = sorted(CITY_INDEX.keys())
 
+# --- Rep Registry: Maps Telegram user IDs to contract system names ---
+# This maps known reps so contracts filter correctly
+REP_REGISTRY_FILE = WORKSPACE / "data" / "rep_registry.json"
+
+def load_rep_registry():
+    """Load the rep registry mapping Telegram IDs to contract names."""
+    if REP_REGISTRY_FILE.exists():
+        with open(REP_REGISTRY_FILE) as f:
+            return json.load(f)
+    return {}
+
+def save_rep_registry(registry):
+    """Save the rep registry."""
+    with open(REP_REGISTRY_FILE, 'w') as f:
+        json.dump(registry, f, indent=2)
+
+def get_contract_rep_name(update: Update) -> Optional[str]:
+    """Get the rep's contract system name from registry."""
+    user_id = str(update.effective_user.id) if update.effective_user else None
+    if not user_id:
+        return None
+    registry = load_rep_registry()
+    return registry.get(user_id, {}).get('contract_name')
+
+def is_rep_registered(update: Update) -> bool:
+    """Check if a rep has completed login/registration."""
+    user_id = str(update.effective_user.id) if update.effective_user else None
+    if not user_id:
+        return False
+    registry = load_rep_registry()
+    return user_id in registry
+
+# Known rep names from contract system (for matching)
+KNOWN_CONTRACT_REPS = [
+    "Tyler VanSant", "Amy Dixon", "Ben Patacsil", "Megan Wink",
+    "Dave Boring", "Adan Ramos", "Christian Johnson", "Marty",
+    "Matt Boozer", "Matthew Boozer", "Jan", "Meghan Wink",
+    "Rick Diamond", "Richard Diamond",
+]
+
 # --- Data Persistence & Rep Tracking ---
 # Load video library
 VIDEO_LIBRARY = {}
@@ -758,11 +798,11 @@ CATEGORIES = {
 
 
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    """Start command — clear any old keyboards, set menu button, show main menu."""
+    """Start command — check rep registration, then show main menu."""
     chat_id = update.effective_chat.id
     logger.info(f"🚀 START command received from {update.effective_user.username or update.effective_user.id}")
     
-    # Initialize/register rep
+    # Initialize/register rep in prospect data
     rep_id = get_rep_id(update)
     rep_name = get_rep_name(update)
     data_obj = load_prospect_data()
@@ -797,7 +837,35 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     except Exception as e:
         logger.warning(f"Menu button error: {e}")
     
+    # Check if rep is registered in the rep registry
+    if not is_rep_registered(update):
+        await show_rep_login(update, context)
+        return
+    
     await show_main_menu(update, context)
+
+
+async def show_rep_login(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    """Show rep login/identification screen."""
+    buttons = []
+    # Show known reps as buttons for easy login
+    rep_names_shown = set()
+    for name in KNOWN_CONTRACT_REPS:
+        # Deduplicate similar names
+        short = name.split()[0]  # First name
+        if short in rep_names_shown:
+            continue
+        rep_names_shown.add(short)
+        buttons.append([InlineKeyboardButton(f"👤 {name}", callback_data=f"rep_login_{name}")])
+    
+    buttons.append([InlineKeyboardButton("🆕 I'm New", callback_data="rep_login_new")])
+    
+    await update.effective_chat.send_message(
+        "👋 *Welcome to IndoorMediaProspectBot!*\n\n"
+        "Who are you? Select your name to get started:",
+        parse_mode="Markdown",
+        reply_markup=InlineKeyboardMarkup(buttons)
+    )
 
 
 async def menu(update: Update, context: ContextTypes.DEFAULT_TYPE):
@@ -965,6 +1033,30 @@ async def handle_store_query(update: Update, context: ContextTypes.DEFAULT_TYPE)
     # Handle text menu shortcuts
     text_lower = text.lower()
     if text_lower in ("menu", "help", "start"):
+        await show_main_menu(update, context)
+        return
+    
+    # Handle new rep registration name input
+    if context.user_data.get('awaiting_rep_name'):
+        context.user_data['awaiting_rep_name'] = False
+        user_id = str(update.effective_user.id)
+        new_name = text.strip()
+        
+        registry = load_rep_registry()
+        registry[user_id] = {
+            "contract_name": new_name,
+            "display_name": new_name,
+            "role": "rep",
+            "registered_at": datetime.now().strftime("%Y-%m-%d"),
+        }
+        save_rep_registry(registry)
+        logger.info(f"✅ New rep registered: {new_name} (ID: {user_id})")
+        
+        await update.message.reply_text(
+            f"✅ *Welcome, {new_name}!*\n\nYou're registered. Loading your dashboard...",
+            parse_mode="Markdown"
+        )
+        await asyncio.sleep(1)
         await show_main_menu(update, context)
         return
     
@@ -5405,6 +5497,239 @@ async def handle_button_callback(update: Update, context: ContextTypes.DEFAULT_T
                 parse_mode="Markdown",
                 reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("⬅️ Main Menu", callback_data="main_menu")]])
             )
+        elif data.startswith("rep_login_"):
+            await query.answer()
+            login_value = data.replace("rep_login_", "")
+            user_id = str(update.effective_user.id)
+            
+            if login_value == "new":
+                # New rep — ask for name
+                context.user_data['awaiting_rep_name'] = True
+                await query.edit_message_text(
+                    "🆕 *New Rep Registration*\n\n"
+                    "Type your full name as it appears on contracts:\n\n"
+                    "_Example: Amy Dixon_",
+                    parse_mode="Markdown"
+                )
+            else:
+                # Known rep selected
+                registry = load_rep_registry()
+                registry[user_id] = {
+                    "contract_name": login_value,
+                    "display_name": login_value,
+                    "role": "manager" if "Tyler" in login_value else "rep",
+                    "registered_at": datetime.now().strftime("%Y-%m-%d"),
+                }
+                save_rep_registry(registry)
+                logger.info(f"✅ Rep logged in: {login_value} (ID: {user_id})")
+                
+                await query.edit_message_text(
+                    f"✅ *Welcome, {login_value}!*\n\nYou're all set. Loading your dashboard...",
+                    parse_mode="Markdown"
+                )
+                await asyncio.sleep(1)
+                await show_main_menu(update, context)
+        
+        elif data.startswith("customer_detail_"):
+            await query.answer()
+            idx = int(data.replace("customer_detail_", ""))
+            customers = context.user_data.get('customer_list', [])
+            if idx >= len(customers):
+                await query.edit_message_text("❌ Customer not found.")
+                return
+            
+            c = customers[idx]
+            business = c.get('business', '?')
+            owner = c.get('owner', '')
+            phone = c.get('phone', '')
+            email = c.get('email', '')
+            address = c.get('address', '')
+            amount = c.get('amount', 0)
+            store = c.get('store', '')
+            store_number = c.get('store_number', '')
+            rep = c.get('rep', '')
+            date = c.get('date', '')
+            
+            # Build detail card
+            msg = f"🏢 *{business}*\n\n"
+            if owner:
+                msg += f"👤 *Contact:* {owner}\n"
+            if phone:
+                msg += f"📞 *Phone:* {phone}\n"
+            if email:
+                msg += f"📧 *Email:* {email}\n"
+            if address:
+                clean_addr = address.replace('\n', ', ').strip(', ')
+                msg += f"📍 *Address:* {clean_addr}\n"
+            msg += f"\n💰 *Deal:* ${amount:,.2f}\n"
+            if date:
+                msg += f"📅 *Signed:* {date}\n"
+            if store:
+                msg += f"🏪 *Store:* {store}"
+                if store_number:
+                    msg += f" ({store_number})"
+                msg += "\n"
+            if rep:
+                msg += f"👤 *Rep:* {rep}\n"
+            
+            # Calendar event preview
+            if 'next_event' in c:
+                event = c['next_event']
+                event_date = event.get('date', '').split('T')[0] if 'T' in event.get('date', '') else event.get('date', '')
+                msg += f"\n📅 *Next:* {event['title']} ({event_date})\n"
+            
+            # Buttons
+            buttons = []
+            buttons.append([InlineKeyboardButton("📅 Calendar Events", callback_data=f"customer_events_{idx}")])
+            buttons.append([InlineKeyboardButton("✉️ Draft Email", callback_data=f"customer_email_{idx}")])
+            
+            # Expansion suggestions button (nearby stores + upsell)
+            buttons.append([InlineKeyboardButton("🚀 Expansion Opportunities", callback_data=f"customer_expand_{idx}")])
+            
+            buttons.append([InlineKeyboardButton("⬅️ Back to Customers", callback_data="client_list")])
+            
+            # Store customer data in context for sub-actions
+            context.user_data['current_customer'] = c
+            context.user_data['current_customer_idx'] = idx
+            
+            await query.edit_message_text(msg, parse_mode="Markdown", reply_markup=InlineKeyboardMarkup(buttons))
+        
+        elif data.startswith("customer_events_"):
+            await query.answer("Loading calendar events...")
+            idx = int(data.replace("customer_events_", ""))
+            c = context.user_data.get('customer_list', [{}])[idx] if idx < len(context.user_data.get('customer_list', [])) else {}
+            business = c.get('business', '?')
+            
+            # Fetch calendar events matching this customer
+            events_found = []
+            try:
+                cmd = ["/opt/homebrew/bin/gog", "calendar", "list", "--json"]
+                result = subprocess.run(cmd, capture_output=True, text=True, timeout=30)
+                if result.returncode == 0:
+                    events = json.loads(result.stdout)
+                    if isinstance(events, dict):
+                        events = events.get("events", [])
+                    for event in events:
+                        if isinstance(event, dict):
+                            title = event.get("summary", "")
+                            if business.lower() in title.lower() or c.get('owner', '').lower() in title.lower():
+                                start = event.get("start", {})
+                                start_date = start.get("dateTime", start.get("date", ""))
+                                events_found.append({"title": title, "date": start_date})
+            except Exception as e:
+                logger.warning(f"Calendar fetch error: {e}")
+            
+            if events_found:
+                msg = f"📅 *Calendar Events — {business}*\n\n"
+                for ev in sorted(events_found, key=lambda x: x['date'])[:10]:
+                    date_str = ev['date'].split('T')[0] if 'T' in ev['date'] else ev['date']
+                    msg += f"• {ev['title']}\n  📆 {date_str}\n\n"
+            else:
+                msg = f"📅 *Calendar Events — {business}*\n\n_No upcoming events found._"
+            
+            buttons = [[InlineKeyboardButton("⬅️ Back", callback_data=f"customer_detail_{idx}")]]
+            await query.edit_message_text(msg, parse_mode="Markdown", reply_markup=InlineKeyboardMarkup(buttons))
+        
+        elif data.startswith("customer_email_"):
+            await query.answer()
+            idx = int(data.replace("customer_email_", ""))
+            c = context.user_data.get('customer_list', [{}])[idx] if idx < len(context.user_data.get('customer_list', [])) else {}
+            business = c.get('business', '?')
+            owner = c.get('owner', '')
+            email = c.get('email', '')
+            store = c.get('store', '')
+            rep_name = get_rep_name(update)
+            
+            # Draft a check-in / follow-up email
+            subject = f"Checking in — {business} & IndoorMedia"
+            body = (
+                f"Hi {owner or 'there'},\n\n"
+                f"I wanted to check in and see how everything is going with your register tape campaign "
+                f"at {store}. We love having {business} as a partner!\n\n"
+                f"A few things I'd love to discuss:\n"
+                f"• How the campaign is performing for you\n"
+                f"• Any updates to your ad or messaging\n"
+                f"• Opportunities to expand to nearby stores\n\n"
+                f"Would you have a few minutes this week to connect?\n\n"
+                f"Best,\n{rep_name}\nIndoorMedia"
+            )
+            
+            msg = f"✉️ *Draft Email — {business}*\n\n"
+            if email:
+                msg += f"*To:* {email}\n"
+            msg += f"*Subject:* {subject}\n\n"
+            msg += f"```\n{body}\n```"
+            
+            buttons = []
+            if email:
+                mailto = f"mailto:{email}?subject={urllib.parse.quote(subject)}&body={urllib.parse.quote(body)}"
+                buttons.append([InlineKeyboardButton("📧 Open in Email", url=mailto)])
+            buttons.append([InlineKeyboardButton("⬅️ Back", callback_data=f"customer_detail_{idx}")])
+            
+            await query.edit_message_text(msg, parse_mode="Markdown", reply_markup=InlineKeyboardMarkup(buttons))
+        
+        elif data.startswith("customer_expand_"):
+            await query.answer("Finding expansion opportunities...")
+            idx = int(data.replace("customer_expand_", ""))
+            c = context.user_data.get('customer_list', [{}])[idx] if idx < len(context.user_data.get('customer_list', [])) else {}
+            business = c.get('business', '?')
+            store_number = c.get('store_number', '')
+            
+            msg = f"🚀 *Expansion — {business}*\n\n"
+            
+            # Find the store they're in to get nearby stores
+            full_store_num = None
+            for sn in STORES:
+                if store_number and store_number in sn:
+                    full_store_num = sn
+                    break
+            
+            buttons = []
+            
+            if full_store_num and full_store_num in STORES:
+                store_data = STORES[full_store_num]
+                city = store_data.get('City', '')
+                state = store_data.get('State', '')
+                chain = store_data.get('GroceryChain', '')
+                
+                msg += f"📍 *Current:* {chain} — {city}, {state} ({full_store_num})\n\n"
+                
+                # Find nearby stores in same city or neighboring cities
+                nearby_stores = []
+                for sn, sd in STORES.items():
+                    if sn == full_store_num:
+                        continue
+                    if sd.get('City', '') == city and sd.get('State', '') == state:
+                        nearby_stores.append(sn)
+                
+                if nearby_stores:
+                    msg += f"🏪 *Nearby Stores in {city}* ({len(nearby_stores)}):\n"
+                    for ns in nearby_stores[:8]:
+                        ns_data = STORES[ns]
+                        ns_chain = ns_data.get('GroceryChain', '')
+                        msg += f"• {ns} — {ns_chain}\n"
+                        buttons.append([InlineKeyboardButton(f"💰 {ns} Rates", callback_data=f"action_rates_{ns}")])
+                    if len(nearby_stores) > 8:
+                        msg += f"  _...and {len(nearby_stores) - 8} more_\n"
+                else:
+                    msg += f"_No other stores found in {city}_\n"
+                
+                msg += "\n"
+            
+            # Upsell products they might not have
+            msg += "📦 *Product Upsell Opportunities:*\n"
+            msg += "• 🚀 DigitalBoost — Geofence ads near the store\n"
+            msg += "• 📍 FindLocal — SEO/listings management\n"
+            msg += "• ⭐ ReviewBoost — Automated review campaigns\n"
+            msg += "• 💎 LoyaltyBoost — Customer loyalty program\n"
+            msg += "• 🛒 Cartvertising — Cart ads (Child Seat/Nose)\n"
+            
+            buttons.append([InlineKeyboardButton("📱 Digital Products", callback_data="menu_digital")])
+            buttons.append([InlineKeyboardButton("🛒 Cartvertising", callback_data="menu_cartvertising")])
+            buttons.append([InlineKeyboardButton("⬅️ Back", callback_data=f"customer_detail_{idx}")])
+            
+            await query.edit_message_text(msg, parse_mode="Markdown", reply_markup=InlineKeyboardMarkup(buttons))
+        
         elif data == "main_menu" or data == "back_menu":
             await query.answer()
             await show_main_menu(update, context)
@@ -6564,12 +6889,18 @@ async def handle_audit_flow(update: Update, context: ContextTypes.DEFAULT_TYPE):
     )
 
 async def show_client_list(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    """Show list of closed customers (completed deals)."""
+    """Show list of closed customers (completed deals), filtered by rep."""
     query = update.callback_query
     await query.answer()
     
     rep_id = get_rep_id(update)
+    contract_name = get_contract_rep_name(update)
     rep_name = get_rep_name(update)
+    
+    # Determine if this is a manager (sees all) or rep (sees own)
+    registry = load_rep_registry()
+    rep_info = registry.get(rep_id, {})
+    is_manager = rep_info.get('role') == 'manager'
     
     # Load contracts (closed deals)
     contracts_file = WORKSPACE / "data" / "contracts.json"
@@ -6582,15 +6913,12 @@ async def show_client_list(update: Update, context: ContextTypes.DEFAULT_TYPE):
             
             contracts = contracts_data.get("contracts", [])
             
-            # Filter by rep (if not Tyler, show only their deals; if Tyler, show all)
-            is_tyler = "Tyler" in rep_name
-            
             for c in contracts:
                 if isinstance(c, dict):
                     rep = c.get("sales_rep", "")
                     
-                    # Include if Tyler (show all) or if rep matches
-                    if is_tyler or rep == rep_name:
+                    # Filter: managers see all, reps see only their own
+                    if is_manager or rep == contract_name or rep == rep_name:
                         closed_customers.append({
                             "business": c.get("business_name", "Unknown"),
                             "owner": c.get("contact_name", ""),
@@ -6616,9 +6944,8 @@ async def show_client_list(update: Update, context: ContextTypes.DEFAULT_TYPE):
         return
     
     # Get upcoming calendar events
-    upcoming_events = {}
     try:
-        cmd = ["gog", "calendar", "list", "--json"]
+        cmd = ["/opt/homebrew/bin/gog", "calendar", "list", "--json"]
         result = subprocess.run(cmd, capture_output=True, text=True, timeout=30)
         if result.returncode == 0:
             events = json.loads(result.stdout)
@@ -6631,43 +6958,41 @@ async def show_client_list(update: Update, context: ContextTypes.DEFAULT_TYPE):
                     start = event.get("start", {})
                     start_date = start.get("dateTime", start.get("date", ""))
                     
-                    # Match to customer
                     for customer in closed_customers:
                         biz = customer.get("business", "")
                         if biz and biz.lower() in title.lower():
-                            customer["next_event"] = {
-                                "title": title,
-                                "date": start_date
-                            }
+                            customer["next_event"] = {"title": title, "date": start_date}
                             break
     except Exception as e:
         logger.warning(f"Could not fetch calendar: {e}")
     
-    # Build message
-    msg = "👥 *My Customers*\n\n"
+    # Store customer list in context for detail views
+    sorted_customers = sorted(closed_customers, key=lambda x: x.get("date", ""), reverse=True)
+    context.user_data['customer_list'] = sorted_customers
+    
+    # Build message with summary
     total_revenue = sum(c.get("amount", 0) for c in closed_customers)
+    title = "👥 *My Customers*" if not is_manager else "👥 *All Customers*"
+    msg = f"{title}\n\n"
     msg += f"💰 Total Revenue: ${total_revenue:,.2f}\n"
-    msg += f"📊 Closed Deals: {len(closed_customers)}\n\n"
+    msg += f"📊 Deals: {len(closed_customers)}\n\n"
+    msg += "Tap a customer to view details:"
     
-    msg += "*Recent Deals:*\n"
-    for c in sorted(closed_customers, key=lambda x: x.get("date", ""), reverse=True)[:10]:
-        business = c.get("business", "?")
-        owner = c.get("owner", "")
-        amount = c.get("amount", 0)
-        rep = c.get("rep", "")
-        
-        msg += f"• {business}"
-        if owner:
-            msg += f" ({owner})"
-        msg += f"\n  💰 ${amount:,.2f} | 👤 {rep}\n"
-        
-        if "next_event" in c:
-            event = c["next_event"]
-            event_date = event.get("date", "").split("T")[0] if "T" in event.get("date", "") else event.get("date", "")
-            msg += f"  📅 {event['title']} ({event_date})\n"
-        msg += "\n"
+    # Clickable customer buttons
+    buttons = []
+    for i, c in enumerate(sorted_customers[:15]):
+        business = c.get('business', '?')
+        amount = c.get('amount', 0)
+        rep = c.get('rep', '')
+        label = f"🏢 {business} — ${amount:,.0f}"
+        if is_manager and rep:
+            label += f" ({rep.split()[0]})"
+        buttons.append([InlineKeyboardButton(label, callback_data=f"customer_detail_{i}")])
     
-    buttons = [[InlineKeyboardButton("⬅️ Main Menu", callback_data="main_menu")]]
+    if len(sorted_customers) > 15:
+        buttons.append([InlineKeyboardButton(f"📋 Show All ({len(sorted_customers)})", callback_data="client_list_all")])
+    
+    buttons.append([InlineKeyboardButton("⬅️ Main Menu", callback_data="main_menu")])
     await query.edit_message_text(msg, parse_mode="Markdown", reply_markup=InlineKeyboardMarkup(buttons))
 
 async def handle_location_share(update: Update, context: ContextTypes.DEFAULT_TYPE):
