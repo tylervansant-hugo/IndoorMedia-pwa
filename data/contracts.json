@@ -275,6 +275,23 @@
       "address": "535 ne Columbia blvd",
       "customer_city_state": "Portland, OR 97211",
       "extracted_at": "2026-03-12T01:48:26.060077"
+    },
+    {
+      "contract_number": "J426699E",
+      "date": "3/13/2026",
+      "business_name": "Enza Cafe + Wood Fired Pizza",
+      "contact_name": "David Sullivan",
+      "contact_email": "Cafeenza@gmail.com",
+      "contact_phone": "(541) 769-0309",
+      "sales_rep": "Megan Wink",
+      "store_name": "",
+      "store_number": "Safeway-1489",
+      "product_description": "Single",
+      "total_amount": 4085.0,
+      "payment_date": "3/13/2026",
+      "address": "418 E 2nd St",
+      "customer_city_state": "The Dalles, OR 97058",
+      "extracted_at": "2026-03-12T20:00:05.580569"
     }
   ],
   "last_scan": "2026-03-08T15:11:11.119957"

@@ -1,0 +1,19 @@
+{
+  "date": "03/12/2026",
+  "name": "Rio",
+  "business": "Sumo sushi",
+  "address": "205 Kelso Dr. Kelso WA",
+  "phone": "3609982499",
+  "coupons_frequency": "week",
+  "coupons_count": 6,
+  "ticket_price": "51.00",
+  "roi_rating": "EXCELLENT",
+  "duration": "2 months",
+  "renew": "YES",
+  "recommend": "YES",
+  "comments": "Even early on we are seeing significant return on investment.  We are very pleased with the program.",
+  "grocery_chain": "Safeway",
+  "zone": "07Z",
+  "store_number": "2637",
+  "coupon_image": "/var/folders/2q/fkw5f4c15hdd8c42hrbx0s8h0000gn/T/tmpiby4xnoz.jpg"
+}

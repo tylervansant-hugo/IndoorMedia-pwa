@@ -1171,6 +1171,48 @@ async def handle_store_query(update: Update, context: ContextTypes.DEFAULT_TYPE)
         return
     
     # Handle prospect notes if awaiting
+    if context.user_data.get('awaiting_event_note'):
+        context.user_data['awaiting_event_note'] = False
+        event_id = context.user_data.get('current_event_id', '')
+        cust_idx = context.user_data.get('current_event_cust_idx', 0)
+        event_idx = context.user_data.get('current_event_idx', 0)
+        
+        if event_id:
+            # Save note to file
+            notes_file = WORKSPACE / "data" / "event_notes.json"
+            event_notes = {}
+            try:
+                if notes_file.exists():
+                    with open(notes_file) as f:
+                        event_notes = json.load(f)
+            except:
+                pass
+            
+            # Append note with timestamp and rep name
+            rep_name = get_rep_name(update)
+            timestamp = datetime.now().strftime("%m/%d %I:%M%p")
+            new_note = f"[{timestamp} — {rep_name}] {text}"
+            
+            if event_notes.get(event_id):
+                event_notes[event_id] += f"\n{new_note}"
+            else:
+                event_notes[event_id] = new_note
+            
+            with open(notes_file, 'w') as f:
+                json.dump(event_notes, f, indent=2)
+            
+            await update.message.reply_text(
+                f"✅ *Note saved!*\n\n📝 {text}",
+                parse_mode="Markdown",
+                reply_markup=InlineKeyboardMarkup([
+                    [InlineKeyboardButton("📅 Back to Event", callback_data=f"event_detail_{cust_idx}_{event_idx}")],
+                    [InlineKeyboardButton("⬅️ Back to Events", callback_data=f"customer_events_{cust_idx}")],
+                ])
+            )
+        else:
+            await update.message.reply_text("❌ Could not save note — event not found.")
+        return
+    
     if context.user_data.get(AWAITING_PROSPECT_NOTE):
         prospect_id = context.user_data.pop(AWAITING_PROSPECT_NOTE)
         prospect = context.user_data.get('prospects', {}).get(prospect_id, {})
@@ -5736,14 +5778,25 @@ async def handle_button_callback(update: Update, context: ContextTypes.DEFAULT_T
             business = c.get('business', '?')
             owner = c.get('owner', '')
             store_number = c.get('store_number', '')
+            contract_num = c.get('contract_number', '')
             
             # IndoorMedia event prefixes — ONLY show these
             im_prefixes = ['📦 Install', '🔍 Audit', '🔄 Check-in', '🔁 Renewal']
             
+            # Load notes
+            notes_file = WORKSPACE / "data" / "event_notes.json"
+            event_notes = {}
+            try:
+                if notes_file.exists():
+                    with open(notes_file) as f:
+                        event_notes = json.load(f)
+            except:
+                pass
+            
             # Fetch calendar events matching this customer
             events_found = []
             try:
-                cmd = ["/opt/homebrew/bin/gog", "calendar", "list", "--json", "--max", "200"]
+                cmd = ["/opt/homebrew/bin/gog", "calendar", "list", "--json", "--max", "500"]
                 result = subprocess.run(cmd, capture_output=True, text=True, timeout=30)
                 if result.returncode == 0:
                     events = json.loads(result.stdout)
@@ -5752,11 +5805,9 @@ async def handle_button_callback(update: Update, context: ContextTypes.DEFAULT_T
                     for event in events:
                         if isinstance(event, dict):
                             title = event.get("summary", "")
-                            # Must be an IndoorMedia event (starts with our emoji prefixes)
                             is_im_event = any(title.startswith(p) for p in im_prefixes)
                             if not is_im_event:
                                 continue
-                            # Must match this customer's business, owner, or store
                             title_lower = title.lower()
                             match = False
                             if business and business.lower() in title_lower:
@@ -5768,22 +5819,122 @@ async def handle_button_callback(update: Update, context: ContextTypes.DEFAULT_T
                             if match:
                                 start = event.get("start", {})
                                 start_date = start.get("dateTime", start.get("date", ""))
-                                events_found.append({"title": title, "date": start_date})
+                                event_id = event.get("id", "")
+                                events_found.append({
+                                    "title": title,
+                                    "date": start_date,
+                                    "event_id": event_id,
+                                })
             except Exception as e:
                 logger.warning(f"Calendar fetch error: {e}")
             
-            if events_found:
+            # Store events in context for note-taking
+            sorted_events = sorted(events_found, key=lambda x: x['date'])
+            context.user_data['customer_events'] = sorted_events
+            
+            if sorted_events:
                 msg = f"📅 *Events — {business}*\n\n"
-                for ev in sorted(events_found, key=lambda x: x['date'])[:15]:
+                msg += "_Tap an event to view details or add notes:_\n"
+                
+                buttons = []
+                for i, ev in enumerate(sorted_events[:20]):
                     date_str = ev['date'].split('T')[0] if 'T' in ev['date'] else ev['date']
-                    # Clean up emoji prefix for display
                     title = ev['title']
-                    msg += f"• {title}\n  📆 {date_str}\n\n"
+                    # Shorten for button label
+                    if '📦' in title:
+                        label = f"📦 Install — {date_str}"
+                    elif '🔍' in title:
+                        label = f"🔍 Audit — {date_str}"
+                    elif '🔄' in title:
+                        # Extract check-in number
+                        cnum = re.search(r'#(\d+)', title)
+                        label = f"🔄 Check-in #{cnum.group(1) if cnum else '?'} — {date_str}"
+                    elif '🔁' in title:
+                        label = f"🔁 Renewal — {date_str}"
+                    else:
+                        label = f"{title[:25]} — {date_str}"
+                    
+                    # Show note indicator
+                    eid = ev.get('event_id', '')
+                    if eid and event_notes.get(eid):
+                        label = f"📝 {label}"
+                    
+                    buttons.append([InlineKeyboardButton(label, callback_data=f"event_detail_{idx}_{i}")])
             else:
                 msg = f"📅 *Events — {business}*\n\n_No IndoorMedia events found._"
+                buttons = []
             
-            buttons = [[InlineKeyboardButton("⬅️ Back", callback_data=f"customer_detail_{idx}")]]
+            buttons.append([InlineKeyboardButton("⬅️ Back", callback_data=f"customer_detail_{idx}")])
             await query.edit_message_text(msg, parse_mode="Markdown", reply_markup=InlineKeyboardMarkup(buttons))
+        
+        elif data.startswith("event_detail_"):
+            await query.answer()
+            parts = data.replace("event_detail_", "").split("_")
+            cust_idx = int(parts[0])
+            event_idx = int(parts[1])
+            
+            events_list = context.user_data.get('customer_events', [])
+            if event_idx >= len(events_list):
+                await query.edit_message_text("❌ Event not found.")
+                return
+            
+            ev = events_list[event_idx]
+            title = ev.get('title', '?')
+            date_str = ev['date'].split('T')[0] if 'T' in ev.get('date', '') else ev.get('date', '')
+            event_id = ev.get('event_id', '')
+            
+            # Load notes for this event
+            notes_file = WORKSPACE / "data" / "event_notes.json"
+            event_notes = {}
+            try:
+                if notes_file.exists():
+                    with open(notes_file) as f:
+                        event_notes = json.load(f)
+            except:
+                pass
+            
+            note = event_notes.get(event_id, '')
+            
+            msg = f"📅 *{title}*\n\n"
+            msg += f"📆 *Date:* {date_str}\n"
+            
+            if note:
+                msg += f"\n📝 *Notes:*\n{note}\n"
+            else:
+                msg += f"\n📝 _No notes yet_\n"
+            
+            buttons = [
+                [InlineKeyboardButton("📝 Add/Edit Note", callback_data=f"event_note_{cust_idx}_{event_idx}")],
+                [InlineKeyboardButton("⬅️ Back to Events", callback_data=f"customer_events_{cust_idx}")],
+            ]
+            
+            context.user_data['current_event_id'] = event_id
+            context.user_data['current_event_cust_idx'] = cust_idx
+            context.user_data['current_event_idx'] = event_idx
+            
+            await query.edit_message_text(msg, parse_mode="Markdown", reply_markup=InlineKeyboardMarkup(buttons))
+        
+        elif data.startswith("event_note_"):
+            await query.answer()
+            parts = data.replace("event_note_", "").split("_")
+            cust_idx = int(parts[0])
+            event_idx = int(parts[1])
+            
+            events_list = context.user_data.get('customer_events', [])
+            ev = events_list[event_idx] if event_idx < len(events_list) else {}
+            title = ev.get('title', 'this event')
+            
+            context.user_data['awaiting_event_note'] = True
+            context.user_data['current_event_id'] = ev.get('event_id', '')
+            context.user_data['current_event_cust_idx'] = cust_idx
+            context.user_data['current_event_idx'] = event_idx
+            
+            await query.edit_message_text(
+                f"📝 *Add Note*\n\n"
+                f"Event: {title}\n\n"
+                f"Type your note below:",
+                parse_mode="Markdown"
+            )
         
         elif data.startswith("customer_email_"):
             await query.answer()

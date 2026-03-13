@@ -1,0 +1,19 @@
+{
+  "date": "03/12/2026",
+  "name": "ZZ",
+  "business": "China Buffet",
+  "address": "1410 W 6th Street The Dalles, Oregon",
+  "phone": "541-769-0140",
+  "coupons_frequency": "week",
+  "coupons_count": 70,
+  "ticket_price": "40.00",
+  "roi_rating": "EXCELLENT",
+  "duration": "2 months",
+  "renew": "YES",
+  "recommend": "YES",
+  "comments": "We have participated in the program for just 2 months so far. Already we are seeing an average of 10 customers per day bringing in the coupon! At a $40 average ticket, this is $400 revenue EACH DAY! This puts us on pace for a $100,000+ profit from Fred Meyer alone. Thank you to our rep, Meghan Wink, for choosing us and for providing us great customer service!",
+  "grocery_chain": "Fred Meyer",
+  "zone": "07Z",
+  "store_number": "0372",
+  "coupon_image": "/var/folders/2q/fkw5f4c15hdd8c42hrbx0s8h0000gn/T/tmpkc0v86fz.jpg"
+}
