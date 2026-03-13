@@ -8,6 +8,7 @@ import json
 import logging
 import sys
 import os
+import re
 import asyncio
 import urllib.parse
 import hashlib
@@ -3883,8 +3884,14 @@ def draft_smart_appointment_email(business_name: str, owner_name: str, category:
         "financial services": "financial and insurance professionals",
         "insurance": "insurance professionals and agencies",
         "dispensary": "dispensaries and specialty retailers",
+        "cannabis": "dispensaries and cannabis retailers",
         "kids": "child care and learning centers",
         "childcare": "child care and learning centers",
+        "daycare": "daycares and preschools",
+        "preschool": "preschools and learning centers",
+        "senior": "senior living and adult care facilities",
+        "assisted living": "senior living communities",
+        "adult care": "adult day care and senior centers",
         "clothing": "clothing boutiques and retailers",
     }
     cat_lower = (category or '').lower().strip()
@@ -4005,6 +4012,13 @@ def draft_roi_email(business_name: str, owner_name: str, rep_name: str, store_re
         "insurance": "insurance professionals are building stronger local client bases",
         "kids": "child care and learning centers are filling spots faster through local awareness",
         "childcare": "child care and learning centers are filling spots faster through local awareness",
+        "daycare": "daycares and learning centers are seeing stronger enrollment through local family outreach",
+        "preschool": "preschools are attracting more families through targeted local visibility",
+        "senior": "senior living and adult care facilities are building trust with local families",
+        "assisted living": "assisted living communities are connecting with families during critical decision moments",
+        "adult care": "adult care centers are gaining visibility with local caregivers and families",
+        "dispensary": "dispensaries are building loyal customer bases through consistent local awareness",
+        "cannabis": "cannabis retailers are seeing strong repeat traffic and customer loyalty",
         "clothing": "boutique retailers are attracting style-conscious local shoppers",
         "retail": "retail shops are seeing 15-20% more foot traffic",
         "bakery": "bakeries and food shops are seeing increased weekday and weekend traffic",
