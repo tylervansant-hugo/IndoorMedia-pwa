@@ -306,7 +306,8 @@ def calculate_event_dates(est_start_str):
     audit_date = install_date + timedelta(days=45)
     
     # Check-ins every 45 days after audit, until renewal
-    renewal_date = install_date + timedelta(days=8*30)  # ~8 months
+    # Standard contract: 4 quarters = 12 months from estimated start
+    renewal_date = est_start + timedelta(days=365)
     
     checkins = []
     next_checkin = audit_date + timedelta(days=45)
