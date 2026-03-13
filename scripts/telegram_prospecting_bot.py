@@ -5796,7 +5796,9 @@ async def handle_button_callback(update: Update, context: ContextTypes.DEFAULT_T
             # Fetch calendar events matching this customer
             events_found = []
             try:
-                cmd = ["/opt/homebrew/bin/gog", "calendar", "list", "--json", "--max", "500"]
+                cmd = ["/opt/homebrew/bin/gog", "calendar", "list", "--json", "--max", "500",
+                       "--from", datetime.now().strftime("%Y-%m-%d"),
+                       "--to", (datetime.now() + timedelta(days=400)).strftime("%Y-%m-%d")]
                 result = subprocess.run(cmd, capture_output=True, text=True, timeout=30)
                 if result.returncode == 0:
                     events = json.loads(result.stdout)

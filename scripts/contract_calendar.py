@@ -233,7 +233,7 @@ def parse_contract_pdf(pdf_path):
     
     # Store info from Register Tape line
     # Pattern: StoreName-NNNN (ZoneCode)\nAddress\nEst. Start: XX MM/DD/YYYY\nAd type
-    m = re.search(r'Register Tape\s*\n*([\w]+-\d+)\s*\((\w+)\)\s*\n(.+?)\n.*?Est\.\s*Start:\s*\w*\s*(\d{1,2}/\d{1,2}/\d{4})', text, re.DOTALL)
+    m = re.search(r'Register Tape\s*\n*([\w][\w\s]*?-\d+)\s*\((\w+)\)\s*\n(.+?)\n.*?Est\.\s*Start:\s*\w*\s*(\d{1,2}/\d{1,2}/\d{4})', text, re.DOTALL)
     if m:
         contract['store_number'] = m.group(1)
         contract['zone'] = m.group(2)
@@ -251,21 +251,24 @@ def parse_contract_pdf(pdf_path):
             if city_match:
                 contract['city'] = city_match.group(1).strip()
     
-    # Store chain name (e.g., "Safeway" from "Safeway-1762")
+    # Store chain name (e.g., "Safeway" from "Safeway-1762" or "Fred Meyer" from "Fred Meyer-0208")
     if contract.get('store_number'):
-        chain_match = re.match(r'([A-Za-z]+)', contract['store_number'])
+        chain_match = re.match(r'(.+?)-\d+', contract['store_number'])
         if chain_match:
-            chain_code = chain_match.group(1)
-            # Map common codes to names
-            chain_map = {
-                'SAF': 'Safeway', 'FME': 'Fred Meyer', 'ALB': 'Albertsons',
-                'KRO': 'Kroger', 'HAG': 'Haggen', 'VON': 'Vons',
-                'RAL': 'Ralphs', 'QFC': 'QFC', 'STB': 'Stater Bros',
-                'FF4': 'Food 4 Less', 'HEB': 'HEB', 'SMI': 'Smiths',
-                'KSO': 'King Soopers', 'TOM': 'Tom Thumb',
-            }
-            # Try first 3 chars
-            contract['chain_name'] = chain_map.get(chain_code[:3], chain_code)
+            chain_name = chain_match.group(1).strip()
+            contract['chain_name'] = chain_name
+        else:
+            chain_match = re.match(r'([A-Za-z]+)', contract['store_number'])
+            if chain_match:
+                chain_code = chain_match.group(1)
+                chain_map = {
+                    'SAF': 'Safeway', 'FME': 'Fred Meyer', 'ALB': 'Albertsons',
+                    'KRO': 'Kroger', 'HAG': 'Haggen', 'VON': 'Vons',
+                    'RAL': 'Ralphs', 'QFC': 'QFC', 'STB': 'Stater Bros',
+                    'FF4': 'Food 4 Less', 'HEB': 'HEB', 'SMI': 'Smiths',
+                    'KSO': 'King Soopers', 'TOM': 'Tom Thumb',
+                }
+                contract['chain_name'] = chain_map.get(chain_code[:3], chain_code)
     
     # Ad type
     m = re.search(r'(Single|Double)\s+Ad', text)
