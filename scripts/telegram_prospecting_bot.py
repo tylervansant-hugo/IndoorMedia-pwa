@@ -490,9 +490,19 @@ NATIONAL_BRANDS = {
         "walmart", "target", "costco", "best buy", "home depot", "lowes", "ace hardware",
         "dollar general", "dollar tree", "five below", "tjmaxx", "marshalls",
     ],
-    # Kids
+    # Kids / Care Centers
     "Kids": [
         "daycare", "preschool", "montessori", "learning center", "kindercare", "child care",
+        "childcare", "after school", "tutoring", "goddard", "primrose", "bright horizons",
+    ],
+    # Adult / Senior Care
+    "Senior Care": [
+        "assisted living", "senior living", "retirement", "nursing home", "memory care",
+        "adult day care", "senior center", "brookdale", "sunrise senior",
+    ],
+    # Dispensaries
+    "Dispensary": [
+        "dispensary", "cannabis", "marijuana", "weed", "420",
     ],
     # Financial Services
     "Financial Services": [
@@ -890,6 +900,33 @@ CATEGORIES = {
             "types": ["liquor_store"],
             "keyword": "liquor wine beer spirits",
             "exclude": ["grocery", "safeway", "fred meyer"]
+        },
+        "Dispensary": {
+            "types": ["store"],
+            "keyword": "dispensary cannabis marijuana weed",
+            "exclude": ["pharmacy", "medical center"]
+        }
+    },
+    "👶 Care Centers": {
+        "Child Care/Day Care": {
+            "types": ["school"],
+            "keyword": "daycare day care child care childcare preschool learning center montessori",
+            "exclude": ["high school", "middle school", "elementary school", "university", "college"]
+        },
+        "After School Program": {
+            "types": ["school"],
+            "keyword": "after school program tutoring enrichment kids center",
+            "exclude": ["university", "college"]
+        },
+        "Adult Day Care": {
+            "types": ["health"],
+            "keyword": "adult day care senior center adult care elderly care",
+            "exclude": ["hospital", "emergency"]
+        },
+        "Assisted Living": {
+            "types": ["health"],
+            "keyword": "assisted living senior living retirement home nursing home memory care",
+            "exclude": ["hospital", "emergency room"]
         }
     }
 }
