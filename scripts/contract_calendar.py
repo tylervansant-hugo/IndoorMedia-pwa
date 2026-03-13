@@ -302,11 +302,13 @@ def calculate_event_dates(est_start_str):
     """Calculate all calendar event dates from the Est. Start date.
     
     Timeline (from install date):
-    - Day 0: Install
-    - Day 45: Audit
-    - Day 90: Temperature Check
-    - Day 180: Temperature Check
-    - Day 270: Renewal Conversation #1
+    - Day 0: Install (Q1)
+    - Day 45: Audit #1 + Check-in
+    - Day 90: Install (Q2) + Check-in
+    - Day 135: Audit #2 + Check-in
+    - Day 180: Install (Q3) + Check-in
+    - Day 225: Audit #3 + Check-in
+    - Day 270: Install (Q4) + Renewal Conversation #1
     - Day 300: Renewal Conversation #2
     - Day 330: Renewal Conversation #3 (final)
     - Day 365: Renewal
@@ -314,16 +316,24 @@ def calculate_event_dates(est_start_str):
     est_start = parse_date(est_start_str)
     
     install_date = est_start - timedelta(days=10)
-    audit_date = install_date + timedelta(days=45)
     renewal_date = install_date + timedelta(days=365)
     
-    # Temperature checks at 90 and 180 days from install
-    temp_checks = [
+    # Quarterly installs at 0, 90, 180, 270 days
+    installs = [
+        install_date,
         install_date + timedelta(days=90),
         install_date + timedelta(days=180),
+        install_date + timedelta(days=270),
     ]
     
-    # Renewal conversations at 270, 300, and 330 days from install
+    # Audits at 45, 135, 225 days  
+    audits = [
+        install_date + timedelta(days=45),
+        install_date + timedelta(days=135),
+        install_date + timedelta(days=225),
+    ]
+    
+    # Renewal conversations at 270, 300, and 330 days
     renewal_conversations = [
         install_date + timedelta(days=270),
         install_date + timedelta(days=300),
@@ -331,9 +341,8 @@ def calculate_event_dates(est_start_str):
     ]
     
     return {
-        'install': install_date,
-        'audit': audit_date,
-        'temp_checks': temp_checks,
+        'installs': installs,
+        'audits': audits,
         'renewal_conversations': renewal_conversations,
         'renewal': renewal_date,
     }
@@ -403,38 +412,32 @@ def process_contract(contract):
     print(f"   Est. Start: {est_start}")
     print(f"   Creating calendar events...\n")
     
-    # 1. Install - 10 days before Est. Start
-    create_calendar_event(
-        summary=f"📦 Install: {biz} at {chain}, {city}, {store_num}",
-        date=dates['install'],
-        attendees=attendees,
-        description=f"INSTALL\n{desc_base}\n\nInstall tape at store 10 days before circulation start.",
-        color=9  # Blue
-    )
-    
-    # 2. Audit - 45 days after install
-    create_calendar_event(
-        summary=f"🔍 Audit: {chain}, {city}, {store_num} — check in w/ {customer}/{biz}",
-        date=dates['audit'],
-        attendees=attendees,
-        description=f"AUDIT & CHECK-IN\n{desc_base}\n\nVerify tape is displayed correctly. Check in with {customer} at {biz}.",
-        color=7  # Teal
-    )
-    
-    # 3. Temperature Checks at 90 and 180 days
-    for temp_check_date in dates['temp_checks']:
-        days_in = (temp_check_date - dates['install']).days
+    # 1. Quarterly Installs (Q1, Q2, Q3, Q4)
+    for i, install_date in enumerate(dates['installs'], 1):
+        days_in = (install_date - dates['installs'][0]).days
+        quarter = i
         create_calendar_event(
-            summary=f"🌡️ Temperature Check: {chain}, {city}, {store_num} — {customer}/{biz}",
-            date=temp_check_date,
+            summary=f"📦 Install Q{quarter}: {biz} at {chain}, {city}, {store_num}",
+            date=install_date,
             attendees=attendees,
-            description=f"TEMPERATURE CHECK ({days_in} days in)\n{desc_base}\n\nCheck in on satisfaction with {customer} at {biz}.",
-            color=6  # Banana
+            description=f"INSTALL QUARTER {quarter} ({days_in} days in)\n{desc_base}\n\nInstall tape at {biz}.",
+            color=9  # Blue
         )
     
-    # 4. Renewal Conversations at 270, 300, and 330 days
+    # 2. Audits (with check-ins)
+    for i, audit_date in enumerate(dates['audits'], 1):
+        days_in = (audit_date - dates['installs'][0]).days
+        create_calendar_event(
+            summary=f"🔍 Audit #{i}: {chain}, {city}, {store_num} — check in w/ {customer}/{biz}",
+            date=audit_date,
+            attendees=attendees,
+            description=f"AUDIT & CHECK-IN #{i} ({days_in} days in)\n{desc_base}\n\nVerify tape display. Check in with {customer} at {biz}.",
+            color=7  # Teal
+        )
+    
+    # 3. Renewal Conversations (starting at day 270)
     for i, renewal_conv_date in enumerate(dates['renewal_conversations'], 1):
-        days_in = (renewal_conv_date - dates['install']).days
+        days_in = (renewal_conv_date - dates['installs'][0]).days
         create_calendar_event(
             summary=f"♻️ Renewal Conversation #{i}: {chain}, {city}, {store_num} — {customer}/{biz}",
             date=renewal_conv_date,
@@ -443,7 +446,7 @@ def process_contract(contract):
             color=3  # Blueberry
         )
     
-    # 5. Renewal - 1 year from install
+    # 4. Final Renewal Date (1 year from install)
     create_calendar_event(
         summary=f"🔁 Renewal: {biz} ({customer}) — {chain}, {city}",
         date=dates['renewal'],
