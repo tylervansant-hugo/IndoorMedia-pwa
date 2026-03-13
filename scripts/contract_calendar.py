@@ -299,28 +299,42 @@ def parse_date(date_str):
 
 
 def calculate_event_dates(est_start_str):
-    """Calculate all calendar event dates from the Est. Start date."""
+    """Calculate all calendar event dates from the Est. Start date.
+    
+    Timeline (from install date):
+    - Day 0: Install
+    - Day 45: Audit
+    - Day 90: Temperature Check
+    - Day 180: Temperature Check
+    - Day 270: Renewal Conversation #1
+    - Day 300: Renewal Conversation #2
+    - Day 330: Renewal Conversation #3 (final)
+    - Day 365: Renewal
+    """
     est_start = parse_date(est_start_str)
     
     install_date = est_start - timedelta(days=10)
     audit_date = install_date + timedelta(days=45)
+    renewal_date = install_date + timedelta(days=365)
     
-    # Check-ins every 45 days after audit, until renewal
-    # Standard contract: 4 quarters = 12 months from estimated start
-    renewal_date = est_start + timedelta(days=365)
+    # Temperature checks at 90 and 180 days from install
+    temp_checks = [
+        install_date + timedelta(days=90),
+        install_date + timedelta(days=180),
+    ]
     
-    checkins = []
-    next_checkin = audit_date + timedelta(days=45)
-    checkin_num = 1
-    while next_checkin < renewal_date:
-        checkins.append((checkin_num, next_checkin))
-        checkin_num += 1
-        next_checkin += timedelta(days=45)
+    # Renewal conversations at 270, 300, and 330 days from install
+    renewal_conversations = [
+        install_date + timedelta(days=270),
+        install_date + timedelta(days=300),
+        install_date + timedelta(days=330),
+    ]
     
     return {
         'install': install_date,
         'audit': audit_date,
-        'checkins': checkins,
+        'temp_checks': temp_checks,
+        'renewal_conversations': renewal_conversations,
         'renewal': renewal_date,
     }
 
@@ -407,22 +421,34 @@ def process_contract(contract):
         color=7  # Teal
     )
     
-    # 3. Ongoing 45-day check-ins
-    for num, checkin_date in dates['checkins']:
+    # 3. Temperature Checks at 90 and 180 days
+    for temp_check_date in dates['temp_checks']:
+        days_in = (temp_check_date - dates['install']).days
         create_calendar_event(
-            summary=f"🔄 Check-in #{num}: {chain}, {city}, {store_num} — {customer}/{biz}",
-            date=checkin_date,
+            summary=f"🌡️ Temperature Check: {chain}, {city}, {store_num} — {customer}/{biz}",
+            date=temp_check_date,
             attendees=attendees,
-            description=f"45-DAY CHECK-IN #{num}\n{desc_base}\n\nRegular check-in with {customer} at {biz}.",
-            color=10  # Green
+            description=f"TEMPERATURE CHECK ({days_in} days in)\n{desc_base}\n\nCheck in on satisfaction with {customer} at {biz}.",
+            color=6  # Banana
         )
     
-    # 4. Renewal - 8 months from install
+    # 4. Renewal Conversations at 270, 300, and 330 days
+    for i, renewal_conv_date in enumerate(dates['renewal_conversations'], 1):
+        days_in = (renewal_conv_date - dates['install']).days
+        create_calendar_event(
+            summary=f"♻️ Renewal Conversation #{i}: {chain}, {city}, {store_num} — {customer}/{biz}",
+            date=renewal_conv_date,
+            attendees=attendees,
+            description=f"RENEWAL CONVERSATION #{i} ({days_in} days in)\n{desc_base}\n\nDiscuss renewal options with {customer} at {biz}.",
+            color=3  # Blueberry
+        )
+    
+    # 5. Renewal - 1 year from install
     create_calendar_event(
         summary=f"🔁 Renewal: {biz} ({customer}) — {chain}, {city}",
         date=dates['renewal'],
         attendees=attendees,
-        description=f"RENEWAL REMINDER\n{desc_base}\n\n8 months since install. Begin renewal conversation with {customer} at {biz}.",
+        description=f"RENEWAL DATE\n{desc_base}\n\n1 year since install. Renewal date for {customer} at {biz}.",
         color=11  # Red
     )
     
