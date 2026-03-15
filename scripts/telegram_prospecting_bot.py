@@ -987,13 +987,6 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     # Clear any stale awaiting states from previous interactions
     clear_awaiting_states(context)
     
-    # Remove any lingering reply keyboard
-    cleanup = await update.effective_chat.send_message(
-        "🔄",
-        reply_markup=ReplyKeyboardRemove()
-    )
-    await cleanup.delete()
-    
     # Set menu button for this specific chat
     try:
         await context.bot.set_chat_menu_button(
