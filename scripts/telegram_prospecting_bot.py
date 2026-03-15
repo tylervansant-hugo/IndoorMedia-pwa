@@ -968,6 +968,14 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     chat_id = update.effective_chat.id
     logger.info(f"🚀 START command received from {update.effective_user.username or update.effective_user.id}")
     
+    # Guard against duplicate /start within 2 seconds
+    last_start = context.user_data.get('last_start_time')
+    now = datetime.now()
+    if last_start and (now - last_start).total_seconds() < 2:
+        logger.warning(f"⏭️ Ignoring duplicate /start command (within 2 seconds)")
+        return
+    context.user_data['last_start_time'] = now
+    
     # Initialize/register rep in prospect data
     rep_id = get_rep_id(update)
     rep_name = get_rep_name(update)
