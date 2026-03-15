@@ -5646,6 +5646,7 @@ async def handle_button_callback(update: Update, context: ContextTypes.DEFAULT_T
                         contracts_data = json.load(f)
                     all_contracts = contracts_data.get("contracts", []) if isinstance(contracts_data, dict) else []
                     all_contracts = [c for c in all_contracts if c and isinstance(c, dict)]
+                    logger.info(f"📊 Monthly leaderboard: Loaded {len(all_contracts)} contracts from disk (fresh data)")
             except Exception as e:
                 logger.error(f"Error loading contracts for monthly view: {e}")
             
