@@ -1198,62 +1198,62 @@ async def handle_store_query(update: Update, context: ContextTypes.DEFAULT_TYPE)
     logger.info(f"📥 Query: {text}")
     
     # Handle main menu buttons (ReplyKeyboardMarkup text-based)
-    if text == "📍 FIND STORES NEAR ME":
+    if text == "🗺️  LOCATE STORES":
         context.user_data['find_stores_mode'] = True
-        await update.message.reply_text("📍 Enter a store number or city name:", reply_markup=ReplyKeyboardRemove())
+        await update.message.reply_text("🗺️  Enter a store number or city name:", reply_markup=ReplyKeyboardRemove())
         return
-    elif text == "🔍 PROSPECTING":
+    elif text == "🎯 PROSPECT & QUALIFY":
         buttons = [
             [KeyboardButton("🔍 Find Prospects"), KeyboardButton("💾 Saved Prospects")],
             [KeyboardButton("🔄 Reset Search"), KeyboardButton("⬅️ Main Menu")],
         ]
         await update.message.reply_text(
-            "🔍 *PROSPECTING*\n\nFind and manage prospects.",
+            "🎯 *PROSPECT & QUALIFY*\n\nFind and manage prospects.",
             parse_mode="Markdown",
             reply_markup=ReplyKeyboardMarkup(buttons, resize_keyboard=True)
         )
         return
-    elif text == "👥 SALES MANAGEMENT":
+    elif text == "💼 MANAGE CUSTOMERS":
         buttons = [
             [KeyboardButton("👥 My Customers"), KeyboardButton("💳 My Sales")],
             [KeyboardButton("⬅️ Main Menu")],
         ]
         await update.message.reply_text(
-            "👥 *SALES MANAGEMENT*\n\nTrack customers and closed deals.",
+            "💼 *MANAGE CUSTOMERS*\n\nTrack customers and closed deals.",
             parse_mode="Markdown",
             reply_markup=ReplyKeyboardMarkup(buttons, resize_keyboard=True)
         )
         return
-    elif text == "🛍️ PRODUCTS":
+    elif text == "📦 PRODUCT LINEUP":
         buttons = [
             [KeyboardButton("📜 Register Tape"), KeyboardButton("🛒 Cartvertising")],
             [KeyboardButton("📱 Digital Products"), KeyboardButton("⬅️ Main Menu")],
         ]
         await update.message.reply_text(
-            "🛍️ *PRODUCTS*\n\nExplore register tape, cartvertising, and digital solutions.",
+            "📦 *PRODUCT LINEUP*\n\nExplore register tape, cartvertising, and digital solutions.",
             parse_mode="Markdown",
             reply_markup=ReplyKeyboardMarkup(buttons, resize_keyboard=True)
         )
         return
-    elif text == "📊 PERFORMANCE":
+    elif text == "📈 PERFORMANCE HUB":
         buttons = [
             [KeyboardButton("📊 Dashboard"), KeyboardButton("👥 Team Sales")],
             [KeyboardButton("📅 Leaderboard"), KeyboardButton("⬅️ Main Menu")],
         ]
         await update.message.reply_text(
-            "📊 *PERFORMANCE*\n\nView metrics and leaderboards.",
+            "📈 *PERFORMANCE HUB*\n\nView metrics and leaderboards.",
             parse_mode="Markdown",
             reply_markup=ReplyKeyboardMarkup(buttons, resize_keyboard=True)
         )
         return
-    elif text == "🛠️ TOOLS":
+    elif text == "⚙️  RESOURCES":
         buttons = [
             [KeyboardButton("📊 ROI Calc"), KeyboardButton("📋 Testimonials")],
             [KeyboardButton("📝 Submit Testimonial"), KeyboardButton("🏪 Audit Store")],
             [KeyboardButton("⬅️ Main Menu")],
         ]
         await update.message.reply_text(
-            "🛠️ *TOOLS*\n\nSearch, audit, and utilities.",
+            "⚙️  *RESOURCES*\n\nSearch, audit, and utilities.",
             parse_mode="Markdown",
             reply_markup=ReplyKeyboardMarkup(buttons, resize_keyboard=True)
         )
@@ -3418,17 +3418,19 @@ async def show_main_menu(update: Update, context: ContextTypes.DEFAULT_TYPE):
     else:
         notepad_section = ""
     
-    menu_text = f"""🎯 *IndoorMediaProspectBot*
-Find customers, close deals, track results{notepad_section}"""
+    menu_text = f"""🔴 *INDOORMEDIA*
+*Sales Command Center*
+
+Find customers • Close deals • Track results{notepad_section}"""
     
-    # Large, full-width buttons with bigger emojis
+    # Large, full-width buttons with IndoorMedia branding
     buttons = [
-        ["📍 FIND STORES NEAR ME"],
-        ["🔍 PROSPECTING"],
-        ["👥 SALES MANAGEMENT"],
-        ["🛍️ PRODUCTS"],
-        ["📊 PERFORMANCE"],
-        ["🛠️ TOOLS"],
+        ["🗺️  LOCATE STORES"],
+        ["🎯 PROSPECT & QUALIFY"],
+        ["💼 MANAGE CUSTOMERS"],
+        ["📦 PRODUCT LINEUP"],
+        ["📈 PERFORMANCE HUB"],
+        ["⚙️  RESOURCES"],
     ]
     
     if isinstance(update, Update) and update.callback_query:
@@ -3456,7 +3458,7 @@ async def show_submenu_prospecting(update: Update, context: ContextTypes.DEFAULT
         [InlineKeyboardButton("⬅️ Main Menu", callback_data="main_menu")],
     ]
     await query.edit_message_text(
-        "🔍 *PROSPECTING*\n\nFind and manage prospects.",
+        "🎯 *PROSPECT & QUALIFY*\n\n_Find and qualify high-potential prospects_",
         parse_mode="Markdown",
         reply_markup=InlineKeyboardMarkup(buttons)
     )
@@ -3472,7 +3474,7 @@ async def show_submenu_sales(update: Update, context: ContextTypes.DEFAULT_TYPE)
         [InlineKeyboardButton("⬅️ Main Menu", callback_data="main_menu")],
     ]
     await query.edit_message_text(
-        "👥 *SALES MANAGEMENT*\n\nTrack customers and closed deals.",
+        "💼 *MANAGE CUSTOMERS*\n\n_Build your book of business_",
         parse_mode="Markdown",
         reply_markup=InlineKeyboardMarkup(buttons)
     )
@@ -3489,14 +3491,14 @@ async def show_submenu_performance(update: Update, context: ContextTypes.DEFAULT
         [InlineKeyboardButton("⬅️ Main Menu", callback_data="main_menu")],
     ]
     await query.edit_message_text(
-        "📊 *PERFORMANCE*\n\nView metrics and leaderboards.",
+        "📈 *PERFORMANCE HUB*\n\n_Track revenue and team progress_",
         parse_mode="Markdown",
         reply_markup=InlineKeyboardMarkup(buttons)
     )
 
 
 async def show_submenu_tools(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    """Show the Tools submenu."""
+    """Show the Resources submenu."""
     query = update.callback_query
     await query.answer()
     buttons = [
@@ -3507,7 +3509,7 @@ async def show_submenu_tools(update: Update, context: ContextTypes.DEFAULT_TYPE)
         [InlineKeyboardButton("⬅️ Main Menu", callback_data="main_menu")],
     ]
     await query.edit_message_text(
-        "🛠️ *TOOLS*\n\nSearch, audit, and utilities.",
+        "⚙️  *RESOURCES*\n\n_Tools for success_",
         parse_mode="Markdown",
         reply_markup=InlineKeyboardMarkup(buttons)
     )
@@ -3524,7 +3526,7 @@ async def show_submenu_products(update: Update, context: ContextTypes.DEFAULT_TY
         [InlineKeyboardButton("⬅️ Main Menu", callback_data="main_menu")],
     ]
     await query.edit_message_text(
-        "🛍️ *PRODUCTS*\n\nExplore register tape, cartvertising, and digital solutions.",
+        "📦 *PRODUCT LINEUP*\n\n_In-store + digital advertising solutions_",
         parse_mode="Markdown",
         reply_markup=InlineKeyboardMarkup(buttons)
     )
@@ -3541,7 +3543,7 @@ async def show_submenu_register_tape(update: Update, context: ContextTypes.DEFAU
         [InlineKeyboardButton("⬅️ Back to Products", callback_data="menu_products")],
     ]
     await query.edit_message_text(
-        "📜 *Register Tape*\n\nSales presentation & store rate lookup.",
+        "📜 *REGISTER TAPE*\n\n_In-store Point-of-Purchase Advertising_",
         parse_mode="Markdown",
         reply_markup=InlineKeyboardMarkup(buttons)
     )
@@ -3561,7 +3563,7 @@ async def show_submenu_cartvertising(update: Update, context: ContextTypes.DEFAU
         [InlineKeyboardButton("⬅️ Back to Products", callback_data="menu_products")],
     ]
     await query.edit_message_text(
-        "🛒 *CARTVERTISING*\n\nSales presentations & product options:",
+        "🛒 *CARTVERTISING*\n\n_Shopping Cart In-Store Advertising_",
         parse_mode="Markdown",
         reply_markup=InlineKeyboardMarkup(buttons)
     )
@@ -3582,7 +3584,7 @@ async def show_submenu_digital(update: Update, context: ContextTypes.DEFAULT_TYP
         [InlineKeyboardButton("⬅️ Back to Products", callback_data="menu_products")],
     ]
     await query.edit_message_text(
-        "📱 *DIGITAL PRODUCTS*\n\nSales presentations & product options:",
+        "📱 *DIGITAL PRODUCTS*\n\n_Online advertising & customer engagement_",
         parse_mode="Markdown",
         reply_markup=InlineKeyboardMarkup(buttons)
     )
@@ -3607,8 +3609,7 @@ async def show_product_child_seat(update: Update, context: ContextTypes.DEFAULT_
     buttons.append([InlineKeyboardButton("⬅️ Back", callback_data="menu_cartvertising")])
     
     await query.edit_message_text(
-        "🪑 *CHILD SEAT PRICING*\n\n"
-        "6-month campaigns • Select a package:",
+        "🪑 *CHILD SEAT ADVERTISING*\n\n_Target mothers with high-intent shopping behavior_",
         parse_mode="Markdown",
         reply_markup=InlineKeyboardMarkup(buttons)
     )
