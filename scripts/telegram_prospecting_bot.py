@@ -3336,7 +3336,7 @@ async def show_main_menu(update: Update, context: ContextTypes.DEFAULT_TYPE):
         notepad_section = ""
     
     menu_text = f"""🎯 *IndoorMediaProspectBot*
-Find prospects near any store{notepad_section}"""
+Find customers, close deals, track results{notepad_section}"""
     
     # Large, full-width buttons with bigger emojis
     buttons = [
