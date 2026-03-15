@@ -1326,9 +1326,57 @@ async def handle_store_query(update: Update, context: ContextTypes.DEFAULT_TYPE)
         )
         return
     elif text == "📱 Digital Products":
-        buttons = [[KeyboardButton("⬅️ Back to Products"), KeyboardButton("⬅️ Main Menu")]]
+        buttons = [
+            [KeyboardButton("🚀 DigitalBoost"), KeyboardButton("📍 FindLocal")],
+            [KeyboardButton("⭐ ReviewBoost"), KeyboardButton("💎 LoyaltyBoost")],
+            [KeyboardButton("⬅️ Back to Products"), KeyboardButton("⬅️ Main Menu")],
+        ]
         await update.message.reply_text(
-            "📱 *DIGITAL PRODUCTS*\n\n[Digital Products]",
+            "📱 *DIGITAL PRODUCTS*\n\nSales presentations & product options:\n\n🎬 Presentation: https://docs.google.com/presentation/d/1xwIF4CaTp07AKunGaJysCSIGqN7VCdbL4fgOH3XEpl4/edit?usp=sharing\n\n📹 Explainer: https://www.youtube.com/watch?v=PduxHWy8sMc\n\n🔗 Connection Hub: https://drive.google.com/file/d/199IkMptOlSYviHScKNKUlqELQOhWFxnB/view?usp=sharing",
+            parse_mode="Markdown",
+            reply_markup=ReplyKeyboardMarkup(buttons, resize_keyboard=True)
+        )
+        return
+    elif text == "🚀 DigitalBoost":
+        buttons = [
+            [KeyboardButton("📍 FindLocal"), KeyboardButton("⭐ ReviewBoost")],
+            [KeyboardButton("💎 LoyaltyBoost"), KeyboardButton("⬅️ Back to Products")],
+        ]
+        await update.message.reply_text(
+            "🚀 *DIGITALBOOST*\n\nGeofence pin delivering digital banner ads on mobile websites, games & apps.",
+            parse_mode="Markdown",
+            reply_markup=ReplyKeyboardMarkup(buttons, resize_keyboard=True)
+        )
+        return
+    elif text == "📍 FindLocal":
+        buttons = [
+            [KeyboardButton("🚀 DigitalBoost"), KeyboardButton("⭐ ReviewBoost")],
+            [KeyboardButton("💎 LoyaltyBoost"), KeyboardButton("⬅️ Back to Products")],
+        ]
+        await update.message.reply_text(
+            "📍 *FINDLOCAL*\n\nLocal search optimization & local business profile management.",
+            parse_mode="Markdown",
+            reply_markup=ReplyKeyboardMarkup(buttons, resize_keyboard=True)
+        )
+        return
+    elif text == "⭐ ReviewBoost":
+        buttons = [
+            [KeyboardButton("🚀 DigitalBoost"), KeyboardButton("📍 FindLocal")],
+            [KeyboardButton("💎 LoyaltyBoost"), KeyboardButton("⬅️ Back to Products")],
+        ]
+        await update.message.reply_text(
+            "⭐ *REVIEWBOOST*\n\nOnline review generation & reputation management.",
+            parse_mode="Markdown",
+            reply_markup=ReplyKeyboardMarkup(buttons, resize_keyboard=True)
+        )
+        return
+    elif text == "💎 LoyaltyBoost":
+        buttons = [
+            [KeyboardButton("🚀 DigitalBoost"), KeyboardButton("📍 FindLocal")],
+            [KeyboardButton("⭐ ReviewBoost"), KeyboardButton("⬅️ Back to Products")],
+        ]
+        await update.message.reply_text(
+            "💎 *LOYALTYBOOST*\n\nCustomer loyalty & retention program platform.",
             parse_mode="Markdown",
             reply_markup=ReplyKeyboardMarkup(buttons, resize_keyboard=True)
         )
@@ -3510,10 +3558,12 @@ async def show_submenu_cartvertising(update: Update, context: ContextTypes.DEFAU
 
 
 async def show_submenu_digital(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    """Show Digital Products submenu."""
+    """Show Digital Products submenu with presentation and explainer."""
     query = update.callback_query
     await query.answer()
     buttons = [
+        [InlineKeyboardButton("🎬 Presentation", url="https://docs.google.com/presentation/d/1xwIF4CaTp07AKunGaJysCSIGqN7VCdbL4fgOH3XEpl4/edit?usp=sharing")],
+        [InlineKeyboardButton("📹 Explainer Video", url="https://www.youtube.com/watch?v=PduxHWy8sMc")],
         [InlineKeyboardButton("🔗 Connection Hub", url="https://drive.google.com/file/d/199IkMptOlSYviHScKNKUlqELQOhWFxnB/view?usp=sharing")],
         [InlineKeyboardButton("🚀 DigitalBoost", callback_data="product_digitalboost")],
         [InlineKeyboardButton("📍 FindLocal", callback_data="product_findlocal")],
@@ -3522,7 +3572,7 @@ async def show_submenu_digital(update: Update, context: ContextTypes.DEFAULT_TYP
         [InlineKeyboardButton("⬅️ Back to Products", callback_data="menu_products")],
     ]
     await query.edit_message_text(
-        "📱 *DIGITAL PRODUCTS*\n\nSelect a product:",
+        "📱 *DIGITAL PRODUCTS*\n\nSales presentations & product options:",
         parse_mode="Markdown",
         reply_markup=InlineKeyboardMarkup(buttons)
     )
@@ -3741,6 +3791,7 @@ async def show_product_findlocal(update: Update, context: ContextTypes.DEFAULT_T
     
     buttons = [
         [InlineKeyboardButton("🎬 Presentation", url="https://drive.google.com/file/d/1rRdFgRWvuzaPJCwxqKzTqtjDtd642DuS/view?usp=sharing")],
+        [InlineKeyboardButton("📹 Explainer Video", url="https://drive.google.com/file/d/1_QyAlgZRy1bKJSKC1058260d0jPccVTM/view?usp=sharing")],
         [InlineKeyboardButton("⬅️ Back", callback_data="menu_digital")],
     ]
     await query.edit_message_text(text, parse_mode="Markdown", reply_markup=InlineKeyboardMarkup(buttons))
