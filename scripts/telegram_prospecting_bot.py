@@ -5691,7 +5691,7 @@ async def handle_button_callback(update: Update, context: ContextTypes.DEFAULT_T
             
             # Build message showing current month prominently
             current_month_key = today.strftime("%B %Y")
-            text = f"📅 *Monthly Leaderboard*\n\n"
+            text = f"📅 *Monthly Leaderboard* (Jan 2026 - Present)\n\n"
             
             if current_month_key in monthly_data:
                 text += f"*{current_month_key}* (Current)\n"
@@ -5716,13 +5716,15 @@ async def handle_button_callback(update: Update, context: ContextTypes.DEFAULT_T
                 
                 text += f"\n💼 *Month Total:* ${total_revenue:,.2f}\n"
             
-            # Show previous months with clickable buttons
-            other_months = sorted([k for k in monthly_data.keys() if k != current_month_key], reverse=True)
+            # Show ALL months (from Jan 2026 onwards) with clickable buttons
+            all_months = sorted([k for k in monthly_data.keys()], reverse=True)
+            other_months = [m for m in all_months if m != current_month_key]
+            
             if other_months:
-                text += f"\n*Previous Months:*"
+                text += f"\n*All Months (Jan 2026 - Present):*"
             
             buttons = []
-            for month_key in other_months[:6]:  # Show up to 6 previous months
+            for month_key in other_months:  # Show ALL months, not just 6
                 month_total = sum(r["total"] for r in monthly_data[month_key].values())
                 deal_count = sum(r["count"] for r in monthly_data[month_key].values())
                 # Encode month in callback (replace spaces/special chars)
