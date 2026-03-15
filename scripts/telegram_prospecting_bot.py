@@ -3310,7 +3310,7 @@ async def show_submenu_register_tape(update: Update, context: ContextTypes.DEFAU
         [InlineKeyboardButton("🎬 Presentation", url="https://docs.google.com/presentation/d/1Xs60nX3i6MJkC81GgnK-50jBrkWVPu06xRpmv8z4PIc/edit?usp=sharing")],
         [InlineKeyboardButton("📹 Explainer Video", url="https://youtu.be/_gdlyEszHfY?si=0_kHou89WrMhvNY_")],
         [InlineKeyboardButton("💰 Register Tape Rates", callback_data="rates_search")],
-        [InlineKeyboardButton("⬅️ Back to Tools", callback_data="menu_tools")],
+        [InlineKeyboardButton("⬅️ Back to Products", callback_data="menu_products")],
     ]
     await query.edit_message_text(
         "📜 *Register Tape*\n\nSales presentation & store rate lookup.",
@@ -3328,7 +3328,7 @@ async def show_submenu_cartvertising(update: Update, context: ContextTypes.DEFAU
     buttons = [
         [InlineKeyboardButton("🪑 Child Seat", callback_data="product_child_seat")],
         [InlineKeyboardButton("👃 Nose of Cart", callback_data="product_nose")],
-        [InlineKeyboardButton("⬅️ Back to Tools", callback_data="menu_tools")],
+        [InlineKeyboardButton("⬅️ Back to Products", callback_data="menu_products")],
     ]
     await query.edit_message_text(
         "🛒 *CARTVERTISING*\n\nSelect a product:",
@@ -3347,7 +3347,7 @@ async def show_submenu_digital(update: Update, context: ContextTypes.DEFAULT_TYP
         [InlineKeyboardButton("📍 FindLocal", callback_data="product_findlocal")],
         [InlineKeyboardButton("⭐ ReviewBoost", callback_data="product_reviewboost")],
         [InlineKeyboardButton("💎 LoyaltyBoost", callback_data="product_loyaltyboost")],
-        [InlineKeyboardButton("⬅️ Back to Tools", callback_data="menu_tools")],
+        [InlineKeyboardButton("⬅️ Back to Products", callback_data="menu_products")],
     ]
     await query.edit_message_text(
         "📱 *DIGITAL PRODUCTS*\n\nSelect a product:",
