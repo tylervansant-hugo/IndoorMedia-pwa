@@ -3198,6 +3198,7 @@ Find prospects near any store{notepad_section}"""
         [InlineKeyboardButton("📍 FIND STORES NEAR ME", callback_data="find_stores_near_me")],
         [InlineKeyboardButton("🔍 PROSPECTING", callback_data="menu_prospecting")],
         [InlineKeyboardButton("👥 SALES MANAGEMENT", callback_data="menu_sales")],
+        [InlineKeyboardButton("🛍️ PRODUCTS", callback_data="menu_products")],
         [InlineKeyboardButton("📊 PERFORMANCE", callback_data="menu_performance")],
         [InlineKeyboardButton("🛠️ TOOLS", callback_data="menu_tools")],
     ]
@@ -3275,13 +3276,27 @@ async def show_submenu_tools(update: Update, context: ContextTypes.DEFAULT_TYPE)
         [InlineKeyboardButton("📋 Testimonial Search", callback_data="testimonial_search")],
         [InlineKeyboardButton("📝 Submit Testimonial", callback_data="submit_testimonial")],
         [InlineKeyboardButton("🏪 Audit Store", callback_data="audit_store")],
+        [InlineKeyboardButton("⬅️ Main Menu", callback_data="main_menu")],
+    ]
+    await query.edit_message_text(
+        "🛠️ *TOOLS*\n\nSearch, audit, and utilities.",
+        parse_mode="Markdown",
+        reply_markup=InlineKeyboardMarkup(buttons)
+    )
+
+
+async def show_submenu_products(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    """Show the Products submenu."""
+    query = update.callback_query
+    await query.answer()
+    buttons = [
         [InlineKeyboardButton("📜 Register Tape", callback_data="menu_register_tape")],
         [InlineKeyboardButton("🛒 Cartvertising", callback_data="menu_cartvertising")],
         [InlineKeyboardButton("📱 Digital Products", callback_data="menu_digital")],
         [InlineKeyboardButton("⬅️ Main Menu", callback_data="main_menu")],
     ]
     await query.edit_message_text(
-        "🛠️ *TOOLS*\n\nSearch, audit, and product pricing.",
+        "🛍️ *PRODUCTS*\n\nExplore register tape, cartvertising, and digital solutions.",
         parse_mode="Markdown",
         reply_markup=InlineKeyboardMarkup(buttons)
     )
@@ -5714,6 +5729,8 @@ async def handle_button_callback(update: Update, context: ContextTypes.DEFAULT_T
             await show_submenu_performance(update, context)
         elif data == "menu_tools":
             await show_submenu_tools(update, context)
+        elif data == "menu_products":
+            await show_submenu_products(update, context)
         elif data == "menu_register_tape":
             await show_submenu_register_tape(update, context)
         elif data == "menu_cartvertising":
