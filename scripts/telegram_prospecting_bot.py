@@ -49,6 +49,36 @@ SCRIPTS_DIR = Path(__file__).parent
 if str(SCRIPTS_DIR) not in sys.path:
     sys.path.insert(0, str(SCRIPTS_DIR))
 
+# Navigation history management
+def push_nav(context: ContextTypes.DEFAULT_TYPE, screen_name: str, callback_data: str = None):
+    """Push current screen onto navigation stack."""
+    if 'nav_stack' not in context.user_data:
+        context.user_data['nav_stack'] = []
+    context.user_data['nav_stack'].append({
+        'screen': screen_name,
+        'callback': callback_data or 'main_menu'
+    })
+
+def pop_nav(context: ContextTypes.DEFAULT_TYPE) -> dict:
+    """Pop previous screen from navigation stack."""
+    if 'nav_stack' not in context.user_data or len(context.user_data['nav_stack']) == 0:
+        return {'screen': 'main_menu', 'callback': 'main_menu'}
+    return context.user_data['nav_stack'].pop()
+
+def get_nav_buttons(context: ContextTypes.DEFAULT_TYPE):
+    """
+    Get persistent navigation buttons (back + home).
+    Automatically uses navigation stack for back button.
+    """
+    back_screen = pop_nav(context)  # Get previous screen
+    push_nav(context, back_screen['screen'], back_screen['callback'])  # Push it back (non-destructive peek)
+    
+    buttons = [
+        InlineKeyboardButton("⬅️ Back", callback_data=f"back_{back_screen['callback']}"),
+        InlineKeyboardButton("🏠 Home", callback_data="main_menu")
+    ]
+    return [buttons]
+
 WORKSPACE = Path(__file__).parent.parent
 DATA_DIR = WORKSPACE / "data" / "store-rates"
 STORES_FILE = DATA_DIR / "stores.json"
@@ -4165,6 +4195,16 @@ async def handle_button_callback(update: Update, context: ContextTypes.DEFAULT_T
     data = query.data
     
     try:
+        # Handle universal back button
+        if data.startswith("back_"):
+            await query.answer()
+            prev_screen = pop_nav(context)
+            # Route to the previous screen's callback
+            # Re-trigger the callback data for that screen
+            new_callback = prev_screen['callback']
+            data = new_callback
+            # Fall through to handle the actual callback below
+        
         if data.startswith("expand_"):
             prospect_id = data.replace("expand_", "")
             prospect = context.user_data.get('prospects', {}).get(prospect_id, {})

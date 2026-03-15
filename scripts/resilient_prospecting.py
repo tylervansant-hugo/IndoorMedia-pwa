@@ -32,13 +32,9 @@ except Exception as e:
     FREE_API_AVAILABLE = False
     logger.warning(f"Free API module not available: {e}")
 
-try:
-    from fallback_prospects import get_fallback_prospects
-    FALLBACK_AVAILABLE = True
-except Exception as e:
-    FALLBACK_AVAILABLE = False
-    get_fallback_prospects = None
-    logger.warning(f"Fallback prospects module not available: {e}")
+# Fallback prospects disabled per Tyler's request - Mar 15, 2026
+FALLBACK_AVAILABLE = False
+get_fallback_prospects = None
 
 
 class ResilientProspectingEngine:
@@ -128,17 +124,11 @@ class ResilientProspectingEngine:
                 if self.cache:
                     self.cache.record_api_failure()
         
-        # Step 5: Fall back to sample/demo prospects
-        if self.fallback_available and get_fallback_prospects:
-            try:
-                logger.warning("⚠️ All APIs failed, using sample prospects")
-                prospects = get_fallback_prospects(category, limit)
-                return prospects, "📦 Sample prospects (APIs unavailable)"
-            except Exception as e:
-                logger.warning(f"Fallback also failed: {e}")
+        # Step 5: Fallback disabled per Tyler's request (Mar 15, 2026)
+        logger.warning("⚠️ All APIs failed - no fallback available")
         
         # Step 6: Fall back to cached results (even if stale)
-        logger.warning("⚠️ All APIs and fallback failed, using stale cache")
+        logger.warning("⚠️ All APIs failed, using stale cache")
         return self._get_cached_fallback(store_number, category, limit)
     
     def _get_cached_fallback(

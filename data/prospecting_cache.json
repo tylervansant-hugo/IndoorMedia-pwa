@@ -603,14 +603,14 @@
           "lat": 45.8173805,
           "lon": -122.6836101,
           "distance_miles": 0.83,
-          "likelihood_score": 87,
+          "likelihood_score": 77,
           "rating": 4.2,
           "user_ratings_total": 24,
           "phone": "+1 360-887-8201",
           "website": "http://lacocinarealwa.com/",
           "place_id": "ChIJG69j0-xNlFQRVd3Oo7lndQo",
           "opening_hours": {
-            "open_now": true
+            "open_now": false
           },
           "business_status": "OPERATIONAL",
           "price_level": 2,
@@ -623,42 +623,22 @@
           "lat": 45.8173875,
           "lon": -122.690306,
           "distance_miles": 0.52,
-          "likelihood_score": 84,
+          "likelihood_score": 74,
           "rating": 3.1,
           "user_ratings_total": 103,
           "phone": "+1 360-857-6194",
           "website": "https://locations.chipotle.com/wa/ridgefield/200-n.-56th-place?utm_source=google&utm_medium=yext&utm_campaign=yext_listings?restaurant=5165",
           "place_id": "ChIJSfWBl8NNlFQRTeaZbXru6P4",
           "opening_hours": {
-            "open_now": true
+            "open_now": false
           },
           "business_status": "OPERATIONAL",
           "price_level": 1,
           "source": "Google Places"
-        },
-        {
-          "name": "Country Cafe",
-          "type": "restaurant, point_of_interest, food, establishment",
-          "address": "6370 Pioneer St, Ridgefield",
-          "lat": 45.8173868,
-          "lon": -122.6835804,
-          "distance_miles": 0.83,
-          "likelihood_score": 86,
-          "rating": 4,
-          "user_ratings_total": 1223,
-          "phone": "+1 360-887-8201",
-          "website": "https://thebarkingbus.wixsite.com/countrycafewa",
-          "place_id": "ChIJI-lp2QFNlFQRUOuq-CQezPg",
-          "opening_hours": {
-            "open_now": true
-          },
-          "business_status": "OPERATIONAL",
-          "price_level": 2,
-          "source": "Google Places"
         }
       ],
-      "createdAt": "2026-03-11T16:37:41.677696",
-      "count": 3
+      "createdAt": "2026-03-14T06:37:50.123850",
+      "count": 2
     },
     "410e2986b5bfd719": {
       "storeNumber": "ROS07Z-0016",
@@ -1533,7 +1513,561 @@
       ],
       "createdAt": "2026-03-11T19:12:18.596857",
       "count": 4
+    },
+    "b72d8b51d3e3490c": {
+      "storeNumber": "FME07Z-0372",
+      "category": "child care/day care",
+      "prospects": [
+        {
+          "name": "Playful Learning",
+          "type": "school, point_of_interest, establishment",
+          "address": "516 W 13th St, The Dalles",
+          "lat": 45.5978449,
+          "lon": -121.196461,
+          "distance_miles": 0.64,
+          "likelihood_score": 73,
+          "rating": 5,
+          "user_ratings_total": 2,
+          "phone": "+1 541-705-7329",
+          "website": "http://playfullearningschool.com/",
+          "place_id": "ChIJzYQL29sdllQRcNWLds1uTt4",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        },
+        {
+          "name": "Child Care Partners",
+          "type": "university, point_of_interest, establishment",
+          "address": "400 E Scenic Dr, The Dalles",
+          "lat": 45.5907928,
+          "lon": -121.1901861,
+          "distance_miles": 1.2,
+          "likelihood_score": 65,
+          "rating": 5,
+          "user_ratings_total": 1,
+          "phone": "+1 541-506-6131",
+          "website": "http://www.cgcc.edu/ccp",
+          "place_id": "ChIJH1t6ZOYdllQRLsg0OF7ehlU",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        },
+        {
+          "name": "Sunshine Kids Preschool",
+          "type": "school, point_of_interest, establishment",
+          "address": "1721 W 10th St, The Dalles",
+          "lat": 45.607226,
+          "lon": -121.2090017,
+          "distance_miles": 0.46,
+          "likelihood_score": 62,
+          "rating": 4.5,
+          "user_ratings_total": 2,
+          "phone": "+1 541-298-6661",
+          "website": "https://www.cgesd.k12.or.us/page/sunshine-kids",
+          "place_id": "ChIJhWwwc9MdllQRy5rHTl8GBfM",
+          "opening_hours": {},
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        },
+        {
+          "name": "Oregon Child Development",
+          "type": "point_of_interest, establishment",
+          "address": "1300 W 9th St, The Dalles",
+          "lat": 45.6041803,
+          "lon": -121.2016291,
+          "distance_miles": 0.22,
+          "likelihood_score": 64,
+          "rating": 4,
+          "user_ratings_total": 3,
+          "phone": "+1 541-296-0100",
+          "website": "http://www.ocdc.net/",
+          "place_id": "ChIJbTOgu9YdllQR2BnJLv-Z9io",
+          "opening_hours": {},
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        },
+        {
+          "name": "Head Start",
+          "type": "school, point_of_interest, establishment",
+          "address": "1717 W 10th St, The Dalles",
+          "lat": 45.6070775,
+          "lon": -121.2088314,
+          "distance_miles": 0.46,
+          "likelihood_score": 65,
+          "rating": 5,
+          "user_ratings_total": 2,
+          "phone": "+1 541-298-8801",
+          "website": "https://mcccheadstart.org/head-start/",
+          "place_id": "ChIJIzQoc9MdllQRujqEBg0BrNg",
+          "opening_hours": {},
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        },
+        {
+          "name": "Four Rivers Early Learning Hub",
+          "type": "point_of_interest, establishment",
+          "address": "400 E Scenic Dr, The Dalles",
+          "lat": 45.5907512,
+          "lon": -121.1892243,
+          "distance_miles": 1.22,
+          "likelihood_score": 27,
+          "rating": null,
+          "user_ratings_total": 0,
+          "phone": "+1 541-506-2234",
+          "website": "https://fourriversfamily.org/connect",
+          "place_id": "ChIJB5NfHucdllQRtwBaCxR1Vwc",
+          "opening_hours": {
+            "open_now": false
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        },
+        {
+          "name": "Wasco County Early Intervention",
+          "type": "school, local_government_office, point_of_interest, establishment",
+          "address": "1721 W 10th St, The Dalles",
+          "lat": 45.607226,
+          "lon": -121.2090017,
+          "distance_miles": 0.46,
+          "likelihood_score": 45,
+          "rating": null,
+          "user_ratings_total": 0,
+          "phone": "+1 541-296-1478",
+          "website": "https://www.cgesd.k12.or.us/page/early-intervention-and-early-childhood-special-education",
+          "place_id": "ChIJIzQoc9MdllQRrgsayVPyS48",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        },
+        {
+          "name": "cgcapreschool",
+          "type": "school, point_of_interest, establishment",
+          "address": "909 Court St, The Dalles",
+          "lat": 45.5979123,
+          "lon": -121.18713,
+          "distance_miles": 0.86,
+          "likelihood_score": 31,
+          "rating": null,
+          "user_ratings_total": 0,
+          "phone": "+1 541-441-6665",
+          "website": "http://cgcapreschool.org/",
+          "place_id": "ChIJAQBQWd8dllQR0Gzg0C4EiM8",
+          "opening_hours": {},
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        },
+        {
+          "name": "Family Resource Home Care",
+          "type": "health, point_of_interest, establishment",
+          "address": "414 Washington St #1d, The Dalles",
+          "lat": 45.6000472,
+          "lon": -121.1827688,
+          "distance_miles": 0.93,
+          "likelihood_score": 82,
+          "rating": 4.4,
+          "user_ratings_total": 8,
+          "phone": "+1 541-769-1221",
+          "website": "https://www.familyresourcehomecare.com/locations/the-dalles-or/",
+          "place_id": "ChIJ4_TJIXQellQRff80ef6C-7k",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        },
+        {
+          "name": "St Mary's Academy",
+          "type": "school, point_of_interest, establishment",
+          "address": "1112 Cherry Heights Rd, The Dalles",
+          "lat": 45.6024292,
+          "lon": -121.2021832,
+          "distance_miles": 0.34,
+          "likelihood_score": 46,
+          "rating": null,
+          "user_ratings_total": 0,
+          "phone": "+1 541-296-6004",
+          "website": "http://www.smatd.org/",
+          "place_id": "ChIJob8TStEdllQReCMVaoW6aOI",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        }
+      ],
+      "createdAt": "2026-03-13T10:50:17.748852",
+      "count": 10
+    },
+    "3374c68de5e3532d": {
+      "storeNumber": "SAF07Y-1800",
+      "category": "all restaurants",
+      "prospects": [
+        {
+          "name": "BearKat Brewing Company",
+          "type": "bar, restaurant, food, point_of_interest, establishment",
+          "address": "20345 SW Pacific Hwy #404, Sherwood",
+          "lat": 45.3733204,
+          "lon": -122.8395806,
+          "distance_miles": 0.38,
+          "likelihood_score": 95,
+          "rating": 4.8,
+          "user_ratings_total": 57,
+          "phone": "+1 503-389-0159",
+          "website": "https://www.bearkatbrewing.com/",
+          "place_id": "ChIJA_TwZkRtlVQRD1nxvCUHlVI",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        },
+        {
+          "name": "Prime Tap House Sherwood",
+          "type": "restaurant, food, point_of_interest, establishment",
+          "address": "21536 SW Langer Farms Pkwy suite a101, Sherwood",
+          "lat": 45.3643111,
+          "lon": -122.8356574,
+          "distance_miles": 0.59,
+          "likelihood_score": 90,
+          "rating": 4.3,
+          "user_ratings_total": 73,
+          "phone": "+1 971-416-9710",
+          "website": "http://www.primetaphouse.com/",
+          "place_id": "ChIJp0KvAQBtlVQRIdUEj5ELdDI",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        },
+        {
+          "name": "Didi's Cafe",
+          "type": "restaurant, food, point_of_interest, establishment",
+          "address": "16784 SW Edy Rd UNIT 103, Sherwood",
+          "lat": 45.3661144,
+          "lon": -122.8504435,
+          "distance_miles": 0.35,
+          "likelihood_score": 95,
+          "rating": 4.9,
+          "user_ratings_total": 144,
+          "phone": "+1 503-610-1711",
+          "website": "http://www.didis-cafe.com/",
+          "place_id": "ChIJa9trenRtlVQRjBPUFb29uPc",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 2,
+          "source": "Google Places"
+        },
+        {
+          "name": "Clancy's",
+          "type": "bar, restaurant, food, point_of_interest, establishment",
+          "address": "16066 SW 1st St, Sherwood",
+          "lat": 45.356407,
+          "lon": -122.8414578,
+          "distance_miles": 0.93,
+          "likelihood_score": 87,
+          "rating": 4.5,
+          "user_ratings_total": 973,
+          "phone": "+1 503-625-6711",
+          "website": "https://www.clancyssherwood.com/",
+          "place_id": "ChIJP-WAAPFslVQRee8pQlYfOAI",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 2,
+          "source": "Google Places"
+        },
+        {
+          "name": "Sabye",
+          "type": "restaurant, food, point_of_interest, establishment",
+          "address": "16840 SW Edy Rd Suite 133, Sherwood",
+          "lat": 45.365206,
+          "lon": -122.8513902,
+          "distance_miles": 0.42,
+          "likelihood_score": 93,
+          "rating": 4.7,
+          "user_ratings_total": 386,
+          "phone": "+1 503-610-1897",
+          "website": "http://sabyestreetfoods.com/",
+          "place_id": "ChIJh8PNghZtlVQRyDxXgXrTbeE",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 2,
+          "source": "Google Places"
+        },
+        {
+          "name": "Mason",
+          "type": "restaurant, food, point_of_interest, establishment",
+          "address": "16065 SW Railroad St, Sherwood",
+          "lat": 45.356167,
+          "lon": -122.8408449,
+          "distance_miles": 0.95,
+          "likelihood_score": 88,
+          "rating": 4.7,
+          "user_ratings_total": 297,
+          "phone": "+1 503-625-5064",
+          "website": "http://masonrestaurantsherwood.com/",
+          "place_id": "ChIJfSOxHPFslVQRlV4jMBmMlDs",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 2,
+          "source": "Google Places"
+        },
+        {
+          "name": "Cooper Mountain Ale Works Old Town Sherwood",
+          "type": "restaurant, bar, meal_takeaway, food, point_of_interest, establishment",
+          "address": "22793 SW Pine St, Sherwood",
+          "lat": 45.3557679,
+          "lon": -122.8397107,
+          "distance_miles": 0.99,
+          "likelihood_score": 86,
+          "rating": 4.2,
+          "user_ratings_total": 66,
+          "phone": "+1 503-822-5751",
+          "website": "http://www.coopermountainaleworks.com/sherwood",
+          "place_id": "ChIJ5xE3GqFtlVQRtcdYcX9v4f8",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        },
+        {
+          "name": "KOMO Sushi",
+          "type": "restaurant, food, point_of_interest, establishment",
+          "address": "21558 SW Langer Farms Pkwy Suite 108, Sherwood",
+          "lat": 45.3639704,
+          "lon": -122.8358292,
+          "distance_miles": 0.6,
+          "likelihood_score": 92,
+          "rating": 4.6,
+          "user_ratings_total": 392,
+          "phone": "+1 503-822-5689",
+          "website": "https://www.komosushi.com/",
+          "place_id": "ChIJHyZMuLJtlVQRMu4wqHnCBN4",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 2,
+          "source": "Google Places"
+        },
+        {
+          "name": "Roxy's Island Grill - Sherwood",
+          "type": "restaurant, food, point_of_interest, establishment",
+          "address": "16068 SW Tualatin-Sherwood Rd, Sherwood",
+          "lat": 45.3685339,
+          "lon": -122.8441236,
+          "distance_miles": 0.09,
+          "likelihood_score": 94,
+          "rating": 4.1,
+          "user_ratings_total": 170,
+          "phone": "+1 503-822-5791",
+          "website": "https://www.roxysislandgrill.com/",
+          "place_id": "ChIJQ5b6vtRtlVQRrg34rSqLphc",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 1,
+          "source": "Google Places"
+        },
+        {
+          "name": "Tacos El Patron",
+          "type": "restaurant, food, point_of_interest, establishment",
+          "address": "20661 SW Roy Rogers Rd #501, Sherwood",
+          "lat": 45.37085090000001,
+          "lon": -122.8448818,
+          "distance_miles": 0.09,
+          "likelihood_score": 95,
+          "rating": 4.3,
+          "user_ratings_total": 107,
+          "phone": "+1 503-610-1104",
+          "website": "https://tacoselpatron.com/tacoselpatron-ehtkwy?utm_source=google",
+          "place_id": "ChIJW7CwNNxtlVQRVABp3gsfPeY",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        }
+      ],
+      "createdAt": "2026-03-13T18:07:56.434537",
+      "count": 10
+    },
+    "876099790667b04a": {
+      "storeNumber": "FME07Z-0372",
+      "category": "oil change/lube",
+      "prospects": [
+        {
+          "name": "COLUMBIA GORGE QUICK LUBE",
+          "type": "car_repair, point_of_interest, establishment",
+          "address": "1850 W 6th St, The Dalles",
+          "lat": 45.6108844,
+          "lon": -121.2073737,
+          "distance_miles": 0.47,
+          "likelihood_score": 80,
+          "rating": 4,
+          "user_ratings_total": 21,
+          "phone": "+1 541-296-2271",
+          "website": "http://columbiagorgetoyota.com/",
+          "place_id": "ChIJeR3SVSocllQRfowixBcaF98",
+          "opening_hours": {
+            "open_now": false
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        },
+        {
+          "name": "Valvoline Instant Oil Change",
+          "type": "car_repair, store, point_of_interest, establishment",
+          "address": "1011 W 8th Pl, The Dalles",
+          "lat": 45.60434,
+          "lon": -121.19855,
+          "distance_miles": 0.18,
+          "likelihood_score": 85,
+          "rating": 4.5,
+          "user_ratings_total": 368,
+          "phone": "+1 541-296-8505",
+          "website": "https://store.vioc.com/or/the-dalles/1011-w-8th-pl?utm_source=google&utm_medium=local&utm_campaign=localsearch",
+          "place_id": "ChIJxc7PXtYdllQRx3ruCIIj8Qg",
+          "opening_hours": {
+            "open_now": false
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        },
+        {
+          "name": "Gills Point S Tire & Auto Service",
+          "type": "car_repair, store, point_of_interest, establishment",
+          "address": "1116 W 2nd St, The Dalles",
+          "lat": 45.6079063,
+          "lon": -121.1976218,
+          "distance_miles": 0.11,
+          "likelihood_score": 86,
+          "rating": 4.6,
+          "user_ratings_total": 395,
+          "phone": "+1 541-298-5121",
+          "website": "https://gillspointstire.com/locations/1116-w-2nd-st-tire-store-26?utm_source=gmb&utm_medium=Yext",
+          "place_id": "ChIJdWNQan8ellQRCHUEy2dedF8",
+          "opening_hours": {
+            "open_now": false
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        },
+        {
+          "name": "AutoZone Auto Parts",
+          "type": "car_repair, store, point_of_interest, establishment",
+          "address": "801 W 2nd St, The Dalles",
+          "lat": 45.6061768,
+          "lon": -121.1918329,
+          "distance_miles": 0.37,
+          "likelihood_score": 82,
+          "rating": 4.3,
+          "user_ratings_total": 292,
+          "phone": "+1 541-397-6036",
+          "website": "https://www.autozone.com/locations/or/the-dalles/801-w-2nd-street.html?cmpid=LOC:US:EN:AD:NL:1000000:GEN:4185",
+          "place_id": "ChIJ_br3N_QfllQR0KcnGWzy6LE",
+          "opening_hours": {
+            "open_now": false
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        },
+        {
+          "name": "O'Reilly Auto Parts",
+          "type": "electronics_store, car_repair, store, point_of_interest, establishment",
+          "address": "1413 W 6th St, The Dalles",
+          "lat": 45.60820589999999,
+          "lon": -121.202157,
+          "distance_miles": 0.16,
+          "likelihood_score": 84,
+          "rating": 4.2,
+          "user_ratings_total": 230,
+          "phone": "+1 541-296-2108",
+          "website": "https://locations.oreillyauto.com/en-us/or/thedalles/autoparts-2535.html",
+          "place_id": "ChIJ9YFO4CocllQRrKIAuI2ZsT8",
+          "opening_hours": {
+            "open_now": false
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        },
+        {
+          "name": "C H Urness Motors Service & Parts",
+          "type": "car_repair, store, point_of_interest, establishment",
+          "address": "505 Cherry Heights Rd, The Dalles",
+          "lat": 45.6064416,
+          "lon": -121.196075,
+          "distance_miles": 0.16,
+          "likelihood_score": 82,
+          "rating": 3.8,
+          "user_ratings_total": 19,
+          "phone": "+1 541-402-2521",
+          "website": "https://www.churnessmotors.net/service-department/?utm_source=google&utm_medium=organic&utm_campaign=scgooglemybusiness",
+          "place_id": "ChIJvym-vR8fllQRFg3CIYXdJm8",
+          "opening_hours": {
+            "open_now": false
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        },
+        {
+          "name": "Qwik-Change Lube Center",
+          "type": "car_repair, point_of_interest, establishment",
+          "address": "700 E 2nd St, The Dalles",
+          "lat": 45.5986995,
+          "lon": -121.1768891,
+          "distance_miles": 1.23,
+          "likelihood_score": 75,
+          "rating": 4.6,
+          "user_ratings_total": 77,
+          "phone": "+1 541-296-2460",
+          "website": null,
+          "place_id": "ChIJXaetbXMellQRhxRPRl8wDeo",
+          "opening_hours": {},
+          "business_status": "CLOSED_PERMANENTLY",
+          "price_level": null,
+          "source": "Google Places"
+        }
+      ],
+      "createdAt": "2026-03-15T00:25:50.296825",
+      "count": 7
     }
   },
-  "lastUpdated": "2026-03-11T19:12:18.596875"
+  "lastUpdated": "2026-03-15T00:25:50.296840"
 }
