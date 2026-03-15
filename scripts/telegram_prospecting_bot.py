@@ -1009,7 +1009,19 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
         await show_rep_login(update, context)
         return
     
-    await show_main_menu(update, context)
+    # Show welcome with clean BEGIN button (no command text in chat)
+    welcome_text = f"""🔴 *INDOORMEDIA*
+*Sales Command Center*
+
+Welcome back, {rep_name}! Ready to find customers and close deals?"""
+    
+    buttons = [[InlineKeyboardButton("🚀 BEGIN", callback_data="begin_main_menu")]]
+    
+    await update.effective_chat.send_message(
+        welcome_text,
+        parse_mode="Markdown",
+        reply_markup=InlineKeyboardMarkup(buttons)
+    )
 
 
 async def show_rep_login(update: Update, context: ContextTypes.DEFAULT_TYPE):
@@ -6365,6 +6377,9 @@ async def handle_button_callback(update: Update, context: ContextTypes.DEFAULT_T
             
             await query.edit_message_text(msg, parse_mode="Markdown", reply_markup=InlineKeyboardMarkup(buttons))
         
+        elif data == "begin_main_menu":
+            await query.answer()
+            await show_main_menu(update, context)
         elif data == "main_menu" or data == "back_menu":
             await query.answer()
             await show_main_menu(update, context)
