@@ -1211,6 +1211,7 @@ async def handle_store_query(update: Update, context: ContextTypes.DEFAULT_TYPE)
         return
     elif text == "📍 Find Stores Near Me":
         context.user_data['find_stores_mode'] = True
+        context.user_data['waiting_for_location'] = True
         location_button = KeyboardButton("📍 Share My Location", request_location=True)
         keyboard = ReplyKeyboardMarkup([[location_button]], one_time_keyboard=True, resize_keyboard=True)
         await update.message.reply_text(
