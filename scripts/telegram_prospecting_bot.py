@@ -35,7 +35,7 @@ try:
 except ImportError:
     pass
 
-from telegram import Update, InlineKeyboardButton, InlineKeyboardMarkup, MenuButtonCommands, ReplyKeyboardRemove, KeyboardButton, ReplyKeyboardMarkup as TGReplyKeyboardMarkup
+from telegram import Update, InlineKeyboardButton, InlineKeyboardMarkup, MenuButtonCommands, ReplyKeyboardRemove, KeyboardButton, ReplyKeyboardMarkup
 from telegram.ext import Application, CommandHandler, MessageHandler, CallbackQueryHandler, ContextTypes, filters, ConversationHandler
 
 logging.basicConfig(
@@ -1196,6 +1196,150 @@ async def handle_store_query(update: Update, context: ContextTypes.DEFAULT_TYPE)
     text = update.message.text.strip()
     
     logger.info(f"📥 Query: {text}")
+    
+    # Handle main menu buttons (ReplyKeyboardMarkup text-based)
+    if text == "📍 FIND STORES NEAR ME":
+        context.user_data['find_stores_mode'] = True
+        await update.message.reply_text("📍 Enter a store number or city name:", reply_markup=ReplyKeyboardRemove())
+        return
+    elif text == "🔍 PROSPECTING":
+        buttons = [
+            [KeyboardButton("🔍 Find Prospects"), KeyboardButton("💾 Saved Prospects")],
+            [KeyboardButton("🔄 Reset Search"), KeyboardButton("⬅️ Main Menu")],
+        ]
+        await update.message.reply_text(
+            "🔍 *PROSPECTING*\n\nFind and manage prospects.",
+            parse_mode="Markdown",
+            reply_markup=ReplyKeyboardMarkup(buttons, resize_keyboard=True)
+        )
+        return
+    elif text == "👥 SALES MANAGEMENT":
+        buttons = [
+            [KeyboardButton("👥 My Customers"), KeyboardButton("💳 My Sales")],
+            [KeyboardButton("⬅️ Main Menu")],
+        ]
+        await update.message.reply_text(
+            "👥 *SALES MANAGEMENT*\n\nTrack customers and closed deals.",
+            parse_mode="Markdown",
+            reply_markup=ReplyKeyboardMarkup(buttons, resize_keyboard=True)
+        )
+        return
+    elif text == "🛍️ PRODUCTS":
+        buttons = [
+            [KeyboardButton("📜 Register Tape"), KeyboardButton("🛒 Cartvertising")],
+            [KeyboardButton("📱 Digital Products"), KeyboardButton("⬅️ Main Menu")],
+        ]
+        await update.message.reply_text(
+            "🛍️ *PRODUCTS*\n\nExplore register tape, cartvertising, and digital solutions.",
+            parse_mode="Markdown",
+            reply_markup=ReplyKeyboardMarkup(buttons, resize_keyboard=True)
+        )
+        return
+    elif text == "📊 PERFORMANCE":
+        buttons = [
+            [KeyboardButton("📊 Dashboard"), KeyboardButton("👥 Team Sales")],
+            [KeyboardButton("📅 Leaderboard"), KeyboardButton("⬅️ Main Menu")],
+        ]
+        await update.message.reply_text(
+            "📊 *PERFORMANCE*\n\nView metrics and leaderboards.",
+            parse_mode="Markdown",
+            reply_markup=ReplyKeyboardMarkup(buttons, resize_keyboard=True)
+        )
+        return
+    elif text == "🛠️ TOOLS":
+        buttons = [
+            [KeyboardButton("📊 ROI Calc"), KeyboardButton("📋 Testimonials")],
+            [KeyboardButton("📝 Submit Testimonial"), KeyboardButton("🏪 Audit Store")],
+            [KeyboardButton("⬅️ Main Menu")],
+        ]
+        await update.message.reply_text(
+            "🛠️ *TOOLS*\n\nSearch, audit, and utilities.",
+            parse_mode="Markdown",
+            reply_markup=ReplyKeyboardMarkup(buttons, resize_keyboard=True)
+        )
+        return
+    
+    # Handle submenu buttons
+    if text == "⬅️ Main Menu":
+        await show_main_menu(update, context)
+        return
+    elif text == "🔍 Find Prospects":
+        context.user_data['search_type'] = 'location'
+        await update.message.reply_text("🔍 Enter a store number or city name:", reply_markup=ReplyKeyboardRemove())
+        return
+    elif text == "💾 Saved Prospects":
+        context.user_data['view_saved'] = True
+        # This would normally call the saved prospects handler
+        await update.message.reply_text("Loading saved prospects...", reply_markup=ReplyKeyboardRemove())
+        return
+    elif text == "🔄 Reset Search":
+        context.user_data.clear()
+        await show_main_menu(update, context)
+        return
+    elif text == "👥 My Customers":
+        context.user_data['view_customers'] = True
+        await update.message.reply_text("Loading your customers...", reply_markup=ReplyKeyboardRemove())
+        return
+    elif text == "💳 My Sales":
+        context.user_data['view_sales'] = True
+        await update.message.reply_text("Loading your sales...", reply_markup=ReplyKeyboardRemove())
+        return
+    elif text == "📜 Register Tape":
+        buttons = [[KeyboardButton("⬅️ Back to Products"), KeyboardButton("⬅️ Main Menu")]]
+        await update.message.reply_text(
+            "📜 *REGISTER TAPE*\n\n[Presentation & Rates Info]",
+            parse_mode="Markdown",
+            reply_markup=ReplyKeyboardMarkup(buttons, resize_keyboard=True)
+        )
+        return
+    elif text == "🛒 Cartvertising":
+        buttons = [[KeyboardButton("⬅️ Back to Products"), KeyboardButton("⬅️ Main Menu")]]
+        await update.message.reply_text(
+            "🛒 *CARTVERTISING*\n\n[Cartvertising Products]",
+            parse_mode="Markdown",
+            reply_markup=ReplyKeyboardMarkup(buttons, resize_keyboard=True)
+        )
+        return
+    elif text == "📱 Digital Products":
+        buttons = [[KeyboardButton("⬅️ Back to Products"), KeyboardButton("⬅️ Main Menu")]]
+        await update.message.reply_text(
+            "📱 *DIGITAL PRODUCTS*\n\n[Digital Products]",
+            parse_mode="Markdown",
+            reply_markup=ReplyKeyboardMarkup(buttons, resize_keyboard=True)
+        )
+        return
+    elif text == "📊 Dashboard":
+        await update.message.reply_text("📊 Loading dashboard...", reply_markup=ReplyKeyboardRemove())
+        return
+    elif text == "👥 Team Sales":
+        await update.message.reply_text("👥 Loading team sales...", reply_markup=ReplyKeyboardRemove())
+        return
+    elif text == "📅 Leaderboard":
+        await update.message.reply_text("📅 Loading leaderboard...", reply_markup=ReplyKeyboardRemove())
+        return
+    elif text == "📊 ROI Calc":
+        await update.message.reply_text("📊 Loading ROI calculator...", reply_markup=ReplyKeyboardRemove())
+        return
+    elif text == "📋 Testimonials":
+        await update.message.reply_text("📋 Loading testimonials...", reply_markup=ReplyKeyboardRemove())
+        return
+    elif text == "📝 Submit Testimonial":
+        await update.message.reply_text("📝 Submit a testimonial...", reply_markup=ReplyKeyboardRemove())
+        return
+    elif text == "🏪 Audit Store":
+        await update.message.reply_text("🏪 Loading audit tool...", reply_markup=ReplyKeyboardRemove())
+        return
+    elif text == "⬅️ Back to Products":
+        buttons = [
+            [KeyboardButton("📜 Register Tape"), KeyboardButton("🛒 Cartvertising")],
+            [KeyboardButton("📱 Digital Products"), KeyboardButton("⬅️ Main Menu")],
+        ]
+        await update.message.reply_text(
+            "🛍️ *PRODUCTS*\n\nExplore register tape, cartvertising, and digital solutions.",
+            parse_mode="Markdown",
+            reply_markup=ReplyKeyboardMarkup(buttons, resize_keyboard=True)
+        )
+        return
     
     # Handle text menu shortcuts
     text_lower = text.lower()
@@ -3194,26 +3338,27 @@ async def show_main_menu(update: Update, context: ContextTypes.DEFAULT_TYPE):
     menu_text = f"""🎯 *IndoorMediaProspectBot*
 Find prospects near any store{notepad_section}"""
     
+    # Large, full-width buttons with bigger emojis
     buttons = [
-        [InlineKeyboardButton("📍 FIND STORES NEAR ME", callback_data="find_stores_near_me")],
-        [InlineKeyboardButton("🔍 PROSPECTING", callback_data="menu_prospecting")],
-        [InlineKeyboardButton("👥 SALES MANAGEMENT", callback_data="menu_sales")],
-        [InlineKeyboardButton("🛍️ PRODUCTS", callback_data="menu_products")],
-        [InlineKeyboardButton("📊 PERFORMANCE", callback_data="menu_performance")],
-        [InlineKeyboardButton("🛠️ TOOLS", callback_data="menu_tools")],
+        ["📍 FIND STORES NEAR ME"],
+        ["🔍 PROSPECTING"],
+        ["👥 SALES MANAGEMENT"],
+        ["🛍️ PRODUCTS"],
+        ["📊 PERFORMANCE"],
+        ["🛠️ TOOLS"],
     ]
     
     if isinstance(update, Update) and update.callback_query:
         await update.callback_query.edit_message_text(
             menu_text, 
             parse_mode="Markdown", 
-            reply_markup=InlineKeyboardMarkup(buttons)
+            reply_markup=ReplyKeyboardMarkup(buttons, resize_keyboard=True, one_time_keyboard=False)
         )
     else:
         await update.effective_chat.send_message(
             menu_text, 
             parse_mode="Markdown", 
-            reply_markup=InlineKeyboardMarkup(buttons)
+            reply_markup=ReplyKeyboardMarkup(buttons, resize_keyboard=True, one_time_keyboard=False)
         )
 
 
