@@ -5668,8 +5668,14 @@ async def handle_button_callback(update: Update, context: ContextTypes.DEFAULT_T
                 try:
                     date_str = c.get("date", "")
                     if date_str:
-                        # Parse date (format: "2026-03-06 10:13")
-                        contract_date = datetime.strptime(date_str[:10], "%Y-%m-%d")
+                        # Parse date - handle both formats:
+                        # Format 1: "2026-03-06 10:13" (YYYY-MM-DD)
+                        # Format 2: "3/13/2026" (M/D/YYYY)
+                        try:
+                            contract_date = datetime.strptime(date_str[:10], "%Y-%m-%d")
+                        except ValueError:
+                            # Try alternative format
+                            contract_date = datetime.strptime(date_str.split()[0], "%m/%d/%Y")
                         month_key = contract_date.strftime("%B %Y")  # "March 2026"
                     else:
                         month_key = "Unknown"
