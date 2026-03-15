@@ -1285,9 +1285,19 @@ async def handle_store_query(update: Update, context: ContextTypes.DEFAULT_TYPE)
         await update.message.reply_text("Loading your sales...", reply_markup=ReplyKeyboardRemove())
         return
     elif text == "📜 Register Tape":
+        buttons = [
+            [KeyboardButton("💰 Store Rates"), KeyboardButton("⬅️ Back to Products")],
+        ]
+        await update.message.reply_text(
+            "📜 *REGISTER TAPE*\n\nSales presentation & store rate lookup:\n\n🎬 Presentation: https://docs.google.com/presentation/d/1Xs60nX3i6MJkC81GgnK-50jBrkWVPu06xRpmv8z4PIc/edit?usp=sharing\n\n📹 Explainer: https://youtu.be/_gdlyEszHfY?si=0_kHou89WrMhvNY_",
+            parse_mode="Markdown",
+            reply_markup=ReplyKeyboardMarkup(buttons, resize_keyboard=True)
+        )
+        return
+    elif text == "💰 Store Rates":
         buttons = [[KeyboardButton("⬅️ Back to Products"), KeyboardButton("⬅️ Main Menu")]]
         await update.message.reply_text(
-            "📜 *REGISTER TAPE*\n\n[Presentation & Rates Info]",
+            "💰 *STORE RATES*\n\nEnter a store number or city name to lookup register tape pricing:\n\nPresentation: https://docs.google.com/presentation/d/1Xs60nX3i6MJkC81GgnK-50jBrkWVPu06xRpmv8z4PIc/edit?usp=sharing\n\nExplainer: https://youtu.be/_gdlyEszHfY?si=0_kHou89WrMhvNY_",
             parse_mode="Markdown",
             reply_markup=ReplyKeyboardMarkup(buttons, resize_keyboard=True)
         )
@@ -6572,6 +6582,8 @@ Send any city name to see all stores!
                 "Or tap 📍 to find stores near you!",
                 parse_mode="Markdown",
                 reply_markup=InlineKeyboardMarkup([
+                    [InlineKeyboardButton("🎬 Presentation", url="https://docs.google.com/presentation/d/1Xs60nX3i6MJkC81GgnK-50jBrkWVPu06xRpmv8z4PIc/edit?usp=sharing")],
+                    [InlineKeyboardButton("📹 Explainer Video", url="https://youtu.be/_gdlyEszHfY?si=0_kHou89WrMhvNY_")],
                     [InlineKeyboardButton("📍 Near Me", callback_data="rates_near_me")],
                     [InlineKeyboardButton("⬅️ Back", callback_data="menu_register_tape")],
                 ])
