@@ -1199,8 +1199,29 @@ async def handle_store_query(update: Update, context: ContextTypes.DEFAULT_TYPE)
     
     # Handle main menu buttons (ReplyKeyboardMarkup text-based)
     if text == "🗺️  LOCATE STORES":
+        buttons = [
+            [KeyboardButton("📍 Find Stores Near Me")],
+            [KeyboardButton("🔍 Search by City/Store"), KeyboardButton("⬅️ Main Menu")],
+        ]
+        await update.message.reply_text(
+            "🗺️  *LOCATE STORES*\n\nFind stores near you or search by location:",
+            parse_mode="Markdown",
+            reply_markup=ReplyKeyboardMarkup(buttons, resize_keyboard=True)
+        )
+        return
+    elif text == "📍 Find Stores Near Me":
         context.user_data['find_stores_mode'] = True
-        await update.message.reply_text("🗺️  Enter a store number or city name:", reply_markup=ReplyKeyboardRemove())
+        location_button = KeyboardButton("📍 Share My Location", request_location=True)
+        keyboard = ReplyKeyboardMarkup([[location_button]], one_time_keyboard=True, resize_keyboard=True)
+        await update.message.reply_text(
+            "📍 *Find Stores Near You*\n\nTap the button below to share your location and see nearby stores.",
+            parse_mode="Markdown",
+            reply_markup=keyboard
+        )
+        return
+    elif text == "🔍 Search by City/Store":
+        context.user_data['find_stores_mode'] = True
+        await update.message.reply_text("🔍 Enter a store number or city name:", reply_markup=ReplyKeyboardRemove())
         return
     elif text == "🎯 PROSPECT & QUALIFY":
         buttons = [
