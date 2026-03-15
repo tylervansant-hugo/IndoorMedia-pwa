@@ -1293,9 +1293,34 @@ async def handle_store_query(update: Update, context: ContextTypes.DEFAULT_TYPE)
         )
         return
     elif text == "🛒 Cartvertising":
-        buttons = [[KeyboardButton("⬅️ Back to Products"), KeyboardButton("⬅️ Main Menu")]]
+        buttons = [
+            [KeyboardButton("🪑 Child Seat"), KeyboardButton("👃 Nose of Cart")],
+            [KeyboardButton("⬅️ Back to Products"), KeyboardButton("⬅️ Main Menu")],
+        ]
         await update.message.reply_text(
-            "🛒 *CARTVERTISING*\n\n[Cartvertising Products]",
+            "🛒 *CARTVERTISING*\n\nSales presentations & product options:\n\n🎬 Presentation: https://docs.google.com/presentation/d/1xwIF4CaTp07AKunGaJysCSIGqN7VCdbL4fgOH3XEpl4/edit?usp=sharing\n\n📹 Explainer: https://www.youtube.com/watch?v=PduxHWy8sMc",
+            parse_mode="Markdown",
+            reply_markup=ReplyKeyboardMarkup(buttons, resize_keyboard=True)
+        )
+        return
+    elif text == "🪑 Child Seat":
+        buttons = [
+            [KeyboardButton("🎬 Presentation"), KeyboardButton("📹 Explainer")],
+            [KeyboardButton("👃 Nose of Cart"), KeyboardButton("⬅️ Back to Products")],
+        ]
+        await update.message.reply_text(
+            "🪑 *CHILD SEAT*\n\nPresentation: https://docs.google.com/presentation/d/1xwIF4CaTp07AKunGaJysCSIGqN7VCdbL4fgOH3XEpl4/edit?usp=sharing\n\nExplainer: https://www.youtube.com/watch?v=PduxHWy8sMc",
+            parse_mode="Markdown",
+            reply_markup=ReplyKeyboardMarkup(buttons, resize_keyboard=True)
+        )
+        return
+    elif text == "👃 Nose of Cart":
+        buttons = [
+            [KeyboardButton("🎬 Presentation"), KeyboardButton("📹 Explainer")],
+            [KeyboardButton("🪑 Child Seat"), KeyboardButton("⬅️ Back to Products")],
+        ]
+        await update.message.reply_text(
+            "👃 *NOSE OF CART*\n\nPresentation: https://drive.google.com/file/d/1Bvr0XOWHLO5DMwOmi6NQAcuuk4b9EkFS/view?usp=sharing\n\nExplainer: https://www.youtube.com/watch?v=PduxHWy8sMc",
             parse_mode="Markdown",
             reply_markup=ReplyKeyboardMarkup(buttons, resize_keyboard=True)
         )
@@ -3467,16 +3492,18 @@ async def show_submenu_register_tape(update: Update, context: ContextTypes.DEFAU
 # --- Product Catalog Submenus & Display ---
 
 async def show_submenu_cartvertising(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    """Show Cartvertising submenu."""
+    """Show Cartvertising submenu with presentation and explainer."""
     query = update.callback_query
     await query.answer()
     buttons = [
+        [InlineKeyboardButton("🎬 Presentation", url="https://docs.google.com/presentation/d/1xwIF4CaTp07AKunGaJysCSIGqN7VCdbL4fgOH3XEpl4/edit?usp=sharing")],
+        [InlineKeyboardButton("📹 Explainer Video", url="https://www.youtube.com/watch?v=PduxHWy8sMc")],
         [InlineKeyboardButton("🪑 Child Seat", callback_data="product_child_seat")],
         [InlineKeyboardButton("👃 Nose of Cart", callback_data="product_nose")],
         [InlineKeyboardButton("⬅️ Back to Products", callback_data="menu_products")],
     ]
     await query.edit_message_text(
-        "🛒 *CARTVERTISING*\n\nSelect a product:",
+        "🛒 *CARTVERTISING*\n\nSales presentations & product options:",
         parse_mode="Markdown",
         reply_markup=InlineKeyboardMarkup(buttons)
     )
@@ -3510,6 +3537,7 @@ async def show_product_child_seat(update: Update, context: ContextTypes.DEFAULT_
     
     buttons = [
         [InlineKeyboardButton("🎬 Presentation", url="https://docs.google.com/presentation/d/1xwIF4CaTp07AKunGaJysCSIGqN7VCdbL4fgOH3XEpl4/edit?usp=sharing")],
+        [InlineKeyboardButton("📹 Explainer Video", url="https://www.youtube.com/watch?v=PduxHWy8sMc")],
     ]
     for i, pkg in enumerate(packages):
         buttons.append([InlineKeyboardButton(
