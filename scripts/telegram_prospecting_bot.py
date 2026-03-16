@@ -2115,17 +2115,18 @@ async def show_city_stores(update: Update, context: ContextTypes.DEFAULT_TYPE, c
     
     stores_in_city = CITY_INDEX[city]
     
-    # Create buttons for each store with cycle info
+    # Create buttons for each store with cycle and case count info
     buttons = []
     for store in stores_in_city:
         store_num = store["StoreName"]
         chain = store.get("GroceryChain", "")
         cycle = get_store_cycle(store)
+        case_count = store.get("Case Count", "?")
         
-        # Button label: "STORE# (Cycle) - Street"
+        # Button label: "STORE# (Cycle, Cases) - Street"
         street = store.get("Address", "").split(",")[0] if store.get("Address") else "N/A"
         street = street.strip()[:20]  # Truncate long street names
-        label = f"{store_num} ({cycle}) - {street}"
+        label = f"{store_num} ({cycle}, {case_count} cases) - {street}"
         buttons.append([InlineKeyboardButton(label, callback_data=f"select_store_{store_num}")])
     
     keyboard = InlineKeyboardMarkup(buttons)

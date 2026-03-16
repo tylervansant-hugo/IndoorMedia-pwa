@@ -2067,7 +2067,215 @@
       ],
       "createdAt": "2026-03-15T00:25:50.296825",
       "count": 7
+    },
+    "f51a135617bb2f4a": {
+      "storeNumber": "SAF07Z-3134",
+      "category": "mexican",
+      "prospects": [
+        {
+          "name": "Plaza Coyoacan",
+          "type": "restaurant, food, point_of_interest, establishment",
+          "address": "3433 SE Hawthorne Blvd, Portland",
+          "lat": 45.5121719,
+          "lon": -122.6287405,
+          "distance_miles": 0.43,
+          "likelihood_score": 94,
+          "rating": 4.9,
+          "user_ratings_total": 375,
+          "phone": "+1 503-236-1100",
+          "website": "https://coyoacanpdx.com/",
+          "place_id": "ChIJkeCK95GglVQRCkj4JZGlHFQ",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 2,
+          "source": "Google Places"
+        },
+        {
+          "name": "La Morenita",
+          "type": "restaurant, food, point_of_interest, establishment",
+          "address": "3207 SE Hawthorne Blvd, Portland",
+          "lat": 45.5122437,
+          "lon": -122.6323935,
+          "distance_miles": 0.25,
+          "likelihood_score": 95,
+          "rating": 4.7,
+          "user_ratings_total": 167,
+          "phone": "+1 503-891-0005",
+          "website": null,
+          "place_id": "ChIJwT4fspGglVQRKze-c9mfnkw",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 1,
+          "source": "Google Places"
+        },
+        {
+          "name": "Saz\u00f3n Taquer\u00eda",
+          "type": "restaurant, food, point_of_interest, establishment",
+          "address": "4438 NE Glisan St, Portland",
+          "lat": 45.5261729,
+          "lon": -122.6165435,
+          "distance_miles": 1.42,
+          "likelihood_score": 83,
+          "rating": 4.6,
+          "user_ratings_total": 248,
+          "phone": "+1 503-719-5374",
+          "website": null,
+          "place_id": "ChIJXzIz3o6hlVQRJGGpUsH_h3Y",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 1,
+          "source": "Google Places"
+        },
+        {
+          "name": "Birrieria PDX Madison",
+          "type": "restaurant, food, point_of_interest, establishment",
+          "address": "623 SE Madison St, Portland",
+          "lat": 45.5130985,
+          "lon": -122.6588702,
+          "distance_miles": 1.04,
+          "likelihood_score": 87,
+          "rating": 4.7,
+          "user_ratings_total": 660,
+          "phone": "+1 503-999-3220",
+          "website": "https://birrieriapdxmadison.shop/",
+          "place_id": "ChIJrYhjAsULlVQR6Da6sRjdMLw",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 2,
+          "source": "Google Places"
+        },
+        {
+          "name": "Aprisa Mexican Cuisine",
+          "type": "restaurant, food, point_of_interest, establishment",
+          "address": "2311 SE 8th Ave, Portland",
+          "lat": 45.5062117,
+          "lon": -122.6580288,
+          "distance_miles": 1.06,
+          "likelihood_score": 86,
+          "rating": 4.4,
+          "user_ratings_total": 528,
+          "phone": "+1 503-505-9006",
+          "website": "https://www.aprisacuisine.com/",
+          "place_id": "ChIJ3by4S3EKlVQRdu8slKHWfrU",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 1,
+          "source": "Google Places"
+        },
+        {
+          "name": "El Sazon De Mi Rancho",
+          "type": "restaurant, food, point_of_interest, establishment",
+          "address": "4606 SE Division St, Portland",
+          "lat": 45.5050945,
+          "lon": -122.6149961,
+          "distance_miles": 1.18,
+          "likelihood_score": 88,
+          "rating": 5,
+          "user_ratings_total": 185,
+          "phone": "+1 971-703-0808",
+          "website": null,
+          "place_id": "ChIJ87LFqcihlVQRf5Mg-4JwI8w",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        },
+        {
+          "name": "VERA MEXICAN FOOD",
+          "type": "restaurant, food, point_of_interest, establishment",
+          "address": "825 SE Madison St, Portland",
+          "lat": 45.5130187,
+          "lon": -122.6571443,
+          "distance_miles": 0.95,
+          "likelihood_score": 90,
+          "rating": 5,
+          "user_ratings_total": 16,
+          "phone": "+1 971-280-4916",
+          "website": null,
+          "place_id": "ChIJE3wcadqhlVQR98EG07AcpRg",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        },
+        {
+          "name": "Nuestra Cocina",
+          "type": "restaurant, food, point_of_interest, establishment",
+          "address": "2135 SE Division St, Portland",
+          "lat": 45.505,
+          "lon": -122.6438888,
+          "distance_miles": 0.56,
+          "likelihood_score": 82,
+          "rating": 4.7,
+          "user_ratings_total": 764,
+          "phone": "+1 503-232-2135",
+          "website": "http://www.nuestracocina.com/",
+          "place_id": "ChIJ5d7z7IKglVQRkEJGDs-B-W0",
+          "opening_hours": {
+            "open_now": false
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 2,
+          "source": "Google Places"
+        },
+        {
+          "name": "Tecos Fresh Mexican Food",
+          "type": "restaurant, food, point_of_interest, establishment",
+          "address": "4132 SE Powell Blvd, Portland",
+          "lat": 45.4973451,
+          "lon": -122.6192165,
+          "distance_miles": 1.33,
+          "likelihood_score": 82,
+          "rating": 4.2,
+          "user_ratings_total": 1420,
+          "phone": "+1 503-954-2530",
+          "website": "http://www.tecosfresh.com/",
+          "place_id": "ChIJGUl4SnuglVQRR2ICboVjeso",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 1,
+          "source": "Google Places"
+        },
+        {
+          "name": "La Patroncita",
+          "type": "restaurant, food, point_of_interest, establishment",
+          "address": "2832 SE Belmont St, Portland",
+          "lat": 45.5163444,
+          "lon": -122.6363696,
+          "distance_miles": 0.32,
+          "likelihood_score": 84,
+          "rating": 4.6,
+          "user_ratings_total": 375,
+          "phone": "+1 971-254-4317",
+          "website": "https://lapatroncitapdx.com/",
+          "place_id": "ChIJP57KJ6ChlVQRBZn9NKHiKxk",
+          "opening_hours": {
+            "open_now": false
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        }
+      ],
+      "createdAt": "2026-03-16T09:48:44.715206",
+      "count": 10
     }
   },
-  "lastUpdated": "2026-03-15T00:25:50.296840"
+  "lastUpdated": "2026-03-16T09:48:44.715223"
 }
