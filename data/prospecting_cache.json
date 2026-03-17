@@ -1257,6 +1257,26 @@
           "source": "Google Places"
         },
         {
+          "name": "Youskyme Teriyaki",
+          "type": "restaurant, food, point_of_interest, establishment",
+          "address": "221 NE 104th Ave, Vancouver",
+          "lat": 45.6220074,
+          "lon": -122.564945,
+          "distance_miles": 0.45,
+          "likelihood_score": 93,
+          "rating": 4.6,
+          "user_ratings_total": 425,
+          "phone": "+1 360-256-8100",
+          "website": "https://orderyouskymeteriyaki.com/",
+          "place_id": "ChIJAfyJyA2llVQRQyiaHyQgq1E",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 1,
+          "source": "Google Places"
+        },
+        {
           "name": "Sushi Hana",
           "type": "restaurant, food, point_of_interest, establishment",
           "address": "13503 SE Mill Plain Blvd B6, Vancouver",
@@ -1264,8 +1284,8 @@
           "lon": -122.5347785,
           "distance_miles": 1.05,
           "likelihood_score": 84,
-          "rating": 4.1,
-          "user_ratings_total": 1341,
+          "rating": 4,
+          "user_ratings_total": 1344,
           "phone": "+1 360-944-9659",
           "website": "http://www.sushihanaus.com/index5.html",
           "place_id": "ChIJL0hIqiGllVQRGbFGh4m8cd4",
@@ -1285,7 +1305,7 @@
           "distance_miles": 0.79,
           "likelihood_score": 89,
           "rating": 4.4,
-          "user_ratings_total": 2637,
+          "user_ratings_total": 2644,
           "phone": "+1 360-984-6744",
           "website": "https://kenjisramen.com/",
           "place_id": "ChIJE4MapBillVQRX6OQN3ZrzBI",
@@ -1300,8 +1320,8 @@
           "name": "Ichi 18 Teriyaki",
           "type": "restaurant, food, point_of_interest, establishment",
           "address": "925 NE 136th Ave, Vancouver",
-          "lat": 45.6298561,
-          "lon": -122.5342788,
+          "lat": 45.629856,
+          "lon": -122.5342171,
           "distance_miles": 1.28,
           "likelihood_score": 83,
           "rating": 4.3,
@@ -1309,26 +1329,6 @@
           "phone": "+1 360-891-8989",
           "website": "http://www.ichi18teriyaki.com/",
           "place_id": "ChIJeZ_9dDqllVQRnwM4JEyZnx4",
-          "opening_hours": {
-            "open_now": true
-          },
-          "business_status": "OPERATIONAL",
-          "price_level": 1,
-          "source": "Google Places"
-        },
-        {
-          "name": "Youskyme Teriyaki",
-          "type": "restaurant, food, point_of_interest, establishment",
-          "address": "221 NE 104th Ave, Vancouver",
-          "lat": 45.6220074,
-          "lon": -122.564945,
-          "distance_miles": 0.45,
-          "likelihood_score": 93,
-          "rating": 4.6,
-          "user_ratings_total": 425,
-          "phone": "+1 360-256-8100",
-          "website": "https://orderyouskymeteriyaki.com/",
-          "place_id": "ChIJAfyJyA2llVQRQyiaHyQgq1E",
           "opening_hours": {
             "open_now": true
           },
@@ -1355,7 +1355,7 @@
           "source": "Google Places"
         }
       ],
-      "createdAt": "2026-03-11T19:07:35.381213",
+      "createdAt": "2026-03-17T13:51:50.781197",
       "count": 6
     },
     "e53cbf3e7e5f52a4": {
@@ -4929,5 +4929,5 @@
       "count": 6
     }
   },
-  "lastUpdated": "2026-03-17T12:02:14.116193"
+  "lastUpdated": "2026-03-17T13:51:50.781219"
 }

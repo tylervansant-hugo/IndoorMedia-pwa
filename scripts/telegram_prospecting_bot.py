@@ -395,7 +395,10 @@ def get_testimonials_for_prospect(prospect: dict) -> list:
     
     If no category matches found, returns nearby testimonials regardless of category.
     """
-    if not TESTIMONIALS:
+    # Reload testimonials if cache is empty (they might not have loaded at startup)
+    testimonials = TESTIMONIALS if TESTIMONIALS else load_testimonials()
+    
+    if not testimonials:
         return []
     
     # Get prospect location info
@@ -483,7 +486,7 @@ def get_testimonials_for_prospect(prospect: dict) -> list:
     # 4. FALLBACK: Same city (any category)
     # 5. FALLBACK: Nearby city (any category)
     
-    relevant = same_city_cat + nearby_city_cat + same_state_cat
+    relevant = same_city_cat + nearby_city_cat + same_state_cat + same_city_geo + nearby_city_geo
     
     if not relevant:
         # No category matches - use geographic fallback
