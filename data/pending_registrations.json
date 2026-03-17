@@ -14,5 +14,13 @@
     "email": "rejected@example.com",
     "timestamp": "2026-03-17T22:49:35.471586+00:00",
     "status": "rejected"
+  },
+  {
+    "id": "reg_003",
+    "telegram_id": "8331690053",
+    "name": "Lanea Van Sant",
+    "email": "Mvansant032319@gmail.com",
+    "timestamp": "2026-03-17T23:27:36.179796+00:00",
+    "status": "approved"
   }
 ]

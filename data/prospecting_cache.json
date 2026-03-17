@@ -6599,7 +6599,175 @@
       ],
       "createdAt": "2026-03-17T16:09:32.473363",
       "count": 10
+    },
+    "77a3ed2ac7651097": {
+      "storeNumber": "FME07Z-0460",
+      "category": "chinese",
+      "prospects": [
+        {
+          "name": "KC Teriyaki",
+          "type": "restaurant, food, point_of_interest, establishment",
+          "address": "800 NE Tenney Rd B-207, Vancouver",
+          "lat": 45.719062,
+          "lon": -122.6624949,
+          "distance_miles": 0.1,
+          "likelihood_score": 96,
+          "rating": 4.5,
+          "user_ratings_total": 474,
+          "phone": "+1 360-573-4261",
+          "website": "http://www.kcteriyakiwa.com/",
+          "place_id": "ChIJy6B26OqtlVQRK5mToeUYtGw",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 1,
+          "source": "Google Places"
+        },
+        {
+          "name": "Panda Express",
+          "type": "restaurant, food, point_of_interest, establishment",
+          "address": "13307 NE Hwy 99 SUITE #107, Vancouver",
+          "lat": 45.7172221,
+          "lon": -122.6519948,
+          "distance_miles": 0.56,
+          "likelihood_score": 86,
+          "rating": 3.5,
+          "user_ratings_total": 323,
+          "phone": "+1 360-574-9618",
+          "website": "https://www.pandaexpress.com/locations/wa/vancouver/1270",
+          "place_id": "ChIJh7GAAe-tlVQRTPJHFu_B-ho",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 1,
+          "source": "Google Places"
+        },
+        {
+          "name": "Ei8ht Noodles",
+          "type": "restaurant, food, point_of_interest, establishment",
+          "address": "800 NE Tenney Rd, Vancouver",
+          "lat": 45.7210913,
+          "lon": -122.6630606,
+          "distance_miles": 0.04,
+          "likelihood_score": 95,
+          "rating": 4.2,
+          "user_ratings_total": 462,
+          "phone": "+1 360-574-1351",
+          "website": "http://ei8htnoodles.com/",
+          "place_id": "ChIJv6VBI-utlVQRNKpwUVfNW7M",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 2,
+          "source": "Google Places"
+        },
+        {
+          "name": "I am Thai Eatery",
+          "type": "restaurant, food, point_of_interest, establishment",
+          "address": "14300 NE 20th Ave #202A, Vancouver",
+          "lat": 45.723616,
+          "lon": -122.652915,
+          "distance_miles": 0.51,
+          "likelihood_score": 90,
+          "rating": 4.3,
+          "user_ratings_total": 630,
+          "phone": "+1 360-433-9398",
+          "website": "https://iamthaieaterywa.com/",
+          "place_id": "ChIJ2w6d7PKtlVQRB2a9jEb0P40",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 2,
+          "source": "Google Places"
+        },
+        {
+          "name": "Planet Thai",
+          "type": "restaurant, food, point_of_interest, establishment",
+          "address": "910 NE Tenney Rd, Vancouver",
+          "lat": 45.7188889,
+          "lon": -122.6613889,
+          "distance_miles": 0.13,
+          "likelihood_score": 95,
+          "rating": 4.4,
+          "user_ratings_total": 725,
+          "phone": "+1 360-828-5335",
+          "website": "https://www.planet-thai.com/",
+          "place_id": "ChIJI2rKr-utlVQRb7tA-rzlbN4",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 2,
+          "source": "Google Places"
+        },
+        {
+          "name": "85\u00b0C Bakery Cafe-Salmon Creek",
+          "type": "bakery, store, food, point_of_interest, establishment",
+          "address": "13909 NE 10th Ave, Vancouver",
+          "lat": 45.7225117,
+          "lon": -122.6601379,
+          "distance_miles": 0.18,
+          "likelihood_score": 93,
+          "rating": 4.1,
+          "user_ratings_total": 36,
+          "phone": "+1 360-952-4215",
+          "website": "https://www.85cbakerycafe.com/",
+          "place_id": "ChIJXQvLuz6tlVQRYj5UgY7JsrQ",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        },
+        {
+          "name": "Yi Sushi -Revolving Sushi Bar",
+          "type": "restaurant, food, point_of_interest, establishment",
+          "address": "910 NE Tenney Rd # 105, Vancouver",
+          "lat": 45.7195544,
+          "lon": -122.6610848,
+          "distance_miles": 0.1,
+          "likelihood_score": 96,
+          "rating": 4.5,
+          "user_ratings_total": 323,
+          "phone": "+1 360-718-7538",
+          "website": "http://www.yisushivan.com/",
+          "place_id": "ChIJlX5N9qqtlVQR4D5yRl-eDug",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        },
+        {
+          "name": "Sushi Chiyo",
+          "type": "restaurant, food, point_of_interest, establishment",
+          "address": "13307 NE Hwy 99, Vancouver",
+          "lat": 45.7173881,
+          "lon": -122.652153,
+          "distance_miles": 0.55,
+          "likelihood_score": 90,
+          "rating": 4.2,
+          "user_ratings_total": 1222,
+          "phone": "+1 360-571-8282",
+          "website": "https://www.sushichiyo.com/",
+          "place_id": "ChIJ3wqhUO-tlVQRLPz54Lhz1UM",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 1,
+          "source": "Google Places"
+        }
+      ],
+      "createdAt": "2026-03-17T16:17:59.070328",
+      "count": 8
     }
   },
-  "lastUpdated": "2026-03-17T16:09:32.473376"
+  "lastUpdated": "2026-03-17T16:17:59.070343"
 }

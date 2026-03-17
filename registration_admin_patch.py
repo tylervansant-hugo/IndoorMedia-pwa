@@ -51,9 +51,11 @@ def save_pending_registrations(registrations):
     with open(PENDING_REGISTRATIONS_FILE, 'w') as f:
         json.dump(registrations, f, indent=2)
 
-def add_pending_registration(telegram_id: str, name: str, email: str):
+def add_pending_registration(telegram_id: str, name: str, email: str, account_email: str = None, email_permission: bool = False):
     """Add a new pending registration."""
     registrations = load_pending_registrations()
+    
+    account_email = account_email or email
     
     # Check if already exists
     for reg in registrations:
@@ -61,6 +63,10 @@ def add_pending_registration(telegram_id: str, name: str, email: str):
             # Update existing
             reg['name'] = name
             reg['email'] = email
+            reg['account_email'] = account_email
+            reg['email_permission'] = email_permission
+            if email_permission:
+                reg['permission_granted_at'] = datetime.now(timezone.utc).isoformat()
             reg['status'] = 'pending'
             reg['timestamp'] = datetime.now(timezone.utc).isoformat()
             save_pending_registrations(registrations)
@@ -73,8 +79,11 @@ def add_pending_registration(telegram_id: str, name: str, email: str):
         'telegram_id': str(telegram_id),
         'name': name,
         'email': email,
+        'account_email': account_email,
         'timestamp': datetime.now(timezone.utc).isoformat(),
-        'status': 'pending'
+        'status': 'pending',
+        'email_permission': email_permission,
+        'permission_granted_at': datetime.now(timezone.utc).isoformat() if email_permission else None,
     })
     save_pending_registrations(registrations)
     return reg_id
@@ -143,14 +152,21 @@ def approve_registration(reg_id: str):
         registry[str(telegram_id)] = {
             'telegram_name': reg['name'],
             'contract_name': reg['name'],
-            'email': reg['email'],
+            'email': reg.get('email', ''),
+            'account_email': reg.get('account_email', reg.get('email', '')),
+            'email_permission': reg.get('email_permission', False),
             'role': 'rep',
             'registered_at': datetime.now().isoformat(),
         }
         save_rep_registry(registry)
+    else:
+        # Update existing registry entry with new fields
+        registry[str(telegram_id)]['account_email'] = reg.get('account_email', reg.get('email', ''))
+        registry[str(telegram_id)]['email_permission'] = reg.get('email_permission', False)
+        save_rep_registry(registry)
     
-    # Update prospect_data with status
-    _update_rep_status_in_prospect_data(str(telegram_id), 'approved')
+    # Update prospect_data with status and email_permission
+    _update_rep_status_in_prospect_data(str(telegram_id), 'approved', reg.get('email_permission', False))
     
     return True
 
@@ -203,12 +219,14 @@ def _save_prospect_data(data):
     with open(PROSPECT_DATA_FILE, 'w') as f:
         json.dump(data, f, indent=2)
 
-def _update_rep_status_in_prospect_data(telegram_id: str, status: str):
-    """Update a rep's status in prospect_data."""
+def _update_rep_status_in_prospect_data(telegram_id: str, status: str, email_permission: bool = None):
+    """Update a rep's status and email_permission in prospect_data."""
     data = _load_prospect_data()
     if str(telegram_id) not in data['reps']:
         data['reps'][str(telegram_id)] = {}
     data['reps'][str(telegram_id)]['status'] = status
+    if email_permission is not None:
+        data['reps'][str(telegram_id)]['email_permission'] = email_permission
     _save_prospect_data(data)
 
 # ============================================================================
@@ -217,6 +235,8 @@ def _update_rep_status_in_prospect_data(telegram_id: str, status: str):
 
 AWAITING_USER_NAME = 'awaiting_user_name'
 AWAITING_USER_EMAIL = 'awaiting_user_email'
+AWAITING_ACCOUNT_EMAIL = 'awaiting_account_email'
+AWAITING_EMAIL_PERMISSION = 'awaiting_email_permission'
 
 async def start_registration_flow(update: Update, context: ContextTypes.DEFAULT_TYPE):
     """Start the registration flow for new users."""
@@ -237,24 +257,100 @@ async def handle_registration_name(update: Update, context: ContextTypes.DEFAULT
     
     await update.effective_chat.send_message(
         f"✅ Thanks, {name}!\n\n"
-        "**What's your email address?**",
+        "**What's your contact email address?**",
         parse_mode="Markdown"
     )
 
 async def handle_registration_email(update: Update, context: ContextTypes.DEFAULT_TYPE, email: str):
-    """Handle email input and submit registration."""
+    """Handle email input and ask for account email."""
     context.user_data[AWAITING_USER_EMAIL] = False
+    context.user_data['new_user_email'] = email
+    context.user_data[AWAITING_ACCOUNT_EMAIL] = True
+    
+    await update.effective_chat.send_message(
+        f"✅ Got it!\n\n"
+        f"**What's your IndoorMedia account email?** (for scanning contracts)",
+        parse_mode="Markdown"
+    )
+
+async def handle_registration_account_email(update: Update, context: ContextTypes.DEFAULT_TYPE, account_email: str):
+    """Handle account email and ask for email permission."""
+    context.user_data[AWAITING_ACCOUNT_EMAIL] = False
+    context.user_data['new_user_account_email'] = account_email
+    context.user_data[AWAITING_EMAIL_PERMISSION] = True
+    
+    # Ask for permission to scan emails
+    buttons = [
+        [InlineKeyboardButton("✅ Grant Permission", callback_data="email_perm_grant")],
+        [InlineKeyboardButton("❌ Skip for Now", callback_data="email_perm_skip")],
+    ]
+    
+    await update.effective_chat.send_message(
+        f"📧 **Email Permission Request**\n\n"
+        f"I need permission to scan your email for 'IndoorMedia Contract Signed' emails.\n\n"
+        f"This allows you to:\n"
+        f"• Track when contracts are signed\n"
+        f"• Automatically create calendar events\n"
+        f"• Access contract processing workflows\n"
+        f"• Approve/manage contracts like the direct team\n\n"
+        f"Grant permission?",
+        parse_mode="Markdown",
+        reply_markup=InlineKeyboardMarkup(buttons)
+    )
+
+async def handle_email_permission_response(update: Update, context: ContextTypes.DEFAULT_TYPE, granted: bool):
+    """Handle email permission choice and submit registration."""
+    query = update.callback_query
+    await query.answer()
+    
+    context.user_data[AWAITING_EMAIL_PERMISSION] = False
     
     telegram_id = str(update.effective_user.id)
     name = context.user_data.get('new_user_name', 'Unknown')
+    email = context.user_data.get('new_user_email', '')
+    account_email = context.user_data.get('new_user_account_email', email)
     
-    # Add to pending registrations
-    reg_id = add_pending_registration(telegram_id, name, email)
+    # Add to pending registrations with email_permission flag
+    registrations = load_pending_registrations()
     
-    await update.effective_chat.send_message(
+    # Check if already exists
+    for reg in registrations:
+        if reg['telegram_id'] == str(telegram_id):
+            reg['name'] = name
+            reg['email'] = email
+            reg['account_email'] = account_email
+            reg['email_permission'] = granted
+            if granted:
+                reg['permission_granted_at'] = datetime.now(timezone.utc).isoformat()
+            reg['status'] = 'pending'
+            reg['timestamp'] = datetime.now(timezone.utc).isoformat()
+            save_pending_registrations(registrations)
+            reg_id = reg['id']
+            break
+    else:
+        # Create new registration
+        reg_id = f"reg_{len(registrations) + 1:03d}"
+        registrations.append({
+            'id': reg_id,
+            'telegram_id': str(telegram_id),
+            'name': name,
+            'email': email,
+            'account_email': account_email,
+            'timestamp': datetime.now(timezone.utc).isoformat(),
+            'status': 'pending',
+            'email_permission': granted,
+            'permission_granted_at': datetime.now(timezone.utc).isoformat() if granted else None,
+        })
+        save_pending_registrations(registrations)
+    
+    permission_status = "✅ Permission granted!" if granted else "⏭️ Permission skipped (can request later)"
+    
+    await query.edit_message_text(
         f"✅ **Registration Submitted!**\n\n"
         f"Name: {name}\n"
-        f"Email: {email}\n\n"
+        f"Email: {email}\n"
+        f"Account Email: {account_email}\n"
+        f"Email Permission: {permission_status}\n\n"
         f"⏳ *Awaiting approval from Tyler.*\n"
         f"You'll be notified when your registration is approved.",
         parse_mode="Markdown"
@@ -262,8 +358,12 @@ async def handle_registration_email(update: Update, context: ContextTypes.DEFAUL
     
     # Clean up
     context.user_data.pop('new_user_name', None)
+    context.user_data.pop('new_user_email', None)
+    context.user_data.pop('new_user_account_email', None)
     context.user_data.pop(AWAITING_USER_NAME, None)
     context.user_data.pop(AWAITING_USER_EMAIL, None)
+    context.user_data.pop(AWAITING_ACCOUNT_EMAIL, None)
+    context.user_data.pop(AWAITING_EMAIL_PERMISSION, None)
 
 # ============================================================================
 # ADMIN DASHBOARD FUNCTIONS
@@ -557,8 +657,13 @@ async def handle_callback(update: Update, context: ContextTypes.DEFAULT_TYPE):
     query = update.callback_query
     data = query.data
     
+    # Email permission callbacks (during registration)
+    if data == "email_perm_grant":
+        await handle_email_permission_response(update, context, granted=True)
+    elif data == "email_perm_skip":
+        await handle_email_permission_response(update, context, granted=False)
     # Admin callbacks
-    if data == "admin_dashboard":
+    elif data == "admin_dashboard":
         await show_admin_dashboard(update, context)
     elif data == "admin_review_pending":
         await show_pending_registrations_list(update, context)
@@ -588,3 +693,5 @@ async def handle_registration_message(update: Update, context: ContextTypes.DEFA
         await handle_registration_name(update, context, update.message.text.strip())
     elif context.user_data.get(AWAITING_USER_EMAIL):
         await handle_registration_email(update, context, update.message.text.strip())
+    elif context.user_data.get(AWAITING_ACCOUNT_EMAIL):
+        await handle_registration_account_email(update, context, update.message.text.strip())

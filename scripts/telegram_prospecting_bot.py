@@ -59,11 +59,36 @@ try:
         handle_registration_message,
         AWAITING_USER_NAME,
         AWAITING_USER_EMAIL,
+        AWAITING_ACCOUNT_EMAIL,
+        AWAITING_EMAIL_PERMISSION,
     )
     REGISTRATION_SYSTEM_LOADED = True
 except ImportError as e:
     logger.warning(f"Registration system not available: {e}")
     REGISTRATION_SYSTEM_LOADED = False
+
+# --- Data Isolation & Security System ---
+try:
+    from data_isolation_patch import (
+        TYLER_TEAM,
+        get_saved_prospects,
+        get_customer_list,
+        get_search_history,
+        get_contact_history,
+        save_prospect,
+        add_to_search_history,
+        add_to_contact_history,
+        bookmark_prospect,
+        can_access_contracts,
+        should_invite_tyler_to_calendar,
+        get_calendar_attendees,
+        ensure_rep_fields,
+        ensure_prospect_fields,
+    )
+    DATA_ISOLATION_AVAILABLE = True
+except ImportError as e:
+    logger.warning(f"Data isolation system not available: {e}")
+    DATA_ISOLATION_AVAILABLE = False
 
 # Navigation history management
 def push_nav(context: ContextTypes.DEFAULT_TYPE, screen_name: str, callback_data: str = None):
@@ -5115,15 +5140,27 @@ async def handle_button_callback(update: Update, context: ContextTypes.DEFAULT_T
                 start_rfc3339 = start_aware.isoformat()
                 end_rfc3339 = end_aware.isoformat()
                 
+                # SECURITY: Only add Tyler if rep is on his direct team
+                attendees = get_calendar_attendees(selected_rep) if DATA_ISOLATION_AVAILABLE else ["tyler.vansant@indoormedia.com"]
+                attendee_str = ",".join(attendees) if attendees else ""
+                
                 cmd = [
                     "gog", "calendar", "create", rep_email,
                     f"--summary=📅 {business_name} (Booked by {selected_rep})",
                     f"--from={start_rfc3339}",
                     f"--to={end_rfc3339}",
-                    f"--attendees=tyler.vansant@indoormedia.com",
                 ]
                 
+                if attendee_str:
+                    cmd.append(f"--attendees={attendee_str}")
+                
                 result = subprocess.run(cmd, capture_output=True, text=True, timeout=30)
+                
+                tyler_note = ""
+                if DATA_ISOLATION_AVAILABLE:
+                    tyler_note = f"\n_Tyler auto-invited_" if should_invite_tyler_to_calendar(selected_rep) else f"\n_(Tyler not invited - outside direct team)_"
+                else:
+                    tyler_note = f"\n_Tyler auto-invited_"
                 
                 if result.returncode == 0:
                     await query.edit_message_text(
@@ -5131,8 +5168,8 @@ async def handle_button_callback(update: Update, context: ContextTypes.DEFAULT_T
                         f"Rep: {selected_rep}\n"
                         f"Business: {business_name}\n"
                         f"📅 {date_str} at {time_str}\n\n"
-                        f"_Event created on {selected_rep}'s calendar_\n"
-                        f"_Tyler auto-invited_",
+                        f"_Event created on {selected_rep}'s calendar_"
+                        f"{tyler_note}",
                         parse_mode="Markdown",
                         reply_markup=InlineKeyboardMarkup([
                             [InlineKeyboardButton("✅ Done", callback_data=f"expand_{prospect_id}")],
@@ -5303,14 +5340,20 @@ async def handle_button_callback(update: Update, context: ContextTypes.DEFAULT_T
             rep_name = get_rep_name(update)
             rep_email = get_rep_email(update)  # Helper function to get rep email from ID
             
+            # SECURITY: Only add Tyler if rep is on his direct team
+            attendees = get_calendar_attendees(rep_name) if DATA_ISOLATION_AVAILABLE else ["tyler.vansant@indoormedia.com"]
+            attendee_str = ",".join(attendees) if attendees else ""
+            
             cmd = [
                 "gog", "calendar", "create", rep_email,
                 "--summary", summary,
                 "--from", start_time,
                 "--to", end_time,
                 "--description", description,
-                "--attendees", "tyler.vansant@indoormedia.com",
             ]
+            
+            if attendee_str:
+                cmd.extend(["--attendees", attendee_str])
             
             # Try to create the calendar event
             try:
@@ -5403,9 +5446,8 @@ async def handle_button_callback(update: Update, context: ContextTypes.DEFAULT_T
             
             # Save prospect
             data_obj = load_prospect_data()
-            rep_data = data_obj["reps"][rep_id]
             
-            rep_data["saved_prospects"][prospect_id] = {
+            prospect_data = {
                 "name": prospect.get('name', ''),
                 "address": prospect.get('address', ''),
                 "phone": prospect.get('phone', ''),
@@ -5418,6 +5460,15 @@ async def handle_button_callback(update: Update, context: ContextTypes.DEFAULT_T
                 "visit_count": 0,
                 "notes": [],
             }
+            
+            # SECURITY: Use isolation function to save only to this rep's data
+            if DATA_ISOLATION_AVAILABLE:
+                save_prospect(rep_id, prospect_id, prospect_data, data_obj)
+            else:
+                if rep_id not in data_obj["reps"]:
+                    data_obj["reps"][rep_id] = {"name": "", "saved_prospects": {}, "search_history": [], "contact_history": {}}
+                data_obj["reps"][rep_id]["saved_prospects"][prospect_id] = prospect_data
+            
             save_prospect_data(data_obj)
             
             status_emoji = {"interested": "⭐", "follow-up": "🔄", "proposal": "📋", "closed": "✅"}
@@ -5536,8 +5587,8 @@ async def handle_button_callback(update: Update, context: ContextTypes.DEFAULT_T
             await query.answer()
             
             rep_id = get_rep_id(update)
-            rep_data = load_rep_data(rep_id)
-            saved = rep_data.get("saved_prospects", {})
+            data_obj = load_prospect_data()
+            saved = get_saved_prospects(rep_id, data_obj) if DATA_ISOLATION_AVAILABLE else data_obj.get("reps", {}).get(rep_id, {}).get("saved_prospects", {})
             
             if not saved:
                 await query.edit_message_text(
@@ -5567,8 +5618,8 @@ async def handle_button_callback(update: Update, context: ContextTypes.DEFAULT_T
             await query.answer()
             
             rep_id = get_rep_id(update)
-            rep_data = load_rep_data(rep_id)
-            saved = rep_data.get("saved_prospects", {})
+            data_obj = load_prospect_data()
+            saved = get_saved_prospects(rep_id, data_obj) if DATA_ISOLATION_AVAILABLE else data_obj.get("reps", {}).get(rep_id, {}).get("saved_prospects", {})
             
             # Filter by status
             if status_filter != "all":
