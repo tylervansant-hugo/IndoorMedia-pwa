@@ -39,11 +39,24 @@
           "last_contacted": null,
           "visit_count": 0,
           "notes": []
+        },
+        "da5085fe23b7": {
+          "name": "",
+          "address": "",
+          "phone": "",
+          "email": "",
+          "contact_name": "",
+          "score": 0,
+          "status": "follow-up",
+          "saved_date": "2026-03-17T15:42:13.395986",
+          "last_contacted": null,
+          "visit_count": 0,
+          "notes": []
         }
       },
       "search_history": [],
       "contact_history": {},
-      "session_searches": 93,
+      "session_searches": 94,
       "session_bookmarks": 0
     },
     "8647728045": {
@@ -128,7 +141,7 @@
       },
       "search_history": [],
       "contact_history": {},
-      "session_searches": 29,
+      "session_searches": 38,
       "session_bookmarks": 0
     },
     "7334094238": {
@@ -194,6 +207,12 @@
       "contact_history": {},
       "session_searches": 0,
       "session_bookmarks": 0
+    },
+    "999999999": {
+      "status": "approved"
+    },
+    "888888888": {
+      "status": "rejected"
     }
   },
   "global_searches": []

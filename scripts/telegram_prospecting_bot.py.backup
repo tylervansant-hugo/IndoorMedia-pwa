@@ -49,21 +49,6 @@ SCRIPTS_DIR = Path(__file__).parent
 if str(SCRIPTS_DIR) not in sys.path:
     sys.path.insert(0, str(SCRIPTS_DIR))
 
-# --- Registration & Admin System ---
-try:
-    from registration_admin_patch import (
-        start_with_registration_gate,
-        admin_command,
-        handle_callback,
-        handle_registration_message,
-        AWAITING_USER_NAME,
-        AWAITING_USER_EMAIL,
-    )
-    REGISTRATION_SYSTEM_LOADED = True
-except ImportError as e:
-    logger.warning(f"Registration system not available: {e}")
-    REGISTRATION_SYSTEM_LOADED = False
-
 # Navigation history management
 def push_nav(context: ContextTypes.DEFAULT_TYPE, screen_name: str, callback_data: str = None):
     """Push current screen onto navigation stack."""
@@ -991,7 +976,7 @@ CATEGORIES = {
 
 
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    """Start command — registration gate + access control."""
+    """Start command — check rep registration, then show main menu."""
     chat_id = update.effective_chat.id
     logger.info(f"🚀 START command received from {update.effective_user.username or update.effective_user.id}")
     
@@ -1003,10 +988,26 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
         return
     context.user_data['last_start_time'] = now
     
-    # Clear any stale awaiting states
+    # Initialize/register rep in prospect data
+    rep_id = get_rep_id(update)
+    rep_name = get_rep_name(update)
+    data_obj = load_prospect_data()
+    if rep_id not in data_obj["reps"]:
+        data_obj["reps"][rep_id] = {
+            "name": rep_name,
+            "saved_prospects": {},
+            "search_history": [],
+            "contact_history": {},
+            "session_searches": 0,
+            "session_bookmarks": 0,
+        }
+        save_prospect_data(data_obj)
+        logger.info(f"New rep registered: {rep_name} ({rep_id})")
+    
+    # Clear any stale awaiting states from previous interactions
     clear_awaiting_states(context)
     
-    # Set menu button
+    # Set menu button for this specific chat
     try:
         await context.bot.set_chat_menu_button(
             chat_id=chat_id,
@@ -1015,42 +1016,24 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     except Exception as e:
         logger.warning(f"Menu button error: {e}")
     
-    # Use registration gate if available
-    if REGISTRATION_SYSTEM_LOADED:
-        await start_with_registration_gate(update, context)
-    else:
-        # Fallback: old behavior
-        rep_id = get_rep_id(update)
-        rep_name = get_rep_name(update)
-        data_obj = load_prospect_data()
-        if rep_id not in data_obj["reps"]:
-            data_obj["reps"][rep_id] = {
-                "name": rep_name,
-                "saved_prospects": {},
-                "search_history": [],
-                "contact_history": {},
-                "session_searches": 0,
-                "session_bookmarks": 0,
-            }
-            save_prospect_data(data_obj)
-            logger.info(f"New rep registered: {rep_name} ({rep_id})")
-        
-        if not is_rep_registered(update):
-            await show_rep_login(update, context)
-            return
-        
-        welcome_text = f"""🔴 *INDOORMEDIA*
+    # Check if rep is registered in the rep registry
+    if not is_rep_registered(update):
+        await show_rep_login(update, context)
+        return
+    
+    # Show welcome with clean BEGIN button (no command text in chat)
+    welcome_text = f"""🔴 *INDOORMEDIA*
 *Sales Command Center*
 
 Welcome back, {rep_name}! Ready to find customers and close deals?"""
-        
-        buttons = [[InlineKeyboardButton("🚀 BEGIN", callback_data="begin_main_menu")]]
-        
-        await update.effective_chat.send_message(
-            welcome_text,
-            parse_mode="Markdown",
-            reply_markup=InlineKeyboardMarkup(buttons)
-        )
+    
+    buttons = [[InlineKeyboardButton("🚀 BEGIN", callback_data="begin_main_menu")]]
+    
+    await update.effective_chat.send_message(
+        welcome_text,
+        parse_mode="Markdown",
+        reply_markup=InlineKeyboardMarkup(buttons)
+    )
 
 
 async def show_rep_login(update: Update, context: ContextTypes.DEFAULT_TYPE):
@@ -7866,20 +7849,10 @@ def main():
     app.add_handler(CommandHandler("keyword", keyword_command))
     app.add_handler(CommandHandler("reset", reset_command))
     app.add_handler(CommandHandler("dashboard", dashboard))
-    
-    # --- Registration & Admin Handlers ---
-    if REGISTRATION_SYSTEM_LOADED:
-        logger.info("✅ Registration & Admin System loaded")
-        app.add_handler(CommandHandler("admin", admin_command))
-        app.add_handler(CallbackQueryHandler(handle_callback, pattern="^admin_"))
-        app.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, handle_registration_message), group=1)
-    else:
-        logger.warning("⚠️  Registration & Admin System not available")
-    
     app.add_handler(CallbackQueryHandler(handle_button_callback))
     app.add_handler(MessageHandler(filters.LOCATION, handle_location_share))
     app.add_handler(MessageHandler(filters.PHOTO, handle_photo_upload))
-    app.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, handle_store_query), group=2)
+    app.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, handle_store_query))
     
     logger.info("✅ IndoorMediaProspectBot ready. Polling for messages...")
     app.run_polling()

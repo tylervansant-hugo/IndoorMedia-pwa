@@ -46,5 +46,12 @@
     "display_name": "Amy Dixon",
     "role": "rep",
     "registered_at": "2026-03-12"
+  },
+  "999999999": {
+    "telegram_name": "Test User",
+    "contract_name": "Test User",
+    "email": "testuser@example.com",
+    "role": "rep",
+    "registered_at": "2026-03-17T15:49:25.906710"
   }
 }

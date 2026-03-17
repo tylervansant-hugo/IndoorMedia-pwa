@@ -214,14 +214,14 @@
       "prospects": [
         {
           "name": "Los Tacos Locos",
-          "type": "restaurant, point_of_interest, food, establishment",
+          "type": "restaurant, food, point_of_interest, establishment",
           "address": "1309 NE 134th St, Vancouver",
           "lat": 45.71776999999999,
           "lon": -122.6580488,
           "distance_miles": 0.29,
           "likelihood_score": 95,
           "rating": 4.6,
-          "user_ratings_total": 673,
+          "user_ratings_total": 671,
           "phone": "+1 360-573-1327",
           "website": "https://www.lostacoslocos.org/",
           "place_id": "ChIJ76qeaemtlVQRXRUbtuQ9YMc",
@@ -234,7 +234,7 @@
         },
         {
           "name": "Taqueria Don Jose",
-          "type": "restaurant, point_of_interest, food, establishment",
+          "type": "restaurant, food, point_of_interest, establishment",
           "address": "13218 NE Hwy 99, Vancouver",
           "lat": 45.7175176,
           "lon": -122.6529917,
@@ -254,7 +254,7 @@
         },
         {
           "name": "Muchas Gracias",
-          "type": "restaurant, point_of_interest, food, establishment",
+          "type": "restaurant, food, point_of_interest, establishment",
           "address": "13009 NE Hwy 99, Vancouver",
           "lat": 45.7166598,
           "lon": -122.6501963,
@@ -274,14 +274,14 @@
         },
         {
           "name": "Chipotle Mexican Grill",
-          "type": "restaurant, point_of_interest, food, establishment",
+          "type": "restaurant, food, point_of_interest, establishment",
           "address": "14003 NE 10th Ave, Vancouver",
           "lat": 45.7229215,
           "lon": -122.6611028,
           "distance_miles": 0.18,
           "likelihood_score": 91,
           "rating": 3.6,
-          "user_ratings_total": 137,
+          "user_ratings_total": 139,
           "phone": "+1 564-236-1201",
           "website": "https://locations.chipotle.com/wa/vancouver/14003-ne-10th-ave?utm_source=google&utm_medium=yext&utm_campaign=yext_listings?restaurant=4465",
           "place_id": "ChIJ4SEjFYKtlVQRmMbV55DTKHI",
@@ -293,7 +293,7 @@
           "source": "Google Places"
         }
       ],
-      "createdAt": "2026-03-11T13:24:47.933668",
+      "createdAt": "2026-03-17T15:32:12.424816",
       "count": 4
     },
     "e775993a51f0a55f": {
@@ -5371,7 +5371,711 @@
       ],
       "createdAt": "2026-03-17T15:23:55.870040",
       "count": 8
+    },
+    "53eca8848da1443f": {
+      "storeNumber": "FME07Z-0460",
+      "category": "martial arts",
+      "prospects": [
+        {
+          "name": "Vancouver Elite MMA",
+          "type": "gym, health, point_of_interest, establishment",
+          "address": "14010 NE 3rd Ct, Vancouver",
+          "lat": 45.7230849,
+          "lon": -122.66883,
+          "distance_miles": 0.35,
+          "likelihood_score": 95,
+          "rating": 4.8,
+          "user_ratings_total": 23,
+          "phone": "+1 360-836-8157",
+          "website": "https://vancouverelitemma.net/",
+          "place_id": "ChIJs2oBpZWtlVQR7qExTR0y024",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        },
+        {
+          "name": "Wilson Family Martial Arts Academy",
+          "type": "health, point_of_interest, establishment",
+          "address": "14407 NE 13th Ave building e suite 122, Vancouver",
+          "lat": 45.7256741,
+          "lon": -122.6581983,
+          "distance_miles": 0.41,
+          "likelihood_score": 84,
+          "rating": 4.8,
+          "user_ratings_total": 24,
+          "phone": "+1 564-232-0040",
+          "website": "https://www.wilsonfamilyma.com/",
+          "place_id": "ChIJt04rh5utlVQRdqkWqxdKf9I",
+          "opening_hours": {
+            "open_now": false
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        },
+        {
+          "name": "Fortitude Fitness / CrossFit Untamed",
+          "type": "health, point_of_interest, establishment",
+          "address": "14010 NE 3rd Ct, Vancouver",
+          "lat": 45.72335289999999,
+          "lon": -122.6684227,
+          "distance_miles": 0.34,
+          "likelihood_score": 95,
+          "rating": 4.9,
+          "user_ratings_total": 64,
+          "phone": "+1 360-836-8157",
+          "website": "http://www.fortitudefitnessgym.com/",
+          "place_id": "ChIJkaU3X06wlVQRsV3gYeWcocQ",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        },
+        {
+          "name": "Kids Club Fun & Fitness",
+          "type": "gym, health, point_of_interest, school, establishment",
+          "address": "13914 NW 3rd Ct, Vancouver",
+          "lat": 45.7221925,
+          "lon": -122.6739253,
+          "distance_miles": 0.56,
+          "likelihood_score": 90,
+          "rating": 4.3,
+          "user_ratings_total": 244,
+          "phone": "+1 360-546-5437",
+          "website": "http://www.kidsclub4fun.com/",
+          "place_id": "ChIJi_e1Qr6tlVQR3nGS1J6BThg",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        }
+      ],
+      "createdAt": "2026-03-17T15:26:29.770834",
+      "count": 4
+    },
+    "556cef777369dab0": {
+      "storeNumber": "FME07Z-0460",
+      "category": "bbq/steakhouse",
+      "prospects": [
+        {
+          "name": "Billygan's Roadhouse",
+          "type": "bar, restaurant, food, point_of_interest, establishment",
+          "address": "13200 NE Hwy 99, Vancouver",
+          "lat": 45.71625419999999,
+          "lon": -122.6532806,
+          "distance_miles": 0.54,
+          "likelihood_score": 89,
+          "rating": 4.1,
+          "user_ratings_total": 3186,
+          "phone": "+1 360-573-2711",
+          "website": "http://www.billygansroadhouse.com/",
+          "place_id": "ChIJgZB9Me-tlVQRJsb7zs21Ij0",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 2,
+          "source": "Google Places"
+        },
+        {
+          "name": "Creekside BBQ",
+          "type": "store, restaurant, food, point_of_interest, establishment",
+          "address": "910 NE Tenney Rd Suite 119, Vancouver",
+          "lat": 45.71922989999999,
+          "lon": -122.6612904,
+          "distance_miles": 0.11,
+          "likelihood_score": 94,
+          "rating": 4.2,
+          "user_ratings_total": 536,
+          "phone": "+1 360-719-2230",
+          "website": "https://creeksidebbq.net/?utm_source=google",
+          "place_id": "ChIJ2Rlms4atlVQRS6uQWBm-erY",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 1,
+          "source": "Google Places"
+        }
+      ],
+      "createdAt": "2026-03-17T15:33:52.042617",
+      "count": 2
+    },
+    "0b40962b5d2ac790": {
+      "storeNumber": "FME07Z-0460",
+      "category": "sushi/japanese",
+      "prospects": [
+        {
+          "name": "Yi Sushi -Revolving Sushi Bar",
+          "type": "restaurant, food, point_of_interest, establishment",
+          "address": "910 NE Tenney Rd # 105, Vancouver",
+          "lat": 45.7195544,
+          "lon": -122.6610848,
+          "distance_miles": 0.1,
+          "likelihood_score": 96,
+          "rating": 4.5,
+          "user_ratings_total": 323,
+          "phone": "+1 360-718-7538",
+          "website": "http://www.yisushivan.com/",
+          "place_id": "ChIJlX5N9qqtlVQR4D5yRl-eDug",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        },
+        {
+          "name": "Sushi Chiyo",
+          "type": "restaurant, food, point_of_interest, establishment",
+          "address": "13307 NE Hwy 99, Vancouver",
+          "lat": 45.7173881,
+          "lon": -122.652153,
+          "distance_miles": 0.55,
+          "likelihood_score": 90,
+          "rating": 4.2,
+          "user_ratings_total": 1222,
+          "phone": "+1 360-571-8282",
+          "website": "https://www.sushichiyo.com/",
+          "place_id": "ChIJ3wqhUO-tlVQRLPz54Lhz1UM",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 1,
+          "source": "Google Places"
+        },
+        {
+          "name": "KC Teriyaki",
+          "type": "restaurant, food, point_of_interest, establishment",
+          "address": "800 NE Tenney Rd B-207, Vancouver",
+          "lat": 45.719062,
+          "lon": -122.6624949,
+          "distance_miles": 0.1,
+          "likelihood_score": 96,
+          "rating": 4.5,
+          "user_ratings_total": 474,
+          "phone": "+1 360-573-4261",
+          "website": "http://www.kcteriyakiwa.com/",
+          "place_id": "ChIJy6B26OqtlVQRK5mToeUYtGw",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 1,
+          "source": "Google Places"
+        },
+        {
+          "name": "Mio Sushi",
+          "type": "restaurant, food, point_of_interest, establishment",
+          "address": "13317 NE 12th Ave #101, Vancouver",
+          "lat": 45.7178615,
+          "lon": -122.6588666,
+          "distance_miles": 0.26,
+          "likelihood_score": 83,
+          "rating": 4.3,
+          "user_ratings_total": 503,
+          "phone": "+1 360-597-3613",
+          "website": "https://www.miosushi.com/mio-salmoncreek",
+          "place_id": "ChIJFcn82OutlVQRkEBq06ym5Fw",
+          "opening_hours": {
+            "open_now": false
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 2,
+          "source": "Google Places"
+        },
+        {
+          "name": "ZENSHI Handcrafted Sushi",
+          "type": "restaurant, meal_takeaway, food, point_of_interest, establishment",
+          "address": "13023 NE Hwy 99, Vancouver",
+          "lat": 45.7160011,
+          "lon": -122.650931,
+          "distance_miles": 0.64,
+          "likelihood_score": 43,
+          "rating": null,
+          "user_ratings_total": 0,
+          "phone": "+1 360-566-7980",
+          "website": "https://www.zenshisushi.com/",
+          "place_id": "ChIJc2PBdWitlVQRL5mVBQ82JMI",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        }
+      ],
+      "createdAt": "2026-03-17T15:34:52.153925",
+      "count": 5
+    },
+    "e662391918dae17d": {
+      "storeNumber": "FME07Z-0460",
+      "category": "bar/pub",
+      "prospects": [
+        {
+          "name": "Billygan's Roadhouse",
+          "type": "bar, restaurant, food, point_of_interest, establishment",
+          "address": "13200 NE Hwy 99, Vancouver",
+          "lat": 45.71625419999999,
+          "lon": -122.6532806,
+          "distance_miles": 0.54,
+          "likelihood_score": 89,
+          "rating": 4.1,
+          "user_ratings_total": 3186,
+          "phone": "+1 360-573-2711",
+          "website": "http://www.billygansroadhouse.com/",
+          "place_id": "ChIJgZB9Me-tlVQRJsb7zs21Ij0",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 2,
+          "source": "Google Places"
+        },
+        {
+          "name": "Applebee's Grill + Bar",
+          "type": "restaurant, bar, food, point_of_interest, establishment",
+          "address": "13006 NE Hwy 99, Vancouver",
+          "lat": 45.7156419,
+          "lon": -122.6525156,
+          "distance_miles": 0.59,
+          "likelihood_score": 89,
+          "rating": 4,
+          "user_ratings_total": 2149,
+          "phone": "+1 360-574-8004",
+          "website": "https://restaurants.applebees.com/en-us/wa/vancouver/13006-ne-hwy-99-84028?utm_source=google&utm_medium=organic&utm_campaign=google_my_business&utm_term=84028&utm_content=website",
+          "place_id": "ChIJ_xcOTO-tlVQR4RrBbgTuAB8",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 2,
+          "source": "Google Places"
+        },
+        {
+          "name": "Heathen Brewing & Kitchen",
+          "type": "restaurant, food, point_of_interest, establishment",
+          "address": "2225 NE 119th St suite#109, Vancouver",
+          "lat": 45.7079747,
+          "lon": -122.6486235,
+          "distance_miles": 1.1,
+          "likelihood_score": 87,
+          "rating": 4.6,
+          "user_ratings_total": 140,
+          "phone": "+1 360-726-5200",
+          "website": "http://heathenbrewing.com/",
+          "place_id": "ChIJlaQLp_2xlVQRjJ225tc22eU",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        }
+      ],
+      "createdAt": "2026-03-17T15:38:00.892331",
+      "count": 3
+    },
+    "19984360e46d1305": {
+      "storeNumber": "FME07Z-0460",
+      "category": "indian",
+      "prospects": [
+        {
+          "name": "Mighty Munch Mtn Curry Pizza",
+          "type": "meal_delivery, meal_takeaway, restaurant, food, point_of_interest, establishment",
+          "address": "14313 NE 20th Ave UNIT 108, Vancouver",
+          "lat": 45.72512829999999,
+          "lon": -122.6505852,
+          "distance_miles": 0.66,
+          "likelihood_score": 92,
+          "rating": 4.9,
+          "user_ratings_total": 473,
+          "phone": "+1 360-448-7472",
+          "website": "https://mightymunchmtncurrypizza.com/mightymunchvancouver?utm_source=google",
+          "place_id": "ChIJ9Tkjq2qtlVQRYz4werL3-wg",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 3,
+          "source": "Google Places"
+        }
+      ],
+      "createdAt": "2026-03-17T15:39:12.821872",
+      "count": 1
+    },
+    "39d9c46db4742326": {
+      "storeNumber": "FME07Z-0460",
+      "category": "after school programs",
+      "prospects": [
+        {
+          "name": "Kiddie Academy of Vancouver - Salmon Creek",
+          "type": "school, point_of_interest, establishment",
+          "address": "2203 NE 129th St, Vancouver",
+          "lat": 45.71441110000001,
+          "lon": -122.6493233,
+          "distance_miles": 0.77,
+          "likelihood_score": 91,
+          "rating": 4.9,
+          "user_ratings_total": 94,
+          "phone": "+1 360-355-3133",
+          "website": "https://kiddieacademy.com/academies/vancouver-salmon-creek/",
+          "place_id": "ChIJay3tuOWtlVQRhrf0kYEHk7A",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        },
+        {
+          "name": "The Goddard School of Vancouver - Salmon Creek",
+          "type": "school, point_of_interest, establishment",
+          "address": "13201 NE 27th Ave, Vancouver",
+          "lat": 45.7170222,
+          "lon": -122.6435722,
+          "distance_miles": 0.95,
+          "likelihood_score": 89,
+          "rating": 4.8,
+          "user_ratings_total": 94,
+          "phone": "+1 360-573-2466",
+          "website": "https://www.goddardschool.com/schools/wa/vancouver/vancouver-salmon-creek?utm_source=google&utm_medium=business_listings&utm_campaign=school&utm_content=main_button",
+          "place_id": "ChIJN_EmtqyklVQRHMj7egz9Kzs",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        },
+        {
+          "name": "Children's Village - Salmon Creek",
+          "type": "school, point_of_interest, establishment",
+          "address": "1900 NE 129th St, Vancouver",
+          "lat": 45.7149349,
+          "lon": -122.652476,
+          "distance_miles": 0.62,
+          "likelihood_score": 84,
+          "rating": 3.3,
+          "user_ratings_total": 34,
+          "phone": "+1 360-573-1144",
+          "website": "https://childrensvillageinc.com/",
+          "place_id": "ChIJg7hpquitlVQRUq5_JlADRmo",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        },
+        {
+          "name": "The Learning Garage",
+          "type": "point_of_interest, establishment",
+          "address": "14313 NE 20th Ave suite a103, Vancouver",
+          "lat": 45.7246791,
+          "lon": -122.6506627,
+          "distance_miles": 0.64,
+          "likelihood_score": 82,
+          "rating": 4.8,
+          "user_ratings_total": 33,
+          "phone": "+1 360-745-0404",
+          "website": "https://the-learning-garage.com/",
+          "place_id": "ChIJuxweWdCtlVQRxsTOBxmU7Ro",
+          "opening_hours": {
+            "open_now": false
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        },
+        {
+          "name": "Salmon Creek KinderCare",
+          "type": "school, point_of_interest, establishment",
+          "address": "13315 NE 12th Ave, Vancouver",
+          "lat": 45.7167612,
+          "lon": -122.6587084,
+          "distance_miles": 0.32,
+          "likelihood_score": 89,
+          "rating": 3.7,
+          "user_ratings_total": 44,
+          "phone": "+1 360-571-8389",
+          "website": "https://www.kindercare.com/our-centers/vancouver/wa/301610?utm_campaign=kc-lg&utm_source=yext&utm_medium=pro&utm_keyword=&utm_platform=&utm_matchtype=&utm_adgroupid=&utm_content=gmb&y_source=1_NTA3OTg5LTcxNS1sb2NhdGlvbi53ZWJzaXRl",
+          "place_id": "ChIJvTVVdOmtlVQRA_ojQRXNTrY",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        },
+        {
+          "name": "Mathnasium",
+          "type": "school, point_of_interest, establishment",
+          "address": "14015 NE 10th Ave #512, Vancouver",
+          "lat": 45.7221127,
+          "lon": -122.6594945,
+          "distance_miles": 0.18,
+          "likelihood_score": 98,
+          "rating": 5,
+          "user_ratings_total": 23,
+          "phone": "+1 360-472-6284",
+          "website": "https://www.mathnasium.com/math-centers/northvancouverwa?utm_source=Google+&utm_medium=Listing&utm_campaign=Google+Business+Profile",
+          "place_id": "ChIJMdvpF2KulVQRKEioyIOcgxE",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        },
+        {
+          "name": "Club kid the babysitting center",
+          "type": "point_of_interest, establishment",
+          "address": "14300 NE 20th Ave suite 102, Vancouver",
+          "lat": 45.7238502,
+          "lon": -122.6519018,
+          "distance_miles": 0.56,
+          "likelihood_score": 81,
+          "rating": 5,
+          "user_ratings_total": 5,
+          "phone": "+1 360-409-6504",
+          "website": "https://thebabysittingcenter.com/",
+          "place_id": "ChIJ9aMR1emtlVQRjOFmRbGrgZc",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        },
+        {
+          "name": "Kids Club Fun & Fitness",
+          "type": "gym, school, health, point_of_interest, establishment",
+          "address": "13914 NW 3rd Ct, Vancouver",
+          "lat": 45.7221925,
+          "lon": -122.6739253,
+          "distance_miles": 0.56,
+          "likelihood_score": 90,
+          "rating": 4.3,
+          "user_ratings_total": 244,
+          "phone": "+1 360-546-5437",
+          "website": "http://www.kidsclub4fun.com/",
+          "place_id": "ChIJi_e1Qr6tlVQR3nGS1J6BThg",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        },
+        {
+          "name": "Gold Star Tutoring",
+          "type": "point_of_interest, establishment",
+          "address": "1404 NE 134th St Suite 240, Vancouver",
+          "lat": 45.7190097,
+          "lon": -122.657205,
+          "distance_miles": 0.28,
+          "likelihood_score": 96,
+          "rating": 4.8,
+          "user_ratings_total": 54,
+          "phone": "+1 360-241-7998",
+          "website": "http://www.goldstartutoring.net/",
+          "place_id": "ChIJoeLmugZMlFQRDUcFZfnEV8U",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        }
+      ],
+      "createdAt": "2026-03-17T15:41:08.965841",
+      "count": 9
+    },
+    "b012529cfb7731a0": {
+      "storeNumber": "FME07Z-0460",
+      "category": "car wash",
+      "prospects": [
+        {
+          "name": "Happy's Drive-Thru Car Wash",
+          "type": "car_wash, point_of_interest, establishment",
+          "address": "1316 NE 134th St, Vancouver",
+          "lat": 45.7186432,
+          "lon": -122.6578349,
+          "distance_miles": 0.26,
+          "likelihood_score": 92,
+          "rating": 4.1,
+          "user_ratings_total": 555,
+          "phone": "+1 360-571-9961",
+          "website": "https://www.happyswash.com/",
+          "place_id": "ChIJgT2f--utlVQROz8Nicy8qtU",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        },
+        {
+          "name": "Affordable Auto Detailing",
+          "type": "point_of_interest, establishment",
+          "address": "14407 NE 13th Ave, Vancouver",
+          "lat": 45.7256741,
+          "lon": -122.6581983,
+          "distance_miles": 0.41,
+          "likelihood_score": 89,
+          "rating": 3.9,
+          "user_ratings_total": 34,
+          "phone": "+1 360-216-3648",
+          "website": "http://www.autodetailingwa.org/",
+          "place_id": "ChIJP8HwFbmvlVQRRty2lxXrvUw",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        },
+        {
+          "name": "Squeegee Detail Car Detailing Vancouver",
+          "type": "car_wash, point_of_interest, establishment",
+          "address": "13023 NE Hwy 99 UNIT 7, Vancouver",
+          "lat": 45.7159712,
+          "lon": -122.6509077,
+          "distance_miles": 0.64,
+          "likelihood_score": 73,
+          "rating": 5,
+          "user_ratings_total": 2,
+          "phone": "+1 971-895-2003",
+          "website": "https://squeegeedetail.com/car-detailing-vancouver",
+          "place_id": "ChIJb9yDp_utlVQR0rnn1Io00Gg",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        },
+        {
+          "name": "Fred Meyer",
+          "type": "grocery_or_supermarket, florist, liquor_store, bakery, health, store, food, point_of_interest, establishment",
+          "address": "800 NE Tenney Rd, Vancouver",
+          "lat": 45.7201844,
+          "lon": -122.6625848,
+          "distance_miles": 0.03,
+          "likelihood_score": 94,
+          "rating": 4.1,
+          "user_ratings_total": 1242,
+          "phone": "+1 360-571-2540",
+          "website": "https://www.fredmeyer.com/stores/grocery/wa/vancouver/salmon-creek/701/00460?cid=loc_70100460_gmb",
+          "place_id": "ChIJc-itzJStlVQRzNv92Vy_w8g",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        },
+        {
+          "name": "Oilstop Drive-Thru Oil Change",
+          "type": "car_wash, car_repair, point_of_interest, establishment",
+          "address": "1316 NE 134th St, Vancouver",
+          "lat": 45.7186516,
+          "lon": -122.6576292,
+          "distance_miles": 0.27,
+          "likelihood_score": 94,
+          "rating": 4.4,
+          "user_ratings_total": 689,
+          "phone": "+1 360-571-9950",
+          "website": "https://oilstopinc.com/",
+          "place_id": "ChIJgT2f--utlVQRApPAxZWc4nE",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        }
+      ],
+      "createdAt": "2026-03-17T15:43:20.081990",
+      "count": 5
+    },
+    "b078f38b12070653": {
+      "storeNumber": "FME07Z-0460",
+      "category": "auto repair",
+      "prospects": [
+        {
+          "name": "Gaynors Automotive",
+          "type": "car_repair, store, point_of_interest, establishment",
+          "address": "502 NE 139th St, Vancouver",
+          "lat": 45.7223056,
+          "lon": -122.6656552,
+          "distance_miles": 0.19,
+          "likelihood_score": 96,
+          "rating": 4.7,
+          "user_ratings_total": 1237,
+          "phone": "+1 360-245-6817",
+          "website": "https://www.gaynors.com/locations/wa/vancouver/auto-repair-502-ne-139th-st?utm_source=local_listing&utm_medium=organic&utm_campaign=store_8102",
+          "place_id": "ChIJlYxcs-6ulVQRQU2FihYprWk",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        },
+        {
+          "name": "NW Import & Domestic Specialists",
+          "type": "car_repair, store, point_of_interest, establishment",
+          "address": "11813 NE Hwy 99, Vancouver",
+          "lat": 45.706853,
+          "lon": -122.6482222,
+          "distance_miles": 1.17,
+          "likelihood_score": 86,
+          "rating": 4.7,
+          "user_ratings_total": 162,
+          "phone": "+1 360-546-0808",
+          "website": "https://www.nwimportdomesticspecialists.com/",
+          "place_id": "ChIJr7NGXeCtlVQRYW0X30vPe-k",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        },
+        {
+          "name": "Metro Transmission",
+          "type": "car_repair, point_of_interest, establishment",
+          "address": "11812 NE Hwy 99, Vancouver",
+          "lat": 45.7071095,
+          "lon": -122.6492921,
+          "distance_miles": 1.13,
+          "likelihood_score": 86,
+          "rating": 4.6,
+          "user_ratings_total": 115,
+          "phone": "+1 360-225-5117",
+          "website": "https://www.metrotransmission.net/",
+          "place_id": "ChIJIcDel1tPlFQRv1iPpVkb1KI",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        }
+      ],
+      "createdAt": "2026-03-17T15:45:26.163523",
+      "count": 3
     }
   },
-  "lastUpdated": "2026-03-17T15:23:55.870058"
+  "lastUpdated": "2026-03-17T15:45:26.163539"
 }

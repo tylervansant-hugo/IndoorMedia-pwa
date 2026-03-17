@@ -1,0 +1,18 @@
+[
+  {
+    "id": "reg_001",
+    "telegram_id": "999999999",
+    "name": "Test User",
+    "email": "testuser@example.com",
+    "timestamp": "2026-03-17T22:49:35.470605+00:00",
+    "status": "rejected"
+  },
+  {
+    "id": "reg_002",
+    "telegram_id": "888888888",
+    "name": "Rejected User",
+    "email": "rejected@example.com",
+    "timestamp": "2026-03-17T22:49:35.471586+00:00",
+    "status": "rejected"
+  }
+]
