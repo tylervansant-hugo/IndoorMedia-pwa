@@ -4927,7 +4927,451 @@
       ],
       "createdAt": "2026-03-17T12:02:14.116181",
       "count": 6
+    },
+    "d63bc4d8b702afbb": {
+      "storeNumber": "SAF07Z-1842",
+      "category": "auto repair",
+      "prospects": [
+        {
+          "name": "Gaynors Automotive",
+          "type": "car_repair, store, point_of_interest, establishment",
+          "address": "502 NE 139th St, Vancouver",
+          "lat": 45.7223056,
+          "lon": -122.6656552,
+          "distance_miles": 0.88,
+          "likelihood_score": 89,
+          "rating": 4.7,
+          "user_ratings_total": 1237,
+          "phone": "+1 360-245-6817",
+          "website": "https://www.gaynors.com/locations/wa/vancouver/auto-repair-502-ne-139th-st?utm_source=local_listing&utm_medium=organic&utm_campaign=store_8102",
+          "place_id": "ChIJlYxcs-6ulVQRQU2FihYprWk",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        },
+        {
+          "name": "NW Import & Domestic Specialists",
+          "type": "car_repair, store, point_of_interest, establishment",
+          "address": "11813 NE Hwy 99, Vancouver",
+          "lat": 45.706853,
+          "lon": -122.6482222,
+          "distance_miles": 0.62,
+          "likelihood_score": 91,
+          "rating": 4.7,
+          "user_ratings_total": 162,
+          "phone": "+1 360-546-0808",
+          "website": "https://www.nwimportdomesticspecialists.com/",
+          "place_id": "ChIJr7NGXeCtlVQRYW0X30vPe-k",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        },
+        {
+          "name": "Springs Brake and Suspension",
+          "type": "car_repair, point_of_interest, establishment",
+          "address": "13407 NE Salmon Creek Ave, Vancouver",
+          "lat": 45.718624,
+          "lon": -122.6379931,
+          "distance_miles": 0.62,
+          "likelihood_score": 93,
+          "rating": 5,
+          "user_ratings_total": 470,
+          "phone": "+1 360-953-5665",
+          "website": "https://springs-auto.com/vancouver-wa/suspension-service/",
+          "place_id": "ChIJPdCjGkytlVQRUguZW5xgLM0",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        },
+        {
+          "name": "Mackin's Auto Body Salmon Creek",
+          "type": "car_repair, point_of_interest, establishment",
+          "address": "10803 NE Hwy 99, Vancouver",
+          "lat": 45.6996336,
+          "lon": -122.6516859,
+          "distance_miles": 1.11,
+          "likelihood_score": 87,
+          "rating": 4.8,
+          "user_ratings_total": 277,
+          "phone": "+1 360-573-0313",
+          "website": "https://www.mackinsab.com/locations/salmon-creek/?utm_source=googlebusinessprofile&utm_medium=organic&utm_campaign=gbpwebsitelink",
+          "place_id": "ChIJwwhssHaulVQRgqxDiaIz7Zg",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        },
+        {
+          "name": "Metro Transmission",
+          "type": "car_repair, point_of_interest, establishment",
+          "address": "11812 NE Hwy 99, Vancouver",
+          "lat": 45.7071095,
+          "lon": -122.6492921,
+          "distance_miles": 0.59,
+          "likelihood_score": 92,
+          "rating": 4.6,
+          "user_ratings_total": 115,
+          "phone": "+1 360-225-5117",
+          "website": "https://www.metrotransmission.net/",
+          "place_id": "ChIJIcDel1tPlFQRv1iPpVkb1KI",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        }
+      ],
+      "createdAt": "2026-03-17T14:40:14.955915",
+      "count": 5
+    },
+    "3fd20e99bc35620a": {
+      "storeNumber": "SAF07Z-1842",
+      "category": "pizza",
+      "prospects": [
+        {
+          "name": "Mighty Munch Mtn Curry Pizza",
+          "type": "meal_delivery, meal_takeaway, restaurant, food, point_of_interest, establishment",
+          "address": "14313 NE 20th Ave UNIT 108, Vancouver",
+          "lat": 45.72512829999999,
+          "lon": -122.6505852,
+          "distance_miles": 0.65,
+          "likelihood_score": 92,
+          "rating": 4.9,
+          "user_ratings_total": 473,
+          "phone": "+1 360-448-7472",
+          "website": "https://mightymunchmtncurrypizza.com/mightymunchvancouver?utm_source=google",
+          "place_id": "ChIJ9Tkjq2qtlVQRYz4werL3-wg",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 3,
+          "source": "Google Places"
+        },
+        {
+          "name": "Mountain Mike's Pizza",
+          "type": "restaurant, food, point_of_interest, establishment",
+          "address": "14109 NE 10th Ave, Vancouver",
+          "lat": 45.72376810000001,
+          "lon": -122.6609448,
+          "distance_miles": 0.76,
+          "likelihood_score": 84,
+          "rating": 3.5,
+          "user_ratings_total": 116,
+          "phone": "+1 360-626-9400",
+          "website": "https://www.mountainmikespizza.com/locations/vancouver-ne-10th-ave/",
+          "place_id": "ChIJibW6PVStlVQRJTfMOyVt_ZY",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        },
+        {
+          "name": "Round Table Pizza",
+          "type": "meal_delivery, liquor_store, store, meal_takeaway, restaurant, food, point_of_interest, establishment",
+          "address": "13009 NE Hwy 99, Vancouver",
+          "lat": 45.7165902,
+          "lon": -122.6503031,
+          "distance_miles": 0.06,
+          "likelihood_score": 92,
+          "rating": 3.7,
+          "user_ratings_total": 479,
+          "phone": "+1 360-574-5755",
+          "website": "https://www.roundtablepizza.com/location/1223/",
+          "place_id": "ChIJn1oVY--tlVQRg8sg7BB7kMY",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 2,
+          "source": "Google Places"
+        },
+        {
+          "name": "Domino's Pizza",
+          "type": "meal_delivery, meal_takeaway, restaurant, food, point_of_interest, establishment",
+          "address": "13712 NE 20th Ave Suite 1 Ste I, Vancouver",
+          "lat": 45.7206334,
+          "lon": -122.6517432,
+          "distance_miles": 0.35,
+          "likelihood_score": 91,
+          "rating": 4,
+          "user_ratings_total": 325,
+          "phone": "+1 360-718-3700",
+          "website": "https://www.dominos.com/en/?redirect=homepage&utm_source=google&utm_medium=loclist&utm_campaign=localmaps",
+          "place_id": "ChIJw-4T5O2tlVQRbfXIekaIkpc",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 1,
+          "source": "Google Places"
+        },
+        {
+          "name": "Papa Murphy's | Take 'N' Bake Pizza",
+          "type": "meal_takeaway, restaurant, food, point_of_interest, establishment",
+          "address": "800 NE Tenney Rd, Vancouver",
+          "lat": 45.7196999,
+          "lon": -122.6625577,
+          "distance_miles": 0.66,
+          "likelihood_score": 90,
+          "rating": 4.5,
+          "user_ratings_total": 431,
+          "phone": "+1 360-576-9670",
+          "website": "https://locations.papamurphys.com/wa/vancouver/800-tenney-road?utm_source=organic&utm_medium=gmb&utm_campaign=yext&y_source=1_MTU0MzA0MDctNzE1LWxvY2F0aW9uLndlYnNpdGU%3D",
+          "place_id": "ChIJc-itzJStlVQRSg4JGnKCNRQ",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 1,
+          "source": "Google Places"
+        },
+        {
+          "name": "Champ Pizza",
+          "type": "restaurant, food, point_of_interest, establishment",
+          "address": "13317 NE 12th Ave Unit 105, Vancouver",
+          "lat": 45.7178459,
+          "lon": -122.6587983,
+          "distance_miles": 0.44,
+          "likelihood_score": 81,
+          "rating": 4.2,
+          "user_ratings_total": 233,
+          "phone": "+1 360-573-8569",
+          "website": "https://www.champpizza.com/",
+          "place_id": "ChIJs4pmn26tlVQRWqZztZUBadc",
+          "opening_hours": {
+            "open_now": false
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 1,
+          "source": "Google Places"
+        },
+        {
+          "name": "7-Eleven",
+          "type": "convenience_store, liquor_store, cafe, store, restaurant, food, point_of_interest, establishment",
+          "address": "12908 NE Hwy 99, Vancouver",
+          "lat": 45.71490319999999,
+          "lon": -122.6520838,
+          "distance_miles": 0.11,
+          "likelihood_score": 89,
+          "rating": 3.2,
+          "user_ratings_total": 63,
+          "phone": "+1 360-573-6417",
+          "website": "https://www.7-eleven.com/locations/wa/vancouver/12908-hwy-99-24279?utm_source=G&utm_medium=local&utm_campaign=google-local",
+          "place_id": "ChIJsekdAOatlVQR2Mqf5ULp6vw",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 1,
+          "source": "Google Places"
+        },
+        {
+          "name": "Jersey Mike's Subs",
+          "type": "store, meal_takeaway, restaurant, food, point_of_interest, establishment",
+          "address": "14105 NE 10th Ave Suite 801, Vancouver",
+          "lat": 45.723443,
+          "lon": -122.6606057,
+          "distance_miles": 0.74,
+          "likelihood_score": 86,
+          "rating": 3.8,
+          "user_ratings_total": 67,
+          "phone": "+1 360-553-4390",
+          "website": "https://www.jerseymikes.com/18064/vancouver-wa?utm_source=google&utm_medium=organic&utm_campaign=listings",
+          "place_id": "ChIJ6T5TB26tlVQRHCxPRTfbe5M",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        }
+      ],
+      "createdAt": "2026-03-17T14:49:39.868246",
+      "count": 8
+    },
+    "7751e7cef9c52b18": {
+      "storeNumber": "FME07Z-0460",
+      "category": "after school program",
+      "prospects": [
+        {
+          "name": "Kiddie Academy of Vancouver - Salmon Creek",
+          "type": "point_of_interest, school, establishment",
+          "address": "2203 NE 129th St, Vancouver",
+          "lat": 45.71441110000001,
+          "lon": -122.6493233,
+          "distance_miles": 0.77,
+          "likelihood_score": 91,
+          "rating": 4.9,
+          "user_ratings_total": 94,
+          "phone": "+1 360-355-3133",
+          "website": "https://kiddieacademy.com/academies/vancouver-salmon-creek/",
+          "place_id": "ChIJay3tuOWtlVQRhrf0kYEHk7A",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        },
+        {
+          "name": "The Goddard School of Vancouver - Salmon Creek",
+          "type": "point_of_interest, school, establishment",
+          "address": "13201 NE 27th Ave, Vancouver",
+          "lat": 45.7170222,
+          "lon": -122.6435722,
+          "distance_miles": 0.95,
+          "likelihood_score": 89,
+          "rating": 4.8,
+          "user_ratings_total": 94,
+          "phone": "+1 360-573-2466",
+          "website": "https://www.goddardschool.com/schools/wa/vancouver/vancouver-salmon-creek?utm_source=google&utm_medium=business_listings&utm_campaign=school&utm_content=main_button",
+          "place_id": "ChIJN_EmtqyklVQRHMj7egz9Kzs",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        },
+        {
+          "name": "Children's Village - Salmon Creek",
+          "type": "point_of_interest, school, establishment",
+          "address": "1900 NE 129th St, Vancouver",
+          "lat": 45.7149349,
+          "lon": -122.652476,
+          "distance_miles": 0.62,
+          "likelihood_score": 84,
+          "rating": 3.3,
+          "user_ratings_total": 34,
+          "phone": "+1 360-573-1144",
+          "website": "https://childrensvillageinc.com/",
+          "place_id": "ChIJg7hpquitlVQRUq5_JlADRmo",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        },
+        {
+          "name": "The Learning Garage",
+          "type": "point_of_interest, establishment",
+          "address": "14313 NE 20th Ave suite a103, Vancouver",
+          "lat": 45.7246791,
+          "lon": -122.6506627,
+          "distance_miles": 0.64,
+          "likelihood_score": 82,
+          "rating": 4.8,
+          "user_ratings_total": 33,
+          "phone": "+1 360-745-0404",
+          "website": "https://the-learning-garage.com/",
+          "place_id": "ChIJuxweWdCtlVQRxsTOBxmU7Ro",
+          "opening_hours": {
+            "open_now": false
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        },
+        {
+          "name": "Salmon Creek KinderCare",
+          "type": "point_of_interest, school, establishment",
+          "address": "13315 NE 12th Ave, Vancouver",
+          "lat": 45.7167612,
+          "lon": -122.6587084,
+          "distance_miles": 0.32,
+          "likelihood_score": 89,
+          "rating": 3.7,
+          "user_ratings_total": 44,
+          "phone": "+1 360-571-8389",
+          "website": "https://www.kindercare.com/our-centers/vancouver/wa/301610?utm_campaign=kc-lg&utm_source=yext&utm_medium=pro&utm_keyword=&utm_platform=&utm_matchtype=&utm_adgroupid=&utm_content=gmb&y_source=1_NTA3OTg5LTcxNS1sb2NhdGlvbi53ZWJzaXRl",
+          "place_id": "ChIJvTVVdOmtlVQRA_ojQRXNTrY",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        },
+        {
+          "name": "Mathnasium",
+          "type": "point_of_interest, school, establishment",
+          "address": "14015 NE 10th Ave #512, Vancouver",
+          "lat": 45.7221127,
+          "lon": -122.6594945,
+          "distance_miles": 0.18,
+          "likelihood_score": 98,
+          "rating": 5,
+          "user_ratings_total": 23,
+          "phone": "+1 360-472-6284",
+          "website": "https://www.mathnasium.com/math-centers/northvancouverwa?utm_source=Google+&utm_medium=Listing&utm_campaign=Google+Business+Profile",
+          "place_id": "ChIJMdvpF2KulVQRKEioyIOcgxE",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        },
+        {
+          "name": "Club kid the babysitting center",
+          "type": "point_of_interest, establishment",
+          "address": "14300 NE 20th Ave suite 102, Vancouver",
+          "lat": 45.7238502,
+          "lon": -122.6519018,
+          "distance_miles": 0.56,
+          "likelihood_score": 81,
+          "rating": 5,
+          "user_ratings_total": 5,
+          "phone": "+1 360-409-6504",
+          "website": "https://thebabysittingcenter.com/",
+          "place_id": "ChIJ9aMR1emtlVQRjOFmRbGrgZc",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        },
+        {
+          "name": "Kids Club Fun & Fitness",
+          "type": "gym, health, point_of_interest, school, establishment",
+          "address": "13914 NW 3rd Ct, Vancouver",
+          "lat": 45.7221925,
+          "lon": -122.6739253,
+          "distance_miles": 0.56,
+          "likelihood_score": 90,
+          "rating": 4.3,
+          "user_ratings_total": 244,
+          "phone": "+1 360-546-5437",
+          "website": "http://www.kidsclub4fun.com/",
+          "place_id": "ChIJi_e1Qr6tlVQR3nGS1J6BThg",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        }
+      ],
+      "createdAt": "2026-03-17T15:23:55.870040",
+      "count": 8
     }
   },
-  "lastUpdated": "2026-03-17T13:51:50.781219"
+  "lastUpdated": "2026-03-17T15:23:55.870058"
 }

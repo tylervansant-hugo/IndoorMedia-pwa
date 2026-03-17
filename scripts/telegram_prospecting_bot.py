@@ -929,6 +929,48 @@ CATEGORIES = {
             "keyword": "assisted living senior living retirement home nursing home memory care",
             "exclude": ["hospital", "emergency room"]
         }
+    },
+    "👦 Kids Activities & Tutoring": {
+        "Tutoring": {
+            "types": ["education"],
+            "keyword": "tutoring tutor academic help homework test prep sat act",
+            "exclude": ["university", "college"]
+        },
+        "After School Programs": {
+            "types": ["school"],
+            "keyword": "after school program afterschool enrichment kids club youth center",
+            "exclude": ["university", "college", "babysitting"]
+        },
+        "Martial Arts": {
+            "types": ["gym"],
+            "keyword": "martial arts karate taekwondo kung fu judo boxing mma",
+            "exclude": []
+        },
+        "Dance Classes": {
+            "types": ["education"],
+            "keyword": "dance classes ballet tap hip hop contemporary dance studio",
+            "exclude": ["nightclub", "bar"]
+        },
+        "Music Lessons": {
+            "types": ["education"],
+            "keyword": "music lessons piano guitar violin drums lessons instructor",
+            "exclude": []
+        },
+        "Youth Sports": {
+            "types": ["gym", "sports"],
+            "keyword": "youth sports kids sports soccer baseball basketball football swimming",
+            "exclude": ["adult", "professional"]
+        },
+        "Summer Camps": {
+            "types": ["school"],
+            "keyword": "summer camp day camp kids camp sports camp",
+            "exclude": ["adult", "college"]
+        },
+        "General Kids Activities": {
+            "types": ["education"],
+            "keyword": "kids activities enrichment programs children classes",
+            "exclude": ["university", "college"]
+        }
     }
 }
 

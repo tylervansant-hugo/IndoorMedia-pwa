@@ -43,7 +43,7 @@
       },
       "search_history": [],
       "contact_history": {},
-      "session_searches": 91,
+      "session_searches": 93,
       "session_bookmarks": 0
     },
     "8647728045": {
@@ -154,11 +154,37 @@
           "last_contacted": null,
           "visit_count": 0,
           "notes": []
+        },
+        "529a40e8129a": {
+          "name": "NW Import & Domestic Specialists",
+          "address": "11813 NE Hwy 99, Vancouver",
+          "phone": "+1 360-546-0808",
+          "email": "",
+          "contact_name": "",
+          "score": 91,
+          "status": "follow-up",
+          "saved_date": "2026-03-17T14:42:22.251826",
+          "last_contacted": null,
+          "visit_count": 0,
+          "notes": []
+        },
+        "9ccdb876c0af": {
+          "name": "Round Table Pizza",
+          "address": "13009 NE Hwy 99, Vancouver",
+          "phone": "+1 360-574-5755",
+          "email": "",
+          "contact_name": "",
+          "score": 92,
+          "status": "follow-up",
+          "saved_date": "2026-03-17T14:50:16.869520",
+          "last_contacted": null,
+          "visit_count": 0,
+          "notes": []
         }
       },
       "search_history": [],
       "contact_history": {},
-      "session_searches": 8,
+      "session_searches": 10,
       "session_bookmarks": 0
     },
     "8767251377": {
