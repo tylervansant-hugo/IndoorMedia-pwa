@@ -53,5 +53,11 @@
     "email": "testuser@example.com",
     "role": "rep",
     "registered_at": "2026-03-17T15:49:25.906710"
+  },
+  "2126715079": {
+    "contract_name": "Cameron gould",
+    "display_name": "Cameron gould",
+    "role": "rep",
+    "registered_at": "2026-03-17"
   }
 }

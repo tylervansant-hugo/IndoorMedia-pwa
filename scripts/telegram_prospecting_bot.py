@@ -16,6 +16,7 @@ import subprocess
 from pathlib import Path
 from typing import Dict, List, Optional
 from datetime import datetime, timedelta
+import pytz
 
 # Shipping data module for real delivery dates
 try:
@@ -5106,18 +5107,20 @@ async def handle_button_callback(update: Update, context: ContextTypes.DEFAULT_T
                 start_time = cal_date.replace(hour=hour, minute=minute)
                 end_time = start_time + timedelta(minutes=30)
                 
-                # Create event on REP's calendar with timezone, and auto-invite Tyler
-                # Format: YYYY-MM-DDTHH:MM:SS with timezone (gog expects local time, --tz for clarity)
-                start_iso = start_time.isoformat()
-                end_iso = end_time.isoformat()
+                # Create event on REP's calendar with timezone in RFC3339 format
+                # gog expects RFC3339 timestamps (e.g., 2026-03-17T14:30:00-07:00)
+                tz = pytz.timezone("America/Los_Angeles")
+                start_aware = tz.localize(start_time) if start_time.tzinfo is None else start_time
+                end_aware = tz.localize(end_time) if end_time.tzinfo is None else end_time
+                start_rfc3339 = start_aware.isoformat()
+                end_rfc3339 = end_aware.isoformat()
                 
                 cmd = [
                     "gog", "calendar", "create", rep_email,
                     f"--summary=📅 {business_name} (Booked by {selected_rep})",
-                    f"--from={start_iso}",
-                    f"--to={end_iso}",
+                    f"--from={start_rfc3339}",
+                    f"--to={end_rfc3339}",
                     f"--attendees=tyler.vansant@indoormedia.com",
-                    f"--tz=America/Los_Angeles",
                 ]
                 
                 result = subprocess.run(cmd, capture_output=True, text=True, timeout=30)
@@ -5272,10 +5275,17 @@ async def handle_button_callback(update: Update, context: ContextTypes.DEFAULT_T
             
             # Create Google Calendar event on rep's calendar with timezone
             cal_date = datetime.now() + timedelta(days=days_ahead)
-            start_time = cal_date.replace(hour=hour, minute=minute, second=0).isoformat()
+            
+            # Convert to RFC3339 format with timezone info (required by gog)
+            tz = pytz.timezone("America/Los_Angeles")
+            start_dt = cal_date.replace(hour=hour, minute=minute, second=0)
+            start_aware = tz.localize(start_dt) if start_dt.tzinfo is None else start_dt
+            start_time = start_aware.isoformat()
+            
             # End time is 1 hour after start
-            end_date = cal_date.replace(hour=hour, minute=minute, second=0) + timedelta(hours=1)
-            end_time = end_date.isoformat()
+            end_dt = start_dt + timedelta(hours=1)
+            end_aware = tz.localize(end_dt) if end_dt.tzinfo is None else end_dt
+            end_time = end_aware.isoformat()
             
             summary = f"👤 Call/Visit: {business_name}"
             description = f"Prospect: {business_name}\nAddress: {address}\nPhone: {phone}\nStore: {store}"
@@ -5300,7 +5310,6 @@ async def handle_button_callback(update: Update, context: ContextTypes.DEFAULT_T
                 "--to", end_time,
                 "--description", description,
                 "--attendees", "tyler.vansant@indoormedia.com",
-                "--tz", "America/Los_Angeles",
             ]
             
             # Try to create the calendar event

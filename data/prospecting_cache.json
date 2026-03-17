@@ -6075,7 +6075,531 @@
       ],
       "createdAt": "2026-03-17T15:45:26.163523",
       "count": 3
+    },
+    "d2d347aada1e1eee": {
+      "storeNumber": "SAF07Z-1842",
+      "category": "sushi/japanese",
+      "prospects": [
+        {
+          "name": "Yi Sushi -Revolving Sushi Bar",
+          "type": "restaurant, food, point_of_interest, establishment",
+          "address": "910 NE Tenney Rd # 105, Vancouver",
+          "lat": 45.7195544,
+          "lon": -122.6610848,
+          "distance_miles": 0.59,
+          "likelihood_score": 91,
+          "rating": 4.5,
+          "user_ratings_total": 323,
+          "phone": "+1 360-718-7538",
+          "website": "http://www.yisushivan.com/",
+          "place_id": "ChIJlX5N9qqtlVQR4D5yRl-eDug",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        },
+        {
+          "name": "Sushi Chiyo",
+          "type": "restaurant, food, point_of_interest, establishment",
+          "address": "13307 NE Hwy 99, Vancouver",
+          "lat": 45.7173881,
+          "lon": -122.652153,
+          "distance_miles": 0.15,
+          "likelihood_score": 94,
+          "rating": 4.2,
+          "user_ratings_total": 1222,
+          "phone": "+1 360-571-8282",
+          "website": "https://www.sushichiyo.com/",
+          "place_id": "ChIJ3wqhUO-tlVQRLPz54Lhz1UM",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 1,
+          "source": "Google Places"
+        },
+        {
+          "name": "KC Teriyaki",
+          "type": "restaurant, food, point_of_interest, establishment",
+          "address": "800 NE Tenney Rd B-207, Vancouver",
+          "lat": 45.719062,
+          "lon": -122.6624949,
+          "distance_miles": 0.64,
+          "likelihood_score": 90,
+          "rating": 4.5,
+          "user_ratings_total": 474,
+          "phone": "+1 360-573-4261",
+          "website": "http://www.kcteriyakiwa.com/",
+          "place_id": "ChIJy6B26OqtlVQRK5mToeUYtGw",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 1,
+          "source": "Google Places"
+        },
+        {
+          "name": "Mio Sushi",
+          "type": "restaurant, food, point_of_interest, establishment",
+          "address": "13317 NE 12th Ave #101, Vancouver",
+          "lat": 45.7178615,
+          "lon": -122.6588666,
+          "distance_miles": 0.45,
+          "likelihood_score": 81,
+          "rating": 4.3,
+          "user_ratings_total": 503,
+          "phone": "+1 360-597-3613",
+          "website": "https://www.miosushi.com/mio-salmoncreek",
+          "place_id": "ChIJFcn82OutlVQRkEBq06ym5Fw",
+          "opening_hours": {
+            "open_now": false
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 2,
+          "source": "Google Places"
+        },
+        {
+          "name": "ZENSHI Handcrafted Sushi",
+          "type": "restaurant, meal_takeaway, food, point_of_interest, establishment",
+          "address": "13023 NE Hwy 99, Vancouver",
+          "lat": 45.7160011,
+          "lon": -122.650931,
+          "distance_miles": 0.04,
+          "likelihood_score": 49,
+          "rating": null,
+          "user_ratings_total": 0,
+          "phone": "+1 360-566-7980",
+          "website": "https://www.zenshisushi.com/",
+          "place_id": "ChIJc2PBdWitlVQRL5mVBQ82JMI",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        }
+      ],
+      "createdAt": "2026-03-17T15:56:11.080889",
+      "count": 5
+    },
+    "5da24130dd0cf35c": {
+      "storeNumber": "SAF07Z-1842",
+      "category": "all restaurants",
+      "prospects": [
+        {
+          "name": "Creekside BBQ",
+          "type": "restaurant, food, point_of_interest, store, establishment",
+          "address": "910 NE Tenney Rd Suite 119, Vancouver",
+          "lat": 45.71922989999999,
+          "lon": -122.6612904,
+          "distance_miles": 0.59,
+          "likelihood_score": 90,
+          "rating": 4.2,
+          "user_ratings_total": 536,
+          "phone": "+1 360-719-2230",
+          "website": "https://creeksidebbq.net/?utm_source=google",
+          "place_id": "ChIJ2Rlms4atlVQRS6uQWBm-erY",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 1,
+          "source": "Google Places"
+        },
+        {
+          "name": "Pho 4Seasons",
+          "type": "restaurant, food, point_of_interest, establishment",
+          "address": "13023 NE Hwy 99 suite 9, Vancouver",
+          "lat": 45.7162353,
+          "lon": -122.6497898,
+          "distance_miles": 0.04,
+          "likelihood_score": 98,
+          "rating": 4.9,
+          "user_ratings_total": 162,
+          "phone": "+1 360-787-7491",
+          "website": null,
+          "place_id": "ChIJIem1zTOtlVQRLtbYRjfbvi8",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        },
+        {
+          "name": "Los Tacos Locos",
+          "type": "restaurant, food, point_of_interest, establishment",
+          "address": "1309 NE 134th St, Vancouver",
+          "lat": 45.71776999999999,
+          "lon": -122.6580488,
+          "distance_miles": 0.41,
+          "likelihood_score": 93,
+          "rating": 4.6,
+          "user_ratings_total": 671,
+          "phone": "+1 360-573-1327",
+          "website": "https://www.lostacoslocos.org/",
+          "place_id": "ChIJ76qeaemtlVQRXRUbtuQ9YMc",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 1,
+          "source": "Google Places"
+        },
+        {
+          "name": "Billygan's Roadhouse",
+          "type": "bar, restaurant, food, point_of_interest, establishment",
+          "address": "13200 NE Hwy 99, Vancouver",
+          "lat": 45.71625419999999,
+          "lon": -122.6532806,
+          "distance_miles": 0.16,
+          "likelihood_score": 93,
+          "rating": 4.1,
+          "user_ratings_total": 3186,
+          "phone": "+1 360-573-2711",
+          "website": "http://www.billygansroadhouse.com/",
+          "place_id": "ChIJgZB9Me-tlVQRJsb7zs21Ij0",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 2,
+          "source": "Google Places"
+        },
+        {
+          "name": "Mountain Mike's Pizza",
+          "type": "restaurant, food, point_of_interest, establishment",
+          "address": "14109 NE 10th Ave, Vancouver",
+          "lat": 45.72376810000001,
+          "lon": -122.6609448,
+          "distance_miles": 0.76,
+          "likelihood_score": 84,
+          "rating": 3.5,
+          "user_ratings_total": 116,
+          "phone": "+1 360-626-9400",
+          "website": "https://www.mountainmikespizza.com/locations/vancouver-ne-10th-ave/",
+          "place_id": "ChIJibW6PVStlVQRJTfMOyVt_ZY",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        },
+        {
+          "name": "KC Teriyaki",
+          "type": "restaurant, food, point_of_interest, establishment",
+          "address": "800 NE Tenney Rd B-207, Vancouver",
+          "lat": 45.719062,
+          "lon": -122.6624949,
+          "distance_miles": 0.64,
+          "likelihood_score": 90,
+          "rating": 4.5,
+          "user_ratings_total": 474,
+          "phone": "+1 360-573-4261",
+          "website": "http://www.kcteriyakiwa.com/",
+          "place_id": "ChIJy6B26OqtlVQRK5mToeUYtGw",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 1,
+          "source": "Google Places"
+        },
+        {
+          "name": "Planet Thai",
+          "type": "restaurant, food, point_of_interest, establishment",
+          "address": "910 NE Tenney Rd, Vancouver",
+          "lat": 45.7188889,
+          "lon": -122.6613889,
+          "distance_miles": 0.59,
+          "likelihood_score": 91,
+          "rating": 4.4,
+          "user_ratings_total": 725,
+          "phone": "+1 360-828-5335",
+          "website": "https://www.planet-thai.com/",
+          "place_id": "ChIJI2rKr-utlVQRb7tA-rzlbN4",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 2,
+          "source": "Google Places"
+        },
+        {
+          "name": "I am Thai Eatery",
+          "type": "restaurant, food, point_of_interest, establishment",
+          "address": "14300 NE 20th Ave #202A, Vancouver",
+          "lat": 45.723616,
+          "lon": -122.652915,
+          "distance_miles": 0.56,
+          "likelihood_score": 90,
+          "rating": 4.3,
+          "user_ratings_total": 630,
+          "phone": "+1 360-433-9398",
+          "website": "https://iamthaieaterywa.com/",
+          "place_id": "ChIJ2w6d7PKtlVQRB2a9jEb0P40",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 2,
+          "source": "Google Places"
+        },
+        {
+          "name": "Mighty Munch Mtn Curry Pizza",
+          "type": "meal_delivery, meal_takeaway, restaurant, food, point_of_interest, establishment",
+          "address": "14313 NE 20th Ave UNIT 108, Vancouver",
+          "lat": 45.72512829999999,
+          "lon": -122.6505852,
+          "distance_miles": 0.65,
+          "likelihood_score": 92,
+          "rating": 4.9,
+          "user_ratings_total": 473,
+          "phone": "+1 360-448-7472",
+          "website": "https://mightymunchmtncurrypizza.com/mightymunchvancouver?utm_source=google",
+          "place_id": "ChIJ9Tkjq2qtlVQRYz4werL3-wg",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 3,
+          "source": "Google Places"
+        },
+        {
+          "name": "Habit Burger & Grill",
+          "type": "restaurant, food, point_of_interest, establishment",
+          "address": "14015 NE 10th Ave, Vancouver",
+          "lat": 45.7221172,
+          "lon": -122.6595835,
+          "distance_miles": 0.64,
+          "likelihood_score": 88,
+          "rating": 4.1,
+          "user_ratings_total": 121,
+          "phone": "+1 564-888-7317",
+          "website": "https://www.habitburger.com/locations/vancouver-salmon-creek-wa/",
+          "place_id": "ChIJrX3vLwCtlVQR8RWNlJfEyeE",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        }
+      ],
+      "createdAt": "2026-03-17T15:56:34.724311",
+      "count": 10
+    },
+    "a8f3a01631e482ba": {
+      "storeNumber": "FME07Z-0460",
+      "category": "coffee/caf\u00e9",
+      "prospects": [
+        {
+          "name": "Klymaxx Bikini Barista (Salmon Creek)",
+          "type": "cafe, store, food, point_of_interest, establishment",
+          "address": "13218 NE Hwy 99, Vancouver",
+          "lat": 45.7173743,
+          "lon": -122.6529723,
+          "distance_miles": 0.51,
+          "likelihood_score": 89,
+          "rating": 4.1,
+          "user_ratings_total": 18,
+          "phone": null,
+          "website": null,
+          "place_id": "ChIJ0cZVdgCtlVQRPw5MpwZc7iE",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        },
+        {
+          "name": "Black Rock Coffee Bar",
+          "type": "cafe, store, food, point_of_interest, establishment",
+          "address": "13309 NE 20th Ave, Vancouver",
+          "lat": 45.7175346,
+          "lon": -122.6506983,
+          "distance_miles": 0.61,
+          "likelihood_score": 89,
+          "rating": 4.3,
+          "user_ratings_total": 625,
+          "phone": "+1 833-843-5776",
+          "website": "http://br.coffee/",
+          "place_id": "ChIJPy_jqe-tlVQRdbYe-Z9tdiY",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 1,
+          "source": "Google Places"
+        },
+        {
+          "name": "The Human Bean",
+          "type": "cafe, store, restaurant, food, point_of_interest, establishment",
+          "address": "2423 NE 134th St, Vancouver",
+          "lat": 45.7174462,
+          "lon": -122.6456859,
+          "distance_miles": 0.84,
+          "likelihood_score": 87,
+          "rating": 4.2,
+          "user_ratings_total": 62,
+          "phone": "+1 360-828-7621",
+          "website": "https://thehumanbean.com/location/the-human-bean-2423-ne-134th-st-vancouver-wa/",
+          "place_id": "ChIJDZNKPrmtlVQRKIN8GUokKC4",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 1,
+          "source": "Google Places"
+        },
+        {
+          "name": "Contrarian's Game Cafe",
+          "type": "cafe, store, food, point_of_interest, establishment",
+          "address": "14313 NE 20th Ave # A112, Vancouver",
+          "lat": 45.7252109,
+          "lon": -122.650504,
+          "distance_miles": 0.66,
+          "likelihood_score": 93,
+          "rating": 5,
+          "user_ratings_total": 133,
+          "phone": "+1 360-433-2914",
+          "website": "https://contrariangaming.com/",
+          "place_id": "ChIJEV_YtiatlVQRAswn8kZvV88",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        },
+        {
+          "name": "Starbucks Coffee Company",
+          "type": "cafe, store, restaurant, food, point_of_interest, establishment",
+          "address": "14300 NE 20th Ave, Vancouver",
+          "lat": 45.72333,
+          "lon": -122.6527301,
+          "distance_miles": 0.51,
+          "likelihood_score": 90,
+          "rating": 4.2,
+          "user_ratings_total": 332,
+          "phone": "+1 360-576-4448",
+          "website": "https://www.starbucks.com/store-locator/store/9012/",
+          "place_id": "ChIJR538mvKtlVQRfMTny4HoeNk",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 2,
+          "source": "Google Places"
+        },
+        {
+          "name": "Boba Tree Salmon Creek",
+          "type": "cafe, store, food, point_of_interest, establishment",
+          "address": "14313 NE 20th Ave, Vancouver",
+          "lat": 45.7249562,
+          "lon": -122.6504933,
+          "distance_miles": 0.65,
+          "likelihood_score": 91,
+          "rating": 4.6,
+          "user_ratings_total": 96,
+          "phone": null,
+          "website": "http://bobatreeworld.com/",
+          "place_id": "ChIJoVWJl3itlVQROA7U14jK3eQ",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 1,
+          "source": "Google Places"
+        },
+        {
+          "name": "Dutch Bros. Coffee",
+          "type": "point_of_interest, establishment",
+          "address": "14000 NE 20th Ave, Vancouver",
+          "lat": 45.722515,
+          "lon": -122.6523731,
+          "distance_miles": 0.51,
+          "likelihood_score": 92,
+          "rating": 4.6,
+          "user_ratings_total": 467,
+          "phone": "+1 877-899-2767",
+          "website": "https://www.dutchbros.com/locations/wa/vancouver/14000-ne-20th-ave?y_source=1_MTUyMjgzOTEtNzE1LWxvY2F0aW9uLndlYnNpdGU%3D",
+          "place_id": "ChIJL5wCL86tlVQRXDxxJN23Qms",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 1,
+          "source": "Google Places"
+        },
+        {
+          "name": "Starbucks Coffee Company",
+          "type": "cafe, store, restaurant, food, point_of_interest, establishment",
+          "address": "504 NE 139th St, Vancouver",
+          "lat": 45.7221478,
+          "lon": -122.6668478,
+          "distance_miles": 0.24,
+          "likelihood_score": 93,
+          "rating": 4.2,
+          "user_ratings_total": 473,
+          "phone": "+1 360-571-3321",
+          "website": "https://www.starbucks.com/store-locator/store/1009083/",
+          "place_id": "ChIJtdwtGJWtlVQRtkj5A71BaXg",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 2,
+          "source": "Google Places"
+        },
+        {
+          "name": "Starbucks Coffee Company",
+          "type": "cafe, store, food, point_of_interest, establishment",
+          "address": "12909 NE Hwy 99, Vancouver",
+          "lat": 45.71543,
+          "lon": -122.6497,
+          "distance_miles": 0.71,
+          "likelihood_score": 86,
+          "rating": 3.8,
+          "user_ratings_total": 99,
+          "phone": "+1 360-566-7980",
+          "website": "https://www.starbucks.com/store-locator/store/12204",
+          "place_id": "ChIJaW6CieWtlVQRq9lKWPbqV4g",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 2,
+          "source": "Google Places"
+        },
+        {
+          "name": "Starbucks Coffee Company",
+          "type": "cafe, store, food, point_of_interest, establishment",
+          "address": "800 NE Tenney Rd, Vancouver",
+          "lat": 45.72096,
+          "lon": -122.6628399,
+          "distance_miles": 0.03,
+          "likelihood_score": 91,
+          "rating": 3.4,
+          "user_ratings_total": 25,
+          "phone": "+1 360-571-2540",
+          "website": "https://www.starbucks.com/store-locator/store/1014809",
+          "place_id": "ChIJTxljF-utlVQRCr81P9tGAi8",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 2,
+          "source": "Google Places"
+        }
+      ],
+      "createdAt": "2026-03-17T16:09:32.473363",
+      "count": 10
     }
   },
-  "lastUpdated": "2026-03-17T15:45:26.163539"
+  "lastUpdated": "2026-03-17T16:09:32.473376"
 }

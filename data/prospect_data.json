@@ -52,11 +52,37 @@
           "last_contacted": null,
           "visit_count": 0,
           "notes": []
+        },
+        "76dadb15be22": {
+          "name": "",
+          "address": "",
+          "phone": "",
+          "email": "",
+          "contact_name": "",
+          "score": 0,
+          "status": "follow-up",
+          "saved_date": "2026-03-17T15:53:31.852115",
+          "last_contacted": null,
+          "visit_count": 0,
+          "notes": []
+        },
+        "ddea066623e3": {
+          "name": "Contrarian's Game Cafe",
+          "address": "14313 NE 20th Ave # A112, Vancouver",
+          "phone": "+1 360-433-2914",
+          "email": "",
+          "contact_name": "",
+          "score": 93,
+          "status": "follow-up",
+          "saved_date": "2026-03-17T16:15:46.387643",
+          "last_contacted": null,
+          "visit_count": 0,
+          "notes": []
         }
       },
       "search_history": [],
       "contact_history": {},
-      "session_searches": 94,
+      "session_searches": 95,
       "session_bookmarks": 0
     },
     "8647728045": {
@@ -197,7 +223,7 @@
       },
       "search_history": [],
       "contact_history": {},
-      "session_searches": 10,
+      "session_searches": 12,
       "session_bookmarks": 0
     },
     "8767251377": {
@@ -213,6 +239,14 @@
     },
     "888888888": {
       "status": "rejected"
+    },
+    "2126715079": {
+      "name": "Cam None",
+      "saved_prospects": {},
+      "search_history": [],
+      "contact_history": {},
+      "session_searches": 0,
+      "session_bookmarks": 0
     }
   },
   "global_searches": []
