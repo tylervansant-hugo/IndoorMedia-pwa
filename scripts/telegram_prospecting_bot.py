@@ -2578,14 +2578,94 @@ def load_testimonials():
             return json.load(f)
     return []
 
+def expand_search_keywords(keyword):
+    """Expand a keyword to include related cuisine/category terms.
+    
+    Examples:
+    - 'Ramen' → ['ramen', 'sushi', 'teriyaki', 'japanese', 'asian']
+    - 'Pizza' → ['pizza', 'italian', 'restaurant', 'casual dining']
+    - 'Salon' → ['salon', 'hair', 'nails', 'spa', 'beauty']
+    """
+    keyword_lower = keyword.lower()
+    
+    # Cuisine/category expansions
+    expansions = {
+        # Asian cuisines
+        'ramen': ['ramen', 'sushi', 'teriyaki', 'japanese', 'asian', 'noodles'],
+        'sushi': ['sushi', 'ramen', 'teriyaki', 'japanese', 'asian', 'rolls'],
+        'teriyaki': ['teriyaki', 'sushi', 'ramen', 'japanese', 'asian'],
+        'japanese': ['japanese', 'sushi', 'ramen', 'teriyaki', 'asian'],
+        'asian': ['asian', 'japanese', 'chinese', 'thai', 'vietnamese', 'korean'],
+        'chinese': ['chinese', 'asian', 'dim sum', 'noodles'],
+        'thai': ['thai', 'asian', 'restaurant'],
+        'vietnamese': ['vietnamese', 'asian', 'pho'],
+        'korean': ['korean', 'bbq', 'asian'],
+        
+        # Italian
+        'pizza': ['pizza', 'italian', 'pasta', 'restaurant'],
+        'italian': ['italian', 'pizza', 'pasta', 'casual dining'],
+        'pasta': ['pasta', 'italian', 'restaurant'],
+        
+        # Mexican
+        'mexican': ['mexican', 'taco', 'burrito', 'restaurant'],
+        'taco': ['taco', 'mexican', 'restaurant'],
+        
+        # Beauty/Salon
+        'salon': ['salon', 'hair', 'nails', 'spa', 'beauty'],
+        'hair': ['hair', 'salon', 'nails', 'beauty'],
+        'nails': ['nails', 'salon', 'hair', 'spa', 'beauty'],
+        'spa': ['spa', 'salon', 'massage', 'wellness'],
+        'beauty': ['beauty', 'salon', 'hair', 'nails', 'spa'],
+        
+        # Health/Fitness
+        'gym': ['gym', 'fitness', 'health', 'workout'],
+        'fitness': ['fitness', 'gym', 'health', 'wellness'],
+        'yoga': ['yoga', 'fitness', 'health', 'wellness'],
+        
+        # Auto
+        'auto': ['auto', 'car', 'mechanic', 'repair'],
+        'car wash': ['car wash', 'detailing', 'auto'],
+        'mechanic': ['mechanic', 'auto', 'repair', 'car service'],
+        
+        # Dental
+        'dental': ['dental', 'dentist', 'orthodontics', 'teeth'],
+        'dentist': ['dentist', 'dental', 'orthodontics'],
+        
+        # Coffee
+        'coffee': ['coffee', 'cafe', 'espresso', 'breakfast'],
+        'cafe': ['cafe', 'coffee', 'restaurant'],
+    }
+    
+    # Return expanded keywords or just the original if no expansion found
+    return expansions.get(keyword_lower, [keyword_lower])
+
+
 def search_testimonials(keyword):
-    """Search testimonials by keyword (case-insensitive)."""
+    """Search testimonials by keyword, including related category terms.
+    
+    Expands search keywords to find related categories.
+    Example: 'Ramen' searches for ramen, sushi, teriyaki, japanese, asian.
+    """
     testimonials = load_testimonials()
     keyword_lower = keyword.lower()
+    
+    # Get expanded keywords
+    search_keywords = expand_search_keywords(keyword_lower)
+    
     results = []
+    seen = set()  # Avoid duplicates
+    
     for t in testimonials:
-        if keyword_lower in t.get('searchable', ''):
-            results.append(t)
+        searchable = t.get('searchable', '').lower()
+        # Check if any expanded keyword matches
+        for kw in search_keywords:
+            if kw in searchable:
+                t_id = t.get('id', '')
+                if t_id not in seen:
+                    results.append(t)
+                    seen.add(t_id)
+                break
+    
     return results
 
 AWAITING_KEYWORD = "awaiting_keyword"
