@@ -385,114 +385,55 @@ def is_nearby_city(city1: str, city2: str, state: str) -> bool:
     
     return False
 
-def get_testimonials_for_prospect(prospect: dict) -> list:
-    """Get relevant written testimonials for a prospect.
+def get_testimonials_for_prospect(prospect: dict, limit: int = 3) -> list:
+    """Get relevant testimonials using keyword search with smart fallbacks.
     
-    Prioritizes:
-    1. Same business category + same city
-    2. Same business category + nearby cities
-    3. Geographic proximity (fallback if no category matches)
-    
-    If no category matches found, returns nearby testimonials regardless of category.
+    Strategy:
+    1. Extract primary keyword from business name (e.g., "Ramen" from "Kenji's Ramen")
+    2. Search for that keyword
+    3. If found >= 3 results, return them
+    4. If not found, try expanded keywords (e.g., Ramen → [Sushi, Teriyaki, Japanese, Asian])
+    5. Return up to `limit` results (default 3)
     """
-    # Reload testimonials if cache is empty (they might not have loaded at startup)
+    # Reload testimonials if cache is empty
     testimonials = TESTIMONIALS if TESTIMONIALS else load_testimonials()
     
     if not testimonials:
         return []
     
-    # Get prospect location info
-    address = prospect.get('address', '')
-    prospect_state = extract_state_from_address(address)
-    prospect_city = extract_city_from_address(address)
-    
-    # Get business category
+    # Extract primary keyword from business name
     business_name = prospect.get('name', '').lower()
-    brand_category = get_category_for_national_brand(prospect.get('name', ''))
-    category = brand_category or prospect.get('category', '').lower()
+    words = business_name.split()
+    filtered_words = [w.rstrip("'s").lower() for w in words if w.lower() not in ('the', 'a', 'and', '&')]
+    primary_keyword = filtered_words[-1] if filtered_words else business_name
+    primary_keyword = primary_keyword.rstrip("'s").strip()
     
-    # Build list of acceptable states
-    acceptable_states = []
-    if prospect_state:
-        acceptable_states = [prospect_state] + STATE_NEIGHBORS.get(prospect_state, [])
+    logger.info(f"Testimonials search for '{business_name}' → keyword: '{primary_keyword}'")
     
-    # Map our categories to exact database categories
-    category_mapping = {
-        "real estate": ["Real Estate / Realtors", "Real Estate"],
-        "financial services": ["Financial", "Insurance"],
-        "dispensaries": ["Dispensary", "CBD"],
-        "food & drink": ["Casual Dining", "Cultural Dining", "Pizza", "Mexican", "Sandwich Shops", "Fast Food", "Coffee Shops", "Asian", "Donut Shops", "Bakery", "Bar / Night Club", "Breweries", "Sports Bar"],
-        "clothing": ["Retail Shopping / Boutique", "Accessories / Parts"],
-        "pets": ["Pet Care", "Pet Supply Store"],
-        "kids": ["Child Care", "Education / School"],
-        "automotive": ["Car Wash / Detailing", "Repair / Body / Maintenance"],
-        "health & beauty": ["Hair / Nails / Spa / Tanning", "Dental / Orthodontics", "Fitness & Health", "Beauty & Health", "Medical"],
-        "retail": ["Retail Shopping / Boutique", "Convenience Store / Gas Station", "Furniture", "Antiques & Collectibles"],
-    }
+    # Try primary keyword first
+    results = search_testimonials(primary_keyword)
     
-    # Get acceptable database categories
-    acceptable_db_categories = category_mapping.get(category.lower(), []) if category else []
+    if len(results) >= limit:
+        logger.info(f"Found {len(results)} testimonials for '{primary_keyword}'")
+        return results[:limit]
     
-    # PHASE 1: Search with category matching
-    same_city_cat = []
-    nearby_city_cat = []
-    same_state_cat = []
+    # If primary keyword didn't yield enough, try expanded keywords
+    expanded_keywords = expand_search_keywords(primary_keyword)
+    expanded_keywords = [k for k in expanded_keywords if k.lower() != primary_keyword.lower()]
     
-    # PHASE 2: Geographic fallback (no category filter)
-    same_city_geo = []
-    nearby_city_geo = []
+    logger.info(f"'{primary_keyword}' found {len(results)}, trying: {expanded_keywords}")
     
-    for testimonial in TESTIMONIALS:
-        full = testimonial.get('full', {})
-        test_state = full.get('state', '').upper()
-        test_city = full.get('city', '')
-        test_cat = full.get('category', '')
-        
-        # Skip if not in acceptable states
-        if not test_state or (acceptable_states and test_state not in acceptable_states):
-            continue
-        
-        # Check category match
-        cat_match = False
-        if acceptable_db_categories:
-            cat_match = any(adb.lower() in test_cat.lower() or test_cat.lower() in adb.lower() for adb in acceptable_db_categories)
-        
-        # Categorize by category match + locality
-        if cat_match:
-            # Category matches - prioritize by location
-            if prospect_state and test_state == prospect_state:
-                if prospect_city and test_city:
-                    if is_nearby_city(prospect_city, test_city, prospect_state):
-                        if prospect_city.lower() == test_city.lower():
-                            same_city_cat.append(testimonial)
-                        else:
-                            nearby_city_cat.append(testimonial)
-                    else:
-                        same_state_cat.append(testimonial)
-                else:
-                    same_state_cat.append(testimonial)
-        else:
-            # No category match - save for geographic fallback
-            if prospect_city and test_city:
-                if prospect_city.lower() == test_city.lower():
-                    same_city_geo.append(testimonial)
-                elif is_nearby_city(prospect_city, test_city, prospect_state or test_state):
-                    nearby_city_geo.append(testimonial)
+    # Try each expanded keyword
+    for keyword in expanded_keywords:
+        if len(results) >= limit:
+            break
+        expanded_results = search_testimonials(keyword)
+        existing_businesses = {r.get('business', '').lower() for r in results}
+        for r in expanded_results:
+            if r.get('business', '').lower() not in existing_businesses and len(results) < limit:
+                results.append(r)
     
-    # Return in priority order:
-    # 1. Category match + same city
-    # 2. Category match + nearby city
-    # 3. Category match + same state
-    # 4. FALLBACK: Same city (any category)
-    # 5. FALLBACK: Nearby city (any category)
-    
-    relevant = same_city_cat + nearby_city_cat + same_state_cat + same_city_geo + nearby_city_geo
-    
-    if not relevant:
-        # No category matches - use geographic fallback
-        relevant = same_city_geo + nearby_city_geo
-    
-    return relevant[:3]  # Return top 3 testimonials
+    return results[:limit]
 
 
 # National brand to category mapping
