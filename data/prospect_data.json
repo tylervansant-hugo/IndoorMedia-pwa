@@ -26,11 +26,24 @@
           "last_contacted": null,
           "visit_count": 0,
           "notes": []
+        },
+        "6c91920ee839": {
+          "name": "ZENSHI Handcrafted Sushi",
+          "address": "33702 21st Ave SW, Federal Way",
+          "phone": "+1 253-952-0108",
+          "email": "",
+          "contact_name": "",
+          "score": 39,
+          "status": "interested",
+          "saved_date": "2026-03-17T09:25:02.940112",
+          "last_contacted": null,
+          "visit_count": 0,
+          "notes": []
         }
       },
       "search_history": [],
       "contact_history": {},
-      "session_searches": 85,
+      "session_searches": 88,
       "session_bookmarks": 0
     },
     "8647728045": {
@@ -38,7 +51,7 @@
       "saved_prospects": {},
       "search_history": [],
       "contact_history": {},
-      "session_searches": 9,
+      "session_searches": 24,
       "session_bookmarks": 0
     },
     "8691473576": {
@@ -46,7 +59,7 @@
       "saved_prospects": {},
       "search_history": [],
       "contact_history": {},
-      "session_searches": 14,
+      "session_searches": 24,
       "session_bookmarks": 0
     },
     "8003974335": {
@@ -128,10 +141,24 @@
     },
     "8714414544": {
       "name": "Dave Boring",
-      "saved_prospects": {},
+      "saved_prospects": {
+        "40a9f0a4d955": {
+          "name": "Pho 4Seasons",
+          "address": "13023 NE Hwy 99 suite 9, Vancouver",
+          "phone": "+1 360-787-7491",
+          "email": "",
+          "contact_name": "",
+          "score": 98,
+          "status": "follow-up",
+          "saved_date": "2026-03-17T11:33:29.790074",
+          "last_contacted": null,
+          "visit_count": 0,
+          "notes": []
+        }
+      },
       "search_history": [],
       "contact_history": {},
-      "session_searches": 6,
+      "session_searches": 8,
       "session_bookmarks": 0
     },
     "8767251377": {

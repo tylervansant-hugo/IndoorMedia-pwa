@@ -292,6 +292,23 @@
       "address": "418 E 2nd St",
       "customer_city_state": "The Dalles, OR 97058",
       "extracted_at": "2026-03-12T20:00:05.580569"
+    },
+    {
+      "contract_number": "J427523E",
+      "date": "3/16/2026",
+      "business_name": "Lunaitas",
+      "contact_name": "Diana Luna",
+      "contact_email": "lunad8966@gmail.com",
+      "contact_phone": "(360) 947-8551",
+      "sales_rep": "Amy Dixon",
+      "store_name": "",
+      "store_number": "Safeway-4404",
+      "product_description": "Single",
+      "total_amount": 4725.0,
+      "payment_date": "3/16/2026",
+      "address": "365 E Ellendale Ave",
+      "customer_city_state": "Dallas, OR 97338",
+      "extracted_at": "2026-03-16T20:00:19.120084"
     }
   ],
   "last_scan": "2026-03-08T15:11:11.119957"

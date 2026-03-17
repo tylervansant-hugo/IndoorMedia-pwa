@@ -2275,7 +2275,2659 @@
       ],
       "createdAt": "2026-03-16T09:48:44.715206",
       "count": 10
+    },
+    "dcc28cd4c625ac8b": {
+      "storeNumber": "QFC07Z-0205",
+      "category": "mexican",
+      "prospects": [
+        {
+          "name": "\u00bfPor Qu\u00e9 No?",
+          "type": "restaurant, food, point_of_interest, establishment",
+          "address": "4635 SE Hawthorne Blvd, Portland",
+          "lat": 45.5121324,
+          "lon": -122.6143441,
+          "distance_miles": 0.82,
+          "likelihood_score": 88,
+          "rating": 4.5,
+          "user_ratings_total": 3346,
+          "phone": "+1 503-954-3138",
+          "website": "http://www.porquenotacos.com/",
+          "place_id": "ChIJ9_lCovOglVQRj9EDMuROv5k",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 2,
+          "source": "Google Places"
+        },
+        {
+          "name": "Saz\u00f3n Taquer\u00eda",
+          "type": "restaurant, food, point_of_interest, establishment",
+          "address": "4438 NE Glisan St, Portland",
+          "lat": 45.5261729,
+          "lon": -122.6165435,
+          "distance_miles": 0.56,
+          "likelihood_score": 92,
+          "rating": 4.6,
+          "user_ratings_total": 248,
+          "phone": "+1 503-719-5374",
+          "website": null,
+          "place_id": "ChIJXzIz3o6hlVQRJGGpUsH_h3Y",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 1,
+          "source": "Google Places"
+        },
+        {
+          "name": "Plaza Coyoacan",
+          "type": "restaurant, food, point_of_interest, establishment",
+          "address": "3433 SE Hawthorne Blvd, Portland",
+          "lat": 45.5121719,
+          "lon": -122.6287405,
+          "distance_miles": 1.3,
+          "likelihood_score": 86,
+          "rating": 4.9,
+          "user_ratings_total": 375,
+          "phone": "+1 503-236-1100",
+          "website": "https://coyoacanpdx.com/",
+          "place_id": "ChIJkeCK95GglVQRCkj4JZGlHFQ",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 2,
+          "source": "Google Places"
+        },
+        {
+          "name": "Tierra del Sol Cuisine - Montavilla",
+          "type": "restaurant, food, point_of_interest, establishment",
+          "address": "6935 NE Glisan St, Portland",
+          "lat": 45.5265944,
+          "lon": -122.5917251,
+          "distance_miles": 0.76,
+          "likelihood_score": 90,
+          "rating": 4.6,
+          "user_ratings_total": 149,
+          "phone": "+1 503-998-9663",
+          "website": "https://tierradelsolpdx.com/",
+          "place_id": "ChIJhy9aOaOhlVQRd8fGuXuSdzU",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        },
+        {
+          "name": "Pepino's Fresh Mexican Grill",
+          "type": "restaurant, food, point_of_interest, establishment",
+          "address": "3832 SE Hawthorne Blvd, Portland",
+          "lat": 45.5118363,
+          "lon": -122.6237038,
+          "distance_miles": 1.12,
+          "likelihood_score": 85,
+          "rating": 4.4,
+          "user_ratings_total": 968,
+          "phone": "+1 503-226-9600",
+          "website": "https://www.pepinos.org/",
+          "place_id": "ChIJYVthdY2glVQRMLAqxaqIul4",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 1,
+          "source": "Google Places"
+        },
+        {
+          "name": "JC PDX Taqueria",
+          "type": "restaurant, food, point_of_interest, establishment",
+          "address": "4615 NE Sandy Blvd, Portland",
+          "lat": 45.538229,
+          "lon": -122.6157782,
+          "distance_miles": 1.18,
+          "likelihood_score": 87,
+          "rating": 4.8,
+          "user_ratings_total": 81,
+          "phone": "+1 971-344-2394",
+          "website": null,
+          "place_id": "ChIJcWsG4XWhlVQRKkK3SnG3A20",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        },
+        {
+          "name": "Las Marias Mexican food",
+          "type": "restaurant, food, point_of_interest, establishment",
+          "address": "3950 SE Hawthorne Blvd, Portland",
+          "lat": 45.5118332,
+          "lon": -122.6218831,
+          "distance_miles": 1.06,
+          "likelihood_score": 87,
+          "rating": 4.7,
+          "user_ratings_total": 35,
+          "phone": "+1 503-333-3801",
+          "website": null,
+          "place_id": "ChIJLZtCRgChlVQRMjWutnlRBek",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 1,
+          "source": "Google Places"
+        },
+        {
+          "name": "Poblano Pepper PDX",
+          "type": "restaurant, food, point_of_interest, establishment",
+          "address": "6035 NE Halsey St, Portland",
+          "lat": 45.5339053,
+          "lon": -122.6013173,
+          "distance_miles": 0.82,
+          "likelihood_score": 86,
+          "rating": 4,
+          "user_ratings_total": 59,
+          "phone": "+1 360-597-5694",
+          "website": "http://orderpoblanopepperpdx.com/",
+          "place_id": "ChIJAQAAAE-nlVQRpfh8LKYmqwY",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        },
+        {
+          "name": "Poblano Pepper",
+          "type": "restaurant, food, point_of_interest, establishment",
+          "address": "4255 SE Belmont St and, Portland",
+          "lat": 45.516672,
+          "lon": -122.6184044,
+          "distance_miles": 0.71,
+          "likelihood_score": 89,
+          "rating": 4.4,
+          "user_ratings_total": 134,
+          "phone": "+1 503-926-0497",
+          "website": "http://orderpoblanopepper.com/",
+          "place_id": "ChIJU0OCyO2glVQRkvrRTqRDGV4",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 1,
+          "source": "Google Places"
+        },
+        {
+          "name": "EL CHILITO LOCO (food truck) Authentic Mexican Food",
+          "type": "restaurant, food, point_of_interest, establishment",
+          "address": "3423 SE Belmont St, Portland",
+          "lat": 45.5165485,
+          "lon": -122.6290382,
+          "distance_miles": 1.18,
+          "likelihood_score": 85,
+          "rating": 4.5,
+          "user_ratings_total": 70,
+          "phone": "+1 503-847-3271",
+          "website": "https://elchilitolocoauthenticmexicanfoodor.com/",
+          "place_id": "ChIJlbUthF6hlVQRiy-gXog6MaU",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 1,
+          "source": "Google Places"
+        }
+      ],
+      "createdAt": "2026-03-16T12:51:32.153149",
+      "count": 10
+    },
+    "266d9072830afdec": {
+      "storeNumber": "QFC07Z-0205",
+      "category": "bar/pub",
+      "prospects": [
+        {
+          "name": "Tabor Tavern",
+          "type": "bar, restaurant, food, point_of_interest, establishment",
+          "address": "5325 E Burnside St, Portland",
+          "lat": 45.5229835,
+          "lon": -122.6083648,
+          "distance_miles": 0.1,
+          "likelihood_score": 96,
+          "rating": 4.5,
+          "user_ratings_total": 1413,
+          "phone": "+1 503-208-3544",
+          "website": "http://www.tabortavern.com/",
+          "place_id": "ChIJO89iH-SglVQRCOJ6kjzWnFc",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 2,
+          "source": "Google Places"
+        },
+        {
+          "name": "Horse Brass Pub",
+          "type": "bar, restaurant, food, point_of_interest, establishment",
+          "address": "4534 SE Belmont St, Portland",
+          "lat": 45.5164208,
+          "lon": -122.6154707,
+          "distance_miles": 0.61,
+          "likelihood_score": 91,
+          "rating": 4.6,
+          "user_ratings_total": 2676,
+          "phone": "+1 503-232-2202",
+          "website": "http://horsebrass.com/",
+          "place_id": "ChIJGyAxD-6glVQR3u4lA-3bmy4",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 2,
+          "source": "Google Places"
+        },
+        {
+          "name": "TPK Brewing Co.",
+          "type": "bar, restaurant, food, point_of_interest, establishment",
+          "address": "5051 SE Hawthorne Blvd, Portland",
+          "lat": 45.5122457,
+          "lon": -122.6105435,
+          "distance_miles": 0.74,
+          "likelihood_score": 91,
+          "rating": 4.9,
+          "user_ratings_total": 371,
+          "phone": "+1 503-231-6354",
+          "website": "https://www.tpkbrewing.com/",
+          "place_id": "ChIJVWmc8mahlVQR1XSz9Hd9OpE",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 2,
+          "source": "Google Places"
+        },
+        {
+          "name": "Space Room Lounge",
+          "type": "bar, restaurant, food, point_of_interest, establishment",
+          "address": "4800 SE Hawthorne Blvd, Portland",
+          "lat": 45.5118403,
+          "lon": -122.6128947,
+          "distance_miles": 0.81,
+          "likelihood_score": 88,
+          "rating": 4.5,
+          "user_ratings_total": 227,
+          "phone": "+1 503-235-6957",
+          "website": "http://spaceroomlounge.com/",
+          "place_id": "ChIJ13PByLWhlVQRybYd4gDqw2w",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 1,
+          "source": "Google Places"
+        },
+        {
+          "name": "Triple Nickel Pub",
+          "type": "bar, night_club, restaurant, food, point_of_interest, establishment",
+          "address": "3646 SE Belmont St #4326, Portland",
+          "lat": 45.516361,
+          "lon": -122.6261342,
+          "distance_miles": 1.05,
+          "likelihood_score": 85,
+          "rating": 4.2,
+          "user_ratings_total": 813,
+          "phone": "+1 503-234-7215",
+          "website": "https://triplenickelpub.com/",
+          "place_id": "ChIJc2HuR5OglVQRvhc7_cQdZCU",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 1,
+          "source": "Google Places"
+        },
+        {
+          "name": "Angelo's",
+          "type": "bar, point_of_interest, establishment",
+          "address": "4620 SE Hawthorne Blvd, Portland",
+          "lat": 45.5119226,
+          "lon": -122.6147632,
+          "distance_miles": 0.84,
+          "likelihood_score": 88,
+          "rating": 4.4,
+          "user_ratings_total": 125,
+          "phone": "+1 503-231-0337",
+          "website": "https://facebook.com/pages/category/Pub/Angelos-111744078862023/",
+          "place_id": "ChIJH2mhn_OglVQR_iUpRaavNMI",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 1,
+          "source": "Google Places"
+        },
+        {
+          "name": "Steeplejack Brewing - Union on Hawthorne",
+          "type": "restaurant, cafe, bakery, bar, food, store, point_of_interest, establishment",
+          "address": "3757 SE Hawthorne Blvd, Portland",
+          "lat": 45.5121638,
+          "lon": -122.6247005,
+          "distance_miles": 1.14,
+          "likelihood_score": 87,
+          "rating": 4.9,
+          "user_ratings_total": 42,
+          "phone": "+1 503-610-3048",
+          "website": "https://www.steeplejackbeer.com/",
+          "place_id": "ChIJn8CUqQ6hlVQRne4MyZLgpmo",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        },
+        {
+          "name": "A&L Sports Pub",
+          "type": "bar, point_of_interest, establishment",
+          "address": "5933 NE Glisan St, Portland",
+          "lat": 45.52668690000001,
+          "lon": -122.6025627,
+          "distance_miles": 0.34,
+          "likelihood_score": 92,
+          "rating": 4.3,
+          "user_ratings_total": 352,
+          "phone": "+1 971-754-4993",
+          "website": null,
+          "place_id": "ChIJh9Sp3eGglVQRuS2z2rrXXrE",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 1,
+          "source": "Google Places"
+        },
+        {
+          "name": "Mulligan's Bar & Grill",
+          "type": "bar, restaurant, food, point_of_interest, establishment",
+          "address": "3518 SE Hawthorne Blvd, Portland",
+          "lat": 45.51195449999999,
+          "lon": -122.6282223,
+          "distance_miles": 1.29,
+          "likelihood_score": 83,
+          "rating": 4.3,
+          "user_ratings_total": 391,
+          "phone": "+1 503-235-6390",
+          "website": null,
+          "place_id": "ChIJ9SXxAZKglVQR3WII-Y-kATs",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 1,
+          "source": "Google Places"
+        },
+        {
+          "name": "Hour Glass Pub & Eatery",
+          "type": "bar, restaurant, food, point_of_interest, establishment",
+          "address": "7401 NE Glisan St, Portland",
+          "lat": 45.526561,
+          "lon": -122.5866474,
+          "distance_miles": 0.99,
+          "likelihood_score": 87,
+          "rating": 4.4,
+          "user_ratings_total": 513,
+          "phone": "+1 503-254-1981",
+          "website": null,
+          "place_id": "ChIJOyPr6BqhlVQR2Z1eheVo86I",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 1,
+          "source": "Google Places"
+        }
+      ],
+      "createdAt": "2026-03-16T12:52:29.130890",
+      "count": 10
+    },
+    "7c74fd2ef6391cde": {
+      "storeNumber": "FME07Z-0140",
+      "category": "bar/pub",
+      "prospects": [
+        {
+          "name": "Double Barrel Taphouse",
+          "type": "bar, restaurant, food, point_of_interest, establishment",
+          "address": "8308 NE Hwy 99, Vancouver",
+          "lat": 45.6826538,
+          "lon": -122.6617336,
+          "distance_miles": 0.44,
+          "likelihood_score": 92,
+          "rating": 4.5,
+          "user_ratings_total": 604,
+          "phone": "+1 360-433-9867",
+          "website": "http://www.doublebarreltaphouse.com/",
+          "place_id": "ChIJpQPuB4uulVQRuezGGF775E8",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 2,
+          "source": "Google Places"
+        },
+        {
+          "name": "99 Saloon & Grill",
+          "type": "restaurant, food, bar, point_of_interest, establishment",
+          "address": "7005 NE Hwy 99, Vancouver",
+          "lat": 45.67358,
+          "lon": -122.662523,
+          "distance_miles": 0.2,
+          "likelihood_score": 94,
+          "rating": 4.2,
+          "user_ratings_total": 1058,
+          "phone": "+1 360-693-8125",
+          "website": "https://99saloon.wixsite.com/99saloonandgrill",
+          "place_id": "ChIJN9NIHu6ulVQR47ez9zzVJNc",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 2,
+          "source": "Google Places"
+        },
+        {
+          "name": "Pregame Sports Bar & Grill",
+          "type": "restaurant, food, bar, point_of_interest, establishment",
+          "address": "7917 NE Hwy 99, Vancouver",
+          "lat": 45.67998960000001,
+          "lon": -122.6601833,
+          "distance_miles": 0.29,
+          "likelihood_score": 92,
+          "rating": 4.1,
+          "user_ratings_total": 87,
+          "phone": "+1 360-314-6201",
+          "website": "https://pregamesportsbarandgrill.com/",
+          "place_id": "ChIJzaSa9-KvlVQR7Fl3r-uJTbc",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        },
+        {
+          "name": "Fortside Brewing Company - Fortside HD",
+          "type": "restaurant, food, bar, point_of_interest, establishment",
+          "address": "309 NE 76th St, Vancouver",
+          "lat": 45.6768066,
+          "lon": -122.6681519,
+          "distance_miles": 0.24,
+          "likelihood_score": 69,
+          "rating": 5,
+          "user_ratings_total": 3,
+          "phone": "+1 360-977-5106",
+          "website": "https://fortsidebeer.com/",
+          "place_id": "ChIJL3DwabWvlVQRryNxYNewEYA",
+          "opening_hours": {},
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        },
+        {
+          "name": "Playmakers Sports Bar + Grill",
+          "type": "restaurant, food, point_of_interest, establishment",
+          "address": "1503 NE 78th St, Hazel Dell",
+          "lat": 45.6782469,
+          "lon": -122.6559228,
+          "distance_miles": 0.38,
+          "likelihood_score": 91,
+          "rating": 4.1,
+          "user_ratings_total": 149,
+          "phone": "+1 360-200-1600",
+          "website": "http://playmakerswa.com/",
+          "place_id": "ChIJ5aJYBQCvlVQRvhSqQA8CmTs",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 2,
+          "source": "Google Places"
+        },
+        {
+          "name": "Billy Blues Bar and Grill",
+          "type": "restaurant, food, bar, point_of_interest, establishment",
+          "address": "7115 NE Hazel Dell Ave, Vancouver",
+          "lat": 45.6742757,
+          "lon": -122.6680286,
+          "distance_miles": 0.27,
+          "likelihood_score": 84,
+          "rating": 4.4,
+          "user_ratings_total": 2067,
+          "phone": "+1 360-694-3114",
+          "website": "http://www.billybluesbarandgrill.com/",
+          "place_id": "ChIJtYGtSuyulVQR9HJ-dJO7U_8",
+          "opening_hours": {
+            "open_now": false
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 2,
+          "source": "Google Places"
+        },
+        {
+          "name": "Cedar Room",
+          "type": "bar, point_of_interest, establishment",
+          "address": "6300 NE Hwy 99, Vancouver",
+          "lat": 45.66840819999999,
+          "lon": -122.6650742,
+          "distance_miles": 0.56,
+          "likelihood_score": 92,
+          "rating": 4.6,
+          "user_ratings_total": 10,
+          "phone": "+1 360-694-8872",
+          "website": null,
+          "place_id": "ChIJVXvY_-WulVQR-ckkGYLnOLk",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        },
+        {
+          "name": "Brothers Cascadia Brewing",
+          "type": "food, point_of_interest, establishment",
+          "address": "9811 NE 15th Ave, Vancouver",
+          "lat": 45.6923237,
+          "lon": -122.6563134,
+          "distance_miles": 1.15,
+          "likelihood_score": 87,
+          "rating": 4.8,
+          "user_ratings_total": 490,
+          "phone": "+1 360-718-8927",
+          "website": "https://www.brotherscascadiabrewing.com/",
+          "place_id": "ChIJZ0M8zWSulVQR6NQxXTd5TCw",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        }
+      ],
+      "createdAt": "2026-03-16T17:00:42.187696",
+      "count": 8
+    },
+    "4861865d3b188a89": {
+      "storeNumber": "QFC07Z-0205",
+      "category": "pizza",
+      "prospects": [
+        {
+          "name": "Secret Pizza Society",
+          "type": "restaurant, food, point_of_interest, establishment",
+          "address": "7201 NE Glisan St, Portland",
+          "lat": 45.5265673,
+          "lon": -122.5885514,
+          "distance_miles": 0.9,
+          "likelihood_score": 90,
+          "rating": 4.9,
+          "user_ratings_total": 525,
+          "phone": "+1 503-946-1926",
+          "website": "https://secretpizzasociety.com/",
+          "place_id": "ChIJN5Imwd2hlVQRiBI278QE9Lk",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 2,
+          "source": "Google Places"
+        },
+        {
+          "name": "Apizza Scholls",
+          "type": "restaurant, food, point_of_interest, establishment",
+          "address": "4741 SE Hawthorne Blvd, Portland",
+          "lat": 45.5121782,
+          "lon": -122.6131296,
+          "distance_miles": 0.79,
+          "likelihood_score": 90,
+          "rating": 4.6,
+          "user_ratings_total": 2204,
+          "phone": "+1 503-233-1286",
+          "website": "http://apizzascholls.com/",
+          "place_id": "ChIJoXPFk_OglVQR_FemZBo2wf0",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 2,
+          "source": "Google Places"
+        },
+        {
+          "name": "Original Dream Pizza",
+          "type": "meal_delivery, restaurant, food, point_of_interest, establishment",
+          "address": "4620 NE Glisan St, Portland",
+          "lat": 45.5262381,
+          "lon": -122.6152064,
+          "distance_miles": 0.5,
+          "likelihood_score": 91,
+          "rating": 4.3,
+          "user_ratings_total": 749,
+          "phone": "+1 503-230-0699",
+          "website": "http://www.originaldreampizza.com/",
+          "place_id": "ChIJcT8Uft2glVQRqJKkwSUCNwA",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 2,
+          "source": "Google Places"
+        },
+        {
+          "name": "Sizzle Pie",
+          "type": "restaurant, food, point_of_interest, establishment",
+          "address": "4144 NE Sandy Blvd, Portland",
+          "lat": 45.5357102,
+          "lon": -122.6204477,
+          "distance_miles": 1.14,
+          "likelihood_score": 85,
+          "rating": 4.4,
+          "user_ratings_total": 724,
+          "phone": "+1 503-234-7437",
+          "website": "https://sizzlepie.com/locations/portland-hollywood-district",
+          "place_id": "ChIJ6zX_W9eglVQRlpnJ4RBVdIE",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 1,
+          "source": "Google Places"
+        },
+        {
+          "name": "Straight From New York Pizza (Hawthorne)",
+          "type": "meal_takeaway, restaurant, food, point_of_interest, establishment",
+          "address": "3701 SE Hawthorne Blvd, Portland",
+          "lat": 45.5121659,
+          "lon": -122.6256837,
+          "distance_miles": 1.18,
+          "likelihood_score": 84,
+          "rating": 4.2,
+          "user_ratings_total": 396,
+          "phone": "+1 503-736-9739",
+          "website": "http://www.sfnypizza.com/",
+          "place_id": "ChIJ68NS9JGhlVQRgPX_7yh5B3o",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        },
+        {
+          "name": "Flying Pie Pizzeria",
+          "type": "restaurant, food, point_of_interest, establishment",
+          "address": "7804 SE Stark St, Portland",
+          "lat": 45.51906719999999,
+          "lon": -122.5830578,
+          "distance_miles": 1.15,
+          "likelihood_score": 86,
+          "rating": 4.6,
+          "user_ratings_total": 1842,
+          "phone": "+1 503-254-2016",
+          "website": "https://www.flying-pie.com/",
+          "place_id": "ChIJGyvQMgGhlVQRsxUap8vTD88",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 2,
+          "source": "Google Places"
+        },
+        {
+          "name": "Blind Onion Pizza & Pub - Belmont",
+          "type": "restaurant, food, point_of_interest, establishment",
+          "address": "6031 SE Belmont St, Portland",
+          "lat": 45.5168582,
+          "lon": -122.6013509,
+          "distance_miles": 0.46,
+          "likelihood_score": 92,
+          "rating": 4.4,
+          "user_ratings_total": 111,
+          "phone": "+1 503-954-2189",
+          "website": "http://blindonion.com/",
+          "place_id": "ChIJB3xph32hlVQRVf1M2gFliZk",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 2,
+          "source": "Google Places"
+        },
+        {
+          "name": "Blind Onion Pizza & Pub",
+          "type": "bar, restaurant, food, point_of_interest, establishment",
+          "address": "3345 NE Broadway, Portland",
+          "lat": 45.5353,
+          "lon": -122.6297194,
+          "distance_miles": 1.44,
+          "likelihood_score": 82,
+          "rating": 4.5,
+          "user_ratings_total": 815,
+          "phone": "+1 503-284-2825",
+          "website": "https://www.blindonion.com/",
+          "place_id": "ChIJd9jW0dGglVQR3tOtwAPiBWw",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 1,
+          "source": "Google Places"
+        },
+        {
+          "name": "Sarda pizza",
+          "type": "restaurant, food, point_of_interest, establishment",
+          "address": "4225 SE Hawthorne Blvd, Portland",
+          "lat": 45.5123689,
+          "lon": -122.6191275,
+          "distance_miles": 0.94,
+          "likelihood_score": 70,
+          "rating": 5,
+          "user_ratings_total": 2,
+          "phone": "+1 445-232-0505",
+          "website": "https://www.instagram.com/sarda_pizza_pdx?igsh=MWptdmk0ZDNrb2g1eQ==&utm_source=qr",
+          "place_id": "ChIJG3srkYuhlVQRHZAfZCTEzT8",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        },
+        {
+          "name": "Fusion Indian Cuisine & Curry Pizza",
+          "type": "restaurant, food, point_of_interest, establishment",
+          "address": "4630 NE Sandy Blvd, Portland",
+          "lat": 45.5379622,
+          "lon": -122.6153836,
+          "distance_miles": 1.15,
+          "likelihood_score": 87,
+          "rating": 4.9,
+          "user_ratings_total": 509,
+          "phone": "+1 971-383-3666",
+          "website": "http://www.fusioncurrypizza.com/",
+          "place_id": "ChIJw10T8COhlVQRQm_JARDJi0o",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        }
+      ],
+      "createdAt": "2026-03-16T17:15:20.322775",
+      "count": 10
+    },
+    "159b02f8a70d0a9f": {
+      "storeNumber": "ALB07Z-0580",
+      "category": "dentist",
+      "prospects": [
+        {
+          "name": "Andersen Dental Center",
+          "type": "dentist, point_of_interest, health, establishment",
+          "address": "2415 NE 134th St #307, Vancouver",
+          "lat": 45.71734499999999,
+          "lon": -122.64674,
+          "distance_miles": 0.51,
+          "likelihood_score": 93,
+          "rating": 4.9,
+          "user_ratings_total": 527,
+          "phone": "+1 360-567-3333",
+          "website": "https://salmoncreekdentist.com/",
+          "place_id": "ChIJC3bt5O-tlVQRoSI3FfQ7cKQ",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        },
+        {
+          "name": "Mount Vista Family Dental",
+          "type": "dentist, point_of_interest, health, establishment",
+          "address": "14313 NE 20th Ave SUITE A100, Vancouver",
+          "lat": 45.7249562,
+          "lon": -122.6504933,
+          "distance_miles": 0.1,
+          "likelihood_score": 98,
+          "rating": 4.9,
+          "user_ratings_total": 136,
+          "phone": "+1 360-574-3985",
+          "website": "https://www.mountvistadental.com/",
+          "place_id": "ChIJXdKKJvOtlVQRHCfRoxEpjpQ",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        },
+        {
+          "name": "Gentle Dental Salmon Creek",
+          "type": "dentist, point_of_interest, doctor, health, establishment",
+          "address": "800 NE Tenney Rd Suite B201, Vancouver",
+          "lat": 45.7191583,
+          "lon": -122.6628376,
+          "distance_miles": 0.62,
+          "likelihood_score": 91,
+          "rating": 4.7,
+          "user_ratings_total": 341,
+          "phone": "+1 360-262-4509",
+          "website": "https://gentledental.interdent.com/locations/wa/vancouver-salmon-creek/?utm_source=gbp&utm_medium=organic&utm_campaign=gbp-listing&utm_content=GDSALMON&y_source=1_MTA5NjAyNjYwNi03MTUtbG9jYXRpb24ud2Vic2l0ZQ%3D%3D",
+          "place_id": "ChIJkWP9NuutlVQRqHitha96RIA",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        },
+        {
+          "name": "Adventure Dental",
+          "type": "dentist, point_of_interest, doctor, health, establishment",
+          "address": "900 NE 139th St Suite 106, Vancouver",
+          "lat": 45.7221483,
+          "lon": -122.6619436,
+          "distance_miles": 0.5,
+          "likelihood_score": 94,
+          "rating": 4.9,
+          "user_ratings_total": 1869,
+          "phone": "+1 360-604-9000",
+          "website": "https://www.adventuredental.com/",
+          "place_id": "ChIJlxWHBfCtlVQR6TE1i4EexBQ",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        },
+        {
+          "name": "Salmon Creek Family Dental",
+          "type": "dentist, point_of_interest, doctor, health, establishment",
+          "address": "2515 NE 134th St Suite 200, Vancouver",
+          "lat": 45.7171915,
+          "lon": -122.6450415,
+          "distance_miles": 0.56,
+          "likelihood_score": 94,
+          "rating": 5,
+          "user_ratings_total": 97,
+          "phone": "+1 360-696-9461",
+          "website": "https://www.dentistsalmoncreek.com/",
+          "place_id": "ChIJG0El7-utlVQRghM9k4fASKU",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        },
+        {
+          "name": "Creekside Dental",
+          "type": "dentist, point_of_interest, health, establishment",
+          "address": "910 NE Tenney Rd Ste 117, Vancouver",
+          "lat": 45.71922989999999,
+          "lon": -122.6612904,
+          "distance_miles": 0.56,
+          "likelihood_score": 93,
+          "rating": 4.9,
+          "user_ratings_total": 68,
+          "phone": "+1 360-695-1515",
+          "website": "https://creekside-dental.com/",
+          "place_id": "ChIJI2rKr-utlVQR2Wmqr5e5o2k",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        },
+        {
+          "name": "Salmon Creek Dental Center",
+          "type": "dentist, point_of_interest, health, establishment",
+          "address": "13023 NE Hwy 99 Suite 5, Vancouver",
+          "lat": 45.7157024,
+          "lon": -122.6496582,
+          "distance_miles": 0.57,
+          "likelihood_score": 93,
+          "rating": 4.9,
+          "user_ratings_total": 652,
+          "phone": "+1 360-685-1890",
+          "website": "https://salmoncreekdental.com/",
+          "place_id": "ChIJzW7aY--tlVQRslpYohum4EQ",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        },
+        {
+          "name": "Salmon Creek Dental Specialists",
+          "type": "dentist, point_of_interest, health, establishment",
+          "address": "14400 NE 20th Ave # 100, Vancouver",
+          "lat": 45.72487520000001,
+          "lon": -122.6515972,
+          "distance_miles": 0.07,
+          "likelihood_score": 98,
+          "rating": 4.9,
+          "user_ratings_total": 680,
+          "phone": "+1 360-576-5066",
+          "website": "https://www.salmonendo.com/",
+          "place_id": "ChIJTTOw_e-tlVQR3VKdZRhluaM",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        },
+        {
+          "name": "Bright Now! Dental & Orthodontics - Vancouver, WA",
+          "type": "dentist, point_of_interest, doctor, health, establishment",
+          "address": "2101 NE 129th St, Vancouver",
+          "lat": 45.714329,
+          "lon": -122.6507873,
+          "distance_miles": 0.66,
+          "likelihood_score": 90,
+          "rating": 4.5,
+          "user_ratings_total": 508,
+          "phone": "+1 360-574-4574",
+          "website": "https://www.brightnow.com/dental-office/vancouver-dentist/10060/?utm_source=generic&utm_medium=profiles&utm_campaign=local_profiles",
+          "place_id": "ChIJ8YpU5OWtlVQRhXItY3d99iA",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        },
+        {
+          "name": "Tooth Docs Salmon Creek",
+          "type": "dentist, point_of_interest, doctor, health, establishment",
+          "address": "14201 NE 20th Ave #A101, Vancouver",
+          "lat": 45.7234907,
+          "lon": -122.650848,
+          "distance_miles": 0.05,
+          "likelihood_score": 97,
+          "rating": 4.6,
+          "user_ratings_total": 294,
+          "phone": "+1 360-207-1999",
+          "website": "http://www.toothdocs.net/",
+          "place_id": "ChIJtcOj4_KtlVQRyoipRlh33ZI",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        }
+      ],
+      "createdAt": "2026-03-17T09:16:23.464870",
+      "count": 10
+    },
+    "6ccc9a66c2e15e73": {
+      "storeNumber": "QFC07Z-0831",
+      "category": "sushi/japanese",
+      "prospects": [
+        {
+          "name": "Teriyaki Yamato",
+          "type": "restaurant, food, point_of_interest, establishment",
+          "address": "2130 SW 336th St, Federal Way",
+          "lat": 47.301406,
+          "lon": -122.3624041,
+          "distance_miles": 1.04,
+          "likelihood_score": 71,
+          "rating": 3.4,
+          "user_ratings_total": 110,
+          "phone": "+1 253-874-0822",
+          "website": null,
+          "place_id": "ChIJdzgG5vhWkFQRQaxY6XWhDuQ",
+          "opening_hours": {
+            "open_now": false
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        },
+        {
+          "name": "Yoko's Teriyaki Bistro",
+          "type": "restaurant, food, point_of_interest, establishment",
+          "address": "34024 Hoyt Rd SW, Federal Way",
+          "lat": 47.2964249,
+          "lon": -122.3812719,
+          "distance_miles": 0.18,
+          "likelihood_score": 82,
+          "rating": 3.9,
+          "user_ratings_total": 215,
+          "phone": "+1 253-838-5000",
+          "website": "https://yokosteriyakibistro.menu11.com/federalway/order",
+          "place_id": "ChIJ8ySTyvRWkFQRPlnfClsuzqo",
+          "opening_hours": {
+            "open_now": false
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 1,
+          "source": "Google Places"
+        },
+        {
+          "name": "ZENSHI Handcrafted Sushi",
+          "type": "restaurant, meal_takeaway, food, point_of_interest, establishment",
+          "address": "33702 21st Ave SW, Federal Way",
+          "lat": 47.2978647,
+          "lon": -122.3597226,
+          "distance_miles": 1.06,
+          "likelihood_score": 39,
+          "rating": null,
+          "user_ratings_total": 0,
+          "phone": "+1 253-952-0108",
+          "website": "https://www.zenshisushi.com/",
+          "place_id": "ChIJR7-zLO9XkFQRCl2PlXZD5R0",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        }
+      ],
+      "createdAt": "2026-03-17T09:24:38.047995",
+      "count": 3
+    },
+    "3403fa3168b7d635": {
+      "storeNumber": "QFC07Z-0205",
+      "category": "coffee/caf\u00e9",
+      "prospects": [
+        {
+          "name": "Common Grounds Coffeehouse",
+          "type": "cafe, bakery, restaurant, food, store, point_of_interest, establishment",
+          "address": "4321 SE Hawthorne Blvd, Portland",
+          "lat": 45.5121883,
+          "lon": -122.6178507,
+          "distance_miles": 0.91,
+          "likelihood_score": 88,
+          "rating": 4.6,
+          "user_ratings_total": 563,
+          "phone": "+1 503-341-9528",
+          "website": "http://commongroundspdx.com/",
+          "place_id": "ChIJMUMbJPOglVQRABnSb8-nIa0",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 1,
+          "source": "Google Places"
+        },
+        {
+          "name": "Cafe Ume",
+          "type": "cafe, food, store, point_of_interest, establishment",
+          "address": "4242 NE Halsey St Suite A, Portland",
+          "lat": 45.5336565,
+          "lon": -122.6195552,
+          "distance_miles": 1.0,
+          "likelihood_score": 88,
+          "rating": 4.7,
+          "user_ratings_total": 165,
+          "phone": "+1 503-522-7160",
+          "website": "http://www.cafeume.com/",
+          "place_id": "ChIJL0KBj5ehlVQRfUFyDiNOy_w",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 1,
+          "source": "Google Places"
+        },
+        {
+          "name": "Futura Coffee Roasters - Glisan St",
+          "type": "cafe, food, store, point_of_interest, establishment",
+          "address": "7201 NE Glisan St, Portland",
+          "lat": 45.52672279999999,
+          "lon": -122.5885953,
+          "distance_miles": 0.9,
+          "likelihood_score": 88,
+          "rating": 4.5,
+          "user_ratings_total": 418,
+          "phone": "+1 760-985-9086",
+          "website": "http://futuracoffeeroasters.com/",
+          "place_id": "ChIJL2EXAhuhlVQRGgZZMjoGpi4",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 1,
+          "source": "Google Places"
+        },
+        {
+          "name": "Albina Press",
+          "type": "cafe, food, store, point_of_interest, establishment",
+          "address": "5012 SE Hawthorne Blvd, Portland",
+          "lat": 45.5119023,
+          "lon": -122.6112157,
+          "distance_miles": 0.77,
+          "likelihood_score": 89,
+          "rating": 4.5,
+          "user_ratings_total": 465,
+          "phone": "+1 971-279-5196",
+          "website": null,
+          "place_id": "ChIJJ4FP-POglVQRF10s7A_z1ms",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 2,
+          "source": "Google Places"
+        },
+        {
+          "name": "Never Coffee",
+          "type": "cafe, food, store, point_of_interest, establishment",
+          "address": "4243 SE Belmont St UNIT 200, Portland",
+          "lat": 45.5166724,
+          "lon": -122.6187968,
+          "distance_miles": 0.73,
+          "likelihood_score": 89,
+          "rating": 4.5,
+          "user_ratings_total": 555,
+          "phone": "+1 503-607-8545",
+          "website": "http://www.nevercoffeelab.com/",
+          "place_id": "ChIJPZn5x-2glVQR9JZ4JDOkNYw",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        },
+        {
+          "name": "Seven Virtues Coffee Roasters on Glisan",
+          "type": "cafe, food, store, point_of_interest, establishment",
+          "address": "5936 NE Glisan St, Portland",
+          "lat": 45.5262675,
+          "lon": -122.6023856,
+          "distance_miles": 0.32,
+          "likelihood_score": 93,
+          "rating": 4.4,
+          "user_ratings_total": 467,
+          "phone": "+1 503-236-7763",
+          "website": "http://www.sevenvirtuespdx.com/",
+          "place_id": "ChIJIXW55-GglVQR2L6iXVBwWRo",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 1,
+          "source": "Google Places"
+        },
+        {
+          "name": "Harder Day Coffee Company - Hawthorne",
+          "type": "cafe, bakery, restaurant, food, store, point_of_interest, establishment",
+          "address": "3757 SE Hawthorne Blvd Suite B, Portland",
+          "lat": 45.5121638,
+          "lon": -122.6247005,
+          "distance_miles": 1.14,
+          "likelihood_score": 85,
+          "rating": 4.4,
+          "user_ratings_total": 17,
+          "phone": "+1 503-610-3048",
+          "website": "http://harderdaycoffeecompany.com/",
+          "place_id": "ChIJyQvQxsShlVQR028PXzKvc9k",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        },
+        {
+          "name": "Holly Rose Coffee Bar",
+          "type": "cafe, food, store, point_of_interest, establishment",
+          "address": "2035 NE 41st Ave, Portland",
+          "lat": 45.5375808,
+          "lon": -122.6211078,
+          "distance_miles": 1.26,
+          "likelihood_score": 84,
+          "rating": 4.5,
+          "user_ratings_total": 199,
+          "phone": "+1 503-764-9366",
+          "website": "http://hollyrosepdx.com/",
+          "place_id": "ChIJuaFe-TehlVQR_2ry2O-s8Bc",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        },
+        {
+          "name": "Benevolent Coffee Cart",
+          "type": "cafe, restaurant, food, store, point_of_interest, establishment",
+          "address": "4255 SE Belmont St, Portland",
+          "lat": 45.5166845,
+          "lon": -122.6183341,
+          "distance_miles": 0.71,
+          "likelihood_score": 92,
+          "rating": 5,
+          "user_ratings_total": 252,
+          "phone": "+1 719-266-2837",
+          "website": "http://benevolentcoffeecart.com/",
+          "place_id": "ChIJjceWyO2glVQR9GnYRiht-cA",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 1,
+          "source": "Google Places"
+        },
+        {
+          "name": "Harder Day Coffee Company",
+          "type": "cafe, bakery, restaurant, food, store, point_of_interest, establishment",
+          "address": "4615 NE Sandy Blvd, Portland",
+          "lat": 45.53823480000001,
+          "lon": -122.6157771,
+          "distance_miles": 1.18,
+          "likelihood_score": 84,
+          "rating": 4.3,
+          "user_ratings_total": 76,
+          "phone": null,
+          "website": "https://www.harderdaycoffeecompany.com/",
+          "place_id": "ChIJp6vdkuihlVQRDM2phSL5uRc",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        }
+      ],
+      "createdAt": "2026-03-17T09:40:01.314665",
+      "count": 10
+    },
+    "1e8a2a0af6af61ec": {
+      "storeNumber": "FME07Z-0460",
+      "category": "all restaurants",
+      "prospects": [
+        {
+          "name": "Creekside BBQ",
+          "type": "restaurant, food, point_of_interest, store, establishment",
+          "address": "910 NE Tenney Rd Suite 119, Vancouver",
+          "lat": 45.71922989999999,
+          "lon": -122.6612904,
+          "distance_miles": 0.11,
+          "likelihood_score": 94,
+          "rating": 4.2,
+          "user_ratings_total": 536,
+          "phone": "+1 360-719-2230",
+          "website": "https://creeksidebbq.net/?utm_source=google",
+          "place_id": "ChIJ2Rlms4atlVQRS6uQWBm-erY",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 1,
+          "source": "Google Places"
+        },
+        {
+          "name": "Pho 4Seasons",
+          "type": "restaurant, food, point_of_interest, establishment",
+          "address": "13023 NE Hwy 99 suite 9, Vancouver",
+          "lat": 45.7162353,
+          "lon": -122.6497898,
+          "distance_miles": 0.68,
+          "likelihood_score": 92,
+          "rating": 4.9,
+          "user_ratings_total": 162,
+          "phone": "+1 360-787-7491",
+          "website": null,
+          "place_id": "ChIJIem1zTOtlVQRLtbYRjfbvi8",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        },
+        {
+          "name": "Kitchen Table Cafe - Salmon Creek",
+          "type": "restaurant, cafe, food, point_of_interest, establishment",
+          "address": "1319 NE 134th St #101, Vancouver",
+          "lat": 45.7178648,
+          "lon": -122.6570453,
+          "distance_miles": 0.32,
+          "likelihood_score": 93,
+          "rating": 4.5,
+          "user_ratings_total": 2325,
+          "phone": "+1 360-852-8756",
+          "website": "http://www.kitchentable-cafe.com/",
+          "place_id": "ChIJy58qWumtlVQR1kYq0Qvs7k8",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 2,
+          "source": "Google Places"
+        },
+        {
+          "name": "Los Tacos Locos",
+          "type": "restaurant, food, point_of_interest, establishment",
+          "address": "1309 NE 134th St, Vancouver",
+          "lat": 45.71776999999999,
+          "lon": -122.6580488,
+          "distance_miles": 0.29,
+          "likelihood_score": 95,
+          "rating": 4.6,
+          "user_ratings_total": 671,
+          "phone": "+1 360-573-1327",
+          "website": "https://www.lostacoslocos.org/",
+          "place_id": "ChIJ76qeaemtlVQRXRUbtuQ9YMc",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 1,
+          "source": "Google Places"
+        },
+        {
+          "name": "Billygan's Roadhouse",
+          "type": "bar, restaurant, food, point_of_interest, establishment",
+          "address": "13200 NE Hwy 99, Vancouver",
+          "lat": 45.71625419999999,
+          "lon": -122.6532806,
+          "distance_miles": 0.54,
+          "likelihood_score": 89,
+          "rating": 4.1,
+          "user_ratings_total": 3186,
+          "phone": "+1 360-573-2711",
+          "website": "http://www.billygansroadhouse.com/",
+          "place_id": "ChIJgZB9Me-tlVQRJsb7zs21Ij0",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 2,
+          "source": "Google Places"
+        },
+        {
+          "name": "Mountain Mike's Pizza",
+          "type": "restaurant, food, point_of_interest, establishment",
+          "address": "14109 NE 10th Ave, Vancouver",
+          "lat": 45.72376810000001,
+          "lon": -122.6609448,
+          "distance_miles": 0.23,
+          "likelihood_score": 89,
+          "rating": 3.5,
+          "user_ratings_total": 116,
+          "phone": "+1 360-626-9400",
+          "website": "https://www.mountainmikespizza.com/locations/vancouver-ne-10th-ave/",
+          "place_id": "ChIJibW6PVStlVQRJTfMOyVt_ZY",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        },
+        {
+          "name": "KC Teriyaki",
+          "type": "restaurant, food, point_of_interest, establishment",
+          "address": "800 NE Tenney Rd B-207, Vancouver",
+          "lat": 45.719062,
+          "lon": -122.6624949,
+          "distance_miles": 0.1,
+          "likelihood_score": 96,
+          "rating": 4.5,
+          "user_ratings_total": 474,
+          "phone": "+1 360-573-4261",
+          "website": "http://www.kcteriyakiwa.com/",
+          "place_id": "ChIJy6B26OqtlVQRK5mToeUYtGw",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 1,
+          "source": "Google Places"
+        },
+        {
+          "name": "Planet Thai",
+          "type": "restaurant, food, point_of_interest, establishment",
+          "address": "910 NE Tenney Rd, Vancouver",
+          "lat": 45.7188889,
+          "lon": -122.6613889,
+          "distance_miles": 0.13,
+          "likelihood_score": 95,
+          "rating": 4.4,
+          "user_ratings_total": 725,
+          "phone": "+1 360-828-5335",
+          "website": "https://www.planet-thai.com/",
+          "place_id": "ChIJI2rKr-utlVQRb7tA-rzlbN4",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 2,
+          "source": "Google Places"
+        },
+        {
+          "name": "I am Thai Eatery",
+          "type": "restaurant, food, point_of_interest, establishment",
+          "address": "14300 NE 20th Ave #202A, Vancouver",
+          "lat": 45.723616,
+          "lon": -122.652915,
+          "distance_miles": 0.51,
+          "likelihood_score": 90,
+          "rating": 4.3,
+          "user_ratings_total": 630,
+          "phone": "+1 360-433-9398",
+          "website": "https://iamthaieaterywa.com/",
+          "place_id": "ChIJ2w6d7PKtlVQRB2a9jEb0P40",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 2,
+          "source": "Google Places"
+        },
+        {
+          "name": "Mighty Munch Mtn Curry Pizza",
+          "type": "meal_delivery, meal_takeaway, restaurant, food, point_of_interest, establishment",
+          "address": "14313 NE 20th Ave UNIT 108, Vancouver",
+          "lat": 45.72512829999999,
+          "lon": -122.6505852,
+          "distance_miles": 0.66,
+          "likelihood_score": 92,
+          "rating": 4.9,
+          "user_ratings_total": 473,
+          "phone": "+1 360-448-7472",
+          "website": "https://mightymunchmtncurrypizza.com/mightymunchvancouver?utm_source=google",
+          "place_id": "ChIJ9Tkjq2qtlVQRYz4werL3-wg",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 3,
+          "source": "Google Places"
+        }
+      ],
+      "createdAt": "2026-03-17T11:30:09.528436",
+      "count": 10
+    },
+    "1c0364068c135d3c": {
+      "storeNumber": "SAF07Z-1842",
+      "category": "thai",
+      "prospects": [
+        {
+          "name": "I am Thai Eatery",
+          "type": "restaurant, food, point_of_interest, establishment",
+          "address": "14300 NE 20th Ave #202A, Vancouver",
+          "lat": 45.723616,
+          "lon": -122.652915,
+          "distance_miles": 0.56,
+          "likelihood_score": 90,
+          "rating": 4.3,
+          "user_ratings_total": 630,
+          "phone": "+1 360-433-9398",
+          "website": "https://iamthaieaterywa.com/",
+          "place_id": "ChIJ2w6d7PKtlVQRB2a9jEb0P40",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 2,
+          "source": "Google Places"
+        },
+        {
+          "name": "Planet Thai",
+          "type": "restaurant, food, point_of_interest, establishment",
+          "address": "910 NE Tenney Rd, Vancouver",
+          "lat": 45.7188889,
+          "lon": -122.6613889,
+          "distance_miles": 0.59,
+          "likelihood_score": 91,
+          "rating": 4.4,
+          "user_ratings_total": 725,
+          "phone": "+1 360-828-5335",
+          "website": "https://www.planet-thai.com/",
+          "place_id": "ChIJI2rKr-utlVQRb7tA-rzlbN4",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 2,
+          "source": "Google Places"
+        },
+        {
+          "name": "Ei8ht Noodles",
+          "type": "restaurant, food, point_of_interest, establishment",
+          "address": "800 NE Tenney Rd, Vancouver",
+          "lat": 45.7210913,
+          "lon": -122.6630606,
+          "distance_miles": 0.73,
+          "likelihood_score": 88,
+          "rating": 4.2,
+          "user_ratings_total": 462,
+          "phone": "+1 360-574-1351",
+          "website": "http://ei8htnoodles.com/",
+          "place_id": "ChIJv6VBI-utlVQRNKpwUVfNW7M",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 2,
+          "source": "Google Places"
+        },
+        {
+          "name": "KC Teriyaki",
+          "type": "restaurant, food, point_of_interest, establishment",
+          "address": "800 NE Tenney Rd B-207, Vancouver",
+          "lat": 45.719062,
+          "lon": -122.6624949,
+          "distance_miles": 0.64,
+          "likelihood_score": 90,
+          "rating": 4.5,
+          "user_ratings_total": 474,
+          "phone": "+1 360-573-4261",
+          "website": "http://www.kcteriyakiwa.com/",
+          "place_id": "ChIJy6B26OqtlVQRK5mToeUYtGw",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 1,
+          "source": "Google Places"
+        },
+        {
+          "name": "Pho 4Seasons",
+          "type": "restaurant, food, point_of_interest, establishment",
+          "address": "13023 NE Hwy 99 suite 9, Vancouver",
+          "lat": 45.7162353,
+          "lon": -122.6497898,
+          "distance_miles": 0.04,
+          "likelihood_score": 98,
+          "rating": 4.9,
+          "user_ratings_total": 162,
+          "phone": "+1 360-787-7491",
+          "website": null,
+          "place_id": "ChIJIem1zTOtlVQRLtbYRjfbvi8",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        },
+        {
+          "name": "Creekside BBQ",
+          "type": "restaurant, food, store, point_of_interest, establishment",
+          "address": "910 NE Tenney Rd Suite 119, Vancouver",
+          "lat": 45.71922989999999,
+          "lon": -122.6612904,
+          "distance_miles": 0.59,
+          "likelihood_score": 90,
+          "rating": 4.2,
+          "user_ratings_total": 536,
+          "phone": "+1 360-719-2230",
+          "website": "https://creeksidebbq.net/?utm_source=google",
+          "place_id": "ChIJ2Rlms4atlVQRS6uQWBm-erY",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 1,
+          "source": "Google Places"
+        },
+        {
+          "name": "Salmon Creek Square",
+          "type": "shopping_mall, point_of_interest, establishment",
+          "address": "910 NE Tenney Rd, Vancouver",
+          "lat": 45.7190783,
+          "lon": -122.661279,
+          "distance_miles": 0.59,
+          "likelihood_score": 90,
+          "rating": 4.3,
+          "user_ratings_total": 339,
+          "phone": "+1 360-576-1121",
+          "website": null,
+          "place_id": "ChIJI2rKr-utlVQRU6MLx--YCOs",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        }
+      ],
+      "createdAt": "2026-03-17T11:32:24.824427",
+      "count": 7
+    },
+    "56dad0f073b50315": {
+      "storeNumber": "STB05X-0080",
+      "category": "pizza",
+      "prospects": [
+        {
+          "name": "Mountain Mike's Pizza",
+          "type": "meal_delivery, meal_takeaway, restaurant, food, point_of_interest, establishment",
+          "address": "17827 Van Buren Boulevard Suite 101, Riverside",
+          "lat": 33.8833214,
+          "lon": -117.3519861,
+          "distance_miles": 0.75,
+          "likelihood_score": 87,
+          "rating": 4.1,
+          "user_ratings_total": 97,
+          "phone": "+1 951-998-2200",
+          "website": "https://www.mountainmikespizza.com/locations/riverside-vanburen/",
+          "place_id": "ChIJCaY_G4ul3IARlwkU8TBme_I",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 2,
+          "source": "Google Places"
+        },
+        {
+          "name": "Tommy Salami's",
+          "type": "meal_delivery, restaurant, food, store, point_of_interest, establishment",
+          "address": "17040 Van Buren Boulevard, Riverside",
+          "lat": 33.8833364,
+          "lon": -117.3655905,
+          "distance_miles": 0.04,
+          "likelihood_score": 97,
+          "rating": 4.7,
+          "user_ratings_total": 176,
+          "phone": "+1 951-780-6000",
+          "website": "https://tommysalamis.com/?utm_source=google",
+          "place_id": "ChIJN49Bpf673IARtYGgdAkChtg",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        },
+        {
+          "name": "Viano's Pizza",
+          "type": "meal_delivery, meal_takeaway, restaurant, food, point_of_interest, establishment",
+          "address": "16810 Van Buren Boulevard, Riverside",
+          "lat": 33.8827889,
+          "lon": -117.369141,
+          "distance_miles": 0.24,
+          "likelihood_score": 92,
+          "rating": 4.1,
+          "user_ratings_total": 314,
+          "phone": "+1 951-780-3000",
+          "website": "https://vianospizza.com/",
+          "place_id": "ChIJuaTYws263IARNYc8GI9MMdk",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 1,
+          "source": "Google Places"
+        },
+        {
+          "name": "Naan Twist",
+          "type": "restaurant, food, point_of_interest, establishment",
+          "address": "18181 Van Buren Boulevard, Riverside",
+          "lat": 33.886231,
+          "lon": -117.346288,
+          "distance_miles": 1.09,
+          "likelihood_score": 88,
+          "rating": 4.8,
+          "user_ratings_total": 43,
+          "phone": "+1 951-494-7001",
+          "website": "https://naantwist.com/",
+          "place_id": "ChIJj41Y6Sil3IAR2gjJVX5z3Qw",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        },
+        {
+          "name": "Pizza Twist",
+          "type": "meal_delivery, meal_takeaway, restaurant, food, point_of_interest, establishment",
+          "address": "18181 Van Buren Boulevard #101, Riverside",
+          "lat": 33.886231,
+          "lon": -117.346288,
+          "distance_miles": 1.09,
+          "likelihood_score": 87,
+          "rating": 4.7,
+          "user_ratings_total": 68,
+          "phone": "+1 951-668-9478",
+          "website": "https://pizzatwist.com/locations/best-pizza-in-riverside-van-buren-ca",
+          "place_id": "ChIJmUre2t-l3IAR81CQZqC9SvM",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        },
+        {
+          "name": "7-Eleven",
+          "type": "convenience_store, cafe, liquor_store, restaurant, food, store, point_of_interest, establishment",
+          "address": "16970 Van Buren Boulevard, Riverside",
+          "lat": 33.8827864,
+          "lon": -117.3665364,
+          "distance_miles": 0.1,
+          "likelihood_score": 87,
+          "rating": 2.7,
+          "user_ratings_total": 45,
+          "phone": "+1 951-780-8320",
+          "website": "https://www.7-eleven.com/locations/ca/riverside/16970-van-buren-blvd-16552?utm_source=G&utm_medium=local&utm_campaign=google-local",
+          "place_id": "ChIJ8SCX7M263IAREdgcX_9b0dQ",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 1,
+          "source": "Google Places"
+        }
+      ],
+      "createdAt": "2026-03-17T11:38:14.408250",
+      "count": 6
+    },
+    "bccc394a2e3f51a6": {
+      "storeNumber": "STB05X-0080",
+      "category": "mexican",
+      "prospects": [
+        {
+          "name": "Tacos al Fuego",
+          "type": "restaurant, food, point_of_interest, establishment",
+          "address": "16810 Van Buren Boulevard, Riverside",
+          "lat": 33.8828888,
+          "lon": -117.3692218,
+          "distance_miles": 0.25,
+          "likelihood_score": 94,
+          "rating": 4.4,
+          "user_ratings_total": 88,
+          "phone": "+1 951-776-8110",
+          "website": "https://tacosalfuego.com/",
+          "place_id": "ChIJt4N2XM663IARxr2f3ksS08Y",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 2,
+          "source": "Google Places"
+        },
+        {
+          "name": "Maria's Mexican Kitchen",
+          "type": "restaurant, food, point_of_interest, establishment",
+          "address": "Woodcrest Plaza Shopping Center, 17028 Van Buren Boulevard, Riverside",
+          "lat": 33.8836182,
+          "lon": -117.3656173,
+          "distance_miles": 0.04,
+          "likelihood_score": 96,
+          "rating": 4.4,
+          "user_ratings_total": 552,
+          "phone": "+1 951-780-2034",
+          "website": "http://restaurantwebx.com/MariasMexicanKitchen/",
+          "place_id": "ChIJIaBPZ8263IARZ7tcoiT-pxU",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 2,
+          "source": "Google Places"
+        },
+        {
+          "name": "Yeye's Kitchen",
+          "type": "restaurant, food, point_of_interest, establishment",
+          "address": "18181 Van Buren Boulevard Suite 103, Riverside",
+          "lat": 33.88638359999999,
+          "lon": -117.3462213,
+          "distance_miles": 1.09,
+          "likelihood_score": 85,
+          "rating": 4.3,
+          "user_ratings_total": 15,
+          "phone": "+1 951-398-7075",
+          "website": "https://yeyeskitchen.com/",
+          "place_id": "ChIJK-2J-zGl3IARh0iJdm1MYQk",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        },
+        {
+          "name": "Miguel's Jr.",
+          "type": "restaurant, food, point_of_interest, establishment",
+          "address": "17815 Van Buren Boulevard, Riverside",
+          "lat": 33.8831486,
+          "lon": -117.3528728,
+          "distance_miles": 0.69,
+          "likelihood_score": 89,
+          "rating": 4.2,
+          "user_ratings_total": 1168,
+          "phone": "+1 951-339-5747",
+          "website": "https://www.miguelsjr.com/location/woodcrest/?utm_source=localsearch&utm_medium=organic&utm_campaign=googlemybusiness&utm_content=mainlink",
+          "place_id": "ChIJm9OkNC6l3IARl0J-yeHwnN0",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 1,
+          "source": "Google Places"
+        }
+      ],
+      "createdAt": "2026-03-17T11:40:15.309709",
+      "count": 4
+    },
+    "812a443ec566a577": {
+      "storeNumber": "STB05X-0080",
+      "category": "coffee/caf\u00e9",
+      "prospects": [
+        {
+          "name": "Rodeo Caf\u00e9",
+          "type": "cafe, restaurant, food, point_of_interest, establishment",
+          "address": "17136 Van Buren Boulevard, Riverside",
+          "lat": 33.8826929,
+          "lon": -117.3635562,
+          "distance_miles": 0.1,
+          "likelihood_score": 97,
+          "rating": 4.6,
+          "user_ratings_total": 305,
+          "phone": "+1 951-780-0388",
+          "website": "https://rodeocafe.com/",
+          "place_id": "ChIJk-uwWfy73IAR-tBB243gD8U",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        },
+        {
+          "name": "Mojo's Coffee Drive Thru",
+          "type": "cafe, food, store, point_of_interest, establishment",
+          "address": "17827 Van Buren Boulevard Suite 103, Riverside",
+          "lat": 33.8833461,
+          "lon": -117.3519441,
+          "distance_miles": 0.75,
+          "likelihood_score": 87,
+          "rating": 4.1,
+          "user_ratings_total": 44,
+          "phone": null,
+          "website": "https://bit.ly/m/mojoscoffeedrivethru",
+          "place_id": "ChIJY0_4VgCl3IARc_CIZgjCWrI",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        },
+        {
+          "name": "Joanna's Cafe",
+          "type": "cafe, restaurant, food, store, point_of_interest, establishment",
+          "address": "17950 Van Buren Boulevard, Riverside",
+          "lat": 33.8861389,
+          "lon": -117.3492486,
+          "distance_miles": 0.92,
+          "likelihood_score": 87,
+          "rating": 4.4,
+          "user_ratings_total": 479,
+          "phone": "+1 951-789-8843",
+          "website": "http://loris-cafe.local-cafes.com/",
+          "place_id": "ChIJcWC5ujql3IARq8hMnvm67V4",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 1,
+          "source": "Google Places"
+        },
+        {
+          "name": "DCH ROASTERS",
+          "type": "cafe, food, store, point_of_interest, establishment",
+          "address": "7200 Iris Ave, Riverside",
+          "lat": 33.8871289,
+          "lon": -117.3609177,
+          "distance_miles": 0.35,
+          "likelihood_score": 36,
+          "rating": null,
+          "user_ratings_total": 0,
+          "phone": "+1 951-203-5899",
+          "website": null,
+          "place_id": "ChIJt8b3TzOl3IARUZO9c6RtLTU",
+          "opening_hours": {},
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        },
+        {
+          "name": "Starbucks Coffee Company",
+          "type": "cafe, restaurant, food, store, point_of_interest, establishment",
+          "address": "16810 Van Buren Boulevard, Riverside",
+          "lat": 33.88289,
+          "lon": -117.36955,
+          "distance_miles": 0.27,
+          "likelihood_score": 93,
+          "rating": 4.2,
+          "user_ratings_total": 505,
+          "phone": "+1 951-780-6576",
+          "website": "https://www.starbucks.com/store-locator/store/10720/",
+          "place_id": "ChIJeWe-bc663IARTETj6A-09l4",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 2,
+          "source": "Google Places"
+        },
+        {
+          "name": "Naan Twist",
+          "type": "restaurant, food, point_of_interest, establishment",
+          "address": "18181 Van Buren Boulevard, Riverside",
+          "lat": 33.886231,
+          "lon": -117.346288,
+          "distance_miles": 1.09,
+          "likelihood_score": 88,
+          "rating": 4.8,
+          "user_ratings_total": 43,
+          "phone": "+1 951-494-7001",
+          "website": "https://naantwist.com/",
+          "place_id": "ChIJj41Y6Sil3IAR2gjJVX5z3Qw",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        }
+      ],
+      "createdAt": "2026-03-17T11:41:13.506357",
+      "count": 6
+    },
+    "485b9293fca2c76f": {
+      "storeNumber": "STB05X-0080",
+      "category": "barber",
+      "prospects": [
+        {
+          "name": "THE HOUSE BARBERSHOP",
+          "type": "hair_care, health, point_of_interest, establishment",
+          "address": "18181 Van Buren Boulevard Suite 105, Riverside",
+          "lat": 33.886231,
+          "lon": -117.346288,
+          "distance_miles": 1.09,
+          "likelihood_score": 88,
+          "rating": 4.8,
+          "user_ratings_total": 47,
+          "phone": "+1 951-662-1348",
+          "website": "https://thehousebarbershop.com/",
+          "place_id": "ChIJMX5ZiJil3IAR-VhHgFfLPWs",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        },
+        {
+          "name": "Riverside Barber Shop Sally's",
+          "type": "hair_care, beauty_salon, health, point_of_interest, establishment",
+          "address": "17958 Van Buren Boulevard, Riverside",
+          "lat": 33.886393,
+          "lon": -117.3490371,
+          "distance_miles": 0.94,
+          "likelihood_score": 88,
+          "rating": 4.6,
+          "user_ratings_total": 79,
+          "phone": "+1 951-789-4746",
+          "website": "https://sites.google.com/site/sallysbarbershop/",
+          "place_id": "ChIJEZRAADCl3IARatw9TUlRmQs",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        },
+        {
+          "name": "Gregory's Salon and Spa",
+          "type": "beauty_salon, point_of_interest, establishment",
+          "address": "16781 Van Buren Boulevard # D, Riverside",
+          "lat": 33.8820141,
+          "lon": -117.3700815,
+          "distance_miles": 0.31,
+          "likelihood_score": 95,
+          "rating": 4.8,
+          "user_ratings_total": 23,
+          "phone": "+1 951-807-6213",
+          "website": null,
+          "place_id": "ChIJV1IMTM663IARS7-6bTkhODM",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        },
+        {
+          "name": "JayCut\u2019s Mobile Barber",
+          "type": "hair_care, health, point_of_interest, establishment",
+          "address": "16121 Londa Ln Apt A, Riverside",
+          "lat": 33.8858022,
+          "lon": -117.376294,
+          "distance_miles": 0.67,
+          "likelihood_score": 60,
+          "rating": 5,
+          "user_ratings_total": 1,
+          "phone": "+1 323-713-8035",
+          "website": null,
+          "place_id": "ChIJnemPFEu73IARL4N5aLFcWqI",
+          "opening_hours": {},
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        }
+      ],
+      "createdAt": "2026-03-17T11:42:37.580932",
+      "count": 4
+    },
+    "45d99f8cfd2ba96b": {
+      "storeNumber": "STB05X-0080",
+      "category": "hair salon",
+      "prospects": [
+        {
+          "name": "Salon Wellness",
+          "type": "health, point_of_interest, establishment",
+          "address": "16801 Van Buren Boulevard, Riverside",
+          "lat": 33.8821189,
+          "lon": -117.3692302,
+          "distance_miles": 0.26,
+          "likelihood_score": 97,
+          "rating": 5,
+          "user_ratings_total": 25,
+          "phone": "+1 951-776-9147",
+          "website": null,
+          "place_id": "ChIJQdUSQc663IARSMoG-UDXz4M",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        },
+        {
+          "name": "Gregory's Salon and Spa",
+          "type": "beauty_salon, point_of_interest, establishment",
+          "address": "16781 Van Buren Boulevard # D, Riverside",
+          "lat": 33.8820141,
+          "lon": -117.3700815,
+          "distance_miles": 0.31,
+          "likelihood_score": 95,
+          "rating": 4.8,
+          "user_ratings_total": 23,
+          "phone": "+1 951-807-6213",
+          "website": null,
+          "place_id": "ChIJV1IMTM663IARS7-6bTkhODM",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        },
+        {
+          "name": "Shay Fabulous Touch LLC",
+          "type": "point_of_interest, establishment",
+          "address": "16801 Van Buren Boulevard, Riverside",
+          "lat": 33.8821534,
+          "lon": -117.3690964,
+          "distance_miles": 0.25,
+          "likelihood_score": 74,
+          "rating": 5,
+          "user_ratings_total": 1,
+          "phone": "+1 312-882-7615",
+          "website": "http://shayfabuloustouch.as.me/",
+          "place_id": "ChIJ61Zsmwq73IAR2e5H4WXA6K0",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        },
+        {
+          "name": "Riverside Barber Shop Sally's",
+          "type": "hair_care, beauty_salon, health, point_of_interest, establishment",
+          "address": "17958 Van Buren Boulevard, Riverside",
+          "lat": 33.886393,
+          "lon": -117.3490371,
+          "distance_miles": 0.94,
+          "likelihood_score": 88,
+          "rating": 4.6,
+          "user_ratings_total": 79,
+          "phone": "+1 951-789-4746",
+          "website": "https://sites.google.com/site/sallysbarbershop/",
+          "place_id": "ChIJEZRAADCl3IARatw9TUlRmQs",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        }
+      ],
+      "createdAt": "2026-03-17T11:43:05.187198",
+      "count": 4
+    },
+    "a5478fe16879ceaa": {
+      "storeNumber": "STB05X-0192",
+      "category": "mexican",
+      "prospects": [
+        {
+          "name": "Morena's Mexican Cuisine",
+          "type": "restaurant, food, point_of_interest, establishment",
+          "address": "3457 Arlington Ave Suite 106, Riverside",
+          "lat": 33.9476569,
+          "lon": -117.3860865,
+          "distance_miles": 0.93,
+          "likelihood_score": 88,
+          "rating": 4.7,
+          "user_ratings_total": 224,
+          "phone": "+1 951-742-5087",
+          "website": "https://riverside.morenasmex.com/",
+          "place_id": "ChIJz2z5y8ux3IARllUQF_8GgWo",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 2,
+          "source": "Google Places"
+        },
+        {
+          "name": "Alvaro's Mexican Food",
+          "type": "restaurant, food, point_of_interest, establishment",
+          "address": "7050 Magnolia Ave, Riverside",
+          "lat": 33.9455165,
+          "lon": -117.4016546,
+          "distance_miles": 1.18,
+          "likelihood_score": 84,
+          "rating": 4.2,
+          "user_ratings_total": 879,
+          "phone": "+1 951-276-9336",
+          "website": null,
+          "place_id": "ChIJtwqutqyx3IARcgpLJeU4AY0",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 1,
+          "source": "Google Places"
+        },
+        {
+          "name": "Casta\u00f1eda's Mexican Food",
+          "type": "restaurant, food, point_of_interest, establishment",
+          "address": "6751 Indiana Ave, Riverside",
+          "lat": 33.9438357,
+          "lon": -117.3913397,
+          "distance_miles": 0.73,
+          "likelihood_score": 86,
+          "rating": 3.9,
+          "user_ratings_total": 1022,
+          "phone": "+1 951-786-0996",
+          "website": null,
+          "place_id": "ChIJU5m9dEyw3IARxEff3AjrilE",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 1,
+          "source": "Google Places"
+        },
+        {
+          "name": "Mariscos El Camaron Loco #1",
+          "type": "restaurant, food, point_of_interest, establishment",
+          "address": "3340 Mary St, Riverside",
+          "lat": 33.9411668,
+          "lon": -117.3934434,
+          "distance_miles": 0.63,
+          "likelihood_score": 88,
+          "rating": 4.1,
+          "user_ratings_total": 220,
+          "phone": "+1 951-682-3882",
+          "website": null,
+          "place_id": "ChIJeW1tj06w3IARlUvufXkYY6U",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 2,
+          "source": "Google Places"
+        },
+        {
+          "name": "Birrieria Gonzalez",
+          "type": "restaurant, food, point_of_interest, establishment",
+          "address": "3355 Arlington Ave, Riverside",
+          "lat": 33.9467145,
+          "lon": -117.3833689,
+          "distance_miles": 0.88,
+          "likelihood_score": 86,
+          "rating": 4,
+          "user_ratings_total": 25,
+          "phone": "+1 213-588-3914",
+          "website": "http://birrieriagonzalezofficial.com/",
+          "place_id": "ChIJoTgcrtKx3IARiHR0lNesF0A",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        },
+        {
+          "name": "La Cruda Mariscos",
+          "type": "restaurant, food, point_of_interest, establishment",
+          "address": "6733 Indiana Ave, Riverside",
+          "lat": 33.9439968,
+          "lon": -117.3910965,
+          "distance_miles": 0.73,
+          "likelihood_score": 90,
+          "rating": 4.6,
+          "user_ratings_total": 796,
+          "phone": "+1 951-777-0862",
+          "website": "https://www.toasttab.com/la-cruda-mariscos-6733-indiana-ave",
+          "place_id": "ChIJdUkAuqex3IARXEiU_kDvz1M",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 2,
+          "source": "Google Places"
+        }
+      ],
+      "createdAt": "2026-03-17T11:47:25.476993",
+      "count": 6
+    },
+    "d8237f6713ea7ab8": {
+      "storeNumber": "STB05X-0192",
+      "category": "pizza",
+      "prospects": [
+        {
+          "name": "Antonious N&W Pizza",
+          "type": "restaurant, food, point_of_interest, establishment",
+          "address": "6701 Indiana Ave, Riverside",
+          "lat": 33.9442068,
+          "lon": -117.3907994,
+          "distance_miles": 0.74,
+          "likelihood_score": 90,
+          "rating": 4.6,
+          "user_ratings_total": 547,
+          "phone": "+1 951-682-8861",
+          "website": "https://www.antonioustogo.com/",
+          "place_id": "ChIJET4rkkuw3IARd9ePOAFCSMs",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 1,
+          "source": "Google Places"
+        },
+        {
+          "name": "DeMatteo's Pizza - Riverside",
+          "type": "meal_delivery, meal_takeaway, restaurant, food, point_of_interest, establishment",
+          "address": "7030 Magnolia Ave, Riverside",
+          "lat": 33.9455273,
+          "lon": -117.4010524,
+          "distance_miles": 1.15,
+          "likelihood_score": 85,
+          "rating": 4.5,
+          "user_ratings_total": 530,
+          "phone": "+1 951-682-6198",
+          "website": "http://www.dematteos.com/",
+          "place_id": "ChIJzZF_yayx3IARxVEnEbA0zhc",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 2,
+          "source": "Google Places"
+        },
+        {
+          "name": "Pietro's Italian Cuisine",
+          "type": "restaurant, food, point_of_interest, establishment",
+          "address": "6788 Brockton Ave, Riverside",
+          "lat": 33.9503828,
+          "lon": -117.3960734,
+          "distance_miles": 1.25,
+          "likelihood_score": 84,
+          "rating": 4.4,
+          "user_ratings_total": 556,
+          "phone": "+1 951-784-1310",
+          "website": "https://www.pietrositaliancuisine.com/",
+          "place_id": "ChIJsVz_CrKx3IARk9V8YDWqye4",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 2,
+          "source": "Google Places"
+        },
+        {
+          "name": "Pizza Hut",
+          "type": "meal_delivery, meal_takeaway, restaurant, food, point_of_interest, establishment",
+          "address": "3255 Arlington Ave, Riverside",
+          "lat": 33.94682,
+          "lon": -117.3813039,
+          "distance_miles": 0.92,
+          "likelihood_score": 84,
+          "rating": 3.8,
+          "user_ratings_total": 255,
+          "phone": "+1 951-684-0700",
+          "website": "https://locations.pizzahut.com/ca/riverside/3255-arlington-ave?utm_medium=organic&utm_source=local&utm_campaign=googlelistings&utm_content=website&utm_term=300423",
+          "place_id": "ChIJDXGvSDSw3IAR5A4AlJxS224",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 1,
+          "source": "Google Places"
+        },
+        {
+          "name": "MOD Pizza",
+          "type": "restaurant, food, point_of_interest, establishment",
+          "address": "3444 Arlington Ave, Riverside",
+          "lat": 33.9460732,
+          "lon": -117.3867688,
+          "distance_miles": 0.82,
+          "likelihood_score": 89,
+          "rating": 4.6,
+          "user_ratings_total": 805,
+          "phone": "+1 951-374-5255",
+          "website": "https://locations.modpizza.com/usa/ca/riverside/3444-arlington-ave?utm_source=google&utm_medium=yext",
+          "place_id": "ChIJq8iBX0qw3IARr2rFnc1v_7k",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 1,
+          "source": "Google Places"
+        },
+        {
+          "name": "Pizza Hut Express",
+          "type": "meal_takeaway, restaurant, food, point_of_interest, establishment",
+          "address": "3333 Arlington Ave, Riverside",
+          "lat": 33.947871,
+          "lon": -117.382238,
+          "distance_miles": 0.97,
+          "likelihood_score": 73,
+          "rating": 3.6,
+          "user_ratings_total": 35,
+          "phone": "+1 800-948-8488",
+          "website": "https://locations.pizzahut.com/ca/riverside/3333-arlington-ave?utm_medium=organic&utm_source=local&utm_campaign=googlelistings&utm_content=website&utm_term=306974",
+          "place_id": "ChIJY0RFHTWw3IARPXXybeO9xUw",
+          "opening_hours": {},
+          "business_status": "OPERATIONAL",
+          "price_level": 1,
+          "source": "Google Places"
+        }
+      ],
+      "createdAt": "2026-03-17T11:47:48.826390",
+      "count": 6
+    },
+    "2a0a672753c65d15": {
+      "storeNumber": "STB05X-0192",
+      "category": "sushi/japanese",
+      "prospects": [
+        {
+          "name": "Arayaki Hibachi Grill Asian Fusion Food Truck",
+          "type": "restaurant, food, point_of_interest, establishment",
+          "address": "7580 Indiana Ave, Riverside",
+          "lat": 33.9338477,
+          "lon": -117.4053903,
+          "distance_miles": 1.09,
+          "likelihood_score": 85,
+          "rating": 4.3,
+          "user_ratings_total": 13,
+          "phone": "+1 951-855-7968",
+          "website": "https://arayaki.com/about",
+          "place_id": "ChIJ89dTCy6x3IARuIL8AYnN40U",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 2,
+          "source": "Google Places"
+        }
+      ],
+      "createdAt": "2026-03-17T11:48:12.652166",
+      "count": 1
+    },
+    "2fa98cfd7fd1720e": {
+      "storeNumber": "STB05X-0192",
+      "category": "coffee/caf\u00e9",
+      "prospects": [
+        {
+          "name": "Backstreet",
+          "type": "meal_takeaway, restaurant, food, point_of_interest, establishment",
+          "address": "3735 Nelson St, Riverside",
+          "lat": 33.9500103,
+          "lon": -117.3973072,
+          "distance_miles": 1.26,
+          "likelihood_score": 85,
+          "rating": 4.7,
+          "user_ratings_total": 732,
+          "phone": "+1 951-683-6650",
+          "website": "https://www.arcadecoffeeroasters.com/pages/backstreet",
+          "place_id": "ChIJ3W-Q8q2x3IARfccRmF1v47o",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 2,
+          "source": "Google Places"
+        },
+        {
+          "name": "Starbucks Coffee Company",
+          "type": "cafe, restaurant, food, store, point_of_interest, establishment",
+          "address": "3707 Arlington Ave, Riverside",
+          "lat": 33.9465,
+          "lon": -117.39699,
+          "distance_miles": 1.05,
+          "likelihood_score": 85,
+          "rating": 4.3,
+          "user_ratings_total": 1035,
+          "phone": "+1 951-276-0924",
+          "website": "https://www.starbucks.com/store-locator/store/11318/",
+          "place_id": "ChIJGUbdVa2x3IAR9BEg4NCbeZc",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 2,
+          "source": "Google Places"
+        }
+      ],
+      "createdAt": "2026-03-17T11:48:26.628543",
+      "count": 2
+    },
+    "211755a1077cf1f6": {
+      "storeNumber": "STB05X-0192",
+      "category": "chinese",
+      "prospects": [
+        {
+          "name": "Ho Ho Chinese Food",
+          "type": "restaurant, food, point_of_interest, establishment",
+          "address": "3511 Madison St, Riverside",
+          "lat": 33.9374361,
+          "lon": -117.4047742,
+          "distance_miles": 1.08,
+          "likelihood_score": 83,
+          "rating": 3.9,
+          "user_ratings_total": 301,
+          "phone": "+1 951-637-2411",
+          "website": null,
+          "place_id": "ChIJSV_a7law3IARoy1RzMRMOHQ",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 1,
+          "source": "Google Places"
+        },
+        {
+          "name": "El Amigo Market",
+          "type": "grocery_or_supermarket, convenience_store, food, finance, store, point_of_interest, establishment",
+          "address": "3199 Madison St, Riverside",
+          "lat": 33.9331806,
+          "lon": -117.4024824,
+          "distance_miles": 0.93,
+          "likelihood_score": 84,
+          "rating": 3.8,
+          "user_ratings_total": 20,
+          "phone": "+1 951-637-2460",
+          "website": null,
+          "place_id": "ChIJ9flPIFqw3IAR6j5a0p5YoYs",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        }
+      ],
+      "createdAt": "2026-03-17T11:48:42.434014",
+      "count": 2
+    },
+    "eabbaa8ff827c9e8": {
+      "storeNumber": "QFC07Z-0205",
+      "category": "oil change/lube",
+      "prospects": [
+        {
+          "name": "Jiffy Lube Oil Change and Multicare",
+          "type": "car_repair, point_of_interest, establishment",
+          "address": "1440 SE 39th Ave, Portland",
+          "lat": 45.5122393,
+          "lon": -122.6225928,
+          "distance_miles": 1.06,
+          "likelihood_score": 85,
+          "rating": 4.2,
+          "user_ratings_total": 586,
+          "phone": "+1 503-231-5522",
+          "website": "https://www.jiffylube.com/locations/or/portland/639",
+          "place_id": "ChIJb4QgbI2glVQRwXmYzk9MIfc",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        },
+        {
+          "name": "Sun Auto Tire & Service",
+          "type": "car_repair, store, point_of_interest, establishment",
+          "address": "4547 NE Sandy Blvd, Portland",
+          "lat": 45.5380133,
+          "lon": -122.6163536,
+          "distance_miles": 1.17,
+          "likelihood_score": 86,
+          "rating": 4.6,
+          "user_ratings_total": 910,
+          "phone": "+1 503-739-9850",
+          "website": "https://www.sunautoservice.com/locations/or/portland/auto-repair-4547-ne-sandy-blvd?utm_source=local_listing&utm_medium=organic&utm_campaign=store_8112",
+          "place_id": "ChIJMRE0ICihlVQR8T-3_ZU_uLw",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        },
+        {
+          "name": "PDX Automotive",
+          "type": "car_repair, point_of_interest, establishment",
+          "address": "5934 NE Halsey St, Portland",
+          "lat": 45.5335085,
+          "lon": -122.6025774,
+          "distance_miles": 0.78,
+          "likelihood_score": 91,
+          "rating": 4.8,
+          "user_ratings_total": 338,
+          "phone": "+1 503-282-3315",
+          "website": "http://pdxauto.com/",
+          "place_id": "ChIJJejPeiGhlVQRtV6Y6XCXgBE",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        },
+        {
+          "name": "K&H Auto Shop",
+          "type": "car_repair, point_of_interest, establishment",
+          "address": "6006 E Burnside St, Portland",
+          "lat": 45.5226903,
+          "lon": -122.6019841,
+          "distance_miles": 0.21,
+          "likelihood_score": 96,
+          "rating": 4.9,
+          "user_ratings_total": 332,
+          "phone": "+1 971-300-8228",
+          "website": "http://kh-autoshop.com/",
+          "place_id": "ChIJgQ_m0HqhlVQRqubA3j_x2CU",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        },
+        {
+          "name": "Hawthorne Auto Clinic",
+          "type": "car_repair, store, point_of_interest, establishment",
+          "address": "4307 SE Hawthorne Blvd, Portland",
+          "lat": 45.5122542,
+          "lon": -122.6181831,
+          "distance_miles": 0.91,
+          "likelihood_score": 88,
+          "rating": 4.6,
+          "user_ratings_total": 196,
+          "phone": "+1 503-234-2119",
+          "website": "https://hawthorneauto.com/",
+          "place_id": "ChIJ34OxJ_OglVQRERHhrA9cqac",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        },
+        {
+          "name": "Specialty Auto Care",
+          "type": "car_repair, point_of_interest, establishment",
+          "address": "7435 NE Glisan St, Portland",
+          "lat": 45.526772,
+          "lon": -122.5859936,
+          "distance_miles": 1.03,
+          "likelihood_score": 87,
+          "rating": 4.6,
+          "user_ratings_total": 79,
+          "phone": "+1 503-253-4853",
+          "website": "https://www.specautocare.com/",
+          "place_id": "ChIJZ9vfwRqhlVQRF_S1qtU1MfE",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        }
+      ],
+      "createdAt": "2026-03-17T12:02:14.116181",
+      "count": 6
     }
   },
-  "lastUpdated": "2026-03-16T09:48:44.715223"
+  "lastUpdated": "2026-03-17T12:02:14.116193"
 }

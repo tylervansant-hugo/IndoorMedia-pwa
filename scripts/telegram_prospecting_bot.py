@@ -614,6 +614,32 @@ def get_rep_name(update: Update) -> str:
         return f"{user.first_name} {user.last_name}".strip() or user.username or f"Rep {user.id}"
     return "Unknown"
 
+def get_rep_email(update: Update) -> str:
+    """Get rep email from rep registry by matching rep name."""
+    rep_name = get_rep_name(update)
+    registry = load_rep_registry()
+    
+    # Search registry for matching rep name
+    for user_id, rep_info in registry.items():
+        if rep_info.get("display_name") == rep_name or rep_info.get("contract_name") == rep_name:
+            # Look up email from hardcoded roster (as fallback)
+            reps_roster = {
+                "Adan Ramos": "Adan.Ramos@Indoormedia.com",
+                "Amy Dixon": "Amy.Dixon@indoormedia.com",
+                "Ben Patacsil": "Ben.Patacsil@Indoormedia.com",
+                "Christian Johnson": "Christian.Johnson@Indoormedia.com",
+                "Dave Boring": "Dave.Boring@Indoormedia.com",
+                "Jan Banks": "Jan.Banks@Indoormedia.com",
+                "Marty/Anthony Eng": "Anthony.Eng@Indoormedia.com",
+                "Matt Boozer": "Matthew.Boozer@Indoormedia.com",
+                "Megan Wink": "Megan.Wink@Indoormedia.com",
+                "Meghan Wink": "Megan.Wink@Indoormedia.com",
+            }
+            return reps_roster.get(rep_name, f"{rep_name.lower().replace(' ', '.')}@indoormedia.com")
+    
+    # Fallback: construct from rep name
+    return f"{rep_name.lower().replace(' ', '.')}@indoormedia.com"
+
 def load_rep_data(rep_id: str):
     """Load data for a specific rep."""
     data = load_prospect_data()
@@ -4997,24 +5023,30 @@ async def handle_button_callback(update: Update, context: ContextTypes.DEFAULT_T
                 start_time = cal_date.replace(hour=hour, minute=minute)
                 end_time = start_time + timedelta(minutes=30)
                 
-                # Create event with attendee
+                # Create event on REP's calendar with timezone, and auto-invite Tyler
+                # Format: YYYY-MM-DDTHH:MM:SS with timezone (gog expects local time, --tz for clarity)
+                start_iso = start_time.isoformat()
+                end_iso = end_time.isoformat()
+                
                 cmd = [
-                    "gog", "calendar", "create", "primary",
-                    f"--summary=📅 {business_name} (with {selected_rep})",
-                    f"--from={start_time.isoformat()}",
-                    f"--to={end_time.isoformat()}",
-                    f"--attendees={rep_email}",
+                    "gog", "calendar", "create", rep_email,
+                    f"--summary=📅 {business_name} (Booked by {selected_rep})",
+                    f"--from={start_iso}",
+                    f"--to={end_iso}",
+                    f"--attendees=tyler.vansant@indoormedia.com",
+                    f"--tz=America/Los_Angeles",
                 ]
                 
                 result = subprocess.run(cmd, capture_output=True, text=True, timeout=30)
                 
                 if result.returncode == 0:
                     await query.edit_message_text(
-                        f"✅ *Invitation Sent!*\n\n"
+                        f"✅ *Appointment Booked!*\n\n"
                         f"Rep: {selected_rep}\n"
                         f"Business: {business_name}\n"
                         f"📅 {date_str} at {time_str}\n\n"
-                        f"_Event added to {selected_rep}'s calendar_",
+                        f"_Event created on {selected_rep}'s calendar_\n"
+                        f"_Tyler auto-invited_",
                         parse_mode="Markdown",
                         reply_markup=InlineKeyboardMarkup([
                             [InlineKeyboardButton("✅ Done", callback_data=f"expand_{prospect_id}")],
@@ -5155,12 +5187,12 @@ async def handle_button_callback(update: Update, context: ContextTypes.DEFAULT_T
             # Get notepad content
             notepad = context.user_data.get('notepad', '').strip()
             
-            # Create Google Calendar event
+            # Create Google Calendar event on rep's calendar with timezone
             cal_date = datetime.now() + timedelta(days=days_ahead)
-            start_time = cal_date.replace(hour=hour, minute=minute, second=0).strftime("%Y-%m-%dT%H:%M:00-08:00")
-            # End time is 1 hour after start (round to next hour or next 15-min slot)
+            start_time = cal_date.replace(hour=hour, minute=minute, second=0).isoformat()
+            # End time is 1 hour after start
             end_date = cal_date.replace(hour=hour, minute=minute, second=0) + timedelta(hours=1)
-            end_time = end_date.strftime("%Y-%m-%dT%H:%M:00-08:00")
+            end_time = end_date.isoformat()
             
             summary = f"👤 Call/Visit: {business_name}"
             description = f"Prospect: {business_name}\nAddress: {address}\nPhone: {phone}\nStore: {store}"
@@ -5174,13 +5206,18 @@ async def handle_button_callback(update: Update, context: ContextTypes.DEFAULT_T
             if notepad:
                 description += f"\n\n📋 Rep Notepad:\n{notepad}"
             
+            # Get rep's email
+            rep_name = get_rep_name(update)
+            rep_email = get_rep_email(update)  # Helper function to get rep email from ID
+            
             cmd = [
-                "gog", "calendar", "create", "primary",
+                "gog", "calendar", "create", rep_email,
                 "--summary", summary,
                 "--from", start_time,
                 "--to", end_time,
                 "--description", description,
                 "--attendees", "tyler.vansant@indoormedia.com",
+                "--tz", "America/Los_Angeles",
             ]
             
             # Try to create the calendar event
