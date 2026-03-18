@@ -456,7 +456,7 @@ def overlay_content_on_template(
         bc_height = 144  # ~2" = 144 pts
         
         # Middle-right (text overlay): ~3" × 2"
-        text_x = 288  # ~4" from left
+        text_x = 198  # ~2.75" from left (bottom-center)
         text_y = 180  # ~2.5" from bottom
         text_width = 216  # ~3" = 216 pts
         text_height = 144  # ~2" = 144 pts
