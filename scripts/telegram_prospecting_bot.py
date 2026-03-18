@@ -7358,7 +7358,7 @@ Send any city name to see all stores!
             ad_type = payment_info[0]
             payment_plan = payment_info[1]
             
-            rep_id = get_rep_id(query.from_user if hasattr(query, 'from_user') else update)
+            rep_id = get_rep_id(update)  # Use update directly
             price = add_to_cart(rep_id, store_num, ad_type, payment_plan)
             
             if price:
@@ -7372,7 +7372,7 @@ Send any city name to see all stores!
         elif data == "view_cart":
             # Show cart
             await query.answer()
-            rep_id = get_rep_id(query.from_user if hasattr(query, 'from_user') else update)
+            rep_id = get_rep_id(update)  # Use update directly
             by_location, total = get_cart_summary(rep_id)
             
             if not by_location:
@@ -7407,7 +7407,7 @@ Send any city name to see all stores!
             # Remove from cart
             await query.answer()
             idx = int(data.replace("cart_remove_", ""))
-            rep_id = get_rep_id(query.from_user if hasattr(query, 'from_user') else update)
+            rep_id = get_rep_id(update)  # Use update directly
             remove_from_cart(rep_id, idx)
             
             # Refresh cart view
@@ -7444,8 +7444,8 @@ Send any city name to see all stores!
         elif data == "cart_proposal":
             # Generate proposal
             await query.answer()
-            rep_id = get_rep_id(query.from_user if hasattr(query, 'from_user') else update)
-            rep_name = get_rep_name(query.from_user if hasattr(query, 'from_user') else update)
+            rep_id = get_rep_id(update)  # Use update directly
+            rep_name = get_rep_name(update)  # Use update directly
             by_location, total = get_cart_summary(rep_id)
             
             if not by_location:
@@ -7515,8 +7515,8 @@ LOCATIONS & SERVICES
         elif data == "cart_pdf":
             # Generate PDF proposal
             await query.answer()
-            rep_id = get_rep_id(query.from_user if hasattr(query, 'from_user') else update)
-            rep_name = get_rep_name(query.from_user if hasattr(query, 'from_user') else update)
+            rep_id = get_rep_id(update)  # Use update directly
+            rep_name = get_rep_name(update)  # Use update directly
             by_location, total = get_cart_summary(rep_id)
             
             if not by_location:
@@ -7982,7 +7982,7 @@ LOCATIONS & SERVICES
             await query.answer()
             prospect_id = data.replace("prospect_add_cart_", "")
             
-            rep_id = get_rep_id(update)
+            rep_id = get_rep_id(update)  # Use update, not query
             data_obj = load_prospect_data()
             rep_data = data_obj["reps"][rep_id]
             prospect = rep_data["saved_prospects"].get(prospect_id, {})
