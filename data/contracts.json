@@ -309,6 +309,40 @@
       "address": "365 E Ellendale Ave",
       "customer_city_state": "Dallas, OR 97338",
       "extracted_at": "2026-03-16T20:00:19.120084"
+    },
+    {
+      "contract_number": "J426965E",
+      "date": "3/18/2026",
+      "business_name": "K&H Auto Shop",
+      "contact_name": "Ali Alshujery",
+      "contact_email": "Knhautoshop@gmail.com",
+      "contact_phone": "(503) 896-7550",
+      "sales_rep": "Adan Ramos",
+      "store_name": "",
+      "store_number": "Quality Food Center-0205",
+      "product_description": "Single",
+      "total_amount": 3125.0,
+      "payment_date": "3/18/2026",
+      "address": "6006 E Burnside st",
+      "customer_city_state": "Portland, OR 97215",
+      "extracted_at": "2026-03-17T20:00:08.735174"
+    },
+    {
+      "contract_number": "J427203E",
+      "date": "3/17/2026",
+      "business_name": "Mami\u2019s Mexican Grill",
+      "contact_name": "Benjamin and Rossy Magana",
+      "contact_email": "Mamismexicangrill1@gmail.com",
+      "contact_phone": "(541) 337-1685",
+      "sales_rep": "Matthew Boozer",
+      "store_name": "",
+      "store_number": "Fred Meyer-0325",
+      "product_description": "Single",
+      "total_amount": 5592.0,
+      "payment_date": "3/17/2026",
+      "address": "3802 West 11th Avenue",
+      "customer_city_state": "Eugene, OR 97402",
+      "extracted_at": "2026-03-17T20:00:22.723945"
     }
   ],
   "last_scan": "2026-03-08T15:11:11.119957"

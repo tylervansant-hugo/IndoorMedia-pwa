@@ -348,8 +348,47 @@ def calculate_event_dates(est_start_str):
     }
 
 
+def event_exists(summary, date):
+    """Check if an event with this summary and date already exists."""
+    try:
+        # List all calendar events
+        cmd = ["/opt/homebrew/bin/gog", "calendar", "list", "--json", "--max", "300"]
+        result = subprocess.run(cmd, capture_output=True, text=True, timeout=30)
+        if result.returncode != 0:
+            return False
+        
+        events = json.loads(result.stdout)
+        if isinstance(events, dict):
+            events = events.get("events", [])
+        
+        # Check if event with same summary and date already exists
+        target_date = date.strftime("%Y-%m-%d")
+        for event in events:
+            event_summary = event.get("summary", "")
+            event_start = event.get("start", {})
+            event_date = event_start.get("date", event_start.get("dateTime", ""))
+            
+            # Extract just the date part from dateTime if present
+            if "T" in event_date:
+                event_date = event_date.split("T")[0]
+            
+            # Match both summary and date
+            if event_summary == summary and event_date == target_date:
+                return True
+        
+        return False
+    except Exception as e:
+        # If we can't check, allow creation (better than silently failing)
+        return False
+
+
 def create_calendar_event(summary, date, attendees, description="", color=None):
-    """Create a Google Calendar event using gog."""
+    """Create a Google Calendar event using gog (only if it doesn't already exist)."""
+    # Check if event already exists
+    if event_exists(summary, date):
+        print(f"  ℹ️  Already exists: {summary} on {date.strftime('%m/%d/%Y')}")
+        return True
+    
     date_str = date.strftime("%Y-%m-%dT09:00:00-08:00")
     end_str = date.strftime("%Y-%m-%dT10:00:00-08:00")
     
