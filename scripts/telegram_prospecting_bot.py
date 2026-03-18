@@ -90,6 +90,17 @@ except ImportError as e:
     logger.warning(f"Data isolation system not available: {e}")
     DATA_ISOLATION_AVAILABLE = False
 
+# --- Smart Upsell Email System ---
+try:
+    from upsell_email_system import (
+        get_upsell_email_params_from_contract,
+        draft_smart_upsell_email,
+    )
+    UPSELL_EMAIL_SYSTEM_AVAILABLE = True
+except ImportError as e:
+    logger.warning(f"Upsell email system not available: {e}")
+    UPSELL_EMAIL_SYSTEM_AVAILABLE = False
+
 # Navigation history management
 def push_nav(context: ContextTypes.DEFAULT_TYPE, screen_name: str, callback_data: str = None):
     """Push current screen onto navigation stack."""
@@ -6627,7 +6638,28 @@ async def handle_button_callback(update: Update, context: ContextTypes.DEFAULT_T
                 body = draft_checkin_email(business, owner, rep_name, store)
             elif template_type == "upsell":
                 subject = f"Expansion Opportunity — {business}"
-                body = draft_upsell_email(business, owner, rep_name, store)
+                # Use smart upsell system if available and contract number exists
+                contract_number = c.get('contract_number', '')
+                if UPSELL_EMAIL_SYSTEM_AVAILABLE and contract_number:
+                    try:
+                        upsell_params = get_upsell_email_params_from_contract(contract_number)
+                        if upsell_params:
+                            body = draft_smart_upsell_email(
+                                business_name=business,
+                                owner_name=owner,
+                                rep_name=rep_name,
+                                store_ref=store,
+                                contract_number=contract_number,
+                                address=upsell_params.get('address', ''),
+                                current_chain=upsell_params.get('store_name', '')
+                            )
+                        else:
+                            body = draft_upsell_email(business, owner, rep_name, store)
+                    except Exception as e:
+                        logger.error(f"Error generating smart upsell email: {e}")
+                        body = draft_upsell_email(business, owner, rep_name, store)
+                else:
+                    body = draft_upsell_email(business, owner, rep_name, store)
             elif template_type == "renewal":
                 subject = f"Time to Renew — {business} & IndoorMedia"
                 body = draft_renewal_email(business, owner, rep_name, store)
