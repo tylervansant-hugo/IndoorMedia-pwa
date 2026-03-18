@@ -672,12 +672,20 @@ def add_to_cart(rep_id: str, store_num: str, ad_type: str, payment_plan: str):
     if not store:
         return None
     
-    pricing = calculate_pricing(store, ad_type)
+    # Calculate price directly from store data
+    base = store["DoubleAd"] if ad_type.lower() == "double" else store["SingleAd"]
+    
+    # Manager Approved Co-Op pricing (standard tier used in cart)
+    coop_monthly_total = base + PRODUCTION
+    coop_three_total = (base * 0.90) + PRODUCTION
+    coop_six_total = (base * 0.925) + PRODUCTION
+    coop_paid_total = (base * 0.85) + PRODUCTION
+    
     plans = {
-        "monthly": pricing.get("monthly_price", 0),
-        "3month": pricing.get("3month_price", 0),
-        "6month": pricing.get("6month_price", 0),
-        "pif": pricing.get("pif_price", 0),
+        "monthly": coop_monthly_total,
+        "3month": coop_three_total,
+        "6month": coop_six_total,
+        "pif": coop_paid_total,
     }
     price = plans.get(payment_plan, 0)
     
