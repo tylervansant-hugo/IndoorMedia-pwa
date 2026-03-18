@@ -40,10 +40,10 @@ HEADER_Y_START = 603.5  # Header begins here
 HEADER_Y_END = 792.0    # Top of page
 HEADER_HEIGHT = HEADER_Y_END - HEADER_Y_START
 
-AD_ZONE_Y_START = 310  # Ad positioned up 90 pts (220 + 90)
+AD_ZONE_Y_START = 390  # Ad positioned up 80 more pts (310 + 80)
 AD_ZONE_Y_END = 603.5    # Ad zone ends (where header starts)
 AD_ZONE_HEIGHT = AD_ZONE_Y_END - AD_ZONE_Y_START
-AD_Y_POS = 310  # Ad top positioned 90 pts higher
+AD_Y_POS = 390  # Ad top positioned 170 pts higher total
 
 FOOTER_Y_START = 15.1
 FOOTER_Y_END = 140.2
