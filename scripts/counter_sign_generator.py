@@ -308,8 +308,8 @@ def overlay_content_on_template(
         # ========== 2. AD IMAGE (shrunk 25%, centered in zone) ==========
         if ad_image_path:
             try:
-                # Apply 1.21 scale (increased 15% from 1.05, total ~21% larger)
-                img_resized, final_width, final_height = resize_ad_image(ad_image_path, scale=1.21)
+                # Apply 1.51 scale (increased 25% from 1.21 scale)
+                img_resized, final_width, final_height = resize_ad_image(ad_image_path, scale=1.51)
                 
                 if img_resized:
                     # Center horizontally, position bottom at AD_Y_POS (17.7 pts above footer)
