@@ -8167,11 +8167,15 @@ def main():
             # Photo upload (business card or ad image)
             async def handle_counter_sign_photo(update, context):
                 state = context.user_data.get('_counter_sign_state')
+                logger.info(f"Counter sign photo handler: state={state}")
                 if state == STATE_AWAITING_BUSINESS_CARD:
+                    logger.info("Routing to handle_business_card_upload")
                     await handle_business_card_upload(update, context)
                 elif state == STATE_AWAITING_AD_IMAGE:
+                    logger.info("Routing to handle_ad_image_upload")
                     await handle_ad_image_upload(update, context)
                 else:
+                    logger.info(f"No counter sign state match, state={state}")
                     await update.message.reply_text("📸 Please use /menu to start counter sign generator first")
             
             app.add_handler(MessageHandler(
@@ -8181,9 +8185,12 @@ def main():
             # Text input (landing page URL)
             async def handle_counter_sign_text(update, context):
                 state = context.user_data.get('_counter_sign_state')
+                logger.info(f"Counter sign text handler: state={state}, text={update.message.text[:50] if update.message.text else 'None'}")
                 if state == STATE_AWAITING_LANDING_PAGE:
+                    logger.info("Routing to handle_landing_page_input")
                     await handle_landing_page_input(update, context)
                 else:
+                    logger.info(f"No counter sign state match, routing to store query. state={state}")
                     # Not in counter sign workflow, use normal store query
                     await handle_store_query(update, context)
             
