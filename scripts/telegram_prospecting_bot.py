@@ -7376,6 +7376,8 @@ Send any city name to see all stores!
                 await query.edit_message_text("❌ Shipping data not available.", parse_mode="Markdown")
         elif data == "client_list":
             await show_client_list(update, context)
+        elif data == "client_list_all":
+            await show_client_list_all(update, context)
         elif data == "audit_confirm_yes":
             await query.answer()
             # Move to inventory entry
@@ -8031,6 +8033,67 @@ async def show_client_list(update: Update, context: ContextTypes.DEFAULT_TYPE):
     
     buttons.append([InlineKeyboardButton("⬅️ Main Menu", callback_data="main_menu")])
     await query.edit_message_text(msg, parse_mode="Markdown", reply_markup=InlineKeyboardMarkup(buttons))
+
+async def show_client_list_all(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    """Show all customers (expanded list)."""
+    query = update.callback_query
+    await query.answer()
+    
+    # Get customer list from context
+    sorted_customers = context.user_data.get('customer_list', [])
+    
+    if not sorted_customers:
+        await query.edit_message_text(
+            "👥 *My Customers*\n\n_(No closed deals yet)_",
+            parse_mode="Markdown",
+            reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("⬅️ Main Menu", callback_data="main_menu")]])
+        )
+        return
+    
+    # Check if manager
+    rep_id = get_rep_id(update)
+    registry = load_rep_registry()
+    rep_info = registry.get(rep_id, {})
+    is_manager = rep_info.get('role') == 'manager'
+    
+    # Build message with all customers
+    total_revenue = sum(c.get("amount", 0) for c in sorted_customers)
+    title = "👥 *All Customers*" if is_manager else "👥 *My Customers*"
+    msg = f"{title}\n\n"
+    msg += f"💰 Total Revenue: ${total_revenue:,.2f}\n"
+    msg += f"📊 Deals: {len(sorted_customers)}\n\n"
+    msg += "*Complete List:*\n"
+    
+    # All customers as buttons (paginated in chunks of 20)
+    buttons = []
+    for i, c in enumerate(sorted_customers):
+        business = c.get('business', '?')
+        amount = c.get('amount', 0)
+        rep = c.get('rep', '')
+        label = f"🏢 {business} — ${amount:,.0f}"
+        if is_manager and rep:
+            label += f" ({rep.split()[0]})"
+        buttons.append([InlineKeyboardButton(label, callback_data=f"customer_detail_{i}")])
+    
+    buttons.append([InlineKeyboardButton("⬅️ Back", callback_data="client_list")])
+    buttons.append([InlineKeyboardButton("⬅️ Main Menu", callback_data="main_menu")])
+    
+    # Split into chunks if too many (Telegram limit is ~100 buttons)
+    msg_chunks = []
+    button_chunks = []
+    chunk_size = 40
+    
+    for i in range(0, len(buttons) - 2, chunk_size):  # Leave room for nav buttons
+        chunk = buttons[i:i+chunk_size]
+        chunk.append([InlineKeyboardButton("⬅️ Back", callback_data="client_list")])
+        chunk.append([InlineKeyboardButton("⬅️ Main Menu", callback_data="main_menu")])
+        button_chunks.append(chunk)
+    
+    # Send first chunk
+    if button_chunks:
+        await query.edit_message_text(msg, parse_mode="Markdown", reply_markup=InlineKeyboardMarkup(button_chunks[0]))
+    else:
+        await query.edit_message_text(msg + "\n_(No customers to display)_", parse_mode="Markdown", reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("⬅️ Main Menu", callback_data="main_menu")]]))
 
 async def handle_location_share(update: Update, context: ContextTypes.DEFAULT_TYPE):
     """Handle location sharing from rep to find nearest stores."""

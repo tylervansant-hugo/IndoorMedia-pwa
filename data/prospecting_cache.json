@@ -3501,6 +3501,26 @@
           "source": "Google Places"
         },
         {
+          "name": "Tov Coffee II",
+          "type": "cafe, food, store, point_of_interest, establishment",
+          "address": "3639 SE Hawthorne Blvd #5044, Portland",
+          "lat": 45.5123066,
+          "lon": -122.6261363,
+          "distance_miles": 1.19,
+          "likelihood_score": 86,
+          "rating": 4.7,
+          "user_ratings_total": 942,
+          "phone": "+1 541-908-2555",
+          "website": null,
+          "place_id": "ChIJDYLRsZGglVQRfr9u2xi1hZc",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 1,
+          "source": "Google Places"
+        },
+        {
           "name": "Harder Day Coffee Company - Hawthorne",
           "type": "cafe, bakery, restaurant, food, store, point_of_interest, establishment",
           "address": "3757 SE Hawthorne Blvd Suite B, Portland",
@@ -3541,26 +3561,6 @@
           "source": "Google Places"
         },
         {
-          "name": "Benevolent Coffee Cart",
-          "type": "cafe, restaurant, food, store, point_of_interest, establishment",
-          "address": "4255 SE Belmont St, Portland",
-          "lat": 45.5166845,
-          "lon": -122.6183341,
-          "distance_miles": 0.71,
-          "likelihood_score": 92,
-          "rating": 5,
-          "user_ratings_total": 252,
-          "phone": "+1 719-266-2837",
-          "website": "http://benevolentcoffeecart.com/",
-          "place_id": "ChIJjceWyO2glVQR9GnYRiht-cA",
-          "opening_hours": {
-            "open_now": true
-          },
-          "business_status": "OPERATIONAL",
-          "price_level": 1,
-          "source": "Google Places"
-        },
-        {
           "name": "Harder Day Coffee Company",
           "type": "cafe, bakery, restaurant, food, store, point_of_interest, establishment",
           "address": "4615 NE Sandy Blvd, Portland",
@@ -3581,7 +3581,7 @@
           "source": "Google Places"
         }
       ],
-      "createdAt": "2026-03-17T09:40:01.314665",
+      "createdAt": "2026-03-18T14:08:16.796438",
       "count": 10
     },
     "1e8a2a0af6af61ec": {
@@ -8479,7 +8479,779 @@
       ],
       "createdAt": "2026-03-18T07:08:30.742858",
       "count": 7
+    },
+    "ca2cb008e430c08d": {
+      "storeNumber": "FME07Y-0417",
+      "category": "auto repair",
+      "prospects": [
+        {
+          "name": "Trackside Auto Repair",
+          "type": "car_repair, point_of_interest, establishment",
+          "address": "2170 Cross St, Eugene",
+          "lat": 44.0609399,
+          "lon": -123.1265131,
+          "distance_miles": 1.12,
+          "likelihood_score": 85,
+          "rating": 4.5,
+          "user_ratings_total": 78,
+          "phone": "+1 541-345-9066",
+          "website": null,
+          "place_id": "ChIJb4m7NHQewVQRg8qjke8JtlE",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        },
+        {
+          "name": "Econo Auto Service",
+          "type": "car_repair, point_of_interest, establishment",
+          "address": "1975 W 7th Ave, Eugene",
+          "lat": 44.052449,
+          "lon": -123.122149,
+          "distance_miles": 1.02,
+          "likelihood_score": 88,
+          "rating": 4.8,
+          "user_ratings_total": 57,
+          "phone": "+1 541-343-1215",
+          "website": "https://econoautoservice.com/",
+          "place_id": "ChIJqz4uT3kewVQRekkXC47hX5o",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        },
+        {
+          "name": "Mad Auto Repair",
+          "type": "car_repair, point_of_interest, establishment",
+          "address": "3707 W 1st Ave, Eugene",
+          "lat": 44.0586102,
+          "lon": -123.1569168,
+          "distance_miles": 0.96,
+          "likelihood_score": 89,
+          "rating": 4.8,
+          "user_ratings_total": 50,
+          "phone": "+1 541-654-5102",
+          "website": "http://madautorepair.com/",
+          "place_id": "ChIJWTpy1RgcwVQRlBNGjaJoEdM",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        },
+        {
+          "name": "C & L Automotive",
+          "type": "car_repair, point_of_interest, establishment",
+          "address": "3768 W 11th Ave, Eugene",
+          "lat": 44.0477171,
+          "lon": -123.1499023,
+          "distance_miles": 0.4,
+          "likelihood_score": 94,
+          "rating": 4.7,
+          "user_ratings_total": 221,
+          "phone": "+1 541-485-5135",
+          "website": "https://www.candlauto.com/",
+          "place_id": "ChIJ4bF17Z0ewVQRcvLlutWF5Wo",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        },
+        {
+          "name": "Small World Auto",
+          "type": "car_repair, point_of_interest, establishment",
+          "address": "2090 W 11th Ave, Eugene",
+          "lat": 44.0474539,
+          "lon": -123.1244615,
+          "distance_miles": 0.9,
+          "likelihood_score": 89,
+          "rating": 4.7,
+          "user_ratings_total": 152,
+          "phone": "+1 541-683-6475",
+          "website": "http://smallworldauto.com/",
+          "place_id": "ChIJSUOGZX0ewVQRmIUv2C5QU8k",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        },
+        {
+          "name": "Eugene Car Care",
+          "type": "car_repair, point_of_interest, establishment",
+          "address": "900 McKinley St, Eugene",
+          "lat": 44.049933,
+          "lon": -123.1302747,
+          "distance_miles": 0.6,
+          "likelihood_score": 92,
+          "rating": 4.6,
+          "user_ratings_total": 101,
+          "phone": "+1 541-685-0830",
+          "website": "https://eugenecarcare.com/",
+          "place_id": "ChIJBfE9vIAewVQRw5c1aLoielE",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        },
+        {
+          "name": "On Call Auto Repair",
+          "type": "car_repair, health, point_of_interest, establishment",
+          "address": "620 Wilson St, Eugene",
+          "lat": 44.0527383,
+          "lon": -123.132219,
+          "distance_miles": 0.55,
+          "likelihood_score": 93,
+          "rating": 4.8,
+          "user_ratings_total": 70,
+          "phone": "+1 541-606-1100",
+          "website": null,
+          "place_id": "ChIJdS9upQYfwVQR-2oypGSZjoE",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        },
+        {
+          "name": "Schweitzer's Automotive Center",
+          "type": "car_repair, point_of_interest, establishment",
+          "address": "1120 Arthur St, Eugene",
+          "lat": 44.0471916,
+          "lon": -123.1250001,
+          "distance_miles": 0.87,
+          "likelihood_score": 89,
+          "rating": 4.7,
+          "user_ratings_total": 82,
+          "phone": "+1 541-342-1664",
+          "website": "http://www.thecardoctoreugene.com/",
+          "place_id": "ChIJKzHNY30ewVQRo_PQYK1HEhQ",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        },
+        {
+          "name": "Redline Automotive Concepts",
+          "type": "car_repair, point_of_interest, establishment",
+          "address": "645 Powers St suite e, Eugene",
+          "lat": 44.0519008,
+          "lon": -123.1643666,
+          "distance_miles": 1.11,
+          "likelihood_score": 87,
+          "rating": 4.8,
+          "user_ratings_total": 82,
+          "phone": "+1 541-686-2852",
+          "website": "https://www.redlineautomotiveconcepts.com/",
+          "place_id": "ChIJT1VVvyIcwVQRLQFJAsshPSA",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        },
+        {
+          "name": "Absolute Automotive",
+          "type": "car_repair, point_of_interest, establishment",
+          "address": "355 State Hwy 99 N, Eugene",
+          "lat": 44.0657208,
+          "lon": -123.1373143,
+          "distance_miles": 1.15,
+          "likelihood_score": 85,
+          "rating": 4.5,
+          "user_ratings_total": 118,
+          "phone": "+1 541-463-9529",
+          "website": "https://www.absoluteauto.org/",
+          "place_id": "ChIJbzqVuc4dwVQRU0BBSbeKjkU",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        }
+      ],
+      "createdAt": "2026-03-18T10:48:52.761998",
+      "count": 10
+    },
+    "317a93f8a6a2e197": {
+      "storeNumber": "FME07Y-0417",
+      "category": "oil change/lube",
+      "prospects": [
+        {
+          "name": "Oilstop Drive-Thru Oil Change",
+          "type": "car_repair, point_of_interest, establishment",
+          "address": "1995 W 11th Ave #3518, Eugene",
+          "lat": 44.048004,
+          "lon": -123.1227028,
+          "distance_miles": 0.98,
+          "likelihood_score": 88,
+          "rating": 4.6,
+          "user_ratings_total": 160,
+          "phone": "+1 541-686-2507",
+          "website": "https://www.oilstopinc.com/oil-change-locations/eugene",
+          "place_id": "ChIJKW7FGr0fwVQRLoTC5Ompv0g",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        },
+        {
+          "name": "Valvoline Instant Oil Change",
+          "type": "car_repair, store, point_of_interest, establishment",
+          "address": "3804 W 11th Ave, Eugene",
+          "lat": 44.04733,
+          "lon": -123.1511829,
+          "distance_miles": 0.46,
+          "likelihood_score": 92,
+          "rating": 4.4,
+          "user_ratings_total": 576,
+          "phone": "+1 541-686-3246",
+          "website": "https://store.vioc.com/or/eugene/3804-w--11th-avenue?utm_source=google&utm_medium=local&utm_campaign=localsearch",
+          "place_id": "ChIJ_T67VSccwVQR_aQZPvnOEe4",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        },
+        {
+          "name": "C & L Automotive",
+          "type": "car_repair, point_of_interest, establishment",
+          "address": "3768 W 11th Ave, Eugene",
+          "lat": 44.0477171,
+          "lon": -123.1499023,
+          "distance_miles": 0.4,
+          "likelihood_score": 94,
+          "rating": 4.7,
+          "user_ratings_total": 221,
+          "phone": "+1 541-485-5135",
+          "website": "https://www.candlauto.com/",
+          "place_id": "ChIJ4bF17Z0ewVQRcvLlutWF5Wo",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        },
+        {
+          "name": "Les Schwab Tire Center",
+          "type": "car_repair, store, point_of_interest, establishment",
+          "address": "2295 W 11th Ave, Eugene",
+          "lat": 44.0482008,
+          "lon": -123.1268183,
+          "distance_miles": 0.77,
+          "likelihood_score": 88,
+          "rating": 4.2,
+          "user_ratings_total": 746,
+          "phone": "+1 541-342-7254",
+          "website": "https://www.lesschwab.com/stores/or/eugene/2295-w-11th-ave?utm_source=google&utm_medium=organic&utm_campaign=gmb-homepage",
+          "place_id": "ChIJRX3BYYcewVQRopA0a0NyGh0",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        },
+        {
+          "name": "Absolute Automotive",
+          "type": "car_repair, point_of_interest, establishment",
+          "address": "355 State Hwy 99 N, Eugene",
+          "lat": 44.0657208,
+          "lon": -123.1373143,
+          "distance_miles": 1.15,
+          "likelihood_score": 85,
+          "rating": 4.5,
+          "user_ratings_total": 118,
+          "phone": "+1 541-463-9529",
+          "website": "https://www.absoluteauto.org/",
+          "place_id": "ChIJbzqVuc4dwVQRU0BBSbeKjkU",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        },
+        {
+          "name": "Schweitzer's Automotive Center",
+          "type": "car_repair, point_of_interest, establishment",
+          "address": "1120 Arthur St, Eugene",
+          "lat": 44.0471916,
+          "lon": -123.1250001,
+          "distance_miles": 0.87,
+          "likelihood_score": 89,
+          "rating": 4.7,
+          "user_ratings_total": 82,
+          "phone": "+1 541-342-1664",
+          "website": "http://www.thecardoctoreugene.com/",
+          "place_id": "ChIJKzHNY30ewVQRo_PQYK1HEhQ",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        },
+        {
+          "name": "Redline Automotive Concepts",
+          "type": "car_repair, point_of_interest, establishment",
+          "address": "645 Powers St suite e, Eugene",
+          "lat": 44.0519008,
+          "lon": -123.1643666,
+          "distance_miles": 1.11,
+          "likelihood_score": 87,
+          "rating": 4.8,
+          "user_ratings_total": 82,
+          "phone": "+1 541-686-2852",
+          "website": "https://www.redlineautomotiveconcepts.com/",
+          "place_id": "ChIJT1VVvyIcwVQRLQFJAsshPSA",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        }
+      ],
+      "createdAt": "2026-03-18T10:50:15.469431",
+      "count": 7
+    },
+    "4a04c43873a085e5": {
+      "storeNumber": "SAF07Y-4288",
+      "category": "mexican",
+      "prospects": [
+        {
+          "name": "Dos Hermanos Taqueria",
+          "type": "restaurant, food, point_of_interest, establishment",
+          "address": "1484 Willamette St, Eugene",
+          "lat": 44.0434661,
+          "lon": -123.0933466,
+          "distance_miles": 0.24,
+          "likelihood_score": 92,
+          "rating": 4.1,
+          "user_ratings_total": 911,
+          "phone": "+1 541-485-1373",
+          "website": "http://www.doshermanostaqueria.com/",
+          "place_id": "ChIJHa_mhkEewVQRW-uPae0vs0w",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 1,
+          "source": "Google Places"
+        },
+        {
+          "name": "Mama Mayra's Kitchen",
+          "type": "restaurant, food, point_of_interest, establishment",
+          "address": "764 Blair Blvd, Eugene",
+          "lat": 44.05128999999999,
+          "lon": -123.1057023,
+          "distance_miles": 1.05,
+          "likelihood_score": 86,
+          "rating": 4.4,
+          "user_ratings_total": 560,
+          "phone": "+1 541-606-1823",
+          "website": "https://mamamayraskitchen.square.site/",
+          "place_id": "ChIJI2BDhXAewVQRQdkzC5fUd0k",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 1,
+          "source": "Google Places"
+        },
+        {
+          "name": "Nelson's on Campus",
+          "type": "restaurant, food, point_of_interest, establishment",
+          "address": "871 E 13th Ave ste c, Eugene",
+          "lat": 44.0456213,
+          "lon": -123.0792298,
+          "distance_miles": 0.65,
+          "likelihood_score": 91,
+          "rating": 4.6,
+          "user_ratings_total": 35,
+          "phone": "+1 541-852-6040",
+          "website": "http://www.nelsonsoncampus.com/",
+          "place_id": "ChIJh-XeRcYfwVQRtSth0WIXwAw",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        },
+        {
+          "name": "El Buen Sabor Taqueria Blair",
+          "type": "restaurant, food, point_of_interest, establishment",
+          "address": "650 Blair Blvd, Eugene",
+          "lat": 44.0525575,
+          "lon": -123.1066276,
+          "distance_miles": 1.15,
+          "likelihood_score": 85,
+          "rating": 4.4,
+          "user_ratings_total": 338,
+          "phone": "+1 541-653-2517",
+          "website": "http://elbuensaboreugene.com/",
+          "place_id": "ChIJpVeP7XEewVQRc898GyidIkI",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 1,
+          "source": "Google Places"
+        },
+        {
+          "name": "El Jaguar",
+          "type": "restaurant, food, point_of_interest, establishment",
+          "address": "2445 Hilyard St, Eugene",
+          "lat": 44.0327081,
+          "lon": -123.0815402,
+          "distance_miles": 0.71,
+          "likelihood_score": 90,
+          "rating": 4.7,
+          "user_ratings_total": 93,
+          "phone": "+1 541-844-1687",
+          "website": null,
+          "place_id": "ChIJY8ptirsfwVQRNLrXNExSdmY",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 1,
+          "source": "Google Places"
+        },
+        {
+          "name": "Lalito\u2019s Mexican kitchen",
+          "type": "restaurant, food, point_of_interest, establishment",
+          "address": "2871 Oak St, Eugene",
+          "lat": 44.0267047,
+          "lon": -123.0895951,
+          "distance_miles": 0.97,
+          "likelihood_score": 88,
+          "rating": 4.7,
+          "user_ratings_total": 67,
+          "phone": "+1 541-337-6397",
+          "website": "http://lalitostaqueriayfruteria.com/",
+          "place_id": "ChIJSYfb428dwVQRmlHNFR8Mfi4",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 2,
+          "source": "Google Places"
+        },
+        {
+          "name": "El Rancho Taqueria",
+          "type": "restaurant, food, point_of_interest, establishment",
+          "address": "628 Blair Blvd, Eugene",
+          "lat": 44.0528592,
+          "lon": -123.1069367,
+          "distance_miles": 1.17,
+          "likelihood_score": 86,
+          "rating": 4.6,
+          "user_ratings_total": 158,
+          "phone": "+1 541-653-8533",
+          "website": "https://www.facebook.com/ElRancho.MeatMarket.Taqueria/",
+          "place_id": "ChIJmc4rtA4fwVQRGL2COmvNC9I",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        },
+        {
+          "name": "Nelson's Taqueria + Nelson\u2019s in the Whit",
+          "type": "cafe, store, restaurant, food, point_of_interest, establishment",
+          "address": "400 Blair Blvd, Eugene",
+          "lat": 44.0552983,
+          "lon": -123.1093893,
+          "distance_miles": 1.38,
+          "likelihood_score": 84,
+          "rating": 4.6,
+          "user_ratings_total": 895,
+          "phone": "+1 541-844-8404",
+          "website": "https://www.nelsonsinthewhit.net/",
+          "place_id": "ChIJ9ffYAXQewVQRKCv41U4vbVg",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 1,
+          "source": "Google Places"
+        },
+        {
+          "name": "El Super Burrito",
+          "type": "restaurant, food, point_of_interest, establishment",
+          "address": "2566 Willamette St, Eugene",
+          "lat": 44.0306708,
+          "lon": -123.0911004,
+          "distance_miles": 0.69,
+          "likelihood_score": 91,
+          "rating": 4.6,
+          "user_ratings_total": 875,
+          "phone": "+1 541-485-0619",
+          "website": "http://elsuperburritoeugene.com/",
+          "place_id": "ChIJAaI30VMewVQRggtyoiFZHmI",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 1,
+          "source": "Google Places"
+        },
+        {
+          "name": "1960 Cocina",
+          "type": "restaurant, food, point_of_interest, establishment",
+          "address": "1810 Willamette St, Eugene",
+          "lat": 44.0397871,
+          "lon": -123.0931158,
+          "distance_miles": 0.15,
+          "likelihood_score": 85,
+          "rating": 4.5,
+          "user_ratings_total": 330,
+          "phone": "+1 541-345-6947",
+          "website": "https://www.1960cocina.com/",
+          "place_id": "ChIJLx7w2fIfwVQRaDrFXvVOT6Y",
+          "opening_hours": {
+            "open_now": false
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 2,
+          "source": "Google Places"
+        }
+      ],
+      "createdAt": "2026-03-18T10:57:42.417901",
+      "count": 10
+    },
+    "7457419a63c1e2a3": {
+      "storeNumber": "QFC07Z-0205",
+      "category": "thai",
+      "prospects": [
+        {
+          "name": "Khao Thai",
+          "type": "restaurant, food, point_of_interest, establishment",
+          "address": "4604 SE Hawthorne Blvd, Portland",
+          "lat": 45.5119224,
+          "lon": -122.6150062,
+          "distance_miles": 0.85,
+          "likelihood_score": 89,
+          "rating": 4.7,
+          "user_ratings_total": 146,
+          "phone": "+1 971-346-2422",
+          "website": "http://khaothaipdx.square.site/",
+          "place_id": "ChIJFwXqB_6hlVQRvpNjFsMSs1E",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 2,
+          "source": "Google Places"
+        },
+        {
+          "name": "Sivalai Thai Restaurant",
+          "type": "restaurant, food, point_of_interest, establishment",
+          "address": "4806 SE Stark St, Portland",
+          "lat": 45.5191276,
+          "lon": -122.613136,
+          "distance_miles": 0.41,
+          "likelihood_score": 93,
+          "rating": 4.7,
+          "user_ratings_total": 1556,
+          "phone": "+1 503-230-2875",
+          "website": "https://sivalaithairestaurant.shop/",
+          "place_id": "ChIJD_9vp--glVQRB-5W6SbSYk8",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 1,
+          "source": "Google Places"
+        },
+        {
+          "name": "Suphatra Thai",
+          "type": "restaurant, food, point_of_interest, establishment",
+          "address": "6035 NE Halsey St, Portland",
+          "lat": 45.5340334,
+          "lon": -122.6013554,
+          "distance_miles": 0.83,
+          "likelihood_score": 89,
+          "rating": 4.7,
+          "user_ratings_total": 86,
+          "phone": "+1 503-709-5539",
+          "website": "https://www.suphatrathaifood.com/",
+          "place_id": "ChIJsSaPsal1lVQR-qSbkW1CRLM",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 2,
+          "source": "Google Places"
+        },
+        {
+          "name": "E-Side Thai Cuisine",
+          "type": "restaurant, food, point_of_interest, establishment",
+          "address": "4255 SE Belmont St, Portland",
+          "lat": 45.516672,
+          "lon": -122.6184319,
+          "distance_miles": 0.71,
+          "likelihood_score": 89,
+          "rating": 4.5,
+          "user_ratings_total": 57,
+          "phone": "+1 503-360-4187",
+          "website": "http://www.esidethai.com/",
+          "place_id": "ChIJ5ReayO2glVQReodjnjeskR8",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 1,
+          "source": "Google Places"
+        },
+        {
+          "name": "Farmhouse Kitchen Thai Cuisine",
+          "type": "restaurant, bar, food, point_of_interest, establishment",
+          "address": "3354 SE Hawthorne Blvd, Portland",
+          "lat": 45.511914,
+          "lon": -122.6297829,
+          "distance_miles": 1.35,
+          "likelihood_score": 84,
+          "rating": 4.7,
+          "user_ratings_total": 2941,
+          "phone": "+1 503-432-8115",
+          "website": "https://farmhousethai.com/farmhouseportland?utm_source=google",
+          "place_id": "ChIJ8ZNn75GglVQR8nzM2EV6DEI",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 2,
+          "source": "Google Places"
+        },
+        {
+          "name": "Banana Thai Style",
+          "type": "restaurant, food, point_of_interest, establishment",
+          "address": "4225 SE Hawthorne Blvd #4, Portland",
+          "lat": 45.5123689,
+          "lon": -122.6191275,
+          "distance_miles": 0.94,
+          "likelihood_score": 67,
+          "rating": 5,
+          "user_ratings_total": 1,
+          "phone": "+1 971-345-7350",
+          "website": null,
+          "place_id": "ChIJb_9DUW-hlVQRlTYxk9LjPVM",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        },
+        {
+          "name": "Dara Thai & Teriyaki",
+          "type": "restaurant, food, point_of_interest, establishment",
+          "address": "4434 NE Sandy Blvd, Portland",
+          "lat": 45.5370741,
+          "lon": -122.6173272,
+          "distance_miles": 1.14,
+          "likelihood_score": 85,
+          "rating": 4.4,
+          "user_ratings_total": 336,
+          "phone": "+1 971-350-4499",
+          "website": "https://www.darathaipdx.com/",
+          "place_id": "ChIJJ1Tw7NeglVQRjdFTzadfAc8",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 1,
+          "source": "Google Places"
+        },
+        {
+          "name": "Full Moon Thai Restaurant",
+          "type": "restaurant, food, point_of_interest, establishment",
+          "address": "3445 NE Broadway, Portland",
+          "lat": 45.5353363,
+          "lon": -122.6285434,
+          "distance_miles": 1.39,
+          "likelihood_score": 83,
+          "rating": 4.5,
+          "user_ratings_total": 275,
+          "phone": "+1 503-477-6073",
+          "website": "http://fullmoonthaipdx.com/",
+          "place_id": "ChIJ-ZrMStCglVQRsQ0aIwuhH30",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 2,
+          "source": "Google Places"
+        },
+        {
+          "name": "YUI",
+          "type": "restaurant, food, point_of_interest, establishment",
+          "address": "4246 SE Belmont St Suite 2, Portland",
+          "lat": 45.5163668,
+          "lon": -122.6185824,
+          "distance_miles": 0.73,
+          "likelihood_score": 90,
+          "rating": 4.7,
+          "user_ratings_total": 158,
+          "phone": null,
+          "website": "http://www.yuipdx.com/",
+          "place_id": "ChIJ3zSBSIinlVQRHtoDjZJ6Kuo",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 2,
+          "source": "Google Places"
+        },
+        {
+          "name": "THE THAI PANTHER (HINTERLAND)",
+          "type": "restaurant, bar, meal_takeaway, food, point_of_interest, establishment",
+          "address": "2216 SE 50th Ave, Portland",
+          "lat": 45.5070842,
+          "lon": -122.6110828,
+          "distance_miles": 1.09,
+          "likelihood_score": 84,
+          "rating": 4,
+          "user_ratings_total": 33,
+          "phone": null,
+          "website": "https://thethaipanther.org/",
+          "place_id": "ChIJ1eDvV3ChlVQRHOX3-Pmb2qU",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 2,
+          "source": "Google Places"
+        }
+      ],
+      "createdAt": "2026-03-18T14:24:49.538921",
+      "count": 10
     }
   },
-  "lastUpdated": "2026-03-18T07:08:30.742870"
+  "lastUpdated": "2026-03-18T14:24:49.538931"
 }
