@@ -210,22 +210,31 @@ def find_nearby_stores_by_address(
         if city_state:
             city, state = city_state
             
-            # Get all stores in this city/state, excluding current chain
+            # Get all stores in this city/state
             candidates = [
                 s for s in all_stores
                 if s.get("City") == city and s.get("State") == state
             ]
             
-            # Exclude current chain
+            # Separate by chain: different chains FIRST, then same chain
+            different_chain_stores = []
+            same_chain_stores = []
+            
             if exclude_chain:
                 exclude_chain_clean = exclude_chain.lower().strip()
-                candidates = [
-                    s for s in candidates
-                    if s.get("GroceryChain", "").lower().strip() != exclude_chain_clean
-                ]
+                for s in candidates:
+                    if s.get("GroceryChain", "").lower().strip() != exclude_chain_clean:
+                        different_chain_stores.append(s)
+                    else:
+                        same_chain_stores.append(s)
+            else:
+                different_chain_stores = candidates
+            
+            # Add different chain stores first, then same chain stores
+            all_sorted = different_chain_stores + same_chain_stores
             
             # Format and limit results
-            for store in candidates[:limit]:
+            for store in all_sorted[:limit]:
                 nearby_stores.append({
                     "StoreName": store.get("StoreName", ""),
                     "GroceryChain": store.get("GroceryChain", ""),
@@ -405,7 +414,7 @@ Try our digital offerings to reach customers beyond the register. It's a natural
     if "Double" in suggested_products:
         email_body += """
 **Option 2: Upgrade to our Double Format**
-Upgrade to our Double format (3.6" tall) for more visibility—customers see it twice per transaction.
+Upgrade to our Double format (3.6" tall × 2.75" wide) for more real estate. You get space for a bigger logo, larger images, or more offers—more impact at every transaction.
 """
     elif "Register Tape" in suggested_products:
         email_body += """
