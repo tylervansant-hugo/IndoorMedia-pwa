@@ -58,17 +58,21 @@ QR_BG_X_MIN = 476.9
 QR_BG_Y_MIN = 15.1
 QR_BG_SIZE = 125.1  # 125.1 × 125.1 pts (~1.74" × 1.74")
 
-# BUSINESS CARD
-BC_X = 36.0
-BC_Y = 144.0
+# BUSINESS CARD - BOTTOM-LEFT (replaces RTUI logo area)
+BC_X_BOTTOM = 36.0
+BC_Y_BOTTOM = 22.7
 BC_WIDTH = 144.0
 BC_HEIGHT = 144.0
 
-# TEXT OVERLAY
-TEXT_X = 198.0
-TEXT_Y = 180.0
-TEXT_WIDTH = 216.0
-TEXT_HEIGHT = 144.0
+# BUSINESS CARD - TOP-LEFT (legacy position)
+BC_X_TOP = 36.0
+BC_Y_TOP = 144.0
+
+# TEXT OVERLAY - BOTTOM-CENTER (between business card and QR)
+TEXT_X = 180.0
+TEXT_Y = 40.0
+TEXT_WIDTH = 304.0  # 484 - 180 = space between business card and QR
+TEXT_HEIGHT = 100.0
 
 # Ad image margins
 AD_X_MARGIN = 36.0  # 0.5" on each side
@@ -152,20 +156,30 @@ def generate_qr_code(url: str, box_size: int = 10) -> Image.Image:
         return None
 
 
-def create_text_overlay_image(
+def create_footer_text_overlay(
     text: str,
-    width: int = 216,
-    height: int = 144,
-    font_size: int = 14,
-    bg_color: str = 'white',
-    text_color: str = 'black'
+    width: int = 304,
+    height: int = 100,
+    font_size: int = 14
 ) -> Image.Image:
-    """Create text overlay image with specified dimensions."""
+    """
+    Create footer text overlay with white text on transparent background.
+    
+    Args:
+        text: Text content (will be split into multiple lines)
+        width: Image width in pixels (default 304 pts)
+        height: Image height in pixels (default 100 pts)
+        font_size: Font size in points (default 14)
+    
+    Returns:
+        PIL Image with RGBA (transparent background)
+    """
     try:
-        img = Image.new('RGB', (width, height), color=bg_color)
+        # Create transparent background (RGBA)
+        img = Image.new('RGBA', (width, height), color=(0, 0, 0, 0))
         draw = ImageDraw.Draw(img)
         
-        # Try to use a bold font
+        # Try to load Helvetica Bold
         try:
             font = ImageFont.truetype("/System/Library/Fonts/Helvetica.ttc", font_size)
         except:
@@ -174,19 +188,20 @@ def create_text_overlay_image(
             except:
                 font = ImageFont.load_default()
         
-        # Draw centered text
+        # Draw text centered, white color on transparent background
         draw.multiline_text(
             (width // 2, height // 2),
             text,
-            fill=text_color,
+            fill=(255, 255, 255, 255),  # White with full opacity
             font=font,
             anchor="mm",
             align="center"
         )
         
+        logger.info(f"✓ Created footer text overlay: {width}×{height} px, font size {font_size}")
         return img
     except Exception as e:
-        logger.error(f"Error creating text overlay: {e}")
+        logger.error(f"Error creating footer text overlay: {e}")
         return None
 
 
@@ -250,13 +265,19 @@ def overlay_content_on_template(
     """
     Overlay all components on store template with EXACT positioning.
     
+    FOOTER LAYOUT (updated):
+    - Bottom-left: Business card (144×144 pts at X:36, Y:22.7)
+    - Bottom-center: White text on transparent background, no white box
+      - "SCAN HERE TO SEE HOW WE CAN HELP YOUR BUSINESS" (if landing_page_url)
+      - "CALL NOW TO SEE HOW WE CAN HELP YOUR BUSINESS" (if no landing_page_url)
+    - Bottom-right: QR code (109.9×109.9 pts, unchanged position)
+    
     Overlay order (important for layering):
     1. White background box (to cover original QR code)
     2. Ad image (fills middle section)
     3. Business card (bottom-left)
-    4. Text overlay (bottom-center)
+    4. Text overlay (bottom-center, white on transparent)
     5. QR code (bottom-right, on white background)
-    6. Rep info text (corner info)
     
     Returns PDF bytes.
     """
@@ -296,12 +317,12 @@ def overlay_content_on_template(
             except Exception as e:
                 logger.warning(f"Could not add ad image: {e}")
         
-        # ========== 3. BUSINESS CARD ==========
+        # ========== 3. BUSINESS CARD (BOTTOM-LEFT) ==========
         if business_card_path:
             try:
                 bc_img = Image.open(business_card_path)
                 
-                # Maintain aspect ratio, fit in box
+                # Maintain aspect ratio, fit in 144×144 box at bottom-left
                 bc_ratio = bc_img.width / bc_img.height
                 if bc_ratio > 1:  # Wider
                     final_bc_width = BC_WIDTH
@@ -310,9 +331,9 @@ def overlay_content_on_template(
                     final_bc_height = BC_HEIGHT
                     final_bc_width = BC_HEIGHT * bc_ratio
                 
-                # Center in box
-                bc_x = BC_X + (BC_WIDTH - final_bc_width) / 2
-                bc_y = BC_Y + (BC_HEIGHT - final_bc_height) / 2
+                # Center in box (bottom-left position)
+                bc_x = BC_X_BOTTOM + (BC_WIDTH - final_bc_width) / 2
+                bc_y = BC_Y_BOTTOM + (BC_HEIGHT - final_bc_height) / 2
                 
                 bc_img_resized = bc_img.resize(
                     (int(final_bc_width), int(final_bc_height)),
@@ -322,22 +343,22 @@ def overlay_content_on_template(
                 with tempfile.NamedTemporaryFile(suffix='.png', delete=False) as tmp:
                     bc_img_resized.save(tmp.name, format='PNG')
                     c.drawImage(tmp.name, bc_x, bc_y, width=final_bc_width, height=final_bc_height)
-                    logger.info(f"✓ Business card at ({bc_x:.1f}, {bc_y:.1f}): {final_bc_width:.1f}×{final_bc_height:.1f} pts")
+                    logger.info(f"✓ Business card (bottom-left) at ({bc_x:.1f}, {bc_y:.1f}): {final_bc_width:.1f}×{final_bc_height:.1f} pts")
             except Exception as e:
                 logger.warning(f"Could not add business card: {e}")
         
-        # ========== 4. TEXT OVERLAY ==========
+        # ========== 4. FOOTER TEXT OVERLAY (BOTTOM-CENTER) ==========
         if landing_page_url and landing_page_url.lower() != 'none':
             text_content = "SCAN HERE TO\nSEE HOW WE CAN\nHELP YOUR\nBUSINESS"
         else:
             text_content = "CALL NOW TO\nSEE HOW WE CAN\nHELP YOUR\nBUSINESS"
         
-        text_img = create_text_overlay_image(text_content, int(TEXT_WIDTH), int(TEXT_HEIGHT), 14)
+        text_img = create_footer_text_overlay(text_content, int(TEXT_WIDTH), int(TEXT_HEIGHT), 14)
         if text_img:
             with tempfile.NamedTemporaryFile(suffix='.png', delete=False) as tmp:
                 text_img.save(tmp.name, format='PNG')
                 c.drawImage(tmp.name, TEXT_X, TEXT_Y, width=TEXT_WIDTH, height=TEXT_HEIGHT)
-                logger.info(f"✓ Text overlay at ({TEXT_X}, {TEXT_Y}): {TEXT_WIDTH}×{TEXT_HEIGHT} pts")
+                logger.info(f"✓ Footer text overlay (white on transparent, bottom-center) at ({TEXT_X}, {TEXT_Y}): {TEXT_WIDTH}×{TEXT_HEIGHT} pts")
         
         # ========== 5. QR CODE (on top of white background) ==========
         if qr_image:
@@ -347,19 +368,9 @@ def overlay_content_on_template(
                 c.drawImage(tmp.name, QR_CODE_X_MIN, QR_CODE_Y_MIN, width=QR_CODE_SIZE, height=QR_CODE_SIZE)
                 logger.info(f"✓ QR code at ({QR_CODE_X_MIN}, {QR_CODE_Y_MIN}): {QR_CODE_SIZE}×{QR_CODE_SIZE} pts (EXACT)")
         
-        # ========== 6. REP INFO TEXT ==========
-        if rep_data:
-            try:
-                c.setFont("Helvetica-Bold", 10)
-                c.drawString(36, 30, rep_data.get('name', 'Rep Name'))
-                
-                c.setFont("Helvetica", 8)
-                c.drawString(36, 20, f"Cell: {rep_data.get('cell', '')}")
-                c.drawString(36, 10, f"Email: {rep_data.get('email', '')}")
-                
-                logger.info(f"✓ Rep info for {rep_data.get('name', 'Unknown')}")
-            except Exception as e:
-                logger.warning(f"Could not add rep info: {e}")
+        # ========== 6. REP INFO (REMOVED - no longer displayed in footer) ==========
+        # Rep contact info is now only used for QR code generation
+        # Text-based rep info display in footer has been removed
         
         # Finalize overlay
         c.save()
