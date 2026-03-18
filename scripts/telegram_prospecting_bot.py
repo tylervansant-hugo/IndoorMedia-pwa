@@ -101,6 +101,18 @@ except ImportError as e:
     logger.warning(f"Upsell email system not available: {e}")
     UPSELL_EMAIL_SYSTEM_AVAILABLE = False
 
+# --- Counter Sign Generator ---
+try:
+    from counter_sign_workflow import (
+        start_counter_sign_workflow,
+        handle_counter_sign_callback,
+        COUNTER_SIGN_STATES,
+    )
+    COUNTER_SIGN_AVAILABLE = True
+except ImportError as e:
+    logger.warning(f"Counter sign generator not available: {e}")
+    COUNTER_SIGN_AVAILABLE = False
+
 # Navigation history management
 def push_nav(context: ContextTypes.DEFAULT_TYPE, screen_name: str, callback_data: str = None):
     """Push current screen onto navigation stack."""
@@ -3620,6 +3632,7 @@ async def show_submenu_tools(update: Update, context: ContextTypes.DEFAULT_TYPE)
         [InlineKeyboardButton("📋 Testimonial Search", callback_data="testimonial_search")],
         [InlineKeyboardButton("📝 Submit Testimonial", callback_data="submit_testimonial")],
         [InlineKeyboardButton("🏪 Audit Store", callback_data="audit_store")],
+        [InlineKeyboardButton("🎨 Counter Sign Generator", callback_data="counter_sign_generator")],
         [InlineKeyboardButton("⬅️ Main Menu", callback_data="main_menu")],
     ]
     await query.edit_message_text(
@@ -7344,6 +7357,12 @@ Send any city name to see all stores!
             )
         elif data == "audit_store":
             await handle_audit_flow(update, context)
+        elif data == "counter_sign_generator":
+            if COUNTER_SIGN_AVAILABLE:
+                await query.answer()
+                await start_counter_sign_workflow(update, context)
+            else:
+                await query.answer("❌ Counter sign generator not available", show_alert=True)
         elif data.startswith("audit_zone_"):
             zone_code = data.replace("audit_zone_", "")
             await query.answer()
