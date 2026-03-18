@@ -7948,6 +7948,7 @@ async def show_client_list(update: Update, context: ContextTypes.DEFAULT_TYPE):
                             "address": c.get("address", ""),
                             "store": c.get("store_name", ""),
                             "store_number": c.get("store_number", ""),
+                            "contract_number": c.get("contract_number", ""),
                         })
     except Exception as e:
         logger.warning(f"Error loading contracts: {e}")
