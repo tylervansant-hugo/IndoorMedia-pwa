@@ -313,6 +313,7 @@ async def handle_ad_image_upload(
             ad_image_path=str(ad_image_path),
             rep_data=rep_data,
             landing_page_url=context.user_data.get('landing_page'),
+            business_card_path=context.user_data.get('business_card_path'),
         )
         
         if pdf_bytes:
@@ -379,6 +380,7 @@ async def handle_direct_team_ad_image(
             ad_image_path=str(ad_image_path),
             rep_data=rep_data,
             landing_page_url=context.user_data.get('landing_page'),
+            business_card_path=context.user_data.get('business_card_path'),
         )
         
         if pdf_bytes and output_path:
