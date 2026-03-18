@@ -1,0 +1,377 @@
+{
+  "7ab226058a9e7610": {
+    "cached_at": "2026-03-17T22:50:44.038987",
+    "data": {
+      "business": "Autotek International LLC",
+      "checked_at": "2026-03-17T22:50:43.664989",
+      "platforms": {
+        "meta": {
+          "platform": "Meta",
+          "found": false,
+          "active_ads": 0,
+          "ads": []
+        },
+        "google": {
+          "platform": "Google",
+          "found": false,
+          "running_ads": false,
+          "ad_count": 0,
+          "ads": []
+        }
+      },
+      "found_advertising": false,
+      "likelihood_boost": 0
+    },
+    "ttl": 86400
+  },
+  "e30ab0c4da38f9d8": {
+    "cached_at": "2026-03-17T22:51:53.353377",
+    "data": {
+      "business": "McDonald's",
+      "checked_at": "2026-03-17T22:51:53.048842",
+      "platforms": {
+        "meta": {
+          "platform": "Meta",
+          "found": false,
+          "active_ads": 0,
+          "ads": []
+        },
+        "google": {
+          "platform": "Google",
+          "found": false,
+          "running_ads": false,
+          "ad_count": 0,
+          "ads": []
+        }
+      },
+      "found_advertising": false,
+      "likelihood_boost": 0
+    },
+    "ttl": 86400
+  },
+  "f116acfe91474940": {
+    "cached_at": "2026-03-17T22:51:53.650737",
+    "data": {
+      "business": "Starbucks",
+      "checked_at": "2026-03-17T22:51:53.354901",
+      "platforms": {
+        "meta": {
+          "platform": "Meta",
+          "found": false,
+          "active_ads": 0,
+          "ads": []
+        },
+        "google": {
+          "platform": "Google",
+          "found": false,
+          "running_ads": false,
+          "ad_count": 0,
+          "ads": []
+        }
+      },
+      "found_advertising": false,
+      "likelihood_boost": 0
+    },
+    "ttl": 86400
+  },
+  "2d0d4809e6bdb6f4": {
+    "cached_at": "2026-03-17T22:51:53.956454",
+    "data": {
+      "business": "Amazon",
+      "checked_at": "2026-03-17T22:51:53.652353",
+      "platforms": {
+        "meta": {
+          "platform": "Meta",
+          "found": false,
+          "active_ads": 0,
+          "ads": []
+        },
+        "google": {
+          "platform": "Google",
+          "found": false,
+          "running_ads": false,
+          "ad_count": 0,
+          "ads": []
+        }
+      },
+      "found_advertising": false,
+      "likelihood_boost": 0
+    },
+    "ttl": 86400
+  },
+  "2c648ef84225e10f": {
+    "cached_at": "2026-03-17T22:51:54.254725",
+    "data": {
+      "business": "Best Buy",
+      "checked_at": "2026-03-17T22:51:53.958047",
+      "platforms": {
+        "meta": {
+          "platform": "Meta",
+          "found": false,
+          "active_ads": 0,
+          "ads": []
+        },
+        "google": {
+          "platform": "Google",
+          "found": false,
+          "running_ads": false,
+          "ad_count": 0,
+          "ads": []
+        }
+      },
+      "found_advertising": false,
+      "likelihood_boost": 0
+    },
+    "ttl": 86400
+  },
+  "b48f541151401b3b": {
+    "cached_at": "2026-03-17T22:51:54.499261",
+    "data": {
+      "business": "Home Depot",
+      "checked_at": "2026-03-17T22:51:54.255461",
+      "platforms": {
+        "meta": {
+          "platform": "Meta",
+          "found": false,
+          "active_ads": 0,
+          "ads": []
+        },
+        "google": {
+          "platform": "Google",
+          "found": false,
+          "running_ads": false,
+          "ad_count": 0,
+          "ads": []
+        }
+      },
+      "found_advertising": false,
+      "likelihood_boost": 0
+    },
+    "ttl": 86400
+  },
+  "42aefbae01d2dfd9": {
+    "cached_at": "2026-03-17T22:51:54.766995",
+    "data": {
+      "business": "Target",
+      "checked_at": "2026-03-17T22:51:54.500505",
+      "platforms": {
+        "meta": {
+          "platform": "Meta",
+          "found": false,
+          "active_ads": 0,
+          "ads": []
+        },
+        "google": {
+          "platform": "Google",
+          "found": false,
+          "running_ads": false,
+          "ad_count": 0,
+          "ads": []
+        }
+      },
+      "found_advertising": false,
+      "likelihood_boost": 0
+    },
+    "ttl": 86400
+  },
+  "3f1478363d942d73": {
+    "cached_at": "2026-03-17T22:51:55.022276",
+    "data": {
+      "business": "Joe's Small Hardware Store",
+      "checked_at": "2026-03-17T22:51:54.768558",
+      "platforms": {
+        "meta": {
+          "platform": "Meta",
+          "found": false,
+          "active_ads": 0,
+          "ads": []
+        },
+        "google": {
+          "platform": "Google",
+          "found": false,
+          "running_ads": false,
+          "ad_count": 0,
+          "ads": []
+        }
+      },
+      "found_advertising": false,
+      "likelihood_boost": 0
+    },
+    "ttl": 86400
+  },
+  "f5cfd62adb72bf75": {
+    "cached_at": "2026-03-17T22:51:55.320450",
+    "data": {
+      "business": "Test Business 1773813115",
+      "checked_at": "2026-03-17T22:51:55.024883",
+      "platforms": {
+        "meta": {
+          "platform": "Meta",
+          "found": false,
+          "active_ads": 0,
+          "ads": []
+        },
+        "google": {
+          "platform": "Google",
+          "found": false,
+          "running_ads": false,
+          "ad_count": 0,
+          "ads": []
+        }
+      },
+      "found_advertising": false,
+      "likelihood_boost": 0
+    },
+    "ttl": 86400
+  },
+  "300e305e50872bb1": {
+    "cached_at": "2026-03-17T22:51:55.631207",
+    "data": {
+      "business": "Example Pizzeria",
+      "checked_at": "2026-03-17T22:51:55.322596",
+      "platforms": {
+        "meta": {
+          "platform": "Meta",
+          "found": false,
+          "active_ads": 0,
+          "ads": []
+        },
+        "google": {
+          "platform": "Google",
+          "found": false,
+          "running_ads": false,
+          "ad_count": 0,
+          "ads": []
+        }
+      },
+      "found_advertising": false,
+      "likelihood_boost": 0
+    },
+    "ttl": 86400
+  },
+  "f8f3c9733e9d9e6e": {
+    "cached_at": "2026-03-17T22:51:55.950748",
+    "data": {
+      "business": "Business A",
+      "checked_at": "2026-03-17T22:51:55.633515",
+      "platforms": {
+        "meta": {
+          "platform": "Meta",
+          "found": false,
+          "active_ads": 0,
+          "ads": []
+        },
+        "google": {
+          "platform": "Google",
+          "found": false,
+          "running_ads": false,
+          "ad_count": 0,
+          "ads": []
+        }
+      },
+      "found_advertising": false,
+      "likelihood_boost": 0
+    },
+    "ttl": 86400
+  },
+  "73b8f3a94e5017f6": {
+    "cached_at": "2026-03-17T22:51:56.244035",
+    "data": {
+      "business": "Business B",
+      "checked_at": "2026-03-17T22:51:55.953000",
+      "platforms": {
+        "meta": {
+          "platform": "Meta",
+          "found": false,
+          "active_ads": 0,
+          "ads": []
+        },
+        "google": {
+          "platform": "Google",
+          "found": false,
+          "running_ads": false,
+          "ad_count": 0,
+          "ads": []
+        }
+      },
+      "found_advertising": false,
+      "likelihood_boost": 0
+    },
+    "ttl": 86400
+  },
+  "3e4811a884dd634d": {
+    "cached_at": "2026-03-17T22:51:56.476969",
+    "data": {
+      "business": "Business C",
+      "checked_at": "2026-03-17T22:51:56.244937",
+      "platforms": {
+        "meta": {
+          "platform": "Meta",
+          "found": false,
+          "active_ads": 0,
+          "ads": []
+        },
+        "google": {
+          "platform": "Google",
+          "found": false,
+          "running_ads": false,
+          "ad_count": 0,
+          "ads": []
+        }
+      },
+      "found_advertising": false,
+      "likelihood_boost": 0
+    },
+    "ttl": 86400
+  },
+  "6cb92fe923f8acc9": {
+    "cached_at": "2026-03-17T22:51:59.571808",
+    "data": {
+      "business": "Test Business 1773813119",
+      "checked_at": "2026-03-17T22:51:59.282796",
+      "platforms": {
+        "meta": {
+          "platform": "Meta",
+          "found": false,
+          "active_ads": 0,
+          "ads": []
+        },
+        "google": {
+          "platform": "Google",
+          "found": false,
+          "running_ads": false,
+          "ad_count": 0,
+          "ads": []
+        }
+      },
+      "found_advertising": false,
+      "likelihood_boost": 0
+    },
+    "ttl": 86400
+  },
+  "f78819d3e4b99e1f": {
+    "cached_at": "2026-03-17T22:53:29.559062",
+    "data": {
+      "business": "Test Business 1773813209",
+      "checked_at": "2026-03-17T22:53:29.230269",
+      "platforms": {
+        "meta": {
+          "platform": "Meta",
+          "found": false,
+          "active_ads": 0,
+          "ads": []
+        },
+        "google": {
+          "platform": "Google",
+          "found": false,
+          "running_ads": false,
+          "ad_count": 0,
+          "ads": []
+        }
+      },
+      "found_advertising": false,
+      "likelihood_boost": 0
+    },
+    "ttl": 86400
+  }
+}
