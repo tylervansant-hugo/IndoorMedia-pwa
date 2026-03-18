@@ -9379,7 +9379,243 @@
       ],
       "createdAt": "2026-03-18T15:04:31.550628",
       "count": 6
+    },
+    "dd8861566a53371e": {
+      "storeNumber": "SAF07Z-0091",
+      "category": "sushi/japanese",
+      "prospects": [
+        {
+          "name": "Ryoshi 153 sushi & bento",
+          "type": "restaurant, food, point_of_interest, establishment",
+          "address": "902 14th Ave, Longview",
+          "lat": 46.1305844,
+          "lon": -122.9380757,
+          "distance_miles": 0.45,
+          "likelihood_score": 94,
+          "rating": 4.8,
+          "user_ratings_total": 165,
+          "phone": "+1 360-353-1949",
+          "website": null,
+          "place_id": "ChIJJazuHe9tlFQRxx2R5YXxX5o",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        },
+        {
+          "name": "Kyoto Japanese Steakhouse & Sushi",
+          "type": "restaurant, food, point_of_interest, establishment",
+          "address": "760 Ocean Beach Hwy J, Longview",
+          "lat": 46.14750000000001,
+          "lon": -122.9244444,
+          "distance_miles": 0.97,
+          "likelihood_score": 86,
+          "rating": 4.3,
+          "user_ratings_total": 1151,
+          "phone": null,
+          "website": null,
+          "place_id": "ChIJrQ2hrOpslFQRj-RaXlWagJc",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 2,
+          "source": "Google Places"
+        },
+        {
+          "name": "Ichi 12 Teriyaki",
+          "type": "restaurant, food, point_of_interest, establishment",
+          "address": "100 Triangle Shopping Center #180, Longview",
+          "lat": 46.1432233,
+          "lon": -122.9324468,
+          "distance_miles": 0.5,
+          "likelihood_score": 92,
+          "rating": 4.4,
+          "user_ratings_total": 394,
+          "phone": "+1 360-636-5888",
+          "website": null,
+          "place_id": "ChIJZ7Q3gJRslFQRsrg1H4Ya9gg",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 1,
+          "source": "Google Places"
+        },
+        {
+          "name": "Minami Teriyaki",
+          "type": "restaurant, food, point_of_interest, establishment",
+          "address": "1208 15th Ave, Longview",
+          "lat": 46.1361669,
+          "lon": -122.9371825,
+          "distance_miles": 0.07,
+          "likelihood_score": 96,
+          "rating": 4.5,
+          "user_ratings_total": 682,
+          "phone": "+1 360-423-2306",
+          "website": "https://order.online/business/minami-teriyaki-280379",
+          "place_id": "ChIJM0oz0o5slFQRwmFRMgnvRa8",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 1,
+          "source": "Google Places"
+        },
+        {
+          "name": "Wasabi Japanese Steakhouse & Sushi",
+          "type": "restaurant, food, point_of_interest, establishment",
+          "address": "760 Ocean Beach Hwy J, Longview",
+          "lat": 46.14750000000001,
+          "lon": -122.9244444,
+          "distance_miles": 0.97,
+          "likelihood_score": 82,
+          "rating": 3.4,
+          "user_ratings_total": 24,
+          "phone": "+1 360-425-9696",
+          "website": "https://www.wasabilongview.com/",
+          "place_id": "ChIJd4Ur7ahtlFQRe-1pkpDWOGg",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        },
+        {
+          "name": "Teriyaki Spice",
+          "type": "restaurant, food, point_of_interest, establishment",
+          "address": "1140 15th Ave, Longview",
+          "lat": 46.1348914,
+          "lon": -122.9376102,
+          "distance_miles": 0.15,
+          "likelihood_score": 92,
+          "rating": 3.8,
+          "user_ratings_total": 224,
+          "phone": "+1 360-261-7907",
+          "website": "http://www.teriyakispice.com/",
+          "place_id": "ChIJaTIahRBtlFQRv3SjbGh-yK4",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 2,
+          "source": "Google Places"
+        },
+        {
+          "name": "Sushi Sakura Restaurant",
+          "type": "restaurant, food, point_of_interest, establishment",
+          "address": "1310 Ocean Beach Hwy, Longview",
+          "lat": 46.1468538,
+          "lon": -122.932206,
+          "distance_miles": 0.73,
+          "likelihood_score": 80,
+          "rating": 4.6,
+          "user_ratings_total": 863,
+          "phone": "+1 360-232-8856",
+          "website": "https://sushisakura.eatontheweb.com/",
+          "place_id": "ChIJh5GJZutslFQRIP-0nX0rYVo",
+          "opening_hours": {
+            "open_now": false
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 2,
+          "source": "Google Places"
+        }
+      ],
+      "createdAt": "2026-03-18T16:33:58.670152",
+      "count": 7
+    },
+    "4be322f6e214b59b": {
+      "storeNumber": "SAF07Z-2637",
+      "category": "sushi/japanese",
+      "prospects": [
+        {
+          "name": "Sumo Sushi & Grill AYCE - Kelso",
+          "type": "restaurant, food, point_of_interest, establishment",
+          "address": "205 S Kelso Dr, Kelso",
+          "lat": 46.1438307,
+          "lon": -122.8961835,
+          "distance_miles": 0.27,
+          "likelihood_score": 94,
+          "rating": 4.4,
+          "user_ratings_total": 121,
+          "phone": "+1 360-998-2491",
+          "website": "https://www.sumoayce.com/",
+          "place_id": "ChIJg60bVgBtlFQR_CFc1ZbGcTg",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        },
+        {
+          "name": "Kyoto Japanese Steakhouse & Sushi",
+          "type": "restaurant, food, point_of_interest, establishment",
+          "address": "760 Ocean Beach Hwy J, Longview",
+          "lat": 46.14750000000001,
+          "lon": -122.9244444,
+          "distance_miles": 1.17,
+          "likelihood_score": 84,
+          "rating": 4.3,
+          "user_ratings_total": 1151,
+          "phone": null,
+          "website": null,
+          "place_id": "ChIJrQ2hrOpslFQRj-RaXlWagJc",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 2,
+          "source": "Google Places"
+        },
+        {
+          "name": "Sushi Channel (Sora Sushi)",
+          "type": "meal_takeaway, restaurant, food, point_of_interest, establishment",
+          "address": "503 Allen St, Kelso",
+          "lat": 46.1446364,
+          "lon": -122.9078405,
+          "distance_miles": 0.36,
+          "likelihood_score": 93,
+          "rating": 4.4,
+          "user_ratings_total": 1009,
+          "phone": "+1 360-425-3838",
+          "website": "https://www.sushichannel001.com/",
+          "place_id": "ChIJ9dz5BLtslFQRLSpdEW1jrkc",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 2,
+          "source": "Google Places"
+        },
+        {
+          "name": "Wasabi Japanese Steakhouse & Sushi",
+          "type": "restaurant, food, point_of_interest, establishment",
+          "address": "760 Ocean Beach Hwy J, Longview",
+          "lat": 46.14750000000001,
+          "lon": -122.9244444,
+          "distance_miles": 1.17,
+          "likelihood_score": 80,
+          "rating": 3.4,
+          "user_ratings_total": 24,
+          "phone": "+1 360-425-9696",
+          "website": "https://www.wasabilongview.com/",
+          "place_id": "ChIJd4Ur7ahtlFQRe-1pkpDWOGg",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        }
+      ],
+      "createdAt": "2026-03-18T16:34:42.834036",
+      "count": 4
     }
   },
-  "lastUpdated": "2026-03-18T15:04:31.550641"
+  "lastUpdated": "2026-03-18T16:34:42.834047"
 }

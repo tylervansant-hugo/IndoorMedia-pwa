@@ -694,13 +694,30 @@ def add_to_cart(rep_id: str, store_num: str, ad_type: str, payment_plan: str):
         load_rep_data(rep_id)  # Initialize
         data = load_prospect_data()
     
+    # Calculate impressions for this store
+    case_count = store.get("Case Count", 0)
+    impressions = calculate_impressions_metrics(case_count)
+    daily_impressions = impressions.get("daily", 0)
+    annual_impressions = impressions.get("annual", 0)
+    
+    # Calculate cost per impression and CPM
+    cost_per_impression = (price / annual_impressions * 1000) if annual_impressions > 0 else 0  # CPM = (cost / impressions) * 1000
+    cost_per_day = price / 365  # Annual cost / 365 days
+    
     cart_item = {
         "store_num": store_num,
         "store_name": store.get("GroceryChain", "?"),
         "city": store.get("City", ""),
+        "state": store.get("State", ""),
+        "address": store.get("Address", ""),
         "ad_type": ad_type,
         "payment_plan": payment_plan,
         "price": price,
+        "case_count": case_count,
+        "daily_impressions": daily_impressions,
+        "annual_impressions": annual_impressions,
+        "cpm": cost_per_impression,
+        "cost_per_day": cost_per_day,
         "added_at": datetime.now().isoformat()
     }
     data["reps"][rep_id]["cart"].append(cart_item)
@@ -7572,8 +7589,18 @@ LOCATIONS & SERVICES
                 elements.append(Paragraph("Locations & Services", styles['Heading3']))
                 
                 for location, data_loc in by_location.items():
-                    # Location header
-                    elements.append(Paragraph(f"<b>{location}</b>", styles['Normal']))
+                    # Location header with store details
+                    elements.append(Paragraph(f"<b>{location}</b>", styles['Heading3']))
+                    
+                    # Store details from first item (all items in location are same store)
+                    first_item = data_loc['items'][0]
+                    store_details = f"<b>Address:</b> {first_item.get('address', 'N/A')}<br/>"
+                    store_details += f"<b>Daily Traffic:</b> {first_item.get('daily_impressions', 0):,} impressions/day<br/>"
+                    store_details += f"<b>Annual Traffic:</b> {first_item.get('annual_impressions', 0):,} impressions/year<br/>"
+                    store_details += f"<b>Cost Per Day:</b> ${first_item.get('cost_per_day', 0):,.2f}<br/>"
+                    store_details += f"<b>CPM (Cost Per 1000 Impressions):</b> ${first_item.get('cpm', 0):,.2f}"
+                    elements.append(Paragraph(store_details, styles['Normal']))
+                    elements.append(Spacer(1, 12))
                     
                     # Items table
                     table_data = [["Service", "Payment Plan", "Price"]]
@@ -7600,7 +7627,7 @@ LOCATIONS & SERVICES
                     
                     # Subtotal
                     elements.append(Paragraph(f"<b>Subtotal:</b> ${data_loc['subtotal']:,.2f}", styles['Normal']))
-                    elements.append(Spacer(1, 12))
+                    elements.append(Spacer(1, 20))
                 
                 # Grand total
                 elements.append(Spacer(1, 12))
