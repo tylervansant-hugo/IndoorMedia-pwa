@@ -15,6 +15,7 @@ Installation:
 
 from typing import Dict, List, Optional
 from pathlib import Path
+import json
 
 # =======================================================================================
 # TYLER'S DIRECT TEAM - Editable list for selective calendar invites
@@ -33,24 +34,93 @@ TYLER_TEAM = [
 ]
 
 # =======================================================================================
+# SHARED ACCESS & ADMIN PERMISSIONS
+# =======================================================================================
+
+def load_shared_access_config() -> Dict:
+    """Load shared access configuration."""
+    try:
+        workspace = Path(__file__).parent
+        config_file = workspace / "data" / "shared_access.json"
+        if config_file.exists():
+            with open(config_file) as f:
+                return json.load(f)
+    except Exception:
+        pass
+    return {"shared_access_pairs": [], "admin_ids": []}
+
+
+def get_accessible_rep_ids(rep_id: str, registry: Dict) -> List[str]:
+    """Get all rep IDs this user can access (includes themselves, shared pairs, and admin access)."""
+    rep_ids = [str(rep_id)]
+    
+    config = load_shared_access_config()
+    rep_email = registry.get(str(rep_id), {}).get("email", "")
+    
+    # Check if admin
+    if str(rep_id) in config.get("admin_ids", []):
+        # Admin sees all reps - return all rep IDs
+        return list(registry.keys())
+    
+    # Check for shared access pairs
+    for pair in config.get("shared_access_pairs", []):
+        rep1_email = pair.get("rep_1", "").lower()
+        rep2_email = pair.get("rep_2", "").lower()
+        current_email = rep_email.lower()
+        
+        if current_email == rep1_email:
+            # Find rep2's ID
+            for rid, rdata in registry.items():
+                if rdata.get("email", "").lower() == rep2_email:
+                    rep_ids.append(str(rid))
+        elif current_email == rep2_email:
+            # Find rep1's ID
+            for rid, rdata in registry.items():
+                if rdata.get("email", "").lower() == rep1_email:
+                    rep_ids.append(str(rid))
+    
+    return rep_ids
+
+
+# =======================================================================================
 # DATA ISOLATION HELPERS - Enforce rep_id filtering on all data access
 # =======================================================================================
 
-def get_saved_prospects(rep_id: str, data: Dict) -> Dict:
-    """Get ONLY this rep's saved prospects."""
-    rep_data = data.get("reps", {}).get(str(rep_id), {})
-    return rep_data.get("saved_prospects", {})
+def get_saved_prospects(rep_id: str, data: Dict, registry: Dict = None) -> Dict:
+    """Get saved prospects this rep can access (includes shared access)."""
+    if registry is None:
+        registry = {}
+    
+    accessible_ids = get_accessible_rep_ids(rep_id, registry)
+    all_prospects = {}
+    
+    for rid in accessible_ids:
+        rep_data = data.get("reps", {}).get(str(rid), {})
+        all_prospects.update(rep_data.get("saved_prospects", {}))
+    
+    return all_prospects
 
-def get_customer_list(rep_id: str, data: Dict) -> Dict:
-    """Get ONLY this rep's customer pipeline."""
-    # Customer list is derived from saved_prospects with certain statuses
-    saved = get_saved_prospects(rep_id, data)
+def get_customer_list(rep_id: str, data: Dict, registry: Dict = None) -> Dict:
+    """Get customer pipeline this rep can access (includes shared access)."""
+    if registry is None:
+        registry = {}
+    
+    saved = get_saved_prospects(rep_id, data, registry)
     return {k: v for k, v in saved.items() if v.get("status") in ["follow-up", "proposal", "interested"]}
 
-def get_search_history(rep_id: str, data: Dict) -> List:
-    """Get ONLY this rep's search history."""
-    rep_data = data.get("reps", {}).get(str(rep_id), {})
-    return rep_data.get("search_history", [])
+def get_search_history(rep_id: str, data: Dict, registry: Dict = None) -> List:
+    """Get search history this rep can access (includes shared access)."""
+    if registry is None:
+        registry = {}
+    
+    accessible_ids = get_accessible_rep_ids(rep_id, registry)
+    all_history = []
+    
+    for rid in accessible_ids:
+        rep_data = data.get("reps", {}).get(str(rid), {})
+        all_history.extend(rep_data.get("search_history", []))
+    
+    return all_history
 
 def get_contact_history(rep_id: str, data: Dict) -> Dict:
     """Get ONLY this rep's contact history."""
