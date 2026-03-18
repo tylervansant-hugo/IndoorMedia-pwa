@@ -185,6 +185,7 @@ async def handle_business_card_upload(
         await file.download_to_drive(business_card_path)
         
         context.user_data['business_card_path'] = str(business_card_path)
+        context.user_data['_counter_sign_state'] = STATE_AWAITING_LANDING_PAGE
         
         await update.message.reply_text(
             "✅ Business card saved.\n\n"
@@ -214,6 +215,7 @@ async def handle_landing_page_input(
         return STATE_AWAITING_LANDING_PAGE
     
     context.user_data['landing_page'] = landing_page
+    context.user_data['_counter_sign_state'] = STATE_AWAITING_REP_NAME
     
     # Collect rep info
     await update.message.reply_text(
@@ -234,6 +236,7 @@ async def handle_rep_name_input(
         return STATE_AWAITING_REP_NAME
     
     context.user_data['rep_name'] = update.message.text.strip()
+    context.user_data['_counter_sign_state'] = STATE_AWAITING_REP_EMAIL
     
     await update.message.reply_text("What is your email address?")
     return STATE_AWAITING_REP_EMAIL
@@ -249,6 +252,7 @@ async def handle_rep_email_input(
         return STATE_AWAITING_REP_EMAIL
     
     context.user_data['rep_email'] = update.message.text.strip()
+    context.user_data['_counter_sign_state'] = STATE_AWAITING_REP_PHONE
     
     await update.message.reply_text("What is your phone number?")
     return STATE_AWAITING_REP_PHONE
@@ -264,6 +268,7 @@ async def handle_rep_phone_input(
         return STATE_AWAITING_REP_PHONE
     
     context.user_data['rep_phone'] = update.message.text.strip()
+    context.user_data['_counter_sign_state'] = STATE_AWAITING_AD_IMAGE
     
     # Now ask for ad image
     await update.message.reply_text(
