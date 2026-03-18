@@ -699,10 +699,10 @@ def add_to_cart(rep_id: str, store_num: str, ad_type: str, payment_plan: str):
     case_count = store.get("Case Count", 0)
     impressions = calculate_impressions_metrics(case_count)
     daily_impressions = impressions.get("daily", 0)
-    annual_impressions = impressions.get("annual", 0)
+    annual_impressions = daily_impressions * 365  # Calculate annual from daily
     
-    # Calculate cost per impression and CPM
-    cost_per_impression = (price / annual_impressions * 1000) if annual_impressions > 0 else 0  # CPM = (cost / impressions) * 1000
+    # Calculate cost per thousand impressions (CPM) and daily cost
+    cpm = (price / annual_impressions * 1000) if annual_impressions > 0 else 0
     cost_per_day = price / 365  # Annual cost / 365 days
     
     cart_item = {
@@ -717,7 +717,7 @@ def add_to_cart(rep_id: str, store_num: str, ad_type: str, payment_plan: str):
         "case_count": case_count,
         "daily_impressions": daily_impressions,
         "annual_impressions": annual_impressions,
-        "cpm": cost_per_impression,
+        "cpm": cpm,
         "cost_per_day": cost_per_day,
         "added_at": datetime.now().isoformat()
     }
@@ -7584,8 +7584,10 @@ LOCATIONS & SERVICES
                 elements.append(Paragraph("Register Tape Advertising Proposal", styles['Heading2']))
                 elements.append(Spacer(1, 12))
                 
-                # Rep info
+                # Rep info and contact
+                rep_email = get_rep_email(update)
                 elements.append(Paragraph(f"<b>Rep:</b> {rep_name}", styles['Normal']))
+                elements.append(Paragraph(f"<b>Email:</b> {rep_email}", styles['Normal']))
                 elements.append(Paragraph(f"<b>Date:</b> {datetime.now().strftime('%B %d, %Y')}", styles['Normal']))
                 elements.append(Spacer(1, 12))
                 

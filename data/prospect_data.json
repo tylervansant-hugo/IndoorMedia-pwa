@@ -84,7 +84,40 @@
       "contact_history": {},
       "session_searches": 107,
       "session_bookmarks": 0,
-      "cart": []
+      "cart": [
+        {
+          "store_num": "SAF07Z-0091",
+          "store_name": "Safeway",
+          "city": "Longview",
+          "state": "WA",
+          "address": "1227 15Th Ave",
+          "ad_type": "single",
+          "payment_plan": "3month",
+          "price": 3770.0,
+          "case_count": 20,
+          "daily_impressions": 3044,
+          "annual_impressions": 0,
+          "cpm": 0,
+          "cost_per_day": 10.32876712328767,
+          "added_at": "2026-03-18T16:44:02.502451"
+        },
+        {
+          "store_num": "FME07Z-0185",
+          "store_name": "Fred Meyer",
+          "city": "Longview",
+          "state": "WA",
+          "address": "3184 Ocean Beach Highway",
+          "ad_type": "single",
+          "payment_plan": "3month",
+          "price": 4715.0,
+          "case_count": 30,
+          "daily_impressions": 4566,
+          "annual_impressions": 0,
+          "cpm": 0,
+          "cost_per_day": 12.917808219178083,
+          "added_at": "2026-03-18T16:44:36.508886"
+        }
+      ]
     },
     "8647728045": {
       "name": "Adan Ramos",
