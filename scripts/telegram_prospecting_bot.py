@@ -8174,9 +8174,16 @@ def main():
                 elif state == STATE_AWAITING_AD_IMAGE:
                     logger.info("Routing to handle_ad_image_upload")
                     await handle_ad_image_upload(update, context)
+                elif state == STATE_AWAITING_LANDING_PAGE:
+                    logger.info("In landing page state, rejecting photo")
+                    await update.message.reply_text("⏳ Waiting for your **landing page URL**. Send a URL or type 'none'.")
+                elif state == STATE_AWAITING_STORE_CHAIN:
+                    logger.info("In store chain state, rejecting photo")
+                    await update.message.reply_text("🏪 Please select a store chain from the options above.")
                 else:
-                    logger.info(f"No counter sign state match, state={state}")
-                    await update.message.reply_text("📸 Please use /menu to start counter sign generator first")
+                    logger.info(f"No counter sign state, falling through to generic handler")
+                    # No counter sign state, use generic photo handler
+                    await handle_photo_upload(update, context)
             
             app.add_handler(MessageHandler(
                 filters.PHOTO,
@@ -8189,6 +8196,10 @@ def main():
                 if state == STATE_AWAITING_LANDING_PAGE:
                     logger.info("Routing to handle_landing_page_input")
                     await handle_landing_page_input(update, context)
+                elif state in [STATE_AWAITING_STORE_CHAIN, STATE_AWAITING_BUSINESS_CARD, STATE_AWAITING_AD_IMAGE]:
+                    # In counter sign workflow but waiting for different input type
+                    logger.info(f"In counter sign state but got text when expecting different input: {state}")
+                    await update.message.reply_text("⏳ Waiting for an image. Please send a photo.")
                 else:
                     logger.info(f"No counter sign state match, routing to store query. state={state}")
                     # Not in counter sign workflow, use normal store query
