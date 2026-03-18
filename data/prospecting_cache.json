@@ -302,19 +302,19 @@
       "prospects": [
         {
           "name": "PC Smiles Ridgefield",
-          "type": "dentist, point_of_interest, health, establishment",
+          "type": "dentist, health, point_of_interest, establishment",
           "address": "109 S 65th Ave, Ridgefield",
           "lat": 45.8156245,
           "lon": -122.6831319,
           "distance_miles": 0.84,
-          "likelihood_score": 90,
+          "likelihood_score": 80,
           "rating": 4.8,
           "user_ratings_total": 583,
           "phone": "+1 360-887-2333",
           "website": "https://www.pacificcrestsmiles.com/",
           "place_id": "ChIJF3u8JgJNlFQRslwhoyDxsRA",
           "opening_hours": {
-            "open_now": true
+            "open_now": false
           },
           "business_status": "OPERATIONAL",
           "price_level": null,
@@ -322,39 +322,19 @@
         },
         {
           "name": "Mountain View Dental",
-          "type": "dentist, point_of_interest, health, establishment",
+          "type": "dentist, health, point_of_interest, establishment",
           "address": "5284 Pioneer St #120, Ridgefield",
           "lat": 45.8160374,
           "lon": -122.6948381,
           "distance_miles": 0.28,
-          "likelihood_score": 96,
+          "likelihood_score": 86,
           "rating": 4.9,
-          "user_ratings_total": 358,
+          "user_ratings_total": 360,
           "phone": "+1 360-887-1177",
           "website": "http://www.ridgefielddentist.com/",
           "place_id": "ChIJW976ywZNlFQRKc-gBs2LHLE",
           "opening_hours": {
-            "open_now": true
-          },
-          "business_status": "OPERATIONAL",
-          "price_level": null,
-          "source": "Google Places"
-        },
-        {
-          "name": "Ridgefield Dental Care",
-          "type": "point_of_interest, health, establishment",
-          "address": "4312 S Settler Dr #200, Ridgefield",
-          "lat": 45.815169,
-          "lon": -122.7032316,
-          "distance_miles": 0.13,
-          "likelihood_score": 97,
-          "rating": 4.8,
-          "user_ratings_total": 78,
-          "phone": "+1 360-200-8115",
-          "website": "https://ridgefielddentalwa.com/",
-          "place_id": "ChIJZ-UQ5JJNlFQRnssygnVNl-s",
-          "opening_hours": {
-            "open_now": true
+            "open_now": false
           },
           "business_status": "OPERATIONAL",
           "price_level": null,
@@ -362,19 +342,39 @@
         },
         {
           "name": "Oasis Dental Ridgefield",
-          "type": "dentist, point_of_interest, doctor, health, establishment",
+          "type": "dentist, doctor, health, point_of_interest, establishment",
           "address": "11 S 47th Ave Suite 101, Ridgefield",
           "lat": 45.8154774,
           "lon": -122.7015907,
           "distance_miles": 0.05,
-          "likelihood_score": 98,
+          "likelihood_score": 88,
           "rating": 4.9,
           "user_ratings_total": 489,
           "phone": "+1 360-727-0335",
           "website": "https://myoasisdental.com/ridgefield/",
           "place_id": "ChIJY1eEMKdNlFQREPvyHoH-mvM",
           "opening_hours": {
-            "open_now": true
+            "open_now": false
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        },
+        {
+          "name": "Ridgefield Dental Care",
+          "type": "health, point_of_interest, establishment",
+          "address": "4312 S Settler Dr #200, Ridgefield",
+          "lat": 45.8151678,
+          "lon": -122.7032462,
+          "distance_miles": 0.13,
+          "likelihood_score": 87,
+          "rating": 4.8,
+          "user_ratings_total": 78,
+          "phone": "+1 360-200-8115",
+          "website": "https://ridgefielddentalwa.com/",
+          "place_id": "ChIJZ-UQ5JJNlFQRnssygnVNl-s",
+          "opening_hours": {
+            "open_now": false
           },
           "business_status": "OPERATIONAL",
           "price_level": null,
@@ -382,47 +382,83 @@
         },
         {
           "name": "Dental Care at Union Ridge",
-          "type": "dentist, point_of_interest, health, establishment",
+          "type": "dentist, health, point_of_interest, establishment",
           "address": "420 N 56th Pl Unit 150, Ridgefield",
           "lat": 45.8188073,
           "lon": -122.6904224,
           "distance_miles": 0.55,
-          "likelihood_score": 44,
-          "rating": null,
-          "user_ratings_total": 0,
+          "likelihood_score": 61,
+          "rating": 5,
+          "user_ratings_total": 1,
           "phone": "+1 564-236-2950",
           "website": "https://dentalcareatunionridge.com/",
           "place_id": "ChIJVbRx96ZNlFQRLVCViKhSghg",
           "opening_hours": {
-            "open_now": true
+            "open_now": false
           },
           "business_status": "OPERATIONAL",
           "price_level": null,
           "source": "Google Places"
         },
         {
-          "name": "Brown-Saito Orthodontics",
-          "type": "dentist, point_of_interest, health, establishment",
+          "name": "Expert Endodontics Northwest",
+          "type": "dentist, health, point_of_interest, establishment",
           "address": "2 S 56th Pl SUITE 202, Ridgefield",
           "lat": 45.8154686,
           "lon": -122.6901277,
           "distance_miles": 0.51,
-          "likelihood_score": 81,
+          "likelihood_score": 79,
           "rating": 5,
-          "user_ratings_total": 5,
+          "user_ratings_total": 8,
+          "phone": "+1 360-309-4936",
+          "website": "https://www.expertendonw.com/",
+          "place_id": "ChIJszNFZFZNlFQRjxBb4VU3BkQ",
+          "opening_hours": {},
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        },
+        {
+          "name": "Dr. Christopher Madani",
+          "type": "dentist, health, point_of_interest, establishment",
+          "address": "11 S 47th Ave Suite 101, Ridgefield",
+          "lat": 45.8144997,
+          "lon": -122.7017896,
+          "distance_miles": 0.08,
+          "likelihood_score": 66,
+          "rating": 5,
+          "user_ratings_total": 1,
+          "phone": "+1 360-226-7432",
+          "website": null,
+          "place_id": "ChIJYQJeMghNlFQRXBpAHsshVDI",
+          "opening_hours": {},
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        },
+        {
+          "name": "Brown-Saito Orthodontics",
+          "type": "dentist, health, point_of_interest, establishment",
+          "address": "2 S 56th Pl SUITE 202, Ridgefield",
+          "lat": 45.8154686,
+          "lon": -122.6901277,
+          "distance_miles": 0.51,
+          "likelihood_score": 74,
+          "rating": 5,
+          "user_ratings_total": 6,
           "phone": "+1 360-256-7220",
           "website": "https://www.brownsaitoorthodontics.com/",
           "place_id": "ChIJKwGFiR5NlFQRL28rGp_uOBg",
           "opening_hours": {
-            "open_now": true
+            "open_now": false
           },
           "business_status": "OPERATIONAL",
           "price_level": null,
           "source": "Google Places"
         }
       ],
-      "createdAt": "2026-03-11T13:40:17.545147",
-      "count": 6
+      "createdAt": "2026-03-17T22:57:39.265190",
+      "count": 8
     },
     "56719e7c55f5c22d": {
       "storeNumber": "FME07W-0351",
@@ -7361,5 +7397,5 @@
       "count": 10
     }
   },
-  "lastUpdated": "2026-03-17T18:50:44.069881"
+  "lastUpdated": "2026-03-17T22:57:39.265215"
 }
