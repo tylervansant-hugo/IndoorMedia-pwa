@@ -66,5 +66,75 @@
     "email": "Mvansant032319@gmail.com",
     "role": "rep",
     "registered_at": "2026-03-17T16:28:03.349755"
+  },
+  "matthew_boozer": {
+    "contract_name": "Matthew Boozer",
+    "display_name": "Matthew Boozer",
+    "email": "Matthew.Boozer@Indoormedia.com",
+    "role": "rep",
+    "registered_at": "2026-03-17"
+  },
+  "amy_dixon": {
+    "contract_name": "Amy Dixon",
+    "display_name": "Amy Dixon",
+    "email": "Amy.Dixon@indoormedia.com",
+    "role": "rep",
+    "registered_at": "2026-03-17"
+  },
+  "anthony_eng": {
+    "contract_name": "Anthony Eng",
+    "display_name": "Anthony Eng",
+    "email": "Anthony.eng@indoormedia.com",
+    "role": "rep",
+    "registered_at": "2026-03-17"
+  },
+  "adan_ramos": {
+    "contract_name": "Adan Ramos",
+    "display_name": "Adan Ramos",
+    "email": "Adan.ramos@indoormedia.com",
+    "role": "rep",
+    "registered_at": "2026-03-17"
+  },
+  "christian_johnson": {
+    "contract_name": "Christian Johnson",
+    "display_name": "Christian Johnson",
+    "email": "Christian.johnson@indoormedia.com",
+    "role": "rep",
+    "registered_at": "2026-03-17"
+  },
+  "megan_wink": {
+    "contract_name": "Megan Wink",
+    "display_name": "Megan Wink",
+    "email": "Megan.Wink@indoormedia.com",
+    "role": "rep",
+    "registered_at": "2026-03-17"
+  },
+  "jan_banks": {
+    "contract_name": "Jan Banks",
+    "display_name": "Jan Banks",
+    "email": "Jan.Banks@indoormedia.com",
+    "role": "rep",
+    "registered_at": "2026-03-17"
+  },
+  "ben_patacsil": {
+    "contract_name": "Ben Patacsil",
+    "display_name": "Ben Patacsil",
+    "email": "Ben.patacsil@indoormedia.com",
+    "role": "rep",
+    "registered_at": "2026-03-17"
+  },
+  "dave_boring": {
+    "contract_name": "Dave Boring",
+    "display_name": "Dave Boring",
+    "email": "Dave.boring@indoormedia.com",
+    "role": "rep",
+    "registered_at": "2026-03-17"
+  },
+  "legacy_empire": {
+    "contract_name": "Legacy Empire",
+    "display_name": "Legacy Empire",
+    "email": "englegacyempire@gmail.com",
+    "role": "rep",
+    "registered_at": "2026-03-17"
   }
 }
