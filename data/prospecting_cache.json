@@ -6767,7 +6767,599 @@
       ],
       "createdAt": "2026-03-17T16:17:59.070328",
       "count": 8
+    },
+    "203bc5141d7a7951": {
+      "storeNumber": "FME07Z-0460",
+      "category": "real estate agent",
+      "prospects": [
+        {
+          "name": "Kori Burke Real Estate",
+          "type": "real_estate_agency, finance, general_contractor, point_of_interest, establishment",
+          "address": "1404 NE 134th St #100, Vancouver",
+          "lat": 45.7189765,
+          "lon": -122.6571686,
+          "distance_miles": 0.28,
+          "likelihood_score": 97,
+          "rating": 5,
+          "user_ratings_total": 42,
+          "phone": "+1 360-901-0334",
+          "website": "http://www.koriburke.com/",
+          "place_id": "ChIJiXVrx2itlVQRvkvK7hNFJs4",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        },
+        {
+          "name": "Mitchell Stanley Real Estate Broker",
+          "type": "point_of_interest, establishment",
+          "address": "1404 NE 134th St #100, Vancouver",
+          "lat": 45.7189765,
+          "lon": -122.6571686,
+          "distance_miles": 0.28,
+          "likelihood_score": 95,
+          "rating": 4.7,
+          "user_ratings_total": 13,
+          "phone": "+1 360-723-8434",
+          "website": "https://mitchellstanleys.com/",
+          "place_id": "ChIJUd49Yw2tlVQR_R7pBFfiGq0",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        },
+        {
+          "name": "Coldwell Banker Bain of Vancouver West",
+          "type": "real_estate_agency, point_of_interest, establishment",
+          "address": "2105 NE 129th St Suite 101, Vancouver",
+          "lat": 45.7144118,
+          "lon": -122.6496566,
+          "distance_miles": 0.75,
+          "likelihood_score": 82,
+          "rating": 5,
+          "user_ratings_total": 11,
+          "phone": "+1 360-574-5060",
+          "website": "https://www.coldwellbankerhomes.com/wa/vancouver/office/vancouver-west/oid_16094/?utm_source=google&utm_medium=organic&utm_campaign=gmblisting&utm_content=Bain_Vancouver_West",
+          "place_id": "ChIJEzI-JvOtlVQRkrLX07PvEn0",
+          "opening_hours": {
+            "open_now": false
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        },
+        {
+          "name": "Courtney Markham Real Estate",
+          "type": "point_of_interest, establishment",
+          "address": "14201 NE 20th Ave b102, Vancouver",
+          "lat": 45.72431659999999,
+          "lon": -122.6504703,
+          "distance_miles": 0.64,
+          "likelihood_score": 93,
+          "rating": 5,
+          "user_ratings_total": 33,
+          "phone": "+1 541-554-1540",
+          "website": "http://www.yourrealtorcourtney.com/",
+          "place_id": "ChIJiTtg6bGtlVQRMPMugNQKueA",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        },
+        {
+          "name": "Sam Nielsen Real Estate",
+          "type": "real_estate_agency, point_of_interest, establishment",
+          "address": "2105 NE 129th St #105, Vancouver",
+          "lat": 45.71442099999999,
+          "lon": -122.649681,
+          "distance_miles": 0.75,
+          "likelihood_score": 72,
+          "rating": 5,
+          "user_ratings_total": 2,
+          "phone": "+1 360-989-4251",
+          "website": "https://www.blackhawk.team/",
+          "place_id": "ChIJT_J76aWtlVQRIuZX0HKrRRc",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        },
+        {
+          "name": "Carolyn Crawford Real Estate Broker",
+          "type": "point_of_interest, establishment",
+          "address": "2105 NE 129th St #105, Vancouver",
+          "lat": 45.7143749,
+          "lon": -122.6497871,
+          "distance_miles": 0.75,
+          "likelihood_score": 74,
+          "rating": 5,
+          "user_ratings_total": 3,
+          "phone": "+1 360-931-0481",
+          "website": null,
+          "place_id": "ChIJ90WW6eWtlVQRCSjbUI2J8QM",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        },
+        {
+          "name": "Cyndy Hansen Real Estate Broker",
+          "type": "real_estate_agency, point_of_interest, establishment",
+          "address": "14201 NE 20th Ave # B102, Vancouver",
+          "lat": 45.724122,
+          "lon": -122.650467,
+          "distance_miles": 0.63,
+          "likelihood_score": 70,
+          "rating": 4.5,
+          "user_ratings_total": 2,
+          "phone": "+1 360-608-2339",
+          "website": "http://cyndyhansen.vancouverwahomesource.com/",
+          "place_id": "ChIJtcOj4_KtlVQRKBCiNxc9P6A",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        },
+        {
+          "name": "24 7 HOMES FOR SALE INC, Real Estate",
+          "type": "real_estate_agency, point_of_interest, establishment",
+          "address": "14201 NE 20th Ave b104, Vancouver",
+          "lat": 45.72431659999999,
+          "lon": -122.6504703,
+          "distance_miles": 0.64,
+          "likelihood_score": 85,
+          "rating": 4.5,
+          "user_ratings_total": 8,
+          "phone": "+1 360-513-5933",
+          "website": null,
+          "place_id": "ChIJ42NSK-OzlVQRcgNQGjr9wGc",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        },
+        {
+          "name": "Taylor Anderson",
+          "type": "point_of_interest, establishment",
+          "address": "1404 NE 134th St #100, Vancouver",
+          "lat": 45.7189765,
+          "lon": -122.6571686,
+          "distance_miles": 0.28,
+          "likelihood_score": 92,
+          "rating": 5,
+          "user_ratings_total": 8,
+          "phone": "+1 360-910-1979",
+          "website": null,
+          "place_id": "ChIJ-ZzX9FCtlVQRIrXrjjwN6ps",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        },
+        {
+          "name": "Amela Northrop",
+          "type": "point_of_interest, establishment",
+          "address": "14201 NE 20th Ave b102, Vancouver",
+          "lat": 45.72431659999999,
+          "lon": -122.6504728,
+          "distance_miles": 0.64,
+          "likelihood_score": 80,
+          "rating": 5,
+          "user_ratings_total": 5,
+          "phone": "+1 360-903-3902",
+          "website": "https://amelanorthrop.realtypronw.com/",
+          "place_id": "ChIJQb97EjitlVQRh1JF_SBwhms",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        }
+      ],
+      "createdAt": "2026-03-17T18:12:39.300596",
+      "count": 10
+    },
+    "8dfaf094e420d369": {
+      "storeNumber": "SAF26X-0094",
+      "category": "mexican",
+      "prospects": [
+        {
+          "name": "Chipotle Mexican Grill",
+          "type": "restaurant, food, point_of_interest, establishment",
+          "address": "7450 Elk Grove Blvd, Elk Grove",
+          "lat": 38.4070046,
+          "lon": -121.4170905,
+          "distance_miles": 1.01,
+          "likelihood_score": 77,
+          "rating": 2.8,
+          "user_ratings_total": 148,
+          "phone": "+1 279-800-8758",
+          "website": "https://locations.chipotle.com/ca/elk-grove/7450-elk-grove-blvd?utm_source=google&utm_medium=yext&utm_campaign=yext_listings?restaurant=4311",
+          "place_id": "ChIJE_HNYkjHmoARau7Bfrxa_0E",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 1,
+          "source": "Google Places"
+        },
+        {
+          "name": "Tacos El Paisa",
+          "type": "restaurant, food, point_of_interest, establishment",
+          "address": "10440 Barrena Lp, Elk Grove",
+          "lat": 38.378175,
+          "lon": -121.4171205,
+          "distance_miles": 0.99,
+          "likelihood_score": 78,
+          "rating": 4.6,
+          "user_ratings_total": 12,
+          "phone": null,
+          "website": null,
+          "place_id": "ChIJgXpMPgC5moARWm6a-Js7hJ0",
+          "opening_hours": {
+            "open_now": false
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        },
+        {
+          "name": "Tacos Decalli",
+          "type": "restaurant, food, point_of_interest, establishment",
+          "address": "Inside of Parking lot of CRC, Elk Grove Center, 10051 Big Horn Blvd, Elk Grove",
+          "lat": 38.39209839999999,
+          "lon": -121.3980749,
+          "distance_miles": 1.12,
+          "likelihood_score": 76,
+          "rating": 4.6,
+          "user_ratings_total": 10,
+          "phone": "+1 916-896-6752",
+          "website": "https://tacosdecallica.com/",
+          "place_id": "ChIJIe-IYZPHmoARPZvILQtFUv4",
+          "opening_hours": {
+            "open_now": false
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 1,
+          "source": "Google Places"
+        }
+      ],
+      "createdAt": "2026-03-17T18:48:21.158477",
+      "count": 3
+    },
+    "133b2f3b83605a56": {
+      "storeNumber": "SAF26X-0094",
+      "category": "pizza",
+      "prospects": [
+        {
+          "name": "Curry Pizza House Elk Grove",
+          "type": "meal_takeaway, liquor_store, restaurant, food, point_of_interest, store, establishment",
+          "address": "5640 Whitelock Pkwy 140 #140, Elk Grove",
+          "lat": 38.3933815,
+          "lon": -121.4374935,
+          "distance_miles": 1.01,
+          "likelihood_score": 87,
+          "rating": 4.6,
+          "user_ratings_total": 83,
+          "phone": "+1 916-306-5900",
+          "website": "https://currypizzahouse.com/locations/elk-grove/",
+          "place_id": "ChIJEeKcp_THmoARlk73fQHN52Q",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 2,
+          "source": "Google Places"
+        },
+        {
+          "name": "Pieology Pizzeria Elk Grove",
+          "type": "meal_takeaway, restaurant, food, point_of_interest, establishment",
+          "address": "7600 Elk Grove Blvd #110, Elk Grove",
+          "lat": 38.408354,
+          "lon": -121.413592,
+          "distance_miles": 1.14,
+          "likelihood_score": 83,
+          "rating": 4,
+          "user_ratings_total": 226,
+          "phone": "+1 916-647-4754",
+          "website": "https://pieology.com/pizza-near-me/?rest_id=8149",
+          "place_id": "ChIJQYPAzBDHmoARCey2ynEVzI8",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 1,
+          "source": "Google Places"
+        },
+        {
+          "name": "Pizza Twist",
+          "type": "meal_takeaway, meal_delivery, restaurant, food, point_of_interest, establishment",
+          "address": "9630 Bruceville Rd #105, Elk Grove",
+          "lat": 38.4079333,
+          "lon": -121.4200979,
+          "distance_miles": 1.08,
+          "likelihood_score": 86,
+          "rating": 4.5,
+          "user_ratings_total": 271,
+          "phone": "+1 916-892-1200",
+          "website": "https://www.pizzatwist.com/locations/best-pizza-in-elk-grove-bruceville-ca",
+          "place_id": "ChIJfy-YCOXHmoARYCiqKOw2HSQ",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 1,
+          "source": "Google Places"
+        },
+        {
+          "name": "Round Table Pizza",
+          "type": "meal_takeaway, meal_delivery, restaurant, food, point_of_interest, establishment",
+          "address": "10054 Bruceville Rd, Elk Grove",
+          "lat": 38.39343969999999,
+          "lon": -121.4186866,
+          "distance_miles": 0.07,
+          "likelihood_score": 93,
+          "rating": 3.9,
+          "user_ratings_total": 284,
+          "phone": "+1 916-686-4009",
+          "website": "https://ordering.roundtablepizza.com/site/ex19",
+          "place_id": "ChIJJ0vr9JPHmoARXiE2xHYgfSM",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 2,
+          "source": "Google Places"
+        },
+        {
+          "name": "Wing Inferno",
+          "type": "restaurant, food, point_of_interest, establishment",
+          "address": "9630 Bruceville Rd #105A, Elk Grove",
+          "lat": 38.4080437,
+          "lon": -121.4201743,
+          "distance_miles": 1.08,
+          "likelihood_score": 39,
+          "rating": null,
+          "user_ratings_total": 0,
+          "phone": "+1 916-692-0147",
+          "website": "https://www.winginferno.com/",
+          "place_id": "ChIJ93G-NnbHmoARsdbtHgvyuKs",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        }
+      ],
+      "createdAt": "2026-03-17T18:48:58.297461",
+      "count": 5
+    },
+    "bd9744398e8297f4": {
+      "storeNumber": "SVM26X-0605",
+      "category": "all restaurants",
+      "prospects": [
+        {
+          "name": "Prost Beer Hall",
+          "type": "restaurant, food, point_of_interest, establishment",
+          "address": "9085 Elk Grove Blvd, Elk Grove",
+          "lat": 38.4092149,
+          "lon": -121.3633374,
+          "distance_miles": 1.14,
+          "likelihood_score": 86,
+          "rating": 4.7,
+          "user_ratings_total": 220,
+          "phone": "+1 916-829-5297",
+          "website": "http://prostbeerhalleg.com/",
+          "place_id": "ChIJEaAvd77HmoAR7oxd-K23mdA",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        },
+        {
+          "name": "Crest Cafe",
+          "type": "restaurant, food, point_of_interest, establishment",
+          "address": "8698 Elk Grove Blvd #2, Elk Grove",
+          "lat": 38.4086303,
+          "lon": -121.3809509,
+          "distance_miles": 1.17,
+          "likelihood_score": 86,
+          "rating": 4.7,
+          "user_ratings_total": 183,
+          "phone": "+1 916-829-2159",
+          "website": "http://crestcafeonline.com/",
+          "place_id": "ChIJA_aqgvfHmoARTle9tT0pdwc",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 1,
+          "source": "Google Places"
+        },
+        {
+          "name": "Station 16",
+          "type": "restaurant, food, point_of_interest, establishment",
+          "address": "9625 E Stockton Blvd, Elk Grove",
+          "lat": 38.4077411,
+          "lon": -121.3843137,
+          "distance_miles": 1.31,
+          "likelihood_score": 82,
+          "rating": 4.3,
+          "user_ratings_total": 1959,
+          "phone": "+1 916-248-7994",
+          "website": "https://station16restaurant.com/",
+          "place_id": "ChIJCV5zjdnQmoAR48ijvC6pKIU",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 2,
+          "source": "Google Places"
+        },
+        {
+          "name": "El Jard\u00edn",
+          "type": "bar, restaurant, food, point_of_interest, establishment",
+          "address": "9385 Elk Grove Blvd #600, Elk Grove",
+          "lat": 38.4093828,
+          "lon": -121.3522565,
+          "distance_miles": 1.49,
+          "likelihood_score": 81,
+          "rating": 4.2,
+          "user_ratings_total": 446,
+          "phone": "+1 916-686-0386",
+          "website": "https://eljardineg.com/?utm_source=google",
+          "place_id": "ChIJbbMal7LAmoARBwGLnKjn1Uo",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 2,
+          "source": "Google Places"
+        },
+        {
+          "name": "The Meltdown",
+          "type": "restaurant, food, point_of_interest, establishment",
+          "address": "8707 Elk Grove Blvd, Elk Grove",
+          "lat": 38.409263,
+          "lon": -121.3805877,
+          "distance_miles": 1.12,
+          "likelihood_score": 81,
+          "rating": 3.6,
+          "user_ratings_total": 33,
+          "phone": "+1 916-686-2054",
+          "website": "https://themeltdown.com/?utm_source=G&utm_medium=organic&utm_campaign=DAC",
+          "place_id": "ChIJu2rUjt7HmoARPsE2x10GsWQ",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 2,
+          "source": "Google Places"
+        },
+        {
+          "name": "Paesanos",
+          "type": "bar, restaurant, food, point_of_interest, establishment",
+          "address": "8519 Bond Rd #101, Elk Grove",
+          "lat": 38.424932,
+          "lon": -121.387625,
+          "distance_miles": 0.83,
+          "likelihood_score": 87,
+          "rating": 4.3,
+          "user_ratings_total": 947,
+          "phone": "+1 916-690-8646",
+          "website": "http://www.paesanos.biz/",
+          "place_id": "ChIJ61-ZixzHmoARYUmxv1K1gdE",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 2,
+          "source": "Google Places"
+        },
+        {
+          "name": "Pho Mi Amor",
+          "type": "restaurant, food, point_of_interest, establishment",
+          "address": "8527 Elk Grove Blvd, Elk Grove",
+          "lat": 38.4100504,
+          "lon": -121.3876762,
+          "distance_miles": 1.28,
+          "likelihood_score": 85,
+          "rating": 4.7,
+          "user_ratings_total": 47,
+          "phone": "+1 916-647-3085",
+          "website": "https://www.phomiamorelkgrove.com/",
+          "place_id": "ChIJ96rkl77HmoARI4bTPYwKjNI",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        },
+        {
+          "name": "Chasons Crab Stadium",
+          "type": "restaurant, food, point_of_interest, establishment",
+          "address": "8839 Sheldon Rd, Elk Grove",
+          "lat": 38.4384682,
+          "lon": -121.3735064,
+          "distance_miles": 0.99,
+          "likelihood_score": 87,
+          "rating": 4.4,
+          "user_ratings_total": 1061,
+          "phone": "+1 916-688-8885",
+          "website": "https://crabstadium.com/",
+          "place_id": "ChIJKxqZGorHmoARDb2GsJtAdkQ",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 2,
+          "source": "Google Places"
+        },
+        {
+          "name": "Pig Latin",
+          "type": "bar, restaurant, food, point_of_interest, establishment",
+          "address": "9631 E Stockton Blvd, Elk Grove",
+          "lat": 38.4074691,
+          "lon": -121.3842913,
+          "distance_miles": 1.33,
+          "likelihood_score": 81,
+          "rating": 4,
+          "user_ratings_total": 675,
+          "phone": "+1 916-829-5135",
+          "website": "https://www.piglatineg.com/",
+          "place_id": "ChIJ-cTVKUXHmoARxfYAEaFesC8",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 2,
+          "source": "Google Places"
+        },
+        {
+          "name": "West Coast Taco Bar",
+          "type": "restaurant, food, point_of_interest, establishment",
+          "address": "8791 Elk Grove Blvd, Elk Grove",
+          "lat": 38.4099534,
+          "lon": -121.3764135,
+          "distance_miles": 1.01,
+          "likelihood_score": 87,
+          "rating": 4.7,
+          "user_ratings_total": 236,
+          "phone": "+1 916-647-4542",
+          "website": "https://www.westcoasttacobar.com/",
+          "place_id": "ChIJRSZ9eYTHmoARTj_uQZB1cQs",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 1,
+          "source": "Google Places"
+        }
+      ],
+      "createdAt": "2026-03-17T18:50:44.069867",
+      "count": 10
     }
   },
-  "lastUpdated": "2026-03-17T16:17:59.070343"
+  "lastUpdated": "2026-03-17T18:50:44.069881"
 }

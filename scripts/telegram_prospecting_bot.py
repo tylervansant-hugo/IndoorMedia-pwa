@@ -6642,9 +6642,17 @@ async def handle_button_callback(update: Update, context: ContextTypes.DEFAULT_T
             msg += f"```\n{body}\n```"
             
             buttons = []
-            if email:
-                mailto = f"mailto:{email}?subject={urllib.parse.quote(subject)}&body={urllib.parse.quote(body)}"
-                buttons.append([InlineKeyboardButton("📧 Open in Email", url=mailto)])
+            # Only add mailto button if we have a valid email
+            if email and '@' in email and '.' in email.split('@')[1]:
+                try:
+                    # Create mailto link with proper encoding
+                    mailto = f"mailto:{email}?subject={urllib.parse.quote(subject, safe='')}&body={urllib.parse.quote(body, safe='')}"
+                    # Validate URL doesn't have invalid characters for Telegram
+                    if len(mailto) < 2000:  # Telegram URL limit
+                        buttons.append([InlineKeyboardButton("📧 Open in Email", url=mailto)])
+                except Exception as e:
+                    logger.warning(f"Could not create mailto link: {e}")
+            
             buttons.append([InlineKeyboardButton("⬅️ Back to Templates", callback_data=f"customer_email_{idx}")])
             buttons.append([InlineKeyboardButton("⬅️ Back to Customer", callback_data=f"customer_detail_{idx}")])
             
