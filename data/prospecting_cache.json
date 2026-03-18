@@ -7601,7 +7601,885 @@
       ],
       "createdAt": "2026-03-17T23:38:55.112584",
       "count": 10
+    },
+    "b9322687780e00c4": {
+      "storeNumber": "FME07Z-0460",
+      "category": "urgent care",
+      "prospects": [
+        {
+          "name": "Urgent Care | Vancouver Clinic Salmon Creek 2",
+          "type": "health, point_of_interest, establishment",
+          "address": "2529 NE 139th St, Vancouver",
+          "lat": 45.7209516,
+          "lon": -122.6451042,
+          "distance_miles": 0.84,
+          "likelihood_score": 69,
+          "rating": 2.8,
+          "user_ratings_total": 94,
+          "phone": "+1 360-882-2778",
+          "website": "https://tvc.org/services/urgent-care/",
+          "place_id": "ChIJ3SogvSOtlVQRmde8aP_DLeU",
+          "opening_hours": {
+            "open_now": false
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        },
+        {
+          "name": "Urgent Medical Center",
+          "type": "health, point_of_interest, establishment",
+          "address": "14201 NE 20th Ave # C101, Vancouver",
+          "lat": 45.7243282,
+          "lon": -122.6508641,
+          "distance_miles": 0.62,
+          "likelihood_score": 75,
+          "rating": 3.4,
+          "user_ratings_total": 65,
+          "phone": "+1 360-571-9799",
+          "website": null,
+          "place_id": "ChIJtcOj4_KtlVQRsWJdtUdn28M",
+          "opening_hours": {
+            "open_now": false
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        },
+        {
+          "name": "Salmon Creek Urgent Care & Primary Care Vancouver, WA | ZoomCare",
+          "type": "doctor, health, point_of_interest, establishment",
+          "address": "910 NE Tenney Rd Ste 101, Vancouver",
+          "lat": 45.7192369,
+          "lon": -122.6612876,
+          "distance_miles": 0.11,
+          "likelihood_score": 86,
+          "rating": 4.7,
+          "user_ratings_total": 415,
+          "phone": "+1 844-966-6777",
+          "website": "https://www.zoomcare.com/clinic/zoomcare-salmon-creek?utm_campaign=gmb-site&utm_source=google&utm_medium=maps&utm_content=salmon-creek",
+          "place_id": "ChIJMybeYditlVQR77k4hnQdIn8",
+          "opening_hours": {
+            "open_now": false
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        },
+        {
+          "name": "Legacy Salmon Creek Medical Center Emergency Room",
+          "type": "health, point_of_interest, establishment",
+          "address": "2211 NE 139th St, Vancouver",
+          "lat": 45.7203421,
+          "lon": -122.6486805,
+          "distance_miles": 0.67,
+          "likelihood_score": 79,
+          "rating": 2.2,
+          "user_ratings_total": 126,
+          "phone": "+1 360-487-1000",
+          "website": "https://www.legacyhealth.org/Doctors-and-Locations/hospitals/legacy-salmon-creek-medical-center",
+          "place_id": "ChIJDSVI7_GtlVQRf4AvtumPIJA",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        },
+        {
+          "name": "Vancouver Clinic | Salmon Creek 1",
+          "type": "health, point_of_interest, establishment",
+          "address": "2525 NE 139th St, Vancouver",
+          "lat": 45.7210206,
+          "lon": -122.645113,
+          "distance_miles": 0.84,
+          "likelihood_score": 78,
+          "rating": 4.5,
+          "user_ratings_total": 1967,
+          "phone": "+1 360-882-2778",
+          "website": "https://tvc.org/locations/salmon-creek-clinic/",
+          "place_id": "ChIJXyDKZfGtlVQRj0i6McJph-8",
+          "opening_hours": {
+            "open_now": false
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        },
+        {
+          "name": "Vancouver Clinic | Salmon Creek 2",
+          "type": "health, point_of_interest, establishment",
+          "address": "2529 NE 139th St, Vancouver",
+          "lat": 45.7213852,
+          "lon": -122.643521,
+          "distance_miles": 0.92,
+          "likelihood_score": 73,
+          "rating": 3.6,
+          "user_ratings_total": 30,
+          "phone": "+1 360-882-2778",
+          "website": "https://tvc.org/locations/salmon-creek-2-clinic/",
+          "place_id": "ChIJP8EHloGtlVQRD74QWrlqJAo",
+          "opening_hours": {
+            "open_now": false
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        },
+        {
+          "name": "Sea Mar Vancouver Medical Clinic - Salmon Creek",
+          "type": "health, point_of_interest, establishment",
+          "address": "14508 NE 20th Ave, Vancouver",
+          "lat": 45.726379,
+          "lon": -122.6527474,
+          "distance_miles": 0.62,
+          "likelihood_score": 70,
+          "rating": 2.4,
+          "user_ratings_total": 169,
+          "phone": "+1 360-852-9070",
+          "website": "http://www.seamar.org/clark-medical-vancouver-salmon-creek.html",
+          "place_id": "ChIJvZGJ5DevlVQRQi9lvwk0PuU",
+          "opening_hours": {
+            "open_now": false
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        },
+        {
+          "name": "Laurie Helms FNP",
+          "type": "health, point_of_interest, establishment",
+          "address": "2525 NE 139th St, Vancouver",
+          "lat": 45.7209413,
+          "lon": -122.6450885,
+          "distance_miles": 0.84,
+          "likelihood_score": 58,
+          "rating": 5,
+          "user_ratings_total": 1,
+          "phone": "+1 360-882-2778",
+          "website": "https://tvc.org/providers/laurie-helms-fnp/",
+          "place_id": "ChIJ84rFzgGtlVQRbs_rhdKjx4I",
+          "opening_hours": {
+            "open_now": false
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        }
+      ],
+      "createdAt": "2026-03-18T05:52:08.056375",
+      "count": 8
+    },
+    "bfcec144aaa38f09": {
+      "storeNumber": "FME07Z-0460",
+      "category": "dentist",
+      "prospects": [
+        {
+          "name": "Andersen Dental Center",
+          "type": "dentist, health, point_of_interest, establishment",
+          "address": "2415 NE 134th St #307, Vancouver",
+          "lat": 45.71734499999999,
+          "lon": -122.64674,
+          "distance_miles": 0.79,
+          "likelihood_score": 81,
+          "rating": 4.9,
+          "user_ratings_total": 528,
+          "phone": "+1 360-567-3333",
+          "website": "https://salmoncreekdentist.com/",
+          "place_id": "ChIJC3bt5O-tlVQRoSI3FfQ7cKQ",
+          "opening_hours": {
+            "open_now": false
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        },
+        {
+          "name": "Gentle Dental Salmon Creek",
+          "type": "dentist, doctor, health, point_of_interest, establishment",
+          "address": "800 NE Tenney Rd Suite B201, Vancouver",
+          "lat": 45.7191583,
+          "lon": -122.6628376,
+          "distance_miles": 0.1,
+          "likelihood_score": 87,
+          "rating": 4.7,
+          "user_ratings_total": 341,
+          "phone": "+1 360-262-4509",
+          "website": "https://gentledental.interdent.com/locations/wa/vancouver-salmon-creek/?utm_source=gbp&utm_medium=organic&utm_campaign=gbp-listing&utm_content=GDSALMON&y_source=1_MTA5NjAyNjYwNi03MTUtbG9jYXRpb24ud2Vic2l0ZQ%3D%3D",
+          "place_id": "ChIJkWP9NuutlVQRqHitha96RIA",
+          "opening_hours": {
+            "open_now": false
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        },
+        {
+          "name": "Mount Vista Family Dental",
+          "type": "dentist, health, point_of_interest, establishment",
+          "address": "14313 NE 20th Ave SUITE A100, Vancouver",
+          "lat": 45.7249562,
+          "lon": -122.6504933,
+          "distance_miles": 0.65,
+          "likelihood_score": 82,
+          "rating": 4.9,
+          "user_ratings_total": 137,
+          "phone": "+1 360-574-3985",
+          "website": "https://www.mountvistadental.com/",
+          "place_id": "ChIJXdKKJvOtlVQRHCfRoxEpjpQ",
+          "opening_hours": {
+            "open_now": false
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        },
+        {
+          "name": "Pleasant Valley Pediatric Dentistry",
+          "type": "dentist, doctor, health, point_of_interest, establishment",
+          "address": "C-102, 14201 NE 20th Ave, Vancouver",
+          "lat": 45.7243173,
+          "lon": -122.650689,
+          "distance_miles": 0.63,
+          "likelihood_score": 90,
+          "rating": 4.5,
+          "user_ratings_total": 398,
+          "phone": "+1 360-573-3176",
+          "website": "http://www.pvalleykidsteeth.com/",
+          "place_id": "ChIJtcOj4_KtlVQRmCWzj-eMLgM",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        },
+        {
+          "name": "Adventure Dental",
+          "type": "dentist, doctor, health, point_of_interest, establishment",
+          "address": "900 NE 139th St Suite 106, Vancouver",
+          "lat": 45.7221483,
+          "lon": -122.6619436,
+          "distance_miles": 0.11,
+          "likelihood_score": 87,
+          "rating": 4.9,
+          "user_ratings_total": 1869,
+          "phone": "+1 360-604-9000",
+          "website": "https://www.adventuredental.com/",
+          "place_id": "ChIJlxWHBfCtlVQR6TE1i4EexBQ",
+          "opening_hours": {
+            "open_now": false
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        },
+        {
+          "name": "Salmon Creek Dental Center",
+          "type": "dentist, health, point_of_interest, establishment",
+          "address": "13023 NE Hwy 99 Suite 5, Vancouver",
+          "lat": 45.7157024,
+          "lon": -122.6496582,
+          "distance_miles": 0.71,
+          "likelihood_score": 81,
+          "rating": 4.9,
+          "user_ratings_total": 652,
+          "phone": "+1 360-685-1890",
+          "website": "https://salmoncreekdental.com/",
+          "place_id": "ChIJzW7aY--tlVQRslpYohum4EQ",
+          "opening_hours": {
+            "open_now": false
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        },
+        {
+          "name": "Salmon Creek Family Dental",
+          "type": "dentist, doctor, health, point_of_interest, establishment",
+          "address": "2515 NE 134th St Suite 200, Vancouver",
+          "lat": 45.7171915,
+          "lon": -122.6450415,
+          "distance_miles": 0.87,
+          "likelihood_score": 81,
+          "rating": 5,
+          "user_ratings_total": 97,
+          "phone": "+1 360-696-9461",
+          "website": "https://www.dentistsalmoncreek.com/",
+          "place_id": "ChIJG0El7-utlVQRghM9k4fASKU",
+          "opening_hours": {
+            "open_now": false
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        },
+        {
+          "name": "Creekside Dental",
+          "type": "dentist, health, point_of_interest, establishment",
+          "address": "910 NE Tenney Rd Ste 117, Vancouver",
+          "lat": 45.71922989999999,
+          "lon": -122.6612904,
+          "distance_miles": 0.11,
+          "likelihood_score": 87,
+          "rating": 4.9,
+          "user_ratings_total": 68,
+          "phone": "+1 360-695-1515",
+          "website": "https://creekside-dental.com/",
+          "place_id": "ChIJI2rKr-utlVQR2Wmqr5e5o2k",
+          "opening_hours": {
+            "open_now": false
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        },
+        {
+          "name": "Salmon Creek Dental Specialists",
+          "type": "dentist, health, point_of_interest, establishment",
+          "address": "14400 NE 20th Ave # 100, Vancouver",
+          "lat": 45.72487520000001,
+          "lon": -122.6515972,
+          "distance_miles": 0.6,
+          "likelihood_score": 83,
+          "rating": 4.9,
+          "user_ratings_total": 680,
+          "phone": "+1 360-576-5066",
+          "website": "https://www.salmonendo.com/",
+          "place_id": "ChIJTTOw_e-tlVQR3VKdZRhluaM",
+          "opening_hours": {
+            "open_now": false
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        },
+        {
+          "name": "Bright Now! Dental & Orthodontics - Vancouver, WA",
+          "type": "dentist, doctor, health, point_of_interest, establishment",
+          "address": "2101 NE 129th St, Vancouver",
+          "lat": 45.714329,
+          "lon": -122.6507873,
+          "distance_miles": 0.71,
+          "likelihood_score": 79,
+          "rating": 4.5,
+          "user_ratings_total": 508,
+          "phone": "+1 360-574-4574",
+          "website": "https://www.brightnow.com/dental-office/vancouver-dentist/10060/?utm_source=generic&utm_medium=profiles&utm_campaign=local_profiles",
+          "place_id": "ChIJ8YpU5OWtlVQRhXItY3d99iA",
+          "opening_hours": {
+            "open_now": false
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        }
+      ],
+      "createdAt": "2026-03-18T05:53:21.780349",
+      "count": 10
+    },
+    "16e220d63e4daf3d": {
+      "storeNumber": "FME07Z-0255",
+      "category": "mexican",
+      "prospects": [
+        {
+          "name": "Tienda Santa Cruz",
+          "type": "grocery_or_supermarket, store, restaurant, food, point_of_interest, establishment",
+          "address": "8630 N Lombard St, Portland",
+          "lat": 45.5902928,
+          "lon": -122.7552053,
+          "distance_miles": 0.86,
+          "likelihood_score": 78,
+          "rating": 4.5,
+          "user_ratings_total": 1754,
+          "phone": "+1 503-286-7302",
+          "website": "https://tiendasantacruz.shop/",
+          "place_id": "ChIJF9YV2wGolVQR8JP580XZIqs",
+          "opening_hours": {
+            "open_now": false
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 1,
+          "source": "Google Places"
+        },
+        {
+          "name": "El Catrin",
+          "type": "restaurant, food, point_of_interest, establishment",
+          "address": "7431 N Saint Louis Ave, Portland",
+          "lat": 45.5933561,
+          "lon": -122.7570506,
+          "distance_miles": 1.05,
+          "likelihood_score": 77,
+          "rating": 4.6,
+          "user_ratings_total": 33,
+          "phone": null,
+          "website": null,
+          "place_id": "ChIJzTSAbACplVQRx1K0zbWVhSY",
+          "opening_hours": {},
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        },
+        {
+          "name": "El Coyote",
+          "type": "restaurant, food, point_of_interest, establishment",
+          "address": "6965 N Fessenden St, Portland",
+          "lat": 45.5935814,
+          "lon": -122.73498,
+          "distance_miles": 0.65,
+          "likelihood_score": 81,
+          "rating": 4.6,
+          "user_ratings_total": 257,
+          "phone": "+1 503-839-7093",
+          "website": "https://facebook.com/El-Coyote-PDX-699234670169442/",
+          "place_id": "ChIJ7_ob5wmolVQR4X4qoczIq2I",
+          "opening_hours": {
+            "open_now": false
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 1,
+          "source": "Google Places"
+        },
+        {
+          "name": "Taqueria Flores",
+          "type": "restaurant, food, point_of_interest, establishment",
+          "address": "7007 N Fessenden St, Portland",
+          "lat": 45.59372219999999,
+          "lon": -122.7355383,
+          "distance_miles": 0.65,
+          "likelihood_score": 80,
+          "rating": 4.4,
+          "user_ratings_total": 207,
+          "phone": "+1 503-384-2163",
+          "website": "https://www.doordash.com/store/27746114?utm_source=mx_share",
+          "place_id": "ChIJlwZh_G2plVQRvP22mOQqKkc",
+          "opening_hours": {
+            "open_now": false
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 2,
+          "source": "Google Places"
+        },
+        {
+          "name": "Victorico's Lombard",
+          "type": "restaurant, food, point_of_interest, establishment",
+          "address": "6933 N Lombard St, Portland",
+          "lat": 45.58732759999999,
+          "lon": -122.7390819,
+          "distance_miles": 0.18,
+          "likelihood_score": 84,
+          "rating": 4.2,
+          "user_ratings_total": 132,
+          "phone": "+1 503-206-4504",
+          "website": null,
+          "place_id": "ChIJIRqAGrWnlVQRxcOcdOlXE0g",
+          "opening_hours": {
+            "open_now": false
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 2,
+          "source": "Google Places"
+        },
+        {
+          "name": "PIG PATAS TACOS 3",
+          "type": "restaurant, food, point_of_interest, establishment",
+          "address": "8448 N Ivanhoe St, Portland",
+          "lat": 45.58889809999999,
+          "lon": -122.7542447,
+          "distance_miles": 0.78,
+          "likelihood_score": 80,
+          "rating": 4.6,
+          "user_ratings_total": 64,
+          "phone": "+1 971-339-3648",
+          "website": "https://www.pigpatastacos.com/",
+          "place_id": "ChIJT75CFgCplVQRDSTQfQDOs40",
+          "opening_hours": {
+            "open_now": false
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        },
+        {
+          "name": "Beto's Taqueria",
+          "type": "restaurant, food, point_of_interest, establishment",
+          "address": "7441b N Leavitt Ave, Portland",
+          "lat": 45.5905038,
+          "lon": -122.7535915,
+          "distance_miles": 0.8,
+          "likelihood_score": 80,
+          "rating": 4.7,
+          "user_ratings_total": 272,
+          "phone": "+1 503-713-2814",
+          "website": "http://orderbetostaqueria.com/",
+          "place_id": "ChIJNQX3Sa2nlVQRkMy6-Ed7s5k",
+          "opening_hours": {
+            "open_now": false
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 1,
+          "source": "Google Places"
+        },
+        {
+          "name": "Super Burrito Express",
+          "type": "restaurant, food, point_of_interest, establishment",
+          "address": "9019 N Lombard St, Portland",
+          "lat": 45.5926822,
+          "lon": -122.7569882,
+          "distance_miles": 1.02,
+          "likelihood_score": 76,
+          "rating": 4.4,
+          "user_ratings_total": 611,
+          "phone": "+1 503-283-2181",
+          "website": "http://superburritoexpressstjohns.online/",
+          "place_id": "ChIJgUlVFAKolVQRT89aXw1g7Sk",
+          "opening_hours": {
+            "open_now": false
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 1,
+          "source": "Google Places"
+        },
+        {
+          "name": "El Burrito Mojado",
+          "type": "restaurant, food, point_of_interest, establishment",
+          "address": "7316 N Lombard St, Portland",
+          "lat": 45.5875888,
+          "lon": -122.7425992,
+          "distance_miles": 0.26,
+          "likelihood_score": 83,
+          "rating": 4.3,
+          "user_ratings_total": 49,
+          "phone": "+1 503-278-0163",
+          "website": "https://elburritomojadovancouverwa.com/",
+          "place_id": "ChIJVxirOvynlVQRpjHIBaeNbtI",
+          "opening_hours": {
+            "open_now": false
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 1,
+          "source": "Google Places"
+        }
+      ],
+      "createdAt": "2026-03-18T06:16:56.236320",
+      "count": 9
+    },
+    "556d9e7c6ff79f34": {
+      "storeNumber": "FME07Z-0460",
+      "category": "pizza",
+      "prospects": [
+        {
+          "name": "Mighty Munch Mtn Curry Pizza",
+          "type": "meal_delivery, meal_takeaway, restaurant, food, point_of_interest, establishment",
+          "address": "14313 NE 20th Ave UNIT 108, Vancouver",
+          "lat": 45.72512829999999,
+          "lon": -122.6505852,
+          "distance_miles": 0.66,
+          "likelihood_score": 82,
+          "rating": 4.9,
+          "user_ratings_total": 473,
+          "phone": "+1 360-448-7472",
+          "website": "https://mightymunchmtncurrypizza.com/mightymunchvancouver?utm_source=google",
+          "place_id": "ChIJ9Tkjq2qtlVQRYz4werL3-wg",
+          "opening_hours": {
+            "open_now": false
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 3,
+          "source": "Google Places"
+        },
+        {
+          "name": "Mountain Mike's Pizza",
+          "type": "restaurant, food, point_of_interest, establishment",
+          "address": "14109 NE 10th Ave, Vancouver",
+          "lat": 45.72376810000001,
+          "lon": -122.6609448,
+          "distance_miles": 0.23,
+          "likelihood_score": 79,
+          "rating": 3.5,
+          "user_ratings_total": 116,
+          "phone": "+1 360-626-9400",
+          "website": "https://www.mountainmikespizza.com/locations/vancouver-ne-10th-ave/",
+          "place_id": "ChIJibW6PVStlVQRJTfMOyVt_ZY",
+          "opening_hours": {
+            "open_now": false
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        },
+        {
+          "name": "Champ Pizza",
+          "type": "restaurant, food, point_of_interest, establishment",
+          "address": "13317 NE 12th Ave Unit 105, Vancouver",
+          "lat": 45.7178459,
+          "lon": -122.6587983,
+          "distance_miles": 0.26,
+          "likelihood_score": 83,
+          "rating": 4.2,
+          "user_ratings_total": 233,
+          "phone": "+1 360-573-8569",
+          "website": "https://www.champpizza.com/",
+          "place_id": "ChIJs4pmn26tlVQRWqZztZUBadc",
+          "opening_hours": {
+            "open_now": false
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 1,
+          "source": "Google Places"
+        },
+        {
+          "name": "7-Eleven",
+          "type": "convenience_store, cafe, liquor_store, store, restaurant, food, point_of_interest, establishment",
+          "address": "12908 NE Hwy 99, Vancouver",
+          "lat": 45.71490319999999,
+          "lon": -122.6520838,
+          "distance_miles": 0.64,
+          "likelihood_score": 84,
+          "rating": 3.2,
+          "user_ratings_total": 63,
+          "phone": "+1 360-573-6417",
+          "website": "https://www.7-eleven.com/locations/wa/vancouver/12908-hwy-99-24279?utm_source=G&utm_medium=local&utm_campaign=google-local",
+          "place_id": "ChIJsekdAOatlVQR2Mqf5ULp6vw",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 1,
+          "source": "Google Places"
+        },
+        {
+          "name": "Round Table Pizza",
+          "type": "meal_delivery, meal_takeaway, liquor_store, store, restaurant, food, point_of_interest, establishment",
+          "address": "13009 NE Hwy 99, Vancouver",
+          "lat": 45.7165902,
+          "lon": -122.6503031,
+          "distance_miles": 0.65,
+          "likelihood_score": 76,
+          "rating": 3.7,
+          "user_ratings_total": 479,
+          "phone": "+1 360-574-5755",
+          "website": "https://www.roundtablepizza.com/location/1223/",
+          "place_id": "ChIJn1oVY--tlVQRg8sg7BB7kMY",
+          "opening_hours": {
+            "open_now": false
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 2,
+          "source": "Google Places"
+        },
+        {
+          "name": "Papa Murphy's | Take 'N' Bake Pizza",
+          "type": "meal_takeaway, restaurant, food, point_of_interest, establishment",
+          "address": "800 NE Tenney Rd, Vancouver",
+          "lat": 45.7196999,
+          "lon": -122.6625577,
+          "distance_miles": 0.06,
+          "likelihood_score": 86,
+          "rating": 4.5,
+          "user_ratings_total": 431,
+          "phone": "+1 360-576-9670",
+          "website": "https://locations.papamurphys.com/wa/vancouver/800-tenney-road?utm_source=organic&utm_medium=gmb&utm_campaign=yext&y_source=1_MTU0MzA0MDctNzE1LWxvY2F0aW9uLndlYnNpdGU%3D",
+          "place_id": "ChIJc-itzJStlVQRSg4JGnKCNRQ",
+          "opening_hours": {
+            "open_now": false
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 1,
+          "source": "Google Places"
+        },
+        {
+          "name": "Domino's Pizza",
+          "type": "meal_delivery, meal_takeaway, restaurant, food, point_of_interest, establishment",
+          "address": "13712 NE 20th Ave Suite 1 Ste I, Vancouver",
+          "lat": 45.7206334,
+          "lon": -122.6517432,
+          "distance_miles": 0.52,
+          "likelihood_score": 79,
+          "rating": 4,
+          "user_ratings_total": 325,
+          "phone": "+1 360-718-3700",
+          "website": "https://www.dominos.com/en/?redirect=homepage&utm_source=google&utm_medium=loclist&utm_campaign=localmaps",
+          "place_id": "ChIJw-4T5O2tlVQRbfXIekaIkpc",
+          "opening_hours": {
+            "open_now": false
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 1,
+          "source": "Google Places"
+        },
+        {
+          "name": "Jersey Mike's Subs",
+          "type": "meal_takeaway, store, restaurant, food, point_of_interest, establishment",
+          "address": "14105 NE 10th Ave Suite 801, Vancouver",
+          "lat": 45.723443,
+          "lon": -122.6606057,
+          "distance_miles": 0.22,
+          "likelihood_score": 81,
+          "rating": 3.8,
+          "user_ratings_total": 67,
+          "phone": "+1 360-553-4390",
+          "website": "https://www.jerseymikes.com/18064/vancouver-wa?utm_source=google&utm_medium=organic&utm_campaign=listings",
+          "place_id": "ChIJ6T5TB26tlVQRHCxPRTfbe5M",
+          "opening_hours": {
+            "open_now": false
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        }
+      ],
+      "createdAt": "2026-03-18T06:17:56.993261",
+      "count": 8
+    },
+    "61b588b032b81b45": {
+      "storeNumber": "ALB10Z-6013",
+      "category": "bakery",
+      "prospects": [
+        {
+          "name": "Patisserie Manon",
+          "type": "bakery, store, restaurant, food, point_of_interest, establishment",
+          "address": "8751 W Charleston Blvd #110, Las Vegas",
+          "lat": 36.1576336,
+          "lon": -115.2856842,
+          "distance_miles": 1.13,
+          "likelihood_score": 84,
+          "rating": 4.3,
+          "user_ratings_total": 732,
+          "phone": "+1 702-586-2666",
+          "website": "https://patisseriemanon.com/",
+          "place_id": "ChIJsUL8oPHAyIARLSbkjzfRo9I",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 1,
+          "source": "Google Places"
+        },
+        {
+          "name": "Burgundy French Bakery Cafe Bistro",
+          "type": "bakery, cafe, store, food, point_of_interest, establishment",
+          "address": "9440 W Sahara Ave #105, Las Vegas",
+          "lat": 36.1454186,
+          "lon": -115.3001247,
+          "distance_miles": 0.27,
+          "likelihood_score": 85,
+          "rating": 4.6,
+          "user_ratings_total": 516,
+          "phone": "+1 725-204-6557",
+          "website": "http://burgundybakery.com/",
+          "place_id": "ChIJS5Tx80y_yIAR4rg07nOfW1c",
+          "opening_hours": {
+            "open_now": false
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        },
+        {
+          "name": "The Coffee Class Village Square",
+          "type": "cafe, bakery, store, restaurant, food, point_of_interest, establishment",
+          "address": "9580 W Sahara Ave Suite 101, Las Vegas",
+          "lat": 36.1450012,
+          "lon": -115.3037658,
+          "distance_miles": 0.45,
+          "likelihood_score": 91,
+          "rating": 4.3,
+          "user_ratings_total": 165,
+          "phone": "+1 725-204-9831",
+          "website": "https://www.thecoffeeclass.com/",
+          "place_id": "ChIJAa4-NQC_yIAR8SUQPcFIN-E",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        },
+        {
+          "name": "Einstein Bros. Bagels",
+          "type": "cafe, bakery, store, restaurant, food, point_of_interest, establishment",
+          "address": "9041 W Sahara Ave Ste 300, Las Vegas",
+          "lat": 36.1432727,
+          "lon": -115.2948696,
+          "distance_miles": 0.06,
+          "likelihood_score": 93,
+          "rating": 3.9,
+          "user_ratings_total": 391,
+          "phone": "+1 702-254-0919",
+          "website": "https://locations.einsteinbros.com/us/nv/las-vegas/9041-w-sahara-ave?y_source=1_OTA1MDE0Mi03MTUtbG9jYXRpb24ud2Vic2l0ZQ%3D%3D",
+          "place_id": "ChIJz8iHmGW_yIAR-l7dJlTI07s",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 1,
+          "source": "Google Places"
+        },
+        {
+          "name": "Madhouse Coffee \u2014 The Original Location \u00b7 Est. 2006",
+          "type": "cafe, meal_takeaway, bakery, store, restaurant, food, point_of_interest, establishment",
+          "address": "8470 W Desert Inn Rd, Las Vegas",
+          "lat": 36.1298759,
+          "lon": -115.2755165,
+          "distance_miles": 1.48,
+          "likelihood_score": 81,
+          "rating": 4.2,
+          "user_ratings_total": 1345,
+          "phone": "+1 702-360-4232",
+          "website": "http://www.madhouse.coffee/",
+          "place_id": "ChIJlcvtca_AyIARCmItfTelNSU",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 2,
+          "source": "Google Places"
+        },
+        {
+          "name": "Smith's",
+          "type": "grocery_or_supermarket, florist, liquor_store, bakery, health, store, food, point_of_interest, establishment",
+          "address": "9851 W Charleston Blvd, Las Vegas",
+          "lat": 36.1577058,
+          "lon": -115.3122452,
+          "distance_miles": 1.34,
+          "likelihood_score": 83,
+          "rating": 4.4,
+          "user_ratings_total": 1086,
+          "phone": "+1 702-946-1200",
+          "website": "https://www.smithsfoodanddrug.com/stores/grocery/nv/las-vegas/hualapai-commons/706/00347?cid=loc_70600347_gmb",
+          "place_id": "ChIJG-NrW6G_yIARp1LHa2uu4Yg",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        },
+        {
+          "name": "Cafe Express Las Vegas",
+          "type": "cafe, bakery, store, restaurant, food, point_of_interest, establishment",
+          "address": "2521 S Fort Apache Rd #100, Las Vegas",
+          "lat": 36.1433424,
+          "lon": -115.2981583,
+          "distance_miles": 0.12,
+          "likelihood_score": 87,
+          "rating": 4.8,
+          "user_ratings_total": 664,
+          "phone": "+1 725-780-4329",
+          "website": "https://www.cafeexpresslv.com/",
+          "place_id": "ChIJ9f07_2u_yIARIbtkIGAVtQE",
+          "opening_hours": {
+            "open_now": false
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 2,
+          "source": "Google Places"
+        }
+      ],
+      "createdAt": "2026-03-18T07:08:30.742858",
+      "count": 7
     }
   },
-  "lastUpdated": "2026-03-17T23:41:44.574837"
+  "lastUpdated": "2026-03-18T07:08:30.742870"
 }

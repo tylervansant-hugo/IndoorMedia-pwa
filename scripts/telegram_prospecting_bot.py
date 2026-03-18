@@ -1275,8 +1275,7 @@ async def handle_photo_upload(update: Update, context: ContextTypes.DEFAULT_TYPE
         )
         return
     
-    # If not awaiting coupon image, acknowledge but ignore
-    await update.message.reply_text("📸 Photo received, but not needed right now.")
+    # If not awaiting coupon image, silently ignore (don't reply)
 
 
 async def handle_store_query(update: Update, context: ContextTypes.DEFAULT_TYPE):
@@ -2134,10 +2133,7 @@ async def handle_store_query(update: Update, context: ContextTypes.DEFAULT_TYPE)
         # Store number format: ABC12Z-0123
         text_upper = text.upper()
         if text_upper not in STORES:
-            await update.message.reply_text(
-                f"❌ Store `{text}` not found.\n\nTry: `FME07Z-0236` or use /examples",
-                parse_mode="Markdown"
-            )
+            # Silently ignore invalid store codes (don't clutter chat)
             return
         
         # Set store and show action menu
