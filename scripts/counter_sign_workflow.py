@@ -101,11 +101,21 @@ async def start_counter_sign_guided(
     Start guided counter sign workflow for non-direct team members.
     Walks through: store chain → business card → landing page → ad image
     """
+    # Handle both callback queries and regular messages
+    if update.callback_query:
+        query = update.callback_query
+        await query.answer()
+        chat_id = query.message.chat_id
+        message_send = lambda text, **kwargs: query.edit_message_text(text, **kwargs)
+    else:
+        chat_id = update.effective_chat.id
+        message_send = update.effective_chat.send_message
+    
     # Show store chain selection
     templates = list_available_store_templates()
     
     if not templates:
-        await update.message.reply_text("❌ No store templates available.")
+        await message_send("❌ No store templates available.")
         return -1
     
     # Create keyboard with chains
@@ -120,12 +130,10 @@ async def start_counter_sign_guided(
     
     reply_markup = InlineKeyboardMarkup(keyboard)
     
-    await update.message.reply_text(
-        "📝 Counter Sign Generator - Non-Direct Team\n\n"
-        "Select your store chain:"
-    )
-    await update.message.reply_text(
-        "Choose a store chain:",
+    await message_send(
+        "🎨 *Counter Sign Generator*\n\n"
+        "Select your store chain:",
+        parse_mode="Markdown",
         reply_markup=reply_markup
     )
     
