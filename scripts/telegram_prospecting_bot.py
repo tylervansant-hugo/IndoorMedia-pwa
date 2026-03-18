@@ -8186,14 +8186,24 @@ def main():
                 handle_counter_sign_photo
             ), group=0)
             # Text input (landing page, rep name, email, phone)
+            async def handle_counter_sign_text(update, context):
+                state = context.user_data.get('_counter_sign_state')
+                if state == STATE_AWAITING_LANDING_PAGE:
+                    await handle_landing_page_input(update, context)
+                elif state == STATE_AWAITING_REP_NAME:
+                    await handle_rep_name_input(update, context)
+                elif state == STATE_AWAITING_REP_EMAIL:
+                    await handle_rep_email_input(update, context)
+                elif state == STATE_AWAITING_REP_PHONE:
+                    await handle_rep_phone_input(update, context)
+                else:
+                    # Not in counter sign workflow, use normal store query
+                    await handle_store_query(update, context)
+            
             app.add_handler(MessageHandler(
                 filters.TEXT & ~filters.COMMAND,
-                lambda u, c: handle_landing_page_input(u, c) if c.user_data.get('_counter_sign_state') == STATE_AWAITING_LANDING_PAGE else 
-                            handle_rep_name_input(u, c) if c.user_data.get('_counter_sign_state') == STATE_AWAITING_REP_NAME else
-                            handle_rep_email_input(u, c) if c.user_data.get('_counter_sign_state') == STATE_AWAITING_REP_EMAIL else
-                            handle_rep_phone_input(u, c) if c.user_data.get('_counter_sign_state') == STATE_AWAITING_REP_PHONE else
-                            handle_store_query(u, c)
-            ), group=1)
+                handle_counter_sign_text
+            ), group=0)
         except ImportError as e:
             logger.warning(f"Could not load counter sign handlers: {e}")
     
