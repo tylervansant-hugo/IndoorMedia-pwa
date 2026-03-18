@@ -130,6 +130,8 @@ async def start_counter_sign_guided(
     
     reply_markup = InlineKeyboardMarkup(keyboard)
     
+    context.user_data['_counter_sign_state'] = STATE_AWAITING_BUSINESS_CARD
+    
     await message_send(
         "🎨 *Counter Sign Generator*\n\n"
         "Select your store chain:",
@@ -152,9 +154,11 @@ async def handle_store_chain_selection(
     store_code = query.data.replace("counter_sign_chain_", "")
     context.user_data['store_code'] = store_code
     
+    context.user_data['_counter_sign_state'] = STATE_AWAITING_BUSINESS_CARD
+    
     await query.edit_message_text(
         f"✅ Selected: {store_code}\n\n"
-        "Please send your business card image (JPG or PNG)"
+        "📸 Please send your business card image (JPG or PNG)"
     )
     
     return STATE_AWAITING_BUSINESS_CARD

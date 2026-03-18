@@ -8152,8 +8152,44 @@ def main():
     
     app.add_handler(CallbackQueryHandler(handle_button_callback))
     app.add_handler(MessageHandler(filters.LOCATION, handle_location_share))
-    app.add_handler(MessageHandler(filters.PHOTO, handle_photo_upload))
-    app.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, handle_store_query), group=2)
+    
+    # --- Counter Sign Workflow Handlers (Must come before generic photo handler) ---
+    if COUNTER_SIGN_AVAILABLE:
+        logger.info("✅ Counter Sign Workflow handlers loaded")
+        try:
+            from counter_sign_workflow import (
+                handle_business_card_upload,
+                handle_landing_page_input,
+                handle_rep_name_input,
+                handle_rep_email_input,
+                handle_rep_phone_input,
+                handle_ad_image_upload,
+                STATE_AWAITING_BUSINESS_CARD,
+                STATE_AWAITING_LANDING_PAGE,
+                STATE_AWAITING_REP_NAME,
+                STATE_AWAITING_REP_EMAIL,
+                STATE_AWAITING_REP_PHONE,
+                STATE_AWAITING_AD_IMAGE,
+            )
+            # Photo upload (business card or ad image)
+            app.add_handler(MessageHandler(
+                filters.PHOTO & filters.TEXT,
+                lambda u, c: handle_business_card_upload(u, c) if c.user_data.get('_counter_sign_state') == STATE_AWAITING_BUSINESS_CARD else handle_ad_image_upload(u, c)
+            ), group=0)
+            # Text input (landing page, rep name, email, phone)
+            app.add_handler(MessageHandler(
+                filters.TEXT & ~filters.COMMAND,
+                lambda u, c: handle_landing_page_input(u, c) if c.user_data.get('_counter_sign_state') == STATE_AWAITING_LANDING_PAGE else 
+                            handle_rep_name_input(u, c) if c.user_data.get('_counter_sign_state') == STATE_AWAITING_REP_NAME else
+                            handle_rep_email_input(u, c) if c.user_data.get('_counter_sign_state') == STATE_AWAITING_REP_EMAIL else
+                            handle_rep_phone_input(u, c) if c.user_data.get('_counter_sign_state') == STATE_AWAITING_REP_PHONE else
+                            handle_store_query(u, c)
+            ), group=1)
+        except ImportError as e:
+            logger.warning(f"Could not load counter sign handlers: {e}")
+    
+    app.add_handler(MessageHandler(filters.PHOTO, handle_photo_upload), group=2)
+    app.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, handle_store_query), group=3)
     
     logger.info("✅ IndoorMediaProspectBot ready. Polling for messages...")
     app.run_polling()
