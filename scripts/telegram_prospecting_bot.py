@@ -104,9 +104,8 @@ except ImportError as e:
 # --- Counter Sign Generator ---
 try:
     from counter_sign_workflow import (
-        start_counter_sign_workflow,
-        handle_counter_sign_callback,
-        COUNTER_SIGN_STATES,
+        start_counter_sign_guided,
+        get_workflow_handlers,
     )
     COUNTER_SIGN_AVAILABLE = True
 except ImportError as e:
@@ -7360,7 +7359,7 @@ Send any city name to see all stores!
         elif data == "counter_sign_generator":
             if COUNTER_SIGN_AVAILABLE:
                 await query.answer()
-                await start_counter_sign_workflow(update, context)
+                await start_counter_sign_guided(update, context)
             else:
                 await query.answer("❌ Counter sign generator not available", show_alert=True)
         elif data.startswith("audit_zone_"):

@@ -10,7 +10,6 @@ import os
 import tempfile
 from pathlib import Path
 from typing import Dict, Optional
-import aiohttp
 
 from telegram import Update, InlineKeyboardButton, InlineKeyboardMarkup, ReplyKeyboardMarkup, KeyboardButton, ReplyKeyboardRemove
 from telegram.ext import ContextTypes
