@@ -8159,15 +8159,9 @@ def main():
             from counter_sign_workflow import (
                 handle_business_card_upload,
                 handle_landing_page_input,
-                handle_rep_name_input,
-                handle_rep_email_input,
-                handle_rep_phone_input,
                 handle_ad_image_upload,
                 STATE_AWAITING_BUSINESS_CARD,
                 STATE_AWAITING_LANDING_PAGE,
-                STATE_AWAITING_REP_NAME,
-                STATE_AWAITING_REP_EMAIL,
-                STATE_AWAITING_REP_PHONE,
                 STATE_AWAITING_AD_IMAGE,
             )
             # Photo upload (business card or ad image)
@@ -8184,17 +8178,11 @@ def main():
                 filters.PHOTO,
                 handle_counter_sign_photo
             ), group=0)
-            # Text input (landing page, rep name, email, phone)
+            # Text input (landing page URL)
             async def handle_counter_sign_text(update, context):
                 state = context.user_data.get('_counter_sign_state')
                 if state == STATE_AWAITING_LANDING_PAGE:
                     await handle_landing_page_input(update, context)
-                elif state == STATE_AWAITING_REP_NAME:
-                    await handle_rep_name_input(update, context)
-                elif state == STATE_AWAITING_REP_EMAIL:
-                    await handle_rep_email_input(update, context)
-                elif state == STATE_AWAITING_REP_PHONE:
-                    await handle_rep_phone_input(update, context)
                 else:
                     # Not in counter sign workflow, use normal store query
                     await handle_store_query(update, context)
