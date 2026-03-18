@@ -7362,6 +7362,16 @@ Send any city name to see all stores!
                 await start_counter_sign_guided(update, context)
             else:
                 await query.answer("❌ Counter sign generator not available", show_alert=True)
+        elif data.startswith("counter_sign_chain_"):
+            if COUNTER_SIGN_AVAILABLE:
+                try:
+                    from counter_sign_workflow import handle_store_chain_selection
+                    await handle_store_chain_selection(update, context)
+                except Exception as e:
+                    await query.answer(f"❌ Error: {e}", show_alert=True)
+                    logger.error(f"Counter sign chain error: {e}")
+            else:
+                await query.answer("❌ Counter sign generator not available", show_alert=True)
         elif data.startswith("audit_zone_"):
             zone_code = data.replace("audit_zone_", "")
             await query.answer()
