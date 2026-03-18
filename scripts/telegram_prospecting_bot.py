@@ -1882,11 +1882,7 @@ async def handle_store_query(update: Update, context: ContextTypes.DEFAULT_TYPE)
                 return
         
         if text_upper not in STORES:
-            await update.message.reply_text(
-                f"❌ Store `{text}` not found.\n\nTry: `FME07Z-0236` or zone code like `07Z`",
-                parse_mode="Markdown"
-            )
-            context.user_data[AWAITING_AUDIT_STORE] = True
+            # Silently ignore invalid store codes during audit
             return
         
         store = STORES[text_upper]
@@ -2148,10 +2144,7 @@ async def handle_store_query(update: Update, context: ContextTypes.DEFAULT_TYPE)
         matching_cities = [c for c in CITIES_SORTED if city_query.lower() in c.lower()]
         
         if not matching_cities:
-            await update.message.reply_text(
-                f"❌ No cities found matching `{text}`.\n\nExamples: Portland, Honolulu, Vancouver, Beaverton",
-                parse_mode="Markdown"
-            )
+            # Silently ignore invalid city queries
             return
         
         if len(matching_cities) == 1:
@@ -3160,7 +3153,7 @@ async def show_roi_results(update: Update, context: ContextTypes.DEFAULT_TYPE, s
     """Display final ROI results after conversational input."""
     store = STORES.get(store_num)
     if not store:
-        await update.message.reply_text("❌ Store not found.", parse_mode="Markdown")
+        # Silently return if store not found
         return
     
     # Get parameters from context
@@ -3340,7 +3333,8 @@ async def open_roi_calculator(update, store_num: str):
         else:
             await update.message.reply_text(msg, parse_mode="Markdown", reply_markup=InlineKeyboardMarkup(buttons))
     else:
-        await update.message.reply_text(f"❌ Store `{store_num}` not found.", parse_mode="Markdown")
+        # Silently ignore invalid store lookups
+        pass
 
 async def rates_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
     """Handle /rates command."""
@@ -3361,9 +3355,10 @@ async def do_rates_lookup(update, store_num: str, ad_type: str = "single", edit_
     store = STORES.get(store_num)
     
     if not store:
-        text = f"❌ Store `{store_num}` not found.\n\nTry: `FME07Z-0236` or use /examples"
+        # Silently ignore invalid stores (don't clutter chat)
+        return
         if edit_message:
-            await edit_message.edit_text(text, parse_mode="Markdown")
+            pass
         elif hasattr(update, 'message') and update.message:
             await update.message.reply_text(text, parse_mode="Markdown")
         return
