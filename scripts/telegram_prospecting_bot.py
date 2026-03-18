@@ -4490,6 +4490,134 @@ IndoorMedia | Limited Partnership Program"""
     return email_body
 
 
+# ========================================================================
+# CONTRACT & CUSTOMER EMAILS (Post-Signature)
+# ========================================================================
+
+def draft_kickoff_email(business_name: str, owner_name: str, rep_name: str, store_ref: str) -> str:
+    """Draft kickoff/what's next email (after contract signed)."""
+    if owner_name and owner_name.lower() not in ('unknown', 'n/a', ''):
+        first_name = owner_name.strip().split()[0]
+        greeting = f"Hi {first_name},"
+    else:
+        greeting = f"Hi,"
+    
+    business_ref = business_name if business_name and business_name.lower() != "unknown" else "your business"
+    
+    email_body = f"""{greeting}
+
+Thank you for partnering with IndoorMedia! We're excited to work with {business_ref}. Here's what's next:
+
+**THE PROOF PROCESS**
+In the coming weeks, you'll receive a proof of your ad. This is your chance to make sure it's exactly what you want. Please be vocal about any changes—we want to get it perfect for you.
+
+**YOUR AD IS FLEXIBLE**
+Remember, you can change your ad quarterly, so if something isn't working, we can adjust it. That said, once we launch, let's give it time to work.
+
+**INSTALLATION & SIGNAGE**
+Expect us at {store_ref} around the time of installation. We'll hand you a roll of your register tape and put up signage in the store. We'll coordinate the timing with you beforehand.
+
+**GROWTH TAKES TIME**
+This program grows with time. Expect a slower start that gains momentum. Customers need to see your ad multiple times before it clicks—that's where the results come from.
+
+Looking forward to great things ahead!
+
+Best,
+{rep_name}
+IndoorMedia"""
+    
+    return email_body
+
+
+def draft_checkin_email(business_name: str, owner_name: str, rep_name: str, store_ref: str) -> str:
+    """Draft check-in/audit email (weeks/months after install)."""
+    if owner_name and owner_name.lower() not in ('unknown', 'n/a', ''):
+        first_name = owner_name.strip().split()[0]
+        greeting = f"Hi {first_name},"
+    else:
+        greeting = f"Hi,"
+    
+    business_ref = business_name if business_name and business_name.lower() != "unknown" else "your business"
+    
+    email_body = f"""{greeting}
+
+I wanted to check in and see how everything is going with your register tape campaign at {store_ref}. We love having {business_ref} as a partner!
+
+A few things I'd love to discuss:
+• How the campaign is performing for you
+• Any feedback on your ad or messaging
+• Opportunities to optimize or adjust
+• Plans for your renewal
+
+Would you have a few minutes this week to connect?
+
+Best,
+{rep_name}
+IndoorMedia"""
+    
+    return email_body
+
+
+def draft_upsell_email(business_name: str, owner_name: str, rep_name: str, store_ref: str) -> str:
+    """Draft upsell/expansion email (when results are strong)."""
+    if owner_name and owner_name.lower() not in ('unknown', 'n/a', ''):
+        first_name = owner_name.strip().split()[0]
+        greeting = f"Hi {first_name},"
+    else:
+        greeting = f"Hi,"
+    
+    business_ref = business_name if business_name and business_name.lower() != "unknown" else "your business"
+    
+    email_body = f"""{greeting}
+
+Your campaign at {store_ref} is performing great! We're seeing solid results, and I wanted to talk about expanding.
+
+Here are a few options:
+• Add a nearby {store_ref} location to amplify your reach
+• Increase your ad frequency at this location
+• Test a new location in a different area
+• Refresh your creative to keep it fresh
+
+The momentum is real. Let's capitalize on it.
+
+When can we schedule a quick call?
+
+Best,
+{rep_name}
+IndoorMedia"""
+    
+    return email_body
+
+
+def draft_renewal_email(business_name: str, owner_name: str, rep_name: str, store_ref: str) -> str:
+    """Draft renewal email (contract ending soon)."""
+    if owner_name and owner_name.lower() not in ('unknown', 'n/a', ''):
+        first_name = owner_name.strip().split()[0]
+        greeting = f"Hi {first_name},"
+    else:
+        greeting = f"Hi,"
+    
+    business_ref = business_name if business_name and business_name.lower() != "unknown" else "your business"
+    
+    email_body = f"""{greeting}
+
+Your IndoorMedia partnership at {store_ref} is coming up for renewal. Before we renew, I want to make sure the program is still working for {business_ref}.
+
+Let's talk about:
+• Overall results and ROI
+• What's working + what we should adjust
+• Your plans for the next term
+• Any new locations you want to add
+
+I'd love to set up a time to review everything together. How does this week look?
+
+Best,
+{rep_name}
+IndoorMedia"""
+    
+    return email_body
+
+
 def get_meeting_times():
     """Calculate suggested meeting times: 2 hours from now (rounded to 15 min) and alternative."""
     now = datetime.now()
@@ -6461,6 +6589,28 @@ async def handle_button_callback(update: Update, context: ContextTypes.DEFAULT_T
         elif data.startswith("customer_email_"):
             await query.answer()
             idx = int(data.replace("customer_email_", ""))
+            
+            # Store customer index for template selection
+            context.user_data['pending_email_customer_idx'] = idx
+            
+            # Show email template menu
+            msg = "📧 *Select Email Template*\n\n_Choose which email to send:_"
+            buttons = [
+                [InlineKeyboardButton("🚀 Kickoff/What's Next", callback_data=f"email_template_kickoff_{idx}")],
+                [InlineKeyboardButton("✅ Check-in/Audit", callback_data=f"email_template_checkin_{idx}")],
+                [InlineKeyboardButton("⬆️ Upsell/Expansion", callback_data=f"email_template_upsell_{idx}")],
+                [InlineKeyboardButton("🔄 Renewal", callback_data=f"email_template_renewal_{idx}")],
+                [InlineKeyboardButton("⬅️ Back", callback_data=f"customer_detail_{idx}")],
+            ]
+            
+            await query.edit_message_text(msg, parse_mode="Markdown", reply_markup=InlineKeyboardMarkup(buttons))
+        
+        elif data.startswith("email_template_"):
+            await query.answer()
+            parts = data.split("_")
+            template_type = parts[2]  # kickoff, checkin, upsell, renewal
+            idx = int(parts[3])
+            
             c = context.user_data.get('customer_list', [{}])[idx] if idx < len(context.user_data.get('customer_list', [])) else {}
             business = c.get('business', '?')
             owner = c.get('owner', '')
@@ -6468,19 +6618,22 @@ async def handle_button_callback(update: Update, context: ContextTypes.DEFAULT_T
             store = c.get('store', '')
             rep_name = get_rep_name(update)
             
-            # Draft a check-in / follow-up email
-            subject = f"Checking in — {business} & IndoorMedia"
-            body = (
-                f"Hi {owner or 'there'},\n\n"
-                f"I wanted to check in and see how everything is going with your register tape campaign "
-                f"at {store}. We love having {business} as a partner!\n\n"
-                f"A few things I'd love to discuss:\n"
-                f"• How the campaign is performing for you\n"
-                f"• Any updates to your ad or messaging\n"
-                f"• Opportunities to expand to nearby stores\n\n"
-                f"Would you have a few minutes this week to connect?\n\n"
-                f"Best,\n{rep_name}\nIndoorMedia"
-            )
+            # Select template based on type
+            if template_type == "kickoff":
+                subject = f"What's Next — {business} & IndoorMedia"
+                body = draft_kickoff_email(business, owner, rep_name, store)
+            elif template_type == "checkin":
+                subject = f"Checking in — {business} & IndoorMedia"
+                body = draft_checkin_email(business, owner, rep_name, store)
+            elif template_type == "upsell":
+                subject = f"Expansion Opportunity — {business}"
+                body = draft_upsell_email(business, owner, rep_name, store)
+            elif template_type == "renewal":
+                subject = f"Time to Renew — {business} & IndoorMedia"
+                body = draft_renewal_email(business, owner, rep_name, store)
+            else:
+                subject = f"Message from IndoorMedia"
+                body = "Hi,\n\nLet me know how I can help.\n\nBest,\n" + rep_name
             
             msg = f"✉️ *Draft Email — {business}*\n\n"
             if email:
@@ -6492,7 +6645,8 @@ async def handle_button_callback(update: Update, context: ContextTypes.DEFAULT_T
             if email:
                 mailto = f"mailto:{email}?subject={urllib.parse.quote(subject)}&body={urllib.parse.quote(body)}"
                 buttons.append([InlineKeyboardButton("📧 Open in Email", url=mailto)])
-            buttons.append([InlineKeyboardButton("⬅️ Back", callback_data=f"customer_detail_{idx}")])
+            buttons.append([InlineKeyboardButton("⬅️ Back to Templates", callback_data=f"customer_email_{idx}")])
+            buttons.append([InlineKeyboardButton("⬅️ Back to Customer", callback_data=f"customer_detail_{idx}")])
             
             await query.edit_message_text(msg, parse_mode="Markdown", reply_markup=InlineKeyboardMarkup(buttons))
         
