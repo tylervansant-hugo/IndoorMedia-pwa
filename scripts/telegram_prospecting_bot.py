@@ -6119,64 +6119,87 @@ async def handle_button_callback(update: Update, context: ContextTypes.DEFAULT_T
         elif data == "dashboard_view":
             await query.answer()
             
-            rep_id = get_rep_id(update)
-            rep_name = get_rep_name(update)
-            rep_data = load_rep_data(rep_id)
+            try:
+                rep_id = get_rep_id(update)
+                rep_name = get_rep_name(update)
+                rep_data = load_rep_data(rep_id)
+                
+                # Ensure rep has a name
+                if not rep_data.get("name"):
+                    rep_data["name"] = rep_name
+                    save_prospect_data(load_prospect_data())
+            except Exception as e:
+                logger.error(f"Dashboard load error: {e}")
+                await query.edit_message_text(
+                    "❌ Error loading dashboard. Please try again.",
+                    reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("⬅️ Main Menu", callback_data="main_menu")]])
+                )
+                return
             all_data = load_prospect_data()
             
-            # Personal metrics
-            searches_today = rep_data.get("session_searches", 0)
-            saved_count = len(rep_data.get("saved_prospects", {}))
-            
-            # Status breakdown
-            statuses = {}
-            for prospect in rep_data.get("saved_prospects", {}).values():
-                status = prospect.get("status", "unknown")
-                statuses[status] = statuses.get(status, 0) + 1
-            
-            # Team metrics
-            total_team_searches = sum(r.get("session_searches", 0) for r in all_data["reps"].values())
-            total_team_saved = sum(len(r.get("saved_prospects", {})) for r in all_data["reps"].values())
-            
-            team_statuses = {}
-            for rep in all_data["reps"].values():
-                for prospect in rep.get("saved_prospects", {}).values():
+            try:
+                # Personal metrics
+                searches_today = rep_data.get("session_searches", 0)
+                saved_count = len(rep_data.get("saved_prospects", {}))
+                
+                # Status breakdown
+                statuses = {}
+                for prospect in rep_data.get("saved_prospects", {}).values():
                     status = prospect.get("status", "unknown")
-                    team_statuses[status] = team_statuses.get(status, 0) + 1
-            
-            # Busiest reps
-            rep_activity = [(r["name"] or f"Rep {rid[:8]}", r.get("session_searches", 0)) 
-                           for rid, r in all_data["reps"].items()]
-            rep_activity.sort(key=lambda x: x[1], reverse=True)
-            
-            text = f"📊 *Dashboard*\n\n"
-            text += f"👤 *Your Metrics ({rep_name}):*\n"
-            text += f"🔍 Searches: {searches_today}\n"
-            text += f"💾 Saved: {saved_count}\n"
-            
-            if statuses:
-                text += f"  • ⭐ Interested: {statuses.get('interested', 0)}\n"
-                text += f"  • 🔄 Follow-up: {statuses.get('follow-up', 0)}\n"
-                text += f"  • 📋 Proposal: {statuses.get('proposal', 0)}\n"
-                text += f"  • ✅ Closed: {statuses.get('closed', 0)}\n"
-            
-            text += f"\n👥 *Team Metrics:*\n"
-            text += f"🔍 Total Searches: {total_team_searches}\n"
-            text += f"💾 Total Saved: {total_team_saved}\n"
-            
-            if team_statuses:
-                text += f"  • ⭐ Interested: {team_statuses.get('interested', 0)}\n"
-                text += f"  • 🔄 Follow-up: {team_statuses.get('follow-up', 0)}\n"
-                text += f"  • 📋 Proposal: {team_statuses.get('proposal', 0)}\n"
-                text += f"  • ✅ Closed: {team_statuses.get('closed', 0)}\n"
-            
-            if rep_activity:
-                text += f"\n🏆 *Top Reps (Searches):*\n"
-                for i, (name, count) in enumerate(rep_activity[:3], 1):
-                    text += f"{i}. {name}: {count}\n"
-            
-            await query.edit_message_text(text, parse_mode="Markdown", 
-                                         reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("⬅️ Main Menu", callback_data="main_menu")]]))
+                    statuses[status] = statuses.get(status, 0) + 1
+                
+                # Team metrics
+                total_team_searches = sum(r.get("session_searches", 0) for r in all_data["reps"].values())
+                total_team_saved = sum(len(r.get("saved_prospects", {})) for r in all_data["reps"].values())
+                
+                team_statuses = {}
+                for rep in all_data["reps"].values():
+                    for prospect in rep.get("saved_prospects", {}).values():
+                        status = prospect.get("status", "unknown")
+                        team_statuses[status] = team_statuses.get(status, 0) + 1
+                
+                # Busiest reps (with safe access to name)
+                rep_activity = []
+                for rid, r in all_data["reps"].items():
+                    rep_name_safe = r.get("name") or r.get("display_name") or f"Rep {rid[:8]}"
+                    searches = r.get("session_searches", 0)
+                    rep_activity.append((rep_name_safe, searches))
+                rep_activity.sort(key=lambda x: x[1], reverse=True)
+                
+                text = f"📊 *Dashboard*\n\n"
+                text += f"👤 *Your Metrics ({rep_name}):*\n"
+                text += f"🔍 Searches: {searches_today}\n"
+                text += f"💾 Saved: {saved_count}\n"
+                
+                if statuses:
+                    text += f"  • ⭐ Interested: {statuses.get('interested', 0)}\n"
+                    text += f"  • 🔄 Follow-up: {statuses.get('follow-up', 0)}\n"
+                    text += f"  • 📋 Proposal: {statuses.get('proposal', 0)}\n"
+                    text += f"  • ✅ Closed: {statuses.get('closed', 0)}\n"
+                
+                text += f"\n👥 *Team Metrics:*\n"
+                text += f"🔍 Total Searches: {total_team_searches}\n"
+                text += f"💾 Total Saved: {total_team_saved}\n"
+                
+                if team_statuses:
+                    text += f"  • ⭐ Interested: {team_statuses.get('interested', 0)}\n"
+                    text += f"  • 🔄 Follow-up: {team_statuses.get('follow-up', 0)}\n"
+                    text += f"  • 📋 Proposal: {team_statuses.get('proposal', 0)}\n"
+                    text += f"  • ✅ Closed: {team_statuses.get('closed', 0)}\n"
+                
+                if rep_activity:
+                    text += f"\n🏆 *Top Reps (Searches):*\n"
+                    for i, (name, count) in enumerate(rep_activity[:3], 1):
+                        text += f"{i}. {name}: {count}\n"
+                
+                await query.edit_message_text(text, parse_mode="Markdown", 
+                                             reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("⬅️ Main Menu", callback_data="main_menu")]]))
+            except Exception as e:
+                logger.error(f"Dashboard metric error: {e}", exc_info=True)
+                await query.edit_message_text(
+                    "❌ Error building dashboard metrics. Please try again.",
+                    reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("⬅️ Main Menu", callback_data="main_menu")]])
+                )
         elif data == "find_stores_near_me":
             await query.answer()
             # Request location from user
