@@ -74,6 +74,64 @@ TEXT_HEIGHT = 144.0
 AD_X_MARGIN = 36.0  # 0.5" on each side
 AD_WIDTH = LETTER_WIDTH_PTS - (2 * AD_X_MARGIN)
 
+# Direct team member info
+DIRECT_TEAM = {
+    "Adan Ramos": {
+        "cell": "206.383.7190",
+        "corporate": "800.247.4793",
+        "email": "Adan.ramos@indoormedia.com",
+        "landing_page": "https://www.indoormedia.com/tape-sales/advertise-with-adan-ramos/"
+    },
+    "Amy Dixon": {
+        "cell": "562.480.6026",
+        "corporate": "800.247.4793",
+        "email": "Amy.Dixon@indoormedia.com",
+        "landing_page": "https://www.indoormedia.com/tape-sales/advertise-with-amy-dixon/"
+    },
+    "Ben Patacsil": {
+        "cell": "206.383.7190",
+        "corporate": "800.247.4793",
+        "email": "Ben.Patacsil@indoormedia.com",
+        "landing_page": "https://www.indoormedia.com/tape-sales/advertise-with-ben-patacsil/"
+    },
+    "Christian Johnson": {
+        "cell": "206.383.7190",
+        "corporate": "800.247.4793",
+        "email": "Christian.Johnson@indoormedia.com",
+        "landing_page": "https://www.indoormedia.com/tape-sales/advertise-with-christian-johnson/"
+    },
+    "Dave Boring": {
+        "cell": "503.522.0887",
+        "corporate": "800.247.4793",
+        "email": "Dave.Boring@indoormedia.com",
+        "landing_page": "https://www.indoormedia.com/tape-sales/advertise-with-dave-boring/"
+    },
+    "Jan Banks": {
+        "cell": "503.781.2505",
+        "corporate": "800.247.4793",
+        "email": "Jan.Banks@indoormedia.com",
+        "landing_page": "https://www.indoormedia.com/tape-sales/advertise-with-jan-banks/"
+    },
+    "Matt Boozer": {
+        "cell": "503.970.2479",
+        "corporate": "800.247.4793",
+        "email": "Matthew.Boozer@indoormedia.com",
+        "landing_page": "https://www.indoormedia.com/tape-sales/advertise-with-matt-boozer/"
+    },
+    "Megan Wink": {
+        "cell": "206.434.6917",
+        "corporate": "800.247.4793",
+        "email": "Megan.Wink@indoormedia.com",
+        "landing_page": "https://www.indoormedia.com/tape-sales/advertise-with-megan-wink/"
+    },
+    "Marty Eng": {
+        "cell": "971.732.2972",
+        "corporate": "800.247.4793",
+        "email": "Anthony.Eng@indoormedia.com",
+        "landing_page": "https://www.indoormedia.com/tape-sales/advertise-with-marty-eng/"
+    }
+}
+
 
 def generate_qr_code(url: str, box_size: int = 10) -> Image.Image:
     """Generate QR code image with white background."""
@@ -414,6 +472,33 @@ def generate_counter_sign(
     except Exception as e:
         logger.error(f"Error saving PDF: {e}")
         return None, None
+
+
+# Helper functions for workflow integration
+def list_available_store_templates():
+    """List all available store template codes."""
+    store_codes = [
+        "ACM", "ALB", "AMK", "AND", "ARL", "BAK", "BGE", "BGY", "BLO", "BUT", "CAR", "CMI", "COP", "CRL",
+        "CSV", "CTR", "CUB", "DAN", "DAW", "DFM", "DIE", "DIL", "DIS", "FAM", "FCO", "FDC", "FDP", "FDT",
+        "FES", "FFL", "FGT", "FIE", "FME", "FMK", "FMX", "FoodsCo", "FRY", "FYM", "GDI", "GER", "GIA", "GIE",
+        "GMF", "GNF", "GTC", "HAG", "HAR", "HEB", "HIT", "HNB", "HRV", "HYV", "IGA", "JAY", "JOE", "JWL",
+        "KKG", "KRO", "KSP", "LAF", "LIN", "LKY", "LOW", "LWS", "MAC", "MAR", "MIT", "MKF", "MKT", "MKT32",
+        "MRN", "MST", "OAK", "OWK", "PAK", "PAV", "PCH", "PDF", "PET", "PIG", "PLS", "PNS", "PRC", "QFC",
+        "RAL", "RAM", "RAN", "RCH", "REA", "RFP", "RIC", "RID", "ROS", "ROU", "RSM", "RUL", "SAF", "SAL",
+        "SCH", "SCO", "SCT", "Sendiks", "SHM", "SHW", "SMI", "SNS", "SON", "SPR", "SRI", "STB", "STM", "SVM",
+        "SVT", "TOM", "TOP", "TWY", "UNI", "VAL", "VGS", "VON", "WDM", "WHM", "WIN", "YOK"
+    ]
+    return store_codes
+
+
+def get_direct_team_names():
+    """Get list of direct team member names."""
+    return list(DIRECT_TEAM.keys())
+
+
+def get_direct_team_by_name(name: str) -> Optional[Dict]:
+    """Get direct team member data by name."""
+    return DIRECT_TEAM.get(name)
 
 
 if __name__ == "__main__":

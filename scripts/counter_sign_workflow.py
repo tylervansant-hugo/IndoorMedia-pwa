@@ -14,13 +14,27 @@ from typing import Dict, Optional
 from telegram import Update, InlineKeyboardButton, InlineKeyboardMarkup, ReplyKeyboardMarkup, KeyboardButton, ReplyKeyboardRemove
 from telegram.ext import ContextTypes
 
-from counter_sign_generator import (
-    generate_counter_sign,
-    list_available_store_templates,
-    get_direct_team_by_name,
-    get_direct_team_names,
-    DIRECT_TEAM,
-)
+try:
+    # Try relative import first (when run as module)
+    from counter_sign_generator import (
+        generate_counter_sign,
+        list_available_store_templates,
+        get_direct_team_by_name,
+        get_direct_team_names,
+        DIRECT_TEAM,
+    )
+except ImportError:
+    # Fallback to script path import
+    import sys
+    from pathlib import Path
+    sys.path.insert(0, str(Path(__file__).parent))
+    from counter_sign_generator import (
+        generate_counter_sign,
+        list_available_store_templates,
+        get_direct_team_by_name,
+        get_direct_team_names,
+        DIRECT_TEAM,
+    )
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
