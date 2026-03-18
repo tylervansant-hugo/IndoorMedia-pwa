@@ -1,0 +1,85 @@
+{
+  "direct_team": {
+    "Adan Ramos": {
+      "cell": "206.383.7190",
+      "corporate": "800.247.4793",
+      "email": "Adan.ramos@indoormedia.com",
+      "landing_page": "https://www.indoormedia.com/tape-sales/advertise-with-adan-ramos/"
+    },
+    "Amy Dixon": {
+      "cell": "562.480.6026",
+      "corporate": "800.247.4793",
+      "email": "Amy.Dixon@indoormedia.com",
+      "landing_page": "https://www.indoormedia.com/tape-sales/advertise-with-amy-dixon/"
+    },
+    "Ben Patacsil": {
+      "cell": "206.383.7190",
+      "corporate": "800.247.4793",
+      "email": "Ben.Patacsil@indoormedia.com",
+      "landing_page": "https://www.indoormedia.com/tape-sales/advertise-with-ben-patacsil/"
+    },
+    "Christian Johnson": {
+      "cell": "206.383.7190",
+      "corporate": "800.247.4793",
+      "email": "Christian.Johnson@indoormedia.com",
+      "landing_page": "https://www.indoormedia.com/tape-sales/advertise-with-christian-johnson/"
+    },
+    "Dave Boring": {
+      "cell": "503.522.0887",
+      "corporate": "800.247.4793",
+      "email": "Dave.Boring@indoormedia.com",
+      "landing_page": "https://www.indoormedia.com/tape-sales/advertise-with-dave-boring/"
+    },
+    "Jan Banks": {
+      "cell": "503.781.2505",
+      "corporate": "800.247.4793",
+      "email": "Jan.Banks@indoormedia.com",
+      "landing_page": "https://www.indoormedia.com/tape-sales/advertise-with-jan-banks/"
+    },
+    "Matt Boozer": {
+      "cell": "503.970.2479",
+      "corporate": "800.247.4793",
+      "email": "Matthew.Boozer@indoormedia.com",
+      "landing_page": "https://www.indoormedia.com/tape-sales/advertise-with-matt-boozer/"
+    },
+    "Megan Wink": {
+      "cell": "206.434.6917",
+      "corporate": "800.247.4793",
+      "email": "Megan.Wink@indoormedia.com",
+      "landing_page": "https://www.indoormedia.com/tape-sales/advertise-with-megan-wink/"
+    },
+    "Marty Eng": {
+      "cell": "971.732.2972",
+      "corporate": "800.247.4793",
+      "email": "Anthony.Eng@indoormedia.com",
+      "landing_page": "https://www.indoormedia.com/tape-sales/advertise-with-marty-eng/"
+    }
+  },
+  "store_templates_dir": "data/store_templates",
+  "generated_signs_dir": "data/generated_signs",
+  "paper_size": {
+    "width": 8.5,
+    "height": 11,
+    "unit": "inches"
+  },
+  "layout": {
+    "ad_section": {
+      "top_margin": 2.5,
+      "bottom_margin": 3.0,
+      "left_margin": 0.5,
+      "right_margin": 0.5
+    },
+    "rep_info": {
+      "position": "bottom_left",
+      "left": 0.25,
+      "bottom": 0.25,
+      "font_size": 8
+    },
+    "qr_code": {
+      "position": "bottom_right",
+      "right": 0.25,
+      "bottom": 0.25,
+      "size": 1.5
+    }
+  }
+}

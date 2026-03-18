@@ -2323,14 +2323,74 @@
           "lat": 45.5121324,
           "lon": -122.6143441,
           "distance_miles": 0.82,
-          "likelihood_score": 88,
+          "likelihood_score": 78,
           "rating": 4.5,
-          "user_ratings_total": 3346,
+          "user_ratings_total": 3348,
           "phone": "+1 503-954-3138",
           "website": "http://www.porquenotacos.com/",
           "place_id": "ChIJ9_lCovOglVQRj9EDMuROv5k",
           "opening_hours": {
+            "open_now": false
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 2,
+          "source": "Google Places"
+        },
+        {
+          "name": "Muchas Gracias Mexican Food",
+          "type": "store, restaurant, food, point_of_interest, establishment",
+          "address": "5832 NE Glisan St, Portland",
+          "lat": 45.5263714,
+          "lon": -122.6035329,
+          "distance_miles": 0.3,
+          "likelihood_score": 93,
+          "rating": 4.3,
+          "user_ratings_total": 77,
+          "phone": "+1 971-383-2727",
+          "website": "https://muchasgraciasmexicanfood.com/muchasneglisanst?utm_source=google",
+          "place_id": "ChIJHxasjpyhlVQRMFVPeMwY-rg",
+          "opening_hours": {
             "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 1,
+          "source": "Google Places"
+        },
+        {
+          "name": "Tierra del Sol Cuisine - Montavilla",
+          "type": "restaurant, food, point_of_interest, establishment",
+          "address": "6935 NE Glisan St, Portland",
+          "lat": 45.5265944,
+          "lon": -122.5917251,
+          "distance_miles": 0.76,
+          "likelihood_score": 80,
+          "rating": 4.6,
+          "user_ratings_total": 149,
+          "phone": "+1 503-998-9663",
+          "website": "https://tierradelsolpdx.com/",
+          "place_id": "ChIJhy9aOaOhlVQRd8fGuXuSdzU",
+          "opening_hours": {
+            "open_now": false
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        },
+        {
+          "name": "Plaza Coyoacan",
+          "type": "restaurant, food, point_of_interest, establishment",
+          "address": "3433 SE Hawthorne Blvd, Portland",
+          "lat": 45.5121719,
+          "lon": -122.6287405,
+          "distance_miles": 1.3,
+          "likelihood_score": 76,
+          "rating": 4.9,
+          "user_ratings_total": 376,
+          "phone": "+1 503-236-1100",
+          "website": "https://coyoacanpdx.com/",
+          "place_id": "ChIJkeCK95GglVQRCkj4JZGlHFQ",
+          "opening_hours": {
+            "open_now": false
           },
           "business_status": "OPERATIONAL",
           "price_level": 2,
@@ -2343,57 +2403,17 @@
           "lat": 45.5261729,
           "lon": -122.6165435,
           "distance_miles": 0.56,
-          "likelihood_score": 92,
+          "likelihood_score": 82,
           "rating": 4.6,
           "user_ratings_total": 248,
           "phone": "+1 503-719-5374",
           "website": null,
           "place_id": "ChIJXzIz3o6hlVQRJGGpUsH_h3Y",
           "opening_hours": {
-            "open_now": true
+            "open_now": false
           },
           "business_status": "OPERATIONAL",
           "price_level": 1,
-          "source": "Google Places"
-        },
-        {
-          "name": "Plaza Coyoacan",
-          "type": "restaurant, food, point_of_interest, establishment",
-          "address": "3433 SE Hawthorne Blvd, Portland",
-          "lat": 45.5121719,
-          "lon": -122.6287405,
-          "distance_miles": 1.3,
-          "likelihood_score": 86,
-          "rating": 4.9,
-          "user_ratings_total": 375,
-          "phone": "+1 503-236-1100",
-          "website": "https://coyoacanpdx.com/",
-          "place_id": "ChIJkeCK95GglVQRCkj4JZGlHFQ",
-          "opening_hours": {
-            "open_now": true
-          },
-          "business_status": "OPERATIONAL",
-          "price_level": 2,
-          "source": "Google Places"
-        },
-        {
-          "name": "Tierra del Sol Cuisine - Montavilla",
-          "type": "restaurant, food, point_of_interest, establishment",
-          "address": "6935 NE Glisan St, Portland",
-          "lat": 45.5265944,
-          "lon": -122.5917251,
-          "distance_miles": 0.76,
-          "likelihood_score": 90,
-          "rating": 4.6,
-          "user_ratings_total": 149,
-          "phone": "+1 503-998-9663",
-          "website": "https://tierradelsolpdx.com/",
-          "place_id": "ChIJhy9aOaOhlVQRd8fGuXuSdzU",
-          "opening_hours": {
-            "open_now": true
-          },
-          "business_status": "OPERATIONAL",
-          "price_level": null,
           "source": "Google Places"
         },
         {
@@ -2403,14 +2423,14 @@
           "lat": 45.5118363,
           "lon": -122.6237038,
           "distance_miles": 1.12,
-          "likelihood_score": 85,
+          "likelihood_score": 75,
           "rating": 4.4,
           "user_ratings_total": 968,
           "phone": "+1 503-226-9600",
           "website": "https://www.pepinos.org/",
           "place_id": "ChIJYVthdY2glVQRMLAqxaqIul4",
           "opening_hours": {
-            "open_now": true
+            "open_now": false
           },
           "business_status": "OPERATIONAL",
           "price_level": 1,
@@ -2423,14 +2443,14 @@
           "lat": 45.538229,
           "lon": -122.6157782,
           "distance_miles": 1.18,
-          "likelihood_score": 87,
+          "likelihood_score": 77,
           "rating": 4.8,
           "user_ratings_total": 81,
           "phone": "+1 971-344-2394",
           "website": null,
           "place_id": "ChIJcWsG4XWhlVQRKkK3SnG3A20",
           "opening_hours": {
-            "open_now": true
+            "open_now": false
           },
           "business_status": "OPERATIONAL",
           "price_level": null,
@@ -2443,14 +2463,14 @@
           "lat": 45.5118332,
           "lon": -122.6218831,
           "distance_miles": 1.06,
-          "likelihood_score": 87,
+          "likelihood_score": 77,
           "rating": 4.7,
           "user_ratings_total": 35,
           "phone": "+1 503-333-3801",
           "website": null,
           "place_id": "ChIJLZtCRgChlVQRMjWutnlRBek",
           "opening_hours": {
-            "open_now": true
+            "open_now": false
           },
           "business_status": "OPERATIONAL",
           "price_level": 1,
@@ -2463,14 +2483,14 @@
           "lat": 45.5339053,
           "lon": -122.6013173,
           "distance_miles": 0.82,
-          "likelihood_score": 86,
+          "likelihood_score": 76,
           "rating": 4,
           "user_ratings_total": 59,
           "phone": "+1 360-597-5694",
           "website": "http://orderpoblanopepperpdx.com/",
           "place_id": "ChIJAQAAAE-nlVQRpfh8LKYmqwY",
           "opening_hours": {
-            "open_now": true
+            "open_now": false
           },
           "business_status": "OPERATIONAL",
           "price_level": null,
@@ -2483,41 +2503,21 @@
           "lat": 45.516672,
           "lon": -122.6184044,
           "distance_miles": 0.71,
-          "likelihood_score": 89,
+          "likelihood_score": 79,
           "rating": 4.4,
           "user_ratings_total": 134,
           "phone": "+1 503-926-0497",
           "website": "http://orderpoblanopepper.com/",
           "place_id": "ChIJU0OCyO2glVQRkvrRTqRDGV4",
           "opening_hours": {
-            "open_now": true
-          },
-          "business_status": "OPERATIONAL",
-          "price_level": 1,
-          "source": "Google Places"
-        },
-        {
-          "name": "EL CHILITO LOCO (food truck) Authentic Mexican Food",
-          "type": "restaurant, food, point_of_interest, establishment",
-          "address": "3423 SE Belmont St, Portland",
-          "lat": 45.5165485,
-          "lon": -122.6290382,
-          "distance_miles": 1.18,
-          "likelihood_score": 85,
-          "rating": 4.5,
-          "user_ratings_total": 70,
-          "phone": "+1 503-847-3271",
-          "website": "https://elchilitolocoauthenticmexicanfoodor.com/",
-          "place_id": "ChIJlbUthF6hlVQRiy-gXog6MaU",
-          "opening_hours": {
-            "open_now": true
+            "open_now": false
           },
           "business_status": "OPERATIONAL",
           "price_level": 1,
           "source": "Google Places"
         }
       ],
-      "createdAt": "2026-03-16T12:51:32.153149",
+      "createdAt": "2026-03-17T23:39:44.020457",
       "count": 10
     },
     "266d9072830afdec": {
@@ -2899,158 +2899,36 @@
       "category": "pizza",
       "prospects": [
         {
-          "name": "Secret Pizza Society",
+          "name": "Pizza Machine",
           "type": "restaurant, food, point_of_interest, establishment",
-          "address": "7201 NE Glisan St, Portland",
-          "lat": 45.5265673,
-          "lon": -122.5885514,
-          "distance_miles": 0.9,
-          "likelihood_score": 90,
-          "rating": 4.9,
-          "user_ratings_total": 525,
-          "phone": "+1 503-946-1926",
-          "website": "https://secretpizzasociety.com/",
-          "place_id": "ChIJN5Imwd2hlVQRiBI278QE9Lk",
-          "opening_hours": {
-            "open_now": true
-          },
-          "business_status": "OPERATIONAL",
-          "price_level": 2,
-          "source": "Google Places"
-        },
-        {
-          "name": "Apizza Scholls",
-          "type": "restaurant, food, point_of_interest, establishment",
-          "address": "4741 SE Hawthorne Blvd, Portland",
-          "lat": 45.5121782,
-          "lon": -122.6131296,
-          "distance_miles": 0.79,
-          "likelihood_score": 90,
-          "rating": 4.6,
-          "user_ratings_total": 2204,
-          "phone": "+1 503-233-1286",
-          "website": "http://apizzascholls.com/",
-          "place_id": "ChIJoXPFk_OglVQR_FemZBo2wf0",
-          "opening_hours": {
-            "open_now": true
-          },
-          "business_status": "OPERATIONAL",
-          "price_level": 2,
-          "source": "Google Places"
-        },
-        {
-          "name": "Original Dream Pizza",
-          "type": "meal_delivery, restaurant, food, point_of_interest, establishment",
-          "address": "4620 NE Glisan St, Portland",
-          "lat": 45.5262381,
-          "lon": -122.6152064,
-          "distance_miles": 0.5,
-          "likelihood_score": 91,
-          "rating": 4.3,
-          "user_ratings_total": 749,
-          "phone": "+1 503-230-0699",
-          "website": "http://www.originaldreampizza.com/",
-          "place_id": "ChIJcT8Uft2glVQRqJKkwSUCNwA",
-          "opening_hours": {
-            "open_now": true
-          },
-          "business_status": "OPERATIONAL",
-          "price_level": 2,
-          "source": "Google Places"
-        },
-        {
-          "name": "Sizzle Pie",
-          "type": "restaurant, food, point_of_interest, establishment",
-          "address": "4144 NE Sandy Blvd, Portland",
-          "lat": 45.5357102,
-          "lon": -122.6204477,
-          "distance_miles": 1.14,
-          "likelihood_score": 85,
-          "rating": 4.4,
-          "user_ratings_total": 724,
-          "phone": "+1 503-234-7437",
-          "website": "https://sizzlepie.com/locations/portland-hollywood-district",
-          "place_id": "ChIJ6zX_W9eglVQRlpnJ4RBVdIE",
-          "opening_hours": {
-            "open_now": true
-          },
-          "business_status": "OPERATIONAL",
-          "price_level": 1,
-          "source": "Google Places"
-        },
-        {
-          "name": "Straight From New York Pizza (Hawthorne)",
-          "type": "meal_takeaway, restaurant, food, point_of_interest, establishment",
-          "address": "3701 SE Hawthorne Blvd, Portland",
-          "lat": 45.5121659,
-          "lon": -122.6256837,
-          "distance_miles": 1.18,
-          "likelihood_score": 84,
-          "rating": 4.2,
-          "user_ratings_total": 396,
-          "phone": "+1 503-736-9739",
-          "website": "http://www.sfnypizza.com/",
-          "place_id": "ChIJ68NS9JGhlVQRgPX_7yh5B3o",
-          "opening_hours": {
-            "open_now": true
-          },
+          "address": "2216 SE 50th Ave, Portland",
+          "lat": 45.5070707,
+          "lon": -122.611081,
+          "distance_miles": 1.09,
+          "likelihood_score": 79,
+          "rating": 5,
+          "user_ratings_total": 25,
+          "phone": null,
+          "website": "https://pizzamachinepdx.com/",
+          "place_id": "ChIJdfH4KwChlVQRL4ainkFCDP0",
+          "opening_hours": {},
           "business_status": "OPERATIONAL",
           "price_level": null,
           "source": "Google Places"
         },
         {
-          "name": "Flying Pie Pizzeria",
-          "type": "restaurant, food, point_of_interest, establishment",
-          "address": "7804 SE Stark St, Portland",
-          "lat": 45.51906719999999,
-          "lon": -122.5830578,
-          "distance_miles": 1.15,
-          "likelihood_score": 86,
-          "rating": 4.6,
-          "user_ratings_total": 1842,
-          "phone": "+1 503-254-2016",
-          "website": "https://www.flying-pie.com/",
-          "place_id": "ChIJGyvQMgGhlVQRsxUap8vTD88",
-          "opening_hours": {
-            "open_now": true
-          },
-          "business_status": "OPERATIONAL",
-          "price_level": 2,
-          "source": "Google Places"
-        },
-        {
-          "name": "Blind Onion Pizza & Pub - Belmont",
-          "type": "restaurant, food, point_of_interest, establishment",
-          "address": "6031 SE Belmont St, Portland",
-          "lat": 45.5168582,
-          "lon": -122.6013509,
-          "distance_miles": 0.46,
-          "likelihood_score": 92,
-          "rating": 4.4,
-          "user_ratings_total": 111,
-          "phone": "+1 503-954-2189",
-          "website": "http://blindonion.com/",
-          "place_id": "ChIJB3xph32hlVQRVf1M2gFliZk",
-          "opening_hours": {
-            "open_now": true
-          },
-          "business_status": "OPERATIONAL",
-          "price_level": 2,
-          "source": "Google Places"
-        },
-        {
-          "name": "Blind Onion Pizza & Pub",
-          "type": "bar, restaurant, food, point_of_interest, establishment",
-          "address": "3345 NE Broadway, Portland",
-          "lat": 45.5353,
-          "lon": -122.6297194,
-          "distance_miles": 1.44,
-          "likelihood_score": 82,
-          "rating": 4.5,
-          "user_ratings_total": 815,
-          "phone": "+1 503-284-2825",
-          "website": "https://www.blindonion.com/",
-          "place_id": "ChIJd9jW0dGglVQR3tOtwAPiBWw",
+          "name": "Domino's Pizza",
+          "type": "meal_takeaway, meal_delivery, restaurant, food, point_of_interest, establishment",
+          "address": "3616 NE Sandy Blvd, Portland",
+          "lat": 45.533099,
+          "lon": -122.6263702,
+          "distance_miles": 1.21,
+          "likelihood_score": 80,
+          "rating": 3.7,
+          "user_ratings_total": 352,
+          "phone": "+1 503-284-5666",
+          "website": "https://www.dominos.com/en/?utm_source=google&utm_medium=loclist&utm_campaign=localmaps",
+          "place_id": "ChIJWRKVTtCglVQRQ7U-4Urc2MQ",
           "opening_hours": {
             "open_now": true
           },
@@ -3065,41 +2943,161 @@
           "lat": 45.5123689,
           "lon": -122.6191275,
           "distance_miles": 0.94,
-          "likelihood_score": 70,
+          "likelihood_score": 62,
           "rating": 5,
-          "user_ratings_total": 2,
+          "user_ratings_total": 3,
           "phone": "+1 445-232-0505",
           "website": "https://www.instagram.com/sarda_pizza_pdx?igsh=MWptdmk0ZDNrb2g1eQ==&utm_source=qr",
           "place_id": "ChIJG3srkYuhlVQRHZAfZCTEzT8",
           "opening_hours": {
-            "open_now": true
+            "open_now": false
           },
           "business_status": "OPERATIONAL",
           "price_level": null,
           "source": "Google Places"
         },
         {
-          "name": "Fusion Indian Cuisine & Curry Pizza",
+          "name": "Apizza Scholls",
           "type": "restaurant, food, point_of_interest, establishment",
-          "address": "4630 NE Sandy Blvd, Portland",
-          "lat": 45.5379622,
-          "lon": -122.6153836,
-          "distance_miles": 1.15,
-          "likelihood_score": 87,
-          "rating": 4.9,
-          "user_ratings_total": 509,
-          "phone": "+1 971-383-3666",
-          "website": "http://www.fusioncurrypizza.com/",
-          "place_id": "ChIJw10T8COhlVQRQm_JARDJi0o",
+          "address": "4741 SE Hawthorne Blvd, Portland",
+          "lat": 45.5121782,
+          "lon": -122.6131296,
+          "distance_miles": 0.79,
+          "likelihood_score": 80,
+          "rating": 4.6,
+          "user_ratings_total": 2206,
+          "phone": "+1 503-233-1286",
+          "website": "http://apizzascholls.com/",
+          "place_id": "ChIJoXPFk_OglVQR_FemZBo2wf0",
           "opening_hours": {
-            "open_now": true
+            "open_now": false
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 2,
+          "source": "Google Places"
+        },
+        {
+          "name": "Secret Pizza Society",
+          "type": "restaurant, food, point_of_interest, establishment",
+          "address": "7201 NE Glisan St, Portland",
+          "lat": 45.5265673,
+          "lon": -122.5885514,
+          "distance_miles": 0.9,
+          "likelihood_score": 80,
+          "rating": 4.9,
+          "user_ratings_total": 526,
+          "phone": "+1 503-946-1926",
+          "website": "https://secretpizzasociety.com/",
+          "place_id": "ChIJN5Imwd2hlVQRiBI278QE9Lk",
+          "opening_hours": {
+            "open_now": false
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 2,
+          "source": "Google Places"
+        },
+        {
+          "name": "Original Dream Pizza",
+          "type": "meal_delivery, restaurant, food, point_of_interest, establishment",
+          "address": "4620 NE Glisan St, Portland",
+          "lat": 45.5262381,
+          "lon": -122.6152064,
+          "distance_miles": 0.5,
+          "likelihood_score": 81,
+          "rating": 4.3,
+          "user_ratings_total": 750,
+          "phone": "+1 503-230-0699",
+          "website": "http://www.originaldreampizza.com/",
+          "place_id": "ChIJcT8Uft2glVQRqJKkwSUCNwA",
+          "opening_hours": {
+            "open_now": false
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 2,
+          "source": "Google Places"
+        },
+        {
+          "name": "Oly's Pizza",
+          "type": "restaurant, food, point_of_interest, establishment",
+          "address": "5425 E Burnside St, Portland",
+          "lat": 45.5230423,
+          "lon": -122.6076796,
+          "distance_miles": 0.07,
+          "likelihood_score": 87,
+          "rating": 4.7,
+          "user_ratings_total": 200,
+          "phone": "+1 503-384-2596",
+          "website": "https://olyspizza.com/",
+          "place_id": "ChIJl6EMt3uhlVQRKHB61_N13d4",
+          "opening_hours": {
+            "open_now": false
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 1,
+          "source": "Google Places"
+        },
+        {
+          "name": "Sizzle Pie",
+          "type": "restaurant, food, point_of_interest, establishment",
+          "address": "4144 NE Sandy Blvd, Portland",
+          "lat": 45.5357102,
+          "lon": -122.6204477,
+          "distance_miles": 1.14,
+          "likelihood_score": 75,
+          "rating": 4.4,
+          "user_ratings_total": 724,
+          "phone": "+1 503-234-7437",
+          "website": "https://sizzlepie.com/locations/portland-hollywood-district",
+          "place_id": "ChIJ6zX_W9eglVQRlpnJ4RBVdIE",
+          "opening_hours": {
+            "open_now": false
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 1,
+          "source": "Google Places"
+        },
+        {
+          "name": "Flying Pie Pizzeria",
+          "type": "restaurant, food, point_of_interest, establishment",
+          "address": "7804 SE Stark St, Portland",
+          "lat": 45.51906719999999,
+          "lon": -122.5830578,
+          "distance_miles": 1.15,
+          "likelihood_score": 76,
+          "rating": 4.6,
+          "user_ratings_total": 1842,
+          "phone": "+1 503-254-2016",
+          "website": "https://www.flying-pie.com/",
+          "place_id": "ChIJGyvQMgGhlVQRsxUap8vTD88",
+          "opening_hours": {
+            "open_now": false
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 2,
+          "source": "Google Places"
+        },
+        {
+          "name": "Straight From New York Pizza (Hawthorne)",
+          "type": "meal_takeaway, restaurant, food, point_of_interest, establishment",
+          "address": "3701 SE Hawthorne Blvd, Portland",
+          "lat": 45.5121659,
+          "lon": -122.6256837,
+          "distance_miles": 1.18,
+          "likelihood_score": 74,
+          "rating": 4.2,
+          "user_ratings_total": 396,
+          "phone": "+1 503-736-9739",
+          "website": "http://www.sfnypizza.com/",
+          "place_id": "ChIJ68NS9JGhlVQRgPX_7yh5B3o",
+          "opening_hours": {
+            "open_now": false
           },
           "business_status": "OPERATIONAL",
           "price_level": null,
           "source": "Google Places"
         }
       ],
-      "createdAt": "2026-03-16T17:15:20.322775",
+      "createdAt": "2026-03-17T23:41:44.574814",
       "count": 10
     },
     "159b02f8a70d0a9f": {
@@ -7395,7 +7393,215 @@
       ],
       "createdAt": "2026-03-17T18:50:44.069867",
       "count": 10
+    },
+    "0728e00c36f84223": {
+      "storeNumber": "QFC07Z-0205",
+      "category": "sushi/japanese",
+      "prospects": [
+        {
+          "name": "Bluefin Sushi Bar",
+          "type": "restaurant, point_of_interest, food, establishment",
+          "address": "4138 NE Broadway, Portland",
+          "lat": 45.535046,
+          "lon": -122.6205211,
+          "distance_miles": 1.1,
+          "likelihood_score": 76,
+          "rating": 4.5,
+          "user_ratings_total": 281,
+          "phone": "+1 503-288-3644",
+          "website": "https://bluefinsushibarpdx.wixsite.com/bluefin-sushi-bar",
+          "place_id": "ChIJHW7X4tmglVQRFXquN891TlQ",
+          "opening_hours": {
+            "open_now": false
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 2,
+          "source": "Google Places"
+        },
+        {
+          "name": "Tomo Ramen",
+          "type": "restaurant, point_of_interest, food, establishment",
+          "address": "3545 SE Hawthorne Blvd, Portland",
+          "lat": 45.5121593,
+          "lon": -122.6276602,
+          "distance_miles": 1.26,
+          "likelihood_score": 75,
+          "rating": 4.7,
+          "user_ratings_total": 389,
+          "phone": "+1 503-208-2165",
+          "website": "https://tomoramenpdx.com/",
+          "place_id": "ChIJQa6EFEqhlVQRFMaa9VGwGu0",
+          "opening_hours": {
+            "open_now": false
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 2,
+          "source": "Google Places"
+        },
+        {
+          "name": "Belmont Kitchen",
+          "type": "restaurant, point_of_interest, food, establishment",
+          "address": "4255 SE Belmont St, Portland",
+          "lat": 45.5168317,
+          "lon": -122.6184734,
+          "distance_miles": 0.71,
+          "likelihood_score": 78,
+          "rating": 4.3,
+          "user_ratings_total": 36,
+          "phone": "+1 971-940-0344",
+          "website": null,
+          "place_id": "ChIJk3ysc0ahlVQRfLuWdle1g_0",
+          "opening_hours": {
+            "open_now": false
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 2,
+          "source": "Google Places"
+        },
+        {
+          "name": "Sushi Chiyo",
+          "type": "restaurant, point_of_interest, food, establishment",
+          "address": "4029 NE Sandy Blvd, Portland",
+          "lat": 45.5354752,
+          "lon": -122.6217894,
+          "distance_miles": 1.17,
+          "likelihood_score": 74,
+          "rating": 4.3,
+          "user_ratings_total": 863,
+          "phone": "+1 503-288-4858",
+          "website": "https://www.sushichiyo.com/",
+          "place_id": "ChIJs6iaTdeglVQRW6SRkw5BPx4",
+          "opening_hours": {
+            "open_now": false
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 1,
+          "source": "Google Places"
+        },
+        {
+          "name": "Baka Umai",
+          "type": "restaurant, point_of_interest, food, establishment",
+          "address": "4703 SE Hawthorne Blvd #100, Portland",
+          "lat": 45.51222449999999,
+          "lon": -122.6140742,
+          "distance_miles": 0.81,
+          "likelihood_score": 79,
+          "rating": 4.7,
+          "user_ratings_total": 439,
+          "phone": "+1 971-255-0116",
+          "website": "http://www.bakaumai.com/",
+          "place_id": "ChIJP_qaAGuhlVQRa_zkyluP0r8",
+          "opening_hours": {
+            "open_now": false
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 2,
+          "source": "Google Places"
+        },
+        {
+          "name": "Mio Sushi on Hawthorne",
+          "type": "restaurant, point_of_interest, food, establishment",
+          "address": "3962 SE Hawthorne Blvd E, Portland",
+          "lat": 45.5119201,
+          "lon": -122.6213606,
+          "distance_miles": 1.03,
+          "likelihood_score": 74,
+          "rating": 4,
+          "user_ratings_total": 210,
+          "phone": "+1 503-230-6981",
+          "website": "https://www.miosushi.com/mio-hawthorne",
+          "place_id": "ChIJ_YI9Fo2glVQRKPU7O15nw9Y",
+          "opening_hours": {
+            "open_now": false
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 2,
+          "source": "Google Places"
+        },
+        {
+          "name": "Delish Ramen Pot",
+          "type": "restaurant, point_of_interest, food, establishment",
+          "address": "4225 SE Hawthorne Blvd, Portland",
+          "lat": 45.5123689,
+          "lon": -122.6191275,
+          "distance_miles": 0.94,
+          "likelihood_score": 65,
+          "rating": 5,
+          "user_ratings_total": 4,
+          "phone": "+1 503-915-7042",
+          "website": "https://www.instagram.com/delishramenpot/",
+          "place_id": "ChIJHfIrlhGhlVQR3VzFYeWkTw0",
+          "opening_hours": {
+            "open_now": false
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        },
+        {
+          "name": "The Midnight Kitchen - Mayonaka Sushi",
+          "type": "restaurant, point_of_interest, food, establishment",
+          "address": "3341 SE Belmont St #1, Portland",
+          "lat": 45.5165836,
+          "lon": -122.6300034,
+          "distance_miles": 1.22,
+          "likelihood_score": 64,
+          "rating": 4.5,
+          "user_ratings_total": 2,
+          "phone": null,
+          "website": "https://themidnightkitchen.com/",
+          "place_id": "ChIJsQqejJChlVQRb59pWmUcfmk",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        },
+        {
+          "name": "Sea and River Sushi + Burmese Grill",
+          "type": "restaurant, point_of_interest, food, establishment",
+          "address": "6935 NE Glisan St, Portland",
+          "lat": 45.5266995,
+          "lon": -122.5919343,
+          "distance_miles": 0.75,
+          "likelihood_score": 80,
+          "rating": 4.7,
+          "user_ratings_total": 63,
+          "phone": "+1 503-208-3956",
+          "website": null,
+          "place_id": "ChIJRV-ryMahlVQRN0rKSd9sPzw",
+          "opening_hours": {
+            "open_now": false
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 2,
+          "source": "Google Places"
+        },
+        {
+          "name": "Space Room Lounge",
+          "type": "bar, restaurant, point_of_interest, food, establishment",
+          "address": "4800 SE Hawthorne Blvd, Portland",
+          "lat": 45.5118403,
+          "lon": -122.6128947,
+          "distance_miles": 0.81,
+          "likelihood_score": 88,
+          "rating": 4.5,
+          "user_ratings_total": 227,
+          "phone": "+1 503-235-6957",
+          "website": "http://spaceroomlounge.com/",
+          "place_id": "ChIJ13PByLWhlVQRybYd4gDqw2w",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 1,
+          "source": "Google Places"
+        }
+      ],
+      "createdAt": "2026-03-17T23:38:55.112584",
+      "count": 10
     }
   },
-  "lastUpdated": "2026-03-17T22:57:39.265215"
+  "lastUpdated": "2026-03-17T23:41:44.574837"
 }
