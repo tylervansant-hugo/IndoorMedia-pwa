@@ -40,10 +40,10 @@ HEADER_Y_START = 603.5  # Header begins here
 HEADER_Y_END = 792.0    # Top of page
 HEADER_HEIGHT = HEADER_Y_END - HEADER_Y_START
 
-AD_ZONE_Y_START = 360  # Ad positioned up another 30 pts (330 + 30)
+AD_ZONE_Y_START = 220  # Ad positioned to fit in black frame area
 AD_ZONE_Y_END = 603.5    # Ad zone ends (where header starts)
 AD_ZONE_HEIGHT = AD_ZONE_Y_END - AD_ZONE_Y_START
-AD_Y_POS = 360  # Ad top positioned 60 pts higher than original 300
+AD_Y_POS = 220  # Ad top positioned in frame
 
 FOOTER_Y_START = 15.1
 FOOTER_Y_END = 140.2
