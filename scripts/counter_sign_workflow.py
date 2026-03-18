@@ -190,19 +190,19 @@ async def handle_ad_image_upload(
         store_chain = context.user_data.get('store_chain', 'UNKNOWN')
         business_card_path = context.user_data.get('business_card_path')
         landing_page_url = context.user_data.get('landing_page_url', 'none')
-        user_name = update.effective_user.first_name or "Unknown"
-        user_id = update.effective_user.id
+        user_name = update.effective_user.first_name or "User"
 
         # Generate counter sign PDF
         await update.message.reply_text("⏳ Generating counter sign... (this may take a moment)")
 
         pdf_bytes, pdf_path = generate_counter_sign(
-            store_chain=store_chain,
+            chain_code=store_chain,
             ad_image_path=str(ad_path),
-            business_card_path=business_card_path,
+            rep_name=user_name,
+            rep_cell="800.247.4793",
+            rep_email="info@indoormedia.com",
             landing_page_url=landing_page_url,
-            user_name=user_name,
-            user_id=user_id,
+            business_card_path=business_card_path,
         )
 
         if pdf_bytes and pdf_path:
