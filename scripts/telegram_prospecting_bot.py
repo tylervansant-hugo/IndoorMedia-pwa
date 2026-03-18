@@ -1704,6 +1704,51 @@ async def handle_store_query(update: Update, context: ContextTypes.DEFAULT_TYPE)
         await update.message.reply_text(msg, parse_mode="Markdown", reply_markup=InlineKeyboardMarkup(buttons))
         return
     
+    # Handle cart store selection if awaiting
+    if context.user_data.get(AWAITING_CART_STORE):
+        context.user_data[AWAITING_CART_STORE] = False
+        # Check if it's a city name first
+        city_match = text.strip().title()
+        if city_match in CITY_INDEX:
+            # Show stores in that city with cart add buttons
+            stores_in_city = CITY_INDEX[city_match]
+            buttons = []
+            for store in stores_in_city:
+                store_num = store["StoreName"]
+                chain = store.get("GroceryChain", "")
+                street = store.get("Address", "").split(",")[0] if store.get("Address") else ""
+                street = street.strip()[:20]
+                label = f"🛒 {store_num} — {chain} {street}"
+                buttons.append([InlineKeyboardButton(label, callback_data=f"cart_select_store_{store_num}")])
+            buttons.append([InlineKeyboardButton("⬅️ Back", callback_data="main_menu")])
+            await update.message.reply_text(
+                f"📍 *Stores in {city_match}* ({len(stores_in_city)} found)\n\nTap a store to add services:",
+                parse_mode="Markdown",
+                reply_markup=InlineKeyboardMarkup(buttons)
+            )
+            return
+        # Otherwise try as a store number
+        if text.upper() in STORES:
+            # Show ad type selection for this store
+            await update.message.reply_text(
+                f"✅ Store found: {STORES[text.upper()].get('GroceryChain', '?')}\n\n"
+                f"Select ad type to add to cart:",
+                reply_markup=InlineKeyboardMarkup([
+                    [InlineKeyboardButton("📄 Single Ad", callback_data=f"cart_single_{text.upper()}")],
+                    [InlineKeyboardButton("📋 Double Ad", callback_data=f"cart_double_{text.upper()}")],
+                    [InlineKeyboardButton("⬅️ Back", callback_data="main_menu")],
+                ])
+            )
+            return
+        else:
+            await update.message.reply_text(
+                "❌ Store not found. Try:\n"
+                "• Store number (e.g., FME07Z-0236)\n"
+                "• City name (e.g., Portland)",
+                reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("⬅️ Back", callback_data="main_menu")]])
+            )
+            return
+    
     # Handle rates lookup if awaiting
     if context.user_data.get(AWAITING_RATES):
         context.user_data[AWAITING_RATES] = False
@@ -4080,6 +4125,7 @@ AWAITING_PROSPECT_NOTE = "awaiting_prospect_note"
 AWAITING_NOTEPAD_EDIT = "awaiting_notepad_edit"
 AWAITING_CAL_DATE = "awaiting_cal_date"
 AWAITING_CAL_TIME = "awaiting_cal_time"
+AWAITING_CART_STORE = "awaiting_cart_store"
 AWAITING_EMAIL_EDIT = "awaiting_email_edit"
 
 
@@ -7920,6 +7966,90 @@ LOCATIONS & SERVICES
             await handle_category_select(update, context)
         elif data.startswith("subcat_"):
             await handle_subcategory_select(update, context)
+        elif data.startswith("prospect_add_cart_"):
+            # Add service from prospect card
+            await query.answer()
+            prospect_id = data.replace("prospect_add_cart_", "")
+            
+            rep_id = get_rep_id(update)
+            data_obj = load_prospect_data()
+            rep_data = data_obj["reps"][rep_id]
+            prospect = rep_data["saved_prospects"].get(prospect_id, {})
+            
+            if not prospect:
+                await query.answer("❌ Prospect not found", show_alert=True)
+                return
+            
+            # Store prospect in context for cart flow
+            context.user_data['cart_prospect_id'] = prospect_id
+            context.user_data['cart_prospect_name'] = prospect.get('name', 'Unknown')
+            
+            # Show store selection (for the prospect's location)
+            await query.edit_message_text(
+                "🏪 *Select Store*\n\n_Type or search for a store number to add services_",
+                parse_mode="Markdown",
+                reply_markup=InlineKeyboardMarkup([
+                    [InlineKeyboardButton("🔍 Search Stores", callback_data="cart_search_stores")],
+                    [InlineKeyboardButton("⬅️ Back", callback_data=f"prospect_detail_{prospect_id}")],
+                ])
+            )
+            context.user_data[AWAITING_CART_STORE] = True
+        elif data == "cart_search_stores":
+            # Let user search for a store
+            await query.answer()
+            await query.edit_message_text(
+                "🔍 *Find Store*\n\n_Enter a store number (e.g., FME07Z-0236) or city name_",
+                parse_mode="Markdown",
+                reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("⬅️ Back", callback_data="main_menu")]])
+            )
+            context.user_data[AWAITING_CART_STORE] = True
+        elif data.startswith("cart_select_store_"):
+            # Store selected, now choose ad type
+            await query.answer()
+            store_num = data.replace("cart_select_store_", "")
+            store = STORES.get(store_num)
+            
+            if store:
+                await query.edit_message_text(
+                    f"✅ *{store.get('GroceryChain', '?')}* — {store.get('City', '')}, {store.get('State', '')}\n\n"
+                    f"Select ad type:",
+                    parse_mode="Markdown",
+                    reply_markup=InlineKeyboardMarkup([
+                        [InlineKeyboardButton("📄 Single Ad", callback_data=f"cart_single_{store_num}")],
+                        [InlineKeyboardButton("📋 Double Ad", callback_data=f"cart_double_{store_num}")],
+                        [InlineKeyboardButton("⬅️ Back", callback_data="prospect_add_cart_0")],  # Go back to prospect
+                    ])
+                )
+        elif data.startswith("cart_single_") or data.startswith("cart_double_"):
+            # Ad type selected, now choose payment plan
+            await query.answer()
+            if data.startswith("cart_single_"):
+                store_num = data.replace("cart_single_", "")
+                ad_type = "single"
+            else:
+                store_num = data.replace("cart_double_", "")
+                ad_type = "double"
+            
+            store = STORES.get(store_num)
+            if store:
+                pricing = calculate_pricing(store, ad_type)
+                text = f"💰 *Select Payment Plan*\n\n"
+                text += f"📍 *{store.get('GroceryChain', '?')}* — {store.get('City', '')}, {store.get('State', '')}\n"
+                text += f"📄 {ad_type.title()} Ad\n\n"
+                text += "*Payment Plans:*\n"
+                text += f"🔄 Monthly: ${pricing['monthly_price']:,.0f}\n"
+                text += f"3️⃣ 3-Month: ${pricing['3month_price']:,.0f}\n"
+                text += f"6️⃣ 6-Month: ${pricing['6month_price']:,.0f}\n"
+                text += f"💵 Paid in Full: ${pricing['pif_price']:,.0f}\n"
+                
+                buttons = InlineKeyboardMarkup([
+                    [InlineKeyboardButton("🔄 Monthly", callback_data=f"cart_add_{ad_type}_monthly_{store_num}")],
+                    [InlineKeyboardButton("3️⃣ 3-Month", callback_data=f"cart_add_{ad_type}_3month_{store_num}")],
+                    [InlineKeyboardButton("6️⃣ 6-Month", callback_data=f"cart_add_{ad_type}_6month_{store_num}")],
+                    [InlineKeyboardButton("💵 Paid in Full", callback_data=f"cart_add_{ad_type}_pif_{store_num}")],
+                    [InlineKeyboardButton("⬅️ Back", callback_data="main_menu")],
+                ])
+                await query.edit_message_text(text, parse_mode="Markdown", reply_markup=buttons)
         elif data.startswith("prospect_detail_"):
             prospect_id = data.replace("prospect_detail_", "")
             await query.answer()
@@ -7958,6 +8088,7 @@ LOCATIONS & SERVICES
             text += "_What would you like to do?_"
             
             buttons = [
+                [InlineKeyboardButton("🛒 Add to Cart", callback_data=f"prospect_add_cart_{prospect_id}")],
                 [InlineKeyboardButton("🔄 Follow Up", callback_data=f"update_status_{prospect_id}_follow-up")],
                 [InlineKeyboardButton("✅ Closed Deal", callback_data=f"update_status_{prospect_id}_closed")],
                 [InlineKeyboardButton("🗑️ Delete", callback_data=f"delete_prospect_{prospect_id}")],
