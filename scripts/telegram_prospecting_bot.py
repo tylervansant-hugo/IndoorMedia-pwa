@@ -105,7 +105,6 @@ except ImportError as e:
 try:
     from counter_sign_workflow import (
         start_counter_sign_guided,
-        get_workflow_handlers,
     )
     COUNTER_SIGN_AVAILABLE = True
 except ImportError as e:
