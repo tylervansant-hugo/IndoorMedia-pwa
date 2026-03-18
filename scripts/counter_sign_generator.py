@@ -59,8 +59,8 @@ QR_BG_Y_MIN = 15.1
 QR_BG_SIZE = 125.1  # 125.1 × 125.1 pts (~1.74" × 1.74")
 
 # BUSINESS CARD - BOTTOM-LEFT (replaces RTUI logo area)
-BC_X_BOTTOM = 36.0
-BC_Y_BOTTOM = 22.7
+BC_X_BOTTOM = 20.0
+BC_Y_BOTTOM = 10.0
 BC_WIDTH = 144.0
 BC_HEIGHT = 144.0
 
@@ -205,13 +205,18 @@ def create_footer_text_overlay(
         return None
 
 
-def resize_ad_image(image_path: str) -> Tuple[Image.Image, float, float]:
+def resize_ad_image(image_path: str, scale: float = 0.75) -> Tuple[Image.Image, float, float]:
     """
     Load and resize ad image to fit the middle section perfectly.
     
-    The ad image must fit:
+    The ad image fits within:
     - Width: 540 pts (612 - 36*2 margins)
     - Height: 493 pts (from Y 110.5 to 603.5)
+    - Scale: 0.75 (default, 25% smaller for white space around edges)
+    
+    Args:
+        image_path: Path to ad image file
+        scale: Scale factor (default 0.75 = 25% reduction)
     
     Returns:
         (resized_image, final_width, final_height) in points
@@ -220,8 +225,8 @@ def resize_ad_image(image_path: str) -> Tuple[Image.Image, float, float]:
         img = Image.open(image_path)
         
         # Available space (in points)
-        max_width = AD_WIDTH
-        max_height = AD_ZONE_HEIGHT
+        max_width = AD_WIDTH * scale  # Apply scale
+        max_height = AD_ZONE_HEIGHT * scale  # Apply scale
         
         # Calculate scaling to fit (maintain aspect ratio)
         img_ratio = img.width / img.height
@@ -245,7 +250,7 @@ def resize_ad_image(image_path: str) -> Tuple[Image.Image, float, float]:
             Image.Resampling.LANCZOS
         )
         
-        logger.info(f"Resized ad image to {final_width:.1f}×{final_height:.1f} pts ({new_width_px}×{new_height_px} px)")
+        logger.info(f"Resized ad image to {final_width:.1f}×{final_height:.1f} pts ({new_width_px}×{new_height_px} px) at {scale*100:.0f}% scale")
         
         return img_resized, final_width, final_height
     
@@ -299,13 +304,14 @@ def overlay_content_on_template(
         c.rect(QR_BG_X_MIN, QR_BG_Y_MIN, QR_BG_SIZE, QR_BG_SIZE, fill=1, stroke=0)
         logger.info(f"✓ White background at ({QR_BG_X_MIN}, {QR_BG_Y_MIN}): {QR_BG_SIZE}×{QR_BG_SIZE} pts")
         
-        # ========== 2. AD IMAGE (fills middle section) ==========
+        # ========== 2. AD IMAGE (shrunk 25%, centered in zone) ==========
         if ad_image_path:
             try:
-                img_resized, final_width, final_height = resize_ad_image(ad_image_path)
+                # Apply 0.75 scale (25% smaller = 405×369.75 pts from original 540×493)
+                img_resized, final_width, final_height = resize_ad_image(ad_image_path, scale=0.75)
                 
                 if img_resized:
-                    # Center horizontally, position in ad zone
+                    # Center horizontally and vertically in ad zone
                     ad_x = AD_X_MARGIN + (AD_WIDTH - final_width) / 2
                     ad_y = AD_ZONE_Y_START + (AD_ZONE_HEIGHT - final_height) / 2
                     
@@ -313,7 +319,7 @@ def overlay_content_on_template(
                     with tempfile.NamedTemporaryFile(suffix='.png', delete=False) as tmp:
                         img_resized.save(tmp.name, format='PNG')
                         c.drawImage(tmp.name, ad_x, ad_y, width=final_width, height=final_height)
-                        logger.info(f"✓ Ad image at ({ad_x:.1f}, {ad_y:.1f}): {final_width:.1f}×{final_height:.1f} pts")
+                        logger.info(f"✓ Ad image (25% smaller, centered) at ({ad_x:.1f}, {ad_y:.1f}): {final_width:.1f}×{final_height:.1f} pts")
             except Exception as e:
                 logger.warning(f"Could not add ad image: {e}")
         
@@ -347,18 +353,9 @@ def overlay_content_on_template(
             except Exception as e:
                 logger.warning(f"Could not add business card: {e}")
         
-        # ========== 4. FOOTER TEXT OVERLAY (BOTTOM-CENTER) ==========
-        if landing_page_url and landing_page_url.lower() != 'none':
-            text_content = "SCAN HERE TO\nSEE HOW WE CAN\nHELP YOUR\nBUSINESS"
-        else:
-            text_content = "CALL NOW TO\nSEE HOW WE CAN\nHELP YOUR\nBUSINESS"
-        
-        text_img = create_footer_text_overlay(text_content, int(TEXT_WIDTH), int(TEXT_HEIGHT), 14)
-        if text_img:
-            with tempfile.NamedTemporaryFile(suffix='.png', delete=False) as tmp:
-                text_img.save(tmp.name, format='PNG')
-                c.drawImage(tmp.name, TEXT_X, TEXT_Y, width=TEXT_WIDTH, height=TEXT_HEIGHT)
-                logger.info(f"✓ Footer text overlay (white on transparent, bottom-center) at ({TEXT_X}, {TEXT_Y}): {TEXT_WIDTH}×{TEXT_HEIGHT} pts")
+        # ========== 4. FOOTER TEXT OVERLAY (REMOVED) ==========
+        # Footer text overlay removed per user request - original template footer text preserved
+        logger.info(f"✓ Footer text overlay removed - original template footer text retained")
         
         # ========== 5. QR CODE (on top of white background) ==========
         if qr_image:
