@@ -2526,7 +2526,7 @@
       "prospects": [
         {
           "name": "Tabor Tavern",
-          "type": "bar, restaurant, food, point_of_interest, establishment",
+          "type": "bar, restaurant, point_of_interest, food, establishment",
           "address": "5325 E Burnside St, Portland",
           "lat": 45.5229835,
           "lon": -122.6083648,
@@ -2545,15 +2545,35 @@
           "source": "Google Places"
         },
         {
+          "name": "Side Street",
+          "type": "bar, restaurant, point_of_interest, food, establishment",
+          "address": "828 SE 34th Ave, Portland",
+          "lat": 45.51676390000001,
+          "lon": -122.6294649,
+          "distance_miles": 1.19,
+          "likelihood_score": 85,
+          "rating": 4.5,
+          "user_ratings_total": 260,
+          "phone": "+1 503-236-7999",
+          "website": "http://www.sidestreetpdx.com/",
+          "place_id": "ChIJ_RB5gZSglVQRZG5L-9SSi_0",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 1,
+          "source": "Google Places"
+        },
+        {
           "name": "Horse Brass Pub",
-          "type": "bar, restaurant, food, point_of_interest, establishment",
+          "type": "bar, restaurant, point_of_interest, food, establishment",
           "address": "4534 SE Belmont St, Portland",
           "lat": 45.5164208,
           "lon": -122.6154707,
           "distance_miles": 0.61,
           "likelihood_score": 91,
           "rating": 4.6,
-          "user_ratings_total": 2676,
+          "user_ratings_total": 2677,
           "phone": "+1 503-232-2202",
           "website": "http://horsebrass.com/",
           "place_id": "ChIJGyAxD-6glVQR3u4lA-3bmy4",
@@ -2566,7 +2586,7 @@
         },
         {
           "name": "TPK Brewing Co.",
-          "type": "bar, restaurant, food, point_of_interest, establishment",
+          "type": "bar, restaurant, point_of_interest, food, establishment",
           "address": "5051 SE Hawthorne Blvd, Portland",
           "lat": 45.5122457,
           "lon": -122.6105435,
@@ -2586,7 +2606,7 @@
         },
         {
           "name": "Space Room Lounge",
-          "type": "bar, restaurant, food, point_of_interest, establishment",
+          "type": "bar, restaurant, point_of_interest, food, establishment",
           "address": "4800 SE Hawthorne Blvd, Portland",
           "lat": 45.5118403,
           "lon": -122.6128947,
@@ -2606,14 +2626,14 @@
         },
         {
           "name": "Triple Nickel Pub",
-          "type": "bar, night_club, restaurant, food, point_of_interest, establishment",
+          "type": "night_club, bar, restaurant, point_of_interest, food, establishment",
           "address": "3646 SE Belmont St #4326, Portland",
           "lat": 45.516361,
           "lon": -122.6261342,
           "distance_miles": 1.05,
           "likelihood_score": 85,
           "rating": 4.2,
-          "user_ratings_total": 813,
+          "user_ratings_total": 814,
           "phone": "+1 503-234-7215",
           "website": "https://triplenickelpub.com/",
           "place_id": "ChIJc2HuR5OglVQRvhc7_cQdZCU",
@@ -2646,7 +2666,7 @@
         },
         {
           "name": "Steeplejack Brewing - Union on Hawthorne",
-          "type": "restaurant, cafe, bakery, bar, food, store, point_of_interest, establishment",
+          "type": "restaurant, cafe, bakery, bar, point_of_interest, store, food, establishment",
           "address": "3757 SE Hawthorne Blvd, Portland",
           "lat": 45.5121638,
           "lon": -122.6247005,
@@ -2686,10 +2706,10 @@
         },
         {
           "name": "Mulligan's Bar & Grill",
-          "type": "bar, restaurant, food, point_of_interest, establishment",
+          "type": "bar, restaurant, point_of_interest, food, establishment",
           "address": "3518 SE Hawthorne Blvd, Portland",
-          "lat": 45.51195449999999,
-          "lon": -122.6282223,
+          "lat": 45.5119577,
+          "lon": -122.6282131,
           "distance_miles": 1.29,
           "likelihood_score": 83,
           "rating": 4.3,
@@ -2703,29 +2723,9 @@
           "business_status": "OPERATIONAL",
           "price_level": 1,
           "source": "Google Places"
-        },
-        {
-          "name": "Hour Glass Pub & Eatery",
-          "type": "bar, restaurant, food, point_of_interest, establishment",
-          "address": "7401 NE Glisan St, Portland",
-          "lat": 45.526561,
-          "lon": -122.5866474,
-          "distance_miles": 0.99,
-          "likelihood_score": 87,
-          "rating": 4.4,
-          "user_ratings_total": 513,
-          "phone": "+1 503-254-1981",
-          "website": null,
-          "place_id": "ChIJOyPr6BqhlVQR2Z1eheVo86I",
-          "opening_hours": {
-            "open_now": true
-          },
-          "business_status": "OPERATIONAL",
-          "price_level": 1,
-          "source": "Google Places"
         }
       ],
-      "createdAt": "2026-03-16T12:52:29.130890",
+      "createdAt": "2026-03-18T14:49:49.733252",
       "count": 10
     },
     "7c74fd2ef6391cde": {
@@ -9251,7 +9251,135 @@
       ],
       "createdAt": "2026-03-18T14:24:49.538921",
       "count": 10
+    },
+    "86f5f19d20d868b6": {
+      "storeNumber": "ALB07Y-0571",
+      "category": "sushi/japanese",
+      "prospects": [
+        {
+          "name": "Sumo Sushi & Grill AYCE - Oregon City",
+          "type": "restaurant, food, point_of_interest, establishment",
+          "address": "19001 S Beavercreek Rd, Oregon City",
+          "lat": 45.3314201,
+          "lon": -122.5746397,
+          "distance_miles": 0.13,
+          "likelihood_score": 93,
+          "rating": 4.1,
+          "user_ratings_total": 240,
+          "phone": "+1 503-342-9500",
+          "website": "https://www.sumoayce.com/",
+          "place_id": "ChIJ66MVAgBxlVQRPCwT7fNHbBQ",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        },
+        {
+          "name": "Toki Sushi and Teriyaki",
+          "type": "restaurant, food, point_of_interest, establishment",
+          "address": "19061 S Beavercreek Rd, Oregon City",
+          "lat": 45.32921839999999,
+          "lon": -122.5721495,
+          "distance_miles": 0.07,
+          "likelihood_score": 94,
+          "rating": 4,
+          "user_ratings_total": 346,
+          "phone": "+1 503-305-6153",
+          "website": "https://tokirestaurantoc.com/",
+          "place_id": "ChIJWdz0ncpwlVQRnhXYGPXGqAM",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 2,
+          "source": "Google Places"
+        },
+        {
+          "name": "Sushi Valley",
+          "type": "restaurant, food, point_of_interest, establishment",
+          "address": "419 S Beavercreek Rd, Oregon City",
+          "lat": 45.3340644,
+          "lon": -122.590712,
+          "distance_miles": 0.89,
+          "likelihood_score": 86,
+          "rating": 4,
+          "user_ratings_total": 777,
+          "phone": "+1 503-305-6670",
+          "website": "https://www.sushidoughvalley.com/",
+          "place_id": "ChIJqwoA9s9wlVQR_kydxZHGCEI",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 1,
+          "source": "Google Places"
+        },
+        {
+          "name": "Dough valley & prizes pop",
+          "type": "restaurant, food, point_of_interest, establishment",
+          "address": "407 S Beavercreek Rd, Oregon City",
+          "lat": 45.3339477,
+          "lon": -122.5909638,
+          "distance_miles": 0.9,
+          "likelihood_score": 86,
+          "rating": 4,
+          "user_ratings_total": 158,
+          "phone": "+1 503-305-5620",
+          "website": "http://www.doughvalley.com/",
+          "place_id": "ChIJWcL3EKRxlVQR3zH4a0fXFF0",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 2,
+          "source": "Google Places"
+        },
+        {
+          "name": "Soy Grill Teryaki",
+          "type": "restaurant, food, point_of_interest, establishment",
+          "address": "1428 Molalla Ave, Oregon City",
+          "lat": 45.3344572,
+          "lon": -122.5903077,
+          "distance_miles": 0.88,
+          "likelihood_score": 86,
+          "rating": 4,
+          "user_ratings_total": 172,
+          "phone": "+1 503-722-2114",
+          "website": null,
+          "place_id": "ChIJg9fTI9BwlVQRIUOhMSSuYIM",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 2,
+          "source": "Google Places"
+        },
+        {
+          "name": "Oh! Teriyaki (Oregon City)",
+          "type": "restaurant, food, point_of_interest, establishment",
+          "address": "1630 S Beavercreek Rd, Oregon City",
+          "lat": 45.3333278,
+          "lon": -122.5865643,
+          "distance_miles": 0.69,
+          "likelihood_score": 89,
+          "rating": 4.3,
+          "user_ratings_total": 325,
+          "phone": "+1 503-650-7744",
+          "website": "https://www.clover.com/online-ordering/oh-teriyaki-oregon-city-2",
+          "place_id": "ChIJ8zwEGM9wlVQR9QWnVFUmo4E",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 1,
+          "source": "Google Places"
+        }
+      ],
+      "createdAt": "2026-03-18T15:04:31.550628",
+      "count": 6
     }
   },
-  "lastUpdated": "2026-03-18T14:24:49.538931"
+  "lastUpdated": "2026-03-18T15:04:31.550641"
 }

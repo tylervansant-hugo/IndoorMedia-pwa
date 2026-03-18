@@ -82,15 +82,29 @@
       },
       "search_history": [],
       "contact_history": {},
-      "session_searches": 104,
+      "session_searches": 105,
       "session_bookmarks": 0
     },
     "8647728045": {
       "name": "Adan Ramos",
-      "saved_prospects": {},
+      "saved_prospects": {
+        "e02aae3195eb": {
+          "name": "Sivalai Thai Restaurant",
+          "address": "4806 SE Stark St, Portland",
+          "phone": "+1 503-230-2875",
+          "email": "",
+          "contact_name": "",
+          "score": 93,
+          "status": "follow-up",
+          "saved_date": "2026-03-18T14:48:40.285443",
+          "last_contacted": null,
+          "visit_count": 0,
+          "notes": []
+        }
+      },
       "search_history": [],
       "contact_history": {},
-      "session_searches": 32,
+      "session_searches": 34,
       "session_bookmarks": 0
     },
     "8691473576": {

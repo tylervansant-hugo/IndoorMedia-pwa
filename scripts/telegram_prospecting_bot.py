@@ -657,9 +657,77 @@ def load_rep_data(rep_id: str):
             "contact_history": {},
             "session_searches": 0,
             "session_bookmarks": 0,
+            "cart": [],  # Cart items: [{store, ad_type, payment_plan, price, store_num}, ...]
         }
         save_prospect_data(data)
+    # Ensure cart exists for existing reps
+    if "cart" not in data["reps"][rep_id]:
+        data["reps"][rep_id]["cart"] = []
+        save_prospect_data(data)
     return data["reps"][rep_id]
+
+def add_to_cart(rep_id: str, store_num: str, ad_type: str, payment_plan: str):
+    """Add item to cart. Returns the price."""
+    store = STORES.get(store_num)
+    if not store:
+        return None
+    
+    pricing = calculate_pricing(store, ad_type)
+    plans = {
+        "monthly": pricing.get("monthly_price", 0),
+        "3month": pricing.get("3month_price", 0),
+        "6month": pricing.get("6month_price", 0),
+        "pif": pricing.get("pif_price", 0),
+    }
+    price = plans.get(payment_plan, 0)
+    
+    data = load_prospect_data()
+    if rep_id not in data["reps"]:
+        load_rep_data(rep_id)  # Initialize
+        data = load_prospect_data()
+    
+    cart_item = {
+        "store_num": store_num,
+        "store_name": store.get("GroceryChain", "?"),
+        "city": store.get("City", ""),
+        "ad_type": ad_type,
+        "payment_plan": payment_plan,
+        "price": price,
+        "added_at": datetime.now().isoformat()
+    }
+    data["reps"][rep_id]["cart"].append(cart_item)
+    save_prospect_data(data)
+    return price
+
+def remove_from_cart(rep_id: str, index: int):
+    """Remove item from cart by index."""
+    data = load_prospect_data()
+    if rep_id in data["reps"] and 0 <= index < len(data["reps"][rep_id]["cart"]):
+        data["reps"][rep_id]["cart"].pop(index)
+        save_prospect_data(data)
+        return True
+    return False
+
+def get_cart_summary(rep_id: str):
+    """Get cart summary with location breakdown and total."""
+    data = load_prospect_data()
+    cart = data.get("reps", {}).get(rep_id, {}).get("cart", [])
+    
+    if not cart:
+        return None, None
+    
+    # Group by location
+    by_location = {}
+    total = 0
+    for item in cart:
+        key = f"{item['store_name']} — {item['city']}"
+        if key not in by_location:
+            by_location[key] = {"items": [], "subtotal": 0}
+        by_location[key]["items"].append(item)
+        by_location[key]["subtotal"] += item["price"]
+        total += item["price"]
+    
+    return by_location, total
 
 def get_today_date():
     """Get today's date as a string."""
@@ -3376,6 +3444,8 @@ async def do_rates_lookup(update, store_num: str, ad_type: str = "single", edit_
         [InlineKeyboardButton("🎯 Manager Approved Co-Op", callback_data=f"tier_coop_{ad_type}_{store_num}")],
         [InlineKeyboardButton("🏆 Exclusive Category", callback_data=f"tier_exclusive_{ad_type}_{store_num}")],
         [InlineKeyboardButton("🔧 Contractors", callback_data=f"tier_contractor_{ad_type}_{store_num}")],
+        # Add to Cart button
+        [InlineKeyboardButton("🛒 Add to Cart", callback_data=f"cart_payment_{ad_type}_{store_num}")],
         [InlineKeyboardButton("⬅️ Back to Store", callback_data=f"select_store_{store_num}")],
     ])
     
@@ -3522,6 +3592,18 @@ async def show_main_menu(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
 Find customers • Close deals • Track results{notepad_section}"""
     
+    # Get cart count for badge
+    rep_id = get_rep_id(update) if isinstance(update, Update) else None
+    cart_count = 0
+    if rep_id:
+        try:
+            rep_data = load_rep_data(rep_id)
+            cart_count = len(rep_data.get("cart", []))
+        except:
+            cart_count = 0
+    
+    cart_badge = f" ({cart_count})" if cart_count > 0 else ""
+    
     # Inline buttons with IndoorMedia branding
     buttons = [
         [InlineKeyboardButton("🗺️  LOCATE STORES", callback_data="menu_locate_stores")],
@@ -3530,6 +3612,7 @@ Find customers • Close deals • Track results{notepad_section}"""
         [InlineKeyboardButton("📦 PRODUCT LINEUP", callback_data="menu_products")],
         [InlineKeyboardButton("📈 PERFORMANCE HUB", callback_data="menu_performance")],
         [InlineKeyboardButton("⚙️  RESOURCES", callback_data="menu_tools")],
+        [InlineKeyboardButton(f"🛒 CART{cart_badge}", callback_data="view_cart")],
     ]
     
     if isinstance(update, Update) and update.callback_query:
@@ -7182,6 +7265,139 @@ Send any city name to see all stores!
                     [InlineKeyboardButton("⬅️ Back", callback_data=f"rates_single_{store_num}" if ad_type == "single" else f"rates_double_{store_num}")],
                 ])
                 await query.edit_message_text(text, parse_mode="Markdown", reply_markup=buttons)
+        elif data.startswith("cart_payment_"):
+            # Select payment plan for adding to cart
+            await query.answer()
+            parts = data.replace("cart_payment_", "").rsplit("_", 1)
+            ad_type = parts[0]
+            store_num = parts[1]
+            store = STORES.get(store_num)
+            
+            if store:
+                pricing = calculate_pricing(store, ad_type)
+                text = f"💰 *Select Payment Plan*\n\n"
+                text += f"📍 *{store.get('GroceryChain', '?')}* — {store.get('City', '')}, {store.get('State', '')}\n"
+                text += f"📄 {ad_type.title()} Ad\n\n"
+                text += "*Payment Plans:*\n"
+                text += f"🔄 Monthly: ${pricing['monthly_price']:,.0f}\n"
+                text += f"3️⃣ 3-Month: ${pricing['3month_price']:,.0f}\n"
+                text += f"6️⃣ 6-Month: ${pricing['6month_price']:,.0f}\n"
+                text += f"💵 Paid in Full: ${pricing['pif_price']:,.0f}\n"
+                
+                buttons = InlineKeyboardMarkup([
+                    [InlineKeyboardButton("🔄 Monthly", callback_data=f"cart_add_{ad_type}_monthly_{store_num}")],
+                    [InlineKeyboardButton("3️⃣ 3-Month", callback_data=f"cart_add_{ad_type}_3month_{store_num}")],
+                    [InlineKeyboardButton("6️⃣ 6-Month", callback_data=f"cart_add_{ad_type}_6month_{store_num}")],
+                    [InlineKeyboardButton("💵 Paid in Full", callback_data=f"cart_add_{ad_type}_pif_{store_num}")],
+                    [InlineKeyboardButton("⬅️ Back", callback_data=f"rates_{ad_type}_{store_num}")],
+                ])
+                await query.edit_message_text(text, parse_mode="Markdown", reply_markup=buttons)
+        elif data.startswith("cart_add_"):
+            # Add item to cart
+            await query.answer("✅ Added to cart!", show_alert=False)
+            parts = data.replace("cart_add_", "").rsplit("_", 1)
+            store_num = parts[1]
+            payment_info = parts[0].rsplit("_", 1)
+            ad_type = payment_info[0]
+            payment_plan = payment_info[1]
+            
+            rep_id = get_rep_id(query.from_user if hasattr(query, 'from_user') else update)
+            price = add_to_cart(rep_id, store_num, ad_type, payment_plan)
+            
+            if price:
+                await query.edit_message_text(
+                    f"✅ *Added to Cart!*\n\n"
+                    f"💰 Price: ${price:,.0f}\n"
+                    f"🛒 View cart from the main menu",
+                    parse_mode="Markdown",
+                    reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("⬅️ Main Menu", callback_data="main_menu")]])
+                )
+        elif data == "view_cart":
+            # Show cart
+            await query.answer()
+            rep_id = get_rep_id(query.from_user if hasattr(query, 'from_user') else update)
+            by_location, total = get_cart_summary(rep_id)
+            
+            if not by_location:
+                await query.edit_message_text(
+                    "🛒 *Your Cart*\n\n_(Empty)_",
+                    parse_mode="Markdown",
+                    reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("⬅️ Main Menu", callback_data="main_menu")]])
+                )
+                return
+            
+            text = "🛒 *Your Cart*\n\n"
+            text += f"💰 *Total: ${total:,.2f}*\n\n"
+            
+            cart_items = load_rep_data(rep_id).get("cart", [])
+            buttons = []
+            
+            for location, data_loc in by_location.items():
+                text += f"\n📍 *{location}*\n"
+                text += f"Subtotal: ${data_loc['subtotal']:,.2f}\n"
+                for item in data_loc['items']:
+                    label = f"{item['ad_type'].title()} Ad — {item['payment_plan'].title()}"
+                    text += f"  • {label}: ${item['price']:,.0f}\n"
+                    idx = cart_items.index(item)
+                    buttons.append([InlineKeyboardButton(f"❌ Remove {label}", callback_data=f"cart_remove_{idx}")])
+            
+            text += f"\n✅ Ready to finalize?"
+            buttons.append([InlineKeyboardButton("📋 Generate Proposal", callback_data="cart_proposal")])
+            buttons.append([InlineKeyboardButton("⬅️ Continue Shopping", callback_data="main_menu")])
+            
+            await query.edit_message_text(text, parse_mode="Markdown", reply_markup=InlineKeyboardMarkup(buttons))
+        elif data.startswith("cart_remove_"):
+            # Remove from cart
+            await query.answer()
+            idx = int(data.replace("cart_remove_", ""))
+            rep_id = get_rep_id(query.from_user if hasattr(query, 'from_user') else update)
+            remove_from_cart(rep_id, idx)
+            
+            # Refresh cart view
+            by_location, total = get_cart_summary(rep_id)
+            
+            if not by_location:
+                await query.edit_message_text(
+                    "🛒 *Your Cart*\n\n_(Empty)_",
+                    parse_mode="Markdown",
+                    reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("⬅️ Main Menu", callback_data="main_menu")]])
+                )
+                return
+            
+            text = "🛒 *Your Cart*\n\n"
+            text += f"💰 *Total: ${total:,.2f}*\n\n"
+            
+            cart_items = load_rep_data(rep_id).get("cart", [])
+            buttons = []
+            
+            for location, data_loc in by_location.items():
+                text += f"\n📍 *{location}*\n"
+                text += f"Subtotal: ${data_loc['subtotal']:,.2f}\n"
+                for item in data_loc['items']:
+                    label = f"{item['ad_type'].title()} Ad — {item['payment_plan'].title()}"
+                    text += f"  • {label}: ${item['price']:,.0f}\n"
+                    idx = cart_items.index(item)
+                    buttons.append([InlineKeyboardButton(f"❌ Remove {label}", callback_data=f"cart_remove_{idx}")])
+            
+            text += f"\n✅ Ready to finalize?"
+            buttons.append([InlineKeyboardButton("📋 Generate Proposal", callback_data="cart_proposal")])
+            buttons.append([InlineKeyboardButton("⬅️ Continue Shopping", callback_data="main_menu")])
+            
+            await query.edit_message_text(text, parse_mode="Markdown", reply_markup=InlineKeyboardMarkup(buttons))
+        elif data == "cart_proposal":
+            # Generate proposal (placeholder for now)
+            await query.answer()
+            rep_id = get_rep_id(query.from_user if hasattr(query, 'from_user') else update)
+            by_location, total = get_cart_summary(rep_id)
+            
+            await query.edit_message_text(
+                f"📋 *Proposal Generated*\n\n"
+                f"💰 *Total: ${total:,.2f}*\n\n"
+                f"✅ Ready to send to customer!\n"
+                f"(Feature coming soon: Email + PDF export)",
+                parse_mode="Markdown",
+                reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("⬅️ Main Menu", callback_data="main_menu")]])
+            )
         elif data.startswith("tpage_"):
             # Testimonial pagination
             offset = int(data.replace("tpage_", ""))
