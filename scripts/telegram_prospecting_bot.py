@@ -6293,7 +6293,6 @@ async def handle_button_callback(update: Update, context: ContextTypes.DEFAULT_T
                     rep_name_safe = r.get("name") or r.get("display_name") or f"Rep {rid[:8]}"
                     searches = r.get("session_searches", 0)
                     rep_activity.append((rep_name_safe, searches))
-                rep_activity.sort(key=lambda x: x[1], reverse=True)
                 
                 text = f"📊 *Dashboard*\n\n"
                 text += f"👤 *Your Metrics ({rep_name}):*\n"
@@ -7278,6 +7277,10 @@ Send any city name to see all stores!
                 buttons = InlineKeyboardMarkup([
                     [InlineKeyboardButton("📄 Single Ad", callback_data=f"rates_single_{store_num}"),
                      InlineKeyboardButton("📋 Double Ad", callback_data=f"rates_double_{store_num}")],
+                    [InlineKeyboardButton("🛒 Monthly", callback_data=f"cart_add_{ad_type}_monthly_{store_num}"),
+                     InlineKeyboardButton("🛒 6-Month", callback_data=f"cart_add_{ad_type}_6month_{store_num}")],
+                    [InlineKeyboardButton("🛒 3-Month", callback_data=f"cart_add_{ad_type}_3month_{store_num}"),
+                     InlineKeyboardButton("🛒 PIF", callback_data=f"cart_add_{ad_type}_pif_{store_num}")],
                     [InlineKeyboardButton("⬅️ Back", callback_data=f"rates_single_{store_num}" if ad_type == "single" else f"rates_double_{store_num}")],
                 ])
                 await query.edit_message_text(text, parse_mode="Markdown", reply_markup=buttons)
@@ -7293,6 +7296,10 @@ Send any city name to see all stores!
                 buttons = InlineKeyboardMarkup([
                     [InlineKeyboardButton("📄 Single Ad", callback_data=f"rates_single_{store_num}"),
                      InlineKeyboardButton("📋 Double Ad", callback_data=f"rates_double_{store_num}")],
+                    [InlineKeyboardButton("🛒 Monthly", callback_data=f"cart_add_{ad_type}_monthly_{store_num}"),
+                     InlineKeyboardButton("🛒 6-Month", callback_data=f"cart_add_{ad_type}_6month_{store_num}")],
+                    [InlineKeyboardButton("🛒 3-Month", callback_data=f"cart_add_{ad_type}_3month_{store_num}"),
+                     InlineKeyboardButton("🛒 PIF", callback_data=f"cart_add_{ad_type}_pif_{store_num}")],
                     [InlineKeyboardButton("⬅️ Back", callback_data=f"rates_single_{store_num}" if ad_type == "single" else f"rates_double_{store_num}")],
                 ])
                 await query.edit_message_text(text, parse_mode="Markdown", reply_markup=buttons)
@@ -7308,6 +7315,10 @@ Send any city name to see all stores!
                 buttons = InlineKeyboardMarkup([
                     [InlineKeyboardButton("📄 Single Ad", callback_data=f"rates_single_{store_num}"),
                      InlineKeyboardButton("📋 Double Ad", callback_data=f"rates_double_{store_num}")],
+                    [InlineKeyboardButton("🛒 Monthly", callback_data=f"cart_add_{ad_type}_monthly_{store_num}"),
+                     InlineKeyboardButton("🛒 6-Month", callback_data=f"cart_add_{ad_type}_6month_{store_num}")],
+                    [InlineKeyboardButton("🛒 3-Month", callback_data=f"cart_add_{ad_type}_3month_{store_num}"),
+                     InlineKeyboardButton("🛒 PIF", callback_data=f"cart_add_{ad_type}_pif_{store_num}")],
                     [InlineKeyboardButton("⬅️ Back", callback_data=f"rates_single_{store_num}" if ad_type == "single" else f"rates_double_{store_num}")],
                 ])
                 await query.edit_message_text(text, parse_mode="Markdown", reply_markup=buttons)
