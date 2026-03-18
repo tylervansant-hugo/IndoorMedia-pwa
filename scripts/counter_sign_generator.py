@@ -40,9 +40,10 @@ HEADER_Y_START = 603.5  # Header begins here
 HEADER_Y_END = 792.0    # Top of page
 HEADER_HEIGHT = HEADER_Y_END - HEADER_Y_START
 
-AD_ZONE_Y_START = 157.9  # Ad zone begins here (footer_top 140.2 + 17.7 pt margin)
+AD_ZONE_Y_START = 157.9  # Ad zone bottom boundary (17.7 pts above footer top at 140.2)
 AD_ZONE_Y_END = 603.5    # Ad zone ends (where header starts)
 AD_ZONE_HEIGHT = AD_ZONE_Y_END - AD_ZONE_Y_START
+AD_Y_POS = 157.9  # Position ad so its bottom starts here (17.7 pts margin to footer)
 
 FOOTER_Y_START = 15.1
 FOOTER_Y_END = 140.2
@@ -311,9 +312,9 @@ def overlay_content_on_template(
                 img_resized, final_width, final_height = resize_ad_image(ad_image_path, scale=0.75)
                 
                 if img_resized:
-                    # Center horizontally and vertically in ad zone
+                    # Center horizontally, position bottom at AD_Y_POS (17.7 pts above footer)
                     ad_x = AD_X_MARGIN + (AD_WIDTH - final_width) / 2
-                    ad_y = AD_ZONE_Y_START + (AD_ZONE_HEIGHT - final_height) / 2
+                    ad_y = AD_Y_POS - final_height  # Bottom of ad at 157.9, so start Y is 157.9 - height
                     
                     # Save to temp file for reportlab
                     with tempfile.NamedTemporaryFile(suffix='.png', delete=False) as tmp:
