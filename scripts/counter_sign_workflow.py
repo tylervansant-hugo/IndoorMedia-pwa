@@ -174,6 +174,7 @@ async def handle_ad_image_upload(
         return STATE_AWAITING_AD_IMAGE
 
     try:
+        logger.info(f"Starting ad image upload for user {update.effective_user.id}")
         context.user_data['_counter_sign_state'] = STATE_GENERATING
         
         # Download ad image
@@ -207,16 +208,20 @@ async def handle_ad_image_upload(
 
         if pdf_bytes and pdf_path:
             # Send PDF to user
-            with open(pdf_path, 'rb') as pdf_file:
-                await update.message.reply_document(
-                    document=pdf_file,
-                    filename=f"{store_chain}_{user_name}_{pdf_path.split('/')[-1]}",
-                    caption="✅ Your counter sign is ready!\n\nPrint on 8.5\" × 11\" paper."
-                )
-            logger.info(f"✅ Counter sign generated: {pdf_path}")
+            try:
+                with open(pdf_path, 'rb') as pdf_file:
+                    await update.message.reply_document(
+                        document=pdf_file,
+                        filename=f"{store_chain}_{user_name}_{pdf_path.split('/')[-1]}",
+                        caption="✅ Your counter sign is ready!\n\nPrint on 8.5\" × 11\" paper."
+                    )
+                logger.info(f"✅ Counter sign generated: {pdf_path}")
+            except Exception as e:
+                logger.error(f"Error sending PDF: {e}")
+                await update.message.reply_text(f"❌ Error sending PDF: {e}")
         else:
             await update.message.reply_text("❌ Error generating PDF. Please try again.")
-            logger.error("PDF generation returned None")
+            logger.error(f"PDF generation returned None for {store_chain}")
 
         # Reset state
         context.user_data['_counter_sign_state'] = None
@@ -224,7 +229,7 @@ async def handle_ad_image_upload(
         return -1
 
     except Exception as e:
-        logger.error(f"Error in ad image upload: {e}")
-        await update.message.reply_text(f"❌ Error: {e}")
+        logger.error(f"Error in ad image upload: {e}", exc_info=True)
+        await update.message.reply_text(f"❌ Error: {str(e)}")
         context.user_data['_counter_sign_state'] = None
         return -1
