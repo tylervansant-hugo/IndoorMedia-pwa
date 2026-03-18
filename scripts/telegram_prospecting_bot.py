@@ -8172,9 +8172,18 @@ def main():
                 STATE_AWAITING_AD_IMAGE,
             )
             # Photo upload (business card or ad image)
+            async def handle_counter_sign_photo(update, context):
+                state = context.user_data.get('_counter_sign_state')
+                if state == STATE_AWAITING_BUSINESS_CARD:
+                    await handle_business_card_upload(update, context)
+                elif state == STATE_AWAITING_AD_IMAGE:
+                    await handle_ad_image_upload(update, context)
+                else:
+                    await update.message.reply_text("📸 Please use /menu to start counter sign generator first")
+            
             app.add_handler(MessageHandler(
-                filters.PHOTO & filters.TEXT,
-                lambda u, c: handle_business_card_upload(u, c) if c.user_data.get('_counter_sign_state') == STATE_AWAITING_BUSINESS_CARD else handle_ad_image_upload(u, c)
+                filters.PHOTO,
+                handle_counter_sign_photo
             ), group=0)
             # Text input (landing page, rep name, email, phone)
             app.add_handler(MessageHandler(
