@@ -70,8 +70,9 @@ async def start_counter_sign_guided(
     reply_markup = InlineKeyboardMarkup(keyboard)
     context.user_data['_counter_sign_state'] = STATE_AWAITING_BUSINESS_CARD
 
+    total_chains = len(chains)
     await message_send(
-        "🏪 Select store chain:",
+        f"🏪 Select store chain ({total_chains} available):",
         reply_markup=reply_markup
     )
 
