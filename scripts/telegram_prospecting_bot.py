@@ -2248,7 +2248,7 @@ async def handle_store_query(update: Update, context: ContextTypes.DEFAULT_TYPE)
         # Set store and show action menu
         context.user_data['selected_store'] = text_upper
         store = STORES[text_upper]
-        await show_store_action_menu(update.effective_chat, text_upper, store)
+        await show_store_action_menu(update.effective_chat, text_upper, store, context=context)
     else:
         # Treat as city name
         city_query = text.title()
@@ -3500,7 +3500,7 @@ async def do_rates_lookup(update, store_num: str, ad_type: str = "single", edit_
         await update.message.reply_text(text, parse_mode="Markdown", reply_markup=buttons)
 
 
-async def show_store_action_menu(chat, store_num: str, store: dict, edit_message=None):
+async def show_store_action_menu(chat, store_num: str, store: dict, edit_message=None, context=None):
     """Show the store action menu: Rates, Testimonials, Prospects, Audit."""
     chain = store.get("GroceryChain", "")
     city = store.get("City", "")
@@ -3508,6 +3508,11 @@ async def show_store_action_menu(chat, store_num: str, store: dict, edit_message
     cycle = store.get("Cycle", "?")
     address = store.get("Address", "")
     case_count = store.get("Case Count", "?")
+    
+    # Store city in context for back button
+    if context:
+        context.user_data['last_city'] = city
+        context.user_data['last_city_stores'] = CITY_INDEX.get(city, [])
     
     text = (
         f"📍 *{chain}* — {city}, {state}\n"
@@ -3522,7 +3527,8 @@ async def show_store_action_menu(chat, store_num: str, store: dict, edit_message
         [InlineKeyboardButton("💰 Store Rates", callback_data=f"action_rates_{store_num}")],
         [InlineKeyboardButton("📋 Nearby Testimonials", callback_data=f"action_testimonials_{store_num}")],
         [InlineKeyboardButton("🏪 Audit Store", callback_data=f"action_audit_{store_num}")],
-        [InlineKeyboardButton("⬅️ Back", callback_data="main_menu")],
+        [InlineKeyboardButton("⬅️ Back to City", callback_data=f"back_to_city_{city}")],
+        [InlineKeyboardButton("⬅️ Main Menu", callback_data="main_menu")],
     ]
     keyboard = InlineKeyboardMarkup(buttons)
     
@@ -6402,7 +6408,7 @@ async def handle_button_callback(update: Update, context: ContextTypes.DEFAULT_T
                 store = STORES.get(store_num)
                 if store:
                     context.user_data['selected_store'] = store_num
-                    await show_store_action_menu(None, store_num, store, edit_message=query.message)
+                    await show_store_action_menu(None, store_num, store, edit_message=query.message, context=context)
                 else:
                     await query.edit_message_text("❌ Store not found.", reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("⬅️ Main Menu", callback_data="main_menu")]]))
         elif data == "menu_locate_stores":
@@ -7972,7 +7978,7 @@ LOCATIONS & SERVICES
             context.user_data['selected_store'] = store_num
             store = STORES.get(store_num)
             if store:
-                await show_store_action_menu(None, store_num, store, edit_message=query.message)
+                await show_store_action_menu(None, store_num, store, edit_message=query.message, context=context)
         elif data.startswith("cat_"):
             await handle_category_select(update, context)
         elif data.startswith("subcat_"):
@@ -8061,6 +8067,28 @@ LOCATIONS & SERVICES
                     [InlineKeyboardButton("⬅️ Back", callback_data="main_menu")],
                 ])
                 await query.edit_message_text(text, parse_mode="Markdown", reply_markup=buttons)
+        elif data.startswith("back_to_city_"):
+            # Go back to city store list
+            await query.answer()
+            city = data.replace("back_to_city_", "")
+            
+            if city in CITY_INDEX:
+                stores_in_city = CITY_INDEX[city]
+                buttons = []
+                for store in stores_in_city:
+                    store_num = store["StoreName"]
+                    chain = store.get("GroceryChain", "")
+                    street = store.get("Address", "").split(",")[0] if store.get("Address") else ""
+                    street = street.strip()[:20]
+                    label = f"🏪 {store_num} — {chain} {street}"
+                    buttons.append([InlineKeyboardButton(label, callback_data=f"select_store_{store_num}")])
+                buttons.append([InlineKeyboardButton("⬅️ Main Menu", callback_data="main_menu")])
+                
+                await query.edit_message_text(
+                    f"📍 *Stores in {city}* ({len(stores_in_city)} found)\n\nTap a store:",
+                    parse_mode="Markdown",
+                    reply_markup=InlineKeyboardMarkup(buttons)
+                )
         elif data.startswith("prospect_detail_"):
             prospect_id = data.replace("prospect_detail_", "")
             await query.answer()
