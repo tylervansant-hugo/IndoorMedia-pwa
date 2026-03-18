@@ -40,10 +40,10 @@ HEADER_Y_START = 603.5  # Header begins here
 HEADER_Y_END = 792.0    # Top of page
 HEADER_HEIGHT = HEADER_Y_END - HEADER_Y_START
 
-AD_ZONE_Y_START = 157.9  # Ad zone bottom boundary (17.7 pts above footer top at 140.2)
+AD_ZONE_Y_START = 500  # Ad top positioned ~2/3 down page (takes up lower 3/4 of content area)
 AD_ZONE_Y_END = 603.5    # Ad zone ends (where header starts)
 AD_ZONE_HEIGHT = AD_ZONE_Y_END - AD_ZONE_Y_START
-AD_Y_POS = 157.9  # Position ad so its bottom starts here (17.7 pts margin to footer)
+AD_Y_POS = 500  # Position ad top here - gives it more space in lower 3/4 of page
 
 FOOTER_Y_START = 15.1
 FOOTER_Y_END = 140.2
