@@ -307,6 +307,76 @@ def is_rep_registered(update: Update) -> bool:
     registry = load_rep_registry()
     return user_id in registry
 
+# --- Product Catalog: All IndoorMedia products with pricing & metrics ---
+PRODUCTS = {
+    "register_tape": {
+        "name": "Register Tape",
+        "emoji": "🧾",
+        "impressions_type": "store_foot_traffic",  # Uses case_count
+        "tiers": {
+            "coop": {
+                "name": "Manager Approved Co-Op",
+                "emoji": "🎯",
+                "pricing": {
+                    "monthly": lambda base: (base + PRODUCTION),
+                    "3month": lambda base: ((base * 0.90) + PRODUCTION),
+                    "6month": lambda base: ((base * 0.925) + PRODUCTION),
+                    "pif": lambda base: ((base * 0.85) + PRODUCTION),
+                }
+            },
+            "exclusive": {
+                "name": "Exclusive Category",
+                "emoji": "🏆",
+                "pricing": {
+                    "monthly": lambda base: (base + PRODUCTION),
+                    "3month": lambda base: (base + PRODUCTION),
+                    "6month": lambda base: (base + PRODUCTION),
+                    "pif": lambda base: ((base * 0.95)),
+                }
+            },
+            "contractor": {
+                "name": "Contractors",
+                "emoji": "🔧",
+                "pricing": {
+                    "3month": lambda base: (base + PRODUCTION),
+                    "pif": lambda base: ((base * 0.95)),
+                }
+            },
+        }
+    },
+    "cartvertising": {
+        "name": "Cartvertising",
+        "emoji": "🛒",
+        "impressions_type": "fixed_impressions",  # Fixed impressions per product
+        "tiers": {
+            "standard": {
+                "name": "Standard Pricing",
+                "emoji": "💲",
+                "pricing": {
+                    "monthly": lambda base: 3600,  # From screenshot
+                    "3month": lambda base: 2795,   # Co-Op rate
+                }
+            }
+        },
+        "impressions": {"standalone": 240000, "bundled": 360000}
+    },
+    "digitalboost": {
+        "name": "DigitalBoost — 1 Pin",
+        "emoji": "🚀",
+        "impressions_type": "fixed_impressions",
+        "tiers": {
+            "standard": {
+                "name": "Standard Pricing",
+                "emoji": "💲",
+                "pricing": {
+                    "monthly": lambda base: 3600,  # From screenshot
+                }
+            }
+        },
+        "impressions": 240000
+    }
+}
+
 # Known rep names from contract system (for matching)
 KNOWN_CONTRACT_REPS = [
     "Tyler VanSant", "Amy Dixon", "Ben Patacsil", "Megan Wink",
@@ -667,60 +737,175 @@ def load_rep_data(rep_id: str):
         save_prospect_data(data)
     return data["reps"][rep_id]
 
-def add_to_cart(rep_id: str, store_num: str, ad_type: str, payment_plan: str):
-    """Add item to cart. Returns the price."""
-    store = STORES.get(store_num)
-    if not store:
-        return None
+def add_to_cart(rep_id: str, product_type: str, tier: str = None, store_num: str = None, 
+                ad_type: str = None, payment_plan: str = None, impressions_type: str = None, 
+                price: float = None, daily_impressions: int = None, **kwargs):
+    """Add item to cart. Supports all products (Register Tape, Cartvertising, DigitalBoost).
     
-    # Calculate price directly from store data
-    base = store["DoubleAd"] if ad_type.lower() == "double" else store["SingleAd"]
-    
-    # Manager Approved Co-Op pricing (standard tier used in cart)
-    coop_monthly_total = base + PRODUCTION
-    coop_three_total = (base * 0.90) + PRODUCTION
-    coop_six_total = (base * 0.925) + PRODUCTION
-    coop_paid_total = (base * 0.85) + PRODUCTION
-    
-    plans = {
-        "monthly": coop_monthly_total,
-        "3month": coop_three_total,
-        "6month": coop_six_total,
-        "pif": coop_paid_total,
-    }
-    price = plans.get(payment_plan, 0)
-    
+    Args:
+        rep_id: Rep ID
+        product_type: 'register_tape', 'cartvertising', or 'digitalboost'
+        tier: Pricing tier ('coop', 'exclusive', 'contractor', 'standard')
+        store_num: Store number (for Register Tape only)
+        ad_type: Ad type ('single', 'double') - Register Tape only
+        payment_plan: Payment plan ('monthly', '3month', '6month', 'pif')
+        impressions_type: Type of impressions ('store_foot_traffic' for Register Tape, 'fixed_impressions' for others)
+        price: Price (for non-Register Tape products)
+        daily_impressions: Daily impressions (for non-Register Tape products)
+    """
     data = load_prospect_data()
     if rep_id not in data["reps"]:
         load_rep_data(rep_id)  # Initialize
         data = load_prospect_data()
     
-    # Calculate impressions for this store
-    case_count = store.get("Case Count", 0)
-    impressions = calculate_impressions_metrics(case_count)
-    daily_impressions = impressions.get("daily", 0)
-    annual_impressions = daily_impressions * 365  # Calculate annual from daily
+    product_type = product_type.lower()
     
-    # Calculate cost per thousand impressions (CPM) and daily cost
-    cpm = (price / annual_impressions * 1000) if annual_impressions > 0 else 0
-    cost_per_day = price / 365  # Annual cost / 365 days
+    # === REGISTER TAPE ===
+    if product_type == "register_tape":
+        store = STORES.get(store_num)
+        if not store:
+            return None
+        
+        # Calculate price from store + tier
+        base = store["DoubleAd"] if ad_type.lower() == "double" else store["SingleAd"]
+        tier = tier.lower() if tier else "coop"
+        
+        # Get pricing from tier config
+        if tier == "coop":
+            if payment_plan == "monthly":
+                price = base + PRODUCTION
+            elif payment_plan == "3month":
+                price = (base * 0.90) + PRODUCTION
+            elif payment_plan == "6month":
+                price = (base * 0.925) + PRODUCTION
+            elif payment_plan == "pif":
+                price = (base * 0.85) + PRODUCTION
+        elif tier == "exclusive":
+            base_total = base + PRODUCTION
+            if payment_plan == "monthly":
+                price = base_total
+            elif payment_plan == "3month":
+                price = base_total
+            elif payment_plan == "6month":
+                price = base_total
+            elif payment_plan == "pif":
+                price = base_total * 0.95
+        elif tier == "contractor":
+            base_total = base + PRODUCTION
+            if payment_plan == "3month":
+                price = base_total
+            elif payment_plan == "pif":
+                price = base_total * 0.95
+        
+        # Calculate impressions
+        case_count = store.get("Case Count", 0)
+        impressions = calculate_impressions_metrics(case_count)
+        daily_impressions = impressions.get("daily", 0)
+        annual_impressions = daily_impressions * 365
+        
+        # Calculate cost metrics
+        cpm = (price / annual_impressions * 1000) if annual_impressions > 0 else 0
+        cost_per_day = price / 365
+        
+        cart_item = {
+            "product_type": "register_tape",
+            "product_name": "Register Tape",
+            "store_num": store_num,
+            "store_name": store.get("GroceryChain", "?"),
+            "city": store.get("City", ""),
+            "state": store.get("State", ""),
+            "address": store.get("Address", ""),
+            "tier": tier,
+            "ad_type": ad_type,
+            "payment_plan": payment_plan,
+            "price": price,
+            "case_count": case_count,
+            "daily_impressions": daily_impressions,
+            "annual_impressions": annual_impressions,
+            "cpm": cpm,
+            "cost_per_day": cost_per_day,
+            "added_at": datetime.now().isoformat()
+        }
     
-    cart_item = {
-        "store_num": store_num,
-        "store_name": store.get("GroceryChain", "?"),
-        "city": store.get("City", ""),
-        "state": store.get("State", ""),
-        "address": store.get("Address", ""),
-        "ad_type": ad_type,
-        "payment_plan": payment_plan,
-        "price": price,
-        "case_count": case_count,
-        "daily_impressions": daily_impressions,
-        "annual_impressions": annual_impressions,
-        "cpm": cpm,
-        "cost_per_day": cost_per_day,
-        "added_at": datetime.now().isoformat()
-    }
+    # === CARTVERTISING ===
+    elif product_type == "cartvertising":
+        # For Cartvertising: bundle_type (240k or 360k impressions)
+        bundle_type = kwargs.get('bundle_type', 'standalone')  # 'standalone' (240k) or 'bundled' (360k)
+        
+        # Get impressions and pricing from PRODUCTS config
+        impressions_config = PRODUCTS["cartvertising"]["impressions"]
+        annual_impressions = impressions_config.get(bundle_type, 240000)
+        daily_impressions = annual_impressions // 365
+        
+        # Cartvertising has fixed pricing: monthly $3600, 3-month $2795
+        if payment_plan == "monthly":
+            price = 3600
+        elif payment_plan == "3month":
+            price = 2795
+        else:
+            price = 3600  # Default
+        
+        # Calculate CPM and daily cost
+        cpm = (price / annual_impressions * 1000) if annual_impressions > 0 else 0
+        cost_per_day = price / 12  # 3-month or monthly -> annualize and divide by 365 not quite right, but approx
+        
+        # For proper annual cost, assume this is monthly recurring
+        annual_cost = price * 12 if payment_plan == "monthly" else (price * 4)  # 3-month: 4 terms/year
+        cost_per_day = annual_cost / 365
+        
+        cart_item = {
+            "product_type": "cartvertising",
+            "product_name": f"Cartvertising ({bundle_type.title()}) - {annual_impressions:,} impressions",
+            "bundle_type": bundle_type,
+            "tier": "standard",
+            "payment_plan": payment_plan,
+            "price": price,
+            "daily_impressions": daily_impressions,
+            "annual_impressions": annual_impressions,
+            "cpm": cpm,
+            "cost_per_day": cost_per_day,
+            "added_at": datetime.now().isoformat()
+        }
+    
+    # === DIGITALBOOST ===
+    elif product_type == "digitalboost":
+        # For DigitalBoost: fixed 240k impressions, varying by pin count
+        pin_count = kwargs.get('pin_count', 1)
+        
+        # Fixed 240k impressions
+        annual_impressions = 240000
+        daily_impressions = annual_impressions // 365
+        
+        # Pricing: $3600/mo per pin shown in screenshot (1 pin = $3600/mo)
+        monthly_price = 3600 * pin_count
+        
+        if payment_plan == "monthly":
+            price = monthly_price
+        else:
+            price = monthly_price  # Default to monthly
+        
+        # Calculate CPM and annual cost
+        annual_cost = price * 12  # Monthly recurring
+        cost_per_day = annual_cost / 365
+        cpm = (price / annual_impressions * 1000) if annual_impressions > 0 else 0
+        
+        cart_item = {
+            "product_type": "digitalboost",
+            "product_name": f"DigitalBoost - {pin_count} Pin{'s' if pin_count > 1 else ''} ({annual_impressions:,} impressions)",
+            "pin_count": pin_count,
+            "tier": "standard",
+            "payment_plan": payment_plan,
+            "price": price,
+            "daily_impressions": daily_impressions,
+            "annual_impressions": annual_impressions,
+            "cpm": cpm,
+            "cost_per_day": cost_per_day,
+            "added_at": datetime.now().isoformat()
+        }
+    
+    else:
+        return None
+    
     data["reps"][rep_id]["cart"].append(cart_item)
     save_prospect_data(data)
     return price
@@ -3867,7 +4052,7 @@ async def show_submenu_digital(update: Update, context: ContextTypes.DEFAULT_TYP
 
 
 async def show_product_child_seat(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    """Show Child Seat package selection."""
+    """Show Child Seat (Cartvertising) package selection with cart buttons."""
     query = update.callback_query
     await query.answer()
     data = PRODUCT_DATA.get("child_seat", {})
@@ -3932,6 +4117,10 @@ async def show_child_seat_package(update: Update, context: ContextTypes.DEFAULT_
     )
     
     buttons = [
+        # Cartvertising add to cart - 240k impressions (standalone)
+        [InlineKeyboardButton("🛒 Add to Cart (240k impressions)", callback_data="cart_add_cartvertising_240k_monthly")],
+        # Cartvertising add to cart - 360k impressions (bundled)
+        [InlineKeyboardButton("🛒 Add to Cart (360k impressions)", callback_data="cart_add_cartvertising_360k_monthly")],
         [InlineKeyboardButton("⬅️ Back to Packages", callback_data="product_child_seat")],
         [InlineKeyboardButton("⬅️ Cartvertising Menu", callback_data="menu_cartvertising")],
     ]
@@ -4041,6 +4230,8 @@ async def show_product_digitalboost(update: Update, context: ContextTypes.DEFAUL
         for n in range(1, 6):
             label = f"{'✅ ' if n == pins else ''}{n} Pin{'s' if n > 1 else ''}"
             buttons.append([InlineKeyboardButton(label, callback_data=f"db_pins_{n}")])
+        # Add to cart button for selected pin count
+        buttons.append([InlineKeyboardButton(f"🛒 Add {pins} Pin{'s' if pins > 1 else ''} to Cart (${std_total:,})", callback_data=f"cart_add_digitalboost_{pins}_monthly")])
         buttons.append([InlineKeyboardButton("⬅️ Back", callback_data="menu_digital")])
     
     await query.edit_message_text(text, parse_mode="Markdown", reply_markup=InlineKeyboardMarkup(buttons))
@@ -7304,6 +7495,8 @@ Send any city name to see all stores!
             store_num = parts[1]
             store = STORES.get(store_num)
             if store:
+                # Track selected tier for cart add
+                context.user_data['selected_tier'] = 'coop'
                 pricing = calculate_pricing(store, ad_type)
                 text = format_rates_message_coop(pricing)
                 buttons = InlineKeyboardMarkup([
@@ -7323,6 +7516,8 @@ Send any city name to see all stores!
             store_num = parts[1]
             store = STORES.get(store_num)
             if store:
+                # Track selected tier for cart add
+                context.user_data['selected_tier'] = 'exclusive'
                 pricing = calculate_pricing(store, ad_type)
                 text = format_rates_message_exclusive(pricing)
                 buttons = InlineKeyboardMarkup([
@@ -7342,6 +7537,8 @@ Send any city name to see all stores!
             store_num = parts[1]
             store = STORES.get(store_num)
             if store:
+                # Track selected tier for cart add
+                context.user_data['selected_tier'] = 'contractor'
                 pricing = calculate_pricing(store, ad_type)
                 text = format_rates_message_contractor(pricing)
                 buttons = InlineKeyboardMarkup([
@@ -7382,7 +7579,7 @@ Send any city name to see all stores!
                 ])
                 await query.edit_message_text(text, parse_mode="Markdown", reply_markup=buttons)
         elif data.startswith("cart_add_"):
-            # Add item to cart
+            # Add item to cart (Register Tape)
             await query.answer("✅ Added to cart!", show_alert=False)
             parts = data.replace("cart_add_", "").rsplit("_", 1)
             store_num = parts[1]
@@ -7391,7 +7588,64 @@ Send any city name to see all stores!
             payment_plan = payment_info[1]
             
             rep_id = get_rep_id(update)  # Use update directly
-            price = add_to_cart(rep_id, store_num, ad_type, payment_plan)
+            
+            # Add Register Tape to cart with new signature
+            # Determine tier from context or default to coop
+            tier = context.user_data.get('selected_tier', 'coop')
+            price = add_to_cart(
+                rep_id=rep_id,
+                product_type="register_tape",
+                tier=tier,
+                store_num=store_num,
+                ad_type=ad_type,
+                payment_plan=payment_plan
+            )
+            
+            if price:
+                await query.edit_message_text(
+                    f"✅ *Added to Cart!*\n\n"
+                    f"💰 Price: ${price:,.0f}\n"
+                    f"🛒 View cart from the main menu",
+                    parse_mode="Markdown",
+                    reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("⬅️ Main Menu", callback_data="main_menu")]])
+                )
+        elif data.startswith("cart_add_cartvertising_"):
+            # Add Cartvertising to cart
+            await query.answer("✅ Added to cart!", show_alert=False)
+            parts = data.replace("cart_add_cartvertising_", "").rsplit("_", 1)
+            bundle_type = parts[0]  # '240k' or '360k'
+            payment_plan = parts[1]  # 'monthly' or '3month'
+            
+            rep_id = get_rep_id(update)  # Use update directly
+            price = add_to_cart(
+                rep_id=rep_id,
+                product_type="cartvertising",
+                bundle_type=bundle_type,
+                payment_plan=payment_plan
+            )
+            
+            if price:
+                await query.edit_message_text(
+                    f"✅ *Added to Cart!*\n\n"
+                    f"💰 Price: ${price:,.0f}\n"
+                    f"🛒 View cart from the main menu",
+                    parse_mode="Markdown",
+                    reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("⬅️ Main Menu", callback_data="main_menu")]])
+                )
+        elif data.startswith("cart_add_digitalboost_"):
+            # Add DigitalBoost to cart
+            await query.answer("✅ Added to cart!", show_alert=False)
+            parts = data.replace("cart_add_digitalboost_", "").rsplit("_", 1)
+            pin_count = int(parts[0])
+            payment_plan = parts[1]  # 'monthly'
+            
+            rep_id = get_rep_id(update)  # Use update directly
+            price = add_to_cart(
+                rep_id=rep_id,
+                product_type="digitalboost",
+                pin_count=pin_count,
+                payment_plan=payment_plan
+            )
             
             if price:
                 await query.edit_message_text(
@@ -7402,12 +7656,12 @@ Send any city name to see all stores!
                     reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("⬅️ Main Menu", callback_data="main_menu")]])
                 )
         elif data == "view_cart":
-            # Show cart
+            # Show cart with all product types
             await query.answer()
             rep_id = get_rep_id(update)  # Use update directly
-            by_location, total = get_cart_summary(rep_id)
+            cart_items = load_rep_data(rep_id).get("cart", [])
             
-            if not by_location:
+            if not cart_items:
                 await query.edit_message_text(
                     "🛒 *Your Cart*\n\n_(Empty)_",
                     parse_mode="Markdown",
@@ -7416,21 +7670,49 @@ Send any city name to see all stores!
                 return
             
             text = "🛒 *Your Cart*\n\n"
+            
+            # Calculate total
+            total = sum(item.get("price", 0) for item in cart_items)
             text += f"💰 *Total: ${total:,.2f}*\n\n"
             
-            cart_items = load_rep_data(rep_id).get("cart", [])
             buttons = []
             
-            for location, data_loc in by_location.items():
-                text += f"\n📍 *{location}*\n"
-                text += f"Subtotal: ${data_loc['subtotal']:,.2f}\n"
-                for item in data_loc['items']:
-                    label = f"{item['ad_type'].title()} Ad — {item['payment_plan'].title()}"
-                    text += f"  • {label}: ${item['price']:,.0f}\n"
-                    idx = cart_items.index(item)
-                    buttons.append([InlineKeyboardButton(f"❌ Remove {label}", callback_data=f"cart_remove_{idx}")])
+            # Group by product type for display
+            for idx, item in enumerate(cart_items):
+                product_type = item.get("product_type", "register_tape")
+                product_name = item.get("product_name", "Unknown Product")
+                price = item.get("price", 0)
+                
+                # Show all metrics for each item
+                text += f"\n📦 *{product_name}*\n"
+                text += f"💰 Price: ${price:,.2f}/month\n"
+                
+                # Show impressions if available
+                if "annual_impressions" in item:
+                    annual = item.get("annual_impressions", 0)
+                    daily = item.get("daily_impressions", 0)
+                    text += f"📊 {annual:,} annual impressions ({daily:,}/day)\n"
+                
+                # Show CPM if available
+                if "cpm" in item and item["cpm"] > 0:
+                    text += f"💹 CPM: ${item['cpm']:.2f}\n"
+                
+                # Show cost per day if available
+                if "cost_per_day" in item and item["cost_per_day"] > 0:
+                    text += f"📅 Cost/Day: ${item['cost_per_day']:.2f}\n"
+                
+                # Product-specific details
+                if product_type == "register_tape":
+                    text += f"📍 {item.get('store_name', '?')} — {item.get('city', '')}, {item.get('state', '')}\n"
+                    text += f"📄 {item.get('ad_type', 'N/A').title()} Ad | {item.get('payment_plan', 'N/A').title()}\n"
+                elif product_type == "cartvertising":
+                    text += f"🛒 Bundle: {item.get('bundle_type', 'standalone').title()}\n"
+                elif product_type == "digitalboost":
+                    text += f"📍 {item.get('pin_count', 1)} Pin{'s' if item.get('pin_count', 1) > 1 else ''}\n"
+                
+                buttons.append([InlineKeyboardButton(f"❌ Remove", callback_data=f"cart_remove_{idx}")])
             
-            text += f"\n✅ Ready to finalize?"
+            text += f"\n\n✅ Ready to finalize?"
             buttons.append([InlineKeyboardButton("📋 Generate Proposal", callback_data="cart_proposal")])
             buttons.append([InlineKeyboardButton("⬅️ Continue Shopping", callback_data="main_menu")])
             
@@ -7443,9 +7725,9 @@ Send any city name to see all stores!
             remove_from_cart(rep_id, idx)
             
             # Refresh cart view
-            by_location, total = get_cart_summary(rep_id)
+            cart_items = load_rep_data(rep_id).get("cart", [])
             
-            if not by_location:
+            if not cart_items:
                 await query.edit_message_text(
                     "🛒 *Your Cart*\n\n_(Empty)_",
                     parse_mode="Markdown",
@@ -7454,58 +7736,110 @@ Send any city name to see all stores!
                 return
             
             text = "🛒 *Your Cart*\n\n"
+            
+            # Calculate total
+            total = sum(item.get("price", 0) for item in cart_items)
             text += f"💰 *Total: ${total:,.2f}*\n\n"
             
-            cart_items = load_rep_data(rep_id).get("cart", [])
             buttons = []
             
-            for location, data_loc in by_location.items():
-                text += f"\n📍 *{location}*\n"
-                text += f"Subtotal: ${data_loc['subtotal']:,.2f}\n"
-                for item in data_loc['items']:
-                    label = f"{item['ad_type'].title()} Ad — {item['payment_plan'].title()}"
-                    text += f"  • {label}: ${item['price']:,.0f}\n"
-                    idx = cart_items.index(item)
-                    buttons.append([InlineKeyboardButton(f"❌ Remove {label}", callback_data=f"cart_remove_{idx}")])
+            # Group by product type for display
+            for idx, item in enumerate(cart_items):
+                product_type = item.get("product_type", "register_tape")
+                product_name = item.get("product_name", "Unknown Product")
+                price = item.get("price", 0)
+                
+                # Show all metrics for each item
+                text += f"\n📦 *{product_name}*\n"
+                text += f"💰 Price: ${price:,.2f}/month\n"
+                
+                # Show impressions if available
+                if "annual_impressions" in item:
+                    annual = item.get("annual_impressions", 0)
+                    daily = item.get("daily_impressions", 0)
+                    text += f"📊 {annual:,} annual impressions ({daily:,}/day)\n"
+                
+                # Show CPM if available
+                if "cpm" in item and item["cpm"] > 0:
+                    text += f"💹 CPM: ${item['cpm']:.2f}\n"
+                
+                # Show cost per day if available
+                if "cost_per_day" in item and item["cost_per_day"] > 0:
+                    text += f"📅 Cost/Day: ${item['cost_per_day']:.2f}\n"
+                
+                # Product-specific details
+                if product_type == "register_tape":
+                    text += f"📍 {item.get('store_name', '?')} — {item.get('city', '')}, {item.get('state', '')}\n"
+                    text += f"📄 {item.get('ad_type', 'N/A').title()} Ad | {item.get('payment_plan', 'N/A').title()}\n"
+                elif product_type == "cartvertising":
+                    text += f"🛒 Bundle: {item.get('bundle_type', 'standalone').title()}\n"
+                elif product_type == "digitalboost":
+                    text += f"📍 {item.get('pin_count', 1)} Pin{'s' if item.get('pin_count', 1) > 1 else ''}\n"
+                
+                buttons.append([InlineKeyboardButton(f"❌ Remove", callback_data=f"cart_remove_{idx}")])
             
-            text += f"\n✅ Ready to finalize?"
+            text += f"\n\n✅ Ready to finalize?"
             buttons.append([InlineKeyboardButton("📋 Generate Proposal", callback_data="cart_proposal")])
             buttons.append([InlineKeyboardButton("⬅️ Continue Shopping", callback_data="main_menu")])
             
             await query.edit_message_text(text, parse_mode="Markdown", reply_markup=InlineKeyboardMarkup(buttons))
         elif data == "cart_proposal":
-            # Generate proposal
+            # Generate proposal (supports all products)
             await query.answer()
             rep_id = get_rep_id(update)  # Use update directly
             rep_name = get_rep_name(update)  # Use update directly
-            by_location, total = get_cart_summary(rep_id)
+            cart_items = load_rep_data(rep_id).get("cart", [])
             
-            if not by_location:
+            if not cart_items:
                 await query.edit_message_text(
                     "❌ Cart is empty",
                     reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("⬅️ Main Menu", callback_data="main_menu")]])
                 )
                 return
             
+            # Calculate total
+            total = sum(item.get("price", 0) for item in cart_items)
+            
             # Store proposal in context for copying/exporting
-            proposal_text = f"""INDOORMEDIA REGISTER TAPE ADVERTISING PROPOSAL
+            proposal_text = f"""INDOORMEDIA ADVERTISING PROPOSAL
 
 Rep: {rep_name}
 Date: {datetime.now().strftime('%B %d, %Y')}
 
 {'='*60}
-LOCATIONS & SERVICES
+SERVICES & PRICING
 {'='*60}
 
 """
             
-            for location, data_loc in by_location.items():
-                proposal_text += f"\n📍 {location}\n"
-                proposal_text += f"{'─'*50}\n"
-                for item in data_loc['items']:
-                    label = f"{item['ad_type'].title()} Ad — {item['payment_plan'].title()}"
-                    proposal_text += f"  • {label}: ${item['price']:,.2f}\n"
-                proposal_text += f"Subtotal: ${data_loc['subtotal']:,.2f}\n"
+            # Generate proposal for each item
+            for idx, item in enumerate(cart_items, 1):
+                product_type = item.get("product_type", "register_tape")
+                product_name = item.get("product_name", "Unknown Product")
+                price = item.get("price", 0)
+                
+                proposal_text += f"\n{idx}. {product_name}\n"
+                proposal_text += f"   Price: ${price:,.2f}\n"
+                
+                # Add product-specific details
+                if product_type == "register_tape":
+                    proposal_text += f"   Store: {item.get('store_num', 'N/A')} - {item.get('store_name', '?')}\n"
+                    proposal_text += f"   Location: {item.get('city', '')}, {item.get('state', '')}\n"
+                    proposal_text += f"   Ad Type: {item.get('ad_type', 'N/A').title()}\n"
+                    proposal_text += f"   Payment Plan: {item.get('payment_plan', 'N/A').title()}\n"
+                elif product_type == "cartvertising":
+                    proposal_text += f"   Bundle: {item.get('bundle_type', 'standalone').title()}\n"
+                elif product_type == "digitalboost":
+                    proposal_text += f"   Pins: {item.get('pin_count', 1)}\n"
+                
+                # Show metrics
+                if item.get("annual_impressions"):
+                    proposal_text += f"   Annual Impressions: {item.get('annual_impressions', 0):,}\n"
+                    proposal_text += f"   Daily Impressions: {item.get('daily_impressions', 0):,}\n"
+                if item.get("cpm"):
+                    proposal_text += f"   CPM: ${item.get('cpm', 0):.2f}\n"
+                if item.get("cost_per_day"):
+                    proposal_text += f"   Cost Per Day: ${item.get('cost_per_day', 0):.2f}\n"
             
             proposal_text += f"\n{'='*60}\n"
             proposal_text += f"GRAND TOTAL: ${total:,.2f}\n"
@@ -7545,13 +7879,13 @@ LOCATIONS & SERVICES
             else:
                 await query.answer("❌ Proposal not found", show_alert=True)
         elif data == "cart_pdf":
-            # Generate PDF proposal
+            # Generate PDF proposal (supports all products)
             await query.answer()
             rep_id = get_rep_id(update)  # Use update directly
             rep_name = get_rep_name(update)  # Use update directly
-            by_location, total = get_cart_summary(rep_id)
+            cart_items = load_rep_data(rep_id).get("cart", [])
             
-            if not by_location:
+            if not cart_items:
                 await query.answer("❌ Cart is empty", show_alert=True)
                 return
             
@@ -7581,7 +7915,7 @@ LOCATIONS & SERVICES
                     alignment=1  # Center
                 )
                 elements.append(Paragraph("INDOORMEDIA", title_style))
-                elements.append(Paragraph("Register Tape Advertising Proposal", styles['Heading2']))
+                elements.append(Paragraph("Advertising Proposal", styles['Heading2']))
                 elements.append(Spacer(1, 12))
                 
                 # Rep info and contact
@@ -7591,30 +7925,30 @@ LOCATIONS & SERVICES
                 elements.append(Paragraph(f"<b>Date:</b> {datetime.now().strftime('%B %d, %Y')}", styles['Normal']))
                 elements.append(Spacer(1, 12))
                 
-                # Locations table
-                elements.append(Paragraph("Locations & Services", styles['Heading3']))
+                # Services & Pricing section
+                elements.append(Paragraph("Services & Pricing", styles['Heading3']))
                 
-                for location, data_loc in by_location.items():
-                    # Location header with store details
-                    elements.append(Paragraph(f"<b>{location}</b>", styles['Heading3']))
+                # Build table with all items
+                table_data = [["Service", "Details", "Price", "Annual Impressions"]]
+                total = 0
+                for item in cart_items:
+                    product_name = item.get("product_name", "Unknown")
+                    price = item.get("price", 0)
+                    total += price
                     
-                    # Store details from first item (all items in location are same store)
-                    first_item = data_loc['items'][0]
-                    store_details = f"<b>Address:</b> {first_item.get('address', 'N/A')}<br/>"
-                    store_details += f"<b>Daily Traffic:</b> {first_item.get('daily_impressions', 0):,} impressions/day<br/>"
-                    store_details += f"<b>Annual Traffic:</b> {first_item.get('annual_impressions', 0):,} impressions/year<br/>"
-                    store_details += f"<b>Cost Per Day:</b> ${first_item.get('cost_per_day', 0):,.2f}<br/>"
-                    store_details += f"<b>CPM (Cost Per 1000 Impressions):</b> ${first_item.get('cpm', 0):,.2f}"
-                    elements.append(Paragraph(store_details, styles['Normal']))
-                    elements.append(Spacer(1, 12))
+                    # Build details column based on product type
+                    product_type = item.get("product_type", "register_tape")
+                    if product_type == "register_tape":
+                        details = f"{item.get('store_num', 'N/A')} - {item.get('store_name', '?')}\n{item.get('city', '')}, {item.get('state', '')}\n{item.get('ad_type', '').title()} Ad"
+                    elif product_type == "cartvertising":
+                        details = f"Bundle: {item.get('bundle_type', 'standalone').title()}"
+                    elif product_type == "digitalboost":
+                        details = f"{item.get('pin_count', 1)} Pin{'s' if item.get('pin_count', 1) > 1 else ''}"
+                    else:
+                        details = ""
                     
-                    # Items table
-                    table_data = [["Service", "Payment Plan", "Price"]]
-                    for item in data_loc['items']:
-                        label = f"{item['ad_type'].title()} Ad"
-                        plan = item['payment_plan'].title()
-                        price = f"${item['price']:,.2f}"
-                        table_data.append([label, plan, price])
+                    impressions = f"{item.get('annual_impressions', 0):,}" if item.get('annual_impressions') else "N/A"
+                    table_data.append([product_name, details, f"${price:,.2f}", impressions])
                     
                     table = Table(table_data, colWidths=[2.5*inch, 2*inch, 1.5*inch])
                     table.setStyle(TableStyle([
@@ -8868,10 +9202,10 @@ def main():
             async def handle_counter_sign_text(update, context):
                 state = context.user_data.get('_counter_sign_state')
                 logger.info(f"Counter sign text handler: state={state}, text={update.message.text[:50] if update.message.text else 'None'}")
-                if state == STATE_AWAITING_LANDING_PAGE:
+                if state == 'awaiting_landing_page':
                     logger.info("Routing to handle_landing_page_input")
                     await handle_landing_page_input(update, context)
-                elif state in [STATE_AWAITING_STORE_CHAIN, STATE_AWAITING_BUSINESS_CARD, STATE_AWAITING_AD_IMAGE]:
+                elif state in ['awaiting_store_chain', 'awaiting_business_card', 'awaiting_ad_image']:
                     # In counter sign workflow but waiting for different input type
                     logger.info(f"In counter sign state but got text when expecting different input: {state}")
                     await update.message.reply_text("⏳ Waiting for an image. Please send a photo.")
