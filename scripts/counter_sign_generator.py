@@ -476,7 +476,7 @@ def generate_counter_sign(
 
 # Helper functions for workflow integration
 def list_available_store_templates():
-    """List all available store template codes."""
+    """List all available store template codes as a dict."""
     store_codes = [
         "ACM", "ALB", "AMK", "AND", "ARL", "BAK", "BGE", "BGY", "BLO", "BUT", "CAR", "CMI", "COP", "CRL",
         "CSV", "CTR", "CUB", "DAN", "DAW", "DFM", "DIE", "DIL", "DIS", "FAM", "FCO", "FDC", "FDP", "FDT",
@@ -488,7 +488,8 @@ def list_available_store_templates():
         "SCH", "SCO", "SCT", "Sendiks", "SHM", "SHW", "SMI", "SNS", "SON", "SPR", "SRI", "STB", "STM", "SVM",
         "SVT", "TOM", "TOP", "TWY", "UNI", "VAL", "VGS", "VON", "WDM", "WHM", "WIN", "YOK"
     ]
-    return store_codes
+    # Return as dict with code as both key and value for compatibility
+    return {code: code for code in store_codes}
 
 
 def get_direct_team_names():
