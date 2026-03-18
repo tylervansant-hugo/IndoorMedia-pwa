@@ -7385,19 +7385,190 @@ Send any city name to see all stores!
             
             await query.edit_message_text(text, parse_mode="Markdown", reply_markup=InlineKeyboardMarkup(buttons))
         elif data == "cart_proposal":
-            # Generate proposal (placeholder for now)
+            # Generate proposal
             await query.answer()
             rep_id = get_rep_id(query.from_user if hasattr(query, 'from_user') else update)
+            rep_name = get_rep_name(query.from_user if hasattr(query, 'from_user') else update)
             by_location, total = get_cart_summary(rep_id)
             
-            await query.edit_message_text(
-                f"📋 *Proposal Generated*\n\n"
-                f"💰 *Total: ${total:,.2f}*\n\n"
-                f"✅ Ready to send to customer!\n"
-                f"(Feature coming soon: Email + PDF export)",
-                parse_mode="Markdown",
-                reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("⬅️ Main Menu", callback_data="main_menu")]])
-            )
+            if not by_location:
+                await query.edit_message_text(
+                    "❌ Cart is empty",
+                    reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("⬅️ Main Menu", callback_data="main_menu")]])
+                )
+                return
+            
+            # Store proposal in context for copying/exporting
+            proposal_text = f"""INDOORMEDIA REGISTER TAPE ADVERTISING PROPOSAL
+
+Rep: {rep_name}
+Date: {datetime.now().strftime('%B %d, %Y')}
+
+{'='*60}
+LOCATIONS & SERVICES
+{'='*60}
+
+"""
+            
+            for location, data_loc in by_location.items():
+                proposal_text += f"\n📍 {location}\n"
+                proposal_text += f"{'─'*50}\n"
+                for item in data_loc['items']:
+                    label = f"{item['ad_type'].title()} Ad — {item['payment_plan'].title()}"
+                    proposal_text += f"  • {label}: ${item['price']:,.2f}\n"
+                proposal_text += f"Subtotal: ${data_loc['subtotal']:,.2f}\n"
+            
+            proposal_text += f"\n{'='*60}\n"
+            proposal_text += f"GRAND TOTAL: ${total:,.2f}\n"
+            proposal_text += f"{'='*60}\n\n"
+            proposal_text += "Ready to discuss terms?\n"
+            proposal_text += "Contact us to finalize your campaign.\n"
+            
+            # Store in context for export
+            context.user_data['proposal_text'] = proposal_text
+            context.user_data['proposal_total'] = total
+            
+            text = f"📋 *Proposal Generated*\n\n"
+            text += f"💰 *Total: ${total:,.2f}*\n\n"
+            text += f"✅ Select action:"
+            
+            buttons = [
+                [InlineKeyboardButton("📋 Copy Text", callback_data="cart_copy_text")],
+                [InlineKeyboardButton("📄 Download PDF", callback_data="cart_pdf")],
+                [InlineKeyboardButton("⬅️ Back to Cart", callback_data="view_cart")],
+                [InlineKeyboardButton("⬅️ Main Menu", callback_data="main_menu")],
+            ]
+            
+            await query.edit_message_text(text, parse_mode="Markdown", reply_markup=InlineKeyboardMarkup(buttons))
+        elif data == "cart_copy_text":
+            # Copy proposal to Telegram (as code block for easy copying)
+            await query.answer()
+            proposal_text = context.user_data.get('proposal_text', '')
+            
+            if proposal_text:
+                await query.edit_message_text(
+                    f"```\n{proposal_text}\n```",
+                    reply_markup=InlineKeyboardMarkup([
+                        [InlineKeyboardButton("📄 Download PDF", callback_data="cart_pdf")],
+                        [InlineKeyboardButton("⬅️ Back", callback_data="cart_proposal")],
+                    ])
+                )
+            else:
+                await query.answer("❌ Proposal not found", show_alert=True)
+        elif data == "cart_pdf":
+            # Generate PDF proposal
+            await query.answer()
+            rep_id = get_rep_id(query.from_user if hasattr(query, 'from_user') else update)
+            rep_name = get_rep_name(query.from_user if hasattr(query, 'from_user') else update)
+            by_location, total = get_cart_summary(rep_id)
+            
+            if not by_location:
+                await query.answer("❌ Cart is empty", show_alert=True)
+                return
+            
+            try:
+                from reportlab.lib.pagesizes import letter
+                from reportlab.lib import colors
+                from reportlab.platypus import SimpleDocTemplate, Table, TableStyle, Paragraph, Spacer, PageBreak
+                from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
+                from reportlab.lib.units import inch
+                
+                # Create PDF
+                pdf_path = Path(tempfile.gettempdir()) / f"proposal_{rep_id}_{datetime.now().strftime('%Y%m%d_%H%M%S')}.pdf"
+                doc = SimpleDocTemplate(str(pdf_path), pagesize=letter, topMargin=0.5*inch, bottomMargin=0.5*inch)
+                elements = []
+                styles = getSampleStyleSheet()
+                
+                # Title
+                title_style = ParagraphStyle(
+                    'CustomTitle',
+                    parent=styles['Heading1'],
+                    fontSize=24,
+                    textColor=colors.HexColor('#CC0000'),
+                    spaceAfter=30,
+                    alignment=1  # Center
+                )
+                elements.append(Paragraph("INDOORMEDIA", title_style))
+                elements.append(Paragraph("Register Tape Advertising Proposal", styles['Heading2']))
+                elements.append(Spacer(1, 12))
+                
+                # Rep info
+                elements.append(Paragraph(f"<b>Rep:</b> {rep_name}", styles['Normal']))
+                elements.append(Paragraph(f"<b>Date:</b> {datetime.now().strftime('%B %d, %Y')}", styles['Normal']))
+                elements.append(Spacer(1, 12))
+                
+                # Locations table
+                elements.append(Paragraph("Locations & Services", styles['Heading3']))
+                
+                for location, data_loc in by_location.items():
+                    # Location header
+                    elements.append(Paragraph(f"<b>{location}</b>", styles['Normal']))
+                    
+                    # Items table
+                    table_data = [["Service", "Payment Plan", "Price"]]
+                    for item in data_loc['items']:
+                        label = f"{item['ad_type'].title()} Ad"
+                        plan = item['payment_plan'].title()
+                        price = f"${item['price']:,.2f}"
+                        table_data.append([label, plan, price])
+                    
+                    table = Table(table_data, colWidths=[2.5*inch, 2*inch, 1.5*inch])
+                    table.setStyle(TableStyle([
+                        ('BACKGROUND', (0, 0), (-1, 0), colors.HexColor('#CC0000')),
+                        ('TEXTCOLOR', (0, 0), (-1, 0), colors.whitesmoke),
+                        ('ALIGN', (0, 0), (-1, -1), 'CENTER'),
+                        ('FONTNAME', (0, 0), (-1, 0), 'Helvetica-Bold'),
+                        ('FONTSIZE', (0, 0), (-1, 0), 12),
+                        ('BOTTOMPADDING', (0, 0), (-1, 0), 12),
+                        ('BACKGROUND', (0, 1), (-1, -1), colors.beige),
+                        ('GRID', (0, 0), (-1, -1), 1, colors.black),
+                        ('ALIGN', (2, 1), (2, -1), 'RIGHT'),
+                        ('FONTNAME', (2, 1), (2, -1), 'Helvetica-Bold'),
+                    ]))
+                    elements.append(table)
+                    
+                    # Subtotal
+                    elements.append(Paragraph(f"<b>Subtotal:</b> ${data_loc['subtotal']:,.2f}", styles['Normal']))
+                    elements.append(Spacer(1, 12))
+                
+                # Grand total
+                elements.append(Spacer(1, 12))
+                total_style = ParagraphStyle(
+                    'Total',
+                    parent=styles['Heading2'],
+                    fontSize=16,
+                    textColor=colors.HexColor('#CC0000'),
+                    spaceAfter=12
+                )
+                elements.append(Paragraph(f"GRAND TOTAL: ${total:,.2f}", total_style))
+                
+                # Footer
+                elements.append(Spacer(1, 20))
+                elements.append(Paragraph("Ready to discuss terms? Contact us to finalize your campaign.", styles['Normal']))
+                
+                # Build PDF
+                doc.build(elements)
+                
+                # Send PDF to chat
+                with open(pdf_path, 'rb') as pdf_file:
+                    await update.effective_chat.send_document(
+                        pdf_file,
+                        caption=f"📄 Proposal: ${total:,.2f}",
+                        reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("⬅️ Main Menu", callback_data="main_menu")]])
+                    )
+                
+                # Cleanup
+                pdf_path.unlink()
+                await query.edit_message_text(
+                    "✅ PDF sent!",
+                    reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("⬅️ Main Menu", callback_data="main_menu")]])
+                )
+                
+            except ImportError:
+                await query.answer("❌ PDF library not installed", show_alert=True)
+            except Exception as e:
+                logger.error(f"PDF generation error: {e}")
+                await query.answer(f"❌ Error generating PDF: {e}", show_alert=True)
         elif data.startswith("tpage_"):
             # Testimonial pagination
             offset = int(data.replace("tpage_", ""))
