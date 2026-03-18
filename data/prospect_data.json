@@ -84,26 +84,7 @@
       "contact_history": {},
       "session_searches": 107,
       "session_bookmarks": 0,
-      "cart": [
-        {
-          "store_num": "FME07Z-0185",
-          "store_name": "Fred Meyer",
-          "city": "Longview",
-          "ad_type": "single",
-          "payment_plan": "3month",
-          "price": 4715.0,
-          "added_at": "2026-03-18T16:35:34.631711"
-        },
-        {
-          "store_num": "SAF07Z-0091",
-          "store_name": "Safeway",
-          "city": "Longview",
-          "ad_type": "single",
-          "payment_plan": "3month",
-          "price": 3770.0,
-          "added_at": "2026-03-18T16:36:03.248508"
-        }
-      ]
+      "cart": []
     },
     "8647728045": {
       "name": "Adan Ramos",

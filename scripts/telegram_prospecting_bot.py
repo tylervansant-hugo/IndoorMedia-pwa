@@ -7555,6 +7555,9 @@ LOCATIONS & SERVICES
                 await query.answer("❌ Cart is empty", show_alert=True)
                 return
             
+            # Show interim message while generating
+            await query.edit_message_text("🔄 Generating PDF...", reply_markup=None)
+            
             try:
                 from reportlab.lib.pagesizes import letter
                 from reportlab.lib import colors
