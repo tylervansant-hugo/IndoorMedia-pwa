@@ -40,10 +40,10 @@ HEADER_Y_START = 603.5  # Header begins here
 HEADER_Y_END = 792.0    # Top of page
 HEADER_HEIGHT = HEADER_Y_END - HEADER_Y_START
 
-AD_ZONE_Y_START = 330  # Ad positioned in blank space (moved UP 30 pts from 300)
+AD_ZONE_Y_START = 360  # Ad positioned up another 30 pts (330 + 30)
 AD_ZONE_Y_END = 603.5    # Ad zone ends (where header starts)
 AD_ZONE_HEIGHT = AD_ZONE_Y_END - AD_ZONE_Y_START
-AD_Y_POS = 330  # Ad top positioned 30 pts higher
+AD_Y_POS = 360  # Ad top positioned 60 pts higher than original 300
 
 FOOTER_Y_START = 15.1
 FOOTER_Y_END = 140.2
@@ -60,7 +60,7 @@ QR_BG_Y_MIN = 15.1
 QR_BG_SIZE = 125.1  # 125.1 × 125.1 pts (~1.74" × 1.74")
 
 # BUSINESS CARD - BOTTOM-LEFT (replaces RTUI logo area)
-BC_X_BOTTOM = 14.2  # Shifted left by 7 pts (was 21.2)
+BC_X_BOTTOM = 9.2  # Shifted left by 5 pts more (was 14.2)
 BC_Y_BOTTOM = 10.0
 BC_WIDTH = 126.72
 BC_HEIGHT = 126.72
