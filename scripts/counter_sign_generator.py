@@ -342,13 +342,15 @@ def overlay_content_on_template(
                 bc_x = BC_X_BOTTOM + (BC_WIDTH - final_bc_width) / 2
                 bc_y = BC_Y_BOTTOM + (BC_HEIGHT - final_bc_height) / 2
                 
+                # Use LANCZOS for high-quality resampling (best for both upscaling and downscaling)
                 bc_img_resized = bc_img.resize(
                     (int(final_bc_width), int(final_bc_height)),
                     Image.Resampling.LANCZOS
                 )
                 
                 with tempfile.NamedTemporaryFile(suffix='.png', delete=False) as tmp:
-                    bc_img_resized.save(tmp.name, format='PNG')
+                    # Save at highest quality - PNG is lossless, so quality parameter doesn't affect
+                    bc_img_resized.save(tmp.name, format='PNG', optimize=False)
                     c.drawImage(tmp.name, bc_x, bc_y, width=final_bc_width, height=final_bc_height)
                     logger.info(f"✓ Business card (bottom-left) at ({bc_x:.1f}, {bc_y:.1f}): {final_bc_width:.1f}×{final_bc_height:.1f} pts")
             except Exception as e:

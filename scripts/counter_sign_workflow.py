@@ -108,8 +108,8 @@ async def handle_business_card_upload(
         return STATE_AWAITING_BUSINESS_CARD
 
     try:
-        # Download and save business card image
-        photo = update.message.photo[-1]
+        # Download and save business card image (use highest resolution)
+        photo = update.message.photo[-1]  # Get highest resolution available
         file = await context.bot.get_file(photo.file_id)
         
         temp_dir = Path(tempfile.gettempdir()) / "counter_signs"
