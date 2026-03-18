@@ -579,12 +579,17 @@ def get_testimonials_for_prospect(
     category: str,
     subcategory: str,
     testimonials: Optional[List[Dict]] = None,
-    limit: int = 3
+    limit: int = 3,
+    prospect_address: Optional[str] = None
 ) -> List[Dict]:
     """
-    Get relevant testimonials for a prospect.
+    Get relevant testimonials for a prospect with smart geographic fallback.
     
-    NEW SIGNATURE: Takes category + subcategory explicitly
+    GEOGRAPHIC FALLBACK STRATEGY (LOCAL PREFERRED, NOT DEMANDED):
+    1. Try LOCAL first (prospect's city/state)
+    2. If <3 results, expand to NEIGHBORING STATES
+    3. If still <3, go NATIONAL
+    4. Always return results if they exist (never empty if possible)
     
     Args:
         prospect: Prospect dict with 'name' field
@@ -592,14 +597,21 @@ def get_testimonials_for_prospect(
         subcategory: Prospect's subcategory (e.g., "Dentist")
         testimonials: Optional cached testimonials list (loads from file if not provided)
         limit: Max results to return (default 3)
+        prospect_address: Optional address to extract location (e.g., "Portland, OR")
     
     Returns:
-        List of up to `limit` testimonials
+        List of up to `limit` testimonials (local preferred, national if needed)
     
     Example:
-        prospect = {"name": "Mountain View Dental", ...}
-        results = get_testimonials_for_prospect(prospect, "🏥 Health/Medical", "Dentist")
-        # Returns dental-only testimonials, never grooming/plumbing/etc.
+        prospect = {"name": "Mountain View Dental", "address": "Portland, OR"}
+        results = get_testimonials_for_prospect(
+            prospect, 
+            "🏥 Health/Medical", 
+            "Dentist",
+            prospect_address="Portland, OR"
+        )
+        # Returns: Local Portland dentist testimonials first, 
+        # then Oregon/WA, then national if needed
     """
     # Load testimonials if not provided
     if testimonials is None:
@@ -621,7 +633,111 @@ def get_testimonials_for_prospect(
     # Use category-specific search with fallback chain
     results = search_testimonials_by_category(category, subcategory, testimonials, limit)
     
+    # GEOGRAPHIC FALLBACK: Local → Regional → National
+    if len(results) < limit and prospect_address:
+        results = apply_geographic_fallback(
+            results, 
+            prospect_address, 
+            category, 
+            subcategory, 
+            testimonials, 
+            limit
+        )
+    
     return results
+
+
+def apply_geographic_fallback(
+    local_results: List[Dict],
+    prospect_address: str,
+    category: str,
+    subcategory: str,
+    all_testimonials: List[Dict],
+    limit: int
+) -> List[Dict]:
+    """
+    Expand search geographically if local results are insufficient.
+    
+    Strategy:
+    1. Keep LOCAL results (already have)
+    2. Add REGIONAL results (neighboring states) if needed
+    3. Add NATIONAL results if still needed
+    """
+    # Extract state from address (e.g., "Portland, OR" → "OR")
+    address_upper = prospect_address.upper()
+    prospect_state = None
+    for state in ["OR", "WA", "CA", "ID", "NV", "UT", "AZ", "NM", "CO", "WY"]:
+        if state in address_upper:
+            prospect_state = state
+            break
+    
+    if not prospect_state:
+        return local_results
+    
+    # Define neighboring states
+    neighbors = {
+        "OR": ["WA", "CA", "ID", "NV"],
+        "WA": ["OR", "ID"],
+        "CA": ["OR", "NV", "AZ"],
+        "ID": ["OR", "WA", "MT", "WY"],
+        # Add more as needed
+    }
+    
+    results = list(local_results)  # Start with local
+    seen_ids = {r.get("id", "") for r in results}
+    
+    # STEP 2: Add REGIONAL (neighboring states)
+    if len(results) < limit:
+        neighboring_states = neighbors.get(prospect_state, [])
+        for state in neighboring_states:
+            if len(results) >= limit:
+                break
+            for testimonial in all_testimonials:
+                if len(results) >= limit:
+                    break
+                test_state = testimonial.get("full", {}).get("state", "").upper()
+                if test_state == state and testimonial.get("id") not in seen_ids:
+                    # Verify it's still the right category
+                    if verify_category_match(testimonial, category, subcategory):
+                        results.append(testimonial)
+                        seen_ids.add(testimonial.get("id", ""))
+    
+    # STEP 3: Add NATIONAL (anywhere in US) if still needed
+    if len(results) < limit:
+        for testimonial in all_testimonials:
+            if len(results) >= limit:
+                break
+            if testimonial.get("id") not in seen_ids:
+                # Verify it's still the right category
+                if verify_category_match(testimonial, category, subcategory):
+                    results.append(testimonial)
+                    seen_ids.add(testimonial.get("id", ""))
+    
+    return results[:limit]
+
+
+def verify_category_match(testimonial: Dict, category: str, subcategory: str) -> bool:
+    """Verify testimonial matches the required category."""
+    test_category = testimonial.get("full", {}).get("category", "").lower()
+    
+    # Get keywords for this category/subcategory
+    if category not in CATEGORY_FALLBACKS:
+        return False
+    
+    if subcategory not in CATEGORY_FALLBACKS[category]:
+        return False
+    
+    fallback_chain = CATEGORY_FALLBACKS[category][subcategory]
+    keywords = fallback_chain.get("primary", []) + fallback_chain.get("fallbacks", [])
+    exclude_keywords = fallback_chain.get("exclude_keywords", [])
+    
+    # Check if testimonial matches keywords and doesn't match excludes
+    testimonial_text = testimonial.get("searchable", "").lower()
+    
+    has_keyword = any(kw.lower() in testimonial_text for kw in keywords)
+    has_exclude = any(ex.lower() in testimonial_text for ex in exclude_keywords)
+    
+    return has_keyword and not has_exclude
 
 
 # ============================================================================
