@@ -7966,14 +7966,16 @@ SERVICES & PRICING
                 # Services & Pricing section
                 elements.append(Paragraph("Services & Pricing", styles['Heading3']))
                 
-                # Build table with all items
-                table_data = [["Service", "Details", "Price", "CPM"]]
+                # Build table with all items - include monthly investment
+                table_data = [["Service", "Details", "Annual Investment", "Monthly Investment"]]
                 total = 0
+                monthly_total = 0
                 for item in cart_items:
                     product_name = item.get("product_name", "Unknown")
                     price = item.get("price", 0)
-                    cpm = item.get("cpm", 0)
+                    monthly_price = price / 12
                     total += price
+                    monthly_total += monthly_price
                     
                     # Build details column based on product type
                     product_type = item.get("product_type", "register_tape")
@@ -7986,23 +7988,24 @@ SERVICES & PRICING
                     else:
                         details = ""
                     
-                    cpm_str = f"${cpm:,.2f}" if cpm > 0 else "N/A"
-                    table_data.append([product_name, details, f"${price:,.2f}", cpm_str])
+                    table_data.append([product_name, details, f"${price:,.2f}", f"${monthly_price:,.2f}"])
                 
                 # Build and add table once (not per item)
-                table = Table(table_data, colWidths=[2*inch, 2.5*inch, 1.25*inch, 1.25*inch])
+                table = Table(table_data, colWidths=[2*inch, 2.25*inch, 1.25*inch, 1.5*inch])
                 table.setStyle(TableStyle([
                     ('BACKGROUND', (0, 0), (-1, 0), colors.HexColor('#CC0000')),
                     ('TEXTCOLOR', (0, 0), (-1, 0), colors.whitesmoke),
                     ('ALIGN', (0, 0), (-1, -1), 'LEFT'),
                     ('ALIGN', (2, 1), (-1, -1), 'RIGHT'),
+                    ('ALIGN', (3, 1), (3, -1), 'RIGHT'),
                     ('FONTNAME', (0, 0), (-1, 0), 'Helvetica-Bold'),
-                    ('FONTSIZE', (0, 0), (-1, 0), 10),
-                    ('FONTSIZE', (0, 1), (-1, -1), 9),
+                    ('FONTSIZE', (0, 0), (-1, 0), 9),
+                    ('FONTSIZE', (0, 1), (-1, -1), 8),
                     ('BOTTOMPADDING', (0, 0), (-1, 0), 12),
                     ('BACKGROUND', (0, 1), (-1, -1), colors.beige),
                     ('GRID', (0, 0), (-1, -1), 1, colors.black),
                     ('FONTNAME', (2, 1), (-1, -1), 'Helvetica-Bold'),
+                    ('FONTNAME', (3, 1), (3, -1), 'Helvetica-Bold'),
                 ]))
                 elements.append(table)
                 elements.append(Spacer(1, 12))
@@ -8041,16 +8044,17 @@ SERVICES & PRICING
                         elements.append(metrics_table)
                         elements.append(Spacer(1, 12))
                 
-                # Grand total
+                # Grand total (annual and monthly)
                 elements.append(Spacer(1, 12))
                 total_style = ParagraphStyle(
                     'Total',
                     parent=styles['Heading2'],
-                    fontSize=16,
+                    fontSize=14,
                     textColor=colors.HexColor('#CC0000'),
-                    spaceAfter=12
+                    spaceAfter=6
                 )
-                elements.append(Paragraph(f"GRAND TOTAL: ${total:,.2f}", total_style))
+                elements.append(Paragraph(f"TOTAL ANNUAL INVESTMENT: ${total:,.2f}", total_style))
+                elements.append(Paragraph(f"TOTAL MONTHLY INVESTMENT: ${monthly_total:,.2f}", total_style))
                 
                 # Footer
                 elements.append(Spacer(1, 20))
