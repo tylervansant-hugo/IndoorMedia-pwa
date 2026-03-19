@@ -353,20 +353,22 @@ PRODUCTS = {
                 "name": "Co-Op",
                 "emoji": "🎯",
                 "pricing": {
-                    "monthly": lambda base: 240,  # $240/pin
-                    "3month": lambda base: 240,
-                    "6month": lambda base: 240,
-                    "pif": lambda base: 240,
+                    # 6-month base rate = $2,995, so monthly = $2,995/6 = $499.17, annual = $5,990
+                    "monthly": lambda base: 499.17,  # $2,995 ÷ 6 months
+                    "3month": lambda base: 1497.50,  # $2,995 ÷ 2
+                    "6month": lambda base: 2995,     # Full 6-month rate
+                    "pif": lambda base: 5990,        # Annual (2 × 6-month)
                 }
             },
             "standard": {
                 "name": "Standard",
                 "emoji": "💲",
                 "pricing": {
-                    "monthly": lambda base: 240,  # $240/pin
-                    "3month": lambda base: 240,
-                    "6month": lambda base: 240,
-                    "pif": lambda base: 240,
+                    # Same as Co-Op based on provided rate
+                    "monthly": lambda base: 499.17,  # $2,995 ÷ 6 months
+                    "3month": lambda base: 1497.50,  # $2,995 ÷ 2
+                    "6month": lambda base: 2995,     # Full 6-month rate
+                    "pif": lambda base: 5990,        # Annual (2 × 6-month)
                 }
             }
         },
