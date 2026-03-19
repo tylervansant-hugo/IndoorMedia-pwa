@@ -7992,6 +7992,40 @@ SERVICES & PRICING
                 elements.append(table)
                 elements.append(Spacer(1, 12))
                 
+                # Store Traffic & Metrics section (for Register Tape items)
+                rt_items = [item for item in cart_items if item.get("product_type") == "register_tape"]
+                if rt_items:
+                    elements.append(Paragraph("Store Traffic & Metrics", styles['Heading3']))
+                    
+                    for item in rt_items:
+                        # Store header
+                        store_info = f"{item.get('store_num', 'N/A')} - {item.get('store_name', '?')} ({item.get('city', '')}, {item.get('state', '')})"
+                        elements.append(Paragraph(f"<b>{store_info}</b>", styles['Normal']))
+                        
+                        # Metrics table
+                        metrics_data = [
+                            ["Metric", "Value"],
+                            ["Daily Impressions", f"{item.get('daily_impressions', 0):,}"],
+                            ["Monthly Impressions", f"{int(item.get('daily_impressions', 0) * 30):,}"],
+                            ["Annual Impressions", f"{item.get('annual_impressions', 0):,}"],
+                            ["Cost Per Day", f"${item.get('cost_per_day', 0):,.2f}"],
+                            ["CPM (Cost Per 1000)", f"${item.get('cpm', 0):,.2f}"],
+                        ]
+                        
+                        metrics_table = Table(metrics_data, colWidths=[3*inch, 2*inch])
+                        metrics_table.setStyle(TableStyle([
+                            ('BACKGROUND', (0, 0), (-1, 0), colors.HexColor('#CC0000')),
+                            ('TEXTCOLOR', (0, 0), (-1, 0), colors.whitesmoke),
+                            ('ALIGN', (0, 0), (-1, -1), 'LEFT'),
+                            ('ALIGN', (1, 0), (1, -1), 'RIGHT'),
+                            ('FONTNAME', (0, 0), (-1, 0), 'Helvetica-Bold'),
+                            ('FONTSIZE', (0, 0), (-1, -1), 9),
+                            ('BACKGROUND', (0, 1), (-1, -1), colors.lightgrey),
+                            ('GRID', (0, 0), (-1, -1), 1, colors.black),
+                        ]))
+                        elements.append(metrics_table)
+                        elements.append(Spacer(1, 12))
+                
                 # Grand total
                 elements.append(Spacer(1, 12))
                 total_style = ParagraphStyle(
