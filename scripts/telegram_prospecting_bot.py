@@ -7929,11 +7929,12 @@ SERVICES & PRICING
                 elements.append(Paragraph("Services & Pricing", styles['Heading3']))
                 
                 # Build table with all items
-                table_data = [["Service", "Details", "Price", "Annual Impressions"]]
+                table_data = [["Service", "Details", "Price", "CPM"]]
                 total = 0
                 for item in cart_items:
                     product_name = item.get("product_name", "Unknown")
                     price = item.get("price", 0)
+                    cpm = item.get("cpm", 0)
                     total += price
                     
                     # Build details column based on product type
@@ -7947,27 +7948,26 @@ SERVICES & PRICING
                     else:
                         details = ""
                     
-                    impressions = f"{item.get('annual_impressions', 0):,}" if item.get('annual_impressions') else "N/A"
-                    table_data.append([product_name, details, f"${price:,.2f}", impressions])
-                    
-                    table = Table(table_data, colWidths=[2.5*inch, 2*inch, 1.5*inch])
-                    table.setStyle(TableStyle([
-                        ('BACKGROUND', (0, 0), (-1, 0), colors.HexColor('#CC0000')),
-                        ('TEXTCOLOR', (0, 0), (-1, 0), colors.whitesmoke),
-                        ('ALIGN', (0, 0), (-1, -1), 'CENTER'),
-                        ('FONTNAME', (0, 0), (-1, 0), 'Helvetica-Bold'),
-                        ('FONTSIZE', (0, 0), (-1, 0), 12),
-                        ('BOTTOMPADDING', (0, 0), (-1, 0), 12),
-                        ('BACKGROUND', (0, 1), (-1, -1), colors.beige),
-                        ('GRID', (0, 0), (-1, -1), 1, colors.black),
-                        ('ALIGN', (2, 1), (2, -1), 'RIGHT'),
-                        ('FONTNAME', (2, 1), (2, -1), 'Helvetica-Bold'),
-                    ]))
-                    elements.append(table)
-                    
-                    # Subtotal
-                    elements.append(Paragraph(f"<b>Subtotal:</b> ${data_loc['subtotal']:,.2f}", styles['Normal']))
-                    elements.append(Spacer(1, 20))
+                    cpm_str = f"${cpm:,.2f}" if cpm > 0 else "N/A"
+                    table_data.append([product_name, details, f"${price:,.2f}", cpm_str])
+                
+                # Build and add table once (not per item)
+                table = Table(table_data, colWidths=[2*inch, 2.5*inch, 1.25*inch, 1.25*inch])
+                table.setStyle(TableStyle([
+                    ('BACKGROUND', (0, 0), (-1, 0), colors.HexColor('#CC0000')),
+                    ('TEXTCOLOR', (0, 0), (-1, 0), colors.whitesmoke),
+                    ('ALIGN', (0, 0), (-1, -1), 'LEFT'),
+                    ('ALIGN', (2, 1), (-1, -1), 'RIGHT'),
+                    ('FONTNAME', (0, 0), (-1, 0), 'Helvetica-Bold'),
+                    ('FONTSIZE', (0, 0), (-1, 0), 10),
+                    ('FONTSIZE', (0, 1), (-1, -1), 9),
+                    ('BOTTOMPADDING', (0, 0), (-1, 0), 12),
+                    ('BACKGROUND', (0, 1), (-1, -1), colors.beige),
+                    ('GRID', (0, 0), (-1, -1), 1, colors.black),
+                    ('FONTNAME', (2, 1), (-1, -1), 'Helvetica-Bold'),
+                ]))
+                elements.append(table)
+                elements.append(Spacer(1, 12))
                 
                 # Grand total
                 elements.append(Spacer(1, 12))
