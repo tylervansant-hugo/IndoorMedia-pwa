@@ -1601,6 +1601,7 @@ async def handle_store_query(update: Update, context: ContextTypes.DEFAULT_TYPE)
         return
     elif text == "💰 Store Rates":
         buttons = [[KeyboardButton("⬅️ Back to Products"), KeyboardButton("⬅️ Main Menu")]]
+        context.user_data[AWAITING_RATES] = True  # Set flag so next input is treated as rates lookup
         await update.message.reply_text(
             "💰 *STORE RATES*\n\nEnter a store number or city name to lookup register tape pricing:\n\nPresentation: https://docs.google.com/presentation/d/1Xs60nX3i6MJkC81GgnK-50jBrkWVPu06xRpmv8z4PIc/edit?usp=sharing\n\nExplainer: https://youtu.be/_gdlyEszHfY?si=0_kHou89WrMhvNY_",
             parse_mode="Markdown",
