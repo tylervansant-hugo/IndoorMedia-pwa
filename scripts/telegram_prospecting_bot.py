@@ -6617,7 +6617,7 @@ async def handle_button_callback(update: Update, context: ContextTypes.DEFAULT_T
             await query.answer()
             # Request location from user
             location_button = KeyboardButton("📍 Share My Location", request_location=True)
-            keyboard = TGReplyKeyboardMarkup([[location_button]], one_time_keyboard=True, resize_keyboard=True)
+            keyboard = ReplyKeyboardMarkup([[location_button]], one_time_keyboard=True, resize_keyboard=True)
             await update.effective_chat.send_message(
                 "📍 *Share Your Location*\n\nTap the button below to share your location, and I'll find the nearest stores.",
                 parse_mode="Markdown",
@@ -7403,7 +7403,7 @@ Send any city name to see all stores!
             context.user_data['waiting_for_location'] = True
             context.user_data[AWAITING_RATES] = False
             location_button = KeyboardButton("📍 Share My Location", request_location=True)
-            keyboard = TGReplyKeyboardMarkup([[location_button]], one_time_keyboard=True, resize_keyboard=True)
+            keyboard = ReplyKeyboardMarkup([[location_button]], one_time_keyboard=True, resize_keyboard=True)
             await update.effective_chat.send_message(
                 "📍 *Find Stores Near You*\n\nTap the button below to share your location and see nearby store rates.",
                 parse_mode="Markdown",
