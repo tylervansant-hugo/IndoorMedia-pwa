@@ -717,6 +717,26 @@ def get_rep_email(update: Update) -> str:
     # Fallback: construct from rep name
     return f"{rep_name.lower().replace(' ', '.')}@indoormedia.com"
 
+def get_rep_phone(update: Update) -> str:
+    """Get rep phone number from roster by rep name."""
+    rep_name = get_rep_name(update)
+    
+    # Phone roster (add as we get numbers)
+    reps_phone = {
+        "Adan Ramos": "(360) 555-0101",
+        "Amy Dixon": "(503) 555-0102",
+        "Ben Patacsil": "(503) 555-0103",
+        "Christian Johnson": "(714) 555-0104",
+        "Dave Boring": "(360) 555-0105",
+        "Jan Banks": "(503) 555-0106",
+        "Marty/Anthony Eng": "(503) 555-0107",
+        "Matt Boozer": "(541) 555-0108",
+        "Megan Wink": "(503) 555-0109",
+        "Meghan Wink": "(503) 555-0109",
+        "Tyler Van Sant": "(503) 555-0110",
+    }
+    return reps_phone.get(rep_name, "Not available")
+
 def load_rep_data(rep_id: str):
     """Load data for a specific rep."""
     data = load_prospect_data()
@@ -7921,8 +7941,10 @@ SERVICES & PRICING
                 
                 # Rep info and contact
                 rep_email = get_rep_email(update)
+                rep_phone = get_rep_phone(update)
                 elements.append(Paragraph(f"<b>Rep:</b> {rep_name}", styles['Normal']))
                 elements.append(Paragraph(f"<b>Email:</b> {rep_email}", styles['Normal']))
+                elements.append(Paragraph(f"<b>Phone:</b> {rep_phone}", styles['Normal']))
                 elements.append(Paragraph(f"<b>Date:</b> {datetime.now().strftime('%B %d, %Y')}", styles['Normal']))
                 elements.append(Spacer(1, 12))
                 
