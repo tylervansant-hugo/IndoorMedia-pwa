@@ -6015,6 +6015,7 @@ async def handle_button_callback(update: Update, context: ContextTypes.DEFAULT_T
             
             # Try to create the calendar event
             try:
+                logger.info(f"Creating calendar event: {' '.join(cmd)}")
                 result = subprocess.run(cmd, capture_output=True, text=True, timeout=30)
                 if result.returncode == 0:
                     date_str = cal_date.strftime("%a %m/%d")
@@ -6046,8 +6047,10 @@ async def handle_button_callback(update: Update, context: ContextTypes.DEFAULT_T
                         reply_markup=InlineKeyboardMarkup(buttons)
                     )
                 else:
+                    error_msg = result.stderr or result.stdout or "Unknown error"
+                    logger.error(f"Calendar creation failed: {error_msg}")
                     await query.edit_message_text(
-                        f"❌ Failed to create calendar event.\n\nError: {result.stderr[:100]}\n\nPlease try again.",
+                        f"❌ Failed to create calendar event.\n\nError: {error_msg[:150]}\n\nPlease try again.",
                         parse_mode="Markdown",
                         reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("⬅️ Back", callback_data=f"expand_{prospect_id}")]])
                     )

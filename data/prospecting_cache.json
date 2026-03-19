@@ -10395,7 +10395,617 @@
       ],
       "createdAt": "2026-03-19T12:08:21.592755",
       "count": 10
+    },
+    "6e5e99ba6cf7b270": {
+      "storeNumber": "SAF07Y-1800",
+      "category": "mexican",
+      "prospects": [
+        {
+          "name": "Taco Bros",
+          "type": "restaurant, food, point_of_interest, establishment",
+          "address": "17971 SW Scholls-Sherwood Rd, Sherwood",
+          "lat": 45.38220310000001,
+          "lon": -122.8575957,
+          "distance_miles": 1.06,
+          "likelihood_score": 88,
+          "rating": 4.9,
+          "user_ratings_total": 194,
+          "phone": "+1 503-560-1680",
+          "website": "http://gotacobros.com/",
+          "place_id": "ChIJjf_2djBtlVQRrgJQtMzeuEU",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        },
+        {
+          "name": "Araceli's Cocina",
+          "type": "restaurant, food, point_of_interest, establishment",
+          "address": "16198 SW 1st St, Sherwood",
+          "lat": 45.35592399999999,
+          "lon": -122.8420656,
+          "distance_miles": 0.95,
+          "likelihood_score": 88,
+          "rating": 4.6,
+          "user_ratings_total": 162,
+          "phone": "+1 971-213-7887",
+          "website": "https://www.araceliscocina.com/",
+          "place_id": "ChIJr2fiBbptlVQRKAY1RdUODXk",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 1,
+          "source": "Google Places"
+        },
+        {
+          "name": "La Sierra Mexican Grill Sherwood",
+          "type": "restaurant, food, point_of_interest, establishment",
+          "address": "20403 SW Borchers Dr, Sherwood",
+          "lat": 45.3685896,
+          "lon": -122.8470347,
+          "distance_miles": 0.11,
+          "likelihood_score": 94,
+          "rating": 4.3,
+          "user_ratings_total": 182,
+          "phone": "+1 503-822-5162",
+          "website": "https://lasierramexicangrill.com/",
+          "place_id": "ChIJs_nGudRtlVQRw3hBxkwdq1U",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 2,
+          "source": "Google Places"
+        },
+        {
+          "name": "Jalapeno Rocoto Pepper",
+          "type": "restaurant, food, point_of_interest, establishment",
+          "address": "16555 SW 12th St, Sherwood",
+          "lat": 45.3648293,
+          "lon": -122.8471228,
+          "distance_miles": 0.34,
+          "likelihood_score": 92,
+          "rating": 4.3,
+          "user_ratings_total": 523,
+          "phone": "+1 503-625-1404",
+          "website": "http://www.jalapenorocotopepper.com/",
+          "place_id": "ChIJb9T5a-hslVQR_4fVCkbhtFI",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 1,
+          "source": "Google Places"
+        },
+        {
+          "name": "Mazatlan Restaurant Sherwood",
+          "type": "restaurant, food, point_of_interest, establishment",
+          "address": "16055 SW Tualatin-Sherwood Rd, Sherwood",
+          "lat": 45.3697593,
+          "lon": -122.8422036,
+          "distance_miles": 0.15,
+          "likelihood_score": 95,
+          "rating": 4.4,
+          "user_ratings_total": 561,
+          "phone": "+1 503-925-9723",
+          "website": "https://bit.ly/4iFADjo",
+          "place_id": "ChIJzZhRF95slVQR9bg5RqXUp4s",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 2,
+          "source": "Google Places"
+        },
+        {
+          "name": "Baja Fresh",
+          "type": "restaurant, food, point_of_interest, establishment",
+          "address": "16002 SW Tualatin-Sherwood Rd Unit 639-26, Sherwood",
+          "lat": 45.3680228,
+          "lon": -122.8425143,
+          "distance_miles": 0.17,
+          "likelihood_score": 92,
+          "rating": 3.9,
+          "user_ratings_total": 313,
+          "phone": "+1 503-925-8050",
+          "website": "https://www.bajafresh.com/stores/mexican-food-sherwood/30674?utm_source=gmb&utm_medium=gmb&utm_campaign=gmb&utm_id=gmb",
+          "place_id": "ChIJi0XsSudslVQR2tT-PkwXrIw",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 1,
+          "source": "Google Places"
+        },
+        {
+          "name": "Taco Time",
+          "type": "restaurant, food, point_of_interest, establishment",
+          "address": "21300 SW Langer Farms Pkwy Suite 108, Sherwood",
+          "lat": 45.3661795,
+          "lon": -122.8367818,
+          "distance_miles": 0.47,
+          "likelihood_score": 90,
+          "rating": 4.1,
+          "user_ratings_total": 83,
+          "phone": "+1 503-925-8226",
+          "website": "https://www.tacotime.com/stores/6632?utm_source=gmb&utm_medium=gmb&utm_campaign=gmb&utm_id=gmb",
+          "place_id": "ChIJuXH9MGRtlVQRiHwQq_LNjdU",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 1,
+          "source": "Google Places"
+        },
+        {
+          "name": "Tacos El Patron",
+          "type": "restaurant, food, point_of_interest, establishment",
+          "address": "20661 SW Roy Rogers Rd #501, Sherwood",
+          "lat": 45.37085090000001,
+          "lon": -122.8448818,
+          "distance_miles": 0.09,
+          "likelihood_score": 95,
+          "rating": 4.3,
+          "user_ratings_total": 109,
+          "phone": "+1 503-610-1104",
+          "website": "https://tacoselpatron.com/tacoselpatron-ehtkwy?utm_source=google",
+          "place_id": "ChIJW7CwNNxtlVQRVABp3gsfPeY",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        },
+        {
+          "name": "Chipotle Mexican Grill",
+          "type": "restaurant, food, point_of_interest, establishment",
+          "address": "21332 SW Langer Farms Pkwy Ste 118, Sherwood",
+          "lat": 45.3662559,
+          "lon": -122.8359039,
+          "distance_miles": 0.51,
+          "likelihood_score": 86,
+          "rating": 3.5,
+          "user_ratings_total": 504,
+          "phone": "+1 503-925-1070",
+          "website": "https://locations.chipotle.com/or/sherwood/21332-sw-langer-farms-pkwy?utm_source=google&utm_medium=yext&utm_campaign=yext_listings?restaurant=2333",
+          "place_id": "ChIJbcnA1-NslVQRGHbro3cLNWc",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 1,
+          "source": "Google Places"
+        }
+      ],
+      "createdAt": "2026-03-19T13:42:58.650783",
+      "count": 9
+    },
+    "c4a0dfeb72ef80d4": {
+      "storeNumber": "SAF07Y-1800",
+      "category": "oil change/lube",
+      "prospects": [
+        {
+          "name": "Jiffy Lube Oil Change and Multicare",
+          "type": "car_repair, point_of_interest, establishment",
+          "address": "15930 SW Tualatin-Sherwood Rd, Sherwood",
+          "lat": 45.367738,
+          "lon": -122.8397952,
+          "distance_miles": 0.29,
+          "likelihood_score": 94,
+          "rating": 4.5,
+          "user_ratings_total": 428,
+          "phone": "+1 503-925-0940",
+          "website": "https://www.jiffylube.com/locations/or/sherwood/2807",
+          "place_id": "ChIJMWjiNedslVQR32jZD9XW2Fo",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        },
+        {
+          "name": "Oilstop Drive Thru Oil Change",
+          "type": "car_repair, point_of_interest, establishment",
+          "address": "16415 SW Langer Dr, Sherwood",
+          "lat": 45.36639359999999,
+          "lon": -122.8470298,
+          "distance_miles": 0.23,
+          "likelihood_score": 95,
+          "rating": 4.7,
+          "user_ratings_total": 396,
+          "phone": "+1 503-610-1246",
+          "website": "https://oilstopinc.com/",
+          "place_id": "ChIJrVkA-XttlVQRhbBmLjmauPk",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        },
+        {
+          "name": "Sherwood DEQ Test Station",
+          "type": "car_repair, point_of_interest, establishment",
+          "address": "14962 SW Tualatin-Sherwood Rd, Sherwood",
+          "lat": 45.36738330000001,
+          "lon": -122.8321309,
+          "distance_miles": 0.65,
+          "likelihood_score": 91,
+          "rating": 4.6,
+          "user_ratings_total": 1493,
+          "phone": "+1 503-229-5066",
+          "website": "https://www.oregon.gov/deq/Vehicle-Inspection/Pages/Sherwood-Station.aspx",
+          "place_id": "ChIJX-BgAB5tlVQR-0wM5R53RNU",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        }
+      ],
+      "createdAt": "2026-03-19T14:39:30.797896",
+      "count": 3
+    },
+    "e5c831d2ad3c9c55": {
+      "storeNumber": "SAF07Y-1800",
+      "category": "real estate agent",
+      "prospects": [
+        {
+          "name": "Gardner Team Real Estate | Premiere Property Group, LLC",
+          "type": "real_estate_agency, point_of_interest, establishment",
+          "address": "16227 SW 1st St, Sherwood",
+          "lat": 45.3558467,
+          "lon": -122.8429751,
+          "distance_miles": 0.95,
+          "likelihood_score": 90,
+          "rating": 5,
+          "user_ratings_total": 121,
+          "phone": "+1 971-832-1234",
+          "website": "http://www.gardnerteam.net/",
+          "place_id": "ChIJpf3HdfFslVQRu0LJX64DiYk",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        },
+        {
+          "name": "Dorsey Realty Group by Fathom Realty",
+          "type": "point_of_interest, establishment",
+          "address": "21370 SW Langer Farms Pkwy Ste 142 #401, Sherwood",
+          "lat": 45.3652135,
+          "lon": -122.8358176,
+          "distance_miles": 0.54,
+          "likelihood_score": 94,
+          "rating": 5,
+          "user_ratings_total": 16,
+          "phone": "+1 503-808-0413",
+          "website": "http://thedorseyrealtygroup.com/",
+          "place_id": "ChIJ8TlWJudtlVQR69brmjU6dRs",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        },
+        {
+          "name": "Chris Olson l Premiere Property Group, LLC",
+          "type": "point_of_interest, establishment",
+          "address": "16227 SW 1st St Suite C, Sherwood",
+          "lat": 45.3559002,
+          "lon": -122.8430675,
+          "distance_miles": 0.95,
+          "likelihood_score": 90,
+          "rating": 5,
+          "user_ratings_total": 22,
+          "phone": "+1 503-896-6100",
+          "website": "http://chrisolsonhomes.com/",
+          "place_id": "ChIJTYyD3eJtlVQRO3rNEPOfBQ4",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        },
+        {
+          "name": "David Caldwell | Tigard Real Estate Broker",
+          "type": "point_of_interest, establishment",
+          "address": "22804 SW Forest Creek Dr #102, Sherwood",
+          "lat": 45.3548463,
+          "lon": -122.865029,
+          "distance_miles": 1.4,
+          "likelihood_score": 36,
+          "rating": null,
+          "user_ratings_total": 0,
+          "phone": "+1 503-453-2886",
+          "website": "http://david.hillshirerealtygroup.com/",
+          "place_id": "ChIJr-aT2VhtlVQRtKjVayB0a7w",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        },
+        {
+          "name": "Haven Real Estate",
+          "type": "real_estate_agency, point_of_interest, establishment",
+          "address": "22595 SW Pine St, Sherwood",
+          "lat": 45.35638,
+          "lon": -122.8406167,
+          "distance_miles": 0.94,
+          "likelihood_score": 72,
+          "rating": 5,
+          "user_ratings_total": 3,
+          "phone": "+1 503-858-5141",
+          "website": "http://www.haven-realestate.com/",
+          "place_id": "ChIJIx9PxchtlVQR7gyglnmWez8",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        },
+        {
+          "name": "Katlin Ronningen, Realtor",
+          "type": "point_of_interest, establishment",
+          "address": "22595 SW Pine St, Sherwood",
+          "lat": 45.35638,
+          "lon": -122.8406167,
+          "distance_miles": 0.94,
+          "likelihood_score": 72,
+          "rating": 5,
+          "user_ratings_total": 3,
+          "phone": "+1 503-970-0322",
+          "website": "https://www.haven-realestate.com/",
+          "place_id": "ChIJNbhEpcuhlVQR6e4eesmmavo",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        },
+        {
+          "name": "The Enloe Group",
+          "type": "real_estate_agency, point_of_interest, establishment",
+          "address": "16227 SW 1st St suite c, Sherwood",
+          "lat": 45.3558367,
+          "lon": -122.8430009,
+          "distance_miles": 0.95,
+          "likelihood_score": 60,
+          "rating": 5,
+          "user_ratings_total": 2,
+          "phone": "+1 503-333-8793",
+          "website": "https://theenloegroup.com/contact/",
+          "place_id": "ChIJ7a_pdfFslVQRoMTYZOyeCys",
+          "opening_hours": {},
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        }
+      ],
+      "createdAt": "2026-03-19T14:50:10.682290",
+      "count": 7
+    },
+    "a677cfb516f25377": {
+      "storeNumber": "SAF07Y-1800",
+      "category": "bar/pub",
+      "prospects": [
+        {
+          "name": "Clancy's",
+          "type": "bar, restaurant, food, point_of_interest, establishment",
+          "address": "16066 SW 1st St, Sherwood",
+          "lat": 45.356407,
+          "lon": -122.8414578,
+          "distance_miles": 0.93,
+          "likelihood_score": 87,
+          "rating": 4.5,
+          "user_ratings_total": 975,
+          "phone": "+1 503-625-6711",
+          "website": "https://www.clancyssherwood.com/",
+          "place_id": "ChIJP-WAAPFslVQRee8pQlYfOAI",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 2,
+          "source": "Google Places"
+        },
+        {
+          "name": "Generations Bar & Grill",
+          "type": "restaurant, bar, food, point_of_interest, establishment",
+          "address": "15982 SW Tualatin-Sherwood Rd, Sherwood",
+          "lat": 45.3676476,
+          "lon": -122.8415965,
+          "distance_miles": 0.22,
+          "likelihood_score": 94,
+          "rating": 4.4,
+          "user_ratings_total": 340,
+          "phone": "+1 503-610-1403",
+          "website": "http://generationssportsbar.com/",
+          "place_id": "ChIJn_9cmetslVQRY5ED68XRrSE",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 2,
+          "source": "Google Places"
+        },
+        {
+          "name": "BearKat Brewing Company",
+          "type": "bar, restaurant, food, point_of_interest, establishment",
+          "address": "20345 SW Pacific Hwy #404, Sherwood",
+          "lat": 45.3733204,
+          "lon": -122.8395806,
+          "distance_miles": 0.38,
+          "likelihood_score": 95,
+          "rating": 4.8,
+          "user_ratings_total": 59,
+          "phone": "+1 503-389-0159",
+          "website": "https://www.bearkatbrewing.com/",
+          "place_id": "ChIJA_TwZkRtlVQRD1nxvCUHlVI",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        },
+        {
+          "name": "McMenamins Sherwood",
+          "type": "bar, restaurant, food, point_of_interest, establishment",
+          "address": "15976 SW Tualatin-Sherwood Rd, Sherwood",
+          "lat": 45.3675422,
+          "lon": -122.8414535,
+          "distance_miles": 0.23,
+          "likelihood_score": 92,
+          "rating": 4.1,
+          "user_ratings_total": 658,
+          "phone": "+1 503-625-3547",
+          "website": "http://www.mcmenamins.com/sherwood?utm_source=Google%20Maps&utm_medium=Website%20Button&utm_campaign=Sherwood",
+          "place_id": "ChIJ99oO0uBslVQRnwlLzW0Q8J8",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 2,
+          "source": "Google Places"
+        },
+        {
+          "name": "Cooper Mountain Ale Works Old Town Sherwood",
+          "type": "restaurant, meal_takeaway, bar, food, point_of_interest, establishment",
+          "address": "22793 SW Pine St, Sherwood",
+          "lat": 45.3557679,
+          "lon": -122.8397107,
+          "distance_miles": 0.99,
+          "likelihood_score": 86,
+          "rating": 4.2,
+          "user_ratings_total": 68,
+          "phone": "+1 503-822-5751",
+          "website": "http://www.coopermountainaleworks.com/sherwood",
+          "place_id": "ChIJ5xE3GqFtlVQRtcdYcX9v4f8",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        },
+        {
+          "name": "Last Call Bar & Grill",
+          "type": "bar, point_of_interest, establishment",
+          "address": "16450 SW Langer Dr, Sherwood",
+          "lat": 45.3660097,
+          "lon": -122.8453632,
+          "distance_miles": 0.24,
+          "likelihood_score": 90,
+          "rating": 3.6,
+          "user_ratings_total": 65,
+          "phone": "+1 503-610-1111",
+          "website": "https://lcbarandgrill.com/",
+          "place_id": "ChIJXVdPUORtlVQRoH4bFC1i7j8",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        },
+        {
+          "name": "503 Uncorked",
+          "type": "bar, restaurant, food, point_of_interest, establishment",
+          "address": "22578 SW Washington St, Sherwood",
+          "lat": 45.3560296,
+          "lon": -122.8410428,
+          "distance_miles": 0.95,
+          "likelihood_score": 88,
+          "rating": 4.6,
+          "user_ratings_total": 219,
+          "phone": "+1 503-217-3350",
+          "website": "http://www.503uncorked.com/",
+          "place_id": "ChIJvUHMHPFslVQRxTOULeqyGjo",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 2,
+          "source": "Google Places"
+        },
+        {
+          "name": "Prime Tap House Sherwood",
+          "type": "restaurant, food, point_of_interest, establishment",
+          "address": "21536 SW Langer Farms Pkwy suite a101, Sherwood",
+          "lat": 45.3643111,
+          "lon": -122.8356574,
+          "distance_miles": 0.59,
+          "likelihood_score": 90,
+          "rating": 4.3,
+          "user_ratings_total": 73,
+          "phone": "+1 971-416-9710",
+          "website": "http://www.primetaphouse.com/",
+          "place_id": "ChIJp0KvAQBtlVQRIdUEj5ELdDI",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        },
+        {
+          "name": "Anderson's Tavern",
+          "type": "restaurant, night_club, bar, food, point_of_interest, establishment",
+          "address": "21025 SW Pacific Hwy Space A, Sherwood",
+          "lat": 45.3675734,
+          "lon": -122.8473828,
+          "distance_miles": 0.17,
+          "likelihood_score": 87,
+          "rating": 4.8,
+          "user_ratings_total": 81,
+          "phone": "+1 503-925-3993",
+          "website": "https://www.andersonstavern.com/",
+          "place_id": "ChIJizu9WwBtlVQREECCwF_olNc",
+          "opening_hours": {
+            "open_now": false
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        },
+        {
+          "name": "The Tack Room @ Langer's",
+          "type": "bar, restaurant, food, point_of_interest, establishment",
+          "address": "21650 SW Langer Farms Pkwy, Sherwood",
+          "lat": 45.3625286,
+          "lon": -122.8354668,
+          "distance_miles": 0.68,
+          "likelihood_score": 79,
+          "rating": 4.3,
+          "user_ratings_total": 29,
+          "phone": "+1 503-625-1800",
+          "website": "https://langersfun.com/",
+          "place_id": "ChIJqe4NZSxtlVQReivZx4WEUY0",
+          "opening_hours": {
+            "open_now": false
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        }
+      ],
+      "createdAt": "2026-03-19T15:03:48.835138",
+      "count": 10
     }
   },
-  "lastUpdated": "2026-03-19T12:08:21.592768"
+  "lastUpdated": "2026-03-19T15:03:48.835150"
 }
