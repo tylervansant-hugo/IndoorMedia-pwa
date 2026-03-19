@@ -9283,10 +9283,8 @@ def main():
                     # In counter sign workflow but waiting for different input type
                     logger.info(f"In counter sign state but got text when expecting different input: {state}")
                     await update.message.reply_text("⏳ Waiting for an image. Please send a photo.")
-                else:
-                    logger.info(f"No counter sign state match, routing to store query. state={state}")
-                    # Not in counter sign workflow, use normal store query
-                    await handle_store_query(update, context)
+                # If no counter sign state, let the normal text handler (group=3) process it
+                # Don't call handle_store_query directly - that causes duplicate processing!
             
             app.add_handler(MessageHandler(
                 filters.TEXT & ~filters.COMMAND,
