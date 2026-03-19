@@ -790,43 +790,60 @@ def add_to_cart(rep_id: str, product_type: str, tier: str = None, store_num: str
         tier = tier.lower() if tier else "coop"
         
         # Get pricing from tier config
-        # NON-ANNUAL programs: 3-month, 6-month, monthly (no discount, one-time production fee)
-        # ANNUAL program: PIF (15% discount on full year, one-time production fee)
+        # NON-ANNUAL programs: monthly, 1quarter (1Q), 2quarters (2Q) - no discount, one-time production fee
+        # ANNUAL programs: annual_1quarter (10% off), annual_2quarters (7.5% off), annual_12months (0% off), pif (15% off)
+        annual_base = base * 12  # Full year value
+        
         if tier == "coop":
             if payment_plan == "monthly":
-                # Monthly: base + one-time production
+                # Monthly non-annual: base + one-time production
                 price = base + PRODUCTION
-            elif payment_plan == "3month":
-                # 3-month non-annual: (base × 3) + one-time production
+            elif payment_plan == "1quarter":
+                # 1 Quarter non-annual (3 months): (base × 3) + one-time production
                 price = (base * 3) + PRODUCTION
-            elif payment_plan == "6month":
-                # 6-month non-annual: (base × 6) + one-time production
+            elif payment_plan == "2quarters":
+                # 2 Quarters non-annual (6 months): (base × 6) + one-time production
                 price = (base * 6) + PRODUCTION
+            elif payment_plan == "annual_1quarter":
+                # Annual program paid in 1 Quarter (3 months): (annual × 0.90) + one-time production
+                price = (annual_base * 0.90) + PRODUCTION
+            elif payment_plan == "annual_2quarters":
+                # Annual program paid in 2 Quarters (6 months): (annual × 0.925) + one-time production
+                price = (annual_base * 0.925) + PRODUCTION
+            elif payment_plan == "annual_12months":
+                # Annual program paid in 12 months: annual + one-time production
+                price = annual_base + PRODUCTION
             elif payment_plan == "pif":
-                # Annual PIF: (base × 12 × 0.85) + one-time production
-                price = (base * 12 * 0.85) + PRODUCTION
+                # Annual PIF (15% off): (annual × 0.85) + one-time production
+                price = (annual_base * 0.85) + PRODUCTION
         elif tier == "exclusive":
             if payment_plan == "monthly":
                 price = base + PRODUCTION
-            elif payment_plan == "3month":
-                # 3-month non-annual: (base × 3) + one-time production
+            elif payment_plan == "1quarter":
                 price = (base * 3) + PRODUCTION
-            elif payment_plan == "6month":
-                # 6-month non-annual: (base × 6) + one-time production
+            elif payment_plan == "2quarters":
                 price = (base * 6) + PRODUCTION
+            elif payment_plan == "annual_1quarter":
+                price = (annual_base * 0.90) + PRODUCTION
+            elif payment_plan == "annual_2quarters":
+                price = (annual_base * 0.925) + PRODUCTION
+            elif payment_plan == "annual_12months":
+                price = annual_base + PRODUCTION
             elif payment_plan == "pif":
-                # Annual PIF: (base × 12 × 0.85) + one-time production
-                price = (base * 12 * 0.85) + PRODUCTION
+                price = (annual_base * 0.85) + PRODUCTION
         elif tier == "contractor":
-            if payment_plan == "3month":
-                # 3-month non-annual: (base × 3) + one-time production
+            if payment_plan == "1quarter":
                 price = (base * 3) + PRODUCTION
-            elif payment_plan == "6month":
-                # 6-month non-annual: (base × 6) + one-time production
+            elif payment_plan == "2quarters":
                 price = (base * 6) + PRODUCTION
+            elif payment_plan == "annual_1quarter":
+                price = (annual_base * 0.90) + PRODUCTION
+            elif payment_plan == "annual_2quarters":
+                price = (annual_base * 0.925) + PRODUCTION
+            elif payment_plan == "annual_12months":
+                price = annual_base + PRODUCTION
             elif payment_plan == "pif":
-                # Annual PIF: (base × 12 × 0.85) + one-time production
-                price = (base * 12 * 0.85) + PRODUCTION
+                price = (annual_base * 0.85) + PRODUCTION
         
         # Calculate impressions
         case_count = store.get("Case Count", 0)
@@ -7656,9 +7673,12 @@ Send any city name to see all stores!
                     [InlineKeyboardButton("📄 Single Ad", callback_data=f"rates_single_{store_num}"),
                      InlineKeyboardButton("📋 Double Ad", callback_data=f"rates_double_{store_num}")],
                     [InlineKeyboardButton("🛒 Monthly", callback_data=f"cart_add_{ad_type}_monthly_{store_num}"),
-                     InlineKeyboardButton("🛒 6-Month", callback_data=f"cart_add_{ad_type}_6month_{store_num}")],
-                    [InlineKeyboardButton("🛒 3-Month", callback_data=f"cart_add_{ad_type}_3month_{store_num}"),
-                     InlineKeyboardButton("🛒 PIF", callback_data=f"cart_add_{ad_type}_pif_{store_num}")],
+                     InlineKeyboardButton("🛒 1 Quarter", callback_data=f"cart_add_{ad_type}_1quarter_{store_num}")],
+                    [InlineKeyboardButton("🛒 2 Quarters", callback_data=f"cart_add_{ad_type}_2quarters_{store_num}")],
+                    [InlineKeyboardButton("💰 Annual/1Q (10% off)", callback_data=f"cart_add_{ad_type}_annual_1quarter_{store_num}"),
+                     InlineKeyboardButton("💰 Annual/2Q (7.5% off)", callback_data=f"cart_add_{ad_type}_annual_2quarters_{store_num}")],
+                    [InlineKeyboardButton("💰 Annual/12mo", callback_data=f"cart_add_{ad_type}_annual_12months_{store_num}"),
+                     InlineKeyboardButton("💰 Annual/PIF (15% off)", callback_data=f"cart_add_{ad_type}_pif_{store_num}")],
                     [InlineKeyboardButton("⬅️ Back", callback_data=f"rates_single_{store_num}" if ad_type == "single" else f"rates_double_{store_num}")],
                 ])
                 await query.edit_message_text(text, parse_mode="Markdown", reply_markup=buttons)
@@ -7677,9 +7697,12 @@ Send any city name to see all stores!
                     [InlineKeyboardButton("📄 Single Ad", callback_data=f"rates_single_{store_num}"),
                      InlineKeyboardButton("📋 Double Ad", callback_data=f"rates_double_{store_num}")],
                     [InlineKeyboardButton("🛒 Monthly", callback_data=f"cart_add_{ad_type}_monthly_{store_num}"),
-                     InlineKeyboardButton("🛒 6-Month", callback_data=f"cart_add_{ad_type}_6month_{store_num}")],
-                    [InlineKeyboardButton("🛒 3-Month", callback_data=f"cart_add_{ad_type}_3month_{store_num}"),
-                     InlineKeyboardButton("🛒 PIF", callback_data=f"cart_add_{ad_type}_pif_{store_num}")],
+                     InlineKeyboardButton("🛒 1 Quarter", callback_data=f"cart_add_{ad_type}_1quarter_{store_num}")],
+                    [InlineKeyboardButton("🛒 2 Quarters", callback_data=f"cart_add_{ad_type}_2quarters_{store_num}")],
+                    [InlineKeyboardButton("💰 Annual/1Q (10% off)", callback_data=f"cart_add_{ad_type}_annual_1quarter_{store_num}"),
+                     InlineKeyboardButton("💰 Annual/2Q (7.5% off)", callback_data=f"cart_add_{ad_type}_annual_2quarters_{store_num}")],
+                    [InlineKeyboardButton("💰 Annual/12mo", callback_data=f"cart_add_{ad_type}_annual_12months_{store_num}"),
+                     InlineKeyboardButton("💰 Annual/PIF (15% off)", callback_data=f"cart_add_{ad_type}_pif_{store_num}")],
                     [InlineKeyboardButton("⬅️ Back", callback_data=f"rates_single_{store_num}" if ad_type == "single" else f"rates_double_{store_num}")],
                 ])
                 await query.edit_message_text(text, parse_mode="Markdown", reply_markup=buttons)
@@ -7698,9 +7721,12 @@ Send any city name to see all stores!
                     [InlineKeyboardButton("📄 Single Ad", callback_data=f"rates_single_{store_num}"),
                      InlineKeyboardButton("📋 Double Ad", callback_data=f"rates_double_{store_num}")],
                     [InlineKeyboardButton("🛒 Monthly", callback_data=f"cart_add_{ad_type}_monthly_{store_num}"),
-                     InlineKeyboardButton("🛒 6-Month", callback_data=f"cart_add_{ad_type}_6month_{store_num}")],
-                    [InlineKeyboardButton("🛒 3-Month", callback_data=f"cart_add_{ad_type}_3month_{store_num}"),
-                     InlineKeyboardButton("🛒 PIF", callback_data=f"cart_add_{ad_type}_pif_{store_num}")],
+                     InlineKeyboardButton("🛒 1 Quarter", callback_data=f"cart_add_{ad_type}_1quarter_{store_num}")],
+                    [InlineKeyboardButton("🛒 2 Quarters", callback_data=f"cart_add_{ad_type}_2quarters_{store_num}")],
+                    [InlineKeyboardButton("💰 Annual/1Q (10% off)", callback_data=f"cart_add_{ad_type}_annual_1quarter_{store_num}"),
+                     InlineKeyboardButton("💰 Annual/2Q (7.5% off)", callback_data=f"cart_add_{ad_type}_annual_2quarters_{store_num}")],
+                    [InlineKeyboardButton("💰 Annual/12mo", callback_data=f"cart_add_{ad_type}_annual_12months_{store_num}"),
+                     InlineKeyboardButton("💰 Annual/PIF (15% off)", callback_data=f"cart_add_{ad_type}_pif_{store_num}")],
                     [InlineKeyboardButton("⬅️ Back", callback_data=f"rates_single_{store_num}" if ad_type == "single" else f"rates_double_{store_num}")],
                 ])
                 await query.edit_message_text(text, parse_mode="Markdown", reply_markup=buttons)
