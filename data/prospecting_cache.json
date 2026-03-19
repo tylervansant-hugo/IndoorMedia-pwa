@@ -9935,7 +9935,467 @@
       ],
       "createdAt": "2026-03-19T11:27:35.226674",
       "count": 1
+    },
+    "30bca3ce02c3574e": {
+      "storeNumber": "FME07Y-0063",
+      "category": "car wash",
+      "prospects": [
+        {
+          "name": "Red Barn Car Wash",
+          "type": "car_wash, point_of_interest, establishment",
+          "address": "10115 SE Hwy 212, Clackamas",
+          "lat": 45.4079013,
+          "lon": -122.5592574,
+          "distance_miles": 0.58,
+          "likelihood_score": 87,
+          "rating": 3.6,
+          "user_ratings_total": 214,
+          "phone": "+1 503-212-2019",
+          "website": null,
+          "place_id": "ChIJgUUIrsJ1lVQRZbjBzv_-H-A",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        }
+      ],
+      "createdAt": "2026-03-19T11:28:49.295556",
+      "count": 1
+    },
+    "02222e30de8b4b2a": {
+      "storeNumber": "FME07Y-0063",
+      "category": "auto repair",
+      "prospects": [
+        {
+          "name": "Same Day Auto Service",
+          "type": "car_repair, point_of_interest, establishment",
+          "address": "16009 SE 106th Ave, Clackamas",
+          "lat": 45.407165,
+          "lon": -122.554362,
+          "distance_miles": 0.79,
+          "likelihood_score": 90,
+          "rating": 4.7,
+          "user_ratings_total": 512,
+          "phone": "+1 503-656-6688",
+          "website": "https://www.samedayautoservice.com/",
+          "place_id": "ChIJiW5_r-d1lVQRh0RG7q8Br3k",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        },
+        {
+          "name": "Auto Check Service LLC",
+          "type": "car_repair, point_of_interest, establishment",
+          "address": "16002 SE 82nd Dr, Clackamas",
+          "lat": 45.4068371,
+          "lon": -122.5692115,
+          "distance_miles": 0.18,
+          "likelihood_score": 94,
+          "rating": 4.2,
+          "user_ratings_total": 27,
+          "phone": "+1 503-847-1236",
+          "website": null,
+          "place_id": "ChIJYwviELp1lVQRwy2VWuQE0iw",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        },
+        {
+          "name": "Town Center Automotive",
+          "type": "car_repair, store, point_of_interest, establishment",
+          "address": "8921 SE Herbert Ct, Clackamas",
+          "lat": 45.4174276,
+          "lon": -122.5716083,
+          "distance_miles": 0.9,
+          "likelihood_score": 89,
+          "rating": 4.6,
+          "user_ratings_total": 345,
+          "phone": "+1 503-770-8787",
+          "website": "https://towncenter-automotive.com/",
+          "place_id": "ChIJ6QgGA3Z1lVQRLpGsbx9WH0Y",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        },
+        {
+          "name": "Maynard's Auto Repair Service",
+          "type": "car_repair, point_of_interest, establishment",
+          "address": "10355 OR-212, Clackamas",
+          "lat": 45.40799519999999,
+          "lon": -122.5567874,
+          "distance_miles": 0.7,
+          "likelihood_score": 90,
+          "rating": 4.5,
+          "user_ratings_total": 66,
+          "phone": "+1 503-657-9086",
+          "website": "https://maynardsauto.com/",
+          "place_id": "ChIJR7JR--d1lVQRDFmUx3kdS9E",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        },
+        {
+          "name": "John's Automotive Service",
+          "type": "car_repair, point_of_interest, establishment",
+          "address": "14723 SE 82nd Dr, Clackamas",
+          "lat": 45.41640640000001,
+          "lon": -122.5710484,
+          "distance_miles": 0.83,
+          "likelihood_score": 89,
+          "rating": 4.7,
+          "user_ratings_total": 15,
+          "phone": "+1 503-657-8258",
+          "website": null,
+          "place_id": "ChIJ2_3wKb51lVQRZZP7nzVYFOA",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        }
+      ],
+      "createdAt": "2026-03-19T11:29:27.054392",
+      "count": 5
+    },
+    "f9ac17747d680da7": {
+      "storeNumber": "FME07Y-0063",
+      "category": "car dealer",
+      "prospects": [
+        {
+          "name": "Fisher Family Motors",
+          "type": "car_dealer, car_repair, point_of_interest, store, establishment",
+          "address": "15630 SE 82nd Dr, Clackamas",
+          "lat": 45.4099239,
+          "lon": -122.5685009,
+          "distance_miles": 0.39,
+          "likelihood_score": 94,
+          "rating": 4.6,
+          "user_ratings_total": 77,
+          "phone": "+1 503-473-2113",
+          "website": "http://www.fisherfamilymotors.com/",
+          "place_id": "ChIJ3eNH0Vh0lVQRigD79gdSTEY",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        }
+      ],
+      "createdAt": "2026-03-19T11:31:49.013654",
+      "count": 1
+    },
+    "d510142758702c62": {
+      "storeNumber": "FME07Y-0063",
+      "category": "child care/day care",
+      "prospects": [
+        {
+          "name": "Clackamas Day School",
+          "type": "point_of_interest, establishment",
+          "address": "16640 SE 82nd Dr, Clackamas",
+          "lat": 45.4022347,
+          "lon": -122.5680811,
+          "distance_miles": 0.18,
+          "likelihood_score": 91,
+          "rating": 3.6,
+          "user_ratings_total": 24,
+          "phone": "+1 503-655-7826",
+          "website": "http://clackamasdayschool.net/",
+          "place_id": "ChIJeTpLgdp1lVQRWAByKfNNeek",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        },
+        {
+          "name": "Smart Start Play School",
+          "type": "point_of_interest, establishment",
+          "address": "14491 Clackamas River Dr, Oregon City",
+          "lat": 45.393425,
+          "lon": -122.5654324,
+          "distance_miles": 0.79,
+          "likelihood_score": 92,
+          "rating": 5,
+          "user_ratings_total": 13,
+          "phone": "+1 971-227-3736",
+          "website": "http://smartstartplayschool.com/",
+          "place_id": "ChIJUyyTw3h2lVQRRjDa1S4FHXA",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        },
+        {
+          "name": "Cardboard Castles Childcare",
+          "type": "point_of_interest, establishment",
+          "address": "7580 Ridge Dr, Gladstone",
+          "lat": 45.3933967,
+          "lon": -122.5794579,
+          "distance_miles": 0.88,
+          "likelihood_score": 68,
+          "rating": 5,
+          "user_ratings_total": 1,
+          "phone": "+1 503-200-4577",
+          "website": null,
+          "place_id": "ChIJPRy34xZ1lVQRV6GDELE5TWU",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        },
+        {
+          "name": "The Treehouse: a Forest Garden School",
+          "type": "school, point_of_interest, establishment",
+          "address": "16575 SE Webster Rd, Milwaukie",
+          "lat": 45.4029162,
+          "lon": -122.5860584,
+          "distance_miles": 0.78,
+          "likelihood_score": 90,
+          "rating": 4.7,
+          "user_ratings_total": 12,
+          "phone": "+1 503-278-5613",
+          "website": "http://www.thetreehouseaforestgardenschool.org/",
+          "place_id": "ChIJRcqKVPOglVQRxkS7PVYYZnM",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        }
+      ],
+      "createdAt": "2026-03-19T11:33:05.438842",
+      "count": 4
+    },
+    "ced584dafa1cd183": {
+      "storeNumber": "FME07Z-0125",
+      "category": "mexican",
+      "prospects": [
+        {
+          "name": "La Osita PDX",
+          "type": "cafe, meal_takeaway, restaurant, store, food, point_of_interest, establishment",
+          "address": "1135 SE 80th Ave, Portland",
+          "lat": 45.5149638,
+          "lon": -122.5816527,
+          "distance_miles": 1.12,
+          "likelihood_score": 87,
+          "rating": 4.9,
+          "user_ratings_total": 587,
+          "phone": "+1 971-336-6065",
+          "website": "https://laositapdx.com/",
+          "place_id": "ChIJV-zjuuShlVQRYb280qnpCs0",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 1,
+          "source": "Google Places"
+        },
+        {
+          "name": "\u00bfPor Qu\u00e9 No?",
+          "type": "restaurant, food, point_of_interest, establishment",
+          "address": "4635 SE Hawthorne Blvd, Portland",
+          "lat": 45.5121324,
+          "lon": -122.6143441,
+          "distance_miles": 1.39,
+          "likelihood_score": 83,
+          "rating": 4.5,
+          "user_ratings_total": 3349,
+          "phone": "+1 503-954-3138",
+          "website": "http://www.porquenotacos.com/",
+          "place_id": "ChIJ9_lCovOglVQRj9EDMuROv5k",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 2,
+          "source": "Google Places"
+        },
+        {
+          "name": "Saz\u00f3n Taquer\u00eda",
+          "type": "restaurant, food, point_of_interest, establishment",
+          "address": "4438 NE Glisan St, Portland",
+          "lat": 45.5261729,
+          "lon": -122.6165435,
+          "distance_miles": 1.0,
+          "likelihood_score": 88,
+          "rating": 4.6,
+          "user_ratings_total": 248,
+          "phone": "+1 503-719-5374",
+          "website": null,
+          "place_id": "ChIJXzIz3o6hlVQRJGGpUsH_h3Y",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 1,
+          "source": "Google Places"
+        },
+        {
+          "name": "Tierra del Sol Cuisine - Montavilla",
+          "type": "restaurant, food, point_of_interest, establishment",
+          "address": "6935 NE Glisan St, Portland",
+          "lat": 45.5265944,
+          "lon": -122.5917251,
+          "distance_miles": 0.22,
+          "likelihood_score": 95,
+          "rating": 4.6,
+          "user_ratings_total": 149,
+          "phone": "+1 503-998-9663",
+          "website": "https://tierradelsolpdx.com/",
+          "place_id": "ChIJhy9aOaOhlVQRd8fGuXuSdzU",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        },
+        {
+          "name": "JC PDX Taqueria",
+          "type": "restaurant, food, point_of_interest, establishment",
+          "address": "4615 NE Sandy Blvd, Portland",
+          "lat": 45.538229,
+          "lon": -122.6157782,
+          "distance_miles": 1.2,
+          "likelihood_score": 87,
+          "rating": 4.8,
+          "user_ratings_total": 81,
+          "phone": "+1 971-344-2394",
+          "website": null,
+          "place_id": "ChIJcWsG4XWhlVQRKkK3SnG3A20",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        },
+        {
+          "name": "Santa Cruz Bakery & Taquer\u00eda",
+          "type": "restaurant, food, point_of_interest, establishment",
+          "address": "24 SE 82nd Ave, Portland",
+          "lat": 45.5223455,
+          "lon": -122.5787259,
+          "distance_miles": 0.92,
+          "likelihood_score": 87,
+          "rating": 4.4,
+          "user_ratings_total": 328,
+          "phone": "+1 503-408-1115",
+          "website": "http://ordersantacruzbakeryandtaqueria.com/",
+          "place_id": "ChIJxal9-QWhlVQRIvV0APTXxnE",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 1,
+          "source": "Google Places"
+        },
+        {
+          "name": "Don Pedro Mexican Food #8",
+          "type": "restaurant, food, point_of_interest, establishment",
+          "address": "1024 NE 82nd Ave, Portland",
+          "lat": 45.5305352,
+          "lon": -122.5787634,
+          "distance_miles": 0.86,
+          "likelihood_score": 87,
+          "rating": 4.3,
+          "user_ratings_total": 517,
+          "phone": "+1 503-265-8180",
+          "website": "http://donpedro1inc.com/food.html",
+          "place_id": "ChIJTT2yghGhlVQRG_UxyrMCGhU",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 1,
+          "source": "Google Places"
+        },
+        {
+          "name": "Poblano Pepper PDX",
+          "type": "restaurant, food, point_of_interest, establishment",
+          "address": "6035 NE Halsey St, Portland",
+          "lat": 45.5339053,
+          "lon": -122.6013173,
+          "distance_miles": 0.5,
+          "likelihood_score": 90,
+          "rating": 4,
+          "user_ratings_total": 59,
+          "phone": "+1 360-597-5694",
+          "website": "http://orderpoblanopepperpdx.com/",
+          "place_id": "ChIJAQAAAE-nlVQRpfh8LKYmqwY",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        },
+        {
+          "name": "El Guero Mexican Food",
+          "type": "restaurant, food, point_of_interest, establishment",
+          "address": "5235 NE Sandy Blvd, Portland",
+          "lat": 45.5405229,
+          "lon": -122.6093785,
+          "distance_miles": 1.1,
+          "likelihood_score": 86,
+          "rating": 4.4,
+          "user_ratings_total": 63,
+          "phone": "+1 503-490-6058",
+          "website": null,
+          "place_id": "ChIJDY2QAoChlVQRpZcXf2Tgj9w",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        },
+        {
+          "name": "Poblano Pepper",
+          "type": "restaurant, food, point_of_interest, establishment",
+          "address": "4255 SE Belmont St and, Portland",
+          "lat": 45.516672,
+          "lon": -122.6184044,
+          "distance_miles": 1.32,
+          "likelihood_score": 83,
+          "rating": 4.4,
+          "user_ratings_total": 134,
+          "phone": "+1 503-926-0497",
+          "website": "http://orderpoblanopepper.com/",
+          "place_id": "ChIJU0OCyO2glVQRkvrRTqRDGV4",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 1,
+          "source": "Google Places"
+        }
+      ],
+      "createdAt": "2026-03-19T12:08:21.592755",
+      "count": 10
     }
   },
-  "lastUpdated": "2026-03-19T11:27:35.226685"
+  "lastUpdated": "2026-03-19T12:08:21.592768"
 }

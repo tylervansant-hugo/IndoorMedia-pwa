@@ -2230,8 +2230,9 @@ async def handle_store_query(update: Update, context: ContextTypes.DEFAULT_TYPE)
         next_delivery = get_next_delivery_date(cycle)
         days_until_delivery = (next_delivery - datetime.now()).days
         
-        # Check if alert needed
-        alert = days_until_runout < days_until_delivery
+        # Check if alert needed: INSUFFICIENT if runout happens BEFORE or ON delivery date
+        # SUFFICIENT if runout happens AFTER delivery date
+        insufficient = days_until_runout <= days_until_delivery
         
         # Build report
         report = f"📊 *Audit Report*\n\n"
@@ -2247,10 +2248,10 @@ async def handle_store_query(update: Update, context: ContextTypes.DEFAULT_TYPE)
         report += f"Days until runout: {days_until_runout:.1f}\n"
         report += f"Next delivery: {next_delivery.strftime('%B %d, %Y')} ({days_until_delivery} days)\n\n"
         
-        if alert:
-            report += f"⚠️ *ALERT:* Inventory runs out before next delivery!\n"
+        if insufficient:
+            report += f"⚠️ *INSUFFICIENT:* Inventory will run out BEFORE next delivery! Action needed.\n"
         else:
-            report += f"✅ Inventory sufficient until next delivery\n"
+            report += f"✅ *SUFFICIENT:* Inventory will last until next delivery.\n"
         
         buttons = [
             [InlineKeyboardButton("📧 Send Report", callback_data="audit_send_report")],
