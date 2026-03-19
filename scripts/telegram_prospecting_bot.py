@@ -790,38 +790,43 @@ def add_to_cart(rep_id: str, product_type: str, tier: str = None, store_num: str
         tier = tier.lower() if tier else "coop"
         
         # Get pricing from tier config
-        # Production fee is ONE-TIME per term (not recurring)
+        # NON-ANNUAL programs: 3-month, 6-month, monthly (no discount, one-time production fee)
+        # ANNUAL program: PIF (15% discount on full year, one-time production fee)
         if tier == "coop":
             if payment_plan == "monthly":
+                # Monthly: base + one-time production
                 price = base + PRODUCTION
             elif payment_plan == "3month":
-                # 3-month: (base × 3) + one-time production fee
+                # 3-month non-annual: (base × 3) + one-time production
                 price = (base * 3) + PRODUCTION
             elif payment_plan == "6month":
-                # 6-month: (base × 6) + one-time production fee
+                # 6-month non-annual: (base × 6) + one-time production
                 price = (base * 6) + PRODUCTION
             elif payment_plan == "pif":
-                price = (base * 0.85) + (PRODUCTION * 2)
+                # Annual PIF: (base × 12 × 0.85) + one-time production
+                price = (base * 12 * 0.85) + PRODUCTION
         elif tier == "exclusive":
             if payment_plan == "monthly":
                 price = base + PRODUCTION
             elif payment_plan == "3month":
-                # 3-month: (base × 3) + one-time production fee
+                # 3-month non-annual: (base × 3) + one-time production
                 price = (base * 3) + PRODUCTION
             elif payment_plan == "6month":
-                # 6-month: (base × 6) + one-time production fee
+                # 6-month non-annual: (base × 6) + one-time production
                 price = (base * 6) + PRODUCTION
             elif payment_plan == "pif":
-                price = (base * 0.95) + (PRODUCTION * 2)
+                # Annual PIF: (base × 12 × 0.85) + one-time production
+                price = (base * 12 * 0.85) + PRODUCTION
         elif tier == "contractor":
             if payment_plan == "3month":
-                # 3-month: (base × 3) + one-time production fee
+                # 3-month non-annual: (base × 3) + one-time production
                 price = (base * 3) + PRODUCTION
             elif payment_plan == "6month":
-                # 6-month: (base × 6) + one-time production fee
+                # 6-month non-annual: (base × 6) + one-time production
                 price = (base * 6) + PRODUCTION
             elif payment_plan == "pif":
-                price = (base * 0.95) + (PRODUCTION * 2)
+                # Annual PIF: (base × 12 × 0.85) + one-time production
+                price = (base * 12 * 0.85) + PRODUCTION
         
         # Calculate impressions
         case_count = store.get("Case Count", 0)
