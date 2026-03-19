@@ -340,11 +340,15 @@ def calculate_event_dates(est_start_str):
         install_date + timedelta(days=330),
     ]
     
+    # Final renewal deadline is at day 330 (11 months) - last opportunity to renew
+    # NOT at day 365, which is already expired
+    renewal_deadline = install_date + timedelta(days=330)
+    
     return {
         'installs': installs,
         'audits': audits,
         'renewal_conversations': renewal_conversations,
-        'renewal': renewal_date,
+        'renewal': renewal_deadline,  # Use day 330 as the actual renewal date
     }
 
 

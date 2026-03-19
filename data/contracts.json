@@ -343,6 +343,23 @@
       "address": "3802 West 11th Avenue",
       "customer_city_state": "Eugene, OR 97402",
       "extracted_at": "2026-03-17T20:00:22.723945"
+    },
+    {
+      "contract_number": "J427617E",
+      "date": "3/18/2026",
+      "business_name": "Kim\u2019s Asian Cuisine",
+      "contact_name": "Huan Truong",
+      "contact_email": "HHTruong1@yahoo.com",
+      "contact_phone": "(541) 285-0472",
+      "sales_rep": "Matthew Boozer",
+      "store_name": "",
+      "store_number": "Fred Meyer-0325",
+      "product_description": "Single",
+      "total_amount": 5600.0,
+      "payment_date": "3/18/2026",
+      "address": "2043 River Road",
+      "customer_city_state": "Eugene, OR 97404",
+      "extracted_at": "2026-03-18T20:00:08.505594"
     }
   ],
   "last_scan": "2026-03-08T15:11:11.119957"
