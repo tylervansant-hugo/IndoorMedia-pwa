@@ -347,18 +347,30 @@ PRODUCTS = {
     "cartvertising": {
         "name": "Cartvertising",
         "emoji": "🛒",
-        "impressions_type": "fixed_impressions",  # Fixed impressions per product
+        "impressions_type": "percentage_of_store",  # Percentage of store impressions
         "tiers": {
+            "coop": {
+                "name": "Co-Op",
+                "emoji": "🎯",
+                "pricing": {
+                    "monthly": lambda base: 240,  # $240/pin
+                    "3month": lambda base: 240,
+                    "6month": lambda base: 240,
+                    "pif": lambda base: 240,
+                }
+            },
             "standard": {
-                "name": "Standard Pricing",
+                "name": "Standard",
                 "emoji": "💲",
                 "pricing": {
-                    "monthly": lambda base: 3600,  # From screenshot
-                    "3month": lambda base: 2795,   # Co-Op rate
+                    "monthly": lambda base: 240,  # $240/pin
+                    "3month": lambda base: 240,
+                    "6month": lambda base: 240,
+                    "pif": lambda base: 240,
                 }
             }
         },
-        "impressions": {"standalone": 240000, "bundled": 360000}
+        "impression_percentage": 0.15  # 15% of store impressions (percentages like register tape)
     },
     "digitalboost": {
         "name": "DigitalBoost — 1 Pin",
@@ -849,20 +861,27 @@ def add_to_cart(rep_id: str, product_type: str, tier: str = None, store_num: str
     
     # === CARTVERTISING ===
     elif product_type == "cartvertising":
-        # For Cartvertising: bundle_type ('standalone' or 'bundled'), pricing per pin
-        bundle_type = kwargs.get('bundle_type', 'standalone')  # 'standalone' (240k) or 'bundled' (360k)
-        impressions = kwargs.get('impressions', '240k')  # '240k' or '360k'
+        # For Cartvertising: percentage-based impressions like register tape, with bundle_type option
+        bundle_type = kwargs.get('bundle_type', 'standalone')
+        tier = kwargs.get('tier', 'coop')
+        tier_config = product["tiers"].get(tier, {})
+        pricing_func = tier_config.get("pricing", {}).get(payment_plan)
+        if not pricing_func:
+            return None
+        price = pricing_func(0)  # Cartvertising has fixed per-pin pricing
         
-        # Determine annual impressions based on bundle type
-        if bundle_type == "bundled" or impressions == "360k":
-            annual_impressions = 360000
-        else:
-            annual_impressions = 240000
-        daily_impressions = annual_impressions // 365
+        # Cartvertising impressions based on store data (percentage of store traffic)
+        case_count = store.get("Case Count", 0)
+        impressions = calculate_impressions_metrics(case_count)
+        base_daily = impressions.get("daily", 0)
+        
+        # Apply percentage (15% of store traffic for cartvertising)
+        daily_impressions = int(base_daily * product.get("impression_percentage", 0.15))
+        annual_impressions = daily_impressions * 365
         
         # Cartvertising pricing: $240/pin per month (from screenshot)
-        price_per_pin = 240
-        production_fee = 395  # covers up to 5 pins
+        price_per_pin = price
+        production_fee = 0  # Already included in pricing
         
         # Payment plan pricing (single pin)
         if payment_plan == "monthly":
