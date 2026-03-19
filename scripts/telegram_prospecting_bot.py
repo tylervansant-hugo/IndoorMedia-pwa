@@ -5975,12 +5975,17 @@ async def handle_button_callback(update: Update, context: ContextTypes.DEFAULT_T
             tz = pytz.timezone("America/Los_Angeles")
             start_dt = cal_date.replace(hour=hour, minute=minute, second=0)
             start_aware = tz.localize(start_dt) if start_dt.tzinfo is None else start_dt
-            start_time = start_aware.isoformat()
+            # Format with timezone offset for gog: YYYY-MM-DDTHH:MM:SS±HH:MM
+            start_time = start_aware.strftime("%Y-%m-%dT%H:%M:%S%z")
+            # Insert colon in timezone offset (gog requires -07:00 not -0700)
+            start_time = start_time[:-2] + ":" + start_time[-2:]
             
             # End time is 1 hour after start
             end_dt = start_dt + timedelta(hours=1)
             end_aware = tz.localize(end_dt) if end_dt.tzinfo is None else end_dt
-            end_time = end_aware.isoformat()
+            # Same timezone format for end time
+            end_time = end_aware.strftime("%Y-%m-%dT%H:%M:%S%z")
+            end_time = end_time[:-2] + ":" + end_time[-2:]
             
             summary = f"👤 Call/Visit: {business_name}"
             description = f"Prospect: {business_name}\nAddress: {address}\nPhone: {phone}\nStore: {store}"
