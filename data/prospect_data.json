@@ -122,6 +122,25 @@
           "cpm": 3.393156085179918,
           "cost_per_day": 10.32876712328767,
           "added_at": "2026-03-18T17:05:55.660790"
+        },
+        {
+          "product_type": "register_tape",
+          "product_name": "Register Tape",
+          "store_num": "FME07Z-0185",
+          "store_name": "Fred Meyer",
+          "city": "Longview",
+          "state": "WA",
+          "address": "3184 Ocean Beach Highway",
+          "tier": "coop",
+          "ad_type": "single",
+          "payment_plan": "3month",
+          "price": 4715.0,
+          "case_count": 30,
+          "daily_impressions": 4566,
+          "annual_impressions": 1666590,
+          "cpm": 2.8291301399864395,
+          "cost_per_day": 12.917808219178083,
+          "added_at": "2026-03-18T17:10:30.182458"
         }
       ]
     },

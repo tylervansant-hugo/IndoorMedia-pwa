@@ -3870,10 +3870,18 @@ async def show_main_menu(update: Update, context: ContextTypes.DEFAULT_TYPE):
     else:
         notepad_section = ""
     
-    menu_text = f"""🔴 *INDOORMEDIA*
-*Sales Command Center*
+    menu_text = f"""🔴 *INDOORMEDIA* 📢
+═══════════════════════════════════════
+⚡ *SALES COMMAND CENTER* ⚡
+═══════════════════════════════════════
 
-Find customers • Close deals • Track results{notepad_section}"""
+🎯 Find high-quality prospects
+📊 Build winning proposals  
+🛒 Manage your cart
+💼 Track your pipeline
+📈 Boost your results
+
+*Let's close some deals!* 💪{notepad_section}"""
     
     # Get cart count for badge
     rep_id = get_rep_id(update) if isinstance(update, Update) else None
@@ -3889,13 +3897,20 @@ Find customers • Close deals • Track results{notepad_section}"""
     
     # Inline buttons with IndoorMedia branding
     buttons = [
-        [InlineKeyboardButton("🗺️  LOCATE STORES", callback_data="menu_locate_stores")],
-        [InlineKeyboardButton("🎯 PROSPECT & QUALIFY", callback_data="menu_prospecting")],
-        [InlineKeyboardButton("💼 MANAGE CUSTOMERS", callback_data="menu_sales")],
-        [InlineKeyboardButton("📦 PRODUCT LINEUP", callback_data="menu_products")],
-        [InlineKeyboardButton("📈 PERFORMANCE HUB", callback_data="menu_performance")],
-        [InlineKeyboardButton("⚙️  RESOURCES", callback_data="menu_tools")],
-        [InlineKeyboardButton(f"🛒 CART{cart_badge}", callback_data="view_cart")],
+        [
+            InlineKeyboardButton("🔍 Find Prospects", callback_data="menu_prospecting"),
+            InlineKeyboardButton("💰 Store Rates", callback_data="menu_locate_stores"),
+        ],
+        [
+            InlineKeyboardButton("📊 ROI Calc", callback_data="menu_tools"),
+            InlineKeyboardButton("💬 Testimonials", callback_data="menu_testimonials"),
+        ],
+        [InlineKeyboardButton(f"🛒 MY CART {cart_badge}", callback_data="view_cart")],
+        [
+            InlineKeyboardButton("💼 My Customers", callback_data="menu_sales"),
+            InlineKeyboardButton("📦 Products", callback_data="menu_products"),
+        ],
+        [InlineKeyboardButton("⚙️ Tools & Help", callback_data="menu_tools")],
     ]
     
     if isinstance(update, Update) and update.callback_query:
@@ -9162,15 +9177,13 @@ async def handle_location_share(update: Update, context: ContextTypes.DEFAULT_TY
 async def setup_bot_commands(app):
     """Set up bot commands for Telegram menu."""
     commands = [
-        ("start", "🚀 Start prospect search"),
-        ("menu", "📂 Main menu"),
-        ("rates", "💰 Store rates & pricing"),
-        ("roi", "📊 ROI calculator"),
-        ("keyword", "📋 Search testimonials"),
-        ("help", "📖 How to use the bot"),
-        ("examples", "📚 Example cities & stores"),
-        ("city", "🏙️ Search by city"),
-        ("reset", "🔄 Reset current search"),
+        ("start", "🚀 Sales Command Center"),
+        ("menu", "🎯 Main Menu"),
+        ("rates", "💰 Store Rates & Pricing"),
+        ("roi", "📈 ROI Calculator"),
+        ("keyword", "💬 Search Testimonials"),
+        ("help", "❓ How to Use"),
+        ("reset", "🔄 Clear Search"),
     ]
     
     try:
