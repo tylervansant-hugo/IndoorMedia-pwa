@@ -849,35 +849,50 @@ def add_to_cart(rep_id: str, product_type: str, tier: str = None, store_num: str
     
     # === CARTVERTISING ===
     elif product_type == "cartvertising":
-        # For Cartvertising: bundle_type (240k or 360k impressions)
+        # For Cartvertising: bundle_type ('standalone' or 'bundled'), pricing per pin
         bundle_type = kwargs.get('bundle_type', 'standalone')  # 'standalone' (240k) or 'bundled' (360k)
+        impressions = kwargs.get('impressions', '240k')  # '240k' or '360k'
         
-        # Get impressions and pricing from PRODUCTS config
-        impressions_config = PRODUCTS["cartvertising"]["impressions"]
-        annual_impressions = impressions_config.get(bundle_type, 240000)
+        # Determine annual impressions based on bundle type
+        if bundle_type == "bundled" or impressions == "360k":
+            annual_impressions = 360000
+        else:
+            annual_impressions = 240000
         daily_impressions = annual_impressions // 365
         
-        # Cartvertising has fixed pricing: monthly $3600, 3-month $2795
+        # Cartvertising pricing: $240/pin per month (from screenshot)
+        price_per_pin = 240
+        production_fee = 395  # covers up to 5 pins
+        
+        # Payment plan pricing (single pin)
         if payment_plan == "monthly":
-            price = 3600
+            price = price_per_pin  # Monthly recurring
         elif payment_plan == "3month":
-            price = 2795
+            # 3-month plan: 3 × price_per_pin
+            price = price_per_pin * 3
+        elif payment_plan == "6month":
+            # 6-month plan: 6 × price_per_pin
+            price = price_per_pin * 6
+        elif payment_plan == "pif":
+            # Paid in full (annual): 12 × price_per_pin with discount
+            price = (price_per_pin * 12) * 0.95  # 5% discount
         else:
-            price = 3600  # Default
+            price = price_per_pin
         
-        # Calculate CPM and daily cost
-        cpm = (price / annual_impressions * 1000) if annual_impressions > 0 else 0
-        cost_per_day = price / 12  # 3-month or monthly -> annualize and divide by 365 not quite right, but approx
+        # Add production fee to first month/term
+        price += production_fee
         
-        # For proper annual cost, assume this is monthly recurring
-        annual_cost = price * 12 if payment_plan == "monthly" else (price * 4)  # 3-month: 4 terms/year
+        # Calculate CPM and annual cost
+        annual_cost = (price_per_pin * 12) + production_fee  # Standard annual cost
         cost_per_day = annual_cost / 365
+        cpm = (price_per_pin / annual_impressions * 1000) if annual_impressions > 0 else 0
         
         cart_item = {
             "product_type": "cartvertising",
             "product_name": f"Cartvertising ({bundle_type.title()}) - {annual_impressions:,} impressions",
             "bundle_type": bundle_type,
-            "tier": "standard",
+            "impressions": impressions,
+            "tier": kwargs.get('tier', 'standard'),
             "payment_plan": payment_plan,
             "price": price,
             "daily_impressions": daily_impressions,
@@ -889,31 +904,51 @@ def add_to_cart(rep_id: str, product_type: str, tier: str = None, store_num: str
     
     # === DIGITALBOOST ===
     elif product_type == "digitalboost":
-        # For DigitalBoost: fixed 240k impressions, varying by pin count
+        # For DigitalBoost: fixed 240k impressions per pin, varying pin count
         pin_count = kwargs.get('pin_count', 1)
+        tier = kwargs.get('tier', 'Standard').lower()
         
-        # Fixed 240k impressions
-        annual_impressions = 240000
+        # Fixed 240k impressions per pin
+        annual_impressions = 240000 * pin_count
         daily_impressions = annual_impressions // 365
         
-        # Pricing: $3600/mo per pin shown in screenshot (1 pin = $3600/mo)
-        monthly_price = 3600 * pin_count
+        # Pricing from screenshot:
+        # Co-Op: $2,795 (1st pin) + $2,400/each (2-4)
+        # Standard: $3,600/pin
+        production_fee = 395  # covers up to 5 pins
         
-        if payment_plan == "monthly":
-            price = monthly_price
+        if tier == "co-op" or tier == "coop":
+            # Co-Op pricing: 1st pin $2,400 + 2nd-4th pins $2,400 each
+            if pin_count == 1:
+                pin_cost = 2795  # $2,400 + $395 production
+            else:
+                pin_cost = 2795 + (2400 * (pin_count - 1))
         else:
-            price = monthly_price  # Default to monthly
+            # Standard pricing: $3,600 per pin
+            pin_cost = 3600 * pin_count + production_fee
+        
+        # Apply payment plan
+        if payment_plan == "monthly":
+            price = pin_cost / 12  # Monthly installment
+        elif payment_plan == "3month":
+            price = pin_cost / 3  # 3-month installment
+        elif payment_plan == "6month":
+            price = pin_cost / 6  # 6-month installment
+        elif payment_plan == "pif":
+            price = pin_cost * 0.95  # 5% discount for paid in full
+        else:
+            price = pin_cost / 12
         
         # Calculate CPM and annual cost
-        annual_cost = price * 12  # Monthly recurring
-        cost_per_day = annual_cost / 365
+        annual_cost = pin_cost if payment_plan == "pif" else (pin_cost if payment_plan == "monthly" else pin_cost)
+        cost_per_day = (pin_cost / 365) if payment_plan == "monthly" else (pin_cost / 12 / 30)
         cpm = (price / annual_impressions * 1000) if annual_impressions > 0 else 0
         
         cart_item = {
             "product_type": "digitalboost",
-            "product_name": f"DigitalBoost - {pin_count} Pin{'s' if pin_count > 1 else ''} ({annual_impressions:,} impressions)",
+            "product_name": f"DigitalBoost ({tier.title()}) - {pin_count} Pin{'s' if pin_count > 1 else ''} ({annual_impressions:,} impressions)",
             "pin_count": pin_count,
-            "tier": "standard",
+            "tier": tier,
             "payment_plan": payment_plan,
             "price": price,
             "daily_impressions": daily_impressions,
@@ -1630,7 +1665,7 @@ async def handle_store_query(update: Update, context: ContextTypes.DEFAULT_TYPE)
         return
     elif text == "🛒 Cartvertising":
         buttons = [
-            [KeyboardButton("🪑 Child Seat"), KeyboardButton("👃 Nose of Cart")],
+            [KeyboardButton("🛒 Child Seat"), KeyboardButton("👃 Nose of Cart")],
             [KeyboardButton("⬅️ Back to Products"), KeyboardButton("⬅️ Main Menu")],
         ]
         await update.message.reply_text(
@@ -1639,13 +1674,13 @@ async def handle_store_query(update: Update, context: ContextTypes.DEFAULT_TYPE)
             reply_markup=ReplyKeyboardMarkup(buttons, resize_keyboard=True)
         )
         return
-    elif text == "🪑 Child Seat":
+    elif text == "🛒 Child Seat":
         buttons = [
             [KeyboardButton("🎬 Presentation"), KeyboardButton("📹 Explainer")],
             [KeyboardButton("👃 Nose of Cart"), KeyboardButton("⬅️ Back to Products")],
         ]
         await update.message.reply_text(
-            "🪑 *CHILD SEAT*\n\nPresentation: https://docs.google.com/presentation/d/1xwIF4CaTp07AKunGaJysCSIGqN7VCdbL4fgOH3XEpl4/edit?usp=sharing\n\nExplainer: https://www.youtube.com/watch?v=PduxHWy8sMc",
+            "🛒 *CHILD SEAT*\n\nPresentation: https://docs.google.com/presentation/d/1xwIF4CaTp07AKunGaJysCSIGqN7VCdbL4fgOH3XEpl4/edit?usp=sharing\n\nExplainer: https://www.youtube.com/watch?v=PduxHWy8sMc",
             parse_mode="Markdown",
             reply_markup=ReplyKeyboardMarkup(buttons, resize_keyboard=True)
         )
@@ -1653,7 +1688,7 @@ async def handle_store_query(update: Update, context: ContextTypes.DEFAULT_TYPE)
     elif text == "👃 Nose of Cart":
         buttons = [
             [KeyboardButton("🎬 Presentation"), KeyboardButton("📹 Explainer")],
-            [KeyboardButton("🪑 Child Seat"), KeyboardButton("⬅️ Back to Products")],
+            [KeyboardButton("🛒 Child Seat"), KeyboardButton("⬅️ Back to Products")],
         ]
         await update.message.reply_text(
             "👃 *NOSE OF CART*\n\nPresentation: https://drive.google.com/file/d/1Bvr0XOWHLO5DMwOmi6NQAcuuk4b9EkFS/view?usp=sharing\n\nExplainer: https://www.youtube.com/watch?v=PduxHWy8sMc",
@@ -4081,7 +4116,7 @@ async def show_submenu_cartvertising(update: Update, context: ContextTypes.DEFAU
     buttons = [
         [InlineKeyboardButton("🎬 Presentation", url="https://docs.google.com/presentation/d/1xwIF4CaTp07AKunGaJysCSIGqN7VCdbL4fgOH3XEpl4/edit?usp=sharing")],
         [InlineKeyboardButton("📹 Explainer Video", url="https://www.youtube.com/watch?v=PduxHWy8sMc")],
-        [InlineKeyboardButton("🪑 Child Seat", callback_data="product_child_seat")],
+        [InlineKeyboardButton("🛒 Child Seat", callback_data="product_child_seat")],
         [InlineKeyboardButton("👃 Nose of Cart", callback_data="product_nose")],
         [InlineKeyboardButton("⬅️ Back to Products", callback_data="menu_products")],
     ]
@@ -4114,77 +4149,111 @@ async def show_submenu_digital(update: Update, context: ContextTypes.DEFAULT_TYP
 
 
 async def show_product_child_seat(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    """Show Child Seat (Cartvertising) package selection with cart buttons."""
+    """Show Child Seat (Cartvertising) package selection with pricing tiers and cart buttons."""
     query = update.callback_query
     await query.answer()
-    data = PRODUCT_DATA.get("child_seat", {})
-    packages = data.get("packages", [])
+    
+    text = (
+        "🛒 *CHILD SEAT ADVERTISING*\n\n"
+        "_Target mothers with high-intent shopping behavior_\n\n"
+        "━━━━━━━━━━━━━━━━━━\n"
+        "💰 *Pricing Per Pin*\n"
+        "• Co-Op: *$240/pin*\n"
+        "• Standard: *$240/pin*\n\n"
+        "📊 *Impressions*\n"
+        "• Standalone: *240,000*\n"
+        "• Bundled: *360,000*\n\n"
+        "💳 *Payment Plans*\n"
+        "• Monthly\n"
+        "• 3-Month\n"
+        "• 6-Month\n"
+        "• Paid in Full\n\n"
+        "_Select a tier and plan below:_"
+    )
     
     buttons = [
         [InlineKeyboardButton("🎬 Presentation", url="https://docs.google.com/presentation/d/1xwIF4CaTp07AKunGaJysCSIGqN7VCdbL4fgOH3XEpl4/edit?usp=sharing")],
         [InlineKeyboardButton("📹 Explainer Video", url="https://www.youtube.com/watch?v=PduxHWy8sMc")],
+        [InlineKeyboardButton("🎯 CO-OP PRICING", callback_data="cart_coop_child_seat")],
+        [InlineKeyboardButton("📋 STANDARD PRICING", callback_data="cart_standard_child_seat")],
+        [InlineKeyboardButton("⬅️ Back", callback_data="menu_cartvertising")],
     ]
-    for i, pkg in enumerate(packages):
-        buttons.append([InlineKeyboardButton(
-            f"${pkg['six_month_rate']:,} — {pkg['short']}",
-            callback_data=f"cs_pkg_{i}"
-        )])
-    buttons.append([InlineKeyboardButton("⬅️ Back", callback_data="menu_cartvertising")])
     
     await query.edit_message_text(
-        "🪑 *CHILD SEAT ADVERTISING*\n\n_Target mothers with high-intent shopping behavior_",
+        text,
         parse_mode="Markdown",
         reply_markup=InlineKeyboardMarkup(buttons)
     )
 
 
-async def show_child_seat_package(update: Update, context: ContextTypes.DEFAULT_TYPE, pkg_index: int):
-    """Show pricing details for a specific Child Seat package."""
+async def show_cart_coop_pricing(update: Update, context: ContextTypes.DEFAULT_TYPE, product: str = "child_seat"):
+    """Show Co-Op pricing tiers with bundle options for Cartvertising."""
     query = update.callback_query
     await query.answer()
-    data = PRODUCT_DATA.get("child_seat", {})
-    packages = data.get("packages", [])
     
-    if pkg_index >= len(packages):
-        return
-    
-    pkg = packages[pkg_index]
-    rate = pkg["six_month_rate"]
-    deposit = pkg["deposit_25pct"]
-    prod_fee = pkg["production_fee"]
-    deposit_total = pkg["deposit_plus_production"]
-    full_pay_rate = pkg["full_pay_5pct_rate"]
-    full_pay_total = pkg["full_pay_total_with_production"]
-    savings = pkg["savings_5pct"]
-    
-    # Calculate 5 monthly payments (remaining after deposit)
-    remaining = rate - deposit
-    monthly = remaining / 5
+    # Co-Op pricing: $240/pin (same as Standard for Cartvertising)
+    price_per_pin = 240
     
     text = (
-        f"🪑 *{pkg['name']}*\n\n"
-        f"💰 *6-Month Rate:* ${rate:,.0f}\n\n"
+        "🎯 *CO-OP APPROVED PRICING*\n\n"
+        f"📌 *Price Per Pin:* ${price_per_pin:,}\n"
+        f"🏪 *Production:* $395 (covers up to 5 pins)\n\n"
         f"━━━━━━━━━━━━━━━━━━\n"
-        f"📋 *OPTION 1: Deposit + 5 Monthly*\n"
-        f"• Deposit (25%): ${deposit:,.2f}\n"
-        f"• Production Fee: ${prod_fee:,.0f}\n"
-        f"• *Due Upfront: ${deposit_total:,.2f}*\n"
-        f"• Then 5 payments of *${monthly:,.2f}/mo*\n\n"
+        f"📊 *BUNDLE TYPES*\n\n"
+        f"*STANDALONE (240K impressions):*\n"
+        f"  1 pin × ${price_per_pin} = ${price_per_pin + 395:,} with production\n\n"
+        f"*BUNDLED (360K impressions):*\n"
+        f"  Bundle with Register Tape or DigitalBoost\n\n"
         f"━━━━━━━━━━━━━━━━━━\n"
-        f"📋 *OPTION 2: Paid in Full (5% Off)*\n"
-        f"• Discounted Rate: ${full_pay_rate:,.2f}\n"
-        f"• Production Fee: ${prod_fee:,.0f}\n"
-        f"• *Total: ${full_pay_total:,.2f}*\n"
-        f"• 💚 You save ${savings:,.2f}\n"
+        f"💳 *Select payment plan:*"
     )
     
     buttons = [
-        # Cartvertising add to cart - 240k impressions (standalone)
-        [InlineKeyboardButton("🛒 Add to Cart (240k impressions)", callback_data="cart_add_cartvertising_240k_monthly")],
-        # Cartvertising add to cart - 360k impressions (bundled)
-        [InlineKeyboardButton("🛒 Add to Cart (360k impressions)", callback_data="cart_add_cartvertising_360k_monthly")],
-        [InlineKeyboardButton("⬅️ Back to Packages", callback_data="product_child_seat")],
-        [InlineKeyboardButton("⬅️ Cartvertising Menu", callback_data="menu_cartvertising")],
+        [InlineKeyboardButton("📄 Standalone | Monthly", callback_data="cart_add_cartvertising_standalone_monthly")],
+        [InlineKeyboardButton("📄 Standalone | 3-Month", callback_data="cart_add_cartvertising_standalone_3month")],
+        [InlineKeyboardButton("📄 Standalone | 6-Month", callback_data="cart_add_cartvertising_standalone_6month")],
+        [InlineKeyboardButton("📄 Standalone | Paid in Full", callback_data="cart_add_cartvertising_standalone_pif")],
+        [InlineKeyboardButton("📋 Bundled | Monthly", callback_data="cart_add_cartvertising_bundled_monthly")],
+        [InlineKeyboardButton("📋 Bundled | 3-Month", callback_data="cart_add_cartvertising_bundled_3month")],
+        [InlineKeyboardButton("📋 Bundled | 6-Month", callback_data="cart_add_cartvertising_bundled_6month")],
+        [InlineKeyboardButton("📋 Bundled | Paid in Full", callback_data="cart_add_cartvertising_bundled_pif")],
+        [InlineKeyboardButton("⬅️ Back", callback_data="product_child_seat")],
+    ]
+    
+    await query.edit_message_text(text, parse_mode="Markdown", reply_markup=InlineKeyboardMarkup(buttons))
+
+async def show_cart_standard_pricing(update: Update, context: ContextTypes.DEFAULT_TYPE, product: str = "child_seat"):
+    """Show Standard pricing tiers with bundle options for Cartvertising."""
+    query = update.callback_query
+    await query.answer()
+    
+    # Standard pricing: $240/pin (same as Co-Op for Cartvertising - no padding for display)
+    price_per_pin = 240
+    
+    text = (
+        "📋 *STANDARD PRICING*\n\n"
+        f"📌 *Price Per Pin:* ${price_per_pin:,}\n"
+        f"🏪 *Production:* $395 (covers up to 5 pins)\n\n"
+        f"━━━━━━━━━━━━━━━━━━\n"
+        f"📊 *BUNDLE TYPES*\n\n"
+        f"*STANDALONE (240K impressions):*\n"
+        f"  1 pin × ${price_per_pin} = ${price_per_pin + 395:,} with production\n\n"
+        f"*BUNDLED (360K impressions):*\n"
+        f"  Bundle with Register Tape or DigitalBoost\n\n"
+        f"━━━━━━━━━━━━━━━━━━\n"
+        f"💳 *Select payment plan:*"
+    )
+    
+    buttons = [
+        [InlineKeyboardButton("📄 Standalone | Monthly", callback_data="cart_add_cartvertising_standalone_monthly")],
+        [InlineKeyboardButton("📄 Standalone | 3-Month", callback_data="cart_add_cartvertising_standalone_3month")],
+        [InlineKeyboardButton("📄 Standalone | 6-Month", callback_data="cart_add_cartvertising_standalone_6month")],
+        [InlineKeyboardButton("📄 Standalone | Paid in Full", callback_data="cart_add_cartvertising_standalone_pif")],
+        [InlineKeyboardButton("📋 Bundled | Monthly", callback_data="cart_add_cartvertising_bundled_monthly")],
+        [InlineKeyboardButton("📋 Bundled | 3-Month", callback_data="cart_add_cartvertising_bundled_3month")],
+        [InlineKeyboardButton("📋 Bundled | 6-Month", callback_data="cart_add_cartvertising_bundled_6month")],
+        [InlineKeyboardButton("📋 Bundled | Paid in Full", callback_data="cart_add_cartvertising_bundled_pif")],
+        [InlineKeyboardButton("⬅️ Back", callback_data="product_child_seat")],
     ]
     
     await query.edit_message_text(text, parse_mode="Markdown", reply_markup=InlineKeyboardMarkup(buttons))
@@ -4229,7 +4298,7 @@ async def show_product_nose(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
 
 async def show_product_digitalboost(update: Update, context: ContextTypes.DEFAULT_TYPE, pins: int = 0):
-    """Show DigitalBoost pricing with optional pin calculator."""
+    """Show DigitalBoost pricing with pin selector and payment plans."""
     query = update.callback_query
     await query.answer()
     
@@ -4241,60 +4310,72 @@ async def show_product_digitalboost(update: Update, context: ContextTypes.DEFAUL
             "━━━━━━━━━━━━━━━━━━\n"
             "📋 *Per Pin Pricing*\n"
             "• Standard: *$3,600/pin*\n"
-            "• Co-Op Approved: *$2,400/pin*\n"
+            "• Co-Op Approved: *$2,795 (1st pin) + $2,400 (2-5)*\n"
             "• Production: *$395* (covers up to 5 pins)\n\n"
             "━━━━━━━━━━━━━━━━━━\n"
             "📊 *Impressions Per Pin*\n"
             "• Standalone: *240,000*\n"
             "• Bundled w/ Tape or Cart: *360,000*\n\n"
-            "_Select number of pins to see total pricing:_"
+            "💳 *Payment Plans*\n"
+            "• Monthly\n"
+            "• 3-Month\n"
+            "• 6-Month\n"
+            "• Paid in Full\n\n"
+            "_Select number of pins below:_"
         )
         buttons = [
             [InlineKeyboardButton("🎬 Presentation", url="https://drive.google.com/file/d/1LvPJjBk1tvMYFoRAy-AUSugUXV82hUeM/view?usp=sharing")],
             [InlineKeyboardButton("📹 Explainer Video", url="https://drive.google.com/file/d/1_QyAlgZRy1bKJSKC1058260d0jPccVTM/view?usp=sharing")],
         ]
         for n in range(1, 6):
-            buttons.append([InlineKeyboardButton(f"📌 {n} Pin{'s' if n > 1 else ''}", callback_data=f"db_pins_{n}")])
+            buttons.append([InlineKeyboardButton(f"📌 {n} Pin{'s' if n > 1 else ''}", callback_data=f"db_select_pins_{n}")])
         buttons.append([InlineKeyboardButton("⬅️ Back", callback_data="menu_digital")])
     else:
-        # Calculate totals
+        # Calculate totals for Standard and Co-Op
         std_price = 3600 * pins
-        coop_price = 2400 * pins
         prod = 395  # covers up to 5
         std_total = std_price + prod
-        coop_total = coop_price + prod
-        coop_first = 2400 + 395
+        
+        # Co-Op: 1st pin = $2,400, additional pins = $2,400 each
+        coop_pin_cost = 2400 * pins
+        coop_total = coop_pin_cost + prod
+        
         impressions_std = 240000 * pins
         impressions_bundled = 360000 * pins
         
         text = (
             f"🚀 *DIGITALBOOST — {pins} Pin{'s' if pins > 1 else ''}*\n\n"
             f"━━━━━━━━━━━━━━━━━━\n"
-            f"💰 *Standard Pricing*\n"
-            f"• {pins} × $3,600 = ${std_price:,}\n"
+            f"📋 *STANDARD PRICING*\n"
+            f"• {pins} pin{'s' if pins > 1 else ''} × $3,600 = ${std_price:,}\n"
             f"• Production: $395\n"
             f"• *Total: ${std_total:,}*\n\n"
             f"━━━━━━━━━━━━━━━━━━\n"
-            f"🎯 *Co-Op Approved*\n"
-            f"• 1st pin: $2,400 + $395 prod = *$2,795*\n"
-        )
-        if pins > 1:
-            text += f"• Pins 2-{pins}: {pins-1} × $2,400 = ${2400*(pins-1):,}\n"
-        text += (
+            f"🎯 *CO-OP APPROVED*\n"
+            f"• {pins} pin{'s' if pins > 1 else ''} × $2,400 = ${coop_pin_cost:,}\n"
+            f"• Production: $395\n"
             f"• *Total: ${coop_total:,}*\n\n"
             f"━━━━━━━━━━━━━━━━━━\n"
-            f"📊 *Impressions*\n"
-            f"• Standalone: *{impressions_std:,}*\n"
-            f"• Bundled: *{impressions_bundled:,}*\n"
+            f"📊 *Impressions Per Pin*\n"
+            f"• Standalone: *{impressions_std:,}* ({impressions_std//pins:,} each)\n"
+            f"• Bundled: *{impressions_bundled:,}* ({impressions_bundled//pins:,} each)\n\n"
+            f"━━━━━━━━━━━━━━━━━━\n"
+            f"💳 *Select Tier & Plan:*"
         )
         
-        buttons = []
-        for n in range(1, 6):
-            label = f"{'✅ ' if n == pins else ''}{n} Pin{'s' if n > 1 else ''}"
-            buttons.append([InlineKeyboardButton(label, callback_data=f"db_pins_{n}")])
-        # Add to cart button for selected pin count
-        buttons.append([InlineKeyboardButton(f"🛒 Add {pins} Pin{'s' if pins > 1 else ''} to Cart (${std_total:,})", callback_data=f"cart_add_digitalboost_{pins}_monthly")])
-        buttons.append([InlineKeyboardButton("⬅️ Back", callback_data="menu_digital")])
+        # Standard tier buttons
+        buttons = [
+            [InlineKeyboardButton("📄 STD/Monthly", callback_data=f"cart_add_digitalboost_std_{pins}_monthly")],
+            [InlineKeyboardButton("📄 STD/3-Month", callback_data=f"cart_add_digitalboost_std_{pins}_3month")],
+            [InlineKeyboardButton("📄 STD/6-Month", callback_data=f"cart_add_digitalboost_std_{pins}_6month")],
+            [InlineKeyboardButton("📄 STD/PIF", callback_data=f"cart_add_digitalboost_std_{pins}_pif")],
+            # Co-Op tier buttons
+            [InlineKeyboardButton("🎯 CO-OP/Monthly", callback_data=f"cart_add_digitalboost_coop_{pins}_monthly")],
+            [InlineKeyboardButton("🎯 CO-OP/3-Month", callback_data=f"cart_add_digitalboost_coop_{pins}_3month")],
+            [InlineKeyboardButton("🎯 CO-OP/6-Month", callback_data=f"cart_add_digitalboost_coop_{pins}_6month")],
+            [InlineKeyboardButton("🎯 CO-OP/PIF", callback_data=f"cart_add_digitalboost_coop_{pins}_pif")],
+            [InlineKeyboardButton("⬅️ Change Pins", callback_data="product_digitalboost")],
+        ]
     
     await query.edit_message_text(text, parse_mode="Markdown", reply_markup=InlineKeyboardMarkup(buttons))
 
@@ -7677,49 +7758,96 @@ Send any city name to see all stores!
                     parse_mode="Markdown",
                     reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("⬅️ Main Menu", callback_data="main_menu")]])
                 )
+        elif data == "product_child_seat":
+            await show_product_child_seat(update, context)
+        elif data == "product_nose":
+            await show_product_nose(update, context)
+        elif data == "product_digitalboost":
+            await show_product_digitalboost(update, context)
+        elif data.startswith("db_select_pins_"):
+            pin_count = int(data.replace("db_select_pins_", ""))
+            await show_product_digitalboost(update, context, pins=pin_count)
+        elif data.startswith("cart_coop_child_seat"):
+            await show_cart_coop_pricing(update, context, product="child_seat")
+        elif data.startswith("cart_standard_child_seat"):
+            await show_cart_standard_pricing(update, context, product="child_seat")
         elif data.startswith("cart_add_cartvertising_"):
             # Add Cartvertising to cart
             await query.answer("✅ Added to cart!", show_alert=False)
             parts = data.replace("cart_add_cartvertising_", "").rsplit("_", 1)
-            bundle_type = parts[0]  # '240k' or '360k'
-            payment_plan = parts[1]  # 'monthly' or '3month'
+            combined = parts[0]  # e.g., 'standalone_monthly', 'bundled_6month'
+            payment_plan = parts[1]  # fallback
             
-            rep_id = get_rep_id(update)  # Use update directly
+            # Parse the combined parameter
+            if "_" in combined:
+                bundle_type = combined.split("_")[0]  # 'standalone' or 'bundled'
+                payment_plan = "_".join(combined.split("_")[1:])  # 'monthly', '3month', '6month', 'pif'
+            else:
+                bundle_type = combined
+                payment_plan = "monthly"
+            
+            # Convert impressions to descriptive form
+            impressions = "360k" if bundle_type == "bundled" else "240k"
+            
+            rep_id = get_rep_id(update)
             price = add_to_cart(
                 rep_id=rep_id,
                 product_type="cartvertising",
                 bundle_type=bundle_type,
-                payment_plan=payment_plan
+                impressions=impressions,
+                payment_plan=payment_plan,
+                tier="standard"
             )
             
             if price:
                 await query.edit_message_text(
                     f"✅ *Added to Cart!*\n\n"
-                    f"💰 Price: ${price:,.0f}\n"
-                    f"🛒 View cart from the main menu",
+                    f"🛒 Cartvertising ({bundle_type.title()})\n"
+                    f"📊 {impressions} impressions\n"
+                    f"💳 {payment_plan.replace('_', ' ').title()} plan\n"
+                    f"💰 ${price:,.0f}\n\n"
+                    f"View cart from the main menu to continue",
                     parse_mode="Markdown",
                     reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("⬅️ Main Menu", callback_data="main_menu")]])
                 )
         elif data.startswith("cart_add_digitalboost_"):
-            # Add DigitalBoost to cart
+            # Add DigitalBoost to cart: tier_pincount_plan
             await query.answer("✅ Added to cart!", show_alert=False)
             parts = data.replace("cart_add_digitalboost_", "").rsplit("_", 1)
-            pin_count = int(parts[0])
-            payment_plan = parts[1]  # 'monthly'
+            combined = parts[0]  # e.g., 'std_3_monthly', 'coop_1_pif'
+            payment_plan = parts[1] if len(parts) > 1 else "monthly"
             
-            rep_id = get_rep_id(update)  # Use update directly
+            # Parse tier and pin count
+            sub_parts = combined.split("_")
+            if len(sub_parts) >= 2:
+                tier = sub_parts[0]  # 'std' or 'coop'
+                pin_count = int(sub_parts[1])
+            else:
+                tier = "std"
+                pin_count = 1
+            
+            # Convert tier to full name
+            tier_name = "Standard" if tier == "std" else "Co-Op"
+            
+            rep_id = get_rep_id(update)
             price = add_to_cart(
                 rep_id=rep_id,
                 product_type="digitalboost",
                 pin_count=pin_count,
+                tier=tier_name,
                 payment_plan=payment_plan
             )
             
             if price:
+                impressions = 240000 * pin_count
                 await query.edit_message_text(
                     f"✅ *Added to Cart!*\n\n"
-                    f"💰 Price: ${price:,.0f}\n"
-                    f"🛒 View cart from the main menu",
+                    f"🚀 DigitalBoost ({tier_name})\n"
+                    f"📌 {pin_count} Pin{'s' if pin_count > 1 else ''}\n"
+                    f"📊 {impressions:,} impressions\n"
+                    f"💳 {payment_plan.replace('_', ' ').title()} plan\n"
+                    f"💰 ${price:,.0f}\n\n"
+                    f"View cart from the main menu to continue",
                     parse_mode="Markdown",
                     reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("⬅️ Main Menu", callback_data="main_menu")]])
                 )
