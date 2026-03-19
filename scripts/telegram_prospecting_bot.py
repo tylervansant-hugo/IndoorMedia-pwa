@@ -3902,8 +3902,8 @@ async def show_main_menu(update: Update, context: ContextTypes.DEFAULT_TYPE):
             InlineKeyboardButton("💰 Store Rates", callback_data="menu_locate_stores"),
         ],
         [
-            InlineKeyboardButton("📊 ROI Calc", callback_data="menu_tools"),
-            InlineKeyboardButton("💬 Testimonials", callback_data="menu_testimonials"),
+            InlineKeyboardButton("📊 ROI Calc", callback_data="roi_calculator"),
+            InlineKeyboardButton("💬 Testimonials", callback_data="testimonial_search"),
         ],
         [InlineKeyboardButton(f"🛒 MY CART {cart_badge}", callback_data="view_cart")],
         [
