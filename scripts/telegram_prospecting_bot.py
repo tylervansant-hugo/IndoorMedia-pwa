@@ -6709,6 +6709,12 @@ async def handle_button_callback(update: Update, context: ContextTypes.DEFAULT_T
                 "🔍 Enter a store number or city name:",
                 reply_markup=ReplyKeyboardRemove()
             )
+        elif data == "menu_prospects":
+            await show_submenu_prospects(update, context)
+        elif data == "menu_clients":
+            await show_submenu_clients(update, context)
+        elif data == "menu_stores":
+            await show_submenu_stores(update, context)
         elif data == "menu_prospecting":
             await show_submenu_prospecting(update, context)
         elif data == "menu_sales":
