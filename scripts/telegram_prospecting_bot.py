@@ -8659,7 +8659,38 @@ SERVICES & PRICING
         elif data == "new_search":
             await query.answer()
             clear_awaiting_states(context)
-            await query.edit_message_text("🔍 Send a store number or city name:")
+            # Show search options menu
+            buttons = [
+                [InlineKeyboardButton("📍 Near Me", callback_data="prospect_near_me")],
+                [InlineKeyboardButton("🏪 By Store Number", callback_data="prospect_search_store")],
+                [InlineKeyboardButton("🏙️ By City", callback_data="prospect_search_city")],
+                [InlineKeyboardButton("⬅️ Back", callback_data="menu_prospects")],
+            ]
+            await query.edit_message_text(
+                "🔍 *Find Prospects*\n\n_How would you like to search?_",
+                parse_mode="Markdown",
+                reply_markup=InlineKeyboardMarkup(buttons)
+            )
+        elif data == "prospect_near_me":
+            await query.answer()
+            context.user_data['waiting_for_location'] = True
+            location_button = KeyboardButton("📍 Share My Location", request_location=True)
+            keyboard = ReplyKeyboardMarkup([[location_button]], one_time_keyboard=True, resize_keyboard=True)
+            await update.effective_chat.send_message(
+                "📍 *Share Your Location*\n\nTap the button below to share your location and find nearby prospects.",
+                parse_mode="Markdown",
+                reply_markup=keyboard
+            )
+        elif data == "prospect_search_store":
+            await query.answer()
+            clear_awaiting_states(context)
+            context.user_data[AWAITING_STORE_QUERY] = True
+            await query.edit_message_text("🏪 Send a store number (e.g., FME07Z-0042):")
+        elif data == "prospect_search_city":
+            await query.answer()
+            clear_awaiting_states(context)
+            context.user_data[AWAITING_CITY_QUERY] = True
+            await query.edit_message_text("🏙️ Send a city name (e.g., Portland):")
         elif data.startswith("city_"):
             # City selection from multiple matches
             city = data.replace("city_", "")

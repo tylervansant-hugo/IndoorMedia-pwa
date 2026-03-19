@@ -2323,74 +2323,14 @@
           "lat": 45.5121324,
           "lon": -122.6143441,
           "distance_miles": 0.82,
-          "likelihood_score": 78,
+          "likelihood_score": 88,
           "rating": 4.5,
-          "user_ratings_total": 3348,
+          "user_ratings_total": 3349,
           "phone": "+1 503-954-3138",
           "website": "http://www.porquenotacos.com/",
           "place_id": "ChIJ9_lCovOglVQRj9EDMuROv5k",
           "opening_hours": {
-            "open_now": false
-          },
-          "business_status": "OPERATIONAL",
-          "price_level": 2,
-          "source": "Google Places"
-        },
-        {
-          "name": "Muchas Gracias Mexican Food",
-          "type": "store, restaurant, food, point_of_interest, establishment",
-          "address": "5832 NE Glisan St, Portland",
-          "lat": 45.5263714,
-          "lon": -122.6035329,
-          "distance_miles": 0.3,
-          "likelihood_score": 93,
-          "rating": 4.3,
-          "user_ratings_total": 77,
-          "phone": "+1 971-383-2727",
-          "website": "https://muchasgraciasmexicanfood.com/muchasneglisanst?utm_source=google",
-          "place_id": "ChIJHxasjpyhlVQRMFVPeMwY-rg",
-          "opening_hours": {
             "open_now": true
-          },
-          "business_status": "OPERATIONAL",
-          "price_level": 1,
-          "source": "Google Places"
-        },
-        {
-          "name": "Tierra del Sol Cuisine - Montavilla",
-          "type": "restaurant, food, point_of_interest, establishment",
-          "address": "6935 NE Glisan St, Portland",
-          "lat": 45.5265944,
-          "lon": -122.5917251,
-          "distance_miles": 0.76,
-          "likelihood_score": 80,
-          "rating": 4.6,
-          "user_ratings_total": 149,
-          "phone": "+1 503-998-9663",
-          "website": "https://tierradelsolpdx.com/",
-          "place_id": "ChIJhy9aOaOhlVQRd8fGuXuSdzU",
-          "opening_hours": {
-            "open_now": false
-          },
-          "business_status": "OPERATIONAL",
-          "price_level": null,
-          "source": "Google Places"
-        },
-        {
-          "name": "Plaza Coyoacan",
-          "type": "restaurant, food, point_of_interest, establishment",
-          "address": "3433 SE Hawthorne Blvd, Portland",
-          "lat": 45.5121719,
-          "lon": -122.6287405,
-          "distance_miles": 1.3,
-          "likelihood_score": 76,
-          "rating": 4.9,
-          "user_ratings_total": 376,
-          "phone": "+1 503-236-1100",
-          "website": "https://coyoacanpdx.com/",
-          "place_id": "ChIJkeCK95GglVQRCkj4JZGlHFQ",
-          "opening_hours": {
-            "open_now": false
           },
           "business_status": "OPERATIONAL",
           "price_level": 2,
@@ -2403,17 +2343,57 @@
           "lat": 45.5261729,
           "lon": -122.6165435,
           "distance_miles": 0.56,
-          "likelihood_score": 82,
+          "likelihood_score": 92,
           "rating": 4.6,
           "user_ratings_total": 248,
           "phone": "+1 503-719-5374",
           "website": null,
           "place_id": "ChIJXzIz3o6hlVQRJGGpUsH_h3Y",
           "opening_hours": {
-            "open_now": false
+            "open_now": true
           },
           "business_status": "OPERATIONAL",
           "price_level": 1,
+          "source": "Google Places"
+        },
+        {
+          "name": "Plaza Coyoacan",
+          "type": "restaurant, food, point_of_interest, establishment",
+          "address": "3433 SE Hawthorne Blvd, Portland",
+          "lat": 45.5121719,
+          "lon": -122.6287405,
+          "distance_miles": 1.3,
+          "likelihood_score": 86,
+          "rating": 4.9,
+          "user_ratings_total": 376,
+          "phone": "+1 503-236-1100",
+          "website": "https://coyoacanpdx.com/",
+          "place_id": "ChIJkeCK95GglVQRCkj4JZGlHFQ",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 2,
+          "source": "Google Places"
+        },
+        {
+          "name": "Tierra del Sol Cuisine - Montavilla",
+          "type": "restaurant, food, point_of_interest, establishment",
+          "address": "6935 NE Glisan St, Portland",
+          "lat": 45.5265944,
+          "lon": -122.5917251,
+          "distance_miles": 0.76,
+          "likelihood_score": 90,
+          "rating": 4.6,
+          "user_ratings_total": 149,
+          "phone": "+1 503-998-9663",
+          "website": "https://tierradelsolpdx.com/",
+          "place_id": "ChIJhy9aOaOhlVQRd8fGuXuSdzU",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
           "source": "Google Places"
         },
         {
@@ -2423,14 +2403,14 @@
           "lat": 45.5118363,
           "lon": -122.6237038,
           "distance_miles": 1.12,
-          "likelihood_score": 75,
+          "likelihood_score": 85,
           "rating": 4.4,
           "user_ratings_total": 968,
           "phone": "+1 503-226-9600",
           "website": "https://www.pepinos.org/",
           "place_id": "ChIJYVthdY2glVQRMLAqxaqIul4",
           "opening_hours": {
-            "open_now": false
+            "open_now": true
           },
           "business_status": "OPERATIONAL",
           "price_level": 1,
@@ -2443,14 +2423,14 @@
           "lat": 45.538229,
           "lon": -122.6157782,
           "distance_miles": 1.18,
-          "likelihood_score": 77,
+          "likelihood_score": 87,
           "rating": 4.8,
           "user_ratings_total": 81,
           "phone": "+1 971-344-2394",
           "website": null,
           "place_id": "ChIJcWsG4XWhlVQRKkK3SnG3A20",
           "opening_hours": {
-            "open_now": false
+            "open_now": true
           },
           "business_status": "OPERATIONAL",
           "price_level": null,
@@ -2463,14 +2443,14 @@
           "lat": 45.5118332,
           "lon": -122.6218831,
           "distance_miles": 1.06,
-          "likelihood_score": 77,
+          "likelihood_score": 87,
           "rating": 4.7,
           "user_ratings_total": 35,
           "phone": "+1 503-333-3801",
           "website": null,
           "place_id": "ChIJLZtCRgChlVQRMjWutnlRBek",
           "opening_hours": {
-            "open_now": false
+            "open_now": true
           },
           "business_status": "OPERATIONAL",
           "price_level": 1,
@@ -2483,14 +2463,14 @@
           "lat": 45.5339053,
           "lon": -122.6013173,
           "distance_miles": 0.82,
-          "likelihood_score": 76,
+          "likelihood_score": 86,
           "rating": 4,
           "user_ratings_total": 59,
           "phone": "+1 360-597-5694",
           "website": "http://orderpoblanopepperpdx.com/",
           "place_id": "ChIJAQAAAE-nlVQRpfh8LKYmqwY",
           "opening_hours": {
-            "open_now": false
+            "open_now": true
           },
           "business_status": "OPERATIONAL",
           "price_level": null,
@@ -2503,21 +2483,41 @@
           "lat": 45.516672,
           "lon": -122.6184044,
           "distance_miles": 0.71,
-          "likelihood_score": 79,
+          "likelihood_score": 89,
           "rating": 4.4,
           "user_ratings_total": 134,
           "phone": "+1 503-926-0497",
           "website": "http://orderpoblanopepper.com/",
           "place_id": "ChIJU0OCyO2glVQRkvrRTqRDGV4",
           "opening_hours": {
-            "open_now": false
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 1,
+          "source": "Google Places"
+        },
+        {
+          "name": "EL CHILITO LOCO (food truck) Authentic Mexican Food",
+          "type": "restaurant, food, point_of_interest, establishment",
+          "address": "3423 SE Belmont St, Portland",
+          "lat": 45.5166633,
+          "lon": -122.6289234,
+          "distance_miles": 1.17,
+          "likelihood_score": 85,
+          "rating": 4.5,
+          "user_ratings_total": 70,
+          "phone": "+1 503-847-3271",
+          "website": "https://elchilitolocoauthenticmexicanfoodor.com/",
+          "place_id": "ChIJlbUthF6hlVQRiy-gXog6MaU",
+          "opening_hours": {
+            "open_now": true
           },
           "business_status": "OPERATIONAL",
           "price_level": 1,
           "source": "Google Places"
         }
       ],
-      "createdAt": "2026-03-17T23:39:44.020457",
+      "createdAt": "2026-03-19T11:16:41.054817",
       "count": 10
     },
     "266d9072830afdec": {
@@ -9615,7 +9615,327 @@
       ],
       "createdAt": "2026-03-18T16:34:42.834036",
       "count": 4
+    },
+    "8bd375b0546f9038": {
+      "storeNumber": "FME07Y-0063",
+      "category": "mexican",
+      "prospects": [
+        {
+          "name": "Casa Del Sol",
+          "type": "restaurant, food, point_of_interest, establishment",
+          "address": "15229 SE 82nd Dr, Clackamas",
+          "lat": 45.4124182,
+          "lon": -122.5686346,
+          "distance_miles": 0.56,
+          "likelihood_score": 91,
+          "rating": 4.4,
+          "user_ratings_total": 659,
+          "phone": "+1 503-342-6819",
+          "website": null,
+          "place_id": "ChIJfw4-zJd1lVQR0FRvbFTGHQw",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 1,
+          "source": "Google Places"
+        },
+        {
+          "name": "Memo El Taco",
+          "type": "restaurant, food, point_of_interest, establishment",
+          "address": "10000 SE Elon St, Clackamas",
+          "lat": 45.4065999,
+          "lon": -122.5610139,
+          "distance_miles": 0.47,
+          "likelihood_score": 95,
+          "rating": 5,
+          "user_ratings_total": 20,
+          "phone": "+1 971-500-9527",
+          "website": null,
+          "place_id": "ChIJwy2hD711lVQRYplq8MAZLLo",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        },
+        {
+          "name": "Fajitas Mexican Restaurant",
+          "type": "restaurant, food, point_of_interest, establishment",
+          "address": "14931 SE 82nd Dr, Clackamas",
+          "lat": 45.4151862,
+          "lon": -122.569865,
+          "distance_miles": 0.75,
+          "likelihood_score": 88,
+          "rating": 4.2,
+          "user_ratings_total": 615,
+          "phone": "+1 503-722-1252",
+          "website": "https://fajitasrestaurantpdx.com/",
+          "place_id": "ChIJl0JJ8L91lVQRrtB6A-0pM6U",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 1,
+          "source": "Google Places"
+        }
+      ],
+      "createdAt": "2026-03-19T11:21:40.828636",
+      "count": 3
+    },
+    "5dd86d8e02a20a99": {
+      "storeNumber": "FME07Y-0063",
+      "category": "sushi/japanese",
+      "prospects": [
+        {
+          "name": "Akira Sushi Clackamas",
+          "type": "restaurant, food, point_of_interest, establishment",
+          "address": "16150 SE 82nd Dr, Clackamas",
+          "lat": 45.4057617,
+          "lon": -122.5675476,
+          "distance_miles": 0.16,
+          "likelihood_score": 95,
+          "rating": 4.4,
+          "user_ratings_total": 1304,
+          "phone": "+1 503-908-0396",
+          "website": "https://www.akirasushiclackamas.com/",
+          "place_id": "ChIJc2uvyMR1lVQR6sgKgZfr4Hc",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 1,
+          "source": "Google Places"
+        },
+        {
+          "name": "Teriyaki Land",
+          "type": "restaurant, food, point_of_interest, establishment",
+          "address": "15579 SE 82nd Dr, Clackamas",
+          "lat": 45.4100444,
+          "lon": -122.5690201,
+          "distance_miles": 0.4,
+          "likelihood_score": 93,
+          "rating": 4.4,
+          "user_ratings_total": 266,
+          "phone": "+1 503-656-5543",
+          "website": "https://teriyakilandor.com/",
+          "place_id": "ChIJvU6MWMF1lVQRx3UvAZyV808",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 1,
+          "source": "Google Places"
+        }
+      ],
+      "createdAt": "2026-03-19T11:23:27.764589",
+      "count": 2
+    },
+    "75a448f78b4fd7cc": {
+      "storeNumber": "FME07Y-0063",
+      "category": "pizza",
+      "prospects": [
+        {
+          "name": "Papa Murphy's | Take 'N' Bake Pizza",
+          "type": "meal_takeaway, restaurant, point_of_interest, food, establishment",
+          "address": "14862 SE Webster Rd, Milwaukie",
+          "lat": 45.415054,
+          "lon": -122.591886,
+          "distance_miles": 1.28,
+          "likelihood_score": 85,
+          "rating": 4.6,
+          "user_ratings_total": 307,
+          "phone": "+1 503-794-0999",
+          "website": "https://locations.papamurphys.com/or/milwaukie/14862-south-east-webster-road?utm_source=organic&utm_medium=gmb&utm_campaign=yext&y_source=1_MTU0MzA5NjYtNzE1LWxvY2F0aW9uLndlYnNpdGU%3D",
+          "place_id": "ChIJ1f3fDrF1lVQR-iSpobHr1zo",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 1,
+          "source": "Google Places"
+        },
+        {
+          "name": "Portland Cider Co",
+          "type": "restaurant, bar, point_of_interest, food, establishment",
+          "address": "8925 SE Jannsen Rd, Clackamas",
+          "lat": 45.415057,
+          "lon": -122.5728234,
+          "distance_miles": 0.75,
+          "likelihood_score": 90,
+          "rating": 4.6,
+          "user_ratings_total": 969,
+          "phone": "+1 503-744-4213",
+          "website": "http://portlandcider.com/",
+          "place_id": "ChIJ7yErOdtwlVQRj_JISdY-2VE",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 1,
+          "source": "Google Places"
+        },
+        {
+          "name": "7-Eleven",
+          "type": "convenience_store, cafe, liquor_store, restaurant, point_of_interest, food, store, establishment",
+          "address": "15970 SE 82nd Dr, Clackamas",
+          "lat": 45.4077131,
+          "lon": -122.5684453,
+          "distance_miles": 0.25,
+          "likelihood_score": 82,
+          "rating": 2.1,
+          "user_ratings_total": 75,
+          "phone": "+1 503-657-4744",
+          "website": "https://www.7-eleven.com/locations/or/clackamas/15970-se-82nd-dr-20175?utm_source=G&utm_medium=local&utm_campaign=google-local",
+          "place_id": "ChIJ9wG-ZMR1lVQR2f8p2ldeBG8",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 1,
+          "source": "Google Places"
+        },
+        {
+          "name": "7-Eleven",
+          "type": "convenience_store, cafe, liquor_store, restaurant, point_of_interest, food, store, establishment",
+          "address": "6897 SE Thiessen Rd, Milwaukie",
+          "lat": 45.4165237,
+          "lon": -122.5927273,
+          "distance_miles": 1.38,
+          "likelihood_score": 82,
+          "rating": 4.3,
+          "user_ratings_total": 37,
+          "phone": "+1 503-659-7742",
+          "website": "https://www.7-eleven.com/locations/or/milwaukie/6897-s.e.-thiessen-rd-29539?utm_source=G&utm_medium=local&utm_campaign=google-local",
+          "place_id": "ChIJc03RtrF1lVQRe7nue0um2oE",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 1,
+          "source": "Google Places"
+        }
+      ],
+      "createdAt": "2026-03-19T11:24:30.895368",
+      "count": 4
+    },
+    "50ee76193eca0e38": {
+      "storeNumber": "FME07Y-0063",
+      "category": "bar/pub",
+      "prospects": [
+        {
+          "name": "Gaffer's Pub",
+          "type": "bar, restaurant, food, point_of_interest, establishment",
+          "address": "18515 Webster Rd, Gladstone",
+          "lat": 45.3882339,
+          "lon": -122.586087,
+          "distance_miles": 1.36,
+          "likelihood_score": 83,
+          "rating": 4.4,
+          "user_ratings_total": 409,
+          "phone": "+1 503-657-4735",
+          "website": null,
+          "place_id": "ChIJc6zrvIJ2lVQRUSScwyqsjc0",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 2,
+          "source": "Google Places"
+        },
+        {
+          "name": "Lighthouse Pub",
+          "type": "bar, point_of_interest, establishment",
+          "address": "16080 SE 82nd Dr, Clackamas",
+          "lat": 45.4063965,
+          "lon": -122.5675163,
+          "distance_miles": 0.19,
+          "likelihood_score": 95,
+          "rating": 4.4,
+          "user_ratings_total": 12,
+          "phone": null,
+          "website": null,
+          "place_id": "ChIJ5fCMwMR1lVQRLGgD0irXPrg",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        },
+        {
+          "name": "Portland Cider Co",
+          "type": "restaurant, bar, food, point_of_interest, establishment",
+          "address": "8925 SE Jannsen Rd, Clackamas",
+          "lat": 45.415057,
+          "lon": -122.5728234,
+          "distance_miles": 0.75,
+          "likelihood_score": 90,
+          "rating": 4.6,
+          "user_ratings_total": 969,
+          "phone": "+1 503-744-4213",
+          "website": "http://portlandcider.com/",
+          "place_id": "ChIJ7yErOdtwlVQRj_JISdY-2VE",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 1,
+          "source": "Google Places"
+        },
+        {
+          "name": "Crows Nest Deli & Lounge",
+          "type": "bar, point_of_interest, establishment",
+          "address": "14950 SE 82nd Dr, Clackamas",
+          "lat": 45.4146023,
+          "lon": -122.5686865,
+          "distance_miles": 0.71,
+          "likelihood_score": 82,
+          "rating": 5,
+          "user_ratings_total": 125,
+          "phone": "+1 503-303-5672",
+          "website": "https://crowsnestlounge.com/",
+          "place_id": "ChIJLb6UKHh1lVQRMmRVKffamB4",
+          "opening_hours": {
+            "open_now": false
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        }
+      ],
+      "createdAt": "2026-03-19T11:25:20.224618",
+      "count": 4
+    },
+    "817d4387b43929be": {
+      "storeNumber": "FME07Y-0063",
+      "category": "tires",
+      "prospects": [
+        {
+          "name": "Milwaukie Tire Co",
+          "type": "car_repair, point_of_interest, establishment",
+          "address": "8921 SE Herbert Ct, Clackamas",
+          "lat": 45.4174331,
+          "lon": -122.5715458,
+          "distance_miles": 0.9,
+          "likelihood_score": 89,
+          "rating": 4.6,
+          "user_ratings_total": 79,
+          "phone": "+1 503-655-6361",
+          "website": null,
+          "place_id": "ChIJAbdaL751lVQRvvXNKd4j7yg",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        }
+      ],
+      "createdAt": "2026-03-19T11:27:35.226674",
+      "count": 1
     }
   },
-  "lastUpdated": "2026-03-19T09:13:54.569241"
+  "lastUpdated": "2026-03-19T11:27:35.226685"
 }
