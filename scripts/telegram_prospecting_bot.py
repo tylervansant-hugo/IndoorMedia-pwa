@@ -710,6 +710,7 @@ def get_rep_email(update: Update) -> str:
                 "Matt Boozer": "Matthew.Boozer@Indoormedia.com",
                 "Megan Wink": "Megan.Wink@Indoormedia.com",
                 "Meghan Wink": "Megan.Wink@Indoormedia.com",
+                "Tyler Van Sant": "tyler.vansant@indoormedia.com",
             }
             return reps_roster.get(rep_name, f"{rep_name.lower().replace(' ', '.')}@indoormedia.com")
     
