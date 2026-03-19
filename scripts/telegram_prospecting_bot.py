@@ -794,9 +794,13 @@ def add_to_cart(rep_id: str, product_type: str, tier: str = None, store_num: str
             if payment_plan == "monthly":
                 price = base + PRODUCTION
             elif payment_plan == "3month":
-                price = (base * 0.90) + PRODUCTION
+                # 3-month term: (annual price / 4) + $62.50
+                annual_price = (base * 12) + (PRODUCTION * 12)
+                price = (annual_price / 4) + 62.50
             elif payment_plan == "6month":
-                price = (base * 0.925) + PRODUCTION
+                # 6-month term: (annual price / 2) + $62.50
+                annual_price = (base * 12) + (PRODUCTION * 12)
+                price = (annual_price / 2) + 62.50
             elif payment_plan == "pif":
                 price = (base * 0.85) + PRODUCTION
         elif tier == "exclusive":
@@ -804,15 +808,25 @@ def add_to_cart(rep_id: str, product_type: str, tier: str = None, store_num: str
             if payment_plan == "monthly":
                 price = base_total
             elif payment_plan == "3month":
-                price = base_total
+                # 3-month term: (annual price / 4) + $62.50
+                annual_price = base_total * 12
+                price = (annual_price / 4) + 62.50
             elif payment_plan == "6month":
-                price = base_total
+                # 6-month term: (annual price / 2) + $62.50
+                annual_price = base_total * 12
+                price = (annual_price / 2) + 62.50
             elif payment_plan == "pif":
                 price = base_total * 0.95
         elif tier == "contractor":
             base_total = base + PRODUCTION
             if payment_plan == "3month":
-                price = base_total
+                # 3-month term: (annual price / 4) + $62.50
+                annual_price = base_total * 12
+                price = (annual_price / 4) + 62.50
+            elif payment_plan == "6month":
+                # 6-month term: (annual price / 2) + $62.50
+                annual_price = base_total * 12
+                price = (annual_price / 2) + 62.50
             elif payment_plan == "pif":
                 price = base_total * 0.95
         

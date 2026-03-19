@@ -5412,7 +5412,7 @@
       "prospects": [
         {
           "name": "Vancouver Elite MMA",
-          "type": "gym, health, point_of_interest, establishment",
+          "type": "gym, point_of_interest, health, establishment",
           "address": "14010 NE 3rd Ct, Vancouver",
           "lat": 45.7230849,
           "lon": -122.66883,
@@ -5432,7 +5432,7 @@
         },
         {
           "name": "Wilson Family Martial Arts Academy",
-          "type": "health, point_of_interest, establishment",
+          "type": "point_of_interest, health, establishment",
           "address": "14407 NE 13th Ave building e suite 122, Vancouver",
           "lat": 45.7256741,
           "lon": -122.6581983,
@@ -5452,7 +5452,7 @@
         },
         {
           "name": "Fortitude Fitness / CrossFit Untamed",
-          "type": "health, point_of_interest, establishment",
+          "type": "point_of_interest, health, establishment",
           "address": "14010 NE 3rd Ct, Vancouver",
           "lat": 45.72335289999999,
           "lon": -122.6684227,
@@ -5472,7 +5472,7 @@
         },
         {
           "name": "Kids Club Fun & Fitness",
-          "type": "gym, health, point_of_interest, school, establishment",
+          "type": "gym, school, point_of_interest, health, establishment",
           "address": "13914 NW 3rd Ct, Vancouver",
           "lat": 45.7221925,
           "lon": -122.6739253,
@@ -5491,7 +5491,7 @@
           "source": "Google Places"
         }
       ],
-      "createdAt": "2026-03-17T15:26:29.770834",
+      "createdAt": "2026-03-19T09:13:54.569226",
       "count": 4
     },
     "556cef777369dab0": {
@@ -9617,5 +9617,5 @@
       "count": 4
     }
   },
-  "lastUpdated": "2026-03-18T16:34:42.834047"
+  "lastUpdated": "2026-03-19T09:13:54.569241"
 }
