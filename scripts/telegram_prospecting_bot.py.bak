@@ -357,7 +357,8 @@ PRODUCTS = {
             "200_both": {"name": "200% (100% Both Sides)", "base_6month": 12995},
             "header_50": {"name": "Header 50% (Every Other Cart)", "base_6month": 2995},
             "header_100": {"name": "Header 100% (Every Cart)", "base_6month": 4795},
-        }
+        },
+        "impressions": 360000  # Fixed annual impressions for cartvertising
     },
     "digitalboost": {
         "name": "DigitalBoost — 1 Pin",
@@ -880,9 +881,14 @@ def add_to_cart(rep_id: str, product_type: str, tier: str = None, store_num: str
         else:
             price = base_6month  # Default to 6-month
         
+        # === FIXED IMPRESSIONS ===
+        # All Cartvertising packages: 360k annual impressions
+        annual_impressions = 360000
+        daily_impressions = annual_impressions / 365
+        
         # === COST METRICS ===
         cost_per_day = price / (365 if payment_plan != "monthly" else 30)
-        cpm = 0  # Cartvertising doesn't use CPM (no fixed impressions)
+        cpm = (annual_price / annual_impressions * 1000) if annual_impressions > 0 else 0
         
         # === BUILD CART ITEM ===
         cart_item = {
@@ -894,6 +900,8 @@ def add_to_cart(rep_id: str, product_type: str, tier: str = None, store_num: str
             "price": price,
             "base_6month": base_6month,
             "annual_price": annual_price,
+            "daily_impressions": int(daily_impressions),
+            "annual_impressions": annual_impressions,
             "cpm": cpm,
             "cost_per_day": cost_per_day,
             "added_at": datetime.now().isoformat()
@@ -7947,8 +7955,7 @@ Send any city name to see all stores!
                     text += f"📍 {item.get('store_name', '?')} — {item.get('city', '')}, {item.get('state', '')}\n"
                     text += f"📄 {item.get('ad_type', 'N/A').title()} Ad | {item.get('payment_plan', 'N/A').title()}\n"
                 elif product_type == "cartvertising":
-                    text += f"📊 Package: {item.get('package_name', item.get('bundle_type', 'Standard'))}\n"
-                    text += f"💳 Plan: {item.get('payment_plan', 'monthly').replace('_', '-').title()}\n"
+                    text += f"🛒 Bundle: {item.get('bundle_type', 'standalone').title()}\n"
                 elif product_type == "digitalboost":
                     text += f"📍 {item.get('pin_count', 1)} Pin{'s' if item.get('pin_count', 1) > 1 else ''}\n"
                 
@@ -8014,8 +8021,7 @@ Send any city name to see all stores!
                     text += f"📍 {item.get('store_name', '?')} — {item.get('city', '')}, {item.get('state', '')}\n"
                     text += f"📄 {item.get('ad_type', 'N/A').title()} Ad | {item.get('payment_plan', 'N/A').title()}\n"
                 elif product_type == "cartvertising":
-                    text += f"📊 Package: {item.get('package_name', item.get('bundle_type', 'Standard'))}\n"
-                    text += f"💳 Plan: {item.get('payment_plan', 'monthly').replace('_', '-').title()}\n"
+                    text += f"🛒 Bundle: {item.get('bundle_type', 'standalone').title()}\n"
                 elif product_type == "digitalboost":
                     text += f"📍 {item.get('pin_count', 1)} Pin{'s' if item.get('pin_count', 1) > 1 else ''}\n"
                 
@@ -8071,8 +8077,7 @@ SERVICES & PRICING
                     proposal_text += f"   Ad Type: {item.get('ad_type', 'N/A').title()}\n"
                     proposal_text += f"   Payment Plan: {item.get('payment_plan', 'N/A').title()}\n"
                 elif product_type == "cartvertising":
-                    proposal_text += f"   Package: {item.get('package_name', item.get('bundle_type', 'Standard'))}\n"
-                    proposal_text += f"   Payment Plan: {item.get('payment_plan', 'monthly').replace('_', '-').title()}\n"
+                    proposal_text += f"   Bundle: {item.get('bundle_type', 'standalone').title()}\n"
                 elif product_type == "digitalboost":
                     proposal_text += f"   Pins: {item.get('pin_count', 1)}\n"
                 
@@ -8190,9 +8195,7 @@ SERVICES & PRICING
                     if product_type == "register_tape":
                         details = f"{item.get('store_num', 'N/A')} - {item.get('store_name', '?')}\n{item.get('city', '')}, {item.get('state', '')}\n{item.get('ad_type', '').title()} Ad"
                     elif product_type == "cartvertising":
-                        package_name = item.get('package_name', item.get('bundle_type', 'Standard'))
-                        plan = item.get('payment_plan', 'monthly').replace('_', '-').title()
-                        details = f"{package_name}\n{plan} Plan"
+                        details = f"Bundle: {item.get('bundle_type', 'standalone').title()}"
                     elif product_type == "digitalboost":
                         details = f"{item.get('pin_count', 1)} Pin{'s' if item.get('pin_count', 1) > 1 else ''}"
                     else:
@@ -8230,30 +8233,29 @@ SERVICES & PRICING
                         store_info = f"{item.get('store_num', 'N/A')} - {item.get('store_name', '?')} ({item.get('city', '')}, {item.get('state', '')})"
                         elements.append(Paragraph(f"<b>{store_info}</b>", styles['Normal']))
                         
-                        # Metrics table (only for products with impressions data)
-                        if item.get('annual_impressions'):
-                            metrics_data = [
-                                ["Metric", "Value"],
-                                ["Daily Impressions", f"{item.get('daily_impressions', 0):,}"],
-                                ["Monthly Impressions", f"{int(item.get('daily_impressions', 0) * 30):,}"],
-                                ["Annual Impressions", f"{item.get('annual_impressions', 0):,}"],
-                                ["Cost Per Day", f"${item.get('cost_per_day', 0):,.2f}"],
-                                ["CPM (Cost Per 1000)", f"${item.get('cpm', 0):,.2f}"],
-                            ]
-                            
-                            metrics_table = Table(metrics_data, colWidths=[3*inch, 2*inch])
-                            metrics_table.setStyle(TableStyle([
-                                ('BACKGROUND', (0, 0), (-1, 0), colors.HexColor('#CC0000')),
-                                ('TEXTCOLOR', (0, 0), (-1, 0), colors.whitesmoke),
-                                ('ALIGN', (0, 0), (-1, -1), 'LEFT'),
-                                ('ALIGN', (1, 0), (1, -1), 'RIGHT'),
-                                ('FONTNAME', (0, 0), (-1, 0), 'Helvetica-Bold'),
-                                ('FONTSIZE', (0, 0), (-1, -1), 9),
-                                ('BACKGROUND', (0, 1), (-1, -1), colors.lightgrey),
-                                ('GRID', (0, 0), (-1, -1), 1, colors.black),
-                            ]))
-                            elements.append(metrics_table)
-                            elements.append(Spacer(1, 12))
+                        # Metrics table
+                        metrics_data = [
+                            ["Metric", "Value"],
+                            ["Daily Impressions", f"{item.get('daily_impressions', 0):,}"],
+                            ["Monthly Impressions", f"{int(item.get('daily_impressions', 0) * 30):,}"],
+                            ["Annual Impressions", f"{item.get('annual_impressions', 0):,}"],
+                            ["Cost Per Day", f"${item.get('cost_per_day', 0):,.2f}"],
+                            ["CPM (Cost Per 1000)", f"${item.get('cpm', 0):,.2f}"],
+                        ]
+                        
+                        metrics_table = Table(metrics_data, colWidths=[3*inch, 2*inch])
+                        metrics_table.setStyle(TableStyle([
+                            ('BACKGROUND', (0, 0), (-1, 0), colors.HexColor('#CC0000')),
+                            ('TEXTCOLOR', (0, 0), (-1, 0), colors.whitesmoke),
+                            ('ALIGN', (0, 0), (-1, -1), 'LEFT'),
+                            ('ALIGN', (1, 0), (1, -1), 'RIGHT'),
+                            ('FONTNAME', (0, 0), (-1, 0), 'Helvetica-Bold'),
+                            ('FONTSIZE', (0, 0), (-1, -1), 9),
+                            ('BACKGROUND', (0, 1), (-1, -1), colors.lightgrey),
+                            ('GRID', (0, 0), (-1, -1), 1, colors.black),
+                        ]))
+                        elements.append(metrics_table)
+                        elements.append(Spacer(1, 12))
                 
                 # Grand total (annual and monthly)
                 elements.append(Spacer(1, 12))
