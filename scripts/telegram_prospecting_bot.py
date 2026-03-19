@@ -347,32 +347,18 @@ PRODUCTS = {
     "cartvertising": {
         "name": "Cartvertising",
         "emoji": "🛒",
-        "impressions_type": "percentage_of_store",  # Percentage of store impressions
+        "impressions_type": "fixed_impressions",  # Fixed impressions per product
         "tiers": {
-            "coop": {
-                "name": "Co-Op",
-                "emoji": "🎯",
-                "pricing": {
-                    # 6-month base rate = $2,995, so monthly = $2,995/6 = $499.17, annual = $5,990
-                    "monthly": lambda base: 499.17,  # $2,995 ÷ 6 months
-                    "3month": lambda base: 1497.50,  # $2,995 ÷ 2
-                    "6month": lambda base: 2995,     # Full 6-month rate
-                    "pif": lambda base: 5990,        # Annual (2 × 6-month)
-                }
-            },
             "standard": {
-                "name": "Standard",
+                "name": "Standard Pricing",
                 "emoji": "💲",
                 "pricing": {
-                    # Same as Co-Op based on provided rate
-                    "monthly": lambda base: 499.17,  # $2,995 ÷ 6 months
-                    "3month": lambda base: 1497.50,  # $2,995 ÷ 2
-                    "6month": lambda base: 2995,     # Full 6-month rate
-                    "pif": lambda base: 5990,        # Annual (2 × 6-month)
+                    "monthly": lambda base: 3600,  # From screenshot
+                    "3month": lambda base: 2795,   # Co-Op rate
                 }
             }
         },
-        "impression_percentage": 0.15  # 15% of store impressions (percentages like register tape)
+        "impressions": {"standalone": 240000, "bundled": 360000}
     },
     "digitalboost": {
         "name": "DigitalBoost — 1 Pin",
