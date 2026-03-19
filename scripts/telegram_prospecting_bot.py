@@ -5796,8 +5796,11 @@ async def handle_button_callback(update: Update, context: ContextTypes.DEFAULT_T
                 tz = pytz.timezone("America/Los_Angeles")
                 start_aware = tz.localize(start_time) if start_time.tzinfo is None else start_time
                 end_aware = tz.localize(end_time) if end_time.tzinfo is None else end_time
-                start_rfc3339 = start_aware.isoformat()
-                end_rfc3339 = end_aware.isoformat()
+                # Format with timezone offset with colon
+                start_rfc3339 = start_aware.strftime("%Y-%m-%dT%H:%M:%S%z")
+                start_rfc3339 = start_rfc3339[:-2] + ":" + start_rfc3339[-2:]
+                end_rfc3339 = end_aware.strftime("%Y-%m-%dT%H:%M:%S%z")
+                end_rfc3339 = end_rfc3339[:-2] + ":" + end_rfc3339[-2:]
                 
                 # SECURITY: Only add Tyler if rep is on his direct team
                 attendees = get_calendar_attendees(selected_rep) if DATA_ISOLATION_AVAILABLE else ["tyler.vansant@indoormedia.com"]
@@ -5813,6 +5816,7 @@ async def handle_button_callback(update: Update, context: ContextTypes.DEFAULT_T
                 if attendee_str:
                     cmd.append(f"--attendees={attendee_str}")
                 
+                logger.info(f"Inviting {selected_rep}: {' '.join(cmd)}")
                 result = subprocess.run(cmd, capture_output=True, text=True, timeout=30)
                 
                 tyler_note = ""
@@ -5836,8 +5840,10 @@ async def handle_button_callback(update: Update, context: ContextTypes.DEFAULT_T
                         ])
                     )
                 else:
+                    error_msg = result.stderr or result.stdout or "Unknown error"
+                    logger.error(f"Failed to invite {selected_rep}: {error_msg}")
                     await query.edit_message_text(
-                        f"❌ Failed to invite {selected_rep}\n\nPlease try again.",
+                        f"❌ Failed to invite {selected_rep}\n\nError: {error_msg[:100]}\n\nPlease try again.",
                         parse_mode="Markdown",
                         reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("⬅️ Back", callback_data=f"expand_{prospect_id}")]])
                     )
