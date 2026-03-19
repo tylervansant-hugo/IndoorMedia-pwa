@@ -7672,13 +7672,11 @@ Send any city name to see all stores!
                 buttons = InlineKeyboardMarkup([
                     [InlineKeyboardButton("📄 Single Ad", callback_data=f"rates_single_{store_num}"),
                      InlineKeyboardButton("📋 Double Ad", callback_data=f"rates_double_{store_num}")],
-                    [InlineKeyboardButton("🛒 Monthly", callback_data=f"cart_add_{ad_type}_monthly_{store_num}"),
-                     InlineKeyboardButton("🛒 1 Quarter", callback_data=f"cart_add_{ad_type}_1quarter_{store_num}")],
-                    [InlineKeyboardButton("🛒 2 Quarters", callback_data=f"cart_add_{ad_type}_2quarters_{store_num}")],
-                    [InlineKeyboardButton("💰 Annual/1Q (10% off)", callback_data=f"cart_add_{ad_type}_annual_1quarter_{store_num}"),
-                     InlineKeyboardButton("💰 Annual/2Q (7.5% off)", callback_data=f"cart_add_{ad_type}_annual_2quarters_{store_num}")],
-                    [InlineKeyboardButton("💰 Annual/12mo", callback_data=f"cart_add_{ad_type}_annual_12months_{store_num}"),
-                     InlineKeyboardButton("💰 Annual/PIF (15% off)", callback_data=f"cart_add_{ad_type}_pif_{store_num}")],
+                    [InlineKeyboardButton("🛒 Monthly", callback_data=f"cart_add_{ad_type}_monthly_{store_num}")],
+                    [InlineKeyboardButton("💰 Annual/12mo (0% off)", callback_data=f"cart_add_{ad_type}_annual_12months_{store_num}")],
+                    [InlineKeyboardButton("💰 Annual/2Q (7.5% off)", callback_data=f"cart_add_{ad_type}_annual_2quarters_{store_num}"),
+                     InlineKeyboardButton("💰 Annual/1Q (10% off)", callback_data=f"cart_add_{ad_type}_annual_1quarter_{store_num}")],
+                    [InlineKeyboardButton("💰 Annual/PIF (15% off)", callback_data=f"cart_add_{ad_type}_pif_{store_num}")],
                     [InlineKeyboardButton("⬅️ Back", callback_data=f"rates_single_{store_num}" if ad_type == "single" else f"rates_double_{store_num}")],
                 ])
                 await query.edit_message_text(text, parse_mode="Markdown", reply_markup=buttons)
@@ -7696,13 +7694,11 @@ Send any city name to see all stores!
                 buttons = InlineKeyboardMarkup([
                     [InlineKeyboardButton("📄 Single Ad", callback_data=f"rates_single_{store_num}"),
                      InlineKeyboardButton("📋 Double Ad", callback_data=f"rates_double_{store_num}")],
-                    [InlineKeyboardButton("🛒 Monthly", callback_data=f"cart_add_{ad_type}_monthly_{store_num}"),
-                     InlineKeyboardButton("🛒 1 Quarter", callback_data=f"cart_add_{ad_type}_1quarter_{store_num}")],
-                    [InlineKeyboardButton("🛒 2 Quarters", callback_data=f"cart_add_{ad_type}_2quarters_{store_num}")],
-                    [InlineKeyboardButton("💰 Annual/1Q (10% off)", callback_data=f"cart_add_{ad_type}_annual_1quarter_{store_num}"),
-                     InlineKeyboardButton("💰 Annual/2Q (7.5% off)", callback_data=f"cart_add_{ad_type}_annual_2quarters_{store_num}")],
-                    [InlineKeyboardButton("💰 Annual/12mo", callback_data=f"cart_add_{ad_type}_annual_12months_{store_num}"),
-                     InlineKeyboardButton("💰 Annual/PIF (15% off)", callback_data=f"cart_add_{ad_type}_pif_{store_num}")],
+                    [InlineKeyboardButton("🛒 Monthly", callback_data=f"cart_add_{ad_type}_monthly_{store_num}")],
+                    [InlineKeyboardButton("💰 Annual/12mo (0% off)", callback_data=f"cart_add_{ad_type}_annual_12months_{store_num}")],
+                    [InlineKeyboardButton("💰 Annual/2Q (7.5% off)", callback_data=f"cart_add_{ad_type}_annual_2quarters_{store_num}"),
+                     InlineKeyboardButton("💰 Annual/1Q (10% off)", callback_data=f"cart_add_{ad_type}_annual_1quarter_{store_num}")],
+                    [InlineKeyboardButton("💰 Annual/PIF (15% off)", callback_data=f"cart_add_{ad_type}_pif_{store_num}")],
                     [InlineKeyboardButton("⬅️ Back", callback_data=f"rates_single_{store_num}" if ad_type == "single" else f"rates_double_{store_num}")],
                 ])
                 await query.edit_message_text(text, parse_mode="Markdown", reply_markup=buttons)
@@ -7720,13 +7716,11 @@ Send any city name to see all stores!
                 buttons = InlineKeyboardMarkup([
                     [InlineKeyboardButton("📄 Single Ad", callback_data=f"rates_single_{store_num}"),
                      InlineKeyboardButton("📋 Double Ad", callback_data=f"rates_double_{store_num}")],
-                    [InlineKeyboardButton("🛒 Monthly", callback_data=f"cart_add_{ad_type}_monthly_{store_num}"),
-                     InlineKeyboardButton("🛒 1 Quarter", callback_data=f"cart_add_{ad_type}_1quarter_{store_num}")],
-                    [InlineKeyboardButton("🛒 2 Quarters", callback_data=f"cart_add_{ad_type}_2quarters_{store_num}")],
-                    [InlineKeyboardButton("💰 Annual/1Q (10% off)", callback_data=f"cart_add_{ad_type}_annual_1quarter_{store_num}"),
-                     InlineKeyboardButton("💰 Annual/2Q (7.5% off)", callback_data=f"cart_add_{ad_type}_annual_2quarters_{store_num}")],
-                    [InlineKeyboardButton("💰 Annual/12mo", callback_data=f"cart_add_{ad_type}_annual_12months_{store_num}"),
-                     InlineKeyboardButton("💰 Annual/PIF (15% off)", callback_data=f"cart_add_{ad_type}_pif_{store_num}")],
+                    [InlineKeyboardButton("🛒 Monthly", callback_data=f"cart_add_{ad_type}_monthly_{store_num}")],
+                    [InlineKeyboardButton("💰 Annual/12mo (0% off)", callback_data=f"cart_add_{ad_type}_annual_12months_{store_num}")],
+                    [InlineKeyboardButton("💰 Annual/2Q (7.5% off)", callback_data=f"cart_add_{ad_type}_annual_2quarters_{store_num}"),
+                     InlineKeyboardButton("💰 Annual/1Q (10% off)", callback_data=f"cart_add_{ad_type}_annual_1quarter_{store_num}")],
+                    [InlineKeyboardButton("💰 Annual/PIF (15% off)", callback_data=f"cart_add_{ad_type}_pif_{store_num}")],
                     [InlineKeyboardButton("⬅️ Back", callback_data=f"rates_single_{store_num}" if ad_type == "single" else f"rates_double_{store_num}")],
                 ])
                 await query.edit_message_text(text, parse_mode="Markdown", reply_markup=buttons)
