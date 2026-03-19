@@ -733,7 +733,7 @@ def get_rep_phone(update: Update) -> str:
         "Matt Boozer": "(541) 555-0108",
         "Megan Wink": "(503) 555-0109",
         "Meghan Wink": "(503) 555-0109",
-        "Tyler Van Sant": "(503) 555-0110",
+        "Tyler Van Sant": "(360) 213-8973",
     }
     return reps_phone.get(rep_name, "Not available")
 
