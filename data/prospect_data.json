@@ -84,46 +84,7 @@
       "contact_history": {},
       "session_searches": 107,
       "session_bookmarks": 0,
-      "cart": [
-        {
-          "product_type": "register_tape",
-          "product_name": "Register Tape",
-          "store_num": "FME07Z-0372",
-          "store_name": "Fred Meyer",
-          "city": "The Dalles",
-          "state": "OR",
-          "address": "1215 W 6Th St",
-          "tier": "coop",
-          "ad_type": "single",
-          "payment_plan": "3month",
-          "price": 4917.5,
-          "case_count": 33,
-          "daily_impressions": 5023,
-          "annual_impressions": 1833395,
-          "cpm": 2.6821825084065356,
-          "cost_per_day": 13.472602739726028,
-          "added_at": "2026-03-18T17:56:07.097360"
-        },
-        {
-          "product_type": "register_tape",
-          "product_name": "Register Tape",
-          "store_num": "SAF07Z-1489",
-          "store_name": "Safeway",
-          "city": "The Dalles",
-          "state": "OR",
-          "address": "520 Mount Hood Street",
-          "tier": "coop",
-          "ad_type": "single",
-          "payment_plan": "3month",
-          "price": 4085.0,
-          "case_count": 23,
-          "daily_impressions": 3501,
-          "annual_impressions": 1277865,
-          "cpm": 3.1967383096023445,
-          "cost_per_day": 11.191780821917808,
-          "added_at": "2026-03-18T17:56:26.329902"
-        }
-      ]
+      "cart": []
     },
     "8647728045": {
       "name": "Adan Ramos",

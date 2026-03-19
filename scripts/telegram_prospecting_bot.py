@@ -3870,18 +3870,15 @@ async def show_main_menu(update: Update, context: ContextTypes.DEFAULT_TYPE):
     else:
         notepad_section = ""
     
-    menu_text = f"""🔴 *INDOORMEDIA* 📢
-═══════════════════════════════════════
-⚡ *SALES COMMAND CENTER* ⚡
+    menu_text = f"""🔴 *INDOORMEDIA*
 ═══════════════════════════════════════
 
-🎯 Find high-quality prospects
-📊 Build winning proposals  
-🛒 Manage your cart
-💼 Track your pipeline
-📈 Boost your results
+*SALES COMMAND CENTER*
 
-*Let's close some deals!* 💪{notepad_section}"""
+🎯 Prospects • 💼 Clients • 🏪 Stores
+📦 Products • 📊 Performance • ⚙️ Tools
+
+*Let's get to work!*{notepad_section}"""
     
     # Get cart count for badge
     rep_id = get_rep_id(update) if isinstance(update, Update) else None
@@ -3895,22 +3892,15 @@ async def show_main_menu(update: Update, context: ContextTypes.DEFAULT_TYPE):
     
     cart_badge = f" ({cart_count})" if cart_count > 0 else ""
     
-    # Inline buttons with IndoorMedia branding
+    # Main menu - 6 primary categories
     buttons = [
-        [
-            InlineKeyboardButton("🔍 Find Prospects", callback_data="menu_prospecting"),
-            InlineKeyboardButton("💰 Store Rates", callback_data="menu_locate_stores"),
-        ],
-        [
-            InlineKeyboardButton("📊 ROI Calc", callback_data="roi_calculator"),
-            InlineKeyboardButton("💬 Testimonials", callback_data="testimonial_search"),
-        ],
-        [InlineKeyboardButton(f"🛒 MY CART {cart_badge}", callback_data="view_cart")],
-        [
-            InlineKeyboardButton("💼 My Customers", callback_data="menu_sales"),
-            InlineKeyboardButton("📦 Products", callback_data="menu_products"),
-        ],
-        [InlineKeyboardButton("⚙️ Tools & Help", callback_data="menu_tools")],
+        [InlineKeyboardButton("🎯 Prospects", callback_data="menu_prospects")],
+        [InlineKeyboardButton("💼 Clients", callback_data="menu_clients")],
+        [InlineKeyboardButton("🏪 Stores", callback_data="menu_stores")],
+        [InlineKeyboardButton("📦 Products", callback_data="menu_products")],
+        [InlineKeyboardButton("📊 Performance", callback_data="menu_performance")],
+        [InlineKeyboardButton("⚙️ Tools", callback_data="menu_tools")],
+        [InlineKeyboardButton(f"🛒 Cart{cart_badge}", callback_data="view_cart")],
     ]
     
     if isinstance(update, Update) and update.callback_query:
@@ -3943,21 +3933,56 @@ async def show_submenu_locate_stores(update: Update, context: ContextTypes.DEFAU
     )
 
 
-async def show_submenu_prospecting(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    """Show the Prospecting submenu."""
+async def show_submenu_prospects(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    """Show the Prospects submenu."""
     query = update.callback_query
     await query.answer()
     buttons = [
         [InlineKeyboardButton("🔍 Find Prospects", callback_data="new_search")],
         [InlineKeyboardButton("💾 Saved Prospects", callback_data="saved_prospects")],
-        [InlineKeyboardButton("🔄 Reset Search", callback_data="reset_search")],
         [InlineKeyboardButton("⬅️ Main Menu", callback_data="main_menu")],
     ]
     await query.edit_message_text(
-        "🎯 *PROSPECT & QUALIFY*\n\n_Find and qualify high-potential prospects_",
+        "🎯 *PROSPECTS*\n\n_Find and qualify new opportunities_",
         parse_mode="Markdown",
         reply_markup=InlineKeyboardMarkup(buttons)
     )
+
+async def show_submenu_clients(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    """Show the Clients submenu."""
+    query = update.callback_query
+    await query.answer()
+    buttons = [
+        [InlineKeyboardButton("👥 My Customers", callback_data="client_list")],
+        [InlineKeyboardButton("💬 Testimonials", callback_data="testimonial_search")],
+        [InlineKeyboardButton("💳 My Sales", callback_data="my_sales_view")],
+        [InlineKeyboardButton("⬅️ Main Menu", callback_data="main_menu")],
+    ]
+    await query.edit_message_text(
+        "💼 *CLIENTS*\n\n_Manage customers & testimonials_",
+        parse_mode="Markdown",
+        reply_markup=InlineKeyboardMarkup(buttons)
+    )
+
+async def show_submenu_stores(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    """Show the Stores submenu."""
+    query = update.callback_query
+    await query.answer()
+    buttons = [
+        [InlineKeyboardButton("🔍 Search Stores", callback_data="locate_search")],
+        [InlineKeyboardButton("💰 Store Rates", callback_data="rates_search")],
+        [InlineKeyboardButton("🏪 Audit Store", callback_data="audit_store")],
+        [InlineKeyboardButton("⬅️ Main Menu", callback_data="main_menu")],
+    ]
+    await query.edit_message_text(
+        "🏪 *STORES*\n\n_Lookup rates & manage inventory_",
+        parse_mode="Markdown",
+        reply_markup=InlineKeyboardMarkup(buttons)
+    )
+
+async def show_submenu_prospecting(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    """Show the Prospecting submenu (legacy handler)."""
+    await show_submenu_prospects(update, context)
 
 
 async def show_submenu_sales(update: Update, context: ContextTypes.DEFAULT_TYPE):
@@ -4020,10 +4045,11 @@ async def show_submenu_products(update: Update, context: ContextTypes.DEFAULT_TY
         [InlineKeyboardButton("📜 Register Tape", callback_data="menu_register_tape")],
         [InlineKeyboardButton("🛒 Cartvertising", callback_data="menu_cartvertising")],
         [InlineKeyboardButton("📱 Digital Products", callback_data="menu_digital")],
+        [InlineKeyboardButton("📈 ROI Calculator", callback_data="roi_calculator")],
         [InlineKeyboardButton("⬅️ Main Menu", callback_data="main_menu")],
     ]
     await query.edit_message_text(
-        "📦 *PRODUCT LINEUP*\n\n_In-store + digital advertising solutions_",
+        "📦 *PRODUCTS*\n\n_Presentations • Rates • ROI_",
         parse_mode="Markdown",
         reply_markup=InlineKeyboardMarkup(buttons)
     )
