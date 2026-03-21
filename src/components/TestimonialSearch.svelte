@@ -28,12 +28,10 @@
 
     const term = searchTerm.toLowerCase();
     filtered = allTestimonials.filter(t => {
-      const fullData = t.full || t;
       return (
-        (fullData.text && fullData.text.toLowerCase().includes(term)) ||
-        (fullData.author && fullData.author.toLowerCase().includes(term)) ||
-        (fullData.business && fullData.business.toLowerCase().includes(term)) ||
-        (fullData.city && fullData.city.toLowerCase().includes(term))
+        (t.comment && t.comment.toLowerCase().includes(term)) ||
+        (t.business && t.business.toLowerCase().includes(term)) ||
+        (t.searchable && t.searchable.toLowerCase().includes(term))
       );
     }).slice(0, 20);
 
@@ -70,18 +68,14 @@
       <p class="hint">Start typing to search for testimonials</p>
     {:else}
       <div class="testimonial-list">
-        {#each filtered as testimonial (testimonial.id || testimonial.full?.id)}
+        {#each filtered as testimonial (testimonial.id)}
           <div class="testimonial-card">
-            <div class="stars">
-              {'⭐'.repeat(testimonial.rating || 5)}
-            </div>
-            <p class="testimonial-text">"{(testimonial.full?.text || testimonial.text).substring(0, 200)}"</p>
+            <p class="testimonial-text">"{testimonial.comment}"</p>
             <div class="testimonial-author">
-              <strong>{testimonial.full?.author || testimonial.author}</strong>
-              <span class="business">{testimonial.full?.business || testimonial.business}</span>
+              <strong>{testimonial.business}</strong>
             </div>
-            {#if testimonial.full?.city || testimonial.city}
-              <p class="location">📍 {testimonial.full?.city || testimonial.city}</p>
+            {#if testimonial.url}
+              <a href={testimonial.url} target="_blank" class="testimonial-link">View on IndoorMedia →</a>
             {/if}
           </div>
         {/each}
@@ -114,7 +108,7 @@
   input:focus {
     outline: none;
     border-color: #CC0000;
-    box-shadow: 0 0 0 3px rgba(255, 107, 53, 0.1);
+    box-shadow: 0 0 0 3px rgba(204, 0, 0, 0.1);
   }
 
   .spinner {
@@ -199,5 +193,18 @@
     font-size: 12px;
     color: #999;
     margin: 0;
+  }
+
+  .testimonial-link {
+    display: inline-block;
+    margin-top: 8px;
+    font-size: 13px;
+    color: #CC0000;
+    text-decoration: none;
+    font-weight: 500;
+  }
+
+  .testimonial-link:hover {
+    text-decoration: underline;
   }
 </style>
