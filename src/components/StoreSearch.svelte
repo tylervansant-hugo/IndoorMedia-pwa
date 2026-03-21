@@ -81,6 +81,20 @@
     return R * c;
   }
 
+  // Track expanded cards and ad type
+  let expandedStore = null;
+  let adType = {}; // { storeName: 'single' | 'double' }
+
+  function toggleExpand(storeName) {
+    expandedStore = expandedStore === storeName ? null : storeName;
+    if (!adType[storeName]) adType[storeName] = 'single';
+  }
+
+  function toggleAdType(storeName) {
+    adType[storeName] = adType[storeName] === 'single' ? 'double' : 'single';
+    adType = adType; // trigger reactivity
+  }
+
   // Payment plan calculations
   function calcPricing(basePrice) {
     const prod = 125;
@@ -95,16 +109,27 @@
     };
   }
 
-  function handleAddToCart(store) {
+  function handleAddToCart(store, selectedAdType, plan) {
+    const base = selectedAdType === 'double' ? store.DoubleAd : store.SingleAd;
+    const pricing = calcPricing(base);
+    const planLabels = {
+      monthly: `$${pricing.monthly}/mo × 12`,
+      threeMonth: `$${pricing.threeMonth} × 3`,
+      sixMonth: `$${pricing.sixMonth} × 6`,
+      pif: `$${pricing.pif} (Paid in Full)`
+    };
+
     addToCart({
-      id: store.StoreName,
+      id: `${store.StoreName}-${selectedAdType}-${plan}`,
       type: 'store',
       name: `${store.GroceryChain} - ${store.City}`,
       storeNumber: store.StoreName,
       city: store.City,
       chain: store.GroceryChain,
-      singleAd: store.SingleAd,
-      doubleAd: store.DoubleAd
+      adType: selectedAdType === 'double' ? 'Double Ad' : 'Single Ad',
+      plan: plan,
+      planLabel: planLabels[plan],
+      price: plan === 'pif' ? pricing.pif : plan === 'monthly' ? pricing.monthlyTotal : plan === 'threeMonth' ? pricing.threeMonthTotal : pricing.sixMonthTotal
     });
   }
 
@@ -154,11 +179,17 @@
     {:else}
       <div class="store-grid">
         {#each filtered as store (store.StoreName)}
-          {@const pricing = calcPricing(store.SingleAd)}
-          <div class="store-card">
-            <div class="store-header">
-              <h3>{store.GroceryChain}</h3>
-              <span class="store-number">{store.StoreName}</span>
+          {@const currentAdType = adType[store.StoreName] || 'single'}
+          {@const basePrice = currentAdType === 'double' ? store.DoubleAd : store.SingleAd}
+          {@const pricing = calcPricing(basePrice)}
+          {@const isExpanded = expandedStore === store.StoreName}
+          <div class="store-card" class:expanded={isExpanded}>
+            <div class="store-header" on:click={() => toggleExpand(store.StoreName)}>
+              <div>
+                <h3>{store.GroceryChain}</h3>
+                <span class="store-number">{store.StoreName}</span>
+              </div>
+              <span class="expand-icon">{isExpanded ? '▲' : '▼'}</span>
             </div>
             <div class="store-info">
               <p class="address">{store.Address}</p>
@@ -170,9 +201,25 @@
                 </p>
               {/if}
             </div>
+
+            <!-- Ad Type Toggle -->
+            <div class="ad-toggle">
+              <button
+                class="ad-btn"
+                class:active={currentAdType === 'single'}
+                on:click={() => { adType[store.StoreName] = 'single'; adType = adType; }}
+              >Single Ad</button>
+              <button
+                class="ad-btn"
+                class:active={currentAdType === 'double'}
+                on:click={() => { adType[store.StoreName] = 'double'; adType = adType; }}
+              >Double Ad</button>
+            </div>
+
+            <!-- Quick Pricing (always visible) -->
             <div class="pricing">
               <div class="price-row">
-                <span class="price-label">Single Ad</span>
+                <span class="price-label">Monthly</span>
                 <span class="price-value">${pricing.monthly}/mo × 12 = ${pricing.monthlyTotal}</span>
               </div>
               <div class="price-row highlight">
@@ -180,12 +227,51 @@
                 <span class="price-value pif">${pricing.pif} (15% off)</span>
               </div>
             </div>
-            <button
-              class="add-btn"
-              on:click={() => handleAddToCart(store)}
-            >
-              🛒 Add to Cart
-            </button>
+
+            <!-- Expanded: All 4 Payment Plans -->
+            {#if isExpanded}
+              <div class="expanded-pricing">
+                <h4>All Payment Plans — {currentAdType === 'double' ? 'Double' : 'Single'} Ad</h4>
+                
+                <div class="plan-card" on:click={() => handleAddToCart(store, currentAdType, 'monthly')}>
+                  <div class="plan-header">
+                    <span class="plan-name">📅 Monthly</span>
+                    <span class="plan-badge">12 payments</span>
+                  </div>
+                  <div class="plan-price">${pricing.monthly}<span class="per">/month</span></div>
+                  <div class="plan-total">Total: ${pricing.monthlyTotal}</div>
+                </div>
+
+                <div class="plan-card" on:click={() => handleAddToCart(store, currentAdType, 'threeMonth')}>
+                  <div class="plan-header">
+                    <span class="plan-name">📦 3-Month</span>
+                    <span class="plan-badge save">Save 10%</span>
+                  </div>
+                  <div class="plan-price">${pricing.threeMonth}<span class="per"> × 3</span></div>
+                  <div class="plan-total">Total: ${pricing.threeMonthTotal}</div>
+                </div>
+
+                <div class="plan-card" on:click={() => handleAddToCart(store, currentAdType, 'sixMonth')}>
+                  <div class="plan-header">
+                    <span class="plan-name">📦 6-Month</span>
+                    <span class="plan-badge save">Save 7.5%</span>
+                  </div>
+                  <div class="plan-price">${pricing.sixMonth}<span class="per"> × 6</span></div>
+                  <div class="plan-total">Total: ${pricing.sixMonthTotal}</div>
+                </div>
+
+                <div class="plan-card best" on:click={() => handleAddToCart(store, currentAdType, 'pif')}>
+                  <div class="plan-header">
+                    <span class="plan-name">⭐ Paid in Full</span>
+                    <span class="plan-badge best-badge">Best Deal — 15% off</span>
+                  </div>
+                  <div class="plan-price">${pricing.pif}</div>
+                  <div class="plan-total">One payment — Save ${(basePrice * 0.15).toFixed(2)}</div>
+                </div>
+
+                <p class="tap-hint">Tap a plan to add to cart</p>
+              </div>
+            {/if}
           </div>
         {/each}
       </div>
@@ -315,13 +401,6 @@
     transform: translateY(-2px);
   }
 
-  .store-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: start;
-    margin-bottom: 12px;
-  }
-
   .store-header h3 {
     margin: 0;
     font-size: 16px;
@@ -404,6 +483,140 @@
   .cycle {
     font-size: 12px !important;
     color: #999 !important;
+  }
+
+  .store-header {
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: start;
+    margin-bottom: 12px;
+  }
+
+  .expand-icon {
+    color: #999;
+    font-size: 12px;
+    padding: 4px;
+  }
+
+  .store-card.expanded {
+    border: 2px solid #CC0000;
+  }
+
+  /* Ad Type Toggle */
+  .ad-toggle {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 12px;
+  }
+
+  .ad-btn {
+    flex: 1;
+    padding: 8px;
+    border: 2px solid #ddd;
+    background: white;
+    border-radius: 6px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .ad-btn.active {
+    border-color: #CC0000;
+    background: #CC0000;
+    color: white;
+  }
+
+  /* Expanded Pricing */
+  .expanded-pricing {
+    margin-top: 16px;
+    padding-top: 16px;
+    border-top: 2px solid #eee;
+  }
+
+  .expanded-pricing h4 {
+    margin: 0 0 12px 0;
+    font-size: 14px;
+    color: #333;
+    text-align: center;
+  }
+
+  .plan-card {
+    background: #f8f9fa;
+    border: 2px solid #e0e0e0;
+    border-radius: 8px;
+    padding: 12px;
+    margin-bottom: 8px;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .plan-card:hover {
+    border-color: #CC0000;
+    background: #fff5f5;
+  }
+
+  .plan-card.best {
+    border-color: #CC0000;
+    background: #fff0f0;
+  }
+
+  .plan-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 4px;
+  }
+
+  .plan-name {
+    font-weight: 600;
+    font-size: 14px;
+    color: #333;
+  }
+
+  .plan-badge {
+    font-size: 11px;
+    padding: 2px 8px;
+    border-radius: 10px;
+    background: #e0e0e0;
+    color: #666;
+  }
+
+  .plan-badge.save {
+    background: #e8f5e9;
+    color: #2e7d32;
+  }
+
+  .plan-badge.best-badge {
+    background: #CC0000;
+    color: white;
+    font-weight: 600;
+  }
+
+  .plan-price {
+    font-size: 24px;
+    font-weight: 700;
+    color: #1a1a1a;
+    margin: 4px 0;
+  }
+
+  .plan-price .per {
+    font-size: 14px;
+    font-weight: 400;
+    color: #666;
+  }
+
+  .plan-total {
+    font-size: 13px;
+    color: #666;
+  }
+
+  .tap-hint {
+    text-align: center;
+    font-size: 12px;
+    color: #999;
+    margin-top: 8px;
   }
 
   .add-btn {
