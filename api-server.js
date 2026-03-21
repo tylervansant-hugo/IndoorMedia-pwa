@@ -24,10 +24,23 @@ console.log(`[STARTUP] Dist exists: ${fs.existsSync(distPath)}`);
 
 app.use(express.static(distPath));
 
+// Mock data
+const mockReps = {
+  tyler: { id: 1, name: 'Tyler Van Sant', email: 'tyler.vansant@indoormedia.com' },
+  amy: { id: 2, name: 'Amy Dixon', email: 'amy@indoormedia.com' },
+  matt: { id: 3, name: 'Matt', email: 'matt@indoormedia.com' },
+};
+
 // Health check
 app.get('/api/health', (req, res) => {
   console.log('[REQUEST] /api/health');
   res.json({ status: 'ok' });
+});
+
+// Rep registry endpoint
+app.get('/api/rep-registry', (req, res) => {
+  console.log('[REQUEST] /api/rep-registry');
+  res.json(mockReps);
 });
 
 // Catch all - serve index.html
