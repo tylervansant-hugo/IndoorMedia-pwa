@@ -9,7 +9,7 @@
 
   // Mock reps data (embedded for Vercel compatibility)
   const reps = [
-    { id: 1, name: 'Tyler Van Sant', email: 'tyler@indoormedia.com', first_name: 'Tyler', last_name: 'Van Sant' },
+    { id: 1, name: 'Tyler Van Sant', email: 'tyler.vansant@indoormedia.com', first_name: 'Tyler', last_name: 'Van Sant' },
     { id: 2, name: 'Amy Dixon', email: 'amy@indoormedia.com', first_name: 'Amy', last_name: 'Dixon' },
     { id: 3, name: 'Matt', email: 'matt@indoormedia.com', first_name: 'Matt', last_name: '' }
   ];
