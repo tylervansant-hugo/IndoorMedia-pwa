@@ -3,26 +3,20 @@
   import Main from './components/Main.svelte';
   import { currentUser, setUser } from './lib/stores.js';
 
-  let user = null;
-
-  currentUser.subscribe(value => {
-    user = value;
-  });
-
   function handleLogin(event) {
     console.log('[App] handleLogin called with:', event.detail);
     setUser(event.detail);
-    console.log('[App] User set, current user:', user);
   }
 
   function handleLogout() {
+    console.log('[App] handleLogout called');
     setUser(null);
   }
 </script>
 
 <main>
-  {#if user}
-    <Main {user} on:logout={handleLogout} />
+  {#if $currentUser}
+    <Main user={$currentUser} on:logout={handleLogout} />
   {:else}
     <Login on:login={handleLogin} />
   {/if}
