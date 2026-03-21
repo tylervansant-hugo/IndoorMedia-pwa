@@ -41,7 +41,9 @@ app.use(express.json());
 
 // Serve built Svelte app
 const distPath = path.join(__dirname, 'dist');
-app.use(express.static(distPath));
+console.log(`Serving static files from: ${distPath}`);
+console.log(`Dist folder exists: ${fs.existsSync(distPath)}`);
+app.use(express.static(distPath, { index: 'index.html' }));
 
 // Cache data in memory
 let storesCache = null;
@@ -259,9 +261,11 @@ app.get('/api/prospects', (req, res) => {
 app.get('*', (req, res) => {
   const indexPath = path.join(distPath, 'index.html');
   if (fs.existsSync(indexPath)) {
+    console.log(`Serving SPA from ${indexPath} for ${req.path}`);
     res.sendFile(indexPath);
   } else {
-    res.status(404).json({ error: 'Not found' });
+    console.error(`index.html not found at ${indexPath}`);
+    res.status(404).json({ error: 'index.html not found', path: indexPath });
   }
 });
 
