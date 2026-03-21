@@ -81,9 +81,10 @@
     return R * c;
   }
 
-  // Track expanded cards and ad type
+  // Track expanded cards, ad type, and co-op unlock
   let expandedStore = null;
   let adType = {}; // { storeName: 'single' | 'double' }
+  let coopUnlocked = {}; // { storeName: true/false }
 
   function toggleExpand(storeName) {
     expandedStore = expandedStore === storeName ? null : storeName;
@@ -95,17 +96,27 @@
     adType = adType; // trigger reactivity
   }
 
+  function unlockCoop(storeName) {
+    coopUnlocked[storeName] = !coopUnlocked[storeName];
+    coopUnlocked = coopUnlocked; // trigger reactivity
+  }
+
   // Payment plan calculations
-  function calcPricing(basePrice) {
+  // Standard = base + $1,200 pad + $125 production
+  // Co-Op = base + $125 production (no pad)
+  function calcPricing(basePrice, isCoop = false) {
     const prod = 125;
+    const pad = isCoop ? 0 : 1200;
+    const total = basePrice + pad + prod;
     return {
-      monthly: ((basePrice + prod) / 12).toFixed(2),
-      monthlyTotal: (basePrice + prod).toFixed(2),
-      threeMonth: (((basePrice * 0.90) + prod) / 3).toFixed(2),
-      threeMonthTotal: ((basePrice * 0.90) + prod).toFixed(2),
-      sixMonth: (((basePrice * 0.925) + prod) / 6).toFixed(2),
-      sixMonthTotal: ((basePrice * 0.925) + prod).toFixed(2),
-      pif: ((basePrice * 0.85) + prod).toFixed(2)
+      monthly: (total / 12).toFixed(2),
+      monthlyTotal: total.toFixed(2),
+      threeMonth: (((( basePrice + pad) * 0.90) + prod) / 3).toFixed(2),
+      threeMonthTotal: ((( basePrice + pad) * 0.90) + prod).toFixed(2),
+      sixMonth: ((((basePrice + pad) * 0.925) + prod) / 6).toFixed(2),
+      sixMonthTotal: (((basePrice + pad) * 0.925) + prod).toFixed(2),
+      pif: (((basePrice + pad) * 0.85) + prod).toFixed(2),
+      savings: ((basePrice + pad) * 0.15).toFixed(2)
     };
   }
 
@@ -181,9 +192,12 @@
         {#each filtered as store (store.StoreName)}
           {@const currentAdType = adType[store.StoreName] || 'single'}
           {@const basePrice = currentAdType === 'double' ? store.DoubleAd : store.SingleAd}
-          {@const pricing = calcPricing(basePrice)}
+          {@const isCoop = coopUnlocked[store.StoreName] || false}
+          {@const stdPricing = calcPricing(basePrice, false)}
+          {@const coopPricing = calcPricing(basePrice, true)}
+          {@const pricing = isCoop ? coopPricing : stdPricing}
           {@const isExpanded = expandedStore === store.StoreName}
-          <div class="store-card" class:expanded={isExpanded}>
+          <div class="store-card" class:expanded={isExpanded} class:coop-active={isCoop}>
             <div class="store-header" on:click={() => toggleExpand(store.StoreName)}>
               <div>
                 <h3>{store.GroceryChain}</h3>
@@ -216,7 +230,8 @@
               >Double Ad</button>
             </div>
 
-            <!-- Quick Pricing (always visible) -->
+            <!-- Standard Pricing (always visible) -->
+            <div class="pricing-label">{isCoop ? '🤝 Co-Op Pricing' : '💼 Standard Pricing'}</div>
             <div class="pricing">
               <div class="price-row">
                 <span class="price-label">Monthly</span>
@@ -228,10 +243,19 @@
               </div>
             </div>
 
+            <!-- Co-Op Unlock Button -->
+            <button
+              class="coop-btn"
+              class:unlocked={isCoop}
+              on:click={() => unlockCoop(store.StoreName)}
+            >
+              {isCoop ? '🔓 Showing Co-Op Pricing — Tap to Reset' : '🔒 Manager Approved Co-Op'}
+            </button>
+
             <!-- Expanded: All 4 Payment Plans -->
             {#if isExpanded}
               <div class="expanded-pricing">
-                <h4>All Payment Plans — {currentAdType === 'double' ? 'Double' : 'Single'} Ad</h4>
+                <h4>All Payment Plans — {currentAdType === 'double' ? 'Double' : 'Single'} Ad {isCoop ? '(Co-Op)' : '(Standard)'}</h4>
                 
                 <div class="plan-card" on:click={() => handleAddToCart(store, currentAdType, 'monthly')}>
                   <div class="plan-header">
@@ -266,7 +290,7 @@
                     <span class="plan-badge best-badge">Best Deal — 15% off</span>
                   </div>
                   <div class="plan-price">${pricing.pif}</div>
-                  <div class="plan-total">One payment — Save ${(basePrice * 0.15).toFixed(2)}</div>
+                  <div class="plan-total">One payment — Save ${pricing.savings}</div>
                 </div>
 
                 <p class="tap-hint">Tap a plan to add to cart</p>
@@ -610,6 +634,45 @@
   .plan-total {
     font-size: 13px;
     color: #666;
+  }
+
+  .pricing-label {
+    font-size: 12px;
+    font-weight: 600;
+    color: #666;
+    margin-bottom: 6px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  .coop-btn {
+    width: 100%;
+    padding: 10px;
+    margin-top: 10px;
+    border: 2px dashed #999;
+    background: #f8f8f8;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 13px;
+    font-weight: 600;
+    color: #666;
+    transition: all 0.2s;
+  }
+
+  .coop-btn:hover {
+    border-color: #CC0000;
+    color: #CC0000;
+    background: #fff5f5;
+  }
+
+  .coop-btn.unlocked {
+    border: 2px solid #2e7d32;
+    background: #e8f5e9;
+    color: #2e7d32;
+  }
+
+  .store-card.coop-active {
+    border: 2px solid #2e7d32;
   }
 
   .tap-hint {
