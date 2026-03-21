@@ -19,13 +19,15 @@
 
     // Create CSV data
     const csv = [
-      ['Type', 'Name', 'Details', 'Quantity'].join(','),
+      ['Store #', 'Name', 'City', 'Ad Type', 'Plan', 'Price'].join(','),
       ...cartItems.map(item =>
         [
-          item.type,
+          item.storeNumber || '',
           item.name,
-          (item.city ? `${item.city}, ${item.chain || ''}` : item.business || ''),
-          item.quantity || 1
+          item.city || '',
+          item.adType || '',
+          item.planLabel || '',
+          item.price || ''
         ].map(cell => `"${cell}"`).join(',')
       )
     ].join('\n');
@@ -95,11 +97,17 @@
 
           {#if item.type === 'store'}
             <p class="item-detail">
-              {item.city}, {item.chain}
+              {item.storeNumber || ''} — {item.city}, {item.chain}
             </p>
+            {#if item.adType}
+              <p class="item-detail">{item.adType} • {item.planLabel || ''}</p>
+            {/if}
+            {#if item.price}
+              <p class="item-price">${item.price}</p>
+            {/if}
           {:else if item.type === 'prospect'}
             <p class="item-detail">
-              {item.business} • {item.industry}
+              {item.address || item.business || ''}
             </p>
           {/if}
 
