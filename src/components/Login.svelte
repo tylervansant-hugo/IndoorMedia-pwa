@@ -104,7 +104,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    background: linear-gradient(135deg, #FF6B35 0%, #F7931E 100%);
+    background: linear-gradient(135deg, #CC0000 0%, #1a1a1a 100%);
     padding: 20px;
   }
 
@@ -122,7 +122,7 @@
     width: 80px;
     height: 80px;
     margin: 0 auto 20px;
-    background: #FF6B35;
+    background: #CC0000;
     border-radius: 50%;
     display: flex;
     align-items: center;
@@ -169,12 +169,12 @@
   }
 
   select:hover {
-    border-color: #FF6B35;
+    border-color: #CC0000;
   }
 
   select:focus {
     outline: none;
-    border-color: #FF6B35;
+    border-color: #CC0000;
     box-shadow: 0 0 0 3px rgba(255, 107, 53, 0.1);
   }
 
@@ -187,7 +187,7 @@
   button {
     width: 100%;
     padding: 12px;
-    background: #FF6B35;
+    background: #CC0000;
     color: white;
     border: none;
     border-radius: 6px;
@@ -198,7 +198,7 @@
   }
 
   button:hover:not(:disabled) {
-    background: #E55A24;
+    background: #990000;
     transform: translateY(-2px);
   }
 

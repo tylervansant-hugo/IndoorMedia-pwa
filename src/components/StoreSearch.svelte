@@ -216,7 +216,7 @@
 
   input:focus {
     outline: none;
-    border-color: #FF6B35;
+    border-color: #CC0000;
     box-shadow: 0 0 0 3px rgba(255, 107, 53, 0.1);
   }
 
@@ -233,7 +233,7 @@
     width: 18px;
     height: 18px;
     border: 2px solid #f0f0f0;
-    border-top-color: #FF6B35;
+    border-top-color: #CC0000;
     border-radius: 50%;
     animation: spin 0.8s linear infinite;
   }
@@ -252,8 +252,8 @@
   .geo-btn {
     padding: 8px 14px;
     background: white;
-    border: 2px solid #FF6B35;
-    color: #FF6B35;
+    border: 2px solid #CC0000;
+    color: #CC0000;
     border-radius: 6px;
     cursor: pointer;
     font-weight: 500;
@@ -262,7 +262,7 @@
   }
 
   .geo-btn:hover:not(:disabled) {
-    background: #fff5f0;
+    background: #fff0f0;
   }
 
   .geo-btn:disabled {
@@ -277,7 +277,7 @@
   }
 
   .error-box {
-    background: #fee;
+    background: #ffe0e0;
     color: #c33;
     padding: 12px;
     border-radius: 6px;
@@ -356,7 +356,7 @@
   }
 
   .distance {
-    color: #FF6B35;
+    color: #CC0000;
     font-weight: 500;
     font-size: 13px;
   }
@@ -393,7 +393,7 @@
   }
 
   .price-value.pif {
-    color: #FF6B35;
+    color: #CC0000;
     font-weight: 700;
   }
 
@@ -409,7 +409,7 @@
   .add-btn {
     width: 100%;
     padding: 10px;
-    background: #FF6B35;
+    background: #CC0000;
     color: white;
     border: none;
     border-radius: 6px;
@@ -420,7 +420,7 @@
   }
 
   .add-btn:hover {
-    background: #E55A24;
+    background: #990000;
   }
 
   @media (max-width: 640px) {

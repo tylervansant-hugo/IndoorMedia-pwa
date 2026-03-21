@@ -127,7 +127,7 @@
 
   input:focus {
     outline: none;
-    border-color: #FF6B35;
+    border-color: #CC0000;
     box-shadow: 0 0 0 3px rgba(255, 107, 53, 0.1);
   }
 
@@ -139,7 +139,7 @@
     width: 18px;
     height: 18px;
     border: 2px solid #f0f0f0;
-    border-top-color: #FF6B35;
+    border-top-color: #CC0000;
     border-radius: 50%;
     animation: spin 0.8s linear infinite;
   }
@@ -217,7 +217,7 @@
   .add-btn {
     width: 100%;
     padding: 10px;
-    background: #FF6B35;
+    background: #CC0000;
     color: white;
     border: none;
     border-radius: 6px;
@@ -228,6 +228,6 @@
   }
 
   .add-btn:hover {
-    background: #E55A24;
+    background: #990000;
   }
 </style>

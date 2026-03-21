@@ -113,7 +113,7 @@
 
   input:focus {
     outline: none;
-    border-color: #FF6B35;
+    border-color: #CC0000;
     box-shadow: 0 0 0 3px rgba(255, 107, 53, 0.1);
   }
 
@@ -125,7 +125,7 @@
     width: 18px;
     height: 18px;
     border: 2px solid #f0f0f0;
-    border-top-color: #FF6B35;
+    border-top-color: #CC0000;
     border-radius: 50%;
     animation: spin 0.8s linear infinite;
   }
@@ -163,7 +163,7 @@
     border-radius: 8px;
     padding: 16px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-    border-left: 4px solid #FF6B35;
+    border-left: 4px solid #CC0000;
   }
 
   .stars {

@@ -82,7 +82,7 @@
   }
 
   .header {
-    background: linear-gradient(135deg, #FF6B35 0%, #F7931E 100%);
+    background: linear-gradient(135deg, #CC0000 0%, #1a1a1a 100%);
     color: white;
     padding: 16px 20px;
     display: flex;
@@ -152,13 +152,13 @@
   }
 
   .tab:hover {
-    color: #FF6B35;
+    color: #CC0000;
     background: #fafafa;
   }
 
   .tab.active {
-    color: #FF6B35;
-    border-bottom-color: #FF6B35;
+    color: #CC0000;
+    border-bottom-color: #CC0000;
   }
 
   .content {

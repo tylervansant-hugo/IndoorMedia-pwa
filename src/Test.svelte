@@ -6,6 +6,6 @@
 <style>
   div {
     padding: 20px;
-    color: #FF6B35;
+    color: #CC0000;
   }
 </style>

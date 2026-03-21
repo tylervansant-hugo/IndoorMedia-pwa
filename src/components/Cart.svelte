@@ -176,12 +176,12 @@
   }
 
   .action-btn.export {
-    background: #FF6B35;
+    background: #CC0000;
     color: white;
   }
 
   .action-btn.export:hover {
-    background: #E55A24;
+    background: #990000;
   }
 
   .action-btn.clear {
