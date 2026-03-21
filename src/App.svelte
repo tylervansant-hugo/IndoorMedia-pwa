@@ -1,4 +1,5 @@
 <script>
+  import { onMount } from 'svelte';
   import Login from './components/Login.svelte';
   import Main from './components/Main.svelte';
   import { currentUser, setUser } from './lib/stores.js';
@@ -12,6 +13,15 @@
     console.log('[App] handleLogout called');
     setUser(null);
   }
+
+  onMount(() => {
+    // Check localStorage on mount
+    const saved = localStorage.getItem('user');
+    if (saved) {
+      console.log('[App] Restoring user from localStorage:', saved);
+      setUser(JSON.parse(saved));
+    }
+  });
 </script>
 
 <main>
