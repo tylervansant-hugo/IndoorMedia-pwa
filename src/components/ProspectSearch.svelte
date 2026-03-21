@@ -9,10 +9,31 @@
   async function loadProspects() {
     try {
       setLoading(true);
-      const response = await fetch('/data/prospects.json');
+      const response = await fetch('/data/prospect_data.json');
       if (!response.ok) throw new Error('Failed to load prospects');
       const data = await response.json();
-      allProspects = data || [];
+      
+      // Flatten all reps' saved prospects into one list
+      const reps = data.reps || {};
+      allProspects = [];
+      for (const [repId, rep] of Object.entries(reps)) {
+        const saved = rep.saved_prospects || {};
+        for (const [pid, prospect] of Object.entries(saved)) {
+          allProspects.push({
+            id: pid,
+            repName: rep.name,
+            name: prospect.name || '',
+            address: prospect.address || '',
+            phone: prospect.phone || '',
+            score: prospect.score || 0,
+            status: prospect.status || 'new',
+            store: prospect.store || '',
+            category: prospect.category || '',
+            notes: prospect.notes || []
+          });
+        }
+      }
+      console.log(`Loaded ${allProspects.length} prospects`);
     } catch (err) {
       setError('Failed to load prospects: ' + err.message);
     } finally {
@@ -22,29 +43,21 @@
 
   function filterProspects() {
     if (!searchTerm.trim()) {
-      filtered = [];
+      // Show all prospects when no search term
+      filtered = allProspects.slice(0, 20);
       return;
     }
 
     const term = searchTerm.toLowerCase();
     filtered = allProspects.filter(prospect =>
       (prospect.name && prospect.name.toLowerCase().includes(term)) ||
-      (prospect.business && prospect.business.toLowerCase().includes(term)) ||
-      (prospect.industry && prospect.industry.toLowerCase().includes(term))
+      (prospect.address && prospect.address.toLowerCase().includes(term)) ||
+      (prospect.category && prospect.category.toLowerCase().includes(term)) ||
+      (prospect.repName && prospect.repName.toLowerCase().includes(term)) ||
+      (prospect.store && prospect.store.toLowerCase().includes(term))
     ).slice(0, 20);
 
     searchResults.set(filtered);
-  }
-
-  function handleAddToCart(prospect) {
-    addToCart({
-      id: prospect.id,
-      type: 'prospect',
-      name: prospect.name,
-      business: prospect.business,
-      industry: prospect.industry
-    });
-    setError('Added to cart');
   }
 
   onMount(loadProspects);
@@ -54,7 +67,7 @@
   <div class="search-box">
     <input
       type="text"
-      placeholder="Search by business name, prospect name, or industry..."
+      placeholder="Search saved prospects by name, address, or store..."
       bind:value={searchTerm}
       on:input={filterProspects}
       disabled={$loading}
@@ -74,29 +87,41 @@
     {:else if filtered.length === 0 && searchTerm}
       <p class="no-results">No prospects found matching "{searchTerm}"</p>
     {:else if filtered.length === 0}
-      <p class="hint">Start typing to search for prospects</p>
+      <p class="hint">Search saved prospects or leave blank to see all</p>
     {:else}
       <div class="prospect-list">
         {#each filtered as prospect (prospect.id)}
           <div class="prospect-card">
             <div class="prospect-header">
               <h3>{prospect.name}</h3>
+              {#if prospect.score}
+                <span class="score" class:high={prospect.score >= 70} class:mid={prospect.score >= 40 && prospect.score < 70} class:low={prospect.score < 40}>
+                  {prospect.score.toFixed(0)}%
+                </span>
+              {/if}
             </div>
             <div class="prospect-info">
-              <p class="business">{prospect.business}</p>
-              {#if prospect.industry}
-                <p class="industry">📊 {prospect.industry}</p>
+              {#if prospect.address}
+                <p class="address">📍 {prospect.address}</p>
               {/if}
-              {#if prospect.location}
-                <p class="location">📍 {prospect.location}</p>
+              {#if prospect.phone}
+                <p class="phone">📞 <a href="tel:{prospect.phone}">{prospect.phone}</a></p>
+              {/if}
+              {#if prospect.store}
+                <p class="store">🏪 {prospect.store}</p>
+              {/if}
+              {#if prospect.category}
+                <p class="category">📊 {prospect.category}</p>
+              {/if}
+              <p class="rep">👤 {prospect.repName}</p>
+              {#if prospect.status}
+                <span class="status-badge" class:interested={prospect.status === 'interested'}
+                  class:followup={prospect.status === 'follow-up'}
+                  class:closed={prospect.status === 'closed'}>
+                  {prospect.status}
+                </span>
               {/if}
             </div>
-            <button
-              class="add-btn"
-              on:click={() => handleAddToCart(prospect)}
-            >
-              + Add to Cart
-            </button>
           </div>
         {/each}
       </div>
@@ -186,6 +211,9 @@
   }
 
   .prospect-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     margin-bottom: 12px;
   }
 
@@ -195,39 +223,45 @@
     color: #1a1a1a;
   }
 
+  .score {
+    padding: 4px 10px;
+    border-radius: 12px;
+    font-size: 13px;
+    font-weight: 700;
+  }
+
+  .score.high { background: #e8f5e9; color: #2e7d32; }
+  .score.mid { background: #fff3e0; color: #e65100; }
+  .score.low { background: #fce4ec; color: #c62828; }
+
   .prospect-info {
-    margin-bottom: 12px;
+    margin-bottom: 8px;
   }
 
   .prospect-info p {
     margin: 4px 0;
-    font-size: 14px;
+    font-size: 13px;
     color: #666;
   }
 
-  .business {
+  .prospect-info a {
+    color: #CC0000;
+    text-decoration: none;
+  }
+
+  .status-badge {
+    display: inline-block;
+    margin-top: 8px;
+    padding: 4px 10px;
+    border-radius: 12px;
+    font-size: 12px;
     font-weight: 600;
-    color: #333;
+    text-transform: capitalize;
+    background: #e0e0e0;
+    color: #666;
   }
 
-  .industry, .location {
-    font-size: 13px;
-  }
-
-  .add-btn {
-    width: 100%;
-    padding: 10px;
-    background: #CC0000;
-    color: white;
-    border: none;
-    border-radius: 6px;
-    cursor: pointer;
-    font-weight: 600;
-    font-size: 14px;
-    transition: background 0.2s;
-  }
-
-  .add-btn:hover {
-    background: #990000;
-  }
+  .status-badge.interested { background: #e3f2fd; color: #1565c0; }
+  .status-badge.followup { background: #fff3e0; color: #e65100; }
+  .status-badge.closed { background: #e8f5e9; color: #2e7d32; }
 </style>
