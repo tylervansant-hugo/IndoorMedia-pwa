@@ -4609,46 +4609,6 @@
           "source": "Google Places"
         },
         {
-          "name": "DeMatteo's Pizza - Riverside",
-          "type": "meal_delivery, meal_takeaway, restaurant, food, point_of_interest, establishment",
-          "address": "7030 Magnolia Ave, Riverside",
-          "lat": 33.9455273,
-          "lon": -117.4010524,
-          "distance_miles": 1.15,
-          "likelihood_score": 85,
-          "rating": 4.5,
-          "user_ratings_total": 530,
-          "phone": "+1 951-682-6198",
-          "website": "http://www.dematteos.com/",
-          "place_id": "ChIJzZF_yayx3IARxVEnEbA0zhc",
-          "opening_hours": {
-            "open_now": true
-          },
-          "business_status": "OPERATIONAL",
-          "price_level": 2,
-          "source": "Google Places"
-        },
-        {
-          "name": "Pietro's Italian Cuisine",
-          "type": "restaurant, food, point_of_interest, establishment",
-          "address": "6788 Brockton Ave, Riverside",
-          "lat": 33.9503828,
-          "lon": -117.3960734,
-          "distance_miles": 1.25,
-          "likelihood_score": 84,
-          "rating": 4.4,
-          "user_ratings_total": 556,
-          "phone": "+1 951-784-1310",
-          "website": "https://www.pietrositaliancuisine.com/",
-          "place_id": "ChIJsVz_CrKx3IARk9V8YDWqye4",
-          "opening_hours": {
-            "open_now": true
-          },
-          "business_status": "OPERATIONAL",
-          "price_level": 2,
-          "source": "Google Places"
-        },
-        {
           "name": "Pizza Hut",
           "type": "meal_delivery, meal_takeaway, restaurant, food, point_of_interest, establishment",
           "address": "3255 Arlington Ave, Riverside",
@@ -4669,23 +4629,43 @@
           "source": "Google Places"
         },
         {
-          "name": "MOD Pizza",
-          "type": "restaurant, food, point_of_interest, establishment",
-          "address": "3444 Arlington Ave, Riverside",
-          "lat": 33.9460732,
-          "lon": -117.3867688,
-          "distance_miles": 0.82,
-          "likelihood_score": 89,
-          "rating": 4.6,
-          "user_ratings_total": 805,
-          "phone": "+1 951-374-5255",
-          "website": "https://locations.modpizza.com/usa/ca/riverside/3444-arlington-ave?utm_source=google&utm_medium=yext",
-          "place_id": "ChIJq8iBX0qw3IARr2rFnc1v_7k",
+          "name": "DeMatteo's Pizza - Riverside",
+          "type": "meal_delivery, meal_takeaway, restaurant, food, point_of_interest, establishment",
+          "address": "7030 Magnolia Ave, Riverside",
+          "lat": 33.9455273,
+          "lon": -117.4010524,
+          "distance_miles": 1.15,
+          "likelihood_score": 75,
+          "rating": 4.5,
+          "user_ratings_total": 530,
+          "phone": "+1 951-682-6198",
+          "website": "http://www.dematteos.com/",
+          "place_id": "ChIJzZF_yayx3IARxVEnEbA0zhc",
           "opening_hours": {
-            "open_now": true
+            "open_now": false
           },
           "business_status": "OPERATIONAL",
-          "price_level": 1,
+          "price_level": 2,
+          "source": "Google Places"
+        },
+        {
+          "name": "Pietro's Italian Cuisine",
+          "type": "restaurant, food, point_of_interest, establishment",
+          "address": "6788 Brockton Ave, Riverside",
+          "lat": 33.9503828,
+          "lon": -117.3960734,
+          "distance_miles": 1.25,
+          "likelihood_score": 74,
+          "rating": 4.4,
+          "user_ratings_total": 556,
+          "phone": "+1 951-784-1310",
+          "website": "https://www.pietrositaliancuisine.com/",
+          "place_id": "ChIJsVz_CrKx3IARk9V8YDWqye4",
+          "opening_hours": {
+            "open_now": false
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 2,
           "source": "Google Places"
         },
         {
@@ -4705,10 +4685,70 @@
           "business_status": "OPERATIONAL",
           "price_level": 1,
           "source": "Google Places"
+        },
+        {
+          "name": "7-Eleven",
+          "type": "convenience_store, liquor_store, cafe, store, restaurant, food, point_of_interest, establishment",
+          "address": "6692 Indiana Ave, Riverside",
+          "lat": 33.9439614,
+          "lon": -117.3894715,
+          "distance_miles": 0.7,
+          "likelihood_score": 84,
+          "rating": 3.2,
+          "user_ratings_total": 49,
+          "phone": "+1 951-786-9246",
+          "website": "https://www.7-eleven.com/locations/ca/riverside/6692-indiana-ave-36872?utm_source=G&utm_medium=local&utm_campaign=google-local",
+          "place_id": "ChIJaXBTvkuw3IARtGXve2wBhT4",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 1,
+          "source": "Google Places"
+        },
+        {
+          "name": "MOD Pizza",
+          "type": "restaurant, food, point_of_interest, establishment",
+          "address": "3444 Arlington Ave, Riverside",
+          "lat": 33.9460732,
+          "lon": -117.3867688,
+          "distance_miles": 0.82,
+          "likelihood_score": 79,
+          "rating": 4.6,
+          "user_ratings_total": 805,
+          "phone": "+1 951-374-5255",
+          "website": "https://locations.modpizza.com/usa/ca/riverside/3444-arlington-ave?utm_source=google&utm_medium=yext",
+          "place_id": "ChIJq8iBX0qw3IARr2rFnc1v_7k",
+          "opening_hours": {
+            "open_now": false
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 1,
+          "source": "Google Places"
+        },
+        {
+          "name": "7-Eleven",
+          "type": "convenience_store, liquor_store, cafe, store, restaurant, food, point_of_interest, establishment",
+          "address": "7020 Magnolia Ave, Riverside",
+          "lat": 33.9458133,
+          "lon": -117.4009357,
+          "distance_miles": 1.16,
+          "likelihood_score": 75,
+          "rating": 2.4,
+          "user_ratings_total": 45,
+          "phone": "+1 951-787-7133",
+          "website": "https://www.7-eleven.com/locations/ca/riverside/7020-magnolia-avenue-20019?utm_source=G&utm_medium=local&utm_campaign=google-local",
+          "place_id": "ChIJezYvz6yx3IARBwhp5XXqvVE",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 1,
+          "source": "Google Places"
         }
       ],
-      "createdAt": "2026-03-17T11:47:48.826390",
-      "count": 6
+      "createdAt": "2026-03-20T10:16:49.916591",
+      "count": 8
     },
     "2a0a672753c65d15": {
       "storeNumber": "STB05X-0192",
@@ -11005,7 +11045,2367 @@
       ],
       "createdAt": "2026-03-19T15:03:48.835138",
       "count": 10
+    },
+    "b846dac9eeacc023": {
+      "storeNumber": "STB05X-0001",
+      "category": "mexican",
+      "prospects": [
+        {
+          "name": "Ramiro's Cocina Mexicana",
+          "type": "restaurant, point_of_interest, food, establishment",
+          "address": "9418 Magnolia Ave, Riverside",
+          "lat": 33.9210948,
+          "lon": -117.444875,
+          "distance_miles": 0.26,
+          "likelihood_score": 94,
+          "rating": 4.5,
+          "user_ratings_total": 431,
+          "phone": "+1 951-354-6146",
+          "website": "http://ramiroscocinamenu.com/",
+          "place_id": "ChIJHR83bs-w3IARqkliEQ_SUVQ",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 1,
+          "source": "Google Places"
+        },
+        {
+          "name": "Olivia's Mexican Restaurant",
+          "type": "meal_takeaway, restaurant, point_of_interest, food, establishment",
+          "address": "9447 Magnolia Ave, Riverside",
+          "lat": 33.9211882,
+          "lon": -117.4457783,
+          "distance_miles": 0.29,
+          "likelihood_score": 94,
+          "rating": 4.4,
+          "user_ratings_total": 1564,
+          "phone": "+1 951-689-2131",
+          "website": "http://oliviasmexicanrestaurant.com/",
+          "place_id": "ChIJcQN4Es-w3IARed1xiQQ0nFA",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 2,
+          "source": "Google Places"
+        },
+        {
+          "name": "Mi Lindo Apatzingan",
+          "type": "restaurant, point_of_interest, food, establishment",
+          "address": "9948 Magnolia Ave, Riverside",
+          "lat": 33.9152898,
+          "lon": -117.4547505,
+          "distance_miles": 0.94,
+          "likelihood_score": 87,
+          "rating": 4.4,
+          "user_ratings_total": 1050,
+          "phone": "+1 951-688-0908",
+          "website": "http://ordermilindoapatzingan.com/",
+          "place_id": "ChIJm1e9O8uw3IARaYkwlkBob80",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 2,
+          "source": "Google Places"
+        },
+        {
+          "name": "Tony's Mexican Grill Riverside",
+          "type": "restaurant, point_of_interest, food, establishment",
+          "address": "9670 Magnolia Ave, Riverside",
+          "lat": 33.9182293,
+          "lon": -117.4492609,
+          "distance_miles": 0.57,
+          "likelihood_score": 91,
+          "rating": 4.5,
+          "user_ratings_total": 384,
+          "phone": "+1 951-729-6141",
+          "website": null,
+          "place_id": "ChIJTVA75iGx3IARxeWCSoXKOkM",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 1,
+          "source": "Google Places"
+        },
+        {
+          "name": "Taqueria 2 Potrillos",
+          "type": "restaurant, point_of_interest, food, establishment",
+          "address": "10088 Magnolia Ave, Riverside",
+          "lat": 33.913494,
+          "lon": -117.4570461,
+          "distance_miles": 1.12,
+          "likelihood_score": 84,
+          "rating": 4.3,
+          "user_ratings_total": 1321,
+          "phone": "+1 951-588-8772",
+          "website": "https://www.taqueria2potrillos.com/",
+          "place_id": "ChIJz9xc2Yu33IAR3AO_InwFvfs",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 2,
+          "source": "Google Places"
+        },
+        {
+          "name": "Tacos Y M\u00e1s",
+          "type": "restaurant, point_of_interest, food, establishment",
+          "address": "10203 Hole Ave, Riverside",
+          "lat": 33.9150919,
+          "lon": -117.4608475,
+          "distance_miles": 1.24,
+          "likelihood_score": 84,
+          "rating": 4.4,
+          "user_ratings_total": 751,
+          "phone": "+1 951-687-1344",
+          "website": "http://tacosmas.com/",
+          "place_id": "ChIJueZO20C33IAR_CQUBBrhfyI",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 1,
+          "source": "Google Places"
+        },
+        {
+          "name": "Los Fredos Mexican Food",
+          "type": "restaurant, point_of_interest, food, establishment",
+          "address": "9111 Magnolia Ave, Riverside",
+          "lat": 33.9245899,
+          "lon": -117.4396091,
+          "distance_miles": 0.14,
+          "likelihood_score": 93,
+          "rating": 4.1,
+          "user_ratings_total": 1017,
+          "phone": "+1 951-525-3411",
+          "website": "https://losfredosmexicanfoodca.com/",
+          "place_id": "ChIJC2HZwMSw3IARw1e_qG4J7gE",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 2,
+          "source": "Google Places"
+        },
+        {
+          "name": "La Bufadora Baja Grill Riverside",
+          "type": "restaurant, point_of_interest, food, establishment",
+          "address": "5652 Van Buren Boulevard, Riverside",
+          "lat": 33.9405835,
+          "lon": -117.4551894,
+          "distance_miles": 1.38,
+          "likelihood_score": 82,
+          "rating": 4.3,
+          "user_ratings_total": 1072,
+          "phone": "+1 951-687-7237",
+          "website": "https://www.labufadorabajagrill.com/",
+          "place_id": "ChIJV308GC2x3IAREyvRJh64xgk",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 2,
+          "source": "Google Places"
+        },
+        {
+          "name": "Birrieria Xolos",
+          "type": "restaurant, point_of_interest, food, establishment",
+          "address": "9696 Magnolia Ave, Riverside",
+          "lat": 33.9181528,
+          "lon": -117.4498277,
+          "distance_miles": 0.6,
+          "likelihood_score": 90,
+          "rating": 4.3,
+          "user_ratings_total": 278,
+          "phone": "+1 951-376-1226",
+          "website": null,
+          "place_id": "ChIJlWDkd2Gx3IARfp8D3y06zMI",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        },
+        {
+          "name": "Baja Mar",
+          "type": "restaurant, point_of_interest, food, establishment",
+          "address": "5665 Van Buren Boulevard STE C, Riverside",
+          "lat": 33.9405885,
+          "lon": -117.4535118,
+          "distance_miles": 1.33,
+          "likelihood_score": 81,
+          "rating": 4.1,
+          "user_ratings_total": 143,
+          "phone": "+1 951-588-6670",
+          "website": null,
+          "place_id": "ChIJBWbQvvKx3IARYP-IFhjhskA",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        }
+      ],
+      "createdAt": "2026-03-20T10:38:27.056198",
+      "count": 10
+    },
+    "6f31a8a16f0ec144": {
+      "storeNumber": "SAF07Y-1478",
+      "category": "mexican",
+      "prospects": [
+        {
+          "name": "Mendez Taqueria and Catering",
+          "type": "restaurant, point_of_interest, food, establishment",
+          "address": "16735 SW Pacific Hwy, Portland",
+          "lat": 45.3989229,
+          "lon": -122.7992888,
+          "distance_miles": 0.66,
+          "likelihood_score": 75,
+          "rating": 5,
+          "user_ratings_total": 3,
+          "phone": "+1 971-408-3796",
+          "website": null,
+          "place_id": "ChIJN5u8iaxzlVQR96Q6SzMRJLI",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        },
+        {
+          "name": "Mazatlan Mexican Restaurant",
+          "type": "restaurant, point_of_interest, food, establishment",
+          "address": "15655 SW 116th Ave, King City",
+          "lat": 45.406563,
+          "lon": -122.7969817,
+          "distance_miles": 0.21,
+          "likelihood_score": 83,
+          "rating": 4.2,
+          "user_ratings_total": 493,
+          "phone": "+1 503-443-3969",
+          "website": "https://bit.ly/4j6UNTM",
+          "place_id": "ChIJITkCIlMNlVQRaUHXpa4809E",
+          "opening_hours": {
+            "open_now": false
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 2,
+          "source": "Google Places"
+        },
+        {
+          "name": "Chipotle Mexican Grill",
+          "type": "restaurant, point_of_interest, food, establishment",
+          "address": "16200 SW Pacific Hwy, Tigard",
+          "lat": 45.40390379999999,
+          "lon": -122.7942833,
+          "distance_miles": 0.24,
+          "likelihood_score": 88,
+          "rating": 3.2,
+          "user_ratings_total": 142,
+          "phone": "+1 971-405-6117",
+          "website": "https://locations.chipotle.com/or/tigard/16200-sw-pacific-hwy?utm_source=google&utm_medium=yext&utm_campaign=yext_listings?restaurant=4587",
+          "place_id": "ChIJza9o9hpzlVQRLke1xFbi4RY",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 1,
+          "source": "Google Places"
+        }
+      ],
+      "createdAt": "2026-03-20T10:59:04.963314",
+      "count": 3
+    },
+    "40b685c84cb8fd57": {
+      "storeNumber": "SAF07Y-1478",
+      "category": "sushi/japanese",
+      "prospects": [
+        {
+          "name": "Lucky Cat Ramen",
+          "type": "restaurant, point_of_interest, food, establishment",
+          "address": "13600 SW Pacific Hwy, Portland",
+          "lat": 45.4208781,
+          "lon": -122.7828531,
+          "distance_miles": 1.06,
+          "likelihood_score": 88,
+          "rating": 4.8,
+          "user_ratings_total": 450,
+          "phone": "+1 503-430-5194",
+          "website": null,
+          "place_id": "ChIJ40p4ePANlVQREpDbt1xAzmM",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        },
+        {
+          "name": "mashita teriyaki",
+          "type": "restaurant, point_of_interest, food, establishment",
+          "address": "15900 SW 116th Ave, King City",
+          "lat": 45.405182,
+          "lon": -122.797015,
+          "distance_miles": 0.25,
+          "likelihood_score": 94,
+          "rating": 4.5,
+          "user_ratings_total": 304,
+          "phone": "+1 503-670-7652",
+          "website": null,
+          "place_id": "ChIJj3Y4tKxylVQRV8iOTq-awaM",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 1,
+          "source": "Google Places"
+        },
+        {
+          "name": "Mizumi Buffet",
+          "type": "meal_takeaway, restaurant, point_of_interest, food, establishment",
+          "address": "13500 SW Pacific Hwy #17, Tigard",
+          "lat": 45.4224893,
+          "lon": -122.7821633,
+          "distance_miles": 1.17,
+          "likelihood_score": 82,
+          "rating": 3.9,
+          "user_ratings_total": 2474,
+          "phone": "+1 503-747-4447",
+          "website": "https://www.mizumi-buffet.com/?utm_source=GoogleMyBusiness&utm_medium=Website%20Button&utm_campaign=2021",
+          "place_id": "ChIJbZBqWZQvVUARNaREXvx05kU",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 2,
+          "source": "Google Places"
+        }
+      ],
+      "createdAt": "2026-03-20T11:00:56.256167",
+      "count": 3
+    },
+    "129d5ceb19bfd2ab": {
+      "storeNumber": "SAF07Y-1478",
+      "category": "pizza",
+      "prospects": [
+        {
+          "name": "Rovente Pizzeria - Tigard",
+          "type": "restaurant, point_of_interest, food, establishment",
+          "address": "13727 SW Pacific Hwy Suite# 200, Tigard",
+          "lat": 45.420603,
+          "lon": -122.7861987,
+          "distance_miles": 0.98,
+          "likelihood_score": 87,
+          "rating": 4.5,
+          "user_ratings_total": 243,
+          "phone": "+1 503-747-7848",
+          "website": "http://www.roventepizzeria.com/",
+          "place_id": "ChIJF9058xYNlVQRDFr_-fv2WQo",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        },
+        {
+          "name": "Gambino\u2019s Italian Cafe",
+          "type": "bar, restaurant, point_of_interest, food, establishment",
+          "address": "15575 SW 116th Ave, King City",
+          "lat": 45.4070836,
+          "lon": -122.7967389,
+          "distance_miles": 0.2,
+          "likelihood_score": 95,
+          "rating": 4.5,
+          "user_ratings_total": 312,
+          "phone": "+1 503-747-7449",
+          "website": "http://www.gambinosic.com/",
+          "place_id": "ChIJdU9giY4NlVQRkBg7XkOh1Vg",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 2,
+          "source": "Google Places"
+        },
+        {
+          "name": "Pizza Hut",
+          "type": "meal_delivery, meal_takeaway, restaurant, point_of_interest, food, establishment",
+          "address": "15715 SW 116th Ave, King City",
+          "lat": 45.4058944,
+          "lon": -122.7975116,
+          "distance_miles": 0.25,
+          "likelihood_score": 88,
+          "rating": 3.3,
+          "user_ratings_total": 316,
+          "phone": "+1 503-620-7687",
+          "website": "https://locations.pizzahut.com/or/king-city/15715-sw-116th-ave?utm_medium=organic&utm_source=local&utm_campaign=googlelistings&utm_content=website&utm_term=282178",
+          "place_id": "ChIJF-1eOFMNlVQR0l3VpEwfyFw",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 1,
+          "source": "Google Places"
+        },
+        {
+          "name": "Domino's Pizza",
+          "type": "meal_delivery, meal_takeaway, restaurant, point_of_interest, food, establishment",
+          "address": "13815 SW Pacific Hwy Suite 10, Tigard",
+          "lat": 45.4201831,
+          "lon": -122.7867591,
+          "distance_miles": 0.94,
+          "likelihood_score": 82,
+          "rating": 3.4,
+          "user_ratings_total": 280,
+          "phone": "+1 503-639-3300",
+          "website": "https://www.dominos.com/en/?utm_source=google&utm_medium=loclist&utm_campaign=localmaps",
+          "place_id": "ChIJEyPRhNtylVQRjvZ_imgMMgo",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 1,
+          "source": "Google Places"
+        },
+        {
+          "name": "Papa Murphy's | Take 'N' Bake Pizza",
+          "type": "meal_takeaway, restaurant, point_of_interest, food, establishment",
+          "address": "13295 SW Pacific Hwy, Tigard",
+          "lat": 45.423821,
+          "lon": -122.782706,
+          "distance_miles": 1.25,
+          "likelihood_score": 84,
+          "rating": 4.5,
+          "user_ratings_total": 506,
+          "phone": "+1 503-639-1015",
+          "website": "https://locations.papamurphys.com/or/tigard/13295-sw-pacific-highway?utm_source=organic&utm_medium=gmb&utm_campaign=yext&y_source=1_MTU0MzAyNjAtNzE1LWxvY2F0aW9uLndlYnNpdGU%3D",
+          "place_id": "ChIJX5rcCzsNlVQRxuxhNch5Rkc",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 1,
+          "source": "Google Places"
+        },
+        {
+          "name": "Little Caesars Pizza",
+          "type": "meal_delivery, meal_takeaway, restaurant, point_of_interest, food, establishment",
+          "address": "16230 Pacific Hwy W SUITE 120, Tigard",
+          "lat": 45.4030078,
+          "lon": -122.796942,
+          "distance_miles": 0.36,
+          "likelihood_score": 88,
+          "rating": 3.5,
+          "user_ratings_total": 463,
+          "phone": "+1 503-684-1414",
+          "website": "https://littlecaesars.com/en-us/store/8918",
+          "place_id": "ChIJIWisgqxylVQRn-OtOV-ieR4",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 1,
+          "source": "Google Places"
+        }
+      ],
+      "createdAt": "2026-03-20T11:02:00.240618",
+      "count": 6
+    },
+    "ae9ad56643bc083b": {
+      "storeNumber": "SAF07Y-1478",
+      "category": "car wash",
+      "prospects": [
+        {
+          "name": "Kaady Car Washes",
+          "type": "car_wash, point_of_interest, establishment",
+          "address": "15450 SW 116th Ave, King City",
+          "lat": 45.4073247,
+          "lon": -122.795785,
+          "distance_miles": 0.15,
+          "likelihood_score": 95,
+          "rating": 4.4,
+          "user_ratings_total": 557,
+          "phone": "+1 503-624-0598",
+          "website": "http://www.kaady.com/",
+          "place_id": "ChIJYeKF8lINlVQRb8N7QjIMIR4",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        },
+        {
+          "name": "Squeegee Detail",
+          "type": "car_wash, point_of_interest, establishment",
+          "address": "14218 SW 112th Ave, Tigard",
+          "lat": 45.4166282,
+          "lon": -122.7924752,
+          "distance_miles": 0.65,
+          "likelihood_score": 92,
+          "rating": 4.8,
+          "user_ratings_total": 254,
+          "phone": "+1 971-895-2003",
+          "website": "https://squeegeedetail.com/car-detailing-tigard",
+          "place_id": "ChIJV429W6IHlVQR2oGtf0q1b_s",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        }
+      ],
+      "createdAt": "2026-03-20T11:04:25.703418",
+      "count": 2
+    },
+    "0d96a4f177e8668f": {
+      "storeNumber": "SAF07Y-1478",
+      "category": "auto repair",
+      "prospects": [
+        {
+          "name": "Tigard Premier Auto Care",
+          "type": "car_repair, store, point_of_interest, establishment",
+          "address": "13880 SW Pacific Hwy, Tigard",
+          "lat": 45.4196501,
+          "lon": -122.7858434,
+          "distance_miles": 0.92,
+          "likelihood_score": 88,
+          "rating": 4.6,
+          "user_ratings_total": 352,
+          "phone": "+1 503-639-4100",
+          "website": "http://www.tigardpremierauto.com/",
+          "place_id": "ChIJI8QC1TkNlVQRSHEiYgILv_E",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        },
+        {
+          "name": "Island Auto Repair",
+          "type": "car_repair, point_of_interest, establishment",
+          "address": "17835 SW Pacific Hwy, Tualatin",
+          "lat": 45.3913314,
+          "lon": -122.8026732,
+          "distance_miles": 1.2,
+          "likelihood_score": 88,
+          "rating": 5,
+          "user_ratings_total": 10,
+          "phone": "+1 971-227-8746",
+          "website": null,
+          "place_id": "ChIJE_JJnJColVQRq5cnsu8yS4M",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        },
+        {
+          "name": "Meineke Car Care Center",
+          "type": "car_repair, store, point_of_interest, establishment",
+          "address": "13707 SW Pacific Hwy, Portland",
+          "lat": 45.4205106,
+          "lon": -122.7857642,
+          "distance_miles": 0.98,
+          "likelihood_score": 86,
+          "rating": 4.3,
+          "user_ratings_total": 388,
+          "phone": "+1 503-567-7889",
+          "website": "https://www.meineke.com/locations/or/portland-935/?utm_source=google&utm_medium=organic&utm_campaign=gbp_website",
+          "place_id": "ChIJA_CSojkNlVQRyfeFvqgGowo",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        },
+        {
+          "name": "Fast Lane Oil Change",
+          "type": "car_repair, store, point_of_interest, establishment",
+          "address": "13545 SW Pacific Hwy, Tigard",
+          "lat": 45.4222094,
+          "lon": -122.7843326,
+          "distance_miles": 1.11,
+          "likelihood_score": 87,
+          "rating": 4.8,
+          "user_ratings_total": 2380,
+          "phone": "+1 503-620-5112",
+          "website": "http://www.oil-changers.com/tigard/",
+          "place_id": "ChIJl-oG0zsNlVQRHJ9RsfKYuCI",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        }
+      ],
+      "createdAt": "2026-03-20T11:04:48.746933",
+      "count": 4
+    },
+    "6c682ad17311aa60": {
+      "storeNumber": "SAF07Y-1478",
+      "category": "tires",
+      "prospects": [
+        {
+          "name": "Les Schwab Tire Center",
+          "type": "car_repair, store, point_of_interest, establishment",
+          "address": "15348 SW Pacific Hwy, Tigard",
+          "lat": 45.4086829,
+          "lon": -122.7938401,
+          "distance_miles": 0.11,
+          "likelihood_score": 95,
+          "rating": 4.5,
+          "user_ratings_total": 414,
+          "phone": "+1 503-968-2155",
+          "website": "https://www.lesschwab.com/stores/or/tigard/15348-sw-pacific-hwy?utm_source=google&utm_medium=organic&utm_campaign=gmb-homepage",
+          "place_id": "ChIJUyL1d00NlVQR-af7ciAXkgE",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        },
+        {
+          "name": "Firestone Complete Auto Care",
+          "type": "car_repair, store, point_of_interest, establishment",
+          "address": "13500 SW Pacific Hwy, Portland",
+          "lat": 45.4229,
+          "lon": -122.782634,
+          "distance_miles": 1.19,
+          "likelihood_score": 85,
+          "rating": 4.4,
+          "user_ratings_total": 669,
+          "phone": "+1 503-213-4454",
+          "website": "https://www.firestonecompleteautocare.com/oregon/portland/13500-sw-pacific-hwy/?utm_source=google&utm_medium=organic&utm_campaign=localmaps&cmp=oloc_google_localmaps_maps",
+          "place_id": "ChIJmxJJyzsNlVQR8YeYYTRuEFc",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        }
+      ],
+      "createdAt": "2026-03-20T11:06:21.992991",
+      "count": 2
+    },
+    "589c09d2f49f198a": {
+      "storeNumber": "SAF07Y-1478",
+      "category": "real estate agent",
+      "prospects": [
+        {
+          "name": "Ken Miller and Associates",
+          "type": "real_estate_agency, point_of_interest, establishment",
+          "address": "11725 SW Queen Elizabeth St A, King City",
+          "lat": 45.4059761,
+          "lon": -122.798637,
+          "distance_miles": 0.3,
+          "likelihood_score": 97,
+          "rating": 5,
+          "user_ratings_total": 22,
+          "phone": "+1 503-639-0630",
+          "website": "https://www.kenmillerassociates.com/",
+          "place_id": "ChIJ9-xC9lINlVQRHUwbREINQDU",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        },
+        {
+          "name": "MannyObi Real Estate",
+          "type": "point_of_interest, establishment",
+          "address": "14050 SW Pacific Hwy, Tigard",
+          "lat": 45.4180028,
+          "lon": -122.7870424,
+          "distance_miles": 0.79,
+          "likelihood_score": 69,
+          "rating": 5,
+          "user_ratings_total": 1,
+          "phone": "+1 503-449-8334",
+          "website": "http://www.mannyobi.com/",
+          "place_id": "ChIJsSOtUBUNlVQRGIUmioC2vn8",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        }
+      ],
+      "createdAt": "2026-03-20T11:07:47.189353",
+      "count": 2
+    },
+    "a8471b9c741949d1": {
+      "storeNumber": "SAF07Y-1478",
+      "category": "financial advisor",
+      "prospects": [
+        {
+          "name": "U.S. Bancorp Advisors - Financial Advisors: Carissa Peters",
+          "type": "finance, point_of_interest, establishment",
+          "address": "15900 SW 116th Ave, Tigard",
+          "lat": 45.4052725,
+          "lon": -122.7970398,
+          "distance_miles": 0.25,
+          "likelihood_score": 47,
+          "rating": null,
+          "user_ratings_total": 0,
+          "phone": "+1 503-403-2374",
+          "website": "https://www.usbank.com/wealth-management/find-an-advisor/or/tigard/carissa-peters/?utm_source=google&utm_medium=organic&utm_campaign=gbp_listing",
+          "place_id": "ChIJuVeK_5cNlVQRLLJYrg5DzyM",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        },
+        {
+          "name": "Edward Jones - Financial Advisor: Holly K McNeil, CFP\u00ae",
+          "type": "finance, point_of_interest, establishment",
+          "address": "11535 SW Durham Rd C2, Tigard",
+          "lat": 45.4057156,
+          "lon": -122.7953696,
+          "distance_miles": 0.17,
+          "likelihood_score": 48,
+          "rating": null,
+          "user_ratings_total": 0,
+          "phone": "+1 503-624-6001",
+          "website": "https://www.edwardjones.com/us-en/financial-advisor/holly-mcneil?y_source=1_OTYzOTM3LTcxNS1sb2NhdGlvbi53ZWJzaXRl",
+          "place_id": "ChIJuRvZw6xylVQRCYzCNQhAXrw",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        },
+        {
+          "name": "U.S. Bancorp Advisors - Financial Advisors: Scott Senkel",
+          "type": "finance, point_of_interest, establishment",
+          "address": "15900 SW 116th Ave, Tigard",
+          "lat": 45.4052789,
+          "lon": -122.7970836,
+          "distance_miles": 0.25,
+          "likelihood_score": 47,
+          "rating": null,
+          "user_ratings_total": 0,
+          "phone": "+1 503-620-1902",
+          "website": "https://www.usbank.com/wealth-management/find-an-advisor/or/tigard/scott-senkel/?utm_source=google&utm_medium=organic&utm_campaign=gbp_listing",
+          "place_id": "ChIJuyv2lAeZlVQRrdEM6ymvKCY",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        }
+      ],
+      "createdAt": "2026-03-20T11:08:48.185691",
+      "count": 3
+    },
+    "8684131f6575284b": {
+      "storeNumber": "SAF07Y-1478",
+      "category": "martial arts",
+      "prospects": [
+        {
+          "name": "Master Eric's World Champion Taekwondo",
+          "type": "point_of_interest, health, establishment",
+          "address": "11545 SW Durham Rd B1, Tigard",
+          "lat": 45.4051892,
+          "lon": -122.7958336,
+          "distance_miles": 0.21,
+          "likelihood_score": 87,
+          "rating": 5,
+          "user_ratings_total": 104,
+          "phone": "+1 503-431-2034",
+          "website": "http://www.mastererictkd.com/",
+          "place_id": "ChIJLWqawFINlVQROo86SqbB5zQ",
+          "opening_hours": {
+            "open_now": false
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        },
+        {
+          "name": "US World Class Taekwondo Tigard",
+          "type": "point_of_interest, health, establishment",
+          "address": "16200 SW Pacific Hwy Ste K, Tigard",
+          "lat": 45.4030386,
+          "lon": -122.794729,
+          "distance_miles": 0.31,
+          "likelihood_score": 86,
+          "rating": 5,
+          "user_ratings_total": 158,
+          "phone": "+1 503-968-0500",
+          "website": "http://www.martialartstigard.com/",
+          "place_id": "ChIJI7Pgl6xylVQRAneWxFdr-fo",
+          "opening_hours": {
+            "open_now": false
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        }
+      ],
+      "createdAt": "2026-03-20T11:10:10.228835",
+      "count": 2
+    },
+    "91a10001f55afe53": {
+      "storeNumber": "SAF07Y-1478",
+      "category": "child care/day care",
+      "prospects": [
+        {
+          "name": "Curious Minds Preparatory Preschool Tigard",
+          "type": "point_of_interest, school, establishment",
+          "address": "14361 SW Pacific Hwy, Portland",
+          "lat": 45.41744,
+          "lon": -122.7915311,
+          "distance_miles": 0.71,
+          "likelihood_score": 92,
+          "rating": 5,
+          "user_ratings_total": 63,
+          "phone": "+1 971-265-9646",
+          "website": "http://www.curiousmindspdx.com/",
+          "place_id": "ChIJHegNWRINlVQREbj6I1oU8GE",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        },
+        {
+          "name": "Little Feet Child Care",
+          "type": "point_of_interest, school, establishment",
+          "address": "10477 SW Riverwood Ln, Tigard",
+          "lat": 45.4003172,
+          "lon": -122.7848743,
+          "distance_miles": 0.61,
+          "likelihood_score": 91,
+          "rating": 4.6,
+          "user_ratings_total": 10,
+          "phone": "+1 503-679-8539",
+          "website": "http://www.littlefeetchildcare.com/",
+          "place_id": "ChIJa_Cn0K9ylVQRwZTiPdi95Uk",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        },
+        {
+          "name": "Los Ositos Morenos Childcare",
+          "type": "point_of_interest, establishment",
+          "address": "13260 SW Howard Dr, Tigard",
+          "lat": 45.4233818,
+          "lon": -122.7977431,
+          "distance_miles": 1.14,
+          "likelihood_score": 83,
+          "rating": 5,
+          "user_ratings_total": 8,
+          "phone": "+1 503-939-1195",
+          "website": "https://losositosmorenos.com/",
+          "place_id": "ChIJyS52LUQNlVQRCaNjGuTRxis",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        },
+        {
+          "name": "Little Tots Cre-8-tive Spot",
+          "type": "point_of_interest, school, establishment",
+          "address": "10255 SW Fulton Dr, Tualatin",
+          "lat": 45.3927121,
+          "lon": -122.7819303,
+          "distance_miles": 1.13,
+          "likelihood_score": 87,
+          "rating": 4.9,
+          "user_ratings_total": 14,
+          "phone": "+1 503-504-3775",
+          "website": null,
+          "place_id": "ChIJ3fr4tmFzlVQR1aDUoqGC4so",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        },
+        {
+          "name": "Little Sprouts Daycare LLC",
+          "type": "point_of_interest, establishment",
+          "address": "9532 SW Sattler St, Tigard",
+          "lat": 45.4100526,
+          "lon": -122.7750039,
+          "distance_miles": 0.88,
+          "likelihood_score": 91,
+          "rating": 5,
+          "user_ratings_total": 14,
+          "phone": "+1 503-887-7914",
+          "website": "http://littlesproutsdaycarellc.com/",
+          "place_id": "ChIJ3XIcEtvQJY4RLtzJpXqPta4",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        },
+        {
+          "name": "Emily\u2019s Daycare LLC",
+          "type": "point_of_interest, establishment",
+          "address": "11715 SW Graven St, Tigard",
+          "lat": 45.39778949999999,
+          "lon": -122.7974559,
+          "distance_miles": 0.69,
+          "likelihood_score": 92,
+          "rating": 4.8,
+          "user_ratings_total": 22,
+          "phone": "+1 503-784-4825",
+          "website": "https://www.emilysdaycarellc.com/",
+          "place_id": "ChIJH9hTAXRzlVQR9ZNpGTbypvA",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        },
+        {
+          "name": "Tigard Children's Academy",
+          "type": "point_of_interest, school, establishment",
+          "address": "10400 SW Park St, Tigard",
+          "lat": 45.423912,
+          "lon": -122.7840796,
+          "distance_miles": 1.23,
+          "likelihood_score": 85,
+          "rating": 4.6,
+          "user_ratings_total": 62,
+          "phone": "+1 503-707-1237",
+          "website": "https://tigardca.com/",
+          "place_id": "ChIJAQCwkDsNlVQRQguZYrS7IVA",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        },
+        {
+          "name": "Wee Wonders Children's Academy",
+          "type": "point_of_interest, establishment",
+          "address": "16030 SW 103rd Ave, Tigard",
+          "lat": 45.4039643,
+          "lon": -122.7819683,
+          "distance_miles": 0.57,
+          "likelihood_score": 83,
+          "rating": 4.4,
+          "user_ratings_total": 7,
+          "phone": "+1 503-640-5368",
+          "website": "https://www.weewonderschildrensacademy.com/",
+          "place_id": "ChIJeem94PtzlVQRodOGxN2x3Aw",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        },
+        {
+          "name": "RAINBOW LIGHTS CHILDCARE",
+          "type": "point_of_interest, establishment",
+          "address": "16044 SW 113th Ave, Tigard",
+          "lat": 45.4032493,
+          "lon": -122.791587,
+          "distance_miles": 0.28,
+          "likelihood_score": 47,
+          "rating": null,
+          "user_ratings_total": 0,
+          "phone": null,
+          "website": null,
+          "place_id": "ChIJk2o_l25zlVQRZpX2o7uuFOU",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        },
+        {
+          "name": "Creative Hands Preschool",
+          "type": "point_of_interest, school, establishment",
+          "address": "10445 SW Canterbury Ln, Tigard",
+          "lat": 45.415026,
+          "lon": -122.784157,
+          "distance_miles": 0.68,
+          "likelihood_score": 93,
+          "rating": 5,
+          "user_ratings_total": 16,
+          "phone": "+1 503-610-2921",
+          "website": "http://www.creativehandstigard.com/",
+          "place_id": "ChIJ-e4iHTYNlVQRki0oRnlyKnM",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        }
+      ],
+      "createdAt": "2026-03-20T11:12:36.868722",
+      "count": 10
+    },
+    "78de00c6d2583b05": {
+      "storeNumber": "SAF07Y-1478",
+      "category": "plumber",
+      "prospects": [
+        {
+          "name": "Bruner Plumbing Inc",
+          "type": "plumber, point_of_interest, establishment",
+          "address": "10470 SW Park St, Tigard",
+          "lat": 45.4239061,
+          "lon": -122.7846008,
+          "distance_miles": 1.22,
+          "likelihood_score": 85,
+          "rating": 4.7,
+          "user_ratings_total": 41,
+          "phone": "+1 503-624-4880",
+          "website": "http://www.brunerplumbing.com/",
+          "place_id": "ChIJT1E-RSANlVQRQvZnLWH2CN0",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        },
+        {
+          "name": "Aquifer Plumbing Llc",
+          "type": "plumber, point_of_interest, establishment",
+          "address": "17375 SW 128th Ave, Tigard",
+          "lat": 45.3942576,
+          "lon": -122.8093494,
+          "distance_miles": 1.21,
+          "likelihood_score": 84,
+          "rating": 5,
+          "user_ratings_total": 9,
+          "phone": null,
+          "website": null,
+          "place_id": "ChIJVVUR4uMMlVQRZYhjpX1bwRQ",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        }
+      ],
+      "createdAt": "2026-03-20T11:15:26.488124",
+      "count": 2
+    },
+    "e7c93f4570b35b3b": {
+      "storeNumber": "SAF07Y-1478",
+      "category": "landscaping",
+      "prospects": [
+        {
+          "name": "Innovative Landscaping",
+          "type": "general_contractor, point_of_interest, establishment",
+          "address": "9630 SW Omara St, Tigard",
+          "lat": 45.4204385,
+          "lon": -122.7761003,
+          "distance_miles": 1.22,
+          "likelihood_score": 79,
+          "rating": 3.4,
+          "user_ratings_total": 18,
+          "phone": "+1 503-670-7632",
+          "website": "http://www.innovativelandscapinginc.com/",
+          "place_id": "ChIJbX4POTANlVQROuoh8fxTmsc",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        }
+      ],
+      "createdAt": "2026-03-20T11:16:20.233039",
+      "count": 1
+    },
+    "67ea721b1d81a9f5": {
+      "storeNumber": "SAF07Y-1478",
+      "category": "transmission",
+      "prospects": [
+        {
+          "name": "AAMCO Transmissions & Total Car Care",
+          "type": "car_repair, point_of_interest, establishment",
+          "address": "13701 SW Pacific Hwy, Tigard",
+          "lat": 45.4210517,
+          "lon": -122.7856247,
+          "distance_miles": 1.02,
+          "likelihood_score": 86,
+          "rating": 4.4,
+          "user_ratings_total": 243,
+          "phone": "+1 503-389-6473",
+          "website": "http://www.aamcotigard.com/?utm_source=G&utm_medium=local&utm_campaign=google-local",
+          "place_id": "ChIJzRxNlzkNlVQRC-yF41recAs",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        },
+        {
+          "name": "Fast Lane Oil Change",
+          "type": "car_repair, store, point_of_interest, establishment",
+          "address": "13545 SW Pacific Hwy, Tigard",
+          "lat": 45.4222094,
+          "lon": -122.7843326,
+          "distance_miles": 1.11,
+          "likelihood_score": 87,
+          "rating": 4.8,
+          "user_ratings_total": 2380,
+          "phone": "+1 503-620-5112",
+          "website": "http://www.oil-changers.com/tigard/",
+          "place_id": "ChIJl-oG0zsNlVQRHJ9RsfKYuCI",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        },
+        {
+          "name": "Island Auto Repair",
+          "type": "car_repair, point_of_interest, establishment",
+          "address": "17835 SW Pacific Hwy, Tualatin",
+          "lat": 45.3913314,
+          "lon": -122.8026732,
+          "distance_miles": 1.2,
+          "likelihood_score": 88,
+          "rating": 5,
+          "user_ratings_total": 10,
+          "phone": "+1 971-227-8746",
+          "website": null,
+          "place_id": "ChIJE_JJnJColVQRq5cnsu8yS4M",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        },
+        {
+          "name": "Tigard Premier Auto Care",
+          "type": "car_repair, store, point_of_interest, establishment",
+          "address": "13880 SW Pacific Hwy, Tigard",
+          "lat": 45.4196501,
+          "lon": -122.7858434,
+          "distance_miles": 0.92,
+          "likelihood_score": 88,
+          "rating": 4.6,
+          "user_ratings_total": 352,
+          "phone": "+1 503-639-4100",
+          "website": "http://www.tigardpremierauto.com/",
+          "place_id": "ChIJI8QC1TkNlVQRSHEiYgILv_E",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        }
+      ],
+      "createdAt": "2026-03-20T11:17:17.982204",
+      "count": 4
+    },
+    "b5369c5e4c4f6a48": {
+      "storeNumber": "SAF07Y-1478",
+      "category": "insurance agent",
+      "prospects": [
+        {
+          "name": "Insurance Resources NW",
+          "type": "insurance_agency, health, point_of_interest, establishment",
+          "address": "14050 SW Pacific Hwy Ste 100, Tigard",
+          "lat": 45.4179954,
+          "lon": -122.7872012,
+          "distance_miles": 0.79,
+          "likelihood_score": 91,
+          "rating": 4.9,
+          "user_ratings_total": 103,
+          "phone": "+1 503-446-4643",
+          "website": "http://ir-nw.com/",
+          "place_id": "ChIJcePvMMaglVQRE7J2cJGF6WI",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        },
+        {
+          "name": "Andrew Morrow, Insurance Agent",
+          "type": "insurance_agency, health, point_of_interest, establishment",
+          "address": "By Appointment Only, King City",
+          "lat": 45.4023446,
+          "lon": -122.8040923,
+          "distance_miles": 0.65,
+          "likelihood_score": 70,
+          "rating": 5,
+          "user_ratings_total": 1,
+          "phone": "+1 503-544-9353",
+          "website": "https://morrowfinancial.biz/",
+          "place_id": "ChIJtzVjjGUNlVQRbiopCMgp-TE",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        },
+        {
+          "name": "Farmers Insurance - Zahira Cabral",
+          "type": "insurance_agency, point_of_interest, establishment",
+          "address": "10580 SW McDonald St Ste 203, Tigard",
+          "lat": 45.4183654,
+          "lon": -122.7860105,
+          "distance_miles": 0.84,
+          "likelihood_score": 66,
+          "rating": 3,
+          "user_ratings_total": 4,
+          "phone": "+1 503-601-2077",
+          "website": "https://agents.farmers.com/or/tigard/zahira-cabral?SourceID=AMPALFGMAG&utm_source=GMB&utm_medium=Local&y_source=1_MTU1ODkzMC03MTUtbG9jYXRpb24uZ29vZ2xlX3dlYnNpdGVfb3ZlcnJpZGU%3D",
+          "place_id": "ChIJM_XljzcNlVQRcRGGmlCEa5M",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        },
+        {
+          "name": "Michael Nelson - State Farm Insurance Agent",
+          "type": "insurance_agency, point_of_interest, establishment",
+          "address": "10580 SW McDonald St #103, Tigard",
+          "lat": 45.418422,
+          "lon": -122.7859149,
+          "distance_miles": 0.84,
+          "likelihood_score": 90,
+          "rating": 4.8,
+          "user_ratings_total": 81,
+          "phone": "+1 503-825-7707",
+          "website": "https://www.tigardinsuranceteam.com/?cmpid=YOJK_blm_0001",
+          "place_id": "ChIJDcBj1aMNlVQRGPFKBK_Z38Y",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        }
+      ],
+      "createdAt": "2026-03-20T11:17:48.827482",
+      "count": 4
+    },
+    "663be84a74b772b2": {
+      "storeNumber": "SAF07Y-1478",
+      "category": "after school programs",
+      "prospects": [
+        {
+          "name": "Curious Minds Preparatory Preschool Tigard",
+          "type": "school, point_of_interest, establishment",
+          "address": "14361 SW Pacific Hwy, Portland",
+          "lat": 45.41744,
+          "lon": -122.7915311,
+          "distance_miles": 0.71,
+          "likelihood_score": 92,
+          "rating": 5,
+          "user_ratings_total": 63,
+          "phone": "+1 971-265-9646",
+          "website": "http://www.curiousmindspdx.com/",
+          "place_id": "ChIJHegNWRINlVQREbj6I1oU8GE",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        },
+        {
+          "name": "Tigard Children's Academy",
+          "type": "school, point_of_interest, establishment",
+          "address": "10400 SW Park St, Tigard",
+          "lat": 45.423912,
+          "lon": -122.7840796,
+          "distance_miles": 1.23,
+          "likelihood_score": 85,
+          "rating": 4.6,
+          "user_ratings_total": 62,
+          "phone": "+1 503-707-1237",
+          "website": "https://tigardca.com/",
+          "place_id": "ChIJAQCwkDsNlVQRQguZYrS7IVA",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        },
+        {
+          "name": "Little Feet Child Care",
+          "type": "school, point_of_interest, establishment",
+          "address": "10477 SW Riverwood Ln, Tigard",
+          "lat": 45.4003172,
+          "lon": -122.7848743,
+          "distance_miles": 0.61,
+          "likelihood_score": 91,
+          "rating": 4.6,
+          "user_ratings_total": 10,
+          "phone": "+1 503-679-8539",
+          "website": "http://www.littlefeetchildcare.com/",
+          "place_id": "ChIJa_Cn0K9ylVQRwZTiPdi95Uk",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        },
+        {
+          "name": "Gentog, LLC",
+          "type": "school, point_of_interest, establishment",
+          "address": "11535 SW Durham Rd c5, Tigard",
+          "lat": 45.4056887,
+          "lon": -122.7952125,
+          "distance_miles": 0.16,
+          "likelihood_score": 97,
+          "rating": 4.9,
+          "user_ratings_total": 36,
+          "phone": "+1 503-639-2600",
+          "website": "https://gentog.com/",
+          "place_id": "ChIJF0aG1lINlVQR2XU3Ru5vXmc",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        },
+        {
+          "name": "Whole Babies Preschool & Childcare on Chippewa",
+          "type": "school, point_of_interest, establishment",
+          "address": "17805 SW Chippewa Trail, Tualatin",
+          "lat": 45.39110669999999,
+          "lon": -122.7791386,
+          "distance_miles": 1.29,
+          "likelihood_score": 37,
+          "rating": null,
+          "user_ratings_total": 0,
+          "phone": "+1 408-621-3303",
+          "website": "http://www.wholebabiespreschool.com/",
+          "place_id": "ChIJu9ys8x9zlVQRitiGLpxDyF8",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        },
+        {
+          "name": "Tualatin Valley Playschool",
+          "type": "school, point_of_interest, establishment",
+          "address": "11511 SW Bull Mountain Rd, Tigard",
+          "lat": 45.4146446,
+          "lon": -122.7958924,
+          "distance_miles": 0.54,
+          "likelihood_score": 81,
+          "rating": 4.1,
+          "user_ratings_total": 7,
+          "phone": "+1 503-867-8355",
+          "website": "http://www.tualatinvalleyplayschool.com/",
+          "place_id": "ChIJT9sUTdcNlVQRLrtcHUiHhxk",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        }
+      ],
+      "createdAt": "2026-03-20T11:19:46.865330",
+      "count": 6
+    },
+    "2b97427136fc54f4": {
+      "storeNumber": "SAF07Y-1478",
+      "category": "spa/massage",
+      "prospects": [
+        {
+          "name": "Twin Moons Spa",
+          "type": "spa, health, point_of_interest, establishment",
+          "address": "13599 SW Pacific Hwy Unit F, Tigard",
+          "lat": 45.4215321,
+          "lon": -122.7848428,
+          "distance_miles": 1.06,
+          "likelihood_score": 87,
+          "rating": 4.6,
+          "user_ratings_total": 18,
+          "phone": "+1 503-849-9346",
+          "website": "https://twinmoonsspaca.wixsite.com/twinmoonsspa",
+          "place_id": "ChIJwfnkwLANlVQRRXHXPZ4SD60",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        },
+        {
+          "name": "King City Massage",
+          "type": "spa, point_of_interest, establishment",
+          "address": "15390 SW 116th Ave, Tigard",
+          "lat": 45.4083388,
+          "lon": -122.7953801,
+          "distance_miles": 0.15,
+          "likelihood_score": 96,
+          "rating": 4.6,
+          "user_ratings_total": 25,
+          "phone": "+1 360-518-2257",
+          "website": "http://kingcity.asian-massage-spa.com/",
+          "place_id": "ChIJ00WBQQANlVQRqOYqcySRROM",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        },
+        {
+          "name": "Vivi Foot & Body Massage",
+          "type": "spa, health, point_of_interest, establishment",
+          "address": "Parking lot, 15660 SW Pacific Hwy a4, Tigard",
+          "lat": 45.4066917,
+          "lon": -122.7948631,
+          "distance_miles": 0.11,
+          "likelihood_score": 97,
+          "rating": 4.8,
+          "user_ratings_total": 112,
+          "phone": "+1 971-777-3388",
+          "website": "https://vivifootbodymassage.wixsite.com/97224",
+          "place_id": "ChIJwzp9mtgNlVQRns3blWnljuQ",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        },
+        {
+          "name": "Avalon Massage",
+          "type": "spa, point_of_interest, establishment",
+          "address": "13815 SW Pacific Hwy #50, Tigard",
+          "lat": 45.4200819,
+          "lon": -122.786825,
+          "distance_miles": 0.93,
+          "likelihood_score": 70,
+          "rating": 5,
+          "user_ratings_total": 2,
+          "phone": "+1 503-899-9699",
+          "website": "https://avalonmassage.org/",
+          "place_id": "ChIJH5uVsS0NlVQRYOGMb5OsfsQ",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        },
+        {
+          "name": "Good Luck Foot Spa",
+          "type": "health, point_of_interest, establishment",
+          "address": "13500 SW Pacific Hwy #50, Tigard",
+          "lat": 45.4220316,
+          "lon": -122.7821109,
+          "distance_miles": 1.15,
+          "likelihood_score": 86,
+          "rating": 4.7,
+          "user_ratings_total": 105,
+          "phone": "+1 971-228-8725",
+          "website": "http://www.goodluckspa.com/",
+          "place_id": "ChIJh6Waa0kNlVQRjWOHBhxI2eU",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        },
+        {
+          "name": "Lemon Tree Massage-Professional Asian Massage",
+          "type": "spa, health, point_of_interest, establishment",
+          "address": "11725 SW Queen Elizabeth St D, King City",
+          "lat": 45.4059005,
+          "lon": -122.7987149,
+          "distance_miles": 0.31,
+          "likelihood_score": 90,
+          "rating": 3.9,
+          "user_ratings_total": 32,
+          "phone": "+1 503-747-5725",
+          "website": "http://www.lemontreemassageor.com/",
+          "place_id": "ChIJ0ZvIa1MNlVQRmp2BXlVdO-A",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        },
+        {
+          "name": "Fawn and Feather Massage and Bodywork",
+          "type": "spa, point_of_interest, establishment",
+          "address": "15405 SW 116th Ave Suite 126, Portland",
+          "lat": 45.4075079,
+          "lon": -122.7965481,
+          "distance_miles": 0.19,
+          "likelihood_score": 98,
+          "rating": 5,
+          "user_ratings_total": 23,
+          "phone": "+1 503-869-0500",
+          "website": "https://fawnandfeathermassage.com/",
+          "place_id": "ChIJtwLX_RYNlVQRKBBe4hIqP7w",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        },
+        {
+          "name": "White Crane Massage Arts",
+          "type": "spa, health, point_of_interest, establishment",
+          "address": "14040 SW 98th Ave, Tigard",
+          "lat": 45.4181904,
+          "lon": -122.7779694,
+          "distance_miles": 1.04,
+          "likelihood_score": 69,
+          "rating": 5,
+          "user_ratings_total": 2,
+          "phone": "+1 503-516-1936",
+          "website": null,
+          "place_id": "ChIJmWZwPTENlVQRlpWrdWJb1pE",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        }
+      ],
+      "createdAt": "2026-03-20T11:23:17.270670",
+      "count": 8
+    },
+    "ae710ea34521e1b1": {
+      "storeNumber": "SAF07Y-1478",
+      "category": "barber",
+      "prospects": [
+        {
+          "name": "Revelry Barber Studio",
+          "type": "hair_care, health, point_of_interest, establishment",
+          "address": "14050 SW Pacific Hwy #111, Tigard",
+          "lat": 45.4178957,
+          "lon": -122.7871191,
+          "distance_miles": 0.79,
+          "likelihood_score": 92,
+          "rating": 5,
+          "user_ratings_total": 203,
+          "phone": "+1 503-707-1441",
+          "website": "http://www.revelrybarberstudio.com/",
+          "place_id": "ChIJkz4aKFMNlVQRxMMkRYzscO8",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        },
+        {
+          "name": "Astral Barber",
+          "type": "hair_care, health, point_of_interest, establishment",
+          "address": "14050 SW Pacific Hwy #111, Tigard",
+          "lat": 45.4179119,
+          "lon": -122.7871502,
+          "distance_miles": 0.79,
+          "likelihood_score": 92,
+          "rating": 5,
+          "user_ratings_total": 12,
+          "phone": null,
+          "website": "https://www.revelrybarberstudio.com/",
+          "place_id": "ChIJy1DFwjANlVQRCo3ImKwyYkg",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        },
+        {
+          "name": "King City Barber Shop",
+          "type": "hair_care, health, point_of_interest, establishment",
+          "address": "11725 SW Queen Elizabeth St, King City",
+          "lat": 45.4059682,
+          "lon": -122.7985575,
+          "distance_miles": 0.3,
+          "likelihood_score": 93,
+          "rating": 4.3,
+          "user_ratings_total": 22,
+          "phone": "+1 503-431-6900",
+          "website": null,
+          "place_id": "ChIJ0ZvIa1MNlVQR0Hg2p_vx4Tg",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        },
+        {
+          "name": "Ericka\u2019s Salon",
+          "type": "beauty_salon, hair_care, health, point_of_interest, establishment",
+          "address": "14325 SW Pacific Hwy, Tigard",
+          "lat": 45.4171744,
+          "lon": -122.7903312,
+          "distance_miles": 0.7,
+          "likelihood_score": 91,
+          "rating": 4.7,
+          "user_ratings_total": 17,
+          "phone": "+1 503-984-9980",
+          "website": null,
+          "place_id": "ChIJSTa7c0gNlVQRUxyJ5XurddI",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        },
+        {
+          "name": "Boujee Hair & Barber",
+          "type": "hair_care, point_of_interest, establishment",
+          "address": "13705 SW 110th Ave, Tigard",
+          "lat": 45.4209195,
+          "lon": -122.7907765,
+          "distance_miles": 0.95,
+          "likelihood_score": 75,
+          "rating": 5,
+          "user_ratings_total": 8,
+          "phone": "+1 425-418-4865",
+          "website": "https://boujeehairandbarber.com/",
+          "place_id": "ChIJ1S-IwssNlVQRyUli7vXOyNc",
+          "opening_hours": {
+            "open_now": false
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        }
+      ],
+      "createdAt": "2026-03-20T11:24:29.281897",
+      "count": 5
+    },
+    "12e817dc3b360b47": {
+      "storeNumber": "SAF07Y-1478",
+      "category": "car dealer",
+      "prospects": [
+        {
+          "name": "May Auto Sales",
+          "type": "car_dealer, point_of_interest, store, establishment",
+          "address": "15280 SW Pacific Hwy, Tigard",
+          "lat": 45.409411,
+          "lon": -122.793608,
+          "distance_miles": 0.16,
+          "likelihood_score": 96,
+          "rating": 4.7,
+          "user_ratings_total": 126,
+          "phone": "+1 503-968-1111",
+          "website": "http://www.mayauto.net/",
+          "place_id": "ChIJheU5kU0NlVQRPSs9nSk7YNk",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        },
+        {
+          "name": "Marvelous Motors LLC",
+          "type": "car_dealer, point_of_interest, store, establishment",
+          "address": "17835 SW Pacific Hwy, Tualatin",
+          "lat": 45.3913382,
+          "lon": -122.8026596,
+          "distance_miles": 1.2,
+          "likelihood_score": 85,
+          "rating": 4.5,
+          "user_ratings_total": 65,
+          "phone": "+1 971-227-8746",
+          "website": "http://www.marvelousmotorsllc.com/",
+          "place_id": "ChIJE_JJnJColVQRu1c7ns1jT-g",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        }
+      ],
+      "createdAt": "2026-03-20T11:26:03.966367",
+      "count": 2
+    },
+    "e8f1da6738c08155": {
+      "storeNumber": "SAF07Y-1478",
+      "category": "bar/pub",
+      "prospects": [
+        {
+          "name": "JB O'Briens Irish Pub",
+          "type": "bar, restaurant, food, point_of_interest, establishment",
+          "address": "11555 SW Durham Rd, Tigard",
+          "lat": 45.4046898,
+          "lon": -122.7960549,
+          "distance_miles": 0.24,
+          "likelihood_score": 93,
+          "rating": 4.2,
+          "user_ratings_total": 788,
+          "phone": "+1 503-941-5592",
+          "website": "https://www.jbobriens.com/",
+          "place_id": "ChIJwRVFxqxylVQRjnqbxogSqHg",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 2,
+          "source": "Google Places"
+        },
+        {
+          "name": "Foxy\u2019s Bar & Lounge",
+          "type": "bar, point_of_interest, store, establishment",
+          "address": "14295 SW Pacific Hwy, Tigard",
+          "lat": 45.417036,
+          "lon": -122.7898557,
+          "distance_miles": 0.69,
+          "likelihood_score": 87,
+          "rating": 3.9,
+          "user_ratings_total": 121,
+          "phone": "+1 971-225-0551",
+          "website": "https://foxysdeliinc.wixsite.com/-fbl",
+          "place_id": "ChIJ9RENpw0NlVQRWzMoHCTpaRw",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        },
+        {
+          "name": "Home Turf Sports Bar & Grill",
+          "type": "bar, point_of_interest, establishment",
+          "address": "13500 SW Pacific Hwy #34, Tigard",
+          "lat": 45.4221785,
+          "lon": -122.7820013,
+          "distance_miles": 1.16,
+          "likelihood_score": 83,
+          "rating": 4.1,
+          "user_ratings_total": 170,
+          "phone": "+1 503-968-5778",
+          "website": null,
+          "place_id": "ChIJmxJJyzsNlVQR-Px6PBnY0gU",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 1,
+          "source": "Google Places"
+        },
+        {
+          "name": "Hops on Tap",
+          "type": "bar, restaurant, food, point_of_interest, establishment",
+          "address": "15660 SW Pacific Hwy Suite A-8, Tigard",
+          "lat": 45.406709,
+          "lon": -122.7941829,
+          "distance_miles": 0.08,
+          "likelihood_score": 88,
+          "rating": 4.8,
+          "user_ratings_total": 262,
+          "phone": "+1 971-470-4246",
+          "website": "http://www.hopsontap-pdx.com/",
+          "place_id": "ChIJS3tXv1INlVQRZtAj-KBckH8",
+          "opening_hours": {
+            "open_now": false
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 1,
+          "source": "Google Places"
+        },
+        {
+          "name": "Gambino\u2019s Italian Cafe",
+          "type": "bar, restaurant, food, point_of_interest, establishment",
+          "address": "15575 SW 116th Ave, King City",
+          "lat": 45.4070836,
+          "lon": -122.7967389,
+          "distance_miles": 0.2,
+          "likelihood_score": 95,
+          "rating": 4.5,
+          "user_ratings_total": 312,
+          "phone": "+1 503-747-7449",
+          "website": "http://www.gambinosic.com/",
+          "place_id": "ChIJdU9giY4NlVQRkBg7XkOh1Vg",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 2,
+          "source": "Google Places"
+        },
+        {
+          "name": "Bull Mountain Bar & Grill",
+          "type": "bar, restaurant, food, point_of_interest, establishment",
+          "address": "13727 SW Pacific Hwy, Tigard",
+          "lat": 45.4205514,
+          "lon": -122.7860364,
+          "distance_miles": 0.98,
+          "likelihood_score": 76,
+          "rating": 4.3,
+          "user_ratings_total": 436,
+          "phone": "+1 503-443-3888",
+          "website": "https://www.facebook.com/bullmountainbarandgrill/",
+          "place_id": "ChIJAZHdvjkNlVQRntIPlsq48bY",
+          "opening_hours": {
+            "open_now": false
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 2,
+          "source": "Google Places"
+        },
+        {
+          "name": "Wildwood Taphouse - Tigard",
+          "type": "bar, point_of_interest, establishment",
+          "address": "16200 SW Pacific Hwy Suite Q, Tigard",
+          "lat": 45.4029768,
+          "lon": -122.7958894,
+          "distance_miles": 0.33,
+          "likelihood_score": 86,
+          "rating": 5,
+          "user_ratings_total": 12,
+          "phone": "+1 971-246-5028",
+          "website": "https://www.wildwoodtaphouse.com/",
+          "place_id": "ChIJ2cIyYBBzlVQRrxRcO1Gr3SU",
+          "opening_hours": {
+            "open_now": false
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        }
+      ],
+      "createdAt": "2026-03-20T11:27:55.373653",
+      "count": 7
+    },
+    "4db5832c17666b35": {
+      "storeNumber": "ALB07Y-3564",
+      "category": "pet store",
+      "prospects": [
+        {
+          "name": "Mini Pet Mart",
+          "type": "store, point_of_interest, establishment",
+          "address": "2636 Willamette St A, Eugene",
+          "lat": 44.0297711,
+          "lon": -123.0911332,
+          "distance_miles": 0.69,
+          "likelihood_score": 91,
+          "rating": 4.6,
+          "user_ratings_total": 209,
+          "phone": "+1 541-345-3399",
+          "website": "http://minipetmart.net/stores/2636/",
+          "place_id": "ChIJy9ifv1MewVQRb31evX71q0g",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        },
+        {
+          "name": "Nature's Pet Market Eugene",
+          "type": "pet_store, store, point_of_interest, establishment",
+          "address": "2864 Willamette St #200, Eugene",
+          "lat": 44.0276414,
+          "lon": -123.0937818,
+          "distance_miles": 0.71,
+          "likelihood_score": 91,
+          "rating": 4.8,
+          "user_ratings_total": 280,
+          "phone": "+1 541-653-9247",
+          "website": "http://www.naturespetmarket.com/Eugene",
+          "place_id": "ChIJNxiFVlQewVQRjVK9DD92Afs",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        },
+        {
+          "name": "PetSmart",
+          "type": "store, point_of_interest, establishment",
+          "address": "2858 Willamette St, Eugene",
+          "lat": 44.0277847,
+          "lon": -123.0925818,
+          "distance_miles": 0.66,
+          "likelihood_score": 89,
+          "rating": 4.2,
+          "user_ratings_total": 869,
+          "phone": "+1 541-603-7921",
+          "website": "https://www.petsmart.com/stores/us/or/eugene-store2291.html?utm_source=google&utm_medium=organic&utm_campaign=google-my-business",
+          "place_id": "ChIJm9FYmFQewVQRL5cBJq3vgcY",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        }
+      ],
+      "createdAt": "2026-03-20T11:56:01.278814",
+      "count": 3
+    },
+    "e0f796b04c34c6e0": {
+      "storeNumber": "SAF26Y-1138",
+      "category": "mexican",
+      "prospects": [
+        {
+          "name": "El Metate Taqueria",
+          "type": "restaurant, point_of_interest, food, establishment",
+          "address": "120 Harbor Blvd, Belmont",
+          "lat": 37.5218375,
+          "lon": -122.2667839,
+          "distance_miles": 0.51,
+          "likelihood_score": 91,
+          "rating": 4.4,
+          "user_ratings_total": 1336,
+          "phone": "+1 650-595-1110",
+          "website": "https://taqueriaelmetate.site/",
+          "place_id": "ChIJJ_kMvlKfj4ARNx7httlLVzA",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 1,
+          "source": "Google Places"
+        },
+        {
+          "name": "El Charrito",
+          "type": "restaurant, point_of_interest, food, establishment",
+          "address": "1100 Holly St, San Carlos",
+          "lat": 37.5085113,
+          "lon": -122.2620962,
+          "distance_miles": 1.1,
+          "likelihood_score": 86,
+          "rating": 4.5,
+          "user_ratings_total": 784,
+          "phone": "+1 650-654-1400",
+          "website": "http://elcharritotaqueriasancarlos.com/",
+          "place_id": "ChIJfw5_xwOij4AR7uUF5ABJ8rA",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 1,
+          "source": "Google Places"
+        },
+        {
+          "name": "Taquer\u00eda Los Moreno",
+          "type": "restaurant, point_of_interest, food, establishment",
+          "address": "37 43rd Ave, San Mateo",
+          "lat": 37.528971,
+          "lon": -122.288851,
+          "distance_miles": 0.94,
+          "likelihood_score": 87,
+          "rating": 4.5,
+          "user_ratings_total": 308,
+          "phone": "+1 650-312-1161",
+          "website": "https://taquerialosmorenoca.com/",
+          "place_id": "ChIJdUQYkhWfj4ARvv8mWDJD5xY",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 1,
+          "source": "Google Places"
+        },
+        {
+          "name": "Guadalajara Grill",
+          "type": "restaurant, point_of_interest, food, establishment",
+          "address": "19 Laurie Meadows Dr, San Mateo",
+          "lat": 37.5309857,
+          "lon": -122.2873866,
+          "distance_miles": 0.98,
+          "likelihood_score": 86,
+          "rating": 4.3,
+          "user_ratings_total": 628,
+          "phone": "+1 650-573-6933",
+          "website": "https://themenustar2.com/webspace/menus.php?code=orderguadalajaragrill.com",
+          "place_id": "ChIJj_rGBD6fj4AR2yxHbCg-99Y",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 1,
+          "source": "Google Places"
+        },
+        {
+          "name": "Tacos El Grullense C&D #4",
+          "type": "restaurant, point_of_interest, food, establishment",
+          "address": "575 Ralston Ave, Belmont",
+          "lat": 37.5217891,
+          "lon": -122.2738292,
+          "distance_miles": 0.15,
+          "likelihood_score": 94,
+          "rating": 4.3,
+          "user_ratings_total": 311,
+          "phone": "+1 650-257-8575",
+          "website": "https://tacoselgrullense.net/tacos-el-grullense-c%26d-%234",
+          "place_id": "ChIJ02NKmvefj4ARA5EyaPsPdR8",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 1,
+          "source": "Google Places"
+        },
+        {
+          "name": "El Maguey",
+          "type": "restaurant, point_of_interest, food, establishment",
+          "address": "1065 Holly St D, San Carlos",
+          "lat": 37.5092109,
+          "lon": -122.2606895,
+          "distance_miles": 1.12,
+          "likelihood_score": 86,
+          "rating": 4.6,
+          "user_ratings_total": 486,
+          "phone": "+1 650-591-3520",
+          "website": "http://el-maguey-taqueria.cafe-inspector.com/",
+          "place_id": "ChIJi_Cg6gOij4ARmaF1FIKcoX0",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 1,
+          "source": "Google Places"
+        },
+        {
+          "name": "Fernando's M\u00e9xican Restaurant",
+          "type": "restaurant, point_of_interest, food, establishment",
+          "address": "63 37th Ave, San Mateo",
+          "lat": 37.5336503,
+          "lon": -122.2956476,
+          "distance_miles": 1.43,
+          "likelihood_score": 81,
+          "rating": 4.3,
+          "user_ratings_total": 456,
+          "phone": "+1 650-345-9042",
+          "website": null,
+          "place_id": "ChIJkTQUbxqfj4ARnwE0LebF5Gg",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 2,
+          "source": "Google Places"
+        },
+        {
+          "name": "Mama Coco Cocina Mexicana",
+          "type": "restaurant, point_of_interest, food, establishment",
+          "address": "753 Laurel St, San Carlos",
+          "lat": 37.5045701,
+          "lon": -122.2586595,
+          "distance_miles": 1.43,
+          "likelihood_score": 79,
+          "rating": 3.8,
+          "user_ratings_total": 71,
+          "phone": "+1 650-226-3592",
+          "website": "http://www.mamacocorestaurant.com/",
+          "place_id": "ChIJC7x7pi6jj4AR_aFzMazM6wk",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 2,
+          "source": "Google Places"
+        },
+        {
+          "name": "Coyote's Mexican Cafe",
+          "type": "restaurant, point_of_interest, food, establishment",
+          "address": "1003 1/2 Alameda de las Pulgas, Belmont",
+          "lat": 37.5116647,
+          "lon": -122.2936337,
+          "distance_miles": 1.14,
+          "likelihood_score": 83,
+          "rating": 4.1,
+          "user_ratings_total": 196,
+          "phone": "+1 650-595-1422",
+          "website": "http://www.carlmontvillage.com/tenant-coyotescafe.php",
+          "place_id": "ChIJ3RIWKGSfj4ARD-Qjdggg7aU",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 1,
+          "source": "Google Places"
+        },
+        {
+          "name": "La Corneta Taqueria",
+          "type": "bar, restaurant, point_of_interest, food, establishment",
+          "address": "1147 San Carlos Ave, San Carlos",
+          "lat": 37.5067166,
+          "lon": -122.2607118,
+          "distance_miles": 1.25,
+          "likelihood_score": 84,
+          "rating": 4.4,
+          "user_ratings_total": 394,
+          "phone": "+1 650-551-1400",
+          "website": "https://lacorneta.com/lacornetasancarlos?utm_source=google",
+          "place_id": "ChIJo9TTawOij4ARlZFyNVSlunk",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 1,
+          "source": "Google Places"
+        }
+      ],
+      "createdAt": "2026-03-20T13:35:54.511935",
+      "count": 10
+    },
+    "190c3c8646912a3d": {
+      "storeNumber": "FME07Y-0375",
+      "category": "sushi/japanese",
+      "prospects": [
+        {
+          "name": "Sushi Ki-ichi",
+          "type": "restaurant, food, point_of_interest, establishment",
+          "address": "11940 SW Pacific Hwy suite g, Tigard",
+          "lat": 45.4330712,
+          "lon": -122.7657299,
+          "distance_miles": 0.86,
+          "likelihood_score": 89,
+          "rating": 4.6,
+          "user_ratings_total": 575,
+          "phone": "+1 503-992-6389",
+          "website": "https://www.sushikiichi.com/",
+          "place_id": "ChIJQeGmU84NlVQRCf7OVWp6Jws",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 2,
+          "source": "Google Places"
+        },
+        {
+          "name": "Crazy Sushi",
+          "type": "restaurant, food, point_of_interest, establishment",
+          "address": "7197 SW Dartmouth St, Tigard",
+          "lat": 45.43338800000001,
+          "lon": -122.7509442,
+          "distance_miles": 0.54,
+          "likelihood_score": 92,
+          "rating": 4.6,
+          "user_ratings_total": 904,
+          "phone": "+1 503-625-7101",
+          "website": "http://crazysushi.net/",
+          "place_id": "ChIJzZhRF95slVQRhWEdBdylzP8",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 2,
+          "source": "Google Places"
+        },
+        {
+          "name": "Sushi Hana",
+          "type": "restaurant, food, point_of_interest, establishment",
+          "address": "11705 SW Pacific Hwy #M, Tigard",
+          "lat": 45.4376851,
+          "lon": -122.7580538,
+          "distance_miles": 0.37,
+          "likelihood_score": 92,
+          "rating": 4.2,
+          "user_ratings_total": 1120,
+          "phone": "+1 503-352-7600",
+          "website": "http://www.sushihanaus.com/",
+          "place_id": "ChIJ15okwcIMlVQRSDV6mfGtp5I",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 1,
+          "source": "Google Places"
+        },
+        {
+          "name": "House of Teriyaki",
+          "type": "restaurant, food, point_of_interest, establishment",
+          "address": "11615 SW Pacific Hwy, Portland",
+          "lat": 45.439379,
+          "lon": -122.753204,
+          "distance_miles": 0.13,
+          "likelihood_score": 95,
+          "rating": 4.5,
+          "user_ratings_total": 563,
+          "phone": "+1 503-620-2125",
+          "website": null,
+          "place_id": "ChIJY8fYFcIMlVQR1mzGw74ZgQw",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 1,
+          "source": "Google Places"
+        }
+      ],
+      "createdAt": "2026-03-20T17:01:17.925325",
+      "count": 4
+    },
+    "0d4743d5873fc5fe": {
+      "storeNumber": "QFC07Z-0212",
+      "category": "mexican",
+      "prospects": [
+        {
+          "name": "Los Potrillos Mexican Restaurant & Bar",
+          "type": "bar, restaurant, food, point_of_interest, establishment",
+          "address": "1735 SE 192nd Ave #101, Camas",
+          "lat": 45.6092269,
+          "lon": -122.475541,
+          "distance_miles": 0.98,
+          "likelihood_score": 85,
+          "rating": 4.1,
+          "user_ratings_total": 852,
+          "phone": "+1 360-838-2431",
+          "website": "http://lospotrillosweb.com/",
+          "place_id": "ChIJF5i879iklVQRvOs6zKcyRaA",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 2,
+          "source": "Google Places"
+        },
+        {
+          "name": "Chipotle Mexican Grill",
+          "type": "restaurant, food, point_of_interest, establishment",
+          "address": "19530 SE Brady Rd, Camas",
+          "lat": 45.5860967,
+          "lon": -122.4725255,
+          "distance_miles": 0.64,
+          "likelihood_score": 79,
+          "rating": 2.3,
+          "user_ratings_total": 62,
+          "phone": "+1 360-817-0045",
+          "website": "https://locations.chipotle.com/wa/vancouver/19530-se-brady-rd?utm_source=google&utm_medium=yext&utm_campaign=yext_listings",
+          "place_id": "ChIJ1_hwDNKjlVQRtb8nMtR6CoY",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        }
+      ],
+      "createdAt": "2026-03-20T17:14:31.032969",
+      "count": 2
+    },
+    "d22789183f9320dc": {
+      "storeNumber": "QFC07Z-0212",
+      "category": "sushi/japanese",
+      "prospects": [
+        {
+          "name": "Wagaya Sushi & Grill",
+          "type": "meal_takeaway, restaurant, point_of_interest, food, establishment",
+          "address": "3425 SE 192nd Ave #110, Vancouver",
+          "lat": 45.5956459,
+          "lon": -122.4765243,
+          "distance_miles": 0.05,
+          "likelihood_score": 95,
+          "rating": 4.2,
+          "user_ratings_total": 248,
+          "phone": "+1 360-719-2591",
+          "website": "https://www.wagayasushingrill.com/",
+          "place_id": "ChIJByPx5g2llVQRXG0w6J_Ai0Y",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 2,
+          "source": "Google Places"
+        },
+        {
+          "name": "Joy Teriyaki",
+          "type": "restaurant, point_of_interest, food, establishment",
+          "address": "3425 SE 192nd Ave, Vancouver",
+          "lat": 45.5953087,
+          "lon": -122.4766377,
+          "distance_miles": 0.03,
+          "likelihood_score": 96,
+          "rating": 4.4,
+          "user_ratings_total": 238,
+          "phone": "+1 360-852-8460",
+          "website": "http://www.joyteriyaki.com/",
+          "place_id": "ChIJMYHdoKuklVQR--y7B-_GAR4",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 1,
+          "source": "Google Places"
+        },
+        {
+          "name": "Camas Mio Sushi",
+          "type": "restaurant, point_of_interest, food, establishment",
+          "address": "1735 SE 192nd Ave #104, Camas",
+          "lat": 45.6095371,
+          "lon": -122.4754309,
+          "distance_miles": 1.01,
+          "likelihood_score": 86,
+          "rating": 4.5,
+          "user_ratings_total": 679,
+          "phone": "+1 360-817-1642",
+          "website": "https://www.clover.com/online-ordering/mio-sushicamas-camas",
+          "place_id": "ChIJD7Qi8Ei7lVQRuShBd_6iJ2M",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 2,
+          "source": "Google Places"
+        }
+      ],
+      "createdAt": "2026-03-20T17:14:59.235640",
+      "count": 3
     }
   },
-  "lastUpdated": "2026-03-19T15:03:48.835150"
+  "lastUpdated": "2026-03-20T17:14:59.235656"
 }

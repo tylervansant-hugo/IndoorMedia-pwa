@@ -1447,7 +1447,7 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
             await show_rep_login(update, context)
             return
         
-        welcome_text = f"""🔴 *INDOORMEDIA*
+        welcome_text = f"""*IndoorMedia*
 *Sales Command Center*
 
 Welcome back, {rep_name}! Ready to find customers and close deals?"""
@@ -1488,6 +1488,69 @@ async def menu(update: Update, context: ContextTypes.DEFAULT_TYPE):
     """Show main menu."""
     await show_main_menu(update, context)
 
+
+async def mappoint(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    """Launch Mappoint URL."""
+    mappoint_url = "https://sales.indoormedia.com/Mappoint"
+    await update.message.reply_text(
+        f"🗺️ [Open Mappoint]({mappoint_url})",
+        parse_mode="Markdown",
+        disable_web_page_preview=True
+    )
+
+async def coupons(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    """Launch Coupons URL."""
+    coupons_url = "https://coupons.indoormedia.com"
+    await update.message.reply_text(
+        f"🎟️ [Open Coupons]({coupons_url})",
+        parse_mode="Markdown",
+        disable_web_page_preview=True
+    )
+
+async def drive(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    """Launch Google Drive URL."""
+    drive_url = "https://drive.google.com/drive"
+    await update.message.reply_text(
+        f"📁 [Open Google Drive]({drive_url})",
+        parse_mode="Markdown",
+        disable_web_page_preview=True
+    )
+
+async def cart(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    """Show shopping cart."""
+    rep_id = get_rep_id(update)
+    try:
+        rep_data = load_rep_data(rep_id)
+        cart_items = rep_data.get("cart", [])
+        
+        if not cart_items:
+            await update.message.reply_text("🛒 Your cart is empty")
+            return
+        
+        text = f"🛒 *Your Cart* ({len(cart_items)} items)\n\n"
+        total = 0
+        
+        for i, item in enumerate(cart_items, 1):
+            store = item.get("store", "Unknown")
+            price = item.get("price", 0)
+            total += price
+            text += f"{i}. {store}\n   ${price:,.2f}\n"
+        
+        text += f"\n*Total: ${total:,.2f}*"
+        
+        buttons = [
+            [InlineKeyboardButton("📋 View Details", callback_data="view_cart")],
+            [InlineKeyboardButton("🧹 Clear Cart", callback_data="clear_cart")],
+        ]
+        
+        await update.message.reply_text(
+            text,
+            parse_mode="Markdown",
+            reply_markup=InlineKeyboardMarkup(buttons)
+        )
+    except Exception as e:
+        logger.error(f"Cart error: {e}")
+        await update.message.reply_text("❌ Error loading cart")
 
 async def examples(update: Update, context: ContextTypes.DEFAULT_TYPE):
     """Show example queries."""
@@ -3933,15 +3996,11 @@ async def show_main_menu(update: Update, context: ContextTypes.DEFAULT_TYPE):
     else:
         notepad_section = ""
     
-    menu_text = f"""🔴 *INDOORMEDIA*
-═══════════════════════════════════════
+    menu_text = f"""*IndoorMedia*
 
-*SALES COMMAND CENTER*
+*Let's get to work!*{notepad_section}
 
-🎯 Prospects • 💼 Clients • 🏪 Stores
-📦 Products • 📊 Performance • ⚙️ Tools
-
-*Let's get to work!*{notepad_section}"""
+"""
     
     # Get cart count for badge
     rep_id = get_rep_id(update) if isinstance(update, Update) else None
@@ -3955,15 +4014,12 @@ async def show_main_menu(update: Update, context: ContextTypes.DEFAULT_TYPE):
     
     cart_badge = f" ({cart_count})" if cart_count > 0 else ""
     
-    # Main menu - 6 primary categories
+    # Main menu - reorganized layout with larger text
     buttons = [
-        [InlineKeyboardButton("🎯 Prospects", callback_data="menu_prospects")],
-        [InlineKeyboardButton("💼 Clients", callback_data="menu_clients")],
-        [InlineKeyboardButton("🏪 Stores", callback_data="menu_stores")],
-        [InlineKeyboardButton("📦 Products", callback_data="menu_products")],
-        [InlineKeyboardButton("📊 Performance", callback_data="menu_performance")],
-        [InlineKeyboardButton("⚙️ Tools", callback_data="menu_tools")],
-        [InlineKeyboardButton(f"🛒 Cart{cart_badge}", callback_data="view_cart")],
+        [InlineKeyboardButton("🎯  PROSPECTS", callback_data="menu_prospects"), InlineKeyboardButton("🏪  STORES", callback_data="menu_stores")],
+        [InlineKeyboardButton("💼  CLIENTS", callback_data="menu_clients"), InlineKeyboardButton("📦  PRODUCTS", callback_data="menu_products")],
+        [InlineKeyboardButton("⚙️  TOOLS", callback_data="menu_tools"), InlineKeyboardButton(f"🛒  CART{cart_badge}", callback_data="view_cart")],
+        [InlineKeyboardButton("📊  PERFORMANCE", callback_data="menu_performance")],
     ]
     
     if isinstance(update, Update) and update.callback_query:
@@ -8074,6 +8130,20 @@ Send any city name to see all stores!
             buttons.append([InlineKeyboardButton("⬅️ Continue Shopping", callback_data="main_menu")])
             
             await query.edit_message_text(text, parse_mode="Markdown", reply_markup=InlineKeyboardMarkup(buttons))
+        elif data == "clear_cart":
+            # Clear entire cart
+            await query.answer("🗑️ Cart cleared!")
+            rep_id = get_rep_id(update)
+            data_obj = load_prospect_data()
+            if rep_id in data_obj["reps"]:
+                data_obj["reps"][rep_id]["cart"] = []
+                save_prospect_data(data_obj)
+            
+            await query.edit_message_text(
+                "🛒 *Your Cart*\n\n_(Cleared)_",
+                parse_mode="Markdown",
+                reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("⬅️ Main Menu", callback_data="main_menu")]])
+            )
         elif data == "cart_proposal":
             # Generate proposal (supports all products)
             await query.answer()
@@ -9505,6 +9575,10 @@ def main():
     app.add_handler(CommandHandler("help", help_command))
     app.add_handler(CommandHandler("menu", menu))
     app.add_handler(CommandHandler("examples", examples))
+    app.add_handler(CommandHandler("mappoint", mappoint))
+    app.add_handler(CommandHandler("coupons", coupons))
+    app.add_handler(CommandHandler("cart", cart))
+    app.add_handler(CommandHandler("drive", drive))
     app.add_handler(CommandHandler("city", start))
     app.add_handler(CommandHandler("store", start))
     app.add_handler(CommandHandler("rates", rates_command))

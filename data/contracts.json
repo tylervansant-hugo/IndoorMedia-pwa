@@ -360,6 +360,23 @@
       "address": "2043 River Road",
       "customer_city_state": "Eugene, OR 97404",
       "extracted_at": "2026-03-18T20:00:08.505594"
+    },
+    {
+      "contract_number": "J427893E",
+      "date": "3/20/2026",
+      "business_name": "Sumo Sushi & Grill AYCE",
+      "contact_name": "Anna Zhang",
+      "contact_email": "Annazhang@pioneer-mgt.com",
+      "contact_phone": "(360) 998-2491",
+      "sales_rep": "Megan Wink",
+      "store_name": "",
+      "store_number": "Fred Meyer-0185",
+      "product_description": "Single",
+      "total_amount": 4367.5,
+      "payment_date": "3/20/2026",
+      "address": "205 S Kelso Dr.",
+      "customer_city_state": "Kelso, WA 98626",
+      "extracted_at": "2026-03-20T20:00:08.126517"
     }
   ],
   "last_scan": "2026-03-08T15:11:11.119957"

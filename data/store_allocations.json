@@ -1,0 +1,162 @@
+{
+  "metadata": {
+    "created": "2026-03-19T22:53:11.904991",
+    "version": "1.0",
+    "visibility": "admin_only",
+    "note": "For Tyler's review only. Not visible to reps until approved."
+  },
+  "reps": {
+    "Marty": {
+      "full_name": "Marty",
+      "zone": "07Y",
+      "territory": "07Y-North",
+      "base_city": "Newberg, OR",
+      "role": "Territory Lead",
+      "allocated_stores": 24,
+      "cities": [
+        "Portland",
+        "Beaverton",
+        "Hillsboro",
+        "Tigard",
+        "Lake Oswego",
+        "Oregon City",
+        "Milwaukie",
+        "Gresham",
+        "Troutdale",
+        "West Linn"
+      ],
+      "notes": "Portland Metro | Recovery territory | Strong foundation for growth"
+    },
+    "Amy": {
+      "full_name": "Amy Dixon",
+      "zone": "07Y",
+      "territory": "07Y-Central",
+      "base_city": "Tualatin, OR",
+      "role": "Territory Lead - Anchor Rep",
+      "allocated_stores": 23,
+      "cities": [
+        "Salem",
+        "Corvallis",
+        "Albany",
+        "Lebanon",
+        "Brownsville",
+        "Keizer",
+        "Turner",
+        "Monmouth",
+        "Independence"
+      ],
+      "notes": "Willamette Valley | Highest avg deal ($7,812) | Protect & grow"
+    },
+    "Jan": {
+      "full_name": "Jan Banks",
+      "zone": "07Y",
+      "territory": "07Y-Central-Support",
+      "base_city": "Tualatin, OR",
+      "role": "Co-Manager (Support)",
+      "allocated_stores": 15,
+      "cities": [
+        "Salem",
+        "Corvallis",
+        "Albany"
+      ],
+      "notes": "Salem/Corvallis overflow | Professional services niche | Growth path to $200K"
+    },
+    "Matt": {
+      "full_name": "Matt Boozer",
+      "zone": "07Y",
+      "territory": "07Y-South",
+      "base_city": "Cottage Grove, OR",
+      "role": "Territory Lead",
+      "allocated_stores": 24,
+      "cities": [
+        "Eugene",
+        "Springfield",
+        "Cottage Grove",
+        "Creswell",
+        "Junction City",
+        "Oakridge",
+        "Florence"
+      ],
+      "notes": "Eugene/Springfield Metro | Steady +33% growth | College town focus"
+    },
+    "Dave": {
+      "full_name": "Dave Boring",
+      "zone": "07Z",
+      "territory": "07Z-WA",
+      "base_city": "Battle Ground, WA",
+      "role": "Territory Lead",
+      "allocated_stores": 24,
+      "cities": [
+        "Vancouver",
+        "Battle Ground",
+        "Camas",
+        "Washougal",
+        "Ridgefield",
+        "Longview",
+        "Kelso",
+        "Woodland"
+      ],
+      "notes": "Vancouver Metro | Needs support (currently -61%) | Focus on recovery"
+    },
+    "Adan": {
+      "full_name": "Adan Ramos",
+      "zone": "07Z",
+      "territory": "07Z-Central",
+      "base_city": "Vancouver, WA",
+      "role": "Growth Territory",
+      "allocated_stores": 24,
+      "cities": [
+        "Tacoma",
+        "Puyallup",
+        "Enumclaw",
+        "Sumner",
+        "Lacey",
+        "Tumwater",
+        "Centralia",
+        "Olympia"
+      ],
+      "notes": "Tacoma/Olympia area | Mentee under Dave | +284% pace growth"
+    },
+    "Meghan": {
+      "full_name": "Meghan Wink",
+      "zone": "07Z",
+      "territory": "07Z-Specialty",
+      "base_city": "Vancouver, WA",
+      "role": "Specialty/Premium Markets",
+      "allocated_stores": 24,
+      "cities": [
+        "Premium accounts across 07Z"
+      ],
+      "notes": "Quality over quantity | High-case-count stores (>30 cases) | Premium tier | +192% pace growth"
+    },
+    "Tyler": {
+      "full_name": "Tyler Van Sant",
+      "zone": "07Z",
+      "territory": "07Z-Strategic",
+      "base_city": "Ridgefield, WA",
+      "role": "Regional Manager + Strategic Accounts",
+      "allocated_stores": 24,
+      "cities": [
+        "Top revenue accounts across 07Z"
+      ],
+      "notes": "Premium/multi-unit accounts | Strategic oversight | Top $5K+/year businesses"
+    }
+  },
+  "summary": {
+    "total_allocated": 182,
+    "total_available": 244,
+    "unassigned_reserve": 62,
+    "by_zone": {
+      "07Y": {
+        "allocated": 86,
+        "available": 121,
+        "reserve": 35
+      },
+      "07Z": {
+        "allocated": 96,
+        "available": 123,
+        "reserve": 27
+      }
+    }
+  }
+}

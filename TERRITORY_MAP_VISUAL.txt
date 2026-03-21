@@ -1,0 +1,237 @@
+╔══════════════════════════════════════════════════════════════════════════════════════════════════════╗
+║                      INDOORMEDIA TERRITORY MAP - VISUAL LAYOUT                                       ║
+║                    Oregon & Washington Sales Regions (07Y & 07Z)                                     ║
+╚══════════════════════════════════════════════════════════════════════════════════════════════════════╝
+
+
+                                    WASHINGTON (07Z)
+                                    ═══════════════════════════════════════
+
+                                      ╭──────────────────────╮
+                                      │  SEATTLE             │
+                                      │                      │
+                    ┌─────────────────┤                      │
+                    │ BATTLE GROUND   │ DAVE BORING          │
+                    │ ★ Dave          ├──────────────────────┤
+                    │                 │ SPOKANE              │
+                    │ RIDGEFIELD ✦    │                      │
+                    │ ★ Tyler         ├──────────────────────┤
+                    │ (Your Base)     │                      │
+                    │                 │ OLYMPIA              │
+        ┌───────────┤ VANCOUVER       │                      │
+        │           │ ★ Adan          │                      │
+        │ CAMAS     │ ★ Meghan        ├──────────────────────┤
+        │           │                 │ VANCOUVER (South)    │
+        │           │ LONGVIEW        │                      │
+        └───────────┴────────────────────────────────────────┤
+                                      │                      │
+                                      │ BATTLEGROUND / AREA  │
+                                      │ 07Z TERRITORY        │
+                                      │ (Dave + Adan+Meghan) │
+                                      │                      │
+                                      │ STATUS: ⚠️  -61%     │
+                                      │ 2025: $189K          │
+                                      │ 2026 YTD: $15K       │
+                                      │                      │
+                                      ╰──────────────────────╯
+
+
+═══════════════════════════════════════════════════════════════════════════════════════════════════════
+
+
+                                    OREGON (07Y)
+                                    ═══════════════════════════════════════
+
+    ┌─────────────────────────────────────────────────────────────────────────────────────┐
+    │  07Y-NORTH: PORTLAND METRO AREA                                                     │
+    │                                                                                     │
+    │  ★ MARTY (Newberg)                                                                  │
+    │  Location: Newberg, OR (30 min to Portland center)                                  │
+    │  Territory: Portland, Beaverton, Hillsboro, Tigard, Oregon City suburbs             │
+    │  FME07Y, SAF07Y, QFC07Y (Portland area stores)                                      │
+    │                                                                                     │
+    │  STATUS: 🔴 CRITICAL -87% DECLINE                                                   │
+    │  2025: $240,047 (YOUR #1 PRODUCER!)                                                 │
+    │  2026 YTD: $6,429                                                                   │
+    │  Annualized: $30K                                                                   │
+    │                                                                                     │
+    │  ⚠️  ACTION REQUIRED: IMMEDIATE MEETING WITH MARTY                                   │
+    │                                                                                     │
+    └─────────────────────────────────────────────────────────────────────────────────────┘
+                                ↓
+                    ╔═════════════════════════════╗
+                    ║   WILLAMETTE VALLEY        ║
+                    ║   I-5 Corridor             ║
+                    ╚═════════════════════════════╝
+                                ↓
+
+    ┌─────────────────────────────────────────────────────────────────────────────────────┐
+    │  07Y-CENTRAL: WILLAMETTE VALLEY (SALEM/CORVALLIS CORRIDOR)                          │
+    │                                                                                     │
+    │  ★ AMY (Tualatin)                                    ★ JAN (Tualatin)               │
+    │  Location: Tualatin, OR (South of Portland)         Location: Same as Amy          │
+    │  Territory: Salem, Corvallis, Albany, Lebanon       Territory: Support + overflow  │
+    │  SAF07Y, ALB07Y, QFC07Y, ROS07Y                     Support on Salem niche deals   │
+    │                                                                                     │
+    │  PERFORMANCE: ✅ +39% GROWTH                         PERFORMANCE: 🔴 -72% DECLINE   │
+    │  2025: $158,348 (stable)                            2025: $92,219                  │
+    │  2026 YTD: $46,875 (6 contracts)                    2026 YTD: $5,614 (3 contracts) │
+    │  Annualized: $219K                                  Annualized: $26K               │
+    │  Avg Deal: $7,812 (HIGHEST!)                        Avg Deal: $1,871               │
+    │                                                                                     │
+    │  STATUS: ✅ ANCHOR REP - PROTECT & GROW             STATUS: ⚠️  NEEDS REDEFINING   │
+    │                                                                                     │
+    └─────────────────────────────────────────────────────────────────────────────────────┘
+                                ↓
+                    ╔═════════════════════════════╗
+                    ║   EUGENE AREA              ║
+                    ║   (Far South Oregon)       ║
+                    ╚═════════════════════════════╝
+                                ↓
+
+    ┌─────────────────────────────────────────────────────────────────────────────────────┐
+    │  07Y-SOUTH: EUGENE/SPRINGFIELD AREA                                                 │
+    │                                                                                     │
+    │  ★ MATT (Cottage Grove)                                                             │
+    │  Location: Cottage Grove, OR (30 min to Eugene center)                              │
+    │  Territory: Eugene, Springfield, Cottage Grove, Creswell, Junction City             │
+    │  FME07Y, SAF07Y, ROS07Y (Eugene area stores)                                        │
+    │                                                                                     │
+    │  STATUS: ✅ +33% GROWTH                                                              │
+    │  2025: $126,745                                                                    │
+    │  2026 YTD: $35,893 (5 contracts)                                                    │
+    │  Annualized: $168K                                                                  │
+    │  Avg Deal: $7,179 (Second highest!)                                                 │
+    │                                                                                     │
+    │  ✅ SOLID PERFORMER - SUSTAINABLE GROWTH PATH                                       │
+    │                                                                                     │
+    └─────────────────────────────────────────────────────────────────────────────────────┘
+
+
+═══════════════════════════════════════════════════════════════════════════════════════════════════════
+
+
+                              SUPPORT ROLES (CO-TERRITORIES)
+                              ════════════════════════════════
+
+    ┌──────────────────────────────────────────────────────────────────┐
+    │  VANCOUVER, WA (07Z Support)                                     │
+    │                                                                  │
+    │  ★ ADAN RAMOS                   ★ MEGHAN WINK                    │
+    │  Status: Growing                Status: Emerging Star            │
+    │  2025: $16,572                  2025: $72,623                    │
+    │  2026 YTD: $13,615 (4 contracts)2026 YTD: $45,335 (10 contracts)│
+    │  Annualized: $63K               Annualized: $212K                │
+    │  Pace: 🚀 +284%                 Pace: 🚀 +192%                   │
+    │                                                                  │
+    │  Role: Mentee under Dave        Role: Niche specialist           │
+    │  Target 2026: $50K              Target 2026: $120K               │
+    │                                                                  │
+    │  ✅ BOTH GROWING - MONITOR WEEKLY                                │
+    │                                                                  │
+    └──────────────────────────────────────────────────────────────────┘
+
+
+═══════════════════════════════════════════════════════════════════════════════════════════════════════
+
+
+                                    SPECIAL ROLES
+                                    ═════════════
+
+    ╔════════════════════════════════════════════════════════════════════════════════╗
+    ║  ✦ YOU (TYLER VAN SANT) - RIDGEFIELD, WA                                       ║
+    ║                                                                                ║
+    ║  Role: Regional Manager + Top Producer (Hybrid)                                ║
+    ║  Location: Ridgefield, WA (Perfect for 07Z oversight, OR access)               ║
+    ║  Territory: All 07Z (strategic oversight) + maintain premium 07Y accounts       ║
+    ║                                                                                ║
+    ║  Lifetime Revenue: $1,736,917 (347 active contracts) - #1 ALL-TIME             ║
+    ║  2025: $178,768 (36 contracts)                                                ║
+    ║  2026 YTD: $29,756 (6 contracts)                                               ║
+    ║  Annualized 2026: $139K                                                        ║
+    ║  Pace: -22% (QUESTION: Managing or Selling?)                                   ║
+    ║                                                                                ║
+    ║  ⚠️  DECISION POINT: Are you transitioning to management? If so, fill the gap    ║
+    ║      with your management. If not, need to refocus on your own sales pipeline.  ║
+    ║                                                                                ║
+    ╚════════════════════════════════════════════════════════════════════════════════╝
+
+    ╔════════════════════════════════════════════════════════════════════════════════╗
+    ║  ❓ CHRISTIAN JOHNSON - FAR AWAY (LOCATION TBD)                                 ║
+    ║                                                                                ║
+    ║  Status: REASSESS BY APRIL 15                                                  ║
+    ║  2025: $41,922 (10 contracts)                                                  ║
+    ║  2026 YTD: $34,373 (10 contracts) - TOO MANY FOR 79 DAYS                       ║
+    ║  Pace: 🚀 +284% (Suspicious? Anomaly? Or real momentum?)                        ║
+    ║                                                                                ║
+    ║  ACTION: Either relocate to serve market better OR specialize in rare deals    ║
+    ║  DECISION DEADLINE: April 15, 2026                                             ║
+    ║                                                                                ║
+    ╚════════════════════════════════════════════════════════════════════════════════╝
+
+
+═══════════════════════════════════════════════════════════════════════════════════════════════════════
+
+
+                              PERFORMANCE HEAT MAP
+                              ═══════════════════════
+
+Legend: 🟢 Growing  🟡 Stable  🔴 Declining  🚀 Explosive Growth  ⚠️ Needs Attention
+
+┌────────────┬───────────────┬──────────────┬────────────────┬───────────────────┐
+│ Territory  │ Rep           │ YTD Pace     │ Status         │ Action            │
+├────────────┼───────────────┼──────────────┼────────────────┼───────────────────┤
+│ 07Z-WA     │ Dave          │ -61%         │ 🔴 DECLINING   │ SUPPORT NEEDED    │
+│ 07Z-Sup    │ Adan/Meghan   │ +284%/+192%  │ 🚀 GROWING     │ MONITOR WEEKLY    │
+│ 07Y-N      │ Marty         │ -87%         │ 🔴 CRITICAL    │ EMERGENCY CALL    │
+│ 07Y-C      │ Amy           │ +39%         │ 🟢 SOLID       │ PROTECT & GROW    │
+│ 07Y-C-Sup  │ Jan           │ -72%         │ 🔴 DECLINING   │ REDEFINE ROLE     │
+│ 07Y-S      │ Matt          │ +33%         │ 🟢 SOLID       │ STEADY GROWTH     │
+│ EXEC       │ Tyler         │ -22%         │ 🟡 UNCERTAIN   │ CLARIFY ROLE      │
+│ ASSESS     │ Christian     │ +284%        │ ❓ SUSPICIOUS  │ VERIFY/DECIDE     │
+└────────────┴───────────────┴──────────────┴────────────────┴───────────────────┘
+
+
+═══════════════════════════════════════════════════════════════════════════════════════════════════════
+
+
+                              IMMEDIATE PRIORITIES
+                              ═══════════════════════
+
+    WEEK OF MARCH 20 (THIS WEEK):
+    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+    1. ☎️  CALL MARTY - Figure out why #1 producer (2025) is at $30K annualized
+    2. 📊 CHECK DAVE - Is he getting support he needs in 07Z? Mentor or replace?
+    3. ❓ CLARIFY YOUR ROLE - Manager (expected -22%) or should you be -0%?
+    4. 🔍 INVESTIGATE CHRISTIAN - Is +284% real or one-time anomaly?
+
+    APRIL 1-15 (PHASE 1):
+    ━━━━━━━━━━━━━━━━━━
+    5. 🟢 LOCK IN AMY - She's your anchor. Keep her on +39% path
+    6. 📈 MONITOR ADAN/MEGHAN - Weekly check-ins on growth trajectory
+    7. 🤝 REDEFINE JAN'S ROLE - Is she support? Too many tasks? Needs clarity
+    8. 📋 MAKE CHRISTIAN DECISION - Relocate, specialize, or part ways?
+
+    APRIL 30 (FIRST REVIEW):
+    ━━━━━━━━━━━━━━━━━━━━
+    9. 📊 Assess progress on all declining reps
+    10. 🎯 Set realistic Q2 targets based on April performance
+    11. 🏆 Celebrate April wins (Adan/Meghan if they maintain pace)
+    12. 🚀 Plan next 6-month push toward $1.1M realistic target
+
+
+═══════════════════════════════════════════════════════════════════════════════════════════════════════
+
+                          TEAM REVENUE SUMMARY - 2026 YTD (79 days)
+
+Total Team: 50 contracts | $233,616 revenue
+
+🏆 TOP PERFORMER:   Amy ($46,875 | +39% pace)
+🚀 RISING STARS:    Meghan (+192%) | Adan (+284%)
+⚠️  RED FLAGS:       Marty (-87%) | Dave (-61%) | Jan (-72%)
+❓ QUESTIONS:       Tyler (-22%) | Christian (+284% suspicious)
+✅ SOLID:           Matt (+33%)
+
+NEXT 79 DAYS (through June 19): Fix momentum issues, stabilize, then grow to ~$1.1M by year-end.
+
+═══════════════════════════════════════════════════════════════════════════════════════════════════════

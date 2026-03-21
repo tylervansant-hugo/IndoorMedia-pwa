@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>IndoorMedia Sales Territory Map - Oregon & Washington</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        .container {
+            display: flex;
+            gap: 20px;
+            max-width: 1600px;
+            margin: 0 auto;
+        }
+        svg {
+            border: 2px solid #333;
+            background: #fff;
+            flex: 1;
+        }
+        .legend {
+            background: white;
+            border: 2px solid #333;
+            padding: 20px;
+            border-radius: 8px;
+            font-size: 13px;
+            line-height: 1.8;
+            flex: 0 0 250px;
+        }
+        .legend-item {
+            margin: 10px 0;
+            padding: 8px;
+            border-left: 4px solid #ccc;
+            padding-left: 12px;
+        }
+        .legend-title {
+            font-weight: bold;
+            margin-top: 15px;
+            margin-bottom: 8px;
+        }
+        .growing { border-left-color: #28a745; }
+        .declining { border-left-color: #dc3545; }
+        .critical { border-left-color: #c82333; }
+        .emerging { border-left-color: #fd7e14; }
+        .healthy { border-left-color: #20c997; }
+        .questions { border-left-color: #6c757d; }
+        
+        .stats {
+            margin-top: 20px;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            max-width: 1600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 12px;
+        }
+        th, td {
+            padding: 8px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        th {
+            background: #f9f9f9;
+            font-weight: bold;
+        }
+        .up { color: #28a745; font-weight: bold; }
+        .down { color: #dc3545; font-weight: bold; }
+        .critical { color: #c82333; font-weight: bold; }
+    </style>
+</head>
+<body>
+    <h1>IndoorMedia Territory Map - 2026</h1>
+    
+    <div class="container">
+        <svg viewBox="0 0 800 1000" xmlns="http://www.w3.org/2000/svg">
+            <!-- Washington State Border -->
+            <path d="M 100 50 L 700 50 L 700 450 L 100 450 Z" fill="#f0f0f0" stroke="#333" stroke-width="2"/>
+            <text x="400" y="80" font-size="24" font-weight="bold" text-anchor="middle">WASHINGTON (07Z)</text>
+            
+            <!-- Oregon State Border -->
+            <path d="M 100 450 L 700 450 L 700 950 L 100 950 Z" fill="#fafafa" stroke="#333" stroke-width="2"/>
+            <text x="400" y="480" font-size="24" font-weight="bold" text-anchor="middle">OREGON (07Y)</text>
+            
+            <!-- ===== WASHINGTON TERRITORIES ===== -->
+            <!-- DAVE'S TERRITORY (07Z-WA) -->
+            <path d="M 150 100 L 350 100 L 350 280 L 150 280 Z" fill="#ffe6e6" stroke="#dc3545" stroke-width="3" stroke-dasharray="5,5"/>
+            <text x="250" y="180" font-size="14" font-weight="bold" text-anchor="middle">DAVE BORING</text>
+            <text x="250" y="200" font-size="11" text-anchor="middle">Battle Ground, WA</text>
+            <text x="250" y="220" font-size="10" text-anchor="middle" fill="#dc3545">⚠️ -61% Pace</text>
+            <text x="250" y="235" font-size="10" text-anchor="middle" fill="#666">2025: $189K → 2026: $74K ann.</text>
+            
+            <!-- ADAN & MEGHAN'S TERRITORY (07Z-Vancouver Support) -->
+            <path d="M 380 120 L 650 120 L 650 320 L 380 320 Z" fill="#fff4e6" stroke="#fd7e14" stroke-width="3"/>
+            <text x="515" y="190" font-size="14" font-weight="bold" text-anchor="middle">ADAN & MEGHAN</text>
+            <text x="515" y="210" font-size="11" text-anchor="middle">Vancouver, WA (Support)</text>
+            <text x="515" y="230" font-size="10" text-anchor="middle" fill="#fd7e14">🚀 +192-284% Pace</text>
+            <text x="515" y="245" font-size="10" text-anchor="middle" fill="#666">Monitor Weekly</text>
+            
+            <!-- YOUR POSITION (RIDGEFIELD) - Oversight -->
+            <circle cx="220" cy="370" r="12" fill="#4a90e2" stroke="#333" stroke-width="2"/>
+            <text x="220" y="400" font-size="12" font-weight="bold" text-anchor="middle">✦ YOU</text>
+            <text x="220" y="415" font-size="10" text-anchor="middle">Ridgefield, WA</text>
+            <text x="220" y="428" font-size="10" text-anchor="middle" fill="#666">(Oversight)</text>
+            
+            <!-- ===== OREGON TERRITORIES ===== -->
+            <!-- MARTY'S TERRITORY (07Y-NORTH: Portland Metro) -->
+            <path d="M 150 480 L 400 480 L 400 620 L 150 620 Z" fill="#ffcccc" stroke="#c82333" stroke-width="4" stroke-dasharray="5,5"/>
+            <text x="275" y="550" font-size="14" font-weight="bold" text-anchor="middle">MARTY</text>
+            <text x="275" y="570" font-size="11" text-anchor="middle">Newberg, OR</text>
+            <text x="275" y="585" font-size="10" text-anchor="middle" fill="#c82333">🔴 CRITICAL -87%</text>
+            <text x="275" y="600" font-size="10" text-anchor="middle" fill="#666">2025: $240K → 2026: $30K ann.</text>
+            
+            <!-- AMY & JAN'S TERRITORY (07Y-CENTRAL: Willamette Valley) -->
+            <path d="M 420 480 L 650 480 L 650 680 L 420 680 Z" fill="#e6f5ff" stroke="#20c997" stroke-width="3"/>
+            <text x="535" y="560" font-size="14" font-weight="bold" text-anchor="middle">AMY DIXON</text>
+            <text x="535" y="580" font-size="11" text-anchor="middle">Tualatin, OR</text>
+            <text x="535" y="595" font-size="10" text-anchor="middle" fill="#20c997">✅ +39% Pace</text>
+            <text x="535" y="610" font-size="10" text-anchor="middle" fill="#666">Anchor Rep - Protect</text>
+            <text x="535" y="628" font-size="9" text-anchor="middle" fill="#999">(JAN as support)</text>
+            
+            <!-- MATT'S TERRITORY (07Y-SOUTH: Eugene/Springfield) -->
+            <path d="M 150 690 L 450 690 L 450 920 L 150 920 Z" fill="#e6ffe6" stroke="#28a745" stroke-width="3"/>
+            <text x="300" y="800" font-size="14" font-weight="bold" text-anchor="middle">MATT BOOZER</text>
+            <text x="300" y="820" font-size="11" text-anchor="middle">Cottage Grove, OR</text>
+            <text x="300" y="835" font-size="10" text-anchor="middle" fill="#28a745">✅ +33% Pace</text>
+            <text x="300" y="850" font-size="10" text-anchor="middle" fill="#666">Steady Growth Path</text>
+            
+            <!-- CHRISTIAN (Far Away - Need to Decide) -->
+            <path d="M 480 700 L 680 700 L 680 920 L 480 920 Z" fill="#f5f5f5" stroke="#999" stroke-width="2" stroke-dasharray="10,5"/>
+            <text x="580" y="810" font-size="13" font-weight="bold" text-anchor="middle">?</text>
+            <text x="580" y="830" font-size="11" text-anchor="middle">CHRISTIAN</text>
+            <text x="580" y="845" font-size="10" text-anchor="middle" fill="#999">Location TBD</text>
+            <text x="580" y="860" font-size="10" text-anchor="middle" fill="#999">Decision: April 15</text>
+            
+            <!-- Legend Box -->
+            <rect x="10" y="900" width="120" height="85" fill="white" stroke="#333" stroke-width="1" rx="5"/>
+            <text x="20" y="915" font-size="11" font-weight="bold">LEGEND:</text>
+            <circle cx="20" cy="930" r="4" fill="#dc3545"/>
+            <text x="30" y="933" font-size="10">Declining</text>
+            <circle cx="20" cy="950" r="4" fill="#20c997"/>
+            <text x="30" y="953" font-size="10">Growing</text>
+            <circle cx="70" cy="930" r="4" fill="#fd7e14"/>
+            <text x="80" y="933" font-size="10">Emerging</text>
+            <circle cx="70" cy="950" r="4" fill="#c82333"/>
+            <text x="80" y="953" font-size="10">Critical</text>
+        </svg>
+        
+        <div class="legend">
+            <div class="legend-title declining">🔴 CRITICAL ATTENTION</div>
+            <div class="legend-item declining">
+                <strong>Marty (Portland)</strong><br/>
+                -87% YTD pace<br/>
+                Was $240K (2025)<br/>
+                Emergency call needed
+            </div>
+            
+            <div class="legend-title declining">⚠️ NEEDS SUPPORT</div>
+            <div class="legend-item declining">
+                <strong>Dave (Battle Ground)</strong><br/>
+                -61% YTD pace<br/>
+                Was $189K (2025)<br/>
+                Territory needs attention
+            </div>
+            
+            <div class="legend-title healthy">✅ ANCHOR REP</div>
+            <div class="legend-item healthy">
+                <strong>Amy (Tualatin)</strong><br/>
+                +39% YTD pace<br/>
+                Highest avg deal<br/>
+                Protect & grow
+            </div>
+            
+            <div class="legend-title healthy">✅ SOLID GROWTH</div>
+            <div class="legend-item healthy">
+                <strong>Matt (Cottage Grove)</strong><br/>
+                +33% YTD pace<br/>
+                Steady growth path<br/>
+                No action needed
+            </div>
+            
+            <div class="legend-title emerging">🚀 RISING STARS</div>
+            <div class="legend-item emerging">
+                <strong>Adan & Meghan</strong><br/>
+                +192-284% YTD pace<br/>
+                Monitor weekly<br/>
+                Support Dave
+            </div>
+            
+            <div class="legend-title questions">❓ REASSESS</div>
+            <div class="legend-item questions">
+                <strong>Christian</strong><br/>
+                Decision deadline:<br/>
+                April 15, 2026<br/>
+                Relocate or phase out
+            </div>
+        </div>
+    </div>
+    
+    <div class="stats">
+        <h2>2026 YTD Performance Summary (79 days in)</h2>
+        <table>
+            <tr>
+                <th>Territory</th>
+                <th>Rep</th>
+                <th>Location</th>
+                <th>YTD Revenue</th>
+                <th>YTD Pace</th>
+                <th>2025 Full</th>
+                <th>Annualized 2026</th>
+                <th>Status</th>
+            </tr>
+            <tr>
+                <td>07Z-WA</td>
+                <td>Dave</td>
+                <td>Battle Ground, WA</td>
+                <td>$15,725</td>
+                <td><span class="down">-61%</span></td>
+                <td>$189,668</td>
+                <td>$73,585</td>
+                <td><span class="down">DECLINING</span></td>
+            </tr>
+            <tr>
+                <td>07Z-Sup</td>
+                <td>Adan</td>
+                <td>Vancouver, WA</td>
+                <td>$13,615</td>
+                <td><span class="up">+284%</span></td>
+                <td>$16,572</td>
+                <td>$63,713</td>
+                <td><span class="up">GROWING</span></td>
+            </tr>
+            <tr>
+                <td>07Z-Sup</td>
+                <td>Meghan</td>
+                <td>Vancouver, WA</td>
+                <td>$45,335</td>
+                <td><span class="up">+192%</span></td>
+                <td>$72,623</td>
+                <td>$212,144</td>
+                <td><span class="up">GROWING</span></td>
+            </tr>
+            <tr>
+                <td>07Y-North</td>
+                <td>Marty</td>
+                <td>Newberg, OR</td>
+                <td>$6,429</td>
+                <td><span class="critical">-87%</span></td>
+                <td>$240,047</td>
+                <td>$30,084</td>
+                <td><span class="critical">CRITICAL</span></td>
+            </tr>
+            <tr>
+                <td>07Y-Central</td>
+                <td>Amy</td>
+                <td>Tualatin, OR</td>
+                <td>$46,875</td>
+                <td><span class="up">+39%</span></td>
+                <td>$158,348</td>
+                <td>$219,351</td>
+                <td><span class="up">SOLID</span></td>
+            </tr>
+            <tr>
+                <td>07Y-Central-Sup</td>
+                <td>Jan</td>
+                <td>Tualatin, OR</td>
+                <td>$5,614</td>
+                <td><span class="down">-72%</span></td>
+                <td>$92,219</td>
+                <td>$26,271</td>
+                <td><span class="down">DECLINING</span></td>
+            </tr>
+            <tr>
+                <td>07Y-South</td>
+                <td>Matt</td>
+                <td>Cottage Grove, OR</td>
+                <td>$35,893</td>
+                <td><span class="up">+33%</span></td>
+                <td>$126,745</td>
+                <td>$167,961</td>
+                <td><span class="up">SOLID</span></td>
+            </tr>
+            <tr>
+                <td>Oversight</td>
+                <td>Tyler</td>
+                <td>Ridgefield, WA</td>
+                <td>$29,756</td>
+                <td><span class="down">-22%</span></td>
+                <td>$178,768</td>
+                <td>$139,245</td>
+                <td>UNCERTAIN</td>
+            </tr>
+            <tr>
+                <td>Reassess</td>
+                <td>Christian</td>
+                <td>Far Away</td>
+                <td>$34,373</td>
+                <td><span class="up">+284%</span></td>
+                <td>$41,922</td>
+                <td>$160,850</td>
+                <td>DECISION PENDING</td>
+            </tr>
+        </table>
+    </div>
+
+</body>
+</html>

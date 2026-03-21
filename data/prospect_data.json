@@ -82,29 +82,9 @@
       },
       "search_history": [],
       "contact_history": {},
-      "session_searches": 114,
+      "session_searches": 116,
       "session_bookmarks": 0,
-      "cart": [
-        {
-          "product_type": "register_tape",
-          "product_name": "Register Tape",
-          "store_num": "SAF07Z-1653",
-          "store_name": "Safeway",
-          "city": "Vancouver",
-          "state": "WA",
-          "address": "2615 NE 112th Ave",
-          "tier": "coop",
-          "ad_type": "single_annual",
-          "payment_plan": "2quarters",
-          "price": 30725.0,
-          "case_count": 30,
-          "daily_impressions": 4566,
-          "annual_impressions": 1666590,
-          "cpm": 18.435848049010254,
-          "cost_per_day": 84.17808219178082,
-          "added_at": "2026-03-19T11:17:17.002711"
-        }
-      ]
+      "cart": []
     },
     "8647728045": {
       "name": "Adan Ramos",
@@ -125,7 +105,7 @@
       },
       "search_history": [],
       "contact_history": {},
-      "session_searches": 43,
+      "session_searches": 45,
       "session_bookmarks": 0,
       "cart": []
     },
@@ -134,7 +114,7 @@
       "saved_prospects": {},
       "search_history": [],
       "contact_history": {},
-      "session_searches": 24,
+      "session_searches": 26,
       "session_bookmarks": 0
     },
     "8003974335": {
@@ -204,7 +184,7 @@
       },
       "search_history": [],
       "contact_history": {},
-      "session_searches": 48,
+      "session_searches": 67,
       "session_bookmarks": 0,
       "cart": []
     },
@@ -311,10 +291,19 @@
       "saved_prospects": {},
       "search_history": [],
       "contact_history": {},
-      "session_searches": 3,
+      "session_searches": 4,
       "session_bookmarks": 0,
       "contracts": [],
       "created_at": "2026-03-18T10:36:00Z",
+      "cart": []
+    },
+    "8746943550": {
+      "name": "Sandee Deppiesse",
+      "saved_prospects": {},
+      "search_history": [],
+      "contact_history": {},
+      "session_searches": 1,
+      "session_bookmarks": 0,
       "cart": []
     }
   },

@@ -3,47 +3,26 @@
     "contract_name": "Tyler VanSant",
     "display_name": "Tyler Van Sant",
     "role": "manager",
-    "registered_at": "2026-02-16"
-  },
-  "8647728045": {
-    "contract_name": "Adan Ramos",
-    "display_name": "Adan Ramos",
-    "role": "rep",
-    "registered_at": "2026-03-12"
-  },
-  "8691473576": {
-    "contract_name": "Christian Johnson",
-    "display_name": "Christian Johnson",
-    "role": "rep",
-    "registered_at": "2026-03-12"
+    "registered_at": "2026-02-16",
+    "base_location": "Ridgefield, WA"
   },
   "8003974335": {
     "contract_name": "Marty",
     "display_name": "Marty",
     "role": "rep",
-    "registered_at": "2026-03-12"
+    "registered_at": "2026-03-12",
+    "base_location": "Newberg, OR"
   },
   "8703124669": {
     "contract_name": "Megan Wink",
     "display_name": "Meghan Wink",
     "role": "rep",
-    "registered_at": "2026-03-12"
+    "registered_at": "2026-03-12",
+    "base_location": "Vancouver, WA"
   },
   "7334094238": {
     "contract_name": "Rick Diamond",
     "display_name": "Rick Diamond",
-    "role": "rep",
-    "registered_at": "2026-03-12"
-  },
-  "8714414544": {
-    "contract_name": "Dave Boring",
-    "display_name": "Dave Boring",
-    "role": "rep",
-    "registered_at": "2026-03-12"
-  },
-  "8767251377": {
-    "contract_name": "Amy Dixon",
-    "display_name": "Amy Dixon",
     "role": "rep",
     "registered_at": "2026-03-12"
   },
@@ -52,7 +31,8 @@
     "contract_name": "Test User",
     "email": "testuser@example.com",
     "role": "rep",
-    "registered_at": "2026-03-17T15:49:25.906710"
+    "registered_at": "2026-03-17T15:49:25.906710",
+    "base_location": "Ridgefield, WA"
   },
   "2126715079": {
     "contract_name": "Cameron gould",
@@ -75,42 +55,40 @@
     "role": "rep",
     "registered_at": "2026-03-18",
     "telegram_id": "7711642836",
-    "telegram_username": "MattBoozer"
-  },
-  "matthew_boozer": {
-    "contract_name": "Matthew Boozer",
-    "display_name": "Matthew Boozer",
-    "email": "Matthew.Boozer@Indoormedia.com",
-    "role": "rep",
-    "registered_at": "2026-03-17"
+    "telegram_username": "MattBoozer",
+    "base_location": "Cottage Grove, OR"
   },
   "amy_dixon": {
     "contract_name": "Amy Dixon",
     "display_name": "Amy Dixon",
     "email": "Amy.Dixon@indoormedia.com",
     "role": "rep",
-    "registered_at": "2026-03-17"
+    "registered_at": "2026-03-17",
+    "base_location": "Tualatin, OR"
   },
   "anthony_eng": {
     "contract_name": "Anthony Eng",
     "display_name": "Anthony Eng",
     "email": "Anthony.eng@indoormedia.com",
     "role": "rep",
-    "registered_at": "2026-03-17"
+    "registered_at": "2026-03-17",
+    "base_location": "Newberg, OR"
   },
   "adan_ramos": {
     "contract_name": "Adan Ramos",
     "display_name": "Adan Ramos",
     "email": "Adan.ramos@indoormedia.com",
     "role": "rep",
-    "registered_at": "2026-03-17"
+    "registered_at": "2026-03-17",
+    "base_location": "Vancouver, WA"
   },
   "christian_johnson": {
     "contract_name": "Christian Johnson",
     "display_name": "Christian Johnson",
     "email": "Christian.johnson@indoormedia.com",
     "role": "rep",
-    "registered_at": "2026-03-17"
+    "registered_at": "2026-03-17",
+    "base_location": "Unknown"
   },
   "megan_wink": {
     "contract_name": "Megan Wink",
@@ -124,7 +102,8 @@
     "display_name": "Jan Banks",
     "email": "Jan.Banks@indoormedia.com",
     "role": "rep",
-    "registered_at": "2026-03-17"
+    "registered_at": "2026-03-17",
+    "base_location": "Tualatin, OR"
   },
   "ben_patacsil": {
     "contract_name": "Ben Patacsil",
@@ -138,7 +117,8 @@
     "display_name": "Dave Boring",
     "email": "Dave.boring@indoormedia.com",
     "role": "rep",
-    "registered_at": "2026-03-17"
+    "registered_at": "2026-03-17",
+    "base_location": "Battle Ground, WA"
   },
   "legacy_empire": {
     "contract_name": "Legacy Empire",
@@ -146,5 +126,11 @@
     "email": "englegacyempire@gmail.com",
     "role": "rep",
     "registered_at": "2026-03-17"
+  },
+  "8746943550": {
+    "contract_name": "Sandee Deppiesse",
+    "display_name": "Sandee Deppiesse",
+    "role": "rep",
+    "registered_at": "2026-03-20"
   }
 }
