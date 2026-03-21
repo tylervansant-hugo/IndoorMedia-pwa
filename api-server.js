@@ -16,13 +16,24 @@ const __dirname = path.dirname(__filename);
 const app = express();
 const PORT = process.env.PORT || 3001;
 
-// Data paths
-const WORKSPACE = '/Users/tylervansant/.openclaw/workspace';
+// Data paths - support both local dev and Railway deployment
+const WORKSPACE = process.env.WORKSPACE || '/Users/tylervansant/.openclaw/workspace';
 const DATA_PATH = path.join(WORKSPACE, 'data');
 const STORES_FILE = path.join(DATA_PATH, 'store-rates', 'stores.json');
 const REP_REGISTRY_FILE = path.join(DATA_PATH, 'rep_registry.json');
 const TESTIMONIALS_FILE = path.join(DATA_PATH, 'testimonials_cache.json');
 const PROSPECTS_FILE = path.join(DATA_PATH, 'prospect_data.json');
+
+// Mock data for Railway deployment (when files don't exist)
+const MOCK_REPS = [
+  { id: 1, name: 'Tyler Van Sant', email: 'tyler.vansant@indoormedia.com', base_location: 'Portland, OR' },
+  { id: 2, name: 'Amy Dixon', email: 'amy@indoormedia.com', base_location: 'Tualatin, OR' },
+  { id: 3, name: 'Matt', email: 'matt@indoormedia.com', base_location: 'Eugene, OR' },
+];
+
+const MOCK_STORES = [
+  { store_number: 'FME07Y-0165', name: 'Fred Meyer - Klamath Falls', city: 'Klamath Falls', state: 'OR', single_ad: 3600, double_ad: 5400 },
+];
 
 // Middleware
 app.use(cors());
@@ -56,8 +67,8 @@ function loadJsonFile(filepath) {
  */
 function initializeCaches() {
   console.log('Loading data files...');
-  storesCache = loadJsonFile(STORES_FILE);
-  repRegistryCache = loadJsonFile(REP_REGISTRY_FILE);
+  storesCache = loadJsonFile(STORES_FILE) || MOCK_STORES;
+  repRegistryCache = loadJsonFile(REP_REGISTRY_FILE) || { 'tyler': MOCK_REPS[0], 'amy': MOCK_REPS[1], 'matt': MOCK_REPS[2] };
   testimonialsCache = loadJsonFile(TESTIMONIALS_FILE) || [];
   prospectsCache = loadJsonFile(PROSPECTS_FILE) || [];
   console.log(
