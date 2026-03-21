@@ -5,8 +5,10 @@
   import { currentUser, setUser } from './lib/stores.js';
 
   function handleLogin(event) {
-    console.log('[App] handleLogin called with:', event.detail);
+    console.log('[App] handleLogin - event:', event);
+    console.log('[App] handleLogin - event.detail:', event.detail);
     setUser(event.detail);
+    console.log('[App] handleLogin - setUser completed');
   }
 
   function handleLogout() {

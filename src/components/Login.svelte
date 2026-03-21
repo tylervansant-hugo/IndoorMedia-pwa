@@ -30,13 +30,8 @@
     console.log('Found rep:', rep);
     
     if (rep) {
-      console.log('Saving to localStorage and dispatching');
-      // Save to localStorage
-      localStorage.setItem('user', JSON.stringify(rep));
-      // Dispatch event
+      console.log('Dispatching login with rep:', rep);
       dispatch('login', rep);
-      // Force page reload to ensure new code loads
-      setTimeout(() => window.location.reload(), 100);
     } else {
       $error = 'Representative not found';
     }
