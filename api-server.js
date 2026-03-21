@@ -28,6 +28,10 @@ const PROSPECTS_FILE = path.join(DATA_PATH, 'prospect_data.json');
 app.use(cors());
 app.use(express.json());
 
+// Serve built Svelte app
+const distPath = path.join(__dirname, 'dist');
+app.use(express.static(distPath));
+
 // Cache data in memory
 let storesCache = null;
 let repRegistryCache = null;
@@ -239,10 +243,15 @@ app.get('/api/prospects', (req, res) => {
 });
 
 /**
- * 404 handler
+ * SPA fallback - serve index.html for all non-API routes
  */
-app.use((req, res) => {
-  res.status(404).json({ error: 'Not found' });
+app.get('*', (req, res) => {
+  const indexPath = path.join(distPath, 'index.html');
+  if (fs.existsSync(indexPath)) {
+    res.sendFile(indexPath);
+  } else {
+    res.status(404).json({ error: 'Not found' });
+  }
 });
 
 // Start server
