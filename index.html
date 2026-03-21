@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="manifest" href="/manifest.json" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, maximum-scale=1.0, user-scalable=no" />
+    <meta name="theme-color" content="#1a1a2e" />
+    <meta name="description" content="IndoorMedia Sales Rep Portal - Search stores, view pricing, and manage orders" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="IndoorMedia" />
+    <meta name="application-name" content="IndoorMedia" />
+    <meta name="msapplication-TileColor" content="#1a1a2e" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect fill='%231a1a2e' width='64' height='64'/><text x='32' y='45' font-size='40' fill='%23e74c3c' text-anchor='middle' dominant-baseline='middle'>📺</text></svg>" />
+    
+    <!-- Apple touch icon -->
+    <link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 192 192'><rect fill='%231a1a2e' width='192' height='192' rx='40'/><text x='96' y='120' font-size='100' fill='%23e74c3c' text-anchor='middle' dominant-baseline='middle' font-family='system-ui'>📺</text></svg>" />
+    
+    <title>IndoorMedia Sales Rep Portal</title>
+  </head>
+  <body>
+    <div id="app"></div>
+    <script type="module" src="/src/main.js"></script>
+    <script>
+      // Register service worker for PWA functionality
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+          navigator.serviceWorker
+            .register('/service-worker.js')
+            .then((reg) => {
+              console.log('[App] ✓ Service Worker registered:', reg);
+            })
+            .catch((err) => {
+              console.error('[App] Service Worker registration failed:', err);
+            });
+        });
+      }
+      
+      // Prevent zoom on iOS
+      document.addEventListener('touchmove', function (e) {
+        if (e.touches.length > 1) {
+          e.preventDefault();
+        }
+      }, { passive: false });
+    </script>
+  </body>
+</html>
