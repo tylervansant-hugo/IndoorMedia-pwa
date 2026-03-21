@@ -16,10 +16,21 @@
 
   onMount(() => {
     // Check localStorage on mount
+    console.log('[App] onMount - checking localStorage');
     const saved = localStorage.getItem('user');
+    console.log('[App] localStorage.getItem("user"):', saved);
+    
     if (saved) {
-      console.log('[App] Restoring user from localStorage:', saved);
-      setUser(JSON.parse(saved));
+      try {
+        const user = JSON.parse(saved);
+        console.log('[App] Parsed user:', user);
+        setUser(user);
+        console.log('[App] setUser called');
+      } catch (e) {
+        console.error('[App] Error parsing localStorage user:', e);
+      }
+    } else {
+      console.log('[App] No user in localStorage');
     }
   });
 </script>
