@@ -10,7 +10,9 @@
   });
 
   function handleLogin(event) {
+    console.log('[App] handleLogin called with:', event.detail);
     setUser(event.detail);
+    console.log('[App] User set, current user:', user);
   }
 
   function handleLogout() {
