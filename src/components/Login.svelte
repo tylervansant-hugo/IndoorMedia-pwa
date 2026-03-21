@@ -15,14 +15,25 @@
   ];
 
   function handleLogin() {
-    if (!selectedRep) {
+    console.log('Login attempt - selectedRep:', selectedRep);
+    
+    if (!selectedRep || selectedRep === '') {
       $error = 'Please select a representative';
+      console.log('Error: no rep selected');
       return;
     }
 
-    const rep = reps.find(r => r.id == selectedRep);
+    const repId = parseInt(selectedRep, 10);
+    console.log('Looking for rep with ID:', repId);
+    
+    const rep = reps.find(r => r.id === repId);
+    console.log('Found rep:', rep);
+    
     if (rep) {
+      console.log('Dispatching login event');
       dispatch('login', rep);
+    } else {
+      $error = 'Representative not found';
     }
   }
 </script>
@@ -43,7 +54,7 @@
         >
           <option value="">-- Choose a representative --</option>
           {#each reps as rep (rep.id)}
-            <option value={rep.id}>
+            <option value={String(rep.id)}>
               {rep.name}
             </option>
           {/each}
