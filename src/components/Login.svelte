@@ -1,6 +1,6 @@
 <script>
   import { createEventDispatcher } from 'svelte';
-  import { error, setLoading } from '../lib/stores.js';
+  import { error, setLoading, setUser } from '../lib/stores.js';
 
   const dispatch = createEventDispatcher();
 
@@ -30,8 +30,10 @@
     console.log('Found rep:', rep);
     
     if (rep) {
-      console.log('Dispatching login with rep:', rep);
-      dispatch('login', rep);
+      console.log('Login SUCCESS - setting user directly via store:', rep);
+      // DIRECT store update instead of relying on event binding
+      setUser(rep);
+      console.log('User set via store');
     } else {
       $error = 'Representative not found';
     }

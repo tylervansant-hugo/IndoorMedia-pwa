@@ -41,7 +41,7 @@
   {#if $currentUser}
     <Main user={$currentUser} on:logout={handleLogout} />
   {:else}
-    <Login on:login={handleLogin} />
+    <Login />
   {/if}
 </main>
 
