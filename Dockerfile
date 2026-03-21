@@ -14,8 +14,6 @@ COPY . .
 # Build Svelte app
 RUN npm run build
 
-# Expose port
-EXPOSE 3001
-
 # Start server
+# Railway sets PORT env var, server uses it
 CMD ["node", "api-server.js"]
