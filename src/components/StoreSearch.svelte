@@ -11,10 +11,11 @@
   async function loadStores() {
     try {
       setLoading(true);
-      const response = await fetch('/data/stores_with_gps.json');
+      const response = await fetch('/data/stores.json');
       if (!response.ok) throw new Error('Failed to load stores');
       const data = await response.json();
       allStores = data || [];
+      console.log(`Loaded ${allStores.length} stores`);
     } catch (err) {
       setError('Failed to load stores: ' + err.message);
     } finally {
@@ -30,9 +31,11 @@
 
     const term = searchTerm.toLowerCase();
     filtered = allStores.filter(store => 
-      (store.name && store.name.toLowerCase().includes(term)) ||
-      (store.city && store.city.toLowerCase().includes(term)) ||
-      (store.number && store.number.toString().includes(term))
+      (store.StoreName && store.StoreName.toLowerCase().includes(term)) ||
+      (store.GroceryChain && store.GroceryChain.toLowerCase().includes(term)) ||
+      (store.City && store.City.toLowerCase().includes(term)) ||
+      (store.Address && store.Address.toLowerCase().includes(term)) ||
+      (store.State && store.State.toLowerCase().includes(term))
     ).slice(0, 20);
 
     searchResults.set(filtered);
@@ -54,8 +57,8 @@
         
         // Sort by distance
         filtered = filtered.sort((a, b) => {
-          const distA = calcDistance(latitude, longitude, a.lat, a.lng);
-          const distB = calcDistance(latitude, longitude, b.lat, b.lng);
+          const distA = calcDistance(latitude, longitude, a.latitude, a.longitude);
+          const distB = calcDistance(latitude, longitude, b.latitude, b.longitude);
           return distA - distB;
         }).slice(0, 10);
       },
@@ -78,15 +81,31 @@
     return R * c;
   }
 
+  // Payment plan calculations
+  function calcPricing(basePrice) {
+    const prod = 125;
+    return {
+      monthly: ((basePrice + prod) / 12).toFixed(2),
+      monthlyTotal: (basePrice + prod).toFixed(2),
+      threeMonth: (((basePrice * 0.90) + prod) / 3).toFixed(2),
+      threeMonthTotal: ((basePrice * 0.90) + prod).toFixed(2),
+      sixMonth: (((basePrice * 0.925) + prod) / 6).toFixed(2),
+      sixMonthTotal: ((basePrice * 0.925) + prod).toFixed(2),
+      pif: ((basePrice * 0.85) + prod).toFixed(2)
+    };
+  }
+
   function handleAddToCart(store) {
     addToCart({
-      id: store.number,
+      id: store.StoreName,
       type: 'store',
-      name: store.name,
-      city: store.city,
-      chain: store.chain
+      name: `${store.GroceryChain} - ${store.City}`,
+      storeNumber: store.StoreName,
+      city: store.City,
+      chain: store.GroceryChain,
+      singleAd: store.SingleAd,
+      doubleAd: store.DoubleAd
     });
-    setError('Added to cart');
   }
 
   onMount(loadStores);
@@ -134,26 +153,38 @@
       <p class="hint">Start typing to search for stores</p>
     {:else}
       <div class="store-grid">
-        {#each filtered as store (store.number)}
+        {#each filtered as store (store.StoreName)}
+          {@const pricing = calcPricing(store.SingleAd)}
           <div class="store-card">
             <div class="store-header">
-              <h3>{store.name}</h3>
-              <span class="store-number">#{store.number}</span>
+              <h3>{store.GroceryChain}</h3>
+              <span class="store-number">{store.StoreName}</span>
             </div>
             <div class="store-info">
-              <p>{store.chain || 'Store'}</p>
-              <p class="city">{store.city}, {store.state}</p>
-              {#if useGeolocation && userLocation && store.lat && store.lng}
+              <p class="address">{store.Address}</p>
+              <p class="city">{store.City}, {store.State} {store.PostalCode}</p>
+              <p class="cycle">Cycle: {store.Cycle} | Cases: {store['Case Count']}</p>
+              {#if useGeolocation && userLocation && store.latitude && store.longitude}
                 <p class="distance">
-                  {(calcDistance(userLocation.lat, userLocation.lng, store.lat, store.lng)).toFixed(1)} mi away
+                  📍 {(calcDistance(userLocation.lat, userLocation.lng, store.latitude, store.longitude)).toFixed(1)} mi away
                 </p>
               {/if}
+            </div>
+            <div class="pricing">
+              <div class="price-row">
+                <span class="price-label">Single Ad</span>
+                <span class="price-value">${pricing.monthly}/mo × 12 = ${pricing.monthlyTotal}</span>
+              </div>
+              <div class="price-row highlight">
+                <span class="price-label">Paid in Full</span>
+                <span class="price-value pif">${pricing.pif} (15% off)</span>
+              </div>
             </div>
             <button
               class="add-btn"
               on:click={() => handleAddToCart(store)}
             >
-              + Add to Cart
+              🛒 Add to Cart
             </button>
           </div>
         {/each}
@@ -328,6 +359,51 @@
     color: #FF6B35;
     font-weight: 500;
     font-size: 13px;
+  }
+
+  .pricing {
+    background: #f8f9fa;
+    border-radius: 6px;
+    padding: 10px;
+    margin-bottom: 12px;
+  }
+
+  .price-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 4px 0;
+    font-size: 13px;
+  }
+
+  .price-row.highlight {
+    border-top: 1px solid #e0e0e0;
+    padding-top: 8px;
+    margin-top: 4px;
+  }
+
+  .price-label {
+    color: #666;
+    font-weight: 500;
+  }
+
+  .price-value {
+    color: #333;
+    font-weight: 600;
+  }
+
+  .price-value.pif {
+    color: #FF6B35;
+    font-weight: 700;
+  }
+
+  .address {
+    font-size: 13px !important;
+  }
+
+  .cycle {
+    font-size: 12px !important;
+    color: #999 !important;
   }
 
   .add-btn {

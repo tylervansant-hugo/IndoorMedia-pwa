@@ -4,36 +4,55 @@
 
   const dispatch = createEventDispatcher();
 
-  let selectedRep = '';
-  let isLoading = false;
+  import { onMount } from 'svelte';
 
-  // Mock reps data (embedded for Vercel compatibility)
-  const reps = [
-    { id: 1, name: 'Tyler Van Sant', email: 'tyler.vansant@indoormedia.com', first_name: 'Tyler', last_name: 'Van Sant' },
-    { id: 2, name: 'Amy Dixon', email: 'amy@indoormedia.com', first_name: 'Amy', last_name: 'Dixon' },
-    { id: 3, name: 'Matt', email: 'matt@indoormedia.com', first_name: 'Matt', last_name: '' }
-  ];
+  let selectedRep = '';
+  let isLoading = true;
+  let reps = [];
+
+  onMount(async () => {
+    try {
+      const response = await fetch('/data/rep_registry.json');
+      const data = await response.json();
+      
+      // Convert object format to array
+      reps = Object.entries(data).map(([id, rep]) => ({
+        id: id,
+        name: rep.display_name || rep.contract_name,
+        role: rep.role || 'rep',
+        base_location: rep.base_location || ''
+      }));
+      
+      // Sort: managers first, then alphabetical
+      reps.sort((a, b) => {
+        if (a.role === 'manager' && b.role !== 'manager') return -1;
+        if (b.role === 'manager' && a.role !== 'manager') return 1;
+        return a.name.localeCompare(b.name);
+      });
+      
+      console.log(`Loaded ${reps.length} reps`);
+    } catch (err) {
+      console.error('Failed to load reps:', err);
+      // Fallback
+      reps = [
+        { id: '1', name: 'Tyler Van Sant', role: 'manager', base_location: 'Ridgefield, WA' }
+      ];
+    } finally {
+      isLoading = false;
+    }
+  });
 
   function handleLogin() {
-    console.log('Login attempt - selectedRep:', selectedRep);
-    
     if (!selectedRep || selectedRep === '') {
       $error = 'Please select a representative';
-      console.log('Error: no rep selected');
       return;
     }
 
-    const repId = parseInt(selectedRep, 10);
-    console.log('Looking for rep with ID:', repId);
-    
-    const rep = reps.find(r => r.id === repId);
-    console.log('Found rep:', rep);
+    const rep = reps.find(r => r.id === selectedRep);
     
     if (rep) {
-      console.log('Login SUCCESS - setting user directly via store:', rep);
-      // DIRECT store update instead of relying on event binding
+      console.log('Login SUCCESS:', rep.name);
       setUser(rep);
-      console.log('User set via store');
     } else {
       $error = 'Representative not found';
     }
@@ -56,8 +75,8 @@
         >
           <option value="">-- Choose a representative --</option>
           {#each reps as rep (rep.id)}
-            <option value={String(rep.id)}>
-              {rep.name}
+            <option value={rep.id}>
+              {rep.name} {rep.role === 'manager' ? '⭐' : ''} — {rep.base_location}
             </option>
           {/each}
         </select>
