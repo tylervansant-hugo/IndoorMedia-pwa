@@ -5,41 +5,14 @@
   const dispatch = createEventDispatcher();
 
   let selectedRep = '';
-  let reps = [];
   let isLoading = false;
 
-  async function loadReps() {
-    try {
-      setLoading(true);
-      const response = await fetch('/api/rep-registry');
-      if (!response.ok) throw new Error('Failed to load representatives');
-      const data = await response.json();
-      
-      // Handle both array and object formats
-      if (Array.isArray(data)) {
-        reps = data;
-      } else {
-        // Convert object to array
-        reps = Object.entries(data).map(([key, value]) => ({
-          id: value.id || key,
-          name: value.name,
-          email: value.email,
-          first_name: value.name?.split(' ')[0],
-          last_name: value.name?.split(' ')[1]
-        }));
-      }
-    } catch (err) {
-      $error = 'Failed to load representatives: ' + err.message;
-      // Fallback mock data for testing
-      reps = [
-        { id: 1, name: 'Tyler Van Sant', email: 'tyler@indoormedia.com', first_name: 'Tyler', last_name: 'Van Sant' },
-        { id: 2, name: 'Amy Dixon', email: 'amy@indoormedia.com', first_name: 'Amy', last_name: 'Dixon' },
-        { id: 3, name: 'Matt', email: 'matt@indoormedia.com', first_name: 'Matt', last_name: '' }
-      ];
-    } finally {
-      setLoading(false);
-    }
-  }
+  // Mock reps data (embedded for Vercel compatibility)
+  const reps = [
+    { id: 1, name: 'Tyler Van Sant', email: 'tyler@indoormedia.com', first_name: 'Tyler', last_name: 'Van Sant' },
+    { id: 2, name: 'Amy Dixon', email: 'amy@indoormedia.com', first_name: 'Amy', last_name: 'Dixon' },
+    { id: 3, name: 'Matt', email: 'matt@indoormedia.com', first_name: 'Matt', last_name: '' }
+  ];
 
   function handleLogin() {
     if (!selectedRep) {
@@ -47,15 +20,11 @@
       return;
     }
 
-    const rep = reps.find(r => r.id === selectedRep);
+    const rep = reps.find(r => r.id == selectedRep);
     if (rep) {
       dispatch('login', rep);
     }
   }
-
-  // Load reps on mount
-  import { onMount } from 'svelte';
-  onMount(loadReps);
 </script>
 
 <div class="login-container">
@@ -85,7 +54,7 @@
         <div class="error-message">{$error}</div>
       {/if}
 
-      <button type="submit" disabled={!selectedRep || isLoading}>
+      <button type="submit" disabled={selectedRep === '' || isLoading}>
         {isLoading ? 'Loading...' : 'Sign In'}
       </button>
     </form>
