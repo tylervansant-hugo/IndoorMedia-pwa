@@ -44,7 +44,7 @@
           <option value="">-- Choose a representative --</option>
           {#each reps as rep (rep.id)}
             <option value={rep.id}>
-              {rep.name || rep.first_name} {rep.last_name}
+              {rep.name}
             </option>
           {/each}
         </select>
