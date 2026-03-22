@@ -71,7 +71,25 @@
 
   // --- Search Flow ---
   function findNearMe() {
-    getLocation('Near Me');
+    if (!navigator.geolocation) {
+      setError('Geolocation not supported in this browser');
+      return;
+    }
+
+    setLoading(true);
+    navigator.geolocation.getCurrentPosition(
+      position => {
+        userLocation = position.coords;
+        userCity = 'Near Me';
+        view = 'search'; // Stay in search view to show categories
+        setLoading(false);
+      },
+      err => {
+        setError('Unable to get your location. Enable location services and try again.');
+        setLoading(false);
+      },
+      { enableHighAccuracy: true, timeout: 10000 }
+    );
   }
 
   function handleCitySearch() {
@@ -79,8 +97,27 @@
       setError('Please enter a city name');
       return;
     }
+    
+    // For city search, just use device location and label it with city name
+    if (!navigator.geolocation) {
+      setError('Geolocation not supported in this browser');
+      return;
+    }
+
+    setLoading(true);
     userCity = searchTerm;
-    getLocation(searchTerm);
+    navigator.geolocation.getCurrentPosition(
+      position => {
+        userLocation = position.coords;
+        view = 'search'; // Stay in search view to show categories
+        setLoading(false);
+      },
+      err => {
+        setError('Unable to get your location. Enable location services and try again.');
+        setLoading(false);
+      },
+      { enableHighAccuracy: true, timeout: 10000 }
+    );
   }
 
   async function handleStoreNumberSearch() {
@@ -107,7 +144,7 @@
         longitude: parseFloat(store.Longitude)
       };
       userCity = `${store.City}, ${store.State} (near ${store.StoreName})`;
-      view = 'categories';
+      view = 'search'; // Stay in search view to show categories
       setLoading(false);
     } catch (err) {
       console.error('Error loading store:', err);
@@ -116,27 +153,7 @@
     }
   }
 
-  function getLocation(cityName = 'your location') {
-    if (!navigator.geolocation) {
-      setError('Geolocation not supported in this browser');
-      return;
-    }
 
-    setLoading(true);
-    navigator.geolocation.getCurrentPosition(
-      position => {
-        userLocation = position.coords;
-        userCity = cityName;
-        view = 'categories';
-        setLoading(false);
-      },
-      err => {
-        setError('Unable to get your location. Enable location services and try again.');
-        setLoading(false);
-      },
-      { enableHighAccuracy: true, timeout: 10000 }
-    );
-  }
 
   function selectCategory(cat) {
     selectedCategory = cat;
