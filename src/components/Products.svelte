@@ -172,11 +172,6 @@
         </ul>
       </div>
 
-      <div class="pricing-section">
-        <h3>Investment</h3>
-        <p class="price-highlight">{selectedProduct.pricing}</p>
-      </div>
-
       <div class="resources-section">
         <h3>Learn More</h3>
         <div class="resource-buttons">
@@ -309,14 +304,12 @@
   }
 
   .benefits-section,
-  .pricing-section,
   .resources-section,
   .cta-section {
     margin-bottom: 2rem;
   }
 
   .benefits-section h3,
-  .pricing-section h3,
   .resources-section h3 {
     font-size: 1.25rem;
     margin-bottom: 1rem;
@@ -333,13 +326,6 @@
     padding: 0.5rem 0;
     font-size: 1rem;
     color: #333;
-  }
-
-  .price-highlight {
-    font-size: 1.5rem;
-    font-weight: bold;
-    color: #CC0000;
-    margin: 0;
   }
 
   .resource-buttons {
