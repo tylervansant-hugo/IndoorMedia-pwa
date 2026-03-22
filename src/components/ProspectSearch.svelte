@@ -70,21 +70,69 @@
   }
 
   // --- Search Flow ---
-  function findNearMe() {
+  async function findNearMe() {
     if (!navigator.geolocation) {
       setError('Geolocation not supported in this browser');
       return;
     }
 
     setLoading(true);
+    
     navigator.geolocation.getCurrentPosition(
-      position => {
-        userLocation = position.coords;
-        userCity = 'Near Me';
-        view = 'search'; // Stay in search view to show categories
-        setLoading(false);
+      async (position) => {
+        const repLat = position.coords.latitude;
+        const repLon = position.coords.longitude;
+        
+        try {
+          // Find nearest grocery store
+          const res = await fetch('/data/stores.json');
+          const stores = await res.json();
+          
+          let nearestStore = null;
+          let minDistance = Infinity;
+          
+          for (const store of stores) {
+            if (!store.Latitude || !store.Longitude) continue;
+            
+            const storeLat = parseFloat(store.Latitude);
+            const storeLon = parseFloat(store.Longitude);
+            
+            // Calculate distance using Haversine formula
+            const R = 3959; // Earth radius in miles
+            const dLat = (storeLat - repLat) * Math.PI / 180;
+            const dLon = (storeLon - repLon) * Math.PI / 180;
+            const a = Math.sin(dLat/2) * Math.sin(dLat/2) +
+                     Math.cos(repLat * Math.PI / 180) * Math.cos(storeLat * Math.PI / 180) *
+                     Math.sin(dLon/2) * Math.sin(dLon/2);
+            const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+            const distance = R * c;
+            
+            if (distance < minDistance) {
+              minDistance = distance;
+              nearestStore = store;
+            }
+          }
+          
+          if (nearestStore) {
+            // Set search location to the STORE's location
+            userLocation = {
+              latitude: parseFloat(nearestStore.Latitude),
+              longitude: parseFloat(nearestStore.Longitude)
+            };
+            userCity = `${nearestStore.GroceryChain} - ${nearestStore.City}, ${nearestStore.State} (${minDistance.toFixed(1)} mi away)`;
+            view = 'search';
+            setLoading(false);
+          } else {
+            setError('No stores found nearby');
+            setLoading(false);
+          }
+        } catch (err) {
+          console.error('Error finding nearest store:', err);
+          setError('Failed to find nearest store');
+          setLoading(false);
+        }
       },
-      err => {
+      (err) => {
         setError('Unable to get your location. Enable location services and try again.');
         setLoading(false);
       },
