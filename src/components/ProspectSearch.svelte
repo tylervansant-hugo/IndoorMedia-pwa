@@ -162,7 +162,7 @@
 
   async function selectSubcategory(subcat) {
     selectedSubcategory = subcat;
-    view = 'results';
+    // Stay in search view - results render when filtered has data
     await performSearch();
   }
 
@@ -837,7 +837,7 @@
         </div>
       {/if}
 
-      {#if view === 'results' && filtered.length > 0}
+      {#if filtered.length > 0 && selectedSubcategory}
         <div class="nav-buttons">
           <button class="back-btn" on:click={() => {
             selectedSubcategory = '';
