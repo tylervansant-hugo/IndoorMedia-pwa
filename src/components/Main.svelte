@@ -81,6 +81,7 @@
     background: linear-gradient(135deg, #CC0000 0%, #1a1a1a 100%);
     color: white;
     padding: 16px 20px;
+    padding-top: calc(env(safe-area-inset-top, 20px) + 16px);
     display: flex;
     justify-content: space-between;
     align-items: center;
