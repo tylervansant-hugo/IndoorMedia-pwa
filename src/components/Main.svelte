@@ -29,7 +29,7 @@
 <div class="main">
   <header class="header">
     <div class="header-content">
-      <h1>IndoorMedia</h1>
+      <img src="/indoormedia-logo.png" alt="IndoorMedia" class="header-logo" />
       <p class="user-name">Hi, {user.name || user.first_name}</p>
     </div>
     <button class="logout-btn" on:click={handleLogout}>Logout</button>
@@ -129,10 +129,10 @@
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
   }
 
-  .header-content h1 {
-    margin: 0;
-    font-size: 24px;
-    font-weight: 700;
+  .header-logo {
+    height: 32px;
+    width: auto;
+    margin-bottom: 6px;
   }
 
   .user-name {
