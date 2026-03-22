@@ -298,16 +298,20 @@
   function draftEmail(place) {
     const subject = encodeURIComponent(`IndoorMedia Advertising Opportunity - ${place.name}`);
     const body = encodeURIComponent(
-      `Hello ${place.name},\n\n` +
-      `We are IndoorMedia, a leading digital display advertising network.\n\n` +
-      `We believe your location would be an excellent fit for our premium advertising placements.\n\n` +
+      `Hi,\n\n` +
+      `I noticed ${place.name} in the area and wanted to reach out.\n\n` +
+      `We work with businesses like yours to drive foot traffic through in-store advertising at grocery stores. Thousands of businesses have seen measurable results.\n\n` +
+      `Business: ${place.name}\n` +
       `Location: ${place.address}\n` +
-      `Likelihood Score: ${place.likelihoodScore || 'N/A'}/100\n\n` +
-      `We'd love to discuss how we can help increase foot traffic and customer engagement.\n\n` +
+      `Prospect Score: ${place.likelihoodScore || 'N/A'}/100\n` +
+      `Category: ${selectedSubcategory || 'Local Business'}\n\n` +
+      `Would you be open to a quick 10-minute chat this week?\n\n` +
       `Best regards,\n` +
-      `IndoorMedia Sales Team`
+      `IndoorMedia Sales`
     );
-    window.location.href = `mailto:${place.phone.replace(/\D/g, '')}@placeholder.com?subject=${subject}&body=${body}`;
+    // Create mailto with prospect info (rep can copy/paste or use email client)
+    const subject = encodeURIComponent(`Quick question about ${place.name}`);
+    window.location.href = `mailto:?subject=${subject}&body=${body}`;
   }
 
   function draftGoogleCalendar(place) {
