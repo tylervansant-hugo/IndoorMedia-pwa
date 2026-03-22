@@ -130,12 +130,9 @@
   }
 
   .header-logo {
-    height: 32px;
-    width: 32px;
-    padding: 4px;
-    background: #4CAF50;
-    border-radius: 50%;
-    margin-bottom: 6px;
+    height: 64px;
+    width: auto;
+    margin-bottom: 8px;
   }
 
   .user-name {
