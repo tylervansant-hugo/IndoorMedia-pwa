@@ -1,9 +1,14 @@
 <script>
-  let businessName = '';
-  let offer = '';
-  let phone = '';
+  import { onMount } from 'svelte';
+
+  let selectedChain = '';
+  let allStores = [];
+  let storeChains = [];
+  let businessCardImage = null;
+  let adProofImage = null;
   let selectedStyle = 'classic';
   let selectedSize = 'standard';
+  let previewReady = false;
 
   const styles = [
     { id: 'classic', name: 'Classic', bg: '#CC0000', color: 'white' },
@@ -18,6 +23,41 @@
     { id: 'large', name: 'Large (8x11")', width: 800, height: 550 }
   ];
 
+  onMount(async () => {
+    try {
+      const response = await fetch('/data/stores.json');
+      allStores = await response.json();
+      
+      // Extract unique chains
+      const chains = [...new Set(allStores.map(s => s.GroceryChain))].sort();
+      storeChains = chains;
+    } catch (err) {
+      console.error('Failed to load stores:', err);
+    }
+  });
+
+  function handleBusinessCardUpload(event) {
+    const file = event.target.files?.[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        businessCardImage = e.target?.result;
+      };
+      reader.readAsDataURL(file);
+    }
+  }
+
+  function handleAdProofUpload(event) {
+    const file = event.target.files?.[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        adProofImage = e.target?.result;
+      };
+      reader.readAsDataURL(file);
+    }
+  }
+
   function getStyle() {
     return styles.find(s => s.id === selectedStyle) || styles[0];
   }
@@ -27,8 +67,8 @@
   }
 
   function downloadSign() {
-    if (!businessName || !offer) {
-      alert('Please enter business name and offer');
+    if (!selectedChain || !businessCardImage || !adProofImage) {
+      alert('Please select store chain and upload both images');
       return;
     }
 
@@ -50,75 +90,102 @@
     ctx.lineWidth = 4;
     ctx.strokeRect(10, 10, canvas.width - 20, canvas.height - 20);
 
-    // Business name
-    ctx.fillStyle = style.color;
-    ctx.font = `bold ${Math.round(size.width * 0.08)}px Arial`;
-    ctx.textAlign = 'center';
-    ctx.textBaseline = 'top';
-    ctx.fillText(businessName.toUpperCase(), canvas.width / 2, 40);
+    // Load and draw images
+    const bcImg = new Image();
+    const adImg = new Image();
+    let imagesLoaded = 0;
 
-    // Offer
-    ctx.font = `${Math.round(size.width * 0.06)}px Arial`;
-    ctx.fillStyle = style.color;
-    wrapText(ctx, offer, canvas.width / 2, 120, canvas.width - 60, Math.round(size.width * 0.06));
+    bcImg.onload = () => {
+      imagesLoaded++;
+      if (imagesLoaded === 2) drawComposite();
+    };
 
-    // Phone
-    if (phone) {
-      ctx.font = `bold ${Math.round(size.width * 0.05)}px Arial`;
+    adImg.onload = () => {
+      imagesLoaded++;
+      if (imagesLoaded === 2) drawComposite();
+    };
+
+    bcImg.onerror = adImg.onerror = () => {
+      alert('Error loading images');
+    };
+
+    bcImg.src = businessCardImage;
+    adImg.src = adProofImage;
+
+    function drawComposite() {
+      // Draw ad proof (larger, centered)
+      const adWidth = size.width - 60;
+      const adHeight = size.height - 120;
+      ctx.drawImage(adImg, 30, 30, adWidth, adHeight);
+
+      // Store chain label
       ctx.fillStyle = style.color;
-      ctx.fillText(phone, canvas.width / 2, canvas.height - 60);
+      ctx.font = `bold ${Math.round(size.width * 0.04)}px Arial`;
+      ctx.textAlign = 'center';
+      ctx.fillText(`Available at ${selectedChain}`, size.width / 2, size.height - 50);
+
+      // Business card thumbnail (bottom corner)
+      const bcThumbWidth = Math.round(size.width * 0.15);
+      const bcThumbHeight = Math.round(bcThumbWidth * 0.6);
+      ctx.drawImage(adImg, size.width - bcThumbWidth - 20, size.height - bcThumbHeight - 20, bcThumbWidth, bcThumbHeight);
+
+      // Download
+      canvas.toBlob(blob => {
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `counter-sign-${selectedChain}.png`;
+        a.click();
+        URL.revokeObjectURL(url);
+      });
     }
-
-    // Logo placeholder
-    ctx.fillStyle = style.color;
-    ctx.fillText('IndoorMedia', canvas.width / 2, canvas.height - 30);
-
-    // Download
-    canvas.toBlob(blob => {
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = `${businessName}-counter-sign.png`;
-      a.click();
-      URL.revokeObjectURL(url);
-    });
   }
 
-  function wrapText(ctx, text, x, y, maxWidth, lineHeight) {
-    const words = text.split(' ');
-    let line = '';
-    for (const word of words) {
-      const test = line + word + ' ';
-      const metrics = ctx.measureText(test);
-      if (metrics.width > maxWidth && line.length > 0) {
-        ctx.fillText(line, x, y);
-        line = word + ' ';
-        y += lineHeight;
-      } else {
-        line = test;
-      }
-    }
-    ctx.fillText(line, x, y);
-  }
+  $: previewReady = selectedChain && businessCardImage && adProofImage;
 </script>
 
 <div class="counter-sign-container">
   <h2>🏷️ Counter Sign Generator</h2>
-  <p class="subtitle">Create custom in-store signage</p>
+  <p class="subtitle">Create in-store signage with IndoorMedia ad proof</p>
 
   <div class="form-section">
-    <label>Business Name</label>
-    <input type="text" placeholder="e.g., Pedro's Taqueria" bind:value={businessName} />
+    <label>Select Store Chain Partner</label>
+    <select bind:value={selectedChain}>
+      <option value="">-- Choose a grocery chain --</option>
+      {#each storeChains as chain}
+        <option value={chain}>{chain}</option>
+      {/each}
+    </select>
   </div>
 
   <div class="form-section">
-    <label>Offer / Message</label>
-    <textarea placeholder="e.g., Save $5 on your next purchase with our register tape offer!" bind:value={offer} rows="3"></textarea>
+    <label>Business Card Image</label>
+    <div class="upload-area">
+      <input 
+        type="file" 
+        accept="image/*" 
+        on:change={handleBusinessCardUpload}
+        id="bc-upload"
+      />
+      <label for="bc-upload" class="upload-label">
+        {businessCardImage ? '✅ Business card uploaded' : '📎 Click to upload business card image'}
+      </label>
+    </div>
   </div>
 
   <div class="form-section">
-    <label>Phone Number (optional)</label>
-    <input type="text" placeholder="(503) 555-0123" bind:value={phone} />
+    <label>Ad Proof Image (from IndoorMedia Creative)</label>
+    <div class="upload-area">
+      <input 
+        type="file" 
+        accept="image/*" 
+        on:change={handleAdProofUpload}
+        id="ad-upload"
+      />
+      <label for="ad-upload" class="upload-label">
+        {adProofImage ? '✅ Ad proof uploaded' : '📎 Click to upload ad proof image'}
+      </label>
+    </div>
   </div>
 
   <div class="form-section">
@@ -151,22 +218,19 @@
     </div>
   </div>
 
-  {#if businessName && offer}
+  {#if previewReady}
     <div class="preview-section">
       <h3>Preview</h3>
-      <div class="preview" style="background: {getStyle().bg}; color: {getStyle().color}; width: {Math.min(getSize().width, 300)}px; aspect-ratio: {getSize().width / getSize().height};">
+      <div class="preview" style="background: {getStyle().bg}; width: {Math.min(getSize().width, 300)}px; aspect-ratio: {getSize().width / getSize().height};">
         <div class="preview-content">
-          <h4>{businessName}</h4>
-          <p>{offer}</p>
-          {#if phone}
-            <span class="preview-phone">{phone}</span>
-          {/if}
+          <img src={adProofImage} alt="Ad proof preview" />
+          <span class="chain-label">{selectedChain}</span>
         </div>
       </div>
     </div>
   {/if}
 
-  <button class="download-btn" on:click={downloadSign} disabled={!businessName || !offer}>
+  <button class="download-btn" on:click={downloadSign} disabled={!previewReady}>
     💾 Download Sign
   </button>
 </div>
@@ -175,7 +239,6 @@
   .counter-sign-container { max-width: 600px; margin: 0 auto; }
   h2 { margin: 0 0 6px 0; font-size: 20px; }
   h3 { margin: 0 0 12px 0; font-size: 16px; }
-  h4 { margin: 0 0 8px 0; font-size: 18px; font-weight: 700; }
   .subtitle { margin: 0 0 20px 0; font-size: 13px; color: #999; }
 
   .form-section { margin-bottom: 16px; }
@@ -188,7 +251,7 @@
     margin-bottom: 6px;
   }
 
-  input, textarea {
+  select {
     width: 100%;
     padding: 10px 12px;
     border: 2px solid #ddd;
@@ -197,9 +260,37 @@
     font-family: inherit;
   }
 
-  input:focus, textarea:focus {
+  select:focus {
     outline: none;
     border-color: #CC0000;
+  }
+
+  .upload-area {
+    position: relative;
+    display: flex;
+  }
+
+  input[type="file"] {
+    display: none;
+  }
+
+  .upload-label {
+    flex: 1;
+    padding: 14px 12px;
+    background: white;
+    border: 2px dashed #ddd;
+    border-radius: 8px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-size: 13px;
+    font-weight: 500;
+    color: #666;
+  }
+
+  .upload-label:hover {
+    border-color: #CC0000;
+    background: #fff5f5;
   }
 
   .style-grid {
@@ -248,29 +339,35 @@
 
   .preview {
     margin: 0 auto;
-    padding: 20px;
+    padding: 12px;
     border: 4px solid currentColor;
     border-radius: 8px;
     display: flex;
+    flex-direction: column;
     align-items: center;
-    justify-content: center;
+    justify-content: flex-start;
+    overflow: hidden;
   }
 
   .preview-content {
-    text-align: center;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
   }
 
-  .preview-content p {
-    margin: 8px 0;
-    font-size: 12px;
-    line-height: 1.4;
+  .preview-content img {
+    max-width: 100%;
+    max-height: 70%;
+    object-fit: contain;
   }
 
-  .preview-phone {
-    display: block;
-    margin-top: 8px;
+  .chain-label {
+    font-size: 11px;
     font-weight: 700;
-    font-size: 14px;
+    text-align: center;
   }
 
   .download-btn {
