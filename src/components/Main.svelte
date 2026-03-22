@@ -11,6 +11,7 @@
   import QuickLinks from './QuickLinks.svelte';
   import AuditStore from './AuditStore.svelte';
   import Notepad from './Notepad.svelte';
+  import Products from './Products.svelte';
 
   const dispatch = createEventDispatcher();
 
@@ -42,7 +43,7 @@
   <nav class="tabs">
     <button class="tab {$currentTab === 'search' ? 'active' : ''}" on:click={() => currentTab.set('search')}>🏪 Stores</button>
     <button class="tab {$currentTab === 'prospects' ? 'active' : ''}" on:click={() => currentTab.set('prospects')}>🎯 Prospects</button>
-    <button class="tab {$currentTab === 'clients' ? 'active' : ''}" on:click={() => currentTab.set('clients')}>💼 Clients</button>
+    <button class="tab {$currentTab === 'products' ? 'active' : ''}" on:click={() => currentTab.set('products')}>📦 Products</button>
     <button class="tab {$currentTab === 'tools' ? 'active' : ''}" on:click={() => currentTab.set('tools')}>⚙️ Tools</button>
     <button class="tab {$currentTab === 'dashboard' ? 'active' : ''}" on:click={() => currentTab.set('dashboard')}>📊 Stats</button>
     <button class="tab {$currentTab === 'cart' ? 'active' : ''}" on:click={() => currentTab.set('cart')}>🛒 {cartCount > 0 ? `(${cartCount})` : 'Cart'}</button>
@@ -53,9 +54,8 @@
       <StoreSearch />
     {:else if $currentTab === 'prospects'}
       <ProspectSearch />
-    {:else if $currentTab === 'clients'}
-      <!-- Clients = saved prospects with status -->
-      <ProspectSearch />
+    {:else if $currentTab === 'products'}
+      <Products />
     {:else if $currentTab === 'tools'}
       <!-- Tools submenu -->
       <div class="tools-grid">
@@ -131,7 +131,10 @@
 
   .header-logo {
     height: 32px;
-    width: auto;
+    width: 32px;
+    padding: 4px;
+    background: #4CAF50;
+    border-radius: 50%;
     margin-bottom: 6px;
   }
 

@@ -1,17 +1,32 @@
 <script>
-  import { searchResults, loading, error, setLoading, setError, addToCart } from '../lib/stores.js';
+  import { loading, error, setLoading, setError } from '../lib/stores.js';
   import { onMount } from 'svelte';
 
+  const CATEGORIES = {
+    "🍽️ Restaurants": ["Mexican", "Pizza", "Coffee/Café", "Sushi/Japanese", "Fast Food", "Chinese", "Thai", "Indian", "BBQ/Steakhouse", "Italian", "Bakery", "Bar/Pub", "All Restaurants"],
+    "🚗 Automotive": ["Oil Change/Lube", "Car Wash", "Auto Repair", "Tires", "Car Dealer", "Body Shop", "Transmission"],
+    "💄 Beauty & Wellness": ["Hair Salon", "Barber", "Nail Salon", "Spa/Massage", "Gym/Fitness", "Yoga/Pilates", "Tanning"],
+    "🏥 Health/Medical": ["Dentist", "Chiropractor", "Veterinarian", "Physical Therapy", "Optical", "Urgent Care"],
+    "🛍️ Retail": ["Clothing/Apparel", "Home & Garden", "Electronics", "Books/Music", "Sporting Goods", "General Retail"],
+    "🏠 Home Services": ["Plumbing", "HVAC", "Roofing", "Landscaping", "Cleaning", "Electrician"],
+    "📱 Services": ["Phone/Telecom", "Insurance", "Real Estate", "Financial", "Legal", "Accounting"]
+  };
+
   let searchTerm = '';
+  let selectedCategory = '';
+  let selectedSubcategory = '';
   let allProspects = [];
   let filtered = [];
+  let userLocation = null;
+  let useGeolocation = false;
+  let view = 'categories'; // 'categories', 'subcategories', 'results'
 
-  async function loadProspects() {
+  onMount(async () => {
     try {
       setLoading(true);
       const response = await fetch('/data/prospect_data.json');
       if (!response.ok) throw new Error('Failed to load prospects');
-      const data = await response.json();
+      const data = response.json ? response.json() : JSON.parse(response);
       
       // Flatten all reps' saved prospects into one list
       const reps = data.reps || {};
@@ -27,8 +42,9 @@
             phone: prospect.phone || '',
             score: prospect.score || 0,
             status: prospect.status || 'new',
-            store: prospect.store || '',
             category: prospect.category || '',
+            latitude: prospect.latitude || 0,
+            longitude: prospect.longitude || 0,
             notes: prospect.notes || []
           });
         }
@@ -39,156 +55,203 @@
     } finally {
       setLoading(false);
     }
+  });
+
+  function selectCategory(cat) {
+    selectedCategory = cat;
+    view = 'subcategories';
   }
 
-  function filterProspects() {
-    if (!searchTerm.trim()) {
-      // Show all prospects when no search term
-      filtered = allProspects.slice(0, 20);
+  function selectSubcategory(subcat) {
+    selectedSubcategory = subcat;
+    view = 'results';
+    // Filter by category keyword
+    const keyword = subcat.toLowerCase();
+    filtered = allProspects
+      .filter(p => p.category?.toLowerCase().includes(keyword) || p.name?.toLowerCase().includes(keyword))
+      .sort((a, b) => b.score - a.score)
+      .slice(0, 20);
+  }
+
+  function findNearby() {
+    if (!navigator.geolocation) {
+      setError('Geolocation not supported');
       return;
     }
 
-    const term = searchTerm.toLowerCase();
-    filtered = allProspects.filter(prospect =>
-      (prospect.name && prospect.name.toLowerCase().includes(term)) ||
-      (prospect.address && prospect.address.toLowerCase().includes(term)) ||
-      (prospect.category && prospect.category.toLowerCase().includes(term)) ||
-      (prospect.repName && prospect.repName.toLowerCase().includes(term)) ||
-      (prospect.store && prospect.store.toLowerCase().includes(term))
-    ).slice(0, 20);
+    setLoading(true);
+    navigator.geolocation.getCurrentPosition(
+      position => {
+        const { latitude, longitude } = position.coords;
+        userLocation = { lat: latitude, lng: longitude };
+        useGeolocation = true;
 
-    searchResults.set(filtered);
+        // Sort by distance
+        filtered = allProspects
+          .filter(p => p.latitude && p.longitude)
+          .map(p => ({
+            ...p,
+            _dist: Math.sqrt(Math.pow(p.latitude - latitude, 2) + Math.pow(p.longitude - longitude, 2))
+          }))
+          .sort((a, b) => a._dist - b._dist)
+          .slice(0, 20);
+
+        view = 'results';
+        setLoading(false);
+      },
+      err => {
+        setError('Unable to access location');
+        setLoading(false);
+      },
+      { enableHighAccuracy: true, timeout: 10000 }
+    );
   }
 
-  onMount(loadProspects);
+  function goBack() {
+    if (view === 'results') {
+      view = 'subcategories';
+    } else if (view === 'subcategories') {
+      view = 'categories';
+      selectedCategory = '';
+    } else {
+      searchTerm = '';
+    }
+  }
+
+  function getStatusBadge(status) {
+    const badges = {
+      'new': '🆕',
+      'interested': '✅',
+      'contacted': '⏳',
+      'proposal': '📋',
+      'closed': '🎉'
+    };
+    return badges[status] || '◯';
+  }
 </script>
 
-<div class="search-container">
-  <div class="search-box">
-    <input
-      type="text"
-      placeholder="Search saved prospects by name, address, or store..."
-      bind:value={searchTerm}
-      on:input={filterProspects}
-      disabled={$loading}
-    />
-    {#if $loading}
-      <div class="spinner"></div>
-    {/if}
-  </div>
+<div class="prospect-container">
+  {#if view === 'categories'}
+    <div class="header">
+      <h2>🎯 Find Prospects</h2>
+      <button class="nearby-btn" on:click={findNearby} disabled={$loading}>
+        📍 Find Nearby
+      </button>
+    </div>
 
-  {#if $error}
-    <div class="error-box">{$error}</div>
-  {/if}
+    <div class="category-grid">
+      {#each Object.keys(CATEGORIES) as cat}
+        <button class="category-card" on:click={() => selectCategory(cat)}>
+          {cat}
+        </button>
+      {/each}
+    </div>
 
-  <div class="results">
+  {:else if view === 'subcategories'}
+    <button class="back-btn" on:click={goBack}>← {selectedCategory}</button>
+    
+    <div class="subcat-grid">
+      {#each CATEGORIES[selectedCategory] || [] as subcat}
+        <button class="subcat-card" on:click={() => selectSubcategory(subcat)}>
+          {subcat}
+        </button>
+      {/each}
+    </div>
+
+  {:else if view === 'results'}
+    <button class="back-btn" on:click={goBack}>← Back</button>
+
     {#if $loading}
       <p class="loading">Loading prospects...</p>
-    {:else if filtered.length === 0 && searchTerm}
-      <p class="no-results">No prospects found matching "{searchTerm}"</p>
     {:else if filtered.length === 0}
-      <p class="hint">Search saved prospects or leave blank to see all</p>
+      <p class="no-results">No prospects found</p>
     {:else}
       <div class="prospect-list">
         {#each filtered as prospect (prospect.id)}
           <div class="prospect-card">
             <div class="prospect-header">
               <h3>{prospect.name}</h3>
-              {#if prospect.score}
-                <span class="score" class:high={prospect.score >= 70} class:mid={prospect.score >= 40 && prospect.score < 70} class:low={prospect.score < 40}>
-                  {prospect.score.toFixed(0)}%
-                </span>
-              {/if}
+              <span class="status-badge">{getStatusBadge(prospect.status)}</span>
             </div>
-            <div class="prospect-info">
-              {#if prospect.address}
-                <p class="address">📍 {prospect.address}</p>
-              {/if}
+            <p class="prospect-address">{prospect.address}</p>
+            <div class="prospect-footer">
+              <div class="score">
+                <span class="score-label">Score:</span>
+                <span class="score-value">{Math.round(prospect.score)}</span>
+              </div>
               {#if prospect.phone}
-                <p class="phone">📞 <a href="tel:{prospect.phone}">{prospect.phone}</a></p>
-              {/if}
-              {#if prospect.store}
-                <p class="store">🏪 {prospect.store}</p>
-              {/if}
-              {#if prospect.category}
-                <p class="category">📊 {prospect.category}</p>
-              {/if}
-              <p class="rep">👤 {prospect.repName}</p>
-              {#if prospect.status}
-                <span class="status-badge" class:interested={prospect.status === 'interested'}
-                  class:followup={prospect.status === 'follow-up'}
-                  class:closed={prospect.status === 'closed'}>
-                  {prospect.status}
-                </span>
+                <a href="tel:{prospect.phone}" class="phone-link">📞 Call</a>
               {/if}
             </div>
           </div>
         {/each}
       </div>
     {/if}
-  </div>
+  {/if}
+
+  {#if $error}
+    <div class="error-box">{$error}</div>
+  {/if}
 </div>
 
 <style>
-  .search-container {
-    max-width: 900px;
-    margin: 0 auto;
-  }
+  .prospect-container { max-width: 700px; margin: 0 auto; }
 
-  .search-box {
-    position: relative;
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     margin-bottom: 20px;
   }
 
-  input {
-    width: 100%;
-    padding: 14px 16px;
-    border: 2px solid #ddd;
+  h2 { margin: 0; font-size: 20px; }
+
+  .nearby-btn {
+    padding: 10px 16px;
+    background: #CC0000;
+    color: white;
+    border: none;
     border-radius: 8px;
-    font-size: 16px;
-    font-family: inherit;
-    transition: border-color 0.3s;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
   }
 
-  input:focus {
-    outline: none;
-    border-color: #CC0000;
-    box-shadow: 0 0 0 3px rgba(255, 107, 53, 0.1);
+  .nearby-btn:hover { background: #990000; }
+
+  .category-grid, .subcat-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
   }
 
-  .spinner {
-    position: absolute;
-    right: 14px;
-    top: 50%;
-    transform: translateY(-50%);
-    width: 18px;
-    height: 18px;
-    border: 2px solid #f0f0f0;
-    border-top-color: #CC0000;
-    border-radius: 50%;
-    animation: spin 0.8s linear infinite;
-  }
-
-  @keyframes spin {
-    to { transform: translateY(-50%) rotate(360deg); }
-  }
-
-  .error-box {
-    background: #fee;
-    color: #c33;
-    padding: 12px;
-    border-radius: 6px;
-    margin-bottom: 16px;
-  }
-
-  .results {
-    min-height: 200px;
-  }
-
-  .loading, .no-results, .hint {
+  .category-card, .subcat-card {
+    background: white;
+    border: 2px solid #e0e0e0;
+    border-radius: 12px;
+    padding: 16px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 600;
+    transition: all 0.2s;
     text-align: center;
-    color: #999;
-    padding: 40px 20px;
+  }
+
+  .category-card:hover, .subcat-card:hover {
+    border-color: #CC0000;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  }
+
+  .back-btn {
+    padding: 10px 14px;
+    background: none;
+    border: none;
+    color: #CC0000;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    margin-bottom: 16px;
   }
 
   .prospect-list {
@@ -199,69 +262,67 @@
 
   .prospect-card {
     background: white;
-    border-radius: 8px;
-    padding: 16px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-    transition: all 0.2s;
-  }
-
-  .prospect-card:hover {
-    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
-    transform: translateY(-2px);
+    border-radius: 10px;
+    padding: 14px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    border-left: 4px solid #CC0000;
   }
 
   .prospect-header {
     display: flex;
     justify-content: space-between;
+    align-items: start;
+    margin-bottom: 6px;
+  }
+
+  .prospect-header h3 { margin: 0; font-size: 15px; color: #1a1a1a; }
+
+  .status-badge { font-size: 18px; }
+
+  .prospect-address { margin: 4px 0; font-size: 12px; color: #666; }
+
+  .prospect-footer {
+    display: flex;
+    justify-content: space-between;
     align-items: center;
-    margin-bottom: 12px;
+    margin-top: 10px;
   }
 
-  .prospect-header h3 {
-    margin: 0;
-    font-size: 16px;
-    color: #1a1a1a;
-  }
+  .score { display: flex; align-items: center; gap: 4px; font-size: 12px; }
+  .score-label { color: #999; }
+  .score-value { font-weight: 700; color: #CC0000; }
 
-  .score {
-    padding: 4px 10px;
-    border-radius: 12px;
-    font-size: 13px;
-    font-weight: 700;
-  }
-
-  .score.high { background: #e8f5e9; color: #2e7d32; }
-  .score.mid { background: #fff3e0; color: #e65100; }
-  .score.low { background: #fce4ec; color: #c62828; }
-
-  .prospect-info {
-    margin-bottom: 8px;
-  }
-
-  .prospect-info p {
-    margin: 4px 0;
-    font-size: 13px;
-    color: #666;
-  }
-
-  .prospect-info a {
-    color: #CC0000;
+  .phone-link {
+    padding: 6px 12px;
+    background: #4CAF50;
+    color: white;
     text-decoration: none;
-  }
-
-  .status-badge {
-    display: inline-block;
-    margin-top: 8px;
-    padding: 4px 10px;
-    border-radius: 12px;
+    border-radius: 6px;
     font-size: 12px;
     font-weight: 600;
-    text-transform: capitalize;
-    background: #e0e0e0;
-    color: #666;
   }
 
-  .status-badge.interested { background: #e3f2fd; color: #1565c0; }
-  .status-badge.followup { background: #fff3e0; color: #e65100; }
-  .status-badge.closed { background: #e8f5e9; color: #2e7d32; }
+  .phone-link:hover { background: #45a049; }
+
+  .error-box {
+    background: #fee;
+    color: #c33;
+    padding: 12px;
+    border-radius: 8px;
+    font-size: 13px;
+    margin-top: 16px;
+  }
+
+  .loading, .no-results {
+    text-align: center;
+    color: #999;
+    padding: 40px 20px;
+    font-size: 14px;
+  }
+
+  @media (max-width: 480px) {
+    .category-grid, .subcat-grid { grid-template-columns: 1fr; }
+    .header { flex-direction: column; gap: 12px; align-items: stretch; }
+    .nearby-btn { width: 100%; }
+  }
 </style>
