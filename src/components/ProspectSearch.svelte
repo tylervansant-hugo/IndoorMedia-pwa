@@ -19,14 +19,12 @@
   let filtered = [];
   let userLocation = null;
   let useGeolocation = false;
-  let view = 'categories'; // 'categories', 'subcategories', 'results'
+  let view = 'search'; // 'search', 'categories', 'results'
 
   onMount(async () => {
     try {
-      setLoading(true);
       const response = await fetch('/data/prospect_data.json');
-      if (!response.ok) throw new Error('Failed to load prospects');
-      const data = response.json ? response.json() : JSON.parse(response);
+      const data = await response.json();
       
       // Flatten all reps' saved prospects into one list
       const reps = data.reps || {};
@@ -38,8 +36,10 @@
             id: pid,
             repName: rep.name,
             name: prospect.name || '',
+            business: prospect.name || '',
             address: prospect.address || '',
             phone: prospect.phone || '',
+            email: prospect.email || '',
             score: prospect.score || 0,
             status: prospect.status || 'new',
             category: prospect.category || '',
@@ -52,14 +52,32 @@
       console.log(`Loaded ${allProspects.length} prospects`);
     } catch (err) {
       setError('Failed to load prospects: ' + err.message);
-    } finally {
-      setLoading(false);
     }
   });
 
+  function searchProspects() {
+    if (!searchTerm.trim()) {
+      filtered = [];
+      return;
+    }
+    const term = searchTerm.toLowerCase();
+    filtered = allProspects
+      .filter(p => 
+        p.business?.toLowerCase().includes(term) ||
+        p.address?.toLowerCase().includes(term) ||
+        p.name?.toLowerCase().includes(term) ||
+        p.category?.toLowerCase().includes(term)
+      )
+      .sort((a, b) => b.score - a.score)
+      .slice(0, 20);
+  }
+
+  function startCategories() {
+    view = 'categories';
+  }
+
   function selectCategory(cat) {
     selectedCategory = cat;
-    view = 'subcategories';
   }
 
   function selectSubcategory(subcat) {
@@ -68,7 +86,7 @@
     // Filter by category keyword
     const keyword = subcat.toLowerCase();
     filtered = allProspects
-      .filter(p => p.category?.toLowerCase().includes(keyword) || p.name?.toLowerCase().includes(keyword))
+      .filter(p => p.category?.toLowerCase().includes(keyword) || p.business?.toLowerCase().includes(keyword))
       .sort((a, b) => b.score - a.score)
       .slice(0, 20);
   }
@@ -96,7 +114,7 @@
           .sort((a, b) => a._dist - b._dist)
           .slice(0, 20);
 
-        view = 'results';
+        view = 'categories';
         setLoading(false);
       },
       err => {
@@ -109,12 +127,13 @@
 
   function goBack() {
     if (view === 'results') {
-      view = 'subcategories';
-    } else if (view === 'subcategories') {
       view = 'categories';
+      selectedSubcategory = '';
+    } else if (view === 'categories') {
+      view = 'search';
       selectedCategory = '';
-    } else {
       searchTerm = '';
+      filtered = [];
     }
   }
 
@@ -131,93 +150,209 @@
 </script>
 
 <div class="prospect-container">
-  {#if view === 'categories'}
-    <div class="header">
-      <h2>🎯 Find Prospects</h2>
-      <button class="nearby-btn" on:click={findNearby} disabled={$loading}>
-        📍 Find Nearby
+  {#if view === 'search'}
+    <h2>🎯 Find Prospects</h2>
+    <p class="subtitle">Search by location or store name, then choose categories</p>
+
+    <div class="search-box">
+      <input
+        type="text"
+        placeholder="Search by city, store name, or business..."
+        bind:value={searchTerm}
+        on:input={searchProspects}
+      />
+      {#if searchTerm && filtered.length > 0}
+        <div class="search-results-dropdown">
+          {#each filtered.slice(0, 5) as prospect}
+            <button class="result-item" on:click={() => { searchTerm = prospect.address; view = 'categories'; }}>
+              {prospect.business} — {prospect.address}
+            </button>
+          {/each}
+        </div>
+      {/if}
+    </div>
+
+    <div class="search-actions">
+      <button class="action-btn primary" on:click={startCategories} disabled={!searchTerm.trim()}>
+        🔍 Search This Area
+      </button>
+      <button class="action-btn secondary" on:click={findNearby} disabled={$loading}>
+        {$loading ? '📍 Getting location...' : '📍 Find Nearby'}
       </button>
     </div>
 
-    <div class="category-grid">
-      {#each Object.keys(CATEGORIES) as cat}
-        <button class="category-card" on:click={() => selectCategory(cat)}>
-          {cat}
-        </button>
-      {/each}
-    </div>
+    {#if $error}
+      <div class="error-box">{$error}</div>
+    {/if}
 
-  {:else if view === 'subcategories'}
-    <button class="back-btn" on:click={goBack}>← {selectedCategory}</button>
+  {:else if view === 'categories'}
+    <button class="back-btn" on:click={goBack}>← Back to Search</button>
     
-    <div class="subcat-grid">
-      {#each CATEGORIES[selectedCategory] || [] as subcat}
-        <button class="subcat-card" on:click={() => selectSubcategory(subcat)}>
-          {subcat}
-        </button>
-      {/each}
-    </div>
+    <h3>{selectedCategory ? selectedCategory : 'Choose Category'}</h3>
+
+    {#if !selectedCategory}
+      <div class="category-grid">
+        {#each Object.keys(CATEGORIES) as cat}
+          <button class="category-card" on:click={() => selectCategory(cat)}>
+            {cat}
+          </button>
+        {/each}
+      </div>
+    {:else}
+      <div class="subcat-grid">
+        {#each CATEGORIES[selectedCategory] || [] as subcat}
+          <button class="subcat-card" on:click={() => selectSubcategory(subcat)}>
+            {subcat}
+          </button>
+        {/each}
+      </div>
+    {/if}
 
   {:else if view === 'results'}
-    <button class="back-btn" on:click={goBack}>← Back</button>
+    <button class="back-btn" on:click={goBack}>← Back to Categories</button>
+
+    <h3>Prospects in {selectedSubcategory}</h3>
 
     {#if $loading}
       <p class="loading">Loading prospects...</p>
     {:else if filtered.length === 0}
-      <p class="no-results">No prospects found</p>
+      <p class="no-results">No prospects found in this category</p>
     {:else}
       <div class="prospect-list">
         {#each filtered as prospect (prospect.id)}
           <div class="prospect-card">
             <div class="prospect-header">
-              <h3>{prospect.name}</h3>
-              <span class="status-badge">{getStatusBadge(prospect.status)}</span>
-            </div>
-            <p class="prospect-address">{prospect.address}</p>
-            <div class="prospect-footer">
-              <div class="score">
-                <span class="score-label">Score:</span>
-                <span class="score-value">{Math.round(prospect.score)}</span>
+              <div class="prospect-title">
+                <h4>{prospect.business}</h4>
+                <span class="status-badge">{getStatusBadge(prospect.status)}</span>
               </div>
+              <span class="score">{Math.round(prospect.score)}</span>
+            </div>
+
+            <p class="prospect-address">📍 {prospect.address}</p>
+
+            <div class="prospect-actions">
               {#if prospect.phone}
-                <a href="tel:{prospect.phone}" class="phone-link">📞 Call</a>
+                <a href="tel:{prospect.phone}" class="action-icon" title="Call">
+                  📞
+                </a>
               {/if}
+              {#if prospect.email}
+                <a href="mailto:{prospect.email}" class="action-icon" title="Email">
+                  ✉️
+                </a>
+              {/if}
+              <button class="action-icon" title="Notes">
+                📝
+              </button>
             </div>
           </div>
         {/each}
       </div>
     {/if}
   {/if}
-
-  {#if $error}
-    <div class="error-box">{$error}</div>
-  {/if}
 </div>
 
 <style>
   .prospect-container { max-width: 700px; margin: 0 auto; }
+  h2 { margin: 0 0 6px 0; font-size: 20px; }
+  h3 { margin: 0 0 16px 0; font-size: 16px; }
+  h4 { margin: 0; font-size: 15px; color: #1a1a1a; }
+  .subtitle { margin: 0 0 16px 0; font-size: 13px; color: #999; }
 
-  .header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 20px;
+  .search-box {
+    position: relative;
+    margin-bottom: 16px;
   }
 
-  h2 { margin: 0; font-size: 20px; }
+  input {
+    width: 100%;
+    padding: 12px 14px;
+    border: 2px solid #ddd;
+    border-radius: 8px;
+    font-size: 15px;
+  }
 
-  .nearby-btn {
-    padding: 10px 16px;
-    background: #CC0000;
-    color: white;
+  input:focus {
+    outline: none;
+    border-color: #CC0000;
+  }
+
+  .search-results-dropdown {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: white;
+    border: 2px solid #CC0000;
+    border-top: none;
+    border-radius: 0 0 8px 8px;
+    z-index: 10;
+    max-height: 160px;
+    overflow-y: auto;
+  }
+
+  .result-item {
+    display: block;
+    width: 100%;
+    padding: 10px 14px;
+    background: none;
+    border: none;
+    text-align: left;
+    font-size: 13px;
+    cursor: pointer;
+    border-bottom: 1px solid #f0f0f0;
+  }
+
+  .result-item:hover { background: #fff5f5; }
+
+  .search-actions {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 16px;
+  }
+
+  .action-btn {
+    flex: 1;
+    padding: 12px;
     border: none;
     border-radius: 8px;
-    font-size: 13px;
+    font-size: 14px;
     font-weight: 600;
     cursor: pointer;
+    transition: all 0.2s;
   }
 
-  .nearby-btn:hover { background: #990000; }
+  .action-btn.primary {
+    background: #CC0000;
+    color: white;
+  }
+
+  .action-btn.primary:hover { background: #990000; }
+
+  .action-btn.secondary {
+    background: #f0f0f0;
+    color: #333;
+  }
+
+  .action-btn.secondary:hover { background: #e0e0e0; }
+
+  .action-btn:disabled {
+    background: #ccc;
+    cursor: not-allowed;
+    color: #999;
+  }
+
+  .back-btn {
+    padding: 10px 14px;
+    background: none;
+    border: none;
+    color: #CC0000;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    margin-bottom: 12px;
+  }
 
   .category-grid, .subcat-grid {
     display: grid;
@@ -243,17 +378,6 @@
     box-shadow: 0 4px 12px rgba(0,0,0,0.1);
   }
 
-  .back-btn {
-    padding: 10px 14px;
-    background: none;
-    border: none;
-    color: #CC0000;
-    font-size: 14px;
-    font-weight: 600;
-    cursor: pointer;
-    margin-bottom: 16px;
-  }
-
   .prospect-list {
     display: flex;
     flex-direction: column;
@@ -272,37 +396,42 @@
     display: flex;
     justify-content: space-between;
     align-items: start;
-    margin-bottom: 6px;
+    margin-bottom: 8px;
   }
 
-  .prospect-header h3 { margin: 0; font-size: 15px; color: #1a1a1a; }
-
-  .status-badge { font-size: 18px; }
-
-  .prospect-address { margin: 4px 0; font-size: 12px; color: #666; }
-
-  .prospect-footer {
+  .prospect-title {
     display: flex;
-    justify-content: space-between;
     align-items: center;
+    gap: 6px;
+  }
+
+  .status-badge { font-size: 16px; }
+  .score { font-size: 14px; font-weight: 700; color: #CC0000; }
+
+  .prospect-address { margin: 6px 0; font-size: 12px; color: #666; }
+
+  .prospect-actions {
+    display: flex;
+    gap: 8px;
     margin-top: 10px;
   }
 
-  .score { display: flex; align-items: center; gap: 4px; font-size: 12px; }
-  .score-label { color: #999; }
-  .score-value { font-weight: 700; color: #CC0000; }
-
-  .phone-link {
-    padding: 6px 12px;
-    background: #4CAF50;
-    color: white;
-    text-decoration: none;
+  .action-icon {
+    flex: 1;
+    padding: 8px;
+    background: #f0f0f0;
+    border: none;
     border-radius: 6px;
-    font-size: 12px;
-    font-weight: 600;
+    font-size: 16px;
+    cursor: pointer;
+    transition: all 0.2s;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 
-  .phone-link:hover { background: #45a049; }
+  .action-icon:hover { background: #CC0000; color: white; }
 
   .error-box {
     background: #fee;
@@ -322,7 +451,7 @@
 
   @media (max-width: 480px) {
     .category-grid, .subcat-grid { grid-template-columns: 1fr; }
-    .header { flex-direction: column; gap: 12px; align-items: stretch; }
-    .nearby-btn { width: 100%; }
+    .search-actions { flex-direction: column; }
+    .prospect-actions { gap: 6px; }
   }
 </style>

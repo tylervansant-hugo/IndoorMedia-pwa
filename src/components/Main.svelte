@@ -12,6 +12,7 @@
   import AuditStore from './AuditStore.svelte';
   import Notepad from './Notepad.svelte';
   import Products from './Products.svelte';
+  import CounterSignGenerator from './CounterSignGenerator.svelte';
 
   const dispatch = createEventDispatcher();
 
@@ -89,6 +90,11 @@
           <span class="tool-name">Quick Links</span>
           <span class="tool-desc">MapPoint, Coupons, Drive</span>
         </button>
+        <button class="tool-card" on:click={() => currentTab.set('countersign')}>
+          <span class="tool-icon">🏷️</span>
+          <span class="tool-name">Counter Signs</span>
+          <span class="tool-desc">In-store signage</span>
+        </button>
       </div>
     {:else if $currentTab === 'dashboard'}
       <Dashboard {user} />
@@ -104,6 +110,8 @@
       <Notepad />
     {:else if $currentTab === 'links'}
       <QuickLinks />
+    {:else if $currentTab === 'countersign'}
+      <CounterSignGenerator />
     {:else if $currentTab === 'cart'}
       <Cart />
     {/if}
