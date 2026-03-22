@@ -80,13 +80,13 @@
   .header {
     background: linear-gradient(135deg, #CC0000 0%, #1a1a1a 100%);
     color: white;
-    padding: 16px 20px;
-    padding-top: 60px;
+    padding: 20px 20px;
+    padding-top: 70px;
     display: flex;
     justify-content: space-between;
     align-items: center;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-    min-height: 70px;
+    min-height: 140px;
   }
 
   .header-content h1 {
