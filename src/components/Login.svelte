@@ -76,7 +76,7 @@
           <option value="">-- Choose a representative --</option>
           {#each reps as rep (rep.id)}
             <option value={rep.id}>
-              {rep.name} — {rep.base_location}
+              {rep.name}
             </option>
           {/each}
         </select>
