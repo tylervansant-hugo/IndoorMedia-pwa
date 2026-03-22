@@ -15,7 +15,9 @@
         '✅ Measurable ROI'
       ],
       pricing: 'Starting at $295/month',
-      color: '#FF6B35'
+      color: '#FF6B35',
+      presentationUrl: 'https://docs.google.com/presentation/d/1Xs60nX3i6MJkC81GgnK-50jBrkWVPu06xRpmv8z4PIc/edit?usp=sharing',
+      videoUrl: 'https://youtu.be/_gdlyEszHfY?si=0_kHou89WrMhvNY_'
     },
     {
       id: 'cartvertising',
@@ -30,7 +32,9 @@
         '✅ Flexible designs'
       ],
       pricing: 'Starting at $395/month',
-      color: '#4CAF50'
+      color: '#4CAF50',
+      presentationUrl: 'https://docs.google.com/presentation/d/1Xs60nX3i6MJkC81GgnK-50jBrkWVPu06xRpmv8z4PIc/edit?usp=sharing',
+      videoUrl: 'https://youtu.be/_gdlyEszHfY?si=0_kHou89WrMhvNY_'
     },
     {
       id: 'digital',
@@ -45,7 +49,9 @@
         '✅ Premium placement'
       ],
       pricing: 'Starting at $595/month',
-      color: '#2196F3'
+      color: '#2196F3',
+      presentationUrl: 'https://docs.google.com/presentation/d/1Xs60nX3i6MJkC81GgnK-50jBrkWVPu06xRpmv8z4PIc/edit?usp=sharing',
+      videoUrl: 'https://youtu.be/_gdlyEszHfY?si=0_kHou89WrMhvNY_'
     }
   ];
 
@@ -57,7 +63,7 @@
 <div class="products-container">
   {#if !selectedProduct}
     <h2>📦 Products</h2>
-    <p class="subtitle">Advertising solutions for your business</p>
+    <p class="subtitle">IndoorMedia advertising solutions</p>
 
     <div class="products-grid">
       {#each PRODUCTS as product}
@@ -95,6 +101,16 @@
         {#each selectedProduct.benefits as benefit}
           <p class="benefit">{benefit}</p>
         {/each}
+      </div>
+
+      <div class="links-section">
+        <h3>Learn More</h3>
+        <a href={selectedProduct.presentationUrl} target="_blank" rel="noopener" class="link-btn presentation">
+          🎬 View Presentation
+        </a>
+        <a href={selectedProduct.videoUrl} target="_blank" rel="noopener" class="link-btn video">
+          📹 Watch Explainer Video
+        </a>
       </div>
 
       <div class="pricing-section">
@@ -204,6 +220,54 @@
     margin: 8px 0;
     font-size: 14px;
     color: #333;
+  }
+
+  .links-section {
+    margin-bottom: 20px;
+  }
+
+  .links-section h3 {
+    margin: 0 0 12px 0;
+    font-size: 15px;
+    font-weight: 700;
+  }
+
+  .link-btn {
+    display: block;
+    padding: 12px;
+    margin-bottom: 8px;
+    background: #f0f0f0;
+    color: #333;
+    text-decoration: none;
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 600;
+    text-align: center;
+    transition: all 0.2s;
+    border: 2px solid transparent;
+  }
+
+  .link-btn:hover {
+    background: white;
+    border-color: #CC0000;
+  }
+
+  .link-btn.presentation {
+    color: #2196F3;
+    border-color: #2196F3;
+  }
+
+  .link-btn.presentation:hover {
+    background: #e3f2fd;
+  }
+
+  .link-btn.video {
+    color: #FF6B35;
+    border-color: #FF6B35;
+  }
+
+  .link-btn.video:hover {
+    background: #fff3e0;
   }
 
   .pricing-section {
