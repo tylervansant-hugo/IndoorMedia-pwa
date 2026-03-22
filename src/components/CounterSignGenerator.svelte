@@ -6,21 +6,13 @@
   let storeChains = [];
   let businessCardImage = null;
   let adProofImage = null;
-  let selectedStyle = 'classic';
+  let landingPageUrl = '';
   let selectedSize = 'standard';
-  let previewReady = false;
-
-  const styles = [
-    { id: 'classic', name: 'Classic', bg: '#CC0000', color: 'white' },
-    { id: 'bold', name: 'Bold', bg: '#000', color: '#CC0000' },
-    { id: 'soft', name: 'Soft', bg: '#FFF3E0', color: '#CC0000' },
-    { id: 'modern', name: 'Modern', bg: '#333', color: 'white' }
-  ];
 
   const sizes = [
-    { id: 'small', name: 'Small (4x6")', width: 400, height: 300 },
-    { id: 'standard', name: 'Standard (5x7")', width: 500, height: 350 },
-    { id: 'large', name: 'Large (8x11")', width: 800, height: 550 }
+    { id: 'small', name: 'Small (4x6")', label: '4x6' },
+    { id: 'standard', name: 'Standard (5x7")', label: '5x7' },
+    { id: 'large', name: 'Large (8.5x11")', label: '8.5x11' }
   ];
 
   onMount(async () => {
@@ -58,95 +50,156 @@
     }
   }
 
-  function getStyle() {
-    return styles.find(s => s.id === selectedStyle) || styles[0];
-  }
-
   function getSize() {
     return sizes.find(s => s.id === selectedSize) || sizes[1];
   }
 
-  function downloadSign() {
-    if (!selectedChain || !businessCardImage || !adProofImage) {
-      alert('Please select store chain and upload both images');
+  async function downloadSign() {
+    if (!selectedChain || !businessCardImage || !adProofImage || !landingPageUrl) {
+      alert('Please fill in all fields:');
+      if (!selectedChain) alert('- Select store chain');
+      if (!businessCardImage) alert('- Upload business card');
+      if (!adProofImage) alert('- Upload ad proof');
+      if (!landingPageUrl) alert('- Enter landing page URL');
       return;
     }
 
-    const size = getSize();
-    const style = getStyle();
+    // Validate URL
+    if (!landingPageUrl.startsWith('http')) {
+      alert('Please enter a valid URL (starting with http:// or https://)');
+      return;
+    }
 
-    // Create canvas
+    // We'll create the sign using canvas and QR code
+    // Import needed libraries
+    const { QRCodeCanvas } = window;
+
+    // Create main canvas
+    const size = getSize();
+    let canvasWidth, canvasHeight;
+    
+    if (size.id === 'small') {
+      canvasWidth = 400;
+      canvasHeight = 300;
+    } else if (size.id === 'standard') {
+      canvasWidth = 500;
+      canvasHeight = 350;
+    } else {
+      canvasWidth = 850;
+      canvasHeight = 1100;
+    }
+
     const canvas = document.createElement('canvas');
-    canvas.width = size.width;
-    canvas.height = size.height;
+    canvas.width = canvasWidth;
+    canvas.height = canvasHeight;
     const ctx = canvas.getContext('2d');
 
-    // Fill background
-    ctx.fillStyle = style.bg;
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    // White background
+    ctx.fillStyle = 'white';
+    ctx.fillRect(0, 0, canvasWidth, canvasHeight);
 
-    // Draw border
-    ctx.strokeStyle = style.color;
+    // Border
+    ctx.strokeStyle = '#CC0000';
     ctx.lineWidth = 4;
-    ctx.strokeRect(10, 10, canvas.width - 20, canvas.height - 20);
+    ctx.strokeRect(10, 10, canvasWidth - 20, canvasHeight - 20);
 
-    // Load and draw images
+    // Load images
     const bcImg = new Image();
     const adImg = new Image();
-    let imagesLoaded = 0;
+    let loaded = 0;
 
-    bcImg.onload = () => {
-      imagesLoaded++;
-      if (imagesLoaded === 2) drawComposite();
+    const onLoad = () => {
+      loaded++;
+      if (loaded === 2) composeSign();
     };
 
-    adImg.onload = () => {
-      imagesLoaded++;
-      if (imagesLoaded === 2) drawComposite();
-    };
-
-    bcImg.onerror = adImg.onerror = () => {
-      alert('Error loading images');
-    };
+    bcImg.onload = onLoad;
+    adImg.onload = onLoad;
+    bcImg.onerror = adImg.onerror = () => alert('Error loading images');
 
     bcImg.src = businessCardImage;
     adImg.src = adProofImage;
 
-    function drawComposite() {
-      // Draw ad proof (larger, centered)
-      const adWidth = size.width - 60;
-      const adHeight = size.height - 120;
-      ctx.drawImage(adImg, 30, 30, adWidth, adHeight);
+    function composeSign() {
+      // Draw ad proof (main content area)
+      const adMargin = 20;
+      const adWidth = canvasWidth - (2 * adMargin);
+      const footerHeight = canvasHeight * 0.15;
+      const adHeight = canvasHeight - (2 * adMargin) - footerHeight;
+      
+      ctx.drawImage(adImg, adMargin, adMargin, adWidth, adHeight);
 
-      // Store chain label
-      ctx.fillStyle = style.color;
-      ctx.font = `bold ${Math.round(size.width * 0.04)}px Arial`;
-      ctx.textAlign = 'center';
-      ctx.fillText(`Available at ${selectedChain}`, size.width / 2, size.height - 50);
+      // Footer area
+      const footerY = adMargin + adHeight;
+      
+      // Background for footer
+      ctx.fillStyle = '#f5f5f5';
+      ctx.fillRect(adMargin, footerY, adWidth, footerHeight);
+      
+      // Business card (left side)
+      const bcSize = Math.min(footerHeight - 10, adWidth * 0.2);
+      ctx.drawImage(bcImg, adMargin + 5, footerY + (footerHeight - bcSize) / 2, bcSize, bcSize);
 
-      // Business card thumbnail (bottom corner)
-      const bcThumbWidth = Math.round(size.width * 0.15);
-      const bcThumbHeight = Math.round(bcThumbWidth * 0.6);
-      ctx.drawImage(adImg, size.width - bcThumbWidth - 20, size.height - bcThumbHeight - 20, bcThumbWidth, bcThumbHeight);
+      // QR Code (right side)
+      try {
+        const qrCanvas = document.createElement('canvas');
+        const qr = new QRCode({
+          content: landingPageUrl,
+          width: 100,
+          height: 100,
+          colorLight: '#ffffff',
+          colorDark: '#000000'
+        });
+        qr.canvas.toBlob(blob => {
+          const qrImg = new Image();
+          const qrSize = Math.min(footerHeight - 10, adWidth * 0.15);
+          qrImg.onload = () => {
+            ctx.drawImage(qrImg, canvasWidth - adMargin - qrSize - 5, footerY + (footerHeight - qrSize) / 2, qrSize, qrSize);
+            
+            // Store chain text
+            ctx.fillStyle = '#333';
+            ctx.font = `bold ${Math.round(canvasWidth * 0.04)}px Arial`;
+            ctx.textAlign = 'center';
+            ctx.fillText(`Now Available at ${selectedChain}`, canvasWidth / 2, canvasHeight - 8);
+            
+            // Download
+            downloadCanvas(canvas);
+          };
+          qrImg.src = URL.createObjectURL(blob);
+        });
+      } catch (e) {
+        console.log('QR code lib not available, creating without QR');
+        // Fallback: just text for QR
+        ctx.fillStyle = '#CC0000';
+        ctx.font = `bold ${Math.round(canvasWidth * 0.04)}px Arial`;
+        ctx.textAlign = 'center';
+        ctx.fillText(`Scan for more info`, canvasWidth - adMargin - 50, footerY + footerHeight / 2);
+        
+        ctx.fillStyle = '#333';
+        ctx.fillText(`Now Available at ${selectedChain}`, canvasWidth / 2, canvasHeight - 8);
+        
+        downloadCanvas(canvas);
+      }
+    }
 
-      // Download
-      canvas.toBlob(blob => {
+    function downloadCanvas(c) {
+      c.toBlob(blob => {
         const url = URL.createObjectURL(blob);
         const a = document.createElement('a');
         a.href = url;
-        a.download = `counter-sign-${selectedChain}.png`;
+        a.download = `${selectedChain}-counter-sign-${size.label}.png`;
         a.click();
         URL.revokeObjectURL(url);
       });
     }
   }
 
-  $: previewReady = selectedChain && businessCardImage && adProofImage;
+  $: isReady = selectedChain && businessCardImage && adProofImage && landingPageUrl;
 </script>
 
 <div class="counter-sign-container">
   <h2>🏷️ Counter Sign Generator</h2>
-  <p class="subtitle">Create in-store signage with IndoorMedia ad proof</p>
+  <p class="subtitle">Create in-store signage with QR code</p>
 
   <div class="form-section">
     <label>Select Store Chain Partner</label>
@@ -168,7 +221,7 @@
         id="bc-upload"
       />
       <label for="bc-upload" class="upload-label">
-        {businessCardImage ? '✅ Business card uploaded' : '📎 Click to upload business card image'}
+        {businessCardImage ? '✅ Business card uploaded' : '📎 Click to upload business card'}
       </label>
     </div>
   </div>
@@ -183,25 +236,18 @@
         id="ad-upload"
       />
       <label for="ad-upload" class="upload-label">
-        {adProofImage ? '✅ Ad proof uploaded' : '📎 Click to upload ad proof image'}
+        {adProofImage ? '✅ Ad proof uploaded' : '📎 Click to upload ad proof'}
       </label>
     </div>
   </div>
 
   <div class="form-section">
-    <label>Style</label>
-    <div class="style-grid">
-      {#each styles as style}
-        <button
-          class="style-btn"
-          class:active={selectedStyle === style.id}
-          on:click={() => selectedStyle = style.id}
-          style="background: {style.bg}; color: {style.color}; border: {selectedStyle === style.id ? '3px solid #333' : '2px solid #ddd'}"
-        >
-          {style.name}
-        </button>
-      {/each}
-    </div>
+    <label>Landing Page URL (for QR code)</label>
+    <input 
+      type="url" 
+      placeholder="https://your-landing-page.com" 
+      bind:value={landingPageUrl}
+    />
   </div>
 
   <div class="form-section">
@@ -218,19 +264,18 @@
     </div>
   </div>
 
-  {#if previewReady}
+  {#if isReady}
     <div class="preview-section">
       <h3>Preview</h3>
-      <div class="preview" style="background: {getStyle().bg}; width: {Math.min(getSize().width, 300)}px; aspect-ratio: {getSize().width / getSize().height};">
-        <div class="preview-content">
-          <img src={adProofImage} alt="Ad proof preview" />
-          <span class="chain-label">{selectedChain}</span>
-        </div>
+      <div class="preview-info">
+        <span>📍 {selectedChain}</span>
+        <span>📏 {getSize().label}</span>
+        <span>🔗 QR Code Enabled</span>
       </div>
     </div>
   {/if}
 
-  <button class="download-btn" on:click={downloadSign} disabled={!previewReady}>
+  <button class="download-btn" on:click={downloadSign} disabled={!isReady}>
     💾 Download Sign
   </button>
 </div>
@@ -251,7 +296,7 @@
     margin-bottom: 6px;
   }
 
-  select {
+  select, input[type="url"] {
     width: 100%;
     padding: 10px 12px;
     border: 2px solid #ddd;
@@ -260,7 +305,7 @@
     font-family: inherit;
   }
 
-  select:focus {
+  select:focus, input[type="url"]:focus {
     outline: none;
     border-color: #CC0000;
   }
@@ -293,23 +338,6 @@
     background: #fff5f5;
   }
 
-  .style-grid {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 8px;
-  }
-
-  .style-btn {
-    padding: 12px;
-    font-size: 12px;
-    font-weight: 600;
-    border-radius: 6px;
-    cursor: pointer;
-    transition: all 0.2s;
-  }
-
-  .style-btn.active { transform: scale(1.05); }
-
   .size-buttons {
     display: flex;
     flex-direction: column;
@@ -337,37 +365,20 @@
     border-radius: 8px;
   }
 
-  .preview {
-    margin: 0 auto;
-    padding: 12px;
-    border: 4px solid currentColor;
-    border-radius: 8px;
+  .preview-info {
     display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: flex-start;
-    overflow: hidden;
+    justify-content: space-around;
+    gap: 12px;
+    font-size: 13px;
+    font-weight: 600;
+    color: #333;
   }
 
-  .preview-content {
-    width: 100%;
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 8px;
-  }
-
-  .preview-content img {
-    max-width: 100%;
-    max-height: 70%;
-    object-fit: contain;
-  }
-
-  .chain-label {
-    font-size: 11px;
-    font-weight: 700;
-    text-align: center;
+  .preview-info span {
+    padding: 8px 12px;
+    background: white;
+    border-radius: 6px;
+    border: 1px solid #ddd;
   }
 
   .download-btn {
@@ -386,6 +397,6 @@
   .download-btn:disabled { background: #ccc; cursor: not-allowed; }
 
   @media (max-width: 480px) {
-    .style-grid { grid-template-columns: repeat(2, 1fr); }
+    .preview-info { flex-direction: column; }
   }
 </style>
