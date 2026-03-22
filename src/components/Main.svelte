@@ -9,6 +9,8 @@
   import ROICalculator from './ROICalculator.svelte';
   import EmailTemplates from './EmailTemplates.svelte';
   import QuickLinks from './QuickLinks.svelte';
+  import AuditStore from './AuditStore.svelte';
+  import Notepad from './Notepad.svelte';
 
   const dispatch = createEventDispatcher();
 
@@ -39,28 +41,67 @@
 
   <nav class="tabs">
     <button class="tab {$currentTab === 'search' ? 'active' : ''}" on:click={() => currentTab.set('search')}>🏪 Stores</button>
-    <button class="tab {$currentTab === 'dashboard' ? 'active' : ''}" on:click={() => currentTab.set('dashboard')}>📊 Dashboard</button>
-    <button class="tab {$currentTab === 'prospects' ? 'active' : ''}" on:click={() => currentTab.set('prospects')}>👥 Prospects</button>
-    <button class="tab {$currentTab === 'testimonials' ? 'active' : ''}" on:click={() => currentTab.set('testimonials')}>⭐ Testimonials</button>
-    <button class="tab {$currentTab === 'roi' ? 'active' : ''}" on:click={() => currentTab.set('roi')}>💰 ROI</button>
-    <button class="tab {$currentTab === 'email' ? 'active' : ''}" on:click={() => currentTab.set('email')}>✉️ Email</button>
-    <button class="tab {$currentTab === 'links' ? 'active' : ''}" on:click={() => currentTab.set('links')}>🔗 Links</button>
+    <button class="tab {$currentTab === 'prospects' ? 'active' : ''}" on:click={() => currentTab.set('prospects')}>🎯 Prospects</button>
+    <button class="tab {$currentTab === 'clients' ? 'active' : ''}" on:click={() => currentTab.set('clients')}>💼 Clients</button>
+    <button class="tab {$currentTab === 'tools' ? 'active' : ''}" on:click={() => currentTab.set('tools')}>⚙️ Tools</button>
+    <button class="tab {$currentTab === 'dashboard' ? 'active' : ''}" on:click={() => currentTab.set('dashboard')}>📊 Stats</button>
     <button class="tab {$currentTab === 'cart' ? 'active' : ''}" on:click={() => currentTab.set('cart')}>🛒 {cartCount > 0 ? `(${cartCount})` : 'Cart'}</button>
   </nav>
 
   <div class="content">
     {#if $currentTab === 'search'}
       <StoreSearch />
-    {:else if $currentTab === 'dashboard'}
-      <Dashboard {user} />
     {:else if $currentTab === 'prospects'}
       <ProspectSearch />
-    {:else if $currentTab === 'testimonials'}
-      <TestimonialSearch />
+    {:else if $currentTab === 'clients'}
+      <!-- Clients = saved prospects with status -->
+      <ProspectSearch />
+    {:else if $currentTab === 'tools'}
+      <!-- Tools submenu -->
+      <div class="tools-grid">
+        <button class="tool-card" on:click={() => currentTab.set('roi')}>
+          <span class="tool-icon">📊</span>
+          <span class="tool-name">ROI Calculator</span>
+          <span class="tool-desc">Show customers their return</span>
+        </button>
+        <button class="tool-card" on:click={() => currentTab.set('testimonials')}>
+          <span class="tool-icon">⭐</span>
+          <span class="tool-name">Testimonial Search</span>
+          <span class="tool-desc">Find social proof</span>
+        </button>
+        <button class="tool-card" on:click={() => currentTab.set('audit')}>
+          <span class="tool-icon">🏪</span>
+          <span class="tool-name">Audit Store</span>
+          <span class="tool-desc">Track inventory & delivery</span>
+        </button>
+        <button class="tool-card" on:click={() => currentTab.set('email')}>
+          <span class="tool-icon">✉️</span>
+          <span class="tool-name">Email Templates</span>
+          <span class="tool-desc">Ready-to-send outreach</span>
+        </button>
+        <button class="tool-card" on:click={() => currentTab.set('notepad')}>
+          <span class="tool-icon">📝</span>
+          <span class="tool-name">Notepad</span>
+          <span class="tool-desc">Quick field notes</span>
+        </button>
+        <button class="tool-card" on:click={() => currentTab.set('links')}>
+          <span class="tool-icon">🔗</span>
+          <span class="tool-name">Quick Links</span>
+          <span class="tool-desc">MapPoint, Coupons, Drive</span>
+        </button>
+      </div>
+    {:else if $currentTab === 'dashboard'}
+      <Dashboard {user} />
     {:else if $currentTab === 'roi'}
       <ROICalculator />
+    {:else if $currentTab === 'testimonials'}
+      <TestimonialSearch />
+    {:else if $currentTab === 'audit'}
+      <AuditStore />
     {:else if $currentTab === 'email'}
       <EmailTemplates {user} />
+    {:else if $currentTab === 'notepad'}
+      <Notepad />
     {:else if $currentTab === 'links'}
       <QuickLinks />
     {:else if $currentTab === 'cart'}
@@ -164,6 +205,38 @@
     overflow-y: auto;
     padding: 20px;
   }
+
+  .tools-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+    max-width: 600px;
+    margin: 0 auto;
+  }
+
+  .tool-card {
+    background: white;
+    border: 2px solid #e0e0e0;
+    border-radius: 12px;
+    padding: 20px 16px;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    transition: all 0.2s;
+    text-align: center;
+  }
+
+  .tool-card:hover {
+    border-color: #CC0000;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  }
+
+  .tool-icon { font-size: 32px; }
+  .tool-name { font-size: 14px; font-weight: 700; color: #1a1a1a; }
+  .tool-desc { font-size: 11px; color: #999; }
 
   @media (max-width: 480px) {
     .header {

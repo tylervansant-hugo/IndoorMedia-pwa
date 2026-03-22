@@ -41,7 +41,7 @@
     searchResults.set(filtered);
   }
 
-  function requestGeolocation() {
+  function findNearby() {
     if (!navigator.geolocation) {
       setError('Geolocation not supported in this browser');
       return;
@@ -53,19 +53,26 @@
         const { latitude, longitude } = position.coords;
         userLocation = { lat: latitude, lng: longitude };
         useGeolocation = true;
-        setLoading(false);
         
-        // Sort by distance
-        filtered = filtered.sort((a, b) => {
-          const distA = calcDistance(latitude, longitude, a.latitude, a.longitude);
-          const distB = calcDistance(latitude, longitude, b.latitude, b.longitude);
-          return distA - distB;
-        }).slice(0, 10);
-      },
-      () => {
-        setError('Unable to access location');
+        // Sort ALL stores by distance, show closest 20
+        filtered = allStores
+          .filter(s => s.latitude && s.longitude)
+          .map(s => ({
+            ...s,
+            _dist: calcDistance(latitude, longitude, s.latitude, s.longitude)
+          }))
+          .sort((a, b) => a._dist - b._dist)
+          .slice(0, 20);
+        
+        searchTerm = '';
+        searchResults.set(filtered);
         setLoading(false);
-      }
+      },
+      (err) => {
+        setError('Unable to access location. Please allow location access.');
+        setLoading(false);
+      },
+      { enableHighAccuracy: true, timeout: 10000 }
     );
   }
 
@@ -161,20 +168,18 @@
     {/if}
   </div>
 
-  {#if filtered.length > 0}
-    <div class="location-toggle">
-      <button
-        class="geo-btn"
-        on:click={requestGeolocation}
-        disabled={$loading}
-      >
-        📍 Find Nearby
-      </button>
-      {#if useGeolocation && userLocation}
-        <span class="location-indicator">Using your location</span>
-      {/if}
-    </div>
-  {/if}
+  <div class="location-toggle">
+    <button
+      class="geo-btn"
+      on:click={findNearby}
+      disabled={$loading}
+    >
+      📍 Find Nearby Stores
+    </button>
+    {#if useGeolocation && userLocation}
+      <span class="location-indicator">Using your location</span>
+    {/if}
+  </div>
 
   {#if $error}
     <div class="error-box">{$error}</div>
