@@ -157,7 +157,7 @@
 
   function selectCategory(cat) {
     selectedCategory = cat;
-    view = 'subcategories';
+    // Stay in search view - subcategories render based on selectedCategory
   }
 
   async function selectSubcategory(subcat) {

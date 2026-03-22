@@ -15,7 +15,7 @@
         '✅ Measurable ROI'
       ],
       pricing: 'Starting at $295/month',
-      color: '#FF6B35',
+      color: '#CC0000',
       presentationUrl: 'https://docs.google.com/presentation/d/1Xs60nX3i6MJkC81GgnK-50jBrkWVPu06xRpmv8z4PIc/edit?usp=sharing',
       videoUrl: 'https://youtu.be/_gdlyEszHfY?si=0_kHou89WrMhvNY_'
     },
@@ -37,7 +37,41 @@
       videoUrl: 'https://youtu.be/_gdlyEszHfY?si=0_kHou89WrMhvNY_'
     },
     {
-      id: 'digital',
+      id: 'digital-connection',
+      icon: '🔌',
+      name: 'Connection',
+      subtitle: 'WiFi splash page advertising',
+      description: 'Reach customers through store WiFi landing pages. Capture attention when customers connect.',
+      benefits: [
+        '✅ High engagement rate',
+        '✅ Digital tracking',
+        '✅ Mobile-friendly',
+        '✅ Instant visibility'
+      ],
+      pricing: 'Starting at $395/month',
+      color: '#2196F3',
+      presentationUrl: 'https://docs.google.com/presentation/d/1Xs60nX3i6MJkC81GgnK-50jBrkWVPu06xRpmv8z4PIc/edit?usp=sharing',
+      videoUrl: 'https://youtu.be/_gdlyEszHfY?si=0_kHou89WrMhvNY_'
+    },
+    {
+      id: 'digital-hub',
+      icon: '🖥️',
+      name: 'Digital Hub',
+      subtitle: 'In-store digital kiosks',
+      description: 'Interactive digital displays at high-traffic store locations. Dynamic content, real-time updates.',
+      benefits: [
+        '✅ Eye-catching video content',
+        '✅ Multiple ad rotations',
+        '✅ Premium in-store placement',
+        '✅ Real-time campaign updates'
+      ],
+      pricing: 'Starting at $495/month',
+      color: '#2196F3',
+      presentationUrl: 'https://docs.google.com/presentation/d/1Xs60nX3i6MJkC81GgnK-50jBrkWVPu06xRpmv8z4PIc/edit?usp=sharing',
+      videoUrl: 'https://youtu.be/_gdlyEszHfY?si=0_kHou89WrMhvNY_'
+    },
+    {
+      id: 'digital-boost',
       icon: '📱',
       name: 'Digital Boost',
       subtitle: 'In-store digital displays',
@@ -50,6 +84,40 @@
       ],
       pricing: 'Starting at $595/month',
       color: '#2196F3',
+      presentationUrl: 'https://docs.google.com/presentation/d/1Xs60nX3i6MJkC81GgnK-50jBrkWVPu06xRpmv8z4PIc/edit?usp=sharing',
+      videoUrl: 'https://youtu.be/_gdlyEszHfY?si=0_kHou89WrMhvNY_'
+    },
+    {
+      id: 'find-local',
+      icon: '📍',
+      name: 'Find Local',
+      subtitle: 'Geo-targeted mobile ads',
+      description: 'Target customers near store locations with mobile ads. Drive foot traffic with precise targeting.',
+      benefits: [
+        '✅ Geo-fencing technology',
+        '✅ Mobile-first design',
+        '✅ Real-time analytics',
+        '✅ Drive in-store visits'
+      ],
+      pricing: 'Starting at $495/month',
+      color: '#FF9800',
+      presentationUrl: 'https://docs.google.com/presentation/d/1Xs60nX3i6MJkC81GgnK-50jBrkWVPu06xRpmv8z4PIc/edit?usp=sharing',
+      videoUrl: 'https://youtu.be/_gdlyEszHfY?si=0_kHou89WrMhvNY_'
+    },
+    {
+      id: 'loyalty-boost',
+      icon: '💳',
+      name: 'Loyalty Boost',
+      subtitle: 'Loyalty program integration',
+      description: 'Promote your business through store loyalty programs and apps. Reach engaged, repeat customers.',
+      benefits: [
+        '✅ Access loyalty app users',
+        '✅ Highly engaged audience',
+        '✅ Repeat customer targeting',
+        '✅ Digital coupon delivery'
+      ],
+      pricing: 'Starting at $595/month',
+      color: '#9C27B0',
       presentationUrl: 'https://docs.google.com/presentation/d/1Xs60nX3i6MJkC81GgnK-50jBrkWVPu06xRpmv8z4PIc/edit?usp=sharing',
       videoUrl: 'https://youtu.be/_gdlyEszHfY?si=0_kHou89WrMhvNY_'
     }
@@ -98,206 +166,256 @@
 
       <div class="benefits-section">
         <h3>Why It Works</h3>
-        {#each selectedProduct.benefits as benefit}
-          <p class="benefit">{benefit}</p>
-        {/each}
-      </div>
-
-      <div class="links-section">
-        <h3>Learn More</h3>
-        <a href={selectedProduct.presentationUrl} target="_blank" rel="noopener" class="link-btn presentation">
-          🎬 View Presentation
-        </a>
-        <a href={selectedProduct.videoUrl} target="_blank" rel="noopener" class="link-btn video">
-          📹 Watch Explainer Video
-        </a>
+        <ul>
+          {#each selectedProduct.benefits as benefit}
+            <li>{benefit}</li>
+          {/each}
+        </ul>
       </div>
 
       <div class="pricing-section">
-        <span class="pricing-label">Pricing:</span>
-        <span class="pricing-value">{selectedProduct.pricing}</span>
+        <h3>Investment</h3>
+        <p class="price-highlight">{selectedProduct.pricing}</p>
       </div>
 
-      <button class="action-btn" style="background: {selectedProduct.color}">
-        💰 Get ROI Calculator
-      </button>
+      <div class="resources-section">
+        <h3>Learn More</h3>
+        <div class="resource-buttons">
+          <a href={selectedProduct.presentationUrl} target="_blank" rel="noopener noreferrer" class="resource-btn presentation">
+            📊 View Presentation
+          </a>
+          <a href={selectedProduct.videoUrl} target="_blank" rel="noopener noreferrer" class="resource-btn video">
+            🎥 Watch Explainer Video
+          </a>
+        </div>
+      </div>
+
+      <div class="cta-section">
+        <a href="https://indoor-media-pwa.vercel.app" class="cta-btn">
+          📊 Calculate ROI
+        </a>
+      </div>
     </div>
   {/if}
 </div>
 
 <style>
-  .products-container { max-width: 700px; margin: 0 auto; }
-  h2 { margin: 0 0 6px 0; font-size: 20px; }
-  .subtitle { margin: 0 0 20px 0; font-size: 13px; color: #999; }
+  .products-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 1rem;
+  }
+
+  h2 {
+    margin: 0 0 0.5rem 0;
+    font-size: 1.5rem;
+    color: #1a1a1a;
+  }
+
+  .subtitle {
+    margin: 0 0 2rem 0;
+    color: #666;
+    font-size: 0.95rem;
+  }
 
   .products-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 12px;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.5rem;
   }
 
   .product-card {
     background: white;
-    border: 3px solid transparent;
+    border: 3px solid;
     border-radius: 12px;
-    padding: 20px;
+    padding: 1.5rem;
     cursor: pointer;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-    gap: 8px;
     transition: all 0.2s;
-    position: relative;
+    text-align: center;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
   }
 
   .product-card:hover {
     transform: translateY(-4px);
-    box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.15);
   }
 
-  .product-icon { font-size: 40px; }
-  .product-card h3 { margin: 0; font-size: 16px; font-weight: 700; }
-  .product-subtitle { margin: 4px 0; font-size: 12px; color: #888; }
-  .product-price { font-size: 13px; font-weight: 600; color: #CC0000; margin-top: 6px; }
-  .learn-more { font-size: 12px; color: #4CAF50; font-weight: 600; }
+  .product-icon {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+  }
 
+  h3 {
+    margin: 0.5rem 0;
+    font-size: 1.25rem;
+    color: #1a1a1a;
+  }
+
+  .product-subtitle {
+    display: block;
+    margin: 0.5rem 0 1rem 0;
+    color: #666;
+    font-size: 0.9rem;
+  }
+
+  .product-price {
+    display: block;
+    margin: 1rem 0 0.5rem 0;
+    font-weight: bold;
+    color: #CC0000;
+    font-size: 1.1rem;
+  }
+
+  .learn-more {
+    display: inline-block;
+    margin-top: 0.5rem;
+    color: #2196F3;
+    font-weight: 600;
+    font-size: 0.9rem;
+  }
+
+  /* Product Detail View */
   .back-btn {
-    padding: 10px 14px;
     background: none;
     border: none;
     color: #CC0000;
-    font-size: 14px;
     font-weight: 600;
+    font-size: 1rem;
     cursor: pointer;
-    margin-bottom: 20px;
+    margin-bottom: 1.5rem;
+    padding: 0.5rem 0;
   }
 
   .product-detail {
     background: white;
     border-radius: 12px;
-    padding: 24px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    padding: 2rem;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
   }
 
   .product-header {
     display: flex;
     align-items: center;
-    gap: 12px;
-    margin-bottom: 12px;
+    gap: 1rem;
+    margin-bottom: 1rem;
   }
 
-  .detail-icon { font-size: 40px; }
-  .product-detail h2 { margin: 0; font-size: 24px; }
+  .detail-icon {
+    font-size: 3rem;
+  }
 
   .detail-subtitle {
-    font-size: 15px;
     color: #666;
-    margin: 8px 0 16px 0;
+    font-size: 1.1rem;
+    margin-bottom: 1.5rem;
   }
 
   .detail-description {
-    background: #f9f9f9;
-    padding: 16px;
-    border-radius: 8px;
-    font-size: 14px;
-    line-height: 1.5;
-    margin-bottom: 20px;
+    font-size: 1rem;
+    line-height: 1.6;
+    color: #333;
+    margin-bottom: 2rem;
+  }
+
+  .benefits-section,
+  .pricing-section,
+  .resources-section,
+  .cta-section {
+    margin-bottom: 2rem;
+  }
+
+  .benefits-section h3,
+  .pricing-section h3,
+  .resources-section h3 {
+    font-size: 1.25rem;
+    margin-bottom: 1rem;
+    color: #1a1a1a;
+  }
+
+  .benefits-section ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .benefits-section li {
+    padding: 0.5rem 0;
+    font-size: 1rem;
     color: #333;
   }
 
-  .benefits-section {
-    margin-bottom: 20px;
+  .price-highlight {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #CC0000;
+    margin: 0;
   }
 
-  .benefits-section h3 {
-    margin: 0 0 12px 0;
-    font-size: 15px;
-    font-weight: 700;
+  .resource-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
   }
 
-  .benefit {
-    margin: 8px 0;
-    font-size: 14px;
-    color: #333;
-  }
-
-  .links-section {
-    margin-bottom: 20px;
-  }
-
-  .links-section h3 {
-    margin: 0 0 12px 0;
-    font-size: 15px;
-    font-weight: 700;
-  }
-
-  .link-btn {
+  .resource-btn {
     display: block;
-    padding: 12px;
-    margin-bottom: 8px;
-    background: #f0f0f0;
-    color: #333;
-    text-decoration: none;
+    padding: 1rem;
     border-radius: 8px;
-    font-size: 13px;
+    text-decoration: none;
     font-weight: 600;
     text-align: center;
     transition: all 0.2s;
-    border: 2px solid transparent;
   }
 
-  .link-btn:hover {
-    background: white;
-    border-color: #CC0000;
-  }
-
-  .link-btn.presentation {
-    color: #2196F3;
-    border-color: #2196F3;
-  }
-
-  .link-btn.presentation:hover {
-    background: #e3f2fd;
-  }
-
-  .link-btn.video {
-    color: #FF6B35;
-    border-color: #FF6B35;
-  }
-
-  .link-btn.video:hover {
-    background: #fff3e0;
-  }
-
-  .pricing-section {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background: #f0f0f0;
-    padding: 14px;
-    border-radius: 8px;
-    margin-bottom: 16px;
-  }
-
-  .pricing-label { font-weight: 600; color: #666; }
-  .pricing-value { font-size: 16px; font-weight: 700; color: #1a1a1a; }
-
-  .action-btn {
-    width: 100%;
-    padding: 14px;
+  .resource-btn.presentation {
+    background: #2196F3;
     color: white;
-    border: none;
-    border-radius: 8px;
-    font-size: 15px;
-    font-weight: 700;
-    cursor: pointer;
   }
 
-  .action-btn:hover { opacity: 0.9; }
+  .resource-btn.presentation:hover {
+    background: #1976D2;
+    transform: translateY(-2px);
+  }
 
-  @media (max-width: 480px) {
-    .products-grid { grid-template-columns: 1fr; }
-    .product-detail { padding: 16px; }
+  .resource-btn.video {
+    background: #CC0000;
+    color: white;
+  }
+
+  .resource-btn.video:hover {
+    background: #990000;
+    transform: translateY(-2px);
+  }
+
+  .cta-btn {
+    display: block;
+    padding: 1.25rem;
+    background: linear-gradient(135deg, #CC0000, #990000);
+    color: white;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 1.1rem;
+    text-align: center;
+    transition: all 0.2s;
+  }
+
+  .cta-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(204, 0, 0, 0.3);
+  }
+
+  @media (max-width: 768px) {
+    .products-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .product-detail {
+      padding: 1.5rem;
+    }
+
+    .resource-buttons {
+      gap: 0.75rem;
+    }
   }
 </style>
