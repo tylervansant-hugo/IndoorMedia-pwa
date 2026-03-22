@@ -28,7 +28,8 @@
   let stats = {};
 
   // UI state
-  let view = 'search'; // 'search', 'categories', 'subcategories', 'results', 'saved'
+  let view = 'search'; // 'search', 'store-number-input', 'city-input', 'categories', 'subcategories', 'results', 'saved'
+  let storeNumberInput = '';
   let userLocation = null;
   let userCity = '';
   let searchTerm = '';
@@ -69,17 +70,53 @@
   }
 
   // --- Search Flow ---
-  function handleSearch() {
+  function findNearMe() {
+    getLocation('Near Me');
+  }
+
+  function handleCitySearch() {
     if (!searchTerm.trim()) {
-      setError('Please enter a location');
+      setError('Please enter a city name');
+      return;
+    }
+    userCity = searchTerm;
+    getLocation(searchTerm);
+  }
+
+  async function handleStoreNumberSearch() {
+    if (!storeNumberInput.trim()) {
+      setError('Please enter a store number');
       return;
     }
 
-    userCity = searchTerm;
-    getLocation();
+    setLoading(true);
+    try {
+      // Load stores data to find the store location
+      const res = await fetch('/data/stores.json');
+      const stores = await res.json();
+      const store = stores.find(s => s.StoreName?.toUpperCase() === storeNumberInput.trim().toUpperCase());
+      
+      if (!store || !store.Latitude || !store.Longitude) {
+        setError(`Store ${storeNumberInput} not found`);
+        setLoading(false);
+        return;
+      }
+
+      userLocation = {
+        latitude: parseFloat(store.Latitude),
+        longitude: parseFloat(store.Longitude)
+      };
+      userCity = `${store.City}, ${store.State} (near ${store.StoreName})`;
+      view = 'categories';
+      setLoading(false);
+    } catch (err) {
+      console.error('Error loading store:', err);
+      setError('Failed to load store data');
+      setLoading(false);
+    }
   }
 
-  function getLocation() {
+  function getLocation(cityName = 'your location') {
     if (!navigator.geolocation) {
       setError('Geolocation not supported in this browser');
       return;
@@ -89,6 +126,7 @@
     navigator.geolocation.getCurrentPosition(
       position => {
         userLocation = position.coords;
+        userCity = cityName;
         view = 'categories';
         setLoading(false);
       },
@@ -319,6 +357,32 @@
   }
 
   /* Search View */
+  .search-options {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin-bottom: 2rem;
+  }
+
+  .search-option-btn {
+    padding: 1.5rem;
+    background: #1f2937;
+    color: white;
+    border: none;
+    border-radius: 0.75rem;
+    font-size: 1.1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    text-align: center;
+  }
+
+  .search-option-btn:hover {
+    background: #374151;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  }
+
   .search-container {
     display: flex;
     gap: 0.5rem;
@@ -697,19 +761,18 @@
   <!-- Search View -->
   {#if view === 'search'}
     <div>
-      <h2 style="margin-bottom: 1rem; color: #1f2937;">Find Prospects</h2>
+      <h2 style="margin-bottom: 1rem; color: #1f2937; font-style: italic;">How would you like to search?</h2>
 
-      {#if view === 'search' && selectedCategory === ''}
-        <div class="search-container">
-          <input
-            type="text"
-            class="search-input"
-            placeholder="Enter your city name..."
-            bind:value={searchTerm}
-            on:keydown={e => e.key === 'Enter' && handleSearch()}
-          />
-          <button class="search-btn" on:click={handleSearch} disabled={$loading}>
-            Search
+      {#if selectedCategory === ''}
+        <div class="search-options">
+          <button class="search-option-btn" on:click={findNearMe}>
+            📍 Near Me
+          </button>
+          <button class="search-option-btn" on:click={() => view = 'store-number-input'}>
+            🏪 By Store Number
+          </button>
+          <button class="search-option-btn" on:click={() => view = 'city-input'}>
+            🏙️ By City
           </button>
         </div>
       {/if}
@@ -900,6 +963,51 @@
           {/each}
         </div>
       {/if}
+    </div>
+  {/if}
+
+  <!-- Store Number Input View -->
+  {#if view === 'store-number-input'}
+    <div>
+      <button class="back-btn" on:click={() => view = 'search'}>← Back</button>
+      
+      <h2 style="margin-bottom: 1rem; color: #1f2937;">Enter Store Number</h2>
+      
+      <div class="search-container">
+        <input
+          type="text"
+          class="search-input"
+          placeholder="e.g. FME07Y-0220"
+          bind:value={storeNumberInput}
+          on:keydown={e => e.key === 'Enter' && handleStoreNumberSearch()}
+          style="text-transform: uppercase;"
+        />
+        <button class="search-btn" on:click={handleStoreNumberSearch} disabled={$loading}>
+          Search
+        </button>
+      </div>
+    </div>
+  {/if}
+
+  <!-- City Input View -->
+  {#if view === 'city-input'}
+    <div>
+      <button class="back-btn" on:click={() => view = 'search'}>← Back</button>
+      
+      <h2 style="margin-bottom: 1rem; color: #1f2937;">Enter City Name</h2>
+      
+      <div class="search-container">
+        <input
+          type="text"
+          class="search-input"
+          placeholder="e.g. Portland"
+          bind:value={searchTerm}
+          on:keydown={e => e.key === 'Enter' && handleCitySearch()}
+        />
+        <button class="search-btn" on:click={handleCitySearch} disabled={$loading}>
+          Search
+        </button>
+      </div>
     </div>
   {/if}
 
