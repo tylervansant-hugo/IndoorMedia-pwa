@@ -143,7 +143,6 @@
           <div class="product-icon">{product.icon}</div>
           <h3>{product.name}</h3>
           <p class="product-subtitle">{product.subtitle}</p>
-          <span class="product-price">{product.pricing}</span>
           <span class="learn-more">Learn More →</span>
         </button>
       {/each}
@@ -256,14 +255,6 @@
     margin: 0.5rem 0 1rem 0;
     color: #666;
     font-size: 0.9rem;
-  }
-
-  .product-price {
-    display: block;
-    margin: 1rem 0 0.5rem 0;
-    font-weight: bold;
-    color: #CC0000;
-    font-size: 1.1rem;
   }
 
   .learn-more {
