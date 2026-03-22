@@ -1,6 +1,7 @@
 <script>
   import { createEventDispatcher } from 'svelte';
   import { currentTab, cart, error } from '../lib/stores.js';
+  import { theme, toggleTheme } from '../lib/theme.js';
   import StoreSearch from './StoreSearch.svelte';
   import ProspectSearch from './ProspectSearch.svelte';
   import TestimonialSearch from './TestimonialSearch.svelte';
@@ -34,7 +35,12 @@
       <img src="/indoormedia-logo.png" alt="IndoorMedia" class="header-logo" />
       <p class="user-name">Hi, {user.name || user.first_name}</p>
     </div>
-    <button class="logout-btn" on:click={handleLogout}>Logout</button>
+    <div class="header-actions">
+      <button class="theme-toggle" on:click={toggleTheme} title="Toggle theme">
+        {$theme === 'light' ? '🌙' : '☀️'}
+      </button>
+      <button class="logout-btn" on:click={handleLogout}>Logout</button>
+    </div>
   </header>
 
   {#if $error}
@@ -147,6 +153,28 @@
     margin: 4px 0 0 0;
     font-size: 13px;
     opacity: 0.9;
+  }
+
+  .header-actions {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+  }
+
+  .theme-toggle {
+    background: rgba(255, 255, 255, 0.2);
+    color: white;
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    padding: 8px 12px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 18px;
+    line-height: 1;
+    transition: background 0.2s;
+  }
+
+  .theme-toggle:hover {
+    background: rgba(255, 255, 255, 0.3);
   }
 
   .logout-btn {
