@@ -5,6 +5,10 @@
   import ProspectSearch from './ProspectSearch.svelte';
   import TestimonialSearch from './TestimonialSearch.svelte';
   import Cart from './Cart.svelte';
+  import Dashboard from './Dashboard.svelte';
+  import ROICalculator from './ROICalculator.svelte';
+  import EmailTemplates from './EmailTemplates.svelte';
+  import QuickLinks from './QuickLinks.svelte';
 
   const dispatch = createEventDispatcher();
 
@@ -34,39 +38,31 @@
   {/if}
 
   <nav class="tabs">
-    <button
-      class="tab {$currentTab === 'search' ? 'active' : ''}"
-      on:click={() => currentTab.set('search')}
-    >
-      🏪 Stores
-    </button>
-    <button
-      class="tab {$currentTab === 'prospects' ? 'active' : ''}"
-      on:click={() => currentTab.set('prospects')}
-    >
-      👥 Prospects
-    </button>
-    <button
-      class="tab {$currentTab === 'testimonials' ? 'active' : ''}"
-      on:click={() => currentTab.set('testimonials')}
-    >
-      ⭐ Testimonials
-    </button>
-    <button
-      class="tab {$currentTab === 'cart' ? 'active' : ''}"
-      on:click={() => currentTab.set('cart')}
-    >
-      🛒 Cart {cartCount > 0 ? `(${cartCount})` : ''}
-    </button>
+    <button class="tab {$currentTab === 'search' ? 'active' : ''}" on:click={() => currentTab.set('search')}>🏪 Stores</button>
+    <button class="tab {$currentTab === 'dashboard' ? 'active' : ''}" on:click={() => currentTab.set('dashboard')}>📊 Dashboard</button>
+    <button class="tab {$currentTab === 'prospects' ? 'active' : ''}" on:click={() => currentTab.set('prospects')}>👥 Prospects</button>
+    <button class="tab {$currentTab === 'testimonials' ? 'active' : ''}" on:click={() => currentTab.set('testimonials')}>⭐ Testimonials</button>
+    <button class="tab {$currentTab === 'roi' ? 'active' : ''}" on:click={() => currentTab.set('roi')}>💰 ROI</button>
+    <button class="tab {$currentTab === 'email' ? 'active' : ''}" on:click={() => currentTab.set('email')}>✉️ Email</button>
+    <button class="tab {$currentTab === 'links' ? 'active' : ''}" on:click={() => currentTab.set('links')}>🔗 Links</button>
+    <button class="tab {$currentTab === 'cart' ? 'active' : ''}" on:click={() => currentTab.set('cart')}>🛒 {cartCount > 0 ? `(${cartCount})` : 'Cart'}</button>
   </nav>
 
   <div class="content">
     {#if $currentTab === 'search'}
       <StoreSearch />
+    {:else if $currentTab === 'dashboard'}
+      <Dashboard {user} />
     {:else if $currentTab === 'prospects'}
       <ProspectSearch />
     {:else if $currentTab === 'testimonials'}
       <TestimonialSearch />
+    {:else if $currentTab === 'roi'}
+      <ROICalculator />
+    {:else if $currentTab === 'email'}
+      <EmailTemplates {user} />
+    {:else if $currentTab === 'links'}
+      <QuickLinks />
     {:else if $currentTab === 'cart'}
       <Cart />
     {/if}
