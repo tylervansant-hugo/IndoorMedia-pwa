@@ -121,13 +121,12 @@
   .header {
     background: linear-gradient(135deg, #CC0000 0%, #1a1a1a 100%);
     color: white;
-    padding: 20px 20px;
-    padding-top: 70px;
+    padding: 20px 20px 16px 20px;
+    padding-top: calc(env(safe-area-inset-top, 50px) + 20px);
     display: flex;
     justify-content: space-between;
-    align-items: center;
+    align-items: flex-end;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-    min-height: 140px;
   }
 
   .header-content h1 {
@@ -170,24 +169,28 @@
     display: flex;
     gap: 0;
     background: white;
-    border-bottom: 1px solid #ddd;
+    border-bottom: 2px solid #eee;
     overflow-x: auto;
-    margin-bottom: 8px;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    padding: 0 4px;
   }
 
+  .tabs::-webkit-scrollbar { display: none; }
+
   .tab {
-    flex: 1;
-    min-width: 80px;
-    padding: 14px 16px;
+    flex: 0 0 auto;
+    padding: 14px 18px;
     background: none;
     border: none;
     cursor: pointer;
     font-size: 13px;
-    font-weight: 500;
-    color: #666;
+    font-weight: 600;
+    color: #888;
     border-bottom: 3px solid transparent;
-    transition: all 0.3s;
+    transition: all 0.2s;
     white-space: nowrap;
+    letter-spacing: 0.3px;
   }
 
   .tab:hover {
@@ -240,8 +243,8 @@
 
   @media (max-width: 480px) {
     .header {
-      padding: 12px 16px;
-      min-height: 60px;
+      padding: 16px 16px 14px 16px;
+      padding-top: calc(env(safe-area-inset-top, 50px) + 16px);
     }
 
     .header-content h1 {
@@ -254,12 +257,17 @@
     }
 
     .tab {
-      padding: 10px 12px;
+      padding: 12px 14px;
       font-size: 12px;
     }
 
     .content {
       padding: 16px;
+    }
+
+    .tools-grid {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
     }
   }
 </style>
