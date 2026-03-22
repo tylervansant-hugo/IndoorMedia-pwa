@@ -131,12 +131,13 @@
     background: white;
     border-bottom: 1px solid #ddd;
     overflow-x: auto;
+    margin-bottom: 8px;
   }
 
   .tab {
     flex: 1;
     min-width: 80px;
-    padding: 12px 16px;
+    padding: 14px 16px;
     background: none;
     border: none;
     cursor: pointer;
