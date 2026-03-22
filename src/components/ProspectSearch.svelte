@@ -2,15 +2,26 @@
   import { loading, error, setLoading, setError } from '../lib/stores.js';
   import { onMount } from 'svelte';
 
-  const CATEGORIES = {
-    "🍽️ Restaurants": { search: "restaurant", types: ["restaurant"] },
-    "🚗 Automotive": { search: "auto repair", types: ["car_repair", "gas_station"] },
-    "💄 Beauty & Wellness": { search: "hair salon", types: ["hair_salon", "beauty_salon", "spa", "gym"] },
-    "🏥 Health/Medical": { search: "dentist", types: ["dentist", "doctor", "pharmacy"] },
-    "🛍️ Retail": { search: "retail store", types: ["store", "shopping_mall"] },
-    "🏠 Home Services": { search: "plumbing", types: ["plumber", "electrician", "contractor"] },
-    "📱 Services": { search: "insurance", types: ["finance", "insurance_agency", "real_estate_agency"] }
-  };
+  let CATEGORIES = {};
+
+  onMount(async () => {
+    try {
+      const res = await fetch('/data/prospect-categories.json');
+      CATEGORIES = await res.json();
+    } catch (err) {
+      console.error('Failed to load categories:', err);
+      // Fallback categories
+      CATEGORIES = {
+        "🍽️ Restaurants": { "Mexican": "mexican", "Pizza": "pizza", "Coffee/Café": "coffee" },
+        "🚗 Automotive": { "Auto Repair": "auto repair", "Car Wash": "car wash" },
+        "💄 Beauty & Wellness": { "Hair Salon": "hair", "Gym/Fitness": "gym" },
+        "🏥 Health/Medical": { "Dentist": "dentist", "Pharmacy": "pharmacy" },
+        "🏠 Home Services": { "Plumber": "plumber", "Electrician": "electrician" },
+        "🛍️ Retail": { "Clothing": "clothing", "Jewelry": "jewelry" },
+        "👔 Professionals": { "Lawyer": "lawyer", "Accountant": "accountant" }
+      };
+    }
+  });
 
   let searchTerm = '';
   let selectedCategory = '';
@@ -18,7 +29,7 @@
   let filtered = [];
   let userLocation = null;
   let useGeolocation = false;
-  let view = 'search'; // 'search', 'categories', 'results'
+  let view = 'search'; // 'search', 'categories', 'subcategories', 'results'
 
   function startCategories(location) {
     userLocation = location;
@@ -27,12 +38,14 @@
 
   function selectCategory(cat) {
     selectedCategory = cat;
+    view = 'subcategories';
   }
 
   function selectSubcategory(subcat) {
     selectedSubcategory = subcat;
     view = 'results';
-    searchNearbyBusinesses(subcat);
+    const keyword = CATEGORIES[selectedCategory][subcat];
+    searchNearbyBusinesses(keyword);
   }
 
   async function searchByCity() {
@@ -155,8 +168,11 @@
 
   function goBack() {
     if (view === 'results') {
-      view = 'categories';
+      view = 'subcategories';
       selectedSubcategory = '';
+    } else if (view === 'subcategories') {
+      view = 'categories';
+      selectedCategory = '';
     } else if (view === 'categories') {
       view = 'search';
       selectedCategory = '';
@@ -213,24 +229,28 @@
   {:else if view === 'categories'}
     <button class="back-btn" on:click={goBack}>← Back to Search</button>
     
-    <h3>{selectedCategory ? selectedCategory : 'Choose Category'}</h3>
+    <h3>Choose Business Category</h3>
 
-    {#if !selectedCategory}
-      <div class="category-grid">
-        {#each Object.keys(CATEGORIES) as cat}
-          <button class="category-card" on:click={() => selectCategory(cat)}>
-            {cat}
-          </button>
-        {/each}
-      </div>
-    {:else}
-      <div class="note">
-        <p>Searching for target businesses in your area...</p>
-      </div>
-      <button class="select-btn" on:click={() => selectSubcategory(selectedCategory)}>
-        🔍 Search {selectedCategory}
-      </button>
-    {/if}
+    <div class="category-grid">
+      {#each Object.keys(CATEGORIES) as cat}
+        <button class="category-card" on:click={() => selectCategory(cat)}>
+          {cat}
+        </button>
+      {/each}
+    </div>
+
+  {:else if view === 'subcategories'}
+    <button class="back-btn" on:click={goBack}>← {selectedCategory}</button>
+    
+    <h3>Choose Business Type</h3>
+
+    <div class="subcat-grid">
+      {#each Object.keys(CATEGORIES[selectedCategory] || {}) as subcat}
+        <button class="subcat-card" on:click={() => selectSubcategory(subcat)}>
+          {subcat}
+        </button>
+      {/each}
+    </div>
 
   {:else if view === 'results'}
     <button class="back-btn" on:click={goBack}>← Back to Categories</button>
@@ -368,13 +388,13 @@
     margin-bottom: 12px;
   }
 
-  .category-grid {
+  .category-grid, .subcat-grid {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     gap: 12px;
   }
 
-  .category-card {
+  .category-card, .subcat-card {
     background: white;
     border: 2px solid #e0e0e0;
     border-radius: 12px;
@@ -386,36 +406,13 @@
     text-align: center;
   }
 
-  .category-card:hover {
+  .category-card:hover, .subcat-card:hover {
     border-color: #CC0000;
     transform: translateY(-2px);
     box-shadow: 0 4px 12px rgba(0,0,0,0.1);
   }
 
-  .note {
-    background: #fff3e0;
-    border-left: 4px solid #FF9800;
-    padding: 12px;
-    border-radius: 6px;
-    margin-bottom: 12px;
-    font-size: 13px;
-    color: #333;
-  }
 
-  .select-btn {
-    width: 100%;
-    padding: 12px;
-    background: #CC0000;
-    color: white;
-    border: none;
-    border-radius: 8px;
-    font-size: 14px;
-    font-weight: 600;
-    cursor: pointer;
-    margin-top: 12px;
-  }
-
-  .select-btn:hover { background: #990000; }
 
   .prospect-list {
     display: flex;

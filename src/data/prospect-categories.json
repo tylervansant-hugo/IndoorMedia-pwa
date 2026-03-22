@@ -1,0 +1,86 @@
+{
+  "🍽️ Restaurants": {
+    "Mexican": "mexican restaurant taqueria",
+    "Pizza": "pizza pizzeria",
+    "Coffee/Café": "coffee cafe espresso",
+    "Sushi/Japanese": "sushi japanese ramen",
+    "Fast Food": "fast food burger",
+    "Chinese": "chinese restaurant",
+    "Thai": "thai restaurant",
+    "Indian": "indian restaurant curry",
+    "BBQ/Steakhouse": "bbq steakhouse grill smokehouse",
+    "Italian": "italian restaurant pasta",
+    "Bakery": "bakery pastry",
+    "Bar/Pub": "bar pub tavern brewery taproom",
+    "All Restaurants": "restaurant"
+  },
+  "🚗 Automotive": {
+    "Oil Change/Lube": "oil change lube quick lube",
+    "Car Wash": "car wash detailing",
+    "Auto Repair": "auto repair mechanic garage",
+    "Tires": "tire tires wheel alignment",
+    "Car Dealer": "car dealer dealership",
+    "Body Shop": "body shop collision paint auto body",
+    "Transmission": "transmission repair"
+  },
+  "💄 Beauty & Wellness": {
+    "Hair Salon": "hair salon haircut stylist",
+    "Barber": "barber barbershop",
+    "Nail Salon": "nail salon nails manicure pedicure",
+    "Spa/Massage": "spa massage day spa facial",
+    "Gym/Fitness": "gym fitness center workout",
+    "Yoga/Pilates": "yoga pilates studio",
+    "Tanning": "tanning salon"
+  },
+  "🏥 Health/Medical": {
+    "Dentist": "dentist dental",
+    "Chiropractor": "chiropractor chiropractic",
+    "Veterinarian": "veterinarian vet pet",
+    "Physical Therapy": "physical therapy pt",
+    "Eye Care": "optometrist eye care vision",
+    "Pharmacy": "pharmacy drugstore",
+    "Urgent Care": "urgent care clinic"
+  },
+  "🏠 Home Services": {
+    "Plumber": "plumber plumbing",
+    "Electrician": "electrician electrical",
+    "HVAC": "hvac heating cooling",
+    "Roofing": "roofing roofer",
+    "Landscaping": "landscaping lawn care",
+    "Cleaning": "cleaning services",
+    "Contractor": "contractor construction"
+  },
+  "🛍️ Retail": {
+    "Clothing/Apparel": "clothing apparel fashion",
+    "Home & Garden": "home garden furniture",
+    "Electronics": "electronics computer tech",
+    "Jewelry": "jewelry jeweler",
+    "Florist": "florist flowers",
+    "Pet Store": "pet store pet supplies",
+    "Liquor/Wine": "liquor wine beer"
+  },
+  "👔 Professionals": {
+    "Lawyer/Attorney": "lawyer attorney legal",
+    "Accountant/CPA": "accountant cpa bookkeeper",
+    "Insurance Agent": "insurance agent",
+    "Real Estate Agent": "real estate agent broker",
+    "Financial Advisor": "financial advisor wealth",
+    "Mortgage/Lender": "mortgage lender bank",
+    "Cell Phone": "cell phone carrier wireless"
+  },
+  "👦 Kids Activities & Tutoring": {
+    "Tutoring": "tutoring tutor education",
+    "Music Lessons": "music lessons music school",
+    "Dance Classes": "dance classes ballet",
+    "Martial Arts": "martial arts karate judo",
+    "Youth Sports": "youth sports leagues",
+    "Summer Camps": "summer camps",
+    "General Kids Activities": "kids activities lessons"
+  },
+  "👶 Care Centers": {
+    "Child Care/Day Care": "daycare childcare preschool",
+    "After School Program": "after school program",
+    "Assisted Living": "assisted living senior care",
+    "Adult Day Care": "adult day care"
+  }
+}
