@@ -162,36 +162,22 @@
   }
 
   async function searchGooglePlaces(lat, lng, keyword) {
-    const API_KEY = 'AIzaSyBoslNJj8aO6wkQOfkH9e4qTVJZ-G9nOuA';
-    
     try {
-      const response = await fetch(`https://places.googleapis.com/v1/places:searchNearby`, {
+      // Call our Vercel serverless function (proxies to Google Places API)
+      const response = await fetch('/api/search-places', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'X-Goog-FieldMask': 'places.name,places.formattedAddress,places.rating,places.userRatingCount,places.location,places.displayName,places.businessStatus,places.openingHours'
-        },
-        body: JSON.stringify({
-          location: { latitude: lat, longitude: lng },
-          radiusMeters: 8000,
-          textQuery: keyword
-        })
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ lat, lng, keyword })
       });
 
       if (!response.ok) throw new Error('API error');
       const data = await response.json();
       
-      // Format results
-      return (data.places || []).slice(0, 10).map((place, idx) => ({
-        id: place.name,
-        name: place.displayName?.text || place.name || 'Unnamed',
-        address: place.formattedAddress || 'Address unavailable',
-        rating: place.rating || 0,
-        reviews: place.userRatingCount || 0,
-        distance: calculateDistance(lat, lng, place.location.latitude, place.location.longitude),
-        score: Math.min(100, Math.round((place.rating || 0) * 15 + (Math.min(place.userRatingCount || 0, 100) / 100) * 20 + 50)),
-        status: place.openingHours?.openNow ? 'open' : 'check'
-      }));
+      if (data.success && data.places) {
+        return data.places;
+      } else {
+        throw new Error(data.error || 'Unknown error');
+      }
     } catch (err) {
       console.error('Google Places error:', err);
       // Fallback to mock data
