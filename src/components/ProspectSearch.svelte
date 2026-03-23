@@ -335,20 +335,33 @@
     <p class="subtitle">Nearby {selectedCategory} near {selectedStore.GroceryChain}</p>
 
     <div class="prospect-list">
-      {#each prospects as prospect (prospect.id)}
+      {#each prospects as prospect, i (prospect.id + '-' + i)}
         <div class="prospect-card">
           <div class="prospect-main">
             <div>
               <h4>{prospect.name}</h4>
               <p class="address">📍 {prospect.address}</p>
-              <p class="meta">⭐ {prospect.rating.toFixed(1)} ({prospect.reviews} reviews) • {prospect.distance.toFixed(1)} mi • Score: {prospect.score}%</p>
+              <p class="meta">
+                ⭐ {prospect.rating.toFixed(1)} ({prospect.reviews} reviews) • {prospect.distance} mi • Score: {prospect.score}%
+              </p>
+              {#if prospect.phone}
+                <p class="phone">📞 {prospect.phone}</p>
+              {/if}
             </div>
           </div>
           <div class="prospect-actions">
-            <a href="https://maps.google.com" target="_blank" class="action-btn">📍 Maps</a>
+            {#if prospect.phone}
+              <a href="tel:{prospect.phone}" class="action-btn">📞 Call</a>
+            {/if}
+            {#if prospect.mapsUrl}
+              <a href={prospect.mapsUrl} target="_blank" class="action-btn">📍 Maps</a>
+            {:else}
+              <a href="https://maps.google.com/maps?q={encodeURIComponent(prospect.name + ' ' + prospect.address)}" target="_blank" class="action-btn">📍 Maps</a>
+            {/if}
+            {#if prospect.website}
+              <a href={prospect.website} target="_blank" class="action-btn">🌐 Web</a>
+            {/if}
             <button class="action-btn" on:click={() => saveProspect(prospect)}>💾 Save</button>
-            <button class="action-btn">📝 Notes</button>
-            <button class="action-btn">📧 Email</button>
           </div>
         </div>
       {/each}
