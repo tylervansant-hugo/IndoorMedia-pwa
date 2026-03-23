@@ -76,6 +76,7 @@
       return;
     }
 
+    setError(null); // Clear any previous errors
     setLoading(true);
     
     navigator.geolocation.getCurrentPosition(
@@ -152,6 +153,7 @@
       return;
     }
 
+    setError(null); // Clear any previous errors
     setLoading(true);
     userCity = searchTerm;
     navigator.geolocation.getCurrentPosition(
@@ -174,6 +176,7 @@
       return;
     }
 
+    setError(null); // Clear any previous errors
     setLoading(true);
     try {
       // Load stores data to find the store location
@@ -210,6 +213,7 @@
 
   async function selectSubcategory(subcat) {
     selectedSubcategory = subcat;
+    setError(null); // Clear any previous errors
     // Stay in search view - results render when filtered has data
     await performSearch();
   }
