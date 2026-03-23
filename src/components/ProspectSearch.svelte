@@ -309,8 +309,6 @@
       `Best regards,\n` +
       `IndoorMedia Sales`
     );
-    // Create mailto with prospect info (rep can copy/paste or use email client)
-    const subject = encodeURIComponent(`Quick question about ${place.name}`);
     window.location.href = `mailto:?subject=${subject}&body=${body}`;
   }
 

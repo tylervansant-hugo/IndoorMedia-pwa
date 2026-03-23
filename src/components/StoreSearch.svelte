@@ -189,7 +189,12 @@
     {#if $loading}
       <p class="loading">Loading stores...</p>
     {:else if filtered.length === 0 && searchTerm}
-      <p class="no-results">No stores found matching "{searchTerm}"</p>
+      <p class="no-results">
+        <span style="font-size: 2rem; margin-bottom: 1rem; display: block;">🔍</span>
+        No stores found for "{searchTerm}"<br/>
+        <span style="font-size: 0.9rem; color: #999; margin-top: 0.5rem; display: block;">Try searching by:</span>
+        <span style="font-size: 0.85rem; color: #999;">Store #, City, Chain, or Address</span>
+      </p>
     {:else if filtered.length === 0}
       <p class="hint">Start typing to search for stores</p>
     {:else}
