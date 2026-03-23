@@ -33,24 +33,7 @@
   <!-- Header -->
   <header class="header">
     <div class="header-logo-section">
-      <svg viewBox="0 0 300 300" xmlns="http://www.w3.org/2000/svg" class="header-logo-svg">
-        <!-- Red circle background -->
-        <circle cx="150" cy="150" r="140" fill="white"/>
-        
-        <!-- Main IM shape -->
-        <g>
-          <!-- I - left parallelogram -->
-          <polygon points="80,100 120,85 140,200 100,215" fill="#CC0000"/>
-          
-          <!-- M - three parallelograms -->
-          <!-- Left peak -->
-          <polygon points="160,100 200,85 220,200 180,215" fill="#CC0000"/>
-          <!-- Middle valley -->
-          <polygon points="200,120 240,105 260,215 220,230" fill="#CC0000"/>
-          <!-- Right peak -->
-          <polygon points="260,100 300,85 320,200 280,215" fill="#CC0000"/>
-        </g>
-      </svg>
+      <img src="/indoormedia-logo.svg" alt="IndoorMedia" class="header-logo-img" />
     </div>
 
     <div class="header-bottom">
@@ -227,11 +210,12 @@
     text-align: center;
   }
 
-  .header-logo-svg {
+  .header-logo-img {
     width: 120px;
     height: 120px;
-    margin: 0 auto;
+    object-fit: contain;
     display: block;
+    margin: 0 auto;
   }
 
   .header-bottom {

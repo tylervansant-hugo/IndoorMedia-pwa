@@ -58,26 +58,7 @@
   <div class="login-wrapper">
     <!-- Logo Section -->
     <div class="logo-section">
-      <div class="logo-circle">
-        <svg viewBox="0 0 300 300" xmlns="http://www.w3.org/2000/svg" class="logo">
-          <!-- Red circle background -->
-          <circle cx="150" cy="150" r="140" fill="#CC0000"/>
-          
-          <!-- Main IM shape -->
-          <g>
-            <!-- I - left parallelogram -->
-            <polygon points="80,100 120,85 140,200 100,215" fill="white"/>
-            
-            <!-- M - three parallelograms -->
-            <!-- Left peak -->
-            <polygon points="160,100 200,85 220,200 180,215" fill="white"/>
-            <!-- Middle valley -->
-            <polygon points="200,120 240,105 260,215 220,230" fill="white"/>
-            <!-- Right peak -->
-            <polygon points="260,100 300,85 320,200 280,215" fill="white"/>
-          </g>
-        </svg>
-      </div>
+      <img src="/indoormedia-logo.svg" alt="IndoorMedia" class="logo-img" />
       <h2 class="app-name">imPro</h2>
     </div>
 
@@ -170,20 +151,13 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 12px;
+    gap: 16px;
   }
 
-  .logo-circle {
+  .logo-img {
     width: 140px;
     height: 140px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-
-  .logo {
-    width: 100%;
-    height: 100%;
+    object-fit: contain;
   }
 
   .app-name {
