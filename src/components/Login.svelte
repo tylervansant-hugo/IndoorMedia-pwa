@@ -1,29 +1,25 @@
 <script>
   import { createEventDispatcher } from 'svelte';
-  import { error, setLoading, setUser } from '../lib/stores.js';
-
-  const dispatch = createEventDispatcher();
-
-  import { onMount } from 'svelte';
+  import { error, setUser } from '../lib/stores.js';
 
   let selectedRep = '';
   let isLoading = true;
   let reps = [];
+
+  import { onMount } from 'svelte';
 
   onMount(async () => {
     try {
       const response = await fetch('/data/rep_registry.json');
       const data = await response.json();
       
-      // Convert object format to array
       reps = Object.entries(data).map(([id, rep]) => ({
         id: id,
         name: rep.display_name || rep.contract_name,
         role: rep.role || 'rep',
-        base_location: rep.base_location || ''
+        base_location: rep.base_location || 'Territory TBD'
       }));
       
-      // Sort: managers first, then alphabetical
       reps.sort((a, b) => {
         if (a.role === 'manager' && b.role !== 'manager') return -1;
         if (b.role === 'manager' && a.role !== 'manager') return 1;
@@ -33,7 +29,6 @@
       console.log(`Loaded ${reps.length} reps`);
     } catch (err) {
       console.error('Failed to load reps:', err);
-      // Fallback
       reps = [
         { id: '1', name: 'Tyler Van Sant', role: 'manager', base_location: 'Ridgefield, WA' }
       ];
@@ -59,103 +54,132 @@
   }
 </script>
 
-<div class="login-container">
-  <div class="login-card">
+<div class="login-page">
+  <div class="login-wrapper">
+    <!-- Logo Section -->
     <div class="logo-section">
-      <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" class="logo-svg">
-        <circle cx="100" cy="100" r="95" fill="#CC0000"/>
-        <text x="100" y="120" font-family="Arial, sans-serif" font-size="80" font-weight="bold" fill="white" text-anchor="middle" dominant-baseline="middle">IM</text>
+      <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" class="logo">
+        <rect x="10" y="10" width="180" height="180" rx="40" fill="#CC0000"/>
+        <line x1="45" y1="50" x2="55" y2="80" stroke="white" stroke-width="8" stroke-linecap="round"/>
+        <circle cx="50" cy="40" r="5" fill="white"/>
+        <polyline points="70,80 80,50 90,80 100,50 110,80 120,100" stroke="white" stroke-width="8" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+        <text x="100" y="145" font-family="Arial, sans-serif" font-size="20" font-weight="bold" fill="white" text-anchor="middle">IndoorMedia</text>
       </svg>
-      <span class="pro-badge">Pro</span>
+      <h2 class="app-name">imPro</h2>
     </div>
-    <h1>IndoorMedia</h1>
-    <p class="subtitle">Sales Portal</p>
 
-    <form on:submit|preventDefault={handleLogin}>
-      <div class="form-group">
-        <label for="rep-select">Select Your Name:</label>
-        <select
-          id="rep-select"
-          bind:value={selectedRep}
-          disabled={isLoading}
+    <!-- Content -->
+    <div class="login-content">
+      <h1>Sales Portal</h1>
+      <p class="subtitle">Select your profile to continue</p>
+
+      <form on:submit|preventDefault={handleLogin} class="login-form">
+        <div class="form-group">
+          <label for="rep-select">Representative</label>
+          <div class="select-wrapper">
+            <select
+              id="rep-select"
+              bind:value={selectedRep}
+              disabled={isLoading}
+              class="rep-select"
+            >
+              <option value="">Choose your name...</option>
+              {#each reps as rep (rep.id)}
+                <option value={rep.id}>
+                  {rep.name}
+                </option>
+              {/each}
+            </select>
+            <span class="select-icon">▼</span>
+          </div>
+          
+          {#if selectedRep}
+            <div class="rep-details">
+              <p class="location">📍 {reps.find(r => r.id === selectedRep)?.base_location}</p>
+            </div>
+          {/if}
+        </div>
+
+        {#if $error}
+          <div class="error-message">
+            <span class="error-icon">⚠️</span>
+            {$error}
+          </div>
+        {/if}
+
+        <button 
+          type="submit" 
+          disabled={selectedRep === '' || isLoading}
+          class="signin-button"
         >
-          <option value="">-- Choose a representative --</option>
-          {#each reps as rep (rep.id)}
-            <option value={rep.id}>
-              {rep.name}
-            </option>
-          {/each}
-        </select>
-      </div>
+          {isLoading ? '⏳ Loading...' : '→ Sign In'}
+        </button>
+      </form>
+    </div>
 
-      {#if $error}
-        <div class="error-message">{$error}</div>
-      {/if}
-
-      <button type="submit" disabled={selectedRep === '' || isLoading}>
-        {isLoading ? 'Loading...' : 'Sign In'}
-      </button>
-    </form>
-
-    <div class="footer">
-      <p>Rep Portal v1.0</p>
+    <!-- Footer -->
+    <div class="login-footer">
+      <p class="version">imPro v2.0</p>
+      <p class="tagline">IndoorMedia Sales Portal</p>
     </div>
   </div>
 </div>
 
 <style>
-  .login-container {
+  .login-page {
     width: 100%;
     height: 100%;
     display: flex;
     align-items: center;
     justify-content: center;
     background: linear-gradient(135deg, #CC0000 0%, #1a1a1a 100%);
+    min-height: 100vh;
     padding: 20px;
   }
 
-  .login-card {
+  .login-wrapper {
     background: white;
-    border-radius: 12px;
-    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
-    padding: 40px;
+    border-radius: 20px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
     width: 100%;
-    max-width: 400px;
-    text-align: center;
-  }
-
-  .logo-section {
-    position: relative;
-    width: 100px;
-    height: 100px;
-    margin: 0 auto 20px;
+    max-width: 420px;
+    overflow: hidden;
     display: flex;
-    align-items: center;
-    justify-content: center;
+    flex-direction: column;
   }
 
-  .logo-svg {
-    width: 100%;
-    height: 100%;
-  }
-
-  .pro-badge {
-    position: absolute;
-    top: -5px;
-    right: -5px;
-    background: #CC0000;
+  /* Logo Section */
+  .logo-section {
+    background: linear-gradient(135deg, #CC0000 0%, #990000 100%);
+    padding: 40px 20px;
+    text-align: center;
     color: white;
-    font-weight: bold;
-    font-size: 12px;
-    padding: 4px 8px;
-    border-radius: 12px;
-    border: 2px solid white;
+  }
+
+  .logo {
+    width: 120px;
+    height: 120px;
+    margin: 0 auto 15px;
+  }
+
+  .app-name {
+    margin: 0;
+    font-size: 24px;
+    font-weight: 700;
+    letter-spacing: -0.5px;
+  }
+
+  /* Content */
+  .login-content {
+    padding: 40px;
+    flex: 1;
   }
 
   h1 {
-    margin: 0 0 5px;
-    color: #1a1a1a;
+    margin: 0 0 8px;
     font-size: 28px;
+    color: #1a1a1a;
+    font-weight: 700;
   }
 
   .subtitle {
@@ -164,92 +188,165 @@
     font-size: 14px;
   }
 
+  /* Form */
+  .login-form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
   .form-group {
-    margin-bottom: 20px;
-    text-align: left;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
   }
 
   label {
-    display: block;
-    margin-bottom: 8px;
-    font-weight: 500;
+    font-weight: 600;
+    font-size: 13px;
     color: #333;
-    font-size: 14px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
   }
 
-  select {
+  .select-wrapper {
+    position: relative;
+  }
+
+  .rep-select {
     width: 100%;
-    padding: 12px;
+    padding: 12px 14px;
     border: 2px solid #ddd;
-    border-radius: 6px;
-    font-size: 14px;
+    border-radius: 10px;
+    font-size: 15px;
     font-family: inherit;
+    background: white;
+    color: #1a1a1a;
     cursor: pointer;
-    transition: border-color 0.3s;
+    transition: all 0.2s;
+    appearance: none;
+    padding-right: 40px;
   }
 
-  select:hover {
+  .rep-select:hover {
     border-color: #CC0000;
   }
 
-  select:focus {
+  .rep-select:focus {
     outline: none;
     border-color: #CC0000;
-    box-shadow: 0 0 0 3px rgba(255, 107, 53, 0.1);
+    box-shadow: 0 0 0 3px rgba(204, 0, 0, 0.1);
   }
 
-  select:disabled {
-    background: #f5f5f5;
-    cursor: not-allowed;
+  .select-icon {
+    position: absolute;
+    right: 14px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 12px;
     color: #999;
+    pointer-events: none;
   }
 
-  button {
-    width: 100%;
+  .rep-details {
+    margin-top: 8px;
+    padding: 10px;
+    background: #f9f9f9;
+    border-radius: 8px;
+    border-left: 3px solid #CC0000;
+  }
+
+  .location {
+    margin: 0;
+    font-size: 13px;
+    color: #666;
+  }
+
+  /* Error */
+  .error-message {
+    display: flex;
+    align-items: center;
+    gap: 10px;
     padding: 12px;
-    background: #CC0000;
+    background: #ffebee;
+    border: 1px solid #ffcdd2;
+    border-radius: 8px;
+    color: #c62828;
+    font-size: 13px;
+    font-weight: 500;
+  }
+
+  .error-icon {
+    font-size: 16px;
+  }
+
+  /* Button */
+  .signin-button {
+    background: linear-gradient(135deg, #CC0000 0%, #990000 100%);
     color: white;
     border: none;
-    border-radius: 6px;
-    font-size: 16px;
+    padding: 14px;
+    border-radius: 10px;
+    font-size: 15px;
     font-weight: 600;
     cursor: pointer;
-    transition: background 0.3s, transform 0.1s;
+    transition: all 0.3s;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    box-shadow: 0 4px 12px rgba(204, 0, 0, 0.3);
   }
 
-  button:hover:not(:disabled) {
-    background: #990000;
+  .signin-button:hover:not(:disabled) {
     transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(204, 0, 0, 0.4);
   }
 
-  button:active:not(:disabled) {
+  .signin-button:active:not(:disabled) {
     transform: translateY(0);
   }
 
-  button:disabled {
-    background: #ccc;
+  .signin-button:disabled {
+    opacity: 0.6;
     cursor: not-allowed;
   }
 
-  .error-message {
-    background: #fee;
-    color: #c33;
-    padding: 12px;
-    border-radius: 6px;
-    margin-bottom: 15px;
-    font-size: 14px;
+  /* Footer */
+  .login-footer {
+    background: #f9f9f9;
+    padding: 20px;
+    text-align: center;
+    border-top: 1px solid #eee;
   }
 
-  .footer {
-    margin-top: 20px;
-    padding-top: 20px;
-    border-top: 1px solid #eee;
-    color: #999;
+  .version {
+    margin: 0 0 4px;
     font-size: 12px;
+    font-weight: 600;
+    color: #CC0000;
+  }
+
+  .tagline {
+    margin: 0;
+    font-size: 11px;
+    color: #999;
   }
 
   @media (max-width: 480px) {
-    .login-card {
+    .login-wrapper {
+      max-width: 100%;
+      border-radius: 12px;
+    }
+
+    .logo-section {
+      padding: 30px 20px;
+    }
+
+    .logo {
+      width: 100px;
+      height: 100px;
+    }
+
+    .login-content {
       padding: 30px 20px;
     }
 
@@ -257,10 +354,9 @@
       font-size: 24px;
     }
 
-    .logo {
-      width: 60px;
-      height: 60px;
-      font-size: 32px;
+    .signin-button {
+      padding: 12px;
+      font-size: 14px;
     }
   }
 </style>

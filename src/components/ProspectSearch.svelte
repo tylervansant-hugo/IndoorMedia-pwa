@@ -387,17 +387,17 @@
 
 <style>
   .prospects-container {
-    max-width: 800px;
+    max-width: 1000px;
     margin: 0 auto;
-    padding: 1rem;
+    padding: 0;
     color: var(--text-primary);
   }
 
-  h2, h3 { margin: 0 0 0.5rem 0; color: var(--text-primary); }
-  h2 { font-size: 1.5rem; }
-  h3 { font-size: 1.25rem; }
+  h2, h3 { margin: 0 0 0.75rem 0; color: var(--text-primary); font-weight: 700; }
+  h2 { font-size: 24px; }
+  h3 { font-size: 18px; }
 
-  .subtitle { margin-bottom: 1.5rem; color: var(--text-secondary); font-size: 0.95rem; }
+  .subtitle { margin-bottom: 20px; color: var(--text-secondary); font-size: 14px; }
 
   .error-box {
     background: #fee;
@@ -463,10 +463,10 @@
     box-shadow: 0 4px 12px rgba(204, 0, 0, 0.1);
   }
 
-  .store-info h4 { margin: 0 0 0.25rem 0; color: var(--text-primary); }
-  .address { margin: 0.25rem 0; font-size: 0.9rem; color: var(--text-secondary); }
-  .distance { margin: 0.5rem 0 0 0; font-size: 0.85rem; color: var(--text-tertiary); }
-  .store-num { background: var(--hover-bg); padding: 0.5rem 1rem; border-radius: 6px; font-weight: 600; font-size: 0.85rem; color: var(--text-primary); }
+  .store-info h4 { margin: 0 0 6px 0; color: var(--text-primary); font-weight: 600; font-size: 16px; }
+  .address { margin: 4px 0; font-size: 13px; color: var(--text-secondary); }
+  .distance { margin: 6px 0 0 0; font-size: 12px; color: #CC0000; font-weight: 600; }
+  .store-num { background: rgba(204, 0, 0, 0.1); padding: 6px 10px; border-radius: 6px; font-weight: 700; font-size: 12px; color: #CC0000; }
 
   .category-grid, .subcat-grid {
     display: grid;
@@ -504,9 +504,9 @@
   }
 
   .prospect-main { margin-bottom: 0.75rem; }
-  .prospect-card h4 { margin: 0 0 0.5rem 0; color: var(--text-primary); }
-  .address { margin: 0.25rem 0; font-size: 0.9rem; color: var(--text-secondary); }
-  .meta { margin: 0.5rem 0 0 0; font-size: 0.85rem; color: var(--text-tertiary); }
+  .prospect-card h4 { margin: 0 0 6px 0; color: var(--text-primary); font-weight: 600; font-size: 16px; }
+  .prospect-card .address { margin: 4px 0; font-size: 13px; color: var(--text-secondary); }
+  .prospect-card .meta { margin: 8px 0 0 0; font-size: 12px; color: var(--text-tertiary); display: flex; gap: 12px; flex-wrap: wrap; }
 
   .prospect-actions {
     display: flex;

@@ -1,264 +1,301 @@
 <script>
-  import { createEventDispatcher } from 'svelte';
-  import { currentTab, cart, error } from '../lib/stores.js';
-  import { theme, toggleTheme } from '../lib/theme.js';
+  import { onMount } from 'svelte';
+  import { theme, user } from '../lib/stores.js';
+  import { get } from 'svelte/store';
   import StoreSearch from './StoreSearch.svelte';
   import ProspectSearch from './ProspectSearch.svelte';
-  import TestimonialSearch from './TestimonialSearch.svelte';
+  import Inventory from './Inventory.svelte';
   import Cart from './Cart.svelte';
-  import Dashboard from './Dashboard.svelte';
-  import ROICalculator from './ROICalculator.svelte';
-  import EmailTemplates from './EmailTemplates.svelte';
-  import QuickLinks from './QuickLinks.svelte';
-  import AuditStore from './AuditStore.svelte';
-  import Notepad from './Notepad.svelte';
-  import Products from './Products.svelte';
   import CounterSignGenerator from './CounterSignGenerator.svelte';
 
-  const dispatch = createEventDispatcher();
+  let currentTab = 'dashboard';
+  let currentTheme = 'light';
 
-  export let user;
-
-  let cartCount = 0;
-  cart.subscribe(items => {
-    cartCount = items.length;
+  onMount(() => {
+    theme.subscribe(t => currentTheme = t);
   });
 
+  function toggleTheme() {
+    const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+    theme.set(newTheme);
+    localStorage.setItem('theme', newTheme);
+  }
+
   function handleLogout() {
-    dispatch('logout');
+    if (confirm('Sign out?')) {
+      localStorage.removeItem('user');
+      window.location.reload();
+    }
   }
 </script>
 
-<div class="main">
+<div class="main" data-theme={currentTheme}>
+  <!-- Header -->
   <header class="header">
     <div class="header-content">
       <div class="logo-container">
-        <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" class="header-logo-svg">
-          <circle cx="100" cy="100" r="95" fill="#CC0000"/>
-          <text x="100" y="120" font-family="Arial, sans-serif" font-size="80" font-weight="bold" fill="white" text-anchor="middle" dominant-baseline="middle">IM</text>
+        <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" class="header-logo">
+          <rect x="10" y="10" width="180" height="180" rx="40" fill="white"/>
+          <line x1="45" y1="50" x2="55" y2="80" stroke="#CC0000" stroke-width="8" stroke-linecap="round"/>
+          <circle cx="50" cy="40" r="5" fill="#CC0000"/>
+          <polyline points="70,80 80,50 90,80 100,50 110,80 120,100" stroke="#CC0000" stroke-width="8" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+          <text x="100" y="145" font-family="Arial, sans-serif" font-size="20" font-weight="bold" fill="#CC0000" text-anchor="middle">IndoorMedia</text>
         </svg>
-        <span class="pro-badge">Pro</span>
       </div>
-      <p class="user-name">Hi, {user.name || user.first_name}</p>
+      <div class="header-info">
+        <h1>imPro</h1>
+        <p class="user-name">👤 {$user?.name || $user?.first_name}</p>
+      </div>
     </div>
+
     <div class="header-actions">
       <button class="theme-toggle" on:click={toggleTheme} title="Toggle theme">
-        {$theme === 'light' ? '🌙' : '☀️'}
+        {currentTheme === 'light' ? '🌙' : '☀️'}
       </button>
       <button class="logout-btn" on:click={handleLogout}>Logout</button>
     </div>
   </header>
 
-  {#if $error}
-    <div class="error-banner">{$error}</div>
-  {/if}
-
+  <!-- Tabs -->
   <nav class="tabs">
-    <button class="tab {$currentTab === 'search' ? 'active' : ''}" on:click={() => currentTab.set('search')}>🏪 Stores</button>
-    <button class="tab {$currentTab === 'prospects' ? 'active' : ''}" on:click={() => currentTab.set('prospects')}>🎯 Prospects</button>
-    <button class="tab {$currentTab === 'products' ? 'active' : ''}" on:click={() => currentTab.set('products')}>📦 Products</button>
-    <button class="tab {$currentTab === 'tools' ? 'active' : ''}" on:click={() => currentTab.set('tools')}>⚙️ Tools</button>
-    <button class="tab {$currentTab === 'dashboard' ? 'active' : ''}" on:click={() => currentTab.set('dashboard')}>📊 Stats</button>
-    <button class="tab {$currentTab === 'cart' ? 'active' : ''}" on:click={() => currentTab.set('cart')}>🛒 {cartCount > 0 ? `(${cartCount})` : 'Cart'}</button>
+    <button 
+      class="tab" 
+      class:active={currentTab === 'dashboard'}
+      on:click={() => currentTab = 'dashboard'}
+    >
+      📊 Dashboard
+    </button>
+    <button 
+      class="tab" 
+      class:active={currentTab === 'prospects'}
+      on:click={() => currentTab = 'prospects'}
+    >
+      🎯 Prospects
+    </button>
+    <button 
+      class="tab" 
+      class:active={currentTab === 'stores'}
+      on:click={() => currentTab = 'stores'}
+    >
+      🏪 Stores
+    </button>
+    <button 
+      class="tab" 
+      class:active={currentTab === 'inventory'}
+      on:click={() => currentTab = 'inventory'}
+    >
+      📦 Inventory
+    </button>
+    <button 
+      class="tab" 
+      class:active={currentTab === 'cart'}
+      on:click={() => currentTab = 'cart'}
+    >
+      🛒 Cart
+    </button>
   </nav>
 
+  <!-- Content -->
   <div class="content">
-    {#if $currentTab === 'search'}
-      <StoreSearch />
-    {:else if $currentTab === 'prospects'}
-      <ProspectSearch />
-    {:else if $currentTab === 'products'}
-      <Products />
-    {:else if $currentTab === 'tools'}
-      <!-- Tools submenu -->
-      <div class="tools-grid">
-        <button class="tool-card" on:click={() => currentTab.set('roi')}>
-          <span class="tool-icon">📊</span>
-          <span class="tool-name">ROI Calculator</span>
-          <span class="tool-desc">Show customers their return</span>
-        </button>
-        <button class="tool-card" on:click={() => currentTab.set('testimonials')}>
-          <span class="tool-icon">⭐</span>
-          <span class="tool-name">Testimonial Search</span>
-          <span class="tool-desc">Find social proof</span>
-        </button>
-        <button class="tool-card" on:click={() => currentTab.set('audit')}>
-          <span class="tool-icon">🏪</span>
-          <span class="tool-name">Audit Store</span>
-          <span class="tool-desc">Track inventory & delivery</span>
-        </button>
-        <button class="tool-card" on:click={() => currentTab.set('email')}>
-          <span class="tool-icon">✉️</span>
-          <span class="tool-name">Email Templates</span>
-          <span class="tool-desc">Ready-to-send outreach</span>
-        </button>
-        <button class="tool-card" on:click={() => currentTab.set('notepad')}>
-          <span class="tool-icon">📝</span>
-          <span class="tool-name">Notepad</span>
-          <span class="tool-desc">Quick field notes</span>
-        </button>
-        <button class="tool-card" on:click={() => currentTab.set('links')}>
-          <span class="tool-icon">🔗</span>
-          <span class="tool-name">Quick Links</span>
-          <span class="tool-desc">MapPoint, Coupons, Drive</span>
-        </button>
-        <button class="tool-card" on:click={() => currentTab.set('countersign')}>
-          <span class="tool-icon">🏷️</span>
-          <span class="tool-name">Counter Signs</span>
-          <span class="tool-desc">In-store signage</span>
-        </button>
+    {#if currentTab === 'dashboard'}
+      <div class="dashboard">
+        <h2>Welcome, {$user?.name || $user?.first_name}!</h2>
+        {#if $user?.base_location}
+          <p class="location-badge">📍 Territory: {$user.base_location}</p>
+        {/if}
+        <div class="dashboard-grid">
+          <div class="stat-card">
+            <div class="stat-icon">🎯</div>
+            <h3>Prospects</h3>
+            <p class="stat-value">0</p>
+            <p class="stat-label">This Week</p>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon">💰</div>
+            <h3>Revenue</h3>
+            <p class="stat-value">$0</p>
+            <p class="stat-label">This Month</p>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon">📈</div>
+            <h3>Growth</h3>
+            <p class="stat-value">0%</p>
+            <p class="stat-label">vs Last Month</p>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon">🏪</div>
+            <h3>Stores</h3>
+            <p class="stat-value">0</p>
+            <p class="stat-label">In Territory</p>
+          </div>
+        </div>
+
+        <div class="quick-actions">
+          <h3>Quick Actions</h3>
+          <div class="action-buttons">
+            <button class="action-btn" on:click={() => currentTab = 'prospects'}>
+              <span class="action-icon">🎯</span>
+              <span>Find Prospects</span>
+            </button>
+            <button class="action-btn" on:click={() => currentTab = 'stores'}>
+              <span class="action-icon">🏪</span>
+              <span>Search Stores</span>
+            </button>
+            <button class="action-btn" on:click={() => currentTab = 'inventory'}>
+              <span class="action-icon">📦</span>
+              <span>Check Inventory</span>
+            </button>
+            <button class="action-btn" on:click={() => currentTab = 'cart'}>
+              <span class="action-icon">🛒</span>
+              <span>View Cart</span>
+            </button>
+          </div>
+        </div>
       </div>
-    {:else if $currentTab === 'dashboard'}
-      <Dashboard {user} />
-    {:else if $currentTab === 'roi'}
-      <ROICalculator />
-    {:else if $currentTab === 'testimonials'}
-      <TestimonialSearch />
-    {:else if $currentTab === 'audit'}
-      <AuditStore />
-    {:else if $currentTab === 'email'}
-      <EmailTemplates {user} />
-    {:else if $currentTab === 'notepad'}
-      <Notepad />
-    {:else if $currentTab === 'links'}
-      <QuickLinks />
-    {:else if $currentTab === 'countersign'}
-      <CounterSignGenerator />
-    {:else if $currentTab === 'cart'}
+    {:else if currentTab === 'prospects'}
+      <ProspectSearch />
+    {:else if currentTab === 'stores'}
+      <StoreSearch />
+    {:else if currentTab === 'inventory'}
+      <Inventory />
+    {:else if currentTab === 'cart'}
       <Cart />
     {/if}
   </div>
 </div>
 
 <style>
+  :global([data-theme='light']) {
+    --bg-primary: #ffffff;
+    --bg-secondary: #f9f9f9;
+    --text-primary: #1a1a1a;
+    --text-secondary: #666666;
+    --text-tertiary: #999999;
+    --border-color: #e0e0e0;
+    --card-bg: #ffffff;
+    --card-shadow: rgba(0, 0, 0, 0.08);
+    --hover-bg: #f5f5f5;
+    --input-bg: #ffffff;
+  }
+
+  :global([data-theme='dark']) {
+    --bg-primary: #1a1a1a;
+    --bg-secondary: #242424;
+    --text-primary: #ffffff;
+    --text-secondary: #aaaaaa;
+    --text-tertiary: #777777;
+    --border-color: #333333;
+    --card-bg: #2a2a2a;
+    --card-shadow: rgba(0, 0, 0, 0.3);
+    --hover-bg: #333333;
+    --input-bg: #2a2a2a;
+  }
+
   .main {
     display: flex;
     flex-direction: column;
     height: 100%;
-    background: #f5f5f5;
+    background: var(--bg-primary);
+    color: var(--text-primary);
   }
 
+  /* Header */
   .header {
-    background: linear-gradient(135deg, #CC0000 0%, #1a1a1a 100%);
+    background: linear-gradient(135deg, #CC0000 0%, #990000 100%);
     color: white;
-    padding: 20px 20px 16px 20px;
-    padding-top: calc(env(safe-area-inset-top, 50px) + 20px);
+    padding: 16px 20px;
+    padding-top: calc(env(safe-area-inset-top, 0px) + 16px);
     display: flex;
     justify-content: space-between;
-    align-items: flex-end;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    align-items: center;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  }
+
+  .header-content {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex: 1;
   }
 
   .logo-container {
-    position: relative;
+    width: 48px;
+    height: 48px;
     display: flex;
     align-items: center;
-    height: 64px;
-    margin-bottom: 8px;
+    justify-content: center;
   }
 
-  .header-logo-svg {
-    height: 64px;
-    width: auto;
+  .header-logo {
+    width: 100%;
+    height: 100%;
   }
 
-  .pro-badge {
-    position: absolute;
-    top: -5px;
-    right: -15px;
-    background: #FF6B35;
-    color: white;
-    font-weight: bold;
-    font-size: 11px;
-    padding: 3px 7px;
-    border-radius: 10px;
-    border: 2px solid white;
-    letter-spacing: 0.5px;
+  .header-info {
+    margin: 0;
+  }
+
+  .header-info h1 {
+    margin: 0;
+    font-size: 18px;
+    font-weight: 700;
   }
 
   .user-name {
-    margin: 4px 0 0 0;
-    font-size: 13px;
+    margin: 2px 0 0;
+    font-size: 12px;
     opacity: 0.9;
   }
 
   .header-actions {
     display: flex;
-    gap: 8px;
     align-items: center;
+    gap: 10px;
   }
 
-  .theme-toggle {
+  .theme-toggle, .logout-btn {
     background: rgba(255, 255, 255, 0.2);
     color: white;
-    border: 1px solid rgba(255, 255, 255, 0.5);
+    border: none;
     padding: 8px 12px;
-    border-radius: 6px;
+    border-radius: 8px;
     cursor: pointer;
-    font-size: 18px;
-    line-height: 1;
-    transition: background 0.2s;
-  }
-
-  .theme-toggle:hover {
-    background: rgba(255, 255, 255, 0.3);
-  }
-
-  .logout-btn {
-    background: rgba(255, 255, 255, 0.2);
-    color: white;
-    border: 1px solid rgba(255, 255, 255, 0.5);
-    padding: 8px 16px;
-    border-radius: 6px;
-    cursor: pointer;
-    font-size: 13px;
-    font-weight: 500;
-    transition: background 0.2s;
-  }
-
-  .logout-btn:hover {
-    background: rgba(255, 255, 255, 0.3);
-  }
-
-  .error-banner {
-    background: #fee;
-    color: #c33;
-    padding: 12px 20px;
     font-size: 14px;
-    border-bottom: 1px solid #fcc;
+    font-weight: 600;
+    transition: all 0.2s;
   }
 
+  .theme-toggle:hover, .logout-btn:hover {
+    background: rgba(255, 255, 255, 0.3);
+    transform: translateY(-1px);
+  }
+
+  /* Tabs */
   .tabs {
+    background: var(--bg-secondary);
+    border-bottom: 1px solid var(--border-color);
     display: flex;
-    gap: 0;
-    background: white;
-    border-bottom: 2px solid #eee;
     overflow-x: auto;
     -webkit-overflow-scrolling: touch;
-    scrollbar-width: none;
     padding: 0 4px;
   }
 
-  .tabs::-webkit-scrollbar { display: none; }
-
   .tab {
-    flex: 0 0 auto;
-    padding: 14px 18px;
+    flex: 1;
+    min-width: fit-content;
+    padding: 12px 16px;
     background: none;
     border: none;
-    cursor: pointer;
-    font-size: 13px;
-    font-weight: 600;
-    color: #888;
     border-bottom: 3px solid transparent;
+    color: var(--text-secondary);
+    font-weight: 600;
+    cursor: pointer;
     transition: all 0.2s;
     white-space: nowrap;
-    letter-spacing: 0.3px;
   }
 
   .tab:hover {
-    color: #CC0000;
-    background: #fafafa;
+    color: var(--text-primary);
   }
 
   .tab.active {
@@ -266,71 +303,161 @@
     border-bottom-color: #CC0000;
   }
 
+  /* Content */
   .content {
     flex: 1;
     overflow-y: auto;
     padding: 20px;
   }
 
-  .tools-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 12px;
-    max-width: 600px;
+  /* Dashboard */
+  .dashboard {
+    max-width: 1200px;
     margin: 0 auto;
   }
 
-  .tool-card {
-    background: white;
-    border: 2px solid #e0e0e0;
+  .dashboard h2 {
+    margin: 0 0 8px;
+    color: var(--text-primary);
+    font-size: 24px;
+  }
+
+  .location-badge {
+    margin: 0 0 24px;
+    padding: 8px 12px;
+    background: rgba(204, 0, 0, 0.1);
+    color: #CC0000;
+    border-radius: 6px;
+    font-size: 13px;
+    font-weight: 600;
+    display: inline-block;
+  }
+
+  .dashboard-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 16px;
+    margin-bottom: 32px;
+  }
+
+  .stat-card {
+    background: var(--card-bg);
+    border: 1px solid var(--border-color);
     border-radius: 12px;
-    padding: 20px 16px;
-    cursor: pointer;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 6px;
-    transition: all 0.2s;
+    padding: 20px;
     text-align: center;
   }
 
-  .tool-card:hover {
-    border-color: #CC0000;
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  .stat-icon {
+    font-size: 32px;
+    margin-bottom: 8px;
   }
 
-  .tool-icon { font-size: 32px; }
-  .tool-name { font-size: 14px; font-weight: 700; color: #1a1a1a; }
-  .tool-desc { font-size: 11px; color: #999; }
+  .stat-card h3 {
+    margin: 0 0 8px;
+    font-size: 14px;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
 
-  @media (max-width: 480px) {
+  .stat-value {
+    margin: 0 0 4px;
+    font-size: 28px;
+    font-weight: 700;
+    color: #CC0000;
+  }
+
+  .stat-label {
+    margin: 0;
+    font-size: 12px;
+    color: var(--text-tertiary);
+  }
+
+  .quick-actions {
+    margin-top: 32px;
+  }
+
+  .quick-actions h3 {
+    margin: 0 0 16px;
+    color: var(--text-primary);
+    font-size: 16px;
+  }
+
+  .action-buttons {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 12px;
+  }
+
+  .action-btn {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    padding: 16px;
+    background: var(--card-bg);
+    border: 2px solid var(--border-color);
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.2s;
+    color: var(--text-primary);
+    font-weight: 600;
+    font-size: 13px;
+  }
+
+  .action-btn:hover {
+    border-color: #CC0000;
+    background: rgba(204, 0, 0, 0.05);
+  }
+
+  .action-icon {
+    font-size: 24px;
+  }
+
+  @media (max-width: 768px) {
     .header {
-      padding: 16px 16px 14px 16px;
-      padding-top: calc(env(safe-area-inset-top, 50px) + 16px);
-    }
-
-    .header-content h1 {
-      font-size: 20px;
-    }
-
-    .logout-btn {
-      padding: 6px 12px;
-      font-size: 12px;
-    }
-
-    .tab {
-      padding: 12px 14px;
-      font-size: 12px;
+      padding: 12px 16px;
     }
 
     .content {
       padding: 16px;
     }
 
-    .tools-grid {
+    .dashboard-grid {
       grid-template-columns: repeat(2, 1fr);
-      gap: 10px;
+    }
+
+    .action-buttons {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (max-width: 480px) {
+    .logo-container {
+      width: 40px;
+      height: 40px;
+    }
+
+    .header-info h1 {
+      font-size: 16px;
+    }
+
+    .tabs {
+      padding: 0;
+    }
+
+    .tab {
+      padding: 10px 12px;
+      font-size: 12px;
+    }
+
+    .dashboard h2 {
+      font-size: 20px;
+    }
+
+    .dashboard-grid, .action-buttons {
+      grid-template-columns: 1fr;
     }
   }
 </style>
