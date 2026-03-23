@@ -62,7 +62,10 @@
 <div class="login-container">
   <div class="login-card">
     <div class="logo-section">
-      <img src="/logo.svg" alt="IndoorMedia" class="logo" onerror="this.src='/indoormedia-logo.png'" />
+      <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" class="logo-svg">
+        <circle cx="100" cy="100" r="95" fill="#CC0000"/>
+        <text x="100" y="120" font-family="Arial, sans-serif" font-size="80" font-weight="bold" fill="white" text-anchor="middle" dominant-baseline="middle">IM</text>
+      </svg>
       <span class="pro-badge">Pro</span>
     </div>
     <h1>IndoorMedia</h1>
@@ -131,10 +134,9 @@
     justify-content: center;
   }
 
-  .logo {
+  .logo-svg {
     width: 100%;
     height: 100%;
-    object-fit: contain;
   }
 
   .pro-badge {

@@ -33,7 +33,10 @@
   <header class="header">
     <div class="header-content">
       <div class="logo-container">
-        <img src="/logo.svg" alt="IndoorMedia" class="header-logo" onerror="this.src='/indoormedia-logo.png'" />
+        <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" class="header-logo-svg">
+          <circle cx="100" cy="100" r="95" fill="#CC0000"/>
+          <text x="100" y="120" font-family="Arial, sans-serif" font-size="80" font-weight="bold" fill="white" text-anchor="middle" dominant-baseline="middle">IM</text>
+        </svg>
         <span class="pro-badge">Pro</span>
       </div>
       <p class="user-name">Hi, {user.name || user.first_name}</p>
@@ -154,7 +157,7 @@
     margin-bottom: 8px;
   }
 
-  .header-logo {
+  .header-logo-svg {
     height: 64px;
     width: auto;
   }
