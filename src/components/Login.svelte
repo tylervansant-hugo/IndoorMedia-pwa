@@ -58,13 +58,26 @@
   <div class="login-wrapper">
     <!-- Logo Section -->
     <div class="logo-section">
-      <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" class="logo">
-        <rect x="10" y="10" width="180" height="180" rx="40" fill="#CC0000"/>
-        <line x1="45" y1="50" x2="55" y2="80" stroke="white" stroke-width="8" stroke-linecap="round"/>
-        <circle cx="50" cy="40" r="5" fill="white"/>
-        <polyline points="70,80 80,50 90,80 100,50 110,80 120,100" stroke="white" stroke-width="8" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
-        <text x="100" y="145" font-family="Arial, sans-serif" font-size="20" font-weight="bold" fill="white" text-anchor="middle">IndoorMedia</text>
-      </svg>
+      <div class="logo-circle">
+        <svg viewBox="0 0 300 300" xmlns="http://www.w3.org/2000/svg" class="logo">
+          <!-- Red circle background -->
+          <circle cx="150" cy="150" r="140" fill="#CC0000"/>
+          
+          <!-- Main IM shape -->
+          <g>
+            <!-- I - left parallelogram -->
+            <polygon points="80,100 120,85 140,200 100,215" fill="white"/>
+            
+            <!-- M - three parallelograms -->
+            <!-- Left peak -->
+            <polygon points="160,100 200,85 220,200 180,215" fill="white"/>
+            <!-- Middle valley -->
+            <polygon points="200,120 240,105 260,215 220,230" fill="white"/>
+            <!-- Right peak -->
+            <polygon points="260,100 300,85 320,200 280,215" fill="white"/>
+          </g>
+        </svg>
+      </div>
       <h2 class="app-name">imPro</h2>
     </div>
 
@@ -154,12 +167,23 @@
     padding: 40px 20px;
     text-align: center;
     color: white;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .logo-circle {
+    width: 140px;
+    height: 140px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 
   .logo {
-    width: 120px;
-    height: 120px;
-    margin: 0 auto 15px;
+    width: 100%;
+    height: 100%;
   }
 
   .app-name {
