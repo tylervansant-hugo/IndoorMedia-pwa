@@ -25,6 +25,49 @@
 ## Boundaries & Rules
 - **No emails sent without explicit permission** — I draft, preview, or ask first. Never auto-send.
 
+## imPro App v2.0 Complete Redesign (Mar 22, 2026)
+
+**Status:** ✅ DEPLOYED - Professional app redesign with consistent theming across all screens
+
+**Major Changes:**
+- **Logo:** Switched to professional imPro logo (red rounded square + white "iM" monogram + "IndoorMedia" text)
+- **Login Screen:** Complete redesign with gradient header, professional form, location display, version footer
+- **Main Dashboard:** New stat cards (Prospects, Revenue, Growth, Stores), quick action buttons, theme toggle
+- **Prospects Tab:** Refined with consistent theming - Near Me → Store List → Category → Subcategory → Real Businesses
+- **Consistent Theming:** Light/dark mode CSS variables applied across all screens
+  - Light mode: white backgrounds, dark text
+  - Dark mode: dark backgrounds, light text
+  - Red accent (#CC0000) for buttons, highlights, logos
+- **Location Data Integration:** 
+  - Rep territory displayed on login (base_location from rep_registry.json)
+  - Dashboard shows rep's territory
+  - Stores sorted by distance from user's location
+  - Location badges on all relevant screens
+- **Backend Migration:** Removed Railway/Express server, now 100% Vercel serverless
+  - `/api/search-places.js` for Google Places API calls
+  - Static Vite build for frontend
+  - No Docker, no server.js, pure serverless
+
+**Files Created/Updated:**
+- `public/impro-logo.svg` - New logo (inline SVG)
+- `src/components/Login.svelte` - Completely redesigned
+- `src/components/Main.svelte` - New dashboard, header, tabs
+- `src/components/Inventory.svelte` - New placeholder component
+- `src/lib/stores.js` - Added theme store, user alias
+- `api/search-places.js` - Serverless function for real business search
+
+**Design System:**
+- CSS custom properties for theming: --bg-primary, --text-primary, --border-color, etc.
+- Consistent spacing, typography, color usage
+- Mobile-responsive on all screens
+- Professional gradients (red + dark red theme)
+
+**Next Steps:**
+- Continue building out Inventory and Cart components
+- Integrate real shipment/audit data
+- Add testimonial prep bot
+- Build out contract pipeline
+
 ## Recent Wins
 - **Feb 17, 2026:** Closed deal at Taqueria Pelayos (Seaside, OR) with Megan Wink
   - Megan had been cold this month ($0 in sales), but worked with her and closed a deal
