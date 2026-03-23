@@ -32,7 +32,10 @@
 <div class="main">
   <header class="header">
     <div class="header-content">
-      <img src="/indoormedia-logo.png" alt="IndoorMedia" class="header-logo" />
+      <div class="logo-container">
+        <img src="/indoormedia-logo.png" alt="IndoorMedia" class="header-logo" />
+        <span class="pro-badge">Pro</span>
+      </div>
       <p class="user-name">Hi, {user.name || user.first_name}</p>
     </div>
     <div class="header-actions">
@@ -143,10 +146,31 @@
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
   }
 
+  .logo-container {
+    position: relative;
+    display: flex;
+    align-items: center;
+    height: 64px;
+    margin-bottom: 8px;
+  }
+
   .header-logo {
     height: 64px;
     width: auto;
-    margin-bottom: 8px;
+  }
+
+  .pro-badge {
+    position: absolute;
+    top: -5px;
+    right: -15px;
+    background: #FF6B35;
+    color: white;
+    font-weight: bold;
+    font-size: 11px;
+    padding: 3px 7px;
+    border-radius: 10px;
+    border: 2px solid white;
+    letter-spacing: 0.5px;
   }
 
   .user-name {

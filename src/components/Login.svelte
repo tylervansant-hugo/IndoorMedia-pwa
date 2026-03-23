@@ -61,7 +61,10 @@
 
 <div class="login-container">
   <div class="login-card">
-    <div class="logo">IM</div>
+    <div class="logo-section">
+      <img src="/indoormedia-logo.png" alt="IndoorMedia" class="logo" />
+      <span class="pro-badge">Pro</span>
+    </div>
     <h1>IndoorMedia</h1>
     <p class="subtitle">Sales Portal</p>
 
@@ -118,18 +121,33 @@
     text-align: center;
   }
 
-  .logo {
-    width: 80px;
-    height: 80px;
+  .logo-section {
+    position: relative;
+    width: 100px;
+    height: 100px;
     margin: 0 auto 20px;
-    background: #CC0000;
-    border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 40px;
-    font-weight: bold;
+  }
+
+  .logo {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+  }
+
+  .pro-badge {
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    background: #CC0000;
     color: white;
+    font-weight: bold;
+    font-size: 12px;
+    padding: 4px 8px;
+    border-radius: 12px;
+    border: 2px solid white;
   }
 
   h1 {
