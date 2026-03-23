@@ -4,14 +4,10 @@
   "version": "1.0.0",
   "type": "module",
   "description": "IndoorMedia Sales Rep Portal - Progressive Web App",
-  "main": "api-server.js",
   "scripts": {
     "dev": "vite",
-    "dev:server": "node api-server.js",
-    "dev:full": "concurrently \"npm run dev\" \"npm run dev:server\"",
     "build": "vite build",
     "preview": "vite preview",
-    "start": "node api-server.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -27,10 +23,7 @@
   ],
   "author": "Tyler Van Sant",
   "license": "MIT",
-  "dependencies": {
-    "cors": "^2.8.5",
-    "express": "^4.18.2"
-  },
+  "dependencies": {},
   "devDependencies": {
     "@sveltejs/vite-plugin-svelte": "^7.0.0",
     "@tailwindcss/postcss": "^4.2.2",
