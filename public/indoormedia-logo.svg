@@ -1,40 +1,13 @@
-<svg viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg">
+<svg viewBox="0 0 300 300" xmlns="http://www.w3.org/2000/svg">
   <!-- Red background -->
-  <rect width="400" height="400" fill="#E84141"/>
+  <rect width="300" height="300" fill="#CC0000"/>
   
-  <!-- White 3D Isometric "IM" Logo -->
-  <g fill="white">
-    <!-- "I" - left parallelogram (front face) -->
-    <polygon points="80,120 140,90 160,280 100,310" fill="white"/>
-    
-    <!-- "I" - top parallelogram (top face) -->
-    <polygon points="80,120 140,90 150,110 90,140" fill="white" opacity="0.9"/>
-    
-    <!-- "I" - right parallelogram (right face) -->
-    <polygon points="140,90 160,110 160,280 140,260" fill="white" opacity="0.8"/>
-    
-    <!-- "M" - left front parallelogram -->
-    <polygon points="180,120 280,60 310,70 210,130" fill="white"/>
-    
-    <!-- "M" - left top parallelogram -->
-    <polygon points="180,120 280,60 295,85 195,145" fill="white" opacity="0.9"/>
-    
-    <!-- "M" - left right face -->
-    <polygon points="280,60 310,70 310,280 280,270" fill="white" opacity="0.8"/>
-    
-    <!-- "M" - middle front parallelogram (valley) -->
-    <polygon points="295,95 330,80 350,260 315,275" fill="white"/>
-    
-    <!-- "M" - middle top parallelogram -->
-    <polygon points="295,95 330,80 345,105 310,120" fill="white" opacity="0.9"/>
-    
-    <!-- "M" - right front parallelogram -->
-    <polygon points="350,80 320,130 340,300 370,250" fill="white"/>
-    
-    <!-- "M" - right top parallelogram -->
-    <polygon points="350,80 320,130 335,155 365,105" fill="white" opacity="0.9"/>
-  </g>
+  <!-- Bright green oval border -->
+  <ellipse cx="150" cy="120" rx="95" ry="75" fill="none" stroke="#7FD856" stroke-width="12" stroke-linecap="round"/>
   
-  <!-- "IndoorMedia" Text - italic script style -->
-  <text x="200" y="350" font-family="Arial, Helvetica, sans-serif" font-size="56" font-weight="300" fill="white" text-anchor="middle" font-style="italic" letter-spacing="2">IndoorMedia</text>
+  <!-- White "im" text (italic) -->
+  <text x="150" y="135" font-family="Arial, Helvetica, sans-serif" font-size="72" font-weight="bold" fill="white" text-anchor="middle" font-style="italic">im</text>
+  
+  <!-- White "IndoorMedia" text below oval -->
+  <text x="150" y="220" font-family="Arial, Helvetica, sans-serif" font-size="28" font-weight="500" fill="white" text-anchor="middle" font-style="italic" letter-spacing="1">IndoorMedia</text>
 </svg>
