@@ -2,6 +2,11 @@ import { writable } from 'svelte/store';
 
 // Current logged-in user
 export const currentUser = writable(null);
+export const user = writable(null); // Alias for currentUser
+
+// Theme (light/dark)
+const savedTheme = typeof localStorage !== 'undefined' ? localStorage.getItem('theme') : 'light';
+export const theme = writable(savedTheme || 'light');
 
 // Current tab/view state
 export const currentTab = writable('search'); // 'search', 'prospects', 'testimonials', 'cart'
@@ -19,12 +24,13 @@ export const loading = writable(false);
 export const error = writable(null);
 
 // Store functions
-export function setUser(user) {
-  currentUser.set(user);
-  if (user) {
-    sessionStorage.setItem('user', JSON.stringify(user));
+export function setUser(userObj) {
+  currentUser.set(userObj);
+  user.set(userObj); // Keep both in sync
+  if (userObj) {
+    localStorage.setItem('user', JSON.stringify(userObj));
   } else {
-    sessionStorage.removeItem('user');
+    localStorage.removeItem('user');
     cart.set([]);
   }
 }
