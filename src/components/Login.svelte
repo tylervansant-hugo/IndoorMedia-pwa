@@ -58,7 +58,7 @@
   <div class="login-wrapper">
     <!-- Logo Section -->
     <div class="logo-section">
-      <img src="/indoormedia-logo.jpg" alt="IndoorMedia" class="logo-img" />
+      <img src="/indoormedia-logo.png" alt="IndoorMedia" class="logo-img" />
       <h2 class="app-name">imPro</h2>
     </div>
 
