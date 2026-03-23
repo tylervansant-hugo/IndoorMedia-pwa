@@ -1,5 +1,3 @@
-import fetch from 'node-fetch';
-
 const API_KEY = process.env.GOOGLE_PLACES_API_KEY || 'AIzaSyBoslNJj8aO6wkQOfkH9e4qTVJZ-G9nOuA';
 
 export default async (req, res) => {

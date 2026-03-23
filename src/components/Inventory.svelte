@@ -35,10 +35,10 @@
 
   <div class="stores-list">
     {#each stores as store}
-      <div class="store-item" on:click={() => selectedStore = store.StoreName}>
+      <button class="store-item" on:click={() => selectedStore = store.StoreName}>
         <div class="store-name">{store.GroceryChain} - {store.City}</div>
         <div class="store-num">{store.StoreName}</div>
-      </div>
+      </button>
     {/each}
   </div>
 
