@@ -62,7 +62,7 @@
 <div class="login-container">
   <div class="login-card">
     <div class="logo-section">
-      <img src="/indoormedia-logo.png" alt="IndoorMedia" class="logo" />
+      <img src="/logo.svg" alt="IndoorMedia" class="logo" onerror="this.src='/indoormedia-logo.png'" />
       <span class="pro-badge">Pro</span>
     </div>
     <h1>IndoorMedia</h1>

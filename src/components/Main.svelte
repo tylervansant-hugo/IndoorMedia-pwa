@@ -33,7 +33,7 @@
   <header class="header">
     <div class="header-content">
       <div class="logo-container">
-        <img src="/indoormedia-logo.png" alt="IndoorMedia" class="header-logo" />
+        <img src="/logo.svg" alt="IndoorMedia" class="header-logo" onerror="this.src='/indoormedia-logo.png'" />
         <span class="pro-badge">Pro</span>
       </div>
       <p class="user-name">Hi, {user.name || user.first_name}</p>
