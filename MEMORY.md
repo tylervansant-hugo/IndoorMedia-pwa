@@ -25,6 +25,22 @@
 ## Boundaries & Rules
 - **No emails sent without explicit permission** — I draft, preview, or ask first. Never auto-send.
 
+## Deployment & Infrastructure
+
+**Railway Completely Removed (Mar 22, 2026)**
+- ✅ Removed all Dockerfile, docker-compose, server.js files from repo
+- ✅ Created vercel.json with Vercel-specific config
+- ✅ Created DEPLOYMENT.md documenting Vercel-only setup
+- ✅ Updated .gitignore to exclude Railway/Docker files
+- ⚠️ **Action Required:** Disconnect Railway from GitHub to stop emails
+  - Go to https://railway.app → Find project → Settings → Integrations → Disconnect
+  - OR go to GitHub repo → Settings → Webhooks → Remove Railway webhooks
+
+**Current Stack:**
+- Frontend: Vite (static build) → Vercel CDN
+- Backend: Serverless functions (`/api/*.js`) → Vercel Functions
+- No local servers, no Docker, pure serverless
+
 ## imPro App v2.0 Complete Redesign (Mar 22, 2026)
 
 **Status:** ✅ DEPLOYED - Professional app redesign with consistent theming across all screens
