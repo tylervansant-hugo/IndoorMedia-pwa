@@ -32,27 +32,36 @@
 <div class="main" data-theme={currentTheme}>
   <!-- Header -->
   <header class="header">
-    <div class="header-content">
-      <div class="logo-container">
-        <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" class="header-logo">
-          <rect x="10" y="10" width="180" height="180" rx="40" fill="white"/>
-          <line x1="45" y1="50" x2="55" y2="80" stroke="#CC0000" stroke-width="8" stroke-linecap="round"/>
-          <circle cx="50" cy="40" r="5" fill="#CC0000"/>
-          <polyline points="70,80 80,50 90,80 100,50 110,80 120,100" stroke="#CC0000" stroke-width="8" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
-          <text x="100" y="145" font-family="Arial, sans-serif" font-size="20" font-weight="bold" fill="#CC0000" text-anchor="middle">IndoorMedia</text>
-        </svg>
-      </div>
-      <div class="header-info">
-        <h1>imPro</h1>
-        <p class="user-name">👤 {$user?.name || $user?.first_name}</p>
-      </div>
+    <div class="header-logo-section">
+      <svg viewBox="0 0 400 120" xmlns="http://www.w3.org/2000/svg" class="header-logo-svg">
+        <!-- Main IM shape - larger -->
+        <g>
+          <!-- I - left parallelogram -->
+          <polygon points="40,20 80,10 100,100 60,110" fill="white"/>
+          
+          <!-- M - three parallelograms -->
+          <!-- Left peak -->
+          <polygon points="120,20 160,10 180,100 140,110" fill="white"/>
+          <!-- Middle valley -->
+          <polygon points="170,30 210,20 230,110 190,120" fill="white"/>
+          <!-- Right peak -->
+          <polygon points="240,20 280,10 300,100 260,110" fill="white"/>
+        </g>
+      </svg>
     </div>
 
-    <div class="header-actions">
-      <button class="theme-toggle" on:click={toggleTheme} title="Toggle theme">
-        {currentTheme === 'light' ? '🌙' : '☀️'}
-      </button>
-      <button class="logout-btn" on:click={handleLogout}>Logout</button>
+    <div class="header-bottom">
+      <div class="header-info">
+        <h1>imPro Sales Portal</h1>
+        <p class="user-name">👤 {$user?.name || $user?.first_name}</p>
+      </div>
+
+      <div class="header-actions">
+        <button class="theme-toggle" on:click={toggleTheme} title="Toggle theme">
+          {currentTheme === 'light' ? '🌙' : '☀️'}
+        </button>
+        <button class="logout-btn" on:click={handleLogout}>Logout</button>
+      </div>
     </div>
   </header>
 
@@ -203,32 +212,31 @@
   .header {
     background: linear-gradient(135deg, #CC0000 0%, #990000 100%);
     color: white;
-    padding: 16px 20px;
-    padding-top: calc(env(safe-area-inset-top, 0px) + 16px);
+    padding: 0;
+    padding-top: calc(env(safe-area-inset-top, 0px));
     display: flex;
-    justify-content: space-between;
-    align-items: center;
+    flex-direction: column;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
   }
 
-  .header-content {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    flex: 1;
+  .header-logo-section {
+    padding: 40px 20px 20px;
+    text-align: center;
   }
 
-  .logo-container {
-    width: 48px;
-    height: 48px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-
-  .header-logo {
+  .header-logo-svg {
     width: 100%;
-    height: 100%;
+    max-width: 400px;
+    height: auto;
+    margin: 0 auto;
+  }
+
+  .header-bottom {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    padding: 12px 20px 20px;
+    gap: 16px;
   }
 
   .header-info {
@@ -237,12 +245,13 @@
 
   .header-info h1 {
     margin: 0;
-    font-size: 18px;
+    font-size: 22px;
     font-weight: 700;
+    line-height: 1.2;
   }
 
   .user-name {
-    margin: 2px 0 0;
+    margin: 4px 0 0;
     font-size: 12px;
     opacity: 0.9;
   }
@@ -251,6 +260,7 @@
     display: flex;
     align-items: center;
     gap: 10px;
+    flex-shrink: 0;
   }
 
   .theme-toggle, .logout-btn {
@@ -416,8 +426,18 @@
   }
 
   @media (max-width: 768px) {
-    .header {
-      padding: 12px 16px;
+    .header-logo-section {
+      padding: 32px 16px 16px;
+    }
+
+    .header-bottom {
+      padding: 10px 16px 16px;
+      flex-direction: column;
+      align-items: flex-start;
+    }
+
+    .header-info h1 {
+      font-size: 20px;
     }
 
     .content {
@@ -434,13 +454,20 @@
   }
 
   @media (max-width: 480px) {
-    .logo-container {
-      width: 40px;
-      height: 40px;
+    .header-logo-section {
+      padding: 24px 12px 12px;
+    }
+
+    .header-logo-svg {
+      max-width: 280px;
+    }
+
+    .header-bottom {
+      padding: 8px 12px 12px;
     }
 
     .header-info h1 {
-      font-size: 16px;
+      font-size: 18px;
     }
 
     .tabs {
