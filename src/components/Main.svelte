@@ -33,7 +33,7 @@
   <!-- Header -->
   <header class="header">
     <div class="header-logo-section">
-      <img src="/indoormedia-logo.svg" alt="IndoorMedia" class="header-logo-img" />
+      <img src="/indoormedia-logo.jpg" alt="IndoorMedia" class="header-logo-img" />
     </div>
 
     <div class="header-bottom">

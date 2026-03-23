@@ -1,7 +1,0 @@
-<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
-  <!-- Red background -->
-  <circle cx="100" cy="100" r="95" fill="#CC0000"/>
-  
-  <!-- White text "IM" -->
-  <text x="100" y="120" font-family="Arial, sans-serif" font-size="80" font-weight="bold" fill="white" text-anchor="middle" dominant-baseline="middle">IM</text>
-</svg>
