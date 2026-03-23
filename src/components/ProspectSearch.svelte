@@ -390,13 +390,14 @@
     max-width: 800px;
     margin: 0 auto;
     padding: 1rem;
+    color: var(--text-primary);
   }
 
-  h2, h3 { margin: 0 0 0.5rem 0; color: #1a1a1a; }
+  h2, h3 { margin: 0 0 0.5rem 0; color: var(--text-primary); }
   h2 { font-size: 1.5rem; }
   h3 { font-size: 1.25rem; }
 
-  .subtitle { margin-bottom: 1.5rem; color: #666; font-size: 0.95rem; }
+  .subtitle { margin-bottom: 1.5rem; color: var(--text-secondary); font-size: 0.95rem; }
 
   .error-box {
     background: #fee;
@@ -407,7 +408,7 @@
     border-left: 4px solid #cc0000;
   }
 
-  .loading { text-align: center; padding: 2rem; color: #999; }
+  .loading { text-align: center; padding: 2rem; color: var(--text-tertiary); }
   .back-btn { background: none; border: none; color: #cc0000; font-weight: 600; cursor: pointer; margin-bottom: 1rem; }
 
   .button-grid {
@@ -417,13 +418,14 @@
   }
 
   .main-btn {
-    background: white;
-    border: 2px solid #ddd;
+    background: var(--card-bg);
+    border: 2px solid var(--border-color);
     border-radius: 12px;
     padding: 1.5rem;
     cursor: pointer;
     transition: all 0.2s;
     text-align: center;
+    color: var(--text-primary);
   }
 
   .main-btn:hover {
@@ -433,8 +435,8 @@
   }
 
   .btn-icon { font-size: 2rem; margin-bottom: 0.5rem; }
-  .btn-text { font-weight: 600; color: #1a1a1a; margin-bottom: 0.25rem; }
-  .btn-desc { font-size: 0.85rem; color: #999; }
+  .btn-text { font-weight: 600; color: var(--text-primary); margin-bottom: 0.25rem; }
+  .btn-desc { font-size: 0.85rem; color: var(--text-tertiary); }
 
   .store-list {
     display: flex;
@@ -443,8 +445,8 @@
   }
 
   .store-item {
-    background: white;
-    border: 2px solid #ddd;
+    background: var(--card-bg);
+    border: 2px solid var(--border-color);
     border-radius: 10px;
     padding: 1rem;
     text-align: left;
@@ -453,6 +455,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
+    color: var(--text-primary);
   }
 
   .store-item:hover {
@@ -460,10 +463,10 @@
     box-shadow: 0 4px 12px rgba(204, 0, 0, 0.1);
   }
 
-  .store-info h4 { margin: 0 0 0.25rem 0; color: #1a1a1a; }
-  .address { margin: 0.25rem 0; font-size: 0.9rem; color: #666; }
-  .distance { margin: 0.5rem 0 0 0; font-size: 0.85rem; color: #999; }
-  .store-num { background: #f0f0f0; padding: 0.5rem 1rem; border-radius: 6px; font-weight: 600; font-size: 0.85rem; }
+  .store-info h4 { margin: 0 0 0.25rem 0; color: var(--text-primary); }
+  .address { margin: 0.25rem 0; font-size: 0.9rem; color: var(--text-secondary); }
+  .distance { margin: 0.5rem 0 0 0; font-size: 0.85rem; color: var(--text-tertiary); }
+  .store-num { background: var(--hover-bg); padding: 0.5rem 1rem; border-radius: 6px; font-weight: 600; font-size: 0.85rem; color: var(--text-primary); }
 
   .category-grid, .subcat-grid {
     display: grid;
@@ -473,35 +476,37 @@
   }
 
   .category-btn, .subcat-btn {
-    background: white;
-    border: 2px solid #ddd;
+    background: var(--card-bg);
+    border: 2px solid var(--border-color);
     border-radius: 8px;
     padding: 1rem;
     cursor: pointer;
     text-align: center;
     font-weight: 600;
     transition: all 0.2s;
+    color: var(--text-primary);
   }
 
   .category-btn:hover, .subcat-btn:hover {
     border-color: #cc0000;
-    background: #fff5f5;
+    background: rgba(204, 0, 0, 0.05);
   }
 
   .prospect-list { display: flex; flex-direction: column; gap: 1rem; }
 
   .prospect-card {
-    background: white;
+    background: var(--card-bg);
     border-radius: 10px;
     padding: 1rem;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 2px 8px var(--card-shadow);
     border-left: 4px solid #cc0000;
+    color: var(--text-primary);
   }
 
   .prospect-main { margin-bottom: 0.75rem; }
-  .prospect-card h4 { margin: 0 0 0.5rem 0; color: #1a1a1a; }
-  .address { margin: 0.25rem 0; font-size: 0.9rem; color: #666; }
-  .meta { margin: 0.5rem 0 0 0; font-size: 0.85rem; color: #999; }
+  .prospect-card h4 { margin: 0 0 0.5rem 0; color: var(--text-primary); }
+  .address { margin: 0.25rem 0; font-size: 0.9rem; color: var(--text-secondary); }
+  .meta { margin: 0.5rem 0 0 0; font-size: 0.85rem; color: var(--text-tertiary); }
 
   .prospect-actions {
     display: flex;
@@ -513,7 +518,7 @@
     flex: 1;
     min-width: 70px;
     padding: 0.5rem;
-    background: #f0f0f0;
+    background: var(--hover-bg);
     border: none;
     border-radius: 6px;
     cursor: pointer;
@@ -521,15 +526,18 @@
     text-decoration: none;
     text-align: center;
     transition: all 0.2s;
+    color: var(--text-primary);
   }
 
   .action-btn:hover { background: #cc0000; color: white; }
 
   .status-select {
     padding: 0.5rem;
-    border: 1px solid #ddd;
+    border: 1px solid var(--border-color);
     border-radius: 4px;
     font-size: 0.9rem;
+    background: var(--input-bg);
+    color: var(--text-primary);
   }
 
   .delete-btn {
@@ -545,11 +553,13 @@
     width: 100%;
     margin-top: 0.5rem;
     padding: 0.5rem;
-    border: 1px solid #ddd;
+    border: 1px solid var(--border-color);
     border-radius: 4px;
     font-size: 0.9rem;
     min-height: 60px;
     resize: vertical;
+    background: var(--input-bg);
+    color: var(--text-primary);
   }
 
   @media (max-width: 600px) {
