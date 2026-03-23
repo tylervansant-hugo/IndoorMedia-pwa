@@ -46,3 +46,16 @@ Thumbs.db
 .classpath
 .c9/
 .history/
+
+# Deployment (Vercel only, not Railway)
+.vercel
+.railway
+railway.json
+railway.toml
+RAILWAY_*.md
+Dockerfile
+docker-compose.yml
+
+# Local development servers (not needed with Vercel)
+server.js
+api-server.js
