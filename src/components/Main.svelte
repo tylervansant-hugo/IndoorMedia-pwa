@@ -7,6 +7,7 @@
   import Tools from './Tools.svelte';
   import Cart from './Cart.svelte';
   import Products from './Products.svelte';
+  import Clients from './Clients.svelte';
 
   let currentTab = 'dashboard';
   let currentTheme = 'light';
@@ -95,6 +96,13 @@
     >
       📦 Products
     </button>
+    <button 
+      class="tab" 
+      class:active={currentTab === 'clients'}
+      on:click={() => currentTab = 'clients'}
+    >
+      💼 Clients
+    </button>
   </nav>
 
   <!-- Content -->
@@ -164,6 +172,8 @@
       <Cart />
     {:else if currentTab === 'products'}
       <Products />
+    {:else if currentTab === 'clients'}
+      <Clients />
     {/if}
   </div>
 </div>
