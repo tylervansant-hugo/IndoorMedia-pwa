@@ -323,6 +323,8 @@
         view = 'nearby-stores';
       } else {
         view = 'browse-stores';
+        // Restore the previous search so results are still visible
+        filterStoresForProspecting();
       }
       selectedStore = null;
     } else if (view === 'nearby-stores') {
