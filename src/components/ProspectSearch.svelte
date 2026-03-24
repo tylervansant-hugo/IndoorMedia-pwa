@@ -14,6 +14,8 @@
   let loading = false;
   let error = '';
   let searchInput = '';
+  let storeSearchQuery = '';
+  let filteredStoreResults = [];
 
   const CATEGORIES = {
     '🍽️ Restaurants': ['Mexican', 'Pizza', 'Coffee', 'Sushi', 'Fast Food', 'Chinese', 'Thai', 'Indian', 'BBQ', 'Italian', 'Bakery', 'Bar/Pub', 'All'],
@@ -287,6 +289,28 @@
     }
   }
 
+  function filterStoresForProspecting() {
+    if (!storeSearchQuery.trim()) {
+      filteredStoreResults = [];
+      return;
+    }
+    const term = storeSearchQuery.toLowerCase();
+    filteredStoreResults = allStores.filter(s =>
+      (s.StoreName && s.StoreName.toLowerCase().includes(term)) ||
+      (s.GroceryChain && s.GroceryChain.toLowerCase().includes(term)) ||
+      (s.City && s.City.toLowerCase().includes(term)) ||
+      (s.State && s.State.toLowerCase().includes(term)) ||
+      (s.Address && s.Address.toLowerCase().includes(term))
+    ).slice(0, 20);
+  }
+
+  function selectStoreFromBrowse(store) {
+    selectedStore = store;
+    storeSearchQuery = '';
+    filteredStoreResults = [];
+    view = 'categories';
+  }
+
   function goBack() {
     if (view === 'results') {
       view = 'subcategories';
@@ -295,12 +319,22 @@
       view = 'categories';
       selectedCategory = null;
     } else if (view === 'categories') {
-      view = 'nearby-stores';
+      if (nearbyStores.length > 0) {
+        view = 'nearby-stores';
+      } else {
+        view = 'browse-stores';
+      }
       selectedStore = null;
     } else if (view === 'nearby-stores') {
       view = 'main';
       userLocation = null;
       nearbyStores = [];
+    } else if (view === 'browse-stores') {
+      view = 'main';
+      storeSearchQuery = '';
+      filteredStoreResults = [];
+    } else if (view === 'saved') {
+      view = 'main';
     }
   }
 </script>
@@ -326,12 +360,56 @@
         <div class="btn-desc">Find stores nearby</div>
       </button>
 
+      <button class="main-btn" on:click={() => view = 'browse-stores'}>
+        <div class="btn-icon">🏪</div>
+        <div class="btn-text">Browse Stores</div>
+        <div class="btn-desc">Search any store nationwide</div>
+      </button>
+
       <button class="main-btn" on:click={() => view = 'saved'}>
         <div class="btn-icon">💾</div>
         <div class="btn-text">Saved ({savedProspects.length})</div>
         <div class="btn-desc">Your prospects</div>
       </button>
     </div>
+  {/if}
+
+  <!-- Browse All Stores -->
+  {#if view === 'browse-stores'}
+    <button class="back-btn" on:click={goBack}>← Back</button>
+    <h2>🏪 Browse Stores</h2>
+    <p class="subtitle">Search any store to find prospects nearby</p>
+
+    <div class="search-box">
+      <input
+        type="text"
+        placeholder="Search by city, chain, store #, or state..."
+        bind:value={storeSearchQuery}
+        on:input={filterStoresForProspecting}
+      />
+    </div>
+
+    {#if filteredStoreResults.length > 0}
+      <div class="store-list">
+        {#each filteredStoreResults as store (store.StoreName)}
+          <button class="store-item" on:click={() => selectStoreFromBrowse(store)}>
+            <div class="store-info">
+              <h4>{store.GroceryChain}</h4>
+              <p class="address">{store.City}, {store.State}</p>
+              <p class="store-addr-detail">{store.Address}</p>
+            </div>
+            <div class="store-right">
+              <div class="store-num">{store.StoreName}</div>
+              <div class="store-cycle">Cycle {store.Cycle || '?'}</div>
+            </div>
+          </button>
+        {/each}
+      </div>
+    {:else if storeSearchQuery.trim()}
+      <p class="empty-msg">No stores found for "{storeSearchQuery}"</p>
+    {:else}
+      <p class="empty-msg">Type to search 7,835+ stores</p>
+    {/if}
   {/if}
 
   <!-- Nearby Stores List -->
@@ -527,6 +605,23 @@
 
   .loading { text-align: center; padding: 2rem; color: var(--text-tertiary); }
   .back-btn { background: none; border: none; color: #CC0000; font-weight: 600; cursor: pointer; margin-bottom: 16px; font-size: 14px; }
+
+  .search-box { margin-bottom: 16px; }
+  .search-box input {
+    width: 100%;
+    padding: 14px 16px;
+    border: 2px solid var(--border-color);
+    border-radius: 10px;
+    font-size: 16px;
+    font-family: inherit;
+    background: var(--input-bg, white);
+    color: var(--text-primary);
+    box-sizing: border-box;
+    transition: border-color 0.2s;
+  }
+  .search-box input:focus { outline: none; border-color: #CC0000; box-shadow: 0 0 0 3px rgba(204, 0, 0, 0.1); }
+  .store-addr-detail { margin: 2px 0; font-size: 11px; color: var(--text-tertiary); }
+  .empty-msg { text-align: center; color: var(--text-tertiary); font-size: 14px; padding: 30px 20px; }
 
   .button-grid {
     display: grid;
