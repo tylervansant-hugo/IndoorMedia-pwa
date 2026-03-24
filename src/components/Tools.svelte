@@ -20,6 +20,7 @@
     landing_page_url: '',
     ad_proof_image: null
   };
+  let generating = false;
 
   onMount(async () => {
     try {
@@ -80,11 +81,23 @@
   }
 
   async function submitCounterSign() {
+    if (generating) return;
+    
     try {
+      generating = true;
+      
+      // Get rep name from store (use first name from logged-in user or default)
+      const repName = 'Tyler Van Sant'; // Would come from user store in real app
+      
       const formData = new FormData();
       formData.append('chain_code', selectedChainCode);
-      formData.append('business_card', counterData.business_card_image);
+      formData.append('rep_name', repName);
       formData.append('ad_proof', counterData.ad_proof_image);
+      
+      if (counterData.business_card_image) {
+        formData.append('business_card', counterData.business_card_image);
+      }
+      
       if (counterData.landing_page_url) {
         formData.append('landing_page_url', counterData.landing_page_url);
       }
@@ -95,8 +108,13 @@
       });
 
       if (!response.ok) {
-        const error = await response.json();
-        alert(`❌ Error: ${error.error}`);
+        try {
+          const error = await response.json();
+          alert(`❌ Error: ${error.error}`);
+        } catch {
+          alert(`❌ Error: ${response.statusText}`);
+        }
+        generating = false;
         return;
       }
 
@@ -121,6 +139,8 @@
     } catch (err) {
       alert(`❌ Error: ${err.message}`);
       console.error(err);
+    } finally {
+      generating = false;
     }
   }
 </script>
@@ -389,8 +409,8 @@
           <p>✅ {counterData.ad_proof_image?.name}</p>
         </div>
 
-        <button class="action-btn" on:click={submitCounterSign}>
-          ✅ Generate Counter Sign PDF
+        <button class="action-btn" on:click={submitCounterSign} disabled={generating}>
+          {generating ? '⏳ Generating...' : '✅ Generate Counter Sign PDF'}
         </button>
         
         <button class="edit-btn" on:click={() => counterSignStep = 2}>
@@ -635,9 +655,10 @@
     background: #444;
   }
 
-  .next-btn:disabled {
+  .next-btn:disabled, .action-btn:disabled {
     background: #ccc;
     cursor: not-allowed;
+    opacity: 0.7;
   }
 
   .review-card {
