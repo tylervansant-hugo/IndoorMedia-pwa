@@ -396,7 +396,7 @@
               <a href="tel:{prospect.phone}" class="action-btn full-width call-btn">📞 Call {prospect.phone}</a>
             {/if}
             <button class="action-btn full-width email-btn" on:click={() => { prospect._showEmail = !prospect._showEmail; prospects = prospects; }}>✉️ Draft Email</button>
-            <button class="action-btn full-width" on:click={() => alert('Calendar integration coming soon')}>📅 Calendar</button>
+            <a href="https://calendar.google.com/calendar/render?action=TEMPLATE&text={encodeURIComponent('Visit: ' + prospect.name)}&details={encodeURIComponent('Prospect: ' + prospect.name + '\nAddress: ' + prospect.address + (prospect.phone ? '\nPhone: ' + prospect.phone : '') + (prospect.website ? '\nWebsite: ' + prospect.website : '') + '\nStore: ' + (selectedStore?.GroceryChain || '') + ' ' + (selectedStore?.StoreName || ''))}&location={encodeURIComponent(prospect.address)}" target="_blank" class="action-btn full-width">📅 Calendar</a>
           </div>
           {#if prospect._showNotes}
             <div class="notes-section">
