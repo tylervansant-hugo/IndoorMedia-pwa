@@ -7,7 +7,7 @@
   import Inventory from './Inventory.svelte';
   import Cart from './Cart.svelte';
   import CounterSignGenerator from './CounterSignGenerator.svelte';
-  import Products from './Products.svelte';
+  import ProductMenu from './ProductMenu.svelte';
 
   let currentTab = 'dashboard';
   let currentTheme = 'light';
@@ -164,7 +164,7 @@
     {:else if currentTab === 'cart'}
       <Cart />
     {:else if currentTab === 'products'}
-      <Products />
+      <ProductMenu />
     {/if}
   </div>
 </div>
