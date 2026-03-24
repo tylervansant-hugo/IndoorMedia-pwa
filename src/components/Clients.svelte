@@ -51,19 +51,13 @@
 <div class="clients-container">
   {#if view === 'main'}
     <h2>Clients</h2>
-    <p class="subtitle">Manage customers & testimonials</p>
+    <p class="subtitle">Manage customers & sales</p>
 
     <div class="menu-grid">
       <button class="menu-btn" on:click={() => view = 'customers'}>
         <div class="menu-emoji">👥</div>
         <h4>My Customers</h4>
         <p>{myCustomers.length} closed deals</p>
-      </button>
-
-      <button class="menu-btn" on:click={() => view = 'testimonials'}>
-        <div class="menu-emoji">💬</div>
-        <h4>Testimonials</h4>
-        <p>Find case studies</p>
       </button>
 
       <button class="menu-btn" on:click={() => view = 'sales'}>
@@ -126,27 +120,6 @@
         {/each}
       </div>
     {/if}
-  {/if}
-
-  <!-- Testimonials -->
-  {#if view === 'testimonials'}
-    <button class="back-btn" on:click={goBack}>&larr; Back</button>
-    <h2>Testimonials</h2>
-    <p class="subtitle">Search IndoorMedia testimonials</p>
-
-    <div class="search-box">
-      <input type="text" placeholder="Search by keyword, category, ROI..." bind:value={searchQuery} />
-    </div>
-
-    <div class="info-card">
-      <p>Search for testimonials by:</p>
-      <ul>
-        <li>Business category (dental, restaurant, salon)</li>
-        <li>Keywords (ROI, foot traffic, sales)</li>
-        <li>Results (parking lot, new customers)</li>
-      </ul>
-      <p class="note">Full testimonial database available in ProspectBot.</p>
-    </div>
   {/if}
 
   <!-- My Sales -->
