@@ -64,11 +64,30 @@
       desc: 'Online advertising & customer engagement solutions',
       subproducts: {
         digitalboost: {
-          name: 'DigitalBoost — 1 Pin',
+          name: 'DigitalBoost',
           emoji: '🚀',
-          desc: '240,000 monthly impressions on digital displays',
-          pricing: '$3,600/month',
-          impressions: '240,000'
+          desc: 'Geofence pin delivering digital banner ad impressions',
+          impressions_standalone: 240000,
+          impressions_bundled: 360000,
+          pricing: {
+            standard: {
+              per_pin: 3600,
+              production: 395,
+              production_covers: '5 pins'
+            },
+            coop: {
+              per_pin: 2400,
+              production: 395,
+              production_covers: '5 pins',
+              first_pin_total: 2795
+            }
+          },
+          examples: [
+            { pins: 1, standard: '$3,995', coop: '$2,795' },
+            { pins: 2, standard: '$7,595', coop: '$5,195' },
+            { pins: 3, standard: '$11,195', coop: '$7,595' },
+            { pins: 5, standard: '$18,395', coop: '$12,395' }
+          ]
         },
         findlocal: {
           name: 'FindLocal',
@@ -260,21 +279,51 @@
   <!-- DigitalBoost Detail -->
   {#if view === 'digital-detail' && selectedDigitalProduct === 'digitalboost'}
     <button class="back-btn" on:click={goBack}>← Back</button>
-    <h2>🚀 DigitalBoost — 1 Pin</h2>
-    <p class="detail-subtitle">240,000 monthly impressions on digital displays</p>
+    <h2>🚀 DigitalBoost</h2>
+    <p class="detail-subtitle">Geofence pin delivering digital banner ad impressions</p>
 
     <div class="detail-card">
       <div class="detail-section">
-        <h4>Monthly Impressions</h4>
-        <p class="detail-value">240,000</p>
+        <h4>Impressions</h4>
+        <p class="detail-value">240,000/month</p>
+        <p class="detail-note">350K+ impressions when bundled with Register Tape or Cartvertising</p>
       </div>
 
       <div class="detail-section">
-        <h4>Monthly Cost</h4>
-        <p class="detail-value">$3,600</p>
+        <h4>Standard Pricing</h4>
+        <p class="pricing-item">$3,600 per pin</p>
+        <p class="pricing-item">$395 production (covers up to 5 pins)</p>
       </div>
 
-      <p class="note">💡 Digital displays in high-traffic checkout zones. Premium placement guaranteed.</p>
+      <div class="detail-section">
+        <h4>Manager-Approved Co-Op Pricing</h4>
+        <p class="pricing-item">$2,400 per pin</p>
+        <p class="pricing-item">$395 production (covers up to 5 pins)</p>
+      </div>
+
+      <div class="detail-section">
+        <h4>Pricing Examples</h4>
+        <table class="pricing-table">
+          <thead>
+            <tr>
+              <th>Pins</th>
+              <th>Standard</th>
+              <th>Co-Op</th>
+            </tr>
+          </thead>
+          <tbody>
+            {#each PRODUCTS.digital.subproducts.digitalboost.examples as ex}
+              <tr>
+                <td>{ex.pins}</td>
+                <td>{ex.standard}</td>
+                <td>{ex.coop}</td>
+              </tr>
+            {/each}
+          </tbody>
+        </table>
+      </div>
+
+      <p class="note">💡 Geofence pins deliver mobile web & app impressions in high-traffic areas. 5+ pins per campaign.</p>
       <button class="action-btn">📧 Request Quote</button>
     </div>
   {/if}
@@ -719,5 +768,47 @@
     .digital-grid {
       grid-template-columns: 1fr;
     }
+  }
+
+  .pricing-item {
+    margin: 6px 0;
+    color: #555;
+    font-size: 13px;
+  }
+
+  .pricing-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 12px 0;
+    font-size: 13px;
+  }
+
+  .pricing-table thead {
+    background: #f0f0f0;
+  }
+
+  .pricing-table th {
+    padding: 10px 8px;
+    text-align: left;
+    font-weight: 600;
+    color: #333;
+    border-bottom: 2px solid #ddd;
+  }
+
+  .pricing-table td {
+    padding: 8px;
+    border-bottom: 1px solid #eee;
+    color: #555;
+  }
+
+  .pricing-table tr:last-child td {
+    border-bottom: none;
+  }
+
+  .pricing-table td:nth-child(2),
+  .pricing-table td:nth-child(3) {
+    text-align: right;
+    color: #CC0000;
+    font-weight: 600;
   }
 </style>
