@@ -18,15 +18,17 @@
   let filteredStoreResults = [];
 
   const CATEGORIES = {
-    '🍽️ Restaurants': ['Mexican', 'Pizza', 'Coffee', 'Sushi', 'Fast Food', 'Chinese', 'Thai', 'Indian', 'BBQ', 'Italian', 'Bakery', 'Bar/Pub', 'All'],
-    '🚗 Automotive': ['Oil Change', 'Car Wash', 'Auto Repair', 'Tires', 'Car Dealer', 'Body Shop', 'Transmission'],
-    '💄 Beauty & Wellness': ['Hair Salon', 'Barber', 'Nails', 'Spa', 'Gym', 'Yoga', 'Tanning'],
-    '🏥 Health/Medical': ['Dentist', 'Chiropractor', 'Eye Care', 'Vet', 'Physical Therapy', 'Urgent Care', 'Pharmacy'],
-    '🏠 Home Services': ['Plumber', 'Electrician', 'HVAC', 'Roofing', 'Landscaping', 'Cleaning', 'Contractor', 'Pest Control'],
-    '🛍️ Retail': ['Clothing', 'Pet Store', 'Jewelry', 'Furniture', 'Florist', 'Cell Phone', 'Liquor', 'Dispensary'],
-    '👔 Professionals': ['Real Estate', 'Insurance', 'Accountant', 'Lawyer', 'Financial', 'Mortgage'],
+    '🍽️ Restaurants': ['Mexican', 'Pizza', 'Sandwich Shop', 'Coffee', 'Sushi', 'Fast Food', 'Chinese', 'Thai', 'Indian', 'BBQ', 'Italian', 'Bakery', 'Breakfast/Brunch', 'Seafood', 'Mediterranean', 'Korean', 'Vietnamese', 'Wings', 'Ice Cream/Dessert', 'Juice/Smoothie', 'Bar/Pub', 'All'],
+    '🚗 Automotive': ['Oil Change', 'Car Wash', 'Auto Repair', 'Tires', 'Car Dealer', 'Body Shop', 'Transmission', 'Detailing', 'Towing', 'Glass Repair'],
+    '💄 Beauty & Wellness': ['Hair Salon', 'Barber', 'Nails', 'Spa', 'Gym', 'Yoga', 'Tanning', 'Med Spa', 'Lashes/Brows', 'Tattoo/Piercing', 'Massage'],
+    '🏥 Health/Medical': ['Dentist', 'Chiropractor', 'Eye Care', 'Vet', 'Physical Therapy', 'Urgent Care', 'Pharmacy', 'Dermatologist', 'Pediatrician', 'Mental Health', 'Hearing Aid'],
+    '🏠 Home Services': ['Plumber', 'Electrician', 'HVAC', 'Roofing', 'Landscaping', 'Cleaning', 'Contractor', 'Pest Control', 'Painting', 'Garage Door', 'Fencing', 'Moving'],
+    '🛍️ Retail': ['Clothing', 'Pet Store', 'Jewelry', 'Furniture', 'Florist', 'Cell Phone', 'Liquor', 'Dispensary', 'Thrift/Consignment', 'Gift Shop', 'Smoke Shop', 'Hardware'],
+    '👔 Professionals': ['Real Estate', 'Insurance', 'Accountant', 'Lawyer', 'Financial', 'Mortgage', 'Tax Prep', 'Notary', 'Printing/Signs'],
     '👦 Kids & Tutoring': ['Tutoring', 'Music', 'Dance', 'Martial Arts', 'Sports', 'Camps', 'General'],
-    '👶 Care Centers': ['Daycare', 'After School', 'Assisted Living', 'Adult Care']
+    '👶 Care Centers': ['Daycare', 'After School', 'Assisted Living', 'Adult Care'],
+    '🐾 Pet Services': ['Grooming', 'Boarding/Kennel', 'Dog Training', 'Pet Sitting', 'Vet', 'Pet Store'],
+    '🍕 Food & Drink': ['Catering', 'Food Truck', 'Brewery/Taproom', 'Winery', 'Donut Shop', 'Deli']
   };
 
   const CATEGORY_KEYWORDS = {
@@ -71,7 +73,48 @@
     'Landscaping': 'landscaping',
     'Cleaning': 'cleaning service',
     'Contractor': 'contractor',
-    'Pest Control': 'pest control'
+    'Pest Control': 'pest control',
+    'Sandwich Shop': 'sandwich shop sub shop deli',
+    'Breakfast/Brunch': 'breakfast brunch restaurant',
+    'Seafood': 'seafood restaurant',
+    'Mediterranean': 'mediterranean restaurant',
+    'Korean': 'korean restaurant',
+    'Vietnamese': 'vietnamese pho restaurant',
+    'Wings': 'wings restaurant',
+    'Ice Cream/Dessert': 'ice cream dessert shop',
+    'Juice/Smoothie': 'juice smoothie bar',
+    'Detailing': 'auto detailing',
+    'Towing': 'towing service',
+    'Glass Repair': 'auto glass repair',
+    'Med Spa': 'med spa aesthetics',
+    'Lashes/Brows': 'lash brow salon',
+    'Tattoo/Piercing': 'tattoo piercing shop',
+    'Massage': 'massage therapist',
+    'Dermatologist': 'dermatologist skin care',
+    'Pediatrician': 'pediatrician',
+    'Mental Health': 'therapist counselor mental health',
+    'Hearing Aid': 'hearing aid audiologist',
+    'Painting': 'house painting painter',
+    'Garage Door': 'garage door repair',
+    'Fencing': 'fence company fencing',
+    'Moving': 'moving company movers',
+    'Thrift/Consignment': 'thrift store consignment',
+    'Gift Shop': 'gift shop',
+    'Smoke Shop': 'smoke shop vape',
+    'Hardware': 'hardware store',
+    'Tax Prep': 'tax preparation',
+    'Notary': 'notary public',
+    'Printing/Signs': 'print shop sign shop',
+    'Grooming': 'pet grooming dog grooming',
+    'Boarding/Kennel': 'pet boarding kennel',
+    'Dog Training': 'dog training obedience',
+    'Pet Sitting': 'pet sitting dog walking',
+    'Catering': 'catering service',
+    'Food Truck': 'food truck',
+    'Brewery/Taproom': 'brewery taproom',
+    'Winery': 'winery tasting room',
+    'Donut Shop': 'donut shop',
+    'Deli': 'deli delicatessen'
   };
 
   onMount(async () => {
