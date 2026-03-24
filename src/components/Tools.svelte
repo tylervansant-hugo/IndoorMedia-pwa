@@ -183,9 +183,9 @@
       y -= 20;
       // Status
       const daysAgo = Math.floor((Date.now() - new Date(auditDate).getTime()) / (1000 * 60 * 60 * 24));
-      let status = '🟢 Recent';
-      if (daysAgo > 45) status = '🔴 OVERDUE';
-      else if (daysAgo > 30) status = '🟡 Approaching';
+      let status = 'RECENT';
+      if (daysAgo > 45) status = 'OVERDUE';
+      else if (daysAgo > 30) status = 'APPROACHING';
       
       page.drawText('Delivery Status:', { x: 40, y, size: 12, font, color: rgb(0.2, 0.2, 0.2) });
       page.drawText(`${status} (${daysAgo} days since delivery)`, { x: 200, y, size: 12, font: fontR, color: rgb(0.3, 0.3, 0.3) });
