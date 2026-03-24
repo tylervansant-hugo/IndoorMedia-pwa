@@ -161,15 +161,20 @@
     const starting = parseInt(auditStartingCases) || 20;
     const totalRolls = (cases * 50) + rolls;
     const startingRolls = starting * 50;
-    const usagePerDay = 11.1; // same as bot
-    const daysUntilRunout = Math.round((totalRolls / usagePerDay) * 10) / 10;
+    
+    // Calculate actual usage rate: (starting rolls - current rolls) / days since delivery
+    const delDate = new Date(auditDate);
+    const today = new Date();
+    const daysSinceDelivery = Math.max(1, Math.floor((today - delDate) / (1000 * 60 * 60 * 24)));
+    const rollsUsed = startingRolls - totalRolls;
+    const usagePerDay = Math.round((rollsUsed / daysSinceDelivery) * 10) / 10;
+    const daysUntilRunout = usagePerDay > 0 ? Math.round((totalRolls / usagePerDay) * 10) / 10 : 999;
 
-    const deliveryDate = new Date(auditDate);
     const runoutDate = new Date();
     runoutDate.setDate(runoutDate.getDate() + Math.floor(daysUntilRunout));
 
     // Estimate next delivery (28-day cycle from last delivery)
-    const nextDelivery = new Date(deliveryDate);
+    const nextDelivery = new Date(delDate);
     while (nextDelivery <= new Date()) {
       nextDelivery.setDate(nextDelivery.getDate() + 28);
     }
@@ -181,12 +186,15 @@
       chain: selectedStore?.GroceryChain || '',
       city: selectedStore?.City || '',
       state: selectedStore?.State || '',
-      deliveryDate: deliveryDate.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }),
+      deliveryDate: delDate.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }),
       startingCases: starting,
       startingRolls: startingRolls,
       currentCases: cases,
       currentRolls: rolls,
       totalRolls: totalRolls,
+      rollsUsed: rollsUsed,
+      daysSinceDelivery: daysSinceDelivery,
+      usagePerDay: usagePerDay,
       daysUntilRunout: daysUntilRunout,
       runoutDate: runoutDate.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }),
       nextDelivery: nextDelivery.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }),
@@ -237,7 +245,8 @@
       line('Total Rolls:', String(r.totalRolls));
 
       section('PROJECTION');
-      line('Usage Rate:', '11.1 rolls/day');
+      line('Rolls Used:', `${r.rollsUsed} in ${r.daysSinceDelivery} days`);
+      line('Usage Rate:', `${r.usagePerDay} rolls/day`);
       line('Days Until Runout:', String(r.daysUntilRunout));
       line('Est. Runout Date:', r.runoutDate);
       line('Next Delivery:', `${r.nextDelivery} (${r.daysUntilDelivery} days)`);
@@ -466,8 +475,11 @@
 
         <div class="report-section">
           <h4>Projection</h4>
+          <p>Rolls used: {auditReport.rollsUsed} in {auditReport.daysSinceDelivery} days</p>
+          <p>Usage rate: {auditReport.usagePerDay} rolls/day</p>
           <p>Days until runout: {auditReport.daysUntilRunout}</p>
-          <p>Runout date: {auditReport.runoutDate}</p>
+          <p>Est. runout date: {auditReport.runoutDate}</p>
+          <p>Next delivery: {auditReport.nextDelivery} ({auditReport.daysUntilDelivery} days)</p>
         </div>
 
         <div class="report-status" class:status-ok={!auditReport.insufficient} class:status-warn={auditReport.insufficient}>
