@@ -37,7 +37,7 @@
   const isDev = window.location.hostname === 'localhost';
   let COUNTER_SIGN_API = isDev 
     ? 'http://localhost:3333'
-    : 'https://genetics-born-placing-economic.trycloudflare.com';
+    : 'https://confidence-extent-formed-dispatch.trycloudflare.com';
   
   // On production, try to fetch the latest tunnel URL
   if (!isDev) {
