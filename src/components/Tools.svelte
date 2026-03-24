@@ -239,10 +239,10 @@
     const runoutDate = new Date();
     runoutDate.setDate(runoutDate.getDate() + Math.floor(daysUntilRunout));
 
-    // Estimate next delivery (28-day cycle from last delivery)
+    // Estimate next delivery (90-day / 3-month cycle from last delivery)
     const nextDelivery = new Date(delDate);
     while (nextDelivery <= new Date()) {
-      nextDelivery.setDate(nextDelivery.getDate() + 28);
+      nextDelivery.setDate(nextDelivery.getDate() + 90);
     }
     const daysUntilDelivery = Math.ceil((nextDelivery - new Date()) / (1000 * 60 * 60 * 24));
     const insufficient = daysUntilRunout < daysUntilDelivery;
