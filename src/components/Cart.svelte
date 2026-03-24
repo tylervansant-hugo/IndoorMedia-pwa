@@ -85,6 +85,12 @@
     saveCart();
   }
 
+  function updateItemPrice(index, newPrice) {
+    cartItems[index].price = newPrice;
+    cartItems = [...cartItems];
+    saveCart();
+  }
+
   function clearCart() {
     if (confirm('Clear entire quote?')) {
       cartItems = [];
@@ -159,7 +165,13 @@
   function selectPlan(plan) {
     const base = newItem.store?.SingleAd || 0;
     newItem.plan = plan.name;
-    newItem.price = plan.calc(base);
+    newItem.planCalc = plan.calc(base);
+    newItem.priceText = plan.calc(base); // Display version
+    addStep = 'confirm';
+  }
+
+  function confirmPlan() {
+    newItem.price = newItem.priceText;
     addItem();
   }
 
@@ -275,6 +287,22 @@
         <button class="cancel-btn" on:click={() => { addStep = 'store'; }}>Back</button>
       {/if}
 
+      {#if addStep === 'confirm'}
+        <h3>Confirm & Customize Price</h3>
+        <div class="confirm-box">
+          <p class="confirm-label">Product</p>
+          <p class="confirm-value">{newItem.typeName}</p>
+          <p class="confirm-label">Store</p>
+          <p class="confirm-value">{newItem.storeName}</p>
+          <p class="confirm-label">Plan</p>
+          <p class="confirm-value">{newItem.plan}</p>
+          <p class="confirm-label">Price</p>
+          <input type="text" bind:value={newItem.priceText} class="price-input" />
+        </div>
+        <button class="add-confirm-btn" on:click={confirmPlan}>Add to Quote</button>
+        <button class="cancel-btn" on:click={() => { addStep = 'plan'; }}>Back</button>
+      {/if}
+
       {#if addStep === 'pins'}
         <h3>DigitalBoost — How Many Pins?</h3>
         <div class="pins-grid">
@@ -301,7 +329,10 @@
             {#if item.storeAddress}<p class="item-addr">{item.storeAddress}</p>{/if}
             {#if item.storeCycle}<p class="item-launch">Next launch: {getNextLaunch(item.storeCycle)}</p>{/if}
             {#if item.plan}<p class="item-plan">{item.plan}</p>{/if}
-            <p class="item-price">{item.price}</p>
+            <div class="price-edit">
+              <label>Price</label>
+              <input type="text" value={item.price} on:change={(e) => updateItemPrice(i, e.target.value)} class="price-field" />
+            </div>
           </div>
           <button class="remove-btn" on:click={() => removeItem(i)}>✕</button>
         </div>
@@ -382,7 +413,16 @@
   .quote-item h4 { margin: 0 0 4px; font-size: 15px; font-weight: 700; color: #333; }
   .item-store { margin: 0 0 2px; font-size: 12px; color: #666; }
   .item-plan { margin: 0 0 2px; font-size: 12px; color: #888; }
-  .item-price { margin: 4px 0 0; font-size: 14px; font-weight: 700; color: #CC0000; }
+  .price-edit { margin-top: 8px; }
+  .price-edit label { display: block; font-size: 11px; font-weight: 700; color: #666; margin-bottom: 4px; }
+  .price-field { width: 100%; padding: 8px; border: 1px solid #CC0000; border-radius: 6px; font-size: 14px; font-weight: 700; color: #CC0000; box-sizing: border-box; }
+  .price-field:focus { outline: none; border-color: #990000; }
+
+  .confirm-box { background: white; border-radius: 8px; padding: 16px; margin-bottom: 16px; border: 1px solid #e0e0e0; }
+  .confirm-label { font-size: 11px; font-weight: 700; color: #888; text-transform: uppercase; margin: 12px 0 4px; }
+  .confirm-value { margin: 0; font-size: 14px; color: #333; font-weight: 600; }
+  .price-input { width: 100%; padding: 10px; border: 1px solid #CC0000; border-radius: 6px; font-size: 16px; font-weight: 700; color: #CC0000; box-sizing: border-box; }
+
   .remove-btn { background: none; border: none; color: #ccc; font-size: 20px; cursor: pointer; }
   .remove-btn:hover { color: #CC0000; }
 
