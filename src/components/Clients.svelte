@@ -4,41 +4,19 @@
 
   let view = 'main'; // main, customers, sales
   let contracts = [];
-  let calendarEvents = [];
   let loading = true;
   let searchQuery = '';
 
   onMount(async () => {
     try {
-      const [contractsRes, calendarRes] = await Promise.all([
-        fetch('/data/contracts.json'),
-        fetch('/data/calendar.json')
-      ]);
-      const contractsData = await contractsRes.json();
-      contracts = contractsData.contracts || [];
-      calendarEvents = await calendarRes.json().catch(() => []);
+      const res = await fetch('/data/contracts.json');
+      const data = await res.json();
+      contracts = data.contracts || [];
     } catch (err) {
-      console.error('Failed to load data:', err);
+      console.error('Failed to load contracts:', err);
     }
     loading = false;
   });
-
-  function formatEventTime(dateStr) {
-    if (!dateStr) return '';
-    const d = new Date(dateStr);
-    const today = new Date();
-    const tomorrow = new Date(today);
-    tomorrow.setDate(tomorrow.getDate() + 1);
-    
-    const isToday = d.toDateString() === today.toDateString();
-    const isTomorrow = d.toDateString() === tomorrow.toDateString();
-    
-    const time = d.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' });
-    
-    if (isToday) return `Today ${time}`;
-    if (isTomorrow) return `Tomorrow ${time}`;
-    return d.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' }) + ' ' + time;
-  }
 
   $: repName = $user?.name || $user?.first_name || '';
   $: isManager = repName?.toLowerCase().includes('tyler');
@@ -63,6 +41,62 @@
         (c.store_name || '').toLowerCase().includes(searchQuery.toLowerCase())
       )
     : myCustomers;
+
+  // Calculate upcoming events for a client based on contract data
+  function getClientEvents(contract) {
+    const events = [];
+    const today = new Date();
+    const contractDate = contract.date ? new Date(contract.date) : null;
+    
+    if (!contractDate) return events;
+
+    // Install date: ~30 days after contract (next cycle launch)
+    const installDate = new Date(contractDate);
+    installDate.setDate(installDate.getDate() + 30);
+    // Snap to 7th of month (cycle launch)
+    const installMonth = installDate.getDate() > 7 ? installDate.getMonth() + 1 : installDate.getMonth();
+    const installLaunch = new Date(installDate.getFullYear(), installMonth, 7);
+    if (installLaunch >= today) {
+      events.push({ type: '📦', label: 'Install', date: installLaunch });
+    }
+
+    // Audit window: 45 days after install
+    const auditDate = new Date(installLaunch);
+    auditDate.setDate(auditDate.getDate() + 45);
+    if (auditDate >= today) {
+      events.push({ type: '🔍', label: 'Audit Due', date: auditDate });
+    }
+
+    // Renewal conversation: 10 months after contract
+    const renewalDate = new Date(contractDate);
+    renewalDate.setMonth(renewalDate.getMonth() + 10);
+    if (renewalDate >= today) {
+      events.push({ type: '🔄', label: 'Renewal Conversation', date: renewalDate });
+    }
+
+    // Contract end: 12 months after contract
+    const endDate = new Date(contractDate);
+    endDate.setMonth(endDate.getMonth() + 12);
+    if (endDate >= today) {
+      events.push({ type: '📋', label: 'Contract Ends', date: endDate });
+    }
+
+    return events.sort((a, b) => a.date - b.date);
+  }
+
+  function formatDate(d) {
+    return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+  }
+
+  function daysFromNow(d) {
+    const diff = Math.ceil((d - new Date()) / (1000 * 60 * 60 * 24));
+    if (diff === 0) return 'Today';
+    if (diff === 1) return 'Tomorrow';
+    if (diff < 0) return `${Math.abs(diff)}d overdue`;
+    if (diff <= 7) return `In ${diff} days`;
+    if (diff <= 30) return `In ${Math.ceil(diff / 7)} weeks`;
+    return `In ${Math.ceil(diff / 30)} months`;
+  }
 
   function goBack() {
     view = 'main';
@@ -89,28 +123,6 @@
       </button>
     </div>
 
-    <!-- Upcoming Calendar Events -->
-    {#if calendarEvents.length > 0}
-      <div class="calendar-section">
-        <h3>📅 Upcoming Events</h3>
-        <div class="event-list">
-          {#each calendarEvents as event}
-            <div class="event-card">
-              <div class="event-time">{formatEventTime(event.start)}</div>
-              <div class="event-details">
-                <h4>{event.title}</h4>
-                {#if event.location}
-                  <p class="event-location">📍 {event.location}</p>
-                {/if}
-                {#if event.attendees && event.attendees.length > 0}
-                  <p class="event-attendees">👥 {event.attendees.join(', ')}</p>
-                {/if}
-              </div>
-            </div>
-          {/each}
-        </div>
-      </div>
-    {/if}
   {/if}
 
   <!-- My Customers -->
@@ -152,6 +164,19 @@
             {/if}
             {#if isManager && c.sales_rep}
               <p class="rep-tag">Rep: {c.sales_rep}</p>
+            {/if}
+            {@const clientEvents = getClientEvents(c)}
+            {#if clientEvents.length > 0}
+              <div class="client-events">
+                <p class="events-label">Upcoming</p>
+                {#each clientEvents as evt}
+                  <div class="client-event" class:soon={daysFromNow(evt.date).startsWith('In') && parseInt(daysFromNow(evt.date).match(/\d+/)) <= 7 || daysFromNow(evt.date) === 'Today' || daysFromNow(evt.date) === 'Tomorrow'} class:overdue={daysFromNow(evt.date).includes('overdue')}>
+                    <span class="evt-icon">{evt.type}</span>
+                    <span class="evt-label">{evt.label}</span>
+                    <span class="evt-date">{formatDate(evt.date)} · {daysFromNow(evt.date)}</span>
+                  </div>
+                {/each}
+              </div>
             {/if}
             <div class="card-actions">
               {#if c.contact_phone}
@@ -258,28 +283,14 @@
   .sale-meta { font-size: 11px; color: #888; margin-top: 4px; }
   .sale-amount { font-weight: 700; font-size: 16px; color: #CC0000; margin-left: 12px; }
 
-  /* Calendar */
-  .calendar-section { margin-top: 28px; }
-  .calendar-section h3 { margin: 0 0 12px; font-size: 18px; font-weight: 700; color: var(--text-primary); }
-  .event-list { display: flex; flex-direction: column; gap: 10px; }
-  .event-card {
-    display: flex;
-    gap: 14px;
-    padding: 14px;
-    background: var(--card-bg, white);
-    border: 1px solid var(--border-color, #eee);
-    border-radius: 10px;
-    border-left: 4px solid #CC0000;
-  }
-  .event-time {
-    font-size: 12px;
-    font-weight: 700;
-    color: #CC0000;
-    min-width: 90px;
-    white-space: nowrap;
-  }
-  .event-details { flex: 1; }
-  .event-details h4 { margin: 0 0 4px; font-size: 14px; font-weight: 600; color: var(--text-primary); }
-  .event-location { margin: 2px 0; font-size: 12px; color: var(--text-secondary); }
-  .event-attendees { margin: 4px 0 0; font-size: 11px; color: var(--text-tertiary, #999); }
+  /* Client Events */
+  .client-events { margin: 10px 0; padding: 10px; background: var(--bg-secondary, #f9f9f9); border-radius: 8px; }
+  .events-label { margin: 0 0 6px; font-size: 11px; font-weight: 700; text-transform: uppercase; color: var(--text-tertiary, #999); letter-spacing: 0.5px; }
+  .client-event { display: flex; align-items: center; gap: 6px; padding: 4px 0; font-size: 12px; }
+  .evt-icon { font-size: 14px; }
+  .evt-label { font-weight: 600; color: var(--text-primary); min-width: 120px; }
+  .evt-date { color: var(--text-secondary); }
+  .client-event.soon .evt-date { color: #CC0000; font-weight: 600; }
+  .client-event.overdue .evt-date { color: #c33; font-weight: 700; }
+  .client-event.overdue .evt-label { color: #c33; }
 </style>
