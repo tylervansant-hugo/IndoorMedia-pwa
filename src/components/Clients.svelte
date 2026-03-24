@@ -2,21 +2,43 @@
   import { onMount } from 'svelte';
   import { user } from '../lib/stores.js';
 
-  let view = 'main'; // main, customers, testimonials, sales
+  let view = 'main'; // main, customers, sales
   let contracts = [];
+  let calendarEvents = [];
   let loading = true;
   let searchQuery = '';
 
   onMount(async () => {
     try {
-      const res = await fetch('/data/contracts.json');
-      const data = await res.json();
-      contracts = data.contracts || [];
+      const [contractsRes, calendarRes] = await Promise.all([
+        fetch('/data/contracts.json'),
+        fetch('/data/calendar.json')
+      ]);
+      const contractsData = await contractsRes.json();
+      contracts = contractsData.contracts || [];
+      calendarEvents = await calendarRes.json().catch(() => []);
     } catch (err) {
-      console.error('Failed to load contracts:', err);
+      console.error('Failed to load data:', err);
     }
     loading = false;
   });
+
+  function formatEventTime(dateStr) {
+    if (!dateStr) return '';
+    const d = new Date(dateStr);
+    const today = new Date();
+    const tomorrow = new Date(today);
+    tomorrow.setDate(tomorrow.getDate() + 1);
+    
+    const isToday = d.toDateString() === today.toDateString();
+    const isTomorrow = d.toDateString() === tomorrow.toDateString();
+    
+    const time = d.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' });
+    
+    if (isToday) return `Today ${time}`;
+    if (isTomorrow) return `Tomorrow ${time}`;
+    return d.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' }) + ' ' + time;
+  }
 
   $: repName = $user?.name || $user?.first_name || '';
   $: isManager = repName?.toLowerCase().includes('tyler');
@@ -66,6 +88,29 @@
         <p>${totalRevenue.toLocaleString()} total</p>
       </button>
     </div>
+
+    <!-- Upcoming Calendar Events -->
+    {#if calendarEvents.length > 0}
+      <div class="calendar-section">
+        <h3>📅 Upcoming Events</h3>
+        <div class="event-list">
+          {#each calendarEvents as event}
+            <div class="event-card">
+              <div class="event-time">{formatEventTime(event.start)}</div>
+              <div class="event-details">
+                <h4>{event.title}</h4>
+                {#if event.location}
+                  <p class="event-location">📍 {event.location}</p>
+                {/if}
+                {#if event.attendees && event.attendees.length > 0}
+                  <p class="event-attendees">👥 {event.attendees.join(', ')}</p>
+                {/if}
+              </div>
+            </div>
+          {/each}
+        </div>
+      </div>
+    {/if}
   {/if}
 
   <!-- My Customers -->
@@ -212,4 +257,29 @@
   .sale-name { font-weight: 600; font-size: 14px; color: #333; }
   .sale-meta { font-size: 11px; color: #888; margin-top: 4px; }
   .sale-amount { font-weight: 700; font-size: 16px; color: #CC0000; margin-left: 12px; }
+
+  /* Calendar */
+  .calendar-section { margin-top: 28px; }
+  .calendar-section h3 { margin: 0 0 12px; font-size: 18px; font-weight: 700; color: var(--text-primary); }
+  .event-list { display: flex; flex-direction: column; gap: 10px; }
+  .event-card {
+    display: flex;
+    gap: 14px;
+    padding: 14px;
+    background: var(--card-bg, white);
+    border: 1px solid var(--border-color, #eee);
+    border-radius: 10px;
+    border-left: 4px solid #CC0000;
+  }
+  .event-time {
+    font-size: 12px;
+    font-weight: 700;
+    color: #CC0000;
+    min-width: 90px;
+    white-space: nowrap;
+  }
+  .event-details { flex: 1; }
+  .event-details h4 { margin: 0 0 4px; font-size: 14px; font-weight: 600; color: var(--text-primary); }
+  .event-location { margin: 2px 0; font-size: 12px; color: var(--text-secondary); }
+  .event-attendees { margin: 4px 0 0; font-size: 11px; color: var(--text-tertiary, #999); }
 </style>
