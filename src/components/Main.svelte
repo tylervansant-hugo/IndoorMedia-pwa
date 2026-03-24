@@ -41,14 +41,15 @@
 <div class="main" data-theme={currentTheme}>
   <!-- Header -->
   <header class="header">
-    <div class="header-logo-section">
-      <img src="/logo.png?v=2" alt="IndoorMedia" class="header-logo-img" />
-    </div>
-
-    <div class="header-bottom">
-      <div class="header-info">
-        <h1>imPro Sales Portal</h1>
-        <p class="user-name">👤 {$user?.name || $user?.first_name}</p>
+    <div class="header-top">
+      <div class="header-logo-wrapper">
+        <div class="logo-backdrop">
+          <img src="/logo.png?v=2" alt="IndoorMedia" class="header-logo-img" />
+        </div>
+        <div class="header-text">
+          <h1 class="portal-title">imPro</h1>
+          <p class="portal-subtitle">Sales Portal</p>
+        </div>
       </div>
 
       <div class="header-actions">
@@ -63,6 +64,10 @@
         </button>
         <button class="logout-btn" on:click={handleLogout}>Logout</button>
       </div>
+    </div>
+
+    <div class="header-bottom">
+      <p class="user-greeting">Welcome, <strong>{$user?.name || $user?.first_name}</strong></p>
     </div>
   </header>
 
@@ -223,55 +228,83 @@
 
   /* Header */
   .header {
-    background: #CC0000;
+    background: linear-gradient(135deg, #CC0000 0%, #990000 100%);
     color: white;
     padding: 0;
     padding-top: calc(env(safe-area-inset-top, 0px));
     display: flex;
     flex-direction: column;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    box-shadow: 0 8px 24px rgba(204, 0, 0, 0.2);
   }
 
-  .header-logo-section {
-    padding: 40px 20px 20px;
-    text-align: center;
-    background: #CC0000;
+  .header-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px 20px;
+    gap: 20px;
+  }
+
+  .header-logo-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex: 1;
+  }
+
+  .logo-backdrop {
+    width: 56px;
+    height: 56px;
+    background: rgba(255, 255, 255, 0.15);
+    border-radius: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.25);
   }
 
   .header-logo-img {
-    width: 140px;
-    height: auto;
+    width: 44px;
+    height: 44px;
     object-fit: contain;
-    display: block;
-    margin: 0 auto;
-    border-radius: 12px;
-    background: white;
-    padding: 8px;
+  }
+
+  .header-text {
+    margin: 0;
+  }
+
+  .portal-title {
+    margin: 0;
+    font-size: 24px;
+    font-weight: 800;
+    letter-spacing: -0.5px;
+    line-height: 1;
+  }
+
+  .portal-subtitle {
+    margin: 2px 0 0;
+    font-size: 11px;
+    font-weight: 500;
+    opacity: 0.85;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
   }
 
   .header-bottom {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-end;
-    padding: 12px 20px 20px;
-    gap: 16px;
+    padding: 0 20px 12px;
+    text-align: left;
   }
 
-  .header-info {
+  .user-greeting {
     margin: 0;
-  }
-
-  .header-info h1 {
-    margin: 0;
-    font-size: 22px;
-    font-weight: 700;
-    line-height: 1.2;
-  }
-
-  .user-name {
-    margin: 4px 0 0;
-    font-size: 12px;
+    font-size: 13px;
     opacity: 0.9;
+  }
+
+  .user-greeting strong {
+    font-weight: 700;
   }
 
   .header-actions {
