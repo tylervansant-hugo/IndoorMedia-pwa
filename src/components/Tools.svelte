@@ -14,6 +14,7 @@
   let testimonialResults = [];
   let testimonialLoading = false;
   let testimonialError = '';
+  let testimonialData = null;
   
   // Audit state
   let auditStoreNum = null;
@@ -79,6 +80,18 @@
     }
   }
 
+  async function loadTestimonialData() {
+    if (testimonialData) return testimonialData;
+    try {
+      const res = await fetch('/data/testimonials.json');
+      if (!res.ok) throw new Error('Failed to load');
+      testimonialData = await res.json();
+      return testimonialData;
+    } catch (err) {
+      throw new Error('Could not load testimonials database');
+    }
+  }
+
   async function searchTestimonials() {
     if (!testimonialQuery.trim()) {
       testimonialResults = [];
@@ -89,15 +102,23 @@
     testimonialError = '';
 
     try {
-      const response = await fetch(`/api/search-testimonials?q=${encodeURIComponent(testimonialQuery)}`);
-      if (!response.ok) throw new Error('Search failed');
-      const data = await response.json();
-      testimonialResults = data.results || [];
+      const data = await loadTestimonialData();
+      const q = testimonialQuery.trim().toLowerCase();
+      
+      testimonialResults = data
+        .filter(t => t.s && t.s.includes(q))
+        .slice(0, 25)
+        .map(t => ({
+          business: t.b,
+          comment: t.c,
+          url: t.u
+        }));
+
       if (testimonialResults.length === 0) {
         testimonialError = `No testimonials found for "${testimonialQuery}"`;
       }
     } catch (err) {
-      testimonialError = `Error searching testimonials: ${err.message}`;
+      testimonialError = `Error: ${err.message}`;
       testimonialResults = [];
     } finally {
       testimonialLoading = false;
