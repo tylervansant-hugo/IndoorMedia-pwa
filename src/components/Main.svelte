@@ -8,6 +8,7 @@
   import Cart from './Cart.svelte';
   import Products from './Products.svelte';
   import Clients from './Clients.svelte';
+  import ManageReps from './ManageReps.svelte';
 
   let currentTab = 'dashboard';
   let currentTheme = 'light';
@@ -116,6 +117,15 @@
     >
       💼 Clients
     </button>
+    {#if $user?.role === 'manager' || $user?.role === 'admin'}
+      <button 
+        class="tab" 
+        class:active={currentTab === 'manage'}
+        on:click={() => currentTab = 'manage'}
+      >
+        👥 Manage
+      </button>
+    {/if}
   </nav>
 
   <!-- Content -->
@@ -187,6 +197,8 @@
       <Products />
     {:else if currentTab === 'clients'}
       <Clients />
+    {:else if currentTab === 'manage'}
+      <ManageReps />
     {/if}
   </div>
 </div>

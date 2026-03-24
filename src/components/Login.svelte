@@ -74,10 +74,9 @@
       return;
     }
 
-    // Create a simple ID from the name
     const repId = newRep.name.trim().toLowerCase().replace(/\s+/g, '_');
 
-    // Check for duplicates
+    // Check for duplicates in existing list
     const exists = reps.find(r => 
       r.name.toLowerCase() === newRep.name.trim().toLowerCase() ||
       r.id === repId
@@ -88,29 +87,34 @@
     }
 
     try {
-      // Fetch current registry
-      const response = await fetch('/data/rep_registry.json');
-      const registry = await response.json();
+      // Submit to API for manager approval
+      const response = await fetch('/api/register-rep', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name: newRep.name.trim(),
+          email: newRep.email.trim(),
+          location: newRep.location.trim()
+        })
+      });
 
-      // Add new rep
-      registry[repId] = {
+      if (!response.ok) {
+        const err = await response.json().catch(() => ({}));
+        registerError = err.error || 'Registration failed';
+        return;
+      }
+
+      // Also save locally so they can sign in immediately
+      const localReps = JSON.parse(localStorage.getItem('local_reps') || '{}');
+      localReps[repId] = {
         contract_name: newRep.name.trim(),
         display_name: newRep.name.trim(),
         email: newRep.email.trim() || '',
         role: 'rep',
         registered_at: new Date().toISOString().split('T')[0],
-        base_location: newRep.location.trim() || 'Territory TBD'
+        base_location: newRep.location.trim() || 'Territory TBD',
+        pending_approval: true
       };
-
-      // Save to localStorage as pending registration
-      // (Can't write to server from static site, so we store locally)
-      const pending = JSON.parse(localStorage.getItem('pending_registrations') || '[]');
-      pending.push(registry[repId]);
-      localStorage.setItem('pending_registrations', JSON.stringify(pending));
-
-      // Add to local reps list immediately so they can sign in
-      const localReps = JSON.parse(localStorage.getItem('local_reps') || '{}');
-      localReps[repId] = registry[repId];
       localStorage.setItem('local_reps', JSON.stringify(localReps));
 
       // Add to current reps list
@@ -125,18 +129,41 @@
         return a.name.localeCompare(b.name);
       });
 
-      registerSuccess = `✅ Welcome, ${newRep.name.trim()}! You can now sign in.`;
+      registerSuccess = `✅ Welcome, ${newRep.name.trim()}! You can sign in now. Manager approval pending.`;
       selectedRep = repId;
       
-      // Reset form after delay
       setTimeout(() => {
         showRegister = false;
         registerSuccess = '';
-      }, 2000);
+      }, 3000);
 
     } catch (err) {
-      registerError = 'Registration failed. Please try again.';
-      console.error('Registration error:', err);
+      // Fallback to local-only if API is down
+      const localReps = JSON.parse(localStorage.getItem('local_reps') || '{}');
+      localReps[repId] = {
+        contract_name: newRep.name.trim(),
+        display_name: newRep.name.trim(),
+        email: newRep.email.trim() || '',
+        role: 'rep',
+        registered_at: new Date().toISOString().split('T')[0],
+        base_location: newRep.location.trim() || 'Territory TBD'
+      };
+      localStorage.setItem('local_reps', JSON.stringify(localReps));
+
+      reps = [...reps, {
+        id: repId,
+        name: newRep.name.trim(),
+        role: 'rep',
+        base_location: newRep.location.trim() || 'Territory TBD'
+      }].sort((a, b) => {
+        if (a.role === 'manager' && b.role !== 'manager') return -1;
+        if (b.role === 'manager' && a.role !== 'manager') return 1;
+        return a.name.localeCompare(b.name);
+      });
+
+      registerSuccess = `✅ Registered locally. You can sign in now.`;
+      selectedRep = repId;
+      setTimeout(() => { showRegister = false; registerSuccess = ''; }, 3000);
     }
   }
 </script>
