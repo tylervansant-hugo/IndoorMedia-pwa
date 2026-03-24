@@ -232,6 +232,21 @@
     savedProspects = saved ? JSON.parse(saved) : [];
   }
 
+  function getProspectNote(id) {
+    try {
+      const notes = JSON.parse(localStorage.getItem('prospectNotes') || '{}');
+      return notes[id] || '';
+    } catch { return ''; }
+  }
+
+  function saveProspectNote(id, text) {
+    try {
+      const notes = JSON.parse(localStorage.getItem('prospectNotes') || '{}');
+      notes[id] = text;
+      localStorage.setItem('prospectNotes', JSON.stringify(notes));
+    } catch {}
+  }
+
   function saveProspect(prospect) {
     if (!savedProspects.find(p => p.id === prospect.id)) {
       savedProspects = [...savedProspects, { ...prospect, savedAt: new Date().toISOString(), status: 'new', notes: '' }];
@@ -382,7 +397,7 @@
               {:else}
                 <a href="https://maps.google.com/maps?q={encodeURIComponent(prospect.name + ' ' + prospect.address)}" target="_blank" class="action-btn">📍 Maps</a>
               {/if}
-              <a href="https://maps.google.com/maps?q={encodeURIComponent(prospect.address)}" target="_blank" class="action-btn">🗺️ Mappoint</a>
+              <a href="https://sales.indoormedia.com/mappoint" target="_blank" class="action-btn">🗺️ Mappoint</a>
             </div>
             <div class="action-row">
               <button class="action-btn" on:click={() => saveProspect(prospect)}>💾 Save</button>
@@ -400,7 +415,15 @@
           </div>
           {#if prospect._showNotes}
             <div class="notes-section">
-              <textarea placeholder="Add notes about this prospect..." rows="3"></textarea>
+              <textarea 
+                placeholder="Add notes about this prospect..." 
+                rows="3"
+                value={getProspectNote(prospect.id || prospect.name)}
+                on:input={(e) => saveProspectNote(prospect.id || prospect.name, e.target.value)}
+              ></textarea>
+              {#if getProspectNote(prospect.id || prospect.name)}
+                <p class="note-saved">Saved</p>
+              {/if}
             </div>
           {/if}
           {#if prospect._showEmail}
@@ -620,6 +643,8 @@
     background: var(--hover-bg);
     border-radius: 8px;
   }
+
+  .note-saved { margin: 4px 0 0; font-size: 11px; color: #2e7d32; font-weight: 600; text-align: right; }
 
   .notes-section textarea {
     width: 100%;
