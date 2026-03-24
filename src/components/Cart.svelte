@@ -2,34 +2,154 @@
   import { onMount } from 'svelte';
 
   let cartItems = [];
+  let allStores = [];
+  let showAddProduct = false;
+  let addStep = 'type'; // type, store, plan, confirm
+  let newItem = { type: '', store: null, plan: '', pins: 1, price: '' };
+  let storeSearch = '';
 
-  onMount(loadCart);
+  const PRODUCT_TYPES = [
+    { id: 'tape_coop', name: 'Register Tape — Co-Op', emoji: '🧾', needsStore: true },
+    { id: 'tape_exclusive', name: 'Register Tape — Exclusive', emoji: '🧾', needsStore: true },
+    { id: 'tape_contractor', name: 'Register Tape — Contractors', emoji: '🧾', needsStore: true },
+    { id: 'cart_20_single', name: 'Cartvertising — 20% Front OR Directory', emoji: '🛒', price: '$2,995', needsStore: false },
+    { id: 'cart_40_both', name: 'Cartvertising — 40% (20%+20%)', emoji: '🛒', price: '$4,795', needsStore: false },
+    { id: 'cart_60_both', name: 'Cartvertising — 60% (40%+20%)', emoji: '🛒', price: '$5,995', needsStore: false },
+    { id: 'cart_80_both', name: 'Cartvertising — 80% (40%+40%)', emoji: '🛒', price: '$7,395', needsStore: false },
+    { id: 'cart_100_both', name: 'Cartvertising — 100% (60%+40%)', emoji: '🛒', price: '$8,795', needsStore: false },
+    { id: 'cart_200_both', name: 'Cartvertising — 200% (100% Both)', emoji: '🛒', price: '$12,995', needsStore: false },
+    { id: 'cart_header_50', name: 'Cartvertising — Header 50%', emoji: '🛒', price: '$2,995', needsStore: false },
+    { id: 'cart_header_100', name: 'Cartvertising — Header 100%', emoji: '🛒', price: '$4,795', needsStore: false },
+    { id: 'digitalboost', name: 'DigitalBoost', emoji: '🚀', price: '$3,600/pin', needsStore: false, hasPins: true },
+    { id: 'findlocal', name: 'FindLocal', emoji: '📍', price: '$695/location', needsStore: false },
+    { id: 'reviewboost', name: 'ReviewBoost', emoji: '⭐', price: '$695', needsStore: false },
+    { id: 'loyaltyboost', name: 'LoyaltyBoost', emoji: '💎', price: '$3,600/year', needsStore: false },
+  ];
+
+  const PAYMENT_PLANS = {
+    tape_coop: [
+      { id: 'monthly', name: 'Monthly (12 payments)', calc: (base) => ((base + 125) / 12).toFixed(2) + '/mo × 12 = $' + (base + 125).toFixed(2) },
+      { id: '3month', name: '3-Month (10% off)', calc: (base) => (((base * 0.90) + 125) / 3).toFixed(2) + '/payment × 3 = $' + ((base * 0.90) + 125).toFixed(2) },
+      { id: '6month', name: '6-Month (7.5% off)', calc: (base) => (((base * 0.925) + 125) / 6).toFixed(2) + '/payment × 6 = $' + ((base * 0.925) + 125).toFixed(2) },
+      { id: 'pif', name: 'Paid-in-Full (15% off)', calc: (base) => '$' + ((base * 0.85) + 125).toFixed(2) },
+    ],
+    tape_exclusive: [
+      { id: 'monthly', name: 'Monthly', calc: (base) => ((base + 125) / 12).toFixed(2) + '/mo × 12 = $' + (base + 125).toFixed(2) },
+      { id: 'pif', name: 'Paid-in-Full (5% off)', calc: (base) => '$' + (base * 0.95).toFixed(2) },
+    ],
+    tape_contractor: [
+      { id: '3month', name: '3-Month', calc: (base) => (((base) + 125) / 3).toFixed(2) + '/payment × 3 = $' + ((base) + 125).toFixed(2) },
+      { id: 'pif', name: 'Paid-in-Full (5% off)', calc: (base) => '$' + (base * 0.95).toFixed(2) },
+    ],
+  };
+
+  onMount(async () => {
+    loadCart();
+    try {
+      const res = await fetch('/data/stores.json');
+      allStores = await res.json();
+    } catch {}
+  });
 
   function loadCart() {
-    try {
-      cartItems = JSON.parse(localStorage.getItem('indoormedia_cart') || '[]');
-    } catch { cartItems = []; }
+    try { cartItems = JSON.parse(localStorage.getItem('indoormedia_cart') || '[]'); } catch { cartItems = []; }
+  }
+
+  function saveCart() {
+    localStorage.setItem('indoormedia_cart', JSON.stringify(cartItems));
   }
 
   function removeItem(index) {
     cartItems.splice(index, 1);
     cartItems = [...cartItems];
-    localStorage.setItem('indoormedia_cart', JSON.stringify(cartItems));
+    saveCart();
   }
 
   function clearCart() {
-    if (confirm('Clear entire cart?')) {
+    if (confirm('Clear entire quote?')) {
       cartItems = [];
-      localStorage.setItem('indoormedia_cart', JSON.stringify([]));
+      saveCart();
     }
+  }
+
+  $: filteredStores = storeSearch
+    ? allStores.filter(s =>
+        s.StoreName?.toLowerCase().includes(storeSearch.toLowerCase()) ||
+        s.GroceryChain?.toLowerCase().includes(storeSearch.toLowerCase()) ||
+        s.City?.toLowerCase().includes(storeSearch.toLowerCase())
+      ).slice(0, 15)
+    : [];
+
+  function startAdd() {
+    showAddProduct = true;
+    addStep = 'type';
+    newItem = { type: '', store: null, plan: '', pins: 1, price: '' };
+    storeSearch = '';
+  }
+
+  function selectType(type) {
+    newItem.type = type.id;
+    newItem.typeName = type.name;
+    newItem.emoji = type.emoji;
+    newItem.price = type.price || '';
+    newItem.hasPins = type.hasPins || false;
+
+    if (type.needsStore) {
+      addStep = 'store';
+    } else if (type.hasPins) {
+      addStep = 'pins';
+    } else {
+      addItem();
+    }
+  }
+
+  function selectStore(store) {
+    newItem.store = store;
+    newItem.storeNum = store.StoreName;
+    newItem.storeName = store.GroceryChain + ' - ' + store.City;
+    addStep = 'plan';
+  }
+
+  function selectPlan(plan) {
+    const base = newItem.store?.SingleAd || 0;
+    newItem.plan = plan.name;
+    newItem.price = plan.calc(base);
+    addItem();
+  }
+
+  function addItem() {
+    const item = {
+      id: Date.now(),
+      name: newItem.typeName,
+      emoji: newItem.emoji,
+      store: newItem.storeName || '',
+      storeNum: newItem.storeNum || '',
+      plan: newItem.plan || '',
+      price: newItem.price,
+      pins: newItem.hasPins ? newItem.pins : null,
+      addedAt: new Date().toISOString(),
+    };
+
+    if (newItem.hasPins) {
+      const pinPrice = newItem.type === 'digitalboost' ? 3600 : 0;
+      const production = 395;
+      const total = (pinPrice * newItem.pins) + production;
+      item.price = `$${total.toLocaleString()} (${newItem.pins} pin${newItem.pins > 1 ? 's' : ''} + $395 production)`;
+      item.name = `DigitalBoost — ${newItem.pins} Pin${newItem.pins > 1 ? 's' : ''}`;
+    }
+
+    cartItems = [...cartItems, item];
+    saveCart();
+    showAddProduct = false;
+    addStep = 'type';
   }
 
   function exportCSV() {
     if (cartItems.length === 0) return;
     const rows = [
-      ['Product', 'Price', 'Details', 'Added'].join(','),
+      ['Product', 'Store', 'Store #', 'Plan', 'Price', 'Date'].join(','),
       ...cartItems.map(item =>
-        [item.name, item.price, item.details || '', item.addedAt?.split('T')[0] || '']
+        [item.name, item.store || '', item.storeNum || '', item.plan || '', item.price, item.addedAt?.split('T')[0] || '']
           .map(c => `"${c}"`).join(',')
       )
     ].join('\n');
@@ -44,74 +164,161 @@
   }
 </script>
 
-<div class="cart-container">
-  {#if cartItems.length === 0}
-    <div class="empty-cart">
-      <p class="empty-icon">🛒</p>
-      <p>Your cart is empty</p>
-      <p class="empty-hint">Add products from the Products tab to build a quote</p>
-    </div>
-  {:else}
-    <div class="cart-header">
-      <h2>Quote Builder ({cartItems.length} items)</h2>
-      <div class="cart-actions">
-        <button class="export-btn" on:click={exportCSV}>📥 Export CSV</button>
-        <button class="clear-btn" on:click={clearCart}>🗑️ Clear</button>
-      </div>
-    </div>
+<div class="quote-container">
+  <h2>Build Quote</h2>
+  <p class="subtitle">Add products to build a customer quote</p>
 
-    <div class="cart-items">
+  <button class="add-btn" on:click={startAdd}>+ Add Product</button>
+
+  {#if showAddProduct}
+    <div class="add-modal">
+      {#if addStep === 'type'}
+        <h3>Select Product</h3>
+        <div class="type-list">
+          {#each PRODUCT_TYPES as type}
+            <button class="type-btn" on:click={() => selectType(type)}>
+              <span class="type-emoji">{type.emoji}</span>
+              <span class="type-name">{type.name}</span>
+              {#if type.price}<span class="type-price">{type.price}</span>{/if}
+            </button>
+          {/each}
+        </div>
+        <button class="cancel-btn" on:click={() => showAddProduct = false}>Cancel</button>
+      {/if}
+
+      {#if addStep === 'store'}
+        <h3>Select Store</h3>
+        <input type="text" placeholder="Search store..." bind:value={storeSearch} class="search-input" />
+        <div class="store-list">
+          {#each filteredStores as store}
+            <button class="store-btn" on:click={() => selectStore(store)}>
+              <span class="store-name">{store.GroceryChain} - {store.City}</span>
+              <span class="store-num">{store.StoreName}</span>
+              <span class="store-price">Single: ${store.SingleAd?.toLocaleString()} | Double: ${store.DoubleAd?.toLocaleString()}</span>
+            </button>
+          {/each}
+        </div>
+        <button class="cancel-btn" on:click={() => { addStep = 'type'; storeSearch = ''; }}>Back</button>
+      {/if}
+
+      {#if addStep === 'plan'}
+        <h3>Payment Plan</h3>
+        <p class="plan-store">{newItem.storeName} ({newItem.storeNum})</p>
+        <div class="plan-list">
+          {#each PAYMENT_PLANS[newItem.type] || [] as plan}
+            <button class="plan-btn" on:click={() => selectPlan(plan)}>
+              <span class="plan-name">{plan.name}</span>
+              <span class="plan-price">{plan.calc(newItem.store?.SingleAd || 0)}</span>
+            </button>
+          {/each}
+        </div>
+        <button class="cancel-btn" on:click={() => { addStep = 'store'; }}>Back</button>
+      {/if}
+
+      {#if addStep === 'pins'}
+        <h3>DigitalBoost — How Many Pins?</h3>
+        <div class="pins-grid">
+          {#each [1,2,3,4,5] as n}
+            <button class="pin-btn" class:selected={newItem.pins === n} on:click={() => { newItem.pins = n; }}>
+              {n} Pin{n > 1 ? 's' : ''}
+              <span class="pin-price">${((n * 3600) + 395).toLocaleString()}</span>
+            </button>
+          {/each}
+        </div>
+        <button class="add-confirm-btn" on:click={addItem}>Add to Quote</button>
+        <button class="cancel-btn" on:click={() => { addStep = 'type'; }}>Back</button>
+      {/if}
+    </div>
+  {/if}
+
+  {#if cartItems.length > 0}
+    <div class="quote-items">
       {#each cartItems as item, i}
-        <div class="cart-item">
-          <div class="item-main">
-            <h4>{item.name}</h4>
+        <div class="quote-item">
+          <div class="item-info">
+            <h4>{item.emoji || ''} {item.name}</h4>
+            {#if item.store}<p class="item-store">{item.store} ({item.storeNum})</p>{/if}
+            {#if item.plan}<p class="item-plan">{item.plan}</p>{/if}
             <p class="item-price">{item.price}</p>
-            {#if item.details}
-              <p class="item-details">{item.details}</p>
-            {/if}
           </div>
           <button class="remove-btn" on:click={() => removeItem(i)}>✕</button>
         </div>
       {/each}
     </div>
 
-    <div class="cart-footer">
-      <p>{cartItems.length} item{cartItems.length > 1 ? 's' : ''} in quote</p>
-      <button class="export-btn full" on:click={exportCSV}>📥 Export Quote as CSV</button>
+    <div class="quote-footer">
+      <div class="footer-actions">
+        <button class="export-btn" on:click={exportCSV}>📥 Export Quote</button>
+        <button class="clear-btn" on:click={clearCart}>🗑️ Clear</button>
+      </div>
+    </div>
+  {:else if !showAddProduct}
+    <div class="empty">
+      <p>No products in quote yet</p>
+      <p class="hint">Tap "+ Add Product" to start building</p>
     </div>
   {/if}
 </div>
 
 <style>
-  .cart-container { max-width: 600px; margin: 0 auto; padding: 20px; }
+  .quote-container { padding: 20px; max-width: 600px; margin: 0 auto; }
+  h2 { margin: 0 0 6px; font-size: 22px; font-weight: 700; color: #333; }
+  h3 { margin: 0 0 12px; font-size: 18px; font-weight: 700; color: #333; }
+  .subtitle { margin: 0 0 16px; color: #666; font-size: 14px; }
 
-  .empty-cart { text-align: center; padding: 60px 20px; color: #999; }
-  .empty-icon { font-size: 64px; margin: 0 0 16px; }
-  .empty-cart p { margin: 8px 0; font-size: 14px; }
-  .empty-hint { color: #bbb; font-size: 13px; }
+  .add-btn { width: 100%; padding: 14px; background: #CC0000; color: white; border: none; border-radius: 8px; font-size: 16px; font-weight: 700; cursor: pointer; margin-bottom: 16px; }
+  .add-btn:hover { background: #990000; }
 
-  .cart-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
-  .cart-header h2 { margin: 0; font-size: 22px; font-weight: 700; color: #333; }
-  .cart-actions { display: flex; gap: 8px; }
+  .add-modal { background: #f5f5f5; border-radius: 12px; padding: 16px; margin-bottom: 16px; }
 
-  .export-btn { background: #CC0000; color: white; border: none; border-radius: 8px; padding: 10px 16px; font-size: 13px; font-weight: 600; cursor: pointer; }
-  .export-btn:hover { background: #990000; }
-  .export-btn.full { width: 100%; margin-top: 12px; }
+  .type-list { display: flex; flex-direction: column; gap: 8px; max-height: 400px; overflow-y: auto; }
+  .type-btn { display: flex; align-items: center; gap: 10px; padding: 12px; background: white; border: 1px solid #e0e0e0; border-radius: 8px; cursor: pointer; text-align: left; }
+  .type-btn:hover { border-color: #CC0000; }
+  .type-emoji { font-size: 20px; }
+  .type-name { flex: 1; font-weight: 600; font-size: 13px; color: #333; }
+  .type-price { font-size: 12px; color: #CC0000; font-weight: 600; }
 
-  .clear-btn { background: #f5f5f5; color: #666; border: 1px solid #e0e0e0; border-radius: 8px; padding: 10px 16px; font-size: 13px; font-weight: 600; cursor: pointer; }
-  .clear-btn:hover { background: #eee; }
+  .search-input { width: 100%; padding: 12px; border: 1px solid #e0e0e0; border-radius: 8px; font-size: 14px; margin-bottom: 12px; box-sizing: border-box; }
 
-  .cart-items { display: flex; flex-direction: column; gap: 12px; }
+  .store-list { display: flex; flex-direction: column; gap: 8px; max-height: 300px; overflow-y: auto; }
+  .store-btn { display: flex; flex-direction: column; padding: 10px; background: white; border: 1px solid #e0e0e0; border-radius: 8px; cursor: pointer; text-align: left; }
+  .store-btn:hover { border-color: #CC0000; }
+  .store-name { font-weight: 600; font-size: 14px; color: #333; }
+  .store-num { font-size: 12px; color: #666; }
+  .store-price { font-size: 11px; color: #CC0000; font-weight: 600; margin-top: 4px; }
 
-  .cart-item { background: white; border: 1px solid #e0e0e0; border-radius: 12px; padding: 16px; display: flex; justify-content: space-between; align-items: flex-start; }
-  .item-main { flex: 1; }
-  .cart-item h4 { margin: 0 0 4px; font-size: 15px; font-weight: 700; color: #333; }
-  .item-price { margin: 0 0 4px; font-size: 15px; font-weight: 600; color: #CC0000; }
-  .item-details { margin: 0; font-size: 12px; color: #888; }
+  .plan-store { margin: 0 0 12px; font-size: 13px; color: #666; }
+  .plan-list { display: flex; flex-direction: column; gap: 8px; }
+  .plan-btn { display: flex; flex-direction: column; padding: 12px; background: white; border: 1px solid #e0e0e0; border-radius: 8px; cursor: pointer; text-align: left; }
+  .plan-btn:hover { border-color: #CC0000; }
+  .plan-name { font-weight: 600; font-size: 14px; color: #333; }
+  .plan-price { font-size: 13px; color: #CC0000; margin-top: 4px; }
 
-  .remove-btn { background: none; border: none; color: #ccc; font-size: 20px; cursor: pointer; padding: 0; margin-left: 12px; }
+  .pins-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 12px; }
+  .pin-btn { padding: 16px; background: white; border: 2px solid #e0e0e0; border-radius: 8px; cursor: pointer; text-align: center; font-weight: 700; font-size: 15px; color: #333; }
+  .pin-btn.selected { border-color: #CC0000; background: #fff5f5; }
+  .pin-price { display: block; font-size: 12px; color: #CC0000; margin-top: 4px; }
+
+  .add-confirm-btn { width: 100%; padding: 14px; background: #CC0000; color: white; border: none; border-radius: 8px; font-size: 15px; font-weight: 700; cursor: pointer; margin-bottom: 8px; }
+
+  .cancel-btn { width: 100%; padding: 10px; background: none; border: 1px solid #e0e0e0; border-radius: 8px; color: #666; font-size: 13px; cursor: pointer; margin-top: 8px; }
+
+  .quote-items { display: flex; flex-direction: column; gap: 12px; margin-bottom: 16px; }
+  .quote-item { display: flex; justify-content: space-between; align-items: flex-start; background: white; border: 1px solid #e0e0e0; border-radius: 12px; padding: 16px; }
+  .item-info { flex: 1; }
+  .quote-item h4 { margin: 0 0 4px; font-size: 15px; font-weight: 700; color: #333; }
+  .item-store { margin: 0 0 2px; font-size: 12px; color: #666; }
+  .item-plan { margin: 0 0 2px; font-size: 12px; color: #888; }
+  .item-price { margin: 4px 0 0; font-size: 14px; font-weight: 700; color: #CC0000; }
+  .remove-btn { background: none; border: none; color: #ccc; font-size: 20px; cursor: pointer; }
   .remove-btn:hover { color: #CC0000; }
 
-  .cart-footer { margin-top: 20px; padding: 16px; background: #f5f5f5; border-radius: 12px; text-align: center; }
-  .cart-footer p { margin: 0; font-size: 14px; color: #666; font-weight: 600; }
+  .quote-footer { padding: 16px; background: #f5f5f5; border-radius: 12px; }
+  .footer-actions { display: flex; gap: 8px; }
+  .export-btn { flex: 1; padding: 12px; background: #CC0000; color: white; border: none; border-radius: 8px; font-size: 14px; font-weight: 600; cursor: pointer; }
+  .export-btn:hover { background: #990000; }
+  .clear-btn { padding: 12px; background: white; border: 1px solid #e0e0e0; border-radius: 8px; color: #666; font-size: 14px; cursor: pointer; }
+
+  .empty { text-align: center; padding: 40px 20px; color: #999; }
+  .hint { font-size: 13px; color: #bbb; }
 </style>
