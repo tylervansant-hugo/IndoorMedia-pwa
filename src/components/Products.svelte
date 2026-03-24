@@ -1,398 +1,306 @@
 <script>
+  let view = 'main'; // main, category, product-detail
+  let selectedCategory = null;
   let selectedProduct = null;
 
-  const PRODUCTS = [
-    {
-      id: 'register-tape',
-      icon: '📜',
-      name: 'Register Tape',
-      subtitle: 'Coupon-style advertising',
-      description: 'Print coupons at checkout registers in grocery stores. High visibility, immediate action.',
-      benefits: [
-        '✅ Printed at point-of-sale',
-        '✅ Impulse-driven offers',
-        '✅ Track redemptions',
-        '✅ Measurable ROI'
-      ],
-      pricing: 'Starting at $295/month',
-      color: '#CC0000',
-      presentationUrl: 'https://docs.google.com/presentation/d/1Xs60nX3i6MJkC81GgnK-50jBrkWVPu06xRpmv8z4PIc/edit?usp=sharing',
-      videoUrl: 'https://youtu.be/_gdlyEszHfY?si=0_kHou89WrMhvNY_'
+  const PRODUCT_CATEGORIES = {
+    '📋 Register Tape': {
+      emoji: '📋',
+      products: [
+        { id: 1, name: 'Single Ad Register Tape', desc: '2.25" × 50\' roll', price: 'Base pricing varies by store', features: ['Full color', 'Custom design', 'High quality'] },
+        { id: 2, name: 'Double Ad Register Tape', desc: '4.5" × 50\' roll', price: 'Base pricing varies by store', features: ['Two-sided', 'Double the impressions', 'Premium stock'] },
+        { id: 3, name: 'Specialty Rolls', desc: 'Custom sizes & materials', price: 'Contact for quote', features: ['Thermal paper', 'Glossy finish', 'Custom dimensions'] }
+      ]
     },
-    {
-      id: 'cartvertising',
-      icon: '🛒',
-      name: 'Cartvertising',
-      subtitle: 'Shopping cart advertising',
-      description: 'Ads on grocery store shopping carts. Prime placement with high frequency.',
-      benefits: [
-        '✅ 360° visibility',
-        '✅ High cart touchpoints',
-        '✅ Brand awareness',
-        '✅ Flexible designs'
-      ],
-      pricing: 'Starting at $395/month',
-      color: '#4CAF50',
-      presentationUrl: 'https://docs.google.com/presentation/d/1Xs60nX3i6MJkC81GgnK-50jBrkWVPu06xRpmv8z4PIc/edit?usp=sharing',
-      videoUrl: 'https://youtu.be/_gdlyEszHfY?si=0_kHou89WrMhvNY_'
+    '🎁 Promotional Items': {
+      emoji: '🎁',
+      products: [
+        { id: 4, name: 'Custom Bags', desc: 'Branded shopping bags', price: 'Contact sales', features: ['Full color print', 'Multiple sizes', 'Eco-friendly options'] },
+        { id: 5, name: 'Stickers & Decals', desc: 'Window & product stickers', price: 'Contact sales', features: ['Weatherproof', 'Custom shapes', 'Bulk discounts'] }
+      ]
     },
-    {
-      id: 'digital-connection',
-      icon: '🔌',
-      name: 'Connection',
-      subtitle: 'WiFi splash page advertising',
-      description: 'Reach customers through store WiFi landing pages. Capture attention when customers connect.',
-      benefits: [
-        '✅ High engagement rate',
-        '✅ Digital tracking',
-        '✅ Mobile-friendly',
-        '✅ Instant visibility'
-      ],
-      pricing: 'Starting at $395/month',
-      color: '#2196F3',
-      presentationUrl: 'https://docs.google.com/presentation/d/1Xs60nX3i6MJkC81GgnK-50jBrkWVPu06xRpmv8z4PIc/edit?usp=sharing',
-      videoUrl: 'https://youtu.be/_gdlyEszHfY?si=0_kHou89WrMhvNY_'
+    '📸 Design Services': {
+      emoji: '📸',
+      products: [
+        { id: 6, name: 'Tape Design', desc: 'Professional design for register tape', price: '$125 production charge', features: ['Free concept', 'Unlimited revisions', '3-day turnaround'] },
+        { id: 7, name: 'Brand Consultation', desc: 'Strategic placement advice', price: 'Included with campaigns', features: ['Store profiling', 'Best practices', 'ROI guidance'] }
+      ]
     },
-    {
-      id: 'digital-hub',
-      icon: '🖥️',
-      name: 'Digital Hub',
-      subtitle: 'In-store digital kiosks',
-      description: 'Interactive digital displays at high-traffic store locations. Dynamic content, real-time updates.',
-      benefits: [
-        '✅ Eye-catching video content',
-        '✅ Multiple ad rotations',
-        '✅ Premium in-store placement',
-        '✅ Real-time campaign updates'
-      ],
-      pricing: 'Starting at $495/month',
-      color: '#2196F3',
-      presentationUrl: 'https://docs.google.com/presentation/d/1Xs60nX3i6MJkC81GgnK-50jBrkWVPu06xRpmv8z4PIc/edit?usp=sharing',
-      videoUrl: 'https://youtu.be/_gdlyEszHfY?si=0_kHou89WrMhvNY_'
-    },
-    {
-      id: 'digital-boost',
-      icon: '📱',
-      name: 'Digital Boost',
-      subtitle: 'In-store digital displays',
-      description: 'Rotating digital ads on in-store displays and kiosks. Modern, dynamic, eye-catching.',
-      benefits: [
-        '✅ High-impact visuals',
-        '✅ Video & animations',
-        '✅ Real-time updates',
-        '✅ Premium placement'
-      ],
-      pricing: 'Starting at $595/month',
-      color: '#2196F3',
-      presentationUrl: 'https://docs.google.com/presentation/d/1Xs60nX3i6MJkC81GgnK-50jBrkWVPu06xRpmv8z4PIc/edit?usp=sharing',
-      videoUrl: 'https://youtu.be/_gdlyEszHfY?si=0_kHou89WrMhvNY_'
-    },
-    {
-      id: 'find-local',
-      icon: '📍',
-      name: 'Find Local',
-      subtitle: 'Geo-targeted mobile ads',
-      description: 'Target customers near store locations with mobile ads. Drive foot traffic with precise targeting.',
-      benefits: [
-        '✅ Geo-fencing technology',
-        '✅ Mobile-first design',
-        '✅ Real-time analytics',
-        '✅ Drive in-store visits'
-      ],
-      pricing: 'Starting at $495/month',
-      color: '#FF9800',
-      presentationUrl: 'https://docs.google.com/presentation/d/1Xs60nX3i6MJkC81GgnK-50jBrkWVPu06xRpmv8z4PIc/edit?usp=sharing',
-      videoUrl: 'https://youtu.be/_gdlyEszHfY?si=0_kHou89WrMhvNY_'
-    },
-    {
-      id: 'loyalty-boost',
-      icon: '💳',
-      name: 'Loyalty Boost',
-      subtitle: 'Loyalty program integration',
-      description: 'Promote your business through store loyalty programs and apps. Reach engaged, repeat customers.',
-      benefits: [
-        '✅ Access loyalty app users',
-        '✅ Highly engaged audience',
-        '✅ Repeat customer targeting',
-        '✅ Digital coupon delivery'
-      ],
-      pricing: 'Starting at $595/month',
-      color: '#9C27B0',
-      presentationUrl: 'https://docs.google.com/presentation/d/1Xs60nX3i6MJkC81GgnK-50jBrkWVPu06xRpmv8z4PIc/edit?usp=sharing',
-      videoUrl: 'https://youtu.be/_gdlyEszHfY?si=0_kHou89WrMhvNY_'
+    '💰 Payment Plans': {
+      emoji: '💰',
+      products: [
+        { id: 8, name: 'Monthly', desc: 'Flexible budget-friendly option', price: '(Base + $125) ÷ 12', features: ['No long-term commitment', 'Easy to start/stop', 'Great for testing'] },
+        { id: 9, name: 'Paid-in-Full', desc: 'Best value discount', price: '15% off + $125 production', features: ['Maximize ROI', 'Best per-unit cost', 'Commitment savings'] }
+      ]
     }
-  ];
+  };
+
+  function goBack() {
+    if (view === 'product-detail') {
+      view = 'category';
+      selectedProduct = null;
+    } else if (view === 'category') {
+      view = 'main';
+      selectedCategory = null;
+    }
+  }
+
+  function selectCategory(cat) {
+    selectedCategory = cat;
+    view = 'category';
+  }
 
   function selectProduct(product) {
-    selectedProduct = selectedProduct?.id === product.id ? null : product;
+    selectedProduct = product;
+    view = 'product-detail';
   }
 </script>
 
 <div class="products-container">
-  {#if !selectedProduct}
-    <h2>📦 Products</h2>
-    <p class="subtitle">IndoorMedia advertising solutions</p>
+  <!-- Main Menu -->
+  {#if view === 'main'}
+    <h2>📦 Products & Services</h2>
+    <p class="subtitle">Everything IndoorMedia offers</p>
 
-    <div class="products-grid">
-      {#each PRODUCTS as product}
-        <button
-          class="product-card"
-          on:click={() => selectProduct(product)}
-          style="border-color: {product.color}"
-        >
-          <div class="product-icon">{product.icon}</div>
-          <h3>{product.name}</h3>
-          <p class="product-subtitle">{product.subtitle}</p>
-          <span class="learn-more">Learn More →</span>
+    <div class="category-grid">
+      {#each Object.entries(PRODUCT_CATEGORIES) as [catName, catData]}
+        <button class="category-btn" on:click={() => selectCategory(catName)}>
+          <div class="cat-emoji">{catData.emoji}</div>
+          <div class="cat-name">{catName}</div>
+          <div class="cat-count">{catData.products.length} items</div>
         </button>
       {/each}
     </div>
+  {/if}
 
-  {:else}
-    <button class="back-btn" on:click={() => selectedProduct = null}>← Back to Products</button>
+  <!-- Category View -->
+  {#if view === 'category' && selectedCategory}
+    <button class="back-btn" on:click={goBack}>← Back</button>
+    <h2>{selectedCategory}</h2>
 
-    <div class="product-detail">
-      <div class="product-header">
-        <span class="detail-icon">{selectedProduct.icon}</span>
-        <h2>{selectedProduct.name}</h2>
+    <div class="product-list">
+      {#each PRODUCT_CATEGORIES[selectedCategory].products as product (product.id)}
+        <button class="product-card" on:click={() => selectProduct(product)}>
+          <h4>{product.name}</h4>
+          <p class="product-desc">{product.desc}</p>
+          <p class="product-price">{product.price}</p>
+          <div class="arrow">→</div>
+        </button>
+      {/each}
+    </div>
+  {/if}
+
+  <!-- Product Detail -->
+  {#if view === 'product-detail' && selectedProduct}
+    <button class="back-btn" on:click={goBack}>← Back</button>
+    <h2>{selectedProduct.name}</h2>
+    
+    <div class="detail-card">
+      <p class="detail-desc">{selectedProduct.desc}</p>
+      
+      <div class="detail-section">
+        <h4>Pricing</h4>
+        <p class="detail-price">{selectedProduct.price}</p>
       </div>
 
-      <p class="detail-subtitle">{selectedProduct.subtitle}</p>
-
-      <div class="detail-description">
-        {selectedProduct.description}
-      </div>
-
-      <div class="benefits-section">
-        <h3>Why It Works</h3>
-        <ul>
-          {#each selectedProduct.benefits as benefit}
-            <li>{benefit}</li>
+      <div class="detail-section">
+        <h4>Features</h4>
+        <ul class="features-list">
+          {#each selectedProduct.features as feature}
+            <li>✓ {feature}</li>
           {/each}
         </ul>
       </div>
 
-      <div class="resources-section">
-        <h3>Learn More</h3>
-        <div class="resource-buttons">
-          <a href={selectedProduct.presentationUrl} target="_blank" rel="noopener noreferrer" class="resource-btn presentation">
-            📊 View Presentation
-          </a>
-          <a href={selectedProduct.videoUrl} target="_blank" rel="noopener noreferrer" class="resource-btn video">
-            🎥 Watch Explainer Video
-          </a>
-        </div>
-      </div>
-
-      <div class="cta-section">
-        <a href="https://indoor-media-pwa.vercel.app" class="cta-btn">
-          📊 Calculate ROI
-        </a>
-      </div>
+      <button class="action-btn">📧 Request Quote</button>
     </div>
   {/if}
 </div>
 
 <style>
   .products-container {
-    max-width: 1200px;
+    padding: 20px;
+    max-width: 500px;
     margin: 0 auto;
-    padding: 1rem;
   }
 
   h2 {
-    margin: 0 0 0.5rem 0;
-    font-size: 1.5rem;
-    color: #1a1a1a;
+    margin: 0 0 8px;
+    font-size: 24px;
+    color: #333;
   }
 
   .subtitle {
-    margin: 0 0 2rem 0;
+    margin: 0 0 20px;
     color: #666;
-    font-size: 0.95rem;
+    font-size: 14px;
   }
 
-  .products-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 1.5rem;
-  }
-
-  .product-card {
-    background: white;
-    border: 3px solid;
-    border-radius: 12px;
-    padding: 1.5rem;
-    cursor: pointer;
-    transition: all 0.2s;
-    text-align: center;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-  }
-
-  .product-card:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 8px 20px rgba(0,0,0,0.15);
-  }
-
-  .product-icon {
-    font-size: 3rem;
-    margin-bottom: 1rem;
-  }
-
-  h3 {
-    margin: 0.5rem 0;
-    font-size: 1.25rem;
-    color: #1a1a1a;
-  }
-
-  .product-subtitle {
-    display: block;
-    margin: 0.5rem 0 1rem 0;
-    color: #666;
-    font-size: 0.9rem;
-  }
-
-  .learn-more {
-    display: inline-block;
-    margin-top: 0.5rem;
-    color: #2196F3;
-    font-weight: 600;
-    font-size: 0.9rem;
-  }
-
-  /* Product Detail View */
   .back-btn {
     background: none;
     border: none;
     color: #CC0000;
+    font-size: 16px;
     font-weight: 600;
-    font-size: 1rem;
     cursor: pointer;
-    margin-bottom: 1.5rem;
-    padding: 0.5rem 0;
+    padding: 10px 0;
+    margin-bottom: 15px;
   }
 
-  .product-detail {
+  .back-btn:hover {
+    text-decoration: underline;
+  }
+
+  .category-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 12px;
+    margin-top: 20px;
+  }
+
+  .category-btn {
     background: white;
+    border: 2px solid #eee;
     border-radius: 12px;
-    padding: 2rem;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    padding: 16px;
+    text-align: left;
+    cursor: pointer;
+    transition: all 0.2s;
   }
 
-  .product-header {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-    margin-bottom: 1rem;
+  .category-btn:hover {
+    border-color: #CC0000;
+    background: #fff5f5;
   }
 
-  .detail-icon {
-    font-size: 3rem;
+  .cat-emoji {
+    font-size: 32px;
+    margin-bottom: 8px;
   }
 
-  .detail-subtitle {
-    color: #666;
-    font-size: 1.1rem;
-    margin-bottom: 1.5rem;
-  }
-
-  .detail-description {
-    font-size: 1rem;
-    line-height: 1.6;
+  .cat-name {
+    font-weight: 600;
     color: #333;
-    margin-bottom: 2rem;
+    font-size: 16px;
+    margin-bottom: 4px;
   }
 
-  .benefits-section,
-  .resources-section,
-  .cta-section {
-    margin-bottom: 2rem;
+  .cat-count {
+    color: #999;
+    font-size: 12px;
   }
 
-  .benefits-section h3,
-  .resources-section h3 {
-    font-size: 1.25rem;
-    margin-bottom: 1rem;
-    color: #1a1a1a;
-  }
-
-  .benefits-section ul {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-  }
-
-  .benefits-section li {
-    padding: 0.5rem 0;
-    font-size: 1rem;
-    color: #333;
-  }
-
-  .resource-buttons {
+  .product-list {
     display: flex;
     flex-direction: column;
-    gap: 1rem;
+    gap: 12px;
+    margin-top: 15px;
   }
 
-  .resource-btn {
-    display: block;
-    padding: 1rem;
-    border-radius: 8px;
-    text-decoration: none;
-    font-weight: 600;
-    text-align: center;
+  .product-card {
+    background: white;
+    border: 1px solid #eee;
+    border-radius: 10px;
+    padding: 14px;
+    text-align: left;
+    cursor: pointer;
     transition: all 0.2s;
+    position: relative;
   }
 
-  .resource-btn.presentation {
-    background: #2196F3;
-    color: white;
+  .product-card:hover {
+    border-color: #CC0000;
+    box-shadow: 0 4px 12px rgba(204, 0, 0, 0.1);
   }
 
-  .resource-btn.presentation:hover {
-    background: #1976D2;
-    transform: translateY(-2px);
+  .product-card h4 {
+    margin: 0 0 6px;
+    color: #333;
+    font-size: 16px;
   }
 
-  .resource-btn.video {
+  .product-desc {
+    margin: 0 0 6px;
+    color: #666;
+    font-size: 13px;
+  }
+
+  .product-price {
+    margin: 0;
+    color: #CC0000;
+    font-weight: 600;
+    font-size: 14px;
+  }
+
+  .arrow {
+    position: absolute;
+    right: 14px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #CC0000;
+    font-size: 20px;
+  }
+
+  .detail-card {
+    background: #f9f9f9;
+    border-radius: 12px;
+    padding: 20px;
+    margin-top: 20px;
+  }
+
+  .detail-desc {
+    margin: 0 0 20px;
+    color: #666;
+    font-size: 16px;
+    line-height: 1.5;
+  }
+
+  .detail-section {
+    margin-bottom: 20px;
+  }
+
+  .detail-section h4 {
+    margin: 0 0 10px;
+    color: #333;
+    font-size: 14px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  .detail-price {
+    margin: 0;
+    color: #CC0000;
+    font-weight: 700;
+    font-size: 18px;
+  }
+
+  .features-list {
+    margin: 0;
+    padding-left: 0;
+    list-style: none;
+  }
+
+  .features-list li {
+    padding: 6px 0;
+    color: #555;
+    font-size: 13px;
+  }
+
+  .action-btn {
+    width: 100%;
     background: #CC0000;
     color: white;
-  }
-
-  .resource-btn.video:hover {
-    background: #990000;
-    transform: translateY(-2px);
-  }
-
-  .cta-btn {
-    display: block;
-    padding: 1.25rem;
-    background: linear-gradient(135deg, #CC0000, #990000);
-    color: white;
+    border: none;
     border-radius: 8px;
-    text-decoration: none;
-    font-weight: bold;
-    font-size: 1.1rem;
-    text-align: center;
-    transition: all 0.2s;
+    padding: 12px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    margin-top: 10px;
   }
 
-  .cta-btn:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 6px 16px rgba(204, 0, 0, 0.3);
-  }
-
-  @media (max-width: 768px) {
-    .products-grid {
-      grid-template-columns: 1fr;
-    }
-
-    .product-detail {
-      padding: 1.5rem;
-    }
-
-    .resource-buttons {
-      gap: 0.75rem;
-    }
+  .action-btn:hover {
+    background: #990000;
   }
 </style>

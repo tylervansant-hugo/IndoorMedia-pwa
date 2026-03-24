@@ -7,6 +7,7 @@
   import Inventory from './Inventory.svelte';
   import Cart from './Cart.svelte';
   import CounterSignGenerator from './CounterSignGenerator.svelte';
+  import Products from './Products.svelte';
 
   let currentTab = 'dashboard';
   let currentTheme = 'light';
@@ -88,6 +89,13 @@
     >
       🛒 Cart
     </button>
+    <button 
+      class="tab" 
+      class:active={currentTab === 'products'}
+      on:click={() => currentTab = 'products'}
+    >
+      📦 Products
+    </button>
   </nav>
 
   <!-- Content -->
@@ -155,6 +163,8 @@
       <Inventory />
     {:else if currentTab === 'cart'}
       <Cart />
+    {:else if currentTab === 'products'}
+      <Products />
     {/if}
   </div>
 </div>
