@@ -6,7 +6,8 @@
   let isLoading = true;
   let reps = [];
   let showRegister = false;
-  let newRep = { name: '', email: '', location: '' };
+  let newRep = { name: '', email: '', location: '', code: '' };
+  const INVITE_CODE = 'IMPRO';
   let registerSuccess = '';
   let registerError = '';
 
@@ -71,6 +72,11 @@
 
     if (!newRep.name.trim()) {
       registerError = 'Please enter your full name';
+      return;
+    }
+
+    if (newRep.code.trim().toUpperCase() !== INVITE_CODE) {
+      registerError = 'Invalid invite code. Ask your manager for the code.';
       return;
     }
 
@@ -268,6 +274,18 @@
             />
           </div>
 
+          <div class="form-group">
+            <label for="reg-code">Invite Code *</label>
+            <input 
+              id="reg-code"
+              type="text" 
+              placeholder="Enter invite code from your manager"
+              bind:value={newRep.code}
+              class="reg-input"
+              autocapitalize="characters"
+            />
+          </div>
+
           {#if registerError}
             <div class="error-message">
               <span class="error-icon">⚠️</span>
@@ -281,7 +299,7 @@
             </div>
           {/if}
 
-          <button class="register-btn" on:click={handleRegister} disabled={!newRep.name.trim()}>
+          <button class="register-btn" on:click={handleRegister} disabled={!newRep.name.trim() || !newRep.code.trim()}>
             ✅ Register & Sign In
           </button>
 
