@@ -1,6 +1,6 @@
 <script>
   import { onMount } from 'svelte';
-  import { PDFDocument, rgb } from 'pdf-lib';
+  import { PDFDocument, rgb, StandardFonts } from 'pdf-lib';
   import { user } from '../lib/stores.js';
   
   let view = 'main'; // main, roi, rates, testimonials, audit, counter-sign
@@ -241,11 +241,7 @@
         <p>Track tape inventory & delivery</p>
       </button>
 
-      <button class="tool-btn" on:click={() => view = 'counter-sign'}>
-        <div class="tool-emoji">🎨</div>
-        <h4>Counter Sign</h4>
-        <p>Generate custom counter signs</p>
-      </button>
+
     </div>
   {/if}
 
