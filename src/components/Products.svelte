@@ -277,7 +277,6 @@
           <div class="digital-emoji">{product.emoji}</div>
           <h4>{product.name}</h4>
           <p class="digital-desc">{product.desc}</p>
-          <p class="digital-price">{product.pricing}</p>
         </button>
       {/each}
     </div>
