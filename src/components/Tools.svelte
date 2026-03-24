@@ -11,8 +11,12 @@
   
   // Audit state
   let auditStoreNum = null;
-  let auditCases = 20;
+  let auditStep = 1; // 1: select store, 2: enter inventory, 3: report
+  let auditCases = '';
+  let auditRolls = '';
   let auditDate = new Date().toISOString().split('T')[0];
+  let auditStartingCases = '';
+  let auditReport = null;
   
   // Counter sign state
   let counterSignStep = 1; // 1: chain, 2: business card, 3: landing page, 4: ad proof, 5: confirm
@@ -43,8 +47,9 @@
     : [];
 
   function goBack() {
-    if (view === 'audit' && auditStoreNum) {
-      auditStoreNum = null;
+    if (view === 'audit' && auditStep > 1) {
+      auditStep--;
+      if (auditStep === 1) { auditStoreNum = null; auditReport = null; }
     } else if (view === 'counter-sign' && counterSignStep > 1) {
       counterSignStep--;
     } else {
@@ -150,61 +155,108 @@
     }
   }
 
-  // Audit tool - generate downloadable report
-  async function submitAudit() {
+  function generateAuditReport() {
+    const cases = parseInt(auditCases) || 0;
+    const rolls = parseInt(auditRolls) || 0;
+    const starting = parseInt(auditStartingCases) || 20;
+    const totalRolls = (cases * 50) + rolls;
+    const startingRolls = starting * 50;
+    const usagePerDay = 11.1; // same as bot
+    const daysUntilRunout = Math.round((totalRolls / usagePerDay) * 10) / 10;
+
+    const deliveryDate = new Date(auditDate);
+    const runoutDate = new Date();
+    runoutDate.setDate(runoutDate.getDate() + Math.floor(daysUntilRunout));
+
+    // Estimate next delivery (28-day cycle from last delivery)
+    const nextDelivery = new Date(deliveryDate);
+    while (nextDelivery <= new Date()) {
+      nextDelivery.setDate(nextDelivery.getDate() + 28);
+    }
+    const daysUntilDelivery = Math.ceil((nextDelivery - new Date()) / (1000 * 60 * 60 * 24));
+    const insufficient = daysUntilRunout < daysUntilDelivery;
+
+    auditReport = {
+      storeNum: auditStoreNum,
+      chain: selectedStore?.GroceryChain || '',
+      city: selectedStore?.City || '',
+      state: selectedStore?.State || '',
+      deliveryDate: deliveryDate.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }),
+      startingCases: starting,
+      startingRolls: startingRolls,
+      currentCases: cases,
+      currentRolls: rolls,
+      totalRolls: totalRolls,
+      daysUntilRunout: daysUntilRunout,
+      runoutDate: runoutDate.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }),
+      nextDelivery: nextDelivery.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }),
+      daysUntilDelivery: daysUntilDelivery,
+      insufficient: insufficient
+    };
+    auditStep = 3;
+  }
+
+  async function downloadAuditPdf() {
     try {
-      const repName = $user?.name || $user?.first_name || 'Unknown Rep';
-      const store = selectedStore;
-      
+      const r = auditReport;
+      const repName = $user?.name || $user?.first_name || 'Rep';
+
       const pdfDoc = await PDFDocument.create();
       const page = pdfDoc.addPage([612, 792]);
-      const font = await pdfDoc.embedFont('Helvetica-Bold');
-      const fontR = await pdfDoc.embedFont('Helvetica');
-      
+      const bold = await pdfDoc.embedFont('Helvetica-Bold');
+      const reg = await pdfDoc.embedFont('Helvetica');
+
       // Header
       page.drawRectangle({ x: 0, y: 700, width: 612, height: 92, color: rgb(0.8, 0, 0) });
-      page.drawText('Store Audit Report', { x: 30, y: 735, size: 24, font, color: rgb(1, 1, 1) });
-      
-      // Content
-      let y = 660;
-      const line = (label, value) => {
-        page.drawText(label, { x: 40, y, size: 12, font, color: rgb(0.2, 0.2, 0.2) });
-        page.drawText(value, { x: 200, y, size: 12, font: fontR, color: rgb(0.3, 0.3, 0.3) });
-        y -= 30;
+      page.drawText('STORE AUDIT REPORT', { x: 30, y: 740, size: 22, font: bold, color: rgb(1, 1, 1) });
+      page.drawText(r.storeNum, { x: 30, y: 715, size: 14, font: reg, color: rgb(1, 1, 1) });
+
+      let y = 670;
+      const section = (title) => {
+        y -= 10;
+        page.drawText(title, { x: 40, y, size: 13, font: bold, color: rgb(0.1, 0.1, 0.1) });
+        y -= 22;
       };
-      
-      line('Store:', `${store?.GroceryChain || ''} - ${store?.City || ''}`);
-      line('Store #:', auditStoreNum || '');
+      const line = (label, value) => {
+        page.drawText(label, { x: 50, y, size: 11, font: reg, color: rgb(0.3, 0.3, 0.3) });
+        page.drawText(String(value), { x: 220, y, size: 11, font: reg, color: rgb(0.1, 0.1, 0.1) });
+        y -= 20;
+      };
+
+      line('Store:', `${r.chain} - ${r.city}, ${r.state}`);
       line('Rep:', repName);
-      line('Audit Date:', new Date().toLocaleDateString());
-      line('Last Delivery:', auditDate);
-      line('Cases in Stock:', String(auditCases));
-      
-      y -= 20;
-      // Status
-      const daysAgo = Math.floor((Date.now() - new Date(auditDate).getTime()) / (1000 * 60 * 60 * 24));
-      let status = 'RECENT';
-      if (daysAgo > 45) status = 'OVERDUE';
-      else if (daysAgo > 30) status = 'APPROACHING';
-      
-      page.drawText('Delivery Status:', { x: 40, y, size: 12, font, color: rgb(0.2, 0.2, 0.2) });
-      page.drawText(`${status} (${daysAgo} days since delivery)`, { x: 200, y, size: 12, font: fontR, color: rgb(0.3, 0.3, 0.3) });
-      y -= 30;
-      
-      page.drawText('Estimated Runout:', { x: 40, y, size: 12, font, color: rgb(0.2, 0.2, 0.2) });
-      const runoutDays = Math.round(auditCases * 3.5);
-      page.drawText(`~${runoutDays} days (${auditCases} cases × 3.5 days/case)`, { x: 200, y, size: 12, font: fontR, color: rgb(0.3, 0.3, 0.3) });
-      
-      // Footer
-      page.drawText(`Generated ${new Date().toLocaleString()} — IndoorMedia Audit Tool`, {
-        x: 150, y: 20, size: 8, font: fontR, color: rgb(0.6, 0.6, 0.6)
+      line('Audit Date:', new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }));
+
+      section('DELIVERY');
+      line('Delivery Date:', r.deliveryDate);
+      line('Starting:', `${r.startingCases} cases (${r.startingRolls.toLocaleString()} rolls)`);
+
+      section('CURRENT INVENTORY');
+      line('Full Cases:', String(r.currentCases));
+      line('Loose Rolls:', String(r.currentRolls));
+      line('Total Rolls:', String(r.totalRolls));
+
+      section('PROJECTION');
+      line('Usage Rate:', '11.1 rolls/day');
+      line('Days Until Runout:', String(r.daysUntilRunout));
+      line('Est. Runout Date:', r.runoutDate);
+      line('Next Delivery:', `${r.nextDelivery} (${r.daysUntilDelivery} days)`);
+
+      y -= 15;
+      const statusText = r.insufficient
+        ? 'INSUFFICIENT: Inventory will run out BEFORE next delivery! Action needed.'
+        : 'SUFFICIENT: Inventory will last until next delivery.';
+      const statusColor = r.insufficient ? rgb(0.8, 0, 0) : rgb(0, 0.5, 0);
+      page.drawText(statusText, { x: 40, y, size: 12, font: bold, color: statusColor });
+
+      page.drawText(`Generated ${new Date().toLocaleString()} - IndoorMedia Audit Tool`, {
+        x: 150, y: 20, size: 8, font: reg, color: rgb(0.6, 0.6, 0.6)
       });
-      
+
       const pdfBytes = await pdfDoc.save();
-      downloadBlob(new Blob([pdfBytes], { type: 'application/pdf' }), `Audit_${auditStoreNum || 'Store'}.pdf`);
-      
+      downloadBlob(new Blob([pdfBytes], { type: 'application/pdf' }), `Audit_${r.storeNum}.pdf`);
     } catch (err) {
-      alert(`❌ Error: ${err.message}`);
+      alert('Error: ' + err.message);
       console.error(err);
     }
   }
@@ -340,9 +392,9 @@
   {#if view === 'audit'}
     <button class="back-btn" on:click={goBack}>← Back</button>
     
-    {#if !auditStoreNum}
-      <h2>🏪 Audit Store</h2>
-      <p class="subtitle">Track tape inventory & delivery status</p>
+    {#if auditStep === 1}
+      <h2>Audit Store</h2>
+      <p class="subtitle">Select store to audit</p>
 
       <div class="search-box">
         <input
@@ -354,17 +406,19 @@
 
       <div class="store-list">
         {#each filteredStores.slice(0, 15) as store}
-          <button class="store-select-btn" on:click={() => selectAuditStore(store)}>
+          <button class="store-select-btn" on:click={() => { selectAuditStore(store); auditStep = 2; }}>
             <div>
               <h4>{store.GroceryChain} - {store.City}</h4>
               <p class="store-num">{store.StoreName}</p>
             </div>
-            <div class="arrow">→</div>
+            <div class="arrow">&rarr;</div>
           </button>
         {/each}
       </div>
-    {:else}
-      <h2>🏪 Audit: {auditStoreNum}</h2>
+
+    {:else if auditStep === 2}
+      <h2>Audit: {auditStoreNum}</h2>
+      <p class="subtitle">{selectedStore?.GroceryChain} - {selectedStore?.City}</p>
 
       <div class="form-card">
         <div class="form-group">
@@ -373,11 +427,60 @@
         </div>
 
         <div class="form-group">
-          <label>Cases in Stock</label>
-          <input type="number" bind:value={auditCases} min="0" />
+          <label>Starting Cases (at delivery)</label>
+          <input type="number" bind:value={auditStartingCases} min="0" max="50" placeholder="e.g., 20" />
         </div>
 
-        <button class="action-btn" on:click={submitAudit}>📥 Generate Audit Report</button>
+        <div class="form-group">
+          <label>Full Cases Currently</label>
+          <input type="number" bind:value={auditCases} min="0" max="50" placeholder="0-50" />
+        </div>
+
+        <div class="form-group">
+          <label>Loose Rolls Currently</label>
+          <input type="number" bind:value={auditRolls} min="0" max="49" placeholder="0-49" />
+        </div>
+
+        <button class="action-btn" on:click={generateAuditReport} disabled={!auditCases && auditCases !== 0}>
+          Generate Audit Report
+        </button>
+      </div>
+
+    {:else if auditStep === 3 && auditReport}
+      <h2>Audit Report</h2>
+
+      <div class="report-card">
+        <div class="report-header">{auditReport.storeNum}</div>
+        <p class="report-chain">{auditReport.chain} - {auditReport.city}</p>
+
+        <div class="report-section">
+          <h4>Delivery</h4>
+          <p>Date: {auditReport.deliveryDate}</p>
+          <p>Starting: {auditReport.startingCases} cases ({auditReport.startingRolls} rolls)</p>
+        </div>
+
+        <div class="report-section">
+          <h4>Current Inventory</h4>
+          <p>{auditReport.currentCases} cases + {auditReport.currentRolls} rolls = {auditReport.totalRolls} total rolls</p>
+        </div>
+
+        <div class="report-section">
+          <h4>Projection</h4>
+          <p>Days until runout: {auditReport.daysUntilRunout}</p>
+          <p>Runout date: {auditReport.runoutDate}</p>
+        </div>
+
+        <div class="report-status" class:status-ok={!auditReport.insufficient} class:status-warn={auditReport.insufficient}>
+          {auditReport.insufficient ? 'INSUFFICIENT: Inventory may run out before next delivery!' : 'SUFFICIENT: Inventory should last until next delivery.'}
+        </div>
+
+        <button class="action-btn" on:click={downloadAuditPdf}>
+          Download Audit PDF
+        </button>
+
+        <button class="edit-btn" on:click={() => auditStep = 2}>
+          Edit
+        </button>
       </div>
     {/if}
   {/if}
@@ -758,6 +861,65 @@
     color: #555;
     font-size: 14px;
     line-height: 1.4;
+  }
+
+  .report-card {
+    background: #f9f9f9;
+    border-radius: 12px;
+    padding: 16px;
+    margin-top: 15px;
+  }
+
+  .report-header {
+    font-size: 20px;
+    font-weight: 700;
+    color: #CC0000;
+    margin-bottom: 4px;
+  }
+
+  .report-chain {
+    margin: 0 0 16px;
+    color: #666;
+    font-size: 14px;
+  }
+
+  .report-section {
+    margin-bottom: 16px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid #e0e0e0;
+  }
+
+  .report-section h4 {
+    margin: 0 0 8px;
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+    color: #333;
+    letter-spacing: 0.5px;
+  }
+
+  .report-section p {
+    margin: 4px 0;
+    color: #555;
+    font-size: 13px;
+  }
+
+  .report-status {
+    padding: 12px;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 13px;
+    margin-bottom: 12px;
+  }
+
+  .status-ok {
+    background: #e8f5e9;
+    color: #2e7d32;
+  }
+
+  .status-warn {
+    background: #fce4ec;
+    color: #c62828;
   }
 
   .chain-grid {
