@@ -373,19 +373,43 @@
             <p class="prospect-phone">📞 {prospect.phone}</p>
           {/if}
           <div class="prospect-actions">
-            {#if prospect.phone}
-              <a href="tel:{prospect.phone}" class="action-btn">📞 Call</a>
-            {/if}
-            {#if prospect.mapsUrl}
-              <a href={prospect.mapsUrl} target="_blank" class="action-btn">📍 Maps</a>
-            {:else}
-              <a href="https://maps.google.com/maps?q={encodeURIComponent(prospect.name + ' ' + prospect.address)}" target="_blank" class="action-btn">📍 Maps</a>
-            {/if}
             {#if prospect.website}
-              <a href={prospect.website} target="_blank" class="action-btn highlight">🌐 Web</a>
+              <a href={prospect.website} target="_blank" class="action-btn full-width">🌐 Website</a>
             {/if}
-            <button class="action-btn" on:click={() => saveProspect(prospect)}>💾 Save</button>
+            <div class="action-row">
+              {#if prospect.mapsUrl}
+                <a href={prospect.mapsUrl} target="_blank" class="action-btn">📍 Maps</a>
+              {:else}
+                <a href="https://maps.google.com/maps?q={encodeURIComponent(prospect.name + ' ' + prospect.address)}" target="_blank" class="action-btn">📍 Maps</a>
+              {/if}
+              <a href="https://maps.google.com/maps?q={encodeURIComponent(prospect.address)}" target="_blank" class="action-btn">🗺️ Mappoint</a>
+            </div>
+            <div class="action-row">
+              <button class="action-btn" on:click={() => saveProspect(prospect)}>💾 Save</button>
+              <a href="https://www.google.com/search?q={encodeURIComponent(prospect.name + ' ' + (prospect.address || '').split(',')[0])}&tbm=vid" target="_blank" class="action-btn">🎬 Video</a>
+            </div>
+            <div class="action-row">
+              <button class="action-btn" on:click={() => { prospect._showNotes = !prospect._showNotes; prospects = prospects; }}>📝 Notes</button>
+              <button class="action-btn" on:click={() => alert('Search testimonials for this business category in the Tools tab')}>📋 Testimonials</button>
+            </div>
+            {#if prospect.phone}
+              <a href="tel:{prospect.phone}" class="action-btn full-width call-btn">📞 Call {prospect.phone}</a>
+            {/if}
+            <button class="action-btn full-width email-btn" on:click={() => { prospect._showEmail = !prospect._showEmail; prospects = prospects; }}>✉️ Draft Email</button>
+            <button class="action-btn full-width" on:click={() => alert('Calendar integration coming soon')}>📅 Calendar</button>
           </div>
+          {#if prospect._showNotes}
+            <div class="notes-section">
+              <textarea placeholder="Add notes about this prospect..." rows="3"></textarea>
+            </div>
+          {/if}
+          {#if prospect._showEmail}
+            <div class="email-section">
+              <p class="email-preview">Subject: Partnership Opportunity - IndoorMedia</p>
+              <p class="email-body">Hi,\n\nI noticed {prospect.name} while visiting {selectedStore?.GroceryChain} nearby and wanted to reach out about register tape advertising...</p>
+              <button class="action-btn full-width" on:click={() => window.open('mailto:?subject=Partnership Opportunity - IndoorMedia&body=Hi,%0A%0AI noticed ' + encodeURIComponent(prospect.name) + ' and wanted to reach out about register tape advertising at ' + encodeURIComponent(selectedStore?.GroceryChain || '') + '.%0A%0AWould you be available for a quick conversation?')}>📧 Open in Email</button>
+            </div>
+          {/if}
         </div>
       {/each}
     </div>
@@ -573,8 +597,57 @@
   }
 
   .action-btn:hover { background: #cc0000; color: white; }
-  .action-btn.highlight { background: #2e7d32; color: white; border-color: #2e7d32; }
-  .action-btn.highlight:hover { background: #1b5e20; }
+
+  .action-row {
+    display: flex;
+    gap: 8px;
+    width: 100%;
+  }
+
+  .action-row .action-btn { flex: 1; }
+
+  .full-width { width: 100%; flex: none !important; }
+
+  .call-btn { background: #2e7d32 !important; color: white !important; border-color: #2e7d32 !important; }
+  .call-btn:hover { background: #1b5e20 !important; }
+
+  .email-btn { background: #1565c0 !important; color: white !important; border-color: #1565c0 !important; }
+  .email-btn:hover { background: #0d47a1 !important; }
+
+  .notes-section, .email-section {
+    margin-top: 10px;
+    padding: 10px;
+    background: var(--hover-bg);
+    border-radius: 8px;
+  }
+
+  .notes-section textarea {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    font-size: 13px;
+    font-family: inherit;
+    resize: vertical;
+    box-sizing: border-box;
+    background: var(--input-bg);
+    color: var(--text-primary);
+  }
+
+  .email-preview {
+    margin: 0 0 6px;
+    font-weight: 600;
+    font-size: 13px;
+    color: var(--text-primary);
+  }
+
+  .email-body {
+    margin: 0 0 10px;
+    font-size: 12px;
+    color: var(--text-secondary);
+    white-space: pre-line;
+    line-height: 1.4;
+  }
 
   .status-select {
     padding: 0.5rem;
