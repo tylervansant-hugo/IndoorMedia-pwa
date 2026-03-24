@@ -361,18 +361,17 @@
     <div class="prospect-list">
       {#each prospects as prospect, i (prospect.id + '-' + i)}
         <div class="prospect-card">
-          <div class="prospect-main">
-            <div>
-              <h4>{prospect.name}</h4>
-              <p class="address">📍 {prospect.address}</p>
-              <p class="meta">
-                ⭐ {prospect.rating.toFixed(1)} ({prospect.reviews} reviews) • {prospect.distance} mi • Score: {prospect.score}%
-              </p>
-              {#if prospect.phone}
-                <p class="phone">📞 {prospect.phone}</p>
-              {/if}
-            </div>
+          <div class="prospect-header">
+            <span class="score-emoji">{prospect.score >= 80 ? '🔥' : prospect.score >= 70 ? '⭐' : '👀'}</span>
+            <h4>{prospect.name}</h4>
           </div>
+          <p class="prospect-address">📍 {prospect.address}</p>
+          <p class="prospect-meta">
+            ⭐ {prospect.rating.toFixed(1)} ({prospect.reviews} reviews) • {prospect.distance} mi • Score: {prospect.score}%
+          </p>
+          {#if prospect.phone}
+            <p class="prospect-phone">📞 {prospect.phone}</p>
+          {/if}
           <div class="prospect-actions">
             {#if prospect.phone}
               <a href="tel:{prospect.phone}" class="action-btn">📞 Call</a>
@@ -383,7 +382,7 @@
               <a href="https://maps.google.com/maps?q={encodeURIComponent(prospect.name + ' ' + prospect.address)}" target="_blank" class="action-btn">📍 Maps</a>
             {/if}
             {#if prospect.website}
-              <a href={prospect.website} target="_blank" class="action-btn">🌐 Web</a>
+              <a href={prospect.website} target="_blank" class="action-btn highlight">🌐 Web</a>
             {/if}
             <button class="action-btn" on:click={() => saveProspect(prospect)}>💾 Save</button>
           </div>
@@ -535,40 +534,47 @@
 
   .prospect-card {
     background: var(--card-bg);
-    border-radius: 10px;
-    padding: 1rem;
+    border-radius: 12px;
+    padding: 14px;
     box-shadow: 0 2px 8px var(--card-shadow);
-    border-left: 4px solid #cc0000;
+    border: 1px solid var(--border-color);
     color: var(--text-primary);
   }
 
-  .prospect-main { margin-bottom: 0.75rem; }
-  .prospect-card h4 { margin: 0 0 6px 0; color: var(--text-primary); font-weight: 600; font-size: 16px; }
-  .prospect-card .address { margin: 4px 0; font-size: 13px; color: var(--text-secondary); }
-  .prospect-card .meta { margin: 8px 0 0 0; font-size: 12px; color: var(--text-tertiary); display: flex; gap: 12px; flex-wrap: wrap; }
+  .prospect-header { display: flex; align-items: center; gap: 6px; margin-bottom: 6px; }
+  .score-emoji { font-size: 18px; }
+  .prospect-card h4 { margin: 0; color: var(--text-primary); font-weight: 700; font-size: 17px; }
+  .prospect-address { margin: 4px 0; font-size: 13px; color: var(--text-secondary); }
+  .prospect-meta { margin: 6px 0; font-size: 12px; color: var(--text-tertiary); }
+  .prospect-phone { margin: 6px 0 10px; font-size: 15px; font-weight: 600; color: var(--text-primary); }
 
   .prospect-actions {
     display: flex;
-    gap: 0.5rem;
+    gap: 8px;
     flex-wrap: wrap;
+    padding-top: 10px;
+    border-top: 1px solid var(--border-color);
   }
 
   .action-btn {
     flex: 1;
-    min-width: 70px;
-    padding: 0.5rem;
+    min-width: 60px;
+    padding: 8px 4px;
     background: var(--hover-bg);
-    border: none;
-    border-radius: 6px;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
     cursor: pointer;
-    font-size: 0.85rem;
+    font-size: 0.82rem;
     text-decoration: none;
     text-align: center;
+    font-weight: 600;
     transition: all 0.2s;
     color: var(--text-primary);
   }
 
   .action-btn:hover { background: #cc0000; color: white; }
+  .action-btn.highlight { background: #2e7d32; color: white; border-color: #2e7d32; }
+  .action-btn.highlight:hover { background: #1b5e20; }
 
   .status-select {
     padding: 0.5rem;
