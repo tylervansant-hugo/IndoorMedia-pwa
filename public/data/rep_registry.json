@@ -6,18 +6,12 @@
     "registered_at": "2026-02-16",
     "base_location": "Ridgefield, WA"
   },
-  "8003974335": {
-    "contract_name": "Marty",
-    "display_name": "Marty",
-    "role": "rep",
-    "registered_at": "2026-03-12",
-    "base_location": "Newberg, OR"
-  },
   "8703124669": {
     "contract_name": "Megan Wink",
-    "display_name": "Meghan Wink",
+    "display_name": "Megan Wink",
     "role": "rep",
     "registered_at": "2026-03-12",
+    "email": "Megan.Wink@indoormedia.com",
     "base_location": "Vancouver, WA"
   },
   "7334094238": {
@@ -26,17 +20,9 @@
     "role": "rep",
     "registered_at": "2026-03-12"
   },
-  "999999999": {
-    "telegram_name": "Test User",
-    "contract_name": "Test User",
-    "email": "testuser@example.com",
-    "role": "rep",
-    "registered_at": "2026-03-17T15:49:25.906710",
-    "base_location": "Ridgefield, WA"
-  },
   "2126715079": {
-    "contract_name": "Cameron gould",
-    "display_name": "Cameron gould",
+    "contract_name": "Cameron Gould",
+    "display_name": "Cameron Gould",
     "role": "rep",
     "registered_at": "2026-03-17"
   },
@@ -46,7 +32,7 @@
     "display_name": "Maxine Van Sant",
     "email": "Mvansant032319@gmail.com",
     "role": "admin",
-    "registered_at": "2026-03-17T16:28:03.349755"
+    "registered_at": "2026-03-17"
   },
   "7711642836": {
     "contract_name": "Matthew Boozer",
@@ -66,12 +52,12 @@
     "registered_at": "2026-03-17",
     "base_location": "Tualatin, OR"
   },
-  "anthony_eng": {
-    "contract_name": "Anthony Eng",
-    "display_name": "Anthony Eng",
-    "email": "Anthony.eng@indoormedia.com",
+  "8003974335": {
+    "contract_name": "Marty Eng",
+    "display_name": "Marty Eng",
+    "email": "Anthony.Eng@indoormedia.com",
     "role": "rep",
-    "registered_at": "2026-03-17",
+    "registered_at": "2026-03-12",
     "base_location": "Newberg, OR"
   },
   "adan_ramos": {
@@ -89,13 +75,6 @@
     "role": "rep",
     "registered_at": "2026-03-17",
     "base_location": "Unknown"
-  },
-  "megan_wink": {
-    "contract_name": "Megan Wink",
-    "display_name": "Megan Wink",
-    "email": "Megan.Wink@indoormedia.com",
-    "role": "rep",
-    "registered_at": "2026-03-17"
   },
   "jan_banks": {
     "contract_name": "Jan Banks",
@@ -119,13 +98,6 @@
     "role": "rep",
     "registered_at": "2026-03-17",
     "base_location": "Battle Ground, WA"
-  },
-  "legacy_empire": {
-    "contract_name": "Legacy Empire",
-    "display_name": "Legacy Empire",
-    "email": "englegacyempire@gmail.com",
-    "role": "rep",
-    "registered_at": "2026-03-17"
   },
   "8746943550": {
     "contract_name": "Sandee Deppiesse",
