@@ -1,5 +1,6 @@
 <script>
   import { onMount } from 'svelte';
+  import { user } from '../lib/stores.js';
   
   let allStores = [];
   let nearbyStores = [];
@@ -227,6 +228,24 @@
     }
   }
 
+  const emailTemplates = [
+    { id: 'initial', icon: '🎯', name: 'Initial Appointment',
+      subject: 'Quick question about {business}',
+      body: 'Hi {contact},\n\nI noticed {business} in the area and wanted to reach out. We work with local businesses to help drive foot traffic through register tape advertising at nearby grocery stores.\n\nThousands of businesses like yours have seen measurable results — would you be open to a quick 10-minute chat this week?\n\nBest,\n{rep}\nIndoorMedia' },
+    { id: 'roi', icon: '📊', name: 'ROI / Value Focused',
+      subject: 'How {business} can reach 10,000+ local customers',
+      body: 'Hi {contact},\n\nDid you know the average grocery store gets 10,000+ visitors per week? That\'s 10,000 potential customers seeing your ad every single week.\n\nBusinesses in your category have reported strong ROI — many seeing results within the first month. Our register tape ads put your name, offer, and location directly in shoppers\' hands.\n\nI\'d love to show you how the numbers work for {business}. Can we schedule a quick call?\n\nBest,\n{rep}\nIndoorMedia' },
+    { id: 'followup', icon: '⏰', name: 'Follow-up (No Response)',
+      subject: 'Following up — {business}',
+      body: 'Hi {contact},\n\nI reached out a few days ago about a potential partnership with {business} and wanted to follow up.\n\nWe help local businesses reach thousands of nearby shoppers each week through register tape advertising. I think there\'s a great fit here.\n\nWould you have 10 minutes this week for a quick chat?\n\nBest,\n{rep}\nIndoorMedia' },
+    { id: 'reengagement', icon: '🔄', name: 'Re-engagement',
+      subject: 'Things have changed — {business}',
+      body: 'Hi {contact},\n\nIt\'s been a while since we last connected about {business}. A lot has changed at IndoorMedia — new store locations, better pricing, and stronger results for businesses like yours.\n\nWould you be open to reconnecting for a quick 10-minute call?\n\nBest,\n{rep}\nIndoorMedia' },
+    { id: 'limited', icon: '⚡', name: 'Limited Time Offer',
+      subject: 'Limited availability near {business}',
+      body: 'Hi {contact},\n\nI wanted to give you a heads up — we have limited ad placement availability at the grocery store near {business}.\n\nOur partnership program is filling up fast, and I\'d hate for {business} to miss out on reaching thousands of local shoppers each week.\n\nCan we schedule a quick call this week?\n\nBest,\n{rep}\nIndoorMedia' },
+  ];
+
   function loadSavedProspects() {
     const saved = localStorage.getItem('savedProspects');
     savedProspects = saved ? JSON.parse(saved) : [];
@@ -410,7 +429,7 @@
             {#if prospect.phone}
               <a href="tel:{prospect.phone}" class="action-btn full-width call-btn">📞 Call {prospect.phone}</a>
             {/if}
-            <button class="action-btn full-width email-btn" on:click={() => { prospect._showEmail = !prospect._showEmail; prospects = prospects; }}>✉️ Draft Email</button>
+            <button class="action-btn full-width email-btn" on:click={() => { prospect._showEmail = !prospect._showEmail; prospect._showNotes = false; prospects = prospects; }}>✉️ Draft Email</button>
             <a href="https://calendar.google.com/calendar/render?action=TEMPLATE&text={encodeURIComponent('Visit: ' + prospect.name)}&details={encodeURIComponent('Prospect: ' + prospect.name + '\nAddress: ' + prospect.address + (prospect.phone ? '\nPhone: ' + prospect.phone : '') + (prospect.website ? '\nWebsite: ' + prospect.website : '') + '\nStore: ' + (selectedStore?.GroceryChain || '') + ' ' + (selectedStore?.StoreName || ''))}&location={encodeURIComponent(prospect.address)}" target="_blank" class="action-btn full-width">📅 Calendar</a>
           </div>
           {#if prospect._showNotes}
@@ -428,9 +447,24 @@
           {/if}
           {#if prospect._showEmail}
             <div class="email-section">
-              <p class="email-preview">Subject: Partnership Opportunity - IndoorMedia</p>
-              <p class="email-body">Hi,\n\nI noticed {prospect.name} while visiting {selectedStore?.GroceryChain} nearby and wanted to reach out about register tape advertising...</p>
-              <button class="action-btn full-width" on:click={() => window.open('mailto:?subject=Partnership Opportunity - IndoorMedia&body=Hi,%0A%0AI noticed ' + encodeURIComponent(prospect.name) + ' and wanted to reach out about register tape advertising at ' + encodeURIComponent(selectedStore?.GroceryChain || '') + '.%0A%0AWould you be available for a quick conversation?')}>📧 Open in Email</button>
+              <h4 class="email-title">Choose a template:</h4>
+              {#each emailTemplates as tpl}
+                <button class="email-tpl-btn" on:click={() => { prospect._selectedTpl = tpl.id; prospects = prospects; }}>
+                  {tpl.icon} {tpl.name}
+                </button>
+              {/each}
+              {#if prospect._selectedTpl}
+                {@const tpl = emailTemplates.find(t => t.id === prospect._selectedTpl)}
+                <div class="email-preview-box">
+                  <p class="email-subject">Subject: {tpl.subject.replace('{business}', prospect.name)}</p>
+                  <p class="email-body-text">{tpl.body.replace(/\{business\}/g, prospect.name).replace(/\{contact\}/g, '').replace(/\{rep\}/g, $user?.name || $user?.first_name || 'Your Rep')}</p>
+                  <button class="action-btn full-width email-btn" on:click={() => {
+                    const subject = encodeURIComponent(tpl.subject.replace('{business}', prospect.name));
+                    const body = encodeURIComponent(tpl.body.replace(/\{business\}/g, prospect.name).replace(/\{contact\}/g, '').replace(/\{rep\}/g, $user?.name || $user?.first_name || 'Your Rep'));
+                    window.open('mailto:?subject=' + subject + '&body=' + body);
+                  }}>📧 Open in Email App</button>
+                </div>
+              {/if}
             </div>
           {/if}
         </div>
@@ -666,12 +700,56 @@
     color: var(--text-primary);
   }
 
-  .email-body {
+  .email-title {
     margin: 0 0 10px;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text-primary);
+  }
+
+  .email-tpl-btn {
+    display: block;
+    width: 100%;
+    padding: 10px 12px;
+    margin-bottom: 6px;
+    background: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    text-align: left;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    color: var(--text-primary);
+  }
+
+  .email-tpl-btn:hover {
+    border-color: #CC0000;
+    background: #fff5f5;
+  }
+
+  .email-preview-box {
+    margin-top: 12px;
+    padding: 12px;
+    background: white;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+  }
+
+  .email-subject {
+    margin: 0 0 8px;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text-primary);
+  }
+
+  .email-body-text {
+    margin: 0 0 12px;
     font-size: 12px;
     color: var(--text-secondary);
     white-space: pre-line;
-    line-height: 1.4;
+    line-height: 1.5;
+    max-height: 200px;
+    overflow-y: auto;
   }
 
   .status-select {
