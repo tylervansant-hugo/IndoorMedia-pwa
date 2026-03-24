@@ -23,6 +23,7 @@
     ad_proof_image: null
   };
   let generating = false;
+  const COUNTER_SIGN_API = 'https://discovery-cet-crawford-lamp.trycloudflare.com';
 
   onMount(async () => {
     try {
@@ -108,71 +109,35 @@
     try {
       generating = true;
       
-      // Create PDF client-side using pdf-lib
-      const pdfDoc = await PDFDocument.create();
-      const page = pdfDoc.addPage([612, 792]); // Letter size
+      const repName = $user?.name || $user?.first_name || 'Tyler Van Sant';
       
-      // White background
-      page.drawRectangle({ x: 0, y: 0, width: 612, height: 792, color: rgb(1, 1, 1) });
+      const formData = new FormData();
+      formData.append('chain_code', selectedChainCode);
+      formData.append('rep_name', repName);
+      formData.append('ad_proof', counterData.ad_proof_image);
       
-      // Red header bar
-      page.drawRectangle({ x: 0, y: 700, width: 612, height: 92, color: rgb(0.8, 0, 0) });
-      
-      // Header text
-      const font = await pdfDoc.embedFont('Helvetica-Bold');
-      const fontR = await pdfDoc.embedFont('Helvetica');
-      page.drawText(selectedChainCode + ' Counter Sign', {
-        x: 30, y: 735, size: 24, font, color: rgb(1, 1, 1)
-      });
-      
-      // Embed ad proof image
-      if (counterData.ad_proof_image) {
-        const adBytes = await readFileAsBytes(counterData.ad_proof_image);
-        let adImage;
-        const name = counterData.ad_proof_image.name.toLowerCase();
-        if (name.endsWith('.png')) {
-          adImage = await pdfDoc.embedPng(adBytes);
-        } else {
-          adImage = await pdfDoc.embedJpg(adBytes);
-        }
-        // Scale ad to fit the ad zone (540 wide, maintain aspect)
-        const scale = Math.min(540 / adImage.width, 400 / adImage.height);
-        const adW = adImage.width * scale;
-        const adH = adImage.height * scale;
-        page.drawImage(adImage, { x: (612 - adW) / 2, y: 250, width: adW, height: adH });
-      }
-      
-      // Embed business card image (bottom-left)
       if (counterData.business_card_image) {
-        const bcBytes = await readFileAsBytes(counterData.business_card_image);
-        let bcImage;
-        const name = counterData.business_card_image.name.toLowerCase();
-        if (name.endsWith('.png')) {
-          bcImage = await pdfDoc.embedPng(bcBytes);
-        } else {
-          bcImage = await pdfDoc.embedJpg(bcBytes);
-        }
-        const scale = Math.min(150 / bcImage.width, 100 / bcImage.height);
-        page.drawImage(bcImage, { x: 20, y: 20, width: bcImage.width * scale, height: bcImage.height * scale });
+        formData.append('business_card', counterData.business_card_image);
       }
-      
-      // Landing page URL (bottom-right as text)
       if (counterData.landing_page_url) {
-        page.drawText(counterData.landing_page_url, {
-          x: 200, y: 30, size: 9, font: fontR, color: rgb(0, 0, 0.8)
-        });
+        formData.append('landing_page_url', counterData.landing_page_url);
       }
-      
-      // Footer
-      page.drawText('IndoorMedia — Register Tape Advertising', {
-        x: 200, y: 15, size: 8, font: fontR, color: rgb(0.5, 0.5, 0.5)
+
+      const response = await fetch(`${COUNTER_SIGN_API}/generate`, {
+        method: 'POST',
+        body: formData
       });
+
+      if (!response.ok) {
+        let msg = response.statusText;
+        try { const e = await response.json(); msg = e.error; } catch {}
+        alert(`❌ Error: ${msg}`);
+        return;
+      }
+
+      const blob = await response.blob();
+      downloadBlob(blob, `${selectedChainCode}_CounterSign.pdf`);
       
-      // Save & download
-      const pdfBytes = await pdfDoc.save();
-      downloadBlob(new Blob([pdfBytes], { type: 'application/pdf' }), `${selectedChainCode}_CounterSign.pdf`);
-      
-      // Reset
       counterSignStep = 1;
       selectedChainCode = null;
       counterData = { business_card_image: null, landing_page_url: '', ad_proof_image: null };
