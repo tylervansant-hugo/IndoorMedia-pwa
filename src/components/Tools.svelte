@@ -843,10 +843,10 @@
   }
 
   .review-card {
-    background: #f9f9f9;
+    background: #f5f5f5;
     border-radius: 12px;
     padding: 16px;
-    margin-top: 15px;
+    margin-top: 16px;
   }
 
   .review-section {

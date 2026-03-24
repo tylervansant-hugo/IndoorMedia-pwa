@@ -469,7 +469,7 @@
   }
 
   .loading { text-align: center; padding: 2rem; color: var(--text-tertiary); }
-  .back-btn { background: none; border: none; color: #cc0000; font-weight: 600; cursor: pointer; margin-bottom: 1rem; }
+  .back-btn { background: none; border: none; color: #CC0000; font-weight: 600; cursor: pointer; margin-bottom: 16px; font-size: 14px; }
 
   .button-grid {
     display: grid;

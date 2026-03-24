@@ -306,9 +306,10 @@
     padding: 12px 16px;
     background: none;
     border: none;
-    border-bottom: 3px solid transparent;
-    color: var(--text-secondary);
+    border-bottom: 2px solid transparent;
+    color: #666;
     font-weight: 600;
+    font-size: 13px;
     cursor: pointer;
     transition: all 0.2s;
     white-space: nowrap;

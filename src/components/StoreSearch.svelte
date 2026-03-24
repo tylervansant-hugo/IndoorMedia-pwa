@@ -659,14 +659,16 @@
     width: 100%;
     padding: 10px;
     margin-top: 10px;
-    border: 2px dashed #999;
-    background: #f8f8f8;
-    border-radius: 6px;
+    border: 1px dashed #999;
+    background: #f5f5f5;
+    border-radius: 8px;
     cursor: pointer;
     font-size: 13px;
     font-weight: 600;
     color: #666;
     transition: all 0.2s;
+    min-height: 44px;
+    box-sizing: border-box;
   }
 
   .coop-btn:hover {
@@ -676,7 +678,7 @@
   }
 
   .coop-btn.unlocked {
-    border: 2px solid #2e7d32;
+    border: 1px solid #2e7d32;
     background: #e8f5e9;
     color: #2e7d32;
   }

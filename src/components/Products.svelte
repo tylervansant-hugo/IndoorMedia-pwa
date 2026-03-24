@@ -562,7 +562,7 @@
   }
 
   .detail-card {
-    background: #f9f9f9;
+    background: #f5f5f5;
     border-radius: 12px;
     padding: 20px;
     margin-top: 20px;
@@ -812,3 +812,4 @@
     font-weight: 600;
   }
 </style>
+

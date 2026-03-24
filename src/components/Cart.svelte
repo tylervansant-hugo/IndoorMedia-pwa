@@ -158,14 +158,16 @@
     margin-bottom: 20px;
     padding: 16px;
     background: white;
-    border-radius: 8px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    border-radius: 12px;
+    border: 1px solid #e0e0e0;
+    box-shadow: none;
   }
 
   .cart-summary h2 {
     margin: 0;
     font-size: 18px;
-    color: #1a1a1a;
+    color: #333;
+    font-weight: 700;
   }
 
   .cart-actions {

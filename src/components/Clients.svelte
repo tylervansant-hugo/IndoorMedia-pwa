@@ -192,22 +192,22 @@
 
 <style>
   .clients-container { padding: 20px; max-width: 600px; margin: 0 auto; }
-  h2 { margin: 0 0 8px; font-size: 24px; color: #333; }
-  .subtitle { margin: 0 0 20px; color: #666; font-size: 14px; }
-  .back-btn { background: none; border: none; color: #CC0000; font-size: 16px; font-weight: 600; cursor: pointer; padding: 10px 0; margin-bottom: 15px; }
+  h2 { margin: 0 0 6px; font-size: 22px; color: #333; font-weight: 700; }
+  .subtitle { margin: 0 0 16px; color: #666; font-size: 14px; }
+  .back-btn { background: none; border: none; color: #CC0000; font-size: 14px; font-weight: 600; cursor: pointer; padding: 10px 0; margin-bottom: 16px; }
 
-  .menu-grid { display: flex; flex-direction: column; gap: 12px; margin-top: 20px; }
-  .menu-btn { background: white; border: 2px solid #eee; border-radius: 12px; padding: 16px; text-align: left; cursor: pointer; transition: all 0.2s; }
-  .menu-btn:hover { border-color: #CC0000; background: #fff5f5; }
+  .menu-grid { display: flex; flex-direction: column; gap: 12px; margin-top: 16px; }
+  .menu-btn { background: white; border: 1px solid #e0e0e0; border-radius: 12px; padding: 16px; text-align: left; cursor: pointer; transition: all 0.2s; }
+  .menu-btn:hover { border-color: #CC0000; background: #fff5f5; box-shadow: 0 2px 8px rgba(204, 0, 0, 0.1); }
   .menu-emoji { font-size: 28px; margin-bottom: 8px; }
-  .menu-btn h4 { margin: 0 0 4px; color: #333; font-size: 16px; }
+  .menu-btn h4 { margin: 0 0 4px; color: #333; font-size: 16px; font-weight: 700; }
   .menu-btn p { margin: 0; color: #666; font-size: 13px; }
 
   .search-box { margin: 15px 0; }
-  .search-box input { width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 8px; font-size: 14px; box-sizing: border-box; }
+  .search-box input { width: 100%; padding: 12px 16px; border: 1px solid #e0e0e0; border-radius: 8px; font-size: 14px; box-sizing: border-box; height: 44px; }
 
   .customer-list { display: flex; flex-direction: column; gap: 12px; }
-  .customer-card { background: white; border: 1px solid #eee; border-radius: 12px; padding: 14px; }
+  .customer-card { background: white; border: 1px solid #e0e0e0; border-radius: 12px; padding: 16px; }
   .card-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 8px; }
   .card-header h4 { margin: 0; font-size: 16px; color: #333; font-weight: 700; flex: 1; }
   .amount { font-weight: 700; color: #CC0000; font-size: 16px; white-space: nowrap; margin-left: 8px; }
