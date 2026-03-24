@@ -1,5 +1,7 @@
 <script>
   import { onMount } from 'svelte';
+  import { PDFDocument, rgb } from 'pdf-lib';
+  import { user } from '../lib/stores.js';
   
   let view = 'main'; // main, roi, rates, testimonials, audit, counter-sign
   let stores = [];
@@ -80,56 +82,95 @@
     counterSignStep = 2;
   }
 
+  async function readFileAsBytes(file) {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onload = () => resolve(new Uint8Array(reader.result));
+      reader.onerror = reject;
+      reader.readAsArrayBuffer(file);
+    });
+  }
+
+  function downloadBlob(blob, filename) {
+    const url = window.URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = filename;
+    document.body.appendChild(a);
+    a.click();
+    window.URL.revokeObjectURL(url);
+    a.remove();
+  }
+
   async function submitCounterSign() {
     if (generating) return;
     
     try {
       generating = true;
       
-      // Get rep name from store (use first name from logged-in user or default)
-      const repName = 'Tyler Van Sant'; // Would come from user store in real app
+      // Create PDF client-side using pdf-lib
+      const pdfDoc = await PDFDocument.create();
+      const page = pdfDoc.addPage([612, 792]); // Letter size
       
-      const formData = new FormData();
-      formData.append('chain_code', selectedChainCode);
-      formData.append('rep_name', repName);
-      formData.append('ad_proof', counterData.ad_proof_image);
+      // White background
+      page.drawRectangle({ x: 0, y: 0, width: 612, height: 792, color: rgb(1, 1, 1) });
       
-      if (counterData.business_card_image) {
-        formData.append('business_card', counterData.business_card_image);
-      }
+      // Red header bar
+      page.drawRectangle({ x: 0, y: 700, width: 612, height: 92, color: rgb(0.8, 0, 0) });
       
-      if (counterData.landing_page_url) {
-        formData.append('landing_page_url', counterData.landing_page_url);
-      }
-
-      const response = await fetch('http://localhost:3333/generate', {
-        method: 'POST',
-        body: formData
+      // Header text
+      const font = await pdfDoc.embedFont('Helvetica-Bold');
+      const fontR = await pdfDoc.embedFont('Helvetica');
+      page.drawText(selectedChainCode + ' Counter Sign', {
+        x: 30, y: 735, size: 24, font, color: rgb(1, 1, 1)
       });
-
-      if (!response.ok) {
-        try {
-          const error = await response.json();
-          alert(`❌ Error: ${error.error}`);
-        } catch {
-          alert(`❌ Error: ${response.statusText}`);
+      
+      // Embed ad proof image
+      if (counterData.ad_proof_image) {
+        const adBytes = await readFileAsBytes(counterData.ad_proof_image);
+        let adImage;
+        const name = counterData.ad_proof_image.name.toLowerCase();
+        if (name.endsWith('.png')) {
+          adImage = await pdfDoc.embedPng(adBytes);
+        } else {
+          adImage = await pdfDoc.embedJpg(adBytes);
         }
-        generating = false;
-        return;
+        // Scale ad to fit the ad zone (540 wide, maintain aspect)
+        const scale = Math.min(540 / adImage.width, 400 / adImage.height);
+        const adW = adImage.width * scale;
+        const adH = adImage.height * scale;
+        page.drawImage(adImage, { x: (612 - adW) / 2, y: 250, width: adW, height: adH });
       }
-
-      // Download PDF
-      const blob = await response.blob();
-      const url = window.URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = `${selectedChainCode}_CounterSign.pdf`;
-      document.body.appendChild(a);
-      a.click();
-      window.URL.revokeObjectURL(url);
-      a.remove();
-
-      alert('✅ Counter sign PDF downloaded!');
+      
+      // Embed business card image (bottom-left)
+      if (counterData.business_card_image) {
+        const bcBytes = await readFileAsBytes(counterData.business_card_image);
+        let bcImage;
+        const name = counterData.business_card_image.name.toLowerCase();
+        if (name.endsWith('.png')) {
+          bcImage = await pdfDoc.embedPng(bcBytes);
+        } else {
+          bcImage = await pdfDoc.embedJpg(bcBytes);
+        }
+        const scale = Math.min(150 / bcImage.width, 100 / bcImage.height);
+        page.drawImage(bcImage, { x: 20, y: 20, width: bcImage.width * scale, height: bcImage.height * scale });
+      }
+      
+      // Landing page URL (bottom-right as text)
+      if (counterData.landing_page_url) {
+        page.drawText(counterData.landing_page_url, {
+          x: 200, y: 30, size: 9, font: fontR, color: rgb(0, 0, 0.8)
+        });
+      }
+      
+      // Footer
+      page.drawText('IndoorMedia — Register Tape Advertising', {
+        x: 200, y: 15, size: 8, font: fontR, color: rgb(0.5, 0.5, 0.5)
+      });
+      
+      // Save & download
+      const pdfBytes = await pdfDoc.save();
+      downloadBlob(new Blob([pdfBytes], { type: 'application/pdf' }), `${selectedChainCode}_CounterSign.pdf`);
       
       // Reset
       counterSignStep = 1;
@@ -141,6 +182,65 @@
       console.error(err);
     } finally {
       generating = false;
+    }
+  }
+
+  // Audit tool - generate downloadable report
+  async function submitAudit() {
+    try {
+      const repName = $user?.name || $user?.first_name || 'Unknown Rep';
+      const store = selectedStore;
+      
+      const pdfDoc = await PDFDocument.create();
+      const page = pdfDoc.addPage([612, 792]);
+      const font = await pdfDoc.embedFont('Helvetica-Bold');
+      const fontR = await pdfDoc.embedFont('Helvetica');
+      
+      // Header
+      page.drawRectangle({ x: 0, y: 700, width: 612, height: 92, color: rgb(0.8, 0, 0) });
+      page.drawText('Store Audit Report', { x: 30, y: 735, size: 24, font, color: rgb(1, 1, 1) });
+      
+      // Content
+      let y = 660;
+      const line = (label, value) => {
+        page.drawText(label, { x: 40, y, size: 12, font, color: rgb(0.2, 0.2, 0.2) });
+        page.drawText(value, { x: 200, y, size: 12, font: fontR, color: rgb(0.3, 0.3, 0.3) });
+        y -= 30;
+      };
+      
+      line('Store:', `${store?.GroceryChain || ''} - ${store?.City || ''}`);
+      line('Store #:', auditStoreNum || '');
+      line('Rep:', repName);
+      line('Audit Date:', new Date().toLocaleDateString());
+      line('Last Delivery:', auditDate);
+      line('Cases in Stock:', String(auditCases));
+      
+      y -= 20;
+      // Status
+      const daysAgo = Math.floor((Date.now() - new Date(auditDate).getTime()) / (1000 * 60 * 60 * 24));
+      let status = '🟢 Recent';
+      if (daysAgo > 45) status = '🔴 OVERDUE';
+      else if (daysAgo > 30) status = '🟡 Approaching';
+      
+      page.drawText('Delivery Status:', { x: 40, y, size: 12, font, color: rgb(0.2, 0.2, 0.2) });
+      page.drawText(`${status} (${daysAgo} days since delivery)`, { x: 200, y, size: 12, font: fontR, color: rgb(0.3, 0.3, 0.3) });
+      y -= 30;
+      
+      page.drawText('Estimated Runout:', { x: 40, y, size: 12, font, color: rgb(0.2, 0.2, 0.2) });
+      const runoutDays = Math.round(auditCases * 3.5);
+      page.drawText(`~${runoutDays} days (${auditCases} cases × 3.5 days/case)`, { x: 200, y, size: 12, font: fontR, color: rgb(0.3, 0.3, 0.3) });
+      
+      // Footer
+      page.drawText(`Generated ${new Date().toLocaleString()} — IndoorMedia Audit Tool`, {
+        x: 150, y: 20, size: 8, font: fontR, color: rgb(0.6, 0.6, 0.6)
+      });
+      
+      const pdfBytes = await pdfDoc.save();
+      downloadBlob(new Blob([pdfBytes], { type: 'application/pdf' }), `Audit_${auditStoreNum || 'Store'}.pdf`);
+      
+    } catch (err) {
+      alert(`❌ Error: ${err.message}`);
+      console.error(err);
     }
   }
 </script>
@@ -311,7 +411,7 @@
           <input type="number" bind:value={auditCases} min="0" />
         </div>
 
-        <button class="action-btn">📧 Submit Audit</button>
+        <button class="action-btn" on:click={submitAudit}>📥 Generate Audit Report</button>
       </div>
     {/if}
   {/if}

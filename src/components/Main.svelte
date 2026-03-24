@@ -205,7 +205,7 @@
 
   /* Header */
   .header {
-    background: linear-gradient(135deg, #CC0000 0%, #990000 100%);
+    background: #CC0000;
     color: white;
     padding: 0;
     padding-top: calc(env(safe-area-inset-top, 0px));
@@ -217,14 +217,16 @@
   .header-logo-section {
     padding: 40px 20px 20px;
     text-align: center;
+    background: #CC0000;
   }
 
   .header-logo-img {
     width: 120px;
-    height: 120px;
+    height: auto;
     object-fit: contain;
     display: block;
     margin: 0 auto;
+    mix-blend-mode: multiply;
   }
 
   .header-bottom {
