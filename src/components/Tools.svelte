@@ -642,8 +642,6 @@
       </div>
 
     {:else if auditStep === 4 && auditReport}
-
-    {:else if auditStep === 4 && auditReport}
       <h2>Audit Report</h2>
 
       <div class="report-card">
