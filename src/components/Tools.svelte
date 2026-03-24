@@ -3,7 +3,7 @@
   import { PDFDocument, rgb, StandardFonts } from 'pdf-lib';
   import { user } from '../lib/stores.js';
   
-  let view = 'main'; // main, roi, rates, testimonials, audit, counter-sign
+  let view = 'main'; // main, roi, rates, testimonials, audit, counter-sign, submit-testimonial
   let stores = [];
   let allStores = [];
   let searchQuery = '';
@@ -26,6 +26,24 @@
   let auditLastShipmentDate = '';
   let auditNextShipmentDate = '';
   let auditReport = null;
+
+  // Submit testimonial state
+  let testimonialSubmit = {
+    businessName: '',
+    contactName: '',
+    email: '',
+    phone: '',
+    category: '',
+    testimonialText: '',
+    permissionGranted: false,
+    submitting: false,
+    submitted: false
+  };
+  const categories = [
+    'Restaurant', 'Retail', 'Beauty/Salon', 'Automotive', 'Dental',
+    'Gym/Fitness', 'Coffee Shop', 'Bar/Pub', 'Real Estate', 'Medical',
+    'Veterinary', 'Legal', 'Home Services', 'Spa', 'Other'
+  ];
   
   // Counter sign state
   let counterSignStep = 1; // 1: chain, 2: business card, 3: landing page, 4: ad proof, 5: confirm
@@ -66,6 +84,46 @@
         s.City?.toLowerCase().includes(searchQuery.toLowerCase())
       )
     : [];
+
+  async function submitTestimonial() {
+    if (!testimonialSubmit.businessName || !testimonialSubmit.contactName || !testimonialSubmit.testimonialText || !testimonialSubmit.permissionGranted) {
+      alert('Please fill in all fields and grant permission');
+      return;
+    }
+
+    testimonialSubmit.submitting = true;
+    try {
+      // Save to localStorage for now (can integrate with backend later)
+      const submitted = JSON.parse(localStorage.getItem('submitted_testimonials') || '[]');
+      submitted.push({
+        ...testimonialSubmit,
+        submittedAt: new Date().toISOString(),
+        submittedBy: $user?.name || 'Unknown Rep'
+      });
+      localStorage.setItem('submitted_testimonials', JSON.stringify(submitted));
+      
+      // Show success
+      testimonialSubmit.submitted = true;
+      setTimeout(() => {
+        testimonialSubmit = {
+          businessName: '',
+          contactName: '',
+          email: '',
+          phone: '',
+          category: '',
+          testimonialText: '',
+          permissionGranted: false,
+          submitting: false,
+          submitted: false
+        };
+        view = 'main';
+      }, 2000);
+    } catch (err) {
+      console.error('Failed to submit testimonial:', err);
+      alert('Error submitting testimonial. Please try again.');
+      testimonialSubmit.submitting = false;
+    }
+  }
 
   function goBack() {
     if (view === 'audit' && auditStep > 1) {
@@ -375,6 +433,12 @@
         <div class="tool-emoji">🎨</div>
         <h4>Counter Sign</h4>
         <p>Generate counter signs (same as bot)</p>
+      </button>
+
+      <button class="tool-btn" on:click={() => view = 'submit-testimonial'}>
+        <div class="tool-emoji">⭐</div>
+        <h4>Submit Testimonial</h4>
+        <p>Share customer success stories</p>
       </button>
 
     </div>
@@ -721,6 +785,67 @@
         
         <button class="edit-btn" on:click={() => counterSignStep = 2}>
           ✏️ Edit
+        </button>
+      </div>
+    {/if}
+  {/if}
+
+  <!-- Submit Testimonial -->
+  {#if view === 'submit-testimonial'}
+    <button class="back-btn" on:click={goBack}>← Back</button>
+    <h2>⭐ Submit Testimonial</h2>
+    <p class="subtitle">Share a customer success story</p>
+
+    {#if testimonialSubmit.submitted}
+      <div class="success-card">
+        <p>✅ Testimonial submitted!</p>
+        <p>Thank you for sharing. Redirecting...</p>
+      </div>
+    {:else}
+      <div class="form-card">
+        <div class="form-group">
+          <label>Business Name *</label>
+          <input type="text" bind:value={testimonialSubmit.businessName} placeholder="e.g., Main Street Coffee" />
+        </div>
+
+        <div class="form-group">
+          <label>Contact Name *</label>
+          <input type="text" bind:value={testimonialSubmit.contactName} placeholder="Owner/Manager name" />
+        </div>
+
+        <div class="form-group">
+          <label>Email</label>
+          <input type="email" bind:value={testimonialSubmit.email} placeholder="contact@business.com" />
+        </div>
+
+        <div class="form-group">
+          <label>Phone</label>
+          <input type="tel" bind:value={testimonialSubmit.phone} placeholder="(555) 123-4567" />
+        </div>
+
+        <div class="form-group">
+          <label>Business Category</label>
+          <select bind:value={testimonialSubmit.category}>
+            <option value="">Select a category...</option>
+            {#each categories as cat}
+              <option value={cat}>{cat}</option>
+            {/each}
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label>Testimonial/Success Story *</label>
+          <textarea bind:value={testimonialSubmit.testimonialText} placeholder="What results did they see? How did the partnership help? Be specific about ROI, customer impact, etc." rows="6"></textarea>
+          <p class="hint">Example: 'We saw 3x more foot traffic in the first month. Our register tape ads caught every customer coming in. Definitely renewing!'</p>
+        </div>
+
+        <div class="form-group checkbox">
+          <input type="checkbox" bind:checked={testimonialSubmit.permissionGranted} id="permission" />
+          <label for="permission">I have permission to share this testimonial *</label>
+        </div>
+
+        <button class="action-btn" on:click={submitTestimonial} disabled={testimonialSubmit.submitting}>
+          {testimonialSubmit.submitting ? 'Submitting...' : '✅ Submit Testimonial'}
         </button>
       </div>
     {/if}
@@ -1170,6 +1295,51 @@
     border-radius: 8px;
     margin: 15px 0;
     font-size: 14px;
+  }
+
+  .success-card {
+    background: #e8f5e9;
+    border: 1px solid #81c784;
+    color: #2e7d32;
+    padding: 16px;
+    border-radius: 8px;
+    margin: 20px 0;
+    text-align: center;
+  }
+
+  .success-card p {
+    margin: 8px 0;
+    font-size: 14px;
+    font-weight: 600;
+  }
+
+  .form-group.checkbox {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 16px;
+  }
+
+  .form-group.checkbox input[type="checkbox"] {
+    width: auto;
+    padding: 0;
+    margin: 0;
+  }
+
+  .form-group.checkbox label {
+    margin: 0;
+    font-weight: 500;
+  }
+
+  select {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    font-size: 13px;
+    box-sizing: border-box;
+    font-family: inherit;
+    color: #333;
   }
 
   .results-card {
