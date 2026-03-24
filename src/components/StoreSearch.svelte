@@ -127,28 +127,50 @@
     };
   }
 
+  let addedToCartMsg = '';
+
   function handleAddToCart(store, selectedAdType, plan) {
+    const isCoop = coopUnlocked[store.StoreName] || false;
     const base = selectedAdType === 'double' ? store.DoubleAd : store.SingleAd;
-    const pricing = calcPricing(base);
-    const planLabels = {
-      monthly: `$${pricing.monthly}/mo × 12`,
-      threeMonth: `$${pricing.threeMonth} × 3`,
-      sixMonth: `$${pricing.sixMonth} × 6`,
-      pif: `$${pricing.pif} (Paid in Full)`
+    const pricing = calcPricing(base, isCoop);
+    
+    const planNames = {
+      monthly: 'Monthly (12 payments)',
+      threeMonth: '3-Month (10% off)',
+      sixMonth: '6-Month (7.5% off)',
+      pif: 'Paid-in-Full (15% off)'
     };
 
-    addToCart({
-      id: `${store.StoreName}-${selectedAdType}-${plan}`,
-      type: 'store',
-      name: `${store.GroceryChain} - ${store.City}`,
-      storeNumber: store.StoreName,
-      city: store.City,
-      chain: store.GroceryChain,
-      adType: selectedAdType === 'double' ? 'Double Ad' : 'Single Ad',
-      plan: plan,
-      planLabel: planLabels[plan],
-      price: plan === 'pif' ? pricing.pif : plan === 'monthly' ? pricing.monthlyTotal : plan === 'threeMonth' ? pricing.threeMonthTotal : pricing.sixMonthTotal
-    });
+    const priceDisplay = {
+      monthly: `$${pricing.monthly}/mo × 12 = $${pricing.monthlyTotal}`,
+      threeMonth: `$${pricing.threeMonth} × 3 = $${pricing.threeMonthTotal}`,
+      sixMonth: `$${pricing.sixMonth} × 6 = $${pricing.sixMonthTotal}`,
+      pif: `$${pricing.pif}`
+    };
+
+    const item = {
+      id: Date.now(),
+      name: `Register Tape — ${isCoop ? 'Co-Op' : 'Standard'}`,
+      emoji: '🧾',
+      store: `${store.GroceryChain} - ${store.City}`,
+      storeNum: store.StoreName,
+      storeAddress: store.Address || '',
+      storeCycle: store.Cycle || '',
+      plan: `${selectedAdType === 'double' ? 'Double' : 'Single'} Ad — ${planNames[plan]}`,
+      price: priceDisplay[plan],
+      addedAt: new Date().toISOString(),
+    };
+
+    // Save to localStorage (same format as Cart.svelte)
+    try {
+      const cart = JSON.parse(localStorage.getItem('indoormedia_cart') || '[]');
+      cart.push(item);
+      localStorage.setItem('indoormedia_cart', JSON.stringify(cart));
+      addedToCartMsg = `✅ Added ${store.GroceryChain} - ${store.City}`;
+      setTimeout(() => { addedToCartMsg = ''; }, 2500);
+    } catch (err) {
+      console.error('Failed to add to cart:', err);
+    }
   }
 
   onMount(loadStores);
@@ -320,7 +342,7 @@
                   <div class="plan-total">One payment — Save ${pricing.savings}</div>
                 </div>
 
-                <p class="tap-hint">Tap a plan to add to cart</p>
+                <p class="tap-hint">Tap a plan to add to quote</p>
               </div>
             {/if}
           </div>
@@ -328,6 +350,10 @@
       </div>
     {/if}
   </div>
+
+  {#if addedToCartMsg}
+    <div class="cart-toast">{addedToCartMsg}</div>
+  {/if}
 </div>
 
 <style>
@@ -745,6 +771,27 @@
 
   .add-btn:hover {
     background: #990000;
+  }
+
+  .cart-toast {
+    position: fixed;
+    bottom: 80px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #2e7d32;
+    color: white;
+    padding: 12px 24px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+    z-index: 1000;
+    animation: slideUp 0.3s ease-out;
+  }
+
+  @keyframes slideUp {
+    from { transform: translateX(-50%) translateY(20px); opacity: 0; }
+    to { transform: translateX(-50%) translateY(0); opacity: 1; }
   }
 
   @media (max-width: 640px) {
