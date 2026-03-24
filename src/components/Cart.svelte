@@ -12,18 +12,18 @@
     { id: 'tape_coop', name: 'Register Tape — Co-Op', emoji: '🧾', needsStore: true },
     { id: 'tape_exclusive', name: 'Register Tape — Exclusive', emoji: '🧾', needsStore: true },
     { id: 'tape_contractor', name: 'Register Tape — Contractors', emoji: '🧾', needsStore: true },
-    { id: 'cart_20_single', name: 'Cartvertising — 20% Front OR Directory', emoji: '🛒', price: '$2,995', needsStore: false },
-    { id: 'cart_40_both', name: 'Cartvertising — 40% (20%+20%)', emoji: '🛒', price: '$4,795', needsStore: false },
-    { id: 'cart_60_both', name: 'Cartvertising — 60% (40%+20%)', emoji: '🛒', price: '$5,995', needsStore: false },
-    { id: 'cart_80_both', name: 'Cartvertising — 80% (40%+40%)', emoji: '🛒', price: '$7,395', needsStore: false },
-    { id: 'cart_100_both', name: 'Cartvertising — 100% (60%+40%)', emoji: '🛒', price: '$8,795', needsStore: false },
-    { id: 'cart_200_both', name: 'Cartvertising — 200% (100% Both)', emoji: '🛒', price: '$12,995', needsStore: false },
-    { id: 'cart_header_50', name: 'Cartvertising — Header 50%', emoji: '🛒', price: '$2,995', needsStore: false },
-    { id: 'cart_header_100', name: 'Cartvertising — Header 100%', emoji: '🛒', price: '$4,795', needsStore: false },
-    { id: 'digitalboost', name: 'DigitalBoost', emoji: '🚀', price: '$3,600/pin', needsStore: false, hasPins: true },
-    { id: 'findlocal', name: 'FindLocal', emoji: '📍', price: '$695/location', needsStore: false },
-    { id: 'reviewboost', name: 'ReviewBoost', emoji: '⭐', price: '$695', needsStore: false },
-    { id: 'loyaltyboost', name: 'LoyaltyBoost', emoji: '💎', price: '$3,600/year', needsStore: false },
+    { id: 'cart_20_single', name: 'Cartvertising — 20% Front OR Directory', emoji: '🛒', price: '$2,995', needsStore: true, skipPlan: true },
+    { id: 'cart_40_both', name: 'Cartvertising — 40% (20%+20%)', emoji: '🛒', price: '$4,795', needsStore: true, skipPlan: true },
+    { id: 'cart_60_both', name: 'Cartvertising — 60% (40%+20%)', emoji: '🛒', price: '$5,995', needsStore: true, skipPlan: true },
+    { id: 'cart_80_both', name: 'Cartvertising — 80% (40%+40%)', emoji: '🛒', price: '$7,395', needsStore: true, skipPlan: true },
+    { id: 'cart_100_both', name: 'Cartvertising — 100% (60%+40%)', emoji: '🛒', price: '$8,795', needsStore: true, skipPlan: true },
+    { id: 'cart_200_both', name: 'Cartvertising — 200% (100% Both)', emoji: '🛒', price: '$12,995', needsStore: true, skipPlan: true },
+    { id: 'cart_header_50', name: 'Cartvertising — Header 50%', emoji: '🛒', price: '$2,995', needsStore: true, skipPlan: true },
+    { id: 'cart_header_100', name: 'Cartvertising — Header 100%', emoji: '🛒', price: '$4,795', needsStore: true, skipPlan: true },
+    { id: 'digitalboost', name: 'DigitalBoost', emoji: '🚀', price: '$3,600/pin', needsStore: true, skipPlan: true, hasPins: true, hasMap: true },
+    { id: 'findlocal', name: 'FindLocal', emoji: '📍', price: '$695/location', needsStore: true, skipPlan: true, hasMap: true },
+    { id: 'reviewboost', name: 'ReviewBoost', emoji: '⭐', price: '$695', needsStore: true, skipPlan: true },
+    { id: 'loyaltyboost', name: 'LoyaltyBoost', emoji: '💎', price: '$3,600/year', needsStore: true, skipPlan: true },
   ];
 
   const PAYMENT_PLANS = {
@@ -93,6 +93,8 @@
     newItem.emoji = type.emoji;
     newItem.price = type.price || '';
     newItem.hasPins = type.hasPins || false;
+    newItem.skipPlan = type.skipPlan || false;
+    newItem.hasMap = type.hasMap || false;
 
     if (type.needsStore) {
       addStep = 'store';
@@ -106,8 +108,32 @@
   function selectStore(store) {
     newItem.store = store;
     newItem.storeNum = store.StoreName;
+    newItem.storeAddress = store.Address || '';
+    newItem.storeCycle = store.Cycle || '?';
     newItem.storeName = store.GroceryChain + ' - ' + store.City;
-    addStep = 'plan';
+
+    if (newItem.hasPins) {
+      addStep = 'pins';
+    } else if (newItem.skipPlan) {
+      addItem();
+    } else {
+      addStep = 'plan';
+    }
+  }
+
+  function useMapArea() {
+    // Open Google Maps for area selection, then continue without a specific store
+    newItem.store = null;
+    newItem.storeNum = 'MAP AREA';
+    newItem.storeAddress = 'Custom map area';
+    newItem.storeCycle = '-';
+    newItem.storeName = 'Custom Area (see map)';
+    
+    if (newItem.hasPins) {
+      addStep = 'pins';
+    } else {
+      addItem();
+    }
   }
 
   function selectPlan(plan) {
@@ -124,6 +150,8 @@
       emoji: newItem.emoji,
       store: newItem.storeName || '',
       storeNum: newItem.storeNum || '',
+      storeAddress: newItem.storeAddress || '',
+      storeCycle: newItem.storeCycle || '',
       plan: newItem.plan || '',
       price: newItem.price,
       pins: newItem.hasPins ? newItem.pins : null,
@@ -147,9 +175,9 @@
   function exportCSV() {
     if (cartItems.length === 0) return;
     const rows = [
-      ['Product', 'Store', 'Store #', 'Plan', 'Price', 'Date'].join(','),
+      ['Product', 'Store', 'Store #', 'Address', 'Cycle', 'Plan', 'Price', 'Date'].join(','),
       ...cartItems.map(item =>
-        [item.name, item.store || '', item.storeNum || '', item.plan || '', item.price, item.addedAt?.split('T')[0] || '']
+        [item.name, item.store || '', item.storeNum || '', item.storeAddress || '', item.storeCycle || '', item.plan || '', item.price, item.addedAt?.split('T')[0] || '']
           .map(c => `"${c}"`).join(',')
       )
     ].join('\n');
@@ -188,13 +216,22 @@
 
       {#if addStep === 'store'}
         <h3>Select Store</h3>
-        <input type="text" placeholder="Search store..." bind:value={storeSearch} class="search-input" />
+        {#if newItem.hasMap}
+          <button class="map-btn" on:click={useMapArea}>🗺️ Choose Area on Map Instead</button>
+        {/if}
+        <input type="text" placeholder="Search store by name, city, or number..." bind:value={storeSearch} class="search-input" />
         <div class="store-list">
           {#each filteredStores as store}
             <button class="store-btn" on:click={() => selectStore(store)}>
-              <span class="store-name">{store.GroceryChain} - {store.City}</span>
-              <span class="store-num">{store.StoreName}</span>
-              <span class="store-price">Single: ${store.SingleAd?.toLocaleString()} | Double: ${store.DoubleAd?.toLocaleString()}</span>
+              <div class="store-top">
+                <span class="store-name">{store.GroceryChain} - {store.City}, {store.State}</span>
+                <span class="store-cycle">Cycle {store.Cycle || '?'}</span>
+              </div>
+              <span class="store-addr">{store.Address || ''}</span>
+              <div class="store-bottom">
+                <span class="store-num">{store.StoreName}</span>
+                <span class="store-price">Single: ${store.SingleAd?.toLocaleString()} | Double: ${store.DoubleAd?.toLocaleString()}</span>
+              </div>
             </button>
           {/each}
         </div>
@@ -237,7 +274,8 @@
         <div class="quote-item">
           <div class="item-info">
             <h4>{item.emoji || ''} {item.name}</h4>
-            {#if item.store}<p class="item-store">{item.store} ({item.storeNum})</p>{/if}
+            {#if item.store}<p class="item-store">{item.store} ({item.storeNum}){#if item.storeCycle} — Cycle {item.storeCycle}{/if}</p>{/if}
+            {#if item.storeAddress}<p class="item-addr">{item.storeAddress}</p>{/if}
             {#if item.plan}<p class="item-plan">{item.plan}</p>{/if}
             <p class="item-price">{item.price}</p>
           </div>
@@ -283,9 +321,18 @@
   .store-list { display: flex; flex-direction: column; gap: 8px; max-height: 300px; overflow-y: auto; }
   .store-btn { display: flex; flex-direction: column; padding: 10px; background: white; border: 1px solid #e0e0e0; border-radius: 8px; cursor: pointer; text-align: left; }
   .store-btn:hover { border-color: #CC0000; }
+  .store-top { display: flex; justify-content: space-between; align-items: center; }
   .store-name { font-weight: 600; font-size: 14px; color: #333; }
+  .store-cycle { font-size: 11px; font-weight: 600; color: #CC0000; background: #fff5f5; padding: 2px 8px; border-radius: 4px; }
+  .store-addr { font-size: 12px; color: #888; margin-top: 2px; }
+  .store-bottom { display: flex; justify-content: space-between; align-items: center; margin-top: 4px; }
   .store-num { font-size: 12px; color: #666; }
-  .store-price { font-size: 11px; color: #CC0000; font-weight: 600; margin-top: 4px; }
+  .store-price { font-size: 11px; color: #CC0000; font-weight: 600; }
+
+  .map-btn { width: 100%; padding: 14px; background: #1565c0; color: white; border: none; border-radius: 8px; font-size: 14px; font-weight: 600; cursor: pointer; margin-bottom: 12px; }
+  .map-btn:hover { background: #0d47a1; }
+
+  .item-addr { margin: 0 0 2px; font-size: 11px; color: #999; }
 
   .plan-store { margin: 0 0 12px; font-size: 13px; color: #666; }
   .plan-list { display: flex; flex-direction: column; gap: 8px; }
