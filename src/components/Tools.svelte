@@ -13,14 +13,12 @@
   let auditDate = new Date().toISOString().split('T')[0];
   
   // Counter sign state
-  let counterSignStep = 1; // 1: select store, 2: business info, 3: confirm
-  let selectedCounterStore = null;
+  let counterSignStep = 1; // 1: chain, 2: business card, 3: landing page, 4: ad proof, 5: confirm
+  let selectedChainCode = null;
   let counterData = {
-    business_name: '',
-    business_card_text: '',
-    contact_phone: '',
-    offer_text: '',
-    cta_text: ''
+    business_card_image: null,
+    landing_page_url: '',
+    ad_proof_image: null
   };
 
   onMount(async () => {
@@ -58,18 +56,36 @@
     view = 'audit';
   }
 
-  function selectCounterStore(store) {
-    selectedCounterStore = store;
+  // Chain codes from store templates
+  const CHAIN_CODES = [
+    'ALB', 'ACM', 'AND', 'ARL', 'BAK', 'BGE', 'BGY', 'BLO', 'BUT',
+    'CAR', 'CMI', 'COP', 'CRL', 'CSV', 'CTR', 'CUB', 'DAN', 'DAW',
+    'DFM', 'DIE', 'DIL', 'DIS', 'FAM', 'FCO', 'FDC', 'FDP', 'FDT',
+    'FES', 'FFL', 'FGT', 'FIE', 'FME', 'FMK', 'FMX', 'FRY', 'FYM',
+    'FoodsCo', 'GDI', 'GER', 'GIA', 'GIE', 'GMF', 'GNF', 'GTC', 'HAG',
+    'HAR', 'HEB', 'HIT', 'HNB', 'HRV', 'HYV', 'IGA', 'JAY', 'JOE',
+    'JWL', 'KKG', 'KRO', 'KSP', 'LAF', 'LIN', 'LKY', 'LOW', 'LWS',
+    'MAC', 'MAR', 'MIT', 'MKF', 'MKT32', 'MKT', 'MRN', 'MST', 'OAK',
+    'OWK', 'PAK', 'PAV', 'PCH', 'PDF', 'PET', 'PIG', 'PLS', 'PNS',
+    'PRC', 'QFC', 'RAL', 'RAM', 'RAN', 'RCH', 'REA', 'RFP', 'RIC',
+    'RID', 'ROS', 'ROU', 'RSM', 'RUL', 'SAF', 'SAL', 'SCH', 'SCO',
+    'SCT', 'Sendiks', 'SHM', 'SHW', 'SMI', 'SNS', 'SON', 'SPR', 'SRI',
+    'STB', 'STM', 'SVM', 'SVT', 'TOM', 'TOP', 'TWY', 'UNI', 'VAL',
+    'VGS', 'VON', 'WDM', 'WHM', 'WIN', 'YOK'
+  ];
+
+  function selectChain(code) {
+    selectedChainCode = code;
     counterSignStep = 2;
   }
 
   function submitCounterSign() {
-    // This would call the counter sign generator API with store template
-    console.log('Generating counter sign:', { store: selectedCounterStore?.StoreName, ...counterData });
+    // Call counter sign generator with images + landing page
+    console.log('Generating counter sign:', { chain: selectedChainCode, ...counterData });
     alert('✅ Counter sign generated and ready to download!');
     counterSignStep = 1;
-    selectedCounterStore = null;
-    counterData = { business_name: '', business_card_text: '', contact_phone: '', offer_text: '', cta_text: '' };
+    selectedChainCode = null;
+    counterData = { business_card_image: null, landing_page_url: '', ad_proof_image: null };
     view = 'main';
   }
 </script>
@@ -251,96 +267,99 @@
     
     {#if counterSignStep === 1}
       <h2>🎨 Counter Sign Generator</h2>
-      <p class="subtitle">Create custom counter signs</p>
+      <p class="subtitle">Select store chain template</p>
 
-      <div class="search-box">
-        <input
-          type="text"
-          placeholder="Select store..."
-          bind:value={searchQuery}
-        />
-      </div>
-
-      <div class="store-list">
-        {#each filteredStores.slice(0, 15) as store}
-          <button class="store-select-btn" on:click={() => selectCounterStore(store)}>
-            <div>
-              <h4>{store.GroceryChain} - {store.City}</h4>
-              <p class="store-num">{store.StoreName}</p>
-            </div>
-            <div class="arrow">→</div>
+      <div class="chain-grid">
+        {#each CHAIN_CODES as code}
+          <button class="chain-btn" on:click={() => selectChain(code)}>
+            {code}
           </button>
         {/each}
       </div>
     {/if}
 
     {#if counterSignStep === 2}
-      <h2>Business Information</h2>
-      <p class="subtitle">{selectedCounterStore?.GroceryChain} - {selectedCounterStore?.City}</p>
+      <h2>1. Business Card</h2>
+      <p class="subtitle">{selectedChainCode}</p>
 
-      <div class="form-card">
-        <div class="form-group">
-          <label>Business Name *</label>
-          <input type="text" bind:value={counterData.business_name} placeholder="e.g., Acme Salon" />
+      <div class="upload-card">
+        <div class="upload-box">
+          <p>📸 Upload your personal business card image</p>
+          <input type="file" accept="image/*" on:change={(e) => counterData.business_card_image = e.target.files?.[0]} />
+          {#if counterData.business_card_image}
+            <p class="upload-ok">✅ {counterData.business_card_image.name}</p>
+          {/if}
         </div>
 
-        <div class="form-group">
-          <label>Contact Phone</label>
-          <input type="tel" bind:value={counterData.contact_phone} placeholder="(555) 123-4567" />
-        </div>
-
-        <div class="form-group">
-          <label>Business Card Text</label>
-          <input type="text" bind:value={counterData.business_card_text} placeholder="e.g., Your tagline here" />
-        </div>
-
-        <div class="form-group">
-          <label>Offer Text *</label>
-          <textarea bind:value={counterData.offer_text} placeholder="e.g., Save 20% on your first visit" rows="3" />
-        </div>
-
-        <div class="form-group">
-          <label>Call-to-Action Text</label>
-          <input type="text" bind:value={counterData.cta_text} placeholder="e.g., CALL NOW, LEARN MORE" />
-        </div>
-
-        <button class="next-btn" on:click={() => counterSignStep = 3} disabled={!counterData.business_name || !counterData.offer_text}>
-          Review & Generate →
+        <button class="next-btn" on:click={() => counterSignStep = 3} disabled={!counterData.business_card_image}>
+          Next →
         </button>
       </div>
     {/if}
 
     {#if counterSignStep === 3}
-      <h2>Review Counter Sign</h2>
-      <p class="subtitle">{selectedCounterStore?.GroceryChain} - {selectedCounterStore?.City}</p>
+      <h2>2. Landing Page (Optional)</h2>
+      <p class="subtitle">{selectedChainCode}</p>
+
+      <div class="form-card">
+        <div class="form-group">
+          <label>Your Personal Landing Page URL</label>
+          <input type="url" bind:value={counterData.landing_page_url} placeholder="https://www.indoormedia.com/tape-sales/your-name/" />
+        </div>
+
+        <p class="info-text">💡 Leave blank if you don't have one</p>
+
+        <button class="next-btn" on:click={() => counterSignStep = 4}>
+          Next →
+        </button>
+      </div>
+    {/if}
+
+    {#if counterSignStep === 4}
+      <h2>3. Ad Proof</h2>
+      <p class="subtitle">{selectedChainCode}</p>
+
+      <div class="upload-card">
+        <div class="upload-box">
+          <p>📸 Upload the advertiser's ad proof/proof of concept image</p>
+          <input type="file" accept="image/*" on:change={(e) => counterData.ad_proof_image = e.target.files?.[0]} />
+          {#if counterData.ad_proof_image}
+            <p class="upload-ok">✅ {counterData.ad_proof_image.name}</p>
+          {/if}
+        </div>
+
+        <button class="next-btn" on:click={() => counterSignStep = 5} disabled={!counterData.ad_proof_image}>
+          Review & Generate →
+        </button>
+      </div>
+    {/if}
+
+    {#if counterSignStep === 5}
+      <h2>Review & Generate</h2>
+      <p class="subtitle">{selectedChainCode}</p>
 
       <div class="review-card">
         <div class="review-section">
-          <h4>Business Name</h4>
-          <p>{counterData.business_name}</p>
+          <h4>Business Card</h4>
+          <p>✅ {counterData.business_card_image?.name}</p>
         </div>
 
         <div class="review-section">
-          <h4>Contact</h4>
-          <p>{counterData.contact_phone || 'Not provided'}</p>
+          <h4>Landing Page</h4>
+          <p>{counterData.landing_page_url || '(Optional - not provided)'}</p>
         </div>
 
         <div class="review-section">
-          <h4>Offer</h4>
-          <p>{counterData.offer_text}</p>
-        </div>
-
-        <div class="review-section">
-          <h4>Call-to-Action</h4>
-          <p>{counterData.cta_text || 'LEARN MORE'}</p>
+          <h4>Ad Proof</h4>
+          <p>✅ {counterData.ad_proof_image?.name}</p>
         </div>
 
         <button class="action-btn" on:click={submitCounterSign}>
-          ✅ Generate PDF
+          ✅ Generate Counter Sign PDF
         </button>
         
         <button class="edit-btn" on:click={() => counterSignStep = 2}>
-          ✏️ Edit Info
+          ✏️ Edit
         </button>
       </div>
     {/if}
@@ -617,5 +636,69 @@
     color: #555;
     font-size: 14px;
     line-height: 1.4;
+  }
+
+  .chain-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+    gap: 10px;
+    margin-top: 15px;
+  }
+
+  .chain-btn {
+    background: white;
+    border: 2px solid #ddd;
+    border-radius: 8px;
+    padding: 12px 8px;
+    font-weight: 600;
+    font-size: 13px;
+    cursor: pointer;
+    transition: all 0.2s;
+    color: #333;
+  }
+
+  .chain-btn:hover {
+    border-color: #CC0000;
+    background: #fff5f5;
+  }
+
+  .upload-card {
+    background: #f9f9f9;
+    border-radius: 12px;
+    padding: 16px;
+    margin-top: 15px;
+  }
+
+  .upload-box {
+    background: white;
+    border: 2px dashed #ddd;
+    border-radius: 8px;
+    padding: 24px;
+    text-align: center;
+    margin-bottom: 16px;
+  }
+
+  .upload-box p {
+    margin: 0 0 12px;
+    color: #666;
+    font-size: 14px;
+  }
+
+  .upload-box input[type="file"] {
+    display: block;
+    margin: 0 auto;
+    cursor: pointer;
+  }
+
+  .upload-ok {
+    color: #CC0000;
+    font-weight: 600;
+    margin-top: 12px !important;
+  }
+
+  .info-text {
+    margin: 12px 0 0;
+    color: #999;
+    font-size: 12px;
   }
 </style>
