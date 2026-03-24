@@ -102,7 +102,7 @@
         formData.append('landing_page_url', counterData.landing_page_url);
       }
 
-      const response = await fetch('http://localhost:5000/generate', {
+      const response = await fetch('http://localhost:3333/generate', {
         method: 'POST',
         body: formData
       });
