@@ -1,7 +1,8 @@
 <script>
-  let view = 'main'; // main, product-detail, tier-detail
+  let view = 'main'; // main, product-detail, tier-detail, digital-menu, digital-detail
   let selectedProduct = null;
   let selectedTier = null;
+  let selectedDigitalProduct = null;
 
   const PRODUCTS = {
     register_tape: {
@@ -57,19 +58,75 @@
         'header_100': { name: 'Header 100% (Every Cart)', price: '$4,795' }
       }
     },
-    digitalboost: {
-      name: 'DigitalBoost — 1 Pin',
-      emoji: '🚀',
-      desc: '240,000 monthly impressions on digital displays',
-      pricing: {
-        monthly: '$3,600/month'
-      },
-      impressions: '240,000'
+    digital: {
+      name: 'Digital Products',
+      emoji: '📱',
+      desc: 'Online advertising & customer engagement solutions',
+      subproducts: {
+        digitalboost: {
+          name: 'DigitalBoost — 1 Pin',
+          emoji: '🚀',
+          desc: '240,000 monthly impressions on digital displays',
+          pricing: '$3,600/month',
+          impressions: '240,000'
+        },
+        findlocal: {
+          name: 'FindLocal',
+          emoji: '📍',
+          desc: 'Local SEO & listings management across 50+ directories',
+          pricing: '$695/location',
+          googleProfileAssistance: '+$195 if Google profile assistance needed',
+          features: [
+            '50+ business listing submissions',
+            'NAP optimization (name, address, phone)',
+            'Hours, photos, categories management',
+            'Automated monthly progress reports',
+            'Google Business Profile sync'
+          ]
+        },
+        reviewboost: {
+          name: 'ReviewBoost',
+          emoji: '⭐',
+          desc: 'Automated review request campaign via Email & SMS',
+          pricing: '$695 for 4-month campaign',
+          contacts: 'Up to 4,000 contacts',
+          additional: '+$495 per additional 4-month campaign',
+          features: [
+            'ReviewKit included',
+            'Automated 4-month campaign',
+            'Email & SMS review requests',
+            'Up to 4,000 contacts per campaign'
+          ]
+        },
+        loyaltyboost: {
+          name: 'LoyaltyBoost',
+          emoji: '💎',
+          desc: 'Annual loyalty/rewards campaign per location',
+          pricing: '$3,600/year',
+          production: '$495 production fee',
+          paymentOptions: [
+            'Paid-in-Full: 5% discount on package + production',
+            '6-Month: 6 equal payments',
+            '12-Month: 12 equal payments'
+          ],
+          features: [
+            'Annual loyalty campaign',
+            'Rewards program setup',
+            'Customer retention focus'
+          ]
+        }
+      }
     }
   };
 
   function goBack() {
-    if (view === 'tier-detail') {
+    if (view === 'digital-detail') {
+      view = 'digital-menu';
+      selectedDigitalProduct = null;
+    } else if (view === 'digital-menu') {
+      view = 'main';
+      selectedProduct = null;
+    } else if (view === 'tier-detail') {
       view = 'product-detail';
       selectedTier = null;
     } else if (view === 'product-detail') {
@@ -80,12 +137,21 @@
 
   function selectProduct(key) {
     selectedProduct = key;
-    view = 'product-detail';
+    if (key === 'digital') {
+      view = 'digital-menu';
+    } else {
+      view = 'product-detail';
+    }
   }
 
   function selectTier(tierKey) {
     selectedTier = tierKey;
     view = 'tier-detail';
+  }
+
+  function selectDigitalProduct(key) {
+    selectedDigitalProduct = key;
+    view = 'digital-detail';
   }
 </script>
 
@@ -173,8 +239,26 @@
     <button class="action-btn">📧 Request Quote</button>
   {/if}
 
+  <!-- Digital Products Menu -->
+  {#if view === 'digital-menu'}
+    <button class="back-btn" on:click={goBack}>← Back</button>
+    <h2>📱 Digital Products</h2>
+    <p class="detail-subtitle">Online advertising & customer engagement solutions</p>
+
+    <div class="digital-grid">
+      {#each Object.entries(PRODUCTS.digital.subproducts) as [key, product]}
+        <button class="digital-card" on:click={() => selectDigitalProduct(key)}>
+          <div class="digital-emoji">{product.emoji}</div>
+          <h4>{product.name}</h4>
+          <p class="digital-desc">{product.desc}</p>
+          <p class="digital-price">{product.pricing}</p>
+        </button>
+      {/each}
+    </div>
+  {/if}
+
   <!-- DigitalBoost Detail -->
-  {#if view === 'product-detail' && selectedProduct === 'digitalboost'}
+  {#if view === 'digital-detail' && selectedDigitalProduct === 'digitalboost'}
     <button class="back-btn" on:click={goBack}>← Back</button>
     <h2>🚀 DigitalBoost — 1 Pin</h2>
     <p class="detail-subtitle">240,000 monthly impressions on digital displays</p>
@@ -191,6 +275,96 @@
       </div>
 
       <p class="note">💡 Digital displays in high-traffic checkout zones. Premium placement guaranteed.</p>
+      <button class="action-btn">📧 Request Quote</button>
+    </div>
+  {/if}
+
+  <!-- FindLocal Detail -->
+  {#if view === 'digital-detail' && selectedDigitalProduct === 'findlocal'}
+    <button class="back-btn" on:click={goBack}>← Back</button>
+    <h2>📍 FindLocal</h2>
+    <p class="detail-subtitle">Local SEO & listings management across 50+ directories</p>
+
+    <div class="detail-card">
+      <div class="detail-section">
+        <h4>Pricing</h4>
+        <p class="detail-value">$695/location</p>
+        <p class="detail-note">+$195 if Google profile assistance needed</p>
+      </div>
+
+      <div class="detail-section">
+        <h4>Features</h4>
+        <ul class="features-list">
+          {#each PRODUCTS.digital.subproducts.findlocal.features as feature}
+            <li>✓ {feature}</li>
+          {/each}
+        </ul>
+      </div>
+
+      <p class="note">💡 Requires physical location & Google Business Profile</p>
+      <button class="action-btn">📧 Request Quote</button>
+    </div>
+  {/if}
+
+  <!-- ReviewBoost Detail -->
+  {#if view === 'digital-detail' && selectedDigitalProduct === 'reviewboost'}
+    <button class="back-btn" on:click={goBack}>← Back</button>
+    <h2>⭐ ReviewBoost</h2>
+    <p class="detail-subtitle">Automated review request campaign via Email & SMS</p>
+
+    <div class="detail-card">
+      <div class="detail-section">
+        <h4>Base Campaign</h4>
+        <p class="detail-value">$695</p>
+        <p class="detail-note">4-month campaign, up to 4,000 contacts</p>
+      </div>
+
+      <div class="detail-section">
+        <h4>Additional Campaigns</h4>
+        <p class="detail-value">$495</p>
+        <p class="detail-note">Per additional 4-month cycle (up to 4,000 extra contacts)</p>
+      </div>
+
+      <div class="detail-section">
+        <h4>Includes</h4>
+        <ul class="features-list">
+          {#each PRODUCTS.digital.subproducts.reviewboost.features as feature}
+            <li>✓ {feature}</li>
+          {/each}
+        </ul>
+      </div>
+
+      <button class="action-btn">📧 Request Quote</button>
+    </div>
+  {/if}
+
+  <!-- LoyaltyBoost Detail -->
+  {#if view === 'digital-detail' && selectedDigitalProduct === 'loyaltyboost'}
+    <button class="back-btn" on:click={goBack}>← Back</button>
+    <h2>💎 LoyaltyBoost</h2>
+    <p class="detail-subtitle">Annual loyalty/rewards campaign per location</p>
+
+    <div class="detail-card">
+      <div class="detail-section">
+        <h4>Annual Campaign</h4>
+        <p class="detail-value">$3,600</p>
+      </div>
+
+      <div class="detail-section">
+        <h4>Production Fee</h4>
+        <p class="detail-value">$495</p>
+        <p class="detail-note">-$125 if renewal with testimonial letter</p>
+      </div>
+
+      <div class="detail-section">
+        <h4>Payment Options</h4>
+        <ul class="payment-list">
+          {#each PRODUCTS.digital.subproducts.loyaltyboost.paymentOptions as option}
+            <li>• {option}</li>
+          {/each}
+        </ul>
+      </div>
+
       <button class="action-btn">📧 Request Quote</button>
     </div>
   {/if}
@@ -460,5 +634,90 @@
 
   .action-btn:hover {
     background: #990000;
+  }
+
+  .digital-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-top: 15px;
+  }
+
+  .digital-card {
+    background: white;
+    border: 1px solid #eee;
+    border-radius: 10px;
+    padding: 14px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .digital-card:hover {
+    border-color: #CC0000;
+    box-shadow: 0 4px 12px rgba(204, 0, 0, 0.1);
+  }
+
+  .digital-emoji {
+    font-size: 28px;
+    margin-bottom: 8px;
+  }
+
+  .digital-card h4 {
+    margin: 0 0 6px;
+    color: #333;
+    font-size: 14px;
+    font-weight: 600;
+  }
+
+  .digital-desc {
+    margin: 0 0 8px;
+    color: #666;
+    font-size: 11px;
+    line-height: 1.3;
+  }
+
+  .digital-price {
+    margin: 0;
+    color: #CC0000;
+    font-weight: 700;
+    font-size: 13px;
+  }
+
+  .detail-note {
+    margin: 4px 0 0;
+    color: #666;
+    font-size: 12px;
+  }
+
+  .features-list {
+    margin: 0;
+    padding-left: 0;
+    list-style: none;
+  }
+
+  .features-list li {
+    padding: 6px 0;
+    color: #555;
+    font-size: 13px;
+    text-align: left;
+  }
+
+  .payment-list {
+    margin: 0;
+    padding-left: 16px;
+    list-style: none;
+    color: #555;
+    font-size: 13px;
+  }
+
+  .payment-list li {
+    padding: 6px 0;
+  }
+
+  @media (max-width: 600px) {
+    .digital-grid {
+      grid-template-columns: 1fr;
+    }
   }
 </style>
