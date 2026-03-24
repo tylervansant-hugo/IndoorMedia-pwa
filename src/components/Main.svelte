@@ -221,12 +221,14 @@
   }
 
   .header-logo-img {
-    width: 120px;
+    width: 140px;
     height: auto;
     object-fit: contain;
     display: block;
     margin: 0 auto;
-    mix-blend-mode: multiply;
+    border-radius: 12px;
+    background: white;
+    padding: 8px;
   }
 
   .header-bottom {
