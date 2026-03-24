@@ -4,9 +4,8 @@
   import { get } from 'svelte/store';
   import StoreSearch from './StoreSearch.svelte';
   import ProspectSearch from './ProspectSearch.svelte';
-  import Inventory from './Inventory.svelte';
+  import Tools from './Tools.svelte';
   import Cart from './Cart.svelte';
-  import CounterSignGenerator from './CounterSignGenerator.svelte';
   import Products from './Products.svelte';
 
   let currentTab = 'dashboard';
@@ -77,10 +76,10 @@
     </button>
     <button 
       class="tab" 
-      class:active={currentTab === 'inventory'}
-      on:click={() => currentTab = 'inventory'}
+      class:active={currentTab === 'tools'}
+      on:click={() => currentTab = 'tools'}
     >
-      📦 Inventory
+      🛠️ Tools
     </button>
     <button 
       class="tab" 
@@ -144,9 +143,9 @@
               <span class="action-icon">🏪</span>
               <span>Search Stores</span>
             </button>
-            <button class="action-btn" on:click={() => currentTab = 'inventory'}>
-              <span class="action-icon">📦</span>
-              <span>Check Inventory</span>
+            <button class="action-btn" on:click={() => currentTab = 'tools'}>
+              <span class="action-icon">🛠️</span>
+              <span>Tools & Audit</span>
             </button>
             <button class="action-btn" on:click={() => currentTab = 'cart'}>
               <span class="action-icon">🛒</span>
@@ -159,8 +158,8 @@
       <ProspectSearch />
     {:else if currentTab === 'stores'}
       <StoreSearch />
-    {:else if currentTab === 'inventory'}
-      <Inventory />
+    {:else if currentTab === 'tools'}
+      <Tools />
     {:else if currentTab === 'cart'}
       <Cart />
     {:else if currentTab === 'products'}
