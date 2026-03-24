@@ -33,7 +33,11 @@
     ad_proof_image: null
   };
   let generating = false;
-  const COUNTER_SIGN_API = 'https://likewise-cottage-announcement-apps.trycloudflare.com';
+  // Use localhost for dev, production endpoint for live
+  const isDev = window.location.hostname === 'localhost';
+  const COUNTER_SIGN_API = isDev 
+    ? 'http://localhost:5000'
+    : 'https://likewise-cottage-announcement-apps.trycloudflare.com';
 
   onMount(async () => {
     try {
@@ -631,6 +635,14 @@
     {#if counterSignStep === 5}
       <h2>Review & Generate</h2>
       <p class="subtitle">{selectedChainCode}</p>
+
+      {#if !isDev}
+        <div class="info-card" style="background: #fff3cd; border-color: #ffc107; color: #856404; margin-bottom: 16px;">
+          <p style="margin: 0; font-size: 13px;">
+            ⚠️ Counter Sign API is currently unavailable. Please try again in a moment or contact support.
+          </p>
+        </div>
+      {/if}
 
       <div class="review-card">
         <div class="review-section">
