@@ -314,7 +314,10 @@
             <p class="address">{store.City}, {store.State}</p>
             <p class="distance">{store.distance.toFixed(1)} miles away</p>
           </div>
-          <div class="store-num">{store.StoreName}</div>
+          <div class="store-right">
+            <div class="store-num">{store.StoreName}</div>
+            <div class="store-cycle">Cycle {store.Cycle || '?'}</div>
+          </div>
         </button>
       {/each}
     </div>
@@ -500,7 +503,9 @@
   .store-info h4 { margin: 0 0 6px 0; color: var(--text-primary); font-weight: 600; font-size: 16px; }
   .address { margin: 4px 0; font-size: 13px; color: var(--text-secondary); }
   .distance { margin: 6px 0 0 0; font-size: 12px; color: #CC0000; font-weight: 600; }
+  .store-right { display: flex; flex-direction: column; align-items: flex-end; gap: 6px; }
   .store-num { background: rgba(204, 0, 0, 0.1); padding: 6px 10px; border-radius: 6px; font-weight: 700; font-size: 12px; color: #CC0000; }
+  .store-cycle { font-size: 11px; font-weight: 600; color: #666; }
 
   .category-grid, .subcat-grid {
     display: grid;
