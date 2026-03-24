@@ -13,14 +13,14 @@
   let auditDate = new Date().toISOString().split('T')[0];
   
   // Counter sign state
-  let counterSignStep = 1; // 1: select, 2: customer, 3: offer, 4: design
+  let counterSignStep = 1; // 1: select store, 2: business info, 3: confirm
   let selectedCounterStore = null;
   let counterData = {
     business_name: '',
-    offer_text: '',
+    business_card_text: '',
     contact_phone: '',
-    cta_button: 'LEARN MORE',
-    design_template: 'modern' // modern, classic, minimalist
+    offer_text: '',
+    cta_text: ''
   };
 
   onMount(async () => {
@@ -64,10 +64,13 @@
   }
 
   function submitCounterSign() {
-    // In real app, this would generate PDF
-    console.log('Counter sign data:', { store: selectedCounterStore, ...counterData });
-    alert('✅ Counter sign generated! Ready to download.');
-    goBack();
+    // This would call the counter sign generator API with store template
+    console.log('Generating counter sign:', { store: selectedCounterStore?.StoreName, ...counterData });
+    alert('✅ Counter sign generated and ready to download!');
+    counterSignStep = 1;
+    selectedCounterStore = null;
+    counterData = { business_name: '', business_card_text: '', contact_phone: '', offer_text: '', cta_text: '' };
+    view = 'main';
   }
 </script>
 
@@ -272,7 +275,7 @@
     {/if}
 
     {#if counterSignStep === 2}
-      <h2>Customer Info</h2>
+      <h2>Business Information</h2>
       <p class="subtitle">{selectedCounterStore?.GroceryChain} - {selectedCounterStore?.City}</p>
 
       <div class="form-card">
@@ -286,62 +289,60 @@
           <input type="tel" bind:value={counterData.contact_phone} placeholder="(555) 123-4567" />
         </div>
 
-        <button class="next-btn" on:click={() => counterSignStep = 3} disabled={!counterData.business_name}>
-          Next: Offer Details →
+        <div class="form-group">
+          <label>Business Card Text</label>
+          <input type="text" bind:value={counterData.business_card_text} placeholder="e.g., Your tagline here" />
+        </div>
+
+        <div class="form-group">
+          <label>Offer Text *</label>
+          <textarea bind:value={counterData.offer_text} placeholder="e.g., Save 20% on your first visit" rows="3" />
+        </div>
+
+        <div class="form-group">
+          <label>Call-to-Action Text</label>
+          <input type="text" bind:value={counterData.cta_text} placeholder="e.g., CALL NOW, LEARN MORE" />
+        </div>
+
+        <button class="next-btn" on:click={() => counterSignStep = 3} disabled={!counterData.business_name || !counterData.offer_text}>
+          Review & Generate →
         </button>
       </div>
     {/if}
 
     {#if counterSignStep === 3}
-      <h2>Offer Details</h2>
-      <p class="subtitle">{counterData.business_name}</p>
+      <h2>Review Counter Sign</h2>
+      <p class="subtitle">{selectedCounterStore?.GroceryChain} - {selectedCounterStore?.City}</p>
 
-      <div class="form-card">
-        <div class="form-group">
-          <label>Offer Text *</label>
-          <textarea bind:value={counterData.offer_text} placeholder="e.g., Save 20% on your first visit" />
+      <div class="review-card">
+        <div class="review-section">
+          <h4>Business Name</h4>
+          <p>{counterData.business_name}</p>
         </div>
 
-        <div class="form-group">
-          <label>CTA Button Text</label>
-          <input type="text" bind:value={counterData.cta_button} />
+        <div class="review-section">
+          <h4>Contact</h4>
+          <p>{counterData.contact_phone || 'Not provided'}</p>
         </div>
 
-        <button class="next-btn" on:click={() => counterSignStep = 4} disabled={!counterData.offer_text}>
-          Next: Design →
+        <div class="review-section">
+          <h4>Offer</h4>
+          <p>{counterData.offer_text}</p>
+        </div>
+
+        <div class="review-section">
+          <h4>Call-to-Action</h4>
+          <p>{counterData.cta_text || 'LEARN MORE'}</p>
+        </div>
+
+        <button class="action-btn" on:click={submitCounterSign}>
+          ✅ Generate PDF
+        </button>
+        
+        <button class="edit-btn" on:click={() => counterSignStep = 2}>
+          ✏️ Edit Info
         </button>
       </div>
-    {/if}
-
-    {#if counterSignStep === 4}
-      <h2>Design Template</h2>
-      <p class="subtitle">Choose your design style</p>
-
-      <div class="design-grid">
-        {#each ['modern', 'classic', 'minimalist'] as template}
-          <button
-            class="design-card"
-            class:selected={counterData.design_template === template}
-            on:click={() => counterData.design_template = template}
-          >
-            <div class="design-preview">{template.charAt(0).toUpperCase() + template.slice(1)}</div>
-            <p>{template}</p>
-          </button>
-        {/each}
-      </div>
-
-      <div class="preview-card">
-        <h4>Preview</h4>
-        <div class="sign-preview">
-          <p class="preview-business">{counterData.business_name}</p>
-          <p class="preview-offer">{counterData.offer_text}</p>
-          <button class="preview-cta">{counterData.cta_button}</button>
-        </div>
-      </div>
-
-      <button class="action-btn" on:click={submitCounterSign}>
-        ✅ Generate & Download
-      </button>
     {/if}
   {/if}
 </div>
@@ -554,7 +555,7 @@
     resize: vertical;
   }
 
-  .action-btn, .next-btn {
+  .action-btn, .next-btn, .edit-btn {
     width: 100%;
     background: #CC0000;
     color: white;
@@ -571,103 +572,50 @@
     background: #990000;
   }
 
+  .edit-btn {
+    background: #666;
+    margin-top: 8px;
+  }
+
+  .edit-btn:hover {
+    background: #444;
+  }
+
   .next-btn:disabled {
     background: #ccc;
     cursor: not-allowed;
   }
 
-  .design-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-    gap: 12px;
-    margin: 15px 0;
-  }
-
-  .design-card {
-    background: white;
-    border: 2px solid #eee;
-    border-radius: 8px;
-    padding: 12px;
-    text-align: center;
-    cursor: pointer;
-    transition: all 0.2s;
-  }
-
-  .design-card:hover {
-    border-color: #CC0000;
-  }
-
-  .design-card.selected {
-    border-color: #CC0000;
-    background: #fff5f5;
-  }
-
-  .design-preview {
-    background: #f0f0f0;
-    border-radius: 6px;
-    padding: 20px;
-    margin-bottom: 8px;
-    font-weight: 600;
-    color: #666;
-    font-size: 12px;
-  }
-
-  .design-card p {
-    margin: 0;
-    font-size: 12px;
-    color: #666;
-  }
-
-  .preview-card {
+  .review-card {
     background: #f9f9f9;
     border-radius: 12px;
     padding: 16px;
-    margin: 15px 0;
+    margin-top: 15px;
   }
 
-  .preview-card h4 {
-    margin: 0 0 12px;
-    font-size: 13px;
-    color: #333;
-    text-transform: uppercase;
-    font-weight: 600;
+  .review-section {
+    margin-bottom: 16px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid #e0e0e0;
   }
 
-  .sign-preview {
-    background: white;
-    border: 1px solid #eee;
-    border-radius: 8px;
-    padding: 16px;
-    text-align: center;
+  .review-section:last-of-type {
+    border-bottom: none;
   }
 
-  .preview-business {
-    margin: 0 0 8px;
-    font-size: 18px;
-    font-weight: 700;
-    color: #CC0000;
-  }
-
-  .preview-offer {
-    margin: 0 0 12px;
-    font-size: 14px;
-    color: #333;
-  }
-
-  .preview-cta {
-    background: #CC0000;
-    color: white;
-    border: none;
-    padding: 8px 16px;
-    border-radius: 4px;
-    font-weight: 600;
+  .review-section h4 {
+    margin: 0 0 6px;
     font-size: 12px;
-    cursor: pointer;
+    font-weight: 600;
+    text-transform: uppercase;
+    color: #333;
+    letter-spacing: 0.5px;
   }
 
-  @media (max-width: 600px) {
-    .design-grid {
-      grid-template-columns: 1fr 1fr;
-    }
+  .review-section p {
+    margin: 0;
+    color: #555;
+    font-size: 14px;
+    line-height: 1.4;
   }
 </style>
