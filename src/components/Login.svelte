@@ -92,85 +92,37 @@
       return;
     }
 
-    try {
-      // Submit to API for manager approval
-      const response = await fetch('/api/register-rep', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          name: newRep.name.trim(),
-          email: newRep.email.trim(),
-          location: newRep.location.trim()
-        })
-      });
+    // Save locally so they can sign in immediately
+    const localReps = JSON.parse(localStorage.getItem('local_reps') || '{}');
+    localReps[repId] = {
+      contract_name: newRep.name.trim(),
+      display_name: newRep.name.trim(),
+      email: newRep.email.trim() || '',
+      role: 'rep',
+      registered_at: new Date().toISOString().split('T')[0],
+      base_location: newRep.location.trim() || 'Territory TBD'
+    };
+    localStorage.setItem('local_reps', JSON.stringify(localReps));
 
-      if (!response.ok) {
-        const err = await response.json().catch(() => ({}));
-        registerError = err.error || 'Registration failed';
-        return;
-      }
+    // Add to current reps list
+    reps = [...reps, {
+      id: repId,
+      name: newRep.name.trim(),
+      role: 'rep',
+      base_location: newRep.location.trim() || 'Territory TBD'
+    }].sort((a, b) => {
+      if (a.role === 'manager' && b.role !== 'manager') return -1;
+      if (b.role === 'manager' && a.role !== 'manager') return 1;
+      return a.name.localeCompare(b.name);
+    });
 
-      // Also save locally so they can sign in immediately
-      const localReps = JSON.parse(localStorage.getItem('local_reps') || '{}');
-      localReps[repId] = {
-        contract_name: newRep.name.trim(),
-        display_name: newRep.name.trim(),
-        email: newRep.email.trim() || '',
-        role: 'rep',
-        registered_at: new Date().toISOString().split('T')[0],
-        base_location: newRep.location.trim() || 'Territory TBD',
-        pending_approval: true
-      };
-      localStorage.setItem('local_reps', JSON.stringify(localReps));
-
-      // Add to current reps list
-      reps = [...reps, {
-        id: repId,
-        name: newRep.name.trim(),
-        role: 'rep',
-        base_location: newRep.location.trim() || 'Territory TBD'
-      }].sort((a, b) => {
-        if (a.role === 'manager' && b.role !== 'manager') return -1;
-        if (b.role === 'manager' && a.role !== 'manager') return 1;
-        return a.name.localeCompare(b.name);
-      });
-
-      registerSuccess = `✅ Welcome, ${newRep.name.trim()}! You can sign in now. Manager approval pending.`;
-      selectedRep = repId;
-      
-      setTimeout(() => {
-        showRegister = false;
-        registerSuccess = '';
-      }, 3000);
-
-    } catch (err) {
-      // Fallback to local-only if API is down
-      const localReps = JSON.parse(localStorage.getItem('local_reps') || '{}');
-      localReps[repId] = {
-        contract_name: newRep.name.trim(),
-        display_name: newRep.name.trim(),
-        email: newRep.email.trim() || '',
-        role: 'rep',
-        registered_at: new Date().toISOString().split('T')[0],
-        base_location: newRep.location.trim() || 'Territory TBD'
-      };
-      localStorage.setItem('local_reps', JSON.stringify(localReps));
-
-      reps = [...reps, {
-        id: repId,
-        name: newRep.name.trim(),
-        role: 'rep',
-        base_location: newRep.location.trim() || 'Territory TBD'
-      }].sort((a, b) => {
-        if (a.role === 'manager' && b.role !== 'manager') return -1;
-        if (b.role === 'manager' && a.role !== 'manager') return 1;
-        return a.name.localeCompare(b.name);
-      });
-
-      registerSuccess = `✅ Registered locally. You can sign in now.`;
-      selectedRep = repId;
-      setTimeout(() => { showRegister = false; registerSuccess = ''; }, 3000);
-    }
+    registerSuccess = `✅ Welcome, ${newRep.name.trim()}! Select your name above and sign in.`;
+    selectedRep = repId;
+    
+    setTimeout(() => {
+      showRegister = false;
+      registerSuccess = '';
+    }, 3000);
   }
 </script>
 

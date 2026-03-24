@@ -96,5 +96,13 @@
     "display_name": "Sandee Deppiesse",
     "role": "rep",
     "registered_at": "2026-03-20"
+  },
+  "carl_worthy": {
+    "contract_name": "Carl Worthy",
+    "display_name": "Carl Worthy",
+    "email": "carl.worthy@indoormedia.com",
+    "role": "rep",
+    "registered_at": "2026-03-24",
+    "base_location": "Fresno, CA"
   }
 }
