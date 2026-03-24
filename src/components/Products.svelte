@@ -4,6 +4,14 @@
   let selectedTier = null;
   let selectedDigitalProduct = null;
 
+  function addToCart(name, price, details) {
+    let cart = [];
+    try { cart = JSON.parse(localStorage.getItem('indoormedia_cart') || '[]'); } catch {}
+    cart.push({ id: Date.now(), name, price, details, addedAt: new Date().toISOString() });
+    localStorage.setItem('indoormedia_cart', JSON.stringify(cart));
+    alert('Added to cart: ' + name);
+  }
+
   const PRODUCTS = {
     register_tape: {
       name: 'Register Tape',
@@ -234,8 +242,7 @@
         </div>
       </div>
 
-      <p class="note">💡 Base pricing varies by store and location. Contact sales for specific quotes.</p>
-      <button class="action-btn">📧 Request Quote</button>
+      <button class="action-btn" on:click={() => addToCart('Register Tape - ' + PRODUCTS.register_tape.tiers[selectedTier].name, 'Store-based', selectedTier)}>🛒 Add to Cart</button>
     </div>
   {/if}
 
@@ -248,14 +255,14 @@
     <div class="packages-list">
       {#each Object.entries(PRODUCTS.cartvertising.packages) as [key, pkg]}
         <div class="package-card">
-          <h4>{pkg.name}</h4>
-          <p class="package-price">{pkg.price}</p>
+          <div class="pkg-info">
+            <h4>{pkg.name}</h4>
+            <p class="package-price">{pkg.price}</p>
+          </div>
+          <button class="cart-add-btn" on:click={() => addToCart('Cartvertising - ' + pkg.name, pkg.price, '6-month campaign')}>🛒</button>
         </div>
       {/each}
     </div>
-
-    <p class="note">💡 All packages are 6-month campaigns. Volume discounts available.</p>
-    <button class="action-btn">📧 Request Quote</button>
   {/if}
 
   <!-- Digital Products Menu -->
@@ -323,8 +330,8 @@
         </table>
       </div>
 
-      <p class="note">💡 Geofence pins deliver mobile web & app impressions in high-traffic areas. 5+ pins per campaign.</p>
-      <button class="action-btn">📧 Request Quote</button>
+      
+      <button class="action-btn" on:click={() => addToCart("DigitalBoost", "$3,600/pin", "240K impressions/month")}>🛒 Add to Cart</button>
     </div>
   {/if}
 
@@ -350,8 +357,8 @@
         </ul>
       </div>
 
-      <p class="note">💡 Requires physical location & Google Business Profile</p>
-      <button class="action-btn">📧 Request Quote</button>
+      
+      <button class="action-btn" on:click={() => addToCart("FindLocal", "$695/location", "50+ directory listings")}>🛒 Add to Cart</button>
     </div>
   {/if}
 
@@ -383,7 +390,7 @@
         </ul>
       </div>
 
-      <button class="action-btn">📧 Request Quote</button>
+      <button class="action-btn" on:click={() => addToCart("ReviewBoost", "$695", "4-month campaign, 4000 contacts")}>🛒 Add to Cart</button>
     </div>
   {/if}
 
@@ -414,7 +421,7 @@
         </ul>
       </div>
 
-      <button class="action-btn">📧 Request Quote</button>
+      <button class="action-btn" on:click={() => addToCart("LoyaltyBoost", "$3,600/year", "Annual loyalty campaign")}>🛒 Add to Cart</button>
     </div>
   {/if}
 </div>
@@ -642,7 +649,12 @@
     border: 1px solid #eee;
     border-radius: 8px;
     padding: 12px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
   }
+
+  .pkg-info { flex: 1; }
 
   .package-card h4 {
     margin: 0 0 6px;
@@ -650,6 +662,20 @@
     font-size: 14px;
     font-weight: 600;
   }
+
+  .cart-add-btn {
+    background: #CC0000;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    width: 44px;
+    height: 44px;
+    font-size: 18px;
+    cursor: pointer;
+    flex-shrink: 0;
+  }
+
+  .cart-add-btn:hover { background: #990000; }
 
   .package-price {
     margin: 0;
