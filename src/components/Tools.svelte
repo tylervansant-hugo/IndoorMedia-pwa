@@ -33,11 +33,11 @@
     ad_proof_image: null
   };
   let generating = false;
-  // Use localhost for dev, production endpoint for live
+  // Use localhost for dev, Cloudflare tunnel for production
   const isDev = window.location.hostname === 'localhost';
   const COUNTER_SIGN_API = isDev 
-    ? 'http://localhost:5000'
-    : 'https://likewise-cottage-announcement-apps.trycloudflare.com';
+    ? 'http://localhost:3333'
+    : 'https://preparation-amend-thereof-sam.trycloudflare.com';
 
   onMount(async () => {
     try {
@@ -636,14 +636,6 @@
       <h2>Review & Generate</h2>
       <p class="subtitle">{selectedChainCode}</p>
 
-      {#if !isDev}
-        <div class="info-card" style="background: #fff3cd; border-color: #ffc107; color: #856404; margin-bottom: 16px;">
-          <p style="margin: 0; font-size: 13px;">
-            ⚠️ Counter Sign API is currently unavailable. Please try again in a moment or contact support.
-          </p>
-        </div>
-      {/if}
-
       <div class="review-card">
         <div class="review-section">
           <h4>Business Card</h4>
@@ -660,8 +652,8 @@
           <p>✅ {counterData.ad_proof_image?.name}</p>
         </div>
 
-        <button class="action-btn" on:click={submitCounterSign} disabled={generating || !isDev}>
-          {generating ? '⏳ Generating...' : !isDev ? '⚠️ API Unavailable' : '✅ Generate Counter Sign PDF'}
+        <button class="action-btn" on:click={submitCounterSign} disabled={generating}>
+          {generating ? '⏳ Generating...' : '✅ Generate Counter Sign PDF'}
         </button>
         
         <button class="edit-btn" on:click={() => counterSignStep = 2}>
