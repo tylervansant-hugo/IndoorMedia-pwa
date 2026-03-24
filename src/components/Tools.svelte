@@ -660,8 +660,8 @@
           <p>✅ {counterData.ad_proof_image?.name}</p>
         </div>
 
-        <button class="action-btn" on:click={submitCounterSign} disabled={generating}>
-          {generating ? '⏳ Generating...' : '✅ Generate Counter Sign PDF'}
+        <button class="action-btn" on:click={submitCounterSign} disabled={generating || !isDev}>
+          {generating ? '⏳ Generating...' : !isDev ? '⚠️ API Unavailable' : '✅ Generate Counter Sign PDF'}
         </button>
         
         <button class="edit-btn" on:click={() => counterSignStep = 2}>
