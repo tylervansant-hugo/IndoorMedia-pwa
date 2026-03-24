@@ -282,13 +282,20 @@
   }
 
   .cart-icon {
-    background: none;
+    background: rgba(255, 255, 255, 0.2);
     border: none;
     color: white;
-    font-size: 22px;
+    font-size: 18px;
     cursor: pointer;
     position: relative;
-    padding: 4px;
+    padding: 8px 12px;
+    border-radius: 8px;
+    transition: all 0.2s;
+  }
+
+  .cart-icon:hover {
+    background: rgba(255, 255, 255, 0.3);
+    transform: translateY(-1px);
   }
 
   .cart-badge {
