@@ -401,6 +401,7 @@
             <div class="store-right">
               <div class="store-num">{store.StoreName}</div>
               <div class="store-cycle">Cycle {store.Cycle || '?'}</div>
+              {#if store['Case Count']}<div class="store-cases">📦 {store['Case Count']} cases</div>{/if}
             </div>
           </button>
         {/each}
@@ -681,6 +682,7 @@
   .store-right { display: flex; flex-direction: column; align-items: flex-end; gap: 6px; }
   .store-num { background: rgba(204, 0, 0, 0.1); padding: 6px 10px; border-radius: 6px; font-weight: 700; font-size: 12px; color: #CC0000; }
   .store-cycle { font-size: 11px; font-weight: 600; color: #666; }
+  .store-cases { font-size: 11px; font-weight: 600; color: #2e7d32; }
 
   .category-grid, .subcat-grid {
     display: grid;
