@@ -79,14 +79,49 @@
     counterSignStep = 2;
   }
 
-  function submitCounterSign() {
-    // Call counter sign generator with images + landing page
-    console.log('Generating counter sign:', { chain: selectedChainCode, ...counterData });
-    alert('✅ Counter sign generated and ready to download!');
-    counterSignStep = 1;
-    selectedChainCode = null;
-    counterData = { business_card_image: null, landing_page_url: '', ad_proof_image: null };
-    view = 'main';
+  async function submitCounterSign() {
+    try {
+      const formData = new FormData();
+      formData.append('chain_code', selectedChainCode);
+      formData.append('business_card', counterData.business_card_image);
+      formData.append('ad_proof', counterData.ad_proof_image);
+      if (counterData.landing_page_url) {
+        formData.append('landing_page_url', counterData.landing_page_url);
+      }
+
+      const response = await fetch('http://localhost:5000/generate', {
+        method: 'POST',
+        body: formData
+      });
+
+      if (!response.ok) {
+        const error = await response.json();
+        alert(`❌ Error: ${error.error}`);
+        return;
+      }
+
+      // Download PDF
+      const blob = await response.blob();
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `${selectedChainCode}_CounterSign.pdf`;
+      document.body.appendChild(a);
+      a.click();
+      window.URL.revokeObjectURL(url);
+      a.remove();
+
+      alert('✅ Counter sign PDF downloaded!');
+      
+      // Reset
+      counterSignStep = 1;
+      selectedChainCode = null;
+      counterData = { business_card_image: null, landing_page_url: '', ad_proof_image: null };
+      view = 'main';
+    } catch (err) {
+      alert(`❌ Error: ${err.message}`);
+      console.error(err);
+    }
   }
 </script>
 
