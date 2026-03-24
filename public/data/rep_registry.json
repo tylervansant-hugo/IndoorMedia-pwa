@@ -104,5 +104,13 @@
     "role": "rep",
     "registered_at": "2026-03-24",
     "base_location": "Fresno, CA"
+  },
+  "jason_hinds": {
+    "contract_name": "Jason Hinds",
+    "display_name": "Jason Hinds",
+    "email": "jason.hinds@indoormedia.com",
+    "role": "rep",
+    "registered_at": "2026-03-24",
+    "base_location": "Utah"
   }
 }
