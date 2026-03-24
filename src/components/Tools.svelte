@@ -246,6 +246,9 @@
     }
     const daysUntilDelivery = Math.ceil((nextDelivery - new Date()) / (1000 * 60 * 60 * 24));
     const insufficient = daysUntilRunout < daysUntilDelivery;
+    
+    // Get expected month name for next delivery
+    const nextDeliveryMonth = nextDelivery.toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
 
     auditReport = {
       storeNum: auditStoreNum,
@@ -264,6 +267,7 @@
       daysUntilRunout: daysUntilRunout,
       runoutDate: runoutDate.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }),
       nextDelivery: nextDelivery.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }),
+      nextDeliveryMonth: nextDeliveryMonth,
       daysUntilDelivery: daysUntilDelivery,
       insufficient: insufficient
     };
@@ -570,7 +574,8 @@
           <p>Usage rate: {auditReport.usagePerDay} rolls/day</p>
           <p>Days until runout: {auditReport.daysUntilRunout}</p>
           <p>Est. runout date: {auditReport.runoutDate}</p>
-          <p>Next delivery: {auditReport.nextDelivery} ({auditReport.daysUntilDelivery} days)</p>
+          <p class="next-delivery-highlight">📅 Next delivery: <strong>{auditReport.nextDeliveryMonth}</strong></p>
+          <p class="next-delivery-detail">({auditReport.nextDelivery}, {auditReport.daysUntilDelivery} days away)</p>
         </div>
 
         <div class="report-status" class:status-ok={!auditReport.insufficient} class:status-warn={auditReport.insufficient}>
@@ -1179,5 +1184,27 @@
     font-size: 13px;
     margin-top: 20px;
     padding: 20px;
+  }
+
+  .next-delivery-highlight {
+    margin: 12px 0 4px !important;
+    padding: 10px;
+    background: #fff5f5;
+    border-left: 4px solid #CC0000;
+    border-radius: 4px;
+    font-size: 14px !important;
+    font-weight: 600;
+  }
+
+  .next-delivery-highlight strong {
+    color: #CC0000;
+    font-size: 16px;
+  }
+
+  .next-delivery-detail {
+    margin: 0 !important;
+    padding: 0 0 0 10px;
+    font-size: 12px !important;
+    color: var(--text-secondary);
   }
 </style>
