@@ -8,6 +8,26 @@
   let newItem = { type: '', store: null, plan: '', pins: 1, price: '' };
   let storeSearch = '';
 
+  // Zone 07 cycle launch dates (7th of each month)
+  const CYCLE_MONTHS = { 'A': [0,3,6,9], 'B': [1,4,7,10], 'C': [2,5,8,11] };
+
+  function getNextLaunch(cycle) {
+    const months = CYCLE_MONTHS[cycle?.toUpperCase()];
+    if (!months) return '';
+    const now = new Date();
+    for (let offset = 0; offset < 12; offset++) {
+      const m = (now.getMonth() + offset) % 12;
+      if (months.includes(m)) {
+        const y = now.getFullYear() + Math.floor((now.getMonth() + offset) / 12);
+        const d = new Date(y, m, 7);
+        if (d > now || (d.getMonth() === now.getMonth() && d.getDate() >= now.getDate())) {
+          return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+        }
+      }
+    }
+    return '';
+  }
+
   const PRODUCT_TYPES = [
     { id: 'tape_coop', name: 'Register Tape — Co-Op', emoji: '🧾', needsStore: true },
     { id: 'tape_exclusive', name: 'Register Tape — Exclusive', emoji: '🧾', needsStore: true },
@@ -232,6 +252,9 @@
                 <span class="store-num">{store.StoreName}</span>
                 <span class="store-price">Single: ${store.SingleAd?.toLocaleString()} | Double: ${store.DoubleAd?.toLocaleString()}</span>
               </div>
+              {#if store.Cycle}
+                <span class="store-launch">Next launch: {getNextLaunch(store.Cycle)}</span>
+              {/if}
             </button>
           {/each}
         </div>
@@ -276,6 +299,7 @@
             <h4>{item.emoji || ''} {item.name}</h4>
             {#if item.store}<p class="item-store">{item.store} ({item.storeNum}){#if item.storeCycle} — Cycle {item.storeCycle}{/if}</p>{/if}
             {#if item.storeAddress}<p class="item-addr">{item.storeAddress}</p>{/if}
+            {#if item.storeCycle}<p class="item-launch">Next launch: {getNextLaunch(item.storeCycle)}</p>{/if}
             {#if item.plan}<p class="item-plan">{item.plan}</p>{/if}
             <p class="item-price">{item.price}</p>
           </div>
@@ -333,6 +357,8 @@
   .map-btn:hover { background: #0d47a1; }
 
   .item-addr { margin: 0 0 2px; font-size: 11px; color: #999; }
+  .item-launch { margin: 0 0 2px; font-size: 11px; color: #2e7d32; font-weight: 600; }
+  .store-launch { font-size: 11px; color: #2e7d32; font-weight: 600; margin-top: 4px; }
 
   .plan-store { margin: 0 0 12px; font-size: 13px; color: #666; }
   .plan-list { display: flex; flex-direction: column; gap: 8px; }
