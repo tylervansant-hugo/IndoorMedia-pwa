@@ -35,7 +35,7 @@ def get_chains():
 @app.route('/generate', methods=['POST'])
 def generate():
     try:
-        chain_code = request.form.get('chain_code', '').upper().strip()
+        chain_code = request.form.get('chain_code', '').strip()
         rep_name = request.form.get('rep_name', '').strip()
         landing_page_url = request.form.get('landing_page_url', '').strip() or None
 

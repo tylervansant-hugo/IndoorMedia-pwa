@@ -427,9 +427,21 @@ def generate_counter_sign(
     Returns:
         (PDF bytes, output path) or (None, None) if failed
     """
-    # Find template
+    # Find template (case-insensitive search)
     templates_dir = Path(__file__).parent.parent / "data" / "store_templates"
     template_files = list(templates_dir.glob(f"{chain_code.upper()}_CounterSign_Fillable*.pdf"))
+    
+    # If not found with upper(), try exact code as-is
+    if not template_files:
+        template_files = list(templates_dir.glob(f"{chain_code}_CounterSign_Fillable*.pdf"))
+    
+    # If still not found, try case-insensitive search
+    if not template_files:
+        chain_lower = chain_code.lower()
+        template_files = [
+            f for f in templates_dir.glob("*_CounterSign_Fillable*.pdf")
+            if f.name.lower().startswith(chain_lower + "_")
+        ]
     
     if not template_files:
         logger.error(f"No template found for {chain_code}")
