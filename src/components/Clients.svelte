@@ -4,16 +4,23 @@
 
   let view = 'main'; // main, customers, sales
   let contracts = [];
+  let allStores = [];
   let loading = true;
   let searchQuery = '';
+  let expandedCustomer = null;
+  let emailDraft = null;
 
   onMount(async () => {
     try {
-      const res = await fetch('/data/contracts.json');
-      const data = await res.json();
+      const [contractsRes, storesRes] = await Promise.all([
+        fetch('/data/contracts.json'),
+        fetch('/data/stores.json')
+      ]);
+      const data = await contractsRes.json();
       contracts = data.contracts || [];
+      allStores = await storesRes.json().catch(() => []);
     } catch (err) {
-      console.error('Failed to load contracts:', err);
+      console.error('Failed to load data:', err);
     }
     loading = false;
   });
@@ -98,9 +105,67 @@
     return `In ${Math.ceil(diff / 30)} months`;
   }
 
+  function getNearbyStores(contract) {
+    const storeNum = contract.store_number || '';
+    // Find the customer's store
+    const currentStore = allStores.find(s => s.StoreName === storeNum || (storeNum && s.StoreName?.includes(storeNum)));
+    if (!currentStore) return [];
+
+    // Find other stores in the same city
+    return allStores.filter(s => 
+      s.StoreName !== currentStore.StoreName &&
+      s.City === currentStore.City &&
+      s.State === currentStore.State
+    ).slice(0, 8);
+  }
+
+  function toggleExpand(idx) {
+    expandedCustomer = expandedCustomer === idx ? null : idx;
+    emailDraft = null;
+  }
+
+  function showEmailDraft(contract, templateType) {
+    const biz = contract.business_name || 'your business';
+    const owner = contract.contact_name || '';
+    const rep = repName || 'Your IndoorMedia Rep';
+    const store = contract.store_name || '';
+
+    const templates = {
+      kickoff: {
+        subject: `What's Next — ${biz} & IndoorMedia`,
+        body: `Hi ${owner},\n\nWelcome to IndoorMedia! I wanted to reach out and let you know what happens next with your advertising at ${store}.\n\nYour ad will be printed and installed during the next cycle. Once it's live, I'll check in to make sure everything looks great.\n\nIn the meantime, if you have any questions or want to make changes to your ad, just let me know.\n\nLooking forward to a great partnership!\n\nBest,\n${rep}\nIndoorMedia`
+      },
+      checkin: {
+        subject: `Checking in — ${biz} & IndoorMedia`,
+        body: `Hi ${owner},\n\nI wanted to check in and see how things are going with your register tape ad at ${store}.\n\nHave you noticed any new customers mentioning the ad? Many of our advertisers see results within the first few weeks — I'd love to hear your experience.\n\nIf you'd like to make any changes for the next cycle, now's a great time to let me know.\n\nBest,\n${rep}\nIndoorMedia`
+      },
+      upsell: {
+        subject: `Expansion Opportunity — ${biz}`,
+        body: `Hi ${owner},\n\nYour ad at ${store} has been running great, and I wanted to share some ways to expand your reach:\n\n• Add nearby stores — reach even more shoppers in your area\n• DigitalBoost — geofenced digital ads near the store (240K impressions/mo)\n• Double Ad — upgrade to a larger ad for more visibility\n• Cartvertising — ads on shopping carts for maximum exposure\n\nWould you be open to a quick chat about growing your presence?\n\nBest,\n${rep}\nIndoorMedia`
+      },
+      renewal: {
+        subject: `Time to Renew — ${biz} & IndoorMedia`,
+        body: `Hi ${owner},\n\nYour advertising contract at ${store} is coming up for renewal. I wanted to touch base early so we can ensure there's no gap in your coverage.\n\nRenewing now locks in your current rate and keeps your ad running without interruption. Many of our advertisers also use renewal time to:\n\n• Add additional stores\n• Upgrade to a Double Ad\n• Bundle with digital products for better results\n\nCan we set up a quick call this week to discuss?\n\nBest,\n${rep}\nIndoorMedia`
+      }
+    };
+
+    emailDraft = templates[templateType] || templates.kickoff;
+  }
+
+  function copyEmail() {
+    if (!emailDraft) return;
+    const text = `Subject: ${emailDraft.subject}\n\n${emailDraft.body}`;
+    navigator.clipboard.writeText(text).then(() => {
+      emailDraft = { ...emailDraft, copied: true };
+      setTimeout(() => { emailDraft = { ...emailDraft, copied: false }; }, 2000);
+    });
+  }
+
   function goBack() {
     view = 'main';
     searchQuery = '';
+    expandedCustomer = null;
+    emailDraft = null;
   }
 </script>
 
@@ -185,7 +250,64 @@
               {#if c.contact_email}
                 <a href="mailto:{c.contact_email}" class="action-btn">📧 Email</a>
               {/if}
+              <button class="action-btn expand-btn" on:click={() => toggleExpand(i)}>
+                {expandedCustomer === i ? '▲ Less' : '🚀 More'}
+              </button>
             </div>
+
+            {#if expandedCustomer === i}
+              <div class="expanded-section">
+                <!-- Email Templates -->
+                <div class="section-header">✉️ Draft Email</div>
+                <div class="email-btns">
+                  <button class="email-tmpl-btn" on:click={() => showEmailDraft(c, 'kickoff')}>🚀 Kickoff</button>
+                  <button class="email-tmpl-btn" on:click={() => showEmailDraft(c, 'checkin')}>✅ Check-in</button>
+                  <button class="email-tmpl-btn" on:click={() => showEmailDraft(c, 'upsell')}>⬆️ Upsell</button>
+                  <button class="email-tmpl-btn" on:click={() => showEmailDraft(c, 'renewal')}>🔄 Renewal</button>
+                </div>
+
+                {#if emailDraft}
+                  <div class="draft-box">
+                    <p class="draft-subject"><strong>Subject:</strong> {emailDraft.subject}</p>
+                    <pre class="draft-body">{emailDraft.body}</pre>
+                    <button class="copy-btn" on:click={copyEmail}>
+                      {emailDraft.copied ? '✅ Copied!' : '📋 Copy Email'}
+                    </button>
+                    {#if c.contact_email}
+                      <a href="mailto:{c.contact_email}?subject={encodeURIComponent(emailDraft.subject)}&body={encodeURIComponent(emailDraft.body)}" class="send-btn">📤 Open in Mail</a>
+                    {/if}
+                  </div>
+                {/if}
+
+                <!-- Expansion Opportunities -->
+                <div class="section-header">🚀 Expansion Opportunities</div>
+                
+                {@const nearbyStores = getNearbyStores(c)}
+                {#if nearbyStores.length > 0}
+                  <p class="expand-label">🏪 Nearby Stores in {nearbyStores[0]?.City}</p>
+                  <div class="nearby-list">
+                    {#each nearbyStores as ns}
+                      <div class="nearby-store">
+                        <span class="ns-name">{ns.GroceryChain}</span>
+                        <span class="ns-num">{ns.StoreName}</span>
+                      </div>
+                    {/each}
+                  </div>
+                {:else}
+                  <p class="expand-note">No other stores found in this city</p>
+                {/if}
+
+                <p class="expand-label">📦 Product Upsells</p>
+                <div class="upsell-list">
+                  <div class="upsell-item">🚀 <strong>DigitalBoost</strong> — Geofence ads (240K impressions/mo)</div>
+                  <div class="upsell-item">📍 <strong>FindLocal</strong> — SEO & listings ($695)</div>
+                  <div class="upsell-item">⭐ <strong>ReviewBoost</strong> — Automated reviews ($695)</div>
+                  <div class="upsell-item">💎 <strong>LoyaltyBoost</strong> — Loyalty program ($3,600/yr)</div>
+                  <div class="upsell-item">🛒 <strong>Cartvertising</strong> — Cart ads ($2,995+)</div>
+                  <div class="upsell-item">📰 <strong>Double Ad</strong> — Upgrade ad size</div>
+                </div>
+              </div>
+            {/if}
           </div>
         {/each}
       </div>
@@ -293,4 +415,33 @@
   .client-event.soon .evt-date { color: #CC0000; font-weight: 600; }
   .client-event.overdue .evt-date { color: #c33; font-weight: 700; }
   .client-event.overdue .evt-label { color: #c33; }
+
+  /* Expanded Section */
+  .expand-btn { background: #fff5f5 !important; color: #CC0000 !important; border-color: #CC0000 !important; font-weight: 600; }
+  .expanded-section { margin-top: 12px; padding-top: 12px; border-top: 1px solid var(--border-color, #eee); }
+  .section-header { font-size: 13px; font-weight: 700; color: var(--text-primary); margin: 12px 0 8px; text-transform: uppercase; letter-spacing: 0.5px; }
+  .section-header:first-child { margin-top: 0; }
+
+  /* Email Templates */
+  .email-btns { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 10px; }
+  .email-tmpl-btn { padding: 8px 12px; background: var(--card-bg, white); border: 1px solid var(--border-color, #ddd); border-radius: 6px; font-size: 12px; font-weight: 600; cursor: pointer; transition: all 0.2s; color: var(--text-primary); }
+  .email-tmpl-btn:hover { border-color: #CC0000; background: #fff5f5; }
+
+  .draft-box { background: var(--bg-secondary, #f5f5f5); border-radius: 8px; padding: 12px; margin-bottom: 12px; }
+  .draft-subject { margin: 0 0 8px; font-size: 13px; color: var(--text-primary); }
+  .draft-body { margin: 0; font-size: 12px; color: var(--text-secondary); white-space: pre-wrap; font-family: inherit; line-height: 1.5; max-height: 200px; overflow-y: auto; }
+  .copy-btn { padding: 8px 16px; background: #CC0000; color: white; border: none; border-radius: 6px; font-size: 13px; font-weight: 600; cursor: pointer; margin-top: 8px; margin-right: 8px; }
+  .send-btn { display: inline-block; padding: 8px 16px; background: #1565c0; color: white; border: none; border-radius: 6px; font-size: 13px; font-weight: 600; cursor: pointer; margin-top: 8px; text-decoration: none; }
+
+  /* Expansion */
+  .expand-label { margin: 8px 0 6px; font-size: 12px; font-weight: 700; color: var(--text-secondary); }
+  .expand-note { font-size: 12px; color: var(--text-tertiary, #999); font-style: italic; }
+  .nearby-list { display: flex; flex-direction: column; gap: 4px; margin-bottom: 12px; }
+  .nearby-store { display: flex; justify-content: space-between; padding: 6px 10px; background: var(--card-bg, white); border: 1px solid var(--border-color, #eee); border-radius: 6px; font-size: 12px; }
+  .ns-name { font-weight: 600; color: var(--text-primary); }
+  .ns-num { color: #CC0000; font-weight: 600; font-size: 11px; }
+
+  .upsell-list { display: flex; flex-direction: column; gap: 4px; }
+  .upsell-item { font-size: 12px; color: var(--text-secondary); padding: 4px 0; }
+  .upsell-item strong { color: var(--text-primary); }
 </style>
