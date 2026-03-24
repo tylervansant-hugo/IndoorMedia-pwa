@@ -23,7 +23,7 @@
     ad_proof_image: null
   };
   let generating = false;
-  const COUNTER_SIGN_API = 'https://discovery-cet-crawford-lamp.trycloudflare.com';
+  const COUNTER_SIGN_API = 'https://likewise-cottage-announcement-apps.trycloudflare.com';
 
   onMount(async () => {
     try {
@@ -241,6 +241,11 @@
         <p>Track tape inventory & delivery</p>
       </button>
 
+      <button class="tool-btn" on:click={() => view = 'counter-sign'}>
+        <div class="tool-emoji">🎨</div>
+        <h4>Counter Sign</h4>
+        <p>Generate counter signs (same as bot)</p>
+      </button>
 
     </div>
   {/if}
