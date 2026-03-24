@@ -11,9 +11,17 @@
 
   let currentTab = 'dashboard';
   let currentTheme = 'light';
+  let cartCount = 0;
+
+  function updateCartCount() {
+    try { cartCount = JSON.parse(localStorage.getItem('indoormedia_cart') || '[]').length; } catch { cartCount = 0; }
+  }
 
   onMount(() => {
     theme.subscribe(t => currentTheme = t);
+    updateCartCount();
+    const interval = setInterval(updateCartCount, 2000);
+    return () => clearInterval(interval);
   });
 
   function toggleTheme() {
@@ -44,6 +52,12 @@
       </div>
 
       <div class="header-actions">
+        <button class="cart-icon" on:click={() => currentTab = 'cart'} title="Cart">
+          🛒
+          {#if cartCount > 0}
+            <span class="cart-badge">{cartCount}</span>
+          {/if}
+        </button>
         <button class="theme-toggle" on:click={toggleTheme} title="Toggle theme">
           {currentTheme === 'light' ? '🌙' : '☀️'}
         </button>
@@ -82,13 +96,7 @@
     >
       🛠️ Tools
     </button>
-    <button 
-      class="tab" 
-      class:active={currentTab === 'cart'}
-      on:click={() => currentTab = 'cart'}
-    >
-      🛒 Cart
-    </button>
+
     <button 
       class="tab" 
       class:active={currentTab === 'products'}
@@ -271,6 +279,32 @@
     align-items: center;
     gap: 10px;
     flex-shrink: 0;
+  }
+
+  .cart-icon {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 22px;
+    cursor: pointer;
+    position: relative;
+    padding: 4px;
+  }
+
+  .cart-badge {
+    position: absolute;
+    top: -4px;
+    right: -6px;
+    background: white;
+    color: #CC0000;
+    font-size: 11px;
+    font-weight: 700;
+    min-width: 18px;
+    height: 18px;
+    border-radius: 9px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 
   .theme-toggle, .logout-btn {
