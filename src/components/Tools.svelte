@@ -33,11 +33,19 @@
     ad_proof_image: null
   };
   let generating = false;
-  // Use localhost for dev, Cloudflare tunnel for production
+  // Counter Sign API endpoint
   const isDev = window.location.hostname === 'localhost';
-  const COUNTER_SIGN_API = isDev 
+  let COUNTER_SIGN_API = isDev 
     ? 'http://localhost:3333'
-    : 'https://preparation-amend-thereof-sam.trycloudflare.com';
+    : 'https://genetics-born-placing-economic.trycloudflare.com';
+  
+  // On production, try to fetch the latest tunnel URL
+  if (!isDev) {
+    fetch('/api/counter-sign-url')
+      .then(r => r.json())
+      .then(d => { if (d.url) COUNTER_SIGN_API = d.url; })
+      .catch(() => {}); // Fall back to hardcoded URL
+  }
 
   onMount(async () => {
     try {
