@@ -206,7 +206,9 @@
       <p class="empty">No customers found. Sales sync from Gmail contracts nightly.</p>
     {:else}
       <div class="customer-list">
-        {#each filteredCustomers as c}
+        {#each filteredCustomers as c, i}
+          {@const clientEvents = getClientEvents(c)}
+          {@const nearbyStores = getNearbyStores(c)}
           <div class="customer-card">
             <div class="card-header">
               <h4>{c.business_name || 'Unknown'}</h4>
@@ -230,7 +232,6 @@
             {#if isManager && c.sales_rep}
               <p class="rep-tag">Rep: {c.sales_rep}</p>
             {/if}
-            {@const clientEvents = getClientEvents(c)}
             {#if clientEvents.length > 0}
               <div class="client-events">
                 <p class="events-label">Upcoming</p>
@@ -282,7 +283,6 @@
                 <!-- Expansion Opportunities -->
                 <div class="section-header">🚀 Expansion Opportunities</div>
                 
-                {@const nearbyStores = getNearbyStores(c)}
                 {#if nearbyStores.length > 0}
                   <p class="expand-label">🏪 Nearby Stores in {nearbyStores[0]?.City}</p>
                   <div class="nearby-list">
