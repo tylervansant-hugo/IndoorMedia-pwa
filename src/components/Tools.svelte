@@ -9,6 +9,12 @@
   let searchQuery = '';
   let selectedStore = null;
   
+  // Testimonials state
+  let testimonialQuery = '';
+  let testimonialResults = [];
+  let testimonialLoading = false;
+  let testimonialError = '';
+  
   // Audit state
   let auditStoreNum = null;
   let auditStep = 1; // 1: select store, 2: enter inventory, 3: report
@@ -56,6 +62,33 @@
       view = 'main';
       selectedStore = null;
       searchQuery = '';
+      testimonialQuery = '';
+      testimonialResults = [];
+    }
+  }
+
+  async function searchTestimonials() {
+    if (!testimonialQuery.trim()) {
+      testimonialResults = [];
+      return;
+    }
+
+    testimonialLoading = true;
+    testimonialError = '';
+
+    try {
+      const response = await fetch(`/api/search-testimonials?q=${encodeURIComponent(testimonialQuery)}`);
+      if (!response.ok) throw new Error('Search failed');
+      const data = await response.json();
+      testimonialResults = data.results || [];
+      if (testimonialResults.length === 0) {
+        testimonialError = `No testimonials found for "${testimonialQuery}"`;
+      }
+    } catch (err) {
+      testimonialError = `Error searching testimonials: ${err.message}`;
+      testimonialResults = [];
+    } finally {
+      testimonialLoading = false;
     }
   }
 
@@ -378,23 +411,48 @@
   {#if view === 'testimonials'}
     <button class="back-btn" on:click={goBack}>← Back</button>
     <h2>📋 Testimonials</h2>
-    <p class="subtitle">Find relevant case studies</p>
+    <p class="subtitle">Find relevant case studies and social proof</p>
 
     <div class="search-box">
       <input
         type="text"
         placeholder="Search by keyword, business type, ROI..."
+        bind:value={testimonialQuery}
+        on:keydown={(e) => e.key === 'Enter' && searchTestimonials()}
+        disabled={testimonialLoading}
       />
+      <button class="search-btn" on:click={searchTestimonials} disabled={testimonialLoading || !testimonialQuery.trim()}>
+        {testimonialLoading ? '🔄' : '🔍'} Search
+      </button>
     </div>
 
     <div class="info-card">
-      <p>💡 Search for testimonials by:</p>
+      <p>💡 Search examples:</p>
       <ul>
-        <li>Business category (dental, restaurant, salon, etc.)</li>
-        <li>Keywords (ROI, foot traffic, sales increase, etc.)</li>
-        <li>Specific results (parking lot, drive-through, etc.)</li>
+        <li>Business categories: "dental", "restaurant", "salon", "gym"</li>
+        <li>Results: "parking lot", "foot traffic", "sales increase", "ROI"</li>
+        <li>Topics: "skeptical", "started slow", "thank you"</li>
       </ul>
     </div>
+
+    {#if testimonialError}
+      <div class="error-card">{testimonialError}</div>
+    {/if}
+
+    {#if testimonialResults.length > 0}
+      <div class="results-card">
+        <h3>Found {testimonialResults.length} testimonial{testimonialResults.length !== 1 ? 's' : ''}</h3>
+        {#each testimonialResults as testimonial}
+          <div class="testimonial-item">
+            <h4>{testimonial.business}</h4>
+            <p class="comment">"{testimonial.comment}{testimonial.comment.length === 200 ? '...' : ''}"</p>
+            <a href={testimonial.url} target="_blank" class="testimonial-link">Read full story →</a>
+          </div>
+        {/each}
+      </div>
+    {:else if testimonialQuery && !testimonialLoading}
+      <p class="hint">Press Enter or click Search to find testimonials</p>
+    {/if}
   {/if}
 
   <!-- Audit Store -->
@@ -996,5 +1054,96 @@
     margin: 12px 0 0;
     color: #999;
     font-size: 12px;
+  }
+
+  .search-btn {
+    background: #CC0000;
+    color: white;
+    border: none;
+    padding: 10px 16px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 14px;
+    margin-top: 8px;
+    width: 100%;
+    transition: background 0.2s;
+  }
+
+  .search-btn:hover:not(:disabled) {
+    background: #990000;
+  }
+
+  .search-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+
+  .error-card {
+    background: #ffe0e0;
+    border: 1px solid #ff9999;
+    color: #c33;
+    padding: 12px;
+    border-radius: 8px;
+    margin: 15px 0;
+    font-size: 14px;
+  }
+
+  .results-card {
+    background: white;
+    border: 1px solid #eee;
+    border-radius: 8px;
+    padding: 16px;
+    margin-top: 15px;
+  }
+
+  .results-card h3 {
+    margin: 0 0 16px;
+    font-size: 16px;
+    color: #333;
+  }
+
+  .testimonial-item {
+    padding: 12px 0;
+    border-bottom: 1px solid #f0f0f0;
+  }
+
+  .testimonial-item:last-child {
+    border-bottom: none;
+  }
+
+  .testimonial-item h4 {
+    margin: 0 0 6px;
+    font-size: 14px;
+    color: #333;
+    font-weight: 600;
+  }
+
+  .testimonial-item .comment {
+    margin: 0 0 8px;
+    font-size: 13px;
+    color: #666;
+    font-style: italic;
+  }
+
+  .testimonial-link {
+    color: #CC0000;
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: 600;
+    transition: color 0.2s;
+  }
+
+  .testimonial-link:hover {
+    color: #990000;
+    text-decoration: underline;
+  }
+
+  .hint {
+    text-align: center;
+    color: #999;
+    font-size: 13px;
+    margin-top: 20px;
+    padding: 20px;
   }
 </style>

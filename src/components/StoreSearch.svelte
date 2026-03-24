@@ -155,6 +155,9 @@
 </script>
 
 <div class="search-container">
+  <h2>🏪 Store Network</h2>
+  <p class="subtitle">Find pricing and delivery info for 7,835+ stores nationwide</p>
+
   <div class="search-box">
     <input
       type="text"
@@ -265,6 +268,20 @@
             <!-- Expanded: All 4 Payment Plans -->
             {#if isExpanded}
               <div class="expanded-pricing">
+                <!-- Ad Type Toggle in Expanded View -->
+                <div class="expanded-ad-toggle">
+                  <button
+                    class="ad-btn"
+                    class:active={currentAdType === 'single'}
+                    on:click={() => { adType[store.StoreName] = 'single'; adType = adType; }}
+                  >Single Ad</button>
+                  <button
+                    class="ad-btn"
+                    class:active={currentAdType === 'double'}
+                    on:click={() => { adType[store.StoreName] = 'double'; adType = adType; }}
+                  >Double Ad</button>
+                </div>
+
                 <h4>All Payment Plans — {currentAdType === 'double' ? 'Double' : 'Single'} Ad {isCoop ? '(Co-Op)' : '(Standard)'}</h4>
                 
                 <div class="plan-card" on:click={() => handleAddToCart(store, currentAdType, 'monthly')}>
@@ -317,6 +334,19 @@
   .search-container {
     max-width: 1200px;
     margin: 0 auto;
+  }
+
+  h2 {
+    margin: 0 0 0.5rem 0;
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--text-primary);
+  }
+
+  .subtitle {
+    margin: 0 0 20px 0;
+    font-size: 14px;
+    color: var(--text-secondary);
   }
 
   .search-box {
@@ -567,6 +597,12 @@
     margin-top: 16px;
     padding-top: 16px;
     border-top: 2px solid #eee;
+  }
+
+  .expanded-ad-toggle {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 16px;
   }
 
   .expanded-pricing h4 {
