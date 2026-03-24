@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/IndoorMedia-pwa/favicon.svg" />
+    <link rel="manifest" href="/IndoorMedia-pwa/manifest.json" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <meta name="theme-color" content="#CC0000" />
+    <link rel="apple-touch-icon" href="/IndoorMedia-pwa/icon-192.png" />
+    <link rel="apple-touch-icon" sizes="512x512" href="/IndoorMedia-pwa/icon-512.png" />
+    <meta name="description" content="Sales management portal for IndoorMedia representatives" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="IndoorMedia" />
+    <title>IndoorMedia Rep Portal</title>
+    <script type="module" crossorigin src="/IndoorMedia-pwa/assets/index-CdVladn8.js"></script>
+    <link rel="stylesheet" crossorigin href="/IndoorMedia-pwa/assets/index-DorgQ-6p.css">
+  </head>
+  <body>
+    <div id="app"></div>
+    <script>
+      // Register service worker for PWA functionality
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+          navigator.serviceWorker.register('/sw.js').then(reg => {
+            console.log('[App] Service Worker registered:', reg);
+          }).catch(err => {
+            console.error('[App] Service Worker registration failed:', err);
+          });
+        });
+      }
+    </script>
+  </body>
+</html>
