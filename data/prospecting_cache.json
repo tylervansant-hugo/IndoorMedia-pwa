@@ -302,14 +302,14 @@
       "prospects": [
         {
           "name": "PC Smiles Ridgefield",
-          "type": "dentist, health, point_of_interest, establishment",
+          "type": "dentist, point_of_interest, health, establishment",
           "address": "109 S 65th Ave, Ridgefield",
           "lat": 45.8156245,
           "lon": -122.6831319,
           "distance_miles": 0.84,
           "likelihood_score": 80,
           "rating": 4.8,
-          "user_ratings_total": 583,
+          "user_ratings_total": 584,
           "phone": "+1 360-887-2333",
           "website": "https://www.pacificcrestsmiles.com/",
           "place_id": "ChIJF3u8JgJNlFQRslwhoyDxsRA",
@@ -322,14 +322,14 @@
         },
         {
           "name": "Mountain View Dental",
-          "type": "dentist, health, point_of_interest, establishment",
+          "type": "dentist, point_of_interest, health, establishment",
           "address": "5284 Pioneer St #120, Ridgefield",
           "lat": 45.8160374,
           "lon": -122.6948381,
           "distance_miles": 0.28,
           "likelihood_score": 86,
           "rating": 4.9,
-          "user_ratings_total": 360,
+          "user_ratings_total": 362,
           "phone": "+1 360-887-1177",
           "website": "http://www.ridgefielddentist.com/",
           "place_id": "ChIJW976ywZNlFQRKc-gBs2LHLE",
@@ -342,7 +342,7 @@
         },
         {
           "name": "Oasis Dental Ridgefield",
-          "type": "dentist, doctor, health, point_of_interest, establishment",
+          "type": "dentist, doctor, point_of_interest, health, establishment",
           "address": "11 S 47th Ave Suite 101, Ridgefield",
           "lat": 45.8154774,
           "lon": -122.7015907,
@@ -362,7 +362,7 @@
         },
         {
           "name": "Ridgefield Dental Care",
-          "type": "health, point_of_interest, establishment",
+          "type": "point_of_interest, health, establishment",
           "address": "4312 S Settler Dr #200, Ridgefield",
           "lat": 45.8151678,
           "lon": -122.7032462,
@@ -382,14 +382,14 @@
         },
         {
           "name": "Dental Care at Union Ridge",
-          "type": "dentist, health, point_of_interest, establishment",
+          "type": "dentist, point_of_interest, health, establishment",
           "address": "420 N 56th Pl Unit 150, Ridgefield",
-          "lat": 45.8188073,
-          "lon": -122.6904224,
-          "distance_miles": 0.55,
-          "likelihood_score": 61,
+          "lat": 45.817338,
+          "lon": -122.6906316,
+          "distance_miles": 0.5,
+          "likelihood_score": 65,
           "rating": 5,
-          "user_ratings_total": 1,
+          "user_ratings_total": 2,
           "phone": "+1 564-236-2950",
           "website": "https://dentalcareatunionridge.com/",
           "place_id": "ChIJVbRx96ZNlFQRLVCViKhSghg",
@@ -402,7 +402,7 @@
         },
         {
           "name": "Expert Endodontics Northwest",
-          "type": "dentist, health, point_of_interest, establishment",
+          "type": "dentist, point_of_interest, health, establishment",
           "address": "2 S 56th Pl SUITE 202, Ridgefield",
           "lat": 45.8154686,
           "lon": -122.6901277,
@@ -420,7 +420,7 @@
         },
         {
           "name": "Dr. Christopher Madani",
-          "type": "dentist, health, point_of_interest, establishment",
+          "type": "dentist, point_of_interest, health, establishment",
           "address": "11 S 47th Ave Suite 101, Ridgefield",
           "lat": 45.8144997,
           "lon": -122.7017896,
@@ -438,7 +438,7 @@
         },
         {
           "name": "Brown-Saito Orthodontics",
-          "type": "dentist, health, point_of_interest, establishment",
+          "type": "dentist, point_of_interest, health, establishment",
           "address": "2 S 56th Pl SUITE 202, Ridgefield",
           "lat": 45.8154686,
           "lon": -122.6901277,
@@ -457,7 +457,7 @@
           "source": "Google Places"
         }
       ],
-      "createdAt": "2026-03-17T22:57:39.265190",
+      "createdAt": "2026-03-23T21:29:12.735312",
       "count": 8
     },
     "56719e7c55f5c22d": {
@@ -13407,5 +13407,5 @@
       "count": 3
     }
   },
-  "lastUpdated": "2026-03-20T17:14:59.235656"
+  "lastUpdated": "2026-03-23T21:29:12.735334"
 }

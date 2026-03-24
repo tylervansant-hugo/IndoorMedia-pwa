@@ -1,5 +1,33 @@
 # MEMORY.md - Shelldon's Long-Term Memory
 
+## PWA (imPro Sales Portal) - Mar 23, 2026
+**Status:** ✅ LIVE on GitHub Pages
+
+**Tech Stack:** Svelte + Vite → GitHub Pages (no Vercel)
+
+**Tabs:**
+1. 📊 Dashboard — Quick stats & actions
+2. 🎯 Prospects — Real businesses via Google Places API (240K+ results cached)
+3. 🏪 Stores — Store rates lookup (7,835 stores nationwide)
+4. 📦 Products — Register Tape, Cartvertising, Digital (DigitalBoost, FindLocal, ReviewBoost, LoyaltyBoost)
+5. 🛒 Cart — Order management
+6. 🛠️ Tools — ROI Calc, Rates, Testimonials, Audit Store, **Counter Sign Generator**
+
+**Counter Sign Generator** (Mar 23):
+- Flow: Chain code → Upload business card → Landing page (opt) → Upload ad proof → Generate PDF
+- API: Flask server at `localhost:5000/generate` calls actual `counter_sign_generator.py`
+- Startup: `./start_counter_sign_api.sh` (auto-installs Flask)
+- Download: PDF downloads directly to browser after generation
+- Uses real store templates from `/data/store_templates/` (150+ chains: ALB, FME, HEB, QFC, etc.)
+
+**Key Features:**
+- ✅ Real prospects from Google Places API (no mocks)
+- ✅ 7,835 store pricing database nationwide
+- ✅ Digital product suite (pricing + payment plans)
+- ✅ Tools for ROI, rates, testimonials, audits, counter signs
+- ✅ GitHub Pages hosting (reliable, zero failure emails)
+- ✅ Responsive design (mobile + desktop)
+
 ## Tyler & Team
 - **Tyler Van Sant:** Regional manager for IndoorMedia covering Oregon & Washington
   - Dad of 4, husband
