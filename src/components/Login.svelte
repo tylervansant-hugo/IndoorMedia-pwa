@@ -59,12 +59,11 @@
     <!-- Logo Section -->
     <div class="logo-section">
       <img src="/logo.png?v=2" alt="IndoorMedia" class="logo-img" />
-      <h2 class="app-name">imPro</h2>
+      <p class="pro-text">pro</p>
     </div>
 
     <!-- Content -->
     <div class="login-content">
-      <h1>Sales Portal</h1>
       <p class="subtitle">Select your profile to continue</p>
 
       <form on:submit|preventDefault={handleLogin} class="login-form">
@@ -111,11 +110,7 @@
       </form>
     </div>
 
-    <!-- Footer -->
-    <div class="login-footer">
-      <p class="version">imPro v2.0</p>
-      <p class="tagline">IndoorMedia Sales Portal</p>
-    </div>
+
   </div>
 </div>
 
@@ -126,7 +121,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    background: linear-gradient(135deg, #CC0000 0%, #1a1a1a 100%);
+    background: #CC0000;
     min-height: 100vh;
     padding: 20px;
   }
@@ -160,11 +155,13 @@
     object-fit: contain;
   }
 
-  .app-name {
+  .pro-text {
     margin: 0;
-    font-size: 24px;
-    font-weight: 700;
-    letter-spacing: -0.5px;
+    font-size: 18px;
+    font-weight: 600;
+    color: white;
+    font-style: italic;
+    letter-spacing: 1px;
   }
 
   /* Content */
