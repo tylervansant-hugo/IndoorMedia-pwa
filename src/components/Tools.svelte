@@ -682,12 +682,13 @@
   h2 {
     margin: 0 0 8px;
     font-size: 24px;
-    color: #333;
+    font-weight: 700;
+    color: var(--text-primary);
   }
 
   .subtitle {
     margin: 0 0 20px;
-    color: #666;
+    color: var(--text-secondary);
     font-size: 14px;
   }
 

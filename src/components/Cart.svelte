@@ -355,9 +355,9 @@
 
 <style>
   .quote-container { padding: 20px; max-width: 600px; margin: 0 auto; }
-  h2 { margin: 0 0 6px; font-size: 22px; font-weight: 700; color: #333; }
+  h2 { margin: 0 0 6px; font-size: 24px; font-weight: 700; color: var(--text-primary); }
   h3 { margin: 0 0 12px; font-size: 18px; font-weight: 700; color: #333; }
-  .subtitle { margin: 0 0 16px; color: #666; font-size: 14px; }
+  .subtitle { margin: 0 0 16px; color: var(--text-secondary); font-size: 14px; }
 
   .add-btn { width: 100%; padding: 14px; background: #CC0000; color: white; border: none; border-radius: 8px; font-size: 16px; font-weight: 700; cursor: pointer; margin-bottom: 16px; }
   .add-btn:hover { background: #990000; }

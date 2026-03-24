@@ -192,8 +192,8 @@
 
 <style>
   .clients-container { padding: 20px; max-width: 600px; margin: 0 auto; }
-  h2 { margin: 0 0 6px; font-size: 22px; color: #333; font-weight: 700; }
-  .subtitle { margin: 0 0 16px; color: #666; font-size: 14px; }
+  h2 { margin: 0 0 6px; font-size: 24px; color: var(--text-primary); font-weight: 700; }
+  .subtitle { margin: 0 0 16px; color: var(--text-secondary); font-size: 14px; }
   .back-btn { background: none; border: none; color: #CC0000; font-size: 14px; font-weight: 600; cursor: pointer; padding: 10px 0; margin-bottom: 16px; }
 
   .menu-grid { display: flex; flex-direction: column; gap: 12px; margin-top: 16px; }
