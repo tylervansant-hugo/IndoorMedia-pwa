@@ -18,11 +18,13 @@
   
   // Audit state
   let auditStoreNum = null;
-  let auditStep = 1; // 1: select store, 2: enter inventory, 3: report
+  let auditStep = 1; // 1: select store, 2: shipment dates, 3: enter inventory, 4: confirm, 5: report
   let auditCases = '';
   let auditRolls = '';
   let auditDate = new Date().toISOString().split('T')[0];
   let auditStartingCases = '';
+  let auditLastShipmentDate = '';
+  let auditNextShipmentDate = '';
   let auditReport = null;
   
   // Counter sign state
@@ -239,12 +241,9 @@
     const runoutDate = new Date();
     runoutDate.setDate(runoutDate.getDate() + Math.floor(daysUntilRunout));
 
-    // Estimate next delivery (90-day / 3-month cycle from last delivery)
-    const nextDelivery = new Date(delDate);
-    while (nextDelivery <= new Date()) {
-      nextDelivery.setDate(nextDelivery.getDate() + 90);
-    }
-    const daysUntilDelivery = Math.ceil((nextDelivery - new Date()) / (1000 * 60 * 60 * 24));
+    // Use the next shipment date that the rep entered
+    const nextDelivery = new Date(auditNextShipmentDate);
+    const daysUntilDelivery = Math.ceil((nextDelivery - today) / (1000 * 60 * 60 * 24));
     const insufficient = daysUntilRunout < daysUntilDelivery;
     
     // Get expected month name for next delivery
@@ -271,7 +270,7 @@
       daysUntilDelivery: daysUntilDelivery,
       insufficient: insufficient
     };
-    auditStep = 3;
+    auditStep = 4;
   }
 
   async function downloadAuditPdf() {
@@ -525,11 +524,35 @@
       <p class="subtitle">{selectedStore?.GroceryChain} - {selectedStore?.City}</p>
 
       <div class="form-card">
+        <p class="form-label">📅 Shipment Dates</p>
+        
         <div class="form-group">
-          <label>Last Delivery Date</label>
-          <input type="date" bind:value={auditDate} />
+          <label>Last Delivery Date *</label>
+          <input type="date" bind:value={auditDate} required />
         </div>
 
+        <div class="form-group">
+          <label>Projected Next Shipment Date *</label>
+          <input type="date" bind:value={auditNextShipmentDate} required />
+          <p class="hint">Typically 90 days after last delivery</p>
+        </div>
+
+        <button class="action-btn" on:click={() => auditStep = 3} disabled={!auditDate || !auditNextShipmentDate}>
+          Continue to Inventory
+        </button>
+        
+        <button class="back-btn" on:click={() => auditStep = 1}>
+          ← Back
+        </button>
+      </div>
+
+    {:else if auditStep === 3}
+      <h2>Audit: {auditStoreNum}</h2>
+      <p class="subtitle">{selectedStore?.GroceryChain} - {selectedStore?.City}</p>
+
+      <div class="form-card">
+        <p class="form-label">📦 Current Inventory</p>
+        
         <div class="form-group">
           <label>Starting Cases (at delivery)</label>
           <input type="number" bind:value={auditStartingCases} min="0" max="50" placeholder="e.g., 20" />
@@ -548,9 +571,15 @@
         <button class="action-btn" on:click={generateAuditReport} disabled={!auditCases && auditCases !== 0}>
           Generate Audit Report
         </button>
+        
+        <button class="back-btn" on:click={() => auditStep = 2}>
+          ← Back to Dates
+        </button>
       </div>
 
-    {:else if auditStep === 3 && auditReport}
+    {:else if auditStep === 4 && auditReport}
+
+    {:else if auditStep === 4 && auditReport}
       <h2>Audit Report</h2>
 
       <div class="report-card">
@@ -879,6 +908,14 @@
     margin-top: 15px;
   }
 
+  .form-label {
+    display: block;
+    margin-bottom: 12px;
+    font-weight: 700;
+    font-size: 14px;
+    color: var(--text-primary);
+  }
+
   .form-group {
     margin-bottom: 16px;
   }
@@ -889,6 +926,13 @@
     font-weight: 600;
     font-size: 13px;
     color: #333;
+  }
+
+  .hint {
+    margin-top: 4px;
+    font-size: 12px;
+    color: var(--text-secondary);
+    font-style: italic;
   }
 
   .form-group input,
