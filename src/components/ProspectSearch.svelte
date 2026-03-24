@@ -161,49 +161,70 @@
     }
   }
 
+  const PLACES_API_KEY = 'AIzaSyBoslNJj8aO6wkQOfkH9e4qTVJZ-G9nOuA';
+
   async function searchGooglePlaces(lat, lng, keyword) {
     try {
-      // Call our Vercel serverless function (proxies to Google Places API)
-      const response = await fetch('/api/search-places', {
+      const response = await fetch('https://places.googleapis.com/v1/places:searchText', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ lat, lng, keyword })
+        headers: {
+          'Content-Type': 'application/json',
+          'X-Goog-Api-Key': PLACES_API_KEY,
+          'X-Goog-FieldMask': 'places.displayName,places.formattedAddress,places.rating,places.userRatingCount,places.location,places.businessStatus,places.nationalPhoneNumber,places.websiteUri,places.googleMapsUri'
+        },
+        body: JSON.stringify({
+          textQuery: keyword,
+          locationBias: {
+            circle: {
+              center: { latitude: lat, longitude: lng },
+              radius: 8000.0
+            }
+          },
+          maxResultCount: 10
+        })
       });
 
-      if (!response.ok) throw new Error('API error');
-      const data = await response.json();
-      
-      if (data.success && data.places) {
-        return data.places;
-      } else {
-        throw new Error(data.error || 'Unknown error');
+      if (!response.ok) {
+        const errText = await response.text();
+        console.error('Google API error:', response.status, errText);
+        throw new Error('API error ' + response.status);
       }
+
+      const data = await response.json();
+
+      return (data.places || []).map((place) => {
+        const pLat = place.location?.latitude || 0;
+        const pLng = place.location?.longitude || 0;
+        const dist = calculateDistance(lat, lng, pLat, pLng);
+        const rating = place.rating || 0;
+        const reviews = place.userRatingCount || 0;
+
+        const distScore = Math.max(0, 40 - (dist * 8));
+        const ratingScore = (rating / 5) * 30;
+        const reviewScore = Math.min(30, (reviews / 100) * 30);
+        const score = Math.round(distScore + ratingScore + reviewScore);
+
+        return {
+          id: place.displayName?.text || 'unknown',
+          name: place.displayName?.text || 'Unnamed',
+          address: place.formattedAddress || 'Address unavailable',
+          rating,
+          reviews,
+          distance: Math.round(dist * 10) / 10,
+          score: Math.min(100, score),
+          phone: place.nationalPhoneNumber || null,
+          website: place.websiteUri || null,
+          mapsUrl: place.googleMapsUri || null,
+          status: place.businessStatus === 'OPERATIONAL' ? 'open' : 'check',
+          lat: pLat,
+          lng: pLng
+        };
+      }).sort((a, b) => b.score - a.score);
     } catch (err) {
       console.error('Google Places error:', err);
-      // Fallback to mock data
-      return generateMockProspects(selectedSubcategory);
+      error = 'Search failed. Please try again.';
+      return [];
     }
-  }
-
-  function generateMockProspects(category) {
-    const names = [
-      `${category} Prospect 1`,
-      `${category} Prospect 2`,
-      `${category} Prospect 3`,
-      `${category} Prospect 4`,
-      `${category} Prospect 5`
-    ];
-    
-    return names.map((name, idx) => ({
-      id: idx,
-      name,
-      address: `${100 + idx * 100} Main St`,
-      rating: 3.5 + Math.random() * 1.5,
-      reviews: Math.floor(20 + Math.random() * 100),
-      distance: 0.2 + idx * 0.3,
-      score: 65 + Math.random() * 30,
-      status: 'open'
-    }));
   }
 
   function loadSavedProspects() {
