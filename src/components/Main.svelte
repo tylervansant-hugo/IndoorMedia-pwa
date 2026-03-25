@@ -13,15 +13,92 @@
   let currentTab = 'dashboard';
   let currentTheme = 'light';
   let cartCount = 0;
+  let contracts = [];
+  let allStores = [];
+  let savedProspects = [];
+
+  // Dashboard stats
+  let prospectsThisWeek = 0;
+  let revenueThisMonth = 0;
+  let growthPercent = 0;
+  let storesInTerritory = 0;
 
   function updateCartCount() {
     try { cartCount = JSON.parse(localStorage.getItem('indoormedia_cart') || '[]').length; } catch { cartCount = 0; }
   }
 
-  onMount(() => {
+  function computeDashboardStats() {
+    const repName = ($user?.name || $user?.first_name || '').toLowerCase();
+    const isManager = repName.includes('tyler') || $user?.role === 'manager' || $user?.role === 'admin';
+    const now = new Date();
+    
+    // Saved prospects this week
+    try {
+      const saved = JSON.parse(localStorage.getItem('saved_prospects') || '[]');
+      const weekAgo = new Date(now);
+      weekAgo.setDate(weekAgo.getDate() - 7);
+      savedProspects = saved;
+      prospectsThisWeek = saved.filter(p => {
+        const d = new Date(p.savedAt || p.saved_at || 0);
+        return d >= weekAgo;
+      }).length || saved.length; // fallback to total if no dates
+    } catch { prospectsThisWeek = 0; }
+
+    // Revenue this month from contracts
+    const thisMonth = now.getMonth();
+    const thisYear = now.getFullYear();
+    const lastMonth = thisMonth === 0 ? 11 : thisMonth - 1;
+    const lastMonthYear = thisMonth === 0 ? thisYear - 1 : thisYear;
+    
+    const myContracts = isManager ? contracts : contracts.filter(c => {
+      const rep = (c.sales_rep || '').toLowerCase();
+      return rep.includes(repName.split(' ')[0]);
+    });
+    
+    const thisMonthContracts = myContracts.filter(c => {
+      const d = new Date(c.date);
+      return d.getMonth() === thisMonth && d.getFullYear() === thisYear;
+    });
+    const lastMonthContracts = myContracts.filter(c => {
+      const d = new Date(c.date);
+      return d.getMonth() === lastMonth && d.getFullYear() === lastMonthYear;
+    });
+    
+    revenueThisMonth = thisMonthContracts.reduce((sum, c) => sum + (c.total_amount || 0), 0);
+    const lastMonthRevenue = lastMonthContracts.reduce((sum, c) => sum + (c.total_amount || 0), 0);
+    growthPercent = lastMonthRevenue > 0 ? Math.round(((revenueThisMonth - lastMonthRevenue) / lastMonthRevenue) * 100) : 0;
+
+    // Stores in territory (based on user's state)
+    const userLocation = $user?.base_location || '';
+    const userState = userLocation.split(',').pop()?.trim().toUpperCase() || '';
+    if (isManager) {
+      // Show OR + WA for Tyler
+      storesInTerritory = allStores.filter(s => s.State === 'OR' || s.State === 'WA').length;
+    } else if (userState) {
+      storesInTerritory = allStores.filter(s => s.State === userState).length;
+    } else {
+      storesInTerritory = allStores.length;
+    }
+  }
+
+  onMount(async () => {
     theme.subscribe(t => currentTheme = t);
     updateCartCount();
     const interval = setInterval(updateCartCount, 2000);
+
+    try {
+      const [contractsRes, storesRes] = await Promise.all([
+        fetch('/data/contracts.json'),
+        fetch('/data/stores.json')
+      ]);
+      const contractsData = await contractsRes.json();
+      contracts = contractsData.contracts || [];
+      allStores = await storesRes.json().catch(() => []);
+      computeDashboardStats();
+    } catch (err) {
+      console.error('Failed to load dashboard data:', err);
+    }
+
     return () => clearInterval(interval);
   });
 
@@ -140,25 +217,25 @@
           <div class="stat-card">
             <div class="stat-icon">🎯</div>
             <h3>Prospects</h3>
-            <p class="stat-value">0</p>
+            <p class="stat-value">{prospectsThisWeek}</p>
             <p class="stat-label">This Week</p>
           </div>
           <div class="stat-card">
             <div class="stat-icon">💰</div>
             <h3>Revenue</h3>
-            <p class="stat-value">$0</p>
+            <p class="stat-value">${revenueThisMonth.toLocaleString()}</p>
             <p class="stat-label">This Month</p>
           </div>
           <div class="stat-card">
             <div class="stat-icon">📈</div>
             <h3>Growth</h3>
-            <p class="stat-value">0%</p>
+            <p class="stat-value">{growthPercent}%</p>
             <p class="stat-label">vs Last Month</p>
           </div>
           <div class="stat-card">
             <div class="stat-icon">🏪</div>
             <h3>Stores</h3>
-            <p class="stat-value">0</p>
+            <p class="stat-value">{storesInTerritory.toLocaleString()}</p>
             <p class="stat-label">In Territory</p>
           </div>
         </div>
