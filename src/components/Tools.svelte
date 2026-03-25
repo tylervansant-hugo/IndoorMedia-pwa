@@ -27,6 +27,57 @@
   let auditNextShipmentDate = '';
   let auditReport = null;
 
+  // ROI Calculator state
+  let roiAdCost = '';
+  let roiQuarters = 2;
+  let roiRedemptions = '';
+  let roiTicket = '';
+  let roiDiscount = '';
+  let roiCogs = '';
+  let roiResult = null;
+
+  function calculateROI() {
+    const adCost = parseFloat(roiAdCost) || 0;
+    const quarters = parseInt(roiQuarters) || 2;
+    const months = quarters * 3;
+    const redemptions = parseInt(roiRedemptions) || 0;
+    const ticket = parseFloat(roiTicket) || 0;
+    const discount = parseFloat(roiDiscount) || 0;
+    const cogsPercent = parseFloat(roiCogs) || 0;
+    
+    const totalAdCost = adCost * quarters;
+    const monthlyRevenue = redemptions * ticket;
+    const monthlyDiscounts = redemptions * discount;
+    const monthlyCogs = monthlyRevenue * (cogsPercent / 100);
+    const monthlyProfit = monthlyRevenue - monthlyDiscounts - monthlyCogs;
+    
+    const totalRevenue = monthlyRevenue * months;
+    const totalDiscounts = monthlyDiscounts * months;
+    const totalCogs = monthlyCogs * months;
+    const totalProfit = monthlyProfit * months;
+    const campaignProfit = totalProfit - totalAdCost;
+    const roiPercent = totalAdCost > 0 ? Math.round((campaignProfit / totalAdCost) * 100) : 0;
+    
+    // Break-even: how many redemptions per month to cover ad cost
+    const profitPerRedemption = ticket - discount - (ticket * cogsPercent / 100);
+    const breakEvenRedemptions = profitPerRedemption > 0 ? Math.ceil(totalAdCost / (profitPerRedemption * months)) : '∞';
+    
+    roiResult = {
+      totalAdCost: Math.round(totalAdCost),
+      quarters,
+      months,
+      monthlyRevenue: Math.round(monthlyRevenue),
+      monthlyProfit: Math.round(monthlyProfit),
+      totalRevenue: Math.round(totalRevenue),
+      totalDiscounts: Math.round(totalDiscounts),
+      totalCogs: Math.round(totalCogs),
+      campaignProfit: Math.round(campaignProfit),
+      roiPercent,
+      cogsPercent,
+      breakEvenRedemptions
+    };
+  }
+
   // Submit testimonial state
   let testimonialSubmit = {
     businessName: '',
@@ -451,31 +502,112 @@
     <p class="subtitle">Calculate campaign ROI before pitching</p>
 
     <div class="info-card">
-      <p>💡 Use this tool to show customers potential ROI on register tape campaigns.</p>
-      <p>Input estimated redemptions, average ticket, COGS, and we'll calculate break-even and monthly/annual profit.</p>
+      <p>💡 Show customers their potential ROI on register tape campaigns. Factor in the ad cost to show real profit.</p>
       
       <div class="form-group">
-        <label>Monthly Redemptions</label>
-        <input type="number" placeholder="e.g., 30" />
+        <label>Ad Cost per Quarter ($) *</label>
+        <input type="number" bind:value={roiAdCost} placeholder="e.g., 1778" />
+        <p class="hint">Store rate from Rates tab (e.g., $1,778 for single ad)</p>
       </div>
 
       <div class="form-group">
-        <label>Average Ticket ($)</label>
-        <input type="number" placeholder="e.g., 50" />
+        <label>Number of Quarters</label>
+        <select bind:value={roiQuarters}>
+          <option value={1}>1 quarter</option>
+          <option value={2}>2 quarters</option>
+          <option value={4}>4 quarters (1 year)</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label>Monthly Redemptions *</label>
+        <input type="number" bind:value={roiRedemptions} placeholder="e.g., 30" />
+        <p class="hint">Estimated new customers per month from the ad</p>
+      </div>
+
+      <div class="form-group">
+        <label>Average Ticket ($) *</label>
+        <input type="number" bind:value={roiTicket} placeholder="e.g., 50" />
       </div>
 
       <div class="form-group">
         <label>Coupon Discount ($)</label>
-        <input type="number" placeholder="e.g., 10" />
+        <input type="number" bind:value={roiDiscount} placeholder="e.g., 10" />
+        <p class="hint">If running a coupon/offer on the ad</p>
       </div>
 
       <div class="form-group">
         <label>COGS (%)</label>
-        <input type="number" placeholder="e.g., 35" />
+        <input type="number" bind:value={roiCogs} placeholder="e.g., 35" min="0" max="100" />
+        <p class="hint">Cost of goods sold (typical: 25-40%)</p>
       </div>
 
-      <button class="action-btn">Calculate ROI</button>
+      <button class="action-btn" on:click={calculateROI} disabled={!roiAdCost || !roiRedemptions || !roiTicket}>
+        Calculate ROI
+      </button>
     </div>
+
+    {#if roiResult}
+      <div class="roi-results">
+        <h3>📊 ROI Breakdown</h3>
+        
+        <div class="roi-stats">
+          <div class="roi-stat">
+            <span class="roi-value">${roiResult.monthlyRevenue.toLocaleString()}</span>
+            <span class="roi-label">Monthly Revenue</span>
+          </div>
+          <div class="roi-stat">
+            <span class="roi-value">${roiResult.monthlyProfit.toLocaleString()}</span>
+            <span class="roi-label">Monthly Profit</span>
+          </div>
+          <div class="roi-stat highlight">
+            <span class="roi-value">${roiResult.campaignProfit.toLocaleString()}</span>
+            <span class="roi-label">Campaign Profit</span>
+          </div>
+        </div>
+
+        <div class="roi-detail">
+          <div class="roi-row">
+            <span>Ad Cost ({roiResult.quarters}Q)</span>
+            <span class="cost">${roiResult.totalAdCost.toLocaleString()}</span>
+          </div>
+          <div class="roi-row">
+            <span>Gross Revenue ({roiResult.months} months)</span>
+            <span>${roiResult.totalRevenue.toLocaleString()}</span>
+          </div>
+          <div class="roi-row">
+            <span>Less Discounts</span>
+            <span class="cost">-${roiResult.totalDiscounts.toLocaleString()}</span>
+          </div>
+          <div class="roi-row">
+            <span>Less COGS ({roiResult.cogsPercent}%)</span>
+            <span class="cost">-${roiResult.totalCogs.toLocaleString()}</span>
+          </div>
+          <div class="roi-row total">
+            <span>Net Profit After Ad Cost</span>
+            <span class="{roiResult.campaignProfit >= 0 ? 'profit' : 'cost'}">${roiResult.campaignProfit.toLocaleString()}</span>
+          </div>
+          <div class="roi-row total">
+            <span>ROI</span>
+            <span class="{roiResult.roiPercent >= 0 ? 'profit' : 'cost'}">{roiResult.roiPercent}%</span>
+          </div>
+          <div class="roi-row">
+            <span>Break-even Redemptions/mo</span>
+            <span>{roiResult.breakEvenRedemptions}</span>
+          </div>
+        </div>
+
+        <div class="roi-verdict" class:positive={roiResult.roiPercent >= 0} class:negative={roiResult.roiPercent < 0}>
+          {#if roiResult.roiPercent >= 100}
+            🚀 Excellent ROI! Customer makes ${roiResult.campaignProfit.toLocaleString()} profit on a ${roiResult.totalAdCost.toLocaleString()} investment.
+          {:else if roiResult.roiPercent >= 0}
+            ✅ Positive ROI. Campaign pays for itself and generates ${roiResult.campaignProfit.toLocaleString()} in profit.
+          {:else}
+            ⚠️ Negative ROI at these numbers. Try adjusting redemptions or ticket size.
+          {/if}
+        </div>
+      </div>
+    {/if}
   {/if}
 
   <!-- Store Rates -->
@@ -1339,6 +1471,24 @@
     font-family: inherit;
     color: #333;
   }
+
+  /* ROI Results */
+  .roi-results { margin-top: 20px; }
+  .roi-results h3 { margin: 0 0 16px; font-size: 18px; color: var(--text-primary); }
+  .roi-stats { display: flex; gap: 10px; margin-bottom: 16px; }
+  .roi-stat { flex: 1; background: var(--card-bg, white); border: 1px solid var(--border-color, #eee); border-radius: 10px; padding: 14px; text-align: center; }
+  .roi-stat.highlight { border-color: #CC0000; background: #fff5f5; }
+  .roi-value { display: block; font-size: 20px; font-weight: 700; color: #CC0000; }
+  .roi-label { display: block; font-size: 11px; color: #888; margin-top: 4px; text-transform: uppercase; }
+  .roi-detail { background: var(--card-bg, white); border: 1px solid var(--border-color, #eee); border-radius: 10px; padding: 16px; }
+  .roi-row { display: flex; justify-content: space-between; padding: 8px 0; font-size: 13px; border-bottom: 1px solid #f0f0f0; }
+  .roi-row:last-child { border-bottom: none; }
+  .roi-row.total { font-weight: 700; font-size: 14px; border-top: 2px solid #ddd; padding-top: 12px; margin-top: 4px; }
+  .roi-row .cost { color: #c33; }
+  .roi-row .profit { color: #2e7d32; font-weight: 700; }
+  .roi-verdict { margin-top: 16px; padding: 14px; border-radius: 10px; font-size: 14px; font-weight: 600; text-align: center; }
+  .roi-verdict.positive { background: #e8f5e9; color: #2e7d32; border: 1px solid #81c784; }
+  .roi-verdict.negative { background: #ffe0e0; color: #c33; border: 1px solid #ff9999; }
 
   .results-card {
     background: white;
