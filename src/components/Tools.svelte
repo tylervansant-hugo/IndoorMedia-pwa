@@ -28,6 +28,9 @@
   let auditReport = null;
 
   // ROI Calculator state
+  let roiBusinessName = '';
+  let roiStoreSearch = '';
+  let roiSelectedStore = null;
   let roiAdCost = '';
   let roiQuarters = 2;
   let roiRedemptions = '';
@@ -35,6 +38,23 @@
   let roiDiscount = '';
   let roiCogs = '';
   let roiResult = null;
+
+  $: roiStoreResults = roiStoreSearch.length >= 2
+    ? allStores.filter(s =>
+        s.StoreName?.toLowerCase().includes(roiStoreSearch.toLowerCase()) ||
+        s.GroceryChain?.toLowerCase().includes(roiStoreSearch.toLowerCase()) ||
+        s.City?.toLowerCase().includes(roiStoreSearch.toLowerCase())
+      ).slice(0, 8)
+    : [];
+
+  function selectRoiStore(store) {
+    roiSelectedStore = store;
+    roiStoreSearch = '';
+    // Auto-fill ad cost from store's SingleAd price
+    if (store.SingleAd) {
+      roiAdCost = store.SingleAd;
+    }
+  }
 
   function calculateROI() {
     const adCost = parseFloat(roiAdCost) || 0;
@@ -76,6 +96,95 @@
       cogsPercent,
       breakEvenRedemptions
     };
+  }
+
+  async function downloadRoiPdf() {
+    if (!roiResult) return;
+    const r = roiResult;
+    const biz = roiBusinessName || 'Customer';
+    const store = roiSelectedStore
+      ? `${roiSelectedStore.GroceryChain} — ${roiSelectedStore.City}, ${roiSelectedStore.State} (${roiSelectedStore.StoreName})`
+      : 'N/A';
+    const repName = $user?.name || $user?.first_name || 'IndoorMedia Rep';
+
+    const pdfDoc = await PDFDocument.create();
+    const page = pdfDoc.addPage([612, 792]);
+    const bold = await pdfDoc.embedFont('Helvetica-Bold');
+    const reg = await pdfDoc.embedFont('Helvetica');
+
+    // Header
+    page.drawRectangle({ x: 0, y: 700, width: 612, height: 92, color: rgb(0.8, 0, 0) });
+    page.drawText('ROI ANALYSIS REPORT', { x: 30, y: 745, size: 22, font: bold, color: rgb(1, 1, 1) });
+    page.drawText('IndoorMedia Register Tape Advertising', { x: 30, y: 722, size: 12, font: reg, color: rgb(1, 0.9, 0.9) });
+    page.drawText(new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }), { x: 30, y: 705, size: 10, font: reg, color: rgb(1, 0.85, 0.85) });
+
+    let y = 670;
+    const section = (title) => {
+      y -= 14;
+      page.drawText(title, { x: 40, y, size: 13, font: bold, color: rgb(0.1, 0.1, 0.1) });
+      y -= 22;
+    };
+    const line = (label, value) => {
+      page.drawText(label, { x: 50, y, size: 11, font: reg, color: rgb(0.3, 0.3, 0.3) });
+      page.drawText(String(value), { x: 350, y, size: 11, font: bold, color: rgb(0.1, 0.1, 0.1) });
+      y -= 20;
+    };
+
+    section('PREPARED FOR');
+    line('Business:', biz);
+    line('Store:', store);
+    line('Prepared by:', repName);
+
+    section('CAMPAIGN DETAILS');
+    line('Ad Cost per Quarter:', `$${(parseFloat(roiAdCost) || 0).toLocaleString()}`);
+    line('Campaign Length:', `${r.quarters} quarter(s) / ${r.months} months`);
+    line('Total Ad Investment:', `$${r.totalAdCost.toLocaleString()}`);
+
+    section('ASSUMPTIONS');
+    line('Monthly Redemptions:', roiRedemptions);
+    line('Average Ticket:', `$${parseFloat(roiTicket || 0).toLocaleString()}`);
+    line('Coupon Discount:', `$${parseFloat(roiDiscount || 0).toLocaleString()}`);
+    line('COGS:', `${r.cogsPercent}%`);
+
+    section('ROI BREAKDOWN');
+    line('Gross Revenue:', `$${r.totalRevenue.toLocaleString()}`);
+    line('Less Discounts:', `-$${r.totalDiscounts.toLocaleString()}`);
+    line('Less COGS:', `-$${r.totalCogs.toLocaleString()}`);
+    line('Less Ad Cost:', `-$${r.totalAdCost.toLocaleString()}`);
+    y -= 5;
+    page.drawLine({ start: { x: 50, y: y + 12 }, end: { x: 550, y: y + 12 }, thickness: 1.5, color: rgb(0.8, 0, 0) });
+    y -= 5;
+    page.drawText('NET PROFIT', { x: 50, y, size: 13, font: bold, color: rgb(0.1, 0.1, 0.1) });
+    page.drawText(`$${r.campaignProfit.toLocaleString()}`, { x: 350, y, size: 13, font: bold, color: r.campaignProfit >= 0 ? rgb(0.18, 0.49, 0.2) : rgb(0.8, 0, 0) });
+    y -= 25;
+    page.drawText('RETURN ON INVESTMENT', { x: 50, y, size: 13, font: bold, color: rgb(0.1, 0.1, 0.1) });
+    page.drawText(`${r.roiPercent}%`, { x: 350, y, size: 13, font: bold, color: r.roiPercent >= 0 ? rgb(0.18, 0.49, 0.2) : rgb(0.8, 0, 0) });
+    y -= 25;
+    line('Break-even Redemptions/mo:', String(r.breakEvenRedemptions));
+
+    y -= 20;
+    // Verdict box
+    const verdictColor = r.roiPercent >= 100 ? rgb(0.91, 0.96, 0.91) : r.roiPercent >= 0 ? rgb(0.95, 0.98, 0.95) : rgb(1, 0.93, 0.93);
+    const verdictTextColor = r.roiPercent >= 0 ? rgb(0.18, 0.49, 0.2) : rgb(0.8, 0.2, 0.2);
+    page.drawRectangle({ x: 40, y: y - 10, width: 530, height: 40, color: verdictColor, borderColor: verdictTextColor, borderWidth: 1 });
+    const verdict = r.roiPercent >= 100
+      ? `Excellent ROI! $${r.campaignProfit.toLocaleString()} profit on a $${r.totalAdCost.toLocaleString()} investment.`
+      : r.roiPercent >= 0
+        ? `Positive ROI. Campaign generates $${r.campaignProfit.toLocaleString()} in profit.`
+        : 'Negative ROI at these numbers. Adjust redemptions or ticket size.';
+    page.drawText(verdict, { x: 55, y: y + 5, size: 11, font: bold, color: verdictTextColor });
+
+    // Footer
+    page.drawText('Prepared by IndoorMedia | indoormedia.com', { x: 40, y: 30, size: 9, font: reg, color: rgb(0.6, 0.6, 0.6) });
+
+    const pdfBytes = await pdfDoc.save();
+    const blob = new Blob([pdfBytes], { type: 'application/pdf' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `ROI_Report_${biz.replace(/[^a-zA-Z0-9]/g, '_')}.pdf`;
+    a.click();
+    URL.revokeObjectURL(url);
   }
 
   // Submit testimonial state
@@ -502,12 +611,43 @@
     <p class="subtitle">Calculate campaign ROI before pitching</p>
 
     <div class="info-card">
-      <p>💡 Show customers their potential ROI on register tape campaigns. Factor in the ad cost to show real profit.</p>
+      <p>💡 Show customers their potential ROI on register tape campaigns.</p>
       
+      <div class="form-group">
+        <label>Business Name *</label>
+        <input type="text" bind:value={roiBusinessName} placeholder="e.g., Main Street Coffee" />
+      </div>
+
+      <div class="form-group">
+        <label>Store</label>
+        {#if roiSelectedStore}
+          <div class="selected-store-badge">
+            <span>{roiSelectedStore.GroceryChain} — {roiSelectedStore.City}, {roiSelectedStore.State} ({roiSelectedStore.StoreName})</span>
+            <button class="clear-btn" on:click={() => { roiSelectedStore = null; roiAdCost = ''; }}>✕</button>
+          </div>
+        {:else}
+          <input type="text" bind:value={roiStoreSearch} placeholder="Search store by name, city, or number..." />
+          {#if roiStoreResults.length > 0}
+            <div class="roi-store-list">
+              {#each roiStoreResults as store}
+                <button class="roi-store-btn" on:click={() => selectRoiStore(store)}>
+                  <strong>{store.GroceryChain}</strong> — {store.City}, {store.State}
+                  <span class="store-id">{store.StoreName}</span>
+                </button>
+              {/each}
+            </div>
+          {/if}
+        {/if}
+      </div>
+
       <div class="form-group">
         <label>Ad Cost per Quarter ($) *</label>
         <input type="number" bind:value={roiAdCost} placeholder="e.g., 1778" />
-        <p class="hint">Store rate from Rates tab (e.g., $1,778 for single ad)</p>
+        {#if roiSelectedStore}
+          <p class="hint">Auto-filled from {roiSelectedStore.GroceryChain} single ad rate</p>
+        {:else}
+          <p class="hint">Select a store above or enter manually</p>
+        {/if}
       </div>
 
       <div class="form-group">
@@ -606,6 +746,10 @@
             ⚠️ Negative ROI at these numbers. Try adjusting redemptions or ticket size.
           {/if}
         </div>
+
+        <button class="action-btn" on:click={downloadRoiPdf} style="margin-top: 16px;">
+          📄 Generate ROI Report
+        </button>
       </div>
     {/if}
   {/if}
@@ -1489,6 +1633,13 @@
   .roi-verdict { margin-top: 16px; padding: 14px; border-radius: 10px; font-size: 14px; font-weight: 600; text-align: center; }
   .roi-verdict.positive { background: #e8f5e9; color: #2e7d32; border: 1px solid #81c784; }
   .roi-verdict.negative { background: #ffe0e0; color: #c33; border: 1px solid #ff9999; }
+
+  .selected-store-badge { display: flex; align-items: center; justify-content: space-between; padding: 10px 12px; background: #fff5f5; border: 1px solid #CC0000; border-radius: 6px; font-size: 13px; font-weight: 600; color: #333; }
+  .clear-btn { background: none; border: none; color: #CC0000; font-size: 16px; cursor: pointer; padding: 0 4px; font-weight: 700; }
+  .roi-store-list { display: flex; flex-direction: column; gap: 4px; margin-top: 6px; max-height: 200px; overflow-y: auto; }
+  .roi-store-btn { text-align: left; padding: 10px; background: var(--card-bg, white); border: 1px solid var(--border-color, #eee); border-radius: 6px; font-size: 12px; cursor: pointer; transition: all 0.2s; color: var(--text-primary); }
+  .roi-store-btn:hover { border-color: #CC0000; background: #fff5f5; }
+  .roi-store-btn .store-id { float: right; color: #CC0000; font-weight: 600; font-size: 11px; }
 
   .results-card {
     background: white;
