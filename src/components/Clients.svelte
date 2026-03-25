@@ -1,14 +1,24 @@
 <script>
   import { onMount } from 'svelte';
   import { user } from '../lib/stores.js';
+  import * as pdfjsLib from 'pdfjs-dist';
+  
+  // Set worker source for pdfjs
+  pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.9.155/pdf.worker.min.mjs';
 
-  let view = 'main'; // main, customers, sales
+  let view = 'main'; // main, customers, sales, submit-contract
   let contracts = [];
   let allStores = [];
   let loading = true;
   let searchQuery = '';
   let expandedCustomer = null;
   let emailDraft = null;
+  
+  // Submit contract state
+  let contractFile = null;
+  let contractParsing = false;
+  let contractParsed = null;
+  let contractError = '';
 
   onMount(async () => {
     try {
@@ -161,11 +171,132 @@
     });
   }
 
+  async function handleContractUpload(event) {
+    const file = event.target.files[0];
+    if (!file || file.type !== 'application/pdf') {
+      contractError = 'Please select a PDF file';
+      return;
+    }
+    
+    contractFile = file;
+    contractParsing = true;
+    contractError = '';
+    contractParsed = null;
+
+    try {
+      const arrayBuffer = await file.arrayBuffer();
+      const pdf = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;
+      let fullText = '';
+      
+      for (let i = 1; i <= pdf.numPages; i++) {
+        const page = await pdf.getPage(i);
+        const content = await page.getTextContent();
+        fullText += content.items.map(item => item.str).join(' ') + '\n';
+      }
+      
+      // Parse contract fields
+      const parsed = {};
+      
+      // Contract number
+      let m = fullText.match(/Contract\s*#:\s*(\S+)/);
+      parsed.contract_number = m ? m[1] : '';
+      
+      // Date
+      m = fullText.match(/Contract\s*#:.*?(\d{1,2}\/\d{1,2}\/\d{4})/);
+      if (m) {
+        const parts = m[1].split('/');
+        parsed.date = `${parts[2]}-${parts[0].padStart(2,'0')}-${parts[1].padStart(2,'0')} 00:00`;
+        parsed.payment_date = m[1];
+      }
+      
+      // Sales rep
+      m = fullText.match(/Sales Representative:\s*([^|]+)/);
+      parsed.sales_rep = m ? m[1].trim() : '';
+      
+      // Business name from Advertiser's Business Name
+      m = fullText.match(/Advertiser's Business Name:\s*([^\n]+?)(?:Advertiser|$)/);
+      parsed.business_name = m ? m[1].trim() : '';
+      
+      // Contact name
+      m = fullText.match(/Advertiser's Printed Name:\s*([^\n]+?)(?:Advertiser|$)/);
+      parsed.contact_name = m ? m[1].trim() : '';
+      
+      // Email (first non-indoormedia email)
+      const emails = fullText.match(/[\w.+-]+@[\w.-]+\.\w+/g) || [];
+      parsed.contact_email = emails.find(e => !e.includes('indoormedia')) || '';
+      
+      // Phone
+      m = fullText.match(/\(?(\d{3})\)?[\s.-]?(\d{3})[\s.-]?(\d{4})/);
+      parsed.contact_phone = m ? `(${m[1]}) ${m[2]}-${m[3]}` : '';
+      
+      // Contract total
+      m = fullText.match(/Contract Total\s*\$?([\d,]+\.?\d*)/);
+      parsed.total_amount = m ? parseFloat(m[1].replace(',', '')) : 0;
+      if (!parsed.total_amount) {
+        m = fullText.match(/Net Price\s*\$?([\d,]+\.?\d*)/);
+        parsed.total_amount = m ? parseFloat(m[1].replace(',', '')) : 0;
+      }
+      
+      // Store info
+      m = fullText.match(/Register Tape\s*([\w\s]+-\d+)/);
+      if (m) {
+        const storeParts = m[1].trim().split('-');
+        parsed.store_name = storeParts[0].trim();
+        parsed.store_number = storeParts[storeParts.length - 1];
+      } else {
+        parsed.store_name = '';
+        parsed.store_number = '';
+      }
+      
+      // Product type
+      m = fullText.match(/(Single|Double)\s+Ad/);
+      parsed.product_description = m ? `${m[1]} Ad` : '';
+      
+      // Address
+      m = fullText.match(/(\d+\s+[^,]+,\s*[^,]+,?\s*\w{2}\s+\d{5})/);
+      parsed.address = m ? m[1].trim() : '';
+      
+      parsed.extracted_at = new Date().toISOString();
+      contractParsed = parsed;
+      
+    } catch (err) {
+      console.error('PDF parse error:', err);
+      contractError = 'Failed to read PDF. Make sure it\'s an IndoorMedia contract.';
+    } finally {
+      contractParsing = false;
+    }
+  }
+
+  function submitContract() {
+    if (!contractParsed) return;
+    
+    // Save to localStorage
+    const submitted = JSON.parse(localStorage.getItem('submitted_contracts') || '[]');
+    submitted.push({
+      ...contractParsed,
+      submittedBy: $user?.name || 'Unknown',
+      submittedAt: new Date().toISOString()
+    });
+    localStorage.setItem('submitted_contracts', JSON.stringify(submitted));
+    
+    // Also add to contracts list so it shows immediately
+    contracts = [contractParsed, ...contracts];
+    
+    // Reset
+    contractParsed = null;
+    contractFile = null;
+    contractError = '';
+    view = 'main';
+  }
+
   function goBack() {
     view = 'main';
     searchQuery = '';
     expandedCustomer = null;
     emailDraft = null;
+    contractParsed = null;
+    contractFile = null;
+    contractError = '';
   }
 </script>
 
@@ -185,6 +316,12 @@
         <div class="menu-emoji">💳</div>
         <h4>My Sales</h4>
         <p>${totalRevenue.toLocaleString()} total</p>
+      </button>
+
+      <button class="menu-btn" on:click={() => view = 'submit-contract'}>
+        <div class="menu-emoji">📄</div>
+        <h4>Submit Contract</h4>
+        <p>Upload signed agreement</p>
       </button>
     </div>
 
@@ -314,6 +451,84 @@
     {/if}
   {/if}
 
+  <!-- Submit Contract -->
+  {#if view === 'submit-contract'}
+    <button class="back-btn" on:click={goBack}>&larr; Back</button>
+    <h2>📄 Submit Contract</h2>
+    <p class="subtitle">Upload a signed IndoorMedia agreement</p>
+
+    <div class="upload-area">
+      <input type="file" accept=".pdf" on:change={handleContractUpload} id="contract-upload" />
+      <label for="contract-upload" class="upload-label">
+        {#if contractParsing}
+          ⏳ Reading PDF...
+        {:else if contractFile}
+          📄 {contractFile.name}
+        {:else}
+          📎 Tap to select PDF
+        {/if}
+      </label>
+    </div>
+
+    {#if contractError}
+      <p class="error-text">{contractError}</p>
+    {/if}
+
+    {#if contractParsed}
+      <div class="parsed-card">
+        <h3>✅ Contract Parsed</h3>
+        
+        <div class="parsed-field">
+          <span class="field-label">Contract #</span>
+          <span class="field-value">{contractParsed.contract_number || '—'}</span>
+        </div>
+        <div class="parsed-field">
+          <span class="field-label">Business</span>
+          <span class="field-value">{contractParsed.business_name || '—'}</span>
+        </div>
+        <div class="parsed-field">
+          <span class="field-label">Contact</span>
+          <span class="field-value">{contractParsed.contact_name || '—'}</span>
+        </div>
+        <div class="parsed-field">
+          <span class="field-label">Email</span>
+          <span class="field-value">{contractParsed.contact_email || '—'}</span>
+        </div>
+        <div class="parsed-field">
+          <span class="field-label">Phone</span>
+          <span class="field-value">{contractParsed.contact_phone || '—'}</span>
+        </div>
+        <div class="parsed-field">
+          <span class="field-label">Sales Rep</span>
+          <span class="field-value">{contractParsed.sales_rep || '—'}</span>
+        </div>
+        <div class="parsed-field">
+          <span class="field-label">Store</span>
+          <span class="field-value">{contractParsed.store_name} #{contractParsed.store_number}</span>
+        </div>
+        <div class="parsed-field">
+          <span class="field-label">Product</span>
+          <span class="field-value">{contractParsed.product_description || '—'}</span>
+        </div>
+        <div class="parsed-field highlight">
+          <span class="field-label">Total</span>
+          <span class="field-value">${(contractParsed.total_amount || 0).toLocaleString()}</span>
+        </div>
+        <div class="parsed-field">
+          <span class="field-label">Date</span>
+          <span class="field-value">{contractParsed.payment_date || '—'}</span>
+        </div>
+
+        <button class="submit-btn" on:click={submitContract}>
+          ✅ Confirm & Submit
+        </button>
+        <button class="cancel-btn" on:click={() => { contractParsed = null; contractFile = null; }}>
+          ✏️ Try Different PDF
+        </button>
+      </div>
+    {/if}
+  {/if}
+
   <!-- My Sales -->
   {#if view === 'sales'}
     <button class="back-btn" on:click={goBack}>&larr; Back</button>
@@ -415,6 +630,26 @@
   .client-event.soon .evt-date { color: #CC0000; font-weight: 600; }
   .client-event.overdue .evt-date { color: #c33; font-weight: 700; }
   .client-event.overdue .evt-label { color: #c33; }
+
+  /* Submit Contract */
+  .upload-area { margin: 16px 0; }
+  .upload-area input[type="file"] { display: none; }
+  .upload-label { display: block; padding: 24px; text-align: center; border: 2px dashed #ddd; border-radius: 10px; font-size: 16px; font-weight: 600; color: var(--text-secondary); cursor: pointer; transition: all 0.2s; }
+  .upload-label:hover { border-color: #CC0000; background: #fff5f5; }
+
+  .error-text { color: #c33; font-size: 13px; margin: 8px 0; }
+
+  .parsed-card { background: var(--card-bg, white); border: 1px solid var(--border-color, #eee); border-radius: 10px; padding: 16px; margin-top: 16px; }
+  .parsed-card h3 { margin: 0 0 12px; font-size: 16px; color: #2e7d32; }
+  .parsed-field { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #f0f0f0; font-size: 13px; }
+  .parsed-field:last-of-type { border-bottom: none; }
+  .parsed-field.highlight { background: #fff5f5; margin: 4px -8px; padding: 8px; border-radius: 6px; }
+  .field-label { color: var(--text-secondary); font-weight: 600; }
+  .field-value { color: var(--text-primary); text-align: right; max-width: 60%; }
+  .parsed-field.highlight .field-value { color: #CC0000; font-weight: 700; font-size: 16px; }
+
+  .submit-btn { width: 100%; padding: 14px; background: #CC0000; color: white; border: none; border-radius: 8px; font-size: 15px; font-weight: 700; cursor: pointer; margin-top: 16px; }
+  .cancel-btn { width: 100%; padding: 10px; background: none; border: 1px solid #ddd; border-radius: 8px; font-size: 13px; color: var(--text-secondary); cursor: pointer; margin-top: 8px; }
 
   /* Expanded Section */
   .expand-btn { background: #fff5f5 !important; color: #CC0000 !important; border-color: #CC0000 !important; font-weight: 600; }

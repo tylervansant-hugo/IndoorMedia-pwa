@@ -24,7 +24,8 @@
   "author": "Tyler Van Sant",
   "license": "MIT",
   "dependencies": {
-    "pdf-lib": "^1.17.1"
+    "pdf-lib": "^1.17.1",
+    "pdfjs-dist": "^5.5.207"
   },
   "devDependencies": {
     "@sveltejs/vite-plugin-svelte": "^7.0.0",
