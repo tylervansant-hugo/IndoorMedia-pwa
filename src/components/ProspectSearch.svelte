@@ -14,6 +14,7 @@
   let loading = false;
   let error = '';
   let searchInput = '';
+  let customSearch = '';
   let storeSearchQuery = '';
   let filteredStoreResults = [];
 
@@ -199,6 +200,24 @@
   function selectCategory(cat) {
     selectedCategory = cat;
     view = 'subcategories';
+  }
+
+  async function searchCustom() {
+    if (!customSearch.trim()) return;
+    loading = true;
+    error = '';
+    selectedSubcategory = customSearch.trim();
+
+    try {
+      const results = await searchGooglePlaces(selectedStore.latitude, selectedStore.longitude, customSearch.trim());
+      prospects = results;
+      view = 'results';
+    } catch (err) {
+      console.error('Custom search failed:', err);
+      error = 'Search failed. Try a different keyword.';
+    } finally {
+      loading = false;
+    }
   }
 
   async function selectSubcategory(subcat) {
@@ -512,7 +531,21 @@
   {#if view === 'categories'}
     <button class="back-btn" on:click={goBack}>← Back</button>
     <h3>📍 {selectedStore.GroceryChain} - {selectedStore.City}, {selectedStore.State}</h3>
-    <p class="subtitle">Choose a category to find prospects</p>
+    <p class="subtitle">Search by name or choose a category</p>
+
+    <div class="custom-search-bar">
+      <input 
+        type="text" 
+        bind:value={customSearch} 
+        placeholder="Search business name or keyword..."
+        on:keydown={(e) => e.key === 'Enter' && searchCustom()}
+      />
+      <button class="search-go-btn" on:click={searchCustom} disabled={!customSearch.trim() || loading}>
+        {loading ? '...' : '🔍'}
+      </button>
+    </div>
+
+    <p class="or-divider">— or pick a category —</p>
 
     <div class="category-grid">
       {#each Object.keys(CATEGORIES) as cat}
@@ -954,5 +987,48 @@
 
   @media (max-width: 600px) {
     .category-grid, .subcat-grid { grid-template-columns: 1fr; }
+  }
+
+  .custom-search-bar {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 12px;
+  }
+
+  .custom-search-bar input {
+    flex: 1;
+    padding: 12px;
+    border: 2px solid #ddd;
+    border-radius: 8px;
+    font-size: 14px;
+    font-family: inherit;
+  }
+
+  .custom-search-bar input:focus {
+    border-color: #CC0000;
+    outline: none;
+  }
+
+  .search-go-btn {
+    padding: 12px 18px;
+    background: #CC0000;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    cursor: pointer;
+    font-weight: 700;
+  }
+
+  .search-go-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+
+  .or-divider {
+    text-align: center;
+    color: var(--text-tertiary, #999);
+    font-size: 12px;
+    margin: 12px 0;
   }
 </style>
