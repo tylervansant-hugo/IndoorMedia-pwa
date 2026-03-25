@@ -197,23 +197,53 @@
     URL.revokeObjectURL(url);
   }
 
-  // Submit testimonial state
-  let testimonialSubmit = {
-    businessName: '',
-    contactName: '',
-    email: '',
-    phone: '',
-    category: '',
-    testimonialText: '',
-    permissionGranted: false,
-    submitting: false,
-    submitted: false
+  // Submit testimonial state (matches ProspectBot flow)
+  let testStep = 1; // 1-15 steps
+  let testForm = {
+    name: '',           // Step 1: Contact name
+    business: '',       // Step 2: Business name
+    address: '',        // Step 3: Business address
+    phone: '',          // Step 4: Phone number
+    groceryChain: '',   // Step 5: Grocery chain
+    zone: '',           // Step 6: Zone
+    storeNumber: '',    // Step 7: Store number
+    couponsPerWeek: '', // Step 8: Coupons per week
+    avgTicket: '',      // Step 9: Average ticket price
+    roi: '',            // Step 10: ROI rating
+    duration: '',       // Step 11: How long advertised
+    wouldRenew: '',     // Step 12: Would renew?
+    recommend: '',      // Step 13: Would recommend?
+    comments: '',       // Step 14: Additional comments
+    couponImage: null,  // Step 15: Coupon photo
   };
-  const categories = [
-    'Restaurant', 'Retail', 'Beauty/Salon', 'Automotive', 'Dental',
-    'Gym/Fitness', 'Coffee Shop', 'Bar/Pub', 'Real Estate', 'Medical',
-    'Veterinary', 'Legal', 'Home Services', 'Spa', 'Other'
-  ];
+  let testSubmitting = false;
+  let testSubmitted = false;
+
+  function testNext() { testStep++; }
+  function testBack() { if (testStep > 1) testStep--; }
+
+  let testStoreSearch = '';
+  $: testStoreResults = testStoreSearch.length >= 2
+    ? allStores.filter(s =>
+        s.StoreName?.toLowerCase().includes(testStoreSearch.toLowerCase()) ||
+        s.GroceryChain?.toLowerCase().includes(testStoreSearch.toLowerCase()) ||
+        s.City?.toLowerCase().includes(testStoreSearch.toLowerCase())
+      ).slice(0, 6)
+    : [];
+
+  function selectTestStore(store) {
+    testForm.groceryChain = store.GroceryChain;
+    testForm.zone = store.ZoneName || '';
+    testForm.storeNumber = store.StoreName || '';
+    testStoreSearch = '';
+  }
+
+  function handleCouponImage(event) {
+    const file = event.target.files[0];
+    if (file) {
+      testForm.couponImage = file;
+    }
+  }
   
   // Counter sign state
   let counterSignStep = 1; // 1: chain, 2: business card, 3: landing page, 4: ad proof, 5: confirm
@@ -256,42 +286,27 @@
     : [];
 
   async function submitTestimonial() {
-    if (!testimonialSubmit.businessName || !testimonialSubmit.contactName || !testimonialSubmit.testimonialText || !testimonialSubmit.permissionGranted) {
-      alert('Please fill in all fields and grant permission');
-      return;
-    }
-
-    testimonialSubmit.submitting = true;
+    testSubmitting = true;
     try {
-      // Save to localStorage for now (can integrate with backend later)
       const submitted = JSON.parse(localStorage.getItem('submitted_testimonials') || '[]');
       submitted.push({
-        ...testimonialSubmit,
+        ...testForm,
+        couponImage: testForm.couponImage ? testForm.couponImage.name : null,
         submittedAt: new Date().toISOString(),
         submittedBy: $user?.name || 'Unknown Rep'
       });
       localStorage.setItem('submitted_testimonials', JSON.stringify(submitted));
-      
-      // Show success
-      testimonialSubmit.submitted = true;
+      testSubmitted = true;
       setTimeout(() => {
-        testimonialSubmit = {
-          businessName: '',
-          contactName: '',
-          email: '',
-          phone: '',
-          category: '',
-          testimonialText: '',
-          permissionGranted: false,
-          submitting: false,
-          submitted: false
-        };
+        testForm = { name:'', business:'', address:'', phone:'', groceryChain:'', zone:'', storeNumber:'', couponsPerWeek:'', avgTicket:'', roi:'', duration:'', wouldRenew:'', recommend:'', comments:'', couponImage:null };
+        testStep = 1;
+        testSubmitted = false;
+        testSubmitting = false;
         view = 'main';
       }, 2000);
     } catch (err) {
       console.error('Failed to submit testimonial:', err);
-      alert('Error submitting testimonial. Please try again.');
-      testimonialSubmit.submitting = false;
+      testSubmitting = false;
     }
   }
 
@@ -1104,61 +1119,166 @@
 
   <!-- Submit Testimonial -->
   {#if view === 'submit-testimonial'}
-    <button class="back-btn" on:click={goBack}>← Back</button>
+    <button class="back-btn" on:click={() => { if (testStep > 1) testBack(); else { view = 'main'; testStep = 1; } }}>← {testStep > 1 ? 'Previous' : 'Back'}</button>
     <h2>⭐ Submit Testimonial</h2>
-    <p class="subtitle">Share a customer success story</p>
+    <p class="subtitle">Step {testStep} of 15</p>
+    <div class="step-progress"><div class="step-bar" style="width: {(testStep / 15) * 100}%"></div></div>
 
-    {#if testimonialSubmit.submitted}
+    {#if testSubmitted}
       <div class="success-card">
         <p>✅ Testimonial submitted!</p>
         <p>Thank you for sharing. Redirecting...</p>
       </div>
     {:else}
       <div class="form-card">
-        <div class="form-group">
-          <label>Business Name *</label>
-          <input type="text" bind:value={testimonialSubmit.businessName} placeholder="e.g., Main Street Coffee" />
-        </div>
 
-        <div class="form-group">
-          <label>Contact Name *</label>
-          <input type="text" bind:value={testimonialSubmit.contactName} placeholder="Owner/Manager name" />
-        </div>
+        {#if testStep === 1}
+          <p class="step-label">👤 Contact Name</p>
+          <div class="form-group">
+            <input type="text" bind:value={testForm.name} placeholder="Owner/Manager name" />
+          </div>
+          <button class="action-btn" on:click={testNext} disabled={!testForm.name.trim()}>Next →</button>
 
-        <div class="form-group">
-          <label>Email</label>
-          <input type="email" bind:value={testimonialSubmit.email} placeholder="contact@business.com" />
-        </div>
+        {:else if testStep === 2}
+          <p class="step-label">🏢 Business Name</p>
+          <div class="form-group">
+            <input type="text" bind:value={testForm.business} placeholder="e.g., Main Street Coffee" />
+          </div>
+          <button class="action-btn" on:click={testNext} disabled={!testForm.business.trim()}>Next →</button>
 
-        <div class="form-group">
-          <label>Phone</label>
-          <input type="tel" bind:value={testimonialSubmit.phone} placeholder="(555) 123-4567" />
-        </div>
+        {:else if testStep === 3}
+          <p class="step-label">📍 Business Address</p>
+          <div class="form-group">
+            <input type="text" bind:value={testForm.address} placeholder="123 Main St, City, State ZIP" />
+          </div>
+          <button class="action-btn" on:click={testNext} disabled={!testForm.address.trim()}>Next →</button>
 
-        <div class="form-group">
-          <label>Business Category</label>
-          <select bind:value={testimonialSubmit.category}>
-            <option value="">Select a category...</option>
-            {#each categories as cat}
-              <option value={cat}>{cat}</option>
-            {/each}
-          </select>
-        </div>
+        {:else if testStep === 4}
+          <p class="step-label">📞 Phone Number</p>
+          <div class="form-group">
+            <input type="tel" bind:value={testForm.phone} placeholder="(555) 123-4567" />
+          </div>
+          <button class="action-btn" on:click={testNext} disabled={!testForm.phone.trim()}>Next →</button>
 
-        <div class="form-group">
-          <label>Testimonial/Success Story *</label>
-          <textarea bind:value={testimonialSubmit.testimonialText} placeholder="What results did they see? How did the partnership help? Be specific about ROI, customer impact, etc." rows="6"></textarea>
-          <p class="hint">Example: 'We saw 3x more foot traffic in the first month. Our register tape ads caught every customer coming in. Definitely renewing!'</p>
-        </div>
+        {:else if testStep === 5}
+          <p class="step-label">🏪 Grocery Chain</p>
+          <div class="form-group">
+            <input type="text" bind:value={testStoreSearch} placeholder="Search store (Safeway, Kroger, etc.)" />
+            {#if testStoreResults.length > 0}
+              <div class="roi-store-list">
+                {#each testStoreResults as store}
+                  <button class="roi-store-btn" on:click={() => selectTestStore(store)}>
+                    <strong>{store.GroceryChain}</strong> — {store.City}, {store.State}
+                    <span class="store-id">{store.StoreName}</span>
+                  </button>
+                {/each}
+              </div>
+            {/if}
+            {#if testForm.groceryChain}
+              <p class="hint">✅ Selected: {testForm.groceryChain}</p>
+            {/if}
+          </div>
+          <button class="action-btn" on:click={testNext} disabled={!testForm.groceryChain.trim()}>Next →</button>
 
-        <div class="form-group checkbox">
-          <input type="checkbox" bind:checked={testimonialSubmit.permissionGranted} id="permission" />
-          <label for="permission">I have permission to share this testimonial *</label>
-        </div>
+        {:else if testStep === 6}
+          <p class="step-label">🗺️ Zone</p>
+          <div class="form-group">
+            <input type="text" bind:value={testForm.zone} placeholder="e.g., 07Z, 05X" />
+            <p class="hint">{testForm.zone ? '✅ ' + testForm.zone : 'Auto-filled from store if available'}</p>
+          </div>
+          <button class="action-btn" on:click={testNext} disabled={!testForm.zone.trim()}>Next →</button>
 
-        <button class="action-btn" on:click={submitTestimonial} disabled={testimonialSubmit.submitting}>
-          {testimonialSubmit.submitting ? 'Submitting...' : '✅ Submit Testimonial'}
-        </button>
+        {:else if testStep === 7}
+          <p class="step-label">🔢 Store Number</p>
+          <div class="form-group">
+            <input type="text" bind:value={testForm.storeNumber} placeholder="e.g., SAF07Z-0206" />
+            <p class="hint">{testForm.storeNumber ? '✅ ' + testForm.storeNumber : 'Auto-filled from store search'}</p>
+          </div>
+          <button class="action-btn" on:click={testNext} disabled={!testForm.storeNumber.trim()}>Next →</button>
+
+        {:else if testStep === 8}
+          <p class="step-label">🎟️ Coupons Redeemed Per Week</p>
+          <div class="form-group">
+            <input type="number" bind:value={testForm.couponsPerWeek} placeholder="e.g., 15" min="0" />
+          </div>
+          <button class="action-btn" on:click={testNext} disabled={!testForm.couponsPerWeek}>Next →</button>
+
+        {:else if testStep === 9}
+          <p class="step-label">💵 Average Ticket Price</p>
+          <div class="form-group">
+            <input type="number" bind:value={testForm.avgTicket} placeholder="e.g., 45.00" step="0.01" min="0" />
+          </div>
+          <button class="action-btn" on:click={testNext} disabled={!testForm.avgTicket}>Next →</button>
+
+        {:else if testStep === 10}
+          <p class="step-label">📊 ROI Rating</p>
+          <div class="rating-btns">
+            <button class="rating-btn" class:active={testForm.roi === 'excellent'} on:click={() => { testForm.roi = 'excellent'; testNext(); }}>🔥 Excellent</button>
+            <button class="rating-btn" class:active={testForm.roi === 'good'} on:click={() => { testForm.roi = 'good'; testNext(); }}>⭐ Good</button>
+            <button class="rating-btn" class:active={testForm.roi === 'fair'} on:click={() => { testForm.roi = 'fair'; testNext(); }}>👀 Fair</button>
+            <button class="rating-btn" class:active={testForm.roi === 'poor'} on:click={() => { testForm.roi = 'poor'; testNext(); }}>😞 Poor</button>
+          </div>
+
+        {:else if testStep === 11}
+          <p class="step-label">⏱️ How Long Have They Advertised?</p>
+          <div class="form-group">
+            <input type="text" bind:value={testForm.duration} placeholder="e.g., 6 months, 1 year" />
+          </div>
+          <button class="action-btn" on:click={testNext} disabled={!testForm.duration.trim()}>Next →</button>
+
+        {:else if testStep === 12}
+          <p class="step-label">🔄 Would They Renew?</p>
+          <div class="rating-btns">
+            <button class="rating-btn" class:active={testForm.wouldRenew === 'yes'} on:click={() => { testForm.wouldRenew = 'yes'; testNext(); }}>✅ Yes</button>
+            <button class="rating-btn" class:active={testForm.wouldRenew === 'no'} on:click={() => { testForm.wouldRenew = 'no'; testNext(); }}>❌ No</button>
+          </div>
+
+        {:else if testStep === 13}
+          <p class="step-label">👍 Would They Recommend IndoorMedia?</p>
+          <div class="rating-btns">
+            <button class="rating-btn" class:active={testForm.recommend === 'yes'} on:click={() => { testForm.recommend = 'yes'; testNext(); }}>✅ Yes</button>
+            <button class="rating-btn" class:active={testForm.recommend === 'no'} on:click={() => { testForm.recommend = 'no'; testNext(); }}>❌ No</button>
+          </div>
+
+        {:else if testStep === 14}
+          <p class="step-label">💬 Additional Comments</p>
+          <div class="form-group">
+            <textarea bind:value={testForm.comments} placeholder="Any other details about their experience..." rows="4"></textarea>
+          </div>
+          <button class="action-btn" on:click={testNext}>Next →</button>
+
+        {:else if testStep === 15}
+          <p class="step-label">📸 Coupon Photo (optional)</p>
+          <div class="form-group">
+            <input type="file" accept="image/*" on:change={handleCouponImage} />
+            {#if testForm.couponImage}
+              <p class="hint">✅ {testForm.couponImage.name}</p>
+            {:else}
+              <p class="hint">Upload a photo of a redeemed coupon</p>
+            {/if}
+          </div>
+
+          <div class="review-section">
+            <h3>📋 Review</h3>
+            <div class="review-row"><span>Name:</span><span>{testForm.name}</span></div>
+            <div class="review-row"><span>Business:</span><span>{testForm.business}</span></div>
+            <div class="review-row"><span>Address:</span><span>{testForm.address}</span></div>
+            <div class="review-row"><span>Phone:</span><span>{testForm.phone}</span></div>
+            <div class="review-row"><span>Store:</span><span>{testForm.groceryChain} {testForm.storeNumber}</span></div>
+            <div class="review-row"><span>Coupons/wk:</span><span>{testForm.couponsPerWeek}</span></div>
+            <div class="review-row"><span>Avg Ticket:</span><span>${testForm.avgTicket}</span></div>
+            <div class="review-row"><span>ROI:</span><span>{testForm.roi}</span></div>
+            <div class="review-row"><span>Duration:</span><span>{testForm.duration}</span></div>
+            <div class="review-row"><span>Would Renew:</span><span>{testForm.wouldRenew}</span></div>
+            <div class="review-row"><span>Recommend:</span><span>{testForm.recommend}</span></div>
+            {#if testForm.comments}<div class="review-row"><span>Comments:</span><span>{testForm.comments}</span></div>{/if}
+          </div>
+
+          <button class="action-btn" on:click={submitTestimonial} disabled={testSubmitting}>
+            {testSubmitting ? '⏳ Submitting...' : '✅ Submit Testimonial'}
+          </button>
+        {/if}
+
       </div>
     {/if}
   {/if}
@@ -1653,6 +1773,21 @@
     font-family: inherit;
     color: #333;
   }
+
+  /* Testimonial Steps */
+  .step-progress { height: 4px; background: #eee; border-radius: 2px; margin-bottom: 20px; overflow: hidden; }
+  .step-bar { height: 100%; background: #CC0000; border-radius: 2px; transition: width 0.3s; }
+  .step-label { font-size: 16px; font-weight: 700; color: var(--text-primary); margin-bottom: 12px; }
+
+  .rating-btns { display: flex; flex-direction: column; gap: 8px; }
+  .rating-btn { padding: 14px; border: 2px solid #ddd; border-radius: 8px; background: var(--card-bg, white); font-size: 15px; font-weight: 600; cursor: pointer; text-align: center; transition: all 0.2s; color: var(--text-primary); }
+  .rating-btn.active, .rating-btn:hover { border-color: #CC0000; background: #fff5f5; color: #CC0000; }
+
+  .review-section { margin: 16px 0; padding: 12px; background: var(--bg-secondary, #f9f9f9); border-radius: 8px; }
+  .review-section h3 { margin: 0 0 10px; font-size: 14px; font-weight: 700; }
+  .review-row { display: flex; justify-content: space-between; padding: 4px 0; font-size: 12px; }
+  .review-row span:first-child { color: var(--text-secondary); font-weight: 600; }
+  .review-row span:last-child { color: var(--text-primary); text-align: right; max-width: 60%; }
 
   /* ROI Results */
   .roi-results { margin-top: 20px; }
