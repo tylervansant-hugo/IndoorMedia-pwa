@@ -135,7 +135,7 @@
   function isBadCoords(lat, lng) {
     if (!lat || !lng) return true;
     // Check if many stores share this exact coord (dummy data)
-    const matching = stores.filter(s => 
+    const matching = allStores.filter(s => 
       Math.abs((s.latitude || 0) - lat) < 0.01 && 
       Math.abs((s.longitude || 0) - lng) < 0.01
     );
