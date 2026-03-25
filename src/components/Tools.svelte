@@ -31,8 +31,9 @@
   let roiBusinessName = '';
   let roiStoreSearch = '';
   let roiSelectedStore = null;
+  let roiAdSize = 'single'; // single or double
   let roiAdCost = '';
-  let roiQuarters = 2;
+  let roiQuarters = 4;
   let roiRedemptions = '';
   let roiTicket = '';
   let roiDiscount = '';
@@ -47,25 +48,30 @@
       ).slice(0, 8)
     : [];
 
+  // Auto-update ad cost when ad size or store changes
+  $: if (roiSelectedStore) {
+    roiAdCost = roiAdSize === 'double'
+      ? (roiSelectedStore.DoubleAd || '')
+      : (roiSelectedStore.SingleAd || '');
+  }
+
   function selectRoiStore(store) {
     roiSelectedStore = store;
     roiStoreSearch = '';
-    // Auto-fill ad cost from store's SingleAd price
-    if (store.SingleAd) {
-      roiAdCost = store.SingleAd;
-    }
   }
 
   function calculateROI() {
-    const adCost = parseFloat(roiAdCost) || 0;
-    const quarters = parseInt(roiQuarters) || 2;
+    const annualAdCost = parseFloat(roiAdCost) || 0;
+    const quarters = parseInt(roiQuarters) || 4;
     const months = quarters * 3;
+    // Annual cost, pro-rate for fewer quarters
+    const totalAdCost = Math.round(annualAdCost * (quarters / 4));
+    const costPerQuarter = Math.round(annualAdCost / 4);
     const redemptions = parseInt(roiRedemptions) || 0;
     const ticket = parseFloat(roiTicket) || 0;
     const discount = parseFloat(roiDiscount) || 0;
     const cogsPercent = parseFloat(roiCogs) || 0;
     
-    const totalAdCost = adCost * quarters;
     const monthlyRevenue = redemptions * ticket;
     const monthlyDiscounts = redemptions * discount;
     const monthlyCogs = monthlyRevenue * (cogsPercent / 100);
@@ -83,7 +89,10 @@
     const breakEvenRedemptions = profitPerRedemption > 0 ? Math.ceil(totalAdCost / (profitPerRedemption * months)) : '∞';
     
     roiResult = {
+      annualAdCost: Math.round(annualAdCost),
+      costPerQuarter,
       totalAdCost: Math.round(totalAdCost),
+      adSize: roiAdSize,
       quarters,
       months,
       monthlyRevenue: Math.round(monthlyRevenue),
@@ -136,9 +145,10 @@
     line('Prepared by:', repName);
 
     section('CAMPAIGN DETAILS');
-    line('Ad Cost per Quarter:', `$${(parseFloat(roiAdCost) || 0).toLocaleString()}`);
+    line('Ad Size:', r.adSize === 'double' ? 'Double Ad' : 'Single Ad');
+    line('Annual Ad Rate:', `$${r.annualAdCost.toLocaleString()}`);
     line('Campaign Length:', `${r.quarters} quarter(s) / ${r.months} months`);
-    line('Total Ad Investment:', `$${r.totalAdCost.toLocaleString()}`);
+    line('Total Ad Investment:', `$${r.totalAdCost.toLocaleString()}${r.quarters < 4 ? ' (pro-rated)' : ''}`);
 
     section('ASSUMPTIONS');
     line('Monthly Redemptions:', roiRedemptions);
@@ -621,9 +631,21 @@
       <div class="form-group">
         <label>Store</label>
         {#if roiSelectedStore}
-          <div class="selected-store-badge">
-            <span>{roiSelectedStore.GroceryChain} — {roiSelectedStore.City}, {roiSelectedStore.State} ({roiSelectedStore.StoreName})</span>
-            <button class="clear-btn" on:click={() => { roiSelectedStore = null; roiAdCost = ''; }}>✕</button>
+          <div class="store-info-card">
+            <div class="store-info-header">
+              <strong>{roiSelectedStore.GroceryChain}</strong>
+              <button class="clear-btn" on:click={() => { roiSelectedStore = null; roiAdCost = ''; }}>✕</button>
+            </div>
+            <div class="store-info-details">
+              <span>📍 {roiSelectedStore.City}, {roiSelectedStore.State}</span>
+              <span>🏪 {roiSelectedStore.StoreName}</span>
+              <span>🔄 Cycle {roiSelectedStore.Cycle || '—'}</span>
+              <span>📦 {roiSelectedStore['Case Count'] || '—'} cases</span>
+            </div>
+            <div class="store-info-prices">
+              <span class:active={roiAdSize === 'single'}>Single: ${(roiSelectedStore.SingleAd || 0).toLocaleString()}/yr</span>
+              <span class:active={roiAdSize === 'double'}>Double: ${(roiSelectedStore.DoubleAd || 0).toLocaleString()}/yr</span>
+            </div>
           </div>
         {:else}
           <input type="text" bind:value={roiStoreSearch} placeholder="Search store by name, city, or number..." />
@@ -641,10 +663,22 @@
       </div>
 
       <div class="form-group">
-        <label>Ad Cost per Quarter ($) *</label>
+        <label>Ad Size</label>
+        <div class="ad-size-toggle">
+          <button class="size-btn" class:active={roiAdSize === 'single'} on:click={() => roiAdSize = 'single'}>
+            Single Ad
+          </button>
+          <button class="size-btn" class:active={roiAdSize === 'double'} on:click={() => roiAdSize = 'double'}>
+            Double Ad
+          </button>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>Annual Ad Cost ($) *</label>
         <input type="number" bind:value={roiAdCost} placeholder="e.g., 1778" />
         {#if roiSelectedStore}
-          <p class="hint">Auto-filled from {roiSelectedStore.GroceryChain} single ad rate</p>
+          <p class="hint">Auto-filled from {roiSelectedStore.GroceryChain} {roiAdSize} ad rate</p>
         {:else}
           <p class="hint">Select a store above or enter manually</p>
         {/if}
@@ -653,9 +687,9 @@
       <div class="form-group">
         <label>Number of Quarters</label>
         <select bind:value={roiQuarters}>
-          <option value={1}>1 quarter</option>
-          <option value={2}>2 quarters</option>
-          <option value={4}>4 quarters (1 year)</option>
+          <option value={1}>1 quarter (${Math.round((parseFloat(roiAdCost) || 0) / 4).toLocaleString()})</option>
+          <option value={2}>2 quarters (${Math.round((parseFloat(roiAdCost) || 0) / 2).toLocaleString()})</option>
+          <option value={4}>4 quarters — full year (${(parseFloat(roiAdCost) || 0).toLocaleString()})</option>
         </select>
       </div>
 
@@ -708,7 +742,11 @@
 
         <div class="roi-detail">
           <div class="roi-row">
-            <span>Ad Cost ({roiResult.quarters}Q)</span>
+            <span>Annual Ad Rate ({roiResult.adSize})</span>
+            <span>${roiResult.annualAdCost.toLocaleString()}</span>
+          </div>
+          <div class="roi-row">
+            <span>Investment ({roiResult.quarters}Q{roiResult.quarters < 4 ? ' pro-rated' : ''})</span>
             <span class="cost">${roiResult.totalAdCost.toLocaleString()}</span>
           </div>
           <div class="roi-row">
@@ -1633,6 +1671,17 @@
   .roi-verdict { margin-top: 16px; padding: 14px; border-radius: 10px; font-size: 14px; font-weight: 600; text-align: center; }
   .roi-verdict.positive { background: #e8f5e9; color: #2e7d32; border: 1px solid #81c784; }
   .roi-verdict.negative { background: #ffe0e0; color: #c33; border: 1px solid #ff9999; }
+
+  .store-info-card { padding: 12px; background: #fff5f5; border: 1px solid #CC0000; border-radius: 8px; }
+  .store-info-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; font-size: 15px; color: #333; }
+  .store-info-details { display: flex; flex-wrap: wrap; gap: 8px 16px; margin-bottom: 8px; font-size: 12px; color: var(--text-secondary); }
+  .store-info-prices { display: flex; gap: 16px; font-size: 13px; color: var(--text-secondary); }
+  .store-info-prices span.active { color: #CC0000; font-weight: 700; }
+
+  .ad-size-toggle { display: flex; gap: 8px; }
+  .size-btn { flex: 1; padding: 10px; border: 2px solid #ddd; border-radius: 8px; background: var(--card-bg, white); font-size: 14px; font-weight: 600; cursor: pointer; text-align: center; transition: all 0.2s; color: var(--text-primary); }
+  .size-btn.active { border-color: #CC0000; background: #fff5f5; color: #CC0000; }
+  .size-btn:hover { border-color: #CC0000; }
 
   .selected-store-badge { display: flex; align-items: center; justify-content: space-between; padding: 10px 12px; background: #fff5f5; border: 1px solid #CC0000; border-radius: 6px; font-size: 13px; font-weight: 600; color: #333; }
   .clear-btn { background: none; border: none; color: #CC0000; font-size: 16px; cursor: pointer; padding: 0 4px; font-weight: 700; }
