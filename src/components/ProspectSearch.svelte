@@ -129,6 +129,18 @@
     }
   });
 
+  // Detect stores with dummy/state-center coordinates
+  // States outside OR/WA/CA got a single geocode point per state
+  function isBadCoords(lat, lng) {
+    if (!lat || !lng) return true;
+    // Check if many stores share this exact coord (dummy data)
+    const matching = stores.filter(s => 
+      Math.abs((s.latitude || 0) - lat) < 0.01 && 
+      Math.abs((s.longitude || 0) - lng) < 0.01
+    );
+    return matching.length > 10; // More than 10 stores at same spot = dummy coords
+  }
+
   function calculateDistance(lat1, lon1, lat2, lon2) {
     const R = 3959; // Earth radius in miles
     const dLat = (lat2 - lat1) * Math.PI / 180;
@@ -212,6 +224,29 @@
 
   async function searchGooglePlaces(lat, lng, keyword) {
     try {
+      // Build location-aware query
+      const storeCity = selectedStore?.City || '';
+      const storeState = selectedStore?.State || '';
+      const hasRealCoords = selectedStore && !isBadCoords(lat, lng);
+      
+      // If store has bad/dummy coords, put city+state in the query text instead
+      const textQuery = hasRealCoords ? keyword : `${keyword} near ${storeCity}, ${storeState}`;
+      
+      const requestBody = {
+        textQuery: textQuery,
+        maxResultCount: 10
+      };
+
+      // Only use locationBias if we have real coordinates
+      if (hasRealCoords) {
+        requestBody.locationBias = {
+          circle: {
+            center: { latitude: lat, longitude: lng },
+            radius: 16000.0
+          }
+        };
+      }
+
       const response = await fetch('https://places.googleapis.com/v1/places:searchText', {
         method: 'POST',
         headers: {
@@ -219,16 +254,7 @@
           'X-Goog-Api-Key': PLACES_API_KEY,
           'X-Goog-FieldMask': 'places.displayName,places.formattedAddress,places.rating,places.userRatingCount,places.location,places.businessStatus,places.nationalPhoneNumber,places.websiteUri,places.googleMapsUri'
         },
-        body: JSON.stringify({
-          textQuery: keyword,
-          locationBias: {
-            circle: {
-              center: { latitude: lat, longitude: lng },
-              radius: 8000.0
-            }
-          },
-          maxResultCount: 10
-        })
+        body: JSON.stringify(requestBody)
       });
 
       if (!response.ok) {
