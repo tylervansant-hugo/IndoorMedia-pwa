@@ -16,6 +16,7 @@
   let contracts = [];
   let allStores = [];
   let savedProspects = [];
+  let analyticsView = 'year';
 
   // Dashboard stats
   let prospectsThisWeek = 0;
@@ -101,6 +102,65 @@
 
     return () => clearInterval(interval);
   });
+
+  function getYearlyStats() {
+    const byYear = {};
+    contracts.forEach(c => {
+      const date = c.date || '';
+      if (!date) return;
+      try {
+        const year = date.includes('/') ? new Date(date).getFullYear() : parseInt(date.substring(0, 4));
+        if (!byYear[year]) byYear[year] = { year, total: 0, count: 0 };
+        byYear[year].total += c.total_amount || 0;
+        byYear[year].count += 1;
+      } catch {}
+    });
+    const sorted = Object.values(byYear).sort((a, b) => b.year - a.year);
+    // Add % change vs prior year
+    sorted.forEach((stat, i) => {
+      const prior = sorted[i + 1];
+      stat.change = prior ? ((stat.total - prior.total) / prior.total) * 100 : null;
+    });
+    return sorted;
+  }
+
+  function getMonthlyStats() {
+    const byMonth = {};
+    contracts.forEach(c => {
+      const date = c.date || '';
+      if (!date) return;
+      try {
+        const d = date.includes('/') ? new Date(date) : new Date(date.substring(0, 10));
+        const key = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}`;
+        if (!byMonth[key]) byMonth[key] = { key, total: 0, count: 0 };
+        byMonth[key].total += c.total_amount || 0;
+        byMonth[key].count += 1;
+      } catch {}
+    });
+    return Object.values(byMonth).sort((a, b) => b.key.localeCompare(a.key)).map(m => ({
+      ...m,
+      label: new Date(m.key + '-01').toLocaleDateString('en-US', { year: 'numeric', month: 'short' })
+    }));
+  }
+
+  function getRepStats() {
+    const byRep = {};
+    contracts.forEach(c => {
+      const rep = c.sales_rep || 'Unknown';
+      const date = c.date || '';
+      let year = 0;
+      try {
+        year = date.includes('/') ? new Date(date).getFullYear() : parseInt(date.substring(0, 4));
+      } catch {}
+      if (!byRep[rep]) byRep[rep] = { rep, y2025: 0, y2026: 0, total: 0, count: 0 };
+      const amt = c.total_amount || 0;
+      byRep[rep].total += amt;
+      byRep[rep].count += 1;
+      if (year === 2025) byRep[rep].y2025 += amt;
+      if (year === 2026) byRep[rep].y2026 += amt;
+    });
+    return Object.values(byRep).sort((a, b) => b.total - a.total);
+  }
 
   function toggleTheme() {
     const newTheme = currentTheme === 'light' ? 'dark' : 'light';
@@ -194,6 +254,13 @@
     >
       💼 Clients
     </button>
+    <button 
+      class="tab" 
+      class:active={currentTab === 'analytics'}
+      on:click={() => currentTab = 'analytics'}
+    >
+      📊 Analytics
+    </button>
     {#if $user?.role === 'manager' || $user?.role === 'admin'}
       <button 
         class="tab" 
@@ -274,6 +341,67 @@
       <Products />
     {:else if currentTab === 'clients'}
       <Clients />
+    {:else if currentTab === 'analytics'}
+      <div class="analytics-container">
+        <h2>📊 Sales Analytics</h2>
+        
+        <!-- Year/Month selector -->
+        <div class="period-selector">
+          <button class="period-btn" class:active={analyticsView === 'year'} on:click={() => analyticsView = 'year'}>By Year</button>
+          <button class="period-btn" class:active={analyticsView === 'month'} on:click={() => analyticsView = 'month'}>By Month</button>
+          <button class="period-btn" class:active={analyticsView === 'rep'} on:click={() => analyticsView = 'rep'}>By Rep</button>
+        </div>
+
+        {#if analyticsView === 'year'}
+          <div class="analytics-cards">
+            {#each getYearlyStats() as stat}
+              <div class="analytics-card">
+                <div class="analytics-year">{stat.year}</div>
+                <div class="analytics-amount">${(stat.total / 1000).toFixed(0)}K</div>
+                <div class="analytics-count">{stat.count} contracts</div>
+                {#if stat.change !== null}
+                  <div class="analytics-change" class:positive={stat.change > 0} class:negative={stat.change < 0}>
+                    {stat.change > 0 ? '↑' : '↓'} {Math.abs(stat.change).toFixed(1)}%
+                  </div>
+                {/if}
+              </div>
+            {/each}
+          </div>
+        {:else if analyticsView === 'month'}
+          <div class="month-table">
+            <table>
+              <thead><tr><th>Month</th><th>Revenue</th><th>Contracts</th><th>Avg Deal</th></tr></thead>
+              <tbody>
+                {#each getMonthlyStats() as stat}
+                  <tr>
+                    <td>{stat.label}</td>
+                    <td>${stat.total.toLocaleString()}</td>
+                    <td>{stat.count}</td>
+                    <td>${(stat.total / stat.count).toLocaleString(undefined, {maximumFractionDigits: 0})}</td>
+                  </tr>
+                {/each}
+              </tbody>
+            </table>
+          </div>
+        {:else if analyticsView === 'rep'}
+          <div class="rep-table">
+            <table>
+              <thead><tr><th>Rep</th><th>2025</th><th>2026 YTD</th><th>Total</th><th>Deals</th></tr></thead>
+              <tbody>
+                {#each getRepStats() as stat}
+                  <tr>
+                    <td>{stat.rep}</td>
+                    <td>${stat.y2025.toLocaleString()}</td>
+                    <td>${stat.y2026.toLocaleString()}</td>
+                    <td>${stat.total.toLocaleString()}</td>
+                    <td>{stat.count}</td>
+                  </tr>
+                {/each}
+              </tbody>
+            </table>
+          </div>
+        {/if}
+      </div>
     {:else if currentTab === 'manage'}
       <ManageReps />
     {/if}
@@ -661,4 +789,23 @@
       grid-template-columns: 1fr;
     }
   }
+  /* Analytics */
+  .analytics-container { padding: 16px; max-width: 900px; margin: 0 auto; }
+  .period-selector { display: flex; gap: 8px; margin-bottom: 20px; }
+  .period-btn { padding: 8px 16px; border: 1px solid var(--border-color); border-radius: 20px; background: var(--card-bg); color: var(--text-secondary); font-size: 13px; font-weight: 600; cursor: pointer; transition: all 0.2s; }
+  .period-btn.active { background: #CC0000; color: white; border-color: #CC0000; }
+  .analytics-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 16px; }
+  .analytics-card { background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 12px; padding: 16px; text-align: center; }
+  .analytics-year { font-size: 18px; font-weight: 700; color: var(--text-primary); margin-bottom: 8px; }
+  .analytics-amount { font-size: 28px; font-weight: 800; color: #CC0000; margin-bottom: 4px; }
+  .analytics-count { font-size: 12px; color: var(--text-secondary); margin-bottom: 8px; }
+  .analytics-change { font-size: 14px; font-weight: 600; padding: 4px 8px; border-radius: 8px; display: inline-block; }
+  .analytics-change.positive { background: #e8f5e9; color: #2e7d32; }
+  .analytics-change.negative { background: #ffebee; color: #c62828; }
+  .month-table, .rep-table { background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 12px; overflow: hidden; }
+  .month-table table, .rep-table table { width: 100%; border-collapse: collapse; }
+  .month-table th, .rep-table th { background: var(--bg-secondary); padding: 12px; text-align: left; font-weight: 700; font-size: 12px; color: var(--text-secondary); text-transform: uppercase; border-bottom: 1px solid var(--border-color); }
+  .month-table td, .rep-table td { padding: 12px; border-bottom: 1px solid var(--border-color); color: var(--text-primary); }
+  .month-table tr:last-child td, .rep-table tr:last-child td { border-bottom: none; }
+  .month-table tr:hover, .rep-table tr:hover { background: var(--bg-secondary); }
 </style>
