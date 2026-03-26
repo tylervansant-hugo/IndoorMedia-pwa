@@ -38,6 +38,8 @@
   $: repName = $user?.name || $user?.first_name || '';
   $: isManager = repName?.toLowerCase().includes('tyler');
 
+  let sortBy = 'date-desc'; // date-desc, date-asc, rep, amount-desc, amount-asc, name
+
   // My Customers = closed deals for this rep (or all for manager)
   $: myCustomers = isManager
     ? contracts
@@ -51,13 +53,32 @@
 
   $: totalRevenue = mySales.reduce((sum, c) => sum + (c.total_amount || 0), 0);
 
-  $: filteredCustomers = searchQuery
-    ? myCustomers.filter(c =>
-        (c.business_name || '').toLowerCase().includes(searchQuery.toLowerCase()) ||
-        (c.contact_name || '').toLowerCase().includes(searchQuery.toLowerCase()) ||
-        (c.store_name || '').toLowerCase().includes(searchQuery.toLowerCase())
-      )
-    : myCustomers;
+  $: filteredCustomers = (() => {
+    let list = searchQuery
+      ? myCustomers.filter(c =>
+          (c.business_name || '').toLowerCase().includes(searchQuery.toLowerCase()) ||
+          (c.contact_name || '').toLowerCase().includes(searchQuery.toLowerCase()) ||
+          (c.store_name || '').toLowerCase().includes(searchQuery.toLowerCase()) ||
+          (c.sales_rep || '').toLowerCase().includes(searchQuery.toLowerCase())
+        )
+      : [...myCustomers];
+    
+    // Sort
+    if (sortBy === 'date-desc') {
+      list.sort((a, b) => (b.date || '').localeCompare(a.date || ''));
+    } else if (sortBy === 'date-asc') {
+      list.sort((a, b) => (a.date || '').localeCompare(b.date || ''));
+    } else if (sortBy === 'rep') {
+      list.sort((a, b) => (a.sales_rep || '').localeCompare(b.sales_rep || ''));
+    } else if (sortBy === 'amount-desc') {
+      list.sort((a, b) => (b.total_amount || 0) - (a.total_amount || 0));
+    } else if (sortBy === 'amount-asc') {
+      list.sort((a, b) => (a.total_amount || 0) - (b.total_amount || 0));
+    } else if (sortBy === 'name') {
+      list.sort((a, b) => (a.business_name || '').localeCompare(b.business_name || ''));
+    }
+    return list;
+  })();
 
   // Calculate upcoming events for a client based on contract data
   function getClientEvents(contract) {
@@ -335,6 +356,16 @@
 
     <div class="search-box">
       <input type="text" placeholder="Search customers..." bind:value={searchQuery} />
+    </div>
+
+    <div class="sort-bar">
+      <span class="sort-label">Sort:</span>
+      <button class="sort-btn" class:active={sortBy === 'date-desc'} on:click={() => sortBy = 'date-desc'}>Newest</button>
+      <button class="sort-btn" class:active={sortBy === 'date-asc'} on:click={() => sortBy = 'date-asc'}>Oldest</button>
+      <button class="sort-btn" class:active={sortBy === 'rep'} on:click={() => sortBy = 'rep'}>Rep</button>
+      <button class="sort-btn" class:active={sortBy === 'amount-desc'} on:click={() => sortBy = 'amount-desc'}>$$$ ↓</button>
+      <button class="sort-btn" class:active={sortBy === 'amount-asc'} on:click={() => sortBy = 'amount-asc'}>$$$ ↑</button>
+      <button class="sort-btn" class:active={sortBy === 'name'} on:click={() => sortBy = 'name'}>A-Z</button>
     </div>
 
     {#if loading}
@@ -630,6 +661,13 @@
   .client-event.soon .evt-date { color: #CC0000; font-weight: 600; }
   .client-event.overdue .evt-date { color: #c33; font-weight: 700; }
   .client-event.overdue .evt-label { color: #c33; }
+
+  /* Sort Bar */
+  .sort-bar { display: flex; align-items: center; gap: 6px; margin-bottom: 14px; overflow-x: auto; white-space: nowrap; padding-bottom: 4px; }
+  .sort-label { font-size: 12px; font-weight: 700; color: var(--text-secondary); text-transform: uppercase; }
+  .sort-btn { padding: 6px 10px; border: 1px solid var(--border-color, #ddd); border-radius: 16px; background: var(--card-bg, white); font-size: 11px; font-weight: 600; cursor: pointer; color: var(--text-secondary); transition: all 0.2s; flex-shrink: 0; }
+  .sort-btn.active { background: #CC0000; color: white; border-color: #CC0000; }
+  .sort-btn:hover:not(.active) { border-color: #CC0000; color: #CC0000; }
 
   /* Submit Contract */
   .upload-area { margin: 16px 0; }
