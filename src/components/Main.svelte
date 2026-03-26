@@ -499,20 +499,18 @@
   .logo-backdrop {
     width: 56px;
     height: 56px;
-    background: rgba(255, 255, 255, 0.15);
     border-radius: 14px;
     display: flex;
     align-items: center;
     justify-content: center;
     flex-shrink: 0;
-    backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 255, 255, 0.25);
+    overflow: hidden;
   }
 
   .header-logo-img {
-    width: 44px;
-    height: 44px;
-    object-fit: contain;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
   }
 
   .header-text {
