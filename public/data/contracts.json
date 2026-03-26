@@ -10,11 +10,12 @@
       "sales_rep": "Jan Banks",
       "store_name": "Safeway",
       "store_number": "0400",
+      "zone": "07Z",
       "product_description": "Single Ad",
       "total_amount": 3200.0,
       "payment_date": "",
       "address": "3707 N Main St, Vancouver, 98663",
-      "extracted_at": "2026-03-26T11:43:38.065219"
+      "extracted_at": "2026-03-26T12:05:53.987866"
     },
     {
       "contract_number": "D403451E",
@@ -28,7 +29,8 @@
       "store_name": "",
       "store_number": "",
       "product_description": "",
-      "extracted_at": "2026-03-26T11:43:38.091642"
+      "zone": "",
+      "extracted_at": "2026-03-26T12:05:54.009551"
     },
     {
       "contract_number": "D403911E",
@@ -42,7 +44,8 @@
       "store_name": "",
       "store_number": "",
       "product_description": "",
-      "extracted_at": "2026-03-26T11:43:38.110531"
+      "zone": "",
+      "extracted_at": "2026-03-26T12:05:54.027220"
     },
     {
       "contract_number": "D406825E",
@@ -56,7 +59,8 @@
       "store_name": "",
       "store_number": "",
       "product_description": "",
-      "extracted_at": "2026-03-26T11:43:38.126637"
+      "zone": "",
+      "extracted_at": "2026-03-26T12:05:54.042260"
     },
     {
       "contract_number": "D410025E",
@@ -70,7 +74,8 @@
       "store_name": "",
       "store_number": "",
       "product_description": "",
-      "extracted_at": "2026-03-26T11:43:38.141232"
+      "zone": "",
+      "extracted_at": "2026-03-26T12:05:54.056812"
     },
     {
       "contract_number": "D422572E",
@@ -86,7 +91,8 @@
       "store_name": "",
       "store_number": "",
       "product_description": "",
-      "extracted_at": "2026-03-26T11:43:38.157856"
+      "zone": "",
+      "extracted_at": "2026-03-26T12:05:54.074131"
     },
     {
       "contract_number": "J400727E",
@@ -98,11 +104,12 @@
       "sales_rep": "James Keller",
       "store_name": "Quality Food Center",
       "store_number": "0206",
+      "zone": "07Z",
       "product_description": "Double Ad",
       "total_amount": 3024.0,
       "payment_date": "",
       "address": "6411 SE Milwaukie Ave, Portland, 97202",
-      "extracted_at": "2026-03-26T11:43:38.174720"
+      "extracted_at": "2026-03-26T12:05:54.090861"
     },
     {
       "contract_number": "J401808E",
@@ -116,7 +123,8 @@
       "store_name": "",
       "store_number": "",
       "product_description": "",
-      "extracted_at": "2026-03-26T11:43:38.189398"
+      "zone": "07X",
+      "extracted_at": "2026-03-26T12:05:54.105439"
     },
     {
       "contract_number": "J401839E",
@@ -130,7 +138,8 @@
       "store_name": "",
       "store_number": "",
       "product_description": "",
-      "extracted_at": "2026-03-26T11:43:38.203386"
+      "zone": "07Z",
+      "extracted_at": "2026-03-26T12:05:54.119214"
     },
     {
       "contract_number": "J402883E",
@@ -144,7 +153,8 @@
       "store_name": "",
       "store_number": "",
       "product_description": "",
-      "extracted_at": "2026-03-26T11:43:38.217299"
+      "zone": "07Y",
+      "extracted_at": "2026-03-26T12:05:54.133211"
     },
     {
       "contract_number": "J402890E",
@@ -158,7 +168,8 @@
       "store_name": "",
       "store_number": "",
       "product_description": "",
-      "extracted_at": "2026-03-26T11:43:38.232439"
+      "zone": "07Y",
+      "extracted_at": "2026-03-26T12:05:54.147983"
     },
     {
       "contract_number": "J403369E",
@@ -172,7 +183,8 @@
       "store_name": "",
       "store_number": "",
       "product_description": "",
-      "extracted_at": "2026-03-26T11:43:38.246460"
+      "zone": "07X",
+      "extracted_at": "2026-03-26T12:05:54.161822"
     },
     {
       "contract_number": "J403372E",
@@ -184,11 +196,12 @@
       "sales_rep": "Fabian Reyes",
       "store_name": "Fred Meyer",
       "store_number": "0215",
+      "zone": "07X",
       "product_description": "Single Ad",
       "total_amount": 2589.0,
       "payment_date": "",
       "address": "25250 Pacific Highway South, Kent, 98032",
-      "extracted_at": "2026-03-26T11:43:38.260274"
+      "extracted_at": "2026-03-26T12:05:54.176092"
     },
     {
       "contract_number": "J403489E",
@@ -202,7 +215,8 @@
       "store_name": "",
       "store_number": "",
       "product_description": "",
-      "extracted_at": "2026-03-26T11:43:38.274458"
+      "zone": "07Z",
+      "extracted_at": "2026-03-26T12:05:54.190168"
     },
     {
       "contract_number": "J403669E",
@@ -216,7 +230,8 @@
       "store_name": "",
       "store_number": "",
       "product_description": "",
-      "extracted_at": "2026-03-26T11:43:38.288074"
+      "zone": "07Y",
+      "extracted_at": "2026-03-26T12:05:54.203522"
     },
     {
       "contract_number": "J403695E",
@@ -230,7 +245,8 @@
       "store_name": "",
       "store_number": "",
       "product_description": "",
-      "extracted_at": "2026-03-26T11:43:38.302070"
+      "zone": "",
+      "extracted_at": "2026-03-26T12:05:54.217730"
     },
     {
       "contract_number": "J403697E",
@@ -244,7 +260,8 @@
       "store_name": "",
       "store_number": "",
       "product_description": "",
-      "extracted_at": "2026-03-26T11:43:38.316808"
+      "zone": "07Z",
+      "extracted_at": "2026-03-26T12:05:54.232400"
     },
     {
       "contract_number": "J403733E",
@@ -258,7 +275,8 @@
       "store_name": "",
       "store_number": "",
       "product_description": "",
-      "extracted_at": "2026-03-26T11:43:38.330708"
+      "zone": "07Z",
+      "extracted_at": "2026-03-26T12:05:54.246390"
     },
     {
       "contract_number": "J403789E",
@@ -272,7 +290,8 @@
       "store_name": "",
       "store_number": "",
       "product_description": "",
-      "extracted_at": "2026-03-26T11:43:38.344825"
+      "zone": "07Y",
+      "extracted_at": "2026-03-26T12:05:54.260591"
     },
     {
       "contract_number": "J404142E",
@@ -286,7 +305,8 @@
       "store_name": "",
       "store_number": "",
       "product_description": "",
-      "extracted_at": "2026-03-26T11:43:38.359603"
+      "zone": "07Z",
+      "extracted_at": "2026-03-26T12:05:54.275023"
     },
     {
       "contract_number": "J404465E",
@@ -300,7 +320,8 @@
       "store_name": "",
       "store_number": "",
       "product_description": "",
-      "extracted_at": "2026-03-26T11:43:38.374437"
+      "zone": "07Z",
+      "extracted_at": "2026-03-26T12:05:54.288802"
     },
     {
       "contract_number": "J404581E",
@@ -314,7 +335,8 @@
       "store_name": "",
       "store_number": "",
       "product_description": "",
-      "extracted_at": "2026-03-26T11:43:38.390269"
+      "zone": "07Z",
+      "extracted_at": "2026-03-26T12:05:54.302540"
     },
     {
       "contract_number": "J404830E",
@@ -326,11 +348,12 @@
       "sales_rep": "Dave Boring",
       "store_name": "Safeway",
       "store_number": "1762",
+      "zone": "07Z",
       "product_description": "Single Ad",
       "total_amount": 5304.0,
       "payment_date": "",
       "address": "1725 Pacific Ave, Woodland, 98674",
-      "extracted_at": "2026-03-26T11:43:38.406696"
+      "extracted_at": "2026-03-26T12:05:54.316575"
     },
     {
       "contract_number": "J405000E",
@@ -344,7 +367,8 @@
       "store_name": "",
       "store_number": "",
       "product_description": "",
-      "extracted_at": "2026-03-26T11:43:38.423295"
+      "zone": "07Z",
+      "extracted_at": "2026-03-26T12:05:54.330276"
     },
     {
       "contract_number": "J405138E",
@@ -356,11 +380,12 @@
       "sales_rep": "Dave Boring",
       "store_name": "Safeway",
       "store_number": "1762",
+      "zone": "07Z",
       "product_description": "Single Ad",
       "total_amount": 6504.0,
       "payment_date": "",
       "address": "1725 Pacific Ave, Woodland, 98674",
-      "extracted_at": "2026-03-26T11:43:38.439109"
+      "extracted_at": "2026-03-26T12:05:54.343941"
     },
     {
       "contract_number": "J405151E",
@@ -372,11 +397,12 @@
       "sales_rep": "Dave Boring",
       "store_name": "Safeway",
       "store_number": "1762",
+      "zone": "07Z",
       "product_description": "Single Ad",
       "total_amount": 4788.0,
       "payment_date": "",
       "address": "1725 Pacific Ave, Woodland, 98674",
-      "extracted_at": "2026-03-26T11:43:38.455151"
+      "extracted_at": "2026-03-26T12:05:54.358316"
     },
     {
       "contract_number": "J405171E",
@@ -388,11 +414,12 @@
       "sales_rep": "Tyler VanSant",
       "store_name": "Safeway",
       "store_number": "1527",
+      "zone": "07Y",
       "product_description": "Single Ad",
       "total_amount": 4090.56,
       "payment_date": "",
       "address": "1535 North 1St Street, Stayton, 97383",
-      "extracted_at": "2026-03-26T11:43:38.470590"
+      "extracted_at": "2026-03-26T12:05:54.372079"
     },
     {
       "contract_number": "J405246E",
@@ -404,11 +431,12 @@
       "sales_rep": "Catalina Zinzu Garcia",
       "store_name": "Albertsons",
       "store_number": "0564",
+      "zone": "07Z",
       "product_description": "Single Ad",
       "total_amount": 3036.5,
       "payment_date": "",
       "address": "451 NE 181st Ave, Portland, 97230",
-      "extracted_at": "2026-03-26T11:43:38.485992"
+      "extracted_at": "2026-03-26T12:05:54.386312"
     },
     {
       "contract_number": "J405648E",
@@ -420,11 +448,12 @@
       "sales_rep": "Amy Dixon",
       "store_name": "Safeway",
       "store_number": "4404",
+      "zone": "07Y",
       "product_description": "Single Ad",
       "total_amount": 2328.0,
       "payment_date": "",
       "address": "138 W Ellendale Ave, Dallas, 97338",
-      "extracted_at": "2026-03-26T11:43:38.500779"
+      "extracted_at": "2026-03-26T12:05:54.400313"
     },
     {
       "contract_number": "J405658E",
@@ -436,11 +465,12 @@
       "sales_rep": "Dave Boring",
       "store_name": "Safeway",
       "store_number": "0091",
+      "zone": "07Z",
       "product_description": "Single Ad",
       "total_amount": 4548.0,
       "payment_date": "",
       "address": "1227 15Th Ave, Longview, 98632",
-      "extracted_at": "2026-03-26T11:43:38.515236"
+      "extracted_at": "2026-03-26T12:05:54.414194"
     },
     {
       "contract_number": "J405664E",
@@ -452,11 +482,12 @@
       "sales_rep": "Amy Dixon",
       "store_name": "Safeway",
       "store_number": "4404",
+      "zone": "07Y",
       "product_description": "Single Ad",
       "total_amount": 4265.0,
       "payment_date": "",
       "address": "138 W Ellendale Ave, Dallas, 97338",
-      "extracted_at": "2026-03-26T11:43:38.529732"
+      "extracted_at": "2026-03-26T12:05:54.428283"
     },
     {
       "contract_number": "J405667E",
@@ -468,11 +499,12 @@
       "sales_rep": "Amy Dixon",
       "store_name": "Safeway",
       "store_number": "4404",
+      "zone": "07Y",
       "product_description": "Single Ad",
       "total_amount": 4265.0,
       "payment_date": "",
       "address": "138 W Ellendale Ave, Dallas, 97338",
-      "extracted_at": "2026-03-26T11:43:38.544301"
+      "extracted_at": "2026-03-26T12:05:54.442573"
     },
     {
       "contract_number": "J405722E",
@@ -486,7 +518,8 @@
       "store_name": "",
       "store_number": "",
       "product_description": "",
-      "extracted_at": "2026-03-26T11:43:38.559181"
+      "zone": "",
+      "extracted_at": "2026-03-26T12:05:54.456548"
     },
     {
       "contract_number": "J405739E",
@@ -498,11 +531,12 @@
       "sales_rep": "Amy Dixon",
       "store_name": "Safeway",
       "store_number": "4404",
+      "zone": "07Y",
       "product_description": "Single Ad",
       "total_amount": 14175.0,
       "payment_date": "",
       "address": "138 W Ellendale Ave, Dallas, 97338",
-      "extracted_at": "2026-03-26T11:43:38.576151"
+      "extracted_at": "2026-03-26T12:05:54.472110"
     },
     {
       "contract_number": "J405901E",
@@ -514,11 +548,12 @@
       "sales_rep": "Amy Dixon",
       "store_name": "Safeway",
       "store_number": "4404",
+      "zone": "07Y",
       "product_description": "Single Ad",
       "total_amount": 4725.0,
       "payment_date": "",
       "address": "138 W Ellendale Ave, Dallas, 97338",
-      "extracted_at": "2026-03-26T11:43:38.591161"
+      "extracted_at": "2026-03-26T12:05:54.486319"
     },
     {
       "contract_number": "J405912E",
@@ -530,11 +565,12 @@
       "sales_rep": "Tyler VanSant",
       "store_name": "Fred Meyer",
       "store_number": "0225",
+      "zone": "07Y",
       "product_description": "Single Ad",
       "total_amount": 2132.5,
       "payment_date": "",
       "address": "2855 Broadway St NE, Salem, 97303-6502",
-      "extracted_at": "2026-03-26T11:43:38.605852"
+      "extracted_at": "2026-03-26T12:05:54.500250"
     },
     {
       "contract_number": "J405914E",
@@ -546,11 +582,12 @@
       "sales_rep": "Amy Dixon",
       "store_name": "Albertsons",
       "store_number": "0528",
+      "zone": "07Y",
       "product_description": "Double Ad",
       "total_amount": 6409.0,
       "payment_date": "",
       "address": "615 SW Keck Dr, Mcminnville, 97128",
-      "extracted_at": "2026-03-26T11:43:38.620176"
+      "extracted_at": "2026-03-26T12:05:54.514065"
     },
     {
       "contract_number": "J405914E",
@@ -562,11 +599,12 @@
       "sales_rep": "Amy Dixon",
       "store_name": "Safeway",
       "store_number": "1601",
+      "zone": "07Y",
       "product_description": "Double Ad",
       "total_amount": 6584.0,
       "payment_date": "",
       "address": "2490 NE HIGHWAY 99W, McMinnville, 97128",
-      "extracted_at": "2026-03-26T11:43:38.620197"
+      "extracted_at": "2026-03-26T12:05:54.514079"
     },
     {
       "contract_number": "J405924E",
@@ -578,11 +616,12 @@
       "sales_rep": "Anthony Eng",
       "store_name": "Safeway",
       "store_number": "2623",
+      "zone": "07Y",
       "product_description": "Double Ad",
       "total_amount": 3487.0,
       "payment_date": "",
       "address": "1140 North Springbrook Road, Newberg, 97132",
-      "extracted_at": "2026-03-26T11:43:38.635465"
+      "extracted_at": "2026-03-26T12:05:54.528037"
     },
     {
       "contract_number": "J406158E",
@@ -594,11 +633,12 @@
       "sales_rep": "Dave Boring",
       "store_name": "Fred Meyer",
       "store_number": "0236",
+      "zone": "07Z",
       "product_description": "Single Ad",
       "total_amount": 5460.0,
       "payment_date": "",
       "address": "7411 NE 117th Ave, Vancouver, 98662",
-      "extracted_at": "2026-03-26T11:43:38.651049"
+      "extracted_at": "2026-03-26T12:05:54.542740"
     },
     {
       "contract_number": "J406188E",
@@ -612,7 +652,8 @@
       "store_name": "",
       "store_number": "",
       "product_description": "",
-      "extracted_at": "2026-03-26T11:43:38.666870"
+      "zone": "",
+      "extracted_at": "2026-03-26T12:05:54.556530"
     },
     {
       "contract_number": "J406443E",
@@ -624,11 +665,12 @@
       "sales_rep": "Anthony Eng",
       "store_name": "Safeway",
       "store_number": "2623",
+      "zone": "07Y",
       "product_description": "Single Ad",
       "total_amount": 2844.0,
       "payment_date": "",
       "address": "1140 North Springbrook Road, Newberg, 97132",
-      "extracted_at": "2026-03-26T11:43:38.681642"
+      "extracted_at": "2026-03-26T12:05:54.570568"
     },
     {
       "contract_number": "J406519E",
@@ -640,11 +682,12 @@
       "sales_rep": "Tyler VanSant",
       "store_name": "Safeway",
       "store_number": "1704",
+      "zone": "07Z",
       "product_description": "Single Ad",
       "total_amount": 3545.04,
       "payment_date": "",
       "address": "6700 NE 162nd Ave Ste 500, Vancouver, 98682",
-      "extracted_at": "2026-03-26T11:43:38.696869"
+      "extracted_at": "2026-03-26T12:05:54.584926"
     },
     {
       "contract_number": "J406535E",
@@ -656,11 +699,12 @@
       "sales_rep": "Anthony Eng",
       "store_name": "Fred Meyer",
       "store_number": "0220",
+      "zone": "07Y",
       "product_description": "Single Ad",
       "total_amount": 3924.0,
       "payment_date": "",
       "address": "3300 PORTLAND RD, Newberg, 97132-5412",
-      "extracted_at": "2026-03-26T11:43:38.711480"
+      "extracted_at": "2026-03-26T12:05:54.598707"
     },
     {
       "contract_number": "J406675E",
@@ -672,11 +716,12 @@
       "sales_rep": "Anthony Eng",
       "store_name": "Safeway",
       "store_number": "2623",
+      "zone": "07Y",
       "product_description": "Double Ad",
       "total_amount": 3904.8,
       "payment_date": "",
       "address": "1140 North Springbrook Road, Newberg, 97132",
-      "extracted_at": "2026-03-26T11:43:38.727546"
+      "extracted_at": "2026-03-26T12:05:54.613593"
     },
     {
       "contract_number": "J406839E",
@@ -688,11 +733,12 @@
       "sales_rep": "Catalina Zinzu Garcia",
       "store_name": "Fred Meyer",
       "store_number": "0128",
+      "zone": "07Z",
       "product_description": "Single Ad",
       "total_amount": 4656.0,
       "payment_date": "",
       "address": "1111 Northeast 102nd Avenue, Portland, 97220-3902",
-      "extracted_at": "2026-03-26T11:43:38.742390"
+      "extracted_at": "2026-03-26T12:05:54.627607"
     },
     {
       "contract_number": "J406889E",
@@ -704,11 +750,12 @@
       "sales_rep": "Amy Dixon",
       "store_name": "Safeway",
       "store_number": "1527",
+      "zone": "07Y",
       "product_description": "Single Ad",
       "total_amount": 4175.0,
       "payment_date": "",
       "address": "1535 North 1St Street, Stayton, 97383",
-      "extracted_at": "2026-03-26T11:43:38.757328"
+      "extracted_at": "2026-03-26T12:05:54.641214"
     },
     {
       "contract_number": "J406958E",
@@ -720,11 +767,12 @@
       "sales_rep": "Dave Boring",
       "store_name": "Fred Meyer",
       "store_number": "0125",
+      "zone": "07Z",
       "product_description": "Single Ad",
       "total_amount": 4086.0,
       "payment_date": "",
       "address": "6615 NE Glisan St, Portland, 97213-5068",
-      "extracted_at": "2026-03-26T11:43:38.772896"
+      "extracted_at": "2026-03-26T12:05:54.655166"
     },
     {
       "contract_number": "J407143E",
@@ -736,11 +784,12 @@
       "sales_rep": "Tyler VanSant",
       "store_name": "Albertsons",
       "store_number": "2041",
+      "zone": "07W",
       "product_description": "Single Ad",
       "total_amount": 4316.0,
       "payment_date": "",
       "address": "3137 Grand Ave, Billings, 59102",
-      "extracted_at": "2026-03-26T11:43:38.787281"
+      "extracted_at": "2026-03-26T12:05:54.669172"
     },
     {
       "contract_number": "J407194E",
@@ -752,11 +801,12 @@
       "sales_rep": "Amy Dixon",
       "store_name": "Albertsons",
       "store_number": "6045",
+      "zone": "10Z",
       "product_description": "Single Ad",
       "total_amount": 3800.0,
       "payment_date": "",
       "address": "1760 E Charleston Blvd, Las Vegas, 89104",
-      "extracted_at": "2026-03-26T11:43:38.803066"
+      "extracted_at": "2026-03-26T12:05:54.683716"
     },
     {
       "contract_number": "J407328E",
@@ -768,11 +818,12 @@
       "sales_rep": "Tyler VanSant",
       "store_name": "Safeway",
       "store_number": "0290",
+      "zone": "07Y",
       "product_description": "Double Ad",
       "total_amount": 5165.0,
       "payment_date": "",
       "address": "115 SE 7th Street, Grants Pass, 97526",
-      "extracted_at": "2026-03-26T11:43:38.818229"
+      "extracted_at": "2026-03-26T12:05:54.697576"
     },
     {
       "contract_number": "J407414E",
@@ -784,11 +835,12 @@
       "sales_rep": "Anthony Eng",
       "store_name": "Safeway",
       "store_number": "0591",
+      "zone": "07Y",
       "product_description": "Double Ad",
       "total_amount": 4498.44,
       "payment_date": "",
       "address": "888 N.E. 25th Ave, Hillsboro, 97124",
-      "extracted_at": "2026-03-26T11:43:38.832955"
+      "extracted_at": "2026-03-26T12:05:54.711768"
     },
     {
       "contract_number": "J407631E",
@@ -800,11 +852,12 @@
       "sales_rep": "Anthony Eng",
       "store_name": "Safeway",
       "store_number": "0406",
+      "zone": "07Y",
       "product_description": "Double Ad",
       "total_amount": 10890.0,
       "payment_date": "",
       "address": "2836 Pacific Ave, Forest Grove, 97116",
-      "extracted_at": "2026-03-26T11:43:38.849184"
+      "extracted_at": "2026-03-26T12:05:54.726764"
     },
     {
       "contract_number": "J407689E",
@@ -816,11 +869,12 @@
       "sales_rep": "Anthony Eng",
       "store_name": "Safeway",
       "store_number": "0591",
+      "zone": "07Y",
       "product_description": "Single Ad",
       "total_amount": 3195.0,
       "payment_date": "",
       "address": "888 N.E. 25th Ave, Hillsboro, 97124",
-      "extracted_at": "2026-03-26T11:43:38.864036"
+      "extracted_at": "2026-03-26T12:05:54.740872"
     },
     {
       "contract_number": "J407898E",
@@ -832,11 +886,12 @@
       "sales_rep": "Catalina Zinzu Garcia",
       "store_name": "Safeway",
       "store_number": "0430",
+      "zone": "07Z",
       "product_description": "Single Ad",
       "total_amount": 4005.0,
       "payment_date": "",
       "address": "1455 NE Division St, Gresham, 97030",
-      "extracted_at": "2026-03-26T11:43:38.879947"
+      "extracted_at": "2026-03-26T12:05:54.755219"
     },
     {
       "contract_number": "J408204E",
@@ -848,11 +903,12 @@
       "sales_rep": "Roy Hester",
       "store_name": "Lucky",
       "store_number": "0713",
+      "zone": "26Y",
       "product_description": "Single Ad",
       "total_amount": 2850.0,
       "payment_date": "",
       "address": "35820 Fremont Blvd., Fremont, 94536",
-      "extracted_at": "2026-03-26T11:43:38.895758"
+      "extracted_at": "2026-03-26T12:05:54.769220"
     },
     {
       "contract_number": "J408208E",
@@ -864,11 +920,12 @@
       "sales_rep": "Dave Boring",
       "store_name": "Safeway",
       "store_number": "1842",
+      "zone": "07Z",
       "product_description": "Single Ad",
       "total_amount": 3120.0,
       "payment_date": "",
       "address": "13023 NE Hwy 99, Vancouver, 98686",
-      "extracted_at": "2026-03-26T11:43:38.910731"
+      "extracted_at": "2026-03-26T12:05:54.783784"
     },
     {
       "contract_number": "J408208E",
@@ -880,11 +937,12 @@
       "sales_rep": "Dave Boring",
       "store_name": "Albertsons",
       "store_number": "0580",
+      "zone": "07Z",
       "product_description": "Single Ad",
       "total_amount": 3120.0,
       "payment_date": "",
       "address": "14300 NE 20th Ave, Vancouver, 98686",
-      "extracted_at": "2026-03-26T11:43:38.910743"
+      "extracted_at": "2026-03-26T12:05:54.783796"
     },
     {
       "contract_number": "J408208E",
@@ -896,11 +954,12 @@
       "sales_rep": "Dave Boring",
       "store_name": "Fred Meyer",
       "store_number": "0460",
+      "zone": "07Z",
       "product_description": "Single Ad",
       "total_amount": 4686.0,
       "payment_date": "",
       "address": "800 NE Tenney Rd, Vancouver, 98685",
-      "extracted_at": "2026-03-26T11:43:38.910745"
+      "extracted_at": "2026-03-26T12:05:54.783798"
     },
     {
       "contract_number": "J408237E",
@@ -912,11 +971,12 @@
       "sales_rep": "Dave Boring",
       "store_name": "Rosauers",
       "store_number": "0042",
+      "zone": "07Z",
       "product_description": "Double Ad",
       "total_amount": 4680.25,
       "payment_date": "",
       "address": "101 S. 47th Avenue, Ridgefield, 98642",
-      "extracted_at": "2026-03-26T11:43:38.925276"
+      "extracted_at": "2026-03-26T12:05:54.797462"
     },
     {
       "contract_number": "J408422E",
@@ -928,11 +988,12 @@
       "sales_rep": "Tyler VanSant",
       "store_name": "Fred Meyer",
       "store_number": "0242",
+      "zone": "07Y",
       "product_description": "Single Ad",
       "total_amount": 7065.0,
       "payment_date": "",
       "address": "1839 Molalla Avenue, Oregon City, 97045-4011",
-      "extracted_at": "2026-03-26T11:43:38.940617"
+      "extracted_at": "2026-03-26T12:05:54.811823"
     },
     {
       "contract_number": "J408525E",
@@ -944,11 +1005,12 @@
       "sales_rep": "Anthony Eng",
       "store_name": "Fred Meyer",
       "store_number": "0005",
+      "zone": "07Y",
       "product_description": "Double Ad",
       "total_amount": 6500.0,
       "payment_date": "",
       "address": "2500 Santiam Highway Southeast, Albany, 97322",
-      "extracted_at": "2026-03-26T11:43:38.955144"
+      "extracted_at": "2026-03-26T12:05:54.825676"
     },
     {
       "contract_number": "J408663E",
@@ -960,11 +1022,12 @@
       "sales_rep": "Anthony Eng",
       "store_name": "Fred Meyer",
       "store_number": "0005",
+      "zone": "07Y",
       "product_description": "Single Ad",
       "total_amount": 5172.0,
       "payment_date": "",
       "address": "2500 Santiam Highway Southeast, Albany, 97322",
-      "extracted_at": "2026-03-26T11:43:38.969588"
+      "extracted_at": "2026-03-26T12:05:54.839514"
     },
     {
       "contract_number": "J408686E",
@@ -976,11 +1039,12 @@
       "sales_rep": "Anthony Eng",
       "store_name": "Fred Meyer",
       "store_number": "0005",
+      "zone": "07Y",
       "product_description": "Single Ad",
       "total_amount": 5000.0,
       "payment_date": "",
       "address": "2500 Santiam Highway Southeast, Albany, 97322",
-      "extracted_at": "2026-03-26T11:43:38.984113"
+      "extracted_at": "2026-03-26T12:05:54.853470"
     },
     {
       "contract_number": "J408818E",
@@ -992,11 +1056,12 @@
       "sales_rep": "Anthony Marty Eng",
       "store_name": "Safeway",
       "store_number": "1516",
+      "zone": "07Y",
       "product_description": "Single Ad",
       "total_amount": 4085.0,
       "payment_date": "",
       "address": "4990 River Rd N, Keizer, 97303",
-      "extracted_at": "2026-03-26T11:43:38.998476"
+      "extracted_at": "2026-03-26T12:05:54.867621"
     },
     {
       "contract_number": "J408916E",
@@ -1008,11 +1073,12 @@
       "sales_rep": "Dave Boring",
       "store_name": "Safeway",
       "store_number": "1523",
+      "zone": "07Z",
       "product_description": "Single Ad",
       "total_amount": 4355.04,
       "payment_date": "",
       "address": "4515 SE Woodstock Blvd, Portland, 97206",
-      "extracted_at": "2026-03-26T11:43:39.012055"
+      "extracted_at": "2026-03-26T12:05:54.881045"
     },
     {
       "contract_number": "J409018E",
@@ -1024,11 +1090,12 @@
       "sales_rep": "Dave Boring",
       "store_name": "Fred Meyer",
       "store_number": "0360",
+      "zone": "07Y",
       "product_description": "Single Ad",
       "total_amount": 5025.0,
       "payment_date": "",
       "address": "100 Northwest 20Th Place, Portland, 97209-1099",
-      "extracted_at": "2026-03-26T11:43:39.026185"
+      "extracted_at": "2026-03-26T12:05:54.895008"
     },
     {
       "contract_number": "J409102E",
@@ -1040,11 +1107,12 @@
       "sales_rep": "Dave Boring",
       "store_name": "Fred Meyer",
       "store_number": "0360",
+      "zone": "07Y",
       "product_description": "Single Ad",
       "total_amount": 5025.0,
       "payment_date": "",
       "address": "100 Northwest 20Th Place, Portland, 97209-1099",
-      "extracted_at": "2026-03-26T11:43:39.040144"
+      "extracted_at": "2026-03-26T12:05:54.908920"
     },
     {
       "contract_number": "J409162E",
@@ -1058,7 +1126,8 @@
       "store_name": "",
       "store_number": "",
       "product_description": "",
-      "extracted_at": "2026-03-26T11:43:39.053732"
+      "zone": "07Z",
+      "extracted_at": "2026-03-26T12:05:54.922451"
     },
     {
       "contract_number": "J409244E",
@@ -1070,11 +1139,12 @@
       "sales_rep": "Dave Boring",
       "store_name": "Safeway",
       "store_number": "1653",
+      "zone": "07Z",
       "product_description": "Single Ad",
       "total_amount": 3972.5,
       "payment_date": "",
       "address": "2615 NE 112th Ave, Vancouver, 98684",
-      "extracted_at": "2026-03-26T11:43:39.068432"
+      "extracted_at": "2026-03-26T12:05:54.936435"
     },
     {
       "contract_number": "J409424E",
@@ -1086,11 +1156,12 @@
       "sales_rep": "Fabian Reyes",
       "store_name": "Safeway",
       "store_number": "3540",
+      "zone": "07X",
       "product_description": "Single Ad",
       "total_amount": 3675.0,
       "payment_date": "",
       "address": "21401 Pacific Hwy S, Des Moines, 98198",
-      "extracted_at": "2026-03-26T11:43:39.082630"
+      "extracted_at": "2026-03-26T12:05:54.950583"
     },
     {
       "contract_number": "J409474E",
@@ -1102,11 +1173,12 @@
       "sales_rep": "Tyler VanSant",
       "store_name": "Rosauers",
       "store_number": "0042",
+      "zone": "07Z",
       "product_description": "Single Ad",
       "total_amount": 4750.0,
       "payment_date": "",
       "address": "101 S. 47th Avenue, Ridgefield, 98642",
-      "extracted_at": "2026-03-26T11:43:39.097186"
+      "extracted_at": "2026-03-26T12:05:54.965304"
     },
     {
       "contract_number": "J409944E",
@@ -1118,11 +1190,12 @@
       "sales_rep": "Fabian Reyes",
       "store_name": "Fred Meyer",
       "store_number": "0215",
+      "zone": "07X",
       "product_description": "Single Ad",
       "total_amount": 5325.0,
       "payment_date": "",
       "address": "25250 Pacific Highway South, Kent, 98032",
-      "extracted_at": "2026-03-26T11:43:39.111925"
+      "extracted_at": "2026-03-26T12:05:54.979934"
     },
     {
       "contract_number": "J409946E",
@@ -1134,11 +1207,12 @@
       "sales_rep": "Anthony Marty Eng",
       "store_name": "Fred Meyer",
       "store_number": "0220",
+      "zone": "07Y",
       "product_description": "Single Ad",
       "total_amount": 3533.0,
       "payment_date": "",
       "address": "3300 PORTLAND RD, Newberg, 97132-5412",
-      "extracted_at": "2026-03-26T11:43:39.126031"
+      "extracted_at": "2026-03-26T12:05:54.994253"
     },
     {
       "contract_number": "J409959E",
@@ -1150,11 +1224,12 @@
       "sales_rep": "Anthony Marty Eng",
       "store_name": "Fred Meyer",
       "store_number": "0005",
+      "zone": "07Y",
       "product_description": "Single Ad",
       "total_amount": 4531.12,
       "payment_date": "",
       "address": "2500 Santiam Highway Southeast, Albany, 97322",
-      "extracted_at": "2026-03-26T11:43:39.139782"
+      "extracted_at": "2026-03-26T12:05:55.008137"
     },
     {
       "contract_number": "J410048E",
@@ -1166,11 +1241,12 @@
       "sales_rep": "Anthony Marty Eng",
       "store_name": "Fred Meyer",
       "store_number": "0070",
+      "zone": "07Y",
       "product_description": "Single Ad",
       "total_amount": 3882.49,
       "payment_date": "",
       "address": "777 Kings Boulevard, Corvallis, 97330-5620",
-      "extracted_at": "2026-03-26T11:43:39.154661"
+      "extracted_at": "2026-03-26T12:05:55.023356"
     },
     {
       "contract_number": "J410050E",
@@ -1182,11 +1258,12 @@
       "sales_rep": "Dave Boring",
       "store_name": "Fred Meyer",
       "store_number": "0208",
+      "zone": "07Z",
       "product_description": "Single Ad",
       "total_amount": 4780.0,
       "payment_date": "",
       "address": "11325 Southeast Mill Plain Blvd, Vancouver, 98684",
-      "extracted_at": "2026-03-26T11:43:39.168764"
+      "extracted_at": "2026-03-26T12:05:55.037989"
     },
     {
       "contract_number": "J410207E",
@@ -1198,11 +1275,12 @@
       "sales_rep": "Anthony Marty Eng",
       "store_name": "Safeway",
       "store_number": "1976",
+      "zone": "07Y",
       "product_description": "Single Ad",
       "total_amount": 3870.0,
       "payment_date": "",
       "address": "1550 North Pacific Highway, Woodburn, 97071",
-      "extracted_at": "2026-03-26T11:43:39.182603"
+      "extracted_at": "2026-03-26T12:05:55.052300"
     },
     {
       "contract_number": "J410332E",
@@ -1214,11 +1292,12 @@
       "sales_rep": "Jan Banks",
       "store_name": "Fred Meyer",
       "store_number": "0140",
+      "zone": "07Z",
       "product_description": "Single Ad",
       "total_amount": 1962.5,
       "payment_date": "",
       "address": "7700 NE Highway 99, Vancouver, 98665-8890",
-      "extracted_at": "2026-03-26T11:43:39.198741"
+      "extracted_at": "2026-03-26T12:05:55.068901"
     },
     {
       "contract_number": "J410332E",
@@ -1230,11 +1309,12 @@
       "sales_rep": "Jan Banks",
       "store_name": "Safeway",
       "store_number": "0400",
+      "zone": "07Z",
       "product_description": "Single Ad",
       "total_amount": 1350.0,
       "payment_date": "",
       "address": "3707 N Main St, Vancouver, 98663",
-      "extracted_at": "2026-03-26T11:43:39.198752"
+      "extracted_at": "2026-03-26T12:05:55.068917"
     },
     {
       "contract_number": "J410332E",
@@ -1246,11 +1326,12 @@
       "sales_rep": "Jan Banks",
       "store_name": "Fred Meyer",
       "store_number": "0140",
+      "zone": "07Z",
       "product_description": "Single Ad",
       "total_amount": 1962.5,
       "payment_date": "",
       "address": "7700 NE Highway 99, Vancouver, 98665-8890",
-      "extracted_at": "2026-03-26T11:43:39.198755"
+      "extracted_at": "2026-03-26T12:05:55.068920"
     },
     {
       "contract_number": "J410332E",
@@ -1262,11 +1343,12 @@
       "sales_rep": "Jan Banks",
       "store_name": "Safeway",
       "store_number": "0400",
+      "zone": "07Z",
       "product_description": "Single Ad",
       "total_amount": 1350.0,
       "payment_date": "",
       "address": "3707 N Main St, Vancouver, 98663",
-      "extracted_at": "2026-03-26T11:43:39.198756"
+      "extracted_at": "2026-03-26T12:05:55.068922"
     },
     {
       "contract_number": "J410332E",
@@ -1278,11 +1360,12 @@
       "sales_rep": "Jan Banks",
       "store_name": "Fred Meyer",
       "store_number": "0140",
+      "zone": "07Z",
       "product_description": "Single Ad",
       "total_amount": 1962.5,
       "payment_date": "",
       "address": "7700 NE Highway 99, Vancouver, 98665-8890",
-      "extracted_at": "2026-03-26T11:43:39.198757"
+      "extracted_at": "2026-03-26T12:05:55.068923"
     },
     {
       "contract_number": "J410332E",
@@ -1294,11 +1377,12 @@
       "sales_rep": "Jan Banks",
       "store_name": "Safeway",
       "store_number": "0400",
+      "zone": "07Z",
       "product_description": "Single Ad",
       "total_amount": 675.0,
       "payment_date": "",
       "address": "3707 N Main St, Vancouver, 98663",
-      "extracted_at": "2026-03-26T11:43:39.198759"
+      "extracted_at": "2026-03-26T12:05:55.068925"
     },
     {
       "contract_number": "J410332E",
@@ -1310,11 +1394,12 @@
       "sales_rep": "Jan Banks",
       "store_name": "Safeway",
       "store_number": "0400",
+      "zone": "07Z",
       "product_description": "Single Ad",
       "total_amount": 675.0,
       "payment_date": "",
       "address": "3707 N Main St, Vancouver, 98663",
-      "extracted_at": "2026-03-26T11:43:39.198760"
+      "extracted_at": "2026-03-26T12:05:55.068926"
     },
     {
       "contract_number": "J410412E",
@@ -1326,11 +1411,12 @@
       "sales_rep": "Dave Boring",
       "store_name": "Fred Meyer",
       "store_number": "0185",
+      "zone": "07Z",
       "product_description": "Single Ad",
       "total_amount": 5270.4,
       "payment_date": "",
       "address": "3184 Ocean Beach Highway, Longview, 98632-4395",
-      "extracted_at": "2026-03-26T11:43:39.212120"
+      "extracted_at": "2026-03-26T12:05:55.082698"
     },
     {
       "contract_number": "J410538E",
@@ -1342,11 +1428,12 @@
       "sales_rep": "Anthony Marty Eng",
       "store_name": "Safeway",
       "store_number": "4333",
+      "zone": "07Y",
       "product_description": "Single Ad",
       "total_amount": 3751.56,
       "payment_date": "",
       "address": "450 Southwest Third Avenue, Corvallis, 97333",
-      "extracted_at": "2026-03-26T11:43:39.226038"
+      "extracted_at": "2026-03-26T12:05:55.096520"
     },
     {
       "contract_number": "J410538E",
@@ -1358,11 +1445,12 @@
       "sales_rep": "Anthony Marty Eng",
       "store_name": "Fred Meyer",
       "store_number": "0070",
+      "zone": "07Y",
       "product_description": "Single Ad",
       "total_amount": 0.0,
       "payment_date": "",
       "address": "777 Kings Boulevard, Corvallis, 97330-5620",
-      "extracted_at": "2026-03-26T11:43:39.226048"
+      "extracted_at": "2026-03-26T12:05:55.096536"
     },
     {
       "contract_number": "J410720E",
@@ -1374,11 +1462,12 @@
       "sales_rep": "Amy Dixon",
       "store_name": "Safeway",
       "store_number": "0415",
+      "zone": "07Y",
       "product_description": "Double Ad",
       "total_amount": 7950.0,
       "payment_date": "",
       "address": "4101 NW Logan Road, Lincoln City, 97367",
-      "extracted_at": "2026-03-26T11:43:39.239267"
+      "extracted_at": "2026-03-26T12:05:55.110197"
     },
     {
       "contract_number": "J410733E",
@@ -1390,11 +1479,12 @@
       "sales_rep": "Matthew Boozer",
       "store_name": "Safeway",
       "store_number": "1458",
+      "zone": "07Y",
       "product_description": "Single Ad",
       "total_amount": 4937.0,
       "payment_date": "",
       "address": "1500 E Main St, Cottage Grove, 97424",
-      "extracted_at": "2026-03-26T11:43:39.253623"
+      "extracted_at": "2026-03-26T12:05:55.124583"
     },
     {
       "contract_number": "J410747E",
@@ -1406,11 +1496,12 @@
       "sales_rep": "Dave Boring",
       "store_name": "Safeway",
       "store_number": "1751",
+      "zone": "07Y",
       "product_description": "Single Ad",
       "total_amount": 4440.0,
       "payment_date": "",
       "address": "1525 West Main Street, Molalla, 97038",
-      "extracted_at": "2026-03-26T11:43:39.267579"
+      "extracted_at": "2026-03-26T12:05:55.138623"
     },
     {
       "contract_number": "J410883E",
@@ -1422,11 +1513,12 @@
       "sales_rep": "Anthony Marty Eng",
       "store_name": "Safeway",
       "store_number": "1976",
+      "zone": "07Y",
       "product_description": "Single Ad",
       "total_amount": 4174.0,
       "payment_date": "",
       "address": "1550 North Pacific Highway, Woodburn, 97071",
-      "extracted_at": "2026-03-26T11:43:39.281760"
+      "extracted_at": "2026-03-26T12:05:55.152898"
     },
     {
       "contract_number": "J410991E",
@@ -1438,11 +1530,12 @@
       "sales_rep": "Matthew Boozer",
       "store_name": "Safeway",
       "store_number": "1458",
+      "zone": "07Y",
       "product_description": "Single Ad",
       "total_amount": 4932.0,
       "payment_date": "",
       "address": "1500 E Main St, Cottage Grove, 97424",
-      "extracted_at": "2026-03-26T11:43:39.296282"
+      "extracted_at": "2026-03-26T12:05:55.167589"
     },
     {
       "contract_number": "J411057E",
@@ -1454,11 +1547,12 @@
       "sales_rep": "Jan Banks",
       "store_name": "Fred Meyer",
       "store_number": "0285",
+      "zone": "07Y",
       "product_description": "Single Ad",
       "total_amount": 2000.0,
       "payment_date": "",
       "address": "7700 SW Beaverton Hillsdale Hwy, Portland, 97225-2101",
-      "extracted_at": "2026-03-26T11:43:39.309669"
+      "extracted_at": "2026-03-26T12:05:55.181157"
     },
     {
       "contract_number": "J411143E",
@@ -1470,11 +1564,12 @@
       "sales_rep": "Matthew Boozer",
       "store_name": "Safeway",
       "store_number": "1458",
+      "zone": "07Y",
       "product_description": "Single Ad",
       "total_amount": 4932.0,
       "payment_date": "",
       "address": "1500 E Main St, Cottage Grove, 97424",
-      "extracted_at": "2026-03-26T11:43:39.324113"
+      "extracted_at": "2026-03-26T12:05:55.195587"
     },
     {
       "contract_number": "J411204E",
@@ -1486,11 +1581,12 @@
       "sales_rep": "Matthew Boozer",
       "store_name": "Safeway",
       "store_number": "1458",
+      "zone": "07Y",
       "product_description": "Single Ad",
       "total_amount": 4932.0,
       "payment_date": "",
       "address": "1500 E Main St, Cottage Grove, 97424",
-      "extracted_at": "2026-03-26T11:43:39.339339"
+      "extracted_at": "2026-03-26T12:05:55.210916"
     },
     {
       "contract_number": "J411232E",
@@ -1502,11 +1598,12 @@
       "sales_rep": "Dave Boring",
       "store_name": "Albertsons",
       "store_number": "0570",
+      "zone": "07Y",
       "product_description": "Single Ad",
       "total_amount": 2525.0,
       "payment_date": "",
       "address": "2000 Marcola Rd., Springfield, 97477",
-      "extracted_at": "2026-03-26T11:43:39.353199"
+      "extracted_at": "2026-03-26T12:05:55.225006"
     },
     {
       "contract_number": "J411256E",
@@ -1518,11 +1615,12 @@
       "sales_rep": "Dave Boring",
       "store_name": "Fred Meyer",
       "store_number": "0328",
+      "zone": "07Y",
       "product_description": "Single Ad",
       "total_amount": 2725.0,
       "payment_date": "",
       "address": "650 Q Street, Springfield, 97477-2325",
-      "extracted_at": "2026-03-26T11:43:39.367538"
+      "extracted_at": "2026-03-26T12:05:55.239130"
     },
     {
       "contract_number": "J411256E",
@@ -1534,11 +1632,12 @@
       "sales_rep": "Dave Boring",
       "store_name": "Albertsons",
       "store_number": "0570",
+      "zone": "07Y",
       "product_description": "Single Ad",
       "total_amount": 2525.0,
       "payment_date": "",
       "address": "2000 Marcola Rd., Springfield, 97477",
-      "extracted_at": "2026-03-26T11:43:39.367549"
+      "extracted_at": "2026-03-26T12:05:55.239144"
     },
     {
       "contract_number": "J411288E",
@@ -1550,11 +1649,12 @@
       "sales_rep": "Anthony Marty Eng",
       "store_name": "Safeway",
       "store_number": "1976",
+      "zone": "07Y",
       "product_description": "Single Ad",
       "total_amount": 4300.0,
       "payment_date": "",
       "address": "1550 North Pacific Highway, Woodburn, 97071",
-      "extracted_at": "2026-03-26T11:43:39.381860"
+      "extracted_at": "2026-03-26T12:05:55.253108"
     },
     {
       "contract_number": "J411373E",
@@ -1566,11 +1666,12 @@
       "sales_rep": "Anthony Marty Eng",
       "store_name": "Safeway",
       "store_number": "1976",
+      "zone": "07Y",
       "product_description": "Single Ad",
       "total_amount": 4299.96,
       "payment_date": "",
       "address": "1550 North Pacific Highway, Woodburn, 97071",
-      "extracted_at": "2026-03-26T11:43:39.396157"
+      "extracted_at": "2026-03-26T12:05:55.267294"
     },
     {
       "contract_number": "J411380E",
@@ -1582,11 +1683,12 @@
       "sales_rep": "Anthony Marty Eng",
       "store_name": "Safeway",
       "store_number": "2623",
+      "zone": "07Y",
       "product_description": "Single Ad",
       "total_amount": 3125.0,
       "payment_date": "",
       "address": "1140 North Springbrook Road, Newberg, 97132",
-      "extracted_at": "2026-03-26T11:43:39.410188"
+      "extracted_at": "2026-03-26T12:05:55.281458"
     },
     {
       "contract_number": "J411491E",
@@ -1598,11 +1700,12 @@
       "sales_rep": "Matthew Boozer",
       "store_name": "Safeway",
       "store_number": "1458",
+      "zone": "07Y",
       "product_description": "Double Ad",
       "total_amount": 4680.0,
       "payment_date": "",
       "address": "1500 E Main St, Cottage Grove, 97424",
-      "extracted_at": "2026-03-26T11:43:39.424364"
+      "extracted_at": "2026-03-26T12:05:55.295898"
     },
     {
       "contract_number": "J411492E",
@@ -1614,11 +1717,12 @@
       "sales_rep": "Matthew Boozer",
       "store_name": "Safeway",
       "store_number": "1458",
+      "zone": "07Y",
       "product_description": "Single Ad",
       "total_amount": 3432.0,
       "payment_date": "",
       "address": "1500 E Main St, Cottage Grove, 97424",
-      "extracted_at": "2026-03-26T11:43:39.438201"
+      "extracted_at": "2026-03-26T12:05:55.310608"
     },
     {
       "contract_number": "J411513E",
@@ -1630,11 +1734,12 @@
       "sales_rep": "Amy Dixon",
       "store_name": "Safeway",
       "store_number": "3136",
+      "zone": "07Y",
       "product_description": "Single Ad",
       "total_amount": 5335.0,
       "payment_date": "",
       "address": "8145 Southwest Barbur Boulevard, Portland, 97219",
-      "extracted_at": "2026-03-26T11:43:39.452376"
+      "extracted_at": "2026-03-26T12:05:55.325718"
     },
     {
       "contract_number": "J411548E",
@@ -1646,11 +1751,12 @@
       "sales_rep": "Matthew Boozer",
       "store_name": "Fred Meyer",
       "store_number": "0328",
+      "zone": "07Y",
       "product_description": "Single Ad",
       "total_amount": 4050.0,
       "payment_date": "",
       "address": "650 Q Street, Springfield, 97477-2325",
-      "extracted_at": "2026-03-26T11:43:39.467191"
+      "extracted_at": "2026-03-26T12:05:55.342131"
     },
     {
       "contract_number": "J411548E",
@@ -1662,11 +1768,12 @@
       "sales_rep": "Matthew Boozer",
       "store_name": "Fred Meyer",
       "store_number": "0325",
+      "zone": "07Y",
       "product_description": "Single Ad",
       "total_amount": 3820.62,
       "payment_date": "",
       "address": "60 Division Ave, Eugene, 97404-5127",
-      "extracted_at": "2026-03-26T11:43:39.467201"
+      "extracted_at": "2026-03-26T12:05:55.342152"
     },
     {
       "contract_number": "J411666E",
@@ -1678,11 +1785,12 @@
       "sales_rep": "Tyler VanSant",
       "store_name": "Fred Meyer",
       "store_number": "0605",
+      "zone": "07Z",
       "product_description": "Single Ad",
       "total_amount": 1835.0,
       "payment_date": "",
       "address": "6901 S 19th St, Tacoma, 98466-5529",
-      "extracted_at": "2026-03-26T11:43:39.481288"
+      "extracted_at": "2026-03-26T12:05:55.358789"
     },
     {
       "contract_number": "J411666E",
@@ -1694,11 +1802,12 @@
       "sales_rep": "Tyler VanSant",
       "store_name": "Albertsons",
       "store_number": "3106",
+      "zone": "07Z",
       "product_description": "Single Ad",
       "total_amount": 1610.0,
       "payment_date": "",
       "address": "11012 Canyon Rd E, Puyallup, 98373",
-      "extracted_at": "2026-03-26T11:43:39.481299"
+      "extracted_at": "2026-03-26T12:05:55.358812"
     },
     {
       "contract_number": "J411687E",
@@ -1710,11 +1819,12 @@
       "sales_rep": "Tyler VanSant",
       "store_name": "Safeway",
       "store_number": "1952",
+      "zone": "07Z",
       "product_description": "Single Ad",
       "total_amount": 3425.0,
       "payment_date": "",
       "address": "4280 Martin Way E, Olympia, 98516",
-      "extracted_at": "2026-03-26T11:43:39.495704"
+      "extracted_at": "2026-03-26T12:05:55.375355"
     },
     {
       "contract_number": "J411687E",
@@ -1726,11 +1836,12 @@
       "sales_rep": "Tyler VanSant",
       "store_name": "Fred Meyer",
       "store_number": "0186",
+      "zone": "07Z",
       "product_description": "Single Ad",
       "total_amount": 0.0,
       "payment_date": "",
       "address": "700 Sleater Kinney Rd SE, Lacey, 98503-1113",
-      "extracted_at": "2026-03-26T11:43:39.495716"
+      "extracted_at": "2026-03-26T12:05:55.375378"
     },
     {
       "contract_number": "J411719E",
@@ -1742,11 +1853,12 @@
       "sales_rep": "Anthony Marty Eng",
       "store_name": "Fred Meyer",
       "store_number": "0220",
+      "zone": "07Y",
       "product_description": "Single Ad",
       "total_amount": 3925.0,
       "payment_date": "",
       "address": "3300 PORTLAND RD, Newberg, 97132-5412",
-      "extracted_at": "2026-03-26T11:43:39.509423"
+      "extracted_at": "2026-03-26T12:05:55.391044"
     },
     {
       "contract_number": "J411739E",
@@ -1758,11 +1870,12 @@
       "sales_rep": "Dave Boring",
       "store_name": "Safeway",
       "store_number": "1842",
+      "zone": "07Z",
       "product_description": "Single Ad",
       "total_amount": 3276.0,
       "payment_date": "",
       "address": "13023 NE Hwy 99, Vancouver, 98686",
-      "extracted_at": "2026-03-26T11:43:39.523759"
+      "extracted_at": "2026-03-26T12:05:55.407024"
     },
     {
       "contract_number": "J411739E",
@@ -1774,11 +1887,12 @@
       "sales_rep": "Dave Boring",
       "store_name": "Fred Meyer",
       "store_number": "0140",
+      "zone": "07Z",
       "product_description": "Single Ad",
       "total_amount": 2784.0,
       "payment_date": "",
       "address": "7700 NE Highway 99, Vancouver, 98665-8890",
-      "extracted_at": "2026-03-26T11:43:39.523769"
+      "extracted_at": "2026-03-26T12:05:55.407044"
     },
     {
       "contract_number": "J411762E",
@@ -1790,11 +1904,12 @@
       "sales_rep": "Amy Dixon",
       "store_name": "Safeway",
       "store_number": "1690",
+      "zone": "07Y",
       "product_description": "Single Ad",
       "total_amount": 3275.0,
       "payment_date": "",
       "address": "590 NE Circle Boulevard, Corvallis, 97330",
-      "extracted_at": "2026-03-26T11:43:39.538193"
+      "extracted_at": "2026-03-26T12:05:55.422864"
     },
     {
       "contract_number": "J411762E",
@@ -1806,11 +1921,12 @@
       "sales_rep": "Amy Dixon",
       "store_name": "Fred Meyer",
       "store_number": "0070",
+      "zone": "07Y",
       "product_description": "Single Ad",
       "total_amount": 0.0,
       "payment_date": "",
       "address": "777 Kings Boulevard, Corvallis, 97330-5620",
-      "extracted_at": "2026-03-26T11:43:39.538203"
+      "extracted_at": "2026-03-26T12:05:55.422886"
     },
     {
       "contract_number": "J411853E",
@@ -1822,11 +1938,12 @@
       "sales_rep": "Austin Dewitt",
       "store_name": "Safeway",
       "store_number": "1436",
+      "zone": "07Z",
       "product_description": "Single Ad",
       "total_amount": 4625.0,
       "payment_date": "",
       "address": "1624 72nd St E, Tacoma, 98404",
-      "extracted_at": "2026-03-26T11:43:39.553465"
+      "extracted_at": "2026-03-26T12:05:55.440026"
     },
     {
       "contract_number": "J412027E",
@@ -1838,11 +1955,12 @@
       "sales_rep": "Anthony Marty Eng",
       "store_name": "Fred Meyer",
       "store_number": "0651",
+      "zone": "07Y",
       "product_description": "Double Ad",
       "total_amount": 6145.0,
       "payment_date": "",
       "address": "1401 Southeast First, Canby, 97013",
-      "extracted_at": "2026-03-26T11:43:39.568002"
+      "extracted_at": "2026-03-26T12:05:55.455254"
     },
     {
       "contract_number": "J412076E",
@@ -1854,11 +1972,12 @@
       "sales_rep": "Dave Boring",
       "store_name": "Fred Meyer",
       "store_number": "0140",
+      "zone": "07Z",
       "product_description": "Single Ad",
       "total_amount": 4050.0,
       "payment_date": "",
       "address": "7700 NE Highway 99, Vancouver, 98665-8890",
-      "extracted_at": "2026-03-26T11:43:39.582269"
+      "extracted_at": "2026-03-26T12:05:55.469944"
     },
     {
       "contract_number": "J412174E",
@@ -1870,11 +1989,12 @@
       "sales_rep": "Dave Boring",
       "store_name": "Fred Meyer",
       "store_number": "0651",
+      "zone": "07Y",
       "product_description": "Single Ad",
       "total_amount": 4425.0,
       "payment_date": "",
       "address": "1401 Southeast First, Canby, 97013",
-      "extracted_at": "2026-03-26T11:43:39.596564"
+      "extracted_at": "2026-03-26T12:05:55.485213"
     },
     {
       "contract_number": "J412217E",
@@ -1886,11 +2006,12 @@
       "sales_rep": "Amy Dixon",
       "store_name": "Safeway",
       "store_number": "4333",
+      "zone": "07Y",
       "product_description": "Double Ad",
       "total_amount": 5450.0,
       "payment_date": "",
       "address": "450 Southwest Third Avenue, Corvallis, 97333",
-      "extracted_at": "2026-03-26T11:43:39.610132"
+      "extracted_at": "2026-03-26T12:05:55.499666"
     },
     {
       "contract_number": "J412217E",
@@ -1902,11 +2023,12 @@
       "sales_rep": "Amy Dixon",
       "store_name": "Safeway",
       "store_number": "1765",
+      "zone": "07Y",
       "product_description": "Double Ad",
       "total_amount": 7850.0,
       "payment_date": "",
       "address": "5270 SW PHILOMATH BLVD, Corvallis, 97333",
-      "extracted_at": "2026-03-26T11:43:39.610142"
+      "extracted_at": "2026-03-26T12:05:55.499685"
     },
     {
       "contract_number": "J412217E",
@@ -1918,11 +2040,12 @@
       "sales_rep": "Amy Dixon",
       "store_name": "Safeway",
       "store_number": "1690",
+      "zone": "07Y",
       "product_description": "Double Ad",
       "total_amount": 3250.0,
       "payment_date": "",
       "address": "590 NE Circle Boulevard, Corvallis, 97330",
-      "extracted_at": "2026-03-26T11:43:39.610144"
+      "extracted_at": "2026-03-26T12:05:55.499687"
     },
     {
       "contract_number": "J412217E",
@@ -1934,11 +2057,12 @@
       "sales_rep": "Amy Dixon",
       "store_name": "Safeway",
       "store_number": "1659",
+      "zone": "07Y",
       "product_description": "Double Ad",
       "total_amount": 6950.0,
       "payment_date": "",
       "address": "1990 14th Ave SE, Albany, 97322",
-      "extracted_at": "2026-03-26T11:43:39.610145"
+      "extracted_at": "2026-03-26T12:05:55.499689"
     },
     {
       "contract_number": "J412243E",
@@ -1950,11 +2074,12 @@
       "sales_rep": "Tyler VanSant",
       "store_name": "Albertsons",
       "store_number": "3417",
+      "zone": "07Z",
       "product_description": "Single Ad",
       "total_amount": 3925.0,
       "payment_date": "",
       "address": "3520 Pacific Ave S E, Olympia, 98501",
-      "extracted_at": "2026-03-26T11:43:39.624802"
+      "extracted_at": "2026-03-26T12:05:55.515737"
     },
     {
       "contract_number": "J412245E",
@@ -1966,11 +2091,12 @@
       "sales_rep": "Anthony Marty Eng",
       "store_name": "Safeway",
       "store_number": "0591",
+      "zone": "07Y",
       "product_description": "Single Ad",
       "total_amount": 3483.6,
       "payment_date": "",
       "address": "888 N.E. 25th Ave, Hillsboro, 97124",
-      "extracted_at": "2026-03-26T11:43:39.639433"
+      "extracted_at": "2026-03-26T12:05:55.531340"
     },
     {
       "contract_number": "J412410E",
@@ -1982,11 +2108,12 @@
       "sales_rep": "Matthew Boozer",
       "store_name": "Fred Meyer",
       "store_number": "0328",
+      "zone": "07Y",
       "product_description": "Single Ad",
       "total_amount": 4056.0,
       "payment_date": "",
       "address": "650 Q Street, Springfield, 97477-2325",
-      "extracted_at": "2026-03-26T11:43:39.654029"
+      "extracted_at": "2026-03-26T12:05:55.546771"
     },
     {
       "contract_number": "J412439E",
@@ -1998,11 +2125,12 @@
       "sales_rep": "Matthew Boozer",
       "store_name": "Fred Meyer",
       "store_number": "0328",
+      "zone": "07Y",
       "product_description": "Single Ad",
       "total_amount": 4020.0,
       "payment_date": "",
       "address": "650 Q Street, Springfield, 97477-2325",
-      "extracted_at": "2026-03-26T11:43:39.668020"
+      "extracted_at": "2026-03-26T12:05:55.561287"
     },
     {
       "contract_number": "J412486E",
@@ -2014,11 +2142,12 @@
       "sales_rep": "Austin Dewitt",
       "store_name": "Safeway",
       "store_number": "3424",
+      "zone": "07Z",
       "product_description": "Single Ad",
       "total_amount": 3550.0,
       "payment_date": "",
       "address": "2411 N PROCTOR ST, Tacoma, 98406",
-      "extracted_at": "2026-03-26T11:43:39.682565"
+      "extracted_at": "2026-03-26T12:05:55.577337"
     },
     {
       "contract_number": "J412486E",
@@ -2030,11 +2159,12 @@
       "sales_rep": "Austin Dewitt",
       "store_name": "Safeway",
       "store_number": "1978",
+      "zone": "07X",
       "product_description": "Single Ad",
       "total_amount": 0.0,
       "payment_date": "",
       "address": "2637 North Pearl Street, Tacoma, 98407",
-      "extracted_at": "2026-03-26T11:43:39.682577"
+      "extracted_at": "2026-03-26T12:05:55.577358"
     },
     {
       "contract_number": "J412496E",
@@ -2046,11 +2176,12 @@
       "sales_rep": "Dave Boring",
       "store_name": "Safeway",
       "store_number": "1231",
+      "zone": "07Z",
       "product_description": "Single Ad",
       "total_amount": 4825.0,
       "payment_date": "",
       "address": "12032 SE Sunnyside Rd, Clackamas, 97015",
-      "extracted_at": "2026-03-26T11:43:39.696755"
+      "extracted_at": "2026-03-26T12:05:55.592643"
     },
     {
       "contract_number": "J412501E",
@@ -2062,11 +2193,12 @@
       "sales_rep": "Tyler VanSant",
       "store_name": "Safeway",
       "store_number": "1952",
+      "zone": "07Z",
       "product_description": "Single Ad",
       "total_amount": 1967.75,
       "payment_date": "",
       "address": "4280 Martin Way E, Olympia, 98516",
-      "extracted_at": "2026-03-26T11:43:39.710436"
+      "extracted_at": "2026-03-26T12:05:55.608132"
     },
     {
       "contract_number": "J412523E",
@@ -2078,11 +2210,12 @@
       "sales_rep": "Tyler VanSant",
       "store_name": "Haggen",
       "store_number": "3444",
+      "zone": "07Z",
       "product_description": "Single Ad",
       "total_amount": 3925.0,
       "payment_date": "",
       "address": "1313 Cooper Point Road SW, Olympia, 98502",
-      "extracted_at": "2026-03-26T11:43:39.724647"
+      "extracted_at": "2026-03-26T12:05:55.623443"
     },
     {
       "contract_number": "J412523E",
@@ -2094,11 +2227,12 @@
       "sales_rep": "Tyler VanSant",
       "store_name": "Safeway",
       "store_number": "1464",
+      "zone": "07Z",
       "product_description": "Single Ad",
       "total_amount": 0.0,
       "payment_date": "",
       "address": "3215 Harrison Ave NW, Olympia, 98502",
-      "extracted_at": "2026-03-26T11:43:39.724657"
+      "extracted_at": "2026-03-26T12:05:55.623460"
     },
     {
       "contract_number": "J412586E",
@@ -2110,11 +2244,12 @@
       "sales_rep": "Austin Dewitt",
       "store_name": "Safeway",
       "store_number": "1977",
+      "zone": "07Z",
       "product_description": "Single Ad",
       "total_amount": 1380.0,
       "payment_date": "",
       "address": "6200 Pacific Avenue SE, Lacey, 98503",
-      "extracted_at": "2026-03-26T11:43:39.738952"
+      "extracted_at": "2026-03-26T12:05:55.639173"
     },
     {
       "contract_number": "J412681E",
@@ -2126,11 +2261,12 @@
       "sales_rep": "Anthony Marty Eng",
       "store_name": "Safeway",
       "store_number": "0591",
+      "zone": "07Y",
       "product_description": "Single Ad",
       "total_amount": 3481.2,
       "payment_date": "",
       "address": "888 N.E. 25th Ave, Hillsboro, 97124",
-      "extracted_at": "2026-03-26T11:43:39.753540"
+      "extracted_at": "2026-03-26T12:05:55.654824"
     },
     {
       "contract_number": "J412830E",
@@ -2142,11 +2278,12 @@
       "sales_rep": "Matthew Boozer",
       "store_name": "Fred Meyer",
       "store_number": "0325",
+      "zone": "07Y",
       "product_description": "Single Ad",
       "total_amount": 5997.0,
       "payment_date": "",
       "address": "60 Division Ave, Eugene, 97404-5127",
-      "extracted_at": "2026-03-26T11:43:39.767978"
+      "extracted_at": "2026-03-26T12:05:55.670803"
     },
     {
       "contract_number": "J412830E",
@@ -2158,11 +2295,12 @@
       "sales_rep": "Matthew Boozer",
       "store_name": "Fred Meyer",
       "store_number": "0328",
+      "zone": "07Y",
       "product_description": "Single Ad",
       "total_amount": 0.0,
       "payment_date": "",
       "address": "650 Q Street, Springfield, 97477-2325",
-      "extracted_at": "2026-03-26T11:43:39.767988"
+      "extracted_at": "2026-03-26T12:05:55.670821"
     },
     {
       "contract_number": "J412833E",
@@ -2174,11 +2312,12 @@
       "sales_rep": "Anthony Marty Eng",
       "store_name": "Fred Meyer",
       "store_number": "0140",
+      "zone": "07Z",
       "product_description": "Single Ad",
       "total_amount": 4325.0,
       "payment_date": "",
       "address": "7700 NE Highway 99, Vancouver, 98665-8890",
-      "extracted_at": "2026-03-26T11:43:39.782355"
+      "extracted_at": "2026-03-26T12:05:55.686233"
     },
     {
       "contract_number": "J412869E",
@@ -2190,11 +2329,12 @@
       "sales_rep": "Dave Boring",
       "store_name": "Albertsons",
       "store_number": "2027",
+      "zone": "07W",
       "product_description": "Single Ad",
       "total_amount": 3948.0,
       "payment_date": "",
       "address": "670 Main St., Billings, 59105",
-      "extracted_at": "2026-03-26T11:43:39.796845"
+      "extracted_at": "2026-03-26T12:05:55.701925"
     },
     {
       "contract_number": "J412917E",
@@ -2206,11 +2346,12 @@
       "sales_rep": "Tyler VanSant",
       "store_name": "Rosauers",
       "store_number": "0042",
+      "zone": "07Z",
       "product_description": "Single Ad",
       "total_amount": 3550.0,
       "payment_date": "",
       "address": "101 S. 47th Avenue, Ridgefield, 98642",
-      "extracted_at": "2026-03-26T11:43:39.811200"
+      "extracted_at": "2026-03-26T12:05:55.718335"
     },
     {
       "contract_number": "J412923E",
@@ -2222,11 +2363,12 @@
       "sales_rep": "Matthew Boozer",
       "store_name": "Fred Meyer",
       "store_number": "0328",
+      "zone": "07Y",
       "product_description": "Double Ad",
       "total_amount": 5616.0,
       "payment_date": "",
       "address": "650 Q Street, Springfield, 97477-2325",
-      "extracted_at": "2026-03-26T11:43:39.825125"
+      "extracted_at": "2026-03-26T12:05:55.732561"
     },
     {
       "contract_number": "J413038E",
@@ -2238,11 +2380,12 @@
       "sales_rep": "Dave Boring",
       "store_name": "Safeway",
       "store_number": "1800",
+      "zone": "07Y",
       "product_description": "Single Ad",
       "total_amount": 3675.0,
       "payment_date": "",
       "address": "20685 SW Roy Rogers Road, Sherwood, 97140",
-      "extracted_at": "2026-03-26T11:43:39.840156"
+      "extracted_at": "2026-03-26T12:05:55.748133"
     },
     {
       "contract_number": "J413038E",
@@ -2254,11 +2397,12 @@
       "sales_rep": "Dave Boring",
       "store_name": "Fred Meyer",
       "store_number": "0220",
+      "zone": "07Y",
       "product_description": "Single Ad",
       "total_amount": 3925.0,
       "payment_date": "",
       "address": "3300 PORTLAND RD, Newberg, 97132-5412",
-      "extracted_at": "2026-03-26T11:43:39.840167"
+      "extracted_at": "2026-03-26T12:05:55.748155"
     },
     {
       "contract_number": "J413038E",
@@ -2270,11 +2414,12 @@
       "sales_rep": "Dave Boring",
       "store_name": "Fred Meyer",
       "store_number": "0516",
+      "zone": "07Y",
       "product_description": "Single Ad",
       "total_amount": 5025.0,
       "payment_date": "",
       "address": "30300 Southwest boones ferry Road, Wilsonville, 97070",
-      "extracted_at": "2026-03-26T11:43:39.840168"
+      "extracted_at": "2026-03-26T12:05:55.748157"
     },
     {
       "contract_number": "J413060E",
@@ -2286,11 +2431,12 @@
       "sales_rep": "Dave Boring",
       "store_name": "Safeway",
       "store_number": "1762",
+      "zone": "07Z",
       "product_description": "Single Ad",
       "total_amount": 4678.75,
       "payment_date": "",
       "address": "1725 Pacific Ave, Woodland, 98674",
-      "extracted_at": "2026-03-26T11:43:39.853857"
+      "extracted_at": "2026-03-26T12:05:55.763195"
     },
     {
       "contract_number": "J413060E",
@@ -2302,11 +2448,12 @@
       "sales_rep": "Dave Boring",
       "store_name": "Fred Meyer",
       "store_number": "0185",
+      "zone": "07Z",
       "product_description": "Single Ad",
       "total_amount": 4963.75,
       "payment_date": "",
       "address": "3184 Ocean Beach Highway, Longview, 98632-4395",
-      "extracted_at": "2026-03-26T11:43:39.853868"
+      "extracted_at": "2026-03-26T12:05:55.763211"
     },
     {
       "contract_number": "J413101E",
@@ -2318,11 +2465,12 @@
       "sales_rep": "Matthew Boozer",
       "store_name": "Fred Meyer",
       "store_number": "0328",
+      "zone": "07Y",
       "product_description": "Single Ad",
       "total_amount": 4200.0,
       "payment_date": "",
       "address": "650 Q Street, Springfield, 97477-2325",
-      "extracted_at": "2026-03-26T11:43:39.868064"
+      "extracted_at": "2026-03-26T12:05:55.778170"
     },
     {
       "contract_number": "J413143E",
@@ -2334,11 +2482,12 @@
       "sales_rep": "Matthew Boozer",
       "store_name": "Fred Meyer",
       "store_number": "0328",
+      "zone": "07Y",
       "product_description": "Single Ad",
       "total_amount": 0.0,
       "payment_date": "",
       "address": "650 Q Street, Springfield, 97477-2325",
-      "extracted_at": "2026-03-26T11:43:39.882943"
+      "extracted_at": "2026-03-26T12:05:55.794301"
     },
     {
       "contract_number": "J413143E",
@@ -2350,11 +2499,12 @@
       "sales_rep": "Matthew Boozer",
       "store_name": "Albertsons",
       "store_number": "0574",
+      "zone": "07Y",
       "product_description": "Single Ad",
       "total_amount": 4824.0,
       "payment_date": "",
       "address": "5755 Main St, Springfield, 97478",
-      "extracted_at": "2026-03-26T11:43:39.882954"
+      "extracted_at": "2026-03-26T12:05:55.794321"
     },
     {
       "contract_number": "J413213E",
@@ -2366,11 +2516,12 @@
       "sales_rep": "Austin Dewitt",
       "store_name": "Fred Meyer",
       "store_number": "0385",
+      "zone": "07Z",
       "product_description": "Single Ad",
       "total_amount": 0.0,
       "payment_date": "",
       "address": "7250 Pacific Ave, Tacoma, 98408",
-      "extracted_at": "2026-03-26T11:43:39.897772"
+      "extracted_at": "2026-03-26T12:05:55.809797"
     },
     {
       "contract_number": "J413213E",
@@ -2382,11 +2533,12 @@
       "sales_rep": "Austin Dewitt",
       "store_name": "Saars",
       "store_number": "0488",
+      "zone": "07Z",
       "product_description": "Single Ad",
       "total_amount": 3725.0,
       "payment_date": "",
       "address": "13322 Pacific Ave S, Parkland, 98444",
-      "extracted_at": "2026-03-26T11:43:39.897782"
+      "extracted_at": "2026-03-26T12:05:55.809811"
     },
     {
       "contract_number": "J413256E",
@@ -2398,11 +2550,12 @@
       "sales_rep": "Matthew Boozer",
       "store_name": "Albertsons",
       "store_number": "0574",
+      "zone": "07Y",
       "product_description": "Single Ad",
       "total_amount": 6025.0,
       "payment_date": "",
       "address": "5755 Main St, Springfield, 97478",
-      "extracted_at": "2026-03-26T11:43:39.912929"
+      "extracted_at": "2026-03-26T12:05:55.826551"
     },
     {
       "contract_number": "J413256E",
@@ -2414,11 +2567,12 @@
       "sales_rep": "Matthew Boozer",
       "store_name": "Albertsons",
       "store_number": "3529",
+      "zone": "07Y",
       "product_description": "Single Ad",
       "total_amount": 5375.0,
       "payment_date": "",
       "address": "1675 W 18th Ave, Eugene, 97402",
-      "extracted_at": "2026-03-26T11:43:39.912940"
+      "extracted_at": "2026-03-26T12:05:55.826569"
     },
     {
       "contract_number": "J413416E",
@@ -2430,11 +2584,12 @@
       "sales_rep": "Anthony Marty Eng",
       "store_name": "Safeway",
       "store_number": "1516",
+      "zone": "07Y",
       "product_description": "Double Ad",
       "total_amount": 4445.0,
       "payment_date": "",
       "address": "4990 River Rd N, Keizer, 97303",
-      "extracted_at": "2026-03-26T11:43:39.927633"
+      "extracted_at": "2026-03-26T12:05:55.842868"
     },
     {
       "contract_number": "J413416E",
@@ -2446,11 +2601,12 @@
       "sales_rep": "Anthony Marty Eng",
       "store_name": "Fred Meyer",
       "store_number": "0225",
+      "zone": "07Y",
       "product_description": "Double Ad",
       "total_amount": 4725.0,
       "payment_date": "",
       "address": "2855 Broadway St NE, Salem, 97303-6502",
-      "extracted_at": "2026-03-26T11:43:39.927644"
+      "extracted_at": "2026-03-26T12:05:55.842887"
     },
     {
       "contract_number": "J413507E",
@@ -2462,11 +2618,12 @@
       "sales_rep": "Amy Dixon",
       "store_name": "Fred Meyer",
       "store_number": "0462",
+      "zone": "07Z",
       "product_description": "Single Ad",
       "total_amount": 4825.0,
       "payment_date": "",
       "address": "51501 South Columbia River, Scappoose, 97056",
-      "extracted_at": "2026-03-26T11:43:39.942208"
+      "extracted_at": "2026-03-26T12:05:55.858680"
     },
     {
       "contract_number": "J413507E",
@@ -2478,11 +2635,12 @@
       "sales_rep": "Amy Dixon",
       "store_name": "Fred Meyer",
       "store_number": "0035",
+      "zone": "07Y",
       "product_description": "Single Ad",
       "total_amount": 5825.0,
       "payment_date": "",
       "address": "11425 SW Beaverton Hillsdale Hwy, Beaverton, 970053050",
-      "extracted_at": "2026-03-26T11:43:39.942219"
+      "extracted_at": "2026-03-26T12:05:55.858696"
     },
     {
       "contract_number": "J413507E",
@@ -2494,11 +2652,12 @@
       "sales_rep": "Amy Dixon",
       "store_name": "Fred Meyer",
       "store_number": "0377",
+      "zone": "07Y",
       "product_description": "Single Ad",
       "total_amount": 4425.0,
       "payment_date": "",
       "address": "2500 North Main Street, Tillamook, 97141",
-      "extracted_at": "2026-03-26T11:43:39.942221"
+      "extracted_at": "2026-03-26T12:05:55.858698"
     },
     {
       "contract_number": "J413549E",
@@ -2510,11 +2669,12 @@
       "sales_rep": "Amy Dixon",
       "store_name": "Fred Meyer",
       "store_number": "0143",
+      "zone": "07Y",
       "product_description": "Single Ad",
       "total_amount": 6275.0,
       "payment_date": "8/15/2025",
       "address": "6495 SE Tualatin Valley Hwy, Hillsboro, 97123",
-      "extracted_at": "2026-03-26T11:43:39.956499"
+      "extracted_at": "2026-03-26T12:05:55.873824"
     },
     {
       "contract_number": "J413561E",
@@ -2526,11 +2686,12 @@
       "sales_rep": "Anthony Marty Eng",
       "store_name": "Safeway",
       "store_number": "1558",
+      "zone": "07Y",
       "product_description": "Single Ad",
       "total_amount": 1660.0,
       "payment_date": "",
       "address": "1983 South Main Street, Lebanon, 97355",
-      "extracted_at": "2026-03-26T11:43:39.969979"
+      "extracted_at": "2026-03-26T12:05:55.889023"
     },
     {
       "contract_number": "J413618E",
@@ -2542,11 +2703,12 @@
       "sales_rep": "Anthony Marty Eng",
       "store_name": "Safeway",
       "store_number": "1710",
+      "zone": "07Y",
       "product_description": "Single Ad",
       "total_amount": 3732.0,
       "payment_date": "",
       "address": "1540 Main Street, Sweet Home, 97386",
-      "extracted_at": "2026-03-26T11:43:39.984112"
+      "extracted_at": "2026-03-26T12:05:55.903781"
     },
     {
       "contract_number": "J413771E",
@@ -2558,11 +2720,12 @@
       "sales_rep": "Jan Banks",
       "store_name": "Quality Food Center",
       "store_number": "0202",
+      "zone": "07Y",
       "product_description": "Single Ad",
       "total_amount": 2800.0,
       "payment_date": "",
       "address": "7525 Southwest Barnes Road, Portland, 97225",
-      "extracted_at": "2026-03-26T11:43:39.998320"
+      "extracted_at": "2026-03-26T12:05:55.918345"
     },
     {
       "contract_number": "J413978E",
@@ -2574,11 +2737,12 @@
       "sales_rep": "Tyler VanSant",
       "store_name": "Safeway",
       "store_number": "0386",
+      "zone": "07Y",
       "product_description": "Single Ad",
       "total_amount": 1947.5,
       "payment_date": "",
       "address": "1755 Ivy St, Junction City, 97448",
-      "extracted_at": "2026-03-26T11:43:40.012357"
+      "extracted_at": "2026-03-26T12:05:55.932720"
     },
     {
       "contract_number": "J414216E",
@@ -2590,11 +2754,12 @@
       "sales_rep": "Austin Dewitt",
       "store_name": "Safeway",
       "store_number": "1495",
+      "zone": "07Z",
       "product_description": "Single Ad",
       "total_amount": 6725.0,
       "payment_date": "8/12/2025",
       "address": "1129 Harrison Avenue, Centralia, 98531",
-      "extracted_at": "2026-03-26T11:43:40.027616"
+      "extracted_at": "2026-03-26T12:05:55.948006"
     },
     {
       "contract_number": "J414295E",
@@ -2606,11 +2771,12 @@
       "sales_rep": "Tyler VanSant",
       "store_name": "Fred Meyer",
       "store_number": "0255",
+      "zone": "07Z",
       "product_description": "Single Ad",
       "total_amount": 3871.25,
       "payment_date": "8/18/2025",
       "address": "6850 N Lombard St, Portland, 97203-6247",
-      "extracted_at": "2026-03-26T11:43:40.041985"
+      "extracted_at": "2026-03-26T12:05:55.962395"
     },
     {
       "contract_number": "J414361E",
@@ -2622,11 +2788,12 @@
       "sales_rep": "Matthew Boozer",
       "store_name": "Fred Meyer",
       "store_number": "0417",
+      "zone": "07Y",
       "product_description": "Single Ad",
       "total_amount": 4596.0,
       "payment_date": "8/8/2025",
       "address": "3333 W 11th Ave, Eugene, 97402-3053",
-      "extracted_at": "2026-03-26T11:43:40.056635"
+      "extracted_at": "2026-03-26T12:05:55.977076"
     },
     {
       "contract_number": "J414552E",
@@ -2638,11 +2805,12 @@
       "sales_rep": "Anthony Marty Eng",
       "store_name": "Safeway",
       "store_number": "0386",
+      "zone": "07Y",
       "product_description": "Single Ad",
       "total_amount": 3774.0,
       "payment_date": "",
       "address": "1755 Ivy St, Junction City, 97448",
-      "extracted_at": "2026-03-26T11:43:40.071263"
+      "extracted_at": "2026-03-26T12:05:55.991880"
     },
     {
       "contract_number": "J414560E",
@@ -2654,11 +2822,12 @@
       "sales_rep": "Anthony Marty Eng",
       "store_name": "Safeway",
       "store_number": "1976",
+      "zone": "07Y",
       "product_description": "Single Ad",
       "total_amount": 2004.0,
       "payment_date": "8/8/2025",
       "address": "1550 North Pacific Highway, Woodburn, 97071",
-      "extracted_at": "2026-03-26T11:43:40.085163"
+      "extracted_at": "2026-03-26T12:05:56.005878"
     },
     {
       "contract_number": "J414665E",
@@ -2670,11 +2839,12 @@
       "sales_rep": "Anthony Marty Eng",
       "store_name": "Fred Meyer",
       "store_number": "0325",
+      "zone": "07Y",
       "product_description": "Single Ad",
       "total_amount": 15960.0,
       "payment_date": "8/8/2025",
       "address": "60 Division Ave, Eugene, 97404-5127",
-      "extracted_at": "2026-03-26T11:43:40.099873"
+      "extracted_at": "2026-03-26T12:05:56.020797"
     },
     {
       "contract_number": "J414665E",
@@ -2686,11 +2856,12 @@
       "sales_rep": "Anthony Marty Eng",
       "store_name": "Albertsons",
       "store_number": "0513",
+      "zone": "07Y",
       "product_description": "Single Ad",
       "total_amount": 12611.25,
       "payment_date": "8/8/2025",
       "address": "4740 Royal Ave, Eugene, 97402",
-      "extracted_at": "2026-03-26T11:43:40.099879"
+      "extracted_at": "2026-03-26T12:05:56.020804"
     },
     {
       "contract_number": "J414665E",
@@ -2702,11 +2873,12 @@
       "sales_rep": "Anthony Marty Eng",
       "store_name": "Safeway",
       "store_number": "1458",
+      "zone": "07Y",
       "product_description": "Single Ad",
       "total_amount": 10830.0,
       "payment_date": "8/8/2025",
       "address": "1500 E Main St, Cottage Grove, 97424",
-      "extracted_at": "2026-03-26T11:43:40.099881"
+      "extracted_at": "2026-03-26T12:05:56.020806"
     },
     {
       "contract_number": "J414665E",
@@ -2718,11 +2890,12 @@
       "sales_rep": "Anthony Marty Eng",
       "store_name": "Safeway",
       "store_number": "0386",
+      "zone": "07Y",
       "product_description": "Single Ad",
       "total_amount": 11898.75,
       "payment_date": "8/8/2025",
       "address": "1755 Ivy St, Junction City, 97448",
-      "extracted_at": "2026-03-26T11:43:40.099883"
+      "extracted_at": "2026-03-26T12:05:56.020808"
     },
     {
       "contract_number": "J414665E",
@@ -2734,11 +2907,12 @@
       "sales_rep": "Anthony Marty Eng",
       "store_name": "Safeway",
       "store_number": "1558",
+      "zone": "07Y",
       "product_description": "Single Ad",
       "total_amount": 10473.75,
       "payment_date": "8/8/2025",
       "address": "1983 South Main Street, Lebanon, 97355",
-      "extracted_at": "2026-03-26T11:43:40.099886"
+      "extracted_at": "2026-03-26T12:05:56.020810"
     },
     {
       "contract_number": "J414665E",
@@ -2750,11 +2924,12 @@
       "sales_rep": "Anthony Marty Eng",
       "store_name": "Fred Meyer",
       "store_number": "0281",
+      "zone": "07Y",
       "product_description": "Single Ad",
       "total_amount": 13181.25,
       "payment_date": "8/8/2025",
       "address": "929 NW Garden Valley Blvd, Roseburg, 97471-1900",
-      "extracted_at": "2026-03-26T11:43:40.099887"
+      "extracted_at": "2026-03-26T12:05:56.020811"
     },
     {
       "contract_number": "J414666E",
@@ -2766,11 +2941,12 @@
       "sales_rep": "Anthony Marty Eng",
       "store_name": "Safeway",
       "store_number": "1935",
+      "zone": "07Y",
       "product_description": "Single Ad",
       "total_amount": 5533.75,
       "payment_date": "8/12/2025",
       "address": "5660 Commercial St SE, Salem, 97306",
-      "extracted_at": "2026-03-26T11:43:40.113467"
+      "extracted_at": "2026-03-26T12:05:56.034445"
     },
     {
       "contract_number": "J414666E",
@@ -2782,11 +2958,12 @@
       "sales_rep": "Anthony Marty Eng",
       "store_name": "Safeway",
       "store_number": "0412",
+      "zone": "07Y",
       "product_description": "Single Ad",
       "total_amount": 5438.75,
       "payment_date": "8/12/2025",
       "address": "1455 Edgewater St NW, Salem, 97304",
-      "extracted_at": "2026-03-26T11:43:40.113474"
+      "extracted_at": "2026-03-26T12:05:56.034451"
     },
     {
       "contract_number": "J414747E",
@@ -2798,11 +2975,12 @@
       "sales_rep": "Matthew Boozer",
       "store_name": "Albertsons",
       "store_number": "0570",
+      "zone": "07Y",
       "product_description": "Single Ad",
       "total_amount": 2388.0,
       "payment_date": "8/14/2025",
       "address": "2000 Marcola Rd., Springfield, 97477",
-      "extracted_at": "2026-03-26T11:43:40.128350"
+      "extracted_at": "2026-03-26T12:05:56.049519"
     },
     {
       "contract_number": "J414794E",
@@ -2814,11 +2992,12 @@
       "sales_rep": "Tyler VanSant",
       "store_name": "Fred Meyer",
       "store_number": "0186",
+      "zone": "07Z",
       "product_description": "Single Ad",
       "total_amount": 5475.0,
       "payment_date": "8/11/2025",
       "address": "700 Sleater Kinney Rd SE, Lacey, 98503-1113",
-      "extracted_at": "2026-03-26T11:43:40.142722"
+      "extracted_at": "2026-03-26T12:05:56.063747"
     },
     {
       "contract_number": "J414836E",
@@ -2834,7 +3013,8 @@
       "store_name": "",
       "store_number": "",
       "product_description": "",
-      "extracted_at": "2026-03-26T11:43:40.158275"
+      "zone": "",
+      "extracted_at": "2026-03-26T12:05:56.079384"
     },
     {
       "contract_number": "J414859E",
@@ -2846,11 +3026,12 @@
       "sales_rep": "Anthony Marty Eng",
       "store_name": "Safeway",
       "store_number": "1935",
+      "zone": "07Y",
       "product_description": "Single Ad",
       "total_amount": 4333.75,
       "payment_date": "8/12/2025",
       "address": "5660 Commercial St SE, Salem, 97306",
-      "extracted_at": "2026-03-26T11:43:40.172369"
+      "extracted_at": "2026-03-26T12:05:56.093471"
     },
     {
       "contract_number": "J414859E",
@@ -2862,11 +3043,12 @@
       "sales_rep": "Anthony Marty Eng",
       "store_name": "Safeway",
       "store_number": "0412",
+      "zone": "07Y",
       "product_description": "Single Ad",
       "total_amount": 4239.0,
       "payment_date": "8/12/2025",
       "address": "1455 Edgewater St NW, Salem, 97304",
-      "extracted_at": "2026-03-26T11:43:40.172376"
+      "extracted_at": "2026-03-26T12:05:56.093475"
     },
     {
       "contract_number": "J414920E",
@@ -2878,11 +3060,12 @@
       "sales_rep": "Austin Dewitt",
       "store_name": "Albertsons",
       "store_number": "3417",
+      "zone": "07Z",
       "product_description": "Single Ad",
       "total_amount": 1962.5,
       "payment_date": "10/2/2025",
       "address": "3520 Pacific Ave S E, Olympia, 98501",
-      "extracted_at": "2026-03-26T11:43:40.186827"
+      "extracted_at": "2026-03-26T12:05:56.107522"
     },
     {
       "contract_number": "J415104E",
@@ -2894,11 +3077,12 @@
       "sales_rep": "Matthew Boozer",
       "store_name": "Albertsons",
       "store_number": "0574",
+      "zone": "07Y",
       "product_description": "Double Ad",
       "total_amount": 5892.0,
       "payment_date": "8/15/2025",
       "address": "5755 Main St, Springfield, 97478",
-      "extracted_at": "2026-03-26T11:43:40.201501"
+      "extracted_at": "2026-03-26T12:05:56.122051"
     },
     {
       "contract_number": "J415151E",
@@ -2910,11 +3094,12 @@
       "sales_rep": "Matthew Boozer",
       "store_name": "Safeway",
       "store_number": "0420",
+      "zone": "07Y",
       "product_description": "Single Ad",
       "total_amount": 5125.0,
       "payment_date": "8/20/2025",
       "address": "1500 Coburg Rd, Eugene, 97401",
-      "extracted_at": "2026-03-26T11:43:40.216162"
+      "extracted_at": "2026-03-26T12:05:56.136637"
     },
     {
       "contract_number": "J415232E",
@@ -2926,11 +3111,12 @@
       "sales_rep": "Jan Banks",
       "store_name": "Safeway",
       "store_number": "1976",
+      "zone": "07Y",
       "product_description": "Single Ad",
       "total_amount": 4175.0,
       "payment_date": "8/18/2025",
       "address": "1550 North Pacific Highway, Woodburn, 97071",
-      "extracted_at": "2026-03-26T11:43:40.230674"
+      "extracted_at": "2026-03-26T12:05:56.151327"
     },
     {
       "contract_number": "J415252E",
@@ -2946,7 +3132,8 @@
       "store_name": "",
       "store_number": "",
       "product_description": "",
-      "extracted_at": "2026-03-26T11:43:40.244442"
+      "zone": "07Z",
+      "extracted_at": "2026-03-26T12:05:56.165301"
     },
     {
       "contract_number": "J415317E",
@@ -2958,11 +3145,12 @@
       "sales_rep": "Jan Banks",
       "store_name": "Fred Meyer",
       "store_number": "0143",
+      "zone": "07Y",
       "product_description": "Double Ad",
       "total_amount": 8096.5,
       "payment_date": "8/28/2025",
       "address": "6495 SE Tualatin Valley Hwy, Hillsboro, 97123",
-      "extracted_at": "2026-03-26T11:43:40.259924"
+      "extracted_at": "2026-03-26T12:05:56.181034"
     },
     {
       "contract_number": "J415351E",
@@ -2974,11 +3162,12 @@
       "sales_rep": "Jan Banks",
       "store_name": "Safeway",
       "store_number": "1976",
+      "zone": "07Y",
       "product_description": "Single Ad",
       "total_amount": 4300.0,
       "payment_date": "8/20/2025",
       "address": "1550 North Pacific Highway, Woodburn, 97071",
-      "extracted_at": "2026-03-26T11:43:40.273815"
+      "extracted_at": "2026-03-26T12:05:56.195291"
     },
     {
       "contract_number": "J415420E",
@@ -2990,11 +3179,12 @@
       "sales_rep": "Matthew Boozer",
       "store_name": "Safeway",
       "store_number": "4288",
+      "zone": "07Y",
       "product_description": "Double Ad",
       "total_amount": 5436.0,
       "payment_date": "8/26/2025",
       "address": "145 E 18th Ave, Eugene, 97401",
-      "extracted_at": "2026-03-26T11:43:40.288085"
+      "extracted_at": "2026-03-26T12:05:56.209553"
     },
     {
       "contract_number": "J415577E",
@@ -3006,11 +3196,12 @@
       "sales_rep": "Tyler VanSant",
       "store_name": "Safeway",
       "store_number": "1704",
+      "zone": "07Z",
       "product_description": "Single Ad",
       "total_amount": 3724.02,
       "payment_date": "8/27/2025",
       "address": "6700 NE 162nd Ave Ste 500, Vancouver, 98682",
-      "extracted_at": "2026-03-26T11:43:40.301588"
+      "extracted_at": "2026-03-26T12:05:56.223197"
     },
     {
       "contract_number": "J415664E",
@@ -3022,11 +3213,12 @@
       "sales_rep": "Dave Boring",
       "store_name": "Safeway",
       "store_number": "4313",
+      "zone": "07Z",
       "product_description": "Single Ad",
       "total_amount": 3425.0,
       "payment_date": "8/27/2025",
       "address": "904 W Main St, Battle Ground, 98604",
-      "extracted_at": "2026-03-26T11:43:40.315652"
+      "extracted_at": "2026-03-26T12:05:56.237392"
     },
     {
       "contract_number": "J415713E",
@@ -3038,11 +3230,12 @@
       "sales_rep": "Anthony Marty Eng",
       "store_name": "Safeway",
       "store_number": "1960",
+      "zone": "07Z",
       "product_description": "Single Ad",
       "total_amount": 3276.24,
       "payment_date": "8/26/2025",
       "address": "80 NE Cedar, Madras, 97741",
-      "extracted_at": "2026-03-26T11:43:40.329083"
+      "extracted_at": "2026-03-26T12:05:56.250837"
     },
     {
       "contract_number": "J415758E",
@@ -3054,11 +3247,12 @@
       "sales_rep": "Anthony Marty Eng",
       "store_name": "Safeway",
       "store_number": "4404",
+      "zone": "07Y",
       "product_description": "Single Ad",
       "total_amount": 3695.46,
       "payment_date": "8/28/2025",
       "address": "138 W Ellendale Ave, Dallas, 97338",
-      "extracted_at": "2026-03-26T11:43:40.342710"
+      "extracted_at": "2026-03-26T12:05:56.264452"
     },
     {
       "contract_number": "J415956E",
@@ -3070,11 +3264,12 @@
       "sales_rep": "Anthony Marty Eng",
       "store_name": "Fred Meyer",
       "store_number": "0650",
+      "zone": "07Z",
       "product_description": "Single Ad",
       "total_amount": 2807.0,
       "payment_date": "9/4/2025",
       "address": "944 SW Veterans Way, Redmond, 97756",
-      "extracted_at": "2026-03-26T11:43:40.356095"
+      "extracted_at": "2026-03-26T12:05:56.278234"
     },
     {
       "contract_number": "J415972E",
@@ -3086,11 +3281,12 @@
       "sales_rep": "Dave Boring",
       "store_name": "Fred Meyer",
       "store_number": "0614",
+      "zone": "07Z",
       "product_description": "Single Ad",
       "total_amount": 4926.0,
       "payment_date": "9/12/2025",
       "address": "401 Northwest 12Th Avenue, Battle Ground, 98604",
-      "extracted_at": "2026-03-26T11:43:40.370211"
+      "extracted_at": "2026-03-26T12:05:56.292794"
     },
     {
       "contract_number": "J415972E",
@@ -3102,11 +3298,12 @@
       "sales_rep": "Dave Boring",
       "store_name": "Fred Meyer",
       "store_number": "0140",
+      "zone": "07Z",
       "product_description": "Single Ad",
       "total_amount": 4050.0,
       "payment_date": "9/12/2025",
       "address": "7700 NE Highway 99, Vancouver, 98665-8890",
-      "extracted_at": "2026-03-26T11:43:40.370217"
+      "extracted_at": "2026-03-26T12:05:56.292798"
     },
     {
       "contract_number": "J416166E",
@@ -3118,11 +3315,12 @@
       "sales_rep": "Jan Banks",
       "store_name": "Safeway",
       "store_number": "0979",
+      "zone": "26Y",
       "product_description": "Single Ad",
       "total_amount": 4600.0,
       "payment_date": "9/5/2025",
       "address": "900 Diablo Avenue, Novato, 94947",
-      "extracted_at": "2026-03-26T11:43:40.384373"
+      "extracted_at": "2026-03-26T12:05:56.306741"
     },
     {
       "contract_number": "J416166E",
@@ -3134,11 +3332,12 @@
       "sales_rep": "Jan Banks",
       "store_name": "Safeway",
       "store_number": "2828",
+      "zone": "26Y",
       "product_description": "Single Ad",
       "total_amount": 4600.0,
       "payment_date": "9/5/2025",
       "address": "5720 Nave Dr, Novato, 94949",
-      "extracted_at": "2026-03-26T11:43:40.384380"
+      "extracted_at": "2026-03-26T12:05:56.306746"
     },
     {
       "contract_number": "J416166E",
@@ -3150,11 +3349,12 @@
       "sales_rep": "Jan Banks",
       "store_name": "Safeway",
       "store_number": "0653",
+      "zone": "26Y",
       "product_description": "Single Ad",
       "total_amount": 0.0,
       "payment_date": "9/5/2025",
       "address": "700 B St, San Rafael, 94901",
-      "extracted_at": "2026-03-26T11:43:40.384381"
+      "extracted_at": "2026-03-26T12:05:56.306748"
     },
     {
       "contract_number": "J416322E",
@@ -3166,11 +3366,12 @@
       "sales_rep": "Megan Wink",
       "store_name": "Fred Meyer",
       "store_number": "0208",
+      "zone": "07Z",
       "product_description": "Single Ad",
       "total_amount": 6225.0,
       "payment_date": "9/12/2025",
       "address": "11325 Southeast Mill Plain Blvd, Vancouver, 98684",
-      "extracted_at": "2026-03-26T11:43:40.398461"
+      "extracted_at": "2026-03-26T12:05:56.320988"
     },
     {
       "contract_number": "J416511E",
@@ -3186,7 +3387,8 @@
       "store_name": "",
       "store_number": "",
       "product_description": "",
-      "extracted_at": "2026-03-26T11:43:40.412371"
+      "zone": "07Y",
+      "extracted_at": "2026-03-26T12:05:56.334721"
     },
     {
       "contract_number": "J416772E",
@@ -3198,11 +3400,12 @@
       "sales_rep": "Matthew Boozer",
       "store_name": "Safeway",
       "store_number": "1458",
+      "zone": "07Y",
       "product_description": "Single Ad",
       "total_amount": 3996.0,
       "payment_date": "9/11/2025",
       "address": "1500 E Main St, Cottage Grove, 97424",
-      "extracted_at": "2026-03-26T11:43:40.426236"
+      "extracted_at": "2026-03-26T12:05:56.348719"
     },
     {
       "contract_number": "J416774E",
@@ -3214,11 +3417,12 @@
       "sales_rep": "Matthew Boozer",
       "store_name": "Safeway",
       "store_number": "1458",
+      "zone": "07Y",
       "product_description": "Single Ad",
       "total_amount": 3660.0,
       "payment_date": "9/11/2025",
       "address": "1500 E Main St, Cottage Grove, 97424",
-      "extracted_at": "2026-03-26T11:43:40.440604"
+      "extracted_at": "2026-03-26T12:05:56.363230"
     },
     {
       "contract_number": "J416838E",
@@ -3230,11 +3434,12 @@
       "sales_rep": "Matthew Boozer",
       "store_name": "Safeway",
       "store_number": "1094",
+      "zone": "07Y",
       "product_description": "Double Ad",
       "total_amount": 5088.0,
       "payment_date": "9/25/2025",
       "address": "1891 Pioneer Parkway East, Springfield, 97477",
-      "extracted_at": "2026-03-26T11:43:40.455577"
+      "extracted_at": "2026-03-26T12:05:56.378003"
     },
     {
       "contract_number": "J416881E",
@@ -3246,11 +3451,12 @@
       "sales_rep": "Megan Wink",
       "store_name": "Fred Meyer",
       "store_number": "0140",
+      "zone": "07Z",
       "product_description": "Single Ad",
       "total_amount": 3462.25,
       "payment_date": "9/15/2025",
       "address": "7700 NE Highway 99, Vancouver, 98665-8890",
-      "extracted_at": "2026-03-26T11:43:40.468813"
+      "extracted_at": "2026-03-26T12:05:56.391388"
     },
     {
       "contract_number": "J416887E",
@@ -3262,11 +3468,12 @@
       "sales_rep": "Ben Patacsil",
       "store_name": "Albertsons",
       "store_number": "0596",
+      "zone": "07Y",
       "product_description": "Double Ad",
       "total_amount": 3678.0,
       "payment_date": "9/17/2025",
       "address": "18425 NW West Union Rd, Portland, 97229",
-      "extracted_at": "2026-03-26T11:43:40.483369"
+      "extracted_at": "2026-03-26T12:05:56.405655"
     },
     {
       "contract_number": "J416955E",
@@ -3278,11 +3485,12 @@
       "sales_rep": "Megan Wink",
       "store_name": "Safeway",
       "store_number": "1611",
+      "zone": "07Z",
       "product_description": "Single Ad",
       "total_amount": 4050.0,
       "payment_date": "9/16/2025",
       "address": "6711 NE 63rd St, Vancouver, 98661",
-      "extracted_at": "2026-03-26T11:43:40.498221"
+      "extracted_at": "2026-03-26T12:05:56.419932"
     },
     {
       "contract_number": "J417098E",
@@ -3294,11 +3502,12 @@
       "sales_rep": "Ben Patacsil",
       "store_name": "Albertsons",
       "store_number": "0596",
+      "zone": "07Y",
       "product_description": "Double Ad",
       "total_amount": 2525.0,
       "payment_date": "9/18/2025",
       "address": "18425 NW West Union Rd, Portland, 97229",
-      "extracted_at": "2026-03-26T11:43:40.513723"
+      "extracted_at": "2026-03-26T12:05:56.434096"
     },
     {
       "contract_number": "J417134E",
@@ -3310,11 +3519,12 @@
       "sales_rep": "Ben Patacsil",
       "store_name": "Albertsons",
       "store_number": "0596",
+      "zone": "07Y",
       "product_description": "Double Ad",
       "total_amount": 2364.0,
       "payment_date": "9/18/2025",
       "address": "18425 NW West Union Rd, Portland, 97229",
-      "extracted_at": "2026-03-26T11:43:40.529847"
+      "extracted_at": "2026-03-26T12:05:56.447688"
     },
     {
       "contract_number": "J417181E",
@@ -3326,11 +3536,12 @@
       "sales_rep": "Ben Patacsil",
       "store_name": "Quality Food Center",
       "store_number": "0201",
+      "zone": "07Y",
       "product_description": "Single Ad",
       "total_amount": 3275.04,
       "payment_date": "9/19/2025",
       "address": "4756 Northwest Bethany Boulevard, Portland, 97229",
-      "extracted_at": "2026-03-26T11:43:40.546568"
+      "extracted_at": "2026-03-26T12:05:56.461844"
     },
     {
       "contract_number": "J417265E",
@@ -3342,11 +3553,12 @@
       "sales_rep": "Dave Boring",
       "store_name": "Safeway",
       "store_number": "1827",
+      "zone": "07Y",
       "product_description": "Single Ad",
       "total_amount": 4305.0,
       "payment_date": "9/26/2025",
       "address": "2111 Adams Avenue, La Grande, 97850",
-      "extracted_at": "2026-03-26T11:43:40.563670"
+      "extracted_at": "2026-03-26T12:05:56.476933"
     },
     {
       "contract_number": "J417267E",
@@ -3358,11 +3570,12 @@
       "sales_rep": "Dave Boring",
       "store_name": "Safeway",
       "store_number": "0091",
+      "zone": "07Z",
       "product_description": "Single Ad",
       "total_amount": 0.0,
       "payment_date": "9/22/2025",
       "address": "1227 15Th Ave, Longview, 98632",
-      "extracted_at": "2026-03-26T11:43:40.578778"
+      "extracted_at": "2026-03-26T12:05:56.490276"
     },
     {
       "contract_number": "J417290E",
@@ -3374,11 +3587,12 @@
       "sales_rep": "Ben Patacsil",
       "store_name": "Quality Food Center",
       "store_number": "0201",
+      "zone": "07Y",
       "product_description": "Single Ad",
       "total_amount": 3274.8,
       "payment_date": "9/23/2025",
       "address": "4756 Northwest Bethany Boulevard, Portland, 97229",
-      "extracted_at": "2026-03-26T11:43:40.595228"
+      "extracted_at": "2026-03-26T12:05:56.504951"
     },
     {
       "contract_number": "J417461E",
@@ -3390,11 +3604,12 @@
       "sales_rep": "Ben Patacsil",
       "store_name": "Quality Food Center",
       "store_number": "0201",
+      "zone": "07Y",
       "product_description": "Single Ad",
       "total_amount": 2947.5,
       "payment_date": "9/23/2025",
       "address": "4756 Northwest Bethany Boulevard, Portland, 97229",
-      "extracted_at": "2026-03-26T11:43:40.610080"
+      "extracted_at": "2026-03-26T12:05:56.518562"
     },
     {
       "contract_number": "J417487E",
@@ -3406,11 +3621,12 @@
       "sales_rep": "Ben Patacsil",
       "store_name": "Safeway",
       "store_number": "1230",
+      "zone": "07Y",
       "product_description": "Single Ad",
       "total_amount": 5125.0,
       "payment_date": "9/29/2025",
       "address": "2177 NW 185th Avenue, Hillsboro, 97124",
-      "extracted_at": "2026-03-26T11:43:40.624596"
+      "extracted_at": "2026-03-26T12:05:56.532579"
     },
     {
       "contract_number": "J417685E",
@@ -3422,11 +3638,12 @@
       "sales_rep": "Matthew Boozer",
       "store_name": "Albertsons",
       "store_number": "0570",
+      "zone": "07Y",
       "product_description": "Double Ad",
       "total_amount": 3370.0,
       "payment_date": "9/25/2025",
       "address": "2000 Marcola Rd., Springfield, 97477",
-      "extracted_at": "2026-03-26T11:43:40.639256"
+      "extracted_at": "2026-03-26T12:05:56.546588"
     },
     {
       "contract_number": "J417702E",
@@ -3438,11 +3655,12 @@
       "sales_rep": "Matthew Boozer",
       "store_name": "Safeway",
       "store_number": "1458",
+      "zone": "07Y",
       "product_description": "Single Ad",
       "total_amount": 3800.0,
       "payment_date": "10/3/2025",
       "address": "1500 E Main St, Cottage Grove, 97424",
-      "extracted_at": "2026-03-26T11:43:40.654444"
+      "extracted_at": "2026-03-26T12:05:56.560874"
     },
     {
       "contract_number": "J417763E",
@@ -3454,11 +3672,12 @@
       "sales_rep": "Megan Wink",
       "store_name": "Rosauers",
       "store_number": "0016",
+      "zone": "07Z",
       "product_description": "Single Ad",
       "total_amount": 2197.5,
       "payment_date": "10/30/2025",
       "address": "1867 12th Street, Hood River, 97031",
-      "extracted_at": "2026-03-26T11:43:40.668888"
+      "extracted_at": "2026-03-26T12:05:56.574636"
     },
     {
       "contract_number": "J417763E",
@@ -3470,11 +3689,12 @@
       "sales_rep": "Megan Wink",
       "store_name": "Safeway",
       "store_number": "1123",
+      "zone": "07Z",
       "product_description": "Single Ad",
       "total_amount": 732.5,
       "payment_date": "10/30/2025",
       "address": "2249 Cascade Avenue, Hood River, 97031",
-      "extracted_at": "2026-03-26T11:43:40.668893"
+      "extracted_at": "2026-03-26T12:05:56.574643"
     },
     {
       "contract_number": "J418201E",
@@ -3486,11 +3706,12 @@
       "sales_rep": "Matthew Boozer",
       "store_name": "Safeway",
       "store_number": "4404",
+      "zone": "07Y",
       "product_description": "Double Ad",
       "total_amount": 6744.0,
       "payment_date": "10/13/2025",
       "address": "138 W Ellendale Ave, Dallas, 97338",
-      "extracted_at": "2026-03-26T11:43:40.684641"
+      "extracted_at": "2026-03-26T12:05:56.589073"
     },
     {
       "contract_number": "J418249E",
@@ -3502,11 +3723,12 @@
       "sales_rep": "Dave Boring",
       "store_name": "Safeway",
       "store_number": "1827",
+      "zone": "07Y",
       "product_description": "Single Ad",
       "total_amount": 3564.0,
       "payment_date": "10/10/2025",
       "address": "2111 Adams Avenue, La Grande, 97850",
-      "extracted_at": "2026-03-26T11:43:40.699859"
+      "extracted_at": "2026-03-26T12:05:56.603469"
     },
     {
       "contract_number": "J418507E",
@@ -3518,11 +3740,12 @@
       "sales_rep": "Tyler VanSant",
       "store_name": "Safeway",
       "store_number": "3525",
+      "zone": "07Z",
       "product_description": "Double Ad",
       "total_amount": 7070.0,
       "payment_date": "10/9/2025",
       "address": "1100 S Market Blvd, Chehalis, 98532",
-      "extracted_at": "2026-03-26T11:43:40.714091"
+      "extracted_at": "2026-03-26T12:05:56.617355"
     },
     {
       "contract_number": "J418507E",
@@ -3534,11 +3757,12 @@
       "sales_rep": "Tyler VanSant",
       "store_name": "Safeway",
       "store_number": "1495",
+      "zone": "07Z",
       "product_description": "Double Ad",
       "total_amount": 7470.0,
       "payment_date": "10/9/2025",
       "address": "1129 Harrison Avenue, Centralia, 98531",
-      "extracted_at": "2026-03-26T11:43:40.714098"
+      "extracted_at": "2026-03-26T12:05:56.617359"
     },
     {
       "contract_number": "J418525E",
@@ -3550,11 +3774,12 @@
       "sales_rep": "Amy Dixon",
       "store_name": "Safeway",
       "store_number": "0496",
+      "zone": "07X",
       "product_description": "Single Ad",
       "total_amount": 3314.0,
       "payment_date": "12/3/2025",
       "address": "15000 NE 24Th Street, Redmond, 98052",
-      "extracted_at": "2026-03-26T11:43:40.729574"
+      "extracted_at": "2026-03-26T12:05:56.632570"
     },
     {
       "contract_number": "J418525E",
@@ -3566,11 +3791,12 @@
       "sales_rep": "Amy Dixon",
       "store_name": "Safeway",
       "store_number": "0490",
+      "zone": "07X",
       "product_description": "Single Ad",
       "total_amount": 3974.0,
       "payment_date": "12/3/2025",
       "address": "1645 140Th Avenue Ne, Bellevue, 98005",
-      "extracted_at": "2026-03-26T11:43:40.729581"
+      "extracted_at": "2026-03-26T12:05:56.632576"
     },
     {
       "contract_number": "J418567E",
@@ -3582,11 +3808,12 @@
       "sales_rep": "Christian Johnson",
       "store_name": "Fred Meyer",
       "store_number": "0694",
+      "zone": "07Z",
       "product_description": "Single Ad",
       "total_amount": 9336.0,
       "payment_date": "10/9/2025",
       "address": "17005 SE Sunnyside Rd, Happy Valley, 97015",
-      "extracted_at": "2026-03-26T11:43:40.745104"
+      "extracted_at": "2026-03-26T12:05:56.647461"
     },
     {
       "contract_number": "J418705E",
@@ -3598,11 +3825,12 @@
       "sales_rep": "Christian Johnson",
       "store_name": "Albertsons",
       "store_number": "0571",
+      "zone": "07Y",
       "product_description": "Single Ad",
       "total_amount": 3432.48,
       "payment_date": "10/15/2025",
       "address": "19007 South Beavercreek Rd, Oregon City, 97045",
-      "extracted_at": "2026-03-26T11:43:40.760676"
+      "extracted_at": "2026-03-26T12:05:56.661883"
     },
     {
       "contract_number": "J418799E",
@@ -3618,7 +3846,8 @@
       "store_name": "",
       "store_number": "",
       "product_description": "",
-      "extracted_at": "2026-03-26T11:43:40.775889"
+      "zone": "07Z",
+      "extracted_at": "2026-03-26T12:05:56.676471"
     },
     {
       "contract_number": "J418864E",
@@ -3630,11 +3859,12 @@
       "sales_rep": "Matthew Boozer",
       "store_name": "Fred Meyer",
       "store_number": "0464",
+      "zone": "07Y",
       "product_description": "Double Ad",
       "total_amount": 6276.0,
       "payment_date": "10/30/2025",
       "address": "4701 Highway 101, Florence, 97439",
-      "extracted_at": "2026-03-26T11:43:40.791818"
+      "extracted_at": "2026-03-26T12:05:56.690806"
     },
     {
       "contract_number": "J418951E",
@@ -3646,11 +3876,12 @@
       "sales_rep": "Ben Patacsil",
       "store_name": "Albertsons",
       "store_number": "0575",
+      "zone": "07Z",
       "product_description": "Double Ad",
       "total_amount": 5499.13,
       "payment_date": "10/22/2025",
       "address": "5850 NE Prescott St, Portland, 97218",
-      "extracted_at": "2026-03-26T11:43:40.806971"
+      "extracted_at": "2026-03-26T12:05:56.705197"
     },
     {
       "contract_number": "J419010E",
@@ -3666,7 +3897,8 @@
       "store_name": "",
       "store_number": "",
       "product_description": "",
-      "extracted_at": "2026-03-26T11:43:40.822737"
+      "zone": "",
+      "extracted_at": "2026-03-26T12:05:56.719675"
     },
     {
       "contract_number": "J419011E",
@@ -3678,11 +3910,12 @@
       "sales_rep": "Anthony Marty Eng",
       "store_name": "Safeway",
       "store_number": "1612",
+      "zone": "07Z",
       "product_description": "Single Ad",
       "total_amount": 4932.0,
       "payment_date": "10/31/2025",
       "address": "1100 NE Broadway St, Portland, 97232",
-      "extracted_at": "2026-03-26T11:43:40.837889"
+      "extracted_at": "2026-03-26T12:05:56.734158"
     },
     {
       "contract_number": "J419128E",
@@ -3694,11 +3927,12 @@
       "sales_rep": "Christian Johnson",
       "store_name": "Safeway",
       "store_number": "4387",
+      "zone": "07Y",
       "product_description": "Double Ad",
       "total_amount": 4325.0,
       "payment_date": "10/16/2025",
       "address": "95 82nd Drive, Gladstone, 97027",
-      "extracted_at": "2026-03-26T11:43:40.853300"
+      "extracted_at": "2026-03-26T12:05:56.748609"
     },
     {
       "contract_number": "J419149E",
@@ -3710,11 +3944,12 @@
       "sales_rep": "Christian Johnson",
       "store_name": "Safeway",
       "store_number": "4387",
+      "zone": "07Y",
       "product_description": "Single Ad",
       "total_amount": 3125.04,
       "payment_date": "10/24/2025",
       "address": "95 82nd Drive, Gladstone, 97027",
-      "extracted_at": "2026-03-26T11:43:40.867893"
+      "extracted_at": "2026-03-26T12:05:56.762633"
     },
     {
       "contract_number": "J419437E",
@@ -3726,11 +3961,12 @@
       "sales_rep": "David Mordvinov",
       "store_name": "Safeway",
       "store_number": "4387",
+      "zone": "07Y",
       "product_description": "Single Ad",
       "total_amount": 2675.0,
       "payment_date": "10/28/2025",
       "address": "95 82nd Drive, Gladstone, 97027",
-      "extracted_at": "2026-03-26T11:43:40.882998"
+      "extracted_at": "2026-03-26T12:05:56.775953"
     },
     {
       "contract_number": "J419443E",
@@ -3742,11 +3978,12 @@
       "sales_rep": "Tyler VanSant",
       "store_name": "Fred Meyer",
       "store_number": "0659",
+      "zone": "07Z",
       "product_description": "Double Ad",
       "total_amount": 3675.0,
       "payment_date": "10/21/2025",
       "address": "555 Trosper Road Southwest, Tumwater, 98512",
-      "extracted_at": "2026-03-26T11:43:40.898707"
+      "extracted_at": "2026-03-26T12:05:56.790548"
     },
     {
       "contract_number": "J419443E",
@@ -3758,11 +3995,12 @@
       "sales_rep": "Tyler VanSant",
       "store_name": "Fred Meyer",
       "store_number": "0659",
+      "zone": "07Z",
       "product_description": "Single Ad",
       "total_amount": 2625.0,
       "payment_date": "10/21/2025",
       "address": "555 Trosper Road Southwest, Tumwater, 98512",
-      "extracted_at": "2026-03-26T11:43:40.898713"
+      "extracted_at": "2026-03-26T12:05:56.790552"
     },
     {
       "contract_number": "J419697E",
@@ -3774,11 +4012,12 @@
       "sales_rep": "Tyler VanSant",
       "store_name": "Safeway",
       "store_number": "1495",
+      "zone": "07Z",
       "product_description": "Single Ad",
       "total_amount": 5400.0,
       "payment_date": "10/24/2025",
       "address": "1129 Harrison Avenue, Centralia, 98531",
-      "extracted_at": "2026-03-26T11:43:40.913426"
+      "extracted_at": "2026-03-26T12:05:56.804448"
     },
     {
       "contract_number": "J419761E",
@@ -3790,11 +4029,12 @@
       "sales_rep": "Christian Johnson",
       "store_name": "Safeway",
       "store_number": "1103",
+      "zone": "07Z",
       "product_description": "Single Ad",
       "total_amount": 2844.0,
       "payment_date": "10/28/2025",
       "address": "6701 E Mill Plain Blvd, Vancouver, 98661",
-      "extracted_at": "2026-03-26T11:43:40.929036"
+      "extracted_at": "2026-03-26T12:05:56.818778"
     },
     {
       "contract_number": "J419895E",
@@ -3806,11 +4046,12 @@
       "sales_rep": "Christian Johnson",
       "store_name": "Safeway",
       "store_number": "1103",
+      "zone": "07Z",
       "product_description": "Single Ad",
       "total_amount": 4052.0,
       "payment_date": "10/30/2025",
       "address": "6701 E Mill Plain Blvd, Vancouver, 98661",
-      "extracted_at": "2026-03-26T11:43:40.943386"
+      "extracted_at": "2026-03-26T12:05:56.832115"
     },
     {
       "contract_number": "J420118E",
@@ -3822,11 +4063,12 @@
       "sales_rep": "Megan Wink",
       "store_name": "Safeway",
       "store_number": "1123",
+      "zone": "07Z",
       "product_description": "Single Ad",
       "total_amount": 3095.0,
       "payment_date": "11/3/2025",
       "address": "2249 Cascade Avenue, Hood River, 97031",
-      "extracted_at": "2026-03-26T11:43:40.957928"
+      "extracted_at": "2026-03-26T12:05:56.846010"
     },
     {
       "contract_number": "J420119E",
@@ -3838,11 +4080,12 @@
       "sales_rep": "Ben Patacsil",
       "store_name": "Safeway",
       "store_number": "3542",
+      "zone": "07Y",
       "product_description": "Single Ad",
       "total_amount": 2700.0,
       "payment_date": "11/17/2025",
       "address": "14300 SW Barrows Rd, Tigard, 97223",
-      "extracted_at": "2026-03-26T11:43:40.974180"
+      "extracted_at": "2026-03-26T12:05:56.860489"
     },
     {
       "contract_number": "J420176E",
@@ -3854,11 +4097,12 @@
       "sales_rep": "Anthony Marty Eng",
       "store_name": "Safeway",
       "store_number": "4404",
+      "zone": "07Y",
       "product_description": "Single Ad",
       "total_amount": 3995.0,
       "payment_date": "11/5/2025",
       "address": "138 W Ellendale Ave, Dallas, 97338",
-      "extracted_at": "2026-03-26T11:43:40.990197"
+      "extracted_at": "2026-03-26T12:05:56.875959"
     },
     {
       "contract_number": "J420177E",
@@ -3870,11 +4114,12 @@
       "sales_rep": "Anthony Marty Eng",
       "store_name": "Safeway",
       "store_number": "1612",
+      "zone": "07Z",
       "product_description": "Single Ad",
       "total_amount": 4932.0,
       "payment_date": "10/31/2025",
       "address": "1100 NE Broadway St, Portland, 97232",
-      "extracted_at": "2026-03-26T11:43:41.005429"
+      "extracted_at": "2026-03-26T12:05:56.889794"
     },
     {
       "contract_number": "J420475E",
@@ -3890,7 +4135,8 @@
       "store_name": "",
       "store_number": "",
       "product_description": "",
-      "extracted_at": "2026-03-26T11:43:41.021667"
+      "zone": "",
+      "extracted_at": "2026-03-26T12:05:56.904338"
     },
     {
       "contract_number": "J420570E",
@@ -3902,11 +4148,12 @@
       "sales_rep": "Anthony Marty Eng",
       "store_name": "Safeway",
       "store_number": "1580",
+      "zone": "07Y",
       "product_description": "Single Ad",
       "total_amount": 1846.26,
       "payment_date": "11/8/2025",
       "address": "301 Westfield Street, Silverton, 97381",
-      "extracted_at": "2026-03-26T11:43:41.036478"
+      "extracted_at": "2026-03-26T12:05:56.919141"
     },
     {
       "contract_number": "J420570E",
@@ -3918,11 +4165,12 @@
       "sales_rep": "Anthony Marty Eng",
       "store_name": "Safeway",
       "store_number": "1935",
+      "zone": "07Y",
       "product_description": "Single Ad",
       "total_amount": 2081.25,
       "payment_date": "11/8/2025",
       "address": "5660 Commercial St SE, Salem, 97306",
-      "extracted_at": "2026-03-26T11:43:41.036483"
+      "extracted_at": "2026-03-26T12:05:56.919145"
     },
     {
       "contract_number": "J420664E",
@@ -3934,11 +4182,12 @@
       "sales_rep": "Anthony Marty Eng",
       "store_name": "Safeway",
       "store_number": "1580",
+      "zone": "07Y",
       "product_description": "Single Ad",
       "total_amount": 5302.0,
       "payment_date": "12/4/2025",
       "address": "301 Westfield Street, Silverton, 97381",
-      "extracted_at": "2026-03-26T11:43:41.052036"
+      "extracted_at": "2026-03-26T12:05:56.933703"
     },
     {
       "contract_number": "J420666E",
@@ -3950,11 +4199,12 @@
       "sales_rep": "Megan Wink",
       "store_name": "Fred Meyer",
       "store_number": "0460",
+      "zone": "07Z",
       "product_description": "Single Ad",
       "total_amount": 6725.0,
       "payment_date": "11/11/2025",
       "address": "800 NE Tenney Rd, Vancouver, 98685",
-      "extracted_at": "2026-03-26T11:43:41.067800"
+      "extracted_at": "2026-03-26T12:05:56.948414"
     },
     {
       "contract_number": "J420812E",
@@ -3966,11 +4216,12 @@
       "sales_rep": "Megan Wink",
       "store_name": "Safeway",
       "store_number": "0415",
+      "zone": "07Y",
       "product_description": "Single Ad",
       "total_amount": 4200.0,
       "payment_date": "11/12/2025",
       "address": "4101 NW Logan Road, Lincoln City, 97367",
-      "extracted_at": "2026-03-26T11:43:41.081993"
+      "extracted_at": "2026-03-26T12:05:56.962114"
     },
     {
       "contract_number": "J420860E",
@@ -3982,11 +4233,12 @@
       "sales_rep": "Matthew Boozer",
       "store_name": "Albertsons",
       "store_number": "0572",
+      "zone": "07Y",
       "product_description": "Single Ad",
       "total_amount": 3324.0,
       "payment_date": "11/17/2025",
       "address": "311 Coburg Rd, Eugene, 97401",
-      "extracted_at": "2026-03-26T11:43:41.097426"
+      "extracted_at": "2026-03-26T12:05:56.976591"
     },
     {
       "contract_number": "J420870E",
@@ -3998,11 +4250,12 @@
       "sales_rep": "Megan Wink",
       "store_name": "Safeway",
       "store_number": "0534",
+      "zone": "07X",
       "product_description": "Single Ad",
       "total_amount": 3975.0,
       "payment_date": "11/14/2025",
       "address": "3532 172Nd Street Ne, Arlington, 98223",
-      "extracted_at": "2026-03-26T11:43:41.111897"
+      "extracted_at": "2026-03-26T12:05:56.990656"
     },
     {
       "contract_number": "J420870E",
@@ -4014,11 +4267,12 @@
       "sales_rep": "Megan Wink",
       "store_name": "Haggen",
       "store_number": "0069",
+      "zone": "07X",
       "product_description": "Single Ad",
       "total_amount": 3975.0,
       "payment_date": "11/14/2025",
       "address": "2601 E Division St, Mount Vernon, 98274",
-      "extracted_at": "2026-03-26T11:43:41.111902"
+      "extracted_at": "2026-03-26T12:05:56.990660"
     },
     {
       "contract_number": "J420879E",
@@ -4030,11 +4284,12 @@
       "sales_rep": "Christian Johnson",
       "store_name": "Safeway",
       "store_number": "1047",
+      "zone": "07Y",
       "product_description": "Single Ad",
       "total_amount": 3432.0,
       "payment_date": "11/14/2025",
       "address": "17779 Boones Ferry Road, Lake Oswego, 97035",
-      "extracted_at": "2026-03-26T11:43:41.126242"
+      "extracted_at": "2026-03-26T12:05:57.004718"
     },
     {
       "contract_number": "J421063E",
@@ -4046,11 +4301,12 @@
       "sales_rep": "Tyler VanSant",
       "store_name": "Safeway",
       "store_number": "0091",
+      "zone": "07Z",
       "product_description": "Single Ad",
       "total_amount": 3770.0,
       "payment_date": "11/21/2025",
       "address": "1227 15Th Ave, Longview, 98632",
-      "extracted_at": "2026-03-26T11:43:41.140771"
+      "extracted_at": "2026-03-26T12:05:57.019457"
     },
     {
       "contract_number": "J421064E",
@@ -4062,11 +4318,12 @@
       "sales_rep": "Megan Wink",
       "store_name": "Safeway",
       "store_number": "1123",
+      "zone": "07Z",
       "product_description": "Single Ad",
       "total_amount": 3095.0,
       "payment_date": "11/19/2025",
       "address": "2249 Cascade Avenue, Hood River, 97031",
-      "extracted_at": "2026-03-26T11:43:41.155222"
+      "extracted_at": "2026-03-26T12:05:57.033842"
     },
     {
       "contract_number": "J421067E",
@@ -4082,7 +4339,8 @@
       "store_name": "",
       "store_number": "",
       "product_description": "",
-      "extracted_at": "2026-03-26T11:43:41.170328"
+      "zone": "05X",
+      "extracted_at": "2026-03-26T12:05:57.048768"
     },
     {
       "contract_number": "J421148E",
@@ -4094,11 +4352,12 @@
       "sales_rep": "Ben Patacsil",
       "store_name": "Safeway",
       "store_number": "4318",
+      "zone": "07Y",
       "product_description": "Double Ad",
       "total_amount": 2067.12,
       "payment_date": "11/19/2025",
       "address": "401 E Columbia River Hwy, Clatskanie, 97016",
-      "extracted_at": "2026-03-26T11:43:41.184002"
+      "extracted_at": "2026-03-26T12:05:57.062235"
     },
     {
       "contract_number": "J421152E",
@@ -4110,11 +4369,12 @@
       "sales_rep": "David Mordvinov",
       "store_name": "Safeway",
       "store_number": "0782",
+      "zone": "07Z",
       "product_description": "Single Ad",
       "total_amount": 3095.0,
       "payment_date": "11/25/2025",
       "address": "37601 U.S. 26, Sandy, 97055",
-      "extracted_at": "2026-03-26T11:43:41.198564"
+      "extracted_at": "2026-03-26T12:05:57.076792"
     },
     {
       "contract_number": "J421275E",
@@ -4126,11 +4386,12 @@
       "sales_rep": "Matthew Boozer",
       "store_name": "Albertsons",
       "store_number": "0570",
+      "zone": "07Y",
       "product_description": "Single Ad",
       "total_amount": 2525.0,
       "payment_date": "12/3/2025",
       "address": "2000 Marcola Rd., Springfield, 97477",
-      "extracted_at": "2026-03-26T11:43:41.212467"
+      "extracted_at": "2026-03-26T12:05:57.091037"
     },
     {
       "contract_number": "J421280E",
@@ -4142,11 +4403,12 @@
       "sales_rep": "Megan Wink",
       "store_name": "Fred Meyer",
       "store_number": "0372",
+      "zone": "07Z",
       "product_description": "Single Ad",
       "total_amount": 4651.25,
       "payment_date": "11/19/2025",
       "address": "1215 W 6Th St, The Dalles, 97058-3585",
-      "extracted_at": "2026-03-26T11:43:41.226276"
+      "extracted_at": "2026-03-26T12:05:57.105007"
     },
     {
       "contract_number": "J421285E",
@@ -4158,11 +4420,12 @@
       "sales_rep": "Tyler VanSant",
       "store_name": "Rosauers",
       "store_number": "0042",
+      "zone": "07Z",
       "product_description": "Single Ad",
       "total_amount": 3550.0,
       "payment_date": "11/19/2025",
       "address": "101 S. 47th Avenue, Ridgefield, 98642",
-      "extracted_at": "2026-03-26T11:43:41.241029"
+      "extracted_at": "2026-03-26T12:05:57.119240"
     },
     {
       "contract_number": "J421310E",
@@ -4174,11 +4437,12 @@
       "sales_rep": "Megan Wink",
       "store_name": "Safeway",
       "store_number": "1489",
+      "zone": "07Z",
       "product_description": "Single Ad",
       "total_amount": 4080.0,
       "payment_date": "11/20/2025",
       "address": "520 Mount Hood Street, The Dalles, 97058",
-      "extracted_at": "2026-03-26T11:43:41.255289"
+      "extracted_at": "2026-03-26T12:05:57.133634"
     },
     {
       "contract_number": "J421325E",
@@ -4190,11 +4454,12 @@
       "sales_rep": "Megan Wink",
       "store_name": "Fred Meyer",
       "store_number": "0171",
+      "zone": "07X",
       "product_description": "Single Ad",
       "total_amount": 4850.0,
       "payment_date": "11/22/2025",
       "address": "5050 State Highway 303 Northeast, Bremerton, 983113687",
-      "extracted_at": "2026-03-26T11:43:41.269789"
+      "extracted_at": "2026-03-26T12:05:57.148230"
     },
     {
       "contract_number": "J421408E",
@@ -4206,11 +4471,12 @@
       "sales_rep": "Tyler VanSant",
       "store_name": "Safeway",
       "store_number": "0091",
+      "zone": "07Z",
       "product_description": "Single Ad",
       "total_amount": 4050.0,
       "payment_date": "11/20/2025",
       "address": "1227 15Th Ave, Longview, 98632",
-      "extracted_at": "2026-03-26T11:43:41.285077"
+      "extracted_at": "2026-03-26T12:05:57.163544"
     },
     {
       "contract_number": "J421408E",
@@ -4222,11 +4488,12 @@
       "sales_rep": "Tyler VanSant",
       "store_name": "Safeway",
       "store_number": "1078",
+      "zone": "07Z",
       "product_description": "Single Ad",
       "total_amount": 3150.0,
       "payment_date": "11/20/2025",
       "address": "2930 Ocean Beach Highway, Longview, 98632",
-      "extracted_at": "2026-03-26T11:43:41.285082"
+      "extracted_at": "2026-03-26T12:05:57.163551"
     },
     {
       "contract_number": "J421408E",
@@ -4238,11 +4505,12 @@
       "sales_rep": "Tyler VanSant",
       "store_name": "Fred Meyer",
       "store_number": "0185",
+      "zone": "07Z",
       "product_description": "Single Ad",
       "total_amount": 5100.0,
       "payment_date": "11/20/2025",
       "address": "3184 Ocean Beach Highway, Longview, 98632-4395",
-      "extracted_at": "2026-03-26T11:43:41.285084"
+      "extracted_at": "2026-03-26T12:05:57.163553"
     },
     {
       "contract_number": "J421408E",
@@ -4254,11 +4522,12 @@
       "sales_rep": "Tyler VanSant",
       "store_name": "Safeway",
       "store_number": "2637",
+      "zone": "07Z",
       "product_description": "Single Ad",
       "total_amount": 3350.0,
       "payment_date": "11/20/2025",
       "address": "411 Three River Drive, Kelso, 98626",
-      "extracted_at": "2026-03-26T11:43:41.285086"
+      "extracted_at": "2026-03-26T12:05:57.163555"
     },
     {
       "contract_number": "J421430E",
@@ -4270,11 +4539,12 @@
       "sales_rep": "Tyler VanSant",
       "store_name": "Safeway",
       "store_number": "2993",
+      "zone": "07Y",
       "product_description": "Single Ad",
       "total_amount": 3770.0,
       "payment_date": "11/22/2025",
       "address": "13434 Colton Place, Oregon City, 97045",
-      "extracted_at": "2026-03-26T11:43:41.299825"
+      "extracted_at": "2026-03-26T12:05:57.178323"
     },
     {
       "contract_number": "J421482E",
@@ -4286,11 +4556,12 @@
       "sales_rep": "Megan Wink",
       "store_name": "Safeway",
       "store_number": "2637",
+      "zone": "07Z",
       "product_description": "Single Ad",
       "total_amount": 2825.0,
       "payment_date": "11/22/2025",
       "address": "411 Three River Drive, Kelso, 98626",
-      "extracted_at": "2026-03-26T11:43:41.314178"
+      "extracted_at": "2026-03-26T12:05:57.193018"
     },
     {
       "contract_number": "J421483E",
@@ -4302,11 +4573,12 @@
       "sales_rep": "Megan Wink",
       "store_name": "Safeway",
       "store_number": "0091",
+      "zone": "07Z",
       "product_description": "Single Ad",
       "total_amount": 3770.0,
       "payment_date": "12/2/2025",
       "address": "1227 15Th Ave, Longview, 98632",
-      "extracted_at": "2026-03-26T11:43:41.328853"
+      "extracted_at": "2026-03-26T12:05:57.207537"
     },
     {
       "contract_number": "J421536E",
@@ -4318,11 +4590,12 @@
       "sales_rep": "Amy Dixon",
       "store_name": "Safeway",
       "store_number": "0363",
+      "zone": "07Y",
       "product_description": "Single Ad",
       "total_amount": 3925.0,
       "payment_date": "11/25/2025",
       "address": "700 Highway 101, Florence, 97439",
-      "extracted_at": "2026-03-26T11:43:41.342851"
+      "extracted_at": "2026-03-26T12:05:57.221480"
     },
     {
       "contract_number": "J421536E",
@@ -4334,11 +4607,12 @@
       "sales_rep": "Amy Dixon",
       "store_name": "Fred Meyer",
       "store_number": "0464",
+      "zone": "07Y",
       "product_description": "Single Ad",
       "total_amount": 3925.0,
       "payment_date": "11/25/2025",
       "address": "4701 Highway 101, Florence, 97439",
-      "extracted_at": "2026-03-26T11:43:41.342855"
+      "extracted_at": "2026-03-26T12:05:57.221490"
     },
     {
       "contract_number": "J421811E",
@@ -4350,11 +4624,12 @@
       "sales_rep": "Tyler VanSant",
       "store_name": "Safeway",
       "store_number": "3252",
+      "zone": "07W",
       "product_description": "Single Ad",
       "total_amount": 4862.23,
       "payment_date": "12/19/2025",
       "address": "601 South Pioneer Way, Moses Lake, 98837",
-      "extracted_at": "2026-03-26T11:43:41.356892"
+      "extracted_at": "2026-03-26T12:05:57.236205"
     },
     {
       "contract_number": "J421812E",
@@ -4366,11 +4641,12 @@
       "sales_rep": "Megan Wink",
       "store_name": "Safeway",
       "store_number": "0424",
+      "zone": "07Z",
       "product_description": "Double Ad",
       "total_amount": 5250.0,
       "payment_date": "12/17/2025",
       "address": "795 Columbia River Highway, St. Helens, 97051",
-      "extracted_at": "2026-03-26T11:43:41.371780"
+      "extracted_at": "2026-03-26T12:05:57.250812"
     },
     {
       "contract_number": "J421886E",
@@ -4382,11 +4658,12 @@
       "sales_rep": "Matthew Boozer",
       "store_name": "Albertsons",
       "store_number": "0560",
+      "zone": "07Y",
       "product_description": "Single Ad",
       "total_amount": 2975.0,
       "payment_date": "12/11/2025",
       "address": "55 Division Ave, Eugene, 97404",
-      "extracted_at": "2026-03-26T11:43:41.385759"
+      "extracted_at": "2026-03-26T12:05:57.264516"
     },
     {
       "contract_number": "J422016E",
@@ -4398,11 +4675,12 @@
       "sales_rep": "Anthony Marty Eng",
       "store_name": "Safeway",
       "store_number": "1580",
+      "zone": "07Y",
       "product_description": "Single Ad",
       "total_amount": 1800.0,
       "payment_date": "12/9/2025",
       "address": "301 Westfield Street, Silverton, 97381",
-      "extracted_at": "2026-03-26T11:43:41.399702"
+      "extracted_at": "2026-03-26T12:05:57.278490"
     },
     {
       "contract_number": "J422089E",
@@ -4418,7 +4696,8 @@
       "store_name": "",
       "store_number": "",
       "product_description": "",
-      "extracted_at": "2026-03-26T11:43:41.414494"
+      "zone": "05X",
+      "extracted_at": "2026-03-26T12:05:57.293128"
     },
     {
       "contract_number": "J422098E",
@@ -4430,11 +4709,12 @@
       "sales_rep": "Tyler VanSant",
       "store_name": "Fred Meyer",
       "store_number": "0285",
+      "zone": "07Y",
       "product_description": "Single Ad",
       "total_amount": 2000.0,
       "payment_date": "12/5/2025",
       "address": "7700 SW Beaverton Hillsdale Hwy, Portland, 97225-2101",
-      "extracted_at": "2026-03-26T11:43:41.428341"
+      "extracted_at": "2026-03-26T12:05:57.306931"
     },
     {
       "contract_number": "J422117E",
@@ -4446,11 +4726,12 @@
       "sales_rep": "Ben Patacsil",
       "store_name": "Albertsons",
       "store_number": "3417",
+      "zone": "07Z",
       "product_description": "Single Ad",
       "total_amount": 5052.0,
       "payment_date": "12/18/2025",
       "address": "3520 Pacific Ave S E, Olympia, 98501",
-      "extracted_at": "2026-03-26T11:43:41.443160"
+      "extracted_at": "2026-03-26T12:05:57.321668"
     },
     {
       "contract_number": "J422137E",
@@ -4462,11 +4743,12 @@
       "sales_rep": "Anthony Marty Eng",
       "store_name": "Safeway",
       "store_number": "1558",
+      "zone": "07Y",
       "product_description": "Single Ad",
       "total_amount": 3249.0,
       "payment_date": "1/9/2026",
       "address": "1983 South Main Street, Lebanon, 97355",
-      "extracted_at": "2026-03-26T11:43:41.457982"
+      "extracted_at": "2026-03-26T12:05:57.336117"
     },
     {
       "contract_number": "J422159E",
@@ -4478,11 +4760,12 @@
       "sales_rep": "Adan Ramos",
       "store_name": "Safeway",
       "store_number": "2627",
+      "zone": "07Z",
       "product_description": "Double Ad",
       "total_amount": 3875.0,
       "payment_date": "12/8/2025",
       "address": "3250 Leif Erikson Dr, Astoria, 97103",
-      "extracted_at": "2026-03-26T11:43:41.471998"
+      "extracted_at": "2026-03-26T12:05:57.350165"
     },
     {
       "contract_number": "J422212E",
@@ -4494,11 +4777,12 @@
       "sales_rep": "Adan Ramos",
       "store_name": "Safeway",
       "store_number": "2627",
+      "zone": "07Z",
       "product_description": "Single Ad",
       "total_amount": 1731.5,
       "payment_date": "12/9/2025",
       "address": "3250 Leif Erikson Dr, Astoria, 97103",
-      "extracted_at": "2026-03-26T11:43:41.486136"
+      "extracted_at": "2026-03-26T12:05:57.364227"
     },
     {
       "contract_number": "J422216E",
@@ -4510,11 +4794,12 @@
       "sales_rep": "Adan Ramos",
       "store_name": "Safeway",
       "store_number": "2627",
+      "zone": "07Z",
       "product_description": "Single Ad",
       "total_amount": 1210.0,
       "payment_date": "12/11/2025",
       "address": "3250 Leif Erikson Dr, Astoria, 97103",
-      "extracted_at": "2026-03-26T11:43:41.499803"
+      "extracted_at": "2026-03-26T12:05:57.377926"
     },
     {
       "contract_number": "J422227E",
@@ -4526,11 +4811,12 @@
       "sales_rep": "Adan Ramos",
       "store_name": "Safeway",
       "store_number": "2627",
+      "zone": "07Z",
       "product_description": "Single Ad",
       "total_amount": 2675.0,
       "payment_date": "12/9/2025",
       "address": "3250 Leif Erikson Dr, Astoria, 97103",
-      "extracted_at": "2026-03-26T11:43:41.514607"
+      "extracted_at": "2026-03-26T12:05:57.392858"
     },
     {
       "contract_number": "J422311E",
@@ -4542,11 +4828,12 @@
       "sales_rep": "Adan Ramos",
       "store_name": "Safeway",
       "store_number": "1260",
+      "zone": "07Z",
       "product_description": "Single Ad",
       "total_amount": 3768.0,
       "payment_date": "12/11/2025",
       "address": "401 South Roosevelt, Seaside, 97138",
-      "extracted_at": "2026-03-26T11:43:41.528960"
+      "extracted_at": "2026-03-26T12:05:57.407554"
     },
     {
       "contract_number": "J422417E",
@@ -4558,11 +4845,12 @@
       "sales_rep": "Matthew Boozer",
       "store_name": "Albertsons",
       "store_number": "0570",
+      "zone": "07Y",
       "product_description": "Single Ad",
       "total_amount": 2525.0,
       "payment_date": "12/11/2025",
       "address": "2000 Marcola Rd., Springfield, 97477",
-      "extracted_at": "2026-03-26T11:43:41.542992"
+      "extracted_at": "2026-03-26T12:05:57.421535"
     },
     {
       "contract_number": "J422420E",
@@ -4574,11 +4862,12 @@
       "sales_rep": "Matthew Boozer",
       "store_name": "Albertsons",
       "store_number": "0574",
+      "zone": "07Y",
       "product_description": "Double Ad",
       "total_amount": 5881.0,
       "payment_date": "1/14/2026",
       "address": "5755 Main St, Springfield, 97478",
-      "extracted_at": "2026-03-26T11:43:41.557207"
+      "extracted_at": "2026-03-26T12:05:57.436363"
     },
     {
       "contract_number": "J422420E",
@@ -4590,11 +4879,12 @@
       "sales_rep": "Matthew Boozer",
       "store_name": "Safeway",
       "store_number": "4288",
+      "zone": "07Y",
       "product_description": "Double Ad",
       "total_amount": 1370.67,
       "payment_date": "1/14/2026",
       "address": "145 E 18th Ave, Eugene, 97401",
-      "extracted_at": "2026-03-26T11:43:41.557214"
+      "extracted_at": "2026-03-26T12:05:57.436370"
     },
     {
       "contract_number": "J422420E",
@@ -4606,11 +4896,12 @@
       "sales_rep": "Matthew Boozer",
       "store_name": "Safeway",
       "store_number": "4288",
+      "zone": "07Y",
       "product_description": "Double Ad",
       "total_amount": 2741.34,
       "payment_date": "1/14/2026",
       "address": "145 E 18th Ave, Eugene, 97401",
-      "extracted_at": "2026-03-26T11:43:41.557216"
+      "extracted_at": "2026-03-26T12:05:57.436373"
     },
     {
       "contract_number": "J422458E",
@@ -4622,11 +4913,12 @@
       "sales_rep": "Adan Ramos",
       "store_name": "Safeway",
       "store_number": "1687",
+      "zone": "07Z",
       "product_description": "Single Ad",
       "total_amount": 3312.0,
       "payment_date": "12/22/2025",
       "address": "3307 SE Evergreen Way Ste 5, Washougal, 98671",
-      "extracted_at": "2026-03-26T11:43:41.571133"
+      "extracted_at": "2026-03-26T12:05:57.452401"
     },
     {
       "contract_number": "J422512E",
@@ -4642,7 +4934,8 @@
       "store_name": "",
       "store_number": "",
       "product_description": "",
-      "extracted_at": "2026-03-26T11:43:41.585706"
+      "zone": "05X",
+      "extracted_at": "2026-03-26T12:05:57.470199"
     },
     {
       "contract_number": "J422768E",
@@ -4654,11 +4947,12 @@
       "sales_rep": "Megan Wink",
       "store_name": "Safeway",
       "store_number": "0424",
+      "zone": "07Z",
       "product_description": "Double Ad",
       "total_amount": 5172.0,
       "payment_date": "12/31/2025",
       "address": "795 Columbia River Highway, St. Helens, 97051",
-      "extracted_at": "2026-03-26T11:43:41.600590"
+      "extracted_at": "2026-03-26T12:05:57.487432"
     },
     {
       "contract_number": "J422772E",
@@ -4670,11 +4964,12 @@
       "sales_rep": "Ben Patacsil",
       "store_name": "Fred Meyer",
       "store_number": "0482",
+      "zone": "07Y",
       "product_description": "Single Ad",
       "total_amount": 4715.0,
       "payment_date": "2/25/2026",
       "address": "15995 Southwest Walker Road, Beaverton, 97006-4944",
-      "extracted_at": "2026-03-26T11:43:41.615106"
+      "extracted_at": "2026-03-26T12:05:57.504187"
     },
     {
       "contract_number": "J422954E",
@@ -4686,11 +4981,12 @@
       "sales_rep": "Adan Ramos",
       "store_name": "Quality Food Center",
       "store_number": "0212",
+      "zone": "07Z",
       "product_description": "Single Ad",
       "total_amount": 1632.0,
       "payment_date": "1/8/2026",
       "address": "3505 SE 192nd Ave, Vancouver, 98683",
-      "extracted_at": "2026-03-26T11:43:41.628603"
+      "extracted_at": "2026-03-26T12:05:57.519832"
     },
     {
       "contract_number": "J422973E",
@@ -4706,7 +5002,8 @@
       "store_name": "",
       "store_number": "",
       "product_description": "",
-      "extracted_at": "2026-03-26T11:43:41.641858"
+      "zone": "05X",
+      "extracted_at": "2026-03-26T12:05:57.535527"
     },
     {
       "contract_number": "J423103E",
@@ -4722,7 +5019,8 @@
       "store_name": "",
       "store_number": "",
       "product_description": "",
-      "extracted_at": "2026-03-26T11:43:41.655865"
+      "zone": "05X",
+      "extracted_at": "2026-03-26T12:05:57.550942"
     },
     {
       "contract_number": "J423187E",
@@ -4734,11 +5032,12 @@
       "sales_rep": "Adan Ramos",
       "store_name": "Fred Meyer",
       "store_number": "0030",
+      "zone": "07Y",
       "product_description": "Single Ad",
       "total_amount": 4000.0,
       "payment_date": "1/14/2026",
       "address": "325 5th St, Brookings, 97415",
-      "extracted_at": "2026-03-26T11:43:41.669920"
+      "extracted_at": "2026-03-26T12:05:57.565418"
     },
     {
       "contract_number": "J423199E",
@@ -4750,11 +5049,12 @@
       "sales_rep": "Tyler VanSant",
       "store_name": "Rosauers",
       "store_number": "0042",
+      "zone": "07Z",
       "product_description": "Double Ad",
       "total_amount": 12135.96,
       "payment_date": "1/10/2026",
       "address": "101 S. 47th Avenue, Ridgefield, 98642",
-      "extracted_at": "2026-03-26T11:43:41.683638"
+      "extracted_at": "2026-03-26T12:05:57.579656"
     },
     {
       "contract_number": "J423202E",
@@ -4766,11 +5066,12 @@
       "sales_rep": "Tyler VanSant",
       "store_name": "Safeway",
       "store_number": "1710",
+      "zone": "07Y",
       "product_description": "Single Ad",
       "total_amount": 3433.0,
       "payment_date": "1/10/2026",
       "address": "1540 Main Street, Sweet Home, 97386",
-      "extracted_at": "2026-03-26T11:43:41.697241"
+      "extracted_at": "2026-03-26T12:05:57.593922"
     },
     {
       "contract_number": "J423204E",
@@ -4782,11 +5083,12 @@
       "sales_rep": "Megan Wink",
       "store_name": "Safeway",
       "store_number": "0424",
+      "zone": "07Z",
       "product_description": "Single Ad",
       "total_amount": 3597.48,
       "payment_date": "1/2/2026",
       "address": "795 Columbia River Highway, St. Helens, 97051",
-      "extracted_at": "2026-03-26T11:43:41.711474"
+      "extracted_at": "2026-03-26T12:05:57.608462"
     },
     {
       "contract_number": "J423227E",
@@ -4798,11 +5100,12 @@
       "sales_rep": "Amy Dixon",
       "store_name": "Fred Meyer",
       "store_number": "0035",
+      "zone": "07Y",
       "product_description": "Single Ad",
       "total_amount": 5068.0,
       "payment_date": "1/27/2026",
       "address": "11425 SW Beaverton Hillsdale Hwy, Beaverton, 970053050",
-      "extracted_at": "2026-03-26T11:43:41.726493"
+      "extracted_at": "2026-03-26T12:05:57.624421"
     },
     {
       "contract_number": "J423227E",
@@ -4814,11 +5117,12 @@
       "sales_rep": "Amy Dixon",
       "store_name": "Fred Meyer",
       "store_number": "0516",
+      "zone": "07Y",
       "product_description": "Single Ad",
       "total_amount": 4760.0,
       "payment_date": "1/27/2026",
       "address": "30300 Southwest boones ferry Road, Wilsonville, 97070",
-      "extracted_at": "2026-03-26T11:43:41.726497"
+      "extracted_at": "2026-03-26T12:05:57.624427"
     },
     {
       "contract_number": "J423227E",
@@ -4830,11 +5134,12 @@
       "sales_rep": "Amy Dixon",
       "store_name": "Fred Meyer",
       "store_number": "0355",
+      "zone": "07Y",
       "product_description": "Single Ad",
       "total_amount": 4375.0,
       "payment_date": "1/27/2026",
       "address": "3450 Commercial St SE, Salem, 97302-4682",
-      "extracted_at": "2026-03-26T11:43:41.726499"
+      "extracted_at": "2026-03-26T12:05:57.624429"
     },
     {
       "contract_number": "J423229E",
@@ -4846,11 +5151,12 @@
       "sales_rep": "Amy Dixon",
       "store_name": "Safeway",
       "store_number": "3136",
+      "zone": "07Y",
       "product_description": "Single Ad",
       "total_amount": 3275.0,
       "payment_date": "1/2/2026",
       "address": "8145 Southwest Barbur Boulevard, Portland, 97219",
-      "extracted_at": "2026-03-26T11:43:41.740710"
+      "extracted_at": "2026-03-26T12:05:57.640101"
     },
     {
       "contract_number": "J423232E",
@@ -4862,11 +5168,12 @@
       "sales_rep": "Amy Dixon",
       "store_name": "Fred Meyer",
       "store_number": "0070",
+      "zone": "07Y",
       "product_description": "Single Ad",
       "total_amount": 1075.0,
       "payment_date": "1/14/2026",
       "address": "777 Kings Boulevard, Corvallis, 97330-5620",
-      "extracted_at": "2026-03-26T11:43:41.754976"
+      "extracted_at": "2026-03-26T12:05:57.654849"
     },
     {
       "contract_number": "J423582E",
@@ -4878,11 +5185,12 @@
       "sales_rep": "Christian Johnson",
       "store_name": "Safeway",
       "store_number": "1558",
+      "zone": "07Y",
       "product_description": "Single Ad",
       "total_amount": 3248.0,
       "payment_date": "1/9/2026",
       "address": "1983 South Main Street, Lebanon, 97355",
-      "extracted_at": "2026-03-26T11:43:41.769607"
+      "extracted_at": "2026-03-26T12:05:57.670439"
     },
     {
       "contract_number": "J423602E",
@@ -4894,11 +5202,12 @@
       "sales_rep": "Amy Dixon",
       "store_name": "Fred Meyer",
       "store_number": "0393",
+      "zone": "07Y",
       "product_description": "Single Ad",
       "total_amount": 2375.0,
       "payment_date": "2/10/2026",
       "address": "19200 SW Martinazzi AVE, Tualatin, 97062-6357",
-      "extracted_at": "2026-03-26T11:43:41.783931"
+      "extracted_at": "2026-03-26T12:05:57.685537"
     },
     {
       "contract_number": "J423658E",
@@ -4910,11 +5219,12 @@
       "sales_rep": "Anthony Marty Eng",
       "store_name": "Safeway",
       "store_number": "1710",
+      "zone": "07Y",
       "product_description": "Single Ad",
       "total_amount": 3180.0,
       "payment_date": "1/22/2026",
       "address": "1540 Main Street, Sweet Home, 97386",
-      "extracted_at": "2026-03-26T11:43:41.798240"
+      "extracted_at": "2026-03-26T12:05:57.701118"
     },
     {
       "contract_number": "J423673E",
@@ -4926,11 +5236,12 @@
       "sales_rep": "Megan Wink",
       "store_name": "Safeway",
       "store_number": "0424",
+      "zone": "07Z",
       "product_description": "Single Ad",
       "total_amount": 3577.68,
       "payment_date": "1/9/2026",
       "address": "795 Columbia River Highway, St. Helens, 97051",
-      "extracted_at": "2026-03-26T11:43:41.812211"
+      "extracted_at": "2026-03-26T12:05:57.716492"
     },
     {
       "contract_number": "J423676E",
@@ -4946,7 +5257,8 @@
       "store_name": "",
       "store_number": "",
       "product_description": "",
-      "extracted_at": "2026-03-26T11:43:41.826253"
+      "zone": "07Z",
+      "extracted_at": "2026-03-26T12:05:57.732052"
     },
     {
       "contract_number": "J423680E",
@@ -4962,7 +5274,8 @@
       "store_name": "",
       "store_number": "",
       "product_description": "",
-      "extracted_at": "2026-03-26T11:43:41.840471"
+      "zone": "05X",
+      "extracted_at": "2026-03-26T12:05:57.747271"
     },
     {
       "contract_number": "J423689E",
@@ -4978,7 +5291,8 @@
       "store_name": "",
       "store_number": "",
       "product_description": "",
-      "extracted_at": "2026-03-26T11:43:41.854731"
+      "zone": "05X",
+      "extracted_at": "2026-03-26T12:05:57.763022"
     },
     {
       "contract_number": "J423693E",
@@ -4990,11 +5304,12 @@
       "sales_rep": "Megan Wink",
       "store_name": "Safeway",
       "store_number": "1123",
+      "zone": "07Z",
       "product_description": "Single Ad",
       "total_amount": 2930.0,
       "payment_date": "1/20/2026",
       "address": "2249 Cascade Avenue, Hood River, 97031",
-      "extracted_at": "2026-03-26T11:43:41.867948"
+      "extracted_at": "2026-03-26T12:05:57.777223"
     },
     {
       "contract_number": "J423774E",
@@ -5006,11 +5321,12 @@
       "sales_rep": "Tyler VanSant",
       "store_name": "Safeway",
       "store_number": "1458",
+      "zone": "07Y",
       "product_description": "Single Ad",
       "total_amount": 3572.4,
       "payment_date": "1/12/2026",
       "address": "1500 E Main St, Cottage Grove, 97424",
-      "extracted_at": "2026-03-26T11:43:41.882259"
+      "extracted_at": "2026-03-26T12:05:57.792873"
     },
     {
       "contract_number": "J423845E",
@@ -5022,11 +5338,12 @@
       "sales_rep": "Tyler VanSant",
       "store_name": "Safeway",
       "store_number": "0424",
+      "zone": "07Z",
       "product_description": "Single Ad",
       "total_amount": 3925.0,
       "payment_date": "1/20/2026",
       "address": "795 Columbia River Highway, St. Helens, 97051",
-      "extracted_at": "2026-03-26T11:43:41.897153"
+      "extracted_at": "2026-03-26T12:05:57.808389"
     },
     {
       "contract_number": "J423907E",
@@ -5038,11 +5355,12 @@
       "sales_rep": "Matthew Boozer",
       "store_name": "Safeway",
       "store_number": "4288",
+      "zone": "07Y",
       "product_description": "Single Ad",
       "total_amount": 4525.0,
       "payment_date": "1/14/2026",
       "address": "145 E 18th Ave, Eugene, 97401",
-      "extracted_at": "2026-03-26T11:43:41.911582"
+      "extracted_at": "2026-03-26T12:05:57.824211"
     },
     {
       "contract_number": "J423954E",
@@ -5054,11 +5372,12 @@
       "sales_rep": "Matthew Boozer",
       "store_name": "Fred Meyer",
       "store_number": "0417",
+      "zone": "07Y",
       "product_description": "Single Ad",
       "total_amount": 4725.0,
       "payment_date": "2/2/2026",
       "address": "3333 W 11th Ave, Eugene, 97402-3053",
-      "extracted_at": "2026-03-26T11:43:41.926141"
+      "extracted_at": "2026-03-26T12:05:57.839635"
     },
     {
       "contract_number": "J423954E",
@@ -5070,11 +5389,12 @@
       "sales_rep": "Matthew Boozer",
       "store_name": "Albertsons",
       "store_number": "3564",
+      "zone": "07Y",
       "product_description": "Single Ad",
       "total_amount": 2975.0,
       "payment_date": "2/2/2026",
       "address": "3075 Hilyard St., Eugene, 97405",
-      "extracted_at": "2026-03-26T11:43:41.926145"
+      "extracted_at": "2026-03-26T12:05:57.839642"
     },
     {
       "contract_number": "J423954E",
@@ -5086,11 +5406,12 @@
       "sales_rep": "Matthew Boozer",
       "store_name": "Fred Meyer",
       "store_number": "0325",
+      "zone": "07Y",
       "product_description": "Single Ad",
       "total_amount": 5600.0,
       "payment_date": "2/2/2026",
       "address": "60 Division Ave, Eugene, 97404-5127",
-      "extracted_at": "2026-03-26T11:43:41.926147"
+      "extracted_at": "2026-03-26T12:05:57.839645"
     },
     {
       "contract_number": "J423971E",
@@ -5106,7 +5427,8 @@
       "store_name": "",
       "store_number": "",
       "product_description": "",
-      "extracted_at": "2026-03-26T11:43:41.939463"
+      "zone": "05X",
+      "extracted_at": "2026-03-26T12:05:57.853502"
     },
     {
       "contract_number": "J424027E",
@@ -5118,11 +5440,12 @@
       "sales_rep": "Christian Johnson",
       "store_name": "Albertsons",
       "store_number": "0599",
+      "zone": "05X",
       "product_description": "Single Ad",
       "total_amount": 4536.0,
       "payment_date": "1/16/2026",
       "address": "1910 N. Campus Ave., Upland, 91784",
-      "extracted_at": "2026-03-26T11:43:41.953213"
+      "extracted_at": "2026-03-26T12:05:57.868587"
     },
     {
       "contract_number": "J424067E",
@@ -5138,7 +5461,8 @@
       "store_name": "",
       "store_number": "",
       "product_description": "",
-      "extracted_at": "2026-03-26T11:43:41.969268"
+      "zone": "",
+      "extracted_at": "2026-03-26T12:05:57.885683"
     },
     {
       "contract_number": "J424077E",
@@ -5150,11 +5474,12 @@
       "sales_rep": "Dave Boring",
       "store_name": "Quality Food Center",
       "store_number": "0212",
+      "zone": "07Z",
       "product_description": "Single Ad",
       "total_amount": 2916.0,
       "payment_date": "1/16/2026",
       "address": "3505 SE 192nd Ave, Vancouver, 98683",
-      "extracted_at": "2026-03-26T11:43:41.982639"
+      "extracted_at": "2026-03-26T12:05:57.899671"
     },
     {
       "contract_number": "J424079E",
@@ -5166,11 +5491,12 @@
       "sales_rep": "Jan Banks",
       "store_name": "Safeway",
       "store_number": "1231",
+      "zone": "07Z",
       "product_description": "Double Ad",
       "total_amount": 0.0,
       "payment_date": "1/16/2026",
       "address": "12032 SE Sunnyside Rd, Clackamas, 97015",
-      "extracted_at": "2026-03-26T11:43:41.995782"
+      "extracted_at": "2026-03-26T12:05:57.914411"
     },
     {
       "contract_number": "J424117E",
@@ -5186,7 +5512,8 @@
       "store_name": "",
       "store_number": "",
       "product_description": "",
-      "extracted_at": "2026-03-26T11:43:42.009795"
+      "zone": "05X",
+      "extracted_at": "2026-03-26T12:05:57.929170"
     },
     {
       "contract_number": "J424696E",
@@ -5202,7 +5529,8 @@
       "store_name": "",
       "store_number": "",
       "product_description": "",
-      "extracted_at": "2026-03-26T11:43:42.023060"
+      "zone": "05X",
+      "extracted_at": "2026-03-26T12:05:57.943949"
     },
     {
       "contract_number": "J424801E",
@@ -5214,11 +5542,12 @@
       "sales_rep": "Matthew Boozer",
       "store_name": "Albertsons",
       "store_number": "0572",
+      "zone": "07Y",
       "product_description": "Single Ad",
       "total_amount": 3550.0,
       "payment_date": "3/11/2026",
       "address": "311 Coburg Rd, Eugene, 97401",
-      "extracted_at": "2026-03-26T11:43:42.037225"
+      "extracted_at": "2026-03-26T12:05:57.959760"
     },
     {
       "contract_number": "J425278E",
@@ -5234,7 +5563,8 @@
       "store_name": "",
       "store_number": "",
       "product_description": "",
-      "extracted_at": "2026-03-26T11:43:42.051659"
+      "zone": "",
+      "extracted_at": "2026-03-26T12:05:57.975444"
     },
     {
       "contract_number": "J425353E",
@@ -5246,11 +5576,12 @@
       "sales_rep": "Amy Dixon",
       "store_name": "Fred Meyer",
       "store_number": "0035",
+      "zone": "07Y",
       "product_description": "Double Ad",
       "total_amount": 7307.0,
       "payment_date": "3/6/2026",
       "address": "11425 SW Beaverton Hillsdale Hwy, Beaverton, 970053050",
-      "extracted_at": "2026-03-26T11:43:42.066425"
+      "extracted_at": "2026-03-26T12:05:57.990715"
     },
     {
       "contract_number": "J425353E",
@@ -5262,11 +5593,12 @@
       "sales_rep": "Amy Dixon",
       "store_name": "Safeway",
       "store_number": "2631",
+      "zone": "07Y",
       "product_description": "Double Ad",
       "total_amount": 6845.0,
       "payment_date": "3/6/2026",
       "address": "14555 SW Teal Blvd, Beaverton, 97007",
-      "extracted_at": "2026-03-26T11:43:42.066429"
+      "extracted_at": "2026-03-26T12:05:57.990721"
     },
     {
       "contract_number": "J425443E",
@@ -5278,11 +5610,12 @@
       "sales_rep": "Adan Ramos",
       "store_name": "Fred Meyer",
       "store_number": "0236",
+      "zone": "07Z",
       "product_description": "Single Ad",
       "total_amount": 4438.25,
       "payment_date": "2/19/2026",
       "address": "7411 NE 117th Ave, Vancouver, 98662",
-      "extracted_at": "2026-03-26T11:43:42.080923"
+      "extracted_at": "2026-03-26T12:05:58.006063"
     },
     {
       "contract_number": "J425484E",
@@ -5294,11 +5627,12 @@
       "sales_rep": "Megan Wink",
       "store_name": "Safeway",
       "store_number": "1260",
+      "zone": "07Z",
       "product_description": "Single Ad",
       "total_amount": 3432.5,
       "payment_date": "2/17/2026",
       "address": "401 South Roosevelt, Seaside, 97138",
-      "extracted_at": "2026-03-26T11:43:42.096256"
+      "extracted_at": "2026-03-26T12:05:58.022859"
     },
     {
       "contract_number": "J425900E",
@@ -5310,11 +5644,12 @@
       "sales_rep": "Adan Ramos",
       "store_name": "Safeway",
       "store_number": "1704",
+      "zone": "07Z",
       "product_description": "Single Ad",
       "total_amount": 3545.04,
       "payment_date": "2/25/2026",
       "address": "6700 NE 162nd Ave Ste 500, Vancouver, 98682",
-      "extracted_at": "2026-03-26T11:43:42.110904"
+      "extracted_at": "2026-03-26T12:05:58.038485"
     },
     {
       "contract_number": "J426022E",
@@ -5330,7 +5665,8 @@
       "store_name": "",
       "store_number": "",
       "product_description": "",
-      "extracted_at": "2026-03-26T11:43:42.126087"
+      "zone": "07Z",
+      "extracted_at": "2026-03-26T12:05:58.054005"
     },
     {
       "contract_number": "J426077E",
@@ -5342,11 +5678,12 @@
       "sales_rep": "Megan Wink",
       "store_name": "Safeway",
       "store_number": "1260",
+      "zone": "07Z",
       "product_description": "Single Ad",
       "total_amount": 3432.0,
       "payment_date": "2/23/2026",
       "address": "401 South Roosevelt, Seaside, 97138",
-      "extracted_at": "2026-03-26T11:43:42.140264"
+      "extracted_at": "2026-03-26T12:05:58.068616"
     },
     {
       "contract_number": "J426153E",
@@ -5358,11 +5695,12 @@
       "sales_rep": "Megan Wink",
       "store_name": "Fred Meyer",
       "store_number": "0208",
+      "zone": "07Z",
       "product_description": "Double Ad",
       "total_amount": 6299.0,
       "payment_date": "2/24/2026",
       "address": "11325 Southeast Mill Plain Blvd, Vancouver, 98684",
-      "extracted_at": "2026-03-26T11:43:42.154930"
+      "extracted_at": "2026-03-26T12:05:58.083206"
     },
     {
       "contract_number": "J426204E",
@@ -5374,11 +5712,12 @@
       "sales_rep": "Dave Boring",
       "store_name": "Fred Meyer",
       "store_number": "0360",
+      "zone": "07Y",
       "product_description": "Single Ad",
       "total_amount": 4800.0,
       "payment_date": "2/24/2026",
       "address": "100 Northwest 20Th Place, Portland, 97209-1099",
-      "extracted_at": "2026-03-26T11:43:42.168945"
+      "extracted_at": "2026-03-26T12:05:58.097432"
     },
     {
       "contract_number": "J426212E",
@@ -5390,11 +5729,12 @@
       "sales_rep": "Megan Wink",
       "store_name": "Fred Meyer",
       "store_number": "0208",
+      "zone": "07Z",
       "product_description": "Single Ad",
       "total_amount": 4625.0,
       "payment_date": "2/25/2026",
       "address": "11325 Southeast Mill Plain Blvd, Vancouver, 98684",
-      "extracted_at": "2026-03-26T11:43:42.183351"
+      "extracted_at": "2026-03-26T12:05:58.112178"
     },
     {
       "contract_number": "J426238E",
@@ -5406,11 +5746,12 @@
       "sales_rep": "Ben Patacsil",
       "store_name": "Fred Meyer",
       "store_number": "0482",
+      "zone": "07Y",
       "product_description": "Single Ad",
       "total_amount": 4704.0,
       "payment_date": "2/25/2026",
       "address": "15995 Southwest Walker Road, Beaverton, 97006-4944",
-      "extracted_at": "2026-03-26T11:43:42.197460"
+      "extracted_at": "2026-03-26T12:05:58.126227"
     },
     {
       "contract_number": "J426489E",
@@ -5422,11 +5763,12 @@
       "sales_rep": "Dave Boring",
       "store_name": "Safeway",
       "store_number": "1762",
+      "zone": "07Z",
       "product_description": "Single Ad",
       "total_amount": 4884.0,
       "payment_date": "3/2/2026",
       "address": "1725 Pacific Ave, Woodland, 98674",
-      "extracted_at": "2026-03-26T11:43:42.212202"
+      "extracted_at": "2026-03-26T12:05:58.140883"
     },
     {
       "contract_number": "J426608E",
@@ -5438,11 +5780,12 @@
       "sales_rep": "Dave Boring",
       "store_name": "Safeway",
       "store_number": "0400",
+      "zone": "07Z",
       "product_description": "Single Ad",
       "total_amount": 3125.0,
       "payment_date": "3/6/2026",
       "address": "3707 N Main St, Vancouver, 98663",
-      "extracted_at": "2026-03-26T11:43:42.225950"
+      "extracted_at": "2026-03-26T12:05:58.154724"
     },
     {
       "contract_number": "J426699E",
@@ -5454,11 +5797,12 @@
       "sales_rep": "Megan Wink",
       "store_name": "Safeway",
       "store_number": "1489",
+      "zone": "07Z",
       "product_description": "Single Ad",
       "total_amount": 4085.0,
       "payment_date": "3/13/2026",
       "address": "520 Mount Hood Street, The Dalles, 97058",
-      "extracted_at": "2026-03-26T11:43:42.240750"
+      "extracted_at": "2026-03-26T12:05:58.169624"
     },
     {
       "contract_number": "J426746E",
@@ -5470,11 +5814,12 @@
       "sales_rep": "Tyler VanSant",
       "store_name": "Fred Meyer",
       "store_number": "0150",
+      "zone": "07Z",
       "product_description": "Single Ad",
       "total_amount": 2690.0,
       "payment_date": "3/10/2026",
       "address": "7404 North Interstate Avenue, Portland, 97217",
-      "extracted_at": "2026-03-26T11:43:42.254584"
+      "extracted_at": "2026-03-26T12:05:58.183436"
     },
     {
       "contract_number": "J426746E",
@@ -5486,11 +5831,12 @@
       "sales_rep": "Tyler VanSant",
       "store_name": "Safeway",
       "store_number": "0509",
+      "zone": "07Z",
       "product_description": "Single Ad",
       "total_amount": 1835.0,
       "payment_date": "3/10/2026",
       "address": "5920 NE Martin Luther King Jr Blvd, Portland, 97211",
-      "extracted_at": "2026-03-26T11:43:42.254589"
+      "extracted_at": "2026-03-26T12:05:58.183445"
     },
     {
       "contract_number": "J426747E",
@@ -5502,11 +5848,12 @@
       "sales_rep": "Tyler VanSant",
       "store_name": "Quality Food Center",
       "store_number": "0206",
+      "zone": "07Z",
       "product_description": "Single Ad",
       "total_amount": 2165.0,
       "payment_date": "3/4/2026",
       "address": "6411 SE Milwaukie Ave, Portland, 97202",
-      "extracted_at": "2026-03-26T11:43:42.267863"
+      "extracted_at": "2026-03-26T12:05:58.197022"
     },
     {
       "contract_number": "J426906E",
@@ -5518,11 +5865,12 @@
       "sales_rep": "Amy Dixon",
       "store_name": "Fred Meyer",
       "store_number": "0375",
+      "zone": "07Y",
       "product_description": "Double Ad",
       "total_amount": 6929.0,
       "payment_date": "3/6/2026",
       "address": "11565 SW Pacific Hwy, Tigard, 97223",
-      "extracted_at": "2026-03-26T11:43:42.282815"
+      "extracted_at": "2026-03-26T12:05:58.212149"
     },
     {
       "contract_number": "J426906E",
@@ -5534,11 +5882,12 @@
       "sales_rep": "Amy Dixon",
       "store_name": "Safeway",
       "store_number": "0508",
+      "zone": "07Y",
       "product_description": "Double Ad",
       "total_amount": 3716.0,
       "payment_date": "3/6/2026",
       "address": "401 A Avenue, Lake Oswego, 97034",
-      "extracted_at": "2026-03-26T11:43:42.282819"
+      "extracted_at": "2026-03-26T12:05:58.212157"
     },
     {
       "contract_number": "J426965E",
@@ -5550,11 +5899,12 @@
       "sales_rep": "Adan Ramos",
       "store_name": "Quality Food Center",
       "store_number": "0205",
+      "zone": "07Z",
       "product_description": "Single Ad",
       "total_amount": 3125.0,
       "payment_date": "3/18/2026",
       "address": "5544 East Burnside, Portland, 97215",
-      "extracted_at": "2026-03-26T11:43:42.297491"
+      "extracted_at": "2026-03-26T12:05:58.226880"
     },
     {
       "contract_number": "J427203E",
@@ -5566,11 +5916,12 @@
       "sales_rep": "Matthew Boozer",
       "store_name": "Fred Meyer",
       "store_number": "0325",
+      "zone": "07Y",
       "product_description": "Single Ad",
       "total_amount": 5592.0,
       "payment_date": "3/17/2026",
       "address": "60 Division Ave, Eugene, 97404-5127",
-      "extracted_at": "2026-03-26T11:43:42.311758"
+      "extracted_at": "2026-03-26T12:05:58.241136"
     },
     {
       "contract_number": "J427207E",
@@ -5582,11 +5933,12 @@
       "sales_rep": "Matthew Boozer",
       "store_name": "Safeway",
       "store_number": "0420",
+      "zone": "07Y",
       "product_description": "Single Ad",
       "total_amount": 4525.0,
       "payment_date": "3/11/2026",
       "address": "1500 Coburg Rd, Eugene, 97401",
-      "extracted_at": "2026-03-26T11:43:42.325246"
+      "extracted_at": "2026-03-26T12:05:58.254712"
     },
     {
       "contract_number": "J427209E",
@@ -5598,11 +5950,12 @@
       "sales_rep": "Amy Dixon",
       "store_name": "Safeway",
       "store_number": "4404",
+      "zone": "07Y",
       "product_description": "Single Ad",
       "total_amount": 4425.0,
       "payment_date": "3/11/2026",
       "address": "138 W Ellendale Ave, Dallas, 97338",
-      "extracted_at": "2026-03-26T11:43:42.339654"
+      "extracted_at": "2026-03-26T12:05:58.269281"
     },
     {
       "contract_number": "J427523E",
@@ -5614,11 +5967,12 @@
       "sales_rep": "Amy Dixon",
       "store_name": "Safeway",
       "store_number": "4404",
+      "zone": "07Y",
       "product_description": "Single Ad",
       "total_amount": 4725.0,
       "payment_date": "3/16/2026",
       "address": "138 W Ellendale Ave, Dallas, 97338",
-      "extracted_at": "2026-03-26T11:43:42.354368"
+      "extracted_at": "2026-03-26T12:05:58.283813"
     },
     {
       "contract_number": "J427617E",
@@ -5630,11 +5984,12 @@
       "sales_rep": "Matthew Boozer",
       "store_name": "Fred Meyer",
       "store_number": "0325",
+      "zone": "07Y",
       "product_description": "Single Ad",
       "total_amount": 5600.0,
       "payment_date": "3/18/2026",
       "address": "60 Division Ave, Eugene, 97404-5127",
-      "extracted_at": "2026-03-26T11:43:42.368127"
+      "extracted_at": "2026-03-26T12:05:58.297469"
     },
     {
       "contract_number": "J427893E",
@@ -5646,11 +6001,12 @@
       "sales_rep": "Megan Wink",
       "store_name": "Fred Meyer",
       "store_number": "0185",
+      "zone": "07Z",
       "product_description": "Single Ad",
       "total_amount": 2420.0,
       "payment_date": "3/20/2026",
       "address": "3184 Ocean Beach Highway, Longview, 98632-4395",
-      "extracted_at": "2026-03-26T11:43:42.382495"
+      "extracted_at": "2026-03-26T12:05:58.311805"
     },
     {
       "contract_number": "J427893E",
@@ -5662,11 +6018,12 @@
       "sales_rep": "Megan Wink",
       "store_name": "Safeway",
       "store_number": "0091",
+      "zone": "07Z",
       "product_description": "Single Ad",
       "total_amount": 1947.5,
       "payment_date": "3/20/2026",
       "address": "1227 15Th Ave, Longview, 98632",
-      "extracted_at": "2026-03-26T11:43:42.382499"
+      "extracted_at": "2026-03-26T12:05:58.311809"
     },
     {
       "contract_number": "J428093E",
@@ -5678,11 +6035,12 @@
       "sales_rep": "Tyler VanSant",
       "store_name": "Albertsons",
       "store_number": "4041",
+      "zone": "07W",
       "product_description": "Single Ad",
       "total_amount": 4316.0,
       "payment_date": "3/24/2026",
       "address": "3137 Grand Ave, Billings, 59102",
-      "extracted_at": "2026-03-26T11:43:42.397448"
+      "extracted_at": "2026-03-26T12:05:58.326186"
     },
     {
       "contract_number": "J428189E",
@@ -5694,12 +6052,13 @@
       "sales_rep": "Megan Wink",
       "store_name": "Safeway",
       "store_number": "1478",
+      "zone": "07Y",
       "product_description": "Single Ad",
       "total_amount": 3950.0,
       "payment_date": "3/25/2026",
       "address": "15570 SW Pacific Hwy, King City, 97224",
-      "extracted_at": "2026-03-26T11:43:42.425002"
+      "extracted_at": "2026-03-26T12:05:58.354037"
     }
   ],
-  "last_scan": "2026-03-26T11:43:42.425315"
+  "last_scan": "2026-03-26T12:05:58.354168"
 }

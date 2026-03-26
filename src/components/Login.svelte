@@ -10,6 +10,28 @@
   const INVITE_CODE = 'IMPRO';
   let registerSuccess = '';
   let registerError = '';
+  
+  // Password system
+  let password = '';
+  let confirmPassword = '';
+  let showSetPassword = false;
+  let passwordError = '';
+
+  function getPasswords() {
+    try { return JSON.parse(localStorage.getItem('impro_passwords') || '{}'); } catch { return {}; }
+  }
+
+  async function hashPassword(pw) {
+    const encoder = new TextEncoder();
+    const data = encoder.encode(pw + '_impro_salt_2026');
+    const hash = await crypto.subtle.digest('SHA-256', data);
+    return Array.from(new Uint8Array(hash)).map(b => b.toString(16).padStart(2, '0')).join('');
+  }
+
+  function hasPassword(repId) {
+    const passwords = getPasswords();
+    return !!passwords[repId];
+  }
 
   import { onMount } from 'svelte';
 
@@ -50,20 +72,72 @@
     }
   }
 
-  function handleLogin() {
+  async function handleLogin() {
     if (!selectedRep || selectedRep === '') {
       $error = 'Please select a representative';
       return;
     }
 
     const rep = reps.find(r => r.id === selectedRep);
-    
-    if (rep) {
-      console.log('Login SUCCESS:', rep.name);
+    if (!rep) {
+      $error = 'Representative not found';
+      return;
+    }
+
+    passwordError = '';
+    const passwords = getPasswords();
+
+    // If rep has a password set, verify it
+    if (passwords[selectedRep]) {
+      if (!password) {
+        passwordError = 'Please enter your password';
+        return;
+      }
+      const hashed = await hashPassword(password);
+      if (hashed !== passwords[selectedRep]) {
+        passwordError = 'Incorrect password';
+        return;
+      }
+      console.log('Login SUCCESS (password verified):', rep.name);
+      password = '';
       setUser(rep);
     } else {
-      $error = 'Representative not found';
+      // No password set — prompt to create one
+      showSetPassword = true;
     }
+  }
+
+  async function handleSetPassword() {
+    passwordError = '';
+    if (!confirmPassword || confirmPassword.length < 4) {
+      passwordError = 'Password must be at least 4 characters';
+      return;
+    }
+    if (password !== confirmPassword) {
+      passwordError = 'Passwords don\'t match';
+      return;
+    }
+
+    const hashed = await hashPassword(password);
+    const passwords = getPasswords();
+    passwords[selectedRep] = hashed;
+    localStorage.setItem('impro_passwords', JSON.stringify(passwords));
+    
+    const rep = reps.find(r => r.id === selectedRep);
+    console.log('Login SUCCESS (new password set):', rep.name);
+    showSetPassword = false;
+    password = '';
+    confirmPassword = '';
+    setUser(rep);
+  }
+
+  function skipPassword() {
+    const rep = reps.find(r => r.id === selectedRep);
+    showSetPassword = false;
+    password = '';
+    confirmPassword = '';
+    console.log('Login SUCCESS (password skipped):', rep.name);
+    setUser(rep);
   }
 
   async function handleRegister() {
@@ -165,6 +239,26 @@
           {/if}
         </div>
 
+        {#if selectedRep && hasPassword(selectedRep)}
+          <div class="form-group">
+            <label for="password-input">Password</label>
+            <input 
+              id="password-input"
+              type="password" 
+              bind:value={password} 
+              placeholder="Enter your password"
+              class="password-input"
+            />
+          </div>
+        {/if}
+
+        {#if passwordError}
+          <div class="error-message">
+            <span class="error-icon">🔒</span>
+            {passwordError}
+          </div>
+        {/if}
+
         {#if $error}
           <div class="error-message">
             <span class="error-icon">⚠️</span>
@@ -180,6 +274,31 @@
           {isLoading ? '⏳ Loading...' : '→ Sign In'}
         </button>
       </form>
+
+      <!-- Set Password Modal -->
+      {#if showSetPassword}
+        <div class="password-modal-overlay">
+          <div class="password-modal">
+            <h3>🔐 Create a Password</h3>
+            <p class="modal-subtitle">Secure your account for future logins</p>
+            <form on:submit|preventDefault={handleSetPassword} class="password-form">
+              <div class="form-group">
+                <label for="new-password">New Password</label>
+                <input id="new-password" type="password" bind:value={password} placeholder="Create a password (4+ chars)" class="password-input" />
+              </div>
+              <div class="form-group">
+                <label for="confirm-password">Confirm Password</label>
+                <input id="confirm-password" type="password" bind:value={confirmPassword} placeholder="Confirm your password" class="password-input" />
+              </div>
+              {#if passwordError}
+                <div class="error-message"><span class="error-icon">⚠️</span> {passwordError}</div>
+              {/if}
+              <button type="submit" class="signin-button">🔒 Set Password & Sign In</button>
+              <button type="button" class="skip-btn" on:click={skipPassword}>Skip for now →</button>
+            </form>
+          </div>
+        </div>
+      {/if}
 
       <div class="divider">
         <span>or</span>
@@ -630,4 +749,39 @@
       font-size: 14px;
     }
   }
+
+  /* Password */
+  .password-input {
+    width: 100%;
+    padding: 12px 16px;
+    border: 1.5px solid #ddd;
+    border-radius: 10px;
+    font-size: 15px;
+    background: white;
+    color: #333;
+    transition: border-color 0.2s;
+    box-sizing: border-box;
+  }
+  .password-input:focus { border-color: #CC0000; outline: none; }
+
+  .password-modal-overlay {
+    position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0,0,0,0.5);
+    display: flex; align-items: center; justify-content: center;
+    z-index: 1000;
+    padding: 20px;
+  }
+  .password-modal {
+    background: white; border-radius: 16px; padding: 28px; max-width: 400px; width: 100%;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+  }
+  .password-modal h3 { margin: 0 0 4px; font-size: 22px; color: #333; }
+  .modal-subtitle { color: #666; font-size: 14px; margin: 0 0 20px; }
+  .password-form { display: flex; flex-direction: column; gap: 12px; }
+  .password-form .form-group { margin-bottom: 0; }
+  .skip-btn {
+    background: none; border: none; color: #888; font-size: 14px;
+    cursor: pointer; padding: 8px; text-align: center;
+  }
+  .skip-btn:hover { color: #CC0000; }
 </style>

@@ -17,6 +17,7 @@
   let allStores = [];
   let savedProspects = [];
   let analyticsView = 'year';
+  let analyticsZone = 'all';
 
   // Dashboard stats
   let prospectsThisWeek = 0;
@@ -103,9 +104,21 @@
     return () => clearInterval(interval);
   });
 
+  function getFilteredContracts() {
+    if (analyticsZone === 'all') return contracts;
+    return contracts.filter(c => (c.zone || '') === analyticsZone);
+  }
+
+  function getAvailableZones() {
+    const zones = new Set();
+    contracts.forEach(c => { if (c.zone) zones.add(c.zone); });
+    return Array.from(zones).sort();
+  }
+
   function getYearlyStats() {
+    const filtered = getFilteredContracts();
     const byYear = {};
-    contracts.forEach(c => {
+    filtered.forEach(c => {
       const date = c.date || '';
       if (!date) return;
       try {
@@ -116,7 +129,6 @@
       } catch {}
     });
     const sorted = Object.values(byYear).sort((a, b) => b.year - a.year);
-    // Add % change vs prior year
     sorted.forEach((stat, i) => {
       const prior = sorted[i + 1];
       stat.change = prior ? ((stat.total - prior.total) / prior.total) * 100 : null;
@@ -125,8 +137,9 @@
   }
 
   function getMonthlyStats() {
+    const filtered = getFilteredContracts();
     const byMonth = {};
-    contracts.forEach(c => {
+    filtered.forEach(c => {
       const date = c.date || '';
       if (!date) return;
       try {
@@ -144,8 +157,9 @@
   }
 
   function getRepStats() {
+    const filtered = getFilteredContracts();
     const byRep = {};
-    contracts.forEach(c => {
+    filtered.forEach(c => {
       const rep = c.sales_rep || 'Unknown';
       const date = c.date || '';
       let year = 0;
@@ -345,12 +359,25 @@
       <div class="analytics-container">
         <h2>📊 Sales Analytics</h2>
         
-        <!-- Year/Month selector -->
+        <!-- View selector -->
         <div class="period-selector">
           <button class="period-btn" class:active={analyticsView === 'year'} on:click={() => analyticsView = 'year'}>By Year</button>
           <button class="period-btn" class:active={analyticsView === 'month'} on:click={() => analyticsView = 'month'}>By Month</button>
           <button class="period-btn" class:active={analyticsView === 'rep'} on:click={() => analyticsView = 'rep'}>By Rep</button>
         </div>
+
+        <!-- Zone filter -->
+        <div class="zone-filter">
+          <span class="zone-label">Zone:</span>
+          <button class="zone-btn" class:active={analyticsZone === 'all'} on:click={() => analyticsZone = 'all'}>All</button>
+          {#each getAvailableZones() as zone}
+            <button class="zone-btn" class:active={analyticsZone === zone} on:click={() => analyticsZone = zone}>{zone}</button>
+          {/each}
+        </div>
+
+        {#if analyticsZone !== 'all'}
+          <p class="zone-active-label">Filtered: Zone {analyticsZone} ({getFilteredContracts().length} contracts, ${getFilteredContracts().reduce((s,c) => s + (c.total_amount||0), 0).toLocaleString()})</p>
+        {/if}
 
         {#if analyticsView === 'year'}
           <div class="analytics-cards">
@@ -791,7 +818,13 @@
   }
   /* Analytics */
   .analytics-container { padding: 16px; max-width: 900px; margin: 0 auto; }
-  .period-selector { display: flex; gap: 8px; margin-bottom: 20px; }
+  .period-selector { display: flex; gap: 8px; margin-bottom: 12px; }
+  .zone-filter { display: flex; align-items: center; gap: 6px; margin-bottom: 16px; overflow-x: auto; white-space: nowrap; padding-bottom: 4px; }
+  .zone-label { font-size: 12px; font-weight: 700; color: var(--text-secondary); text-transform: uppercase; flex-shrink: 0; }
+  .zone-btn { padding: 5px 12px; border: 1px solid var(--border-color); border-radius: 16px; background: var(--card-bg); font-size: 12px; font-weight: 600; cursor: pointer; color: var(--text-secondary); transition: all 0.2s; flex-shrink: 0; }
+  .zone-btn.active { background: #1a237e; color: white; border-color: #1a237e; }
+  .zone-btn:hover:not(.active) { border-color: #1a237e; color: #1a237e; }
+  .zone-active-label { font-size: 13px; color: #1a237e; font-weight: 600; margin-bottom: 16px; }
   .period-btn { padding: 8px 16px; border: 1px solid var(--border-color); border-radius: 20px; background: var(--card-bg); color: var(--text-secondary); font-size: 13px; font-weight: 600; cursor: pointer; transition: all 0.2s; }
   .period-btn.active { background: #CC0000; color: white; border-color: #CC0000; }
   .analytics-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 16px; }
