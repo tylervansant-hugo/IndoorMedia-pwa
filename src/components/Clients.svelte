@@ -177,6 +177,10 @@
       renewal: {
         subject: `Time to Renew — ${biz} & IndoorMedia`,
         body: `Hi ${owner},\n\nYour advertising contract at ${store} is coming up for renewal. I wanted to touch base early so we can ensure there's no gap in your coverage.\n\nRenewing now locks in your current rate and keeps your ad running without interruption. Many of our advertisers also use renewal time to:\n\n• Add additional stores\n• Upgrade to a Double Ad\n• Bundle with digital products for better results\n\nCan we set up a quick call this week to discuss?\n\nBest,\n${rep}\nIndoorMedia`
+      },
+      proofReview: {
+        subject: `Ad Proof Review & Campaign Optimization — ${biz}`,
+        body: `Hi ${owner},\n\nSydney, our graphic design coordinator, recently sent over your current ad proof and I wanted to check whether you'd like any updates or changes before the next production cycle.\n\nThis is a good time to consider testing a more aggressive offer. Stronger coupons consistently increase response rates, bring in more first-time customers, and help accelerate repeat visits. Even small adjustments—like a higher-value incentive or bundle-style offer—can materially improve results.\n\nThere are a few additional ways we can expand your reach right now:\n\n1. Add nearby stores\nPlacing your message in additional locations increases frequency and exposure within the local area.\n\n2. Extend your campaign with Digital Boost (or add another pin drop to get more impressions)\nAdditional geotargeted impressions reinforce your in-store print visibility and keeps your business top-of-mind after customers leave the grocery store.\n\n3. Activate Loyalty Boost (new)\nOur Loyalty Boost program helps convert first-time visitors into repeat customers and strengthens long-term retention.\n\nHere's a quick overview:\nhttps://www.indoormedia.com/loyalty-and-rewards-program/\n\nIf you're open to testing any improvements—or just want a second set of eyes on your offer strategy—I'm always available to review options with you and help make sure your campaign is performing at the highest level.\n\nIf you haven't already, please let Sydney know what changes (if any) you'd like to make.\n\nAll the best,\n${rep}`
       }
     };
 
@@ -431,6 +435,7 @@
                 <div class="email-btns">
                   <button class="email-tmpl-btn" on:click={() => showEmailDraft(c, 'kickoff')}>🚀 Kickoff</button>
                   <button class="email-tmpl-btn" on:click={() => showEmailDraft(c, 'checkin')}>✅ Check-in</button>
+                  <button class="email-tmpl-btn" on:click={() => showEmailDraft(c, 'proofReview')}>🎨 Proof Review</button>
                   <button class="email-tmpl-btn" on:click={() => showEmailDraft(c, 'upsell')}>⬆️ Upsell</button>
                   <button class="email-tmpl-btn" on:click={() => showEmailDraft(c, 'renewal')}>🔄 Renewal</button>
                 </div>
