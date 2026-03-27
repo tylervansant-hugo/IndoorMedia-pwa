@@ -172,7 +172,7 @@
       },
       upsell: {
         subject: `Expansion Opportunity — ${biz}`,
-        body: `Hi ${owner},\n\nYour ad at ${store} has been running great, and I wanted to share some ways to expand your reach:\n\n• Add nearby stores — reach even more shoppers in your area\n• DigitalBoost — geofenced digital ads near the store (240K impressions/mo)\n• Double Ad — upgrade to a larger ad for more visibility\n• Cartvertising — ads on shopping carts for maximum exposure\n\nWould you be open to a quick chat about growing your presence?\n\nBest,\n${rep}\nIndoorMedia`
+        body: `Hi ${owner},\n\nYour ad at ${store} has been running great, and I wanted to share some ways to expand your reach:\n\n• Add nearby stores — reach even more shoppers in your area\n• DigitalBoost — geofenced digital ads near the store (360K total impressions/pin)\n• Double Ad — upgrade to a larger ad for more visibility\n• Cartvertising — ads on shopping carts for maximum exposure\n\nWould you be open to a quick chat about growing your presence?\n\nBest,\n${rep}\nIndoorMedia`
       },
       renewal: {
         subject: `Time to Renew — ${biz} & IndoorMedia`,
@@ -472,7 +472,7 @@
 
                 <p class="expand-label">📦 Product Upsells</p>
                 <div class="upsell-list">
-                  <div class="upsell-item">🚀 <strong>DigitalBoost</strong> — Geofence ads (240K impressions/mo)</div>
+                  <div class="upsell-item">🚀 <strong>DigitalBoost</strong> — Geofence ads (360K total impressions/pin)</div>
                   <div class="upsell-item">📍 <strong>FindLocal</strong> — SEO & listings ($695)</div>
                   <div class="upsell-item">⭐ <strong>ReviewBoost</strong> — Automated reviews ($695)</div>
                   <div class="upsell-item">💎 <strong>LoyaltyBoost</strong> — Loyalty program ($3,600/yr)</div>
