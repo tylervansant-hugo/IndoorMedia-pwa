@@ -9,7 +9,6 @@
   import Products from './Products.svelte';
   import Clients from './Clients.svelte';
   import ManageReps from './ManageReps.svelte';
-  import HotLeads from './HotLeads.svelte';
 
   let currentTab = 'dashboard';
   let currentTheme = 'light';
@@ -235,13 +234,6 @@
     </button>
     <button 
       class="tab" 
-      class:active={currentTab === 'hotleads'}
-      on:click={() => currentTab = 'hotleads'}
-    >
-      🔥 Hot Leads
-    </button>
-    <button 
-      class="tab" 
       class:active={currentTab === 'prospects'}
       on:click={() => currentTab = 'prospects'}
     >
@@ -351,8 +343,6 @@
           </div>
         </div>
       </div>
-    {:else if currentTab === 'hotleads'}
-      <HotLeads {user} />
     {:else if currentTab === 'prospects'}
       <ProspectSearch />
     {:else if currentTab === 'stores'}

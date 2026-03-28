@@ -1,12 +1,15 @@
 <script>
   import { onMount } from 'svelte';
   import { user } from '../lib/stores.js';
+  import HotLeadsSubmit from './HotLeadsSubmit.svelte';
+  import PendingLeads from './PendingLeads.svelte';
   
   let allStores = [];
   let nearbyStores = [];
   let prospects = [];
   let savedProspects = [];
-  let view = 'main'; // main, nearby-stores, categories, subcategories, results, saved
+  let hotLeads = [];
+  let view = 'main'; // main, nearby-stores, categories, subcategories, results, saved, hot-leads, pending, submit-lead
   let selectedStore = null;
   let selectedCategory = null;
   let selectedSubcategory = null;
@@ -121,11 +124,28 @@
 
   onMount(async () => {
     try {
-      const res = await fetch('/data/stores.json');
-      allStores = await res.json();
+      const [storesRes, leadsRes] = await Promise.all([
+        fetch('/data/stores.json'),
+        fetch('/data/hot_leads.json')
+      ]);
+      allStores = await storesRes.json();
+      
+      // Load hot leads (filtered by rep visibility)
+      let allLeadsData = await leadsRes.json();
+      const isManager = $user?.name?.toLowerCase().includes('tyler') || $user?.role === 'manager' || $user?.role === 'admin';
+      
+      if (!isManager && $user?.assigned_stores) {
+        const assignedStoreIds = Array.isArray($user.assigned_stores) ? $user.assigned_stores : [$user.assigned_stores];
+        hotLeads = allLeadsData.filter(l => assignedStoreIds.includes(l.store_id));
+      } else if (!isManager) {
+        hotLeads = [];
+      } else {
+        hotLeads = allLeadsData;
+      }
+      
       loadSavedProspects();
     } catch (err) {
-      error = 'Failed to load store data';
+      error = 'Failed to load data';
       console.error(err);
     }
   });
@@ -439,6 +459,17 @@
     <div class="loading">⏳ Searching...</div>
   {/if}
 
+  <!-- Tab Navigation -->
+  <div class="prospect-tabs">
+    <button class="tab-btn" class:active={view === 'main' || view === 'browse-stores'} on:click={() => view = 'main'}>🎯 Find Prospects</button>
+    <button class="tab-btn" class:active={view === 'hot-leads'} on:click={() => view = 'hot-leads'}>🔥 Hot Leads {#if hotLeads.length > 0}({hotLeads.length}){/if}</button>
+    <button class="tab-btn" class:active={view === 'saved'} on:click={() => view = 'saved'}>💾 Saved ({savedProspects.length})</button>
+    {#if $user?.role === 'manager' || $user?.name?.toLowerCase().includes('tyler')}
+      <button class="tab-btn" class:active={view === 'pending'} on:click={() => view = 'pending'}>⏳ Pending</button>
+      <button class="tab-btn" class:active={view === 'submit-lead'} on:click={() => view = 'submit-lead'}>➕ Add Lead</button>
+    {/if}
+  </div>
+
   <!-- Main Menu -->
   {#if view === 'main'}
     <h2>🎯 Find Prospects</h2>
@@ -461,6 +492,12 @@
         <div class="btn-icon">💾</div>
         <div class="btn-text">Saved ({savedProspects.length})</div>
         <div class="btn-desc">Your prospects</div>
+      </button>
+
+      <button class="main-btn" on:click={() => view = 'hot-leads'}>
+        <div class="btn-icon">🔥</div>
+        <div class="btn-text">Hot Leads</div>
+        <div class="btn-desc">{hotLeads.length > 0 ? hotLeads.length + ' ready to call' : 'Coming soon'}</div>
       </button>
     </div>
   {/if}
@@ -684,9 +721,190 @@
       </div>
     {/if}
   {/if}
+
+  <!-- Hot Leads Section -->
+  {#if view === 'hot-leads'}
+    <div class="hot-leads-section">
+      <button class="back-btn" on:click={() => view = 'main'}>← Back</button>
+      <h2>🔥 Hot Leads</h2>
+      {#if hotLeads.length === 0}
+        <div class="empty-state">
+          <p>No Hot Leads assigned to you yet. Check back soon!</p>
+        </div>
+      {:else}
+        <div class="hot-leads-grid">
+          {#each hotLeads as lead}
+            <div class="hot-lead-card">
+              <div class="lead-header">
+                <h4>{lead.business_name}</h4>
+                <span class="rating">⭐{lead.rating}</span>
+              </div>
+              <div class="lead-category">{lead.category}</div>
+              <div class="lead-hook">"{lead._hook}"</div>
+              <div class="lead-contact">
+                <a href="tel:{lead.phone}" class="phone">📞 {lead.phone}</a>
+                <a href="mailto:{lead._email}" class="email">📧 {lead._email}</a>
+              </div>
+              <div class="lead-store">{lead.store_chain} {lead.store_city}</div>
+            </div>
+          {/each}
+        </div>
+      {/if}
+    </div>
+  {/if}
+
+  <!-- Pending Leads (Manager only) -->
+  {#if view === 'pending' && ($user?.role === 'manager' || $user?.name?.toLowerCase().includes('tyler'))}
+    <div class="pending-section">
+      <button class="back-btn" on:click={() => view = 'main'}>← Back</button>
+      <PendingLeads />
+    </div>
+  {/if}
+
+  <!-- Submit Lead (Manager only) -->
+  {#if view === 'submit-lead' && ($user?.role === 'manager' || $user?.name?.toLowerCase().includes('tyler'))}
+    <div class="submit-section">
+      <button class="back-btn" on:click={() => view = 'main'}>← Back</button>
+      <HotLeadsSubmit user={$user} />
+    </div>
+  {/if}
 </div>
 
 <style>
+  .prospect-tabs {
+    display: flex;
+    gap: 8px;
+    margin: 0 0 20px 0;
+    overflow-x: auto;
+    padding-bottom: 8px;
+    border-bottom: 2px solid var(--border-color);
+  }
+
+  .tab-btn {
+    background: none;
+    border: none;
+    padding: 10px 14px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    color: #999;
+    border-bottom: 3px solid transparent;
+    transition: all 0.2s;
+    white-space: nowrap;
+  }
+
+  .tab-btn.active {
+    color: #CC0000;
+    border-bottom-color: #CC0000;
+  }
+
+  .tab-btn:hover {
+    color: #333;
+  }
+
+  .hot-leads-section, .pending-section, .submit-section {
+    margin-top: 20px;
+  }
+
+  .hot-leads-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 12px;
+    margin-top: 16px;
+  }
+
+  .hot-lead-card {
+    background: white;
+    border: 2px solid #e0e0e0;
+    border-radius: 10px;
+    padding: 14px;
+    transition: all 0.2s;
+  }
+
+  .hot-lead-card:hover {
+    border-color: #CC0000;
+    box-shadow: 0 2px 8px rgba(204, 0, 0, 0.1);
+  }
+
+  .lead-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 6px;
+  }
+
+  .lead-header h4 {
+    margin: 0;
+    font-size: 14px;
+    font-weight: 700;
+    flex: 1;
+  }
+
+  .rating {
+    font-size: 12px;
+    font-weight: 600;
+  }
+
+  .lead-category {
+    display: inline-block;
+    background: #f0f0f0;
+    padding: 2px 6px;
+    border-radius: 3px;
+    font-size: 11px;
+    color: #666;
+    margin-bottom: 8px;
+  }
+
+  .lead-hook {
+    font-size: 12px;
+    font-style: italic;
+    color: #333;
+    background: #fff5f5;
+    padding: 8px;
+    border-radius: 4px;
+    margin-bottom: 8px;
+    line-height: 1.4;
+  }
+
+  .lead-contact {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    margin-bottom: 8px;
+    font-size: 12px;
+  }
+
+  .phone, .email {
+    color: #CC0000;
+    text-decoration: none;
+    font-weight: 500;
+  }
+
+  .phone:hover, .email:hover {
+    text-decoration: underline;
+  }
+
+  .lead-store {
+    font-size: 11px;
+    color: #999;
+  }
+
+  .empty-state {
+    text-align: center;
+    padding: 40px 20px;
+    color: #999;
+  }
+
+  .back-btn {
+    background: none;
+    border: none;
+    color: #CC0000;
+    font-weight: 600;
+    cursor: pointer;
+    padding: 0;
+    margin-bottom: 16px;
+    font-size: 13px;
+  }
   .prospects-container {
     max-width: 1000px;
     margin: 0 auto;
