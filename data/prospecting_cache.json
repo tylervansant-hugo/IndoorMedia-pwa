@@ -5015,7 +5015,7 @@
           "distance_miles": 0.88,
           "likelihood_score": 89,
           "rating": 4.7,
-          "user_ratings_total": 1237,
+          "user_ratings_total": 1240,
           "phone": "+1 360-245-6817",
           "website": "https://www.gaynors.com/locations/wa/vancouver/auto-repair-502-ne-139th-st?utm_source=local_listing&utm_medium=organic&utm_campaign=store_8102",
           "place_id": "ChIJlYxcs-6ulVQRQU2FihYprWk",
@@ -5055,7 +5055,7 @@
           "distance_miles": 0.62,
           "likelihood_score": 93,
           "rating": 5,
-          "user_ratings_total": 470,
+          "user_ratings_total": 471,
           "phone": "+1 360-953-5665",
           "website": "https://springs-auto.com/vancouver-wa/suspension-service/",
           "place_id": "ChIJPdCjGkytlVQRUguZW5xgLM0",
@@ -5095,7 +5095,7 @@
           "distance_miles": 0.59,
           "likelihood_score": 92,
           "rating": 4.6,
-          "user_ratings_total": 115,
+          "user_ratings_total": 116,
           "phone": "+1 360-225-5117",
           "website": "https://www.metrotransmission.net/",
           "place_id": "ChIJIcDel1tPlFQRv1iPpVkb1KI",
@@ -5107,7 +5107,7 @@
           "source": "Google Places"
         }
       ],
-      "createdAt": "2026-03-17T14:40:14.955915",
+      "createdAt": "2026-03-24T13:51:02.809030",
       "count": 5
     },
     "3fd20e99bc35620a": {
@@ -13315,17 +13315,37 @@
           "source": "Google Places"
         },
         {
+          "name": "\u00bfOtra Vez?",
+          "type": "restaurant, food, point_of_interest, establishment",
+          "address": "2115 SE 192nd Ave STE #112, Camas",
+          "lat": 45.6051864,
+          "lon": -122.4754714,
+          "distance_miles": 0.71,
+          "likelihood_score": 89,
+          "rating": 4.5,
+          "user_ratings_total": 490,
+          "phone": "+1 360-844-5034",
+          "website": "http://otravezbrunch.com/",
+          "place_id": "ChIJsatSHeu7lVQRSlgmRDmFACY",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 2,
+          "source": "Google Places"
+        },
+        {
           "name": "Chipotle Mexican Grill",
           "type": "restaurant, food, point_of_interest, establishment",
           "address": "19530 SE Brady Rd, Camas",
           "lat": 45.5860967,
           "lon": -122.4725255,
           "distance_miles": 0.64,
-          "likelihood_score": 79,
-          "rating": 2.3,
-          "user_ratings_total": 62,
+          "likelihood_score": 80,
+          "rating": 2.4,
+          "user_ratings_total": 64,
           "phone": "+1 360-817-0045",
-          "website": "https://locations.chipotle.com/wa/vancouver/19530-se-brady-rd?utm_source=google&utm_medium=yext&utm_campaign=yext_listings",
+          "website": "https://locations.chipotle.com/wa/camas/19530-se-brady-rd?utm_source=google&utm_medium=yext&utm_campaign=yext_listings",
           "place_id": "ChIJ1_hwDNKjlVQRtb8nMtR6CoY",
           "opening_hours": {
             "open_now": true
@@ -13335,8 +13355,8 @@
           "source": "Google Places"
         }
       ],
-      "createdAt": "2026-03-20T17:14:31.032969",
-      "count": 2
+      "createdAt": "2026-03-25T12:14:39.770295",
+      "count": 3
     },
     "d22789183f9320dc": {
       "storeNumber": "QFC07Z-0212",
@@ -13403,9 +13423,813 @@
           "source": "Google Places"
         }
       ],
-      "createdAt": "2026-03-20T17:14:59.235640",
+      "createdAt": "2026-03-25T12:13:42.070861",
       "count": 3
+    },
+    "c1f6a8360f6efbe8": {
+      "storeNumber": "STM23Y-7566",
+      "category": "mexican",
+      "prospects": [
+        {
+          "name": "La Fonda St - Boston",
+          "type": "restaurant, point_of_interest, food, establishment",
+          "address": "1620 Commonwealth Ave, Brighton",
+          "lat": 42.3432529,
+          "lon": -71.1428291,
+          "distance_miles": 0.43,
+          "likelihood_score": 94,
+          "rating": 4.9,
+          "user_ratings_total": 369,
+          "phone": "+1 617-487-5645",
+          "website": "https://www.lafondastreet.com/",
+          "place_id": "ChIJhRPx8fh544kRgwxrM2N5mwA",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 2,
+          "source": "Google Places"
+        },
+        {
+          "name": "Anna's Taqueria",
+          "type": "restaurant, point_of_interest, food, establishment",
+          "address": "446 Harvard St, Brookline",
+          "lat": 42.346113,
+          "lon": -71.1281523,
+          "distance_miles": 0.81,
+          "likelihood_score": 87,
+          "rating": 4.3,
+          "user_ratings_total": 1219,
+          "phone": "+1 617-277-7111",
+          "website": "https://www.annastaqueria.com/",
+          "place_id": "ChIJ-x3_Q8d544kRkvCvAv2dNqY",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 1,
+          "source": "Google Places"
+        },
+        {
+          "name": "Lone Star Taco Bar",
+          "type": "bar, restaurant, point_of_interest, food, establishment",
+          "address": "477-479 Cambridge St, Allston",
+          "lat": 42.3539227,
+          "lon": -71.1370417,
+          "distance_miles": 1.13,
+          "likelihood_score": 85,
+          "rating": 4.4,
+          "user_ratings_total": 922,
+          "phone": "+1 617-782-8226",
+          "website": "http://lonestar-boston.com/",
+          "place_id": "ChIJW3Q37tB544kRnWW6c7SgTnU",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 2,
+          "source": "Google Places"
+        },
+        {
+          "name": "Habanero Mexican Grill",
+          "type": "restaurant, point_of_interest, food, establishment",
+          "address": "166 Brighton Ave, Allston",
+          "lat": 42.3529414,
+          "lon": -71.13278799999999,
+          "distance_miles": 1.1,
+          "likelihood_score": 85,
+          "rating": 4.2,
+          "user_ratings_total": 439,
+          "phone": "+1 617-254-0299",
+          "website": "http://habaneromexican.com/",
+          "place_id": "ChIJRe_4gMV544kR-i-iyvi7X6s",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 1,
+          "source": "Google Places"
+        },
+        {
+          "name": "Boca Grande Taqueria",
+          "type": "restaurant, point_of_interest, food, establishment",
+          "address": "3 Harvard Square, Brookline",
+          "lat": 42.3329956,
+          "lon": -71.1184889,
+          "distance_miles": 1.11,
+          "likelihood_score": 84,
+          "rating": 4.2,
+          "user_ratings_total": 255,
+          "phone": "+1 617-277-8900",
+          "website": "http://bocagranderestaurant.com/",
+          "place_id": "ChIJ-YDaNZh544kRRsVNCpBOBqQ",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 1,
+          "source": "Google Places"
+        },
+        {
+          "name": "El Jefe's Taqueria - Boston University",
+          "type": "restaurant, point_of_interest, food, establishment",
+          "address": "957 Commonwealth Ave, Boston",
+          "lat": 42.3519084,
+          "lon": -71.1191032,
+          "distance_miles": 1.42,
+          "likelihood_score": 82,
+          "rating": 4.5,
+          "user_ratings_total": 577,
+          "phone": "+1 617-530-1327",
+          "website": "http://www.eljefestaqueria.com/",
+          "place_id": "ChIJMXCBVyZ544kRTZdKnImoaO4",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 1,
+          "source": "Google Places"
+        },
+        {
+          "name": "bartaco",
+          "type": "restaurant, point_of_interest, food, establishment",
+          "address": "1634 Beacon St, Brookline",
+          "lat": 42.3395008,
+          "lon": -71.13588969999999,
+          "distance_miles": 0.21,
+          "likelihood_score": 95,
+          "rating": 4.7,
+          "user_ratings_total": 575,
+          "phone": "+1 617-546-8226",
+          "website": "https://bartaco.com/location/brookline/",
+          "place_id": "ChIJTWUQfR5544kRw2kwROeGi5E",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 2,
+          "source": "Google Places"
+        },
+        {
+          "name": "Los Amigos Taqueria",
+          "type": "restaurant, point_of_interest, food, establishment",
+          "address": "1294 Beacon St, Brookline",
+          "lat": 42.3427396,
+          "lon": -71.1202861,
+          "distance_miles": 1.03,
+          "likelihood_score": 86,
+          "rating": 4.4,
+          "user_ratings_total": 904,
+          "phone": "+1 617-477-4472",
+          "website": "http://www.amigosburritos.com/",
+          "place_id": "ChIJ-VRMXZV544kRhEqlH6hulU8",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 1,
+          "source": "Google Places"
+        },
+        {
+          "name": "Los Amigos Taqueria",
+          "type": "restaurant, point_of_interest, food, establishment",
+          "address": "366 Washington St, Brighton",
+          "lat": 42.3490245,
+          "lon": -71.1538064,
+          "distance_miles": 1.08,
+          "likelihood_score": 85,
+          "rating": 4.2,
+          "user_ratings_total": 620,
+          "phone": null,
+          "website": "http://amigosburritos.com/",
+          "place_id": "ChIJ62mmMkh444kR7T0jfhDnar0",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 1,
+          "source": "Google Places"
+        },
+        {
+          "name": "Amelia's Taqueria",
+          "type": "restaurant, point_of_interest, food, establishment",
+          "address": "1936 Beacon St, Boston",
+          "lat": 42.3363609,
+          "lon": -71.1499913,
+          "distance_miles": 0.56,
+          "likelihood_score": 91,
+          "rating": 4.5,
+          "user_ratings_total": 414,
+          "phone": "+1 617-505-6232",
+          "website": "http://ameliastaqueria.com/",
+          "place_id": "ChIJtf59xFN444kRg3BNqq5TUh8",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 1,
+          "source": "Google Places"
+        }
+      ],
+      "createdAt": "2026-03-24T13:46:55.040828",
+      "count": 10
+    },
+    "e016053abcb6b260": {
+      "storeNumber": "QFC07Z-0212",
+      "category": "bar/pub",
+      "prospects": [
+        {
+          "name": "Grapes N Hops",
+          "type": "bar, restaurant, food, point_of_interest, establishment",
+          "address": "3425 SE 192nd Ave #105, Vancouver",
+          "lat": 45.5953964,
+          "lon": -122.4766431,
+          "distance_miles": 0.04,
+          "likelihood_score": 95,
+          "rating": 4.3,
+          "user_ratings_total": 37,
+          "phone": "+1 360-719-2828",
+          "website": null,
+          "place_id": "ChIJlUpFBmullVQR88BmziI2nV0",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        },
+        {
+          "name": "JB's Taphouse & Grill",
+          "type": "bar, restaurant, food, point_of_interest, establishment",
+          "address": "2011 SE 192nd Ave #100, Camas",
+          "lat": 45.606239,
+          "lon": -122.4751285,
+          "distance_miles": 0.78,
+          "likelihood_score": 89,
+          "rating": 4.5,
+          "user_ratings_total": 556,
+          "phone": "+1 360-210-4841",
+          "website": "http://jbstaphousewa.com/",
+          "place_id": "ChIJDcwTkU67lVQR7bsU2PFVYVI",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 2,
+          "source": "Google Places"
+        },
+        {
+          "name": "Wyld Pines Bar & Restaurant",
+          "type": "bar, restaurant, food, point_of_interest, establishment",
+          "address": "2005 SE 192nd Ave #100, Camas",
+          "lat": 45.6065192,
+          "lon": -122.4756365,
+          "distance_miles": 0.8,
+          "likelihood_score": 88,
+          "rating": 4.3,
+          "user_ratings_total": 440,
+          "phone": "+1 360-210-7735",
+          "website": "https://wyldpines.com/?utm_source=google",
+          "place_id": "ChIJs4Upi967lVQRAzbPsurxpE0",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 2,
+          "source": "Google Places"
+        },
+        {
+          "name": "Burgers & Beer Bar and Grill",
+          "type": "bar, point_of_interest, establishment",
+          "address": "1905 SE 192nd Ave #101, Camas",
+          "lat": 45.6073449,
+          "lon": -122.4753369,
+          "distance_miles": 0.86,
+          "likelihood_score": 88,
+          "rating": 4.4,
+          "user_ratings_total": 544,
+          "phone": "+1 360-210-7136",
+          "website": "http://bnbbarandgrill.com/",
+          "place_id": "ChIJ4UlGYpS7lVQRzdb42elx40s",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 2,
+          "source": "Google Places"
+        },
+        {
+          "name": "Roots Restaurant & Bar",
+          "type": "restaurant, food, point_of_interest, establishment",
+          "address": "19215 SE 34th St Suite 110, Camas",
+          "lat": 45.5964242,
+          "lon": -122.4766227,
+          "distance_miles": 0.1,
+          "likelihood_score": 96,
+          "rating": 4.5,
+          "user_ratings_total": 672,
+          "phone": "+1 360-260-3001",
+          "website": "http://www.rootsrestaurantandbar.com/",
+          "place_id": "ChIJ-VthY6uklVQRaH1D5QZsl6Q",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 3,
+          "source": "Google Places"
+        }
+      ],
+      "createdAt": "2026-03-26T14:12:49.861938",
+      "count": 5
+    },
+    "953cda6e449e5308": {
+      "storeNumber": "QFC07Z-0212",
+      "category": "pizza",
+      "prospects": [
+        {
+          "name": "Domino's Pizza",
+          "type": "meal_delivery, meal_takeaway, restaurant, food, point_of_interest, establishment",
+          "address": "4101 SE 192nd Ave, Vancouver",
+          "lat": 45.5940497,
+          "lon": -122.4776539,
+          "distance_miles": 0.1,
+          "likelihood_score": 92,
+          "rating": 3.7,
+          "user_ratings_total": 159,
+          "phone": "+1 360-726-4040",
+          "website": "https://www.dominos.com/en/?utm_source=google&utm_medium=loclist&utm_campaign=localmaps",
+          "place_id": "ChIJAQCQzKuklVQRxU8kyMwtq_c",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 1,
+          "source": "Google Places"
+        },
+        {
+          "name": "Papa Murphy's | Take 'N' Bake Pizza",
+          "type": "meal_takeaway, restaurant, food, point_of_interest, establishment",
+          "address": "3415 SE 192nd Ave, Vancouver",
+          "lat": 45.5956546,
+          "lon": -122.4777367,
+          "distance_miles": 0.09,
+          "likelihood_score": 96,
+          "rating": 4.4,
+          "user_ratings_total": 214,
+          "phone": "+1 360-896-0833",
+          "website": "https://locations.papamurphys.com/wa/vancouver/3415-se-192nd-avenue?utm_source=organic&utm_medium=gmb&utm_campaign=yext&y_source=1_MTU0MzA1NjItNzE1LWxvY2F0aW9uLndlYnNpdGU%3D",
+          "place_id": "ChIJpxRimquklVQRrIZC6phtYts",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 1,
+          "source": "Google Places"
+        }
+      ],
+      "createdAt": "2026-03-25T12:14:18.236046",
+      "count": 2
+    },
+    "1c6d12b19e6662b5": {
+      "storeNumber": "QFC07Z-0212",
+      "category": "all restaurants",
+      "prospects": [
+        {
+          "name": "The Quarry Public House",
+          "type": "restaurant, point_of_interest, food, establishment",
+          "address": "19530 SE Brady Rd, Camas",
+          "lat": 45.586104,
+          "lon": -122.472474,
+          "distance_miles": 0.64,
+          "likelihood_score": 91,
+          "rating": 4.7,
+          "user_ratings_total": 15,
+          "phone": "+1 564-208-0000",
+          "website": "https://theqph.com/",
+          "place_id": "ChIJfV0DeNajlVQRLnuKL8Va4co",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        },
+        {
+          "name": "Wyld Pines Bar & Restaurant",
+          "type": "bar, restaurant, point_of_interest, food, establishment",
+          "address": "2005 SE 192nd Ave #100, Camas",
+          "lat": 45.6065192,
+          "lon": -122.4756365,
+          "distance_miles": 0.8,
+          "likelihood_score": 88,
+          "rating": 4.3,
+          "user_ratings_total": 440,
+          "phone": "+1 360-210-7735",
+          "website": "https://wyldpines.com/?utm_source=google",
+          "place_id": "ChIJs4Upi967lVQRAzbPsurxpE0",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 2,
+          "source": "Google Places"
+        },
+        {
+          "name": "JB's Taphouse & Grill",
+          "type": "bar, restaurant, point_of_interest, food, establishment",
+          "address": "2011 SE 192nd Ave #100, Camas",
+          "lat": 45.606239,
+          "lon": -122.4751285,
+          "distance_miles": 0.78,
+          "likelihood_score": 89,
+          "rating": 4.5,
+          "user_ratings_total": 556,
+          "phone": "+1 360-210-4841",
+          "website": "http://jbstaphousewa.com/",
+          "place_id": "ChIJDcwTkU67lVQR7bsU2PFVYVI",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 2,
+          "source": "Google Places"
+        },
+        {
+          "name": "\u00bfOtra Vez?",
+          "type": "restaurant, point_of_interest, food, establishment",
+          "address": "2115 SE 192nd Ave STE #112, Camas",
+          "lat": 45.6051864,
+          "lon": -122.4754714,
+          "distance_miles": 0.71,
+          "likelihood_score": 89,
+          "rating": 4.5,
+          "user_ratings_total": 490,
+          "phone": "+1 360-844-5034",
+          "website": "http://otravezbrunch.com/",
+          "place_id": "ChIJsatSHeu7lVQRSlgmRDmFACY",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 2,
+          "source": "Google Places"
+        },
+        {
+          "name": "Joy Teriyaki",
+          "type": "restaurant, point_of_interest, food, establishment",
+          "address": "3425 SE 192nd Ave, Vancouver",
+          "lat": 45.5953087,
+          "lon": -122.4766377,
+          "distance_miles": 0.03,
+          "likelihood_score": 96,
+          "rating": 4.4,
+          "user_ratings_total": 238,
+          "phone": "+1 360-852-8460",
+          "website": "http://www.joyteriyaki.com/",
+          "place_id": "ChIJMYHdoKuklVQR--y7B-_GAR4",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 1,
+          "source": "Google Places"
+        },
+        {
+          "name": "Los Potrillos Mexican Restaurant & Bar",
+          "type": "bar, restaurant, point_of_interest, food, establishment",
+          "address": "1735 SE 192nd Ave #101, Camas",
+          "lat": 45.6092269,
+          "lon": -122.475541,
+          "distance_miles": 0.98,
+          "likelihood_score": 85,
+          "rating": 4.1,
+          "user_ratings_total": 852,
+          "phone": "+1 360-838-2431",
+          "website": "http://lospotrillosweb.com/",
+          "place_id": "ChIJF5i879iklVQRvOs6zKcyRaA",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 2,
+          "source": "Google Places"
+        },
+        {
+          "name": "Chipotle Mexican Grill",
+          "type": "restaurant, point_of_interest, food, establishment",
+          "address": "19530 SE Brady Rd, Camas",
+          "lat": 45.5860967,
+          "lon": -122.4725255,
+          "distance_miles": 0.64,
+          "likelihood_score": 80,
+          "rating": 2.4,
+          "user_ratings_total": 64,
+          "phone": "+1 360-817-0045",
+          "website": "https://locations.chipotle.com/wa/camas/19530-se-brady-rd?utm_source=google&utm_medium=yext&utm_campaign=yext_listings",
+          "place_id": "ChIJ1_hwDNKjlVQRtb8nMtR6CoY",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        },
+        {
+          "name": "Presso Coffee Co",
+          "type": "cafe, restaurant, store, point_of_interest, food, establishment",
+          "address": "2011 SE 192nd Ave Ste 103, Camas",
+          "lat": 45.60612,
+          "lon": -122.4750924,
+          "distance_miles": 0.77,
+          "likelihood_score": 87,
+          "rating": 4.1,
+          "user_ratings_total": 224,
+          "phone": "+1 971-245-4149",
+          "website": "http://www.pressocoffee.co/",
+          "place_id": "ChIJkwhK6s67lVQRfxmPiS3v_pk",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 1,
+          "source": "Google Places"
+        }
+      ],
+      "createdAt": "2026-03-25T12:53:08.595175",
+      "count": 8
+    },
+    "5978a286fe3c4b8e": {
+      "storeNumber": "QFC07Z-0212",
+      "category": "nail salon",
+      "prospects": [
+        {
+          "name": "LeO Nails & Organic Spa",
+          "type": "beauty_salon, point_of_interest, establishment",
+          "address": "1735 SE 192nd Ave Suite 103A, Camas",
+          "lat": 45.6093532,
+          "lon": -122.4755271,
+          "distance_miles": 0.99,
+          "likelihood_score": 89,
+          "rating": 4.9,
+          "user_ratings_total": 1119,
+          "phone": "+1 360-210-5516",
+          "website": "http://leonails.com/",
+          "place_id": "ChIJLz7enHG7lVQRRnnxEMnHllU",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        },
+        {
+          "name": "Omely Nails - Builder Gel, Gel X, Acrylic",
+          "type": "beauty_salon, point_of_interest, establishment",
+          "address": "19550 SE Brady Rd 1C 16, Camas",
+          "lat": 45.5861141,
+          "lon": -122.4724892,
+          "distance_miles": 0.64,
+          "likelihood_score": 93,
+          "rating": 5,
+          "user_ratings_total": 96,
+          "phone": "+1 360-948-6095",
+          "website": "https://www.instagram.com/ivynailslife/",
+          "place_id": "ChIJJW0AOSy7lVQR8DeYw6Gn76g",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        },
+        {
+          "name": "Queen B Nails",
+          "type": "hair_care, beauty_salon, point_of_interest, establishment",
+          "address": "2011 SE 192nd Ave #102, Camas",
+          "lat": 45.60612,
+          "lon": -122.4750924,
+          "distance_miles": 0.77,
+          "likelihood_score": 90,
+          "rating": 4.7,
+          "user_ratings_total": 588,
+          "phone": "+1 360-210-5918",
+          "website": "https://queenbnailscamas.com/",
+          "place_id": "ChIJwQu9ksG7lVQRFFwEYANpdcw",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        },
+        {
+          "name": "Angel Nails",
+          "type": "beauty_salon, point_of_interest, establishment",
+          "address": "3425 SE 192nd Ave STE 100, Vancouver",
+          "lat": 45.5955096,
+          "lon": -122.4764633,
+          "distance_miles": 0.04,
+          "likelihood_score": 98,
+          "rating": 4.8,
+          "user_ratings_total": 209,
+          "phone": "+1 360-558-3015",
+          "website": "http://angelnailsvancouver.com/",
+          "place_id": "ChIJUXOlErellVQRikMNyW43RfU",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        },
+        {
+          "name": "Annie's Nails",
+          "type": "beauty_salon, point_of_interest, establishment",
+          "address": "3401 SE 192nd Ave #103, Vancouver",
+          "lat": 45.59624609999999,
+          "lon": -122.4777066,
+          "distance_miles": 0.12,
+          "likelihood_score": 94,
+          "rating": 4.3,
+          "user_ratings_total": 195,
+          "phone": "+1 360-882-8326",
+          "website": null,
+          "place_id": "ChIJh_-leKuklVQRt84OydUMCrc",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        },
+        {
+          "name": "Tsivkovska Studio Nails",
+          "type": "beauty_salon, point_of_interest, establishment",
+          "address": "2115 SE 192nd Ave Suite 104, Camas",
+          "lat": 45.6055709,
+          "lon": -122.4755259,
+          "distance_miles": 0.73,
+          "likelihood_score": 91,
+          "rating": 4.8,
+          "user_ratings_total": 69,
+          "phone": "+1 360-975-0787",
+          "website": "https://www.instagram.com/tsivkovska_studio?igsh=MXI5ZWFnY3hvOGtqNw==",
+          "place_id": "ChIJFR6rCwC7lVQRuR-Ap3VmPF8",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        },
+        {
+          "name": "Studio 192",
+          "type": "hair_care, beauty_salon, point_of_interest, establishment",
+          "address": "2004 SE 192nd Ave #104, Vancouver",
+          "lat": 45.60630279999999,
+          "lon": -122.4762947,
+          "distance_miles": 0.78,
+          "likelihood_score": 91,
+          "rating": 4.8,
+          "user_ratings_total": 209,
+          "phone": "+1 360-944-7288",
+          "website": "http://mystudio192.com/",
+          "place_id": "ChIJjznlhM-6lVQRJ8Qtssbj5zY",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        },
+        {
+          "name": "Allure Salon & Spa",
+          "type": "hair_care, beauty_salon, spa, health, point_of_interest, establishment",
+          "address": "2005 SE 192nd Ave #104, Camas",
+          "lat": 45.6064666,
+          "lon": -122.4752728,
+          "distance_miles": 0.79,
+          "likelihood_score": 90,
+          "rating": 4.6,
+          "user_ratings_total": 262,
+          "phone": "+1 360-210-7050",
+          "website": "http://www.allure192.com/",
+          "place_id": "ChIJZTcjvE67lVQRVknDs30rgJU",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        }
+      ],
+      "createdAt": "2026-03-25T12:53:46.828060",
+      "count": 8
+    },
+    "9d1e6580a25242b8": {
+      "storeNumber": "QFC07Z-0212",
+      "category": "coffee/caf\u00e9",
+      "prospects": [
+        {
+          "name": "Presso Coffee Co",
+          "type": "cafe, store, restaurant, food, point_of_interest, establishment",
+          "address": "2011 SE 192nd Ave Ste 103, Camas",
+          "lat": 45.60612,
+          "lon": -122.4750924,
+          "distance_miles": 0.77,
+          "likelihood_score": 87,
+          "rating": 4.1,
+          "user_ratings_total": 224,
+          "phone": "+1 971-245-4149",
+          "website": "http://www.pressocoffee.co/",
+          "place_id": "ChIJkwhK6s67lVQRfxmPiS3v_pk",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 1,
+          "source": "Google Places"
+        },
+        {
+          "name": "Di-Tazza Italian Gourmet Coffee and Pastries- Drive Thru",
+          "type": "bakery, cafe, store, restaurant, food, point_of_interest, establishment",
+          "address": "2004 SE 192nd Ave Suite 102, Vancouver",
+          "lat": 45.6063148,
+          "lon": -122.4764413,
+          "distance_miles": 0.78,
+          "likelihood_score": 90,
+          "rating": 4.6,
+          "user_ratings_total": 435,
+          "phone": "+1 360-314-6569",
+          "website": "http://www.ditazza.com/",
+          "place_id": "ChIJYatUlk67lVQRVNzYuyS4A3s",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 2,
+          "source": "Google Places"
+        }
+      ],
+      "createdAt": "2026-03-26T10:42:51.790920",
+      "count": 2
+    },
+    "5d46dd8e7c7a3663": {
+      "storeNumber": "QFC07Z-0212",
+      "category": "chinese",
+      "prospects": [
+        {
+          "name": "Joy Teriyaki",
+          "type": "restaurant, food, point_of_interest, establishment",
+          "address": "3425 SE 192nd Ave, Vancouver",
+          "lat": 45.5953087,
+          "lon": -122.4766377,
+          "distance_miles": 0.03,
+          "likelihood_score": 96,
+          "rating": 4.4,
+          "user_ratings_total": 238,
+          "phone": "+1 360-852-8460",
+          "website": "http://www.joyteriyaki.com/",
+          "place_id": "ChIJMYHdoKuklVQR--y7B-_GAR4",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 1,
+          "source": "Google Places"
+        }
+      ],
+      "createdAt": "2026-03-26T11:03:16.160060",
+      "count": 1
+    },
+    "4e15b115c7b4cb4b": {
+      "storeNumber": "QFC07Z-0212",
+      "category": "italian",
+      "prospects": [
+        {
+          "name": "Di-Tazza Italian Gourmet Coffee and Pastries- Drive Thru",
+          "type": "cafe, bakery, restaurant, food, point_of_interest, store, establishment",
+          "address": "2004 SE 192nd Ave Suite 102, Vancouver",
+          "lat": 45.6063148,
+          "lon": -122.4764413,
+          "distance_miles": 0.78,
+          "likelihood_score": 90,
+          "rating": 4.6,
+          "user_ratings_total": 435,
+          "phone": "+1 360-314-6569",
+          "website": "http://www.ditazza.com/",
+          "place_id": "ChIJYatUlk67lVQRVNzYuyS4A3s",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 2,
+          "source": "Google Places"
+        }
+      ],
+      "createdAt": "2026-03-26T11:05:53.575974",
+      "count": 1
     }
   },
-  "lastUpdated": "2026-03-23T21:29:12.735334"
+  "lastUpdated": "2026-03-26T14:12:49.861959"
 }

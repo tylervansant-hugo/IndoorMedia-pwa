@@ -101,11 +101,37 @@
           "last_contacted": null,
           "visit_count": 0,
           "notes": []
+        },
+        "2bccb9a2d269": {
+          "name": "Grapes N Hops",
+          "address": "3425 SE 192nd Ave #105, Vancouver",
+          "phone": "+1 360-719-2828",
+          "email": "",
+          "contact_name": "",
+          "score": 95,
+          "status": "follow-up",
+          "saved_date": "2026-03-25T12:37:25.331731",
+          "last_contacted": null,
+          "visit_count": 0,
+          "notes": []
+        },
+        "c82b749dbdd6": {
+          "name": "Annie's Nails",
+          "address": "3401 SE 192nd Ave #103, Vancouver",
+          "phone": "+1 360-882-8326",
+          "email": "",
+          "contact_name": "",
+          "score": 94,
+          "status": "follow-up",
+          "saved_date": "2026-03-25T13:03:04.863888",
+          "last_contacted": null,
+          "visit_count": 0,
+          "notes": []
         }
       },
       "search_history": [],
       "contact_history": {},
-      "session_searches": 45,
+      "session_searches": 63,
       "session_bookmarks": 0,
       "cart": []
     },
@@ -237,12 +263,26 @@
           "last_contacted": null,
           "visit_count": 0,
           "notes": []
+        },
+        "f88f2bb2a021": {
+          "name": "Springs Brake and Suspension",
+          "address": "13407 NE Salmon Creek Ave, Vancouver",
+          "phone": "+1 360-953-5665",
+          "email": "",
+          "contact_name": "",
+          "score": 93,
+          "status": "follow-up",
+          "saved_date": "2026-03-24T13:51:22.949031",
+          "last_contacted": null,
+          "visit_count": 0,
+          "notes": []
         }
       },
       "search_history": [],
       "contact_history": {},
-      "session_searches": 12,
-      "session_bookmarks": 0
+      "session_searches": 13,
+      "session_bookmarks": 0,
+      "cart": []
     },
     "8767251377": {
       "name": "Amy Dixon",
@@ -302,7 +342,16 @@
       "saved_prospects": {},
       "search_history": [],
       "contact_history": {},
-      "session_searches": 1,
+      "session_searches": 2,
+      "session_bookmarks": 0,
+      "cart": []
+    },
+    "8309437895": {
+      "name": "Jan Banks",
+      "saved_prospects": {},
+      "search_history": [],
+      "contact_history": {},
+      "session_searches": 0,
       "session_bookmarks": 0,
       "cart": []
     }

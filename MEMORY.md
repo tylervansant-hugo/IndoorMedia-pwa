@@ -1,17 +1,33 @@
 # MEMORY.md - Shelldon's Long-Term Memory
 
-## PWA (imPro Sales Portal) - Mar 23, 2026
+## PWA (imPro Sales Portal) - Mar 27, 2026
 **Status:** ✅ LIVE on GitHub Pages
 
 **Tech Stack:** Svelte + Vite → GitHub Pages (no Vercel)
 
 **Tabs:**
 1. 📊 Dashboard — Quick stats & actions
-2. 🎯 Prospects — Real businesses via Google Places API (240K+ results cached)
-3. 🏪 Stores — Store rates lookup (7,835 stores nationwide)
-4. 📦 Products — Register Tape, Cartvertising, Digital (DigitalBoost, FindLocal, ReviewBoost, LoyaltyBoost)
-5. 🛒 Cart — Order management
-6. 🛠️ Tools — ROI Calc, Rates, Testimonials, Audit Store, **Counter Sign Generator**
+2. 🔥 **Hot Leads** — NEW! 5 max per store, phone + email ready (Mar 27)
+3. 🎯 Prospects — Real businesses via Google Places API (240K+ results cached)
+4. 🏪 Stores — Store rates lookup (7,835 stores nationwide)
+5. 📦 Products — Register Tape, Cartvertising, Digital (DigitalBoost, FindLocal, ReviewBoost, LoyaltyBoost)
+6. 🛒 Cart — Order management
+7. 🛠️ Tools — ROI Calc, Rates, Testimonials, Audit Store, Counter Sign Generator
+
+**🔥 Hot Leads Tab** (Mar 27 — NEW):
+- **Purpose:** Slim, high-intent lead list — max 5 per B-cycle store
+- **Qualification:** Business must have both phone + email (website scraped)
+- **Data:** 7 qualified leads Poulsbo area (SAF Kingston 4, SAF Bremerton 1, FM Bremerton 2)
+- **Features:**
+  - Filter by store | Search by business name
+  - Call button (direct tel: link)
+  - Email button (pre-fills template from EmailTemplates component)
+  - Show-all: All reps can view all leads (no rep-specific filtering)
+  - Store highlight: Store tier, case count, distance to business
+  - Hook copy: Per-tier messaging (SMALL: "daily", MEDIUM: "monthly thousands", LARGE: "huge volume")
+  - Email template type shown (INITIAL or ROI)
+- **Cycle-based:** B-cycle stores now → Switches to C on 4/10 → A on 5/10
+- **Rep reassignment:** Austin→Megan, Ben→Adan, Marty's Roseburg→Matt, unassigned→Tyler
 
 **Counter Sign Generator** (Mar 23):
 - Flow: Chain code → Upload business card → Landing page (opt) → Upload ad proof → Generate PDF
