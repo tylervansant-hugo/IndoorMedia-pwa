@@ -22,7 +22,25 @@
   onMount(async () => {
     try {
       const response = await fetch('/data/hot_leads.json');
-      hotLeads = await response.json();
+      let allLeads = await response.json();
+      
+      // Check if user is manager (Tyler)
+      const isManager = user?.name?.toLowerCase().includes('tyler') || user?.role === 'manager' || user?.role === 'admin';
+      
+      // If rep (not manager), filter to only their stores
+      if (!isManager && user?.assigned_stores) {
+        // User has list of assigned store IDs
+        const assignedStoreIds = Array.isArray(user.assigned_stores) 
+          ? user.assigned_stores 
+          : [user.assigned_stores];
+        hotLeads = allLeads.filter(l => assignedStoreIds.includes(l.store_id));
+      } else if (!isManager) {
+        // Rep with no assigned_stores visible → empty list with message
+        hotLeads = [];
+      } else {
+        // Manager sees all
+        hotLeads = allLeads;
+      }
       
       // Get unique stores
       allStores = [...new Set(hotLeads.map(l => l.store_id))].sort();
@@ -101,7 +119,11 @@
 <div class="hot-leads-container">
   <div class="header">
     <h2>🔥 Hot Leads</h2>
-    <p class="subtitle">Max 5 per store • Phone + Email ready • {hotLeads.length} total</p>
+    <p class="subtitle">Max 5 per store • Phone + Email ready • {hotLeads.length} total
+      {#if user?.name?.toLowerCase().includes('tyler') || user?.role === 'manager'}
+        <span class="manager-badge">👤 MANAGER VIEW (all reps)</span>
+      {/if}
+    </p>
   </div>
   
   <div class="section-tabs">
@@ -152,7 +174,11 @@
       </div>
     </div>
     
-    {#if filteredLeads.length === 0}
+    {#if hotLeads.length === 0 && !selectedStore && !searchText}
+      <div class="no-results">
+        <p>No Hot Leads assigned to you yet. Check back soon!</p>
+      </div>
+    {:else if filteredLeads.length === 0}
       <div class="no-results">
         <p>No leads found. Try adjusting your filters.</p>
       </div>
@@ -326,6 +352,18 @@
     margin: 4px 0 0 0;
     color: #666;
     font-size: 14px;
+  }
+  
+  .manager-badge {
+    display: inline-block;
+    margin-left: 12px;
+    padding: 4px 8px;
+    background: #fff5f5;
+    color: #CC0000;
+    border-radius: 4px;
+    font-size: 12px;
+    font-weight: 600;
+    border: 1px solid #ffe0e0;
   }
   
   .controls {

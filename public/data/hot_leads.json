@@ -142,29 +142,5 @@
     "_email_subject_template": "How {business} can reach 10,000+ local customers",
     "_email_body_template": "Hi {contact},\n\nDid you know the average grocery store gets 10,000+ visitors per week? That's 10,000 potential customers seeing your ad every single week.\n\nBusinesses in your category have reported strong ROI \u2014 many seeing results within the first month. Our register tape ads put your name, offer, and location directly in shoppers' hands.\n\nI'd love to show you how the numbers work for {business}. Can we schedule a quick call?\n\nBest,\n{rep}\nIndoorMedia",
     "_hook": "Safeway Kingston is sending customers to businesses like Seattle Cycle Service Kingston daily!"
-  },
-  {
-    "store_id": "SAF07X-1524",
-    "store_chain": "Safeway",
-    "store_city": "Bremerton",
-    "store_tier": "MEDIUM",
-    "store_cases": 18,
-    "category": "Restaurant",
-    "business_name": "The Toad House",
-    "rating": 4.4,
-    "reviews": 577,
-    "address": "1405 Northeast McWilliams Road #101, Bremerton",
-    "phone": "(360) 478-8623",
-    "website": "http://toadhousepizza.com/",
-    "distance_mi": 0.04,
-    "place_id": "ChIJS_DmGjs6kFQRNT_XfXYwmvY",
-    "lat": 47.62010540000001,
-    "lon": -122.6305107,
-    "_score": 12.152482489050328,
-    "_email": "478-8623admin@toadhousehq.com",
-    "_email_template_type": "initial",
-    "_email_subject_template": "Quick question about {business}",
-    "_email_body_template": "Hi {contact},\n\nI noticed {business} in the area and wanted to reach out. We work with local businesses to help drive foot traffic through register tape advertising at nearby grocery stores.\n\nThousands of businesses like yours have seen measurable results \u2014 would you be open to a quick 10-minute chat this week?\n\nBest,\n{rep}\nIndoorMedia",
-    "_hook": "Safeway Bremerton is sending thousands of dollars in business to The Toad House monthly!"
   }
 ]
