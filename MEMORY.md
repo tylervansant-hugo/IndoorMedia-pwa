@@ -14,20 +14,45 @@
 6. 🛒 Cart — Order management
 7. 🛠️ Tools — ROI Calc, Rates, Testimonials, Audit Store, Counter Sign Generator
 
-**🔥 Hot Leads Tab** (Mar 27 — NEW):
-- **Purpose:** Slim, high-intent lead list — max 5 per B-cycle store
-- **Qualification:** Business must have both phone + email (website scraped)
-- **Data:** 7 qualified leads Poulsbo area (SAF Kingston 4, SAF Bremerton 1, FM Bremerton 2)
-- **Features:**
-  - Filter by store | Search by business name
-  - Call button (direct tel: link)
-  - Email button (pre-fills template from EmailTemplates component)
-  - Show-all: All reps can view all leads (no rep-specific filtering)
-  - Store highlight: Store tier, case count, distance to business
-  - Hook copy: Per-tier messaging (SMALL: "daily", MEDIUM: "monthly thousands", LARGE: "huge volume")
-  - Email template type shown (INITIAL or ROI)
-- **Cycle-based:** B-cycle stores now → Switches to C on 4/10 → A on 5/10
-- **Rep reassignment:** Austin→Megan, Ben→Adan, Marty's Roseburg→Matt, unassigned→Tyler
+**🔥 Hot Leads Tab** (Mar 27 — COMPLETE SYSTEM):
+
+**Three Sections:**
+1. **✅ Approved Leads** (7 in Poulsbo test)
+   - Max 5 per B-cycle store
+   - Phone + email verified (website scraped)
+   - Data: Safeway Kingston 4, Safeway Bremerton 1, Fred Meyer Bremerton 2
+   - All reps can view all leads (shared visibility)
+   - Filter by store | Search by business name
+   - Call/Email buttons with pre-filled templates
+
+2. **⏳ Pending Leads Review** (YOUR APPROVAL QUEUE)
+   - Shows newly submitted leads from reps
+   - Detail view: phone, email, address, submitted by, date, store reference
+   - Approve → Adds to Hot Leads
+   - Reject → Removed (can be resubmitted)
+   - Bulk view of submitted leads with sorting
+
+3. **➕ Lead Submission** (REP TOOLS)
+   - Two modes:
+     a) **Manual Entry:** Name, phone, email, category, rating, store reference (dropdown)
+     b) **Business Card OCR:** Upload image → Tesseract.js extracts phone/email → Auto-fills form
+   - Categories: Restaurant, Auto Repair, Salon/Barber, Dental, Gym, Vet, Chiropractor, Other
+   - Optional fields: Address, rating, reviews, store reference
+   - Validation: Requires name, phone, email before submit
+   - Submitted leads → Pending queue for your review
+
+**Hook Copy (per tier):**
+- SMALL: "is sending customers to [business] daily!"
+- MEDIUM: "is sending thousands of dollars in business to [business] monthly!"
+- LARGE: "is driving a huge volume of extra business — [business] could be next!"
+
+**Email Integration:**
+- Pre-fills with existing templates (Initial Appointment or ROI/Value)
+- Rep can personalize contact name
+- Copy/paste or send direct mailto
+
+**Cycle Schedule:** B-cycle now → C on 4/10 → A on 5/10 → B on 6/10
+**Rep assignments:** Austin→Megan, Ben→Adan, Marty Roseburg→Matt, unassigned→Tyler
 
 **Counter Sign Generator** (Mar 23):
 - Flow: Chain code → Upload business card → Landing page (opt) → Upload ad proof → Generate PDF

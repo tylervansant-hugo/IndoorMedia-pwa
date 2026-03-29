@@ -428,6 +428,23 @@
       "address": "12950 SW Pacific Hwy suite",
       "customer_city_state": "Tigard, OR 97223",
       "extracted_at": "2026-03-25T20:00:49.242430"
+    },
+    {
+      "contract_number": "J427808E",
+      "date": "3/27/2026",
+      "business_name": "La Belle Nails",
+      "contact_name": "Huan Truong",
+      "contact_email": "Hhtruong1@yahoo.com",
+      "contact_phone": "(541) 285-0472",
+      "sales_rep": "Matthew Boozer",
+      "store_name": "",
+      "store_number": "Safeway-0420",
+      "product_description": "Single",
+      "total_amount": 4525.0,
+      "payment_date": "3/27/2026",
+      "address": "293 Valley River Center",
+      "customer_city_state": "Eugene, OR 97401",
+      "extracted_at": "2026-03-28T20:00:06.071184"
     }
   ],
   "last_scan": "2026-03-08T15:11:11.119957"
