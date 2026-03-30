@@ -175,7 +175,7 @@
         ...formData,
         submitted_by: user?.name || 'Unknown',
         submitted_at: new Date().toISOString(),
-        status: 'pending_review',
+        status: 'approved',
         _hook: `Submitted by ${user?.name || 'rep'}`
       };
       
@@ -190,7 +190,7 @@
         throw new Error(`API error: ${response.status}`);
       }
       
-      submitMessage = '✅ Lead submitted! Waiting for Tyler\'s review.';
+      submitMessage = '✅ Lead added to Hot Leads!';
       
       // Reset form
       setTimeout(() => {
