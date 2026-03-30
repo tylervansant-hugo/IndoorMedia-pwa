@@ -955,8 +955,9 @@
 
   .button-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    grid-template-columns: repeat(2, 1fr);
     gap: 1rem;
+    max-width: 600px;
   }
 
   .main-btn {
