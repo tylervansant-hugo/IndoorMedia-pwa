@@ -656,7 +656,8 @@
             {#if prospect.phone}
               <a href="tel:{prospect.phone}" class="action-btn full-width call-btn">📞 Call {prospect.phone}</a>
             {/if}
-            <button class="action-btn full-width email-btn" on:click={() => { prospect._showEmail = !prospect._showEmail; prospect._showNotes = false; prospects = prospects; }}>✉️ Draft Email</button>
+            <button class="action-btn full-width script-btn" on:click={() => { prospect._showScript = !prospect._showScript; prospect._showEmail = false; prospect._showNotes = false; prospects = prospects; }}>📋 Call Scripts</button>
+            <button class="action-btn full-width email-btn" on:click={() => { prospect._showEmail = !prospect._showEmail; prospect._showScript = false; prospect._showNotes = false; prospects = prospects; }}>✉️ Draft Email</button>
             <a href="https://calendar.google.com/calendar/render?action=TEMPLATE&text={encodeURIComponent('Visit: ' + prospect.name)}&details={encodeURIComponent('Prospect: ' + prospect.name + '\nAddress: ' + prospect.address + (prospect.phone ? '\nPhone: ' + prospect.phone : '') + (prospect.website ? '\nWebsite: ' + prospect.website : '') + '\nStore: ' + (selectedStore?.GroceryChain || '') + ' ' + (selectedStore?.StoreName || ''))}&location={encodeURIComponent(prospect.address)}" target="_blank" class="action-btn full-width">📅 Calendar</a>
           </div>
           {#if prospect._showNotes}
@@ -669,6 +670,27 @@
               ></textarea>
               {#if getProspectNote(prospect.id || prospect.name)}
                 <p class="note-saved">Saved</p>
+              {/if}
+            </div>
+          {/if}
+          {#if prospect._showScript}
+            <div class="script-section">
+              <h4 class="script-title">📋 Call Scripts</h4>
+              <button class="script-select-btn" on:click={() => { prospect._selectedScript = 'tvs-appt'; prospects = prospects; }}>
+                📞 TVS Appointment Setting
+              </button>
+              {#if prospect._selectedScript === 'tvs-appt'}
+                <div class="script-preview-box">
+                  <p class="script-text">Hey there, I was hoping you could point me in the right direction on something…?</p>
+                  <p class="script-text">My name is <strong>{$user?.name || $user?.first_name || '[Your Name]'}</strong> and I was calling because I'm working with the <strong>{selectedStore?.GroceryChain || '[Store Chain]'}</strong> over on <strong>{selectedStore?.Address?.split(',')[0] || '[Street Name]'}</strong> and was getting in touch because we are kicking off a huge promotion and support of local business.</p>
+                  <p class="script-text">We are going to be featuring and recommending just a few great local businesses, and right now I am looking to recommend just one <strong>{selectedSubcategory || selectedCategory || '[Business Type]'}</strong> to all of their shoppers.</p>
+                  <p class="script-text">We already work with a ton of <strong>{selectedSubcategory || selectedCategory || '[Business Type]'}s</strong> with huge success in driving customers, and I was curious, <em>who should I talk to about doing the same for you?</em></p>
+                  <button class="action-btn full-width" on:click={() => {
+                    const script = `Hey there, I was hoping you could point me in the right direction on something…?\n\nMy name is ${$user?.name || $user?.first_name || '[Your Name]'} and I was calling because I'm working with the ${selectedStore?.GroceryChain || '[Store Chain]'} over on ${selectedStore?.Address?.split(',')[0] || '[Street Name]'} and was getting in touch because we are kicking off a huge promotion and support of local business.\n\nWe are going to be featuring and recommending just a few great local businesses, and right now I am looking to recommend just one ${selectedSubcategory || selectedCategory || '[Business Type]'} to all of their shoppers.\n\nWe already work with a ton of ${selectedSubcategory || selectedCategory || '[Business Type]'}s with huge success in driving customers, and I was curious, who should I talk to about doing the same for you?`;
+                    navigator.clipboard.writeText(script);
+                    alert('✅ Script copied!');
+                  }}>📋 Copy Script</button>
+                </div>
               {/if}
             </div>
           {/if}
@@ -1098,12 +1120,54 @@
   .email-btn { background: #1565c0 !important; color: white !important; border-color: #1565c0 !important; }
   .email-btn:hover { background: #0d47a1 !important; }
 
-  .notes-section, .email-section {
+  .notes-section, .email-section, .script-section {
     margin-top: 10px;
     padding: 10px;
     background: var(--hover-bg);
     border-radius: 8px;
   }
+
+  .script-btn { background: #1565c0 !important; color: white !important; border-color: #1565c0 !important; }
+  .script-btn:hover { background: #0d47a1 !important; }
+
+  .script-title { margin: 0 0 10px; font-size: 15px; color: var(--text-primary); }
+
+  .script-select-btn {
+    display: block;
+    width: 100%;
+    padding: 10px 14px;
+    margin-bottom: 8px;
+    background: var(--card-bg);
+    border: 2px solid var(--border-color);
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    text-align: left;
+    color: var(--text-primary);
+    transition: all 0.2s;
+  }
+
+  .script-select-btn:hover { border-color: #1565c0; background: #e3f2fd; }
+
+  .script-preview-box {
+    padding: 14px;
+    background: var(--card-bg);
+    border: 2px solid #1565c0;
+    border-radius: 8px;
+    margin-top: 8px;
+  }
+
+  .script-text {
+    margin: 0 0 12px;
+    font-size: 14px;
+    line-height: 1.6;
+    color: var(--text-primary);
+  }
+
+  .script-text:last-of-type { margin-bottom: 14px; }
+  .script-text strong { color: #1565c0; }
+  .script-text em { font-style: italic; color: #c62828; font-weight: 600; }
 
   .note-saved { margin: 4px 0 0; font-size: 11px; color: #2e7d32; font-weight: 600; text-align: right; }
 
