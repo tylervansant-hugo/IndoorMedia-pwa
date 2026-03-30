@@ -1,10 +1,61 @@
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Dependencies
+node_modules
+.pnp
+.pnp.js
+
+# Testing
+coverage
+
+# Production
+dist
+dist-ssr
+*.local
+
+# Editor directories and files
+.vscode/*
+!.vscode/extensions.json
+.idea
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# Environment
 .env
 .env.local
-*.pyc
-__pycache__/
+.env.*.local
+
+# OS
 .DS_Store
-.venv*/
-node_modules/
-*.log
-temp/
-tmp/
+Thumbs.db
+
+# IDE
+*.swp
+*.swo
+*~
+.project
+.classpath
+.c9/
+.history/
+
+# Deployment (Vercel only, not Railway)
+.vercel
+.railway
+railway.json
+railway.toml
+RAILWAY_*.md
+Dockerfile
+docker-compose.yml
+
+# Local development servers (not needed with Vercel)
+server.js
+api-server.js

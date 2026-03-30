@@ -1,0 +1,42 @@
+{
+  "name": "indoormedia-pwa",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "description": "IndoorMedia Sales Rep Portal - Progressive Web App",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/tylervansant/indoormedia-pwa.git"
+  },
+  "keywords": [
+    "pwa",
+    "svelte",
+    "indoormedia",
+    "sales",
+    "mobile"
+  ],
+  "author": "Tyler Van Sant",
+  "license": "MIT",
+  "dependencies": {
+    "pdf-lib": "^1.17.1",
+    "pdfjs-dist": "^5.5.207"
+  },
+  "devDependencies": {
+    "@sveltejs/vite-plugin-svelte": "^7.0.0",
+    "@tailwindcss/postcss": "^4.2.2",
+    "autoprefixer": "^10.4.27",
+    "concurrently": "^8.2.0",
+    "postcss": "^8.5.8",
+    "svelte": "^5.53.12",
+    "tailwindcss": "^4.2.2",
+    "terser": "^5.46.1",
+    "vite": "^8.0.1",
+    "workbox-window": "^7.4.0"
+  }
+}

@@ -1,299 +1,428 @@
-# 🚀 Integration Guide: Advertising Signals into ProspectBot
+# Products + Cart System Integration Guide
 
-This guide shows exactly how to integrate the advertising signals detector into `telegram_prospecting_bot.py`.
+## Quick Start
 
-## Step 1: Import the Integration Module
+### 1. Add to Your Router
+If using SvelteKit or another router:
 
-Add these imports at the top of `telegram_prospecting_bot.py` (around line 30-40):
+```svelte
+<!-- routes/products/+page.svelte -->
+<script>
+  import ProductMenu from '../../components/ProductMenu.svelte';
+</script>
 
-```python
-# Advertising signals integration
-try:
-    from prospect_advertising_integration import add_advertising_signals_to_prospect
-    from telegram_bot_ad_signals_patch import register_ad_signals_handlers
-    SIGNALS_AVAILABLE = True
-except ImportError:
-    SIGNALS_AVAILABLE = False
-    logger.warning("⚠️ Advertising signals module not available")
+<ProductMenu />
 ```
 
-## Step 2: Register Callbacks with Bot
+```svelte
+<!-- routes/cart/+page.svelte -->
+<script>
+  import ShoppingCart from '../../components/ShoppingCart.svelte';
+</script>
 
-In the main function or wherever you set up handlers (usually around line 2000+), add:
-
-```python
-async def main():
-    """Start the bot."""
-    application = Application.builder().token(TOKEN).build()
-    
-    # ... existing handlers ...
-    
-    # Register advertising signals handlers
-    if SIGNALS_AVAILABLE:
-        register_ad_signals_handlers(application)
-        logger.info("✅ Advertising signals handlers registered")
-    
-    # ... rest of setup ...
+<ShoppingCart />
 ```
 
-## Step 3: Modify `send_prospects_with_full_info()` Function
+### 2. Simple Client-Side Navigation
+If using a simple client component:
 
-Find this function (around line 2485) and modify it to add signals:
+```svelte
+<script>
+  import ProductMenu from './components/ProductMenu.svelte';
+  import ShoppingCart from './components/ShoppingCart.svelte';
+  
+  let currentPage = 'products'; // 'products' | 'cart'
+</script>
 
-### Add signal enrichment at the start of the loop:
+<svelte:window on:hashchange={() => {
+  currentPage = window.location.hash === '#cart' ? 'cart' : 'products';
+}} />
 
-```python
-async def send_prospects_with_full_info(update: Update, prospects: List[Dict], store: Dict, context: ContextTypes.DEFAULT_TYPE = None):
-    """Send each prospect once with full info + buttons in one message."""
-    
-    for i, prospect in enumerate(prospects, 1):
-        # ADD THIS: Enrich prospect with advertising signals
-        if SIGNALS_AVAILABLE:
-            try:
-                prospect = add_advertising_signals_to_prospect(prospect, force_refresh=False)
-            except Exception as e:
-                logger.warning(f"Error adding ad signals: {e}")
-        
-        # ... rest of existing code ...
+{#if currentPage === 'products'}
+  <ProductMenu />
+{:else}
+  <ShoppingCart />
+{/if}
 ```
 
-### Add signals display after website section:
+## Component Hierarchy
 
-Find this section in `send_prospects_with_full_info()`:
-
-```python
-        # Website link
-        if website:
-            web_url = website if website.startswith("http") else f"https://{website}"
-            text += f"🌐 [Website]({web_url})\n"
+```
+App
+├── ProductMenu
+│   ├── ProductCard (×3)
+│   │   └── PricingSelector
+│   └── Cart Counter (footer)
+└── ShoppingCart
+    ├── CartItem (×n)
+    ├── CartSummary (sidebar)
+    ├── Export Modal
+    └── Email Share
 ```
 
-Add after it:
+## Data Flow
 
-```python
-        # Advertising signals (NEW!)
-        ad_signals = prospect.get('advertising_signals', {})
-        if ad_signals and ad_signals.get('found_advertising'):
-            text += "\n🎬 *ADVERTISING SIGNALS*\n"
-            platforms = ad_signals.get('platforms', {})
-            
-            if platforms.get('meta', {}).get('found'):
-                text += "  • 📘 *Meta Ads Library* — Active ads detected\n"
-            if platforms.get('google', {}).get('found'):
-                text += "  • 🔍 *Google Ads Library* — Active ads detected\n"
-            
-            boost = ad_signals.get('likelihood_boost', 0)
-            if boost > 0:
-                text += f"\n✨ *+{boost} Likelihood Boost*\n"
-                text += "_(This business is already advertising online — good prospect!)_\n"
+### Adding Items to Cart
+```
+ProductCard.svelte
+  ↓ (on:addToCart event)
+ProductMenu.svelte (aggregates event)
+  ↓ (dispatches addToCart detail)
+Parent Component (listens to event)
+  ↓ (updates localStorage)
+cart = [...cart, newItem]
 ```
 
-### Add refresh button to buttons list:
-
-Find the buttons section that has "Show Actions":
-
-```python
-        # Expand for more actions
-        buttons.append([
-            InlineKeyboardButton("▶️ Show Actions", callback_data=f"expand_{prospect_id}"),
-        ])
+### Managing Cart
+```
+ShoppingCart.svelte (loads from localStorage on mount)
+  ↓ (user actions: remove, update qty)
+CartItem.svelte (dispatches events)
+  ↓ (cart array updates)
+ShoppingCart.svelte (re-renders)
+  ↓ (persists to localStorage)
+localStorage.setItem('indoormedia_cart', JSON.stringify(cart))
 ```
 
-Modify to:
+## API Reference
 
-```python
-        # Expand for more actions + refresh signals
-        buttons.append([
-            InlineKeyboardButton("▶️ Show Actions", callback_data=f"expand_{prospect_id}"),
-            InlineKeyboardButton("🔄 Refresh", callback_data=f"refresh_signals_{prospect_id}"),
-        ])
+### ProductMenu Props
+None - uses internal state.
+
+### ProductCard Props
+- `product`: Object with id, name, icon, description, specs, pricingPlans
+- `isSelected`: Boolean - whether card is expanded
+
+### ProductCard Events
+- `on:select`: Card header clicked
+- `on:addToCart`: Forwarded from PricingSelector
+
+### PricingSelector Props
+- `productId`: String - product identifier
+- `plans`: Array of pricing plan objects
+
+### PricingSelector Events
+- `on:addToCart`: Event detail contains { productId, planName, quantity }
+
+### ShoppingCart Props
+None - manages its own state from localStorage.
+
+### CartItem Props
+- `item`: Cart item object
+- `subtotal`: Calculated price * quantity
+
+### CartItem Events
+- `on:remove`: Remove item from cart
+- `on:updateQuantity`: Qty changed - event.detail.quantity
+
+### CartSummary Props
+- `total`: Number - total cart value
+- `itemCount`: Number - number of items in cart
+
+### CartSummary Events
+- `on:clearCart`: Clear all items button clicked
+
+## Storage Integration
+
+### Current Implementation
+Uses browser `localStorage` with key `indoormedia_cart`.
+
+### Migration to Backend
+To persist to a server:
+
+```javascript
+// In ProductMenu.svelte - replace localStorage.setItem
+async function saveCart(cart) {
+  const response = await fetch('/api/cart', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(cart),
+  });
+  return response.json();
+}
+
+// In ShoppingCart.svelte - replace localStorage.getItem
+async function loadCart() {
+  const response = await fetch('/api/cart');
+  cartItems = await response.json();
+}
 ```
 
-### Store ad signals in context:
+### With User Authentication
+Add user ID to requests:
 
-Find where prospect data is stored in context (around line 2580):
-
-```python
-        # Store prospect info for callback handlers
-        if context:
-            if 'prospects' not in context.user_data:
-                context.user_data['prospects'] = {}
-            context.user_data['prospects'][prospect_id] = {
-                'name': business_name,
-                'address': address,
-                # ... other fields ...
-            }
+```javascript
+const userId = getUserId(); // from auth system
+const response = await fetch(`/api/carts/${userId}`, {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json',
+    'Authorization': `Bearer ${getToken()}`,
+  },
+  body: JSON.stringify(cart),
+});
 ```
 
-Add this field to the dict:
+## Pricing Data Integration
 
-```python
-                'advertising_signals': ad_signals,  # NEW!
+### Current: Hardcoded Pricing
+Product pricing is hardcoded in ProductMenu.svelte.
+
+### Option 1: Load from stores.json
+```javascript
+import storeData from '../data/stores.json';
+
+// Calculate pricing from store data
+let products = [
+  {
+    id: 'register-tape',
+    name: 'Register Tape',
+    pricingPlans: [
+      {
+        name: 'Small',
+        quantity: '1,000',
+        price: calculateFromStores(storeData, 'single'),
+      },
+      // ...
+    ],
+  },
+];
 ```
 
-## Step 4: Verify Integration
-
-Test that everything works:
-
-```bash
-# 1. Run tests
-python3 scripts/test_advertising_signals.py
-
-# 2. Test direct module
-python3 scripts/advertising_signals.py "Test Business Name"
-
-# 3. Check cache was created
-ls -la data/advertising_signals_cache.json
+### Option 2: Load from API
+```javascript
+onMount(async () => {
+  const response = await fetch('/api/products');
+  products = await response.json();
+});
 ```
 
-Expected output:
-```
-✅ Advertising signals handlers registered
-✅ Signals module working
-Cache file created at data/advertising_signals_cache.json
-```
+## Styling Customization
 
-## Step 5: Optional - Custom Likelihood Score Boost
+### Override Colors
+Create `src/styles/theme.css`:
 
-If you want to adjust the +15 boost amount, edit `advertising_signals.py`:
-
-```python
-# Around line 150, in AdvertisingSignalsDetector.check_business():
-# Change this:
-if meta_result.get("found"):
-    results["found_advertising"] = True
-    results["likelihood_boost"] += 15  # ← Change this number
-
-# To something like:
-    results["likelihood_boost"] += 20  # +20 instead of +15
+```css
+:root {
+  --primary-color: #2c5aa0;
+  --accent-color: #4caf50;
+  --danger-color: #ff5252;
+  --bg-primary: #ffffff;
+  --bg-secondary: #f5f5f5;
+  --text-primary: #1a1a1a;
+  --text-secondary: #666;
+}
 ```
 
-## Complete Example
-
-Here's a minimal example of the integrated function:
-
-```python
-async def send_prospects_with_full_info(update: Update, prospects: List[Dict], store: Dict, context: ContextTypes.DEFAULT_TYPE = None):
-    """Send each prospect once with full info + buttons in one message."""
-    
-    for i, prospect in enumerate(prospects, 1):
-        # Enrich with advertising signals
-        if SIGNALS_AVAILABLE:
-            try:
-                prospect = add_advertising_signals_to_prospect(prospect, force_refresh=False)
-            except Exception as e:
-                logger.warning(f"Error adding signals: {e}")
-        
-        # Extract prospect info
-        business_name = prospect.get("name", "Unknown")
-        address = prospect.get("address", "")
-        phone = prospect.get("phone", "")
-        score = prospect.get('likelihood_score', 0)
-        website = prospect.get("website", "")
-        
-        # Build message
-        text = f"🔥 *{business_name}*\n"
-        text += f"📊 Likelihood: {score}/100\n"
-        text += f"📞 {phone}\n"
-        text += f"📍 {address}\n"
-        
-        # Add advertising signals
-        ad_signals = prospect.get('advertising_signals', {})
-        if ad_signals and ad_signals.get('found_advertising'):
-            text += "\n🎬 *ADVERTISING SIGNALS*\n"
-            platforms = ad_signals.get('platforms', {})
-            if platforms.get('meta', {}).get('found'):
-                text += "  • 📘 Meta: Active ads detected\n"
-            if platforms.get('google', {}).get('found'):
-                text += "  • 🔍 Google: Active ads detected\n"
-            boost = ad_signals.get('likelihood_boost', 0)
-            if boost > 0:
-                text += f"\n✨ *+{boost} score boost* — Already advertising online!\n"
-        
-        # Buttons with refresh option
-        buttons = [
-            [InlineKeyboardButton("📍 Maps", url=google_maps_url)],
-            [
-                InlineKeyboardButton("▶️ Show Actions", callback_data=f"expand_{prospect_id}"),
-                InlineKeyboardButton("🔄 Refresh", callback_data=f"refresh_signals_{prospect_id}"),
-            ],
-        ]
-        
-        # Store in context
-        if context:
-            if 'prospects' not in context.user_data:
-                context.user_data['prospects'] = {}
-            context.user_data['prospects'][prospect_id] = {
-                'name': business_name,
-                'address': address,
-                'phone': phone,
-                'likelihood_score': score,
-                'advertising_signals': ad_signals,
-                # ... other fields ...
-            }
-        
-        await update.effective_chat.send_message(
-            text,
-            parse_mode="Markdown",
-            reply_markup=InlineKeyboardMarkup(buttons)
-        )
+Then in components:
+```svelte
+<style>
+  .btn {
+    background: var(--primary-color);
+  }
+</style>
 ```
 
-## Testing in Telegram
+### Dark Mode
+Add media query wrapper:
 
-Once integrated, test by:
+```css
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg-primary: #1a1a1a;
+    --bg-secondary: #2d2d2d;
+    --text-primary: #ffffff;
+    --text-secondary: #ccc;
+  }
+}
+```
 
-1. Send `/start` to bot
-2. Search for prospects
-3. See prospect cards with signals
-4. Look for 🎬 **ADVERTISING SIGNALS** section
-5. Click 🔄 **Refresh** button to manually check
+## Analytics Integration
 
-## Troubleshooting
+### Track Product Views
+```javascript
+// In ProductCard.svelte
+function handleSelect() {
+  trackEvent('product_viewed', {
+    product_id: product.id,
+    product_name: product.name,
+  });
+  dispatch('select');
+}
+```
 
-| Issue | Solution |
-|-------|----------|
-| "advertising signals not available" warning | Make sure all 3 files are in `scripts/` directory |
-| Signals not showing on cards | Check that `add_advertising_signals_to_prospect()` is being called |
-| Cache not being used | Check file permissions on `data/` directory |
-| Refresh button not working | Make sure `register_ad_signals_handlers()` was called during bot setup |
-| Timeout errors | Increase timeout in `advertising_signals.py` (currently 8 seconds) |
+### Track Add to Cart
+```javascript
+// In PricingSelector.svelte
+function handleAddToCart() {
+  trackEvent('add_to_cart', {
+    product_id: productId,
+    plan_name: selectedPlan,
+    quantity,
+    value: selectedPlanData.price * quantity,
+  });
+  dispatch('addToCart', { productId, planName: selectedPlan, quantity });
+}
+```
 
-## Performance Impact
+### Track Cart Checkout
+```javascript
+// In CartSummary.svelte
+function handleCheckout() {
+  trackEvent('begin_checkout', {
+    items: itemCount,
+    value: total,
+  });
+  // proceed to checkout...
+}
+```
 
-- **First lookup**: +1-2 seconds (network request)
-- **Cached lookup**: <0.1 seconds (disk read)
-- **UI delay**: Negligible (happens before message sent)
-- **Memory**: ~50KB per 100 cached businesses
+## Form Validation
 
-## Deployment
+### Add to PricingSelector
+```javascript
+function validatePlan() {
+  if (!selectedPlan) {
+    error = 'Please select a plan';
+    return false;
+  }
+  if (quantity < 1 || quantity > 100) {
+    error = 'Quantity must be between 1 and 100';
+    return false;
+  }
+  return true;
+}
 
-When ready to deploy:
+function handleAddToCart() {
+  if (!validatePlan()) return;
+  // proceed...
+}
+```
 
-1. Test locally with test suite
-2. Add files to production server
-3. Restart bot process
-4. Monitor logs for "advertising signals handlers registered"
-5. Test with real prospects in production
+## Accessibility Enhancements
 
-## Quick Reference
+### Add ARIA Labels
+```svelte
+<button 
+  aria-label="Remove {item.productName} from cart"
+  on:click={handleRemove}
+>
+  ✕
+</button>
+```
 
-| File | Purpose |
-|------|---------|
-| `advertising_signals.py` | Core detector (Meta/Google checks) |
-| `prospect_advertising_integration.py` | Integration layer (adds signals to prospects) |
-| `telegram_bot_ad_signals_patch.py` | Telegram callbacks (refresh button) |
-| `test_advertising_signals.py` | Test suite |
-| `data/advertising_signals_cache.json` | 24h cache storage |
+### Add Form Labels
+```svelte
+<label for="qty-{item.id}">
+  Quantity for {item.productName}
+</label>
+<input id="qty-{item.id}" type="number" bind:value={item.quantity} />
+```
 
-## That's It!
+### Add Landmarks
+```svelte
+<nav aria-label="Product categories">
+  <ProductMenu />
+</nav>
 
-Once integrated:
-- ✅ Advertising signals appear automatically on prospect cards
-- ✅ Likelihood scores are boosted if ads found (+15)
-- ✅ Users can click "🔄 Refresh" to manually check
-- ✅ Results are cached for 24 hours (fast lookups)
+<main aria-label="Shopping cart">
+  <ShoppingCart />
+</main>
+```
 
----
+## Mobile Optimization
 
-**Questions?** Check the comprehensive guide at `AD_SIGNALS_README.md`
+### Test Responsive Design
+```javascript
+// Test at these breakpoints
+const breakpoints = {
+  mobile: 375,    // iPhone SE
+  tablet: 768,    // iPad
+  desktop: 1024,  // Desktop
+};
+```
+
+### Touch-Friendly Buttons
+All buttons already have:
+- 44px minimum height (mobile touch target)
+- 44px minimum width
+- Clear visual feedback on press
+
+### Optimized Inputs
+- Number inputs with easy +/- controls
+- Large tap targets for radio buttons
+- Sticky footer keeps cart visible
+
+## Error Handling
+
+### Add Error Boundary
+```svelte
+<script>
+  let error = null;
+
+  onMount(() => {
+    try {
+      loadCart();
+    } catch (e) {
+      error = 'Failed to load cart. Please refresh the page.';
+      console.error(e);
+    }
+  });
+</script>
+
+{#if error}
+  <div class="error-banner">{error}</div>
+{/if}
+```
+
+### Fallback Content
+```svelte
+{#if error}
+  <div class="error">
+    <p>Something went wrong.</p>
+    <button on:click={() => location.reload()}>Reload Page</button>
+  </div>
+{:else if loading}
+  <div class="loading">Loading...</div>
+{:else}
+  <!-- normal content -->
+{/if}
+```
+
+## Performance Tips
+
+1. **Lazy Load Components**
+   - Use `<svelte:component>` with dynamic imports
+   - Load CartPage only when needed
+
+2. **Memoize Calculations**
+   - Cache total calculations
+   - Use derived stores for totals
+
+3. **Debounce Quantity Input**
+   - Don't save on every keystroke
+   - Use debounced save on blur
+
+4. **Image Optimization**
+   - Replace emoji icons with optimized SVG
+   - Compress any product images
+
+5. **Code Splitting**
+   - Separate product menu and cart page
+   - Load page modules only when routed
+
+## Next Steps
+
+1. **Add Checkout Page** - Implement payment processing
+2. **Add User Accounts** - Save carts per user
+3. **Add Admin Dashboard** - Manage pricing, inventory
+4. **Add Real-Time Sync** - WebSocket for live cart updates
+5. **Add Email Notifications** - Confirm orders, track shipments
+
+## Support & Questions
+
+Refer to `PRODUCTS_CART_README.md` for:
+- Full component documentation
+- Data structure details
+- Styling guide
+- Testing procedures
