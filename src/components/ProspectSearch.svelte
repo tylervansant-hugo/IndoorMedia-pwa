@@ -558,6 +558,9 @@
         <button class="store-item" on:click={() => selectStore(store)}>
           <div class="store-info">
             <h4>{store.GroceryChain}</h4>
+            {#if store.Address}
+              <p class="street-address">📍 {store.Address.split(',')[0]}</p>
+            {/if}
             <p class="address">{store.City}, {store.State}</p>
             <p class="distance">{store.distance.toFixed(1)} miles away</p>
           </div>
@@ -1031,6 +1034,7 @@
 
   .store-info h4 { margin: 0 0 6px 0; color: var(--text-primary); font-weight: 600; font-size: 16px; }
   .address { margin: 4px 0; font-size: 13px; color: var(--text-secondary); }
+  .street-address { margin: 2px 0 6px; font-size: 12px; color: #CC0000; font-weight: 600; }
   .distance { margin: 6px 0 0 0; font-size: 12px; color: #CC0000; font-weight: 600; }
   .store-right { display: flex; flex-direction: column; align-items: flex-end; gap: 6px; }
   .store-num { background: rgba(204, 0, 0, 0.1); padding: 6px 10px; border-radius: 6px; font-weight: 700; font-size: 12px; color: #CC0000; }
