@@ -21,8 +21,10 @@
       // Register service worker for PWA functionality
       if ('serviceWorker' in navigator) {
         window.addEventListener('load', () => {
-          navigator.serviceWorker.register('/sw.js').then(reg => {
+          navigator.serviceWorker.register('/sw.js?v=20260330').then(reg => {
             console.log('[App] Service Worker registered:', reg);
+            // Force update check
+            reg.update();
           }).catch(err => {
             console.error('[App] Service Worker registration failed:', err);
           });
