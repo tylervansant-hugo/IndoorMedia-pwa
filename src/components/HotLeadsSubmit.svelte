@@ -7,6 +7,7 @@
   let submitMode = 'manual'; // 'manual' or 'card'
   let formData = {
     business_name: '',
+    contact_name: '',
     category: 'Restaurant',
     phone: '',
     email: '',
@@ -14,9 +15,7 @@
     store_id: '',
     store_chain: '',
     store_city: '',
-    distance_mi: '',
-    rating: 4.5,
-    reviews: 0
+    distance_mi: ''
   };
   
   let cardImage = null;
@@ -115,19 +114,42 @@
       const { data: { text } } = await window.Tesseract.recognize(cardImagePreview, 'eng');
       ocrText = text;
       
-      // Try to extract phone, email, name
+      // Try to extract phone, email, name, address
       const phoneMatch = text.match(/\(?(\d{3})\)?[-.\s]?(\d{3})[-.\s]?(\d{4})/);
       const emailMatch = text.match(/[\w\.-]+@[\w\.-]+\.\w+/);
+      
+      // Extract contact name (usually first line or before title)
+      const lines = text.split('\n').map(l => l.trim()).filter(l => l.length > 0);
+      let contactName = '';
+      if (lines.length > 0) {
+        // First line is often the name (if not title)
+        const firstLine = lines[0];
+        if (firstLine.length < 50 && !firstLine.match(/\d{3}/) && !firstLine.includes('@')) {
+          contactName = firstLine;
+        }
+      }
+      
+      // Extract address (look for zip code pattern)
+      const addressMatch = text.match(/\d+\s+[A-Za-z\s]+(?:St|Ave|Blvd|Dr|Rd|Lane|Way|Court),?\s*[A-Za-z\s]+,?\s*[A-Z]{2}\s*\d{5}/);
+      const address = addressMatch ? addressMatch[0] : '';
       
       extractedData = {
         phone: phoneMatch ? `(${phoneMatch[1]}) ${phoneMatch[2]}-${phoneMatch[3]}` : '',
         email: emailMatch ? emailMatch[0] : '',
+        contact_name: contactName,
+        address: address,
         business_name: '', // User needs to fill this
         raw_text: text
       };
       
       if (extractedData.phone) formData.phone = extractedData.phone;
       if (extractedData.email) formData.email = extractedData.email;
+      if (extractedData.contact_name) formData.contact_name = extractedData.contact_name;
+      if (extractedData.address) {
+        formData.address = extractedData.address;
+        // Find nearest 3 stores to this address
+        findNearestStores(extractedData.address);
+      }
       
       submitMessage = '✓ Card read! Review and fill in any missing info.';
       ocrLoading = false;
@@ -135,6 +157,31 @@
       console.error('OCR error:', err);
       submitMessage = `Error reading card: ${err.message || 'Unknown error'}. Please fill in manually.`;
       ocrLoading = false;
+    }
+  }
+  
+  function findNearestStores(address) {
+    // Simple heuristic: find stores by city/state from address
+    const addressLower = address.toLowerCase();
+    const stateMatch = address.match(/[A-Z]{2}\s*\d{5}/);
+    
+    if (!stateMatch) {
+      filteredStores = [];
+      return;
+    }
+    
+    const state = stateMatch[0].substring(0, 2);
+    
+    // Find stores in same state, limit to 3
+    const nearbyStores = allStores
+      .filter(s => s.State === state)
+      .slice(0, 3);
+    
+    if (nearbyStores.length > 0) {
+      // Auto-select first nearby store as reference
+      formData.store_id = nearbyStores[0].StoreName;
+      formData.store_chain = nearbyStores[0].GroceryChain;
+      formData.store_city = nearbyStores[0].City;
     }
   }
   
@@ -179,16 +226,10 @@
         _hook: `Submitted by ${user?.name || 'rep'}`
       };
       
-      // Save to submitted_leads.json
-      const response = await fetch('/api/submit-lead', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(newLead)
-      });
-      
-      if (!response.ok) {
-        throw new Error(`API error: ${response.status}`);
-      }
+      // Save to localStorage (no backend API)
+      const leads = JSON.parse(localStorage.getItem('submitted_leads') || '[]');
+      leads.push(newLead);
+      localStorage.setItem('submitted_leads', JSON.stringify(leads));
       
       submitMessage = '✅ Lead added to Hot Leads!';
       
@@ -196,6 +237,7 @@
       setTimeout(() => {
         formData = {
           business_name: '',
+          contact_name: '',
           category: 'Restaurant',
           phone: '',
           email: '',
@@ -203,9 +245,7 @@
           store_id: '',
           store_chain: '',
           store_city: '',
-          distance_mi: '',
-          rating: 4.5,
-          reviews: 0
+          distance_mi: ''
         };
         cardImage = null;
         cardImagePreview = null;
@@ -292,6 +332,15 @@
       />
     </div>
     
+    <div class="form-group">
+      <label>Contact Name</label>
+      <input
+        type="text"
+        placeholder="e.g., John Smith"
+        bind:value={formData.contact_name}
+      />
+    </div>
+    
     <div class="form-row">
       <div class="form-group">
         <label>Category</label>
@@ -302,27 +351,7 @@
         </select>
       </div>
       
-      <div class="form-group">
-        <label>Rating (optional)</label>
-        <input
-          type="number"
-          min="0"
-          max="5"
-          step="0.1"
-          bind:value={formData.rating}
-          placeholder="4.5"
-        />
-      </div>
-      
-      <div class="form-group">
-        <label>Reviews (optional)</label>
-        <input
-          type="number"
-          min="0"
-          bind:value={formData.reviews}
-          placeholder="0"
-        />
-      </div>
+
     </div>
     
     <div class="form-row">
