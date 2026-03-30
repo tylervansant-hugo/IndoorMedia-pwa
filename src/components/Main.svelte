@@ -91,8 +91,8 @@
 
     try {
       const [contractsRes, storesRes] = await Promise.all([
-        fetch('/data/contracts.json'),
-        fetch('/data/stores.json')
+        fetch(import.meta.env.BASE_URL + 'data/contracts.json'),
+        fetch(import.meta.env.BASE_URL + 'data/stores.json')
       ]);
       const contractsData = await contractsRes.json();
       contracts = contractsData.contracts || [];
@@ -197,7 +197,7 @@
     <div class="header-top">
       <div class="header-logo-wrapper">
         <div class="logo-backdrop">
-          <img src="/logo.png?v=2" alt="IndoorMedia" class="header-logo-img" />
+          <img src="{import.meta.env.BASE_URL}logo.png?v=2" alt="IndoorMedia" class="header-logo-img" />
         </div>
         <div class="header-text">
           <h1 class="portal-title">imPro</h1>

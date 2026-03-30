@@ -23,8 +23,8 @@
   onMount(async () => {
     try {
       const [contractsRes, storesRes] = await Promise.all([
-        fetch('/data/contracts.json'),
-        fetch('/data/stores.json')
+        fetch(import.meta.env.BASE_URL + 'data/contracts.json'),
+        fetch(import.meta.env.BASE_URL + 'data/stores.json')
       ]);
       const data = await contractsRes.json();
       contracts = data.contracts || [];

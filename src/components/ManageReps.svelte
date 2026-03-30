@@ -22,7 +22,7 @@
       pending = pendingData.pending || [];
 
       // Load registry
-      const regRes = await fetch('/data/rep_registry.json');
+      const regRes = await fetch(import.meta.env.BASE_URL + 'data/rep_registry.json');
       registry = await regRes.json();
       allReps = Object.entries(registry).map(([id, rep]) => ({
         id,

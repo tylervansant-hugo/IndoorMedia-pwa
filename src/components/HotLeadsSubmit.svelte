@@ -45,7 +45,7 @@
   onMount(async () => {
     // Load stores for reference
     try {
-      const response = await fetch('/data/hot_leads.json');
+      const response = await fetch(import.meta.env.BASE_URL + 'data/hot_leads.json');
       const leads = await response.json();
       allStores = [...new Set(leads.map(l => ({
         id: l.store_id,

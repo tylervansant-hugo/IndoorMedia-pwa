@@ -270,7 +270,7 @@
 
   onMount(async () => {
     try {
-      const res = await fetch('/data/stores.json');
+      const res = await fetch(import.meta.env.BASE_URL + 'data/stores.json');
       allStores = await res.json();
     } catch (err) {
       console.error('Failed to load stores:', err);
@@ -328,7 +328,7 @@
   async function loadTestimonialData() {
     if (testimonialData) return testimonialData;
     try {
-      const res = await fetch('/data/testimonials.json');
+      const res = await fetch(import.meta.env.BASE_URL + 'data/testimonials.json');
       if (!res.ok) throw new Error('Failed to load');
       testimonialData = await res.json();
       return testimonialData;

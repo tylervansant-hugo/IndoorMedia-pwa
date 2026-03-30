@@ -20,7 +20,7 @@
   
   onMount(async () => {
     try {
-      const response = await fetch('/data/hot_leads.json');
+      const response = await fetch(import.meta.env.BASE_URL + 'data/hot_leads.json');
       let allLeads = await response.json();
       
       // Check if user is manager (Tyler)

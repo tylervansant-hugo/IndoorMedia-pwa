@@ -41,7 +41,7 @@
 
   async function loadReps() {
     try {
-      const response = await fetch('/data/rep_registry.json');
+      const response = await fetch(import.meta.env.BASE_URL + 'data/rep_registry.json');
       const data = await response.json();
 
       // Merge locally registered reps
@@ -204,7 +204,7 @@
   <div class="login-wrapper">
     <!-- Logo Section -->
     <div class="logo-section">
-      <img src="/logo.png?v=2" alt="IndoorMedia" class="logo-img" />
+      <img src="{import.meta.env.BASE_URL}logo.png?v=2" alt="IndoorMedia" class="logo-img" />
       <p class="pro-text">pro</p>
     </div>
 

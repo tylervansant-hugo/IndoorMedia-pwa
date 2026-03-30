@@ -125,8 +125,8 @@
   onMount(async () => {
     try {
       const [storesRes, leadsRes] = await Promise.all([
-        fetch('/data/stores.json'),
-        fetch('/data/hot_leads.json')
+        fetch(import.meta.env.BASE_URL + 'data/stores.json'),
+        fetch(import.meta.env.BASE_URL + 'data/hot_leads.json')
       ]);
       allStores = await storesRes.json();
       
