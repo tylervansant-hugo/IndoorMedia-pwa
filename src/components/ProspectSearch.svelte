@@ -674,6 +674,7 @@
             </div>
           {/if}
           {#if prospect._showScript}
+            <!-- CALL SCRIPTS FEATURE - LIVE AS OF MAR 30 2026 -->
             <div class="script-section">
               <h4 class="script-title">📋 Call Scripts</h4>
               <button class="script-select-btn" on:click={() => { prospect._selectedScript = 'tvs-appt'; prospects = prospects; }}>
