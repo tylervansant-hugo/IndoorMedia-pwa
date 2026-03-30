@@ -2,7 +2,7 @@
 // Version: 1.0.0
 // Handles offline caching, background sync, and push notifications
 
-const CACHE_NAME = 'indoormedia-v1';
+const CACHE_NAME = 'indoormedia-v2-20260330';
 const STATIC_ASSETS = [
   '/',
   '/index.html',
