@@ -491,7 +491,13 @@
     background: linear-gradient(135deg, #CC0000 0%, #990000 100%);
     color: white;
     padding: 0;
-    padding-top: calc(env(safe-area-inset-top, 0px));
+    margin: 0;
+    margin-left: calc(-1 * env(safe-area-inset-left));
+    margin-right: calc(-1 * env(safe-area-inset-right));
+    padding-top: calc(16px + env(safe-area-inset-top));
+    padding-left: calc(20px + env(safe-area-inset-left));
+    padding-right: calc(20px + env(safe-area-inset-right));
+    padding-bottom: 16px;
     display: flex;
     flex-direction: column;
     box-shadow: 0 8px 24px rgba(204, 0, 0, 0.2);
@@ -501,7 +507,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 16px 20px;
+    padding: 0;
     gap: 20px;
   }
 
@@ -551,7 +557,7 @@
   }
 
   .header-bottom {
-    padding: 0 20px 12px;
+    padding: 0;
     text-align: left;
   }
 
