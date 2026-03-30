@@ -26,6 +26,7 @@
   let extractedData = null;
   let submitting = false;
   let submitMessage = '';
+  let tesseractReady = false;
   
   let allStores = [];
   let filteredStores = [];
@@ -41,6 +42,25 @@
     'Chiropractor',
     'Other'
   ];
+  
+  // Load Tesseract.js
+  async function loadTesseract() {
+    if (window.Tesseract || tesseractReady) return;
+    
+    return new Promise((resolve) => {
+      const script = document.createElement('script');
+      script.src = 'https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js';
+      script.onload = () => {
+        tesseractReady = true;
+        resolve();
+      };
+      script.onerror = () => {
+        console.error('Failed to load Tesseract');
+        resolve(); // Continue anyway
+      };
+      document.head.appendChild(script);
+    });
+  }
   
   onMount(async () => {
     // Load stores for reference
@@ -58,11 +78,7 @@
     }
     
     // Load Tesseract.js for OCR
-    if (!window.Tesseract) {
-      const script = document.createElement('script');
-      script.src = 'https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js';
-      document.head.appendChild(script);
-    }
+    await loadTesseract();
   });
   
   function handleCardImageSelect(e) {
@@ -81,11 +97,22 @@
     if (!cardImage) return;
     
     ocrLoading = true;
-    submitMessage = 'Reading business card...';
+    submitMessage = 'Loading OCR...';
     
     try {
+      // Wait for Tesseract to load
+      await loadTesseract();
+      
+      if (!window.Tesseract) {
+        submitMessage = '⚠️ OCR unavailable. Please fill in info manually.';
+        ocrLoading = false;
+        return;
+      }
+      
+      submitMessage = 'Reading business card...';
+      
       // Use Tesseract.js for OCR
-      const { data: { text } } = await Tesseract.recognize(cardImagePreview, 'eng');
+      const { data: { text } } = await window.Tesseract.recognize(cardImagePreview, 'eng');
       ocrText = text;
       
       // Try to extract phone, email, name
@@ -105,7 +132,8 @@
       submitMessage = '✓ Card read! Review and fill in any missing info.';
       ocrLoading = false;
     } catch (err) {
-      submitMessage = `Error reading card: ${err.message}`;
+      console.error('OCR error:', err);
+      submitMessage = `Error reading card: ${err.message || 'Unknown error'}. Please fill in manually.`;
       ocrLoading = false;
     }
   }
