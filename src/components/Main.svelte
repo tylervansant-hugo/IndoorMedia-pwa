@@ -9,6 +9,7 @@
   import Products from './Products.svelte';
   import Clients from './Clients.svelte';
   import ManageReps from './ManageReps.svelte';
+  import HotLeadsSubmit from './HotLeadsSubmit.svelte';
 
   let currentTab = 'dashboard';
   let currentTheme = 'light';
@@ -275,6 +276,13 @@
     >
       📊 Analytics
     </button>
+    <button 
+      class="tab" 
+      class:active={currentTab === 'addlead'}
+      on:click={() => currentTab = 'addlead'}
+    >
+      ➕ Add Lead
+    </button>
     {#if $user?.role === 'manager' || $user?.role === 'admin'}
       <button 
         class="tab" 
@@ -429,6 +437,14 @@
           </div>
         {/if}
       </div>
+    {:else if currentTab === 'addlead'}
+      <HotLeadsSubmit
+        user={$user}
+        onLeadSubmitted={() => {
+          // Optional: show confirmation or navigate back to prospects
+          currentTab = 'prospects';
+        }}
+      />
     {:else if currentTab === 'manage'}
       <ManageReps />
     {/if}

@@ -499,6 +499,12 @@
         <div class="btn-text">Hot Leads</div>
         <div class="btn-desc">{hotLeads.length > 0 ? hotLeads.length + ' ready to call' : 'Coming soon'}</div>
       </button>
+
+      <button class="main-btn" on:click={() => view = 'submit-lead'}>
+        <div class="btn-icon">➕</div>
+        <div class="btn-text">Add Lead</div>
+        <div class="btn-desc">Submit a new lead</div>
+      </button>
     </div>
   {/if}
 
@@ -761,11 +767,11 @@
     </div>
   {/if}
 
-  <!-- Submit Lead (Manager only) -->
-  {#if view === 'submit-lead' && ($user?.role === 'manager' || $user?.name?.toLowerCase().includes('tyler'))}
+  <!-- Submit Lead -->
+  {#if view === 'submit-lead'}
     <div class="submit-section">
       <button class="back-btn" on:click={() => view = 'main'}>← Back</button>
-      <HotLeadsSubmit user={$user} />
+      <HotLeadsSubmit user={$user} onLeadSubmitted={() => view = 'main'} />
     </div>
   {/if}
 </div>
