@@ -18,17 +18,12 @@
     <div id="app"></div>
     <script type="module" src="/src/main.js?v=20260330"></script>
     <script>
-      // Register service worker for PWA functionality
+      // Unregister any old service workers
       if ('serviceWorker' in navigator) {
-        window.addEventListener('load', () => {
-          navigator.serviceWorker.register('/IndoorMedia-pwa/sw.js?v=20260330').then(reg => {
-            console.log('[App] Service Worker registered:', reg);
-            // Force update check
-            reg.update();
-          }).catch(err => {
-            console.error('[App] Service Worker registration failed:', err);
-          });
+        navigator.serviceWorker.getRegistrations().then(regs => {
+          regs.forEach(r => r.unregister());
         });
+        caches.keys().then(names => names.forEach(n => caches.delete(n)));
       }
     </script>
   </body>
