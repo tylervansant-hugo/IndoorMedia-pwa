@@ -250,10 +250,12 @@
     <div class="card-upload">
       <div class="upload-area">
         <input
+          id="card-file"
           type="file"
           accept="image/*"
           on:change={handleCardImageSelect}
           class="file-input"
+          capture="environment"
         />
         <label for="card-file" class="upload-label">
           📸 Upload Business Card
@@ -470,9 +472,14 @@
     transition: all 0.2s;
   }
   
-  .file-input:hover + .upload-label {
+  .file-input:hover + .upload-label,
+  .file-input:focus + .upload-label {
     border-color: #CC0000;
     background: #fff5f5;
+  }
+  
+  .upload-label:active {
+    transform: scale(0.98);
   }
   
   .preview {
