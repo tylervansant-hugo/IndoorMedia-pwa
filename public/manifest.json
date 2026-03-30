@@ -4,7 +4,7 @@
   "description": "Mobile-first PWA for IndoorMedia sales representatives",
   "start_url": "/IndoorMedia-pwa/",
   "scope": "/IndoorMedia-pwa/",
-  "display": "standalone",
+  "display": "browser",
   "orientation": "portrait-primary",
   "background_color": "#CC0000",
   "theme_color": "#CC0000",
