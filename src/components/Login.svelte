@@ -2,68 +2,181 @@
   import { createEventDispatcher } from 'svelte';
   import { error, setUser } from '../lib/stores.js';
 
-  let email = '';
+  let selectedRep = '';
+  let isLoading = true;
+  let reps = [];
+  let showRegister = false;
+  let newRep = { name: '', email: '', location: '', code: '' };
+  const INVITE_CODE = 'IMPRO';
+  let registerSuccess = '';
+  let registerError = '';
+  
+  // Password system
   let password = '';
-  let isLoading = false;
-  let loginError = '';
+  let confirmPassword = '';
+  let showSetPassword = false;
+  let passwordError = '';
 
-  async function handleLogin() {
-    if (!email || !password) {
-      loginError = 'Please enter both email and password';
-      return;
-    }
+  function getPasswords() {
+    try { return JSON.parse(localStorage.getItem('impro_passwords') || '{}'); } catch { return {}; }
+  }
 
-    if (!email.endsWith('@indoormedia.com')) {
-      loginError = 'Please use your IndoorMedia email (@indoormedia.com)';
-      return;
-    }
+  async function hashPassword(pw) {
+    const encoder = new TextEncoder();
+    const data = encoder.encode(pw + '_impro_salt_2026');
+    const hash = await crypto.subtle.digest('SHA-256', data);
+    return Array.from(new Uint8Array(hash)).map(b => b.toString(16).padStart(2, '0')).join('');
+  }
 
-    isLoading = true;
-    loginError = '';
+  function hasPassword(repId) {
+    const passwords = getPasswords();
+    return !!passwords[repId];
+  }
 
+  import { onMount } from 'svelte';
+
+  onMount(async () => {
+    await loadReps();
+  });
+
+  async function loadReps() {
     try {
-      // Authenticate with IndoorMedia system via server
-      const response = await fetch(import.meta.env.BASE_URL + 'api/authenticate', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, password })
-      });
-
-      if (!response.ok) {
-        const data = await response.json();
-        loginError = data.error || 'Login failed. Please check your credentials.';
-        isLoading = false;
-        return;
-      }
-
+      const response = await fetch(import.meta.env.BASE_URL + 'data/rep_registry.json');
       const data = await response.json();
+
+      // Merge locally registered reps
+      const localReps = JSON.parse(localStorage.getItem('local_reps') || '{}');
+      const merged = { ...data, ...localReps };
       
-      // Store user session (NOT the password)
-      setUser({
-        id: data.id || email,
-        name: data.name || email.split('@')[0],
-        email: email,
-        sessionToken: data.sessionToken,
-        role: data.role || 'rep',
-        base_location: data.base_location || 'Territory TBD'
+      reps = Object.entries(merged).map(([id, rep]) => ({
+        id: id,
+        name: rep.display_name || rep.contract_name,
+        role: rep.role || 'rep',
+        base_location: rep.base_location || 'Territory TBD'
+      }));
+      
+      reps.sort((a, b) => {
+        if (a.role === 'manager' && b.role !== 'manager') return -1;
+        if (b.role === 'manager' && a.role !== 'manager') return 1;
+        return a.name.localeCompare(b.name);
       });
-
-      // Clear password from memory
-      password = '';
-      email = '';
-      loginError = '';
-
+      
+      console.log(`Loaded ${reps.length} reps (${Object.keys(localReps).length} local)`);
     } catch (err) {
-      console.error('Login error:', err);
-      loginError = 'Connection error. Please try again.';
+      console.error('Failed to load reps:', err);
+      reps = [
+        { id: '1', name: 'Tyler Van Sant', role: 'manager', base_location: 'Ridgefield, WA' }
+      ];
+    } finally {
       isLoading = false;
     }
   }
 
-  function handleKeypress(e) {
-    if (e.key === 'Enter' && email && password) {
-      handleLogin();
+  async function handleLogin() {
+    if (!selectedRep || selectedRep === '') {
+      $error = 'Please select a representative';
+      return;
     }
+
+    const rep = reps.find(r => r.id === selectedRep);
+    if (!rep) {
+      $error = 'Representative not found';
+      return;
+    }
+
+    passwordError = '';
+    const passwords = getPasswords();
+
+    // If rep has a password set, verify it
+    if (passwords[selectedRep]) {
+      if (!password) {
+        passwordError = 'Please enter your password';
+        return;
+      }
+      const hashed = await hashPassword(password);
+      if (hashed !== passwords[selectedRep]) {
+        passwordError = 'Incorrect password';
+        return;
+      }
+
+      // Correct password - log in
+      setUser({
+        id: selectedRep,
+        name: rep.name,
+        role: rep.role,
+        base_location: rep.base_location
+      });
+      password = '';
+      selectedRep = '';
+    } else {
+      // No password set yet - show setup screen
+      showSetPassword = true;
+    }
+  }
+
+  async function handleSetPassword() {
+    if (!password || !confirmPassword) {
+      passwordError = 'Please fill in both password fields';
+      return;
+    }
+    if (password !== confirmPassword) {
+      passwordError = 'Passwords do not match';
+      return;
+    }
+    if (password.length < 4) {
+      passwordError = 'Password must be at least 4 characters';
+      return;
+    }
+
+    // Hash and store password
+    const hashed = await hashPassword(password);
+    const passwords = getPasswords();
+    passwords[selectedRep] = hashed;
+    localStorage.setItem('impro_passwords', JSON.stringify(passwords));
+
+    // Log in
+    const rep = reps.find(r => r.id === selectedRep);
+    setUser({
+      id: selectedRep,
+      name: rep.name,
+      role: rep.role,
+      base_location: rep.base_location
+    });
+
+    password = '';
+    confirmPassword = '';
+    showSetPassword = false;
+    selectedRep = '';
+  }
+
+  async function handleRegister() {
+    if (!newRep.name || !newRep.email || !newRep.code) {
+      registerError = 'Please fill in all fields';
+      return;
+    }
+    if (newRep.code !== INVITE_CODE) {
+      registerError = `Invalid invite code (try "${INVITE_CODE}")`;
+      return;
+    }
+
+    // Create new rep
+    const id = Date.now().toString();
+    const localReps = JSON.parse(localStorage.getItem('local_reps') || '{}');
+    localReps[id] = {
+      display_name: newRep.name,
+      contract_name: newRep.name,
+      email: newRep.email,
+      base_location: newRep.location || 'Territory TBD',
+      role: 'rep'
+    };
+    localStorage.setItem('local_reps', JSON.stringify(localReps));
+
+    registerSuccess = `✅ Welcome, ${newRep.name}! Please close this and log in.`;
+    newRep = { name: '', email: '', location: '', code: '' };
+    
+    // Reload reps
+    await loadReps();
+    setTimeout(() => { showRegister = false; registerSuccess = ''; }, 2000);
   }
 </script>
 
@@ -75,52 +188,149 @@
     </div>
 
     <div class="login-form">
-      <h2>IndoorMedia Login</h2>
-      <p class="subtitle">Sign in with your IndoorMedia credentials</p>
+      {#if !showRegister}
+        <h2>Welcome to imPro</h2>
+        <p class="subtitle">Select your profile to continue</p>
 
-      {#if loginError}
-        <div class="error-message">⚠️ {loginError}</div>
-      {/if}
-
-      <div class="form-group">
-        <label for="email">Email</label>
-        <input
-          id="email"
-          type="email"
-          placeholder="your.name@indoormedia.com"
-          bind:value={email}
-          on:keypress={handleKeypress}
-          disabled={isLoading}
-        />
-      </div>
-
-      <div class="form-group">
-        <label for="password">Password</label>
-        <input
-          id="password"
-          type="password"
-          placeholder="Your IndoorMedia password"
-          bind:value={password}
-          on:keypress={handleKeypress}
-          disabled={isLoading}
-        />
-      </div>
-
-      <button
-        class="login-btn"
-        on:click={handleLogin}
-        disabled={isLoading || !email || !password}
-      >
-        {#if isLoading}
-          ⏳ Authenticating...
-        {:else}
-          → Sign In
+        {#if $error}
+          <div class="error-message">⚠️ {$error}</div>
         {/if}
-      </button>
 
-      <p class="help-text">
-        Use the same email and password you use for Mappoint, Rogue, and internal systems.
-      </p>
+        {#if isLoading}
+          <p class="loading">Loading representatives...</p>
+        {:else}
+          <div class="form-group">
+            <label for="rep-select">Representative</label>
+            <select id="rep-select" bind:value={selectedRep} disabled={isLoading}>
+              <option value="">Choose your name...</option>
+              {#each reps as rep (rep.id)}
+                <option value={rep.id}>{rep.name}</option>
+              {/each}
+            </select>
+          </div>
+
+          {#if selectedRep && showSetPassword}
+            <div class="password-setup">
+              <h3>Set Your Password</h3>
+              <p class="subtitle">Create a secure password for {reps.find(r => r.id === selectedRep)?.name}</p>
+              
+              {#if passwordError}
+                <div class="error-message">{passwordError}</div>
+              {/if}
+
+              <div class="form-group">
+                <label for="new-password">Password</label>
+                <input
+                  id="new-password"
+                  type="password"
+                  placeholder="Enter a password"
+                  bind:value={password}
+                />
+              </div>
+
+              <div class="form-group">
+                <label for="confirm-password">Confirm Password</label>
+                <input
+                  id="confirm-password"
+                  type="password"
+                  placeholder="Re-enter password"
+                  bind:value={confirmPassword}
+                />
+              </div>
+
+              <button class="login-btn" on:click={handleSetPassword}>
+                Create Password & Sign In
+              </button>
+
+              <button class="cancel-btn" on:click={() => { showSetPassword = false; password = ''; confirmPassword = ''; }}>
+                Cancel
+              </button>
+            </div>
+          {:else if selectedRep && !showSetPassword}
+            <div class="form-group">
+              <label for="password">Password</label>
+              <input
+                id="password"
+                type="password"
+                placeholder="Your password"
+                bind:value={password}
+              />
+              {#if passwordError}
+                <p class="error-text">{passwordError}</p>
+              {/if}
+            </div>
+
+            <button class="login-btn" on:click={handleLogin} disabled={!password}>
+              → Sign In
+            </button>
+          {/if}
+        {/if}
+
+        <p class="or-divider">— or —</p>
+
+        <button class="register-btn" on:click={() => { showRegister = true; registerError = ''; }}>
+          + New Rep? Register Here
+        </button>
+      {:else}
+        <h2>Register New Representative</h2>
+        <p class="subtitle">Join the imPro team</p>
+
+        {#if registerSuccess}
+          <div class="success-message">{registerSuccess}</div>
+        {/if}
+
+        {#if registerError}
+          <div class="error-message">⚠️ {registerError}</div>
+        {/if}
+
+        <div class="form-group">
+          <label for="reg-name">Full Name</label>
+          <input
+            id="reg-name"
+            type="text"
+            placeholder="Your full name"
+            bind:value={newRep.name}
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="reg-email">Email</label>
+          <input
+            id="reg-email"
+            type="email"
+            placeholder="your@email.com"
+            bind:value={newRep.email}
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="reg-location">Territory/Location</label>
+          <input
+            id="reg-location"
+            type="text"
+            placeholder="e.g., Portland, OR"
+            bind:value={newRep.location}
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="reg-code">Invite Code</label>
+          <input
+            id="reg-code"
+            type="password"
+            placeholder="Enter invite code"
+            bind:value={newRep.code}
+          />
+        </div>
+
+        <button class="login-btn" on:click={handleRegister}>
+          Register
+        </button>
+
+        <button class="cancel-btn" on:click={() => { showRegister = false; registerError = ''; }}>
+          Back to Login
+        </button>
+      {/if}
     </div>
 
     <footer>
@@ -144,7 +354,6 @@
     align-items: center;
     min-height: 100vh;
     padding: 20px;
-    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
   }
 
   .login-card {
@@ -186,8 +395,14 @@
     color: #333;
   }
 
+  .login-form h3 {
+    margin: 0 0 4px;
+    font-size: 18px;
+    color: #333;
+  }
+
   .subtitle {
-    margin: 0 0 24px;
+    margin: 0 0 20px;
     color: #666;
     font-size: 14px;
   }
@@ -202,6 +417,22 @@
     font-size: 14px;
   }
 
+  .success-message {
+    background: #d4edda;
+    border: 1px solid #28a745;
+    border-radius: 8px;
+    padding: 12px;
+    margin-bottom: 20px;
+    color: #155724;
+    font-size: 14px;
+  }
+
+  .error-text {
+    color: #d32f2f;
+    font-size: 12px;
+    margin-top: 4px;
+  }
+
   .form-group {
     margin-bottom: 20px;
   }
@@ -214,7 +445,8 @@
     font-size: 14px;
   }
 
-  .form-group input {
+  .form-group input,
+  .form-group select {
     width: 100%;
     padding: 12px;
     border: 1px solid #ddd;
@@ -224,18 +456,24 @@
     transition: border-color 0.2s;
   }
 
-  .form-group input:focus {
+  .form-group input:focus,
+  .form-group select:focus {
     outline: none;
     border-color: #CC0000;
     box-shadow: 0 0 0 3px rgba(204, 0, 0, 0.1);
   }
 
-  .form-group input:disabled {
-    background: #f5f5f5;
-    cursor: not-allowed;
+  .password-setup {
+    background: #f9f9f9;
+    border-radius: 8px;
+    padding: 16px;
+    margin-bottom: 16px;
+    border: 1px solid #eee;
   }
 
-  .login-btn {
+  .login-btn,
+  .register-btn,
+  .cancel-btn {
     width: 100%;
     padding: 14px;
     background: linear-gradient(135deg, #CC0000 0%, #990000 100%);
@@ -246,14 +484,17 @@
     font-weight: 600;
     cursor: pointer;
     transition: transform 0.2s, box-shadow 0.2s;
+    margin-bottom: 12px;
   }
 
-  .login-btn:hover:not(:disabled) {
+  .login-btn:hover:not(:disabled),
+  .register-btn:hover {
     transform: translateY(-2px);
     box-shadow: 0 8px 20px rgba(204, 0, 0, 0.3);
   }
 
-  .login-btn:active:not(:disabled) {
+  .login-btn:active:not(:disabled),
+  .register-btn:active {
     transform: translateY(0);
   }
 
@@ -262,11 +503,26 @@
     cursor: not-allowed;
   }
 
-  .help-text {
-    margin: 16px 0 0;
-    font-size: 13px;
-    color: #999;
+  .cancel-btn {
+    background: #999;
+    margin-bottom: 0;
+  }
+
+  .cancel-btn:hover {
+    background: #777;
+  }
+
+  .or-divider {
     text-align: center;
+    margin: 24px 0;
+    color: #999;
+    font-size: 14px;
+  }
+
+  .loading {
+    text-align: center;
+    color: #999;
+    font-size: 14px;
   }
 
   footer {
