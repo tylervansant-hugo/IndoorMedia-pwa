@@ -11,6 +11,8 @@
   let hotLeads = [];
   let view = 'main'; // main, nearby-stores, categories, subcategories, results, saved, hot-leads, pending, submit-lead
   let selectedStore = null;
+  let loadingCustomers = false;
+  let customerLoadMessage = '';
   let selectedCategory = null;
   let selectedSubcategory = null;
   let userLocation = null;
@@ -220,6 +222,79 @@
   function selectCategory(cat) {
     selectedCategory = cat;
     view = 'subcategories';
+  }
+
+  async function loadRoogleCustomers() {
+    if (!selectedStore) return;
+    
+    loadingCustomers = true;
+    customerLoadMessage = 'Loading customers from Roogle...';
+    
+    try {
+      const response = await fetch(import.meta.env.BASE_URL + 'api/roogle-scraper', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ storeId: selectedStore.StoreName })
+      });
+      
+      if (!response.ok) {
+        throw new Error(`API error: ${response.status}`);
+      }
+      
+      const data = await response.json();
+      
+      if (!data.success) {
+        throw new Error(data.error || 'Failed to load customers');
+      }
+      
+      // Add current customers to savedProspects (Clients tab)
+      data.current?.forEach(customer => {
+        if (!savedProspects.find(p => p.name === customer.businessName)) {
+          savedProspects.push({
+            id: `${selectedStore.StoreName}-${customer.businessName}`,
+            name: customer.businessName,
+            category: customer.category || 'Active Contract',
+            status: 'active',
+            notes: `${customer.contractType} - ${customer.price}`,
+            savedAt: new Date().toISOString()
+          });
+        }
+      });
+      
+      // Add all customers to prospects (Prospects tab)
+      data.all?.forEach(customer => {
+        if (!prospects.find(p => p.name === customer.businessName)) {
+          prospects.push({
+            id: `${selectedStore.StoreName}-${customer.businessName}`,
+            name: customer.businessName,
+            address: selectedStore.City + ', ' + selectedStore.State,
+            category: customer.category || customer.status,
+            phone: '',
+            email: '',
+            website: '',
+            rating: 0,
+            reviews: 0,
+            _showNotes: false,
+            _showEmail: false,
+            _showScript: false
+          });
+        }
+      });
+      
+      savedProspects = [...savedProspects];
+      prospects = [...prospects];
+      customerLoadMessage = `✅ Loaded ${data.current?.length || 0} active + ${data.past?.length || 0} past customers!`;
+      
+      setTimeout(() => {
+        customerLoadMessage = '';
+      }, 3000);
+      
+    } catch (err) {
+      console.error('Roogle load failed:', err);
+      customerLoadMessage = `❌ Error: ${err.message}`;
+    } finally {
+      loadingCustomers = false;
+    }
   }
 
   async function searchCustom() {
@@ -582,6 +657,19 @@
     <h3>📍 {selectedStore.GroceryChain} - {selectedStore.City}, {selectedStore.State}</h3>
     <p class="subtitle">Search by name or choose a category</p>
 
+    {#if selectedStore && selectedStore.StoreName}
+      <button 
+        class="roogle-load-btn"
+        on:click={loadRoogleCustomers}
+        disabled={loadingCustomers}
+      >
+        {loadingCustomers ? '⏳ Loading...' : '🔄 Load Roogle Customers'}
+      </button>
+      {#if customerLoadMessage}
+        <p class="customer-load-msg">{customerLoadMessage}</p>
+      {/if}
+    {/if}
+
     <div class="custom-search-bar">
       <input 
         type="text" 
@@ -839,6 +927,42 @@
 
   .hot-leads-section, .pending-section, .submit-section {
     margin-top: 20px;
+  }
+
+  .roogle-load-btn {
+    background: linear-gradient(135deg, #2e7d32 0%, #1b5e20 100%);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 12px 16px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    width: 100%;
+    margin-bottom: 16px;
+    transition: all 0.2s;
+  }
+
+  .roogle-load-btn:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px #2e7d324d;
+  }
+
+  .roogle-load-btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+
+  .customer-load-msg {
+    background: #e8f5e9;
+    border: 1px solid #81c784;
+    border-radius: 6px;
+    padding: 12px;
+    margin-bottom: 16px;
+    font-size: 13px;
+    color: #2e7d32;
+    font-weight: 600;
+    text-align: center;
   }
 
   .hot-leads-grid {
