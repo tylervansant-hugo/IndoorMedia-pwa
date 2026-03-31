@@ -16,6 +16,7 @@
   let roiVisitsPerYear = 12;
   let roiCouponDiscount = 0;
   let roiTotalRedemptions = 0;
+  let roiCOGS = 0;
 
   function showROI(totalPrice, store) {
     roiStore = store.StoreName;
@@ -25,6 +26,7 @@
     roiVisitsPerYear = 12;
     roiCouponDiscount = 0;
     roiTotalRedemptions = 0;
+    roiCOGS = 0;
   }
 
   async function loadStores() {
@@ -398,10 +400,18 @@
                       <input type="number" bind:value={roiTotalRedemptions} placeholder="0" />
                     </div>
 
+                    <div class="roi-field">
+                      <label>Cost of Goods Sold (%)</label>
+                      <input type="number" bind:value={roiCOGS} placeholder="0" min="0" max="100" />
+                    </div>
+
                     {#if roiAvgSpend && roiNewCustomers}
-                      {@const annualRevenue = roiAvgSpend * roiNewCustomers * 12 * (roiVisitsPerYear || 1)}
+                      {@const grossRevenue = roiAvgSpend * roiNewCustomers * 12 * (roiVisitsPerYear || 1)}
+                      {@const cogsAmount = grossRevenue * ((roiCOGS || 0) / 100)}
+                      {@const annualRevenue = grossRevenue - cogsAmount}
                       {@const couponRevenue = roiTotalRedemptions ? (roiAvgSpend - (roiCouponDiscount || 0)) * roiTotalRedemptions : 0}
-                      {@const totalRevenue = annualRevenue + couponRevenue}
+                      {@const couponCOGS = couponRevenue * ((roiCOGS || 0) / 100)}
+                      {@const totalRevenue = annualRevenue + couponRevenue - couponCOGS}
                       {@const couponCost = (roiCouponDiscount || 0) * (roiTotalRedemptions || 0)}
                       {@const investment = parseFloat(roiInvestment.replace(/,/g, ''))}
                       {@const netRevenue = totalRevenue - couponCost}
@@ -414,9 +424,19 @@
                           <span class="roi-value green">${monthlyRevenue.toLocaleString()}/mo</span>
                         </div>
                         <div class="roi-result-card">
-                          <span class="roi-label">Annual Revenue from New Customers</span>
-                          <span class="roi-value green">${annualRevenue.toLocaleString()}/yr</span>
+                          <span class="roi-label">Gross Annual Revenue</span>
+                          <span class="roi-value green">${grossRevenue.toLocaleString()}/yr</span>
                         </div>
+                        {#if roiCOGS > 0}
+                          <div class="roi-result-card">
+                            <span class="roi-label">Cost of Goods Sold ({roiCOGS}%)</span>
+                            <span class="roi-value" style="color: #c33;">-${cogsAmount.toLocaleString()}</span>
+                          </div>
+                          <div class="roi-result-card">
+                            <span class="roi-label">Net Annual Revenue</span>
+                            <span class="roi-value green">${annualRevenue.toLocaleString()}/yr</span>
+                          </div>
+                        {/if}
                         {#if roiTotalRedemptions > 0}
                           <div class="roi-result-card">
                             <span class="roi-label">Coupon Redemption Revenue</span>
