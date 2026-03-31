@@ -391,12 +391,12 @@
                     </div>
 
                     <div class="roi-field">
-                      <label>Coupon Discount Amount ($)</label>
+                      <label>Avg Discount per Coupon ($)</label>
                       <input type="number" bind:value={roiCouponDiscount} placeholder="0" />
                     </div>
 
                     <div class="roi-field">
-                      <label>Total Coupon Redemptions</label>
+                      <label>Monthly Coupon Redemptions</label>
                       <input type="number" bind:value={roiTotalRedemptions} placeholder="0" />
                     </div>
 
@@ -409,10 +409,11 @@
                       {@const grossRevenue = roiAvgSpend * roiNewCustomers * 12 * (roiVisitsPerYear || 1)}
                       {@const cogsAmount = grossRevenue * ((roiCOGS || 0) / 100)}
                       {@const annualRevenue = grossRevenue - cogsAmount}
-                      {@const couponRevenue = roiTotalRedemptions ? (roiAvgSpend - (roiCouponDiscount || 0)) * roiTotalRedemptions : 0}
+                      {@const annualRedemptions = (roiTotalRedemptions || 0) * 12}
+                      {@const couponRevenue = annualRedemptions ? (roiAvgSpend - (roiCouponDiscount || 0)) * annualRedemptions : 0}
                       {@const couponCOGS = couponRevenue * ((roiCOGS || 0) / 100)}
                       {@const totalRevenue = annualRevenue + couponRevenue - couponCOGS}
-                      {@const couponCost = (roiCouponDiscount || 0) * (roiTotalRedemptions || 0)}
+                      {@const couponCost = (roiCouponDiscount || 0) * annualRedemptions}
                       {@const investment = parseFloat(roiInvestment.replace(/,/g, ''))}
                       {@const netRevenue = totalRevenue - couponCost}
                       {@const roiPercent = ((netRevenue - investment) / investment * 100).toFixed(0)}
@@ -438,6 +439,10 @@
                           </div>
                         {/if}
                         {#if roiTotalRedemptions > 0}
+                          <div class="roi-result-card">
+                            <span class="roi-label">Annual Redemptions ({roiTotalRedemptions}/mo × 12)</span>
+                            <span class="roi-value">{annualRedemptions.toLocaleString()}</span>
+                          </div>
                           <div class="roi-result-card">
                             <span class="roi-label">Coupon Redemption Revenue</span>
                             <span class="roi-value green">${couponRevenue.toLocaleString()}</span>
