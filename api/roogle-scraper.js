@@ -53,7 +53,7 @@ export default async function handler(req, res) {
     await page.waitForNavigation({ waitUntil: 'networkidle2' });
 
     // Navigate to Roogle search page
-    await page.goto('https://sales.indoormedia.com/', { waitUntil: 'networkidle2' });
+    await page.goto('https://skynet.indoormedia.com/', { waitUntil: 'networkidle2' });
     
     // Find and fill the Store field in Roogle search form
     const storeInputs = await page.$$('input');
