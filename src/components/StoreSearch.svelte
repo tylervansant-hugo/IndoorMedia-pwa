@@ -7,6 +7,7 @@
   let filtered = [];
   let useGeolocation = false;
   let userLocation = null;
+  let storeCycleFilter = 'all';
 
   // ROI Calculator state
   let roiStore = null;
@@ -227,6 +228,13 @@
     {/if}
   </div>
 
+  <div class="cycle-filter">
+    <button class="cycle-btn" class:active={storeCycleFilter === 'all'} on:click={() => storeCycleFilter = 'all'}>All</button>
+    <button class="cycle-btn" class:active={storeCycleFilter === 'A'} on:click={() => storeCycleFilter = 'A'}>Cycle A</button>
+    <button class="cycle-btn" class:active={storeCycleFilter === 'B'} on:click={() => storeCycleFilter = 'B'}>Cycle B</button>
+    <button class="cycle-btn" class:active={storeCycleFilter === 'C'} on:click={() => storeCycleFilter = 'C'}>Cycle C</button>
+  </div>
+
   {#if $error}
     <div class="error-box">{$error}</div>
   {/if}
@@ -245,7 +253,7 @@
       <p class="hint">Start typing to search for stores</p>
     {:else}
       <div class="store-grid">
-        {#each filtered as store (store.StoreName)}
+        {#each filtered.filter(s => storeCycleFilter === 'all' || s.Cycle === storeCycleFilter) as store (store.StoreName)}
           {@const currentAdType = adType[store.StoreName] || 'single'}
           {@const basePrice = currentAdType === 'double' ? store.DoubleAd : store.SingleAd}
           {@const isCoop = coopUnlocked[store.StoreName] || false}
@@ -1017,6 +1025,36 @@
 
   .roi-close-btn:hover {
     background: #777;
+  }
+
+  .cycle-filter {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 16px;
+  }
+
+  .cycle-btn {
+    flex: 1;
+    padding: 10px;
+    border: 2px solid #ddd;
+    border-radius: 8px;
+    background: white;
+    font-size: 13px;
+    font-weight: 600;
+    color: #666;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .cycle-btn.active {
+    background: #CC0000;
+    color: white;
+    border-color: #CC0000;
+  }
+
+  .cycle-btn:hover:not(.active) {
+    border-color: #CC0000;
+    color: #CC0000;
   }
 
   .cart-toast {

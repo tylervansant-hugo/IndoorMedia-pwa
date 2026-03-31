@@ -10,6 +10,7 @@
   let savedProspects = [];
   let hotLeads = [];
   let view = 'main'; // main, nearby-stores, categories, subcategories, results, saved, hot-leads, pending, submit-lead
+  let selectedCycle = 'all'; // all, A, B, C
   let selectedStore = null;
   let loadingCustomers = false;
   let customerLoadMessage = '';
@@ -804,8 +805,15 @@
     <h2>📍 Nearby Stores</h2>
     <p class="subtitle">Select a store to find prospects nearby</p>
 
+    <div class="cycle-filter">
+      <button class="cycle-btn" class:active={selectedCycle === 'all'} on:click={() => selectedCycle = 'all'}>All</button>
+      <button class="cycle-btn" class:active={selectedCycle === 'A'} on:click={() => selectedCycle = 'A'}>Cycle A</button>
+      <button class="cycle-btn" class:active={selectedCycle === 'B'} on:click={() => selectedCycle = 'B'}>Cycle B</button>
+      <button class="cycle-btn" class:active={selectedCycle === 'C'} on:click={() => selectedCycle = 'C'}>Cycle C</button>
+    </div>
+
     <div class="store-list">
-      {#each nearbyStores as store (store.StoreName)}
+      {#each nearbyStores.filter(s => selectedCycle === 'all' || s.Cycle === selectedCycle) as store (store.StoreName)}
         <button class="store-item" on:click={() => selectStore(store)}>
           <div class="store-info">
             <h4>{store.GroceryChain}</h4>
@@ -1507,6 +1515,36 @@
     font-size: 13px;
     text-align: center;
     padding: 12px;
+  }
+
+  .cycle-filter {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 16px;
+  }
+
+  .cycle-btn {
+    flex: 1;
+    padding: 10px;
+    border: 2px solid #ddd;
+    border-radius: 8px;
+    background: white;
+    font-size: 13px;
+    font-weight: 600;
+    color: #666;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .cycle-btn.active {
+    background: #CC0000;
+    color: white;
+    border-color: #CC0000;
+  }
+
+  .cycle-btn:hover:not(.active) {
+    border-color: #CC0000;
+    color: #CC0000;
   }
 
   .hot-leads-grid {
