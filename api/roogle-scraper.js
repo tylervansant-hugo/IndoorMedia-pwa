@@ -21,15 +21,24 @@ export default async function handler(req, res) {
   }
 
   // Note: In production with local server, real credentials are used
-  // For now, this returns mock data for demo purposes
+  // For now, this returns mock data per store for demo purposes
 
   try {
-    // For now, return mock data
-    // This is a placeholder until we can properly set up browser automation
-    const mockData = {
+    // Get mock data based on store ID
+    let mockData = {
       success: true,
       source: 'Mock Data (Demo)',
       storeId,
+      current: [],
+      past: []
+    };
+
+    // QFC Belfair
+    if (storeId === 'QFC07X-0101') {
+      mockData = {
+        success: true,
+        source: 'Mock Data (Demo)',
+        storeId,
       current: [
         {
           businessName: "Christeen's Cabin",
@@ -104,7 +113,86 @@ export default async function handler(req, res) {
           totalSpent: 1908
         }
       ]
-    };
+      };
+    }
+    
+    // Fred Meyer Tumwater (Trosper Road)
+    if (storeId === 'FME07Z-0659') {
+      mockData = {
+        success: true,
+        source: 'Mock Data (Demo)',
+        storeId,
+        current: [
+          {
+            businessName: "Starbucks",
+            status: "Active",
+            contractType: "Internet",
+            price: "$249/month",
+            category: "Coffee Shop",
+            startDate: "2024-01-15",
+            endDate: null,
+            totalSpent: 2490
+          },
+          {
+            businessName: "Planet Fitness",
+            status: "Active",
+            contractType: "Internet",
+            price: "$199/month",
+            category: "Gym",
+            startDate: "2023-08-20",
+            endDate: null,
+            totalSpent: 3980
+          }
+        ],
+        past: [
+          {
+            businessName: "Subway",
+            status: "Terminated",
+            contractType: "Internet",
+            price: "$149/month",
+            category: "Restaurant",
+            startDate: "2021-06-10",
+            endDate: "2023-03-31",
+            totalSpent: 3134
+          },
+          {
+            businessName: "Verizon Wireless",
+            status: "Terminated",
+            contractType: "Internet",
+            price: "$179/month",
+            category: "Retail",
+            startDate: "2022-02-01",
+            endDate: "2024-01-15",
+            totalSpent: 3946
+          },
+          {
+            businessName: "Anytime Fitness",
+            status: "Terminated",
+            contractType: "Internet",
+            price: "$159/month",
+            category: "Gym",
+            startDate: "2022-11-05",
+            endDate: "2023-09-30",
+            totalSpent: 1908
+          },
+          {
+            businessName: "Chipotle Mexican Grill",
+            status: "Terminated",
+            contractType: "Internet",
+            price: "$189/month",
+            category: "Restaurant",
+            startDate: "2023-04-12",
+            endDate: "2024-05-20",
+            totalSpent: 1701
+          }
+        ]
+      };
+    }
+
+    // Default: Return current data
+    if (!mockData.current.length && !mockData.past.length) {
+      mockData.current = [{ businessName: "No data available", status: "N/A", contractType: "N/A", price: "N/A", category: "N/A", startDate: "N/A", endDate: null, totalSpent: 0 }];
+    }
 
     mockData.all = [...mockData.current, ...mockData.past];
 
