@@ -26,7 +26,8 @@
   "dependencies": {
     "pdf-lib": "^1.17.1",
     "pdfjs-dist": "^5.5.207",
-    "playwright": "^1.40.0"
+    "puppeteer-extra": "^3.3.6",
+    "puppeteer-extra-plugin-stealth": "^2.11.2"
   },
   "devDependencies": {
     "@sveltejs/vite-plugin-svelte": "^7.0.0",
