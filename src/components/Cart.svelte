@@ -30,6 +30,8 @@
   }
 
   const PRODUCT_TYPES = [
+    { id: 'tape_single', name: 'Register Tape — Single Ad', emoji: '🧾', needsStore: true, adSize: 'single' },
+    { id: 'tape_double', name: 'Register Tape — Double Ad', emoji: '🧾', needsStore: true, adSize: 'double' },
     { id: 'tape_coop', name: 'Register Tape — Co-Op', emoji: '🧾', needsStore: true },
     { id: 'tape_exclusive', name: 'Register Tape — Exclusive', emoji: '🧾', needsStore: true },
     { id: 'tape_contractor', name: 'Register Tape — Contractors', emoji: '🧾', needsStore: true },
@@ -48,6 +50,18 @@
   ];
 
   const PAYMENT_PLANS = {
+    tape_single: [
+      { id: 'monthly', name: 'Monthly (12 payments)', calc: (base) => ((base + 125) / 12).toFixed(2) + '/mo × 12 = $' + (base + 125).toFixed(2) },
+      { id: '3month', name: '3-Month (10% off)', calc: (base) => (((base * 0.90) + 125) / 3).toFixed(2) + '/payment × 3 = $' + ((base * 0.90) + 125).toFixed(2) },
+      { id: '6month', name: '6-Month (7.5% off)', calc: (base) => (((base * 0.925) + 125) / 6).toFixed(2) + '/payment × 6 = $' + ((base * 0.925) + 125).toFixed(2) },
+      { id: 'pif', name: 'Paid-in-Full (15% off)', calc: (base) => '$' + ((base * 0.85) + 125).toFixed(2) },
+    ],
+    tape_double: [
+      { id: 'monthly', name: 'Monthly (12 payments)', calc: (base) => ((base + 125) / 12).toFixed(2) + '/mo × 12 = $' + (base + 125).toFixed(2) },
+      { id: '3month', name: '3-Month (10% off)', calc: (base) => (((base * 0.90) + 125) / 3).toFixed(2) + '/payment × 3 = $' + ((base * 0.90) + 125).toFixed(2) },
+      { id: '6month', name: '6-Month (7.5% off)', calc: (base) => (((base * 0.925) + 125) / 6).toFixed(2) + '/payment × 6 = $' + ((base * 0.925) + 125).toFixed(2) },
+      { id: 'pif', name: 'Paid-in-Full (15% off)', calc: (base) => '$' + ((base * 0.85) + 125).toFixed(2) },
+    ],
     tape_coop: [
       { id: 'monthly', name: 'Monthly (12 payments)', calc: (base) => ((base + 125) / 12).toFixed(2) + '/mo × 12 = $' + (base + 125).toFixed(2) },
       { id: '3month', name: '3-Month (10% off)', calc: (base) => (((base * 0.90) + 125) / 3).toFixed(2) + '/payment × 3 = $' + ((base * 0.90) + 125).toFixed(2) },
@@ -164,9 +178,12 @@
   }
 
   function selectPlan(plan) {
-    const base = cartAdType === 'double' && newItem.store?.DoubleAd ? newItem.store.DoubleAd : (newItem.store?.SingleAd || 0);
+    // Determine base price: use product adSize if set, otherwise use cart toggle
+    const productType = PRODUCT_TYPES.find(t => t.id === newItem.type);
+    let adSel = productType?.adSize || cartAdType;
+    const base = adSel === 'double' && newItem.store?.DoubleAd ? newItem.store.DoubleAd : (newItem.store?.SingleAd || 0);
     newItem.plan = plan.name;
-    newItem.adType = cartAdType === 'double' ? 'Double Ad' : 'Single Ad';
+    newItem.adType = adSel === 'double' ? 'Double Ad' : 'Single Ad';
     newItem.planCalc = plan.calc(base);
     newItem.priceText = plan.calc(base);
     addStep = 'confirm';
@@ -290,7 +307,9 @@
           </div>
         {/if}
 
-        {@const basePrice = cartAdType === 'double' && newItem.store?.DoubleAd ? newItem.store.DoubleAd : (newItem.store?.SingleAd || 0)}
+        {@const productType = PRODUCT_TYPES.find(t => t.id === newItem.type)}
+        {@const adSel = productType?.adSize || cartAdType}
+        {@const basePrice = adSel === 'double' && newItem.store?.DoubleAd ? newItem.store.DoubleAd : (newItem.store?.SingleAd || 0)}
         <div class="plan-list">
           {#each PAYMENT_PLANS[newItem.type] || [] as plan}
             <button class="plan-btn" on:click={() => selectPlan(plan)}>
