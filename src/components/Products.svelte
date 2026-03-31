@@ -4,6 +4,23 @@
   let selectedTier = null;
   let selectedDigitalProduct = null;
 
+  // Product links synced from ProspectBot
+  const PRODUCT_LINKS = {
+    register_tape: {
+      presentation: 'https://docs.google.com/presentation/d/1Xs60nX3i6MJkC81GgnK-50jBrkWVPu06xRpmv8z4PIc/edit?usp=sharing',
+      explainer: 'https://youtu.be/_gdlyEszHfY?si=0_kHou89WrMhvNY_'
+    },
+    cartvertising: {
+      presentation: 'https://docs.google.com/presentation/d/1xwIF4CaTp07AKunGaJysCSIGqN7VCdbL4fgOH3XEpl4/edit?usp=sharing',
+      explainer: 'https://www.youtube.com/watch?v=PduxHWy8sMc'
+    },
+    digital: {
+      presentation: 'https://docs.google.com/presentation/d/1xwIF4CaTp07AKunGaJysCSIGqN7VCdbL4fgOH3XEpl4/edit?usp=sharing',
+      explainer: 'https://www.youtube.com/watch?v=PduxHWy8sMc',
+      connectionHub: 'https://drive.google.com/file/d/199IkMptOlSYviHScKNKUlqELQOhWFxnB/view?usp=sharing'
+    }
+  };
+
   function addToCart(name, price, details) {
     let cart = [];
     try { cart = JSON.parse(localStorage.getItem('indoormedia_cart') || '[]'); } catch {}
@@ -206,6 +223,15 @@
     <h2>🧾 Register Tape</h2>
     <p class="detail-subtitle">High-visibility promotional strips at checkout</p>
 
+    <div class="links-section">
+      <a href={PRODUCT_LINKS.register_tape.presentation} target="_blank" class="link-btn">
+        🎬 Sales Presentation
+      </a>
+      <a href={PRODUCT_LINKS.register_tape.explainer} target="_blank" class="link-btn">
+        📹 Explainer Video
+      </a>
+    </div>
+
     <div class="tiers-list">
       {#each Object.entries(PRODUCTS.register_tape.tiers) as [tierKey, tier]}
         <button class="tier-card" on:click={() => selectTier(tierKey)}>
@@ -252,6 +278,15 @@
     <h2>🛒 Cartvertising</h2>
     <p class="detail-subtitle">Shopping cart advertising - 6-month campaigns</p>
 
+    <div class="links-section">
+      <a href={PRODUCT_LINKS.cartvertising.presentation} target="_blank" class="link-btn">
+        🎬 Sales Presentation
+      </a>
+      <a href={PRODUCT_LINKS.cartvertising.explainer} target="_blank" class="link-btn">
+        📹 Explainer Video
+      </a>
+    </div>
+
     <div class="packages-list">
       {#each Object.entries(PRODUCTS.cartvertising.packages) as [key, pkg]}
         <div class="package-card">
@@ -270,6 +305,18 @@
     <button class="back-btn" on:click={goBack}>← Back</button>
     <h2>📱 Digital Products</h2>
     <p class="detail-subtitle">Online advertising & customer engagement solutions</p>
+
+    <div class="links-section">
+      <a href={PRODUCT_LINKS.digital.presentation} target="_blank" class="link-btn">
+        🎬 Sales Presentation
+      </a>
+      <a href={PRODUCT_LINKS.digital.explainer} target="_blank" class="link-btn">
+        📹 Explainer Video
+      </a>
+      <a href={PRODUCT_LINKS.digital.connectionHub} target="_blank" class="link-btn">
+        🔗 Connection Hub
+      </a>
+    </div>
 
     <div class="digital-grid">
       {#each Object.entries(PRODUCTS.digital.subproducts) as [key, product]}
@@ -709,6 +756,34 @@
 
   .action-btn:hover {
     background: #990000;
+  }
+
+  .links-section {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+  }
+
+  .link-btn {
+    flex: 1;
+    min-width: 150px;
+    background: #f0f0f0;
+    color: #CC0000;
+    text-decoration: none;
+    border: 2px solid #CC0000;
+    border-radius: 8px;
+    padding: 10px 12px;
+    font-size: 14px;
+    font-weight: 600;
+    text-align: center;
+    transition: all 0.2s;
+    cursor: pointer;
+  }
+
+  .link-btn:hover {
+    background: #CC0000;
+    color: white;
   }
 
   .digital-grid {
