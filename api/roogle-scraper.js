@@ -84,28 +84,36 @@ export default async function handler(req, res) {
       await page.waitForLoadState('networkidle2');
       
       // Click on the store result (first store in matches)
-      const storeLink = await page.$(`a:has-text("${storeId}")`);
-      if (storeLink) {
-        await storeLink.click();
-        await page.waitForLoadState('networkidle2');
+      const storeLinks = await page.$$('a');
+      for (const link of storeLinks) {
+        const text = await link.evaluate(el => el.textContent);
+        if (text && text.includes(storeId)) {
+          await link.click();
+          await page.waitForLoadState('networkidle2');
+          break;
+        }
       }
       
       // Click on Tape Info tab
-      const tabs = await page.$$('a, button');
-      for (const tab of tabs) {
-        const text = await tab.evaluate(el => el.textContent);
-        if (text && text.includes('Tape Info')) {
-          await tab.click();
+      const allElements = await page.$$('a, button');
+      for (const elem of allElements) {
+        const text = await elem.evaluate(el => el.textContent?.trim());
+        if (text === 'Tape Info' || text?.includes('Tape Info')) {
+          await elem.click();
           await page.waitForLoadState('networkidle2');
           break;
         }
       }
       
       // Click on Tape Contracts button
-      const contractsBtn = await page.$('button:has-text("Tape Contracts")');
-      if (contractsBtn) {
-        await contractsBtn.click();
-        await page.waitForLoadState('networkidle2');
+      const allButtons = await page.$$('button');
+      for (const btn of allButtons) {
+        const btnText = await btn.evaluate(el => el.textContent?.trim());
+        if (btnText === 'Tape Contracts' || btnText?.includes('Tape Contracts')) {
+          await btn.click();
+          await page.waitForLoadState('networkidle2');
+          break;
+        }
       }
     }
 
