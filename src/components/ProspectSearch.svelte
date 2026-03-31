@@ -1003,6 +1003,9 @@
               <button class="script-select-btn" on:click={() => { prospect._selectedScript = 'tvs-appt'; prospects = prospects; }}>
                 📞 TVS Appointment Setting
               </button>
+              <button class="script-select-btn" on:click={() => { prospect._selectedScript = 'tvs-spanish'; prospects = prospects; }}>
+                📞 Spanish Appointment Setting
+              </button>
               {#if prospect._selectedScript === 'tvs-appt'}
                 <div class="script-preview-box">
                   <p class="script-text">Hey there, I was hoping you could point me in the right direction on something…?</p>
@@ -1011,6 +1014,19 @@
                   <p class="script-text">We already work with a ton of <strong>{selectedSubcategory || selectedCategory || '[Business Type]'}s</strong> with huge success in driving customers, and I was curious, <em>who should I talk to about doing the same for you?</em></p>
                   <button class="action-btn full-width" on:click={() => {
                     const script = `Hey there, I was hoping you could point me in the right direction on something…?\n\nMy name is ${$user?.name || $user?.first_name || '[Your Name]'} and I was calling because I'm working with the ${selectedStore?.GroceryChain || '[Store Chain]'} over on ${selectedStore?.Address?.split(',')[0] || '[Street Name]'} and was getting in touch because we are kicking off a huge promotion and support of local business.\n\nWe are going to be featuring and recommending just a few great local businesses, and right now I am looking to recommend just one ${selectedSubcategory || selectedCategory || '[Business Type]'} to all of their shoppers.\n\nWe already work with a ton of ${selectedSubcategory || selectedCategory || '[Business Type]'}s with huge success in driving customers, and I was curious, who should I talk to about doing the same for you?`;
+                    navigator.clipboard.writeText(script);
+                    alert('✅ Script copied!');
+                  }}>📋 Copy Script</button>
+                </div>
+              {/if}
+              {#if prospect._selectedScript === 'tvs-spanish'}
+                <div class="script-preview-box">
+                  <p class="script-text">Hola, ¿podría orientarme un poco con algo?</p>
+                  <p class="script-text">Me llamo <strong>{$user?.name || $user?.first_name || '[Su nombre]'}</strong> y le llamaba porque estoy trabajando con la cadena <strong>{selectedStore?.GroceryChain || '[Nombre de la cadena]'}</strong> —ubicada en <strong>{selectedStore?.Address?.split(',')[0] || '[Dirección]'}</strong>—; me ponía en contacto con usted porque estamos poniendo en marcha una gran promoción para apoyar a los negocios locales.</p>
+                  <p class="script-text">Vamos a destacar y recomendar a un grupo selecto de excelentes negocios de la zona y, en este momento, busco recomendar a un único negocio del sector <strong>{selectedSubcategory || selectedCategory || '[Tipo de negocio]'}</strong> a todos sus clientes.</p>
+                  <p class="script-text">Ya trabajamos con una gran cantidad de negocios de la categoría <strong>{selectedSubcategory || selectedCategory || '[Tipo de negocio]'}</strong>, logrando un enorme éxito a la hora de atraerles clientes; por ello, me preguntaba: <em>¿con quién debería hablar para hacer lo mismo por ustedes?</em></p>
+                  <button class="action-btn full-width" on:click={() => {
+                    const script = `Hola, ¿podría orientarme un poco con algo?\n\nMe llamo ${$user?.name || $user?.first_name || '[Su nombre]'} y le llamaba porque estoy trabajando con la cadena ${selectedStore?.GroceryChain || '[Nombre de la cadena]'} —ubicada en ${selectedStore?.Address?.split(',')[0] || '[Dirección]'}—; me ponía en contacto con usted porque estamos poniendo en marcha una gran promoción para apoyar a los negocios locales.\n\nVamos a destacar y recomendar a un grupo selecto de excelentes negocios de la zona y, en este momento, busco recomendar a un único negocio del sector ${selectedSubcategory || selectedCategory || '[Tipo de negocio]'} a todos sus clientes.\n\nYa trabajamos con una gran cantidad de negocios de la categoría ${selectedSubcategory || selectedCategory || '[Tipo de negocio]'}, logrando un enorme éxito a la hora de atraerles clientes; por ello, me preguntaba: ¿con quién debería hablar para hacer lo mismo por ustedes?`;
                     navigator.clipboard.writeText(script);
                     alert('✅ Script copied!');
                   }}>📋 Copy Script</button>
