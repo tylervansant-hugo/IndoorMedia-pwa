@@ -14,8 +14,9 @@ export default async function handler(req, res) {
     return res.status(400).json({ error: 'storeId required' });
   }
 
-  const email = process.env.ROOGLE_EMAIL;
-  const password = process.env.ROOGLE_PASSWORD;
+  // Decode URL-encoded credentials
+  const email = decodeURIComponent(process.env.ROOGLE_EMAIL || '');
+  const password = decodeURIComponent(process.env.ROOGLE_PASSWORD || '');
   
   if (!email || !password) {
     return res.status(500).json({ error: 'Roogle credentials not configured' });
