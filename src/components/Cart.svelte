@@ -7,6 +7,7 @@
   let addStep = 'type'; // type, store, plan, confirm
   let newItem = { type: '', store: null, plan: '', pins: 1, price: '' };
   let storeSearch = '';
+  let cartAdType = 'single'; // single or double
 
   // Zone 07 cycle launch dates (7th of each month)
   const CYCLE_MONTHS = { 'A': [0,3,6,9], 'B': [1,4,7,10], 'C': [2,5,8,11] };
@@ -163,10 +164,11 @@
   }
 
   function selectPlan(plan) {
-    const base = newItem.store?.SingleAd || 0;
+    const base = cartAdType === 'double' && newItem.store?.DoubleAd ? newItem.store.DoubleAd : (newItem.store?.SingleAd || 0);
     newItem.plan = plan.name;
+    newItem.adType = cartAdType === 'double' ? 'Double Ad' : 'Single Ad';
     newItem.planCalc = plan.calc(base);
-    newItem.priceText = plan.calc(base); // Display version
+    newItem.priceText = plan.calc(base);
     addStep = 'confirm';
   }
 
@@ -276,15 +278,28 @@
       {#if addStep === 'plan'}
         <h3>Payment Plan</h3>
         <p class="plan-store">{newItem.storeName} ({newItem.storeNum})</p>
+        
+        {#if newItem.store?.DoubleAd}
+          <div class="ad-type-toggle">
+            <button class="ad-toggle-btn" class:active={cartAdType === 'single'} on:click={() => cartAdType = 'single'}>
+              Single Ad — ${newItem.store.SingleAd?.toLocaleString()}
+            </button>
+            <button class="ad-toggle-btn" class:active={cartAdType === 'double'} on:click={() => cartAdType = 'double'}>
+              Double Ad — ${newItem.store.DoubleAd?.toLocaleString()}
+            </button>
+          </div>
+        {/if}
+
+        {@const basePrice = cartAdType === 'double' && newItem.store?.DoubleAd ? newItem.store.DoubleAd : (newItem.store?.SingleAd || 0)}
         <div class="plan-list">
           {#each PAYMENT_PLANS[newItem.type] || [] as plan}
             <button class="plan-btn" on:click={() => selectPlan(plan)}>
               <span class="plan-name">{plan.name}</span>
-              <span class="plan-price">{plan.calc(newItem.store?.SingleAd || 0)}</span>
+              <span class="plan-price">{plan.calc(basePrice)}</span>
             </button>
           {/each}
         </div>
-        <button class="cancel-btn" on:click={() => { addStep = 'store'; }}>Back</button>
+        <button class="cancel-btn" on:click={() => { addStep = 'store'; cartAdType = 'single'; }}>Back</button>
       {/if}
 
       {#if addStep === 'confirm'}
@@ -393,6 +408,10 @@
 
   .plan-store { margin: 0 0 12px; font-size: 13px; color: #666; }
   .plan-list { display: flex; flex-direction: column; gap: 8px; }
+  .ad-type-toggle { display: flex; gap: 8px; margin-bottom: 12px; }
+  .ad-toggle-btn { flex: 1; padding: 10px; border: 2px solid #ddd; border-radius: 8px; background: white; font-size: 13px; font-weight: 600; color: #666; cursor: pointer; transition: all 0.2s; }
+  .ad-toggle-btn.active { background: #CC0000; color: white; border-color: #CC0000; }
+  .ad-toggle-btn:hover:not(.active) { border-color: #CC0000; color: #CC0000; }
   .plan-btn { display: flex; flex-direction: column; padding: 12px; background: white; border: 1px solid #e0e0e0; border-radius: 8px; cursor: pointer; text-align: left; }
   .plan-btn:hover { border-color: #CC0000; }
   .plan-name { font-weight: 600; font-size: 14px; color: #333; }
