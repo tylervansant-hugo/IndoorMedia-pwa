@@ -52,10 +52,37 @@ export default async function handler(req, res) {
     // Wait for navigation after login
     await page.waitForNavigation({ waitUntil: 'networkidle2' });
 
-    // Navigate to store contracts
-    await page.goto(`https://sales.indoormedia.com/store/ContractActivityTape?id=${storeId}`, { 
-      waitUntil: 'networkidle2' 
-    });
+    // Navigate to Roogle search page
+    await page.goto('https://sales.indoormedia.com/', { waitUntil: 'networkidle2' });
+    
+    // Find and fill the Store field in Roogle search form
+    const storeInputs = await page.$$('input');
+    let storeField = null;
+    
+    for (const input of storeInputs) {
+      const placeholder = await input.evaluate(el => el.placeholder);
+      if (placeholder && placeholder.toLowerCase().includes('store')) {
+        storeField = input;
+        break;
+      }
+    }
+    
+    if (storeField) {
+      await storeField.fill(storeId);
+      
+      // Click Search Entities button
+      const buttons = await page.$$('button');
+      for (const btn of buttons) {
+        const text = await btn.evaluate(el => el.textContent);
+        if (text && text.includes('Search')) {
+          await btn.click();
+          break;
+        }
+      }
+      
+      // Wait for results
+      await page.waitForLoadState('networkidle2');
+    }
 
     // Extract contracts from page
     const contracts = await page.evaluate(() => {
