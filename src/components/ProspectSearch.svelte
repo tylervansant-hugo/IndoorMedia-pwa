@@ -13,6 +13,10 @@
   let selectedStore = null;
   let loadingCustomers = false;
   let customerLoadMessage = '';
+  let showCredentialsModal = false;
+  let roogleEmail = '';
+  let rooglePassword = '';
+  let pendingStoreId = null;
   let selectedCategory = null;
   let selectedSubcategory = null;
   let userLocation = null;
@@ -224,17 +228,31 @@
     view = 'subcategories';
   }
 
-  async function loadRoogleCustomers() {
+  function promptForCredentials() {
     if (!selectedStore) return;
-    
+    pendingStoreId = selectedStore.StoreName;
+    showCredentialsModal = true;
+  }
+
+  async function submitCredentialsAndLoad() {
+    if (!roogleEmail || !rooglePassword) {
+      customerLoadMessage = '❌ Email and password required';
+      return;
+    }
+
     loadingCustomers = true;
     customerLoadMessage = 'Loading customers from Roogle...';
+    showCredentialsModal = false;
     
     try {
       const response = await fetch(import.meta.env.BASE_URL + 'api/roogle-scraper', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ storeId: selectedStore.StoreName })
+        body: JSON.stringify({ 
+          storeId: pendingStoreId,
+          email: roogleEmail,
+          password: rooglePassword
+        })
       });
       
       if (!response.ok) {
@@ -251,7 +269,7 @@
       data.current?.forEach(customer => {
         if (!savedProspects.find(p => p.name === customer.businessName)) {
           savedProspects.push({
-            id: `${selectedStore.StoreName}-${customer.businessName}`,
+            id: `${pendingStoreId}-${customer.businessName}`,
             name: customer.businessName,
             category: customer.category || 'Active Contract',
             status: 'active',
@@ -265,7 +283,7 @@
       data.all?.forEach(customer => {
         if (!prospects.find(p => p.name === customer.businessName)) {
           prospects.push({
-            id: `${selectedStore.StoreName}-${customer.businessName}`,
+            id: `${pendingStoreId}-${customer.businessName}`,
             name: customer.businessName,
             address: selectedStore.City + ', ' + selectedStore.State,
             category: customer.category || customer.status,
@@ -285,6 +303,11 @@
       prospects = [...prospects];
       customerLoadMessage = `✅ Loaded ${data.current?.length || 0} active + ${data.past?.length || 0} past customers!`;
       
+      // Clear credentials after use
+      roogleEmail = '';
+      rooglePassword = '';
+      pendingStoreId = null;
+      
       setTimeout(() => {
         customerLoadMessage = '';
       }, 3000);
@@ -295,6 +318,13 @@
     } finally {
       loadingCustomers = false;
     }
+  }
+
+  function closeCredentialsModal() {
+    showCredentialsModal = false;
+    roogleEmail = '';
+    rooglePassword = '';
+    pendingStoreId = null;
   }
 
   async function searchCustom() {
@@ -660,7 +690,7 @@
     {#if selectedStore && selectedStore.StoreName}
       <button 
         class="roogle-load-btn"
-        on:click={loadRoogleCustomers}
+        on:click={promptForCredentials}
         disabled={loadingCustomers}
       >
         {loadingCustomers ? '⏳ Loading...' : '🔄 Load Roogle Customers'}
@@ -668,6 +698,40 @@
       {#if customerLoadMessage}
         <p class="customer-load-msg">{customerLoadMessage}</p>
       {/if}
+    {/if}
+
+    {#if showCredentialsModal}
+      <div class="credentials-modal-overlay" on:click={closeCredentialsModal}>
+        <div class="credentials-modal" on:click={(e) => e.stopPropagation()}>
+          <h3>🔐 Roogle Login</h3>
+          <p class="modal-subtitle">Enter your sales.indoormedia.com credentials</p>
+          
+          <div class="form-group">
+            <label>Email</label>
+            <input 
+              type="email"
+              bind:value={roogleEmail}
+              placeholder="tyler.vansant@indoormedia.com"
+            />
+          </div>
+
+          <div class="form-group">
+            <label>Password</label>
+            <input 
+              type="password"
+              bind:value={rooglePassword}
+              placeholder="Enter your password"
+            />
+          </div>
+
+          <div class="modal-actions">
+            <button class="btn-load" on:click={submitCredentialsAndLoad}>Load Customers</button>
+            <button class="btn-cancel" on:click={closeCredentialsModal}>Cancel</button>
+          </div>
+          
+          <p class="modal-note">✅ Your credentials are only sent to Roogle. They won't be stored.</p>
+        </div>
+      </div>
     {/if}
 
     <div class="custom-search-bar">
@@ -962,6 +1026,113 @@
     font-size: 13px;
     color: #2e7d32;
     font-weight: 600;
+    text-align: center;
+  }
+
+  .credentials-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+  }
+
+  .credentials-modal {
+    background: white;
+    border-radius: 16px;
+    padding: 28px;
+    max-width: 400px;
+    width: 100%;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+  }
+
+  .credentials-modal h3 {
+    color: #333;
+    margin: 0 0 4px;
+    font-size: 22px;
+  }
+
+  .modal-subtitle {
+    color: #666;
+    margin: 0 0 20px;
+    font-size: 14px;
+  }
+
+  .credentials-modal .form-group {
+    margin-bottom: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .credentials-modal label {
+    color: #333;
+    font-size: 13px;
+    font-weight: 600;
+  }
+
+  .credentials-modal input {
+    border: 2px solid #ddd;
+    border-radius: 8px;
+    padding: 12px;
+    font-size: 14px;
+    font-family: inherit;
+  }
+
+  .credentials-modal input:focus {
+    border-color: #CC0000;
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(204, 0, 0, 0.1);
+  }
+
+  .modal-actions {
+    display: flex;
+    gap: 12px;
+    margin-top: 24px;
+  }
+
+  .btn-load {
+    flex: 1;
+    background: #CC0000;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 12px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .btn-load:hover {
+    background: #990000;
+  }
+
+  .btn-cancel {
+    flex: 1;
+    background: #f0f0f0;
+    color: #333;
+    border: none;
+    border-radius: 8px;
+    padding: 12px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+  }
+
+  .btn-cancel:hover {
+    background: #e0e0e0;
+  }
+
+  .modal-note {
+    color: #999;
+    font-size: 12px;
+    margin-top: 12px;
     text-align: center;
   }
 
