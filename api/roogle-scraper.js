@@ -82,39 +82,73 @@ export default async function handler(req, res) {
       
       // Wait for results
       await page.waitForLoadState('networkidle2');
+      
+      // Click on the store result (first store in matches)
+      const storeLink = await page.$(`a:has-text("${storeId}")`);
+      if (storeLink) {
+        await storeLink.click();
+        await page.waitForLoadState('networkidle2');
+      }
+      
+      // Click on Tape Info tab
+      const tabs = await page.$$('a, button');
+      for (const tab of tabs) {
+        const text = await tab.evaluate(el => el.textContent);
+        if (text && text.includes('Tape Info')) {
+          await tab.click();
+          await page.waitForLoadState('networkidle2');
+          break;
+        }
+      }
+      
+      // Click on Tape Contracts button
+      const contractsBtn = await page.$('button:has-text("Tape Contracts")');
+      if (contractsBtn) {
+        await contractsBtn.click();
+        await page.waitForLoadState('networkidle2');
+      }
     }
 
     // Extract contracts from page
     const contracts = await page.evaluate(() => {
       const currentContracts = [];
       const pastContracts = [];
-
-      // Look for all rows in tables
-      const rows = document.querySelectorAll('tr');
+      
       let isCurrentSection = true;
+      const rows = document.querySelectorAll('tr');
 
       rows.forEach(row => {
-        // Check if this is a section header
-        if (row.textContent.includes('Terminated') || row.textContent.includes('Past')) {
-          isCurrentSection = false;
+        const rowText = row.textContent;
+        
+        // Detect section headers
+        if (rowText.includes('Current Contracts')) {
+          isCurrentSection = true;
+          return;
         }
-
+        if (rowText.includes('Past Contracts')) {
+          isCurrentSection = false;
+          return;
+        }
+        
         const cells = row.querySelectorAll('td');
-        if (cells.length >= 3) {
-          const contract = {
-            businessName: cells[0]?.textContent?.trim() || '',
-            status: cells[1]?.textContent?.trim() || '',
-            contractType: cells[2]?.textContent?.trim() || '',
-            price: cells[3]?.textContent?.trim() || '',
-            category: cells[4]?.textContent?.trim() || '',
-          };
-
-          if (contract.businessName && contract.status) {
-            if (isCurrentSection || contract.status.toLowerCase().includes('active')) {
-              contract.isActive = true;
+        if (cells.length >= 5) {
+          const businessName = cells[1]?.textContent?.trim() || '';
+          const status = cells[3]?.textContent?.trim() || '';
+          const price = cells[4]?.textContent?.trim() || '';
+          const category = cells[6]?.textContent?.trim() || '';
+          
+          if (businessName && status) {
+            const contract = {
+              businessName,
+              status,
+              price,
+              category,
+              isActive: isCurrentSection
+            };
+            
+            if (isCurrentSection) {
               currentContracts.push(contract);
             } else {
-              contract.isActive = false;
               pastContracts.push(contract);
             }
           }
