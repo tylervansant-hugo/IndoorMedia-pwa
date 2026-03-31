@@ -35,7 +35,9 @@ export default async function handler(req, res) {
           status: "Active",
           contractType: "Internet",
           price: "$XX/month",
-          category: "Restaurant"
+          category: "Restaurant",
+          startDate: "2024-06-15",
+          endDate: null
         }
       ],
       past: [
@@ -44,42 +46,54 @@ export default async function handler(req, res) {
           status: "Terminated",
           contractType: "Internet",
           price: "$XX/month",
-          category: "Gas Station"
+          category: "Gas Station",
+          startDate: "2022-03-10",
+          endDate: "2023-09-30"
         },
         {
           businessName: "Kurts Septic",
           status: "Terminated",
           contractType: "Internet",
           price: "$XX/month",
-          category: "Services"
+          category: "Services",
+          startDate: "2021-11-01",
+          endDate: "2023-04-15"
         },
         {
           businessName: "The Bistro",
           status: "Terminated",
           contractType: "Internet",
           price: "$XX/month",
-          category: "Restaurant"
+          category: "Restaurant",
+          startDate: "2023-01-20",
+          endDate: "2024-02-28"
         },
         {
           businessName: "Los Agaves",
           status: "Terminated",
           contractType: "Internet",
           price: "$XX/month",
-          category: "Restaurant"
+          category: "Restaurant",
+          startDate: "2022-08-05",
+          endDate: "2023-11-10"
         },
         {
           businessName: "News America Marketing",
           status: "Terminated",
           contractType: "Internet",
           price: "$XX/month",
-          category: "Marketing"
+          category: "Marketing",
+          startDate: "2020-05-12",
+          endDate: "2022-07-20"
         },
         {
           businessName: "Peterson Chiropractic",
           status: "Terminated",
           contractType: "Internet",
           price: "$XX/month",
-          category: "Healthcare"
+          category: "Healthcare",
+          startDate: "2023-02-01",
+          endDate: "2024-08-31"
         }
       ]
     };

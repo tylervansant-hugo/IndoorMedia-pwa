@@ -17,6 +17,7 @@
   let roogleEmail = '';
   let rooglePassword = '';
   let pendingStoreId = null;
+  let loadedCustomers = null;
   let selectedCategory = null;
   let selectedSubcategory = null;
   let userLocation = null;
@@ -363,6 +364,13 @@
       
       savedProspects = [...savedProspects];
       prospects = [...prospects];
+      
+      // Store loaded customers for display
+      loadedCustomers = {
+        current: data.current || [],
+        past: data.past || []
+      };
+      
       customerLoadMessage = `✅ Loaded ${data.current?.length || 0} active + ${data.past?.length || 0} past customers!`;
       
       // Clear credentials after use
@@ -808,6 +816,51 @@
       </button>
     </div>
 
+    {#if loadedCustomers}
+      <div class="loaded-customers-section">
+        <h3>📊 Current/Past Customers</h3>
+        
+        {#if loadedCustomers.current.length > 0}
+          <div class="customers-subsection">
+            <h4 style="color: #2e7d32;">🟢 Current Customers ({loadedCustomers.current.length})</h4>
+            {#each loadedCustomers.current as customer}
+              <div class="customer-card current">
+                <div class="customer-name">{customer.businessName}</div>
+                <div class="customer-meta">
+                  <span>📅 Started: {new Date(customer.startDate).toLocaleDateString()}</span>
+                  {#if customer.endDate}
+                    <span>📅 Ended: {new Date(customer.endDate).toLocaleDateString()}</span>
+                  {:else}
+                    <span style="color: #2e7d32; font-weight: 600;">• Active</span>
+                  {/if}
+                </div>
+                <div class="customer-details">
+                  <span>{customer.category}</span> • <span>{customer.contractType}</span>
+                </div>
+              </div>
+            {/each}
+          </div>
+        {/if}
+        
+        {#if loadedCustomers.past.length > 0}
+          <div class="customers-subsection">
+            <h4 style="color: #c33;">🔴 Past Customers ({loadedCustomers.past.length})</h4>
+            {#each loadedCustomers.past as customer}
+              <div class="customer-card past">
+                <div class="customer-name">{customer.businessName}</div>
+                <div class="customer-meta">
+                  <span>📅 {new Date(customer.startDate).toLocaleDateString()} → {new Date(customer.endDate).toLocaleDateString()}</span>
+                </div>
+                <div class="customer-details">
+                  <span>{customer.category}</span> • <span>{customer.contractType}</span>
+                </div>
+              </div>
+            {/each}
+          </div>
+        {/if}
+      </div>
+    {/if}
+
     <p class="or-divider">— or pick a category —</p>
 
     <div class="category-grid">
@@ -1196,6 +1249,70 @@
     font-size: 12px;
     margin-top: 12px;
     text-align: center;
+  }
+
+  .loaded-customers-section {
+    background: #f9f9f9;
+    border-radius: 12px;
+    padding: 16px;
+    margin-bottom: 24px;
+    border: 2px solid #e0e0e0;
+  }
+
+  .loaded-customers-section h3 {
+    color: #333;
+    margin: 0 0 16px;
+    font-size: 16px;
+  }
+
+  .customers-subsection {
+    margin-bottom: 16px;
+  }
+
+  .customers-subsection h4 {
+    margin: 0 0 12px;
+    font-size: 14px;
+  }
+
+  .customer-card {
+    background: white;
+    border-left: 4px solid #e0e0e0;
+    border-radius: 6px;
+    padding: 12px;
+    margin-bottom: 8px;
+    font-size: 13px;
+  }
+
+  .customer-card.current {
+    border-left-color: #2e7d32;
+    background: #f0f8f4;
+  }
+
+  .customer-card.past {
+    border-left-color: #c33;
+    background: #fff5f5;
+    opacity: 0.85;
+  }
+
+  .customer-name {
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 6px;
+    font-size: 14px;
+  }
+
+  .customer-meta {
+    color: #666;
+    margin-bottom: 4px;
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    font-size: 12px;
+  }
+
+  .customer-details {
+    color: #999;
+    font-size: 11px;
   }
 
   .hot-leads-grid {
