@@ -20,9 +20,8 @@ export default async function handler(req, res) {
     return res.status(400).json({ error: 'storeId required' });
   }
 
-  if (!email || !password) {
-    return res.status(400).json({ error: 'email and password required' });
-  }
+  // Note: In production with local server, real credentials are used
+  // For now, this returns mock data for demo purposes
 
   try {
     // For now, return mock data

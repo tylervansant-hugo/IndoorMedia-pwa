@@ -247,8 +247,10 @@
       }
     }
     
-    // Show modal if no saved credentials
-    showCredentialsModal = true;
+    // For demo: use placeholder credentials and load
+    roogleEmail = 'Tyler.Vansant@indoormedia.com';
+    rooglePassword = 'Zoey2026!';
+    submitCredentialsAndLoad();
   }
 
   async function submitCredentialsAndLoad() {
