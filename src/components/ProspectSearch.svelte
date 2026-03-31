@@ -18,6 +18,46 @@
   let rooglePassword = '';
   let pendingStoreId = null;
   let loadedCustomers = null;
+  let videoLibrary = null;
+
+  // Load video library on mount
+  import { onMount } from 'svelte';
+  onMount(async () => {
+    try {
+      const response = await fetch(import.meta.env.BASE_URL + 'data/video_library.json');
+      videoLibrary = await response.json();
+    } catch (e) {
+      console.warn('Could not load video library:', e);
+    }
+  });
+
+  function getVideoForProspect(prospect) {
+    if (!videoLibrary) return null;
+    
+    const categories = videoLibrary.categories || {};
+    const prospectCategory = prospect.category?.toLowerCase() || '';
+    
+    // Try exact category match
+    for (const [catName, catData] of Object.entries(categories)) {
+      const keywords = (catData.keywords || []).map(k => k.toLowerCase());
+      if (keywords.some(k => prospectCategory.includes(k) || prospectCategory === k)) {
+        const videos = catData.videos || [];
+        if (videos.length > 0) {
+          return videos[Math.floor(Math.random() * videos.length)];
+        }
+      }
+    }
+    
+    // Fallback to Food & Drink for restaurants
+    if (prospectCategory.includes('restaurant') || prospectCategory.includes('food')) {
+      const foodVideos = categories['Food & Drink']?.videos || [];
+      if (foodVideos.length > 0) {
+        return foodVideos[Math.floor(Math.random() * foodVideos.length)];
+      }
+    }
+    
+    return null;
+  }
   let selectedCategory = null;
   let selectedSubcategory = null;
   let userLocation = null;
@@ -927,7 +967,11 @@
             </div>
             <div class="action-row">
               <button class="action-btn" on:click={() => saveProspect(prospect)}>💾 Save</button>
-              <a href="https://www.google.com/search?q={encodeURIComponent(prospect.name + ' ' + (prospect.address || '').split(',')[0])}&tbm=vid" target="_blank" class="action-btn">🎬 Video</a>
+              {#if getVideoForProspect(prospect)}
+                <a href={getVideoForProspect(prospect).url} target="_blank" class="action-btn">🎬 Testimonial Video</a>
+              {:else}
+                <a href="https://www.google.com/search?q={encodeURIComponent(prospect.name + ' ' + (prospect.address || '').split(',')[0])}&tbm=vid" target="_blank" class="action-btn">🎬 Video</a>
+              {/if}
             </div>
             <div class="action-row">
               <button class="action-btn" on:click={() => { prospect._showNotes = !prospect._showNotes; prospects = prospects; }}>📝 Notes</button>
