@@ -183,7 +183,7 @@
 <main class="login-container">
   <div class="login-card">
     <div class="header">
-      <img src={import.meta.env.BASE_URL + 'impro-logo.svg'} alt="IndoorMedia" class="logo" />
+      <img src={import.meta.env.BASE_URL + 'logo.png'} alt="IndoorMedia" class="logo" />
       <p class="tagline">imPro Sales Portal</p>
     </div>
 
