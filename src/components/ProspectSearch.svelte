@@ -231,26 +231,27 @@
 
   function promptForCredentials() {
     if (!selectedStore) return;
-    pendingStoreId = selectedStore.StoreName;
     
-    // Check if credentials are saved
-    const saved = localStorage.getItem('roogleCredentials');
-    if (saved) {
-      try {
-        const creds = JSON.parse(saved);
-        roogleEmail = creds.email;
-        rooglePassword = creds.password;
-        // Auto-load with saved credentials
-        submitCredentialsAndLoad();
-        return;
-      } catch (e) {
-        console.error('Error loading saved credentials:', e);
-      }
+    // Get user from store
+    const currentUser = localStorage.getItem('impro_user');
+    if (!currentUser) {
+      alert('Please log in first');
+      return;
     }
     
-    // For demo: use placeholder credentials and load
-    roogleEmail = 'Tyler.Vansant@indoormedia.com';
-    rooglePassword = 'Zoey2026!';
+    const user = JSON.parse(currentUser);
+    pendingStoreId = selectedStore.StoreName;
+    
+    // Get credentials from session (set during login)
+    const sessionCreds = sessionStorage.getItem('indoormedia_credentials');
+    if (!sessionCreds) {
+      alert('Session expired. Please log in again.');
+      return;
+    }
+    
+    const creds = JSON.parse(sessionCreds);
+    roogleEmail = creds.email;
+    rooglePassword = creds.password;
     submitCredentialsAndLoad();
   }
 
