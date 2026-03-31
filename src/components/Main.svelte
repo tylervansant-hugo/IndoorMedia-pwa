@@ -186,7 +186,15 @@
   function handleLogout() {
     if (confirm('Sign out?')) {
       localStorage.removeItem('user');
+      localStorage.removeItem('roogleCredentials');
       window.location.reload();
+    }
+  }
+
+  function forgetRoogleCredentials() {
+    if (confirm('Forget saved Roogle credentials?')) {
+      localStorage.removeItem('roogleCredentials');
+      alert('✅ Credentials cleared. You\'ll need to enter them again next time.');
     }
   }
 </script>
@@ -215,6 +223,7 @@
         <button class="theme-toggle" on:click={toggleTheme} title="Toggle theme">
           {currentTheme === 'light' ? '🌙' : '☀️'}
         </button>
+        <button class="logout-btn" on:click={forgetRoogleCredentials} title="Clear Roogle login">🔑</button>
         <button class="logout-btn" on:click={handleLogout}>Logout</button>
       </div>
     </div>

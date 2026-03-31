@@ -231,6 +231,23 @@
   function promptForCredentials() {
     if (!selectedStore) return;
     pendingStoreId = selectedStore.StoreName;
+    
+    // Check if credentials are saved
+    const saved = localStorage.getItem('roogleCredentials');
+    if (saved) {
+      try {
+        const creds = JSON.parse(saved);
+        roogleEmail = creds.email;
+        rooglePassword = creds.password;
+        // Auto-load with saved credentials
+        submitCredentialsAndLoad();
+        return;
+      } catch (e) {
+        console.error('Error loading saved credentials:', e);
+      }
+    }
+    
+    // Show modal if no saved credentials
     showCredentialsModal = true;
   }
 
@@ -243,6 +260,12 @@
     loadingCustomers = true;
     customerLoadMessage = 'Loading customers from Roogle...';
     showCredentialsModal = false;
+    
+    // Save credentials to localStorage for future use
+    localStorage.setItem('roogleCredentials', JSON.stringify({
+      email: roogleEmail,
+      password: rooglePassword
+    }));
     
     try {
       const response = await fetch(import.meta.env.BASE_URL + 'api/roogle-scraper', {
