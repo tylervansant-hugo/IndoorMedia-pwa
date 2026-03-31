@@ -168,6 +168,7 @@ app.post('/api/roogle-scraper', async (req, res) => {
 
     return res.status(200).json({
       success: true,
+      source: 'Real Roogle Data (Live Scrape)',
       storeId,
       current: uniqueCurrent,
       past: uniquePast,

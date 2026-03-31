@@ -28,6 +28,7 @@ export default async function handler(req, res) {
     // This is a placeholder until we can properly set up browser automation
     const mockData = {
       success: true,
+      source: 'Mock Data (Demo)',
       storeId,
       current: [
         {
