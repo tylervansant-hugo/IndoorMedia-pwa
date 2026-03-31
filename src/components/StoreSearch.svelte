@@ -8,6 +8,21 @@
   let useGeolocation = false;
   let userLocation = null;
 
+  // ROI Calculator state
+  let roiStore = null;
+  let roiInvestment = '0';
+  let roiAvgSpend = 50;
+  let roiNewCustomers = 10;
+  let roiVisitsPerYear = 12;
+
+  function showROI(totalPrice, store) {
+    roiStore = store.StoreName;
+    roiInvestment = String(totalPrice).replace('$', '').replace(',', '');
+    roiAvgSpend = 50;
+    roiNewCustomers = 10;
+    roiVisitsPerYear = 12;
+  }
+
   async function loadStores() {
     try {
       setLoading(true);
@@ -313,6 +328,7 @@
                   </div>
                   <div class="plan-price">${pricing.monthly}<span class="per">/month</span></div>
                   <div class="plan-total">Total: ${pricing.monthlyTotal}</div>
+                  <button class="roi-btn" on:click|stopPropagation={() => showROI(pricing.monthlyTotal, store)}>📊 ROI Calculator</button>
                 </div>
 
                 <div class="plan-card" on:click={() => handleAddToCart(store, currentAdType, 'threeMonth')}>
@@ -322,6 +338,7 @@
                   </div>
                   <div class="plan-price">${pricing.threeMonth}<span class="per"> × 3</span></div>
                   <div class="plan-total">Total: ${pricing.threeMonthTotal}</div>
+                  <button class="roi-btn" on:click|stopPropagation={() => showROI(pricing.threeMonthTotal, store)}>📊 ROI Calculator</button>
                 </div>
 
                 <div class="plan-card" on:click={() => handleAddToCart(store, currentAdType, 'sixMonth')}>
@@ -331,6 +348,7 @@
                   </div>
                   <div class="plan-price">${pricing.sixMonth}<span class="per"> × 6</span></div>
                   <div class="plan-total">Total: ${pricing.sixMonthTotal}</div>
+                  <button class="roi-btn" on:click|stopPropagation={() => showROI(pricing.sixMonthTotal, store)}>📊 ROI Calculator</button>
                 </div>
 
                 <div class="plan-card best" on:click={() => handleAddToCart(store, currentAdType, 'pif')}>
@@ -340,9 +358,61 @@
                   </div>
                   <div class="plan-price">${pricing.pif}</div>
                   <div class="plan-total">One payment — Save ${pricing.savings}</div>
+                  <button class="roi-btn" on:click|stopPropagation={() => showROI(pricing.pif, store)}>📊 ROI Calculator</button>
                 </div>
 
                 <p class="tap-hint">Tap a plan to add to quote</p>
+
+                <!-- ROI Calculator -->
+                {#if roiStore === store.StoreName}
+                  <div class="roi-calculator">
+                    <h4>📊 ROI Calculator</h4>
+                    <p class="roi-subtitle">Investment: <strong>${roiInvestment}</strong></p>
+                    
+                    <div class="roi-field">
+                      <label>Average Customer Spend ($)</label>
+                      <input type="number" bind:value={roiAvgSpend} placeholder="50" />
+                    </div>
+                    
+                    <div class="roi-field">
+                      <label>New Customers per Month</label>
+                      <input type="number" bind:value={roiNewCustomers} placeholder="10" />
+                    </div>
+                    
+                    <div class="roi-field">
+                      <label>Visits per Year (per customer)</label>
+                      <input type="number" bind:value={roiVisitsPerYear} placeholder="12" />
+                    </div>
+
+                    {#if roiAvgSpend && roiNewCustomers}
+                      {@const annualRevenue = roiAvgSpend * roiNewCustomers * 12 * (roiVisitsPerYear || 1)}
+                      {@const investment = parseFloat(roiInvestment.replace(/,/g, ''))}
+                      {@const roiPercent = ((annualRevenue - investment) / investment * 100).toFixed(0)}
+                      {@const monthlyRevenue = roiAvgSpend * roiNewCustomers * (roiVisitsPerYear || 1)}
+                      
+                      <div class="roi-results">
+                        <div class="roi-result-card">
+                          <span class="roi-label">Monthly Revenue from New Customers</span>
+                          <span class="roi-value green">${monthlyRevenue.toLocaleString()}/mo</span>
+                        </div>
+                        <div class="roi-result-card">
+                          <span class="roi-label">Annual Revenue from New Customers</span>
+                          <span class="roi-value green">${annualRevenue.toLocaleString()}/yr</span>
+                        </div>
+                        <div class="roi-result-card highlight">
+                          <span class="roi-label">Return on Investment</span>
+                          <span class="roi-value big">{roiPercent}% ROI</span>
+                        </div>
+                        <div class="roi-result-card">
+                          <span class="roi-label">Net Profit</span>
+                          <span class="roi-value green">${(annualRevenue - investment).toLocaleString()}</span>
+                        </div>
+                      </div>
+                    {/if}
+
+                    <button class="roi-close-btn" on:click={() => { roiStore = null; }}>Close Calculator</button>
+                  </div>
+                {/if}
               </div>
             {/if}
           </div>
@@ -771,6 +841,129 @@
 
   .add-btn:hover {
     background: #990000;
+  }
+
+  .roi-btn {
+    width: 100%;
+    margin-top: 8px;
+    padding: 8px;
+    background: #f0f0f0;
+    color: #CC0000;
+    border: 2px solid #CC0000;
+    border-radius: 6px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .roi-btn:hover {
+    background: #CC0000;
+    color: white;
+  }
+
+  .roi-calculator {
+    background: #f9f9f9;
+    border: 2px solid #CC0000;
+    border-radius: 12px;
+    padding: 16px;
+    margin-top: 16px;
+  }
+
+  .roi-calculator h4 {
+    margin: 0 0 4px;
+    color: #333;
+    font-size: 16px;
+  }
+
+  .roi-subtitle {
+    margin: 0 0 16px;
+    color: #666;
+    font-size: 14px;
+  }
+
+  .roi-field {
+    margin-bottom: 12px;
+  }
+
+  .roi-field label {
+    display: block;
+    font-size: 13px;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 4px;
+  }
+
+  .roi-field input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    font-size: 14px;
+    box-sizing: border-box;
+  }
+
+  .roi-field input:focus {
+    outline: none;
+    border-color: #CC0000;
+    box-shadow: 0 0 0 2px rgba(204, 0, 0, 0.1);
+  }
+
+  .roi-results {
+    margin-top: 16px;
+    display: grid;
+    gap: 8px;
+  }
+
+  .roi-result-card {
+    background: white;
+    border-radius: 8px;
+    padding: 12px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border: 1px solid #eee;
+  }
+
+  .roi-result-card.highlight {
+    background: #f0fff0;
+    border: 2px solid #2e7d32;
+  }
+
+  .roi-label {
+    font-size: 13px;
+    color: #555;
+  }
+
+  .roi-value {
+    font-size: 16px;
+    font-weight: 700;
+    color: #333;
+  }
+
+  .roi-value.green {
+    color: #2e7d32;
+  }
+
+  .roi-value.big {
+    font-size: 20px;
+    color: #2e7d32;
+  }
+
+  .roi-close-btn {
+    width: 100%;
+    margin-top: 12px;
+    padding: 10px;
+    background: #999;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-size: 14px;
+    cursor: pointer;
+  }
+
+  .roi-close-btn:hover {
+    background: #777;
   }
 
   .cart-toast {
