@@ -1,6 +1,7 @@
-const express = require('express');
-const puppeteer = require('puppeteer');
-const cors = require('cors');
+import express from 'express';
+import puppeteer from 'puppeteer';
+import cors from 'cors';
+import fs from 'fs';
 
 const app = express();
 const PORT = 3001;
@@ -17,7 +18,7 @@ app.post('/api/roogle-scraper', async (req, res) => {
 
   let browser;
   try {
-    console.log(`Scraping Roogle for store: ${storeId}`);
+    console.log(`\n🚀 Starting Roogle scrape for store: ${storeId} (as ${email})`);
     
     browser = await puppeteer.launch({
       headless: 'new',
@@ -28,135 +29,144 @@ app.post('/api/roogle-scraper', async (req, res) => {
     await page.setViewport({ width: 1280, height: 720 });
     await page.setDefaultTimeout(30000);
 
-    // Navigate to Roogle
-    console.log('Navigating to skynet.indoormedia.com');
-    await page.goto('https://skynet.indoormedia.com/', { waitUntil: 'networkidle2' });
-    
-    // Check if login is needed
-    const loginForm = await page.$('input[type="email"]');
-    if (loginForm) {
-      console.log('Logging in...');
-      await page.type('input[type="email"]', email);
-      await page.type('input[type="password"]', password);
-      await page.click('button[type="submit"]');
-      await page.waitForNavigation({ waitUntil: 'networkidle2' });
-    }
+    // Step 1: Navigate to sales.indoormedia.com
+    console.log('Step 1: Navigating to sales.indoormedia.com');
+    await page.goto('https://sales.indoormedia.com/', { waitUntil: 'networkidle2', timeout: 30000 });
 
-    // Find and fill the Store field
-    console.log('Searching for store:', storeId);
-    const storeInputs = await page.$$('input');
-    let storeField = null;
-    
-    for (const input of storeInputs) {
-      const placeholder = await input.evaluate(el => el.placeholder);
-      if (placeholder && placeholder.toLowerCase().includes('store')) {
-        storeField = input;
+    // Step 2: Click "Login" button
+    console.log('Step 2: Clicking Login button');
+    const loginButtons = await page.$$('a, button');
+    for (const btn of loginButtons) {
+      const text = await btn.evaluate(el => el.textContent?.trim());
+      if (text === 'Login' || text?.toLowerCase().includes('login')) {
+        await btn.click();
+        await page.waitForNavigation({ waitUntil: 'networkidle2', timeout: 15000 }).catch(() => {});
+        await new Promise(r => setTimeout(r, 1000));
         break;
       }
     }
-    
-    if (storeField) {
-      await storeField.fill(storeId);
-      
-      // Click Search button
-      const buttons = await page.$$('button');
-      for (const btn of buttons) {
-        const text = await btn.evaluate(el => el.textContent);
-        if (text && text.includes('Search')) {
-          await btn.click();
-          break;
-        }
+
+    // Step 3: Select the @indoormedia.com email from the chooser
+    console.log('Step 3: Selecting @indoormedia.com email');
+    const emailLinks = await page.$$('a, button, div[role="button"]');
+    for (const link of emailLinks) {
+      const text = await link.evaluate(el => el.textContent);
+      if (text && text.includes('indoormedia.com')) {
+        await link.click();
+        await page.waitForNavigation({ waitUntil: 'networkidle2', timeout: 15000 }).catch(() => {});
+        await new Promise(r => setTimeout(r, 1000));
+        break;
       }
-      
-      await page.waitForLoadState('networkidle2');
-      console.log('Store search complete');
     }
 
-    // Click on the store result
-    console.log('Clicking store result');
+    // Step 4: Fill password and login
+    console.log('Step 4: Entering password and logging in');
+
+    const passwordInputs = await page.$$('input[type="password"]');
+    if (passwordInputs.length > 0) {
+      await passwordInputs[0].fill(password);
+    }
+
+    const submitButtons = await page.$$('button[type="submit"], input[type="submit"]');
+    if (submitButtons.length > 0) {
+      await submitButtons[0].click();
+      await page.waitForNavigation({ waitUntil: 'networkidle2', timeout: 15000 }).catch(() => {});
+      await new Promise(r => setTimeout(r, 2000));
+    }
+
+    // Step 5: Click on "Roogle" tab
+    console.log('Step 5: Clicking Roogle tab');
+    const tabs = await page.$$('a, button');
+    for (const tab of tabs) {
+      const text = await tab.evaluate(el => el.textContent?.trim());
+      if (text === 'Roogle') {
+        await tab.click();
+        await page.waitForNavigation({ waitUntil: 'networkidle2', timeout: 15000 }).catch(() => {});
+        await new Promise(r => setTimeout(r, 1000));
+        break;
+      }
+    }
+
+    // Step 6: Fill Store field and search
+    console.log(`Step 6: Searching for store: ${storeId}`);
+    const inputs = await page.$$('input');
+    for (const input of inputs) {
+      const name = await input.evaluate(el => el.name || '');
+      const placeholder = await input.evaluate(el => el.placeholder || '');
+      if (name.toLowerCase().includes('store') || placeholder.toLowerCase().includes('store')) {
+        await input.fill(storeId);
+        break;
+      }
+    }
+
+    // Click Search Entities button
+    const buttons = await page.$$('button');
+    for (const btn of buttons) {
+      const text = await btn.evaluate(el => el.textContent);
+      if (text && text.includes('Search')) {
+        await btn.click();
+        await page.waitForNavigation({ waitUntil: 'networkidle2', timeout: 15000 }).catch(() => {});
+        await new Promise(r => setTimeout(r, 1000));
+        break;
+      }
+    }
+
+    // Step 7: Click on store result
+    console.log('Step 7: Clicking store result');
     const storeLinks = await page.$$('a');
     for (const link of storeLinks) {
       const text = await link.evaluate(el => el.textContent);
       if (text && text.includes(storeId)) {
         await link.click();
-        await page.waitForLoadState('networkidle2');
+        await page.waitForNavigation({ waitUntil: 'networkidle2', timeout: 15000 }).catch(() => {});
+        await new Promise(r => setTimeout(r, 1000));
         break;
       }
     }
 
-    // Click on Tape Info tab
-    console.log('Navigating to Tape Info');
-    const allElements = await page.$$('a, button');
-    for (const elem of allElements) {
-      const text = await elem.evaluate(el => el.textContent?.trim());
+    // Step 8: Click on "Tape Info"
+    console.log('Step 8: Clicking Tape Info');
+    const tapeInfoLinks = await page.$$('a');
+    for (const link of tapeInfoLinks) {
+      const text = await link.evaluate(el => el.textContent?.trim());
       if (text === 'Tape Info' || text?.includes('Tape Info')) {
-        await elem.click();
-        await page.waitForLoadState('networkidle2');
+        await link.click();
+        await page.waitForNavigation({ waitUntil: 'networkidle2', timeout: 15000 }).catch(() => {});
+        await new Promise(r => setTimeout(r, 1000));
         break;
       }
     }
 
-    // Click on Tape Contracts button
-    console.log('Opening Tape Contracts');
-    const allButtons = await page.$$('button');
-    for (const btn of allButtons) {
-      const btnText = await btn.evaluate(el => el.textContent?.trim());
-      if (btnText === 'Tape Contracts' || btnText?.includes('Tape Contracts')) {
+    // Step 9: Click on "Tape Contracts" button
+    console.log('Step 9: Clicking Tape Contracts button');
+    const contractButtons = await page.$$('button');
+    for (const btn of contractButtons) {
+      const text = await btn.evaluate(el => el.textContent?.trim());
+      if (text === 'Tape Contracts' || text?.includes('Tape Contracts')) {
         await btn.click();
-        await page.waitForLoadState('networkidle2');
+        await page.waitForNavigation({ waitUntil: 'networkidle2', timeout: 15000 }).catch(() => {});
+        await new Promise(r => setTimeout(r, 1000));
         break;
       }
     }
 
-    // Extract contracts
-    console.log('Extracting contract data');
-    const contracts = await page.evaluate(() => {
-      const currentContracts = [];
-      const pastContracts = [];
-      
-      let isCurrentSection = true;
-      const rows = document.querySelectorAll('tr');
+    // Step 10: Take screenshot and save HTML for debugging
+    console.log('Step 10: Capturing page for data extraction');
+    await page.screenshot({ path: '/tmp/roogle-contracts.png' });
+    const pageHtml = await page.content();
+    fs.writeFileSync('/tmp/roogle-contracts.html', pageHtml);
 
-      rows.forEach(row => {
-        const rowText = row.textContent;
-        
-        // Detect section headers
-        if (rowText.includes('Current Contracts')) {
-          isCurrentSection = true;
-          return;
-        }
-        if (rowText.includes('Past Contracts')) {
-          isCurrentSection = false;
-          return;
-        }
-        
-        const cells = row.querySelectorAll('td');
-        if (cells.length >= 5) {
-          const businessName = cells[1]?.textContent?.trim() || '';
-          const status = cells[3]?.textContent?.trim() || '';
-          const price = cells[4]?.textContent?.trim() || '';
-          const category = cells[6]?.textContent?.trim() || '';
-          
-          if (businessName && status) {
-            const contract = {
-              businessName,
-              status,
-              price,
-              category,
-              isActive: isCurrentSection
-            };
-            
-            if (isCurrentSection) {
-              currentContracts.push(contract);
-            } else {
-              pastContracts.push(contract);
-            }
-          }
-        }
-      });
+    // Step 11: Dump page text to see structure
+    console.log('Step 11: Dumping page text');
+    const pageText = await page.evaluate(() => document.body.innerText);
+    fs.writeFileSync('/tmp/roogle-page-text.txt', pageText);
+    console.log('Page text saved to /tmp/roogle-page-text.txt');
+    console.log('\n===== PAGE TEXT PREVIEW =====\n');
+    console.log(pageText.substring(0, 2000));
+    console.log('\n===== END PREVIEW =====\n');
 
-      return { currentContracts, pastContracts };
-    });
+    // For now, return empty
+    const contracts = { currentContracts: [], pastContracts: [] };
 
     await browser.close();
 
@@ -164,19 +174,20 @@ app.post('/api/roogle-scraper', async (req, res) => {
     const uniqueCurrent = Array.from(new Map(contracts.currentContracts.map(c => [c.businessName, c])).values());
     const uniquePast = Array.from(new Map(contracts.pastContracts.map(c => [c.businessName, c])).values());
 
-    console.log(`Found ${uniqueCurrent.length} current and ${uniquePast.length} past contracts`);
+    console.log(`✅ Found ${uniqueCurrent.length} current and ${uniquePast.length} past contracts\n`);
 
     return res.status(200).json({
       success: true,
       source: 'Real Roogle Data (Live Scrape)',
       storeId,
+      email,
       current: uniqueCurrent,
       past: uniquePast,
       all: [...uniqueCurrent, ...uniquePast]
     });
 
   } catch (error) {
-    console.error('Roogle scraper error:', error);
+    console.error('❌ Roogle scraper error:', error.message);
     if (browser) {
       try {
         await browser.close();
@@ -190,5 +201,5 @@ app.post('/api/roogle-scraper', async (req, res) => {
 
 app.listen(PORT, () => {
   console.log(`🚀 Roogle scraper server running at http://localhost:${PORT}`);
-  console.log(`📡 API endpoint: http://localhost:${PORT}/api/roogle-scraper`);
+  console.log(`📡 API endpoint: http://localhost:${PORT}/api/roogle-scraper\n`);
 });

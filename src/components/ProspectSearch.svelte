@@ -372,8 +372,7 @@
         past: data.past || []
       };
       
-      const source = data.source || 'unknown';
-      customerLoadMessage = `✅ Loaded ${data.current?.length || 0} active + ${data.past?.length || 0} past customers (${source})`;
+      customerLoadMessage = `✅ Loaded ${data.current?.length || 0} active + ${data.past?.length || 0} past customers`;
       
       // Clear credentials after use
       roogleEmail = '';
