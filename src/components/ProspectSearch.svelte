@@ -837,6 +837,9 @@
                 <div class="customer-details">
                   <span>{customer.category}</span> • <span>{customer.contractType}</span>
                 </div>
+                {#if customer.totalSpent}
+                  <div class="customer-revenue">💰 Total Revenue: ${customer.totalSpent.toLocaleString()}</div>
+                {/if}
               </div>
             {/each}
           </div>
@@ -854,6 +857,9 @@
                 <div class="customer-details">
                   <span>{customer.category}</span> • <span>{customer.contractType}</span>
                 </div>
+                {#if customer.totalSpent}
+                  <div class="customer-revenue">💰 Total Revenue: ${customer.totalSpent.toLocaleString()}</div>
+                {/if}
               </div>
             {/each}
           </div>
@@ -1313,6 +1319,19 @@
   .customer-details {
     color: #999;
     font-size: 11px;
+  }
+
+  .customer-revenue {
+    color: #2e7d32;
+    font-weight: 600;
+    font-size: 13px;
+    margin-top: 6px;
+    padding-top: 6px;
+    border-top: 1px solid rgba(46, 125, 50, 0.2);
+  }
+
+  .customer-card.past .customer-revenue {
+    color: #666;
   }
 
   .hot-leads-grid {

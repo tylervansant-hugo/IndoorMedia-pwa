@@ -34,10 +34,11 @@ export default async function handler(req, res) {
           businessName: "Christeen's Cabin",
           status: "Active",
           contractType: "Internet",
-          price: "$XX/month",
+          price: "$199/month",
           category: "Restaurant",
           startDate: "2024-06-15",
-          endDate: null
+          endDate: null,
+          totalSpent: 1990
         }
       ],
       past: [
@@ -45,55 +46,61 @@ export default async function handler(req, res) {
           businessName: "Ferrell Gas",
           status: "Terminated",
           contractType: "Internet",
-          price: "$XX/month",
+          price: "$149/month",
           category: "Gas Station",
           startDate: "2022-03-10",
-          endDate: "2023-09-30"
+          endDate: "2023-09-30",
+          totalSpent: 1940
         },
         {
           businessName: "Kurts Septic",
           status: "Terminated",
           contractType: "Internet",
-          price: "$XX/month",
+          price: "$179/month",
           category: "Services",
           startDate: "2021-11-01",
-          endDate: "2023-04-15"
+          endDate: "2023-04-15",
+          totalSpent: 3580
         },
         {
           businessName: "The Bistro",
           status: "Terminated",
           contractType: "Internet",
-          price: "$XX/month",
+          price: "$219/month",
           category: "Restaurant",
           startDate: "2023-01-20",
-          endDate: "2024-02-28"
+          endDate: "2024-02-28",
+          totalSpent: 2409
         },
         {
           businessName: "Los Agaves",
           status: "Terminated",
           contractType: "Internet",
-          price: "$XX/month",
+          price: "$189/month",
           category: "Restaurant",
           startDate: "2022-08-05",
-          endDate: "2023-11-10"
+          endDate: "2023-11-10",
+          totalSpent: 2268
         },
         {
           businessName: "News America Marketing",
           status: "Terminated",
           contractType: "Internet",
-          price: "$XX/month",
+          price: "$299/month",
           category: "Marketing",
           startDate: "2020-05-12",
-          endDate: "2022-07-20"
+          endDate: "2022-07-20",
+          totalSpent: 7776
         },
         {
           businessName: "Peterson Chiropractic",
           status: "Terminated",
           contractType: "Internet",
-          price: "$XX/month",
+          price: "$159/month",
           category: "Healthcare",
           startDate: "2023-02-01",
-          endDate: "2024-08-31"
+          endDate: "2024-08-31",
+          totalSpent: 1908
         }
       ]
     };
