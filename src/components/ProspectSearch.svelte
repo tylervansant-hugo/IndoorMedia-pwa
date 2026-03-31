@@ -30,25 +30,30 @@
     }
   });
 
-  function getVideoForProspect(prospect) {
+  function getVideoForCategory() {
     if (!videoLibrary) return null;
     
     const categories = videoLibrary.categories || {};
-    const prospectCategory = prospect.category?.toLowerCase() || '';
+    const subCat = (selectedSubcategory || '').toLowerCase();
+    const mainCat = (selectedCategory || '').toLowerCase();
+    const searchTerms = [subCat, mainCat].filter(Boolean);
     
-    // Try exact category match
-    for (const [catName, catData] of Object.entries(categories)) {
-      const keywords = (catData.keywords || []).map(k => k.toLowerCase());
-      if (keywords.some(k => prospectCategory.includes(k) || prospectCategory === k)) {
-        const videos = catData.videos || [];
-        if (videos.length > 0) {
-          return videos[Math.floor(Math.random() * videos.length)];
+    // Try matching subcategory then category against video library keywords
+    for (const term of searchTerms) {
+      for (const [catName, catData] of Object.entries(categories)) {
+        const keywords = (catData.keywords || []).map(k => k.toLowerCase());
+        const catNameLower = catName.toLowerCase();
+        if (keywords.some(k => term.includes(k) || k.includes(term)) || catNameLower.includes(term) || term.includes(catNameLower)) {
+          const videos = catData.videos || [];
+          if (videos.length > 0) {
+            return videos[Math.floor(Math.random() * videos.length)];
+          }
         }
       }
     }
     
-    // Fallback to Food & Drink for restaurants
-    if (prospectCategory.includes('restaurant') || prospectCategory.includes('food')) {
+    // Fallback: try Food & Drink for restaurant-like categories
+    if (mainCat.includes('restaurant') || subCat.includes('pizza') || subCat.includes('coffee') || subCat.includes('taco') || subCat.includes('food')) {
       const foodVideos = categories['Food & Drink']?.videos || [];
       if (foodVideos.length > 0) {
         return foodVideos[Math.floor(Math.random() * foodVideos.length)];
@@ -56,6 +61,37 @@
     }
     
     return null;
+  }
+
+  let testimonialCache = null;
+  
+  async function getTestimonialsForCategory() {
+    if (!testimonialCache) {
+      try {
+        const response = await fetch(import.meta.env.BASE_URL + 'data/testimonials_cache.json');
+        testimonialCache = await response.json();
+      } catch (e) {
+        console.warn('Could not load testimonials:', e);
+        return [];
+      }
+    }
+    
+    const subCat = (selectedSubcategory || '').toLowerCase();
+    const mainCat = (selectedCategory || '').toLowerCase();
+    const searchTerms = [subCat, mainCat].filter(Boolean);
+    
+    const results = [];
+    const testimonials = Array.isArray(testimonialCache) ? testimonialCache : (testimonialCache.testimonials || []);
+    
+    for (const t of testimonials) {
+      const text = (t.searchable || ((t.business_name || '') + ' ' + (t.comments || ''))).toLowerCase();
+      if (searchTerms.some(term => text.includes(term))) {
+        results.push(t);
+        if (results.length >= 5) break;
+      }
+    }
+    
+    return results;
   }
   let selectedCategory = null;
   let selectedSubcategory = null;
@@ -966,15 +1002,21 @@
             </div>
             <div class="action-row">
               <button class="action-btn" on:click={() => saveProspect(prospect)}>💾 Save</button>
-              {#if getVideoForProspect(prospect)}
-                <a href={getVideoForProspect(prospect).url} target="_blank" class="action-btn">🎬 Testimonial Video</a>
+              {#if getVideoForCategory()}
+                <a href={getVideoForCategory().url} target="_blank" class="action-btn">🎬 Video</a>
               {:else}
-                <a href="https://www.google.com/search?q={encodeURIComponent(prospect.name + ' ' + (prospect.address || '').split(',')[0])}&tbm=vid" target="_blank" class="action-btn">🎬 Video</a>
+                <a href="https://www.google.com/search?q={encodeURIComponent('IndoorMedia ' + (selectedSubcategory || selectedCategory || 'testimonial'))}&tbm=vid" target="_blank" class="action-btn">🎬 Video</a>
               {/if}
             </div>
             <div class="action-row">
               <button class="action-btn" on:click={() => { prospect._showNotes = !prospect._showNotes; prospects = prospects; }}>📝 Notes</button>
-              <button class="action-btn" on:click={() => alert('Search testimonials for this business category in the Tools tab')}>📋 Testimonials</button>
+              <button class="action-btn testimonial-btn" on:click={async () => { 
+                prospect._showTestimonials = !prospect._showTestimonials;
+                if (prospect._showTestimonials) {
+                  prospect._testimonialData = await getTestimonialsForCategory();
+                }
+                prospects = prospects;
+              }}>📋 Testimonials</button>
             </div>
             {#if prospect.phone}
               <a href="tel:{prospect.phone}" class="action-btn full-width call-btn">📞 Call {prospect.phone}</a>
@@ -983,6 +1025,24 @@
             <button class="action-btn full-width email-btn" on:click={() => { prospect._showEmail = !prospect._showEmail; prospect._showScript = false; prospect._showNotes = false; prospects = prospects; }}>✉️ Draft Email</button>
             <a href="https://calendar.google.com/calendar/render?action=TEMPLATE&text={encodeURIComponent('Visit: ' + prospect.name)}&details={encodeURIComponent('Prospect: ' + prospect.name + '\nAddress: ' + prospect.address + (prospect.phone ? '\nPhone: ' + prospect.phone : '') + (prospect.website ? '\nWebsite: ' + prospect.website : '') + '\nStore: ' + (selectedStore?.GroceryChain || '') + ' ' + (selectedStore?.StoreName || '') + (getProspectNote(prospect.id || prospect.name) ? '\n\n📝 Notes:\n' + getProspectNote(prospect.id || prospect.name) : ''))}&location={encodeURIComponent(prospect.address)}" target="_blank" class="action-btn full-width">📅 Calendar</a>
           </div>
+          {#if prospect._showTestimonials}
+            <div class="testimonials-section">
+              <h4 class="testimonials-title">📋 Testimonials for {selectedSubcategory || selectedCategory || 'this category'}</h4>
+              {#if prospect._testimonialData && prospect._testimonialData.length > 0}
+                {#each prospect._testimonialData as testimonial}
+                  <div class="testimonial-card">
+                    <p class="testimonial-business"><strong>{testimonial.business_name || 'Business'}</strong></p>
+                    <p class="testimonial-text">"{testimonial.comments || testimonial.text || 'Great experience with IndoorMedia!'}"</p>
+                    {#if testimonial.category}
+                      <p class="testimonial-meta">{testimonial.category}</p>
+                    {/if}
+                  </div>
+                {/each}
+              {:else}
+                <p class="no-testimonials">No testimonials found for this category. Try a broader category.</p>
+              {/if}
+            </div>
+          {/if}
           {#if prospect._showNotes}
             <div class="notes-section">
               <textarea 
@@ -1392,6 +1452,61 @@
 
   .customer-card.past .customer-revenue {
     color: #666;
+  }
+
+  .testimonials-section {
+    background: #f9f9f9;
+    border-radius: 10px;
+    padding: 14px;
+    margin-top: 10px;
+    border: 1px solid #e0e0e0;
+  }
+
+  .testimonials-title {
+    margin: 0 0 12px;
+    font-size: 15px;
+    color: #333;
+  }
+
+  .testimonial-card {
+    background: white;
+    border-left: 4px solid #CC0000;
+    border-radius: 6px;
+    padding: 12px;
+    margin-bottom: 10px;
+  }
+
+  .testimonial-business {
+    margin: 0 0 6px;
+    font-size: 14px;
+    color: #333;
+  }
+
+  .testimonial-text {
+    margin: 0 0 6px;
+    font-size: 13px;
+    color: #555;
+    font-style: italic;
+    line-height: 1.4;
+  }
+
+  .testimonial-meta {
+    margin: 0;
+    font-size: 11px;
+    color: #999;
+  }
+
+  .testimonial-btn {
+    background: #CC0000 !important;
+    color: white !important;
+    border: none !important;
+  }
+
+  .no-testimonials {
+    color: #999;
+    font-size: 13px;
+    text-align: center;
+    padding: 12px;
   }
 
   .hot-leads-grid {
