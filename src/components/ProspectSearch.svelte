@@ -268,15 +268,35 @@
     }));
     
     try {
-      const response = await fetch(import.meta.env.BASE_URL + 'api/roogle-scraper', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ 
-          storeId: pendingStoreId,
-          email: roogleEmail,
-          password: rooglePassword
-        })
-      });
+      // Try local server first (if running), then fall back to Vercel
+      let apiUrl = 'http://localhost:3001/api/roogle-scraper';
+      let response;
+      
+      try {
+        response = await fetch(apiUrl, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ 
+            storeId: pendingStoreId,
+            email: roogleEmail,
+            password: rooglePassword
+          }),
+          timeout: 5000
+        });
+      } catch (localError) {
+        // Local server not available, use Vercel
+        console.log('Local server not found, using Vercel API');
+        apiUrl = import.meta.env.BASE_URL + 'api/roogle-scraper';
+        response = await fetch(apiUrl, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ 
+            storeId: pendingStoreId,
+            email: roogleEmail,
+            password: rooglePassword
+          })
+        });
+      }
       
       if (!response.ok) {
         throw new Error(`API error: ${response.status}`);
