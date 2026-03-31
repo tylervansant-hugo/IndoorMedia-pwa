@@ -21,7 +21,6 @@
   let videoLibrary = null;
 
   // Load video library on mount
-  import { onMount } from 'svelte';
   onMount(async () => {
     try {
       const response = await fetch(import.meta.env.BASE_URL + 'data/video_library.json');
