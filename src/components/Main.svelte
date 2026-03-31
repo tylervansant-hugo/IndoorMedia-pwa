@@ -35,16 +35,32 @@
     const isManager = repName.includes('tyler') || $user?.role === 'manager' || $user?.role === 'admin';
     const now = new Date();
     
-    // Saved prospects this week
+    // Saved prospects this week (check both key formats)
     try {
-      const saved = JSON.parse(localStorage.getItem('saved_prospects') || '[]');
+      const saved1 = JSON.parse(localStorage.getItem('savedProspects') || '[]');
+      const saved2 = JSON.parse(localStorage.getItem('saved_prospects') || '[]');
+      const saved = saved1.length > saved2.length ? saved1 : saved2;
       const weekAgo = new Date(now);
       weekAgo.setDate(weekAgo.getDate() - 7);
       savedProspects = saved;
-      prospectsThisWeek = saved.filter(p => {
+      
+      // Count saved prospects this week
+      const savedThisWeek = saved.filter(p => {
         const d = new Date(p.savedAt || p.saved_at || 0);
         return d >= weekAgo;
-      }).length || saved.length; // fallback to total if no dates
+      }).length;
+      
+      // Count searches this week
+      const searches = JSON.parse(localStorage.getItem('impro_searches') || '[]');
+      const searchesThisWeek = searches.filter(s => new Date(s.date) >= weekAgo).length;
+      
+      // Count phone clicks this week
+      const phoneCalls = JSON.parse(localStorage.getItem('impro_phone_clicks') || '[]');
+      const callsThisWeek = phoneCalls.filter(c => new Date(c.date) >= weekAgo).length;
+      
+      // Total activity = saved + searches + phone clicks
+      prospectsThisWeek = savedThisWeek + searchesThisWeek + callsThisWeek;
+      if (prospectsThisWeek === 0) prospectsThisWeek = saved.length; // fallback to total saved
     } catch { prospectsThisWeek = 0; }
 
     // Revenue this month from contracts

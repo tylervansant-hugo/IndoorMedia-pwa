@@ -483,6 +483,7 @@
     try {
       const results = await searchGooglePlaces(selectedStore.latitude, selectedStore.longitude, customSearch.trim());
       prospects = results;
+      trackSearch(selectedCategory, customSearch.trim(), selectedStore?.StoreName);
       view = 'results';
     } catch (err) {
       console.error('Custom search failed:', err);
@@ -502,6 +503,7 @@
       const keyword = CATEGORY_KEYWORDS[subcat] || subcat.toLowerCase();
       const results = await searchGooglePlaces(selectedStore.latitude, selectedStore.longitude, keyword);
       prospects = results;
+      trackSearch(selectedCategory, subcat, selectedStore?.StoreName);
       view = 'results';
     } catch (err) {
       console.error('Search failed:', err);
@@ -627,6 +629,22 @@
       notes[id] = text;
       localStorage.setItem('prospectNotes', JSON.stringify(notes));
     } catch {}
+  }
+
+  function trackSearch(category, subcategory, storeName) {
+    try {
+      const searches = JSON.parse(localStorage.getItem('impro_searches') || '[]');
+      searches.push({ category, subcategory, store: storeName, date: new Date().toISOString(), rep: $user?.name || 'Unknown' });
+      localStorage.setItem('impro_searches', JSON.stringify(searches.slice(-500))); // keep last 500
+    } catch (e) { console.warn('Track search error:', e); }
+  }
+
+  function trackPhoneClick(prospect) {
+    try {
+      const clicks = JSON.parse(localStorage.getItem('impro_phone_clicks') || '[]');
+      clicks.push({ business: prospect.name, phone: prospect.phone, date: new Date().toISOString(), rep: $user?.name || 'Unknown' });
+      localStorage.setItem('impro_phone_clicks', JSON.stringify(clicks.slice(-500))); // keep last 500
+    } catch (e) { console.warn('Track phone click error:', e); }
   }
 
   function saveProspect(prospect) {
@@ -1027,7 +1045,7 @@
               }}>📋 Testimonials</button>
             </div>
             {#if prospect.phone}
-              <a href="tel:{prospect.phone}" class="action-btn full-width call-btn">📞 Call {prospect.phone}</a>
+              <a href="tel:{prospect.phone}" class="action-btn full-width call-btn" on:click={() => trackPhoneClick(prospect)}>📞 Call {prospect.phone}</a>
             {/if}
             <button class="action-btn full-width script-btn" on:click={() => { prospect._showScript = !prospect._showScript; prospect._showEmail = false; prospect._showNotes = false; prospects = prospects; }}>📋 Call Scripts</button>
             <button class="action-btn full-width email-btn" on:click={() => { prospect._showEmail = !prospect._showEmail; prospect._showScript = false; prospect._showNotes = false; prospects = prospects; }}>✉️ Draft Email</button>
