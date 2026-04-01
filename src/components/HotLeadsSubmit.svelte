@@ -362,7 +362,7 @@
 <div class="submit-container">
   <div class="submit-header">
     <h3>➕ Submit New Lead</h3>
-    <p>Found a business? Add it here. Tyler will review and approve.</p>
+    <p>Found a business? Add it here.</p>
   </div>
   
   <div class="mode-toggle">
