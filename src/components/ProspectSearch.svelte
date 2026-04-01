@@ -787,7 +787,7 @@
     <div class="search-box">
       <input
         type="text"
-        placeholder="Search by city, chain, store #, or state..."
+        placeholder="Search by city, chain, store #, state, or street..."
         bind:value={storeSearchQuery}
         on:input={filterStoresForProspecting}
       />
