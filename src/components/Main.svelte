@@ -1022,6 +1022,10 @@
     flex: 1;
     overflow-y: auto;
     padding: 20px;
+    max-width: 1400px;
+    margin: 0 auto;
+    width: 100%;
+    box-sizing: border-box;
   }
 
   /* Dashboard */

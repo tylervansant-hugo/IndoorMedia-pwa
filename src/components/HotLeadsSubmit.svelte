@@ -528,7 +528,10 @@
     background: white;
     border-radius: 12px;
     padding: 24px;
-    max-width: 600px;
+    max-width: 800px;
+    margin: 0 auto;
+    width: 100%;
+    box-sizing: border-box;
   }
   
   .submit-header {

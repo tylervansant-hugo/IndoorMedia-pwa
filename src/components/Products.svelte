@@ -305,18 +305,6 @@
     <h2>📱 Digital Products</h2>
     <p class="detail-subtitle">Online advertising & customer engagement solutions</p>
 
-    <div class="links-section">
-      <a href={PRODUCT_LINKS.digital.presentation} target="_blank" class="link-btn">
-        🎬 Sales Presentation
-      </a>
-      <a href={PRODUCT_LINKS.digital.explainer} target="_blank" class="link-btn">
-        📹 Explainer Video
-      </a>
-      <a href={PRODUCT_LINKS.digital.connectionHub} target="_blank" class="link-btn">
-        🔗 Connection Hub
-      </a>
-    </div>
-
     <div class="digital-grid">
       {#each Object.entries(PRODUCTS.digital.subproducts) as [key, product]}
         <button class="digital-card" on:click={() => selectDigitalProduct(key)}>
@@ -333,6 +321,12 @@
     <button class="back-btn" on:click={goBack}>← Back</button>
     <h2>🚀 DigitalBoost</h2>
     <p class="detail-subtitle">Geofence pin delivering digital banner ad impressions</p>
+
+    <div class="links-section">
+      <a href={PRODUCT_LINKS.digital.presentation} target="_blank" class="link-btn">🎬 Sales Presentation</a>
+      <a href={PRODUCT_LINKS.digital.explainer} target="_blank" class="link-btn">📹 Explainer Video</a>
+      <a href={PRODUCT_LINKS.digital.connectionHub} target="_blank" class="link-btn">🔗 Connection Hub</a>
+    </div>
 
     <div class="detail-card">
       <div class="detail-section">
@@ -386,6 +380,11 @@
     <h2>📍 FindLocal</h2>
     <p class="detail-subtitle">Local SEO & listings management across 50+ directories</p>
 
+    <div class="links-section">
+      <a href={PRODUCT_LINKS.digital.presentation} target="_blank" class="link-btn">🎬 Sales Presentation</a>
+      <a href={PRODUCT_LINKS.digital.explainer} target="_blank" class="link-btn">📹 Explainer Video</a>
+    </div>
+
     <div class="detail-card">
       <div class="detail-section">
         <h4>Pricing</h4>
@@ -412,6 +411,11 @@
     <button class="back-btn" on:click={goBack}>← Back</button>
     <h2>⭐ ReviewBoost</h2>
     <p class="detail-subtitle">Automated review request campaign via Email & SMS</p>
+
+    <div class="links-section">
+      <a href={PRODUCT_LINKS.digital.presentation} target="_blank" class="link-btn">🎬 Sales Presentation</a>
+      <a href={PRODUCT_LINKS.digital.explainer} target="_blank" class="link-btn">📹 Explainer Video</a>
+    </div>
 
     <div class="detail-card">
       <div class="detail-section">
@@ -445,6 +449,11 @@
     <h2>💎 LoyaltyBoost</h2>
     <p class="detail-subtitle">Annual loyalty/rewards campaign per location</p>
 
+    <div class="links-section">
+      <a href={PRODUCT_LINKS.digital.presentation} target="_blank" class="link-btn">🎬 Sales Presentation</a>
+      <a href={PRODUCT_LINKS.digital.explainer} target="_blank" class="link-btn">📹 Explainer Video</a>
+    </div>
+
     <div class="detail-card">
       <div class="detail-section">
         <h4>Annual Campaign</h4>
@@ -474,7 +483,7 @@
 <style>
   .products-container {
     padding: 20px;
-    max-width: 600px;
+    max-width: 100%;
     margin: 0 auto;
   }
 
@@ -743,9 +752,16 @@
 
   .digital-grid {
     display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 12px;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
     margin-top: 15px;
+    width: 100%;
+  }
+
+  @media (min-width: 768px) {
+    .digital-grid {
+      grid-template-columns: repeat(4, 1fr);
+    }
   }
 
   .digital-card {
