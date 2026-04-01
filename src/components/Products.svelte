@@ -18,6 +18,10 @@
       presentation: 'https://docs.google.com/presentation/d/1xwIF4CaTp07AKunGaJysCSIGqN7VCdbL4fgOH3XEpl4/edit?usp=sharing',
       explainer: 'https://www.youtube.com/watch?v=PduxHWy8sMc',
       connectionHub: 'https://drive.google.com/file/d/199IkMptOlSYviHScKNKUlqELQOhWFxnB/view?usp=sharing'
+    },
+    digitalboost: {
+      presentation: 'https://drive.google.com/file/d/1LvPJjBk1tvMYFoRAy-AUSugUXV82hUeM/view?usp=sharing',
+      explainer: 'https://drive.google.com/file/d/1_QyAlgZRy1bKJSKC1058260d0jPccVTM/view?usp=share_link'
     }
   };
 
@@ -323,8 +327,8 @@
     <p class="detail-subtitle">Geofence pin delivering digital banner ad impressions</p>
 
     <div class="links-section">
-      <a href={PRODUCT_LINKS.digital.presentation} target="_blank" class="link-btn">🎬 Sales Presentation</a>
-      <a href={PRODUCT_LINKS.digital.explainer} target="_blank" class="link-btn">📹 Explainer Video</a>
+      <a href={PRODUCT_LINKS.digitalboost.presentation} target="_blank" class="link-btn">🎬 Sales Presentation</a>
+      <a href={PRODUCT_LINKS.digitalboost.explainer} target="_blank" class="link-btn">📹 Explainer Video</a>
       <a href={PRODUCT_LINKS.digital.connectionHub} target="_blank" class="link-btn">🔗 Connection Hub</a>
     </div>
 
