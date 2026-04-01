@@ -568,9 +568,7 @@
         {/if}
 
         <h2>Welcome, {$user?.name || $user?.first_name}!</h2>
-        {#if $user?.base_location}
-          <p class="location-badge">📍 Territory: {$user.base_location}</p>
-        {/if}
+
 
         <!-- Revenue + Key Stats -->
         <button class="revenue-hero clickable" on:click={() => showRevenueDetail = !showRevenueDetail}>
