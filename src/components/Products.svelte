@@ -522,10 +522,10 @@
     text-decoration: underline;
   }
 
-    .button-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; width: 100%; }
-    @media (min-width: 768px) { .button-grid { grid-template-columns: repeat(3, 1fr); gap: 1.5rem; } }
-    @media (min-width: 1200px) { .button-grid { grid-template-columns: repeat(4, 1fr); gap: 2rem; } }
-  .main-btn { background: var(--card-bg, #2a2a3e); border: 2px solid var(--border-color, #333); border-radius: 12px; padding: 1.5rem; cursor: pointer; transition: all 0.2s; text-align: center; color: var(--text-primary, #eee); min-height: 140px; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+    .button-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.5rem; width: 100%; }
+    @media (min-width: 768px) { .button-grid { grid-template-columns: repeat(3, 1fr); gap: 2rem; } }
+    @media (min-width: 1200px) { .button-grid { grid-template-columns: repeat(3, 1fr); gap: 2rem; } }
+  .main-btn { background: var(--card-bg); border: 2px solid var(--border-color); border-radius: 16px; padding: 2rem 1.5rem; cursor: pointer; transition: all 0.2s; text-align: center; color: var(--text-primary); min-height: 180px; display: flex; flex-direction: column; align-items: center; justify-content: center; width: 100%; }
   .main-btn:hover { border-color: #cc0000; box-shadow: 0 4px 12px rgba(204, 0, 0, 0.1); transform: translateY(-2px); }
   .btn-icon { font-size: 2rem; margin-bottom: 0.5rem; }
   .btn-text { font-weight: 600; color: var(--text-primary, #eee); margin-bottom: 0.25rem; }

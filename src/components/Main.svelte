@@ -1167,8 +1167,9 @@
   .goal-btn.reset:active { background: #333; }
 
   .dashboard {
-    max-width: 1200px;
+    max-width: 100%;
     margin: 0 auto;
+    width: 100%;
   }
 
   .dashboard h2 {
@@ -1190,22 +1191,38 @@
 
   .dashboard-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 16px;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
     margin-bottom: 32px;
+    width: 100%;
+  }
+
+  @media (min-width: 768px) {
+    .dashboard-grid {
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2rem;
+    }
+  }
+
+  @media (min-width: 1200px) {
+    .dashboard-grid {
+      grid-template-columns: repeat(4, 1fr);
+      gap: 2rem;
+    }
   }
 
   .stat-card {
     background: var(--card-bg);
     border: 2px solid var(--border-color);
-    border-radius: 12px;
-    padding: 20px;
+    border-radius: 16px;
+    padding: 2rem 1.5rem;
     text-align: center;
-    min-height: 120px;
+    min-height: 160px;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    width: 100%;
   }
 
   .stat-icon {
@@ -1246,8 +1263,23 @@
 
   .action-buttons {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-    gap: 12px;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
+    width: 100%;
+  }
+
+  @media (min-width: 768px) {
+    .action-buttons {
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2rem;
+    }
+  }
+
+  @media (min-width: 1200px) {
+    .action-buttons {
+      grid-template-columns: repeat(4, 1fr);
+      gap: 2rem;
+    }
   }
 
   .action-btn {
@@ -1338,7 +1370,7 @@
     }
   }
   /* Analytics */
-  .analytics-container { padding: 16px; max-width: 900px; margin: 0 auto; }
+  .analytics-container { padding: 16px; max-width: 100%; margin: 0 auto; width: 100%; }
   .period-selector { display: flex; gap: 8px; margin-bottom: 12px; }
   .zone-filter { display: flex; align-items: center; gap: 6px; margin-bottom: 16px; overflow-x: auto; white-space: nowrap; padding-bottom: 4px; }
   .zone-label { font-size: 12px; font-weight: 700; color: var(--text-secondary); text-transform: uppercase; flex-shrink: 0; }

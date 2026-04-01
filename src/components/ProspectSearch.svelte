@@ -1708,15 +1708,15 @@
 
   .button-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 1rem;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
     width: 100%;
   }
 
   @media (min-width: 768px) {
     .button-grid {
       grid-template-columns: repeat(3, 1fr);
-      gap: 1.5rem;
+      gap: 2rem;
     }
   }
 
@@ -1730,17 +1730,18 @@
   .main-btn {
     background: var(--card-bg);
     border: 2px solid var(--border-color);
-    border-radius: 12px;
-    padding: 1.5rem;
+    border-radius: 16px;
+    padding: 2rem 1.5rem;
     cursor: pointer;
     transition: all 0.2s;
     text-align: center;
     color: var(--text-primary);
-    min-height: 140px;
+    min-height: 180px;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    width: 100%;
   }
 
   .main-btn:hover {
