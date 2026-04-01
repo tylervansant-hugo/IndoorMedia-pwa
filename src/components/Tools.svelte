@@ -38,6 +38,7 @@
   let roiTicket = '';
   let roiDiscount = '';
   let roiCogs = '';
+  let roiVisitsPerYear = 1;
   let roiResult = null;
 
   $: roiStoreResults = roiStoreSearch.length >= 2
@@ -71,8 +72,9 @@
     const ticket = parseFloat(roiTicket) || 0;
     const discount = parseFloat(roiDiscount) || 0;
     const cogsPercent = parseFloat(roiCogs) || 0;
+    const visitsPerYear = parseInt(roiVisitsPerYear) || 1;
     
-    const monthlyRevenue = redemptions * ticket;
+    const monthlyRevenue = redemptions * ticket * (visitsPerYear / 12);
     const monthlyDiscounts = redemptions * discount;
     const monthlyCogs = monthlyRevenue * (cogsPercent / 100);
     const monthlyProfit = monthlyRevenue - monthlyDiscounts - monthlyCogs;
@@ -103,6 +105,7 @@
       campaignProfit: Math.round(campaignProfit),
       roiPercent,
       cogsPercent,
+      visitsPerYear,
       breakEvenRedemptions
     };
   }
@@ -152,8 +155,9 @@
 
     section('ASSUMPTIONS');
     line('Monthly Redemptions:', roiRedemptions);
-    line('Average Ticket:', `$${parseFloat(roiTicket || 0).toLocaleString()}`);
-    line('Coupon Discount:', `$${parseFloat(roiDiscount || 0).toLocaleString()}`);
+    line('Average Customer Spend:', `$${parseFloat(roiTicket || 0).toLocaleString()}`);
+    line('Visits per Year:', `${r.visitsPerYear}`);
+    line('Avg Discount per Coupon:', `$${parseFloat(roiDiscount || 0).toLocaleString()}`);
     line('COGS:', `${r.cogsPercent}%`);
 
     section('ROI BREAKDOWN');
@@ -195,6 +199,129 @@
     a.download = `ROI_Report_${biz.replace(/[^a-zA-Z0-9]/g, '_')}.pdf`;
     a.click();
     URL.revokeObjectURL(url);
+  }
+
+  function exportRoiHtml() {
+    if (!roiResult) return;
+    const r = roiResult;
+    const biz = roiBusinessName || 'Customer';
+    const store = roiSelectedStore
+      ? `${roiSelectedStore.GroceryChain} — ${roiSelectedStore.City}, ${roiSelectedStore.State} (${roiSelectedStore.StoreName})`
+      : 'N/A';
+    const date = new Date().toLocaleDateString();
+    const repName = $user?.name || $user?.first_name || 'IndoorMedia Rep';
+
+    const html = `<!DOCTYPE html>
+<html><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ROI Report — ${biz}</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; padding: 24px; max-width: 600px; margin: 0 auto; background: #fff; }
+  .header { background: linear-gradient(135deg, #CC0000, #8B0000); color: white; padding: 24px; border-radius: 12px; margin-bottom: 24px; text-align: center; }
+  .header h1 { font-size: 22px; margin-bottom: 4px; }
+  .header p { font-size: 14px; opacity: 0.9; }
+  .section { margin-bottom: 20px; }
+  .section h3 { font-size: 15px; color: #666; margin-bottom: 8px; border-bottom: 2px solid #eee; padding-bottom: 4px; }
+  .row { display: flex; justify-content: space-between; align-items: center; padding: 10px 12px; background: #f9f9f9; border-radius: 8px; margin-bottom: 6px; }
+  .row.highlight { background: #f0fff0; border: 2px solid #2e7d32; }
+  .label { font-size: 13px; color: #555; }
+  .value { font-size: 16px; font-weight: 700; }
+  .green { color: #2e7d32; }
+  .red { color: #c33; }
+  .big { font-size: 22px; color: #2e7d32; }
+  .footer { text-align: center; color: #999; font-size: 12px; margin-top: 30px; padding-top: 16px; border-top: 1px solid #eee; }
+  .logo { font-size: 18px; font-weight: 700; color: #CC0000; margin-bottom: 4px; }
+  @media print { body { padding: 12px; } .no-print { display: none; } }
+</style></head><body>
+<div class="header">
+  <h1>📊 ROI Analysis Report</h1>
+  <p>Prepared for: ${biz}</p>
+  <p>${store} | ${date}</p>
+</div>
+
+<div class="section">
+  <h3>👤 Details</h3>
+  <div class="row"><span class="label">Business</span><span class="value">${biz}</span></div>
+  <div class="row"><span class="label">Store</span><span class="value">${store}</span></div>
+  <div class="row"><span class="label">Prepared By</span><span class="value">${repName}</span></div>
+</div>
+
+<div class="section">
+  <h3>📋 Campaign Inputs</h3>
+  <div class="row"><span class="label">Ad Size</span><span class="value">${r.adSize === 'double' ? 'Double Ad' : 'Single Ad'}</span></div>
+  <div class="row"><span class="label">Annual Ad Rate</span><span class="value">$${r.annualAdCost.toLocaleString()}</span></div>
+  <div class="row"><span class="label">Campaign</span><span class="value">${r.quarters} quarter(s) / ${r.months} months</span></div>
+  <div class="row"><span class="label">Total Investment</span><span class="value">$${r.totalAdCost.toLocaleString()}</span></div>
+  <div class="row"><span class="label">Monthly Redemptions</span><span class="value">${roiRedemptions}</span></div>
+  <div class="row"><span class="label">Avg Customer Spend</span><span class="value">$${parseFloat(roiTicket || 0).toLocaleString()}</span></div>
+  <div class="row"><span class="label">Visits per Year</span><span class="value">${r.visitsPerYear}</span></div>
+  ${roiDiscount ? `<div class="row"><span class="label">Avg Discount per Coupon</span><span class="value">$${parseFloat(roiDiscount).toLocaleString()}</span></div>` : ''}
+  ${r.cogsPercent ? `<div class="row"><span class="label">COGS</span><span class="value">${r.cogsPercent}%</span></div>` : ''}
+</div>
+
+<div class="section">
+  <h3>💰 Revenue Analysis</h3>
+  <div class="row"><span class="label">Monthly Revenue</span><span class="value green">$${r.monthlyRevenue.toLocaleString()}/mo</span></div>
+  <div class="row"><span class="label">Gross Revenue (${r.months} months)</span><span class="value green">$${r.totalRevenue.toLocaleString()}</span></div>
+  ${r.totalDiscounts ? `<div class="row"><span class="label">Less Discounts</span><span class="value red">-$${r.totalDiscounts.toLocaleString()}</span></div>` : ''}
+  ${r.totalCogs ? `<div class="row"><span class="label">Less COGS (${r.cogsPercent}%)</span><span class="value red">-$${r.totalCogs.toLocaleString()}</span></div>` : ''}
+  <div class="row"><span class="label">Less Ad Investment</span><span class="value red">-$${r.totalAdCost.toLocaleString()}</span></div>
+</div>
+
+<div class="section">
+  <h3>📊 Results</h3>
+  <div class="row highlight"><span class="label">Return on Investment</span><span class="value big">${r.roiPercent}% ROI</span></div>
+  <div class="row"><span class="label">Campaign Net Profit</span><span class="value green">$${r.campaignProfit.toLocaleString()}</span></div>
+  <div class="row"><span class="label">Break-even Redemptions/mo</span><span class="value">${r.breakEvenRedemptions}</span></div>
+</div>
+
+<div class="footer">
+  <div class="logo">imPro — IndoorMedia</div>
+  <p>Generated ${date} | Register Tape Advertising</p>
+</div>
+
+<div class="no-print" style="text-align:center;margin-top:20px;">
+  <button onclick="window.print()" style="padding:12px 32px;background:#CC0000;color:white;border:none;border-radius:8px;font-size:16px;cursor:pointer;">🖨️ Print / Save as PDF</button>
+</div>
+</body></html>`;
+
+    const blob = new Blob([html], { type: 'text/html' });
+    const url = URL.createObjectURL(blob);
+    const w = window.open(url, '_blank');
+    if (!w) {
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `ROI-Report-${biz.replace(/[^a-zA-Z0-9]/g, '_')}.html`;
+      a.click();
+    }
+    setTimeout(() => URL.revokeObjectURL(url), 5000);
+  }
+
+  function shareRoiText() {
+    if (!roiResult) return;
+    const r = roiResult;
+    const biz = roiBusinessName || 'Customer';
+    const store = roiSelectedStore
+      ? `${roiSelectedStore.GroceryChain} — ${roiSelectedStore.City}, ${roiSelectedStore.State}`
+      : 'N/A';
+
+    const text = `📊 ROI Report — ${biz}
+Store: ${store}
+
+💰 Investment: $${r.totalAdCost.toLocaleString()} (${r.quarters}Q)
+📈 Gross Revenue: $${r.totalRevenue.toLocaleString()}${r.totalDiscounts ? `\n🏷️ Discounts: -$${r.totalDiscounts.toLocaleString()}` : ''}${r.totalCogs ? `\n📉 COGS (${r.cogsPercent}%): -$${r.totalCogs.toLocaleString()}` : ''}
+
+✅ ROI: ${r.roiPercent}%
+💵 Net Profit: $${r.campaignProfit.toLocaleString()}
+📍 Break-even: ${r.breakEvenRedemptions} redemptions/mo
+
+— IndoorMedia Register Tape Advertising`;
+
+    if (navigator.share) {
+      navigator.share({ title: `ROI Report — ${biz}`, text }).catch(() => {});
+    } else {
+      navigator.clipboard.writeText(text).then(() => alert('📋 ROI report copied to clipboard!')).catch(() => {});
+    }
   }
 
   // Submit testimonial state (matches ProspectBot flow)
@@ -715,12 +842,18 @@
       </div>
 
       <div class="form-group">
-        <label>Average Ticket ($) *</label>
+        <label>Average Ticket / Customer Spend ($) *</label>
         <input type="number" bind:value={roiTicket} placeholder="e.g., 50" />
       </div>
 
       <div class="form-group">
-        <label>Coupon Discount ($)</label>
+        <label>Visits per Year (per customer)</label>
+        <input type="number" bind:value={roiVisitsPerYear} placeholder="1" min="1" />
+        <p class="hint">How often each new customer returns annually (1 = one-time, 12 = monthly)</p>
+      </div>
+
+      <div class="form-group">
+        <label>Avg Discount per Coupon ($)</label>
         <input type="number" bind:value={roiDiscount} placeholder="e.g., 10" />
         <p class="hint">If running a coupon/offer on the ad</p>
       </div>
@@ -800,9 +933,17 @@
           {/if}
         </div>
 
-        <button class="action-btn" on:click={downloadRoiPdf} style="margin-top: 16px;">
-          📄 Generate ROI Report
-        </button>
+        <div class="roi-export-actions">
+          <button class="action-btn" on:click={downloadRoiPdf}>
+            📄 PDF Report
+          </button>
+          <button class="action-btn" on:click={exportRoiHtml} style="background: #CC0000;">
+            🌐 Export Report
+          </button>
+          <button class="action-btn" on:click={shareRoiText} style="background: #2e7d32;">
+            📤 Share
+          </button>
+        </div>
       </div>
     {/if}
   {/if}
@@ -1803,6 +1944,8 @@
   .roi-row.total { font-weight: 700; font-size: 14px; border-top: 2px solid #ddd; padding-top: 12px; margin-top: 4px; }
   .roi-row .cost { color: #c33; }
   .roi-row .profit { color: #2e7d32; font-weight: 700; }
+  .roi-export-actions { display: flex; gap: 8px; margin-top: 16px; }
+  .roi-export-actions .action-btn { flex: 1; font-size: 13px; padding: 10px; }
   .roi-verdict { margin-top: 16px; padding: 14px; border-radius: 10px; font-size: 14px; font-weight: 600; text-align: center; }
   .roi-verdict.positive { background: #e8f5e9; color: #2e7d32; border: 1px solid #81c784; }
   .roi-verdict.negative { background: #ffe0e0; color: #c33; border: 1px solid #ff9999; }
