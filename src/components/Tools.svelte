@@ -1461,9 +1461,23 @@ Store: ${store}
 
   .button-grid {
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
     gap: 1rem;
-    max-width: 600px;
+    width: 100%;
+  }
+
+  @media (min-width: 768px) {
+    .button-grid {
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+    }
+  }
+
+  @media (min-width: 1200px) {
+    .button-grid {
+      grid-template-columns: repeat(4, 1fr);
+      gap: 2rem;
+    }
   }
 
   .main-btn {
