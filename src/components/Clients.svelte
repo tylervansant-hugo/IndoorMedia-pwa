@@ -388,7 +388,7 @@
       <button class="menu-btn renewal-btn" on:click={() => view = 'renewals'}>
         <div class="menu-emoji">🔄</div>
         <h4>Pending Renewals</h4>
-        <p>{myRenewals.length} accounts</p>
+        <p>{myRenewals.length} accounts • ${myRenewals.reduce((sum, r) => { const p = (r.contractPrice || '').replace(/[$,\s]/g, ''); return sum + (parseFloat(p) || 0); }, 0).toLocaleString()}</p>
       </button>
     </div>
 
@@ -533,7 +533,7 @@
   {#if view === 'renewals'}
     <button class="back-btn" on:click={goBack}>&larr; Back</button>
     <h2>🔄 Pending Renewals</h2>
-    <p class="subtitle">{filteredRenewals.length} of {myRenewals.length} accounts — Zone 7 (2026)</p>
+    <p class="subtitle">{filteredRenewals.length} of {myRenewals.length} accounts — ${myRenewals.reduce((sum, r) => { const p = (r.contractPrice || '').replace(/[$,\s]/g, ''); return sum + (parseFloat(p) || 0); }, 0).toLocaleString()} total value</p>
 
     <div class="renewal-filters">
       <input type="text" placeholder="Search business, contact, store..." bind:value={renewalSearch} class="renewal-search" />
