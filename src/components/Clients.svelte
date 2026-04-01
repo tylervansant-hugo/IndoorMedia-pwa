@@ -991,7 +991,8 @@
               {#if proof.image_url}
                 <div class="proof-image-container">
                   <h4>Ad Proof Image</h4>
-                  <img src={proof.image_url} alt="Ad proof for {proof.client_name}" class="proof-image" loading="lazy" />
+                  <img src={proof.image_url} alt="Ad proof for {proof.client_name}" class="proof-image" loading="lazy" referrerpolicy="no-referrer" on:error={(e) => { e.target.style.display='none'; }} />
+                  <a href={proof.image_url} target="_blank" class="proof-image-fallback">📷 Tap to view ad proof image</a>
                   <a href={proof.image_url} target="_blank" class="view-full-btn">View Full Size ↗</a>
                 </div>
               {/if}
