@@ -30,6 +30,133 @@
     roiCOGS = 0;
   }
 
+  function exportROI(store) {
+    const investment = parseFloat(roiInvestment.replace(/,/g, ''));
+    const grossRevenue = roiAvgSpend * roiNewCustomers * 12 * (roiVisitsPerYear || 1);
+    const cogsAmount = grossRevenue * ((roiCOGS || 0) / 100);
+    const annualRevenue = grossRevenue - cogsAmount;
+    const annualRedemptions = (roiTotalRedemptions || 0) * 12;
+    const couponRevenue = annualRedemptions ? (roiAvgSpend - (roiCouponDiscount || 0)) * annualRedemptions : 0;
+    const couponCOGS = couponRevenue * ((roiCOGS || 0) / 100);
+    const totalRevenue = annualRevenue + couponRevenue - couponCOGS;
+    const couponCost = (roiCouponDiscount || 0) * annualRedemptions;
+    const netRevenue = totalRevenue - couponCost;
+    const roiPercent = ((netRevenue - investment) / investment * 100).toFixed(0);
+    const monthlyRevenue = roiAvgSpend * roiNewCustomers * (roiVisitsPerYear || 1);
+    const netProfit = netRevenue - investment;
+    const date = new Date().toLocaleDateString();
+
+    const html = `<!DOCTYPE html>
+<html><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ROI Report — ${store.GroceryChain} ${store.City}</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; padding: 24px; max-width: 600px; margin: 0 auto; background: #fff; }
+  .header { background: linear-gradient(135deg, #CC0000, #8B0000); color: white; padding: 24px; border-radius: 12px; margin-bottom: 24px; text-align: center; }
+  .header h1 { font-size: 22px; margin-bottom: 4px; }
+  .header p { font-size: 14px; opacity: 0.9; }
+  .section { margin-bottom: 20px; }
+  .section h3 { font-size: 15px; color: #666; margin-bottom: 8px; border-bottom: 2px solid #eee; padding-bottom: 4px; }
+  .row { display: flex; justify-content: space-between; align-items: center; padding: 10px 12px; background: #f9f9f9; border-radius: 8px; margin-bottom: 6px; }
+  .row.highlight { background: #f0fff0; border: 2px solid #2e7d32; }
+  .label { font-size: 13px; color: #555; }
+  .value { font-size: 16px; font-weight: 700; }
+  .green { color: #2e7d32; }
+  .red { color: #c33; }
+  .big { font-size: 22px; color: #2e7d32; }
+  .footer { text-align: center; color: #999; font-size: 12px; margin-top: 30px; padding-top: 16px; border-top: 1px solid #eee; }
+  .logo { font-size: 18px; font-weight: 700; color: #CC0000; margin-bottom: 4px; }
+  @media print { body { padding: 12px; } .no-print { display: none; } }
+</style></head><body>
+<div class="header">
+  <h1>📊 ROI Analysis Report</h1>
+  <p>${store.GroceryChain} — ${store.City}, ${store.State}</p>
+  <p>Store: ${store.StoreName} | ${date}</p>
+</div>
+
+<div class="section">
+  <h3>📋 Inputs</h3>
+  <div class="row"><span class="label">Investment</span><span class="value">$${investment.toLocaleString()}</span></div>
+  <div class="row"><span class="label">Avg Customer Spend</span><span class="value">$${roiAvgSpend}</span></div>
+  <div class="row"><span class="label">New Customers / Month</span><span class="value">${roiNewCustomers}</span></div>
+  <div class="row"><span class="label">Visits / Year</span><span class="value">${roiVisitsPerYear}</span></div>
+  ${roiCouponDiscount ? `<div class="row"><span class="label">Avg Discount per Coupon</span><span class="value">$${roiCouponDiscount}</span></div>` : ''}
+  ${roiTotalRedemptions ? `<div class="row"><span class="label">Monthly Coupon Redemptions</span><span class="value">${roiTotalRedemptions}</span></div>` : ''}
+  ${roiCOGS ? `<div class="row"><span class="label">Cost of Goods Sold</span><span class="value">${roiCOGS}%</span></div>` : ''}
+</div>
+
+<div class="section">
+  <h3>💰 Revenue Analysis</h3>
+  <div class="row"><span class="label">Monthly Revenue (New Customers)</span><span class="value green">$${monthlyRevenue.toLocaleString()}/mo</span></div>
+  <div class="row"><span class="label">Gross Annual Revenue</span><span class="value green">$${grossRevenue.toLocaleString()}</span></div>
+  ${roiCOGS ? `<div class="row"><span class="label">Cost of Goods Sold (${roiCOGS}%)</span><span class="value red">-$${cogsAmount.toLocaleString()}</span></div>
+  <div class="row"><span class="label">Net Annual Revenue</span><span class="value green">$${annualRevenue.toLocaleString()}</span></div>` : ''}
+  ${roiTotalRedemptions ? `<div class="row"><span class="label">Annual Redemptions (${roiTotalRedemptions}/mo × 12)</span><span class="value">${annualRedemptions.toLocaleString()}</span></div>
+  <div class="row"><span class="label">Coupon Redemption Revenue</span><span class="value green">$${couponRevenue.toLocaleString()}</span></div>
+  <div class="row"><span class="label">Coupon Discount Cost</span><span class="value red">-$${couponCost.toLocaleString()}</span></div>` : ''}
+</div>
+
+<div class="section">
+  <h3>📊 Results</h3>
+  <div class="row highlight"><span class="label">Return on Investment</span><span class="value big">${roiPercent}% ROI</span></div>
+  <div class="row"><span class="label">Net Profit</span><span class="value green">$${netProfit.toLocaleString()}</span></div>
+</div>
+
+<div class="footer">
+  <div class="logo">imPro — IndoorMedia</div>
+  <p>Generated ${date} | Register Tape Advertising</p>
+</div>
+
+<div class="no-print" style="text-align:center;margin-top:20px;">
+  <button onclick="window.print()" style="padding:12px 32px;background:#CC0000;color:white;border:none;border-radius:8px;font-size:16px;cursor:pointer;">🖨️ Print / Save as PDF</button>
+</div>
+</body></html>`;
+
+    const blob = new Blob([html], { type: 'text/html' });
+    const url = URL.createObjectURL(blob);
+    const w = window.open(url, '_blank');
+    if (!w) {
+      // Fallback: download as file
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `ROI-Report-${store.StoreName}-${new Date().toISOString().slice(0,10)}.html`;
+      a.click();
+    }
+    setTimeout(() => URL.revokeObjectURL(url), 5000);
+  }
+
+  function shareROI(store) {
+    const investment = parseFloat(roiInvestment.replace(/,/g, ''));
+    const grossRevenue = roiAvgSpend * roiNewCustomers * 12 * (roiVisitsPerYear || 1);
+    const cogsAmount = grossRevenue * ((roiCOGS || 0) / 100);
+    const annualRevenue = grossRevenue - cogsAmount;
+    const annualRedemptions = (roiTotalRedemptions || 0) * 12;
+    const couponRevenue = annualRedemptions ? (roiAvgSpend - (roiCouponDiscount || 0)) * annualRedemptions : 0;
+    const couponCOGS = couponRevenue * ((roiCOGS || 0) / 100);
+    const totalRevenue = annualRevenue + couponRevenue - couponCOGS;
+    const couponCost = (roiCouponDiscount || 0) * annualRedemptions;
+    const netRevenue = totalRevenue - couponCost;
+    const roiPercent = ((netRevenue - investment) / investment * 100).toFixed(0);
+    const netProfit = netRevenue - investment;
+
+    const text = `📊 ROI Report — ${store.GroceryChain} ${store.City}, ${store.State}
+Store: ${store.StoreName}
+
+💰 Investment: $${investment.toLocaleString()}
+📈 Gross Annual Revenue: $${grossRevenue.toLocaleString()}${roiCOGS ? `\n📉 COGS (${roiCOGS}%): -$${cogsAmount.toLocaleString()}` : ''}${roiTotalRedemptions ? `\n🎟️ Coupon Revenue: $${couponRevenue.toLocaleString()}\n🏷️ Coupon Cost: -$${couponCost.toLocaleString()}` : ''}
+
+✅ ROI: ${roiPercent}%
+💵 Net Profit: $${netProfit.toLocaleString()}
+
+— IndoorMedia Register Tape Advertising`;
+
+    if (navigator.share) {
+      navigator.share({ title: `ROI Report — ${store.GroceryChain}`, text }).catch(() => {});
+    } else {
+      navigator.clipboard.writeText(text).then(() => alert('📋 ROI report copied to clipboard!')).catch(() => {});
+    }
+  }
+
   async function loadStores() {
     try {
       setLoading(true);
@@ -471,6 +598,10 @@
                       </div>
                     {/if}
 
+                    <div class="roi-action-btns">
+                      <button class="roi-export-btn" on:click={() => exportROI(store)}>📄 Export Report</button>
+                      <button class="roi-share-btn" on:click={() => shareROI(store)}>📤 Share</button>
+                    </div>
                     <button class="roi-close-btn" on:click={() => { roiStore = null; }}>Close Calculator</button>
                   </div>
                 {/if}
@@ -1009,6 +1140,41 @@
   .roi-value.big {
     font-size: 20px;
     color: #2e7d32;
+  }
+
+  .roi-action-btns {
+    display: flex;
+    gap: 8px;
+    margin-top: 12px;
+  }
+
+  .roi-export-btn, .roi-share-btn {
+    flex: 1;
+    padding: 10px;
+    border: none;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .roi-export-btn {
+    background: #CC0000;
+    color: white;
+  }
+
+  .roi-export-btn:hover {
+    background: #a00;
+  }
+
+  .roi-share-btn {
+    background: #2e7d32;
+    color: white;
+  }
+
+  .roi-share-btn:hover {
+    background: #1b5e20;
   }
 
   .roi-close-btn {
