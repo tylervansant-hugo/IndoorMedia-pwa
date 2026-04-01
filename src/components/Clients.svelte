@@ -44,11 +44,20 @@
     loading = false;
   });
 
-  // Get unique reps and cycles from renewals
-  $: renewalReps = [...new Set(pendingRenewals.map(r => r.rep))].sort();
-  $: renewalCycles = [...new Set(pendingRenewals.map(r => r.cycle))].sort();
+  // Get renewals scoped to rep (managers see all, reps see only their own)
+  $: myRenewals = isManager
+    ? pendingRenewals
+    : pendingRenewals.filter(r => {
+        const rn = (repName || '').toLowerCase();
+        const repLower = (r.rep || '').toLowerCase();
+        // Match first name or full name
+        return repLower.includes(rn.split(' ')[0]) && (rn.split(' ').length < 2 || repLower.includes(rn.split(' ')[1] || ''));
+      });
+
+  $: renewalReps = [...new Set(myRenewals.map(r => r.rep))].sort();
+  $: renewalCycles = [...new Set(myRenewals.map(r => r.cycle))].sort();
   
-  $: filteredRenewals = pendingRenewals.filter(r => {
+  $: filteredRenewals = myRenewals.filter(r => {
     if (renewalCycleFilter !== 'all' && r.cycle !== renewalCycleFilter) return false;
     if (renewalRepFilter !== 'all' && r.rep !== renewalRepFilter) return false;
     if (renewalSearch) {
@@ -63,7 +72,7 @@
   });
 
   $: repName = $user?.name || $user?.first_name || '';
-  $: isManager = repName?.toLowerCase().includes('tyler');
+  $: isManager = repName?.toLowerCase().includes('tyler') || repName?.toLowerCase().includes('rick leibowitz') || repName?.toLowerCase().includes('richard leibowitz');
 
   let sortBy = 'date-desc'; // date-desc, date-asc, rep, amount-desc, amount-asc, name
 
@@ -379,7 +388,7 @@
       <button class="menu-btn renewal-btn" on:click={() => view = 'renewals'}>
         <div class="menu-emoji">🔄</div>
         <h4>Pending Renewals</h4>
-        <p>{pendingRenewals.length} accounts</p>
+        <p>{myRenewals.length} accounts</p>
       </button>
     </div>
 
@@ -524,7 +533,7 @@
   {#if view === 'renewals'}
     <button class="back-btn" on:click={goBack}>&larr; Back</button>
     <h2>🔄 Pending Renewals</h2>
-    <p class="subtitle">{filteredRenewals.length} of {pendingRenewals.length} accounts — Zone 7 (2026)</p>
+    <p class="subtitle">{filteredRenewals.length} of {myRenewals.length} accounts — Zone 7 (2026)</p>
 
     <div class="renewal-filters">
       <input type="text" placeholder="Search business, contact, store..." bind:value={renewalSearch} class="renewal-search" />
