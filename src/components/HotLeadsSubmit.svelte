@@ -296,6 +296,7 @@
       s.chain.toLowerCase().includes(search) ||
       s.city.toLowerCase().includes(search) ||
       (s.state && s.state.toLowerCase().includes(search)) ||
+      (s.address && s.address.toLowerCase().includes(search)) ||
       `${s.chain} ${s.city}`.toLowerCase().includes(search)
     ).slice(0, 8);
   }
@@ -500,7 +501,7 @@
               on:click={() => selectStore(store)}
             >
               <strong>{store.chain}</strong> — {store.city}, {store.state}
-              <small>{store.id} · Cycle {store.cycle}</small>
+              <small>{store.address} · {store.id} · Cycle {store.cycle}</small>
             </button>
           {/each}
         </div>
