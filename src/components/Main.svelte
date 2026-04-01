@@ -32,8 +32,13 @@
   let upcomingAppointments = [];
   let dailyGoal = { calls: 0, target: 0 };
   let streak = 0;
+  let streakDays = []; // detailed streak history
   let nextCycleDate = '';
   let nextCycleName = '';
+  let showRevenueDetail = false;
+  let showStreakDetail = false;
+  let thisMonthContracts = [];
+  let pendingRenewalsData = [];
 
   // Motivational quotes
   const QUOTES = [
@@ -129,13 +134,32 @@
     saveDailyGoal();
   }
 
+  function resetDailyGoal() {
+    dailyGoal.calls = 0;
+    dailyGoal = dailyGoal;
+    saveDailyGoal();
+  }
+
   function calcStreak() {
     try {
       const searches = JSON.parse(localStorage.getItem('impro_searches') || '[]');
       const calls = JSON.parse(localStorage.getItem('impro_phone_clicks') || '[]');
-      const all = [...searches, ...calls].map(x => new Date(x.date).toISOString().slice(0, 10));
-      const unique = [...new Set(all)].sort().reverse();
       
+      // Build daily activity detail
+      const byDay = {};
+      searches.forEach(x => {
+        const d = new Date(x.date).toISOString().slice(0, 10);
+        if (!byDay[d]) byDay[d] = { date: d, searches: 0, calls: 0 };
+        byDay[d].searches++;
+      });
+      calls.forEach(x => {
+        const d = new Date(x.date).toISOString().slice(0, 10);
+        if (!byDay[d]) byDay[d] = { date: d, searches: 0, calls: 0 };
+        byDay[d].calls++;
+      });
+      streakDays = Object.values(byDay).sort((a, b) => b.date.localeCompare(a.date)).slice(0, 14);
+      
+      const unique = Object.keys(byDay).sort().reverse();
       let s = 0;
       const today = new Date().toISOString().slice(0, 10);
       let checkDate = today;
@@ -201,7 +225,7 @@
       return rep.includes(repName.split(' ')[0]);
     });
     
-    const thisMonthContracts = myContracts.filter(c => {
+    thisMonthContracts = myContracts.filter(c => {
       const d = new Date(c.date);
       return d.getMonth() === thisMonth && d.getFullYear() === thisYear;
     });
@@ -249,12 +273,14 @@
       .then(r => r.json())
       .then(renewals => {
         if (isManager) {
+          pendingRenewalsData = renewals;
           pendingRenewalsCount = renewals.length;
         } else {
-          pendingRenewalsCount = renewals.filter(r => (r.rep || '').toLowerCase().includes(repName.split(' ')[0])).length;
+          pendingRenewalsData = renewals.filter(r => (r.rep || '').toLowerCase().includes(repName.split(' ')[0]));
+          pendingRenewalsCount = pendingRenewalsData.length;
         }
       })
-      .catch(() => { pendingRenewalsCount = 0; });
+      .catch(() => { pendingRenewalsCount = 0; pendingRenewalsData = []; });
 
     // Upcoming appointments from calendar events in localStorage
     try {
@@ -515,9 +541,9 @@
         {/if}
 
         <!-- Revenue + Key Stats -->
-        <div class="revenue-hero">
+        <button class="revenue-hero clickable" on:click={() => showRevenueDetail = !showRevenueDetail}>
           <div class="revenue-amount">${repMonthlyRevenue.toLocaleString()}</div>
-          <div class="revenue-label">Revenue This Month</div>
+          <div class="revenue-label">Revenue This Month — tap for details</div>
           {#if growthPercent !== 0}
             <div class="growth-badge" class:positive={growthPercent > 0} class:negative={growthPercent < 0}>
               {growthPercent > 0 ? '↑' : '↓'} {Math.abs(growthPercent)}% vs last month
@@ -526,28 +552,66 @@
           {#if leaderboardPosition > 0}
             <div class="leaderboard-badge">🏆 #{leaderboardPosition} of {leaderboardTotal} reps this month</div>
           {/if}
-        </div>
+        </button>
+
+        {#if showRevenueDetail}
+          <div class="drill-down">
+            <h4>💰 This Month's Contracts ({thisMonthContracts.length})</h4>
+            {#if thisMonthContracts.length === 0}
+              <p class="drill-empty">No contracts this month yet.</p>
+            {:else}
+              {#each thisMonthContracts.sort((a, b) => (b.total_amount || 0) - (a.total_amount || 0)) as c}
+                <div class="drill-row">
+                  <div class="drill-info">
+                    <span class="drill-name">{c.business_name || 'Unknown'}</span>
+                    <span class="drill-meta">{c.sales_rep || ''} • {c.store_name || ''}</span>
+                  </div>
+                  <span class="drill-amount">${(c.total_amount || 0).toLocaleString()}</span>
+                </div>
+              {/each}
+            {/if}
+          </div>
+        {/if}
 
         <div class="dashboard-grid">
-          <div class="stat-card">
+          <button class="stat-card clickable" on:click={() => currentTab = 'prospects'}>
             <div class="stat-icon">🎯</div>
             <h3>Prospects</h3>
             <p class="stat-value">{prospectsThisWeek}</p>
-            <p class="stat-label">This Week</p>
-          </div>
-          <div class="stat-card">
+            <p class="stat-label">This Week →</p>
+          </button>
+          <button class="stat-card clickable" on:click={() => currentTab = 'clients'}>
             <div class="stat-icon">🔄</div>
             <h3>Renewals</h3>
             <p class="stat-value">{pendingRenewalsCount}</p>
-            <p class="stat-label">Pending</p>
-          </div>
-          <div class="stat-card">
+            <p class="stat-label">Pending →</p>
+          </button>
+          <button class="stat-card clickable" on:click={() => showStreakDetail = !showStreakDetail}>
             <div class="stat-icon">🔥</div>
             <h3>Streak</h3>
             <p class="stat-value">{streak}</p>
             <p class="stat-label">{streak === 1 ? 'Day' : 'Days'} Active</p>
-          </div>
+          </button>
         </div>
+
+        {#if showStreakDetail}
+          <div class="drill-down">
+            <h4>🔥 Activity History (Last 14 Days)</h4>
+            {#if streakDays.length === 0}
+              <p class="drill-empty">No activity recorded yet. Search prospects or make calls to build your streak!</p>
+            {:else}
+              {#each streakDays as day}
+                <div class="drill-row">
+                  <div class="drill-info">
+                    <span class="drill-name">{new Date(day.date + 'T12:00:00').toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' })}</span>
+                    <span class="drill-meta">{day.searches} search{day.searches !== 1 ? 'es' : ''} • {day.calls} call{day.calls !== 1 ? 's' : ''}</span>
+                  </div>
+                  <span class="drill-amount">{day.searches + day.calls} actions</span>
+                </div>
+              {/each}
+            {/if}
+          </div>
+        {/if}
 
         <!-- Daily Goal Tracker -->
         <div class="goal-section">
@@ -562,6 +626,7 @@
             <p class="goal-label">Outbound Calls / Walk-ins Today</p>
             <div class="goal-actions">
               <button class="goal-btn increment" on:click={incrementCalls}>+ Log Call / Walk-in</button>
+              <button class="goal-btn reset" on:click={resetDailyGoal}>↺ Reset</button>
               <div class="goal-target-set">
                 <label>Goal:</label>
                 <input type="number" value={dailyGoal.target || 20} on:change={(e) => setGoalTarget(e.target.value)} min="1" max="100" />
@@ -1030,6 +1095,48 @@
     border: 1px solid var(--border-color, #333);
   }
   .cycle-countdown strong { color: #CC0000; }
+
+  /* Clickable cards */
+  .clickable { cursor: pointer; transition: transform 0.15s, box-shadow 0.15s; }
+  .clickable:active { transform: scale(0.97); }
+  .revenue-hero.clickable { border: none; width: 100%; text-align: center; font-family: inherit; }
+
+  /* Drill-down panels */
+  .drill-down {
+    background: var(--bg-secondary, #1a1a2e);
+    border: 1px solid var(--border-color, #333);
+    border-radius: 10px;
+    padding: 14px;
+    margin-bottom: 16px;
+  }
+  .drill-down h4 { margin: 0 0 10px; font-size: 15px; color: var(--text-primary); }
+  .drill-empty { font-size: 13px; color: var(--text-secondary, #999); text-align: center; padding: 8px; }
+  .drill-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 10px;
+    background: var(--bg-primary, #111);
+    border-radius: 8px;
+    margin-bottom: 4px;
+  }
+  .drill-info { display: flex; flex-direction: column; }
+  .drill-name { font-size: 14px; font-weight: 600; color: var(--text-primary); }
+  .drill-meta { font-size: 12px; color: var(--text-secondary, #999); }
+  .drill-amount { font-size: 14px; font-weight: 700; color: #2e7d32; white-space: nowrap; }
+
+  /* Reset button */
+  .goal-btn.reset {
+    padding: 12px 14px;
+    background: #555;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+  }
+  .goal-btn.reset:active { background: #333; }
 
   .dashboard {
     max-width: 1200px;
