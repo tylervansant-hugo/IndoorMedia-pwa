@@ -25,6 +25,133 @@
   let revenueThisMonth = 0;
   let growthPercent = 0;
   let storesInTerritory = 0;
+  let pendingRenewalsCount = 0;
+  let leaderboardPosition = 0;
+  let leaderboardTotal = 0;
+  let repMonthlyRevenue = 0;
+  let upcomingAppointments = [];
+  let dailyGoal = { calls: 0, target: 0 };
+  let streak = 0;
+  let nextCycleDate = '';
+  let nextCycleName = '';
+
+  // Motivational quotes
+  const QUOTES = [
+    { text: "Success is not final, failure is not fatal: it is the courage to continue that counts.", author: "Winston Churchill" },
+    { text: "The only way to do great work is to love what you do.", author: "Steve Jobs" },
+    { text: "Don't watch the clock; do what it does. Keep going.", author: "Sam Levenson" },
+    { text: "Every sale has five basic obstacles: no need, no money, no hurry, no desire, no trust.", author: "Zig Ziglar" },
+    { text: "Your attitude, not your aptitude, will determine your altitude.", author: "Zig Ziglar" },
+    { text: "The difference between a successful person and others is not a lack of strength, but a lack of will.", author: "Vince Lombardi" },
+    { text: "I never lose. I either win or I learn.", author: "Nelson Mandela" },
+    { text: "The harder you work, the luckier you get.", author: "Gary Player" },
+    { text: "People don't buy for logical reasons. They buy for emotional reasons.", author: "Zig Ziglar" },
+    { text: "Hustle beats talent when talent doesn't hustle.", author: "Ross Simmonds" },
+    { text: "Stop selling. Start helping.", author: "Zig Ziglar" },
+    { text: "The secret of getting ahead is getting started.", author: "Mark Twain" },
+    { text: "Be so good they can't ignore you.", author: "Steve Martin" },
+    { text: "Fall seven times, stand up eight.", author: "Japanese Proverb" },
+    { text: "The best time to plant a tree was 20 years ago. The second best time is now.", author: "Chinese Proverb" },
+    { text: "Sales are contingent upon the attitude of the salesman, not the attitude of the prospect.", author: "W. Clement Stone" },
+    { text: "The top salespeople in the world are not selling. They're serving.", author: "Lori Greiner" },
+    { text: "You miss 100% of the shots you don't take.", author: "Wayne Gretzky" },
+    { text: "Opportunities don't happen. You create them.", author: "Chris Grosser" },
+    { text: "It's not about having the right opportunities. It's about handling the opportunities right.", author: "Mark Hunter" },
+    { text: "What you do today can improve all your tomorrows.", author: "Ralph Marston" },
+    { text: "Discipline is the bridge between goals and accomplishment.", author: "Jim Rohn" },
+    { text: "A goal without a plan is just a wish.", author: "Antoine de Saint-Exupéry" },
+    { text: "Make each day your masterpiece.", author: "John Wooden" },
+    { text: "Champions keep playing until they get it right.", author: "Billie Jean King" },
+    { text: "Action is the foundational key to all success.", author: "Pablo Picasso" },
+    { text: "Don't be afraid to give up the good to go for the great.", author: "John D. Rockefeller" },
+    { text: "Success usually comes to those who are too busy to be looking for it.", author: "Henry David Thoreau" },
+    { text: "Small daily improvements are the key to staggering long-term results.", author: "Unknown" },
+    { text: "The only limit to our realization of tomorrow will be our doubts of today.", author: "Franklin D. Roosevelt" },
+  ];
+
+  function getTodaysQuote() {
+    const now = new Date();
+    const dayOfYear = Math.floor((now - new Date(now.getFullYear(), 0, 0)) / 86400000);
+    return QUOTES[dayOfYear % QUOTES.length];
+  }
+
+  function getNextCycle() {
+    // Zone 07 cycles: A=Jan/Apr/Jul/Oct, B=Feb/May/Aug/Nov, C=Mar/Jun/Sep/Dec (7th of month)
+    const now = new Date();
+    const cycles = [
+      { name: 'A', months: [0, 3, 6, 9] },
+      { name: 'B', months: [1, 4, 7, 10] },
+      { name: 'C', months: [2, 5, 8, 11] },
+    ];
+    let nearest = null;
+    for (const cycle of cycles) {
+      for (const m of cycle.months) {
+        const d = new Date(now.getFullYear(), m, 7);
+        if (d <= now) d.setFullYear(d.getFullYear() + 1);
+        if (!nearest || d < nearest.date) {
+          nearest = { date: d, name: cycle.name };
+        }
+      }
+    }
+    if (nearest) {
+      const diff = Math.ceil((nearest.date - now) / 86400000);
+      nextCycleDate = `${diff} day${diff !== 1 ? 's' : ''}`;
+      nextCycleName = nearest.name;
+    }
+  }
+
+  function loadDailyGoal() {
+    try {
+      const today = new Date().toISOString().slice(0, 10);
+      const saved = JSON.parse(localStorage.getItem('impro_daily_goal') || '{}');
+      if (saved.date === today) {
+        dailyGoal = saved;
+      } else {
+        dailyGoal = { date: today, target: saved.target || 20, calls: 0 };
+      }
+    } catch { dailyGoal = { date: new Date().toISOString().slice(0, 10), target: 20, calls: 0 }; }
+  }
+
+  function saveDailyGoal() {
+    dailyGoal.date = new Date().toISOString().slice(0, 10);
+    localStorage.setItem('impro_daily_goal', JSON.stringify(dailyGoal));
+  }
+
+  function incrementCalls() {
+    dailyGoal.calls = (dailyGoal.calls || 0) + 1;
+    dailyGoal = dailyGoal;
+    saveDailyGoal();
+  }
+
+  function setGoalTarget(val) {
+    dailyGoal.target = parseInt(val) || 20;
+    dailyGoal = dailyGoal;
+    saveDailyGoal();
+  }
+
+  function calcStreak() {
+    try {
+      const searches = JSON.parse(localStorage.getItem('impro_searches') || '[]');
+      const calls = JSON.parse(localStorage.getItem('impro_phone_clicks') || '[]');
+      const all = [...searches, ...calls].map(x => new Date(x.date).toISOString().slice(0, 10));
+      const unique = [...new Set(all)].sort().reverse();
+      
+      let s = 0;
+      const today = new Date().toISOString().slice(0, 10);
+      let checkDate = today;
+      for (let i = 0; i < 365; i++) {
+        if (unique.includes(checkDate)) {
+          s++;
+        } else if (checkDate !== today) {
+          break;
+        }
+        const d = new Date(checkDate);
+        d.setDate(d.getDate() - 1);
+        checkDate = d.toISOString().slice(0, 10);
+      }
+      streak = s;
+    } catch { streak = 0; }
+  }
 
   function updateCartCount() {
     try { cartCount = JSON.parse(localStorage.getItem('indoormedia_cart') || '[]').length; } catch { cartCount = 0; }
@@ -91,13 +218,63 @@
     const userLocation = $user?.base_location || '';
     const userState = userLocation.split(',').pop()?.trim().toUpperCase() || '';
     if (isManager) {
-      // Show OR + WA for Tyler
       storesInTerritory = allStores.filter(s => s.State === 'OR' || s.State === 'WA').length;
     } else if (userState) {
       storesInTerritory = allStores.filter(s => s.State === userState).length;
     } else {
       storesInTerritory = allStores.length;
     }
+
+    // Rep's monthly revenue (individual, not team total)
+    repMonthlyRevenue = thisMonthContracts.reduce((sum, c) => sum + (c.total_amount || 0), 0);
+
+    // Leaderboard — rank by this month's revenue
+    const repTotals = {};
+    contracts.filter(c => {
+      const d = new Date(c.date);
+      return d.getMonth() === thisMonth && d.getFullYear() === thisYear;
+    }).forEach(c => {
+      const rep = c.sales_rep || 'Unknown';
+      repTotals[rep] = (repTotals[rep] || 0) + (c.total_amount || 0);
+    });
+    const ranked = Object.entries(repTotals).sort((a, b) => b[1] - a[1]);
+    leaderboardTotal = ranked.length;
+    const myRank = ranked.findIndex(([rep]) => {
+      return rep.toLowerCase().includes(repName.split(' ')[0]);
+    });
+    leaderboardPosition = myRank >= 0 ? myRank + 1 : 0;
+
+    // Pending renewals count (loaded async separately)
+    fetch(import.meta.env.BASE_URL + 'data/pending_renewals.json')
+      .then(r => r.json())
+      .then(renewals => {
+        if (isManager) {
+          pendingRenewalsCount = renewals.length;
+        } else {
+          pendingRenewalsCount = renewals.filter(r => (r.rep || '').toLowerCase().includes(repName.split(' ')[0])).length;
+        }
+      })
+      .catch(() => { pendingRenewalsCount = 0; });
+
+    // Upcoming appointments from calendar events in localStorage
+    try {
+      const calData = JSON.parse(localStorage.getItem('impro_calendar') || '[]');
+      const upcoming = calData.filter(e => new Date(e.date) >= now).sort((a, b) => new Date(a.date) - new Date(b.date));
+      upcomingAppointments = upcoming.slice(0, 3);
+    } catch { upcomingAppointments = []; }
+
+    // Also check saved prospect appointments
+    try {
+      const saved1 = JSON.parse(localStorage.getItem('savedProspects') || '[]');
+      const prospectAppts = saved1.filter(p => p.appointmentDate && new Date(p.appointmentDate) >= now)
+        .map(p => ({ title: p.name, date: p.appointmentDate, type: 'prospect' }))
+        .sort((a, b) => new Date(a.date) - new Date(b.date));
+      upcomingAppointments = [...upcomingAppointments, ...prospectAppts].sort((a, b) => new Date(a.date) - new Date(b.date)).slice(0, 5);
+    } catch {}
+
+    getNextCycle();
+    loadDailyGoal();
+    calcStreak();
   }
 
   onMount(async () => {
@@ -323,10 +500,34 @@
   <div class="content">
     {#if currentTab === 'dashboard'}
       <div class="dashboard">
+        <!-- Motivational Quote -->
+        {#if true}
+          {@const quote = getTodaysQuote()}
+          <div class="quote-card">
+            <p class="quote-text">"{quote.text}"</p>
+            <p class="quote-author">— {quote.author}</p>
+          </div>
+        {/if}
+
         <h2>Welcome, {$user?.name || $user?.first_name}!</h2>
         {#if $user?.base_location}
           <p class="location-badge">📍 Territory: {$user.base_location}</p>
         {/if}
+
+        <!-- Revenue + Key Stats -->
+        <div class="revenue-hero">
+          <div class="revenue-amount">${repMonthlyRevenue.toLocaleString()}</div>
+          <div class="revenue-label">Revenue This Month</div>
+          {#if growthPercent !== 0}
+            <div class="growth-badge" class:positive={growthPercent > 0} class:negative={growthPercent < 0}>
+              {growthPercent > 0 ? '↑' : '↓'} {Math.abs(growthPercent)}% vs last month
+            </div>
+          {/if}
+          {#if leaderboardPosition > 0}
+            <div class="leaderboard-badge">🏆 #{leaderboardPosition} of {leaderboardTotal} reps this month</div>
+          {/if}
+        </div>
+
         <div class="dashboard-grid">
           <div class="stat-card">
             <div class="stat-icon">🎯</div>
@@ -335,16 +536,10 @@
             <p class="stat-label">This Week</p>
           </div>
           <div class="stat-card">
-            <div class="stat-icon">💰</div>
-            <h3>Revenue</h3>
-            <p class="stat-value">${revenueThisMonth.toLocaleString()}</p>
-            <p class="stat-label">This Month</p>
-          </div>
-          <div class="stat-card">
-            <div class="stat-icon">📈</div>
-            <h3>Growth</h3>
-            <p class="stat-value">{growthPercent}%</p>
-            <p class="stat-label">vs Last Month</p>
+            <div class="stat-icon">🔄</div>
+            <h3>Renewals</h3>
+            <p class="stat-value">{pendingRenewalsCount}</p>
+            <p class="stat-label">Pending</p>
           </div>
           <div class="stat-card">
             <div class="stat-icon">🏪</div>
@@ -352,7 +547,63 @@
             <p class="stat-value">{storesInTerritory.toLocaleString()}</p>
             <p class="stat-label">In Territory</p>
           </div>
+          <div class="stat-card">
+            <div class="stat-icon">🔥</div>
+            <h3>Streak</h3>
+            <p class="stat-value">{streak}</p>
+            <p class="stat-label">{streak === 1 ? 'Day' : 'Days'} Active</p>
+          </div>
         </div>
+
+        <!-- Daily Goal Tracker -->
+        <div class="goal-section">
+          <h3>📋 Daily Goal</h3>
+          <div class="goal-card">
+            <div class="goal-progress">
+              <div class="goal-bar">
+                <div class="goal-fill" style="width: {Math.min((dailyGoal.calls / (dailyGoal.target || 20)) * 100, 100)}%"></div>
+              </div>
+              <div class="goal-count">{dailyGoal.calls} / {dailyGoal.target || 20}</div>
+            </div>
+            <p class="goal-label">Outbound Calls / Walk-ins Today</p>
+            <div class="goal-actions">
+              <button class="goal-btn increment" on:click={incrementCalls}>+ Log Call / Walk-in</button>
+              <div class="goal-target-set">
+                <label>Goal:</label>
+                <input type="number" value={dailyGoal.target || 20} on:change={(e) => setGoalTarget(e.target.value)} min="1" max="100" />
+              </div>
+            </div>
+            {#if dailyGoal.calls >= (dailyGoal.target || 20)}
+              <p class="goal-achieved">🎉 Goal reached! Keep crushing it!</p>
+            {:else if dailyGoal.calls >= (dailyGoal.target || 20) * 0.5}
+              <p class="goal-halfway">💪 Halfway there! Keep pushing!</p>
+            {/if}
+          </div>
+        </div>
+
+        <!-- Upcoming Appointments -->
+        <div class="appointments-section">
+          <h3>📅 Upcoming Appointments</h3>
+          {#if upcomingAppointments.length > 0}
+            <div class="appointment-list">
+              {#each upcomingAppointments as appt}
+                <div class="appointment-item">
+                  <div class="appt-date">{new Date(appt.date).toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' })}</div>
+                  <div class="appt-title">{appt.title || appt.name || 'Appointment'}</div>
+                </div>
+              {/each}
+            </div>
+          {:else}
+            <p class="no-appointments">No upcoming appointments. Book one from the Prospects tab!</p>
+          {/if}
+        </div>
+
+        <!-- Next Cycle -->
+        {#if nextCycleName}
+          <div class="cycle-countdown">
+            <span>⏰ Next Cycle {nextCycleName}: <strong>{nextCycleDate}</strong></span>
+          </div>
+        {/if}
 
         <div class="quick-actions">
           <h3>Quick Actions</h3>
@@ -365,9 +616,9 @@
               <span class="action-icon">🏪</span>
               <span>Search Stores</span>
             </button>
-            <button class="action-btn" on:click={() => currentTab = 'tools'}>
-              <span class="action-icon">🛠️</span>
-              <span>Tools & Audit</span>
+            <button class="action-btn" on:click={() => currentTab = 'clients'}>
+              <span class="action-icon">🔄</span>
+              <span>Renewals</span>
             </button>
             <button class="action-btn" on:click={() => currentTab = 'cart'}>
               <span class="action-icon">🛒</span>
@@ -695,6 +946,97 @@
   }
 
   /* Dashboard */
+  /* Motivational Quote */
+  .quote-card {
+    background: linear-gradient(135deg, #CC0000, #8B0000);
+    color: white;
+    padding: 16px 20px;
+    border-radius: 12px;
+    margin-bottom: 16px;
+    text-align: center;
+  }
+  .quote-text { font-size: 15px; font-style: italic; line-height: 1.4; margin: 0 0 6px; }
+  .quote-author { font-size: 12px; opacity: 0.85; margin: 0; }
+
+  /* Revenue Hero */
+  .revenue-hero {
+    background: var(--bg-secondary, #1a1a2e);
+    border: 2px solid #CC0000;
+    border-radius: 12px;
+    padding: 20px;
+    text-align: center;
+    margin-bottom: 16px;
+  }
+  .revenue-amount { font-size: 36px; font-weight: 800; color: #CC0000; }
+  .revenue-label { font-size: 13px; color: var(--text-secondary, #999); margin-top: 2px; }
+  .growth-badge { display: inline-block; margin-top: 8px; padding: 4px 12px; border-radius: 20px; font-size: 12px; font-weight: 600; }
+  .growth-badge.positive { background: #e8f5e9; color: #2e7d32; }
+  .growth-badge.negative { background: #ffe0e0; color: #c33; }
+  .leaderboard-badge { margin-top: 6px; font-size: 13px; color: var(--text-secondary, #aaa); }
+
+  /* Daily Goal */
+  .goal-section { margin-bottom: 16px; }
+  .goal-section h3 { margin: 0 0 8px; font-size: 16px; color: var(--text-primary); }
+  .goal-card {
+    background: var(--bg-secondary, #1a1a2e);
+    border-radius: 12px;
+    padding: 16px;
+    border: 1px solid var(--border-color, #333);
+  }
+  .goal-progress { margin-bottom: 8px; }
+  .goal-bar { height: 12px; background: #333; border-radius: 6px; overflow: hidden; }
+  .goal-fill { height: 100%; background: linear-gradient(90deg, #CC0000, #ff4444); border-radius: 6px; transition: width 0.3s; }
+  .goal-count { text-align: center; font-size: 24px; font-weight: 700; color: var(--text-primary); margin-top: 8px; }
+  .goal-label { text-align: center; font-size: 13px; color: var(--text-secondary, #999); margin: 4px 0 12px; }
+  .goal-actions { display: flex; gap: 8px; align-items: center; }
+  .goal-btn.increment {
+    flex: 1;
+    padding: 12px;
+    background: #CC0000;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+  }
+  .goal-btn.increment:active { transform: scale(0.97); }
+  .goal-target-set { display: flex; align-items: center; gap: 6px; }
+  .goal-target-set label { font-size: 13px; color: var(--text-secondary, #999); }
+  .goal-target-set input { width: 50px; padding: 8px; border: 1px solid var(--border-color, #333); border-radius: 6px; font-size: 14px; text-align: center; background: var(--bg-primary, #111); color: var(--text-primary); }
+  .goal-achieved { text-align: center; margin-top: 10px; font-size: 14px; color: #2e7d32; font-weight: 600; }
+  .goal-halfway { text-align: center; margin-top: 10px; font-size: 13px; color: #ff9800; }
+
+  /* Appointments */
+  .appointments-section { margin-bottom: 16px; }
+  .appointments-section h3 { margin: 0 0 8px; font-size: 16px; color: var(--text-primary); }
+  .appointment-list { display: flex; flex-direction: column; gap: 6px; }
+  .appointment-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: var(--bg-secondary, #1a1a2e);
+    border-radius: 8px;
+    padding: 10px 14px;
+    border: 1px solid var(--border-color, #333);
+  }
+  .appt-date { font-size: 12px; font-weight: 600; color: #CC0000; white-space: nowrap; min-width: 70px; }
+  .appt-title { font-size: 14px; color: var(--text-primary); }
+  .no-appointments { font-size: 13px; color: var(--text-secondary, #999); text-align: center; padding: 12px; }
+
+  /* Cycle Countdown */
+  .cycle-countdown {
+    background: var(--bg-secondary, #1a1a2e);
+    border-radius: 8px;
+    padding: 10px 16px;
+    text-align: center;
+    margin-bottom: 16px;
+    font-size: 13px;
+    color: var(--text-secondary, #aaa);
+    border: 1px solid var(--border-color, #333);
+  }
+  .cycle-countdown strong { color: #CC0000; }
+
   .dashboard {
     max-width: 1200px;
     margin: 0 auto;
