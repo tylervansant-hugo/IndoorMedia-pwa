@@ -22,6 +22,18 @@
     digitalboost: {
       presentation: 'https://drive.google.com/file/d/1LvPJjBk1tvMYFoRAy-AUSugUXV82hUeM/view?usp=sharing',
       explainer: 'https://drive.google.com/file/d/1_QyAlgZRy1bKJSKC1058260d0jPccVTM/view?usp=share_link'
+    },
+    findlocal: {
+      presentation: 'https://drive.google.com/file/d/1rRdFgRWvuzaPJCwxqKzTqtjDtd642DuS/view?usp=sharing',
+      explainer: 'https://youtu.be/5CvlhJHssMs?si=WSmoTeh6adRlc-YW'
+    },
+    reviewboost: {
+      presentation: 'https://drive.google.com/file/d/12hP-Ip7t9vHjBNFctj2X1AiatxS5O1LH/view?usp=sharing',
+      explainer: 'https://youtu.be/PBpbUiIoYcM?si=XEGeu1hmbI-zAf7j'
+    },
+    loyaltyboost: {
+      presentation: 'https://drive.google.com/file/d/1BYpsPLnAC2TRfsaQGuMBytaOYAxuNYMK/view?usp=sharing',
+      explainer: 'https://youtu.be/gthLw2eQF1Y?si=9ggkdGIpcqlDHKaP'
     }
   };
 
@@ -392,8 +404,8 @@
     <p class="detail-subtitle">Local SEO & listings management across 50+ directories</p>
 
     <div class="links-section">
-      <a href={PRODUCT_LINKS.digital.presentation} target="_blank" class="link-btn">🎬 Sales Presentation</a>
-      <a href={PRODUCT_LINKS.digital.explainer} target="_blank" class="link-btn">📹 Explainer Video</a>
+      <a href={PRODUCT_LINKS.findlocal.presentation} target="_blank" class="link-btn">🎬 Sales Presentation</a>
+      <a href={PRODUCT_LINKS.findlocal.explainer} target="_blank" class="link-btn">📹 Explainer Video</a>
     </div>
 
     <div class="detail-card">
@@ -424,8 +436,8 @@
     <p class="detail-subtitle">Automated review request campaign via Email & SMS</p>
 
     <div class="links-section">
-      <a href={PRODUCT_LINKS.digital.presentation} target="_blank" class="link-btn">🎬 Sales Presentation</a>
-      <a href={PRODUCT_LINKS.digital.explainer} target="_blank" class="link-btn">📹 Explainer Video</a>
+      <a href={PRODUCT_LINKS.reviewboost.presentation} target="_blank" class="link-btn">🎬 Sales Presentation</a>
+      <a href={PRODUCT_LINKS.reviewboost.explainer} target="_blank" class="link-btn">📹 Explainer Video</a>
     </div>
 
     <div class="detail-card">
@@ -461,8 +473,8 @@
     <p class="detail-subtitle">Annual loyalty/rewards campaign per location</p>
 
     <div class="links-section">
-      <a href={PRODUCT_LINKS.digital.presentation} target="_blank" class="link-btn">🎬 Sales Presentation</a>
-      <a href={PRODUCT_LINKS.digital.explainer} target="_blank" class="link-btn">📹 Explainer Video</a>
+      <a href={PRODUCT_LINKS.loyaltyboost.presentation} target="_blank" class="link-btn">🎬 Sales Presentation</a>
+      <a href={PRODUCT_LINKS.loyaltyboost.explainer} target="_blank" class="link-btn">📹 Explainer Video</a>
     </div>
 
     <div class="detail-card">
