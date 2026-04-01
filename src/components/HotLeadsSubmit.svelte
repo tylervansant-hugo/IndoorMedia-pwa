@@ -158,16 +158,19 @@
   }
   
   onMount(async () => {
-    // Load stores for reference
+    // Load all 7,835 stores for reference
     try {
-      const response = await fetch(import.meta.env.BASE_URL + 'data/hot_leads.json');
-      const leads = await response.json();
-      allStores = [...new Set(leads.map(l => ({
-        id: l.store_id,
-        chain: l.store_chain,
-        city: l.store_city,
-        tier: l.store_tier
-      })))];
+      const response = await fetch(import.meta.env.BASE_URL + 'data/stores.json');
+      const stores = await response.json();
+      allStores = stores.map(s => ({
+        id: s.StoreName,
+        chain: s.GroceryChain,
+        city: s.City,
+        state: s.State,
+        address: s.Address,
+        cycle: s.Cycle
+      }));
+      console.log(`Loaded ${allStores.length} stores for reference`);
     } catch (err) {
       console.error('Error loading stores:', err);
     }
@@ -283,7 +286,7 @@
   
   function filterStores(text) {
     storeSearchText = text;
-    if (!text) {
+    if (!text || text.length < 2) {
       filteredStores = [];
       return;
     }
@@ -291,15 +294,17 @@
     filteredStores = allStores.filter(s => 
       s.id.toLowerCase().includes(search) ||
       s.chain.toLowerCase().includes(search) ||
-      s.city.toLowerCase().includes(search)
-    ).slice(0, 5);
+      s.city.toLowerCase().includes(search) ||
+      (s.state && s.state.toLowerCase().includes(search)) ||
+      `${s.chain} ${s.city}`.toLowerCase().includes(search)
+    ).slice(0, 8);
   }
   
   function selectStore(store) {
     formData.store_id = store.id;
     formData.store_chain = store.chain;
     formData.store_city = store.city;
-    storeSearchText = `${store.chain} ${store.city}`;
+    storeSearchText = `${store.chain} — ${store.city}, ${store.state} (${store.id})`;
     filteredStores = [];
   }
   
@@ -494,15 +499,15 @@
               class="suggestion-item"
               on:click={() => selectStore(store)}
             >
-              <strong>{store.chain}</strong> {store.city}
-              <small>{store.id}</small>
+              <strong>{store.chain}</strong> — {store.city}, {store.state}
+              <small>{store.id} · Cycle {store.cycle}</small>
             </button>
           {/each}
         </div>
       {/if}
       {#if formData.store_id}
         <div class="selected-store">
-          ✓ {formData.store_chain} {formData.store_city}
+          ✅ {formData.store_chain} — {formData.store_city} ({formData.store_id})
         </div>
       {/if}
     </div>
@@ -676,6 +681,7 @@
     display: flex;
     flex-direction: column;
     gap: 6px;
+    position: relative;
   }
   
   .form-row {
@@ -709,48 +715,56 @@
     left: 0;
     right: 0;
     background: white;
-    border: 1px solid #ddd;
+    border: 2px solid #cc0000;
     border-top: none;
-    border-radius: 0 0 6px 6px;
-    max-height: 200px;
+    border-radius: 0 0 10px 10px;
+    max-height: 320px;
     overflow-y: auto;
     z-index: 10;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.15);
   }
   
   .suggestion-item {
     display: block;
     width: 100%;
-    padding: 10px 12px;
+    padding: 12px 14px;
     background: white;
     border: none;
+    border-bottom: 1px solid #f0f0f0;
     text-align: left;
-    font-size: 13px;
+    font-size: 14px;
     cursor: pointer;
-    transition: all 0.2s;
+    transition: all 0.15s;
+  }
+  
+  .suggestion-item:last-child {
+    border-bottom: none;
   }
   
   .suggestion-item:hover {
-    background: #f9f9f9;
+    background: #fff5f5;
   }
   
   .suggestion-item strong {
-    font-weight: 600;
-    color: #333;
+    font-weight: 700;
+    color: #cc0000;
   }
   
   .suggestion-item small {
     display: block;
     font-size: 11px;
-    color: #999;
-    margin-top: 2px;
+    color: #888;
+    margin-top: 3px;
   }
   
   .selected-store {
-    padding: 8px 12px;
-    background: #f0f0f0;
-    border-radius: 6px;
-    font-size: 13px;
-    color: #333;
+    padding: 10px 14px;
+    background: #e8f5e9;
+    border-radius: 8px;
+    font-size: 14px;
+    color: #2e7d32;
+    font-weight: 600;
+    margin-top: 4px;
   }
   
   .message {
