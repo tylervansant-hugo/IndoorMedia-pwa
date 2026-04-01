@@ -18,14 +18,22 @@
   let passwordError = '';
 
   function getPasswords() {
-    try { return JSON.parse(localStorage.getItem('impro_passwords') || '{}'); } catch { return {}; }
+    try {
+      const stored = JSON.parse(localStorage.getItem('impro_passwords_v2') || '{}');
+      return stored;
+    } catch { return {}; }
   }
 
-  async function hashPassword(pw) {
-    const encoder = new TextEncoder();
-    const data = encoder.encode(pw + '_impro_salt_2026');
-    const hash = await crypto.subtle.digest('SHA-256', data);
-    return Array.from(new Uint8Array(hash)).map(b => b.toString(16).padStart(2, '0')).join('');
+  function hashPassword(pw) {
+    // Simple but reliable hash - works in all browsers, no async needed
+    let hash = 0;
+    const str = pw + '_impro_salt_2026';
+    for (let i = 0; i < str.length; i++) {
+      const char = str.charCodeAt(i);
+      hash = ((hash << 5) - hash) + char;
+      hash |= 0; // Convert to 32bit integer
+    }
+    return 'pw_' + Math.abs(hash).toString(36);
   }
 
   function hasPassword(repId) {
@@ -96,7 +104,7 @@
         passwordError = 'Please enter your password';
         return;
       }
-      const hashed = await hashPassword(password);
+      const hashed = hashPassword(password);
       if (hashed !== passwords[selectedRep]) {
         passwordError = 'Incorrect password';
         return;
@@ -134,11 +142,11 @@
     }
 
     // Hash and store password
-    const hashed = await hashPassword(password);
+    const hashed = hashPassword(password);
     const passwords = getPasswords();
     passwords[selectedRep] = hashed;
     const savedJSON = JSON.stringify(passwords);
-    localStorage.setItem('impro_passwords', savedJSON);
+    localStorage.setItem('impro_passwords_v2', savedJSON);
     
     // Verify it was saved
     const verify = localStorage.getItem('impro_passwords');
