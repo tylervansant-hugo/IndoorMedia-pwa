@@ -26,6 +26,96 @@
   let proofSearch = '';
   let proofZoneFilter = 'all';
   let expandedProof = null;
+  let draftPreview = null; // { subject, body, email, proofId }
+
+  function findNearbyStores(storeField) {
+    // Extract city and state from store field like "Fred Meyer 0035, 11425 SW Beaverton Hillsdale Hwy, Beaverton, OR"
+    if (!storeField || !allStores.length) return [];
+    const parts = storeField.replace(/^[>\s]+/, '').split(',').map(s => s.trim());
+    let city = '', state = '';
+    if (parts.length >= 3) {
+      // Last part is state, second-to-last is city
+      state = parts[parts.length - 1].replace(/\d+/g, '').trim();
+      city = parts[parts.length - 2].trim();
+    }
+    if (!city || !state) return [];
+    
+    // Find stores in the same city
+    const sameCityStores = allStores.filter(s => 
+      s.City && s.City.toLowerCase() === city.toLowerCase() &&
+      s.State && s.State.toLowerCase() === state.toLowerCase()
+    );
+    
+    // If not enough, expand to same state
+    if (sameCityStores.length < 5) {
+      const sameStateStores = allStores.filter(s =>
+        s.State && s.State.toLowerCase() === state.toLowerCase()
+      ).slice(0, 10);
+      // Combine: same city first, then same state (deduped)
+      const ids = new Set(sameCityStores.map(s => s.StoreName));
+      const extras = sameStateStores.filter(s => !ids.has(s.StoreName));
+      return [...sameCityStores, ...extras].slice(0, 8);
+    }
+    return sameCityStores.slice(0, 8);
+  }
+
+  function showDraft(proof, templateType) {
+    const contact = proof.contact_name || 'there';
+    const biz = proof.client_name || 'your business';
+    const store = proof.store?.replace(/^[>\s]+/, '') || 'the store';
+    const rep = $user?.name || 'Your IndoorMedia Rep';
+    const installMonth = proof.install_month || 'soon';
+    const adSize = proof.ad_size || 'Single';
+    
+    let subject = '', body = '';
+    
+    if (templateType === 'ready') {
+      subject = `Your Ad Design is Ready! — ${biz}`;
+      body = `Hi ${contact},\n\nGreat news — your ad design for ${biz} is ready!\n\nPlease take a moment to review the proof carefully. Double check that your:\n• Business address is correct\n• Phone number is accurate\n• Any offer/coupon details are right\n• Business name spelling is correct\n\nYour ad will be placed at ${store}.\n\nIf everything looks good, just reply with your approval. If you need any changes, let me know and we'll get it updated right away.\n\nLooking forward to getting this rolling for you!\n\n${rep}`;
+    } else if (templateType === 'stronger') {
+      subject = `Quick Thought on Your Ad — ${biz}`;
+      body = `Hi ${contact},\n\nI was looking at the proof for ${biz} and wanted to share a quick thought.\n\nThe businesses that see the best results from their register tape ads are the ones with a strong, specific offer — something that makes shoppers take action right then and there.\n\nHere are some ideas that consistently drive traffic:\n• A dollar-off or percentage discount (e.g., "$5 off your next visit")\n• A free item with purchase (e.g., "Free appetizer with any entree")\n• A limited-time seasonal offer\n• A "new customer" special\n\nThe more compelling the offer, the more customers it drives through your door. Would you like to update your ad with a stronger call to action? Happy to help refine it.\n\n${rep}`;
+    } else if (templateType === 'upsell') {
+      const upgradeSize = adSize === 'Double' ? 'an even more prominent placement' : 'a Double-size ad';
+      subject = `Maximize Your Results — Upgrade Option for ${biz}`;
+      body = `Hi ${contact},\n\nYour ad for ${biz} is looking great! Quick question — have you considered upgrading to ${upgradeSize}?\n\nHere's why our most successful advertisers go bigger:\n• Double the visibility = double the impressions\n• Your ad stands out more on the receipt\n• Shoppers are more likely to notice a larger coupon\n• Better ROI per dollar spent\n\nThe upgrade is very affordable and the results speak for themselves. Want me to put together a quick comparison for you?\n\n${rep}`;
+    } else if (templateType === 'expand') {
+      const nearby = findNearbyStores(proof.store);
+      let storeList = '';
+      if (nearby.length > 0) {
+        storeList = '\n\nHere are some stores near you that would be a great fit:\n' + nearby.map(s => `• ${s.GroceryChain} — ${s.Address}, ${s.City}, ${s.State} (${s.StoreName})`).join('\n');
+      }
+      subject = `Expand Your Reach — More Stores Near ${biz}`;
+      body = `Hi ${contact},\n\nYour ad for ${biz} at ${store} looks fantastic! I wanted to reach out because we have several other stores nearby that could help you reach even more customers.\n\nMany of our most successful advertisers run their ads across multiple locations — it's the fastest way to build local brand recognition and drive new customers from different neighborhoods.${storeList}\n\nThe more locations you're in, the more people see your name — and the better your results. Want me to put together pricing for any of these?\n\n${rep}`;
+    } else if (templateType === 'approve') {
+      subject = `Your Ad Looks Great! — ${biz}`;
+      body = `Hi ${contact},\n\nJust wanted to check in — your ad proof for ${biz} looks great!\n\nJust a friendly reminder to reply with your approval so we can get it into production. It's scheduled to be installed at ${store} in ${installMonth}.\n\nIf you have any last-minute tweaks, now's the time. Otherwise, we're good to go!\n\n${rep}`;
+    }
+    
+    draftPreview = { subject, body, email: proof.client_email || '', proofId: proof.message_id };
+  }
+
+  function copyDraft() {
+    if (!draftPreview) return;
+    const text = `Subject: ${draftPreview.subject}\n\n${draftPreview.body}`;
+    navigator.clipboard.writeText(text).then(() => {
+      alert('✅ Email draft copied to clipboard!');
+    }).catch(() => {
+      // Fallback
+      const ta = document.createElement('textarea');
+      ta.value = text;
+      document.body.appendChild(ta);
+      ta.select();
+      document.execCommand('copy');
+      document.body.removeChild(ta);
+      alert('✅ Email draft copied to clipboard!');
+    });
+  }
+
+  function openInEmailApp() {
+    if (!draftPreview) return;
+    window.open(`mailto:${draftPreview.email}?subject=${encodeURIComponent(draftPreview.subject)}&body=${encodeURIComponent(draftPreview.body)}`);
+  }
 
   // Submit contract state
   let contractFile = null;
@@ -1001,72 +1091,30 @@
               {#if proof.client_email || proof.contact_name}
                 <div class="proof-contact-actions">
                   <h4>📬 Contact Customer</h4>
-                  <div class="contact-btns">
-                    {#if proof.client_email}
-                      <a href="mailto:{proof.client_email}" class="contact-btn email-btn">✉️ Email</a>
-                    {/if}
-                  </div>
+                  {#if proof.client_email}
+                    <p class="client-email-display">✉️ {proof.client_email}</p>
+                  {/if}
 
                   <div class="template-section">
                     <h5>Quick Templates</h5>
                     <div class="template-list">
-                      <!-- Template 1: Ad Design Ready -->
-                      <button class="template-btn" on:click={() => {
-                        const contact = proof.contact_name || 'there';
-                        const biz = proof.client_name || 'your business';
-                        const store = proof.store || 'the store';
-                        const body = `Hi ${contact},\n\nGreat news — your ad design for ${biz} is ready!\n\nPlease take a moment to review the proof carefully. Double check that your:\n• Business address is correct\n• Phone number is accurate\n• Any offer/coupon details are right\n• Business name spelling is correct\n\nYour ad will be placed at ${store}.\n\nIf everything looks good, just reply with your approval. If you need any changes, let me know and we'll get it updated right away.\n\nLooking forward to getting this rolling for you!\n\n${$user?.name || 'Your IndoorMedia Rep'}`;
-                        window.open(`mailto:${proof.client_email}?subject=${encodeURIComponent('Your Ad Design is Ready! — ' + biz)}&body=${encodeURIComponent(body)}`);
-                      }}>
+                      <button class="template-btn" on:click={() => showDraft(proof, 'ready')}>
                         🎨 Your Ad Design is Ready!
                         <span class="template-desc">Review proof, verify address/phone</span>
                       </button>
-
-                      <!-- Template 2: Stronger Offer -->
-                      <button class="template-btn" on:click={() => {
-                        const contact = proof.contact_name || 'there';
-                        const biz = proof.client_name || 'your business';
-                        const body = `Hi ${contact},\n\nI was looking at the proof for ${biz} and wanted to share a quick thought.\n\nThe businesses that see the best results from their register tape ads are the ones with a strong, specific offer — something that makes shoppers take action right then and there.\n\nHere are some ideas that consistently drive traffic:\n• A dollar-off or percentage discount (e.g., "$5 off your next visit")\n• A free item with purchase (e.g., "Free appetizer with any entree")\n• A limited-time seasonal offer\n• A "new customer" special\n\nThe more compelling the offer, the more customers it drives through your door. Would you like to update your ad with a stronger call to action? Happy to help refine it.\n\n${$user?.name || 'Your IndoorMedia Rep'}`;
-                        window.open(`mailto:${proof.client_email}?subject=${encodeURIComponent('Quick Thought on Your Ad — ' + biz)}&body=${encodeURIComponent(body)}`);
-                      }}>
+                      <button class="template-btn" on:click={() => showDraft(proof, 'stronger')}>
                         🔥 Suggest a Stronger Offer
                         <span class="template-desc">Recommend more aggressive promotion</span>
                       </button>
-
-                      <!-- Template 3: Upsell Single → Double -->
-                      <button class="template-btn" on:click={() => {
-                        const contact = proof.contact_name || 'there';
-                        const biz = proof.client_name || 'your business';
-                        const currentSize = proof.ad_size || 'Single';
-                        const upgradeSize = currentSize === 'Double' ? 'an even more prominent placement' : 'a Double-size ad';
-                        const body = `Hi ${contact},\n\nYour ad for ${biz} is looking great! Quick question — have you considered upgrading to ${upgradeSize}?\n\nHere's why our most successful advertisers go bigger:\n• Double the visibility = double the impressions\n• Your ad stands out more on the receipt\n• Shoppers are more likely to notice a larger coupon\n• Better ROI per dollar spent\n\nThe upgrade is very affordable and the results speak for themselves. Want me to put together a quick comparison for you?\n\n${$user?.name || 'Your IndoorMedia Rep'}`;
-                        window.open(`mailto:${proof.client_email}?subject=${encodeURIComponent('Maximize Your Results — Upgrade Option for ' + biz)}&body=${encodeURIComponent(body)}`);
-                      }}>
+                      <button class="template-btn" on:click={() => showDraft(proof, 'upsell')}>
                         📏 Upsell: Upgrade Ad Size
                         <span class="template-desc">{proof.ad_size === 'Double' ? 'Suggest premium placement' : 'Single → Double upgrade'}</span>
                       </button>
-
-                      <!-- Template 4: Expand to Nearby Stores -->
-                      <button class="template-btn" on:click={() => {
-                        const contact = proof.contact_name || 'there';
-                        const biz = proof.client_name || 'your business';
-                        const store = proof.store || 'your current store';
-                        const body = `Hi ${contact},\n\nYour ad for ${biz} at ${store} looks fantastic! I wanted to reach out because we have several other stores nearby that could help you reach even more customers.\n\nMany of our most successful advertisers run their ads across multiple locations — it's the fastest way to build local brand recognition and drive new customers from different neighborhoods.\n\nWould you be interested in seeing which other stores are near ${biz}? I can pull together a quick list with pricing so you can see how easy it is to expand your reach.\n\nThe more locations you're in, the more people see your name — and the better your results.\n\n${$user?.name || 'Your IndoorMedia Rep'}`;
-                        window.open(`mailto:${proof.client_email}?subject=${encodeURIComponent('Expand Your Reach — More Stores Near ' + biz)}&body=${encodeURIComponent(body)}`);
-                      }}>
+                      <button class="template-btn" on:click={() => showDraft(proof, 'expand')}>
                         🏪 Expand to Nearby Stores
-                        <span class="template-desc">Roll out at more locations</span>
+                        <span class="template-desc">Suggests actual nearby store locations</span>
                       </button>
-
-                      <!-- Template 5: Looks Great! -->
-                      <button class="template-btn" on:click={() => {
-                        const contact = proof.contact_name || 'there';
-                        const biz = proof.client_name || 'your business';
-                        const store = proof.store || 'the store';
-                        const installMonth = proof.install_month || 'soon';
-                        const body = `Hi ${contact},\n\nJust wanted to check in — your ad proof for ${biz} looks great!\n\nJust a friendly reminder to reply with your approval so we can get it into production. It's scheduled to be installed at ${store} in ${installMonth}.\n\nIf you have any last-minute tweaks, now's the time. Otherwise, we're good to go!\n\n${$user?.name || 'Your IndoorMedia Rep'}`;
-                        window.open(`mailto:${proof.client_email}?subject=${encodeURIComponent('Your Ad Looks Great! — ' + biz)}&body=${encodeURIComponent(body)}`);
-                      }}>
+                      <button class="template-btn" on:click={() => showDraft(proof, 'approve')}>
                         ✅ Looks Great — Nudge Approval
                         <span class="template-desc">Friendly reminder to approve</span>
                       </button>
@@ -1082,6 +1130,43 @@
       {#if filteredProofs.length === 0}
         <p class="empty-state">No ad proofs found{proofSearch ? ' matching your search' : ''}.</p>
       {/if}
+    </div>
+  {/if}
+
+  <!-- Draft Preview Modal -->
+  {#if draftPreview}
+    <div class="draft-overlay" on:click|self={() => draftPreview = null}>
+      <div class="draft-modal">
+        <div class="draft-header">
+          <h3>📧 Email Draft Preview</h3>
+          <button class="draft-close" on:click={() => draftPreview = null}>✕</button>
+        </div>
+        
+        <div class="draft-to">
+          <span class="draft-label">To:</span>
+          <span class="draft-value">{draftPreview.email || 'No email'}</span>
+        </div>
+        <div class="draft-subject">
+          <span class="draft-label">Subject:</span>
+          <span class="draft-value">{draftPreview.subject}</span>
+        </div>
+        
+        <div class="draft-body-container">
+          <pre class="draft-body-text">{draftPreview.body}</pre>
+        </div>
+
+        <div class="draft-actions">
+          <button class="draft-action-btn copy-btn" on:click={copyDraft}>
+            📋 Copy to Clipboard
+          </button>
+          <button class="draft-action-btn send-btn" on:click={openInEmailApp}>
+            ✉️ Open in Email App
+          </button>
+          <button class="draft-action-btn close-btn" on:click={() => draftPreview = null}>
+            Close
+          </button>
+        </div>
+      </div>
     </div>
   {/if}
 </div>
@@ -1296,4 +1381,24 @@
   .template-btn:hover { border-color: #cc0000; background: rgba(204,0,0,0.05); }
   .template-desc { font-size: 12px; font-weight: 400; color: var(--text-tertiary); }
   .proof-image-fallback { display: inline-block; margin-top: 8px; padding: 8px 16px; background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 8px; text-decoration: none; font-size: 13px; color: var(--text-primary); }
+  .client-email-display { margin: 0 0 12px; font-size: 14px; color: var(--text-secondary); }
+
+  /* Draft Preview Modal */
+  .draft-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.6); z-index: 1000; display: flex; align-items: center; justify-content: center; padding: 20px; }
+  .draft-modal { background: var(--bg-secondary, white); border-radius: 16px; max-width: 600px; width: 100%; max-height: 85vh; overflow-y: auto; box-shadow: 0 20px 60px rgba(0,0,0,0.3); }
+  .draft-header { display: flex; justify-content: space-between; align-items: center; padding: 20px 20px 12px; border-bottom: 1px solid var(--border-color); }
+  .draft-header h3 { margin: 0; font-size: 18px; color: var(--text-primary); }
+  .draft-close { background: none; border: none; font-size: 20px; cursor: pointer; color: var(--text-tertiary); padding: 4px 8px; }
+  .draft-to, .draft-subject { padding: 10px 20px; border-bottom: 1px solid var(--border-color); display: flex; gap: 8px; align-items: baseline; }
+  .draft-label { font-size: 12px; font-weight: 700; color: var(--text-tertiary); text-transform: uppercase; min-width: 55px; }
+  .draft-value { font-size: 14px; color: var(--text-primary); font-weight: 600; }
+  .draft-body-container { padding: 20px; }
+  .draft-body-text { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; font-size: 14px; line-height: 1.6; color: var(--text-primary); white-space: pre-wrap; word-wrap: break-word; margin: 0; background: none; border: none; }
+  .draft-actions { display: flex; gap: 10px; padding: 16px 20px; border-top: 1px solid var(--border-color); flex-wrap: wrap; }
+  .draft-action-btn { flex: 1; min-width: 140px; padding: 12px 16px; border: none; border-radius: 10px; font-size: 14px; font-weight: 600; cursor: pointer; transition: all 0.2s; text-align: center; }
+  .copy-btn { background: var(--card-bg); border: 2px solid var(--border-color); color: var(--text-primary); }
+  .copy-btn:hover { border-color: #cc0000; }
+  .send-btn { background: #cc0000; color: white; }
+  .send-btn:hover { background: #aa0000; }
+  .close-btn { background: var(--card-bg); border: 2px solid var(--border-color); color: var(--text-tertiary); }
 </style>
