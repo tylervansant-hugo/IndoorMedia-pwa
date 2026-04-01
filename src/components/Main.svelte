@@ -542,12 +542,6 @@
             <p class="stat-label">Pending</p>
           </div>
           <div class="stat-card">
-            <div class="stat-icon">🏪</div>
-            <h3>Stores</h3>
-            <p class="stat-value">{storesInTerritory.toLocaleString()}</p>
-            <p class="stat-label">In Territory</p>
-          </div>
-          <div class="stat-card">
             <div class="stat-icon">🔥</div>
             <h3>Streak</h3>
             <p class="stat-value">{streak}</p>
