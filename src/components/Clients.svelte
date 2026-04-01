@@ -6,7 +6,7 @@
   // Set worker source for pdfjs
   pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.9.155/pdf.worker.min.mjs';
 
-  let view = 'main'; // main, customers, sales, submit-contract, renewals
+  let view = 'main'; // main, customers, sales, submit-contract, renewals, ad-proofs
   let contracts = [];
   let allStores = [];
   let loading = true;
@@ -21,6 +21,12 @@
   let renewalRepFilter = 'all';
   let expandedRenewal = null;
   
+  // Ad Proofs
+  let adProofs = [];
+  let proofSearch = '';
+  let proofZoneFilter = 'all';
+  let expandedProof = null;
+
   // Submit contract state
   let contractFile = null;
   let contractParsing = false;
@@ -29,15 +35,17 @@
 
   onMount(async () => {
     try {
-      const [contractsRes, storesRes, renewalsRes] = await Promise.all([
+      const [contractsRes, storesRes, renewalsRes, proofsRes] = await Promise.all([
         fetch(import.meta.env.BASE_URL + 'data/contracts.json'),
         fetch(import.meta.env.BASE_URL + 'data/stores.json'),
-        fetch(import.meta.env.BASE_URL + 'data/pending_renewals.json').catch(() => ({ json: () => [] }))
+        fetch(import.meta.env.BASE_URL + 'data/pending_renewals.json').catch(() => ({ json: () => [] })),
+        fetch(import.meta.env.BASE_URL + 'data/ad_proofs.json').catch(() => ({ json: () => [] }))
       ]);
       const data = await contractsRes.json();
       contracts = data.contracts || [];
       allStores = await storesRes.json().catch(() => []);
       pendingRenewals = await renewalsRes.json().catch(() => []);
+      adProofs = await proofsRes.json().catch(() => []);
     } catch (err) {
       console.error('Failed to load data:', err);
     }
@@ -73,6 +81,32 @@
 
   $: repName = $user?.name || $user?.first_name || '';
   $: isManager = repName?.toLowerCase().includes('tyler') || repName?.toLowerCase().includes('rick leibowitz') || repName?.toLowerCase().includes('richard leibowitz');
+
+  // Ad proofs scoped to rep (managers see all, reps see only their own)
+  $: myAdProofs = isManager
+    ? adProofs
+    : adProofs.filter(p => {
+        const repLower = (repName || '').toLowerCase();
+        return p.recipients?.some(email => {
+          const mapped = (p.reps || []).find(r => r.email === email);
+          if (mapped) return mapped.name.toLowerCase().includes(repLower.split(' ')[0]);
+          return false;
+        });
+      });
+
+  $: proofZones = [...new Set(myAdProofs.map(p => p.zone))].sort();
+  
+  $: filteredProofs = myAdProofs.filter(p => {
+    if (proofZoneFilter !== 'all' && p.zone !== proofZoneFilter) return false;
+    if (proofSearch) {
+      const q = proofSearch.toLowerCase();
+      return (p.client_name || '').toLowerCase().includes(q) ||
+        (p.contract_number || '').toLowerCase().includes(q) ||
+        (p.store || '').toLowerCase().includes(q) ||
+        (p.location || '').toLowerCase().includes(q);
+    }
+    return true;
+  });
 
   let sortBy = 'date-desc'; // date-desc, date-asc, rep, amount-desc, amount-asc, name
 
@@ -389,6 +423,12 @@
         <div class="btn-icon">🔄</div>
         <div class="btn-text">Pending Renewals</div>
         <div class="btn-desc">{myRenewals.length} accounts</div>
+      </button>
+
+      <button class="main-btn" on:click={() => view = 'ad-proofs'}>
+        <div class="btn-icon">🎨</div>
+        <div class="btn-text">Ad Proofs</div>
+        <div class="btn-desc">{myAdProofs.length} proofs</div>
       </button>
     </div>
 
@@ -875,6 +915,96 @@
       </div>
     {/if}
   {/if}
+
+  <!-- Ad Proofs -->
+  {#if view === 'ad-proofs'}
+    <button class="back-btn" on:click={goBack}>&larr; Back</button>
+    <h2>🎨 Ad Proofs</h2>
+    <p class="subtitle">{filteredProofs.length} proof{filteredProofs.length !== 1 ? 's' : ''}</p>
+
+    <div class="filter-bar">
+      <input type="text" placeholder="Search client, contract #, store..." bind:value={proofSearch} class="search-input" />
+      <select bind:value={proofZoneFilter} class="filter-select">
+        <option value="all">All Zones</option>
+        {#each proofZones as zone}
+          <option value={zone}>{zone}</option>
+        {/each}
+      </select>
+    </div>
+
+    <div class="proofs-list">
+      {#each filteredProofs as proof}
+        <div class="proof-card" class:expanded={expandedProof === proof.message_id}>
+          <button class="proof-header" on:click={() => expandedProof = expandedProof === proof.message_id ? null : proof.message_id}>
+            <div class="proof-info">
+              <h4>{proof.client_name || 'Unknown'}</h4>
+              <p class="proof-meta">
+                {proof.contract_number || ''} · {proof.zone} {proof.cycle} · {proof.ad_size || ''} Ad
+              </p>
+              <p class="proof-store">{proof.store || ''}</p>
+              <p class="proof-date">{proof.date || ''}</p>
+            </div>
+            <span class="expand-arrow">{expandedProof === proof.message_id ? '▼' : '▶'}</span>
+          </button>
+          
+          {#if expandedProof === proof.message_id}
+            <div class="proof-detail">
+              <div class="proof-fields">
+                <div class="field-row">
+                  <span class="field-label">Contract</span>
+                  <span class="field-value">{proof.contract_number}</span>
+                </div>
+                <div class="field-row">
+                  <span class="field-label">Ad Size</span>
+                  <span class="field-value">{proof.ad_size || 'N/A'}</span>
+                </div>
+                <div class="field-row">
+                  <span class="field-label">Store</span>
+                  <span class="field-value">{proof.store || 'N/A'}</span>
+                </div>
+                <div class="field-row">
+                  <span class="field-label">Install</span>
+                  <span class="field-value">{proof.install_month || 'N/A'}</span>
+                </div>
+                <div class="field-row">
+                  <span class="field-label">Runs</span>
+                  <span class="field-value">{proof.run_months || 'N/A'}</span>
+                </div>
+                {#if proof.review_deadline}
+                  <div class="field-row">
+                    <span class="field-label">Deadline</span>
+                    <span class="field-value" style="color: #cc0000; font-weight: 700;">{proof.review_deadline}</span>
+                  </div>
+                {/if}
+                <div class="field-row">
+                  <span class="field-label">Zone</span>
+                  <span class="field-value">{proof.zone} · {proof.cycle}</span>
+                </div>
+                {#if proof.reps?.length > 0}
+                  <div class="field-row">
+                    <span class="field-label">Rep(s)</span>
+                    <span class="field-value">{proof.reps.map(r => r.name).join(', ')}</span>
+                  </div>
+                {/if}
+              </div>
+
+              {#if proof.image_url}
+                <div class="proof-image-container">
+                  <h4>Ad Proof Image</h4>
+                  <img src={proof.image_url} alt="Ad proof for {proof.client_name}" class="proof-image" loading="lazy" />
+                  <a href={proof.image_url} target="_blank" class="view-full-btn">View Full Size ↗</a>
+                </div>
+              {/if}
+            </div>
+          {/if}
+        </div>
+      {/each}
+
+      {#if filteredProofs.length === 0}
+        <p class="empty-state">No ad proofs found{proofSearch ? ' matching your search' : ''}.</p>
+      {/if}
+    </div>
+  {/if}
 </div>
 
 <style>
@@ -1050,4 +1180,26 @@
   .renewal-actions .action-btn { flex: 1; text-align: center; padding: 10px; border-radius: 8px; text-decoration: none; font-weight: 600; font-size: 14px; }
   .renewal-actions .call-btn { background: #2e7d32; color: white; }
   .renewal-actions .email-btn { background: #1976d2; color: white; }
+  /* Ad Proofs */
+  .proofs-list { display: flex; flex-direction: column; gap: 12px; margin-top: 16px; }
+  .proof-card { background: var(--card-bg); border: 2px solid var(--border-color); border-radius: 12px; overflow: hidden; transition: all 0.2s; }
+  .proof-card.expanded { border-color: #cc0000; }
+  .proof-header { display: flex; justify-content: space-between; align-items: center; width: 100%; padding: 16px; background: none; border: none; cursor: pointer; text-align: left; color: var(--text-primary); }
+  .proof-info h4 { margin: 0 0 4px; font-size: 16px; font-weight: 700; }
+  .proof-meta { margin: 0 0 2px; font-size: 13px; color: var(--text-secondary); font-weight: 600; }
+  .proof-store { margin: 0 0 2px; font-size: 12px; color: var(--text-tertiary); }
+  .proof-date { margin: 0; font-size: 11px; color: var(--text-tertiary); }
+  .expand-arrow { font-size: 14px; color: var(--text-tertiary); flex-shrink: 0; }
+  .proof-detail { padding: 0 16px 16px; border-top: 1px solid var(--border-color); }
+  .proof-fields { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 12px; }
+  @media (min-width: 768px) { .proof-fields { grid-template-columns: 1fr 1fr 1fr; } }
+  .proof-image-container { margin-top: 16px; text-align: center; }
+  .proof-image-container h4 { margin: 0 0 12px; font-size: 14px; color: var(--text-secondary); }
+  .proof-image { max-width: 100%; border-radius: 8px; border: 1px solid var(--border-color); }
+  .view-full-btn { display: inline-block; margin-top: 8px; padding: 8px 16px; background: #cc0000; color: white; border-radius: 8px; text-decoration: none; font-size: 13px; font-weight: 600; }
+  .view-full-btn:hover { background: #aa0000; }
+  .filter-bar { display: flex; gap: 10px; margin-top: 12px; flex-wrap: wrap; }
+  .search-input { flex: 1; min-width: 200px; padding: 10px 14px; border: 2px solid var(--border-color); border-radius: 10px; font-size: 14px; background: var(--input-bg); color: var(--text-primary); }
+  .filter-select { padding: 10px 14px; border: 2px solid var(--border-color); border-radius: 10px; font-size: 14px; background: var(--input-bg); color: var(--text-primary); }
+  .empty-state { text-align: center; padding: 40px 20px; color: var(--text-tertiary); font-size: 15px; }
 </style>
