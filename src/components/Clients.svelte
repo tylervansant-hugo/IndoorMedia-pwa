@@ -6,13 +6,20 @@
   // Set worker source for pdfjs
   pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.9.155/pdf.worker.min.mjs';
 
-  let view = 'main'; // main, customers, sales, submit-contract
+  let view = 'main'; // main, customers, sales, submit-contract, renewals
   let contracts = [];
   let allStores = [];
   let loading = true;
   let searchQuery = '';
   let expandedCustomer = null;
   let emailDraft = null;
+  
+  // Pending Renewals
+  let pendingRenewals = [];
+  let renewalSearch = '';
+  let renewalCycleFilter = 'all';
+  let renewalRepFilter = 'all';
+  let expandedRenewal = null;
   
   // Submit contract state
   let contractFile = null;
@@ -22,17 +29,37 @@
 
   onMount(async () => {
     try {
-      const [contractsRes, storesRes] = await Promise.all([
+      const [contractsRes, storesRes, renewalsRes] = await Promise.all([
         fetch(import.meta.env.BASE_URL + 'data/contracts.json'),
-        fetch(import.meta.env.BASE_URL + 'data/stores.json')
+        fetch(import.meta.env.BASE_URL + 'data/stores.json'),
+        fetch(import.meta.env.BASE_URL + 'data/pending_renewals.json').catch(() => ({ json: () => [] }))
       ]);
       const data = await contractsRes.json();
       contracts = data.contracts || [];
       allStores = await storesRes.json().catch(() => []);
+      pendingRenewals = await renewalsRes.json().catch(() => []);
     } catch (err) {
       console.error('Failed to load data:', err);
     }
     loading = false;
+  });
+
+  // Get unique reps and cycles from renewals
+  $: renewalReps = [...new Set(pendingRenewals.map(r => r.rep))].sort();
+  $: renewalCycles = [...new Set(pendingRenewals.map(r => r.cycle))].sort();
+  
+  $: filteredRenewals = pendingRenewals.filter(r => {
+    if (renewalCycleFilter !== 'all' && r.cycle !== renewalCycleFilter) return false;
+    if (renewalRepFilter !== 'all' && r.rep !== renewalRepFilter) return false;
+    if (renewalSearch) {
+      const q = renewalSearch.toLowerCase();
+      return (r.business || '').toLowerCase().includes(q) ||
+        (r.contactName || '').toLowerCase().includes(q) ||
+        (r.store || '').toLowerCase().includes(q) ||
+        (r.rep || '').toLowerCase().includes(q) ||
+        (r.category || '').toLowerCase().includes(q);
+    }
+    return true;
   });
 
   $: repName = $user?.name || $user?.first_name || '';
@@ -348,6 +375,12 @@
         <h4>Submit Contract</h4>
         <p>Upload signed agreement</p>
       </button>
+
+      <button class="menu-btn renewal-btn" on:click={() => view = 'renewals'}>
+        <div class="menu-emoji">🔄</div>
+        <h4>Pending Renewals</h4>
+        <p>{pendingRenewals.length} accounts</p>
+      </button>
     </div>
 
   {/if}
@@ -488,6 +521,121 @@
   {/if}
 
   <!-- Submit Contract -->
+  <!-- Pending Renewals -->
+  {#if view === 'renewals'}
+    <button class="back-btn" on:click={goBack}>&larr; Back</button>
+    <h2>🔄 Pending Renewals</h2>
+    <p class="subtitle">{filteredRenewals.length} of {pendingRenewals.length} accounts — Zone 7</p>
+
+    <input type="text" class="search-input" placeholder="Search by business, rep, store, category..." bind:value={renewalSearch} />
+
+    <div class="renewal-filters">
+      <select bind:value={renewalRepFilter}>
+        <option value="all">All Reps ({pendingRenewals.length})</option>
+        {#each renewalReps as rep}
+          <option value={rep}>{rep} ({pendingRenewals.filter(r => r.rep === rep).length})</option>
+        {/each}
+      </select>
+
+      <select bind:value={renewalCycleFilter}>
+        <option value="all">All Cycles</option>
+        {#each renewalCycles as cycle}
+          <option value={cycle}>{cycle} ({pendingRenewals.filter(r => r.cycle === cycle).length})</option>
+        {/each}
+      </select>
+    </div>
+
+    {#if filteredRenewals.length === 0}
+      <p class="empty">No renewals match your filters.</p>
+    {:else}
+      <div class="renewal-list">
+        {#each filteredRenewals as renewal}
+          <div class="renewal-card" on:click={() => expandedRenewal = expandedRenewal === renewal.accountNumber ? null : renewal.accountNumber}>
+            <div class="renewal-header">
+              <div class="renewal-biz">
+                <h4>{renewal.business}</h4>
+                <span class="renewal-cat">{renewal.category || 'N/A'}</span>
+              </div>
+              <div class="renewal-meta">
+                <span class="renewal-cycle">{renewal.cycle}</span>
+                <span class="renewal-price">{renewal.contractPrice || '—'}</span>
+              </div>
+            </div>
+            <div class="renewal-sub">
+              <span>🏪 {renewal.store}</span>
+              <span>👤 {renewal.rep}</span>
+              <span>📅 Ends: {renewal.endDate || '—'}</span>
+            </div>
+
+            {#if expandedRenewal === renewal.accountNumber}
+              <div class="renewal-details">
+                <div class="detail-grid">
+                  <div class="detail-item">
+                    <span class="detail-label">Contact</span>
+                    <span class="detail-value">{renewal.contactName || 'N/A'}</span>
+                  </div>
+                  <div class="detail-item">
+                    <span class="detail-label">Phone</span>
+                    <span class="detail-value">{renewal.phone || 'N/A'}</span>
+                  </div>
+                  <div class="detail-item">
+                    <span class="detail-label">Email</span>
+                    <span class="detail-value">{renewal.email || 'N/A'}</span>
+                  </div>
+                  <div class="detail-item">
+                    <span class="detail-label">Ad Size</span>
+                    <span class="detail-value">{renewal.adSize || 'N/A'}</span>
+                  </div>
+                  <div class="detail-item">
+                    <span class="detail-label">Contract #</span>
+                    <span class="detail-value">{renewal.contractNumber || 'N/A'}</span>
+                  </div>
+                  <div class="detail-item">
+                    <span class="detail-label">Account #</span>
+                    <span class="detail-value">{renewal.accountNumber || 'N/A'}</span>
+                  </div>
+                  <div class="detail-item">
+                    <span class="detail-label">Cycle Revenue</span>
+                    <span class="detail-value">{renewal.cycleRevenue || 'N/A'}</span>
+                  </div>
+                  <div class="detail-item">
+                    <span class="detail-label">Late Balance</span>
+                    <span class="detail-value">{renewal.lateBalance || '$ -'}</span>
+                  </div>
+                  <div class="detail-item">
+                    <span class="detail-label">Run Length</span>
+                    <span class="detail-value">{renewal.runLength ? renewal.runLength + ' quarters' : 'N/A'}</span>
+                  </div>
+                  <div class="detail-item">
+                    <span class="detail-label">Address</span>
+                    <span class="detail-value">{renewal.storeAddress || ''} {renewal.storeCityStateZip || ''}</span>
+                  </div>
+                  <div class="detail-item">
+                    <span class="detail-label">Rep Status</span>
+                    <span class="detail-value" class:status-active={renewal.repStatus === 'Active'} class:status-inactive={renewal.repStatus === 'Inactive'}>{renewal.repStatus || 'N/A'}</span>
+                  </div>
+                  <div class="detail-item">
+                    <span class="detail-label">Start Date</span>
+                    <span class="detail-value">{renewal.startDate || 'N/A'}</span>
+                  </div>
+                </div>
+
+                <div class="renewal-actions">
+                  {#if renewal.phone}
+                    <a href="tel:{renewal.phone}" class="action-btn call-btn">📞 Call</a>
+                  {/if}
+                  {#if renewal.email}
+                    <a href="mailto:{renewal.email}?subject=Renewal%20—%20{encodeURIComponent(renewal.business)}" class="action-btn email-btn">✉️ Email</a>
+                  {/if}
+                </div>
+              </div>
+            {/if}
+          </div>
+        {/each}
+      </div>
+    {/if}
+  {/if}
+
   {#if view === 'submit-contract'}
     <button class="back-btn" on:click={goBack}>&larr; Back</button>
     <h2>📄 Submit Contract</h2>
@@ -722,4 +870,31 @@
   .upsell-list { display: flex; flex-direction: column; gap: 4px; }
   .upsell-item { font-size: 12px; color: var(--text-secondary); padding: 4px 0; }
   .upsell-item strong { color: var(--text-primary); }
+  /* Pending Renewals */
+  .renewal-btn { border: 2px solid #CC0000 !important; }
+  .search-input { width: 100%; padding: 10px 14px; border: 1px solid #ddd; border-radius: 8px; font-size: 14px; margin-bottom: 12px; box-sizing: border-box; }
+  .search-input:focus { outline: none; border-color: #CC0000; }
+  .renewal-filters { display: flex; gap: 8px; margin-bottom: 16px; }
+  .renewal-filters select { flex: 1; padding: 8px; border: 1px solid #ddd; border-radius: 8px; font-size: 13px; background: white; }
+  .renewal-list { display: flex; flex-direction: column; gap: 10px; }
+  .renewal-card { background: white; border: 1px solid #e0e0e0; border-radius: 10px; padding: 14px; cursor: pointer; transition: all 0.2s; }
+  .renewal-card:hover { border-color: #CC0000; box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
+  .renewal-header { display: flex; justify-content: space-between; align-items: flex-start; gap: 8px; }
+  .renewal-biz h4 { margin: 0; font-size: 15px; color: #333; }
+  .renewal-cat { font-size: 12px; color: #888; }
+  .renewal-meta { text-align: right; }
+  .renewal-cycle { display: inline-block; background: #CC0000; color: white; padding: 2px 8px; border-radius: 4px; font-size: 11px; font-weight: 600; }
+  .renewal-price { display: block; font-size: 14px; font-weight: 700; color: #2e7d32; margin-top: 4px; }
+  .renewal-sub { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 8px; font-size: 12px; color: #666; }
+  .renewal-details { margin-top: 14px; padding-top: 14px; border-top: 1px solid #eee; }
+  .detail-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .detail-item { display: flex; flex-direction: column; }
+  .detail-label { font-size: 11px; color: #888; font-weight: 600; text-transform: uppercase; }
+  .detail-value { font-size: 14px; color: #333; }
+  .status-active { color: #2e7d32; font-weight: 600; }
+  .status-inactive { color: #c33; font-weight: 600; }
+  .renewal-actions { display: flex; gap: 8px; margin-top: 12px; }
+  .renewal-actions .action-btn { flex: 1; text-align: center; padding: 10px; border-radius: 8px; font-size: 14px; font-weight: 600; text-decoration: none; }
+  .renewal-actions .call-btn { background: #2e7d32; color: white; }
+  .renewal-actions .email-btn { background: #CC0000; color: white; }
 </style>
