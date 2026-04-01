@@ -205,13 +205,12 @@
     <h2>📦 IndoorMedia Products</h2>
     <p class="subtitle">Premium in-store advertising solutions</p>
 
-    <div class="product-grid">
+    <div class="button-grid">
       {#each Object.entries(PRODUCTS) as [key, product]}
-        <button class="product-btn" on:click={() => selectProduct(key)}>
-          <div class="product-emoji">{product.emoji}</div>
-          <div class="product-name">{product.name}</div>
-          <div class="product-desc">{product.desc}</div>
-          <div class="arrow">→</div>
+        <button class="main-btn" on:click={() => selectProduct(key)}>
+          <div class="btn-icon">{product.emoji}</div>
+          <div class="btn-text">{product.name}</div>
+          <div class="btn-desc">{product.desc}</div>
         </button>
       {/each}
     </div>
@@ -507,58 +506,12 @@
     text-decoration: underline;
   }
 
-  .product-grid {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-    margin-top: 20px;
-  }
-
-  .product-btn {
-    background: white;
-    border: 2px solid #eee;
-    border-radius: 12px;
-    padding: 16px;
-    text-align: left;
-    cursor: pointer;
-    transition: all 0.2s;
-    position: relative;
-    display: flex;
-    align-items: flex-start;
-    gap: 12px;
-  }
-
-  .product-btn:hover {
-    border-color: #CC0000;
-    background: #fff5f5;
-  }
-
-  .product-emoji {
-    font-size: 32px;
-    flex-shrink: 0;
-  }
-
-  .product-name {
-    font-weight: 600;
-    color: #333;
-    font-size: 16px;
-    margin-bottom: 4px;
-  }
-
-  .product-desc {
-    color: #666;
-    font-size: 13px;
-    margin: 0;
-  }
-
-  .arrow {
-    position: absolute;
-    right: 16px;
-    top: 50%;
-    transform: translateY(-50%);
-    color: #CC0000;
-    font-size: 20px;
-  }
+    .button-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem; max-width: 600px; }
+  .main-btn { background: var(--card-bg, #2a2a3e); border: 2px solid var(--border-color, #333); border-radius: 12px; padding: 1.5rem; cursor: pointer; transition: all 0.2s; text-align: center; color: var(--text-primary, #eee); min-height: 140px; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+  .main-btn:hover { border-color: #cc0000; box-shadow: 0 4px 12px rgba(204, 0, 0, 0.1); transform: translateY(-2px); }
+  .btn-icon { font-size: 2rem; margin-bottom: 0.5rem; }
+  .btn-text { font-weight: 600; color: var(--text-primary, #eee); margin-bottom: 0.25rem; }
+  .btn-desc { font-size: 0.85rem; color: var(--text-tertiary, #999); }
 
   .tiers-list {
     display: flex;

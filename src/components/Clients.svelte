@@ -366,29 +366,29 @@
     <h2>Clients</h2>
     <p class="subtitle">Manage customers & sales</p>
 
-    <div class="menu-grid">
-      <button class="menu-btn" on:click={() => view = 'customers'}>
-        <div class="menu-emoji">👥</div>
-        <h4>My Customers</h4>
-        <p>{myCustomers.length} closed deals</p>
+    <div class="button-grid">
+      <button class="main-btn" on:click={() => view = 'customers'}>
+        <div class="btn-icon">👥</div>
+        <div class="btn-text">My Customers</div>
+        <div class="btn-desc">{myCustomers.length} closed deals</div>
       </button>
 
-      <button class="menu-btn" on:click={() => view = 'sales'}>
-        <div class="menu-emoji">💳</div>
-        <h4>My Sales</h4>
-        <p>${totalRevenue.toLocaleString()} total</p>
+      <button class="main-btn" on:click={() => view = 'sales'}>
+        <div class="btn-icon">💳</div>
+        <div class="btn-text">My Sales</div>
+        <div class="btn-desc">${totalRevenue.toLocaleString()} total</div>
       </button>
 
-      <button class="menu-btn" on:click={() => view = 'submit-contract'}>
-        <div class="menu-emoji">📄</div>
-        <h4>Submit Contract</h4>
-        <p>Upload signed agreement</p>
+      <button class="main-btn" on:click={() => view = 'submit-contract'}>
+        <div class="btn-icon">📄</div>
+        <div class="btn-text">Submit Contract</div>
+        <div class="btn-desc">Upload signed agreement</div>
       </button>
 
-      <button class="menu-btn renewal-btn" on:click={() => view = 'renewals'}>
-        <div class="menu-emoji">🔄</div>
-        <h4>Pending Renewals</h4>
-        <p>{myRenewals.length} accounts • ${myRenewals.reduce((sum, r) => { const p = (r.contractPrice || '').replace(/[$,\s]/g, ''); return sum + (parseFloat(p) || 0); }, 0).toLocaleString()}</p>
+      <button class="main-btn" on:click={() => view = 'renewals'}>
+        <div class="btn-icon">🔄</div>
+        <div class="btn-text">Pending Renewals</div>
+        <div class="btn-desc">{myRenewals.length} accounts</div>
       </button>
     </div>
 
@@ -883,12 +883,12 @@
   .subtitle { margin: 0 0 16px; color: var(--text-secondary); font-size: 14px; }
   .back-btn { background: none; border: none; color: #CC0000; font-size: 14px; font-weight: 600; cursor: pointer; padding: 10px 0; margin-bottom: 16px; }
 
-  .menu-grid { display: flex; flex-direction: column; gap: 12px; margin-top: 16px; }
-  .menu-btn { background: white; border: 1px solid #e0e0e0; border-radius: 12px; padding: 16px; text-align: left; cursor: pointer; transition: all 0.2s; }
-  .menu-btn:hover { border-color: #CC0000; background: #fff5f5; box-shadow: 0 2px 8px rgba(204, 0, 0, 0.1); }
-  .menu-emoji { font-size: 28px; margin-bottom: 8px; }
-  .menu-btn h4 { margin: 0 0 4px; color: #333; font-size: 16px; font-weight: 700; }
-  .menu-btn p { margin: 0; color: #666; font-size: 13px; }
+  .button-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem; max-width: 600px; }
+  .main-btn { background: var(--card-bg, #2a2a3e); border: 2px solid var(--border-color, #333); border-radius: 12px; padding: 1.5rem; cursor: pointer; transition: all 0.2s; text-align: center; color: var(--text-primary, #eee); }
+  .main-btn:hover { border-color: #cc0000; box-shadow: 0 4px 12px rgba(204, 0, 0, 0.1); transform: translateY(-2px); }
+  .btn-icon { font-size: 2rem; margin-bottom: 0.5rem; }
+  .btn-text { font-weight: 600; color: var(--text-primary, #eee); margin-bottom: 0.25rem; }
+  .btn-desc { font-size: 0.85rem; color: var(--text-tertiary, #999); }
 
   .search-box { margin: 15px 0; }
   .search-box input { width: 100%; padding: 12px 16px; border: 1px solid #e0e0e0; border-radius: 8px; font-size: 14px; box-sizing: border-box; height: 44px; }
