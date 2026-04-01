@@ -884,7 +884,7 @@
   .back-btn { background: none; border: none; color: #CC0000; font-size: 14px; font-weight: 600; cursor: pointer; padding: 10px 0; margin-bottom: 16px; }
 
   .button-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem; max-width: 600px; }
-  .main-btn { background: var(--card-bg, #2a2a3e); border: 2px solid var(--border-color, #333); border-radius: 12px; padding: 1.5rem; cursor: pointer; transition: all 0.2s; text-align: center; color: var(--text-primary, #eee); }
+  .main-btn { background: var(--card-bg, #2a2a3e); border: 2px solid var(--border-color, #333); border-radius: 12px; padding: 1.5rem; cursor: pointer; transition: all 0.2s; text-align: center; color: var(--text-primary, #eee); min-height: 140px; display: flex; flex-direction: column; align-items: center; justify-content: center; }
   .main-btn:hover { border-color: #cc0000; box-shadow: 0 4px 12px rgba(204, 0, 0, 0.1); transform: translateY(-2px); }
   .btn-icon { font-size: 2rem; margin-bottom: 0.5rem; }
   .btn-text { font-weight: 600; color: var(--text-primary, #eee); margin-bottom: 0.25rem; }

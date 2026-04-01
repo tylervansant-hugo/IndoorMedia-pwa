@@ -1722,6 +1722,11 @@
     transition: all 0.2s;
     text-align: center;
     color: var(--text-primary);
+    min-height: 140px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
   }
 
   .main-btn:hover {
