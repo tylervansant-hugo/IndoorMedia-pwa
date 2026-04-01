@@ -330,9 +330,16 @@
 
     <div class="detail-card">
       <div class="detail-section">
-        <h4>Impressions</h4>
-        <p class="detail-value">240,000/month</p>
-        <p class="detail-note">350K+ impressions when bundled with Register Tape or Cartvertising</p>
+        <h4>Standalone — 240,000 Total Impressions</h4>
+        <p class="detail-value">20,000/mo × 12 months</p>
+        <p class="detail-note">or 40,000/mo × 6 months</p>
+      </div>
+
+      <div class="detail-section">
+        <h4>Bundled with Tape or Cart — 360,000 Total Impressions</h4>
+        <p class="detail-value">30,000/mo × 12 months</p>
+        <p class="detail-note">or 60,000/mo × 6 months</p>
+        <p class="detail-note" style="margin-top: 8px; font-style: italic;">Same total investment regardless of term length</p>
       </div>
 
       <div class="detail-section">
@@ -370,7 +377,7 @@
       </div>
 
       
-      <button class="action-btn" on:click={() => addToCart("DigitalBoost", "$3,600/pin", "240K impressions/month")}>🛒 Add to Cart</button>
+      <button class="action-btn" on:click={() => addToCart("DigitalBoost", "$3,600/pin", "240K standalone / 360K bundled impressions")}>🛒 Add to Cart</button>
     </div>
   {/if}
 
