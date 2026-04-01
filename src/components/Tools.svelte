@@ -716,43 +716,42 @@ Store: ${store}
     <h2>🛠️ Tools</h2>
     <p class="subtitle">Sales support & management tools</p>
 
-    <div class="tools-grid">
-      <button class="tool-btn" on:click={() => view = 'roi'}>
-        <div class="tool-emoji">📊</div>
-        <h4>ROI Calculator</h4>
-        <p>Calculate campaign ROI before pitching</p>
+    <div class="button-grid">
+      <button class="main-btn" on:click={() => view = 'roi'}>
+        <div class="btn-icon">📊</div>
+        <div class="btn-text">ROI Calculator</div>
+        <div class="btn-desc">Calculate campaign ROI before pitching</div>
       </button>
 
-      <button class="tool-btn" on:click={() => view = 'rates'}>
-        <div class="tool-emoji">💰</div>
-        <h4>Store Rates</h4>
-        <p>Quick pricing lookup by store</p>
+      <button class="main-btn" on:click={() => view = 'rates'}>
+        <div class="btn-icon">💰</div>
+        <div class="btn-text">Store Rates</div>
+        <div class="btn-desc">Quick pricing lookup by store</div>
       </button>
 
-      <button class="tool-btn" on:click={() => view = 'testimonials'}>
-        <div class="tool-emoji">📋</div>
-        <h4>Testimonials</h4>
-        <p>Find relevant case studies</p>
+      <button class="main-btn" on:click={() => view = 'testimonials'}>
+        <div class="btn-icon">📋</div>
+        <div class="btn-text">Testimonials</div>
+        <div class="btn-desc">Find relevant case studies</div>
       </button>
 
-      <button class="tool-btn" on:click={() => view = 'audit'}>
-        <div class="tool-emoji">🏪</div>
-        <h4>Audit Store</h4>
-        <p>Track tape inventory & delivery</p>
+      <button class="main-btn" on:click={() => view = 'audit'}>
+        <div class="btn-icon">🏪</div>
+        <div class="btn-text">Audit Store</div>
+        <div class="btn-desc">Track tape inventory & delivery</div>
       </button>
 
-      <button class="tool-btn" on:click={() => view = 'counter-sign'}>
-        <div class="tool-emoji">🎨</div>
-        <h4>Counter Sign</h4>
-        <p>Generate counter signs (same as bot)</p>
+      <button class="main-btn" on:click={() => view = 'counter-sign'}>
+        <div class="btn-icon">🎨</div>
+        <div class="btn-text">Counter Sign</div>
+        <div class="btn-desc">Generate counter signs</div>
       </button>
 
-      <button class="tool-btn" on:click={() => view = 'submit-testimonial'}>
-        <div class="tool-emoji">⭐</div>
-        <h4>Submit Testimonial</h4>
-        <p>Share customer success stories</p>
+      <button class="main-btn" on:click={() => view = 'submit-testimonial'}>
+        <div class="btn-icon">⭐</div>
+        <div class="btn-text">Submit Testimonial</div>
+        <div class="btn-desc">Share customer success stories</div>
       </button>
-
     </div>
   {/if}
 
@@ -1460,44 +1459,33 @@ Store: ${store}
     text-decoration: underline;
   }
 
-  .tools-grid {
+  .button-grid {
     display: grid;
-    grid-template-columns: 1fr;
-    gap: 12px;
-    margin-top: 20px;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+    max-width: 600px;
   }
 
-  .tool-btn {
-    background: white;
-    border: 2px solid #eee;
+  .main-btn {
+    background: var(--card-bg, #2a2a3e);
+    border: 2px solid var(--border-color, #333);
     border-radius: 12px;
-    padding: 16px;
-    text-align: left;
+    padding: 1.5rem;
     cursor: pointer;
     transition: all 0.2s;
+    text-align: center;
+    color: var(--text-primary, #eee);
   }
 
-  .tool-btn:hover {
-    border-color: #CC0000;
-    background: #fff5f5;
+  .main-btn:hover {
+    border-color: #cc0000;
+    box-shadow: 0 4px 12px rgba(204, 0, 0, 0.1);
+    transform: translateY(-2px);
   }
 
-  .tool-emoji {
-    font-size: 32px;
-    margin-bottom: 8px;
-  }
-
-  .tool-btn h4 {
-    margin: 0 0 6px;
-    color: #333;
-    font-size: 16px;
-  }
-
-  .tool-btn p {
-    margin: 0;
-    color: #666;
-    font-size: 13px;
-  }
+  .btn-icon { font-size: 2rem; margin-bottom: 0.5rem; }
+  .btn-text { font-weight: 600; color: var(--text-primary, #eee); margin-bottom: 0.25rem; }
+  .btn-desc { font-size: 0.85rem; color: var(--text-tertiary, #999); }
 
   .search-box {
     margin: 15px 0;
