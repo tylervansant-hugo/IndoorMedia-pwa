@@ -80,28 +80,54 @@
     return QUOTES[dayOfYear % QUOTES.length];
   }
 
+  let nextInstallCycle = '';
+  let nextInstallDate = '';
+  let nextInstallDays = 0;
+  let nextSellingCycle = '';
+  let nextSellingDate = '';
+  let nextSellingDays = 0;
+
   function getNextCycle() {
-    // Zone 07 cycles: A=Jan/Apr/Jul/Oct, B=Feb/May/Aug/Nov, C=Mar/Jun/Sep/Dec (7th of month)
+    // Zone 07 cycle schedule:
+    // Install dates (7th of month): A=Jan/Apr/Jul/Oct, B=Feb/May/Aug/Nov, C=Mar/Jun/Sep/Dec
+    // Selling cycle switches on the 11th, one cycle ahead:
+    //   After A installs (Apr 7) → C selling starts Apr 11
+    //   After B installs (May 7) → A selling starts May 11  
+    //   After C installs (Jun 7) → B selling starts Jun 11
+    // Pattern: A install → sell C, B install → sell A, C install → sell B
     const now = new Date();
-    const cycles = [
+    const installCycles = [
       { name: 'A', months: [0, 3, 6, 9] },
       { name: 'B', months: [1, 4, 7, 10] },
       { name: 'C', months: [2, 5, 8, 11] },
     ];
-    let nearest = null;
-    for (const cycle of cycles) {
+    const sellingAfter = { 'A': 'C', 'B': 'A', 'C': 'B' };
+
+    // Find next install date (7th of month)
+    let nearestInstall = null;
+    for (const cycle of installCycles) {
       for (const m of cycle.months) {
-        const d = new Date(now.getFullYear(), m, 7);
-        if (d <= now) d.setFullYear(d.getFullYear() + 1);
-        if (!nearest || d < nearest.date) {
-          nearest = { date: d, name: cycle.name };
+        let d = new Date(now.getFullYear(), m, 7);
+        if (d <= now) d = new Date(now.getFullYear() + 1, m, 7);
+        if (!nearestInstall || d < nearestInstall.date) {
+          nearestInstall = { date: d, name: cycle.name };
         }
       }
     }
-    if (nearest) {
-      const diff = Math.ceil((nearest.date - now) / 86400000);
-      nextCycleDate = `${diff} day${diff !== 1 ? 's' : ''}`;
-      nextCycleName = nearest.name;
+
+    if (nearestInstall) {
+      const diff = Math.ceil((nearestInstall.date - now) / 86400000);
+      nextInstallCycle = nearestInstall.name;
+      nextInstallDate = nearestInstall.date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+      nextInstallDays = diff;
+
+      // Selling cycle starts on the 11th of the same month as install
+      const sellDate = new Date(nearestInstall.date);
+      sellDate.setDate(11);
+      const sellDiff = Math.ceil((sellDate - now) / 86400000);
+      nextSellingCycle = sellingAfter[nearestInstall.name];
+      nextSellingDate = sellDate.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+      nextSellingDays = sellDiff;
     }
   }
 
@@ -658,9 +684,16 @@
         </div>
 
         <!-- Next Cycle -->
-        {#if nextCycleName}
+        {#if nextInstallCycle}
           <div class="cycle-countdown">
-            <span>⏰ Next Cycle {nextCycleName}: <strong>{nextCycleDate}</strong></span>
+            <div class="cycle-row">
+              <span>📦 Cycle {nextInstallCycle} <strong>Installs</strong>: <strong>{nextInstallDate}</strong></span>
+              <span class="cycle-days">{nextInstallDays} day{nextInstallDays !== 1 ? 's' : ''}</span>
+            </div>
+            <div class="cycle-row">
+              <span>🎯 Switch to <strong>Cycle {nextSellingCycle} Selling</strong>: <strong>{nextSellingDate}</strong></span>
+              <span class="cycle-days">{nextSellingDays} day{nextSellingDays !== 1 ? 's' : ''}</span>
+            </div>
           </div>
         {/if}
 
@@ -1087,14 +1120,18 @@
   .cycle-countdown {
     background: var(--bg-secondary, #1a1a2e);
     border-radius: 8px;
-    padding: 10px 16px;
-    text-align: center;
+    padding: 12px 16px;
     margin-bottom: 16px;
     font-size: 13px;
     color: var(--text-secondary, #aaa);
     border: 1px solid var(--border-color, #333);
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
   }
   .cycle-countdown strong { color: #CC0000; }
+  .cycle-row { display: flex; justify-content: space-between; align-items: center; }
+  .cycle-days { font-weight: 700; color: #CC0000; font-size: 14px; }
 
   /* Clickable cards */
   .clickable { cursor: pointer; transition: transform 0.15s, box-shadow 0.15s; }
