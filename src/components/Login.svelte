@@ -86,6 +86,9 @@
 
     passwordError = '';
     const passwords = getPasswords();
+    
+    // Debug: log what we're checking
+    console.log('Login attempt for:', selectedRep, 'Has password:', !!passwords[selectedRep], 'All passwords:', Object.keys(passwords));
 
     // If rep has a password set, verify it
     if (passwords[selectedRep]) {
@@ -100,6 +103,7 @@
       }
 
       // Correct password - log in
+      console.log('Password verified, logging in:', selectedRep);
       setUser({
         id: selectedRep,
         name: rep.name,
@@ -110,6 +114,7 @@
       selectedRep = '';
     } else {
       // No password set yet - show setup screen
+      console.log('No password found for', selectedRep, '- showing setup screen');
       showSetPassword = true;
     }
   }
@@ -132,7 +137,12 @@
     const hashed = await hashPassword(password);
     const passwords = getPasswords();
     passwords[selectedRep] = hashed;
-    localStorage.setItem('impro_passwords', JSON.stringify(passwords));
+    const savedJSON = JSON.stringify(passwords);
+    localStorage.setItem('impro_passwords', savedJSON);
+    
+    // Verify it was saved
+    const verify = localStorage.getItem('impro_passwords');
+    console.log('Password saved for', selectedRep, '- Stored:', savedJSON, '- Verified:', verify);
 
     // Log in
     const rep = reps.find(r => r.id === selectedRep);
