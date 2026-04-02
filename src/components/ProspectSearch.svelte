@@ -211,7 +211,7 @@
     try {
       const [storesRes, leadsRes, repRes] = await Promise.all([
         fetch(import.meta.env.BASE_URL + 'data/stores.json'),
-        fetch(import.meta.env.BASE_URL + 'data/hot_leads.json'),
+        fetch(import.meta.env.BASE_URL + 'data/hot_leads.json?t=' + Date.now()),
         fetch(import.meta.env.BASE_URL + 'data/rep_registry.json').catch(() => ({ json: () => ({}) }))
       ]);
       allStores = await storesRes.json();
