@@ -19,6 +19,7 @@
   let renewalSearch = '';
   let renewalCycleFilter = 'all';
   let renewalRepFilter = 'all';
+  let renewalZoneFilter = 'all';
   let expandedRenewal = null;
   
   // Ad Proofs
@@ -156,10 +157,12 @@
 
   $: renewalReps = [...new Set(myRenewals.map(r => r.rep))].sort();
   $: renewalCycles = [...new Set(myRenewals.map(r => r.cycle))].sort();
+  $: renewalZones = [...new Set(myRenewals.map(r => r.zone).filter(Boolean))].sort();
   
   $: filteredRenewals = myRenewals.filter(r => {
     if (renewalCycleFilter !== 'all' && r.cycle !== renewalCycleFilter) return false;
     if (renewalRepFilter !== 'all' && r.rep !== renewalRepFilter) return false;
+    if (renewalZoneFilter !== 'all' && r.zone !== renewalZoneFilter) return false;
     if (renewalSearch) {
       const q = renewalSearch.toLowerCase();
       return (r.business || '').toLowerCase().includes(q) ||
@@ -682,17 +685,24 @@
     <input type="text" class="search-input" placeholder="Search by business, rep, store, category..." bind:value={renewalSearch} />
 
     <div class="renewal-filters">
+      <select bind:value={renewalZoneFilter}>
+        <option value="all">All Zones</option>
+        {#each renewalZones as zone}
+          <option value={zone}>{zone} ({myRenewals.filter(r => r.zone === zone).length})</option>
+        {/each}
+      </select>
+
       <select bind:value={renewalRepFilter}>
         <option value="all">All Reps ({pendingRenewals.length})</option>
         {#each renewalReps as rep}
-          <option value={rep}>{rep} ({pendingRenewals.filter(r => r.rep === rep).length})</option>
+          <option value={rep}>{rep} ({myRenewals.filter(r => r.rep === rep).length})</option>
         {/each}
       </select>
 
       <select bind:value={renewalCycleFilter}>
         <option value="all">All Cycles</option>
         {#each renewalCycles as cycle}
-          <option value={cycle}>{cycle} ({pendingRenewals.filter(r => r.cycle === cycle).length})</option>
+          <option value={cycle}>{cycle} ({myRenewals.filter(r => r.cycle === cycle).length})</option>
         {/each}
       </select>
     </div>
