@@ -175,6 +175,41 @@
   // Manager email for appointment invites
   const MANAGER_EMAIL = 'tyler.vansant@indoormedia.com';
 
+  let syncStatus = '';
+
+  async function refreshAppointments() {
+    syncStatus = '🔄 Syncing...';
+    try {
+      const res = await fetch(import.meta.env.BASE_URL + 'data/appointments.json?t=' + Date.now());
+      const data = await res.json();
+      const now = new Date();
+      const repName = ($user?.name || $user?.first_name || '').toLowerCase();
+      const isManagerUser = repName.includes('tyler') || $user?.role === 'manager';
+      
+      const upcoming = (isManagerUser ? data : data.filter(a => {
+        const creator = (a.creator || '').toLowerCase();
+        const attendees = (a.attendees || []).map(att => (att.email || '').toLowerCase());
+        return creator.includes(repName.split(' ')[0]) || attendees.some(e => e.includes(repName.split(' ')[0]));
+      })).filter(a => new Date(a.start) >= now).map(a => ({
+        title: a.title,
+        date: a.start,
+        end: a.end,
+        location: a.location,
+        attendees: a.attendees || [],
+        type: a.is_prospect_visit ? 'prospect' : 'calendar',
+        store: a.store,
+        phone: a.phone
+      }));
+      
+      upcomingAppointments = upcoming.slice(0, 8);
+      syncStatus = `✅ Synced (${upcomingAppointments.length} upcoming)`;
+      setTimeout(() => syncStatus = '', 3000);
+    } catch (e) {
+      syncStatus = '❌ Sync failed';
+      setTimeout(() => syncStatus = '', 3000);
+    }
+  }
+
   function bookAppointment(prospect = null) {
     const repName = $user?.name || $user?.first_name || '';
     const repEmail = '';
@@ -689,12 +724,15 @@
             </div>
           {/if}
 
-          <button class="stat-card clickable" on:click={() => { showAppointmentsDetail = !showAppointmentsDetail; showStreakDetail = false; }}>
-            <div class="stat-icon">📅</div>
-            <h3>Appointments</h3>
-            <p class="stat-value">{upcomingAppointments.length}</p>
-            <p class="stat-label">{showAppointmentsDetail ? '▼ Hide' : 'Upcoming →'}</p>
-          </button>
+          <div class="stat-card clickable" style="position: relative;">
+            <div on:click={() => { showAppointmentsDetail = !showAppointmentsDetail; showStreakDetail = false; }} style="cursor:pointer;">
+              <div class="stat-icon">📅</div>
+              <h3>Appointments</h3>
+              <p class="stat-value">{upcomingAppointments.length}</p>
+              <p class="stat-label">{showAppointmentsDetail ? '▼ Hide' : 'Upcoming →'}</p>
+            </div>
+            <button class="sync-btn" on:click={refreshAppointments} title="Sync now">🔄</button>
+          </div>
         </div>
 
         {#if showStreakDetail}
@@ -746,7 +784,11 @@
               <p class="no-appointments">No upcoming appointments yet.</p>
             {/if}
             <button class="book-appt-btn" on:click={() => bookAppointment()}>📅 Book New Appointment</button>
-            <p class="sync-note">Appointments sync from Google Calendar. Your manager ({MANAGER_EMAIL}) is auto-invited.</p>
+            <div class="sync-bar">
+              <button class="sync-refresh-btn" on:click={refreshAppointments}>🔄 Sync Now</button>
+              {#if syncStatus}<span class="sync-status">{syncStatus}</span>{/if}
+            </div>
+            <p class="sync-note">Calendar syncs hourly (7AM–9PM). Manager auto-invited to all appointments.</p>
           </div>
         {/if}
 
@@ -1229,6 +1271,13 @@
   .no-appointments { font-size: 13px; color: var(--text-secondary); text-align: center; padding: 12px; }
   .book-appt-btn { width: 100%; padding: 10px; margin-top: 12px; background: #CC0000; color: white; border: none; border-radius: 8px; font-size: 14px; font-weight: 600; cursor: pointer; }
   .book-appt-btn:hover { background: #aa0000; }
+  .sync-bar { display: flex; align-items: center; gap: 8px; margin-top: 10px; justify-content: center; }
+  .sync-refresh-btn { padding: 6px 14px; background: var(--bg-secondary, #f0f0f0); border: 1px solid var(--border-color, #ddd); border-radius: 6px; font-size: 13px; cursor: pointer; color: var(--text-primary); }
+  .sync-refresh-btn:hover { background: var(--border-color, #ddd); }
+  .sync-status { font-size: 12px; color: var(--text-secondary, #666); }
+  .sync-btn { position: absolute; top: 6px; right: 6px; background: none; border: none; font-size: 16px; cursor: pointer; padding: 2px; opacity: 0.6; }
+  .sync-btn:hover { opacity: 1; }
+  .stat-card { position: relative; }
   .sync-note { font-size: 11px; color: var(--text-muted, #999); text-align: center; margin-top: 8px; }
 
   /* Cycle Countdown */
