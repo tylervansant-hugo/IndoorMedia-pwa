@@ -606,11 +606,11 @@
             <p class="stat-label">{streak === 1 ? 'Day' : 'Days'} Active</p>
           </button>
 
-          <button class="stat-card clickable" on:click={() => showAppointmentsDetail = !showAppointmentsDetail}>
+          <button class="stat-card clickable" on:click={() => { showAppointmentsDetail = !showAppointmentsDetail; showStreakDetail = false; console.log('Appointments clicked, showing:', showAppointmentsDetail); }}>
             <div class="stat-icon">📅</div>
             <h3>Appointments</h3>
             <p class="stat-value">{upcomingAppointments.length}</p>
-            <p class="stat-label">Upcoming →</p>
+            <p class="stat-label">{showAppointmentsDetail ? '▼ Hide' : 'Upcoming →'}</p>
           </button>
 
           {#if nextInstallCycle}
@@ -647,7 +647,7 @@
         {/if}
 
         {#if showAppointmentsDetail}
-          <div class="drill-down">
+          <div class="drill-down" style="border-top: 3px solid #CC0000; margin-top: 16px;">
             <h4>📅 Upcoming Appointments</h4>
             {#if upcomingAppointments.length > 0}
               <div class="appointment-list">
