@@ -445,6 +445,40 @@
       "address": "293 Valley River Center",
       "customer_city_state": "Eugene, OR 97401",
       "extracted_at": "2026-03-28T20:00:06.071184"
+    },
+    {
+      "contract_number": "J426625E",
+      "date": "3/31/2026",
+      "business_name": "Citrus & Sage Wellness",
+      "contact_name": "Noel Schardein",
+      "contact_email": "citrusandsage26@gmail.com",
+      "contact_phone": "(760) 810-1196",
+      "sales_rep": "Christian Johnson",
+      "store_name": "",
+      "store_number": "",
+      "product_description": "Single",
+      "total_amount": 3800.0,
+      "payment_date": "3/31/2026",
+      "address": "1752 E Lugonia Ave Unit 118",
+      "customer_city_state": "Redlands, CA 92374",
+      "extracted_at": "2026-03-31T20:00:08.466976"
+    },
+    {
+      "contract_number": "J428428E",
+      "date": "3/31/2026",
+      "business_name": "Taqueria El Guero 2",
+      "contact_name": "Noel Martinez",
+      "contact_email": "Noeltru12@gmail.com",
+      "contact_phone": "(253) 240-7324",
+      "sales_rep": "Ryan Rohner-talton",
+      "store_name": "",
+      "store_number": "Safeway-1571",
+      "product_description": "Single",
+      "total_amount": 4750.0,
+      "payment_date": "3/31/2026",
+      "address": "24121 Wa-3",
+      "customer_city_state": "Belfair, WA 98528",
+      "extracted_at": "2026-03-31T20:00:10.203083"
     }
   ],
   "last_scan": "2026-03-08T15:11:11.119957"
