@@ -217,18 +217,9 @@
       allStores = await storesRes.json();
       repRegistry = await repRes.json().catch(() => ({}));
       
-      // Load hot leads (filtered by rep visibility)
+      // Load hot leads - all reps can view and submit leads
       let allLeadsData = await leadsRes.json();
-      const isManager = $user?.name?.toLowerCase().includes('tyler') || $user?.role === 'manager' || $user?.role === 'admin';
-      
-      if (!isManager && $user?.assigned_stores) {
-        const assignedStoreIds = Array.isArray($user.assigned_stores) ? $user.assigned_stores : [$user.assigned_stores];
-        hotLeads = allLeadsData.filter(l => assignedStoreIds.includes(l.store_id));
-      } else if (!isManager) {
-        hotLeads = [];
-      } else {
-        hotLeads = allLeadsData;
-      }
+      hotLeads = allLeadsData;
       
       loadSavedProspects();
     } catch (err) {
