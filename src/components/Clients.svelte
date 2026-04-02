@@ -25,6 +25,8 @@
   let adProofs = [];
   let proofSearch = '';
   let proofZoneFilter = 'all';
+  let proofRepFilter = 'all';
+  let proofStoreFilter = 'all';
   let expandedProof = null;
   let draftPreview = null; // { subject, body, email, proofId }
 
@@ -184,10 +186,14 @@
         });
       });
 
-  $: proofZones = [...new Set(myAdProofs.map(p => p.zone))].sort();
+  $: proofZones = [...new Set(myAdProofs.map(p => p.zone).filter(Boolean))].sort();
+  $: proofReps = [...new Set(myAdProofs.flatMap(p => (p.reps || []).map(r => r.name)).filter(Boolean))].sort();
+  $: proofStores = [...new Set(myAdProofs.map(p => p.store?.replace(/^[>\s]+/, '')).filter(Boolean))].sort();
   
   $: filteredProofs = myAdProofs.filter(p => {
     if (proofZoneFilter !== 'all' && p.zone !== proofZoneFilter) return false;
+    if (proofRepFilter !== 'all' && !(p.reps || []).some(r => r.name === proofRepFilter)) return false;
+    if (proofStoreFilter !== 'all' && !p.store?.includes(proofStoreFilter)) return false;
     if (proofSearch) {
       const q = proofSearch.toLowerCase();
       return (p.client_name || '').toLowerCase().includes(q) ||
@@ -1014,10 +1020,24 @@
 
     <div class="filter-bar">
       <input type="text" placeholder="Search client, contract #, store..." bind:value={proofSearch} class="search-input" />
+    </div>
+    <div class="filter-row">
       <select bind:value={proofZoneFilter} class="filter-select">
         <option value="all">All Zones</option>
         {#each proofZones as zone}
           <option value={zone}>{zone}</option>
+        {/each}
+      </select>
+      <select bind:value={proofRepFilter} class="filter-select">
+        <option value="all">All Reps</option>
+        {#each proofReps as rep}
+          <option value={rep}>{rep}</option>
+        {/each}
+      </select>
+      <select bind:value={proofStoreFilter} class="filter-select">
+        <option value="all">All Stores</option>
+        {#each proofStores as store}
+          <option value={store}>{store.length > 40 ? store.substring(0, 40) + '...' : store}</option>
         {/each}
       </select>
     </div>
@@ -1362,9 +1382,10 @@
   .proof-image { max-width: 100%; border-radius: 8px; border: 1px solid var(--border-color); }
   .view-full-btn { display: inline-block; margin-top: 8px; padding: 8px 16px; background: #cc0000; color: white; border-radius: 8px; text-decoration: none; font-size: 13px; font-weight: 600; }
   .view-full-btn:hover { background: #aa0000; }
-  .filter-bar { display: flex; gap: 10px; margin-top: 12px; flex-wrap: wrap; }
-  .search-input { flex: 1; min-width: 200px; padding: 10px 14px; border: 2px solid var(--border-color); border-radius: 10px; font-size: 14px; background: var(--input-bg); color: var(--text-primary); }
-  .filter-select { padding: 10px 14px; border: 2px solid var(--border-color); border-radius: 10px; font-size: 14px; background: var(--input-bg); color: var(--text-primary); }
+  .filter-bar { margin-top: 12px; }
+  .search-input { width: 100%; padding: 10px 14px; border: 2px solid var(--border-color); border-radius: 10px; font-size: 14px; background: var(--input-bg); color: var(--text-primary); box-sizing: border-box; }
+  .filter-row { display: flex; gap: 8px; margin-top: 8px; flex-wrap: wrap; }
+  .filter-select { flex: 1; min-width: 100px; padding: 8px 10px; border: 2px solid var(--border-color); border-radius: 8px; font-size: 13px; background: var(--input-bg); color: var(--text-primary); }
   .empty-state { text-align: center; padding: 40px 20px; color: var(--text-tertiary); font-size: 15px; }
 
   /* Ad Proof Contact Actions */

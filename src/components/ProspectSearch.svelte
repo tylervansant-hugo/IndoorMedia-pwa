@@ -105,6 +105,30 @@
   let filteredStoreResults = [];
   let repRegistry = {};
   let inviteRepEmail = '';
+  
+  // Hot Leads filters
+  let hotLeadStoreFilter = 'all';
+  let hotLeadZoneFilter = 'all';
+  let hotLeadCategoryFilter = 'all';
+  let hotLeadSearch = '';
+  
+  $: hotLeadStores = [...new Set(hotLeads.map(l => `${l.store_chain} ${l.store_city} (${l.store_id})`))].sort();
+  $: hotLeadZones = [...new Set(hotLeads.map(l => (l.store_id || '').match(/\d+[A-Z]/)?.[0] || '').filter(Boolean))].sort();
+  $: hotLeadCategories = [...new Set(hotLeads.map(l => l.category).filter(Boolean))].sort();
+  
+  $: filteredHotLeads = hotLeads.filter(l => {
+    if (hotLeadStoreFilter !== 'all' && !`${l.store_chain} ${l.store_city} (${l.store_id})`.includes(hotLeadStoreFilter)) return false;
+    if (hotLeadZoneFilter !== 'all' && !(l.store_id || '').includes(hotLeadZoneFilter)) return false;
+    if (hotLeadCategoryFilter !== 'all' && l.category !== hotLeadCategoryFilter) return false;
+    if (hotLeadSearch) {
+      const q = hotLeadSearch.toLowerCase();
+      return (l.business_name || '').toLowerCase().includes(q) ||
+        (l.address || '').toLowerCase().includes(q) ||
+        (l.store_city || '').toLowerCase().includes(q) ||
+        (l.category || '').toLowerCase().includes(q);
+    }
+    return true;
+  });
 
   const CATEGORIES = {
     '🍽️ Restaurants': ['Mexican', 'Pizza', 'Sandwich Shop', 'Coffee', 'Sushi', 'Fast Food', 'Chinese', 'Thai', 'Indian', 'BBQ', 'Italian', 'Bakery', 'Breakfast/Brunch', 'Seafood', 'Mediterranean', 'Korean', 'Vietnamese', 'Wings', 'Ice Cream/Dessert', 'Juice/Smoothie', 'Bar/Pub', 'Catering', 'Food Truck', 'Brewery/Taproom', 'Winery', 'Donut Shop', 'Deli', 'All'],
@@ -1263,26 +1287,62 @@
   {#if view === 'hot-leads'}
     <div class="hot-leads-section">
       <button class="back-btn" on:click={() => view = 'main'}>← Back</button>
-      <h2>🔥 Hot Leads</h2>
-      {#if hotLeads.length === 0}
+      <h2>🔥 Hot Leads ({filteredHotLeads.length})</h2>
+      
+      <div class="filter-bar">
+        <input type="text" placeholder="Search business, address, city..." bind:value={hotLeadSearch} class="filter-input" />
+      </div>
+      <div class="filter-row">
+        <select bind:value={hotLeadZoneFilter} class="filter-select">
+          <option value="all">All Zones</option>
+          {#each hotLeadZones as zone}
+            <option value={zone}>{zone}</option>
+          {/each}
+        </select>
+        <select bind:value={hotLeadStoreFilter} class="filter-select">
+          <option value="all">All Stores</option>
+          {#each hotLeadStores as store}
+            <option value={store}>{store}</option>
+          {/each}
+        </select>
+        <select bind:value={hotLeadCategoryFilter} class="filter-select">
+          <option value="all">All Categories</option>
+          {#each hotLeadCategories as cat}
+            <option value={cat}>{cat}</option>
+          {/each}
+        </select>
+      </div>
+
+      {#if filteredHotLeads.length === 0}
         <div class="empty-state">
-          <p>No Hot Leads assigned to you yet. Check back soon!</p>
+          <p>{hotLeads.length === 0 ? 'No Hot Leads assigned to you yet. Check back soon!' : 'No leads match your filters.'}</p>
         </div>
       {:else}
         <div class="hot-leads-grid">
-          {#each hotLeads as lead}
+          {#each filteredHotLeads as lead}
             <div class="hot-lead-card">
               <div class="lead-header">
                 <h4>{lead.business_name}</h4>
-                <span class="rating">⭐{lead.rating}</span>
+                {#if lead.rating}
+                  <span class="rating">⭐{lead.rating}</span>
+                {/if}
               </div>
               <div class="lead-category">{lead.category}</div>
-              <div class="lead-hook">"{lead._hook}"</div>
+              {#if lead._hook}
+                <div class="lead-hook">"{lead._hook}"</div>
+              {/if}
               <div class="lead-contact">
-                <a href="tel:{lead.phone}" class="phone">📞 {lead.phone}</a>
-                <a href="mailto:{lead._email}" class="email">📧 {lead._email}</a>
+                {#if lead.phone}
+                  <a href="tel:{lead.phone}" class="phone">📞 {lead.phone}</a>
+                {/if}
+                {#if lead._email || lead.website}
+                  <a href="mailto:{lead._email || ''}" class="email">📧 Email</a>
+                {/if}
               </div>
-              <div class="lead-store">{lead.store_chain} {lead.store_city}</div>
+              {#if lead.address}
+                <div class="lead-address">📍 {lead.address}</div>
+              {/if}
+              <div class="lead-store">{lead.store_chain} {lead.store_city} ({lead.store_id})</div>
             </div>
           {/each}
         </div>
@@ -1338,6 +1398,12 @@
   .tab-btn:hover {
     color: #333;
   }
+
+  .filter-bar { margin-top: 12px; }
+  .filter-input { width: 100%; padding: 10px 14px; border: 2px solid var(--border-color, #ddd); border-radius: 10px; font-size: 14px; background: var(--input-bg, white); color: var(--text-primary, #333); box-sizing: border-box; }
+  .filter-row { display: flex; gap: 8px; margin-top: 8px; flex-wrap: wrap; }
+  .filter-select { flex: 1; min-width: 120px; padding: 8px 10px; border: 2px solid var(--border-color, #ddd); border-radius: 8px; font-size: 13px; background: var(--input-bg, white); color: var(--text-primary, #333); }
+  .lead-address { font-size: 12px; color: var(--text-tertiary, #999); margin-top: 4px; }
 
   .hot-leads-section, .pending-section, .submit-section {
     margin-top: 20px;
