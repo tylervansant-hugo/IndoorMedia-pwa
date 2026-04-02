@@ -1100,20 +1100,23 @@
 
   /* Cycle Countdown */
   .cycle-countdown {
-    background: var(--bg-secondary, #1a1a2e);
-    border-radius: 8px;
-    padding: 12px 16px;
+    background: var(--card-bg);
+    border-radius: 16px;
+    padding: 2rem 1.5rem;
     margin-bottom: 16px;
-    font-size: 13px;
-    color: var(--text-secondary, #aaa);
-    border: 1px solid var(--border-color, #333);
+    font-size: 15px;
+    color: var(--text-secondary);
+    border: 2px solid var(--border-color);
     display: flex;
     flex-direction: column;
-    gap: 6px;
+    gap: 12px;
+    min-height: 160px;
+    justify-content: center;
+    width: 100%;
   }
   .cycle-countdown strong { color: #CC0000; }
   .cycle-row { display: flex; justify-content: space-between; align-items: center; }
-  .cycle-days { font-weight: 700; color: #CC0000; font-size: 14px; }
+  .cycle-days { font-weight: 700; color: #CC0000; font-size: 16px; }
 
   /* Clickable cards */
   .clickable { cursor: pointer; transition: transform 0.15s, box-shadow 0.15s; }
