@@ -37,6 +37,7 @@
   let nextCycleName = '';
   let showRevenueDetail = false;
   let showStreakDetail = false;
+  let showAppointmentsDetail = false;
   let thisMonthContracts = [];
   let pendingRenewalsData = [];
 
@@ -605,6 +606,13 @@
             <p class="stat-label">{streak === 1 ? 'Day' : 'Days'} Active</p>
           </button>
 
+          <button class="stat-card clickable" on:click={() => showAppointmentsDetail = !showAppointmentsDetail}>
+            <div class="stat-icon">📅</div>
+            <h3>Appointments</h3>
+            <p class="stat-value">{upcomingAppointments.length}</p>
+            <p class="stat-label">Upcoming →</p>
+          </button>
+
           {#if nextInstallCycle}
             <div class="stat-card cycle-card">
               <div class="stat-icon">📦</div>
@@ -666,35 +674,37 @@
         </div>
 
         <!-- Upcoming Appointments -->
-        <div class="appointments-section">
-          <h3>📅 Upcoming Appointments ({upcomingAppointments.length})</h3>
-          {#if upcomingAppointments.length > 0}
-            <div class="appointment-list">
-              {#each upcomingAppointments as appt}
-                <div class="appointment-item">
-                  <div class="appt-left">
-                    <div class="appt-date">{new Date(appt.date).toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' })}</div>
-                    <div class="appt-time">{new Date(appt.date).toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' })}</div>
+        {#if showAppointmentsDetail}
+          <div class="drill-down">
+            <h4>📅 Upcoming Appointments</h4>
+            {#if upcomingAppointments.length > 0}
+              <div class="appointment-list">
+                {#each upcomingAppointments as appt}
+                  <div class="appointment-item">
+                    <div class="appt-left">
+                      <div class="appt-date">{new Date(appt.date).toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' })}</div>
+                      <div class="appt-time">{new Date(appt.date).toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' })}</div>
+                    </div>
+                    <div class="appt-right">
+                      <div class="appt-title">{appt.title || 'Appointment'}</div>
+                      {#if appt.location}
+                        <div class="appt-location">📍 {appt.location}</div>
+                      {/if}
+                      {#if appt.attendees?.length > 0}
+                        <div class="appt-attendees">👥 {appt.attendees.map(a => a.name || a.email.split('@')[0]).join(', ')}</div>
+                      {/if}
+                      {#if appt.type === 'prospect'}
+                        <span class="appt-badge prospect">Prospect Visit</span>
+                      {/if}
+                    </div>
                   </div>
-                  <div class="appt-right">
-                    <div class="appt-title">{appt.title || 'Appointment'}</div>
-                    {#if appt.location}
-                      <div class="appt-location">📍 {appt.location}</div>
-                    {/if}
-                    {#if appt.attendees?.length > 0}
-                      <div class="appt-attendees">👥 {appt.attendees.map(a => a.name || a.email.split('@')[0]).join(', ')}</div>
-                    {/if}
-                    {#if appt.type === 'prospect'}
-                      <span class="appt-badge prospect">Prospect Visit</span>
-                    {/if}
-                  </div>
-                </div>
-              {/each}
-            </div>
-          {:else}
-            <p class="no-appointments">No upcoming appointments. Book one from the Prospects tab!</p>
-          {/if}
-        </div>
+                {/each}
+              </div>
+            {:else}
+              <p class="no-appointments">No upcoming appointments. Book one from the Prospects tab!</p>
+            {/if}
+          </div>
+        {/if}
 
 
 
