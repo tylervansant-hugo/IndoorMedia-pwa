@@ -172,6 +172,13 @@
   });
 
   $: repName = $user?.name || $user?.first_name || '';
+
+  // Format price: handles both number (4175.0) and string ("$4,175.00") formats
+  function fmtPrice(v) {
+    if (v == null || v === '' || v === 0 || v === '$ -' || v === '$-') return '$0';
+    if (typeof v === 'number') return '$' + v.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+    return String(v);
+  }
   $: isManager = repName?.toLowerCase().includes('tyler') || repName?.toLowerCase().includes('rick leibowitz') || repName?.toLowerCase().includes('richard leibowitz');
 
   // Ad proofs scoped to rep (managers see all, reps see only their own)
@@ -666,125 +673,11 @@
   {/if}
 
   <!-- Pending Renewals -->
+  <!-- Pending Renewals -->
   {#if view === 'renewals'}
     <button class="back-btn" on:click={goBack}>&larr; Back</button>
     <h2>🔄 Pending Renewals</h2>
-    <p class="subtitle">{filteredRenewals.length} of {myRenewals.length} accounts — ${myRenewals.reduce((sum, r) => { const p = (r.contractPrice || '').replace(/[$,\s]/g, ''); return sum + (parseFloat(p) || 0); }, 0).toLocaleString()} total value</p>
-
-    <div class="renewal-filters">
-      <input type="text" placeholder="Search business, contact, store..." bind:value={renewalSearch} class="renewal-search" />
-      
-      <div class="filter-row">
-        <select bind:value={renewalCycleFilter}>
-          <option value="all">All Cycles</option>
-          {#each renewalCycles as cycle}
-            <option value={cycle}>{cycle}</option>
-          {/each}
-        </select>
-
-        <select bind:value={renewalRepFilter}>
-          <option value="all">All Reps</option>
-          {#each renewalReps as rep}
-            <option value={rep}>{rep}</option>
-          {/each}
-        </select>
-      </div>
-    </div>
-
-    {#if filteredRenewals.length === 0}
-      <p class="empty">No renewals match your filters.</p>
-    {:else}
-      <div class="renewal-list">
-        {#each filteredRenewals as renewal}
-          <div class="renewal-card" class:expanded={expandedRenewal === renewal.accountNumber}>
-            <button class="renewal-header" on:click={() => expandedRenewal = expandedRenewal === renewal.accountNumber ? null : renewal.accountNumber}>
-              <div class="renewal-main">
-                <h4>{renewal.business}</h4>
-                <p class="renewal-meta">{renewal.store} • {renewal.category || 'N/A'} • {renewal.adSize || 'Single'}</p>
-                <p class="renewal-rep">👤 {renewal.rep} <span class="renewal-cycle">{renewal.cycle}</span></p>
-              </div>
-              <div class="renewal-right">
-                <span class="renewal-price">{renewal.contractPrice || '—'}</span>
-                <span class="renewal-arrow">{expandedRenewal === renewal.accountNumber ? '▲' : '▼'}</span>
-              </div>
-            </button>
-
-            {#if expandedRenewal === renewal.accountNumber}
-              <div class="renewal-details">
-                <div class="detail-grid">
-                  <div class="detail-item">
-                    <span class="detail-label">Contact</span>
-                    <span class="detail-value">{renewal.contactName || 'N/A'}</span>
-                  </div>
-                  <div class="detail-item">
-                    <span class="detail-label">Phone</span>
-                    <span class="detail-value">{renewal.phone || 'N/A'}</span>
-                  </div>
-                  <div class="detail-item">
-                    <span class="detail-label">Email</span>
-                    <span class="detail-value">{renewal.email || 'N/A'}</span>
-                  </div>
-                  <div class="detail-item">
-                    <span class="detail-label">Store Address</span>
-                    <span class="detail-value">{renewal.storeAddress || ''}, {renewal.storeCityStateZip || ''}</span>
-                  </div>
-                  <div class="detail-item">
-                    <span class="detail-label">Contract #</span>
-                    <span class="detail-value">{renewal.contractNumber || 'N/A'}</span>
-                  </div>
-                  <div class="detail-item">
-                    <span class="detail-label">Account #</span>
-                    <span class="detail-value">{renewal.accountNumber || 'N/A'}</span>
-                  </div>
-                  <div class="detail-item">
-                    <span class="detail-label">Start Date</span>
-                    <span class="detail-value">{renewal.startDate || 'N/A'}</span>
-                  </div>
-                  <div class="detail-item">
-                    <span class="detail-label">End Date</span>
-                    <span class="detail-value">{renewal.endDate || 'N/A'}</span>
-                  </div>
-                  <div class="detail-item">
-                    <span class="detail-label">Run Length</span>
-                    <span class="detail-value">{renewal.runLength || 'N/A'} quarters</span>
-                  </div>
-                  <div class="detail-item">
-                    <span class="detail-label">Cycle Revenue</span>
-                    <span class="detail-value">{renewal.cycleRevenue || 'N/A'}</span>
-                  </div>
-                  {#if renewal.lateBalance && renewal.lateBalance !== '$ -'}
-                    <div class="detail-item warning">
-                      <span class="detail-label">⚠️ Late Balance</span>
-                      <span class="detail-value">{renewal.lateBalance}</span>
-                    </div>
-                  {/if}
-                  <div class="detail-item">
-                    <span class="detail-label">Rep Status</span>
-                    <span class="detail-value" class:inactive={renewal.repStatus === 'Inactive'}>{renewal.repStatus || 'N/A'}</span>
-                  </div>
-                </div>
-
-                <div class="renewal-actions">
-                  {#if renewal.phone}
-                    <a href="tel:{renewal.phone}" class="action-btn call-btn">📞 Call</a>
-                  {/if}
-                  {#if renewal.email}
-                    <a href="mailto:{renewal.email}?subject=Renewal%20-%20{encodeURIComponent(renewal.business)}&body={encodeURIComponent(`Hi ${renewal.contactName || ''},\n\nI wanted to reach out regarding your register tape advertising renewal at ${renewal.store}.\n\nYour current contract is coming up for renewal and I'd love to discuss continuing your campaign. Many of our advertisers see compounding results as customers become more familiar with their offers.\n\nWould you have a few minutes this week to chat?\n\nBest,\n${repName}\nIndoorMedia`)}" class="action-btn email-btn">✉️ Email</a>
-                  {/if}
-                </div>
-              </div>
-            {/if}
-          </div>
-        {/each}
-      </div>
-    {/if}
-  {/if}
-
-  <!-- Submit Contract -->
-  {#if view === 'renewals'}
-    <button class="back-btn" on:click={goBack}>&larr; Back</button>
-    <h2>🔄 Pending Renewals</h2>
-    <p class="subtitle">{filteredRenewals.length} of {pendingRenewals.length} accounts — Zone 7</p>
+    <p class="subtitle">{filteredRenewals.length} of {pendingRenewals.length} accounts — ${pendingRenewals.reduce((sum, r) => sum + (typeof r.contractPrice === 'number' ? r.contractPrice : parseFloat(String(r.contractPrice || '0').replace(/[$,]/g, '')) || 0), 0).toLocaleString()} total value</p>
 
     <input type="text" class="search-input" placeholder="Search by business, rep, store, category..." bind:value={renewalSearch} />
 
@@ -817,7 +710,7 @@
               </div>
               <div class="renewal-meta">
                 <span class="renewal-cycle">{renewal.cycle}</span>
-                <span class="renewal-price">{renewal.contractPrice || '—'}</span>
+                <span class="renewal-price">{fmtPrice(renewal.contractPrice)}</span>
               </div>
             </div>
             <div class="renewal-sub">
@@ -855,19 +748,21 @@
                   </div>
                   <div class="detail-item">
                     <span class="detail-label">Cycle Revenue</span>
-                    <span class="detail-value">{renewal.cycleRevenue || 'N/A'}</span>
+                    <span class="detail-value">{fmtPrice(renewal.cycleRevenue)}</span>
                   </div>
-                  <div class="detail-item">
-                    <span class="detail-label">Late Balance</span>
-                    <span class="detail-value">{renewal.lateBalance || '$ -'}</span>
+                  {#if renewal.lateBalance && renewal.lateBalance !== 0}
+                  <div class="detail-item warning">
+                    <span class="detail-label">⚠️ Late Balance</span>
+                    <span class="detail-value">{fmtPrice(renewal.lateBalance)}</span>
                   </div>
+                  {/if}
                   <div class="detail-item">
                     <span class="detail-label">Run Length</span>
                     <span class="detail-value">{renewal.runLength ? renewal.runLength + ' quarters' : 'N/A'}</span>
                   </div>
                   <div class="detail-item">
                     <span class="detail-label">Address</span>
-                    <span class="detail-value">{renewal.storeAddress || ''} {renewal.storeCityStateZip || ''}</span>
+                    <span class="detail-value">{renewal.address || ''}{renewal.city ? ', ' + renewal.city : ''}{renewal.state ? ', ' + renewal.state : ''} {renewal.zip || ''}</span>
                   </div>
                   <div class="detail-item">
                     <span class="detail-label">Rep Status</span>
