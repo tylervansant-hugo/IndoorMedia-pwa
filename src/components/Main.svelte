@@ -646,34 +646,6 @@
           </div>
         {/if}
 
-        <!-- Daily Goal Tracker -->
-        <div class="goal-section">
-          <h3>📋 Daily Goal</h3>
-          <div class="goal-card">
-            <div class="goal-progress">
-              <div class="goal-bar">
-                <div class="goal-fill" style="width: {Math.min((dailyGoal.calls / (dailyGoal.target || 20)) * 100, 100)}%"></div>
-              </div>
-              <div class="goal-count">{dailyGoal.calls} / {dailyGoal.target || 20}</div>
-            </div>
-            <p class="goal-label">Outbound Calls / Walk-ins Today</p>
-            <div class="goal-actions">
-              <button class="goal-btn increment" on:click={incrementCalls}>+ Log Call / Walk-in</button>
-              <button class="goal-btn reset" on:click={resetDailyGoal}>↺ Reset</button>
-              <div class="goal-target-set">
-                <label>Goal:</label>
-                <input type="number" value={dailyGoal.target || 20} on:change={(e) => setGoalTarget(e.target.value)} min="1" max="100" />
-              </div>
-            </div>
-            {#if dailyGoal.calls >= (dailyGoal.target || 20)}
-              <p class="goal-achieved">🎉 Goal reached! Keep crushing it!</p>
-            {:else if dailyGoal.calls >= (dailyGoal.target || 20) * 0.5}
-              <p class="goal-halfway">💪 Halfway there! Keep pushing!</p>
-            {/if}
-          </div>
-        </div>
-
-        <!-- Upcoming Appointments -->
         {#if showAppointmentsDetail}
           <div class="drill-down">
             <h4>📅 Upcoming Appointments</h4>
@@ -705,6 +677,35 @@
             {/if}
           </div>
         {/if}
+
+        <!-- Daily Goal Tracker -->
+        <div class="goal-section">
+          <h3>📋 Daily Goal</h3>
+          <div class="goal-card">
+            <div class="goal-progress">
+              <div class="goal-bar">
+                <div class="goal-fill" style="width: {Math.min((dailyGoal.calls / (dailyGoal.target || 20)) * 100, 100)}%"></div>
+              </div>
+              <div class="goal-count">{dailyGoal.calls} / {dailyGoal.target || 20}</div>
+            </div>
+            <p class="goal-label">Outbound Calls / Walk-ins Today</p>
+            <div class="goal-actions">
+              <button class="goal-btn increment" on:click={incrementCalls}>+ Log Call / Walk-in</button>
+              <button class="goal-btn reset" on:click={resetDailyGoal}>↺ Reset</button>
+              <div class="goal-target-set">
+                <label>Goal:</label>
+                <input type="number" value={dailyGoal.target || 20} on:change={(e) => setGoalTarget(e.target.value)} min="1" max="100" />
+              </div>
+            </div>
+            {#if dailyGoal.calls >= (dailyGoal.target || 20)}
+              <p class="goal-achieved">🎉 Goal reached! Keep crushing it!</p>
+            {:else if dailyGoal.calls >= (dailyGoal.target || 20) * 0.5}
+              <p class="goal-halfway">💪 Halfway there! Keep pushing!</p>
+            {/if}
+          </div>
+        </div>
+
+
 
 
 
