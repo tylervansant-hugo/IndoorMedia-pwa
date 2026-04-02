@@ -448,6 +448,27 @@
     localStorage.setItem('theme', newTheme);
   }
 
+  const FONT_SIZES = [
+    { label: 'S', value: '14px' },
+    { label: 'M', value: '16px' },
+    { label: 'L', value: '18px' },
+    { label: 'XL', value: '20px' },
+  ];
+  let currentFontSize = localStorage.getItem('impro_font_size') || '16px';
+  
+  function cycleFontSize() {
+    const idx = FONT_SIZES.findIndex(f => f.value === currentFontSize);
+    const next = FONT_SIZES[(idx + 1) % FONT_SIZES.length];
+    currentFontSize = next.value;
+    localStorage.setItem('impro_font_size', currentFontSize);
+    document.documentElement.style.fontSize = currentFontSize;
+  }
+
+  // Apply saved font size on load
+  if (typeof document !== 'undefined') {
+    document.documentElement.style.fontSize = currentFontSize;
+  }
+
   function handleLogout() {
     if (confirm('Sign out?')) {
       localStorage.removeItem('user');
@@ -492,8 +513,8 @@
             <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
           {/if}
         </button>
-        <button class="header-icon-btn" on:click={forgetRoogleCredentials} title="Clear Roogle login">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 2l-2 2m-7.61 7.61a5.5 5.5 0 1 1-7.778 7.778 5.5 5.5 0 0 1 7.777-7.777zm0 0L15.5 7.5m0 0l3 3L22 7l-3-3m-3.5 3.5L19 4"/></svg>
+        <button class="header-icon-btn font-size-btn" on:click={cycleFontSize} title="Font size: {FONT_SIZES.find(f => f.value === currentFontSize)?.label || 'M'}">
+          <span class="font-size-label">{FONT_SIZES.find(f => f.value === currentFontSize)?.label || 'M'}</span>
         </button>
         <button class="header-icon-btn logout-text" on:click={handleLogout}>Logout</button>
       </div>
@@ -978,6 +999,8 @@
     background: rgba(255, 255, 255, 0.25);
     transform: translateY(-1px);
   }
+
+  .font-size-label { font-size: 14px; font-weight: 700; color: white; font-family: inherit; letter-spacing: -0.5px; }
 
   .header-icon-btn.logout-text {
     width: auto;
