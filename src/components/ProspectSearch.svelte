@@ -217,9 +217,87 @@
       allStores = await storesRes.json();
       repRegistry = await repRes.json().catch(() => ({}));
       
-      // Load hot leads - all reps can view and submit leads
+      // Load hot leads - scoped to stores rep has sold at, filtered by current cycle
       let allLeadsData = await leadsRes.json();
-      hotLeads = allLeadsData;
+      
+      // Load contracts to find which stores this rep has sold at
+      let repStoreIds = new Set();
+      try {
+        const contractsRes = await fetch(import.meta.env.BASE_URL + 'data/contracts.json');
+        const contractsData = await contractsRes.json();
+        const contracts = contractsData.contracts || [];
+        const rn = ($user?.name || '').toLowerCase();
+        const isManager = rn.includes('tyler') || rn.includes('rick') || $user?.role === 'manager';
+        
+        if (isManager) {
+          // Managers see all leads
+          repStoreIds = null; // null = no filter
+        } else {
+          // Find stores where this rep has sold
+          for (const c of contracts) {
+            const rep = (c.sales_rep || '').toLowerCase();
+            if (rep.includes(rn.split(' ')[0])) {
+              const chain = (c.store_name || '').trim();
+              const num = (c.store_number || '').trim();
+              const zone = (c.zone || '').trim();
+              if (chain && num) {
+                // Match to stores.json format: find StoreName that contains the store number
+                const matched = allStores.find(s => 
+                  s.StoreName && s.StoreName.includes(num) && 
+                  s.GroceryChain && s.GroceryChain.toLowerCase().includes(chain.toLowerCase().split(' ')[0])
+                );
+                if (matched) repStoreIds.add(matched.StoreName);
+              }
+            }
+          }
+        }
+      } catch (err) {
+        console.error('Error loading contracts for rep stores:', err);
+        repStoreIds = null; // fallback: show all
+      }
+      
+      // Determine current selling cycle
+      // Cycle schedule: B selling until Apr 11, then C selling from Apr 11
+      // Install dates (7th): A=Jan/Apr/Jul/Oct, B=Feb/May/Aug/Nov, C=Mar/Jun/Sep/Dec
+      // Selling: A install → C sell, B install → A sell, C install → B sell
+      const now = new Date();
+      const month = now.getMonth(); // 0-indexed
+      const day = now.getDate();
+      const cycleMap = ['A','B','C'];
+      // Current install cycle based on month
+      const installIdx = month % 3; // 0=A, 1=B, 2=C
+      const installCycle = cycleMap[installIdx];
+      // Before the 11th = previous selling cycle, after 11th = current selling cycle
+      // Selling cycle: A install→C sell, B install→A sell, C install→B sell
+      const sellMap = { 'A': 'C', 'B': 'A', 'C': 'B' };
+      let currentSellingCycle;
+      if (day < 11) {
+        // Still on previous cycle's selling
+        const prevMonth = (month + 11) % 12;
+        const prevInstall = cycleMap[prevMonth % 3];
+        currentSellingCycle = sellMap[prevInstall];
+      } else {
+        currentSellingCycle = sellMap[installCycle];
+      }
+      
+      // Filter stores by current cycle
+      const cycleStores = new Set(
+        allStores.filter(s => s.Cycle === currentSellingCycle).map(s => s.StoreName)
+      );
+      
+      // Filter hot leads: rep's stores + current cycle
+      if (repStoreIds === null) {
+        // Manager: show all leads for current cycle stores
+        hotLeads = allLeadsData.filter(l => !l.store_id || cycleStores.has(l.store_id));
+      } else if (repStoreIds.size > 0) {
+        // Rep: show leads for their stores that are in current cycle
+        const repCycleStores = new Set([...repStoreIds].filter(id => cycleStores.has(id)));
+        hotLeads = allLeadsData.filter(l => !l.store_id || repCycleStores.has(l.store_id));
+      } else {
+        hotLeads = []; // No stores found for this rep
+      }
+      
+      console.log(`Hot Leads: ${hotLeads.length} leads, Selling Cycle: ${currentSellingCycle}, Rep stores: ${repStoreIds === null ? 'all (manager)' : repStoreIds.size}`);
       
       loadSavedProspects();
     } catch (err) {
