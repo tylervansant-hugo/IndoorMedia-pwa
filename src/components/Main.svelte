@@ -585,6 +585,19 @@
             <p class="stat-value">{streak}</p>
             <p class="stat-label">{streak === 1 ? 'Day' : 'Days'} Active</p>
           </button>
+
+          {#if nextInstallCycle}
+            <div class="stat-card cycle-card">
+              <div class="stat-icon">📦</div>
+              <h3>Next Cycle</h3>
+              <div class="cycle-info">
+                <p class="cycle-line"><strong>{nextInstallCycle} Install</strong> · {nextInstallDate}</p>
+                <p class="cycle-days-label">{nextInstallDays} day{nextInstallDays !== 1 ? 's' : ''}</p>
+                <p class="cycle-line"><strong>{nextSellingCycle} Selling</strong> · {nextSellingDate}</p>
+                <p class="cycle-days-label">{nextSellingDays} day{nextSellingDays !== 1 ? 's' : ''}</p>
+              </div>
+            </div>
+          {/if}
         </div>
 
         {#if showStreakDetail}
@@ -650,19 +663,7 @@
           {/if}
         </div>
 
-        <!-- Next Cycle -->
-        {#if nextInstallCycle}
-          <div class="cycle-countdown">
-            <div class="cycle-row">
-              <span>📦 Cycle {nextInstallCycle} <strong>Installs</strong>: <strong>{nextInstallDate}</strong></span>
-              <span class="cycle-days">{nextInstallDays} day{nextInstallDays !== 1 ? 's' : ''}</span>
-            </div>
-            <div class="cycle-row">
-              <span>🎯 Switch to <strong>Cycle {nextSellingCycle} Selling</strong>: <strong>{nextSellingDate}</strong></span>
-              <span class="cycle-days">{nextSellingDays} day{nextSellingDays !== 1 ? 's' : ''}</span>
-            </div>
-          </div>
-        {/if}
+
 
         <div class="quick-actions">
           <h3>Quick Actions</h3>
@@ -1099,24 +1100,10 @@
   .no-appointments { font-size: 13px; color: var(--text-secondary, #999); text-align: center; padding: 12px; }
 
   /* Cycle Countdown */
-  .cycle-countdown {
-    background: var(--card-bg);
-    border-radius: 16px;
-    padding: 2rem 1.5rem;
-    margin-bottom: 16px;
-    font-size: 15px;
-    color: var(--text-secondary);
-    border: 2px solid var(--border-color);
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-    min-height: 160px;
-    justify-content: center;
-    width: 100%;
-  }
-  .cycle-countdown strong { color: #CC0000; }
-  .cycle-row { display: flex; justify-content: space-between; align-items: center; }
-  .cycle-days { font-weight: 700; color: #CC0000; font-size: 16px; }
+  .cycle-card .cycle-info { margin-top: 8px; }
+  .cycle-card .cycle-line { margin: 0; font-size: 13px; color: var(--text-secondary); }
+  .cycle-card .cycle-line strong { color: #CC0000; }
+  .cycle-card .cycle-days-label { margin: 0 0 8px; font-size: 12px; color: var(--text-tertiary); }
 
   /* Clickable cards */
   .clickable { cursor: pointer; transition: transform 0.15s, box-shadow 0.15s; }
