@@ -132,10 +132,31 @@
     }
   }
 
+  // Sync key uses user ID so goals persist per-rep across devices via shared storage
+  function getGoalKey() {
+    const uid = $user?.id || 'default';
+    return `impro_daily_goal_${uid}`;
+  }
+
+  let repSyncData = {};
+
+  async function loadRepSync() {
+    try {
+      const res = await fetch(import.meta.env.BASE_URL + 'data/rep_sync.json?t=' + Date.now());
+      repSyncData = await res.json();
+    } catch { repSyncData = {}; }
+  }
+
   function loadDailyGoal() {
     try {
       const today = new Date().toISOString().slice(0, 10);
-      const saved = JSON.parse(localStorage.getItem('impro_daily_goal') || '{}');
+      // Try user-specific key first, fall back to old key for migration
+      let saved = JSON.parse(localStorage.getItem(getGoalKey()) || 'null');
+      if (!saved) {
+        saved = JSON.parse(localStorage.getItem('impro_daily_goal') || '{}');
+        // Migrate to new key
+        if (saved.date) localStorage.setItem(getGoalKey(), JSON.stringify(saved));
+      }
       if (saved.date === today) {
         dailyGoal = saved;
       } else {
@@ -146,7 +167,34 @@
 
   function saveDailyGoal() {
     dailyGoal.date = new Date().toISOString().slice(0, 10);
+    localStorage.setItem(getGoalKey(), JSON.stringify(dailyGoal));
+    // Also save to old key for backward compat
     localStorage.setItem('impro_daily_goal', JSON.stringify(dailyGoal));
+  }
+
+  // Manager email for appointment invites
+  const MANAGER_EMAIL = 'tyler.vansant@indoormedia.com';
+
+  function bookAppointment(prospect = null) {
+    const repName = $user?.name || $user?.first_name || '';
+    const repEmail = '';
+    const title = prospect ? `IndoorMedia — ${prospect.business_name || prospect.name || 'Prospect Visit'}` : 'IndoorMedia — Prospect Visit';
+    const location = prospect?.address || '';
+    const details = prospect ? `Meeting with ${prospect.contact_name || prospect.business_name || 'prospect'}\\nStore: ${prospect.store || ''}\\nPhone: ${prospect.phone || ''}\\nRep: ${repName}` : `Sales appointment\\nRep: ${repName}`;
+    
+    // Default to tomorrow at 10am, 1 hour
+    const tomorrow = new Date();
+    tomorrow.setDate(tomorrow.getDate() + 1);
+    tomorrow.setHours(10, 0, 0, 0);
+    const end = new Date(tomorrow);
+    end.setHours(11, 0, 0, 0);
+    
+    const fmt = d => d.toISOString().replace(/[-:]/g, '').split('.')[0] + 'Z';
+    
+    // Google Calendar URL with manager auto-invited
+    const gcalUrl = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent(title)}&dates=${fmt(tomorrow)}/${fmt(end)}&details=${encodeURIComponent(details)}&location=${encodeURIComponent(location)}&add=${encodeURIComponent(MANAGER_EMAIL)}`;
+    
+    window.open(gcalUrl, '_blank');
   }
 
   function incrementCalls() {
@@ -347,6 +395,7 @@
     getNextCycle();
     loadDailyGoal();
     calcStreak();
+    loadRepSync();
   }
 
   onMount(async () => {
@@ -694,8 +743,10 @@
                 {/each}
               </div>
             {:else}
-              <p class="no-appointments">No upcoming appointments. Book one from the Prospects tab!</p>
+              <p class="no-appointments">No upcoming appointments yet.</p>
             {/if}
+            <button class="book-appt-btn" on:click={() => bookAppointment()}>📅 Book New Appointment</button>
+            <p class="sync-note">Appointments sync from Google Calendar. Your manager ({MANAGER_EMAIL}) is auto-invited.</p>
           </div>
         {/if}
 
@@ -744,6 +795,10 @@
             <button class="action-btn" on:click={() => currentTab = 'clients'}>
               <span class="action-icon">🔄</span>
               <span>Renewals</span>
+            </button>
+            <button class="action-btn" on:click={() => bookAppointment()}>
+              <span class="action-icon">📅</span>
+              <span>Book Appointment</span>
             </button>
             <button class="action-btn" on:click={() => currentTab = 'cart'}>
               <span class="action-icon">🛒</span>
@@ -1172,6 +1227,9 @@
   .appt-badge { display: inline-block; font-size: 11px; font-weight: 600; padding: 2px 8px; border-radius: 4px; }
   .appt-badge.prospect { background: rgba(204,0,0,0.1); color: #CC0000; }
   .no-appointments { font-size: 13px; color: var(--text-secondary); text-align: center; padding: 12px; }
+  .book-appt-btn { width: 100%; padding: 10px; margin-top: 12px; background: #CC0000; color: white; border: none; border-radius: 8px; font-size: 14px; font-weight: 600; cursor: pointer; }
+  .book-appt-btn:hover { background: #aa0000; }
+  .sync-note { font-size: 11px; color: var(--text-muted, #999); text-align: center; margin-top: 8px; }
 
   /* Cycle Countdown */
   .cycle-card .cycle-info { margin-top: 8px; }
