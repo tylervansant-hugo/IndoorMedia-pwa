@@ -1080,7 +1080,7 @@
   .content {
     flex: 1;
     overflow-y: auto;
-    padding: 20px;
+    padding: 20px 20px 100px;
     max-width: 1400px;
     margin: 0 auto;
     width: 100%;
