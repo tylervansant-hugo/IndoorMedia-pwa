@@ -308,21 +308,40 @@
       })
       .catch(() => { pendingRenewalsCount = 0; pendingRenewalsData = []; });
 
-    // Upcoming appointments from calendar events in localStorage
-    try {
-      const calData = JSON.parse(localStorage.getItem('impro_calendar') || '[]');
-      const upcoming = calData.filter(e => new Date(e.date) >= now).sort((a, b) => new Date(a.date) - new Date(b.date));
-      upcomingAppointments = upcoming.slice(0, 3);
-    } catch { upcomingAppointments = []; }
-
-    // Also check saved prospect appointments
-    try {
-      const saved1 = JSON.parse(localStorage.getItem('savedProspects') || '[]');
-      const prospectAppts = saved1.filter(p => p.appointmentDate && new Date(p.appointmentDate) >= now)
-        .map(p => ({ title: p.name, date: p.appointmentDate, type: 'prospect' }))
-        .sort((a, b) => new Date(a.date) - new Date(b.date));
-      upcomingAppointments = [...upcomingAppointments, ...prospectAppts].sort((a, b) => new Date(a.date) - new Date(b.date)).slice(0, 5);
-    } catch {}
+    // Upcoming appointments from synced Google Calendar
+    fetch(import.meta.env.BASE_URL + 'data/appointments.json')
+      .then(r => r.json())
+      .then(appts => {
+        const repEmail = ($user?.email || '').toLowerCase();
+        const rn = repName.toLowerCase();
+        const isAdmin = rn.includes('tyler') || rn.includes('rick');
+        
+        // Filter: managers see all, reps see only events they created or are invited to
+        const myAppts = isAdmin ? appts : appts.filter(a => {
+          // Check if rep is creator
+          if ((a.creator || '').toLowerCase().includes(rn.split(' ')[0])) return true;
+          // Check if rep is in attendees
+          return (a.attendees || []).some(att => {
+            const attEmail = (att.email || '').toLowerCase();
+            return attEmail.includes(rn.split(' ')[0]) || (repEmail && attEmail === repEmail);
+          });
+        });
+        
+        // Filter to future events
+        const upcoming = myAppts.filter(a => new Date(a.start) >= now)
+          .map(a => ({
+            title: a.title,
+            date: a.start,
+            end: a.end,
+            location: a.location,
+            attendees: a.attendees || [],
+            type: a.is_prospect_visit ? 'prospect' : 'calendar',
+            store: a.store,
+            phone: a.phone,
+          }));
+        upcomingAppointments = upcoming.slice(0, 8);
+      })
+      .catch(() => { upcomingAppointments = []; });
 
     getNextCycle();
     loadDailyGoal();
@@ -648,13 +667,27 @@
 
         <!-- Upcoming Appointments -->
         <div class="appointments-section">
-          <h3>📅 Upcoming Appointments</h3>
+          <h3>📅 Upcoming Appointments ({upcomingAppointments.length})</h3>
           {#if upcomingAppointments.length > 0}
             <div class="appointment-list">
               {#each upcomingAppointments as appt}
                 <div class="appointment-item">
-                  <div class="appt-date">{new Date(appt.date).toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' })}</div>
-                  <div class="appt-title">{appt.title || appt.name || 'Appointment'}</div>
+                  <div class="appt-left">
+                    <div class="appt-date">{new Date(appt.date).toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' })}</div>
+                    <div class="appt-time">{new Date(appt.date).toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' })}</div>
+                  </div>
+                  <div class="appt-right">
+                    <div class="appt-title">{appt.title || 'Appointment'}</div>
+                    {#if appt.location}
+                      <div class="appt-location">📍 {appt.location}</div>
+                    {/if}
+                    {#if appt.attendees?.length > 0}
+                      <div class="appt-attendees">👥 {appt.attendees.map(a => a.name || a.email.split('@')[0]).join(', ')}</div>
+                    {/if}
+                    {#if appt.type === 'prospect'}
+                      <span class="appt-badge prospect">Prospect Visit</span>
+                    {/if}
+                  </div>
                 </div>
               {/each}
             </div>
@@ -1084,20 +1117,27 @@
 
   /* Appointments */
   .appointments-section { margin-bottom: 16px; }
-  .appointments-section h3 { margin: 0 0 8px; font-size: 16px; color: var(--text-primary); }
-  .appointment-list { display: flex; flex-direction: column; gap: 6px; }
+  .appointments-section h3 { margin: 0 0 12px; font-size: 16px; color: var(--text-primary); }
+  .appointment-list { display: flex; flex-direction: column; gap: 10px; }
   .appointment-item {
     display: flex;
-    align-items: center;
-    gap: 12px;
-    background: var(--bg-secondary, #1a1a2e);
-    border-radius: 8px;
-    padding: 10px 14px;
-    border: 1px solid var(--border-color, #333);
+    align-items: flex-start;
+    gap: 14px;
+    background: var(--card-bg);
+    border-radius: 12px;
+    padding: 14px 16px;
+    border: 2px solid var(--border-color);
   }
-  .appt-date { font-size: 12px; font-weight: 600; color: #CC0000; white-space: nowrap; min-width: 70px; }
-  .appt-title { font-size: 14px; color: var(--text-primary); }
-  .no-appointments { font-size: 13px; color: var(--text-secondary, #999); text-align: center; padding: 12px; }
+  .appt-left { min-width: 80px; flex-shrink: 0; }
+  .appt-date { font-size: 13px; font-weight: 700; color: #CC0000; white-space: nowrap; }
+  .appt-time { font-size: 12px; color: var(--text-tertiary); margin-top: 2px; }
+  .appt-right { flex: 1; }
+  .appt-title { font-size: 15px; font-weight: 600; color: var(--text-primary); margin-bottom: 4px; }
+  .appt-location { font-size: 12px; color: var(--text-secondary); margin-bottom: 2px; }
+  .appt-attendees { font-size: 12px; color: var(--text-tertiary); margin-bottom: 4px; }
+  .appt-badge { display: inline-block; font-size: 11px; font-weight: 600; padding: 2px 8px; border-radius: 4px; }
+  .appt-badge.prospect { background: rgba(204,0,0,0.1); color: #CC0000; }
+  .no-appointments { font-size: 13px; color: var(--text-secondary); text-align: center; padding: 12px; }
 
   /* Cycle Countdown */
   .cycle-card .cycle-info { margin-top: 8px; }

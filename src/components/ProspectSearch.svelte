@@ -103,6 +103,8 @@
   let customSearch = '';
   let storeSearchQuery = '';
   let filteredStoreResults = [];
+  let repRegistry = {};
+  let inviteRepEmail = '';
 
   const CATEGORIES = {
     '🍽️ Restaurants': ['Mexican', 'Pizza', 'Sandwich Shop', 'Coffee', 'Sushi', 'Fast Food', 'Chinese', 'Thai', 'Indian', 'BBQ', 'Italian', 'Bakery', 'Breakfast/Brunch', 'Seafood', 'Mediterranean', 'Korean', 'Vietnamese', 'Wings', 'Ice Cream/Dessert', 'Juice/Smoothie', 'Bar/Pub', 'Catering', 'Food Truck', 'Brewery/Taproom', 'Winery', 'Donut Shop', 'Deli', 'All'],
@@ -207,11 +209,13 @@
 
   onMount(async () => {
     try {
-      const [storesRes, leadsRes] = await Promise.all([
+      const [storesRes, leadsRes, repRes] = await Promise.all([
         fetch(import.meta.env.BASE_URL + 'data/stores.json'),
-        fetch(import.meta.env.BASE_URL + 'data/hot_leads.json')
+        fetch(import.meta.env.BASE_URL + 'data/hot_leads.json'),
+        fetch(import.meta.env.BASE_URL + 'data/rep_registry.json').catch(() => ({ json: () => ({}) }))
       ]);
       allStores = await storesRes.json();
+      repRegistry = await repRes.json().catch(() => ({}));
       
       // Load hot leads (filtered by rep visibility)
       let allLeadsData = await leadsRes.json();
@@ -1049,7 +1053,17 @@
             {/if}
             <button class="action-btn full-width script-btn" on:click={() => { prospect._showScript = !prospect._showScript; prospect._showEmail = false; prospect._showNotes = false; prospects = prospects; }}>📋 Call Scripts</button>
             <button class="action-btn full-width email-btn" on:click={() => { prospect._showEmail = !prospect._showEmail; prospect._showScript = false; prospect._showNotes = false; prospects = prospects; }}>✉️ Draft Email</button>
-            <a href="https://calendar.google.com/calendar/render?action=TEMPLATE&text={encodeURIComponent('Visit: ' + prospect.name)}&details={encodeURIComponent('Prospect: ' + prospect.name + '\nAddress: ' + prospect.address + (prospect.phone ? '\nPhone: ' + prospect.phone : '') + (prospect.website ? '\nWebsite: ' + prospect.website : '') + '\nStore: ' + (selectedStore?.GroceryChain || '') + ' ' + (selectedStore?.StoreName || '') + (getProspectNote(prospect.id || prospect.name) ? '\n\n📝 Notes:\n' + getProspectNote(prospect.id || prospect.name) : ''))}&location={encodeURIComponent(prospect.address)}" target="_blank" class="action-btn full-width">📅 Calendar</a>
+            <div class="calendar-booking">
+              <div class="invite-row">
+                <select bind:value={inviteRepEmail} class="invite-select">
+                  <option value="">No invite (just me)</option>
+                  {#each Object.entries(repRegistry).filter(([k, v]) => v.email) as [id, rep]}
+                    <option value={rep.email}>{rep.display_name || rep.contract_name}</option>
+                  {/each}
+                </select>
+              </div>
+              <a href="https://calendar.google.com/calendar/render?action=TEMPLATE&text={encodeURIComponent('Visit: ' + prospect.name)}&details={encodeURIComponent('Prospect: ' + prospect.name + '\nAddress: ' + prospect.address + (prospect.phone ? '\nPhone: ' + prospect.phone : '') + (prospect.website ? '\nWebsite: ' + prospect.website : '') + '\nStore: ' + (selectedStore?.GroceryChain || '') + ' ' + (selectedStore?.StoreName || '') + '\nRep: ' + ($user?.name || '') + (getProspectNote(prospect.id || prospect.name) ? '\n\n📝 Notes:\n' + getProspectNote(prospect.id || prospect.name) : ''))}&location={encodeURIComponent(prospect.address)}{inviteRepEmail ? '&add=' + encodeURIComponent(inviteRepEmail) : ''}" target="_blank" class="action-btn full-width calendar-btn">📅 Book Appointment{inviteRepEmail ? ' + Invite Rep' : ''}</a>
+            </div>
           </div>
           {#if prospect._showTestimonials}
             <div class="testimonials-section">
@@ -2073,4 +2087,10 @@
     font-size: 12px;
     margin: 12px 0;
   }
+
+  .calendar-booking { width: 100%; }
+  .invite-row { margin-bottom: 8px; }
+  .invite-select { width: 100%; padding: 10px 12px; border: 2px solid var(--border-color, #ddd); border-radius: 8px; font-size: 13px; background: var(--input-bg, white); color: var(--text-primary, #333); }
+  .calendar-btn { background: #1a73e8 !important; color: white !important; }
+  .calendar-btn:hover { background: #1557b0 !important; }
 </style>
