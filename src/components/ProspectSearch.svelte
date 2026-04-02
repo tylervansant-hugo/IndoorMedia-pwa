@@ -110,16 +110,31 @@
   let hotLeadStoreFilter = 'all';
   let hotLeadZoneFilter = 'all';
   let hotLeadCategoryFilter = 'all';
+  let hotLeadRepFilter = 'all';
   let hotLeadSearch = '';
+  
+  // Build store→rep map from registry
+  $: storeToRep = (() => {
+    const map = {};
+    for (const [uid, info] of Object.entries(repRegistry)) {
+      const name = info.display_name || '';
+      for (const sid of (info.assigned_stores || [])) {
+        map[sid] = name;
+      }
+    }
+    return map;
+  })();
   
   $: hotLeadStores = [...new Set(hotLeads.map(l => `${l.store_chain} ${l.store_city} (${l.store_id})`))].sort();
   $: hotLeadZones = [...new Set(hotLeads.map(l => (l.store_id || '').match(/\d+[A-Z]/)?.[0] || '').filter(Boolean))].sort();
   $: hotLeadCategories = [...new Set(hotLeads.map(l => l.category).filter(Boolean))].sort();
+  $: hotLeadReps = [...new Set(hotLeads.map(l => storeToRep[l.store_id] || 'Unassigned').filter(Boolean))].sort();
   
   $: filteredHotLeads = hotLeads.filter(l => {
     if (hotLeadStoreFilter !== 'all' && !`${l.store_chain} ${l.store_city} (${l.store_id})`.includes(hotLeadStoreFilter)) return false;
     if (hotLeadZoneFilter !== 'all' && !(l.store_id || '').includes(hotLeadZoneFilter)) return false;
     if (hotLeadCategoryFilter !== 'all' && l.category !== hotLeadCategoryFilter) return false;
+    if (hotLeadRepFilter !== 'all' && (storeToRep[l.store_id] || 'Unassigned') !== hotLeadRepFilter) return false;
     if (hotLeadSearch) {
       const q = hotLeadSearch.toLowerCase();
       return (l.business_name || '').toLowerCase().includes(q) ||
@@ -1299,6 +1314,12 @@
             <option value={zone}>{zone}</option>
           {/each}
         </select>
+        <select bind:value={hotLeadRepFilter} class="filter-select">
+          <option value="all">All Reps</option>
+          {#each hotLeadReps as rep}
+            <option value={rep}>{rep}</option>
+          {/each}
+        </select>
         <select bind:value={hotLeadStoreFilter} class="filter-select">
           <option value="all">All Stores</option>
           {#each hotLeadStores as store}
@@ -1722,11 +1743,12 @@
   }
 
   .hot-lead-card {
-    background: white;
-    border: 2px solid #e0e0e0;
+    background: var(--bg-primary, white);
+    border: 2px solid var(--border-color, #e0e0e0);
     border-radius: 10px;
     padding: 14px;
     transition: all 0.2s;
+    color: var(--text-primary, #222);
   }
 
   .hot-lead-card:hover {
@@ -1746,6 +1768,7 @@
     font-size: 14px;
     font-weight: 700;
     flex: 1;
+    color: var(--text-primary, #222);
   }
 
   .rating {
@@ -1755,19 +1778,19 @@
 
   .lead-category {
     display: inline-block;
-    background: #f0f0f0;
+    background: var(--bg-secondary, #f0f0f0);
     padding: 2px 6px;
     border-radius: 3px;
     font-size: 11px;
-    color: #666;
+    color: var(--text-secondary, #666);
     margin-bottom: 8px;
   }
 
   .lead-hook {
     font-size: 12px;
     font-style: italic;
-    color: #333;
-    background: #fff5f5;
+    color: var(--text-primary, #333);
+    background: var(--bg-secondary, #fff5f5);
     padding: 8px;
     border-radius: 4px;
     margin-bottom: 8px;
@@ -1794,7 +1817,7 @@
 
   .lead-store {
     font-size: 11px;
-    color: #999;
+    color: var(--text-muted, #999);
   }
 
   .empty-state {
