@@ -388,7 +388,7 @@
 </div>
 
 <style>
-  .quote-container { padding: 20px; max-width: 600px; margin: 0 auto; }
+  .quote-container { padding: 20px 20px 100px; max-width: 100%; margin: 0 auto; }
   h2 { margin: 0 0 6px; font-size: 24px; font-weight: 700; color: var(--text-primary); }
   h3 { margin: 0 0 12px; font-size: 18px; font-weight: 700; color: #333; }
   .subtitle { margin: 0 0 16px; color: var(--text-secondary); font-size: 14px; }
