@@ -2,6 +2,7 @@
   import { onMount } from 'svelte';
   import { theme, user } from '../lib/stores.js';
   import { get } from 'svelte/store';
+  import { logActivity, getRepActivityReport, getDailySummaries } from '../lib/activity.js';
   import StoreSearch from './StoreSearch.svelte';
   import ProspectSearch from './ProspectSearch.svelte';
   import Tools from './Tools.svelte';
@@ -12,6 +13,11 @@
   import HotLeadsSubmit from './HotLeadsSubmit.svelte';
 
   let currentTab = 'dashboard';
+  
+  // Track tab changes
+  $: if (currentTab && typeof window !== 'undefined') {
+    logActivity('page_view', { tab: currentTab, rep: $user?.name || $user?.first_name || 'unknown' });
+  }
   let currentTheme = 'light';
   let cartCount = 0;
   let contracts = [];
@@ -264,6 +270,10 @@
     const gcalUrl = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent(title)}&dates=${fmt(tomorrow)}/${fmt(end)}&details=${encodeURIComponent(details)}&location=${encodeURIComponent(location)}&add=${encodeURIComponent(MANAGER_EMAIL)}`;
     
     window.open(gcalUrl, '_blank');
+  }
+
+  async function getActivityData() {
+    return getRepActivityReport();
   }
 
   let swipingIndex = -1;
@@ -966,6 +976,9 @@
           <button class="period-btn" class:active={analyticsView === 'year'} on:click={() => analyticsView = 'year'}>By Year</button>
           <button class="period-btn" class:active={analyticsView === 'month'} on:click={() => analyticsView = 'month'}>By Month</button>
           <button class="period-btn" class:active={analyticsView === 'rep'} on:click={() => analyticsView = 'rep'}>By Rep</button>
+          {#if $user?.role === 'manager'}
+            <button class="period-btn" class:active={analyticsView === 'activity'} on:click={() => analyticsView = 'activity'}>📱 App Usage</button>
+          {/if}
         </div>
 
         <!-- Zone filter -->
@@ -1028,6 +1041,66 @@
                 {/each}
               </tbody>
             </table>
+          </div>
+        {:else if analyticsView === 'activity'}
+          <div class="activity-section">
+            <h3>📱 Rep App Usage</h3>
+            <p class="activity-note">Activity tracked per device. Data shown for current device — multi-device rollup coming soon.</p>
+            
+            {#await getActivityData() then actData}
+              <div class="activity-summary">
+                <div class="activity-card">
+                  <div class="activity-icon">📊</div>
+                  <div class="activity-stat">{actData.today.pageViews || 0}</div>
+                  <div class="activity-label">Page Views Today</div>
+                </div>
+                <div class="activity-card">
+                  <div class="activity-icon">🔍</div>
+                  <div class="activity-stat">{actData.today.searches || 0}</div>
+                  <div class="activity-label">Searches Today</div>
+                </div>
+                <div class="activity-card">
+                  <div class="activity-icon">📞</div>
+                  <div class="activity-stat">{actData.today.calls || 0}</div>
+                  <div class="activity-label">Calls Today</div>
+                </div>
+                <div class="activity-card">
+                  <div class="activity-icon">🔐</div>
+                  <div class="activity-stat">{actData.today.logins || 0}</div>
+                  <div class="activity-label">Logins Today</div>
+                </div>
+              </div>
+
+              <h4>Last 7 Days</h4>
+              <div class="activity-table-wrap">
+                <table class="activity-table">
+                  <thead><tr><th>Date</th><th>Views</th><th>Searches</th><th>Calls</th><th>Logins</th></tr></thead>
+                  <tbody>
+                    {#each actData.dailyBreakdown as day}
+                      <tr>
+                        <td>{new Date(day.date + 'T12:00:00').toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' })}</td>
+                        <td>{day.pageViews || 0}</td>
+                        <td>{day.searches || 0}</td>
+                        <td>{day.calls || 0}</td>
+                        <td>{day.logins || 0}</td>
+                      </tr>
+                    {/each}
+                    {#if actData.dailyBreakdown.length === 0}
+                      <tr><td colspan="5" style="text-align:center; color: var(--text-secondary);">No activity data yet. Usage will appear as reps use the app.</td></tr>
+                    {/if}
+                  </tbody>
+                </table>
+              </div>
+
+              <h4>30-Day Totals</h4>
+              <div class="activity-totals">
+                <div><strong>Page Views:</strong> {actData.last30days.pageViews || 0}</div>
+                <div><strong>Searches:</strong> {actData.last30days.searches || 0}</div>
+                <div><strong>Calls Made:</strong> {actData.last30days.calls || 0}</div>
+                <div><strong>Emails Sent:</strong> {actData.last30days.emails || 0}</div>
+                <div><strong>Logins:</strong> {actData.last30days.logins || 0}</div>
+              </div>
+            {/await}
           </div>
         {/if}
       </div>
@@ -1675,6 +1748,22 @@
   .analytics-change { font-size: 14px; font-weight: 600; padding: 4px 8px; border-radius: 8px; display: inline-block; }
   .analytics-change.positive { background: #e8f5e9; color: #2e7d32; }
   .analytics-change.negative { background: #ffebee; color: #c62828; }
+  
+  /* App Usage / Activity */
+  .activity-section h3 { font-size: 20px; font-weight: 700; margin-bottom: 8px; color: var(--text-primary); }
+  .activity-section h4 { font-size: 16px; font-weight: 700; margin: 20px 0 10px; color: var(--text-primary); }
+  .activity-note { font-size: 12px; color: var(--text-secondary); margin-bottom: 16px; }
+  .activity-summary { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin-bottom: 20px; }
+  .activity-card { background: var(--card-bg); border: 2px solid var(--border-color); border-radius: 12px; padding: 16px; text-align: center; }
+  .activity-icon { font-size: 28px; margin-bottom: 6px; }
+  .activity-stat { font-size: 28px; font-weight: 800; color: #CC0000; }
+  .activity-label { font-size: 12px; color: var(--text-secondary); font-weight: 600; margin-top: 4px; }
+  .activity-table-wrap { overflow-x: auto; }
+  .activity-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  .activity-table th { background: var(--bg-secondary, #f5f5f5); padding: 8px 10px; text-align: left; font-weight: 700; color: var(--text-secondary); border-bottom: 2px solid var(--border-color); }
+  .activity-table td { padding: 8px 10px; border-bottom: 1px solid var(--border-color); color: var(--text-primary); }
+  .activity-totals { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; font-size: 14px; color: var(--text-primary); }
+  .activity-totals strong { color: var(--text-secondary); }
   .month-table, .rep-table { background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 12px; overflow: hidden; }
   .month-table table, .rep-table table { width: 100%; border-collapse: collapse; }
   .month-table th, .rep-table th { background: var(--bg-secondary); padding: 12px; text-align: left; font-weight: 700; font-size: 12px; color: var(--text-secondary); text-transform: uppercase; border-bottom: 1px solid var(--border-color); }

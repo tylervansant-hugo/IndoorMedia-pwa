@@ -1,6 +1,7 @@
 <script>
   import { createEventDispatcher } from 'svelte';
   import { error, setUser } from '../lib/stores.js';
+  import { logActivity } from '../lib/activity.js';
 
   let selectedRep = '';
   let isLoading = true;
@@ -112,6 +113,7 @@
 
       // Correct password - log in
       console.log('Password verified, logging in:', selectedRep);
+      logActivity('login', { rep: rep.name, role: rep.role });
       setUser({
         id: selectedRep,
         name: rep.name,

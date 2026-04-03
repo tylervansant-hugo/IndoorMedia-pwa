@@ -1,6 +1,7 @@
 <script>
   import { onMount } from 'svelte';
   import { user } from '../lib/stores.js';
+  import { logActivity } from '../lib/activity.js';
   import HotLeadsSubmit from './HotLeadsSubmit.svelte';
   import PendingLeads from './PendingLeads.svelte';
   
@@ -755,7 +756,8 @@
     try {
       const clicks = JSON.parse(localStorage.getItem('impro_phone_clicks') || '[]');
       clicks.push({ business: prospect.name, phone: prospect.phone, date: new Date().toISOString(), rep: $user?.name || 'Unknown' });
-      localStorage.setItem('impro_phone_clicks', JSON.stringify(clicks.slice(-500))); // keep last 500
+      localStorage.setItem('impro_phone_clicks', JSON.stringify(clicks.slice(-500)));
+      logActivity('call', { business: prospect.name, rep: $user?.name || 'Unknown' });
     } catch (e) { console.warn('Track phone click error:', e); }
   }
 
