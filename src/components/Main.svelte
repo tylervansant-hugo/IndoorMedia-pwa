@@ -176,33 +176,57 @@
   const MANAGER_EMAIL = 'tyler.vansant@indoormedia.com';
 
   let syncStatus = '';
+  
+  // Google Apps Script URL for live calendar data
+  // Set this after deploying the Apps Script (scripts/google_apps_script_calendar.js)
+  const CALENDAR_API_URL = localStorage.getItem('impro_calendar_api') || '';
 
   async function refreshAppointments() {
     syncStatus = '🔄 Syncing...';
     try {
-      const res = await fetch(import.meta.env.BASE_URL + 'data/appointments.json?t=' + Date.now());
-      const data = await res.json();
+      let data;
+      
+      // Try live Google Apps Script first, fall back to static file
+      if (CALENDAR_API_URL) {
+        try {
+          const liveRes = await fetch(CALENDAR_API_URL + '?days=30&t=' + Date.now());
+          data = await liveRes.json();
+          if (data.error) throw new Error(data.error);
+          syncStatus = '🔄 Live sync...';
+        } catch {
+          // Fall back to static
+          const res = await fetch(import.meta.env.BASE_URL + 'data/appointments.json?t=' + Date.now());
+          data = await res.json();
+        }
+      } else {
+        const res = await fetch(import.meta.env.BASE_URL + 'data/appointments.json?t=' + Date.now());
+        data = await res.json();
+      }
+      
       const now = new Date();
       const repName = ($user?.name || $user?.first_name || '').toLowerCase();
       const isManagerUser = repName.includes('tyler') || $user?.role === 'manager';
       
       const upcoming = (isManagerUser ? data : data.filter(a => {
         const creator = (a.creator || '').toLowerCase();
-        const attendees = (a.attendees || []).map(att => (att.email || '').toLowerCase());
+        const attendees = (a.attendees || []).map(att => (att.email || att || '').toLowerCase());
         return creator.includes(repName.split(' ')[0]) || attendees.some(e => e.includes(repName.split(' ')[0]));
-      })).filter(a => new Date(a.start) >= now).map(a => ({
-        title: a.title,
-        date: a.start,
-        end: a.end,
-        location: a.location,
-        attendees: a.attendees || [],
-        type: a.is_prospect_visit ? 'prospect' : 'calendar',
-        store: a.store,
-        phone: a.phone
-      }));
+      })).filter(a => new Date(a.start) >= now)
+        .sort((a, b) => new Date(a.start) - new Date(b.start))
+        .map(a => ({
+          title: a.title,
+          date: a.start,
+          end: a.end,
+          location: a.location,
+          description: a.description || '',
+          attendees: a.attendees || [],
+          type: a.is_prospect_visit ? 'prospect' : 'calendar',
+          store: a.store,
+          phone: a.phone
+        }));
       
-      upcomingAppointments = upcoming.slice(0, 8);
-      syncStatus = `✅ Synced (${upcomingAppointments.length} upcoming)`;
+      upcomingAppointments = upcoming.slice(0, 12);
+      syncStatus = `✅ ${upcomingAppointments.length} upcoming`;
       setTimeout(() => syncStatus = '', 3000);
     } catch (e) {
       syncStatus = '❌ Sync failed';
@@ -411,19 +435,21 @@
           });
         });
         
-        // Filter to future events
+        // Filter to future events, sort by date
         const upcoming = myAppts.filter(a => new Date(a.start) >= now)
+          .sort((a, b) => new Date(a.start) - new Date(b.start))
           .map(a => ({
             title: a.title,
             date: a.start,
             end: a.end,
             location: a.location,
+            description: a.description || '',
             attendees: a.attendees || [],
             type: a.is_prospect_visit ? 'prospect' : 'calendar',
             store: a.store,
             phone: a.phone,
           }));
-        upcomingAppointments = upcoming.slice(0, 8);
+        upcomingAppointments = upcoming.slice(0, 12);
       })
       .catch(() => { upcomingAppointments = []; });
 

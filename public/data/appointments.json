@@ -27,6 +27,33 @@
     "creator": "ryan.rohner-talton@indoormedia.com"
   },
   {
+    "event_id": "p8oqa5f76kkovhlqub58st21fg",
+    "title": "Visit: Mama Chio mayan",
+    "start": "2026-04-02T18:00:00-07:00",
+    "end": "2026-04-02T19:00:00-07:00",
+    "location": "8124 SW Barbur Blvd, Portland, OR 97219, USA",
+    "description": "Prospect: Mama Chio mayan\nAddress: 8124 SW Barbur Blvd, Portland, OR 97219, USA\nPhone: (971) 341-8664\nStore: Safeway SAF07Y-3136\nRep: Tyler Van Sant",
+    "prospect_name": "Mama Chio mayan",
+    "phone": "(971) 341-8664",
+    "address": "8124 SW Barbur Blvd, Portland, OR 97219, USA",
+    "store": "Safeway SAF07Y-3136",
+    "rep": "Tyler Van Sant",
+    "attendees": [
+      {
+        "email": "tyler.vansant@indoormedia.com",
+        "name": "",
+        "status": "accepted"
+      },
+      {
+        "email": "adan.ramos@indoormedia.com",
+        "name": "",
+        "status": "needsAction"
+      }
+    ],
+    "is_prospect_visit": true,
+    "creator": "tyler.vansant@indoormedia.com"
+  },
+  {
     "event_id": "_8d13ihhk8l336b9h74p38b9k8opk2ba27534ab9k71142cpl6kqjgh9j70_20260403T030000Z",
     "title": "Take out garbage - STOP what I\u2019m doing or I will forget",
     "start": "2026-04-02T20:00:00-07:00",
@@ -39,6 +66,50 @@
     "store": "",
     "rep": "",
     "attendees": [],
+    "is_prospect_visit": false,
+    "creator": "tyler.vansant@indoormedia.com"
+  },
+  {
+    "event_id": "hq0n6ijtdvp3niifgl066654ok",
+    "title": "IndoorMedia \u2014 Prospect Visit",
+    "start": "2026-04-03T10:00:00-07:00",
+    "end": "2026-04-03T11:00:00-07:00",
+    "location": "",
+    "description": "Sales appointment\\nRep: Tyler Van Sant",
+    "prospect_name": "",
+    "phone": "",
+    "address": "",
+    "store": "",
+    "rep": "Tyler Van Sant",
+    "attendees": [
+      {
+        "email": "tyler.vansant@indoormedia.com",
+        "name": "",
+        "status": "accepted"
+      }
+    ],
+    "is_prospect_visit": false,
+    "creator": "tyler.vansant@indoormedia.com"
+  },
+  {
+    "event_id": "rm47k9sqhdp044f8gotirap16g",
+    "title": "IndoorMedia \u2014 Prospect Visit",
+    "start": "2026-04-03T10:00:00-07:00",
+    "end": "2026-04-03T11:00:00-07:00",
+    "location": "",
+    "description": "Sales appointment\\nRep: Tyler Van Sant",
+    "prospect_name": "",
+    "phone": "",
+    "address": "",
+    "store": "",
+    "rep": "Tyler Van Sant",
+    "attendees": [
+      {
+        "email": "tyler.vansant@indoormedia.com",
+        "name": "",
+        "status": "accepted"
+      }
+    ],
     "is_prospect_visit": false,
     "creator": "tyler.vansant@indoormedia.com"
   },
@@ -100,6 +171,33 @@
     ],
     "is_prospect_visit": false,
     "creator": "tyler.vansant@indoormedia.com"
+  },
+  {
+    "event_id": "sue6tm5763v5l6kl3c20u5psl4",
+    "title": "Meet with rigo at La sierra",
+    "start": "2026-04-06T12:00:00-07:00",
+    "end": "2026-04-06T13:00:00-07:00",
+    "location": "",
+    "description": "",
+    "prospect_name": "",
+    "phone": "",
+    "address": "",
+    "store": "",
+    "rep": "",
+    "attendees": [
+      {
+        "email": "anthony.eng@indoormedia.com",
+        "name": "",
+        "status": "accepted"
+      },
+      {
+        "email": "tyler.vansant@indoormedia.com",
+        "name": "",
+        "status": "needsAction"
+      }
+    ],
+    "is_prospect_visit": false,
+    "creator": "anthony.eng@indoormedia.com"
   },
   {
     "event_id": "n17hi1rs1e3rsi09kfsr3pafe2_20260407T160000Z",
@@ -196,94 +294,6 @@
       }
     ],
     "is_prospect_visit": false,
-    "creator": "tyler.vansant@indoormedia.com"
-  },
-  {
-    "event_id": "0m921phj95cvk38taskh944pbc",
-    "title": "\ud83d\udce6 Install Q1: N.Y.C Pizzeria at Fred Meyer, Vancouver, Fred Meyer-0208",
-    "start": "2026-04-07T10:00:00-07:00",
-    "end": "2026-04-07T11:00:00-07:00",
-    "location": "",
-    "description": "INSTALL QUARTER 1 (0 days in)\nContract: J426212E\nBusiness: N.Y.C Pizzeria\nCustomer: Makhan Uppal\nRep: Megan Wink\nStore: Fred Meyer Fred Meyer-0208, Vancouver\nEst. Start: 04/17/2026\n\nInstall tape at N.Y.C Pizzeria.",
-    "prospect_name": "",
-    "phone": "",
-    "address": "",
-    "store": "Fred Meyer Fred Meyer-0208, Vancouver",
-    "rep": "Megan Wink",
-    "attendees": [
-      {
-        "email": "megan.wink@indoormedia.com",
-        "name": "",
-        "status": "needsAction"
-      }
-    ],
-    "is_prospect_visit": true,
-    "creator": "tyler.vansant@indoormedia.com"
-  },
-  {
-    "event_id": "1ri48trco249s7fruqjdtn0lgo",
-    "title": "\ud83d\udce6 Install Q1: Laurel Market at Safeway, Woodland, Safeway-1762",
-    "start": "2026-04-07T10:00:00-07:00",
-    "end": "2026-04-07T11:00:00-07:00",
-    "location": "",
-    "description": "INSTALL QUARTER 1 (0 days in)\nContract: J426489E\nBusiness: Laurel Market\nCustomer: Felicia Ek\nRep: Dave Boring\nStore: Safeway Safeway-1762, Woodland\nEst. Start: 04/17/2026\n\nInstall tape at Laurel Market.",
-    "prospect_name": "",
-    "phone": "",
-    "address": "",
-    "store": "Safeway Safeway-1762, Woodland",
-    "rep": "Dave Boring",
-    "attendees": [
-      {
-        "email": "dave.boring@indoormedia.com",
-        "name": "",
-        "status": "needsAction"
-      }
-    ],
-    "is_prospect_visit": true,
-    "creator": "tyler.vansant@indoormedia.com"
-  },
-  {
-    "event_id": "4jnovjtbk6mk8mn85f1v0gn9gk",
-    "title": "\ud83d\udce6 Install Q1: Bento\u2019s Teriyaki 3 at Fred Meyer, Beaverton, Fred Meyer-0482",
-    "start": "2026-04-07T10:00:00-07:00",
-    "end": "2026-04-07T11:00:00-07:00",
-    "location": "",
-    "description": "INSTALL QUARTER 1 (0 days in)\nContract: J426238E\nBusiness: Bento\u2019s Teriyaki 3\nCustomer: Alvaro Flores\nRep: Ben Patacsil\nStore: Fred Meyer Fred Meyer-0482, Beaverton\nEst. Start: 04/17/2026\n\nInstall tape at Bento\u2019s Teriyaki 3.",
-    "prospect_name": "",
-    "phone": "",
-    "address": "",
-    "store": "Fred Meyer Fred Meyer-0482, Beaverton",
-    "rep": "Ben Patacsil",
-    "attendees": [
-      {
-        "email": "ben.patacsil@indoormedia.com",
-        "name": "",
-        "status": "needsAction"
-      }
-    ],
-    "is_prospect_visit": true,
-    "creator": "tyler.vansant@indoormedia.com"
-  },
-  {
-    "event_id": "aj0g23aappt4rqp4rkc7aul06k",
-    "title": "\ud83d\udce6 Install Q1: Dizzy Dean\u2019s Donuts at Fred Meyer, Eugene, Fred Meyer-0417",
-    "start": "2026-04-07T10:00:00-07:00",
-    "end": "2026-04-07T11:00:00-07:00",
-    "location": "",
-    "description": "INSTALL QUARTER 1 (0 days in)\nContract: J428479E\nBusiness: Dizzy Dean\u2019s Donuts\nCustomer: Dean Weaver\nRep: Matthew Boozer\nStore: Fred Meyer Fred Meyer-0417, Eugene\nEst. Start: 04/17/2026\n\nInstall tape at Dizzy Dean\u2019s Donuts.",
-    "prospect_name": "",
-    "phone": "",
-    "address": "",
-    "store": "Fred Meyer Fred Meyer-0417, Eugene",
-    "rep": "Matthew Boozer",
-    "attendees": [
-      {
-        "email": "matthew.boozer@indoormedia.com",
-        "name": "",
-        "status": "needsAction"
-      }
-    ],
-    "is_prospect_visit": true,
     "creator": "tyler.vansant@indoormedia.com"
   }
 ]
