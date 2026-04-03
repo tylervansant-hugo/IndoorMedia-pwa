@@ -184,8 +184,9 @@ Store: ${store.StoreName}
       (store.GroceryChain && store.GroceryChain.toLowerCase().includes(term)) ||
       (store.City && store.City.toLowerCase().includes(term)) ||
       (store.Address && store.Address.toLowerCase().includes(term)) ||
-      (store.State && store.State.toLowerCase().includes(term))
-    ).slice(0, 20);
+      (store.State && store.State.toLowerCase().includes(term)) ||
+      (store.PostalCode && store.PostalCode.includes(term))
+    ).slice(0, 50);
 
     searchResults.set(filtered);
   }
@@ -332,7 +333,7 @@ Store: ${store.StoreName}
   <div class="search-box">
     <input
       type="text"
-      placeholder="Search by store name, city, or number..."
+      placeholder="Search by store name, city, zip code, or number..."
       bind:value={searchTerm}
       on:input={filterStores}
       disabled={$loading}
