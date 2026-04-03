@@ -179,7 +179,7 @@
   
   // Google Apps Script URL for live calendar data
   // Set this after deploying the Apps Script (scripts/google_apps_script_calendar.js)
-  const CALENDAR_API_URL = localStorage.getItem('impro_calendar_api') || '';
+  const CALENDAR_API_URL = 'https://script.googleusercontent.com/a/macros/indoormedia.com/echo?user_content_key=AWDtjMU_lHT0xNAWQkyU5hat-v6ZCGwjFviNlJZf-5KUwna65c55MOdInmDLngcWY6OnpRvF2wh-w9gpkYQrEsTdeDIPtqgE_Vgf-EVAi1wK-UZrSt1dwwm_EL3SjUIWCq4Z1bMoGK20oFP6EU9n7LlUR4ahD_W4zgvPQejQpRsHGTKuiICLTCPNz-19KsQEploptlg4OLbVOBwk1xnsBxJ8sT-4Mgq_BkxVM7_HhUWXCjNCStMuueUe5yF8lfHfZIjyLGuGJhVWNMsk1Z970rGUMuh739WyXHpHditxf0Vd8moEH2wDY233FTBCngTVl8GPhaSgoaP-&lib=Mzz3mqyJSZ0ql-JCrrMKeASMMJ0XCjnoQ';
 
   async function refreshAppointments() {
     syncStatus = '🔄 Syncing...';
@@ -189,7 +189,8 @@
       // Try live Google Apps Script first, fall back to static file
       if (CALENDAR_API_URL) {
         try {
-          const liveRes = await fetch(CALENDAR_API_URL + '?days=30&t=' + Date.now());
+          const sep = CALENDAR_API_URL.includes('?') ? '&' : '?';
+          const liveRes = await fetch(CALENDAR_API_URL + sep + 'days=30&t=' + Date.now());
           data = await liveRes.json();
           if (data.error) throw new Error(data.error);
           syncStatus = '🔄 Live sync...';
@@ -416,10 +417,16 @@
       })
       .catch(() => { pendingRenewalsCount = 0; pendingRenewalsData = []; });
 
-    // Upcoming appointments from synced Google Calendar
-    fetch(import.meta.env.BASE_URL + 'data/appointments.json')
+    // Upcoming appointments — try live Google Calendar API first, fall back to static
+    const calUrl = CALENDAR_API_URL
+      ? CALENDAR_API_URL + (CALENDAR_API_URL.includes('?') ? '&' : '?') + 't=' + Date.now()
+      : import.meta.env.BASE_URL + 'data/appointments.json?t=' + Date.now();
+    
+    fetch(calUrl)
       .then(r => r.json())
       .then(appts => {
+        // If live API returned an error, fall back to static
+        if (appts.error) throw new Error(appts.error);
         const repEmail = ($user?.email || '').toLowerCase();
         const rn = repName.toLowerCase();
         const isAdmin = rn.includes('tyler') || rn.includes('rick');
@@ -451,7 +458,18 @@
           }));
         upcomingAppointments = upcoming.slice(0, 12);
       })
-      .catch(() => { upcomingAppointments = []; });
+      .catch(() => {
+        // Fall back to static file if live API fails
+        fetch(import.meta.env.BASE_URL + 'data/appointments.json?t=' + Date.now())
+          .then(r => r.json())
+          .then(appts => {
+            const upcoming = appts.filter(a => new Date(a.start) >= now)
+              .sort((a, b) => new Date(a.start) - new Date(b.start))
+              .map(a => ({ title: a.title, date: a.start, end: a.end, location: a.location, attendees: a.attendees || [], type: a.is_prospect_visit ? 'prospect' : 'calendar' }));
+            upcomingAppointments = upcoming.slice(0, 12);
+          })
+          .catch(() => { upcomingAppointments = []; });
+      });
 
     getNextCycle();
     loadDailyGoal();
