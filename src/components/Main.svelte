@@ -3,6 +3,7 @@
   import { theme, user } from '../lib/stores.js';
   import { get } from 'svelte/store';
   import { logActivity, getRepActivityReport, getDailySummaries } from '../lib/activity.js';
+  import { initFirebase, isFirebaseReady, getAllRepActivity } from '../lib/firebase.js';
   import StoreSearch from './StoreSearch.svelte';
   import ProspectSearch from './ProspectSearch.svelte';
   import Tools from './Tools.svelte';
@@ -273,7 +274,44 @@
   }
 
   async function getActivityData() {
-    return getRepActivityReport();
+    const local = getRepActivityReport();
+    
+    // Try to get cross-device data from Firebase
+    if (isFirebaseReady()) {
+      try {
+        const allActivity = await getAllRepActivity(7);
+        if (allActivity.length > 0) {
+          // Group by rep
+          const byRep = {};
+          allActivity.forEach(a => {
+            if (!byRep[a.repName]) byRep[a.repName] = { logins: 0, pageViews: 0, searches: 0, calls: 0, emails: 0, lastActive: '', days: new Set() };
+            const r = byRep[a.repName];
+            r.logins += a.logins || 0;
+            r.pageViews += a.pageViews || 0;
+            r.searches += a.searches || 0;
+            r.calls += a.calls || 0;
+            r.emails += a.emails || 0;
+            r.days.add(a.date);
+            if (a.lastActive > r.lastActive) r.lastActive = a.lastActive;
+          });
+          
+          local.allReps = Object.entries(byRep).map(([name, data]) => ({
+            name,
+            ...data,
+            activeDays: data.days.size,
+            lastActive: data.lastActive ? new Date(data.lastActive).toLocaleString() : 'Never'
+          })).sort((a, b) => b.pageViews - a.pageViews);
+          
+          local.firebaseConnected = true;
+        }
+      } catch (e) {
+        console.warn('Firebase activity fetch error:', e);
+      }
+    }
+    
+    local.firebaseConnected = local.firebaseConnected || false;
+    local.allReps = local.allReps || [];
+    return local;
   }
 
   let swipingIndex = -1;
@@ -532,6 +570,7 @@
     loadDailyGoal();
     calcStreak();
     loadRepSync();
+    initFirebase();
   }
 
   onMount(async () => {
@@ -1092,7 +1131,34 @@
                 </table>
               </div>
 
-              <h4>30-Day Totals</h4>
+              {#if actData.firebaseConnected && actData.allReps.length > 0}
+                <h4>👥 All Reps — Last 7 Days</h4>
+                <div class="activity-table-wrap">
+                  <table class="activity-table">
+                    <thead><tr><th>Rep</th><th>Days Active</th><th>Views</th><th>Searches</th><th>Calls</th><th>Last Active</th></tr></thead>
+                    <tbody>
+                      {#each actData.allReps as rep}
+                        <tr>
+                          <td><strong>{rep.name}</strong></td>
+                          <td>{rep.activeDays}/7</td>
+                          <td>{rep.pageViews}</td>
+                          <td>{rep.searches}</td>
+                          <td>{rep.calls}</td>
+                          <td style="font-size:11px;">{rep.lastActive}</td>
+                        </tr>
+                      {/each}
+                    </tbody>
+                  </table>
+                </div>
+              {:else if !actData.firebaseConnected}
+                <div class="firebase-setup-prompt">
+                  <h4>🔗 Enable Cross-Device Tracking</h4>
+                  <p>To see all reps' activity in one place, connect Firebase:</p>
+                  <button class="book-appt-btn" on:click={() => window.open(import.meta.env.BASE_URL + 'setup-firebase.html', '_blank')}>⚙️ Set Up Firebase</button>
+                </div>
+              {/if}
+
+              <h4>📊 Your Device — 30-Day Totals</h4>
               <div class="activity-totals">
                 <div><strong>Page Views:</strong> {actData.last30days.pageViews || 0}</div>
                 <div><strong>Searches:</strong> {actData.last30days.searches || 0}</div>
@@ -1764,6 +1830,9 @@
   .activity-table td { padding: 8px 10px; border-bottom: 1px solid var(--border-color); color: var(--text-primary); }
   .activity-totals { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; font-size: 14px; color: var(--text-primary); }
   .activity-totals strong { color: var(--text-secondary); }
+  .firebase-setup-prompt { background: var(--card-bg); border: 2px dashed var(--border-color); border-radius: 12px; padding: 20px; text-align: center; margin: 16px 0; }
+  .firebase-setup-prompt h4 { margin: 0 0 8px; color: var(--text-primary); }
+  .firebase-setup-prompt p { font-size: 13px; color: var(--text-secondary); margin: 0 0 12px; }
   .month-table, .rep-table { background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 12px; overflow: hidden; }
   .month-table table, .rep-table table { width: 100%; border-collapse: collapse; }
   .month-table th, .rep-table th { background: var(--bg-secondary); padding: 12px; text-align: left; font-weight: 700; font-size: 12px; color: var(--text-secondary); text-transform: uppercase; border-bottom: 1px solid var(--border-color); }

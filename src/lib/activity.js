@@ -1,7 +1,8 @@
 /**
- * Activity Tracker — logs rep usage to localStorage + syncs to shared JSON
+ * Activity Tracker — logs rep usage to localStorage + Firebase (cross-device)
  * Tracks: logins, page views, searches, calls, emails, appointments booked
  */
+import { isFirebaseReady, syncActivity } from './firebase.js';
 
 const ACTIVITY_KEY = 'impro_activity';
 const ACTIVITY_SYNC_KEY = 'impro_activity_sync';
@@ -26,6 +27,12 @@ export function logActivity(action, details = {}) {
     if (log.length > 500) log.splice(0, log.length - 500);
     localStorage.setItem(ACTIVITY_KEY, JSON.stringify(log));
     updateDailySummary(entry);
+    
+    // Sync to Firebase if available
+    if (isFirebaseReady() && details.rep) {
+      const repId = details.repId || details.rep.toLowerCase().replace(/\s+/g, '_');
+      syncActivity(details.rep, repId, action, details).catch(() => {});
+    }
   } catch {}
 }
 
