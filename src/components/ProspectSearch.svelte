@@ -106,6 +106,7 @@
   let filteredStoreResults = [];
   let repRegistry = {};
   let inviteRepEmail = '';
+  let copiedAddress = '';
   
   // Hot Leads filters
   let hotLeadStoreFilter = 'all';
@@ -1121,7 +1122,7 @@
             <span class="score-emoji">{prospect.score >= 80 ? '🔥' : prospect.score >= 70 ? '⭐' : '👀'}</span>
             <h4>{prospect.name}</h4>
           </div>
-          <p class="prospect-address">📍 {prospect.address}</p>
+          <p class="prospect-address" style="cursor:pointer;" on:click={() => { navigator.clipboard.writeText(prospect.address); copiedAddress = prospect.address; setTimeout(() => copiedAddress = '', 2000); }}>📍 {copiedAddress === prospect.address ? '✅ Copied!' : prospect.address}</p>
           <p class="prospect-meta">
             ⭐ {prospect.rating.toFixed(1)} ({prospect.reviews} reviews) • {prospect.distance} mi • Score: {prospect.score}%
           </p>
@@ -1283,7 +1284,7 @@
         {#each savedProspects as prospect (prospect.id)}
           <div class="prospect-card">
             <h4>{prospect.name}</h4>
-            <p class="address">{prospect.address}</p>
+            <p class="address" style="cursor:pointer;" on:click={() => { navigator.clipboard.writeText(prospect.address); copiedAddress = prospect.address; setTimeout(() => copiedAddress = '', 2000); }}>{copiedAddress === prospect.address ? '✅ Copied!' : prospect.address}</p>
             <div style="margin-top: 0.5rem; display: flex; gap: 0.5rem; flex-wrap: wrap;">
               <select class="status-select" value={prospect.status} on:change={(e) => { prospect.status = e.target.value; updateProspectNotes(prospect.id, prospect.notes); }}>
                 <option value="new">🆕 New</option>
@@ -1363,7 +1364,7 @@
                 {/if}
               </div>
               {#if lead.address}
-                <div class="lead-address">📍 {lead.address}</div>
+                <div class="lead-address" style="cursor:pointer;" on:click={() => { navigator.clipboard.writeText(lead.address); copiedAddress = lead.address; setTimeout(() => copiedAddress = '', 2000); }}>📍 {copiedAddress === lead.address ? '✅ Copied!' : lead.address}</div>
               {/if}
               <div class="lead-store">{lead.store_chain} {lead.store_city} ({lead.store_id})</div>
             </div>
