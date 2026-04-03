@@ -1249,24 +1249,26 @@
   /* Appointments */
   .appointments-section { margin-bottom: 16px; }
   .appointments-section h3 { margin: 0 0 12px; font-size: 16px; color: var(--text-primary); }
-  .appointment-list { display: flex; flex-direction: column; gap: 10px; }
+  .appointment-list { display: flex; flex-direction: column; gap: 12px; }
   .appointment-item {
     display: flex;
     align-items: flex-start;
     gap: 14px;
     background: var(--card-bg);
     border-radius: 12px;
-    padding: 14px 16px;
+    padding: 16px;
     border: 2px solid var(--border-color);
+    transition: border-color 0.2s;
   }
-  .appt-left { min-width: 80px; flex-shrink: 0; }
-  .appt-date { font-size: 13px; font-weight: 700; color: #CC0000; white-space: nowrap; }
-  .appt-time { font-size: 12px; color: var(--text-tertiary); margin-top: 2px; }
+  .appointment-item:hover { border-color: #CC0000; }
+  .appt-left { min-width: 85px; flex-shrink: 0; text-align: center; background: rgba(204,0,0,0.05); border-radius: 8px; padding: 8px 4px; }
+  .appt-date { font-size: 14px; font-weight: 800; color: #CC0000; white-space: nowrap; }
+  .appt-time { font-size: 13px; color: var(--text-tertiary); margin-top: 4px; font-weight: 600; }
   .appt-right { flex: 1; }
-  .appt-title { font-size: 15px; font-weight: 600; color: var(--text-primary); margin-bottom: 4px; }
-  .appt-location { font-size: 12px; color: var(--text-secondary); margin-bottom: 2px; }
-  .appt-attendees { font-size: 12px; color: var(--text-tertiary); margin-bottom: 4px; }
-  .appt-badge { display: inline-block; font-size: 11px; font-weight: 600; padding: 2px 8px; border-radius: 4px; }
+  .appt-title { font-size: 16px; font-weight: 700; color: var(--text-primary); margin-bottom: 6px; }
+  .appt-location { font-size: 13px; color: var(--text-secondary); margin-bottom: 4px; }
+  .appt-attendees { font-size: 13px; color: var(--text-tertiary); margin-bottom: 6px; }
+  .appt-badge { display: inline-block; font-size: 11px; font-weight: 700; padding: 3px 10px; border-radius: 6px; }
   .appt-badge.prospect { background: rgba(204,0,0,0.1); color: #CC0000; }
   .no-appointments { font-size: 13px; color: var(--text-secondary); text-align: center; padding: 12px; }
   .book-appt-btn { width: 100%; padding: 10px; margin-top: 12px; background: #CC0000; color: white; border: none; border-radius: 8px; font-size: 14px; font-weight: 600; cursor: pointer; }
@@ -1293,13 +1295,14 @@
 
   /* Drill-down panels */
   .drill-down {
-    background: var(--bg-secondary, #1a1a2e);
-    border: 1px solid var(--border-color, #333);
-    border-radius: 10px;
-    padding: 14px;
-    margin-bottom: 16px;
+    background: var(--card-bg);
+    border: 2px solid var(--border-color);
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 20px;
+    margin-top: 16px;
   }
-  .drill-down h4 { margin: 0 0 10px; font-size: 15px; color: var(--text-primary); }
+  .drill-down h4 { margin: 0 0 16px; font-size: 18px; font-weight: 700; color: var(--text-primary); }
   .drill-empty { font-size: 13px; color: var(--text-secondary, #999); text-align: center; padding: 8px; }
   .drill-row {
     display: flex;
@@ -1354,7 +1357,7 @@
   .dashboard-grid {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    gap: 1.5rem;
+    gap: 12px;
     margin-bottom: 32px;
     width: 100%;
   }
@@ -1377,40 +1380,48 @@
     background: var(--card-bg);
     border: 2px solid var(--border-color);
     border-radius: 16px;
-    padding: 2rem 1.5rem;
+    padding: 1.5rem 1.25rem;
     text-align: center;
-    min-height: 160px;
+    min-height: 180px;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     width: 100%;
+    transition: transform 0.15s, box-shadow 0.15s;
   }
 
+  .stat-card.clickable { cursor: pointer; }
+  .stat-card.clickable:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
+  .stat-card.clickable:active { transform: scale(0.98); }
+
   .stat-icon {
-    font-size: 32px;
-    margin-bottom: 8px;
+    font-size: 36px;
+    margin-bottom: 10px;
   }
 
   .stat-card h3 {
-    margin: 0 0 8px;
-    font-size: 14px;
+    margin: 0 0 10px;
+    font-size: 15px;
     color: var(--text-secondary);
     text-transform: uppercase;
     letter-spacing: 0.5px;
+    font-weight: 700;
   }
 
   .stat-value {
-    margin: 0 0 4px;
-    font-size: 28px;
-    font-weight: 700;
+    margin: 0 0 6px;
+    font-size: 32px;
+    font-weight: 800;
     color: #CC0000;
+    line-height: 1.1;
   }
 
   .stat-label {
     margin: 0;
-    font-size: 12px;
+    font-size: 13px;
     color: var(--text-tertiary);
+    font-weight: 500;
   }
 
   .quick-actions {
@@ -1490,6 +1501,20 @@
 
     .dashboard-grid {
       grid-template-columns: repeat(2, 1fr);
+      gap: 14px;
+    }
+
+    .stat-card {
+      min-height: 200px;
+      padding: 1.75rem 1rem;
+    }
+
+    .stat-icon {
+      font-size: 42px;
+    }
+
+    .stat-value {
+      font-size: 36px;
     }
 
     .action-buttons {
