@@ -226,16 +226,16 @@
           phone: a.phone
         }));
       
-      // Deduplicate by event_id and title+date combo
+      // Deduplicate by title + exact start time (not event_id — recurring events share IDs)
       const seen = new Set();
       const deduped = upcoming.filter(a => {
-        const key = a.event_id || (a.title + '|' + a.date.slice(0,10));
+        const key = (a.title || '') + '|' + (a.date || '');
         if (seen.has(key)) return false;
         seen.add(key);
         return true;
       }).sort((a, b) => new Date(a.date) - new Date(b.date));
       
-      upcomingAppointments = deduped.slice(0, 12);
+      upcomingAppointments = deduped;
       syncStatus = `✅ ${upcomingAppointments.length} upcoming`;
       setTimeout(() => syncStatus = '', 3000);
     } catch (e) {
@@ -482,10 +482,11 @@
           });
         });
         
-        // Filter to future events, sort by date
+        // Filter to future events, sort by date, deduplicate
         const upcoming = myAppts.filter(a => new Date(a.start) >= now)
           .sort((a, b) => new Date(a.start) - new Date(b.start))
           .map(a => ({
+            event_id: a.event_id,
             title: a.title,
             date: a.start,
             end: a.end,
@@ -496,7 +497,13 @@
             store: a.store,
             phone: a.phone,
           }));
-        upcomingAppointments = upcoming.slice(0, 12);
+        const initSeen = new Set();
+        upcomingAppointments = upcoming.filter(a => {
+          const k = (a.title || '') + '|' + (a.date || '');
+          if (initSeen.has(k)) return false;
+          initSeen.add(k);
+          return true;
+        });
       })
       .catch(() => {
         // Fall back to static file if live API fails
