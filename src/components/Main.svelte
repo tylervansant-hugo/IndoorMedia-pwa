@@ -213,8 +213,8 @@
         const attendees = (a.attendees || []).map(att => (att.email || att || '').toLowerCase());
         return creator.includes(repName.split(' ')[0]) || attendees.some(e => e.includes(repName.split(' ')[0]));
       })).filter(a => new Date(a.start) >= now)
-        .sort((a, b) => new Date(a.start) - new Date(b.start))
         .map(a => ({
+          event_id: a.event_id,
           title: a.title,
           date: a.start,
           end: a.end,
@@ -226,7 +226,16 @@
           phone: a.phone
         }));
       
-      upcomingAppointments = upcoming.slice(0, 12);
+      // Deduplicate by event_id and title+date combo
+      const seen = new Set();
+      const deduped = upcoming.filter(a => {
+        const key = a.event_id || (a.title + '|' + a.date.slice(0,10));
+        if (seen.has(key)) return false;
+        seen.add(key);
+        return true;
+      }).sort((a, b) => new Date(a.date) - new Date(b.date));
+      
+      upcomingAppointments = deduped.slice(0, 12);
       syncStatus = `✅ ${upcomingAppointments.length} upcoming`;
       setTimeout(() => syncStatus = '', 3000);
     } catch (e) {
@@ -255,6 +264,37 @@
     const gcalUrl = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent(title)}&dates=${fmt(tomorrow)}/${fmt(end)}&details=${encodeURIComponent(details)}&location=${encodeURIComponent(location)}&add=${encodeURIComponent(MANAGER_EMAIL)}`;
     
     window.open(gcalUrl, '_blank');
+  }
+
+  let swipingIndex = -1;
+  let swipeStart = 0;
+
+  function handleSwipeStart(e, idx) {
+    swipeStart = e.touches?.[0]?.clientX || 0;
+    swipingIndex = idx;
+  }
+
+  function handleSwipeEnd(e, idx) {
+    const swipeEnd = e.changedTouches?.[0]?.clientX || 0;
+    const diff = swipeStart - swipeEnd;
+    if (diff > 50) {
+      // Swiped left — delete
+      upcomingAppointments = upcomingAppointments.filter((_, i) => i !== idx);
+    }
+    swipingIndex = -1;
+  }
+
+  function openInCalendar(event) {
+    // Open Google Calendar event (event_id format: Gxx@google.com or similar)
+    if (event.event_id && event.event_id.includes('@')) {
+      window.open(`https://calendar.google.com/calendar/r/eventedit/${event.event_id}`, '_blank');
+    } else {
+      // Fallback: open Google Calendar to create event
+      const start = new Date(event.date);
+      const end = new Date(event.end || new Date(start.getTime() + 60 * 60 * 1000));
+      const fmt = d => d.toISOString().replace(/[-:]/g, '').split('.')[0] + 'Z';
+      window.open(`https://calendar.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent(event.title)}&dates=${fmt(start)}/${fmt(end)}&location=${encodeURIComponent(event.location || '')}`, '_blank');
+    }
   }
 
   function incrementCalls() {
@@ -803,8 +843,12 @@
             <h4>📅 Upcoming Appointments</h4>
             {#if upcomingAppointments.length > 0}
               <div class="appointment-list">
-                {#each upcomingAppointments as appt}
-                  <div class="appointment-item">
+                {#each upcomingAppointments as appt, idx}
+                  <div class="appointment-item swipeable" 
+                       on:touchstart={(e) => handleSwipeStart(e, idx)}
+                       on:touchend={(e) => handleSwipeEnd(e, idx)}
+                       on:click={() => openInCalendar(appt)}
+                       style="opacity: {swipingIndex === idx ? 0.7 : 1}; cursor: pointer;">
                     <div class="appt-left">
                       <div class="appt-date">{new Date(appt.date).toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' })}</div>
                       <div class="appt-time">{new Date(appt.date).toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' })}</div>
@@ -821,6 +865,7 @@
                         <span class="appt-badge prospect">Prospect Visit</span>
                       {/if}
                     </div>
+                    <div class="appt-swipe-hint">← swipe to delete</div>
                   </div>
                 {/each}
               </div>
@@ -1303,8 +1348,12 @@
     padding: 16px;
     border: 2px solid var(--border-color);
     transition: border-color 0.2s;
+    position: relative;
   }
-  .appointment-item:hover { border-color: #CC0000; }
+  .appointment-item:hover { border-color: #CC0000; background: rgba(204, 0, 0, 0.02); }
+  .appointment-item.swipeable { touch-action: pan-y; user-select: none; transition: opacity 0.15s; }
+  .appt-swipe-hint { position: absolute; right: 16px; top: 50%; transform: translateY(-50%); font-size: 11px; color: rgba(204, 0, 0, 0.5); white-space: nowrap; opacity: 0; transition: opacity 0.2s; }
+  .appointment-item:hover .appt-swipe-hint { opacity: 1; }
   .appt-left { min-width: 85px; flex-shrink: 0; text-align: center; background: rgba(204,0,0,0.05); border-radius: 8px; padding: 8px 4px; }
   .appt-date { font-size: 14px; font-weight: 800; color: #CC0000; white-space: nowrap; }
   .appt-time { font-size: 13px; color: var(--text-tertiary); margin-top: 4px; font-weight: 600; }
