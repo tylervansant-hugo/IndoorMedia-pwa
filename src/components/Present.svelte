@@ -1,5 +1,6 @@
 <script>
   import { user } from '../lib/stores.js';
+  import MeetingPrep from './MeetingPrep.svelte';
 
   let view = 'menu'; 
 
@@ -106,6 +107,17 @@
   {#if view === 'menu'}
     <h2>🎤 Present</h2>
     <p class="subtitle">Choose a product to present to your prospect</p>
+    <button class="prep-card" on:click={() => view = 'meeting-prep'}>
+      <div class="prep-left">
+        <div class="prep-icon">📋</div>
+        <div>
+          <h3>Meeting Prep</h3>
+          <p>Look up a business, find matching testimonials, and prep for your meeting</p>
+        </div>
+      </div>
+      <span class="arrow">→</span>
+    </button>
+
     <div class="product-grid">
       {#each products as p}
         <button class="product-card" on:click={() => view = p.id}>
@@ -253,6 +265,9 @@
       <button class="cart-btn" on:click={() => addToCart(dp.name, dp.price, dp.desc)}>🛒 Add to Cart</button>
     {/if}
     <div style="height:80px;"></div>
+
+  {:else if view === 'meeting-prep'}
+    <MeetingPrep onBack={() => view = 'menu'} />
   {/if}
 </div>
 
@@ -260,6 +275,15 @@
   .present { }
   .subtitle { font-size:14px; color:var(--text-secondary); margin:0 0 16px; }
   .back-btn { background:none; border:none; color:var(--text-secondary); font-size:14px; cursor:pointer; padding:8px 0; }
+  
+  /* Meeting Prep card */
+  .prep-card { display:flex; align-items:center; justify-content:space-between; width:100%; background:var(--card-bg); border:2px solid #CC0000; border-radius:16px; padding:18px; margin-bottom:20px; cursor:pointer; transition:all .2s; text-align:left; }
+  .prep-card:hover { transform:translateY(-2px); box-shadow:0 4px 12px rgba(204,0,0,.15); }
+  .prep-left { display:flex; align-items:center; gap:14px; }
+  .prep-icon { font-size:36px; }
+  .prep-card h3 { margin:0 0 4px; font-size:18px; font-weight:800; color:#CC0000; }
+  .prep-card p { margin:0; font-size:13px; color:var(--text-secondary); line-height:1.3; }
+  .arrow { font-size:20px; color:var(--text-tertiary); }
   
   /* Product cards */
   .product-grid { display:flex; flex-direction:column; gap:16px; }
