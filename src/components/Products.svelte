@@ -218,8 +218,8 @@
 <div class="products-container">
   <!-- Main Menu -->
   {#if view === 'main'}
-    <h2>📦 IndoorMedia Products</h2>
-    <p class="subtitle">Premium in-store advertising solutions</p>
+    <h2>🎤 Present</h2>
+    <p class="subtitle">Choose a product to present to your prospect</p>
 
     <div class="button-grid">
       {#each Object.entries(PRODUCTS) as [key, product]}
