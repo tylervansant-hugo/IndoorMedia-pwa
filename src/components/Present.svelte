@@ -80,6 +80,7 @@
     },
     findlocal: { name: 'FindLocal', emoji: '📍', desc: 'Local SEO & listings across 50+ directories',
       price: '$695/location', note: '+$195 if Google profile assistance needed',
+      analysisUrl: 'https://www.indoormedia.com/local-listing-management/',
       features: ['50+ business listing submissions', 'NAP optimization', 'Hours, photos, categories management', 'Monthly progress reports', 'Google Business Profile sync'] },
     reviewboost: { name: 'ReviewBoost', emoji: '⭐', desc: 'Automated review request campaign via Email & SMS',
       price: '$695 (4-month campaign)', note: '+$495 per additional 4-month campaign',
@@ -242,6 +243,9 @@
         <div class="pricing-row"><span class="plan">Price</span><span class="formula">{dp.price}</span></div>
         {#if dp.note}<div class="pricing-row"><span class="plan">Note</span><span class="formula">{dp.note}</span></div>{/if}
       </div>
+      {#if dp.analysisUrl}
+        <a href={dp.analysisUrl} target="_blank" class="analysis-btn">🔍 Run Local Listing Analysis</a>
+      {/if}
       {#if dp.features}
         <div class="section-divider"><h3>✅ Features</h3></div>
         <ul class="feat-list">{#each dp.features as f}<li>✓ {f}</li>{/each}</ul>
@@ -338,4 +342,6 @@
   .feat-list { padding-left:0; list-style:none; }
   .feat-list li { padding:6px 0; font-size:13px; color:var(--text-primary); border-bottom:1px solid var(--border-color); }
   .feat-list li:last-child { border-bottom:none; }
+  .analysis-btn { display:block; width:100%; padding:14px; background:#1565C0; color:#fff; border:none; border-radius:10px; font-size:15px; font-weight:700; text-align:center; text-decoration:none; margin:12px 0; box-sizing:border-box; }
+  .analysis-btn:hover { background:#0D47A1; }
 </style>
