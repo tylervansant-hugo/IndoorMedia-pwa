@@ -107,6 +107,7 @@
   let repRegistry = {};
   let inviteRepEmail = '';
   let copiedAddress = '';
+  let prospectSort = 'score'; // score, distance, rating, reviews
   
   // Hot Leads filters
   let hotLeadStoreFilter = 'all';
@@ -1115,8 +1116,21 @@
     <h3>{selectedCategory} → {selectedSubcategory}</h3>
     <p class="subtitle">Nearby {selectedCategory} near {selectedStore.GroceryChain}</p>
 
+    <div class="sort-bar">
+      <span class="sort-label">Sort:</span>
+      <button class="sort-btn" class:active={prospectSort === 'score'} on:click={() => prospectSort = 'score'}>🎯 Score</button>
+      <button class="sort-btn" class:active={prospectSort === 'distance'} on:click={() => prospectSort = 'distance'}>📍 Distance</button>
+      <button class="sort-btn" class:active={prospectSort === 'rating'} on:click={() => prospectSort = 'rating'}>⭐ Rating</button>
+      <button class="sort-btn" class:active={prospectSort === 'reviews'} on:click={() => prospectSort = 'reviews'}>💬 Reviews</button>
+    </div>
+
     <div class="prospect-list">
-      {#each prospects as prospect, i (prospect.id + '-' + i)}
+      {#each [...prospects].sort((a, b) => {
+        if (prospectSort === 'distance') return (a.distance || 999) - (b.distance || 999);
+        if (prospectSort === 'rating') return (b.rating || 0) - (a.rating || 0);
+        if (prospectSort === 'reviews') return (b.reviews || 0) - (a.reviews || 0);
+        return (b.score || 0) - (a.score || 0);
+      }) as prospect, i (prospect.id + '-' + i)}
         <div class="prospect-card">
           <div class="prospect-header">
             <span class="score-emoji">{prospect.score >= 80 ? '🔥' : prospect.score >= 70 ? '⭐' : '👀'}</span>
@@ -1988,6 +2002,11 @@
     background: rgba(204, 0, 0, 0.05);
   }
 
+  .sort-bar { display: flex; align-items: center; gap: 6px; margin-bottom: 12px; overflow-x: auto; white-space: nowrap; padding-bottom: 4px; }
+  .sort-label { font-size: 12px; font-weight: 700; color: var(--text-secondary); text-transform: uppercase; flex-shrink: 0; }
+  .sort-btn { padding: 6px 12px; border: 1px solid var(--border-color); border-radius: 16px; background: var(--card-bg); font-size: 12px; font-weight: 600; cursor: pointer; color: var(--text-secondary); transition: all 0.2s; flex-shrink: 0; }
+  .sort-btn.active { background: #CC0000; color: white; border-color: #CC0000; }
+  .sort-btn:hover:not(.active) { border-color: #CC0000; color: #CC0000; }
   .prospect-list { display: flex; flex-direction: column; gap: 1rem; }
 
   .prospect-card {
