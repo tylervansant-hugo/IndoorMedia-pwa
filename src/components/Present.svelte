@@ -4,6 +4,33 @@
 
   let view = 'menu'; // menu, register-tape, cartvertising, digital, ad-generator
 
+  const VIDEO_LINKS = {
+    'register-tape': {
+      presentation: 'https://docs.google.com/presentation/d/1Xs60nX3i6MJkC81GgnK-50jBrkWVPu06xRpmv8z4PIc/edit?usp=sharing',
+      explainer: 'https://youtu.be/_gdlyEszHfY?si=0_kHou89WrMhvNY_'
+    },
+    'cartvertising': {
+      presentation: 'https://www.youtube.com/watch?v=PduxHWy8sMc',
+      explainer: 'https://www.youtube.com/watch?v=PduxHWy8sMc'
+    },
+    'digitalboost': {
+      presentation: 'https://www.youtube.com/watch?v=PduxHWy8sMc',
+      explainer: 'https://drive.google.com/file/d/1_QyAlgZRy1bKJSKC1058260d0jPccVTM/view?usp=share_link'
+    },
+    'findlocal': {
+      presentation: 'https://youtu.be/5CvlhJHssMs?si=WSmoTeh6adRlc-YW',
+      explainer: 'https://youtu.be/5CvlhJHssMs?si=WSmoTeh6adRlc-YW'
+    },
+    'reviewboost': {
+      presentation: 'https://youtu.be/PBpbUiIoYcM?si=XEGeu1hmbI-zAf7j',
+      explainer: 'https://youtu.be/PBpbUiIoYcM?si=XEGeu1hmbI-zAf7j'
+    },
+    'loyaltyboost': {
+      presentation: 'https://youtu.be/gthLw2eQF1Y?si=9ggkdGIpcqlDHKaP',
+      explainer: 'https://youtu.be/gthLw2eQF1Y?si=9ggkdGIpcqlDHKaP'
+    }
+  };
+
   const products = [
     {
       id: 'register-tape',
@@ -84,6 +111,11 @@
         </div>
       </div>
 
+      <div class="video-links">
+        <a href={VIDEO_LINKS['register-tape'].presentation} target="_blank" class="video-btn">🎬 Sales Presentation</a>
+        <a href={VIDEO_LINKS['register-tape'].explainer} target="_blank" class="video-btn">📹 Explainer Video</a>
+      </div>
+
       <div class="section-divider">
         <h3>📐 Ad Sizes</h3>
         <div class="size-comparison">
@@ -109,6 +141,7 @@
       <button class="cta-btn" on:click={() => view = 'ad-generator'}>
         ✨ Generate Sample Ad for This Client
       </button>
+      <div style="height: 80px;"></div>
     </div>
 
   {:else if view === 'ad-generator'}
@@ -120,6 +153,10 @@
     <button class="back-btn" on:click={() => view = 'menu'}>← Back to Products</button>
     <h2>🛒 Cartvertising</h2>
     <div class="product-detail">
+      <div class="video-links">
+        <a href={VIDEO_LINKS['cartvertising'].presentation} target="_blank" class="video-btn">🎬 Sales Presentation</a>
+        <a href={VIDEO_LINKS['cartvertising'].explainer} target="_blank" class="video-btn">📹 Explainer Video</a>
+      </div>
       <div class="value-props">
         <div class="value-card">
           <span class="value-icon">👁️</span>
@@ -142,6 +179,7 @@
           <p>Thousands of shoppers use each cart — massive impression volume</p>
         </div>
       </div>
+      <div style="height: 80px;"></div>
     </div>
 
   {:else if view === 'digital'}
@@ -152,20 +190,34 @@
         <div class="digital-card">
           <h4>🚀 DigitalBoost</h4>
           <p>Local SEO optimization — get found on Google when customers search for your services</p>
+          <div class="digital-links">
+            <a href={VIDEO_LINKS['digitalboost'].explainer} target="_blank" class="video-btn-sm">📹 Video</a>
+            <a href={VIDEO_LINKS['digitalboost'].presentation} target="_blank" class="video-btn-sm">🎬 Present</a>
+          </div>
         </div>
         <div class="digital-card">
           <h4>📍 FindLocal</h4>
           <p>Directory listings across 50+ platforms — consistent NAP (Name, Address, Phone) everywhere</p>
+          <div class="digital-links">
+            <a href={VIDEO_LINKS['findlocal'].explainer} target="_blank" class="video-btn-sm">📹 Video</a>
+          </div>
         </div>
         <div class="digital-card">
           <h4>⭐ ReviewBoost</h4>
           <p>Reputation management — generate and respond to reviews automatically</p>
+          <div class="digital-links">
+            <a href={VIDEO_LINKS['reviewboost'].explainer} target="_blank" class="video-btn-sm">📹 Video</a>
+          </div>
         </div>
         <div class="digital-card">
           <h4>🎁 LoyaltyBoost</h4>
           <p>Customer retention program — keep customers coming back with rewards</p>
+          <div class="digital-links">
+            <a href={VIDEO_LINKS['loyaltyboost'].explainer} target="_blank" class="video-btn-sm">📹 Video</a>
+          </div>
         </div>
       </div>
+      <div style="height: 80px;"></div>
     </div>
   {/if}
 </div>
@@ -210,6 +262,14 @@
   .size-preview { background: #CC0000; color: white; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 14px; border-radius: 4px; margin: 0 auto; }
   .single-size { width: 140px; height: 86px; }
   .double-size { width: 140px; height: 183px; }
+  
+  .video-links { display: flex; gap: 10px; margin-bottom: 16px; }
+  .video-btn { flex: 1; display: block; padding: 12px; background: var(--card-bg); border: 2px solid var(--border-color); border-radius: 10px; text-align: center; text-decoration: none; color: var(--text-primary); font-size: 14px; font-weight: 700; transition: all 0.2s; }
+  .video-btn:hover { border-color: #CC0000; color: #CC0000; }
+  
+  .digital-links { display: flex; gap: 8px; margin-top: 10px; }
+  .video-btn-sm { display: inline-block; padding: 6px 12px; background: rgba(204, 0, 0, 0.1); border-radius: 6px; text-decoration: none; color: #CC0000; font-size: 12px; font-weight: 700; }
+  .video-btn-sm:hover { background: rgba(204, 0, 0, 0.2); }
   
   .cta-btn { width: 100%; padding: 14px; background: #CC0000; color: white; border: none; border-radius: 10px; font-size: 16px; font-weight: 700; cursor: pointer; margin-top: 20px; }
   .cta-btn:hover { background: #aa0000; }
