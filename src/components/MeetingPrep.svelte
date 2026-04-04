@@ -141,48 +141,64 @@
 
   function extractCategoryKeywords(category, name) {
     const combined = (category + ' ' + name).toLowerCase();
-    const keywords = [];
     
-    const categoryMap = {
-      'restaurant': ['restaurant', 'food', 'dining', 'kitchen', 'cafe', 'grill', 'eatery'],
-      'pizza': ['pizza', 'pizzeria', 'italian'],
-      'mexican': ['mexican', 'taco', 'burrito', 'taqueria', 'enchilada', 'salsa'],
-      'chinese': ['chinese', 'asian', 'wok', 'noodle', 'dim sum'],
-      'thai': ['thai', 'asian', 'curry', 'pad'],
-      'sushi': ['sushi', 'japanese', 'ramen', 'teriyaki'],
-      'indian': ['indian', 'curry', 'tandoori', 'masala'],
-      'burger': ['burger', 'grill', 'bbq', 'wings'],
-      'coffee': ['coffee', 'cafe', 'espresso', 'bakery'],
-      'salon': ['salon', 'hair', 'beauty', 'barber', 'cut', 'style', 'nail'],
-      'barber': ['barber', 'barbershop', 'haircut', 'men'],
-      'auto': ['auto', 'car', 'mechanic', 'oil change', 'tire', 'transmission', 'brake', 'repair'],
-      'dental': ['dental', 'dentist', 'teeth', 'orthodont'],
-      'gym': ['gym', 'fitness', 'workout', 'training', 'crossfit'],
-      'vet': ['vet', 'veterinar', 'pet', 'animal', 'dog', 'cat'],
-      'chiropractic': ['chiropractic', 'chiropractor', 'spine', 'adjustment'],
-      'massage': ['massage', 'spa', 'wellness', 'therapy'],
-      'cleaning': ['cleaning', 'maid', 'janitorial', 'carpet'],
-      'plumbing': ['plumbing', 'plumber', 'drain', 'pipe'],
-      'insurance': ['insurance', 'allstate', 'state farm', 'coverage'],
-      'real estate': ['real estate', 'realtor', 'realty', 'homes'],
-      'dry cleaner': ['dry clean', 'laundry', 'press'],
-      'ice cream': ['ice cream', 'frozen', 'yogurt', 'gelato'],
-      'donut': ['donut', 'doughnut', 'bakery'],
-      'seafood': ['seafood', 'fish', 'shrimp', 'crab', 'lobster'],
-    };
+    // Specific categories — order matters (more specific first)
+    const categoryMap = [
+      { match: ['sports bar', 'bar & grill', 'bar and grill', 'tavern', 'pub', 'taproom', 'brewery', 'playmaker'], 
+        keywords: ['bar', 'grill', 'pub', 'tavern', 'sports', 'wing', 'brew', 'taproom'], weight: 5 },
+      { match: ['pizza', 'pizzeria'], keywords: ['pizza', 'pizzeria'], weight: 5 },
+      { match: ['taco', 'mexican', 'taqueria', 'burrito', 'enchilada'], keywords: ['mexican', 'taco', 'taqueria', 'burrito'], weight: 5 },
+      { match: ['sushi', 'japanese', 'ramen', 'teriyaki'], keywords: ['sushi', 'japanese', 'ramen', 'teriyaki'], weight: 5 },
+      { match: ['chinese', 'wok', 'noodle'], keywords: ['chinese', 'asian', 'wok', 'noodle'], weight: 5 },
+      { match: ['thai'], keywords: ['thai', 'curry', 'pad thai'], weight: 5 },
+      { match: ['indian', 'tandoori', 'masala'], keywords: ['indian', 'curry', 'tandoori'], weight: 5 },
+      { match: ['burger', 'bbq', 'barbecue', 'wing'], keywords: ['burger', 'bbq', 'wing', 'grill'], weight: 5 },
+      { match: ['seafood', 'fish', 'crab', 'lobster'], keywords: ['seafood', 'fish', 'shrimp', 'crab'], weight: 5 },
+      { match: ['coffee', 'espresso', 'cafe'], keywords: ['coffee', 'cafe', 'espresso'], weight: 5 },
+      { match: ['bakery', 'donut', 'pastry', 'cookie'], keywords: ['bakery', 'donut', 'cookie', 'pastry'], weight: 5 },
+      { match: ['ice cream', 'frozen yogurt', 'gelato'], keywords: ['ice cream', 'frozen', 'yogurt', 'gelato'], weight: 5 },
+      { match: ['salon', 'hair', 'beauty', 'nail'], keywords: ['salon', 'hair', 'beauty', 'nail'], weight: 5 },
+      { match: ['barber'], keywords: ['barber', 'barbershop', 'haircut'], weight: 5 },
+      { match: ['auto', 'mechanic', 'oil change', 'tire', 'brake', 'transmission'], keywords: ['auto', 'mechanic', 'oil change', 'tire', 'brake', 'repair'], weight: 5 },
+      { match: ['dental', 'dentist'], keywords: ['dental', 'dentist', 'teeth'], weight: 5 },
+      { match: ['gym', 'fitness', 'crossfit'], keywords: ['gym', 'fitness', 'training'], weight: 5 },
+      { match: ['vet', 'veterinar', 'pet', 'animal'], keywords: ['vet', 'pet', 'animal', 'dog'], weight: 5 },
+      { match: ['chiropractic', 'chiropractor'], keywords: ['chiropractic', 'chiropractor'], weight: 5 },
+      { match: ['massage', 'spa'], keywords: ['massage', 'spa', 'wellness'], weight: 5 },
+      { match: ['dry clean', 'laundry'], keywords: ['dry clean', 'laundry'], weight: 5 },
+      { match: ['insurance'], keywords: ['insurance', 'allstate', 'state farm'], weight: 5 },
+      { match: ['real estate', 'realtor'], keywords: ['real estate', 'realtor', 'realty'], weight: 5 },
+      { match: ['cleaning', 'maid', 'janitorial'], keywords: ['cleaning', 'maid', 'janitorial'], weight: 5 },
+      { match: ['plumb'], keywords: ['plumb', 'drain', 'pipe'], weight: 5 },
+    ];
 
-    for (const [cat, words] of Object.entries(categoryMap)) {
-      if (words.some(w => combined.includes(w))) {
-        keywords.push(...words);
+    let matchedKeywords = [];
+    let matched = false;
+    
+    for (const cat of categoryMap) {
+      if (cat.match.some(m => combined.includes(m))) {
+        matchedKeywords.push(...cat.keywords);
+        matched = true;
+        break; // Only match the FIRST (most specific) category
       }
     }
     
-    // Also add the business name words
-    businessName.toLowerCase().split(/\s+/).forEach(w => {
-      if (w.length > 3) keywords.push(w);
-    });
+    // If no specific match, fall back to business name words only (not "restaurant" broadly)
+    if (!matched) {
+      name.toLowerCase().split(/\s+/).forEach(w => {
+        if (w.length > 3 && !['the', 'and', 'bar', 'restaurant', 'inc', 'llc', 'cafe'].includes(w)) {
+          matchedKeywords.push(w);
+        }
+      });
+      // Add the Google category if available
+      if (category) {
+        category.toLowerCase().split(/\s+/).forEach(w => {
+          if (w.length > 3) matchedKeywords.push(w);
+        });
+      }
+    }
 
-    return [...new Set(keywords)];
+    return [...new Set(matchedKeywords)];
   }
 
   function findMatchingTestimonials(keywords, name) {
@@ -192,21 +208,26 @@
     const scored = allTestimonials.map(t => {
       const biz = t.b || t.business || '';
       const comment = t.c || t.comment || '';
-      const search = (biz + ' ' + comment).toLowerCase();
+      const bizLower = biz.toLowerCase();
+      const commentLower = comment.toLowerCase();
       let score = 0;
       
-      keywords.forEach(kw => { if (search.includes(kw)) score += 3; });
+      // Business name keyword match is worth more than comment match
+      keywords.forEach(kw => {
+        if (bizLower.includes(kw)) score += 5;
+        else if (commentLower.includes(kw)) score += 1;
+      });
 
+      // Bonus for quality testimonials
       if (/\d+ coupon/i.test(comment)) score += 2;
       if (/return on/i.test(comment)) score += 2;
       if (/\$\d/i.test(comment)) score += 1;
       if (/renew/i.test(comment)) score += 1;
-      if (/year|month/i.test(comment)) score += 1;
-      if (comment.length > 150) score += 1;
-      if (comment.length > 300) score += 1;
+      if (comment.length > 200) score += 1;
+      if (comment.length > 400) score += 1;
 
       return { business: biz, comment, url: t.u || t.url || '', id: t.id, score };
-    }).filter(t => t.score > 3)
+    }).filter(t => t.score > 4)
       .sort((a, b) => b.score - a.score);
 
     const seen = new Set();
