@@ -15,6 +15,7 @@
   let styleNotes = '';
   
   let adSize = 'single';
+  let adLayout = 'classic'; // classic, centered, banner, bold, minimal
   let selectedStore = '';
   let allStores = [];
   let storeSearch = '';
@@ -107,9 +108,16 @@
     }));
     showStoreDropdown = storeResults.length > 0;
   }
-  function selectStore(store) { selectedStore = store.id; storeSearch = store.label; showStoreDropdown = false; storeResults = []; }
+  let selectedStoreData = null; // full store object for location biasing
 
-  // Business search
+  function selectStore(store) {
+    selectedStore = store.id; storeSearch = store.label; showStoreDropdown = false; storeResults = [];
+    // Store lat/lng for business search biasing
+    const fullStore = allStores.find(s => s.StoreName === store.id);
+    selectedStoreData = fullStore || null;
+  }
+
+  // Business search — biased to selected store location
   let searchResults = [];
   let searching = false;
   async function searchBusiness() {
@@ -117,17 +125,30 @@
     searching = true;
     try {
       const apiKey = import.meta.env.VITE_GOOGLE_PLACES_API_KEY || 'AIzaSyBNR8M1VG5DccJmK6ZzJOam9mF8jOCEEqM';
+      const body = { textQuery: businessName, maxResultCount: 5 };
+      
+      // If a store is selected, bias search to its location
+      if (selectedStoreData?.latitude && selectedStoreData?.longitude) {
+        body.locationBias = {
+          circle: {
+            center: { latitude: selectedStoreData.latitude, longitude: selectedStoreData.longitude },
+            radius: 8000.0 // 8km (~5 miles)
+          }
+        };
+      }
+      
       const res = await fetch('https://places.googleapis.com/v1/places:searchText', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', 'X-Goog-Api-Key': apiKey,
-          'X-Goog-FieldMask': 'places.displayName,places.formattedAddress,places.nationalPhoneNumber,places.websiteUri,places.primaryTypeDisplayName' },
-        body: JSON.stringify({ textQuery: businessName, maxResultCount: 5 })
+          'X-Goog-FieldMask': 'places.displayName,places.formattedAddress,places.nationalPhoneNumber,places.websiteUri,places.primaryTypeDisplayName,places.photos' },
+        body: JSON.stringify(body)
       });
       const data = await res.json();
       searchResults = (data.places || []).map(p => ({
         name: p.displayName?.text || '', address: p.formattedAddress || '',
         phone: p.nationalPhoneNumber || '', website: p.websiteUri || '',
-        category: p.primaryTypeDisplayName?.text || ''
+        category: p.primaryTypeDisplayName?.text || '',
+        photoRef: p.photos?.[0]?.name || ''
       }));
     } catch { searchResults = []; }
     searching = false;
@@ -476,6 +497,25 @@
       </div>
     </details>
 
+    <h3>📐 Layout Style</h3>
+    <div class="layouts">
+      <button class="layout-btn" class:active={adLayout === 'classic'} on:click={() => adLayout = 'classic'}>
+        <span class="layout-icon">📰</span><span>Classic</span>
+      </button>
+      <button class="layout-btn" class:active={adLayout === 'centered'} on:click={() => adLayout = 'centered'}>
+        <span class="layout-icon">🎯</span><span>Centered</span>
+      </button>
+      <button class="layout-btn" class:active={adLayout === 'banner'} on:click={() => adLayout = 'banner'}>
+        <span class="layout-icon">🏷️</span><span>Banner</span>
+      </button>
+      <button class="layout-btn" class:active={adLayout === 'bold'} on:click={() => adLayout = 'bold'}>
+        <span class="layout-icon">💥</span><span>Bold</span>
+      </button>
+      <button class="layout-btn" class:active={adLayout === 'minimal'} on:click={() => adLayout = 'minimal'}>
+        <span class="layout-icon">✨</span><span>Clean</span>
+      </button>
+    </div>
+
     <div class="f">
       <label>Custom Image URL (optional)</label>
       <input type="url" bind:value={customImageUrl} placeholder="https://... or leave blank for auto" />
@@ -486,48 +526,118 @@
   {:else if step === 'preview'}
     <h2>👁️ Ad Preview</h2>
     
+    {@const vo = offers.filter(o => o.amount.trim())}
+    {@const expTxt = expirationDate ? `Exp. ${new Date(expirationDate+'T12:00:00').toLocaleDateString('en-US',{month:'numeric',day:'numeric',year:'2-digit'})}` : ''}
+    {@const contact = [businessAddress.split(',').slice(0,2).join(',').trim(), businessPhone].filter(Boolean).join(' • ')}
+    {@const shortAddr = businessAddress.split(',')[0] || ''}
+    {@const imgUrl = getCategoryImage()}
     <div class="preview-center">
-      {#if adSize === 'double'}
-        <!-- DOUBLE SIZE PREVIEW -->
-        <div class="ad-double" style="--bg:{bgColor}; --tx:{textColor}; --ob:{offerBgColor}; --ot:{offerTextColor}; --ac:{accentColor};">
-          <div class="ad-hero" style="background-image:url({getCategoryImage()});">
-            <div class="ad-hero-overlay" style="background: linear-gradient(to bottom, rgba(0,0,0,0.1), {bgColor}ee);">
-              <h2 class="ad-biz">{businessName}</h2>
-              {#if businessCategory}<p class="ad-cat">{businessCategory.toUpperCase()}</p>{/if}
-              <p class="ad-info">{[businessAddress.split(',').slice(0,2).join(',').trim(), businessPhone].filter(Boolean).join(' • ')}</p>
+
+      <div class="ad {adSize}" style="--bg:{bgColor}; --tx:{textColor}; --ob:{offerBgColor}; --ot:{offerTextColor}; --ac:{accentColor};">
+
+        {#if adLayout === 'classic'}
+          <!-- CLASSIC: Image left/top, offers right/bottom -->
+          {#if adSize === 'double'}
+            <div class="img-zone" style="background-image:url({imgUrl}); height:45%;">
+              <div class="img-grad" style="background:linear-gradient(to bottom, transparent 20%, {bgColor}ee);">
+                <div class="img-content bottom">
+                  <div class="biz-name lg">{businessName}</div>
+                  <div class="biz-contact">{contact}</div>
+                </div>
+              </div>
+            </div>
+            <div class="offers-grid">
+              {#each vo as o}<div class="offer-box"><div class="offer-amt">{fmtOffer(o)}</div>{#if o.condition}<div class="offer-det">{o.condition}</div>{/if}</div>{/each}
+            </div>
+          {:else}
+            <div class="split-left" style="background-image:url({imgUrl});">
+              <div class="img-grad-full" style="background:linear-gradient(135deg, {bgColor}dd, {bgColor}ee);">
+                <div class="biz-name sm">{businessName.toUpperCase()}</div>
+                <div class="biz-phone">{businessPhone}</div>
+                <div class="biz-addr">{shortAddr}</div>
+              </div>
+            </div>
+            <div class="split-right">
+              {#each vo as o}<div class="offer-row"><div class="offer-amt-s">{fmtOffer(o)}</div>{#if o.condition}<div class="offer-det-s">{o.condition}</div>{/if}</div>{/each}
+            </div>
+          {/if}
+
+        {:else if adLayout === 'centered'}
+          <!-- CENTERED: Full background image, everything centered -->
+          <div class="full-img" style="background-image:url({imgUrl});">
+            <div class="full-overlay" style="background:radial-gradient(ellipse at center, {bgColor}ee 30%, {bgColor}cc 100%);">
+              <div class="biz-name {adSize === 'double' ? 'xl' : 'md'}">{businessName}</div>
+              {#if businessCategory && adSize === 'double'}<div class="biz-tag">{businessCategory.toUpperCase()}</div>{/if}
+              <div class="center-offers">
+                {#each vo as o}
+                  <div class="center-offer">
+                    <span class="center-amt">{fmtOffer(o)}</span>
+                    {#if o.condition}<span class="center-cond">{o.condition}</span>{/if}
+                  </div>
+                {/each}
+              </div>
+              <div class="biz-contact">{contact}</div>
             </div>
           </div>
-          <div class="ad-offers-row">
-            {#each offers.filter(o => o.amount.trim()) as offer}
-              <div class="ad-coupon">
-                <div class="ad-amount">{fmtOffer(offer)}</div>
-                {#if offer.condition}<div class="ad-cond">{offer.condition}</div>{/if}
-              </div>
+
+        {:else if adLayout === 'banner'}
+          <!-- BANNER: Color bars with offers, image as accent -->
+          {#if adSize === 'double'}
+            <div class="banner-top" style="background:{bgColor};">
+              <div class="biz-name lg">{businessName}</div>
+              <div class="biz-contact">{contact}</div>
+            </div>
+            <div class="banner-img" style="background-image:url({imgUrl});"></div>
+            {#each vo as o}
+              <div class="banner-offer"><span class="banner-amt">{fmtOffer(o)}</span>{#if o.condition}<span class="banner-det">{o.condition}</span>{/if}</div>
             {/each}
-          </div>
-          <div class="ad-disc">{disclaimer} {expirationDate ? `Exp. ${new Date(expirationDate+'T12:00:00').toLocaleDateString('en-US',{month:'numeric',day:'numeric',year:'2-digit'})}` : ''} • {genCode()}</div>
-        </div>
-      {:else}
-        <!-- SINGLE SIZE PREVIEW -->
-        <div class="ad-single" style="--bg:{bgColor}; --tx:{textColor}; --ob:{offerBgColor}; --ot:{offerTextColor}; --ac:{accentColor};">
-          <div class="ad-left" style="background-image:url({getCategoryImage()});">
-            <div class="ad-left-ov" style="background: linear-gradient(135deg, {bgColor}cc, {bgColor});">
-              <div class="ad-name-left">{businessName.toUpperCase()}</div>
-              {#if businessPhone}<div class="ad-phone-left">{businessPhone}</div>{/if}
-              {#if businessAddress}<div class="ad-addr-left">{businessAddress.split(',')[0]}</div>{/if}
+          {:else}
+            <div class="banner-bar" style="background:{bgColor};"><div class="biz-name xs">{businessName.toUpperCase()}</div><div class="biz-phone" style="font-size:6px;">{businessPhone}</div></div>
+            <div class="banner-body">
+              {#each vo as o}<div class="banner-offer-s"><span class="banner-amt-s">{fmtOffer(o)}</span>{#if o.condition}<span class="banner-det-s">{o.condition}</span>{/if}</div>{/each}
+            </div>
+            <div class="banner-img-s" style="background-image:url({imgUrl});"></div>
+          {/if}
+
+        {:else if adLayout === 'bold'}
+          <!-- BOLD: Giant offer text dominates, minimal image -->
+          <div class="full-img" style="background-image:url({imgUrl});">
+            <div class="bold-overlay" style="background:{bgColor}dd;">
+              {#if vo.length > 0}
+                <div class="bold-amt">{fmtOffer(vo[0])}</div>
+                {#if vo[0].condition}<div class="bold-cond">{vo[0].condition}</div>{/if}
+              {/if}
+              <div class="bold-biz">{businessName}</div>
+              <div class="biz-contact">{contact}</div>
+              {#if vo.length > 1}
+                <div class="bold-extras">
+                  {#each vo.slice(1) as o}<span class="bold-extra">{fmtOffer(o)}{o.condition ? ' — ' + o.condition : ''}</span>{/each}
+                </div>
+              {/if}
             </div>
           </div>
-          <div class="ad-right-col">
-            {#each offers.filter(o => o.amount.trim()) as offer}
-              <div class="ad-offer-single">
-                <div class="ad-amt-s">{fmtOffer(offer)}</div>
-                {#if offer.condition}<div class="ad-cond-s">{offer.condition}</div>{/if}
-              </div>
-            {/each}
-            <div class="ad-disc-s">{disclaimer.slice(0,65)} {expirationDate ? `Exp. ${new Date(expirationDate+'T12:00:00').toLocaleDateString('en-US',{month:'numeric',day:'numeric',year:'2-digit'})}` : ''}</div>
+
+        {:else if adLayout === 'minimal'}
+          <!-- MINIMAL: Clean, white-focused, modern -->
+          <div class="min-layout">
+            <div class="min-header" style="border-bottom:3px solid {bgColor};">
+              <div class="min-name" style="color:{bgColor};">{businessName}</div>
+              <div class="min-contact">{contact}</div>
+            </div>
+            <div class="min-offers">
+              {#each vo as o}
+                <div class="min-offer" style="border-left:4px solid {bgColor};">
+                  <div class="min-amt" style="color:{offerTextColor};">{fmtOffer(o)}</div>
+                  {#if o.condition}<div class="min-cond">{o.condition}</div>{/if}
+                </div>
+              {/each}
+            </div>
+            <div class="min-img" style="background-image:url({imgUrl});"></div>
           </div>
-        </div>
-      {/if}
+        {/if}
+
+        <div class="ad-fine">{disclaimer.slice(0, adSize === 'single' ? 60 : 120)} {expTxt} • {genCode()}</div>
+      </div>
     </div>
 
     <p class="info">{adSize === 'single' ? 'Single — 2.75" × 1.75"' : 'Double — 2.75" × 3.6"'}{selectedStore ? ` • ${selectedStore}` : ''}</p>
@@ -579,33 +689,102 @@
   .btn-secondary { width:100%; padding:11px; background:var(--card-bg); color:var(--text-primary); border:2px solid var(--border-color); border-radius:8px; font-size:14px; font-weight:600; cursor:pointer; margin-top:6px; }
   .btn-download { width:100%; padding:14px; background:#2E7D32; color:#fff; border:none; border-radius:8px; font-size:16px; font-weight:700; cursor:pointer; }
   
+  .layouts { display:flex; gap:6px; margin-bottom:14px; flex-wrap:wrap; }
+  .layout-btn { display:flex; flex-direction:column; align-items:center; gap:2px; padding:8px 10px; border:2px solid var(--border-color); border-radius:8px; background:var(--card-bg); cursor:pointer; font-size:10px; font-weight:700; color:var(--text-secondary); flex:1; min-width:50px; }
+  .layout-btn.active { border-color:#CC0000; color:#CC0000; }
+  .layout-icon { font-size:20px; }
+
   .preview-center { display:flex; justify-content:center; margin:16px 0; }
   .info { text-align:center; font-size:13px; color:var(--text-secondary); font-weight:600; margin-bottom:4px; }
   .style-note { text-align:center; font-size:12px; color:var(--text-tertiary); font-style:italic; margin-bottom:12px; }
-  
-  /* ===== DOUBLE AD ===== */
-  .ad-double { width:275px; height:360px; border:3px solid var(--bg); overflow:hidden; position:relative; background:var(--bg); }
-  .ad-hero { width:100%; height:48%; background-size:cover; background-position:center; }
-  .ad-hero-overlay { height:100%; display:flex; flex-direction:column; align-items:center; justify-content:flex-end; padding:10px; }
-  .ad-biz { color:var(--tx); font:900 20px/1.1 "Georgia",serif; margin:0; text-align:center; text-shadow:0 2px 8px rgba(0,0,0,.6); }
-  .ad-cat { color:var(--ac); font:italic 8px/1 "Georgia",serif; margin:3px 0 0; letter-spacing:2px; }
-  .ad-info { color:var(--ac); font:bold 7px/1 Arial; margin:6px 0 0; }
-  .ad-offers-row { display:flex; flex-wrap:wrap; gap:3px; padding:6px; flex:1; align-content:flex-start; }
-  .ad-coupon { flex:1; min-width:45%; background:var(--ob); border:1.5px solid var(--ot); border-radius:3px; padding:8px 4px; text-align:center; }
-  .ad-amount { font:900 16px/1.1 Arial; color:var(--ot); }
-  .ad-cond { font:600 6.5px/1.2 Arial; color:#555; margin-top:3px; }
-  .ad-disc { font:5px/1.2 Arial; color:var(--tx); opacity:.6; text-align:center; padding:2px 6px; position:absolute; bottom:3px; left:0; right:0; }
-  
-  /* ===== SINGLE AD ===== */
-  .ad-single { width:275px; height:175px; border:3px solid var(--bg); overflow:hidden; display:flex; background:#fff; }
-  .ad-left { width:40%; background-size:cover; background-position:center; position:relative; }
-  .ad-left-ov { position:absolute; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:center; padding:6px; }
-  .ad-name-left { color:var(--tx); font:900 11px/1.2 Arial; text-align:center; text-shadow:0 1px 4px rgba(0,0,0,.5); word-break:break-word; }
-  .ad-phone-left { color:var(--ac); font:bold 7px/1 Arial; margin-top:6px; }
-  .ad-addr-left { color:var(--tx); opacity:.8; font:5.5px/1 Arial; margin-top:3px; text-align:center; }
-  .ad-right-col { width:60%; display:flex; flex-direction:column; }
-  .ad-offer-single { flex:1; background:var(--ob); border-bottom:1px solid var(--ot)20; display:flex; flex-direction:column; align-items:center; justify-content:center; padding:2px 4px; }
-  .ad-amt-s { font:900 16px/1.1 Arial; color:var(--ot); }
-  .ad-cond-s { font:600 6px/1.2 Arial; color:#555; margin-top:2px; }
-  .ad-disc-s { font:4.5px/1.2 Arial; color:#888; text-align:center; padding:2px 4px; }
+
+  /* ===== AD BASE ===== */
+  .ad { border:3px solid var(--bg); overflow:hidden; position:relative; background:var(--bg); }
+  .ad.single { width:275px; height:175px; display:flex; }
+  .ad.double { width:275px; height:360px; display:flex; flex-direction:column; }
+  .ad-fine { font:5px/1.2 Arial; color:var(--tx); opacity:.5; text-align:center; padding:2px 6px; position:absolute; bottom:2px; left:0; right:0; }
+
+  /* Shared elements */
+  .biz-name { color:var(--tx); text-align:center; text-shadow:0 2px 6px rgba(0,0,0,.5); font-family:"Georgia",serif; font-weight:900; }
+  .biz-name.xl { font-size:22px; }
+  .biz-name.lg { font-size:18px; }
+  .biz-name.md { font-size:14px; }
+  .biz-name.sm { font-size:11px; line-height:1.2; word-break:break-word; }
+  .biz-name.xs { font-size:10px; }
+  .biz-contact { color:var(--ac); font:bold 7px/1 Arial; text-align:center; margin-top:4px; }
+  .biz-phone { color:var(--ac); font:bold 7px/1 Arial; text-align:center; margin-top:4px; }
+  .biz-addr { color:var(--tx); opacity:.7; font:5.5px/1 Arial; text-align:center; margin-top:2px; }
+  .biz-tag { color:var(--ac); font:italic 8px/1 Georgia,serif; text-align:center; letter-spacing:2px; margin-top:2px; }
+
+  /* Image zones */
+  .img-zone { background-size:cover; background-position:center; position:relative; }
+  .img-grad { position:absolute; inset:0; display:flex; flex-direction:column; justify-content:flex-end; padding:10px; }
+  .img-grad-full { position:absolute; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:center; padding:6px; }
+  .img-content.bottom { }
+  .full-img { width:100%; height:100%; background-size:cover; background-position:center; position:relative; }
+  .full-overlay { position:absolute; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:center; padding:10px; }
+
+  /* CLASSIC */
+  .split-left { width:40%; height:100%; background-size:cover; background-position:center; position:relative; }
+  .split-right { width:60%; display:flex; flex-direction:column; height:100%; }
+  .single .split-left, .single .split-right { float:left; }
+  .single { display:flex; }
+  .offers-grid { display:flex; flex-wrap:wrap; gap:3px; padding:6px; flex:1; align-content:flex-start; }
+  .offer-box { flex:1; min-width:45%; background:var(--ob); border:1.5px solid var(--ot)40; border-radius:3px; padding:8px 4px; text-align:center; }
+  .offer-amt { font:900 16px/1.1 Arial; color:var(--ot); }
+  .offer-det { font:600 6.5px/1.2 Arial; color:#555; margin-top:3px; }
+  .offer-row { flex:1; background:var(--ob); display:flex; flex-direction:column; align-items:center; justify-content:center; padding:3px; border-bottom:1px solid var(--ot)15; }
+  .offer-amt-s { font:900 15px/1.1 Arial; color:var(--ot); }
+  .offer-det-s { font:600 6px/1.2 Arial; color:#555; margin-top:2px; }
+
+  /* CENTERED */
+  .center-offers { display:flex; flex-direction:column; gap:6px; margin:8px 0; width:100%; align-items:center; }
+  .center-offer { text-align:center; }
+  .center-amt { font:900 20px/1.1 Arial; color:var(--ac); display:block; text-shadow:0 1px 3px rgba(0,0,0,.3); }
+  .single .center-amt { font-size:16px; }
+  .center-cond { font:600 7px/1 Arial; color:var(--tx); opacity:.8; display:block; margin-top:2px; }
+  .single .center-cond { font-size:6px; }
+
+  /* BANNER */
+  .banner-top { padding:10px; text-align:center; }
+  .banner-img { height:35%; background-size:cover; background-position:center; }
+  .banner-offer { background:var(--ob); padding:6px 8px; display:flex; align-items:center; justify-content:center; gap:8px; border-bottom:1px solid var(--ot)20; }
+  .banner-amt { font:900 18px/1 Arial; color:var(--ot); }
+  .banner-det { font:600 7px/1 Arial; color:#555; }
+  .banner-bar { padding:6px; text-align:center; }
+  .banner-body { flex:1; display:flex; flex-direction:column; }
+  .banner-offer-s { flex:1; background:var(--ob); display:flex; align-items:center; justify-content:center; gap:6px; padding:2px 4px; border-bottom:1px solid var(--ot)15; }
+  .banner-amt-s { font:900 14px/1 Arial; color:var(--ot); }
+  .banner-det-s { font:600 5.5px/1 Arial; color:#555; }
+  .banner-img-s { width:30%; background-size:cover; background-position:center; position:absolute; right:0; top:0; bottom:0; }
+  .single .banner-body { width:70%; }
+
+  /* BOLD */
+  .bold-overlay { position:absolute; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:center; padding:8px; text-align:center; }
+  .bold-amt { font:900 36px/1 Arial; color:var(--ac); text-shadow:0 2px 8px rgba(0,0,0,.4); }
+  .single .bold-amt { font-size:28px; }
+  .bold-cond { font:bold 9px/1 Arial; color:var(--tx); margin-top:4px; }
+  .single .bold-cond { font-size:7px; }
+  .bold-biz { font:900 14px/1 Georgia,serif; color:var(--tx); margin-top:8px; text-shadow:0 1px 4px rgba(0,0,0,.4); }
+  .single .bold-biz { font-size:11px; margin-top:4px; }
+  .bold-extras { margin-top:6px; display:flex; flex-wrap:wrap; gap:4px; justify-content:center; }
+  .bold-extra { font:bold 8px/1 Arial; color:var(--ac); background:rgba(0,0,0,.3); padding:3px 6px; border-radius:3px; }
+  .single .bold-extra { font-size:6px; }
+
+  /* MINIMAL */
+  .min-layout { display:flex; flex-direction:column; height:100%; background:#fff; }
+  .min-header { padding:8px 10px 6px; }
+  .min-name { font:900 16px/1.1 Georgia,serif; }
+  .single .min-name { font-size:12px; }
+  .min-contact { font:11px/1 Arial; color:#888; margin-top:3px; }
+  .single .min-contact { font-size:7px; }
+  .min-offers { flex:1; padding:6px 10px; display:flex; flex-direction:column; gap:4px; }
+  .min-offer { padding:4px 8px; }
+  .min-amt { font:900 18px/1.1 Arial; }
+  .single .min-amt { font-size:14px; }
+  .min-cond { font:11px/1.2 Arial; color:#666; margin-top:2px; }
+  .single .min-cond { font-size:6px; }
+  .min-img { height:30%; background-size:cover; background-position:center; }
+  .single .min-img { height:0; display:none; }
+  .min-layout .ad-fine { color:#888; }
 </style>
