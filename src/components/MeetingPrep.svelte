@@ -29,13 +29,20 @@
 
   onMount(async () => {
     try {
-      const [storeRes, testRes] = await Promise.all([
-        fetch(import.meta.env.BASE_URL + 'data/stores.json'),
-        fetch(import.meta.env.BASE_URL + 'data/testimonials_cache.json')
-      ]);
+      const storeRes = await fetch(import.meta.env.BASE_URL + 'data/stores.json');
       allStores = await storeRes.json();
-      allTestimonials = await testRes.json();
     } catch {}
+    // Load testimonials lazily (don't block UI)
+    try {
+      const testRes = await fetch(import.meta.env.BASE_URL + 'data/testimonials_slim.json?t=' + Date.now());
+      allTestimonials = await testRes.json();
+    } catch {
+      // Fallback to full cache
+      try {
+        const testRes2 = await fetch(import.meta.env.BASE_URL + 'data/testimonials_cache.json');
+        allTestimonials = await testRes2.json();
+      } catch {}
+    }
   });
 
   // Store search
@@ -113,34 +120,22 @@
     loadingStatus = '🌐 Checking website & social media...';
     
     if (businessWebsite) {
-      try {
-        // Use a CORS proxy or just extract what we can from the URL
-        businessInfo.websiteData = businessWebsite;
-      } catch {}
+      businessInfo.websiteData = businessWebsite;
     }
 
-    await new Promise(r => setTimeout(r, 500));
-
-    // Step 2: Find category-matched testimonials
+    // Find category-matched testimonials
     loadingStep = 3;
     loadingStatus = '📝 Finding matching testimonials...';
+    await new Promise(r => setTimeout(r, 100)); // brief yield for UI update
     
     const categoryKeywords = extractCategoryKeywords(businessCategory, businessName);
     matchedTestimonials = findMatchingTestimonials(categoryKeywords, businessName);
-    
-    await new Promise(r => setTimeout(r, 300));
 
-    // Step 3: Find local testimonial (same city/area as the store)
+    // Find local testimonial
     loadingStep = 4;
     loadingStatus = '📍 Finding local testimonials...';
-    
     localTestimonial = findLocalTestimonial();
 
-    await new Promise(r => setTimeout(r, 300));
-
-    loadingStep = 5;
-    loadingStatus = '✅ Prep complete!';
-    await new Promise(r => setTimeout(r, 500));
     step = 'results';
   }
 
@@ -193,32 +188,27 @@
   function findMatchingTestimonials(keywords, name) {
     if (!allTestimonials.length) return [];
 
-    // Score each testimonial
+    // Score each testimonial (supports both slim {b,c} and full {business,comment} formats)
     const scored = allTestimonials.map(t => {
-      const search = (t.searchable || (t.business + ' ' + t.comment)).toLowerCase();
+      const biz = t.b || t.business || '';
+      const comment = t.c || t.comment || '';
+      const search = (biz + ' ' + comment).toLowerCase();
       let score = 0;
       
-      // Keyword matches in business name
-      keywords.forEach(kw => {
-        if (search.includes(kw)) score += 3;
-      });
+      keywords.forEach(kw => { if (search.includes(kw)) score += 3; });
 
-      // Bonus for having concrete metrics (coupons, ROI, revenue)
-      if (/\d+ coupon/i.test(t.comment)) score += 2;
-      if (/return on/i.test(t.comment)) score += 2;
-      if (/\$\d/i.test(t.comment)) score += 1;
-      if (/renew/i.test(t.comment)) score += 1;
-      if (/year|month/i.test(t.comment)) score += 1;
-      
-      // Bonus for longer, more detailed testimonials
-      if (t.comment.length > 150) score += 1;
-      if (t.comment.length > 300) score += 1;
+      if (/\d+ coupon/i.test(comment)) score += 2;
+      if (/return on/i.test(comment)) score += 2;
+      if (/\$\d/i.test(comment)) score += 1;
+      if (/renew/i.test(comment)) score += 1;
+      if (/year|month/i.test(comment)) score += 1;
+      if (comment.length > 150) score += 1;
+      if (comment.length > 300) score += 1;
 
-      return { ...t, score };
+      return { business: biz, comment, url: t.u || t.url || '', id: t.id, score };
     }).filter(t => t.score > 3)
       .sort((a, b) => b.score - a.score);
 
-    // Take top 3-4 unique businesses
     const seen = new Set();
     const results = [];
     for (const t of scored) {
@@ -228,7 +218,6 @@
       results.push(t);
       if (results.length >= 4) break;
     }
-
     return results;
   }
 
@@ -240,8 +229,10 @@
     const chain = (selectedStore.GroceryChain || '').toLowerCase();
     
     // Find testimonials mentioning the same city, state, or chain
-    const local = allTestimonials.filter(t => {
-      const search = (t.searchable || t.business + ' ' + t.comment).toLowerCase();
+    const local = allTestimonials.map(t => ({
+      business: t.b || t.business || '', comment: t.c || t.comment || '', url: t.u || t.url || '', id: t.id
+    })).filter(t => {
+      const search = (t.business + ' ' + t.comment).toLowerCase();
       return search.includes(city) || search.includes(chain);
     }).sort((a, b) => b.comment.length - a.comment.length);
 
