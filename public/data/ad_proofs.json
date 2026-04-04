@@ -1,5 +1,422 @@
 [
   {
+    "message_id": "19d547f48b31c8eb",
+    "date": "2026-04-03 10:58",
+    "from": "Sydney Miller <Zone.07Y@indoormedia.com>",
+    "subject": "Ad Proof from IndoorMedia , Kim\u2019s Asian Cuisine [07Y - C2 - J427617E]",
+    "client_name": "Kim\u2019s Asian Cuisine",
+    "contact_name": "Huan Truong",
+    "client_email": "hhtruong1@yahoo.com",
+    "location": "",
+    "zone": "07Y",
+    "cycle": "C2",
+    "contract_number": "J427617E",
+    "store": "Fred Meyer 0325, 60 Division Ave, Eugene, OR",
+    "ad_size": "Single",
+    "install_month": "",
+    "run_months": "",
+    "image_url": "https://lh3.googleusercontent.com/d/1N6OVdNRJ0OD5pyt4F2inHrKzbmRksvJy",
+    "review_deadline": "04/08/2026",
+    "recipients": [
+      "tyler.vansant@rtui.com",
+      "richard.leibowitz@indoormedia.com",
+      "matthew.boozer@indoormedia.com",
+      "hhtruong1@yahoo.com"
+    ],
+    "reps": [
+      {
+        "email": "tyler.vansant@rtui.com",
+        "name": "Tyler Van Sant"
+      },
+      {
+        "email": "richard.leibowitz@indoormedia.com",
+        "name": "Rick Leibowitz"
+      },
+      {
+        "email": "matthew.boozer@indoormedia.com",
+        "name": "Matthew Boozer"
+      }
+    ]
+  },
+  {
+    "message_id": "19d54366e11b45d2",
+    "date": "2026-04-03 09:39",
+    "from": "Sydney Miller <Zone.07Z@indoormedia.com>",
+    "subject": "Ad Proof from IndoorMedia , Lightning Treats & Sweets [07Z - B2 - J421812E]",
+    "client_name": "Lightning Treats & Sweets",
+    "contact_name": "Lenore Thawley",
+    "client_email": "lightningcupcakes@gmail.com",
+    "location": "",
+    "zone": "07Z",
+    "cycle": "B2",
+    "contract_number": "J421812E",
+    "store": "Safeway 0424, 795 Columbia River Highway, St. Helens, OR",
+    "ad_size": "Double",
+    "install_month": "",
+    "run_months": "",
+    "image_url": "https://lh3.googleusercontent.com/d/1k7Vi6HBnVtXRQT-eWtiD4cvkY1ojbawK",
+    "review_deadline": "04/06/2026",
+    "recipients": [
+      "tyler.vansant@rtui.com",
+      "lightningcupcakes@gmail.com",
+      "megan.wink@indoormedia.com",
+      "richard.leibowitz@indoormedia.com"
+    ],
+    "reps": [
+      {
+        "email": "tyler.vansant@rtui.com",
+        "name": "Tyler Van Sant"
+      },
+      {
+        "email": "megan.wink@indoormedia.com",
+        "name": "Megan Wink"
+      },
+      {
+        "email": "richard.leibowitz@indoormedia.com",
+        "name": "Rick Leibowitz"
+      }
+    ]
+  },
+  {
+    "message_id": "19d542a181ab4554",
+    "date": "2026-04-03 09:25",
+    "from": "Zone 07X - Sydney Miller <zone.07x@indoormedia.com>",
+    "subject": "Re: Ad Proof from IndoorMedia , The Fluffy Ruff Dog Spa [07X - A2 - J416044E]",
+    "client_name": "The Fluffy Ruff Dog Spa",
+    "contact_name": "Good morning",
+    "client_email": "thefluffyruff08@gmail.com",
+    "location": "",
+    "zone": "07X",
+    "cycle": "A2",
+    "contract_number": "J416044E",
+    "store": ">> Safeway 1252, 253 High School Rd Ne, Bainbridge Island, WA",
+    "ad_size": "Double",
+    "install_month": "",
+    "run_months": "",
+    "image_url": "https://lh3.googleusercontent.com/d/13sXz6dUX_z-Le5kQMldbCThneFbEwa9-",
+    "review_deadline": "03/01/2026",
+    "recipients": [
+      "tyler.vansant@rtui.com",
+      "richard.leibowitz@indoormedia.com",
+      "richard.diamond@indoormedia.com",
+      "thefluffyruff08@gmail.com"
+    ],
+    "reps": [
+      {
+        "email": "tyler.vansant@rtui.com",
+        "name": "Tyler Van Sant"
+      },
+      {
+        "email": "richard.leibowitz@indoormedia.com",
+        "name": "Rick Leibowitz"
+      }
+    ]
+  },
+  {
+    "message_id": "19d53c83714a0344",
+    "date": "2026-04-03 07:38",
+    "from": "Zone 07Z - Sydney Miller <zone.07z@indoormedia.com>",
+    "subject": "Re: Ad Proof from IndoorMedia , Lightning Treats & Sweets [07Z - B2 - J421812E]",
+    "client_name": "Lightning Treats & Sweets",
+    "contact_name": "Good morning",
+    "client_email": "lightningcupcakes@gmail.com",
+    "location": "",
+    "zone": "07Z",
+    "cycle": "B2",
+    "contract_number": "J421812E",
+    "store": ">>> Safeway 0424, 795 Columbia River Highway, St. Helens, OR",
+    "ad_size": "Double",
+    "install_month": "",
+    "run_months": "",
+    "image_url": "https://lh3.googleusercontent.com/d/10vq9kghEgVjlI9xg8Fb2DPXumMIZ0AYO",
+    "review_deadline": "04/02/2026",
+    "recipients": [
+      "tyler.vansant@rtui.com",
+      "lightningcupcakes@gmail.com",
+      "megan.wink@indoormedia.com",
+      "richard.leibowitz@indoormedia.com"
+    ],
+    "reps": [
+      {
+        "email": "tyler.vansant@rtui.com",
+        "name": "Tyler Van Sant"
+      },
+      {
+        "email": "megan.wink@indoormedia.com",
+        "name": "Megan Wink"
+      },
+      {
+        "email": "richard.leibowitz@indoormedia.com",
+        "name": "Rick Leibowitz"
+      }
+    ]
+  },
+  {
+    "message_id": "19d538637f565b14",
+    "date": "2026-04-03 06:26",
+    "from": "Zone 07Z - Sydney Miller <zone.07z@indoormedia.com>",
+    "subject": "Re: Ad Proof from IndoorMedia , Restaurant Taqueria Don Jose [07Z - C2 - J426608E]",
+    "client_name": "Restaurant Taqueria Don Jose",
+    "contact_name": "Good morning",
+    "client_email": "diana.huesos16@yahoo.com",
+    "location": "",
+    "zone": "07Z",
+    "cycle": "C2",
+    "contract_number": "J426608E",
+    "store": "> Safeway 0400, 3707 N Main St, Vancouver, WA",
+    "ad_size": "Single",
+    "install_month": "",
+    "run_months": "",
+    "image_url": "https://lh3.googleusercontent.com/d/12SrKiOjHwYmOtf0f3JH-EaCtwC4MW9Cn",
+    "review_deadline": "04/02/2026",
+    "recipients": [
+      "tyler.vansant@rtui.com",
+      "diana.huesos16@yahoo.com",
+      "dave.boring@indoormedia.com",
+      "richard.leibowitz@indoormedia.com"
+    ],
+    "reps": [
+      {
+        "email": "tyler.vansant@rtui.com",
+        "name": "Tyler Van Sant"
+      },
+      {
+        "email": "dave.boring@indoormedia.com",
+        "name": "Dave Boring"
+      },
+      {
+        "email": "richard.leibowitz@indoormedia.com",
+        "name": "Rick Leibowitz"
+      }
+    ]
+  },
+  {
+    "message_id": "19d5383f69fae874",
+    "date": "2026-04-03 06:23",
+    "from": "Zone 07Y - Sydney Miller <zone.07y@indoormedia.com>",
+    "subject": "Re: Ad Proof from IndoorMedia , Kim\u2019s Asian Cuisine [07Y - C2 - J427617E]",
+    "client_name": "Kim\u2019s Asian Cuisine",
+    "contact_name": "Good morning",
+    "client_email": "hhtruong1@yahoo.com",
+    "location": "",
+    "zone": "07Y",
+    "cycle": "C2",
+    "contract_number": "J427617E",
+    "store": "> Fred Meyer 0325, 60 Division Ave, Eugene, OR",
+    "ad_size": "Single",
+    "install_month": "",
+    "run_months": "",
+    "image_url": "https://lh3.googleusercontent.com/d/1vXELbHaeoIp3BfuXuNoBA-_G5xm8OTu2",
+    "review_deadline": "04/07/2026",
+    "recipients": [
+      "tyler.vansant@rtui.com",
+      "richard.leibowitz@indoormedia.com",
+      "matthew.boozer@indoormedia.com",
+      "hhtruong1@yahoo.com"
+    ],
+    "reps": [
+      {
+        "email": "tyler.vansant@rtui.com",
+        "name": "Tyler Van Sant"
+      },
+      {
+        "email": "richard.leibowitz@indoormedia.com",
+        "name": "Rick Leibowitz"
+      },
+      {
+        "email": "matthew.boozer@indoormedia.com",
+        "name": "Matthew Boozer"
+      }
+    ]
+  },
+  {
+    "message_id": "19d5382df5e8be1f",
+    "date": "2026-04-03 06:22",
+    "from": "Sydney Miller <Zone.07Y@indoormedia.com>",
+    "subject": "Ad Proof from IndoorMedia , Mami\u2019s Mexican Grill [07Y - C2 - J427203E]",
+    "client_name": "Mami\u2019s Mexican Grill",
+    "contact_name": "Benjamin Magana",
+    "client_email": "mamismexicangrill1@gmail.com",
+    "location": "",
+    "zone": "07Y",
+    "cycle": "C2",
+    "contract_number": "J427203E",
+    "store": "Fred Meyer 0325, 60 Division Ave, Eugene, OR",
+    "ad_size": "Single",
+    "install_month": "",
+    "run_months": "",
+    "image_url": "https://lh3.googleusercontent.com/d/1Hv14Lte4g7fqvmT-WikhPXcf5H2hdgXI",
+    "review_deadline": "04/08/2026",
+    "recipients": [
+      "tyler.vansant@rtui.com",
+      "mamismexicangrill1@gmail.com",
+      "matthew.boozer@indoormedia.com",
+      "richard.leibowitz@indoormedia.com"
+    ],
+    "reps": [
+      {
+        "email": "tyler.vansant@rtui.com",
+        "name": "Tyler Van Sant"
+      },
+      {
+        "email": "matthew.boozer@indoormedia.com",
+        "name": "Matthew Boozer"
+      },
+      {
+        "email": "richard.leibowitz@indoormedia.com",
+        "name": "Rick Leibowitz"
+      }
+    ]
+  },
+  {
+    "message_id": "19d5380391f82cc7",
+    "date": "2026-04-03 06:20",
+    "from": "Sydney Miller <Zone.07X@indoormedia.com>",
+    "subject": "Ad Proof from IndoorMedia , Mt Si Senior Center [07X - B2 - J428193E]",
+    "client_name": "Mt Si Senior Center",
+    "contact_name": "Susan Kingsbury-Comeru",
+    "client_email": "susan@mtsiseniorcenter.org",
+    "location": "",
+    "zone": "07X",
+    "cycle": "B2",
+    "contract_number": "J428193E",
+    "store": "Safeway 3613, 34828 SE Douglas St., Snoqualmie, WA",
+    "ad_size": "Double",
+    "install_month": "",
+    "run_months": "",
+    "image_url": "https://lh3.googleusercontent.com/d/1laOIS7ssQEy06-7t6FPtnJZ8j3GW0zim",
+    "review_deadline": "04/07/2026",
+    "recipients": [
+      "tyler.vansant@rtui.com",
+      "richard.leibowitz@indoormedia.com",
+      "susan@mtsiseniorcenter.org",
+      "terry.fung@indoormedia.com"
+    ],
+    "reps": [
+      {
+        "email": "tyler.vansant@rtui.com",
+        "name": "Tyler Van Sant"
+      },
+      {
+        "email": "richard.leibowitz@indoormedia.com",
+        "name": "Rick Leibowitz"
+      }
+    ]
+  },
+  {
+    "message_id": "19d4e1f9f28ff947",
+    "date": "2026-04-02 05:16",
+    "from": "Zone 07Z - Sydney Miller <zone.07z@indoormedia.com>",
+    "subject": "Re: Ad Proof from IndoorMedia , K&H Auto Shop [07Z - B2 - J426965E]",
+    "client_name": "K&H Auto Shop",
+    "contact_name": "great day.*",
+    "client_email": "knhautoshop@gmail.com",
+    "location": "",
+    "zone": "07Z",
+    "cycle": "B2",
+    "contract_number": "J426965E",
+    "store": ">> Quality Food Center 0205, 5544 East Burnside, Portland, OR",
+    "ad_size": "Single",
+    "install_month": "",
+    "run_months": "",
+    "image_url": "https://lh3.googleusercontent.com/d/165dJjWlFmIPY_HKfsIzna8Dva3JL6a2W",
+    "review_deadline": "04/06/2026",
+    "recipients": [
+      "tyler.vansant@rtui.com",
+      "richard.leibowitz@indoormedia.com",
+      "knhautoshop@gmail.com",
+      "adan.ramos@indoormedia.com"
+    ],
+    "reps": [
+      {
+        "email": "tyler.vansant@rtui.com",
+        "name": "Tyler Van Sant"
+      },
+      {
+        "email": "richard.leibowitz@indoormedia.com",
+        "name": "Rick Leibowitz"
+      },
+      {
+        "email": "adan.ramos@indoormedia.com",
+        "name": "Adan Ramos"
+      }
+    ]
+  },
+  {
+    "message_id": "19d4e1effe17ec29",
+    "date": "2026-04-02 05:15",
+    "from": "Zone 07Y - Sydney Miller <zone.07y@indoormedia.com>",
+    "subject": "Re: Ad Proof from IndoorMedia , Mami\u2019s Mexican Grill [07Y - C2 - J427203E]",
+    "client_name": "Mami\u2019s Mexican Grill",
+    "contact_name": "will see a new proof email as soon as it becomes available*",
+    "client_email": "mamismexicangrill1@gmail.com",
+    "location": "",
+    "zone": "07Y",
+    "cycle": "C2",
+    "contract_number": "J427203E",
+    "store": "> Fred Meyer 0325, 60 Division Ave, Eugene, OR",
+    "ad_size": "Single",
+    "install_month": "",
+    "run_months": "",
+    "image_url": "https://lh3.googleusercontent.com/d/1qmSlwbq1WfDSxDSqRU_f0iBAc7YHKB9R",
+    "review_deadline": "04/06/2026",
+    "recipients": [
+      "tyler.vansant@rtui.com",
+      "mamismexicangrill1@gmail.com",
+      "matthew.boozer@indoormedia.com",
+      "richard.leibowitz@indoormedia.com"
+    ],
+    "reps": [
+      {
+        "email": "tyler.vansant@rtui.com",
+        "name": "Tyler Van Sant"
+      },
+      {
+        "email": "matthew.boozer@indoormedia.com",
+        "name": "Matthew Boozer"
+      },
+      {
+        "email": "richard.leibowitz@indoormedia.com",
+        "name": "Rick Leibowitz"
+      }
+    ]
+  },
+  {
+    "message_id": "19d4e1cd0e349718",
+    "date": "2026-04-02 05:13",
+    "from": "Zone 07X - Sydney Miller <zone.07x@indoormedia.com>",
+    "subject": "Re: Ad Proof from IndoorMedia , Washington Burrito [07X - C2 - J426092E]",
+    "client_name": "Washington Burrito",
+    "contact_name": "great day.*",
+    "client_email": "memo@gtinvestmentsusa.com",
+    "location": "",
+    "zone": "07X",
+    "cycle": "C2",
+    "contract_number": "J426092E",
+    "store": ">> Fred Meyer 0180, 4615 196th St SW Ste 175, Lynnwood, WA",
+    "ad_size": "Single",
+    "install_month": "",
+    "run_months": "",
+    "image_url": "https://lh3.googleusercontent.com/d/1nr9Nejr5s9cAdcQHEERi3_pEdawWfTny",
+    "review_deadline": "04/06/2026",
+    "recipients": [
+      "tyler.vansant@rtui.com",
+      "richard.leibowitz@indoormedia.com",
+      "memo@gtinvestmentsusa.com",
+      "richard.diamond@indoormedia.com"
+    ],
+    "reps": [
+      {
+        "email": "tyler.vansant@rtui.com",
+        "name": "Tyler Van Sant"
+      },
+      {
+        "email": "richard.leibowitz@indoormedia.com",
+        "name": "Rick Leibowitz"
+      }
+    ]
+  },
+  {
     "message_id": "19d4ade18d8a0d33",
     "date": "2026-04-01 14:06",
     "from": "Sydney Miller <Zone.07W@indoormedia.com>",
@@ -148,45 +565,6 @@
     ]
   },
   {
-    "message_id": "19d4aa8c4a567568",
-    "date": "2026-04-01 13:07",
-    "from": "Sydney Miller <Zone.07Y@indoormedia.com>",
-    "subject": "Ad Proof from IndoorMedia , Mami\u2019s Mexican Grill [07Y - C2 - J427203E]",
-    "client_name": "Mami\u2019s Mexican Grill",
-    "contact_name": "Benjamin Magana",
-    "client_email": "mamismexicangrill1@gmail.com",
-    "location": "",
-    "zone": "07Y",
-    "cycle": "C2",
-    "contract_number": "J427203E",
-    "store": "Fred Meyer 0325, 60 Division Ave, Eugene, OR",
-    "ad_size": "Single",
-    "install_month": "",
-    "run_months": "",
-    "image_url": "https://lh3.googleusercontent.com/d/1qmSlwbq1WfDSxDSqRU_f0iBAc7YHKB9R",
-    "review_deadline": "04/06/2026",
-    "recipients": [
-      "mamismexicangrill1@gmail.com",
-      "richard.leibowitz@indoormedia.com",
-      "matthew.boozer@indoormedia.com",
-      "tyler.vansant@rtui.com"
-    ],
-    "reps": [
-      {
-        "email": "richard.leibowitz@indoormedia.com",
-        "name": "Rick Leibowitz"
-      },
-      {
-        "email": "matthew.boozer@indoormedia.com",
-        "name": "Matthew Boozer"
-      },
-      {
-        "email": "tyler.vansant@rtui.com",
-        "name": "Tyler Van Sant"
-      }
-    ]
-  },
-  {
     "message_id": "19d4aa54c2b256bf",
     "date": "2026-04-01 13:03",
     "from": "Sydney Miller <Zone.07Y@indoormedia.com>",
@@ -215,41 +593,6 @@
         "email": "amy.dixon@indoormedia.com",
         "name": "Amy Dixon"
       },
-      {
-        "email": "tyler.vansant@rtui.com",
-        "name": "Tyler Van Sant"
-      },
-      {
-        "email": "richard.leibowitz@indoormedia.com",
-        "name": "Rick Leibowitz"
-      }
-    ]
-  },
-  {
-    "message_id": "19d4a19533f8aa04",
-    "date": "2026-04-01 10:30",
-    "from": "Zone 07X - Sydney Miller <zone.07x@indoormedia.com>",
-    "subject": "Re: Ad Proof from IndoorMedia , Washington Burrito [07X - C2 - J426092E]",
-    "client_name": "Washington Burrito",
-    "contact_name": "will see a new proof email as soon as it becomes available*",
-    "client_email": "memo@gtinvestmentsusa.com",
-    "location": "",
-    "zone": "07X",
-    "cycle": "C2",
-    "contract_number": "J426092E",
-    "store": ">> Fred Meyer 0180, 4615 196th St SW Ste 175, Lynnwood, WA",
-    "ad_size": "Single",
-    "install_month": "",
-    "run_months": "",
-    "image_url": "https://lh3.googleusercontent.com/d/10vLujoXP0rbp2VwNc9tO6VfNyo1T8rbb",
-    "review_deadline": "04/03/2026",
-    "recipients": [
-      "memo@gtinvestmentsusa.com",
-      "tyler.vansant@rtui.com",
-      "richard.leibowitz@indoormedia.com",
-      "richard.diamond@indoormedia.com"
-    ],
-    "reps": [
       {
         "email": "tyler.vansant@rtui.com",
         "name": "Tyler Van Sant"
@@ -659,45 +1002,6 @@
     ]
   },
   {
-    "message_id": "19d44579bdd762bf",
-    "date": "2026-03-31 07:41",
-    "from": "Sydney Miller <Zone.07Z@indoormedia.com>",
-    "subject": "Ad Proof from IndoorMedia , Lightning Treats & Sweets [07Z - B2 - J421812E]",
-    "client_name": "Lightning Treats & Sweets",
-    "contact_name": "Lenore Thawley",
-    "client_email": "lightningcupcakes@gmail.com",
-    "location": "",
-    "zone": "07Z",
-    "cycle": "B2",
-    "contract_number": "J421812E",
-    "store": "Safeway 0424, 795 Columbia River Highway, St. Helens, OR",
-    "ad_size": "Double",
-    "install_month": "",
-    "run_months": "",
-    "image_url": "https://lh3.googleusercontent.com/d/10vq9kghEgVjlI9xg8Fb2DPXumMIZ0AYO",
-    "review_deadline": "04/02/2026",
-    "recipients": [
-      "lightningcupcakes@gmail.com",
-      "tyler.vansant@rtui.com",
-      "richard.leibowitz@indoormedia.com",
-      "megan.wink@indoormedia.com"
-    ],
-    "reps": [
-      {
-        "email": "tyler.vansant@rtui.com",
-        "name": "Tyler Van Sant"
-      },
-      {
-        "email": "richard.leibowitz@indoormedia.com",
-        "name": "Rick Leibowitz"
-      },
-      {
-        "email": "megan.wink@indoormedia.com",
-        "name": "Megan Wink"
-      }
-    ]
-  },
-  {
     "message_id": "19d443295987ed1b",
     "date": "2026-03-31 07:00",
     "from": "Zone 07Z - Sydney Miller <zone.07z@indoormedia.com>",
@@ -848,41 +1152,6 @@
       {
         "email": "adan.ramos@indoormedia.com",
         "name": "Adan Ramos"
-      },
-      {
-        "email": "tyler.vansant@rtui.com",
-        "name": "Tyler Van Sant"
-      }
-    ]
-  },
-  {
-    "message_id": "19d408fe277abaed",
-    "date": "2026-03-30 14:04",
-    "from": "Sydney Miller <Zone.07X@indoormedia.com>",
-    "subject": "Ad Proof from IndoorMedia , Mt Si Senior Center [07X - B2 - J428193E]",
-    "client_name": "Mt Si Senior Center",
-    "contact_name": "Susan Kingsbury-Comeru",
-    "client_email": "susan@mtsiseniorcenter.org",
-    "location": "",
-    "zone": "07X",
-    "cycle": "B2",
-    "contract_number": "J428193E",
-    "store": "Safeway 3613, 34828 SE Douglas St., Snoqualmie, WA",
-    "ad_size": "Double",
-    "install_month": "",
-    "run_months": "",
-    "image_url": "https://lh3.googleusercontent.com/d/1N9BYnU5nmxpxXD3Oe-AfwGcDfufXiFGI",
-    "review_deadline": "04/02/2026",
-    "recipients": [
-      "terry.fung@indoormedia.com",
-      "susan@mtsiseniorcenter.org",
-      "richard.leibowitz@indoormedia.com",
-      "tyler.vansant@rtui.com"
-    ],
-    "reps": [
-      {
-        "email": "richard.leibowitz@indoormedia.com",
-        "name": "Rick Leibowitz"
       },
       {
         "email": "tyler.vansant@rtui.com",
