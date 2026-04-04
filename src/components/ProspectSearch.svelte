@@ -700,7 +700,7 @@
           lat: pLat,
           lng: pLng
         };
-      }).sort((a, b) => b.score - a.score);
+      }).filter(p => !p.distance || p.distance <= 3).sort((a, b) => b.score - a.score);
     } catch (err) {
       console.error('Google Places error:', err);
       error = 'Search failed. Please try again.';
