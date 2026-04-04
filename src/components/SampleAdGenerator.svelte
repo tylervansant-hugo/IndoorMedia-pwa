@@ -119,9 +119,9 @@
     const canvas = document.createElement('canvas');
     const dpi = 3; // 3x for print quality
     
-    // Single: 2.75" x 1.7" | Double: 2.75" x 3.6"
+    // Single: 2.75" x 1.75" | Double: 2.75" x 3.6"
     const widthInches = 2.75;
-    const heightInches = adSize === 'single' ? 1.7 : 3.6;
+    const heightInches = adSize === 'single' ? 1.75 : 3.6;
     canvas.width = Math.round(widthInches * 96 * dpi);
     canvas.height = Math.round(heightInches * 96 * dpi);
     
@@ -327,7 +327,7 @@
       <div class="form-group half">
         <label>Ad Size</label>
         <select bind:value={adSize}>
-          <option value="single">Single (2.75" × 1.7")</option>
+          <option value="single">Single (2.75" × 1.75")</option>
           <option value="double">Double (2.75" × 3.6")</option>
         </select>
       </div>
@@ -429,7 +429,7 @@
       </div>
     </div>
 
-    <p class="size-label">{adSize === 'single' ? 'Single' : 'Double'} Size — {adSize === 'single' ? '2.75" × 1.7"' : '2.75" × 3.6"'}</p>
+    <p class="size-label">{adSize === 'single' ? 'Single' : 'Double'} Size — {adSize === 'single' ? '2.75" × 1.75"' : '2.75" × 3.6"'}</p>
     {#if selectedStore}<p class="store-label">Store: {selectedStore}</p>{/if}
 
     <div class="preview-actions">
@@ -483,7 +483,7 @@
   .preview-wrapper { display: flex; justify-content: center; margin: 16px 0; }
   
   .ad-preview { background: white; color: #000; overflow: hidden; }
-  .ad-preview.single { width: 275px; height: 170px; }
+  .ad-preview.single { width: 275px; height: 175px; }
   .ad-preview.double { width: 275px; height: 360px; }
   
   .ad-border { border: 3px solid var(--ad-color); height: 100%; display: flex; flex-direction: column; position: relative; }

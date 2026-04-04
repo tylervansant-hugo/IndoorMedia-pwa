@@ -92,7 +92,7 @@
               <span>SINGLE</span>
             </div>
             <p><strong>Single Ad</strong></p>
-            <p class="size-dims">2.75" × 1.7"</p>
+            <p class="size-dims">2.75" × 1.75"</p>
             <p class="size-note">Great for simple offers</p>
           </div>
           <div class="size-box">
