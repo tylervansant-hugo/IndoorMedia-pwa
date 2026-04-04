@@ -16,7 +16,10 @@
   
   let adSize = 'single'; // single or double
   let selectedStore = '';
-  let nearbyStores = [];
+  let allStores = [];
+  let storeSearch = '';
+  let storeResults = [];
+  let showStoreDropdown = false;
   let adColor = '#CC0000'; // default red theme
   let accentColor = '#FFD700'; // gold/yellow for offers
 
@@ -31,15 +34,38 @@
   ];
 
   // Load stores for dropdown
+  function searchStores() {
+    if (!storeSearch.trim() || storeSearch.length < 2) {
+      storeResults = [];
+      showStoreDropdown = false;
+      return;
+    }
+    const term = storeSearch.toLowerCase();
+    storeResults = allStores.filter(s =>
+      s.StoreName.toLowerCase().includes(term) ||
+      s.GroceryChain.toLowerCase().includes(term) ||
+      s.City.toLowerCase().includes(term) ||
+      (s.PostalCode && s.PostalCode.includes(term)) ||
+      (s.Address && s.Address.toLowerCase().includes(term))
+    ).slice(0, 8).map(s => ({
+      id: s.StoreName,
+      label: `${s.GroceryChain} — ${s.City}, ${s.State} (${s.StoreName})`,
+      address: s.Address,
+      zip: s.PostalCode
+    }));
+    showStoreDropdown = storeResults.length > 0;
+  }
+
+  function selectStore(store) {
+    selectedStore = store.id;
+    storeSearch = store.label;
+    showStoreDropdown = false;
+  }
+
   onMount(async () => {
     try {
       const res = await fetch(import.meta.env.BASE_URL + 'data/stores.json');
-      const allStores = await res.json();
-      nearbyStores = allStores.slice(0, 100).map(s => ({
-        id: s.StoreName,
-        label: `${s.GroceryChain} - ${s.City}, ${s.State} (${s.StoreName})`,
-        chain: s.GroceryChain
-      }));
+      allStores = await res.json();
     } catch {}
 
     // Set default expiration 3 months from now
@@ -331,14 +357,19 @@
           <option value="double">Double (2.75" × 3.6")</option>
         </select>
       </div>
-      <div class="form-group half">
+      <div class="form-group half" style="position:relative;">
         <label>Store</label>
-        <select bind:value={selectedStore}>
-          <option value="">Select store...</option>
-          {#each nearbyStores as store}
-            <option value={store.id}>{store.label}</option>
-          {/each}
-        </select>
+        <input type="text" bind:value={storeSearch} on:input={searchStores} on:focus={searchStores} placeholder="Search by city, zip, store #..." autocomplete="off" />
+        {#if showStoreDropdown}
+          <div class="store-dropdown">
+            {#each storeResults as store}
+              <button class="store-result" on:click={() => selectStore(store)}>
+                <strong>{store.label}</strong>
+                {#if store.address}<span class="store-addr">{store.address} {store.zip || ''}</span>{/if}
+              </button>
+            {/each}
+          </div>
+        {/if}
       </div>
     </div>
 
@@ -460,6 +491,12 @@
   .search-result:hover { background: rgba(204, 0, 0, 0.05); }
   .search-result:last-child { border-bottom: none; }
   .result-detail { display: block; font-size: 12px; color: var(--text-secondary); margin-top: 2px; }
+  
+  .store-dropdown { position: absolute; top: 100%; left: 0; right: 0; background: var(--card-bg); border: 2px solid var(--border-color); border-radius: 8px; margin-top: 4px; max-height: 240px; overflow-y: auto; z-index: 100; box-shadow: 0 4px 12px rgba(0,0,0,0.2); }
+  .store-result { display: block; width: 100%; padding: 10px 12px; border: none; border-bottom: 1px solid var(--border-color); background: transparent; text-align: left; cursor: pointer; color: var(--text-primary); font-size: 13px; }
+  .store-result:hover { background: rgba(204, 0, 0, 0.05); }
+  .store-result:last-child { border-bottom: none; }
+  .store-addr { display: block; font-size: 11px; color: var(--text-secondary); margin-top: 2px; }
   
   .offer-card { background: var(--card-bg); border: 2px solid var(--border-color); border-radius: 10px; padding: 14px; margin-bottom: 12px; }
   .offer-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
