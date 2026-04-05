@@ -7,12 +7,12 @@ import { getFirestore, collection, doc, setDoc, getDocs, query, where, orderBy, 
 
 // Firebase config — set via localStorage or hardcoded after setup
 const DEFAULT_CONFIG = {
-  apiKey: "",
-  authDomain: "",
-  projectId: "",
-  storageBucket: "",
-  messagingSenderId: "",
-  appId: ""
+  apiKey: "AIzaSyC-VpUxByGfphYwTNnO5U31MmKDTEKC6eM",
+  authDomain: "impro-sales.firebaseapp.com",
+  projectId: "impro-sales",
+  storageBucket: "impro-sales.firebasestorage.app",
+  messagingSenderId: "99160080398",
+  appId: "1:99160080398:web:52bd73ccc67e07facabc5f"
 };
 
 let firebaseApp = null;
