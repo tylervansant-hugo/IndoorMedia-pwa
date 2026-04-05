@@ -1,0 +1,427 @@
+ZoneNStoreName
+SalesRep
+RepStaBusinessName
+countNumbContractContractToCycleRevenLate PrimaryContactPrimaryPPrimaryEmail
+Secon StartDateEndDate Ru StoreAddress
+StoreCityStateZCategory
+AdSize CategoryRenewalContract
+07X SAF07X-3321
+Kale Lundberg [SU14Active One 11 Clothing
+J400551E
+J400551E $4,175.00
+$1,044.00
+$ - Aiden Mullen
+33652990shopone11gh@gmail.co 3/1/2025 3/1/2026
+4 4831 Point FosdicGig Harbor, WA 9Retail ShoppSingle
+FALSE
+jae contacted 2-19-2026
+07X SAF07X-1922
+Kale Lundberg [SU14Active Fat Yeti Froyo
+J403732E
+J403732E $3,433.00
+$858.00
+$ - April
+36026915fatyetifroyo@gmail.com 3/1/2025 3/1/2026
+4 2709 E Hwy 101 Port Angeles, WAIce Cream / Single
+FALSE
+jae contacted 2-19-2026
+07X SAF07X-3213
+Mathew Hayward [S InactiveOasis
+WJ356300 J363173
+$2,904.00
+$726.00
+$ - Ihab Bouanani
+20641328ihab@medfoods 2068163/1/2025 3/1/2026
+4 15332 Aurora Av Shoreline, WA 98Cultural Din Single
+FALSE
+jae contacted 2-19-2026
+07X SAF07X-1664
+Mylon Betts [SU1436InactiveCorry's Fine Dry CleWJ372668 J372645 $18,125.52
+$1,106.00
+$ - Nina
+83327280neha@corrysclea2062903/1/2025 3/1/2026
+4 138 Southwest 14Burien, WA 9816 Dry CleaningSingle
+FALSE
+DECLINE
+07X SAF07X-3213
+Richard Diamond [SUActive T Zen Nails
+J419301E
+J419301E $9,000.00
+$996.00
+$ - Tina Hoang
+20623779tzennails@gmail.com
+12/1/2025 3/1/2026
+1 15332 Aurora Av Shoreline, WA 98Hair / Nails /Double
+FALSE
+cancel my contract
+07X FME07X-0457
+Richard Diamond [SUActive Texan Cafe & Coffe J416011E
+J416011E $3,548.64
+$ - $591 Ross Baker
+51255727ross@the-texan.com
+12/1/2025 3/1/2026
+1 21045 Bothell Ev Bothell, WA 9802Casual DininSingle
+FALSE
+jae contacted 2-19-2026
+07Y
+FME07Y-0220
+Amy Dixon [SU9498 Active CLRM V dba Five G J402883E
+J402883E $8,496.20
+$1,005.00
+$ - Ryan Coady
+48040448Wendi@or5g.com
+3/1/2025 3/1/2026
+4 3300 PORTLAND Newberg, OR 971Casual DininSingle
+FALSE
+jae contacted 2-19-2026
+07Y
+FME07Y-0360
+Dave Boring [SU1425Active Pig Patas Express [C J404465E
+J404465E $4,590.00
+$1,148.00 $1,67Carlos Nieves
+97181808pigpatastacos@gmail.co 3/1/2025 3/1/2026
+4 100 Northwest 2 Portland, OR 972 Mexican
+Single
+FALSE
+jae contacted 2-19-2026
+07Y
+FME07Y-0240
+Jan Banks [SU14482 Active Apollo Plumbing, H J402722E
+J402722E$12,960.00
+$1,615.00
+$ - Isabeau Kennedy 50326016isabeau@apolloservices 3/1/2025 3/1/2026
+4 14700 SE MclougMilwaukie, OR 97Home ImproDouble
+FALSE
+jae contacted 2-19-2026
+07Y
+SAF07Y-0290
+Kenneth Abbay [SU1 Active Taste & See Coffee J401918E
+J401918E $3,300.00
+$825.00
+$ - Matt Dalbey
+54132476Tasteandseegp@gmail.c 3/1/2025 3/1/2026
+4 115 SE 7th StreetGrants Pass, OR 9Coffee ShopSingle
+FALSE
+jae contacted 2-19-2026
+07Y
+SAF07Y-3212
+Kenneth Abbay [SU1 Active Branson's Chocolat WJ358577 J358577
+$3,082.00
+$771.00
+$ - Deena Branson
+54148874info@bransonsch5418213/1/2025 3/1/2026
+4 585 Siskiyou BlvdAshland, OR 9752Candy & Sw Single
+FALSE
+Decline
+07Y
+SAF07Y-0386
+Tyler VanSant [SU108Active El Gallo Mexican Fo J413978E
+J413978E $1,947.50
+$974.00
+$ - Maximo Mendoz 32332686Elgallotaqueria19@gma 9/1/2025 3/1/2026
+2 1755 Ivy St
+Junction City, OR Mexican
+Single
+FALSE
+jae contacted 2-19-2026
+07Z
+FME07Z-0605
+Kale Lundberg [SU14Active Pearl Tea
+J401036E
+J401185E $6,468.00
+$726.00
+$ - Esther
+25344875Phuongthanh3010200@ 3/1/2025 3/1/2026
+4 6901 S 19th St
+Tacoma, WA 984 Coffee ShopSingle
+FALSE
+jae contacted 2-19-2026
+07Z
+SAF07Z-0486
+Kale Lundberg [SU14Active Pearl Tea
+J401036E
+J401185E $6,468.00
+$891.00
+$ - Esther
+25344875Phuongthanh3010200@ 3/1/2025 3/1/2026
+4 3842 Bridgeport Tacoma, WA 984 Coffee ShopSingle
+FALSE
+jae contacted 2-19-2026
+07Z
+FME07Z-0605
+Kale Lundberg [SU14Active Zen Ramen & Sush J401693E
+J401693E $3,925.00
+$981.00
+$ - Sehyeon Kang
+25324100kangse0403@gmail.com 3/1/2025 3/1/2026
+4 6901 S 19th St
+Tacoma, WA 984 Asian
+Single
+FALSE
+Decline
+07Z
+SAF07Z-1123
+Megan Wink [SU151 Active El Puerto De Angel WJ176723 J417763E $2,930.00
+$733.00
+$ - Erik Lopez
+54130800Eriklopez2005@yahoo.c 12/1/2025 3/1/2026
+1 2249 Cascade Av Hood River, OR 9 Mexican
+Single
+FALSE
+jae contacted 2-19-2026
+07Z
+FME07Z-0093
+Tyler VanSant [SU108Active La Catedral Tapatia WJ348427 J402311E $9,520.00
+$1,494.00
+$ - Ivan Guitron / Pe 36089100guitron.g.ivan@g5037203/1/2025 3/1/2026
+4 16600 Southeast Vancouver, WA 9 Mexican
+Single
+FALSE
+jae contacted 2-19-2026
+07Z
+SAF07Z-0430
+Tyler VanSant [SU108Active La Herradura
+J403697E
+J403697E $3,432.50
+$858.00
+$ - Alma Perez
+50349116perez.Alma1975@5038913/1/2025 3/1/2026
+4 1455 NE Division Gresham, OR 970Mexican
+Single
+FALSE
+I'm not going to renew
+07Z
+FME07Z-0605
+Tyler VanSant [SU108Active Pho Ever & Wok
+J411666E
+J411666E $3,445.00
+$918.00
+$ - Danny Vo
+20691967Hd.foodbev@gmail.com 9/1/2025 3/1/2026
+2 6901 S 19th St
+Tacoma, WA 984 Asian
+Single
+FALSE
+jae contacted 2-19-2026
+07W SAF07W-1740
+Lisa Castic [SU8981 : Active Rosa's Pizza
+WJ253432 J402346E $3,350.00
+$838.00
+$ - Syrie Barsness
+50923556syriebarsness@g 5097103/1/2025 3/1/2026
+4 2710 1ST St.
+Cheney, WA 9900Pizza
+Single
+FALSE
+ljc j423725e
+07W SAF07W-0584
+Lorin R. Clark [SU326Active Papa Murphy's
+WJ196758 J404235E$10,475.00
+$950.00
+$ - Rustin McDonald54178694pizzarustin@gma5092643/1/2025 3/1/2026
+4 711 West First AvToppenish, WA 9 Pizza
+Single
+FALSE
+J421002E
+07W SAF07W-0149
+Lorin R. Clark [SU326Active Papa Murphy's
+WJ196758 J404235E$10,475.00
+$750.00
+$ - Rustin McDonald54178694pizzarustin@gma5092643/1/2025 3/1/2026
+4 1610 West Lincol Yakima, WA 9890Pizza
+Single
+FALSE
+J421002E
+07X HAG07X-0069
+Richard Diamond [SUActive Sahara Pizza - Mou WG6880
+J404081E $3,544.68
+$886.00
+$ - Jeffrey Connolly 36042420jt@saharapizza.c 3604543/1/2025 3/1/2026
+4 2601 E Division S Mount Vernon, WPizza
+Single
+FALSE
+J425085E
+07Y
+SAF07Y-0420
+Richard Leibowitz [SUActive Big 5 Sporting Goo CJ129746 V43282
+$ -
+$ - $13,3Peter Mulvaney 31053606pcm@big5corp.c7023959/1/2025 3/1/2026
+2 1500 Coburg Rd Eugene, OR 9740Sporting / MDouble
+FALSE
+07Y
+SAF07Y-1710
+Tyler VanSant [SU108Active A&W Drive In
+WJ332215 J403669E $3,433.00
+$858.00
+$ - Joshua Hankins
+54126748awsweethome@ 5414013/1/2025 3/1/2026
+4 1540 Main StreetSweet Home, OR Fast Food
+Single
+FALSE
+J423202E
+07Z
+ROS07Z-0042
+Tyler VanSant [SU108Active Hasson Company AWJ322014 V29172
+$11,235.96
+$936.00
+$ - Alyssa Curran
+80137218alyssacurranhomes@gm 3/1/2023 3/1/2026 12 101 S. 47th Aven Ridgefield, WA 98Real Estate /Double
+FALSE
+J423199E
+07W ALB07W-4040
+Melanie Parham [SU Active Snake River Foods 
+B8689
+V43541
+$3,000.00
+$750.00
+$ - Ted Nunamaker 20850588ted@fastsnakefoods.com3/1/2025 3/1/2026
+4 1313 N 1st St.
+Hamilton, MT 59 Fast Food
+Split
+FALSE
+07Z
+SAF07Z-1464
+Tyler VanSant [SU108Active SportCuts
+WJ78318
+V12697E
+$7,700.00
+$1,325.00
+$ - Dale Schuster
+48044488Dale.schuster3@gmail.c 12/1/2024 3/1/2026
+4 3215 Harrison AvOlympia, WA 985Hair / Nails /Single
+FALSE
+07Z
+SAF07Z-1464
+Tyler VanSant [SU108Active SportCuts
+WJ78318
+V12697E
+$7,700.00
+$ -
+$ - Dale Schuster
+48044488Dale.schuster3@gmail.c 12/1/2025 3/1/2026
+1 3215 Harrison AvOlympia, WA 985Hair / Nails /Single
+FALSE
+07Y
+ALB07Y-0572
+Erica Wilson [SU1460Active Spacebuds The Dis J415420E
+J421161E
+$ -
+$ -
+$ - Abi Lingam
+54150598Spacebudsthemanagers 12/1/2025 3/1/2026
+1 311 Coburg Rd
+Eugene, OR 9740Dispensary Double
+FALSE
+07X SAF07X-1492
+Kale Lundberg [SU14Active Dominoâ€™s Pizza J401903E
+J401903E$14,100.00
+$1,207.00
+$ - Amen Singh
+36034905ajpie2020@gmail.com
+3/1/2025 3/1/2026
+4 110 East 3rd Stre Port Angeles, WAPizza
+Single
+FALSE
+07X SAF07X-1922
+Kale Lundberg [SU14Active Dominoâ€™s Pizza J401903E
+J401903E$14,100.00
+$858.00
+$ - Amen Singh
+36034905ajpie2020@gmail.com
+3/1/2025 3/1/2026
+4 2709 E Hwy 101 Port Angeles, WAPizza
+Single
+FALSE
+
+=== PAGE BREAK ===
+
+ZoneName
+SalesRep
+SalesRepStatus ContractStatus
+ProductStatus
+BusinessName
+AccountNumber ContractNumber TotalContractPri  LateBalance 
+PrimaryContactNPrimaryPhone
+PrimaryEmail
+SecondaryPhoneStartDate
+EndDate
+RunLength
+MonthlyImpress RenewalContract
+07X
+Richard DiamondActive
+Active
+Running
+Steamoji Bellevue D418896E
+D418896E
+($
+2,880.00)
+       
+($
+-  )
+                
+Akshara Richhariy
+4254580730 aksharar@stemlearnings.com
+11/13/2025
+3/13/2026
+4 70K
+07Y
+Jan Banks
+Active
+Active
+Running
+Zaiqa Restaurant
+CJ312451
+J402808E
+($
+6,205.00)
+       
+($
+550.00)
+          
+Adnan Ali
+5038785060 desidining11@gmail.com
+3/1/2025
+3/1/2026
+12 30K
+07Y
+Dave Boring
+Active
+Active
+Running
+Local Asian Bistro
+D402517E
+D402517E
+($
+2,425.00)
+       
+($
+-  )
+                
+Wora Boonkunch
+3607877847 LABistro10706@gmail.com
+3/1/2025
+3/1/2026
+12 20K
+07Z
+Tyler VanSant
+Active
+Active
+Running
+Firehouse Subs
+WJ292730
+J405722E
+($
+2,795.00)
+       
+($
+-  )
+                
+Jameson Lovelac
+3606690425 jameson.lovelace@firehousesubs.com
+3609040574
+3/28/2025
+3/28/2026
+12 30K
+
+=== PAGE BREAK ===
+

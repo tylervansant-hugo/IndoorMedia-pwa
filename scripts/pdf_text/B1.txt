@@ -1,0 +1,546 @@
+StoreZ StoreName
+SalesRep
+RepSta BusinessName
+AccountNuContract ContractTotal  CycleReven LateBPrimaryCPrimaryPPrimaryEmail
+SecondaStartDate
+EndDate Ru StoreAddress
+StoreCityStateZip Category
+AdSize Categor RenewalContract
+07W
+SAF07W-0254
+Carl France [SU15102 Active Senior Health Markets [C J414701E J414701 ($
+5,650.00)
+  
+($
+-  )
+      
+($ 470Joanna F2087947 Joanna@Seniorhealthma11/1/2025 2/1/2026
+1 161 W Prairie AHayden, ID 83835 Insurance Single
+FALSE
+jae contacted 1-12-2026
+07W
+SAF07W-1660
+Lorin R. Clark [SU3269Active Burger Ranch
+WJ150637 J329349 ($
+3,552.00)
+  
+($ 888.00) ($ -   Larry Ga 5094527 noemail@null.com
+2/1/2025 2/1/2026
+4 905 E Mead Av Yakima, WA 98903 Casual Din Single
+FALSE
+jae contacted 1-12-2026
+07X
+FME07X-0013
+Dawna Henehan [SU1 InactiveRoyal Unicorn
+J414599E J414599 ($
+2,764.00)
+  
+($
+-  )
+      
+($ -   Jasmine 3609691 Royalunicornseattle@gm11/1/2025 2/1/2026
+1 18325 Aurora AShoreline, WA 981 Asian
+Double FALSE
+jae contacted 1-12-2026
+07X
+FME07X-0171
+Kale Lundberg [SU146 Active Ziggyâ€™s Cat Lounge
+J402198E J402198 ($
+5,375.00)
+  
+($ 1,344.00 ($ -   Shanon 3608150 Ziggyscatlounge@gmail.c 2/1/2025 2/1/2026
+4 5050 State HighBremerton, WA 98 Casual Din Single
+FALSE
+Decline
+07X
+SAF07X-1297
+Mylon Betts [SU14365InactiveDumpling Generation
+WJ372690 J372690 ($
+3,125.28)
+  
+($ 781.00) ($ -   Hui Su
+2064201 dumplinggenera 4256785 2/1/2025 2/1/2026
+4 23632 Hwy 99 Edmonds, WA 9802Asian
+Single
+FALSE
+jae contacted 1-12-2026
+07X
+SAF07X-3275
+Mylon Betts [SU14365InactiveMarQueen Garage 
+J402061E J402061 ($
+3,312.00)
+  
+($ 828.00) ($ -   Nate Sim2062859 GarageMarqueen@gmai
+2/1/2025 2/1/2026
+4 2100 Queen AnSeattle, WA 98109 Repair / BoSingle
+FALSE
+jae contacted 1-12-2026
+07X
+SAF07X-3275
+Mylon Betts [SU14365InactiveThe Little Store 
+J402631E J402631 ($
+3,312.00)
+  
+($ 828.00) ($ -   Peimin O2069397 thelittlestores@gmail.co
+2/1/2025 2/1/2026
+4 2100 Queen AnSeattle, WA 98109 Retail ShopSingle
+FALSE
+Please DECLINE
+07X
+FME07X-0688
+Richard Diamond [SU1Active Northpointe Animal HospJ412881E J412881 ($
+2,737.50)
+  
+($ 1,306.00 ($ -   Savanna 4259038 savanna.floyd@nva.com
+8/1/2025 2/1/2026
+2 2902 164th St SLynnwood, WA 980Pet Care
+Single
+FALSE DECLINE
+07X
+FME07X-0391
+Richard Diamond [SU1Active Mia Cafe & Wine Bar
+J414824E J414824 ($
+7,350.00)
+  
+($
+-  )
+      
+($ -   Rocia Sa 4252446 rociosalcedo12@hotmail 11/1/2025 2/1/2026
+1 12221 120th AvKirkland, WA 98034Casual Din Single
+FALSE
+jae contacted 1-12-2026
+07X
+HAG07X-3498
+Richard Diamond [SU1Active Waxing the City
+J414877E J414877 ($
+6,950.00)
+  
+($
+-  )
+      
+($ -   Mark Ch 2063901 mchristianson@waxingth11/1/2025 2/1/2026
+1 17641 Garden WWoodinville, WA 98Hair / NailsSingle
+FALSE
+jae contacted 1-12-2026
+07X
+SAF07X-1461
+Richard Diamond [SU1Active Massage Envy
+J414940E J414940 ($
+7,250.00)
+  
+($
+-  )
+      
+($ -   Mark Ch 2063901 mark.christianson@mass11/1/2025 2/1/2026
+1 520 128th St SWEverett, WA 98204 Hair / NailsSingle
+FALSE
+jae contacted 1-12-2026
+07X
+SAF07X-1186
+Richard Diamond [SU1Active  Joyeria Innovacion
+WJ372636 J372636 ($
+4,875.00)
+  
+($ 1,188.00 ($ -   Margarit2532667 magizhm@gmai 2533262 2/1/2025 2/1/2026
+4 27035 Pacific H Des Moines, WA 98Jewelry / WDouble FALSE
+jae contacted 1-12-2026
+07X
+SAF07X-1572
+Richard Diamond [SU1Active Joy of Healing Massage T J12872E
+J12872E ($
+4,325.00)
+  
+($ 1,081.00 ($ -   Lilia Scha4256989 info@joyofhealingmassa 11/1/2024 2/1/2026
+4 14020 Main St Duvall, WA 98019 Hair / NailsDouble FALSE
+jae contacted 1-12-2026
+07X
+SAF07X-1572
+Richard Diamond [SU1Active Joy of Healing Massage T J12872E
+J12872E ($
+4,325.00)
+  
+($
+-  )
+      
+($ -   Lilia Scha4256989 info@joyofhealingmassa 11/1/2025 2/1/2026
+1 14020 Main St Duvall, WA 98019 Hair / NailsDouble FALSE
+jae contacted 1-12-2026
+07X
+QFC07X-0820
+Richard Diamond [SU1Active Taste of Hyderabad
+A237704
+J400549 ($
+9,271.80)
+  
+($ 1,281.00 ($ -   Satish Pa4252402 thetasteofhyder 4257990 1/1/2025 2/1/2026
+4 15800 Redmon Redmond, WA 980 Casual Din Double FALSE
+jae contacted 1-12-2026
+07X
+FME07X-0682
+William Flerry [SU148 Active Tom Berry Reality LLC
+J409559E J409559 ($
+2,375.00)
+  
+($ 1,125.00 ($ -   Tom Ber 3603334  tomberryrealtor@gmail. 8/1/2025 2/1/2026
+2 26520 Maple V Maple Valley, WA 9Real EstateSingle
+FALSE
+jae contacted 1-12-2026
+07Y
+FME07Y-0651
+Dave Boring [SU14256Active Cones
+J402206E J402206 ($
+3,974.00)
+  
+($ 994.00) ($ -   Dori Led 5032662 CanbyCones@outlook.co 2/1/2025 2/1/2026
+4 1401 SoutheastCanby, OR 97013
+Ice Cream /Single
+FALSE
+jae contacted 1-12-2026
+07Y
+FME07Y-0651
+Dave Boring [SU14256Active Blessing Bites
+J402100E J402100 ($
+3,692.00)
+  
+($ 923.00) ($ -   Mubarak9286055 Marcos996m@gmail.com 2/1/2025 2/1/2026
+4 1401 SoutheastCanby, OR 97013
+Casual Din Single
+FALSE
+DECLINE
+07Y
+FME07Y-0464
+James Keller [SU14601InactiveIxtapa Family Mexican ReA220393
+J400593 ($
+5,124.00)
+  
+($ 1,107.00 ($ -   Vidal Ma54199744ixtapaflorence@5415905 2/1/2025 2/1/2026
+4 4701 Highway 1Florence, OR 97439Mexican
+Single
+FALSE
+jae contacted 1-12-2026
+07Y
+FME07Y-0516
+Jan Banks [SU14482 : Active Zaiqa Restaurant
+CJ312451 J402808 ($
+6,205.00)
+  
+($ 951.00) ($ -   Adnan A 5038785 desidining11@gmail.com 2/1/2025 2/1/2026
+4 30300 SouthweWilsonville, OR 970Cultural Di Single
+FALSE
+We are not renewing it. Please remove it.
+07Y
+ALB07Y-0577
+Kenneth Abbay [SU12 Active Stagecoach Pizza
+WJ358554 J358554 ($
+2,900.00)
+  
+($ 725.00) ($ -   Ryan Boc5418846 Stagecoachpizza 541891311/1/2024 2/1/2026
+4 5500 S 6th St
+Klamath Falls, OR 9Pizza
+Single
+FALSE
+jae contacted 1-12-2026
+07Y
+ALB07Y-0577
+Kenneth Abbay [SU12 Active Stagecoach Pizza
+WJ358554 J358554 ($
+2,900.00)
+  
+($
+-  )
+      
+($ -   Ryan Boc5418846 Stagecoachpizza 541891311/1/2025 2/1/2026
+1 5500 S 6th St
+Klamath Falls, OR 9Pizza
+Single
+FALSE
+jae contacted 1-12-2026
+07Y
+ALB07Y-0595
+Kenneth Abbay [SU12 Active Central Point Pawn Plus LWJ380913 J380913 ($
+1,962.50)
+  
+($ 981.00) ($ -   Regina C 5416649 centralpointpawnplus@h 8/1/2025 2/1/2026
+2 1360 Plaza BlvdCentral Point, OR 9Pawn ShopSingle
+FALSE
+jae contacted 1-12-2026
+07Y
+FME07Y-0035
+Tyler VanSant [SU1089Active Victorico's Mexican Food WV34755DJ401281 ($
+5,220.00)
+  
+($ 1,305.00 ($ -   Victor Sa9713841 victor@victoricos.com
+2/1/2025 2/1/2026
+4 11425 SW BeavBeaverton, OR 970 Mexican
+Single
+FALSE
+jae contacted 1-12-2026
+07Z
+SAF07Z-1070
+Jan Banks [SU14482 : Active Five Stars Auto Glass LlC J402222E J402222 ($
+7,795.00)
+  
+($ 1,175.00 ($ -   Julio Ben5038413 Glassrepair@yahoo.com
+2/1/2025 2/1/2026
+4 1001 SW HighlaGresham, OR 9708 Accessorie Single
+FALSE
+jae contacted 1-12-2026
+07Z
+SAF07Z-0424
+Tyler VanSant [SU1089Active Victorico's Mexican Food WJ322039 J401297 ($
+4,175.00)
+  
+($ 1,044.00 ($ -   Victor Sa5033661 victor@victorico5033960 2/1/2025 2/1/2026
+4 795 Columbia RSt. Helens, OR 970 Cultural Di Single
+FALSE
+jae contacted 1-12-2026
+07Z
+ALB07Z-3106
+Tyler VanSant [SU1089Active Pho Ever & Wok
+J411666E J411666 ($
+3,445.00)
+  
+($ 805.00) ($ -   Danny V 2069196 Hd.foodbev@gmail.com
+8/1/2025 2/1/2026
+2 11012 Canyon RPuyallup, WA 9837 Asian
+Single
+FALSE
+jae contacted 1-12-2026
+07Z
+SAF07Z-1952
+Tyler VanSant [SU1089Active Martin Way Shell
+J412501E J412501 ($
+1,967.75)
+  
+($ 984.00) ($ -   Sam Sing3604381 Shellmartinway@gmail.c 8/1/2025 2/1/2026
+2 4280 Martin W Olympia, WA 9851 Convenien Single
+FALSE
+Decline
+07Z
+FME07Z-0460
+Tyler VanSant [SU1089Active Jacob Sanchez Next GeneJ13869E
+J13869E ($
+6,360.00)
+  
+($ 1,590.00 ($ -   Jacob Sa 5033484 Jacob.sanchez@mypnwr
+2/1/2025 2/1/2026
+4 800 NE Tenney Vancouver, WA 986Real EstateDouble FALSE
+DECLINE
+07X
+SAF07X-1472
+Melanie Parham [SU3 Active Burger King / Arby's
+WJ93547
+V42054 ($ 48,400.00) ($ 1,125.00 ($ -   Luke Piso9522404 luke.pisors@am 925498311/1/2024 2/1/2026
+4 315 E College WMount Vernon, WAFast Food Single
+FALSE
+J418463E
+07X
+SAF07X-1472
+Melanie Parham [SU3 Active Burger King / Arby's
+WJ93547
+V42054 ($ 48,400.00) ($
+-  )
+      
+($ -   Luke Piso9522404 luke.pisors@am 925498311/1/2025 2/1/2026
+1 315 E College WMount Vernon, WAFast Food Single
+FALSE
+dnc
+07X
+SAF07X-1448
+Melanie Parham [SU3 Active Burger King / Arby's
+WJ93547
+V42093 ($ 72,000.00) ($ 1,075.00 ($ -   Luke Piso9522404 luke.pisors@am 9254983 2/1/2025 2/1/2026
+4 680 W WashingSequim, WA 98382Fast Food Single
+FALSE
+dnc
+07X
+ALB07X-0471
+Melanie Parham [SU3 Active Burger King / Arby's
+WJ93547
+V42093 ($ 72,000.00) ($ 1,025.00 ($ -   Luke Piso9522404 luke.pisors@am 9254983 2/1/2025 2/1/2026
+4 301 Marysville Marysville, WA 982Fast Food Single
+FALSE
+dnc
+07X
+ALB07X-0475
+Melanie Parham [SU3 Active Burger King / Arby's
+WJ93547
+V42093 ($ 72,000.00) ($ 950.00) ($ -   Luke Piso9522404 luke.pisors@am 9254983 2/1/2025 2/1/2026
+4 1434 Olney AvePort Orchard, WA 9Fast Food Single
+FALSE
+dnc
+07Y
+SAF07Y-3136
+Amy Dixon [SU9498 : UActive Muchas Gracias
+WJ203482 J401390 ($
+3,204.00)
+  
+($ 801.00) ($ -   Mayra C 9712416 camposmayra@yahoo.co 2/1/2025 2/1/2026
+4 8145 Southwes Portland, OR 97219Casual Din Single
+FALSE
+J423229E
+07Y
+FME07Y-0035
+Amy Dixon [SU9498 : UActive Qdoba Oregon
+WJ260004 J401503 ($ 14,053.00) ($ 1,230.00 ($ -   Bill Nelso5036452 bill@qdobaoreg 3033589 2/1/2025 2/1/2026
+4 11425 SW BeavBeaverton, OR 970 Mexican
+Single
+FALSE
+dnc
+07Y
+FME07Y-0355
+Amy Dixon [SU9498 : UActive Qdoba Oregon
+WJ260004 J401503 ($ 14,053.00) ($ 1,094.00 ($ -   Bill Nelso5036452 bill@qdobaoreg 3033589 2/1/2025 2/1/2026
+4 3450 Commerc Salem, OR 97302-4Mexican
+Single
+FALSE
+dnc
+07Y
+FME07Y-0516
+Amy Dixon [SU9498 : UActive Qdoba Oregon
+WJ260004 J401503 ($ 14,053.00) ($ 1,190.00 ($ -   Bill Nelso5036452 bill@qdobaoreg 3033589 2/1/2025 2/1/2026
+4 30300 SouthweWilsonville, OR 970Mexican
+Single
+FALSE
+dnc
+07Y
+SAF07Y-1558
+Anthony Marty Eng [S Active Taqueria Las Camadres [CJ413561E J413561 ($
+1,660.00)
+  
+($ 830.00) ($ 553Margarit5414091 Margaritavega615414092 8/1/2025 2/1/2026
+2 1983 South Ma Lebanon, OR 97355Mexican
+Single
+FALSE
+dnc
+07Y
+FME07Y-0464
+James Bouret [SU8657Active A & W Restaurant
+WJ131164 J348440 ($ 21,750.00) ($ 1,096.00 ($ -   Ann Jens7024004 aw_ann@yahoo 5419994 2/1/2023 2/1/2026 12 4701 Highway 1Florence, OR 97439Casual Din Single
+FALSE
+J421536E
+07Y
+SAF07Y-0363
+James Bouret [SU8657Active A & W Restaurant
+WJ131164 J348440 ($ 21,750.00) ($ 716.00) ($ -   Ann Jens7024004 aw_ann@yahoo 5419994 2/1/2023 2/1/2026 12 700 Highway 10Florence, OR 97439Casual Din Single
+FALSE
+J421536E
+07Y
+SAF07Y-4288
+Lisa Castic [SU8981 : UActive Papa Murphys [CollectionJJ149571
+V42886 ($
+7,800.00)
+  
+($ 1,063.00 ($ 650Cameron7078397 chodge@brencam.com
+2/1/2025 2/1/2026
+4 145 E 18th Ave Eugene, OR 97401 Pizza
+Single
+FALSE
+ljc 422129e
+07W
+ALB07W-4041
+Angelo Morales [SU10Active Sensi Care
+J14259E
+J14259E ($
+7,524.00)
+  
+($ 1,881.00 ($ -   Shaun St4068613 ryan@sensicaremt.com
+2/1/2025 2/1/2026
+4 3137 Grand AveBillings, MT 59102 DispensaryDouble FALSE
+07X
+FME07X-0171
+Kale Lundberg [SU146 Active Little Caesars
+WJ372687 J400500 ($ 14,550.00) ($ 1,344.00 ($ -   Krunal P 3604341 kdpatel0131@gmail.com 2/1/2025 2/1/2026
+4 5050 State HighBremerton, WA 98 Pizza
+Single
+FALSE
+07X
+SAF07X-1524
+Kale Lundberg [SU146 Active Little Caesars
+WJ372687 J400500 ($ 14,550.00) ($ 856.00) ($ -   Krunal P 3604341 kdpatel0131@gmail.com 2/1/2025 2/1/2026
+4 1401 N.E. Mcw Bremerton, WA 98 Pizza
+Single
+FALSE
+07X
+QFC07X-0841
+Kale Lundberg [SU146 Active Dominoâ€™s Pizza
+J401903E J401903 ($ 14,100.00) ($ 517.00) ($ -   Amen Si 3603490 ajpie2020@gmail.com
+2/1/2025 2/1/2026
+4 990 East Washi Sequim, WA 98382Pizza
+Single
+FALSE
+07X
+SAF07X-1448
+Kale Lundberg [SU146 Active Dominoâ€™s Pizza
+J401903E J401903 ($ 14,100.00) ($ 943.00) ($ -   Amen Si 3603490 ajpie2020@gmail.com
+2/1/2025 2/1/2026
+4 680 W WashingSequim, WA 98382Pizza
+Single
+FALSE
+07Z
+FME07Z-0694
+Amy Dixon [SU9498 : UActive A-Temp Heating Cooling WV28606 V32619 ($ 96,516.00) ($ 1,706.00 ($ -   Erika Frie5036505 erika@atemphe 5034816 2/1/2024 2/1/2026
+8 17005 SE SunnyHappy Valley, OR 9 Home Imp Double FALSE
+07Z
+SAF07Z-1231
+Jan Banks [SU14482 : Active Apollo Plumbing, HeatingJ402722E J402722 ($ 12,960.00) ($ 1,625.00 ($ -   Isabeau 5032601 isabeau@apolloservices. 2/1/2025 2/1/2026
+4 12032 SE SunnyClackamas, OR 970Home Imp Double FALSE
+
+=== PAGE BREAK ===
+
+ZoneName
+SalesRep
+SalesRepStatus ContractStatus
+ProductStatus
+BusinessName
+AccountNumber ContractNumber TotalContractPri  LateBalance 
+PrimaryContactNPrimaryPhone
+PrimaryEmail
+SecondaryPhoneStartDate
+EndDate
+RunLength
+MonthlyImpress
+RenewalContra
+ct
+07X
+Richard Diamond
+Active
+Active
+Running
+DrTen20 Medical Spa
+CV27525
+D402762E
+($
+2,400.04)
+       
+($
+-  )
+                
+Emily Andros
+9494891317 emilyandros@gm
+8327325063
+2/1/2025
+2/1/2026
+12 20K
+07Y
+Dave Boring
+Active
+Active
+Running
+Chepitaâ€™s Restaurant 
+J402890E
+J402890E
+($
+6,961.00)
+       
+($
+-  )
+                
+Adriana Mendoza
+5037593559 Chepitasm112@gmail.com
+2/27/2025
+2/27/2026
+12 30K
+
+=== PAGE BREAK ===
+

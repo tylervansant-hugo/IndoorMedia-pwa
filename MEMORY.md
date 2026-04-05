@@ -75,7 +75,7 @@
   - Timezone: Pacific (America/Los_Angeles)
   - Values: efficiency, partnership, getting things done
 
-- **Sales Team (9 reps) — Territory Map:**
+- **Sales Team (10 reps) — Territory Map:**
   - **Amy Dixon** — Tualatin, OR (Willamette Valley)
   - **Jan** — Tualatin, OR (Willamette Valley)
   - **Matt** — Eugene, OR (Southern Oregon)
@@ -85,6 +85,7 @@
   - **Adan** — Vancouver, WA (Southwest Washington)
   - **Christian** — Southern California (Territory: ?)
   - **Marty** — Location TBD
+  - **Tyler Blair** — Joining PWA (registering soon)
 
 ## Me
 - Name: Shelldon 🐚

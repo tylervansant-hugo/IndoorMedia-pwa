@@ -1,0 +1,773 @@
+ZONE StoreName
+SalesRep
+RepStatus
+BusinessName
+AccountNumber ContractNumberContractTotalPri CycleRevenue
+LateBalance
+PrimaryContactNPrimaryPhone
+PrimaryEmail
+SecondaryPhoneStartDate
+EndDate
+RunLength
+StoreAddress
+StoreCityStateZipCategory
+AdSize
+CategoryExclusivRenewalContract
+07W
+YOK07W-0011
+Lorin R. Clark [SUActive
+Mega Wash
+WJ217739
+J408858E
+$3,125.00
+$750.00 $ -
+Hal Sarff
+5099815780 hal@sarffmc.com
+6/1/2025
+6/1/2026
+4 9329 E MontgomSpokane Valley, WCar Wash / Detai Single
+FALSE
+07W
+SAF07W-0246
+Lorin R. Clark [SUActive
+Mega Wash
+WJ217739
+J409240E
+$3,275.00
+$788.00 $ -
+Hal Sarff
+5099815780 hal@sarffmc.com
+6/1/2025
+6/1/2026
+4 8851 E Trent Ave Millwood, WA 99Car Wash / Detai Single
+FALSE
+07W
+YOK07W-0008
+Ross Busch [SU14Inactive
+Atilano's Mexican Food
+A214022
+J378383
+$5,390.00
+$1,174.00 $ -
+Joselin Gonzalez
+3609104674 gonzalezjoselin1109@icloud.com
+6/1/2025
+6/1/2026
+4 1151 S. Lyons Rd Airway Heights, WMexican
+Double
+FALSE
+07W
+SAF07W-1740
+Ross Busch [SU14Inactive
+Casa De La Birria Jalisco [Collection J410039E
+J410039E
+$5,325.00
+$1,269.00
+$1,775.00 Ivwirf
+5092175826 ivwirf@gmail.com
+6/1/2025
+6/1/2026
+4 2710 1ST St.
+Cheney, WA 9900Mexican
+Double
+FALSE
+07W
+YOK07W-0008
+Ross Busch [SU14Inactive
+Grease Monkey
+WJ378378
+J378378
+$3,444.00
+$687.00 $ -
+Mark Wartenbee
+2533588824 mark@greasemonkeyonline.com
+6/1/2025
+6/1/2026
+4 1151 S. Lyons Rd Airway Heights, WRepair / Body / MSingle
+FALSE
+07X
+FME07X-0215
+Fabian Reyes [SU Active
+Indian Bistro [Attorney]
+WJ29131
+J409944E
+$5,325.00
+$1,331.00
+$1,331.25 Parmjit Singh
+3472598133 Pablaparm@gmail.com
+6/1/2025
+6/1/2026
+4 25250 Pacific Hig Kent, WA 98032 Cultural Dining
+Single
+FALSE
+07X
+SAF07X-0585
+Kale Lundberg [S Inactive
+El Sarape
+WJ290658
+J407180E
+$3,924.60
+$981.00 $ -
+Leanne Gunter
+3604908793 marketing@elsarape.net
+6/1/2025
+6/1/2026
+4 600 W Franklin S Shelton, WA 9858Mexican
+Single
+FALSE
+07X
+SAF07X-0402
+Kale Lundberg [S Inactive
+Floors Plus Carpet One
+J408430E
+J408430E
+$8,120.52
+$1,260.00 $ -
+Cathy Lang
+3606795570 cathy@floorsplusc1.com
+6/1/2025
+6/1/2026
+4 1450 SW Erie St Oak Harbor, WA 9Home Improvem Single
+FALSE
+07X
+SAF07X-3321
+Kale Lundberg [S Inactive
+Stellar Scoopers
+J408557E
+J408557E
+$4,175.00
+$1,044.00 $ -
+Julie Francis
+2533134372 info@stellarscoopers.com
+6/1/2025
+6/1/2026
+4 4831 Point FosdicGig Harbor, WA 9Home Improvem Single
+FALSE
+07X
+SAF07X-1624
+Mathew HaywardInactive
+Laz's Tacos
+J407371E
+J407371E
+$4,992.00
+$1,248.00 $ -
+Laz Vizcarra
+2534313406 lazstacos@gmail.com
+6/1/2025
+6/1/2026
+4 735 N W Gilman Issaquah, WA 980Mexican
+Single
+FALSE
+07X
+FME07X-0658
+Mathew HaywardInactive
+Stan's Bar-B-Q
+J408330E
+J408330E
+$4,428.00
+$1,107.00 $ -
+Brian Westcott
+4254207252 bwestcott3@hotmail.com
+6/1/2025
+6/1/2026
+4 6100 E Lake Sam Issaquah, WA 980Casual Dining
+Single
+FALSE
+07X
+SAF07X-1923
+Mylon Betts [SU1Inactive
+Corry's Fine Dry Cleaning
+WJ372668
+J372645
+$18,125.52
+$1,281.00 $ -
+Nina
+8332728094 neha@corrysclea
+2062908596
+6/1/2025
+6/1/2026
+4 9620 28Th Ave SWSeattle, WA 9812Dry Cleaning / La Single
+FALSE
+07X
+QFC07X-0807
+Mylon Betts [SU1Inactive
+Headlines Salon
+WJ372627
+J372627
+$3,548.65
+$887.00 $ -
+Paul Johnston
+2065272400 pauljohnston@h
+2535920351
+12/1/2024
+6/1/2026
+4 2746 Ne 45Th StrSeattle, WA 9810Hair / Nails / Spa Single
+FALSE
+07X
+QFC07X-0807
+Mylon Betts [SU1Inactive
+Headlines Salon
+WJ372627
+J372627
+$3,548.65 $ -
+$ -
+Paul Johnston
+2065272400 pauljohnston@h
+2535920351
+3/1/2026
+6/1/2026
+1 2746 Ne 45Th StrSeattle, WA 9810Hair / Nails / Spa Single
+FALSE
+07X
+FME07X-0215
+Richard DiamondActive
+Menuderia Maria Mexican RestauraJ408850E
+J408850E
+$6,650.00
+$1,456.00 $ -
+Luis Medina
+6197916375 medinal1315@gmail.com
+6/1/2025
+6/1/2026
+4 25250 Pacific Hig Kent, WA 98032 Mexican
+Single
+FALSE
+07X
+FME07X-0215
+Richard DiamondActive
+Robin Hood Pizza
+J409590E
+J409590E
+$5,450.00
+$1,363.00 $ -
+Navjot Singh
+2062498805 robinhoodpizzakent@gmail.com
+6/1/2025
+6/1/2026
+4 25250 Pacific Hig Kent, WA 98032 Pizza
+Single
+FALSE
+07X
+FME07X-0215
+Richard DiamondActive
+Goatea
+J409759E
+J409759E
+$6,650.00
+$1,663.00 $ -
+Thanh Luong
+2067471278 goatea0315@gmail.com
+6/1/2025
+6/1/2026
+4 25250 Pacific Hig Kent, WA 98032 Coffee Shops
+Single
+FALSE
+07X
+FME07X-0457
+Richard DiamondActive
+Kristi's Grooming LLC [Attorney]
+J412684E
+J412684E
+$5,375.00 $ -
+$2,239.55 Chris Greenwood
+8584129368 chrisg21956@gmail.com
+12/1/2025
+6/1/2026
+1 21045 Bothell Ev Bothell, WA 9802Pet Care
+Single
+FALSE
+07X
+FME07X-0457
+Richard DiamondActive
+Kristi's Grooming LLC [Attorney]
+J412684E
+J412684E
+$5,375.00 $ -
+$2,239.55 Chris Greenwood
+8584129368 chrisg21956@gmail.com
+3/1/2026
+6/1/2026
+1 21045 Bothell Ev Bothell, WA 9802Pet Care
+Single
+FALSE
+07X
+SAF07X-1664
+Richard Leibowit Active
+Big 5 Sporting Goods
+CJ129746
+J401057E
+$83,500.00
+$835.00 $ -
+Peter Mulvaney
+3105360611 pcm@big5corp.c
+7023951474
+6/1/2025
+6/1/2026
+4 138 Southwest 14Burien, WA 9816 Sporting / MilitarDouble
+FALSE
+07X
+SAF07X-3298
+Richard Leibowit Active
+Big 5 Sporting Goods
+CJ129746
+J406026E
+$103,540.00
+$835.00 $ -
+Peter Mulvaney
+3105360611 pcm@big5corp.c
+7023951474
+6/1/2025
+6/1/2026
+4 7601 Evergreen WEverett, WA 9820Sporting / MilitarDouble
+FALSE
+07X
+SAF07X-3500
+SANDEE DEPPIES Active
+Great Clips
+WV39565
+J410067E
+$4,500.00
+$1,125.00 $ -
+Rajiv Sarathy
+4254826177 rajiv@zahoomi.com
+6/1/2025
+6/1/2026
+4 6850 N E Bothell Kenmore, WA 98 Hair / Nails / Spa Single
+FALSE
+07X
+FME07X-0215
+William Flerry [SUInactive
+Waterland Arcade
+J408940E
+J408940E
+$15,700.00
+$1,331.00 $ -
+Jason Bliss
+2063966719 jason.bliss@gmail.com
+6/1/2025
+6/1/2026
+4 25250 Pacific Hig Kent, WA 98032 Family EntertainmSingle
+FALSE
+JAE  they have a3 & b3 stores as well
+07Y
+FME07Y-0393
+Amy Dixon [SU94Active
+Las 4 Lunas formerly Habaneros
+WJ288487
+J366335
+$12,435.00
+$1,554.00 $ -
+Flor Luna
+5034274227 brunallc20@gma
+3608522772
+6/1/2024
+6/1/2026
+8 19200 SW MartinTualatin, OR 9706Mexican
+Double
+FALSE
+07Y
+FME07Y-0220
+Anthony Marty E Active
+Tacos El Oso Loco
+J406535E
+J406535E
+$3,924.00
+$981.00 $ -
+Victor Sanchez
+5033326106 Tacoselosoloco@gmail.com
+6/1/2025
+6/1/2026
+4 3300 PORTLAND Newberg, OR 971Mexican
+Single
+FALSE
+07Y
+FME07Y-0005
+Anthony Marty E Active
+The Chicken Shanty
+J408663E
+J408663E
+$5,172.00
+$1,293.00 $ -
+Jaymes Clark
+7605214305 Chickenshantyalbany@gmail.com
+6/1/2025
+6/1/2026
+4 2500 Santiam HigAlbany, OR 97322Casual Dining
+Single
+FALSE
+07Y
+FME07Y-0005
+Anthony Marty E Active
+Willieâ€™s Barbershop
+J408686E
+J408686E
+$5,000.00
+$1,250.00 $ -
+Will Halsey
+4582669750 Williesbarbershopalbany@gmail.co
+6/1/2025
+6/1/2026
+4 2500 Santiam HigAlbany, OR 97322Hair / Nails / Spa Single
+FALSE
+07Y
+SAF07Y-1516
+Anthony Marty E Active
+Mannyâ€™s Wings & More
+J408818E
+J408818E
+$4,085.00
+$1,021.00 $ -
+Manuel Santiago
+9717018028 Santiagohernandez27.ms@gmail.c
+6/1/2025
+6/1/2026
+4 4990 River Rd N Keizer, OR 97303 Casual Dining
+Single
+FALSE
+07Y
+FME07Y-0220
+Anthony Marty E Active
+Chevron Car Wash
+WD9855
+J409946E
+$3,533.00
+$883.00 $ -
+Andy Patel
+5034767070 Chevron3745@gmail.com
+6/1/2025
+6/1/2026
+4 3300 PORTLAND Newberg, OR 971Car Wash / Detai Single
+FALSE
+07Y
+FME07Y-0005
+Anthony Marty E Active
+Los Tequilas Mexican Restaurant
+J409959E
+J409959E
+$4,531.12
+$1,133.00 $ -
+Ruben Ortega
+5417913966 Jorgetequilas@hotmail.com
+6/1/2025
+6/1/2026
+4 2500 Santiam HigAlbany, OR 97322Mexican
+Single
+FALSE
+07Y
+SAF07Y-1935
+Anthony Marty E Active
+Raw Blendz
+J420570E
+J420570E
+$3,927.51
+$1,041.00 $ -
+Alejandra Escobe
+9713822922 Alejandrae@rawblendzjuicery.com
+12/1/2025
+6/1/2026
+2 5660 Commercia Salem, OR 97306 Fitness & Health Single
+FALSE
+07Y
+FME07Y-0360
+Dave Boring [SU1Active
+Your Side Chicks
+J409018E
+J409018E
+$5,025.00
+$1,256.00 $ -
+Dan Stramm
+9714300960 Info@yoursidechicks.com
+6/1/2025
+6/1/2026
+4 100 Northwest 2 Portland, OR 972 Casual Dining
+Single
+FALSE
+07Y
+FME07Y-0360
+Dave Boring [SU1Active
+Rose City Pasta [Collections]
+J409102E
+J409102E
+$5,025.00
+$1,256.00
+$2,093.75 Dan Stramm
+7024692943 daniel@rosecitypasta.com
+6/1/2025
+6/1/2026
+4 100 Northwest 2 Portland, OR 972 Casual Dining
+Single
+FALSE
+07Y
+SAF07Y-4316
+Kenneth Abbay [SActive
+Downtown Cafe & Bakery
+WV41785
+V41785
+$2,285.00
+$571.00 $ -
+Jessica Calvin
+5412196852 jesscalvin1326@
+5419475566
+6/1/2025
+6/1/2026
+4 244 N F Street
+Lakeview, OR 976Casual Dining
+Single
+FALSE
+07Y
+FME07Y-0165
+Kenneth Abbay [SActive
+Black Bear Diner
+WJ380901
+J380901
+$4,355.00
+$1,089.00 $ -
+Linda Buckley
+5418837766 lindaandbuck@y
+5418804327
+6/1/2025
+6/1/2026
+4 2655 Shasta Way Klamath Falls, ORCasual Dining
+Single
+FALSE
+07Y
+ALB07Y-0572
+Matthew Boozer Active
+Clean Juice Eugene
+J424801E
+J424801E
+$3,550.00 $ -
+$ -
+Mike Morgan
+5416194515 Michael.morgan@cleanjuice.com
+6/1/2026
+6/1/2026
+0 311 Coburg Rd
+Eugene, OR 9740Fitness & Health Single
+FALSE
+07Y
+SAF07Y-0429
+Melanie Parham Active
+East Salem Ace Hardware
+WV33402
+J407592E
+$7,200.00
+$900.00 $ -
+Jeremy Mackay
+7604309756 jeremy@westsale
+5038607008
+6/1/2025
+6/1/2026
+4 3380 Lancaster DSalem, OR 97305 Home Improvem Single
+FALSE
+07Y
+SAF07Y-0290
+Tyler VanSant [SUActive
+Diamond Cannabis
+WJ324408
+J407328E
+$5,165.00
+$1,291.00 $ -
+Cody Porter
+5419168355 MANAGER@THEDIAMONDCANNA
+6/1/2025
+6/1/2026
+4 115 SE 7th StreetGrants Pass, OR 9Dispensary
+Double
+FALSE
+07Y
+FME07Y-0242
+Tyler VanSant [SUActive
+Mixtlan Grill Mexican Restaurant
+WD5306
+J408422E
+$7,065.00
+$1,766.00 $ -
+Isidro Sanchez
+5036575553 vamosmazatlan@
+5037527061
+6/1/2025
+6/1/2026
+4 1839 Molalla AveOregon City, OR 9Mexican
+Single
+FALSE
+07Z
+SAF07Z-0509
+Angelo Morales [ Active
+Bridge City Collective
+J409443E
+J409428E
+$12,816.00
+$1,629.00 $ -
+David Alport
+9703894548 david@bridgecitycollective.com
+6/1/2025
+6/1/2026
+4 5920 NE Martin LPortland, OR 972 Dispensary
+Double
+FALSE
+07Z
+SAF07Z-1612
+Angelo Morales [ Active
+Bridge City Collective
+J409443E
+J409428E
+$12,816.00
+$1,575.00 $ -
+David Alport
+9703894548 david@bridgecitycollective.com
+6/1/2025
+6/1/2026
+4 1100 NE BroadwaPortland, OR 972 Dispensary
+Double
+FALSE
+07Z
+ROS07Z-0042
+Dave Boring [SU1Active
+Unity Solar
+WV27529
+J408237E
+$6,960.25
+$1,170.00 $ -
+Andrew Doyle
+9713797380 Andrew@UnityElectricalService.co
+6/1/2025
+6/1/2026
+4 101 S. 47th Aven Ridgefield, WA 98Energy
+Double
+FALSE
+07Z
+SAF07Z-1523
+Dave Boring [SU1Active
+Super Torta Authentic Mexican Foo J408916E
+J408916E
+$4,355.04
+$1,089.00 $ -
+Gabriel Cruz
+5037883650 gcruz9634@gmail.com
+6/1/2025
+6/1/2026
+4 4515 SE WoodstoPortland, OR 972 Mexican
+Single
+FALSE
+07Z
+SAF07Z-1653
+Dave Boring [SU1Active
+Muchas Gracias - 28th St.
+J409244E
+J409244E
+$3,972.50
+$993.00 $ -
+Rodolfo Sanchez,
+3608922120 muchas2021@gmail.com
+6/1/2025
+6/1/2026
+4 2615 NE 112th A Vancouver, WA 9 Mexican
+Single
+FALSE
+07Z
+SAF07Z-0400
+Jan Banks [SU144Active
+El Tapatio Mexican Restaurant [Coll A409697E
+J409697E
+$3,200.00
+$800.00
+$1,879.47 Lucia Rodriguez
+3606932443 Pantera1964@comcast.net
+6/1/2025
+6/1/2026
+4 3707 N Main St
+Vancouver, WA 9 Mexican
+Single
+FALSE
+J410332E
+07Z
+SAF07Z-0486
+Kale Lundberg [S Inactive
+Westside Pizza
+J419212E
+J419212E
+$1,900.00
+$950.00 $ -
+Fred Lal
+7706059078 frederick@westsidepizza.com
+12/1/2025
+6/1/2026
+2 3842 Bridgeport Tacoma, WA 984 Pizza
+Single
+FALSE
+07Z
+SAF07Z-1619
+Kale Lundberg [S Inactive
+Liberty Tax
+J421199E
+J421199E
+$2,935.59
+$1,114.00 $ -
+Tracey Morris
+3609997978 tracy.morris@libtax.com
+3/1/2026
+6/1/2026
+1 1109 Yelm AvenuYelm, WA 98597 Financial
+Single
+FALSE
+07Z
+FME07Z-0093
+Tyler VanSant [SUActive
+Le Bistro Montage
+J409162E
+J409162E
+$5,302.98
+$1,326.00 $ -
+Cecilia Marquez-
+3604406700 Ceci.marq9@gmail.com
+6/1/2025
+6/1/2026
+4 16600 Southeast Vancouver, WA 9 Casual Dining
+Single
+FALSE
+07Z
+ROS07Z-0042
+Tyler VanSant [SUActive
+James Schmeling Insurance Agency J409474E
+J409474E
+$4,750.00
+$1,188.00 $ -
+James Schmeling
+3602413581 JSchmeling@allstate.com
+6/1/2025
+6/1/2026
+4 101 S. 47th Aven Ridgefield, WA 98Insurance
+Single
+TRUE
+
+=== PAGE BREAK ===
+
+ZoneName SalesRep
+SalesRepStatus ContractStatus
+ProductStatus
+BusinessName
+AccountNumber ContractNumberTotalContractPri LateBalance
+PrimaryContactNPrimaryPhone
+PrimaryEmail
+SecondaryPhoneStartDate
+EndDate
+RunLength
+MonthlyImpress RenewalContract
+07Y
+Dave Boring
+Active
+Active
+Running
+Unity Solar
+WV27529
+J408237E
+$6,960.25 $ -
+Andrew Doyle
+9.71E+09 Andrew@UnityElectricalService.co
+6/13/2025
+6/13/2026
+12 30K
+
+=== PAGE BREAK ===
+

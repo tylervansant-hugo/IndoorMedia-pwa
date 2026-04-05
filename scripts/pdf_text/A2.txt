@@ -1,0 +1,659 @@
+StoreZoStoreName
+SalesRep
+RepStatBusinessName
+AccountNumContractNu ContractTot CycleReven  LateBala PrimaryCont PrimaryPh PrimaryEmail
+SecondaryP StartDate
+EndDate
+RunStoreAddress
+StoreCityStateZipCategory
+AdSize Categor RenewalContract
+07W
+SAF07W-1135
+Kale Lundberg [S Active Pioneer Coffee and RoastJ416729E
+J416729E
+($ 1,712.50) ($
+856.00)
+  
+($
+-  )
+   
+JoAnna Mads425736165joannalmadsen@gmail.com
+10/1/2025
+4/1/2026
+2 804 West First
+Cle Elum, WA 989Coffee Sho Single
+FALSE
+DECLINE
+07X
+SAF07X-3148
+Kale Lundberg [S Active JJâ€™s Fish House
+J404691E
+J404691E
+($ 5,907.20) ($1,477.00) ($
+-  )
+   
+Edwin Cos
+360919806JJS.fhcos31@gmail.com
+4/1/2025
+4/1/2026
+4 19245 10Th Ave Poulsbo, WA 983 Casual Dini Double FALSE jae contacted 3-18-26
+07X
+SAF07X-3148
+Kale Lundberg [S Active Taqueria Los Cazadores
+WJ242684 J404478E
+($ 5,331.55) ($1,333.00) ($
+-  )
+   
+Joaquin Guzm360779633cazadores_04@h3606495272
+4/1/2025
+4/1/2026
+4 19245 10Th Ave Poulsbo, WA 983 Mexican
+Single
+FALSE jae contacted 3-18-26
+07X
+QFC07X-0860
+Richard DiamondActive Kanishka Cuisine of India J404215E
+J404215E
+($ 5,375.00) ($1,344.00) ($
+-  )
+   
+Dhanish Pras 425945666dhanishp3@gmail.com
+4/1/2025
+4/1/2026
+4 8867 161St Aven Redmond, WA 98Cultural DinDouble FALSE
+DECLINE
+07X
+SAF07X-0538
+Richard DiamondActive Ground to Perfection EspJ404994E
+J404994E
+($ 5,229.00) ($1,307.00) ($
+-  )
+   
+Kelli Sullivan 206259866groundtoperfecti 3606433423
+4/1/2025
+4/1/2026
+4 442 W Sims Way Port Townsend, WCoffee Sho Double FALSE jae contacted 3-18-26
+07X
+SAF07X-1555
+Richard DiamondActive Faded Essence BarbershoJ406189E
+J406189E
+($ 4,500.00) ($1,125.00) ($
+-  )
+   
+Oscar Tinoco 253583620oscartinoco10@gmail.com
+4/1/2025
+4/1/2026
+4 1207 S 320th St Federal Way, WA Hair / Nails Single
+FALSE jae contacted 3-18-26
+07Y
+SAF07Y-4404
+Amy Dixon [SU94Active Galaxy Won
+J405667E
+J405667E
+($ 4,265.00) ($1,066.00) ($
+-  )
+   
+Scottie Davis 503917840hal9000@galaxywon.com
+4/1/2025
+4/1/2026
+4 138 W Ellendale Dallas, OR 97338 Family EnteSingle
+FALSE
+We are not interested in renewing
+07Y
+SAF07Y-1976
+Anthony Marty E Active Burn Fitness
+A222202
+J414560E
+($ 2,004.00) ($1,002.00) ($
+-  )
+   
+Rick Hascall
+971506502Rick.hascall@icloud.com
+10/1/2025
+4/1/2026
+2 1550 North Pacif Woodburn, OR 9 Fitness & HSingle
+FALSE jae contacted 3-18-26
+07Y
+SAF07Y-1751
+Dave Boring [SU1InactiveChepitaâ€™s RestaurantJ402890E
+J402890E
+($ 6,961.00) ($1,134.00) ($ 1,251.0Adriana Men 503759355Chepitasm112@gmail.com
+4/1/2025
+4/1/2026
+4 1525 West Main Molalla, OR 9703Mexican
+Single
+FALSE jae contacted 3-18-26
+07Y
+FME07Y-0196
+Kenneth Abbay [SActive Central Art
+CJ358585
+J358585
+($ 4,320.00) ($1,080.00) ($
+-  )
+   
+Dan Ebert
+541773144ann@centralarts 5416013021
+4/1/2025
+4/1/2026
+4 1301 Center Driv Medford, OR 975Arts & Craf Single
+FALSE Decline
+07Y
+SAF07Y-0525
+Kenneth Abbay [SActive China Hut
+WJ358592 J358592
+($ 3,645.00) ($
+911.00)
+  
+($
+-  )
+   
+Wing Liu
+541779452wingliu862@gma7025889847
+4/1/2025
+4/1/2026
+4 1003 Medford CeMedford, OR 975Asian
+Single
+FALSE jae contacted 3-18-26
+07Y
+SAF07Y-1527
+Tyler VanSant [SUActive Red Apple Chinese Resta J405171E
+J405171E
+($ 4,090.56) ($1,023.00) ($
+-  )
+   
+Yan Ma
+503769813370625876@qq.com
+4/1/2025
+4/1/2026
+4 1535 North 1St S Stayton, OR 9738Asian
+Single
+FALSE jae contacted 3-18-26
+07Z
+FME07Z-0650
+Anthony Marty E Active Masters of Business
+C008898
+J415956E
+($ 2,807.00) ($1,404.00) ($
+-  )
+   
+Jessica Ander541604479oregonbusinessmasters@gma 10/1/2025
+4/1/2026
+2 944 SW Veterans Redmond, OR 97 Financial
+Single
+FALSE jae contacted 3-18-26
+07Z
+FME07Z-0660
+Catalina Zinzu GaInactiveTheresaâ€™s Country FeJ405000E
+J405000E
+($ 4,644.00) ($1,161.00) ($
+-  )
+   
+Kalise Samps 425223897kalise@evergreenpetsupply.c
+4/1/2025
+4/1/2026
+4 22855 NE Park LnWood Village, ORPet Supply Single
+TRUE
+jae contacted 3-18-26
+07Z
+ALB07Z-2592
+Dave Boring [SU1InactiveNails 2000
+V12763E
+V12763E
+($ 3,125.00) ($
+781.00)
+  
+($
+-  )
+   
+Celine Nguye 360666303CelineThi78@yahoo.com
+10/1/2024
+4/1/2026
+4 2108 W Main Str Battle Ground, WHair / Nails Single
+FALSE jae contacted 3-18-26
+07Z
+SAF07Z-0091
+Dave Boring [SU1InactiveJacquieâ€™s WEB [Colle J401512E
+J401512E
+($ 4,305.00) ($1,076.00) ($ 1,435.0Jacquie Glen 360524133dreamweavingclouds@gmail.
+4/1/2025
+4/1/2026
+4 1227 15Th Ave
+Longview, WA 98 Retail ShopSingle
+FALSE jae contacted 3-18-26
+07Z
+SAF07Z-1762
+Dave Boring [SU1InactiveCrow Moon Coffee & BistWJ324403 J404581E
+($ 4,783.00) ($1,196.00) ($ 398.63 Ronda Calleja360841012callejarr@gmail.com
+4/1/2025
+4/1/2026
+4 1725 Pacific Ave Woodland, WA 9 Coffee Sho Single
+FALSE
+This business is permanently closed
+07Z
+SAF07Z-1762
+Dave Boring [SU1InactiveTeriyaki Spice
+WJ324401 J405138E
+($ 6,504.00) ($1,626.00) ($
+-  )
+   
+Octavio Luna 360225791Octavio@teriyak 3607232874
+4/1/2025
+4/1/2026
+4 1725 Pacific Ave Woodland, WA 9 Asian
+Single
+FALSE jae contacted 3-18-26
+07Z
+SAF07Z-1762
+Dave Boring [SU1InactiveWoodland True Value
+WJ322021 J405151E
+($ 4,788.00) ($1,197.00) ($
+-  )
+   
+Mike Golik
+360225833mikegolik@yahoo3607133221
+4/1/2025
+4/1/2026
+4 1725 Pacific Ave Woodland, WA 9 Home ImprSingle
+FALSE Decline
+07Z
+SAF07Z-1762
+Dave Boring [SU1InactiveWayback Burgers
+J404830E
+J404830E
+($ 5,304.00) ($1,326.00) ($
+-  )
+   
+Imtiaz Chaud 360841875ImtiazChaudhry@yahoo.com
+4/1/2025
+4/1/2026
+4 1725 Pacific Ave Woodland, WA 9 Casual Dini Single
+FALSE jae contacted 3-18-26
+07Z
+FME07Z-0265
+Fabian Reyes [SU Active Tealicious [Collections]
+J416500E
+J416500E
+($ 2,365.00) ($1,183.00) ($ 1,182.0Kenny Chan 206861938Kennyfw@gmail.com
+10/1/2025
+4/1/2026
+2 1100 N Meridian Puyallup, WA 983Coffee Sho Single
+FALSE jae contacted 3-18-26
+07Z
+SAF07Z-3305
+Kale Lundberg [S Active Umai Sushi & Bento
+WJ378374 J378374
+($ 2,844.00) ($
+711.00)
+  
+($
+-  )
+   
+Austin
+253355751Minjaetokko@gmail.com
+4/1/2025
+4/1/2026
+4 15805 Pacific AveTacoma, WA 9844Asian
+Single
+FALSE jae contacted 3-18-26
+07Z
+SAF07Z-1888
+Perry Jackson [SUInactiveBend Preschool
+WJ364113 J364113
+($ 6,299.00) ($1,575.00) ($
+-  )
+   
+Ruth Crawma541604989ruthcrawmer@be5414805772
+4/1/2025
+4/1/2026
+4 320 SW Century Bend, OR 97702 Education /Double FALSE jae contacted 3-18-26
+07Z
+SAF07Z-1173
+Richard DiamondActive Spineaid Chiropractic
+J401573E
+J401573E
+($ 5,200.51) ($1,300.00) ($
+-  )
+   
+Jibok Lee
+206909532jbleedc@gmail.com
+4/1/2025
+4/1/2026
+4 1243 Marvin Roa Olympia, WA 985Medical
+Single
+TRUE
+jae contacted 3-18-26
+07Z
+SAF07Z-1704
+Tyler VanSant [SUActive La Catedral Tapatia
+WJ348427 J402311E
+($ 9,520.00) ($
+886.00)
+  
+($
+-  )
+   
+Ivan Guitron 360891005guitron.g.ivan@g5037204903
+4/1/2025
+4/1/2026
+4 6700 NE 162nd AVancouver, WA 9 Mexican
+Single
+FALSE jae contacted 3-18-26
+07W
+SAF07W-0563
+Lorin R. Clark [SUActive Stokes Burger Ranch
+WA6927
+J329350
+($ 7,600.00) ($
+919.00)
+  
+($
+-  )
+   
+David Stokes 509837300stokesburgerranc5098432601
+4/1/2025
+4/1/2026
+4 613 South Sixth SSunnyside, WA 98Casual Dini Single
+FALSE J420082E
+07W
+SAF07W-0563
+Lorin R. Clark [SUActive Papa Murphy's
+WJ196758 J404235E
+($ 10,475.00($
+919.00)
+  
+($
+-  )
+   
+Rustin McDo 541786947pizzarustin@gma5092647272
+4/1/2025
+4/1/2026
+4 613 South Sixth SSunnyside, WA 98Pizza
+Single
+FALSE J421002E
+07W
+SAF07W-1544
+Lorin R. Clark [SUActive Papa Murphy's
+W159112
+J304792D
+($ 3,550.00) ($
+888.00)
+  
+($
+-  )
+   
+Shannon Seaf509754280s.seaford@outloo5099077383
+4/1/2025
+4/1/2026
+4 1150 Basin St S.WEphrata, WA 988 Pizza
+Single
+FALSE J422149E
+07W
+FME07W-0486 Lorin R. Clark [SUActive El Mirador
+WJ2169
+J362625
+($ 5,475.00) ($1,369.00) ($
+-  )
+   
+Cecilia Bramb509452720elmirador2yakim 5098334423
+4/1/2025
+4/1/2026
+4 1206 N 40th ave Yakima, WA 9890Mexican
+Single
+FALSE J423090E
+07X
+SAF07X-1143
+Brylee Vandiver [ InactiveGibby's Auto Spa [CollectJ403935E
+J403935E
+($ 6,623.90) ($1,056.00) ($ 1,820.4John Wright 206271790john@gibbysautospa.com
+4/1/2025
+4/1/2026
+4 8340 15Th AvenuSeattle, WA 9811Car Wash / Single
+FALSE V43286
+07X
+SAF07X-1294
+lisa for William FlInactiveMr. Camaron Bar & Grill [WJ372678 J372678
+($ 4,740.00) ($1,185.00) ($ 395.00 Pedro Bautist253854434pedrobarragan1819@gmail.c
+4/1/2025
+4/1/2026
+4 210 Washington Kent, WA 98032 Casual Dini Double FALSE jae contacted
+07X
+SAF07X-1555
+lisa for William FlInactiveMathnasium
+J405260E
+J405260E
+($ 5,745.00) ($1,436.00) ($
+-  )
+   
+Tam Le
+206401526federalway@mathnasium.com 4/1/2025
+4/1/2026
+4 1207 S 320th St Federal Way, WA Education /Double FALSE
+DECLINE
+07X
+SAF07X-1294
+lisa for William FlInactiveMake It Rain Fitness
+J404921E
+J404921E
+($ 5,968.00) ($1,461.00) ($
+-  )
+   
+Joshua Moor 253886908makeitrainfit@gmail.com
+4/1/2025
+4/1/2026
+4 210 Washington Kent, WA 98032 Fitness & HSingle
+FALSE
+Decline
+07X
+SAF07X-1555
+lisa for William FlInactiveTJ Nail Salon
+J405174E
+J405174E
+($ 4,500.00) ($1,125.00) ($
+-  )
+   
+Mina Vo
+253941604minavo0730@ya 2064463211
+4/1/2025
+4/1/2026
+4 1207 S 320th St Federal Way, WA Hair / Nails Single
+FALSE DECLINE
+07Y
+ALB07Y-0528
+Amy Dixon [SU94Active Top Shelf Cannabis
+WJ288481 J405914E
+($ 12,993.00($1,602.00) ($
+-  )
+   
+Brian Stacy
+503472240brian@topshelfm9712416624
+4/1/2025
+4/1/2026
+4 615 SW Keck Dr Mcminnville, OR Dispensary Double FALSE
+07Y
+SAF07Y-4404
+Amy Dixon [SU94Active Two Wolves Taproom
+J405664E
+J405664E
+($ 4,265.00) ($1,066.00) ($
+-  )
+   
+Anthony Noo 503509764anthony@twowolvestaproom
+4/1/2025
+4/1/2026
+4 138 W Ellendale Dallas, OR 97338 Bar / Night Single
+FALSE J427209E
+07Y
+SAF07Y-4404
+Amy Dixon [SU94Active Lunaitas
+J405901E
+J405901E
+($ 4,725.00) ($1,181.00) ($
+-  )
+   
+Diana Luna
+360947855lunad8966@gmail.com
+4/1/2025
+4/1/2026
+4 138 W Ellendale Dallas, OR 97338 Mexican
+Single
+FALSE J427523E
+07Y
+SAF07Y-0525
+Kenneth Abbay [SActive Crater Cannabis
+WJ358588 J358588
+($ 6,463.80) ($1,616.00) ($
+-  )
+   
+Drew Little
+541500171cratercanna@gm5099942636
+4/1/2025
+4/1/2026
+4 1003 Medford CeMedford, OR 975Dispensary Double FALSE
+07Z
+SAF07Z-0091
+Dave Boring [SU1InactiveTeriyaki Spice
+J405658E
+J405658E
+($ 4,548.00) ($1,137.00) ($
+-  )
+   
+Jose Gonzale 360261790josepablogonzalez86@gmail.
+4/1/2025
+4/1/2026
+4 1227 15Th Ave
+Longview, WA 98 Asian
+Single
+FALSE J417267E
+07Z
+SAF07Z-1489
+Lisa Castic [SU89 Active Papa Murphy's
+V66649
+J404521E
+($ 4,868.00) ($1,217.00) ($
+-  )
+   
+Darrin Lingel 541386713lingel@gorge.net5419933026
+4/1/2025
+4/1/2026
+4 520 Mount HoodThe Dalles, OR 97Pizza
+Single
+FALSE jae - need to find file
+07Z
+SAF07Z-1704
+Tyler VanSant [SUActive Felony Pizza
+WV38972
+J406519E
+($ 3,545.04) ($
+886.00)
+  
+($
+-  )
+   
+Megan Vesta 360718772dotcomoffices@gmail.com
+4/1/2025
+4/1/2026
+4 6700 NE 162nd AVancouver, WA 9 Pizza
+Single
+FALSE J425900E
+07Z
+FME07Z-0424
+lisa for William FlInactiveGamers Juggernaut 
+J409191E
+J409191E
+($ 1,900.25) ($
+950.00)
+  
+($
+-  )
+   
+William Flerry253844638wflerry@gameju 7204839014 10/1/2025
+4/1/2026
+2 17404 Meridian ESouth Hill, WA 98Family EnteDouble FALSE
+Declined
+07Z
+FME07Z-0424
+lisa for William FlInactiveRossCo Service Plumbers J415080E
+J415080E
+($ 2,750.00) ($1,313.00) ($
+-  )
+   
+Richie Ross
+509204909Office@rosscoserviceplumbe 10/1/2025
+4/1/2026
+2 17404 Meridian ESouth Hill, WA 98Home ImprSingle
+TRUE
+We do NOT want to continue
+
+=== PAGE BREAK ===
+
+ZoneName
+SalesRep
+SalesRepStatus ContractStatus
+ProductStatus
+BusinessName
+AccountNumber ContractNumber TotalContractPri  LateBalance 
+PrimaryContactNPrimaryPhone
+PrimaryEmail
+SecondaryPhoneStartDate
+EndDate
+RunLength
+MonthlyImpress RenewalContract
+07X
+Brylee Vandiver Inactive
+Active
+Running
+Gibby's Auto Spa
+J403935E
+J403935E
+($
+6,623.90)
+       
+($
+1,820.49)
+       
+John Wright
+2062717903 john@gibbysautospa.com
+4/1/2025
+4/1/2026
+12 30K
+07Y
+Jan Banks
+Active
+Active
+Running
+Mudville Clay Studio
+J406188E
+J406188E
+($
+2,400.00)
+       
+($
+-  )
+                
+Stephanie Huiska
+9712492940 mudvilleclaystudio@gmail.com
+4/1/2025
+4/1/2026
+12 20K
+07Z
+Tyler VanSant
+Active
+Active
+Running
+Nest Food Truck
+WV38971
+J403695E-IMD
+($
+2,400.00)
+       
+($
+-  )
+                
+Scott Gix
+3608007971 scottgix1@gmail.com
+4/1/2025
+4/1/2026
+12 30K
+
+=== PAGE BREAK ===
+

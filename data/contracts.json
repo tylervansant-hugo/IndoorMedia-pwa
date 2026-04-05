@@ -479,6 +479,40 @@
       "address": "24121 Wa-3",
       "customer_city_state": "Belfair, WA 98528",
       "extracted_at": "2026-03-31T20:00:10.203083"
+    },
+    {
+      "contract_number": "J428479E",
+      "date": "3/31/2026",
+      "business_name": "Dizzy Dean\u2019s Donuts",
+      "contact_name": "Dean Weaver",
+      "contact_email": "Dizzydeansdonuts@gmail.com",
+      "contact_phone": "(541) 206-8758",
+      "sales_rep": "Matthew Boozer",
+      "store_name": "",
+      "store_number": "Fred Meyer-0417",
+      "product_description": "Single",
+      "total_amount": 2363.0,
+      "payment_date": "3/31/2026",
+      "address": "2380 W. 11th Ave.",
+      "customer_city_state": "Eugene, OR 97402",
+      "extracted_at": "2026-03-31T20:00:31.161402"
+    },
+    {
+      "contract_number": "J428357E",
+      "date": "4/1/2026",
+      "business_name": "St.Vincent de Paul Society of",
+      "contact_name": "Lane County Inc.",
+      "contact_email": "Chance.fortune@svdp.us",
+      "contact_phone": "(541) 321-3781",
+      "sales_rep": "Matthew Boozer",
+      "store_name": "",
+      "store_number": "Safeway-0386",
+      "product_description": "Double",
+      "total_amount": 5215.0,
+      "payment_date": "4/1/2026",
+      "address": "2890 Chad Drive",
+      "customer_city_state": "Eugene, OR 97408",
+      "extracted_at": "2026-04-01T17:41:04.567308"
     }
   ],
   "last_scan": "2026-03-08T15:11:11.119957"

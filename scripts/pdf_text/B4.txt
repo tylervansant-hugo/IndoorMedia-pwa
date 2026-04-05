@@ -1,0 +1,748 @@
+Store 
+Z
+StoreName
+SalesRep
+RepSta
+t
+Business Name
+Account 
+N
+b
+Contract 
+N
+b
+Contra
+t T t l
+Cycle 
+R
+Late 
+B l
+Primary 
+C
+t
+t
+Primary 
+Ph
+Primary Email
+Second
+Start 
+D t
+End 
+D t
+Ru
+StoreA
+dd
+StoreCityS
+t t Zi
+Category
+AdSize
+Category 
+E
+l
+i
+Renewal 
+C
+t
+t
+07W
+SAF07W-1486
+Dennis Stachura [SU750Active
+Melton Dental
+J407262E
+J407262E
+$3,780.0 $1,828.00$  -
+Sean Melto521-1324 meltondental@mt.net
+5/1/25 11/1/25
+2 611 N MHelena, MT Dental / OrthodDouble Split
+TRUE
+jae contacted 10-9-2025
+07W
+YOK07W-0012
+Lorin R. Clark [SU3269 : Active
+Hacienda Del Sol
+WJ10749
+J13451E
+$3,684.0 $921.00 $  -
+Sergio Corr547-1722 Haciendadelsolm532-4296 11/1/24 11/1/25
+4 4905 N Pasco, WA 9Cultural Dining Single
+FALSE
+jae contacted 10-9-2025
+07X
+SAF07X-1978
+Austin Dewitt [SU15053Active
+Fondi Pizzeria
+J412486E
+J412486E
+$3,550.0 $  -
+$  -
+Christophe 851-6666 Chris@fondi.com
+8/1/25 11/1/25
+1 2637 NoTacoma, WAPizza
+Single
+FALSE
+I spoke with Austin on this.
+07X
+FME07X-0013
+Doug Mcdougall [SU137Inactive Channel Marker
+WJ363494
+J363494
+$4,545.0 $1,136.00$  -
+Tawni Schle275-9590 channelmarker@892-0658 11/1/24 11/1/25
+4 18325 AShoreline, WBar / Night ClubSingle
+FALSE
+jae contacted 10-9-2025
+07X
+FME07X-0688
+Doug Mcdougall [SU137Inactive Kalia Indian Cuisine
+WJ363495
+J363495
+$4,905.0 $1,226.00$  -
+Tawni Schle771-6422 harvinderkalia@g892-0658 11/1/24 11/1/25
+4 2902 16 Lynnwood, Cultural Dining Single
+FALSE
+jae contacted 10-9-2025
+07X
+SAF07X-0406
+Kale Lundberg [SU1462 Active
+Pita Pit
+WJ374098
+J374098
+$3,564.0 $891.00 $  -
+Nazir Hanc 358-3195 wa.mediterranea338-2325 11/1/24 11/1/25
+4 11330 NGig Harbor, Cultural Dining Single
+FALSE
+DECLINE
+07X
+ALB07X-0475
+Kale Lundberg [SU1462 Active
+El Rey 2.0
+WJ374096
+J374096
+$3,207.0 $802.00 $  -
+Leticia Esca895-5920 lety.e5389@gmai415-6901 11/1/24 11/1/25
+4 1434 Ol Port Orchar Mexican
+Single
+FALSE
+DECLINE.
+07X
+QFC07X-0851
+Mylon Betts [SU14365 : Inactive Corry's Fine Dry Cleaning
+WJ372668
+J372668
+$21,845. $856.00 $  -
+Nina
+272-8094 niha@corrysclean290-8596 11/1/24 11/1/25
+4 22828 1 Edmonds, WDry Cleaning / LSingle
+FALSE
+jae contacted 10-9-2025
+07X
+SAF07X-1978
+Mylon Betts [SU14365 : Inactive Corry's Fine Dry Cleaning
+WJ372668
+J372668
+$21,845. $1,381.00$  -
+Nina
+272-8094 niha@corrysclean290-8596 11/1/24 11/1/25
+4 2637 NoTacoma, WADry Cleaning / LSingle
+FALSE
+jae contacted 10-9-2025
+07X
+FME07X-0028
+Mylon Betts [SU14365 : Inactive Corry's Fine Dry Cleaning
+WJ372668
+J372645
+$18,125. $706.00 $  -
+Nina
+272-8094 niha@corrysclean290-8596 11/1/24 11/1/25
+4 14300 1 Burien, WA Dry Cleaning / LSingle
+FALSE
+jae contacted 10-9-2025
+07X
+SAF07X-3120
+Mylon Betts [SU14365 : Inactive Corry's Fine Dry Cleaning
+WJ372668
+J372645
+$18,125. $1,437.00$  -
+Nina
+272-8094 niha@corrysclean290-8596 11/1/24 11/1/25
+4 12725 F Burien, WA Dry Cleaning / LSingle
+FALSE
+jae contacted 10-9-2025
+07X
+QFC07X-0847
+Mylon Betts [SU14365 : Inactive Kally Threading
+J13498E
+J13498E
+$3,925.0 $981.00 $  -
+Saphiya Ad271-9337 mesaphiya4u@gmail.com 11/1/24 11/1/25
+4 1401 Br Seattle, WA Hair / Nails / Sp Single
+FALSE
+jae contacted 10-9-2025
+07X
+FME07X-0028
+Richard Diamond [SU12Active
+Dairy Queen
+W54927
+V39817
+$5,715.0 $1,229.00$  -
+Navjot Sing310-6573 jcsinghdq@gmail890-7975 11/1/24 11/1/25
+4 14300 1 Burien, WA Fast Food
+Single
+FALSE
+DECLINE
+07X
+FME07X-0688
+Richard Diamond [SU12Active
+The UPS Store
+WJ372665
+J372665
+$5,223.9 $1,306.00$  -
+Sky Martin 835-0078 skymartin57@gm953-3553 11/1/24 11/1/25
+4 2902 16 Lynnwood, Shipping / PostaSingle
+FALSE
+DECLINE
+07X
+HAG07X-0067
+Richard Diamond [SU12Active
+Cava Azul Cocina & Cantina A84678
+J13748E
+$3,995.0 $999.00 $  -
+Valeria Ram689-2528 valeria@cavaazul445-8539 11/1/24 11/1/25
+4 17641 GWoodinville Mexican
+Single
+FALSE
+jae contacted 10-9-2025
+07X
+ALB07X-0475
+Richard Diamond [SU12Active
+Mina's Cafe
+J13776E
+J13776E
+$3,548.6 $887.00 $  -
+Mina Tucke876-7646 minatucker13@icloud.com 11/1/24 11/1/25
+4 1434 Ol Port Orchar Casual Dining
+Single
+FALSE
+jae contacted 10-9-2025
+07X
+FME07X-0171
+Richard Diamond [SU12Active
+Ristretto Stone [Collections] J13879E
+J13879E
+$5,373.6 $1,343.00$447.80 Kelsiana M 900-6188 ristrettostone@gmail.com 11/1/24 11/1/25
+4 5050 StaBremerton, Coffee Shops
+Single
+FALSE
+jae contacted 10-9-2025
+07X
+SAF07X-3540
+Richard Diamond [SU12Active
+Menuderia Maria Mexican RJ408850E
+J408850E
+$6,650.0 $827.00 $  -
+Luis Medin 791-6375 medinal1315@gmail.com
+8/1/25 11/1/25
+1 21401 PDes Moines Mexican
+Single
+FALSE
+jae contacted 10-9-2025
+07X
+SAF07X-3540
+Richard Diamond [SU12Active
+Goatea
+J409759E
+J409759E
+$6,650.0 $  -
+$  -
+Thanh Luon747-1278 goatea0315@gmail.com
+8/1/25 11/1/25
+1 21401 PDes Moines Coffee Shops
+Single
+FALSE
+jae contacted 10-9-2025
+07X
+FME07X-0013
+Richard Diamond [SU12Active
+Spin Alley Bowling
+J412510E
+J412510E
+$3,125.0 $  -
+$  -
+Rose Were 533-2345 rose@vault177.com
+8/1/25 11/1/25
+1 18325 AShoreline, WFamily EntertainSingle
+FALSE
+jae contacted 10-9-2025
+07X
+SAF07X-3540
+Richard Leibowitz [SU91Active
+Top Fresh Cuts
+WJ362481
+V43215
+$  -
+$  -
+$  -
+Withgod Er578-6918 topfreshcuts@gmail.com
+8/1/25 11/1/25
+1 21401 PDes Moines Hair / Nails / Sp Single
+FALSE
+jae contacted 10-9-2025
+07Y
+FME07Y-0516
+Amy Dixon [SU9498 : USActive
+Lance's Superior Auto ServicWJ142448
+J348468
+$9,650.0 $1,206.00$  -
+Lance Griff 682-8522 lancemgriffin@gm685-5054 11/1/23 11/1/25
+8 30300 S Wilsonville, Repair / Body / Single
+FALSE
+jae contacted 10-9-2025
+07Y
+FME07Y-0355
+Amy Dixon [SU9498 : USActive
+Hey Lady DBA Salem Real DeJ13688E
+J13688E
+$4,925.0 $1,231.00$  -
+Dawn Sher 990-7690 salem_or@realdeals.net
+11/1/24 11/1/25
+4 3450 CoSalem, OR 9Retail Shopping Single
+FALSE
+jae contacted 10-9-2025
+07Y
+SAF07Y-0508
+Dave Boring [SU14256 : Active
+Sushi Kuni
+WJ357145
+J357145D
+$2,964.0 $741.00 $  -
+Agatha Cha610-1611 llh.agatha@gmail374-2132 11/1/24 11/1/25
+4 401 A A Lake Osweg Asian
+Single
+FALSE
+jae contacted 10-9-2025
+07Y
+FME07Y-0063
+Dave Boring [SU14256 : Active
+Hearty K-Bop [Collections]
+J13513E
+J13513E
+$6,125.0 $1,225.00$510.41 Chris Yim
+850-4462 HeartyKBop@gmail.com
+11/1/24 11/1/25
+4 16301 S Clackamas, Asian
+Single
+FALSE
+jae contacted 10-9-2025
+07Y
+SAF07Y-4513
+James Keller [SU14601 Inactive Fresh & Natural
+J13258E
+J13391E
+$3,125.0 $781.00 $  -
+Erendira M345-9999 eremorenovargas@gmail.c 11/1/24 11/1/25
+4 350 E 40Eugene, OR Mexican
+Single
+FALSE
+jae contacted 10-9-2025
+07Y
+FME07Y-0328
+James Keller [SU14601 Inactive R Pizza
+J13424E
+J13424E
+$6,454.0 $921.00 $  -
+Buta Sangh510-0602 Bawa22singh@yahoo.com 11/1/24 11/1/25
+4 650 Q S Springfield, Pizza
+Single
+FALSE
+Pls I don’t want any more renewal pls
+07Y
+SAF07Y-0363
+James Keller [SU14601 Inactive Ixtapa Family Mexican RestaA220393
+J13762E
+$4,885.0 $1,190.00$  -
+Vidal Marti997-4499 ixtapaflorence@h590-5770 11/1/24 11/1/25
+4 700 Hig Florence, O Mexican
+Single
+FALSE
+jae contacted 10-9-2025
+07Y
+SAF07Y-0591
+Jan Banks [SU14482 : U Active
+Neon Momo
+V11998E
+V11998E
+$3,925.0 $981.00 $  -
+Ashlee Mu 384-1946 Info@neonmomo.com
+11/1/24 11/1/25
+4 888 N.E Hillsboro, O Family EntertainSingle
+FALSE
+DECLINE
+07Y
+SAF07Y-1047
+Jan Banks [SU14482 : U Active
+Miller‚Äôs Homestead RestaJ13304E
+J13304E
+$6,072.0 $918.00 $  -
+Jeff Grey
+941-6050 Homestead@greyspecialtie11/1/24 11/1/25
+4 17779 BLake Osweg Casual Dining
+Single
+FALSE
+DECLINE
+07Y
+SAF07Y-1800
+Jan Banks [SU14482 : U Active
+Garment Rescue
+J13530E
+J13530E
+$3,995.0 $999.00 $  -
+Debbie Lyn703-0588 Debbielynne4@hotmail.co 11/1/24 11/1/25
+4 20685 S Sherwood, Retail Shopping Single
+FALSE
+jae contacted 10-9-2025
+07Y
+SAF07Y-1800
+Jan Banks [SU14482 : U Active
+Jalape√±o Rocoto Pepper
+J13631E
+J13631E
+$3,860.0 $965.00 $  -
+Shaeyla Ve 263-7298 Shylavr123@gmail.com
+11/1/24 11/1/25
+4 20685 S Sherwood, Mexican
+Single
+FALSE
+jae contacted 10-9-2025
+07Y
+ALB07Y-0593
+Kenneth Abbay [SU1224Active
+All American Fleet & Auto
+CJ358568
+J358568
+$2,700.0 $675.00 $  -
+Brandon W500-1086 allamericanfleeta659-9809 11/1/24 11/1/25
+4 113 Ros Medford, O Repair / Body / Single
+FALSE
+jae contacted 10-9-2025
+07Y
+ALB07Y-0593
+Kenneth Abbay [SU1224Active
+Dolly Varden's Cafe
+WJ358551
+V43294
+$  -
+$  -
+$  -
+John Coffee772-7261 johncoffee3838@560-2348 8/1/25 11/1/25
+1 113 Ros Medford, O Casual Dining
+Single
+FALSE
+jae contacted 10-9-2025
+07Y
+ALB07Y-0593
+Kenneth Abbay [SU1224Active
+Tarascas
+WJ358561
+V43295
+$  -
+$  -
+$  -
+Maria Cabe225-9509 vickycabez@gma414-8730 8/1/25 11/1/25
+1 113 Ros Medford, O Mexican
+Single
+FALSE
+DECLINE
+07Y
+FME07Y-0328
+Matthew Boozer [SU15 Active
+Papi‚Äôs Custom Carpentry J412830E
+J412830E
+$5,997.0 $  -
+$  -
+Brian Pape 505-6425 Papiscustomcarpentry@gm 8/1/25 11/1/25
+1 650 Q S Springfield, Home ImprovemSingle
+FALSE
+jae contacted 10-9-2025
+07Y
+FME07Y-0328
+Matthew Boozer [SU15 Active
+Summit Structures & CreativJ413143E
+J413143E
+$4,824.0 $  -
+$402.00 Russ Dregn325-4371 Russ.summitsales@gmail.c 8/1/25 11/1/25
+1 650 Q S Springfield, Home ImprovemSingle
+FALSE
+jae contacted 10-9-2025
+07Z
+SAF07Z-4405
+Dave Boring [SU14256 : Active
+Hazel Dell Car Wash
+WB6109
+J13470E
+$4,725.0 $1,181.00$  -
+Kuljit Singh574-1636 3skgroup@gmail.com
+11/1/24 11/1/25
+4 408 NE Vancouver, Car Wash / DetaSingle
+FALSE
+DECLINE
+07Z
+FME07Z-0385
+Fabian Reyes [SU14269 Active
+Can Am Pizza
+WA5105
+J411831E
+$5,988.0 $  -
+$  -
+Amritpal Si 209-9292 Lakewoodcanampizza@gm 8/1/25 11/1/25
+1 7250 Pa Tacoma, WAPizza
+Double
+FALSE
+jae contacted 10-9-2025
+07Z
+SAF07Z-3424
+Mylon Betts [SU14365 : Inactive Corry's Fine Dry Cleaning
+WJ372668
+J372668
+$21,845. $887.00 $  -
+Nina
+272-8094 niha@corrysclean290-8596 11/1/24 11/1/25
+4 2411 N Tacoma, WADry Cleaning / LSingle
+FALSE
+jae contacted 10-9-2025
+07Z
+FME07Z-0665
+Richard Diamond [SU12Active
+Untamed Coffee, LLC
+J13592E
+J13592E
+$5,523.3 $1,381.00$  -
+Kerri Huble281-0694 untamedcoffeeco@gmail.c 11/1/24 11/1/25
+4 1201 Va Sumner, WACoffee Shops
+Single
+FALSE
+Decline
+07Z
+ALB07Z-3106
+Richard Diamond [SU12Active
+Can - Am Pizza [Collections] J13568E
+J13568E
+$3,425.0 $856.00 $1,141.6Harinderbi 250-9239 HarinderbirSingh@yahoo.c 11/1/24 11/1/25
+4 11012 CPuyallup, WPizza
+Single
+FALSE
+jae contacted 10-9-2025
+07W
+ALB07W-3367
+Dennis Stachura [SU750Active
+Vitality Medical
+WJ354582
+J406184E
+$3,205.0 $1,540.00$  -
+Melissa Ful855-2422 vitalitymedical406@gmail.c 5/1/25 11/1/25
+2 5317 Gr Billings, MT Medical
+Double
+FALSE
+J416657E
+07W
+ALB07W-0035
+Laura Miller [SU8843 : UActive
+Dairy Queen
+WJ205557
+V41630
+$12,550. $1,088.00$  -
+Steven Gal 453-5413 segdreams@yaho750-4723 11/1/24 11/1/25
+4 1414 3r Great Falls, Ice Cream / Yog Double
+FALSE
+J416487E
+07X
+SAF07X-0531
+Melanie Parham [SU319Active
+Burger King / Arby's
+WJ93547
+V42093
+$72,000. $1,125.00$  -
+Luke Pisors240-4537 luke.pisors@amb498-3118 11/1/24 11/1/25
+4 101 AubAuburn, WAFast Food
+Single
+FALSE
+dnc
+07X
+FME07X-0028
+Richard Leibowitz [SU91Active
+Big 5 Sporting Goods
+CJ129746
+V43242
+$  -
+$  -
+$  -
+Peter Mulv 536-0611 pcm@big5corp.co395-1474 5/1/25 11/1/25
+2 14300 1 Burien, WA Sporting / Milit Double
+FALSE
+V43280
+07X
+SAF07X-3120
+Richard Leibowitz [SU91Active
+Big 5 Sporting Goods
+CJ129746
+V43121
+$  -
+$  -
+$  -
+Peter Mulv 536-0611 pcm@big5corp.co395-1474 1/1/25 11/1/25
+2 12725 F Burien, WA Sporting / Milit Double
+FALSE
+V43282
+07X
+QFC07X-0850
+Roy Hernandez [SU8720Active
+Mobil 1 Lube Express
+WJ93503
+J318700
+$2,880.0 $720.00 $  -
+George Kal 485-3343 george.christina@999-2517 11/1/24 11/1/25
+4 22833 BBothell, WA Repair / Body / Single
+FALSE
+Working on
+07Z
+QFC07Z-0105
+Christopher Vaughn [SUInactive Fit Auto Service
+J12764E
+J12764E
+$2,525.8 $631.00 $  -
+Mark Zelen359-2276 fitautoservice253@gmail.c 11/1/24 11/1/25
+4 11104 PTacoma, WARepair / Body / Double
+FALSE
+Declined
+07Z
+FME07Z-0659
+Tyler VanSant [SU10890Active
+Shelley Jones & Carrie HammWV34769
+J13349E
+$8,538.0 $1,813.00$1,067.2Shelley Jon561-0000 shelleyjones@nw951-3214 11/1/24 11/1/25
+2 555 TrosTumwater, WReal Estate / Re Double
+FALSE
+still being wrapped up
+07Z
+SAF07Z-1231
+Tyler VanSant [SU10890Active
+Victorico's Mexican RestauraWJ197947
+V34732
+$9,525.0 $1,191.00 $0.02 Victor Sanc303-5682 victor@victoricos563-6851 11/1/23 11/1/25
+8 12032 S Clackamas, Cultural Dining Single
+FALSE
+still being wrapped up
+07Z
+FME07Z-0127
+Tyler VanSant [SU10890Active
+Felony Pizza
+V12779E
+V12779E
+$7,520.0 $1,181.00$  -
+Travis Mcdo804-5765 dotcomoffices@gmail.com 11/1/24 11/1/25
+4 2497 SE Gresham, O Pizza
+Single
+FALSE
+still being wrapped up
+07Z
+SAF07Z-1687
+Tyler VanSant [SU10890Active
+Danglicious Vietnamese KitcV13019E
+V13019E
+$3,925.0 $981.00 $1,660.4Andrew Da210-5049 andrew.anh.dang@gmail.co11/1/24 11/1/25
+4 3307 SE Washougal, Asian
+Single
+FALSE
+still being wrapped up
+07Z
+FME07Z-0659
+Tyler VanSant [SU10890Active
+Shelley Jones & Carrie HammWV34769
+J13349E
+$8,538.0 $1,256.00$1,067.2Shelley Jon561-0000 shelleyjones@nw951-3214 5/1/25 11/1/25
+2 555 TrosTumwater, WReal Estate / Re Single
+FALSE
+still being wrapped up
+07Z
+SAF07Z-1977
+Tyler VanSant [SU10890Active
+Jerk An‚Äô Tingz [Collection J13862E
+J13862E
+$2,960.0 $740.00 $493.34 Tevin Camp884-9858 Jerkantingz@gmail.com
+11/1/24 11/1/25
+4 6200 Pa Lacey, WA 9Cultural Dining Single
+FALSE
+still being wrapped up
+07Y
+ALB07Y-0577
+Kenneth Abbay [SU1224Active
+What A Relief CBD
+WJ358571
+J358571
+$3,365.0 $841.00 $  -
+Donreal
+887-2775 whatareliefcbd@591-0554 11/1/24 11/1/25
+4 5500 S 6Klamath Fal CBD
+Single
+TRUE
+07Z
+SAF07Z-3134
+SANDEE DEPPIESSE [SU Active
+Oregrown-PDX Flagship Inc. J13456E
+J13456E
+$6,300.0 $1,575.00$2,100.0Kevin Hoga477-6898 Kevin@oregrown.com
+11/1/24 11/1/25
+4 2800 SE Portland, O Dispensary
+Double
+FALSE
+
+=== PAGE BREAK ===
+
+Zone 
+Name
+SalesRep
+SalesRep 
+Status
+Contract 
+Status
+Product 
+Status
+Business Name
+Account 
+Number
+Contract 
+Number
+Total Contract 
+Price
+Late Balance
+Primary Contact 
+Name
+Primary Phone
+Primary Email
+Secondary 
+Phone
+Start Date
+End Date
+Run 
+Length
+Monthly 
+Impressions
+Renewal 
+Contract
+07X
+Richard Diamond
+Active
+Active
+Running
+Pho Smile
+WJ362453
+D13388E
+$2,400.00 $ -
+Hiep Dinh
+(425) 212-9799 hiepdinhseattle@gmail.com
+(206) 684-7954
+11/9/2024
+11/9/2025
+12 20K
+
+=== PAGE BREAK ===
+

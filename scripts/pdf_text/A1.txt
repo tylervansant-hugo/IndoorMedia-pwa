@@ -1,0 +1,205 @@
+ZON StoreName
+SalesRep
+RepStaBusinessName
+AccountContract ContractT  CycleReve LateB PrimaryCPrimaryPPrimaryEmSecondary StartDateEndDateRu StoreAdd StoreCityCategory AdSize CategoRenewalContract
+07W FME07W-0654
+Richard DiamondActive Wenatchee Plumbi J401200EJ401200E($ 5,250.48 ($ 1,313.00 ($ -  ) Kevin Dod(509) 883 info@wenatcheeplumbi 1/1/2025 1/1/2026 4 11 Grant R East WenaHome Imp Double
+FALSE Declined
+07X SAF07X-3148
+Kale Lundberg [S Active Toys Etc. 
+J401286EJ401286E($ 5,925.00 ($ 1,481.00 ($ -  ) Yvette Bo (360) 779 toysetc.poulsbo@gmail. 1/1/2025 1/1/2026 4 19245 10T Poulsbo, WToys / GamDouble
+FALSE jae contacted 12-12-2025
+07X SAF07X-3148
+Kale Lundberg [S Active New Image Sparkle J401406EJ401406E($ 5,925.00 ($ 1,481.00 ($ 1,00 Alondra L (360) 620 Avluna13@gmail.com
+1/1/2025 1/1/2026 4 19245 10T Poulsbo, WHome CleaDouble
+FALSE jae contacted 12-12-2025
+07X SAF07X-1252
+Kale Lundberg [S Active Madison Diner 
+J401648EJ401648E($ 4,995.00 ($ 1,249.00 ($ -  ) David Sha(626) 628 Davidericshaw@hotmail1/1/2025 1/1/2026 4 253 High S Bainbridg Casual Din Double
+FALSE jae contacted 12-12-2025
+07X SAF07X-1680
+Kale Lundberg [S Active Kulture Kuttz BarbeJ14119E J14119E ($ 5,875.00 ($ 1,438.00 ($ -  ) Joshua La (360) 979 Joshyj1725@gmail.com 1/1/2025 1/1/2026 4 2890 Nw BSilverdale Hair / NailsSingle
+FALSE DECLINE
+07X SAF07X-1680
+Kale Lundberg [S Active Little Caesars
+WJ37268J400500E($ 14,550.0 ($ 1,438.00 ($ -  ) Krunal Pa (360) 434 kdpatel0131@gmail.com1/1/2025 1/1/2026 4 2890 Nw BSilverdale Pizza
+Single
+FALSE jae contacted 12-12-2025
+07X SAF07X-3148
+Kale Lundberg [S Active Diablo's
+J401266EJ401266E($ 4,254.12 ($ 1,064.00 ($ -  ) Randy
+(360) 410 Diablosinc@outlook.com1/1/2025 1/1/2026 4 19245 10T Poulsbo, WMexican
+Single
+FALSE jae contacted 12-12-2025
+07X SAF07X-1252
+Kale Lundberg [S Active Proper Fish
+J401506EJ401506E($ 3,800.00 ($ 950.00) ($ -  ) Heriberto(206) 403 properbusiness78@gma1/1/2025 1/1/2026 4 253 High S Bainbridg Casual Din Single
+FALSE We need to cancel the subscription, the reason is we are spending mo
+07X SAF07X-3148
+Kale Lundberg [S Active Shoomadoggie EnteJ401621EJ401621E($ 4,376.55 ($ 1,094.00 ($ -  ) Randy
+(360) 779 Billing@shoomadoggie.c1/1/2025 1/1/2026 4 19245 10T Poulsbo, WHome Imp Single
+FALSE DECLINE
+07X SAF07X-3317
+Kale Lundberg [S Active Augusta Lawn Care J411659EJ411659E($ 3,924.00 ($
+-  )
+      
+($ -  ) Josh Casa (253) 617 Josh@gowithgreenearth10/1/20251/1/2026 1 3355 BethePort Orch Home Imp Single
+FALSE jae contacted 12-12-2025
+07X SAF07X-1600
+Mylon Betts [SU1InactiveIsidros
+J13469E J13469E ($ 3,925.00 ($ 981.00) ($ -  ) Cindee Ch(206) 295 cindee@isidros.com
+1/1/2025 1/1/2026 4 300 Bellev Bellevue, Mexican
+Single
+FALSE Decline
+07X SAF07X-1252
+Mylon Betts [SU1InactivePau's Asian Kitchen WV13820J401352E($ 3,537.80 ($ 884.00) ($ -  )  Zhongyua(206) 887 zhongyuan.huang1996@1/1/2025 1/1/2026 4 253 High S Bainbridg Asian
+Single
+FALSE jae contacted 12-12-2025
+07X SAF07X-0490
+Richard DiamondActive Sum Yee Kae SeafooJ414450EJ414450E($ 6,564.00 ($
+-  )
+      
+($ -  ) Elizabeth (425) 233 info@sunsuiwahseattle.c10/1/20251/1/2026 1 1645 140T Bellevue, Asian
+Double
+FALSE jae contacted 12-12-2025
+07X SAF07X-0464
+Richard DiamondActive Taste of Hyderabad A237704 J400549E($ 9,271.80 ($ 1,037.00 ($ -  ) Satish Pag(425) 240 thetasteofhy(425) 799-0 1/1/2025 1/1/2026 4 17246 Red Redmond Casual Din Single
+FALSE jae contacted 12-12-2025
+07Y ALB07Y-0528
+Amy Dixon [SU94Active Mazatlan
+WJ36633J366339 ($ 3,848.00 ($ 962.00) ($ -  ) Jesus Galv(503) 472 chuygalvan6(503) 435-8311/1/20241/1/2026 4 615 SW Ke Mcminnv Mexican
+Single
+FALSE jae contacted 12-12-2025
+07Y FME07Y-0070
+Amy Dixon [SU94Active Oscar's Tacos and CJ411762EJ411762E($ 3,275.00 ($
+-  )
+      
+($ -  ) David Riva(541) 264 oscarstacosandcantina@10/1/20251/1/2026 1 777 Kings BCorvallis, Mexican
+Single
+FALSE jae contacted 12-12-2025
+07Y FME07Y-0285
+Jan Banks [SU144Active Raulâ€™s Family MV69383 J411057E($ 2,000.00 ($ 1,000.00 ($ -  ) Javier Bed(503) 203 ElSolFamilyM(503) 419-727/1/2025 1/1/2026 2 7700 SW BPortland, Mexican
+Single
+FALSE jae contacted 12-12-2025
+07Z FME07Z-0208
+Dave Boring [SU1Active Double Jump VideoJ400516EJ400516E($ 4,764.00 ($ 1,191.00 ($ -  ) Cooper Ba(360) 947 doublejumpvideogames@1/1/2025 1/1/2026 4 11325 Sou Vancouve Toys / GamSingle
+FALSE Decline
+07Z FME07Z-0236
+Dave Boring [SU1Active Taqueria Portland J400958EJ400958E($ 4,920.00 ($ 1,230.00 ($ -  ) Roger He (360) 885 iris.herrera7@icloud.com1/1/2025 1/1/2026 4 7411 NE 1 Vancouve Mexican
+Single
+FALSE jae contacted 12-12-2025
+07Z FME07Z-0424
+Fabian Reyes [SU Active 2 Chicks liquidationJ415145EJ415145E($ 6,990.00 ($
+-  )
+      
+($ -  ) Shawna H(253) 682 2chicksliquidation@gma10/1/20251/1/2026 1 17404 MerSouth Hill Retail ShopSingle
+FALSE jae contacted 12-12-2025
+07Z SAF07Z-4313
+Jan Banks [SU144Active Tracy Mancini Burg J13645E J13645E ($ 3,275.00 ($ 819.00) ($ -  ) Tracy Man(360) 241 Tburgess@bhhsnw.com 1/1/2025 1/1/2026 4 904 W Ma Battle GroReal EstateSingle
+TRUE jae contacted 12-12-2025
+07Z SAF07Z-3545
+Mylon Betts [SU1InactiveThe Joint Chiroprac WV39807V43271 ($
+-  )
+      
+($
+-  )
+      
+($ -  ) Dr. Mo Ah(253) 600 dr.mo.ahn@(206) 900-1810/1/20251/1/2026 1 900 E Mer Milton, WMedical
+Single
+FALSE jae contacted 12-12-2025
+07Z FME07Z-0424
+Richard DiamondActive Dolly's Eyebrow Th J413151EJ413151E($ 5,600.04 ($
+-  )
+      
+($ -  ) Dolly San (206) 676 dollysandhu4u@gmail.co10/1/20251/1/2026 1 17404 MerSouth Hill Hair / NailsSingle
+FALSE jae contacted 12-12-2025
+07Z SAF07Z-0091
+Tyler VanSant [SUActive Salty Beaver Beer GJ401009EJ401009E($ 4,085.00 ($ 1,021.00 ($ -  )  Christy &(360) 957 Saltybeavermanager@o 1/1/2025 1/1/2026 4 1227 15Th Longview,Bar / NightSingle
+FALSE jae contacted 12-12-2025
+07X QFC07X-0839
+Richard DiamondActive Sahara Pizza
+WJ34021J400827E($ 2,850.00 ($ 713.00) ($ -  ) Mickdeep(206) 992 mercerisland@saharapiz1/1/2025 1/1/2026 4 7823 Se 28Mercer Is Pizza
+Single
+FALSE J400827E
+07Y FME07Y-0090
+Melanie Parham Active Burger King / Arby'sWJ93547V42054 ($ 48,400.0 ($ 1,400.00 ($ -  ) Luke Piso (952) 240 luke.pisors@(925) 498-3 10/1/20241/1/2026 4 3740 MarkSalem, ORFast Food Single
+FALSE J418463E
+07Y FME07Y-0090
+Melanie Parham Active Burger King / Arby'sWJ93547V42054 ($ 48,400.0 ($
+-  )
+      
+($ -  ) Luke Piso (952) 240 luke.pisors@(925) 498-3 10/1/20251/1/2026 1 3740 MarkSalem, ORFast Food Single
+FALSE J418463E
+07Y FME07Y-0375
+Melanie Parham Active Burger King / Arby'sWJ93547V42093 ($ 72,000.0 ($ 1,350.00 ($ -  ) Luke Piso (952) 240 luke.pisors@(925) 498-3 1/1/2025 1/1/2026 4 11565 SW Tigard, ORFast Food Single
+FALSE V42093-Terminated
+07Y FME07Y-0417
+Melanie Parham Active Burger King / Arby'sWJ93547V42093 ($ 72,000.0 ($ 1,225.00 ($ -  ) Luke Piso (952) 240 luke.pisors@(925) 498-3 1/1/2025 1/1/2026 4 3333 W 11Eugene, OFast Food Single
+FALSE dnc
+07Y FME07Y-0417
+Melanie Parham Active Burger King / Arby'sWJ93547V42093 ($ 72,000.0 ($
+-  )
+      
+($ -  ) Luke Piso (952) 240 luke.pisors@(925) 498-3 1/1/2026 1/1/2026 0 3333 W 11Eugene, OFast Food Single
+FALSE dnc
+07Y FME07Y-0285
+Richard Leibowit Active Big 5 Sporting GoodCJ129746V43278 ($
+-  )
+      
+($
+-  )
+      
+($ 8,62 Peter Mu (310) 536 pcm@big5c (702) 395-147/1/2025 1/1/2026 2 7700 SW BPortland, Sporting / Double
+FALSE dnc
+07Z SAF07Z-2640
+Melanie Parham Active Burger King / Arby'sWJ93547V42054 ($ 48,400.0 ($ 1,400.00 ($ -  ) Luke Piso (952) 240 luke.pisors@(925) 498-3 10/1/20241/1/2026 4 13308 E M Puyallup, Fast Food Single
+FALSE J418463E
+07Z SAF07Z-2640
+Melanie Parham Active Burger King / Arby'sWJ93547V42054 ($ 48,400.0 ($
+-  )
+      
+($ -  ) Luke Piso (952) 240 luke.pisors@(925) 498-3 10/1/20251/1/2026 1 13308 E M Puyallup, Fast Food Single
+FALSE J418463E
+07Z ALB07Z-0493
+Melanie Parham Active Burger King / Arby'sWJ93547V42054 ($ 48,400.0 ($ 900.00) ($ -  ) Luke Piso (952) 240 luke.pisors@(925) 498-3 10/1/20241/1/2026 4 104 MilitarTacoma, WFast Food Single
+FALSE J418463E
+07Z ALB07Z-0493
+Melanie Parham Active Burger King / Arby'sWJ93547V42054 ($ 48,400.0 ($
+-  )
+      
+($ -  ) Luke Piso (952) 240 luke.pisors@(925) 498-3 10/1/20251/1/2026 1 104 MilitarTacoma, WFast Food Single
+FALSE J418463E
+07Z FME07Z-0185
+Melanie Parham Active Burger King / Arby'sWJ93547V42093 ($ 72,000.0 ($ 1,325.00 ($ -  ) Luke Piso (952) 240 luke.pisors@(925) 498-3 1/1/2025 1/1/2026 4 3184 Ocea Longview,Fast Food Single
+FALSE V42093-Terminated
+07Z FME07Z-0424
+Melanie Parham Active Burger King / Arby'sWJ93547V42093 ($ 72,000.0 ($ 1,225.00 ($ -  ) Luke Piso (952) 240 luke.pisors@(925) 498-3 1/1/2025 1/1/2026 4 17404 MerSouth Hill Fast Food Single
+FALSE V42093-Terminated
+07Z FME07Z-0021
+Richard Leibowit Active Big 5 Sporting GoodCJ129746J401057E($ 83,500.0 ($ 835.00) ($ 8,62 Peter Mu (310) 536 pcm@big5c (702) 395-141/1/2025 1/1/2026 4 61535 S HwBend, OR Sporting / Double
+FALSE dnc
+07Z SAF07Z-1888
+Richard Leibowit Active Big 5 Sporting GoodCJ129746V43269 ($
+-  )
+      
+($
+-  )
+      
+($ 8,62 Peter Mu (310) 536 pcm@big5c (702) 395-147/1/2025 1/1/2026 2 320 SW CeBend, OR Sporting / Double
+FALSE dnc
+07Z FME07Z-0424
+Fabian Reyes [SU Active Seatac Tire Auto Te J414283EJ414283E($ 7,115.00 ($
+-  )
+      
+($ 1,63 Rana Paya(253) 840 Seatactiregoodyear@gm10/1/20251/1/2026 1 17404 MerSouth Hill Repair / BoSingle
+FALSE J414882E
+07X SAF07X-0792
+Richard Leibowit Active Big 5 Sporting GoodCJ129746J401057E($ 83,500.0 ($ 835.00) ($ 8,62 Peter Mu (310) 536 pcm@big5c (702) 395-141/1/2025 1/1/2026 4 17051 SE 2Kent, WA Sporting / Double
+FALSE dnc
+
+=== PAGE BREAK ===
+
+NO BOOST THIS CYCLE
+
+=== PAGE BREAK ===
+

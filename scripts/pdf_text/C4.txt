@@ -1,0 +1,613 @@
+StoreZoStoreName
+SalesRep
+RepStat BusinessName
+AccountNu ContractNContractTotCycleRevenuLateBalanPrimaryContPrimaryPho PrimaryEmaSecondar StartDate
+EndDate
+RunLeStoreAddress
+StoreCityStateZipCategory
+AdSize
+Categor RenewalContract
+07W
+FME07W-0214
+Joshua Holley [SUInactive Crave
+J13898E
+J13898E $5,052.00
+$1,263.00
+$ -
+Rod Hullinge5099949994Spokane@cravecookie12/1/2024 12/1/2025 4
+12120 N Division Spokane, WA 992Bakery
+Single
+FALSE
+jae contacted 11-11-2025
+07W
+FME07W-0049
+Lorin R. Clark [SUActive
+El Jefe
+J415511E
+J415511E $2,950.00
+$ -
+$245.83
+Sam Singh
+2086519154info@eljefesgrill.com 9/1/2025
+12/1/2025 1
+560 West KathleeCoeur D'Alene, IDMexican
+Single
+FALSE
+jae contacted 11-11-2025
+07X
+ALB07X-3416
+Bradley Marvin [SInactive Chocolate Man
+WJ372689 J372689 $3,082.00
+$771.00
+$ -
+Bill Frederick2063652025orders@cho 2068192412/1/2024 12/1/2025 4
+17171 Bothell WaLake Forest Park, Candy & SweSingle
+FALSE
+We are declining to renew
+07X
+SAF07X-1664
+Doug Mcdougall Inactive Bella Luna Pizza &J156704
+J363490 $4,900.00
+$1,225.00
+$ -
+Daniel Ruser2062443634difoopela@y2063346612/1/2024 12/1/2025 4
+138 Southwest 14Burien, WA 9816 Pizza
+Single
+FALSE
+jae contacted 11-11-2025
+07X
+FME07X-0691
+Fabian Reyes [SU Active
+Harbor Moon
+J14125E
+J14125E $4,625.00
+$1,125.00
+$ -
+Michael Neis3078712023Drneish@harbormoon12/1/2024 12/1/2025 4
+5502 Point FosdicGig Harbor, WA 9Dental / OrthSingle
+FALSE
+jae contacted 11-11-2025
+07X
+FME07X-0215
+Fabian Reyes [SU Active
+Postal Annex
+J403372E
+J403372E $2,589.00
+$1,295.00
+$ -
+Navjot Singh 2063106573Admin@printannex.co6/1/2025
+12/1/2025 2
+25250 Pacific Hig Kent, WA 98032 Shipping / PoSingle
+FALSE
+decline
+07X
+SAF07X-1493
+Ngan Ngo [SU145Active
+Luxury Nail Spa NJ13321E
+J13321E $4,275.00
+$1,038.00
+$ -
+Lan Nguyen 2063561328lan2303xt@gmail.com12/1/2024 12/1/2025 4
+4011 S 164th St Seattle, WA 9818Hair / Nails / Single
+FALSE
+jae contacted 11-11-2025
+07X
+HAG07X-0017
+Richard DiamondActive
+Menchies Frozen V12650E
+V12650E $3,676.44
+$919.00
+$ -
+Nick Hansen 3074601118nickleehansen1991@g12/1/2024 12/1/2025 4
+1406 Lake Tapps Auburn, WA 9809Ice Cream / YSingle
+FALSE
+DECLINE
+07X
+SAF07X-1550
+Richard DiamondActive
+India Bistro
+WJ36762
+J400474E $4,523.16
+$1,131.00
+$ -
+Varinder Sing2065174444seattleindiab2067715012/1/2024 12/1/2025 4
+7300 Roosevelt WSeattle, WA 9811Cultural DininSingle
+FALSE
+jae contacted 11-11-2025
+07X
+SAF07X-0402
+Richard DiamondActive
+Naung Mai Thai KJ414170E
+J414170E $3,253.75
+$ -
+$ -
+Jantarat Aran3607209390Aranya3339@gmail.co9/1/2025
+12/1/2025 1
+1450 SW Erie St Oak Harbor, WA 9Asian
+Single
+FALSE
+DECLINE
+07X
+ALB07X-3416
+Richard DiamondActive
+Tropical Berry
+J414713E
+J414713E $5,249.00
+$ -
+$ -
+Julio Cerdeir 4253511261tropicalberry@icloud.c9/1/2025
+12/1/2025 1
+17171 Bothell WaLake Forest Park, Casual DiningSingle
+FALSE
+jae contacted 11-11-2025
+07Y
+ALB07Y-0570
+James Keller [SU1Inactive R Pizza
+J13424E
+J13424E $6,454.00
+$630.00
+$ -
+Buta Sangha 5035100602Bawa22singh@yahoo. 12/1/2024 12/1/2025 4
+2000 Marcola Rd Springfield, OR 9 Pizza
+Single
+FALSE
+jae contacted 11-11-2025
+07Y
+SAF07Y-0420
+James Keller [SU1Inactive Bellizzi's Pizza Joi WJ359321 J13643E $8,124.00
+$1,200.00
+$ -
+Jeremy Belliz5416869996jeremy@bellizzipizza.c12/1/2024 12/1/2025 4
+1500 Coburg Rd Eugene, OR 9740Pizza
+Single
+FALSE
+am not renewing
+07Y
+ALB07Y-0572
+James Keller [SU1Inactive Bellizzi's Pizza Joi WJ359321 J13643E $8,124.00
+$831.00
+$ -
+Jeremy Belliz5416869996jeremy@bellizzipizza.c12/1/2024 12/1/2025 4
+311 Coburg Rd
+Eugene, OR 9740Pizza
+Single
+FALSE
+am not renewing
+07Y
+ALB07Y-0560
+James Keller [SU1Inactive Shooters Pub & GWJ228225 J13663E $2,975.00
+$744.00
+$ -
+Debbie Holle5415790910swasduo@gmail.com 12/1/2024 12/1/2025 4
+55 Division Ave
+Eugene, OR 9740Bar / Night C Single
+FALSE
+jae contacted 11-11-2025
+07Y
+SAF07Y-2631
+Jan Banks [SU144Active
+Prime IV HydratioJ400631E
+J400631E $4,760.00
+$1,190.00
+$ -
+Amy Silici
+5035308842asilici@primeivhydrati 12/1/2024 12/1/2025 4
+14555 SW Teal BlBeaverton, OR 97Fitness & He Single
+FALSE
+DECLINE!
+07Y
+SAF07Y-1073
+Jan Banks [SU144Active
+La Parrilla MexicaJ400897E
+J400897E $4,460.00
+$1,115.00
+$ -
+Alejandro M 5035936989Morales.alejandro511@12/1/2024 12/1/2025 4
+6194 SW Murray Beaverton, OR 97Mexican
+Single
+FALSE
+Decline
+07Y
+FME07Y-0195
+Kenneth Abbay [SActive
+Table Rock Carpe WJ380923 J380923 $3,695.00
+$ -
+$ -
+Justin Macob5415001788tablerockcc@541778429/1/2025
+12/1/2025 1
+2424 Crater Lake Medford, OR 975Home Impro Double FALSE
+jae contacted 11-11-2025
+07Y
+SAF07Y-3212
+Kenneth Abbay [SActive
+Les Schwab Tires WJ380922 J380922 $3,675.00
+$ -
+$ -
+Keith Hayes 5414824181keith.m.haye509393409/1/2025
+12/1/2025 1
+585 Siskiyou BlvdAshland, OR 9752Repair / BodySingle
+FALSE
+jae contacted 11-11-2025
+07Y
+FME07Y-0126
+Kenneth Abbay [SActive
+Outback Pool & SWJ380924 J380924 $2,968.75
+$ -
+$ -
+Jason Kellogg5414798112jason@outb 541295079/1/2025
+12/1/2025 1
+1101 Grants Pass Grants Pass, OR 9Home Impro Single
+FALSE
+jae contacted 11-11-2025
+07Y
+FME07Y-0126
+Kenneth Abbay [SActive
+The Depot EateryJ412101E
+J412101E $2,968.75
+$ -
+$ -
+Melissa Doo 5414714800Mcarnes32@yahoo.co9/1/2025
+12/1/2025 1
+1101 Grants Pass Grants Pass, OR 9Casual DiningSingle
+FALSE
+jae contacted 11-11-2025
+07Z
+SAF07Z-1653
+Dave Boring [SU1Active
+Buddyâ€™s HomJ13207E
+J13207E $5,004.00
+$1,251.00
+$417.00
+Myles McNe 3609541094Myles.McNeal@buddy12/1/2024 12/1/2025 4
+2615 NE 112th A Vancouver, WA 9 Furniture
+Single
+FALSE
+jae contacted 11-11-2025
+07Z
+FME07Z-0615
+Fabian Reyes [SU Active
+Chicago's Pizza K J14156E
+J14156E $4,500.00
+$1,125.00
+$1,875.00 David Noble 5616346580Mychicagopk@gmail.c12/1/2024 12/1/2025 4
+6305 Bridgeport University Place, Pizza
+Single
+FALSE
+Decline
+07Z
+FME07Z-0615
+Fabian Reyes [SU Active
+Groomingdale's J409978E
+J409978E $5,915.00
+$ -
+$ -
+Sarah clarke 2066736606Sarahsgroomingdalest 9/1/2025
+12/1/2025 1
+6305 Bridgeport University Place, Pet Care
+Single
+FALSE
+jae contacted 11-11-2025
+07Z
+FME07Z-0186
+Fabian Reyes [SU Active
+La Boba
+J413343E
+J413343E $6,099.00
+$ -
+$ -
+Lynn Phung 7577711737Labobalacey@gmail.co9/1/2025
+12/1/2025 1
+700 Sleater KinneLacey, WA 98503 Coffee ShopsSingle
+FALSE
+DECLINE
+07W
+SAF07W-1646
+Angelo Morales [ Active
+Alternative ReleaWJ340981 J14312E $10,930.70 $1,446.00
+$ -
+Jon Meister 4062914282alternativereleafmonta12/1/2024 12/1/2025 4
+146 S Shore Rd
+Polson, MT 5986 Dispensary
+Double FALSE
+J419601E
+07W
+SON07W-0007
+Angelo Morales [ Active
+Alternative ReleaWJ340981 J14312E $10,930.70 $1,287.00
+$ -
+Jon Meister 4062914282alternativereleafmonta12/1/2024 12/1/2025 4
+50331 US Hwy 93POLSON, MT 598Dispensary
+Double FALSE
+J419601E
+07W
+SMI07W-0166
+Laura Miller [SU8Active
+Dairy Queen
+WJ205557 V41630
+$12,550.00 $825.00
+$ -
+Steven Gallo 4064535413segdreams@5167504712/1/2024 12/1/2025 4
+1601 Market PlacGreat Falls, MT 5 Ice Cream / YDouble FALSE
+J416487E
+07X
+FME07X-0658
+Lisa - ChristopherInactive Cold Stone CreamJ11812E
+J11812E $4,300.00
+$1,075.00
+$ -
+Shahed Parv 4252417596coldstonecreameryissa9/1/2024
+12/1/2025 4
+6100 E Lake Sam Issaquah, WA 980Ice Cream / YSingle
+FALSE
+DECLINE
+07X
+SAF07X-1076
+Lisa - ChristopherInactive Andy's Fish Hous J13232E
+J13232E $2,525.00
+$631.00
+$ -
+Andy Gibbs 3608620782andysfishhouse@gma 12/1/2024 12/1/2025 4
+1119 13TH St.
+Snohomish, WA 9Casual DiningSingle
+FALSE
+jae contacted
+07Y
+SAF07Y-0420
+Lisa Castic [SU89 Active
+Papa Murphys [C JJ149571
+V42811
+$4,100.00
+$1,025.00
+$650.00
+Cameron Ho 7078397200chodge@brencam.com12/1/2024 12/1/2025 4
+1500 Coburg Rd Eugene, OR 9740Pizza
+Single
+FALSE
+ljc j418609e
+07Y
+FME07Y-0325
+Melanie Parham Active
+Burger King / ArbWJ93547
+V42054
+$48,400.00 $1,450.00
+$ -
+Luke Pisors 9522404537luke.pisors@925498319/1/2024
+12/1/2025 4
+60 Division Ave
+Eugene, OR 9740Fast Food
+Single
+FALSE
+J418463E
+07Y
+FME07Y-0325
+Melanie Parham Active
+Burger King / ArbWJ93547
+V42054
+$48,400.00 $ -
+$ -
+Luke Pisors 9522404537luke.pisors@925498319/1/2025
+12/1/2025 1
+60 Division Ave
+Eugene, OR 9740Fast Food
+Single
+FALSE
+J418463E
+07Y
+SAF07Y-1516
+Melanie Parham Active
+Burger King / ArbWJ93547
+V42054
+$48,400.00 $1,150.00
+$ -
+Luke Pisors 9522404537luke.pisors@925498319/1/2024
+12/1/2025 4
+4990 River Rd N Keizer, OR 97303 Fast Food
+Single
+FALSE
+J418463E
+07Y
+SAF07Y-1516
+Melanie Parham Active
+Burger King / ArbWJ93547
+V42054
+$48,400.00 $ -
+$ -
+Luke Pisors 9522404537luke.pisors@925498319/1/2025
+12/1/2025 1
+4990 River Rd N Keizer, OR 97303 Fast Food
+Single
+FALSE
+J418463E
+07Z
+FME07Z-0093
+Dave Boring [SU1Active
+Los Bros Taco ShoJ14046E
+J14046E $5,125.00
+$1,281.00
+$ -
+Eric Palomin 3607182775palomino_erik@yahoo12/1/2024 12/1/2025 4
+16600 Southeast Vancouver, WA 9 Mexican
+Single
+FALSE
+J418799E
+07Z
+SAF07Z-1495
+Lisa Castic [SU89 Active
+Insert Coin WA LLWV29914
+V40197
+$5,400.00
+$1,350.00
+$ -
+Keli Coleman3608074825insertcoinwa3604700312/1/2024 12/1/2025 4
+1129 Harrison AvCentralia, WA 98 Dry Cleaning Single
+FALSE
+JAE J419400e
+07Z
+FME07Z-0186
+Melanie Parham Active
+Burger King / ArbWJ93547
+V42054
+$48,400.00 $1,400.00
+$ -
+Luke Pisors 9522404537luke.pisors@925498319/1/2024
+12/1/2025 4
+700 Sleater KinneLacey, WA 98503 Fast Food
+Single
+FALSE
+J418463E
+07Z
+FME07Z-0186
+Melanie Parham Active
+Burger King / ArbWJ93547
+V42054
+$48,400.00 $ -
+$ -
+Luke Pisors 9522404537luke.pisors@925498319/1/2025
+12/1/2025 1
+700 Sleater KinneLacey, WA 98503 Fast Food
+Single
+FALSE
+J418463E
+07Z
+SAF07Z-1495
+Melanie Parham Active
+Burger King / ArbWJ93547
+V42054
+$48,400.00 $1,400.00
+$ -
+Luke Pisors 9522404537luke.pisors@925498319/1/2024
+12/1/2025 4
+1129 Harrison AvCentralia, WA 98 Fast Food
+Single
+FALSE
+J418463E
+07Z
+SAF07Z-1495
+Melanie Parham Active
+Burger King / ArbWJ93547
+V42054
+$48,400.00 $ -
+$ -
+Luke Pisors 9522404537luke.pisors@925498319/1/2025
+12/1/2025 1
+1129 Harrison AvCentralia, WA 98 Fast Food
+Single
+FALSE
+J418463E
+07Z
+SAF07Z-0430
+Melanie Parham Active
+Burger King / ArbWJ93547
+V42054
+$48,400.00 $975.00
+$ -
+Luke Pisors 9522404537luke.pisors@925498319/1/2024
+12/1/2025 4
+1455 NE Division Gresham, OR 970Fast Food
+Single
+FALSE
+J418463E
+07Z
+SAF07Z-0430
+Melanie Parham Active
+Burger King / ArbWJ93547
+V42054
+$48,400.00 $ -
+$ -
+Luke Pisors 9522404537luke.pisors@925498319/1/2025
+12/1/2025 1
+1455 NE Division Gresham, OR 970Fast Food
+Single
+FALSE
+J418463E
+07Z
+SAF07Z-1495
+Tyler VanSant [SUActive
+Interstate Honda WJ359300 J13071E $18,727.00 $1,790.00
+$ -
+Josh Watson 3602666200joshw@interstatehond12/1/2024 12/1/2025 4
+1129 Harrison AvCentralia, WA 98 Sales / LeasinDouble FALSE
+J418507E
+07Z
+SAF07Z-1495
+Tyler VanSant [SUActive
+Great Cuisine of J14229E
+J14229E $5,184.00
+$1,296.00
+$ -
+Abhishek Ka 3608880316greatindiacuisinecentr 12/1/2024 12/1/2025 4
+1129 Harrison AvCentralia, WA 98 Cultural DininSingle
+FALSE
+working on
+07Z
+ROS07Z-0042
+Tyler VanSant [SUActive
+El Rancho Viejo
+WJ279631 J400687E $3,550.00
+$888.00
+$ -
+Cithalli Guitr 3608872263cithalli.guitro3607713812/1/2024 12/1/2025 4
+101 S. 47th Aven Ridgefield, WA 98Mexican
+Single
+FALSE
+working on
+07Z
+FME07Z-0186
+Tyler VanSant [SUActive
+Los Mariachis MeJ411687E
+J411687E $3,425.00
+$ -
+$ -
+Sandra Diaz 7078800361sjm_sandra@hotmail. 9/1/2025
+12/1/2025 1
+700 Sleater KinneLacey, WA 98503 Mexican
+Single
+FALSE
+working on
+07Z
+SAF07Z-1464
+Tyler VanSant [SUActive
+Clean Finish Car WJ412523E
+J412523E $3,925.00
+$ -
+$ -
+JP Athwal
+2069196882jp.athwal@gmail.com 9/1/2025
+12/1/2025 1
+3215 Harrison AvOlympia, WA 985Car Wash / DSingle
+FALSE
+working on
+
+=== PAGE BREAK ===
+
+ZoneName
+SalesRep
+SalesRepStatus
+ContractStatus
+ProductStatus
+BusinessName
+AccountNumber ContractNumber TotalContractPricLateBalance
+PrimaryContactNPrimaryPhone
+PrimaryEmail
+SecondaryPhone StartDate
+EndDate
+RunLength
+MonthlyImpressi RenewalContract
+07Z
+Tyler VanSant
+Active
+Active
+Running
+Little Kahuna's
+WV29160
+J400797E
+$2,400.00 $ -
+Oswaldo Lopez
+3607214301 ozzie.tommyos@
+3609545635
+12/6/2024
+12/6/2025
+12 30K
+
+=== PAGE BREAK ===
+
