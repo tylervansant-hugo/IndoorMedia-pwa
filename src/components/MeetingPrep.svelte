@@ -9,6 +9,7 @@
   let businessPhone = '';
   let businessCategory = '';
   let businessWebsite = '';
+  let additionalInfo = '';
   let storeSearch = '';
   let selectedStore = null;
   let allStores = [];
@@ -129,7 +130,7 @@
     await new Promise(r => setTimeout(r, 100)); // brief yield for UI update
     
     const categoryKeywords = extractCategoryKeywords(businessCategory, businessName);
-    matchedTestimonials = findMatchingTestimonials(categoryKeywords, businessName);
+    matchedTestimonials = findMatchingTestimonials(categoryKeywords, businessName, additionalInfo);
 
     // Find local testimonial
     loadingStep = 4;
@@ -201,10 +202,27 @@
     return [...new Set(matchedKeywords)];
   }
 
-  function findMatchingTestimonials(keywords, name) {
+  function findMatchingTestimonials(keywords, name, info = '') {
     if (!allTestimonials.length) return [];
 
-    // Score each testimonial (supports both slim {b,c} and full {business,comment} formats)
+    const infoLower = (info || '').toLowerCase();
+    // Extract bonus keywords from additional info
+    const infoBonus = {
+      'new business': ['new', 'just started', 'first year', 'started', 'opened'],
+      'several locations': ['location', 'multiple', 'stores', 'franchise', '2 stores', '3 stores', '5 stores'],
+      'franchise': ['franchise', 'location', 'multiple', 'chain'],
+      'parking lot': ['parking lot', 'plaza', 'same plaza', 'next to', 'nearby'],
+      'across the street': ['across', 'nearby', 'close to', 'next to', 'same area'],
+      'family': ['family', 'husband', 'wife', 'son', 'daughter', 'brother'],
+      '10+ years': ['years', 'decade', 'long time', '10 year', '15 year', '20 year'],
+      'just opened': ['new', 'just opened', 'grand opening', 'first year', 'started'],
+    };
+
+    let bonusKeywords = [];
+    for (const [trigger, words] of Object.entries(infoBonus)) {
+      if (infoLower.includes(trigger)) bonusKeywords.push(...words);
+    }
+
     const scored = allTestimonials.map(t => {
       const biz = t.b || t.business || '';
       const comment = t.c || t.comment || '';
@@ -212,13 +230,18 @@
       const commentLower = comment.toLowerCase();
       let score = 0;
       
-      // Business name keyword match is worth more than comment match
+      // Business name keyword match is worth more
       keywords.forEach(kw => {
         if (bizLower.includes(kw)) score += 5;
         else if (commentLower.includes(kw)) score += 1;
       });
 
-      // Bonus for quality testimonials
+      // Bonus from additional info context
+      bonusKeywords.forEach(bk => {
+        if (commentLower.includes(bk)) score += 2;
+      });
+
+      // Quality bonuses
       if (/\d+ coupon/i.test(comment)) score += 2;
       if (/return on/i.test(comment)) score += 2;
       if (/\$\d/i.test(comment)) score += 1;
@@ -327,6 +350,16 @@
       </div>
     {/if}
 
+    <div class="f">
+      <label>Additional Info (helps find better matches)</label>
+      <input type="text" bind:value={additionalInfo} placeholder="e.g. in the parking lot, new business, several locations, across the street..." />
+      <div class="info-tags">
+        {#each ['In the parking lot', 'Across the street', 'New business', 'Several locations', 'Family owned', 'Franchise', 'Been open 10+ years', 'Just opened'] as tag}
+          <button class="info-tag" class:active={additionalInfo.includes(tag)} on:click={() => { additionalInfo = additionalInfo ? additionalInfo + ', ' + tag : tag; }}>{tag}</button>
+        {/each}
+      </div>
+    </div>
+
     <button class="btn-go" on:click={runPrep}>🔍 Run Meeting Prep</button>
     <div style="height:80px;"></div>
 
@@ -349,6 +382,7 @@
       {#if businessPhone}<div class="info-row"><span class="info-label">Phone:</span><span>{businessPhone}</span></div>{/if}
       {#if businessWebsite}<div class="info-row"><span class="info-label">Website:</span><a href={businessWebsite} target="_blank">{businessWebsite.replace('https://','').split('/')[0]}</a></div>{/if}
       {#if selectedStore}<div class="info-row"><span class="info-label">Store:</span><span>{selectedStore.GroceryChain} {selectedStore.City} ({selectedStore.StoreName})</span></div>{/if}
+      {#if additionalInfo}<div class="info-row"><span class="info-label">Notes:</span><span>{additionalInfo}</span></div>{/if}
     </div>
 
     {#if matchedTestimonials.length > 0}
@@ -412,6 +446,11 @@
   .ddi:last-child { border-bottom:none; }
   .ddi small { display:block; font-size:12px; color:var(--text-secondary); margin-top:2px; }
   .cat-tag { color:#CC0000; font-weight:600; }
+
+  .info-tags { display:flex; flex-wrap:wrap; gap:6px; margin-top:8px; }
+  .info-tag { padding:6px 12px; border:1.5px solid var(--border-color); border-radius:20px; background:var(--card-bg); font-size:12px; color:var(--text-secondary); cursor:pointer; transition:all .15s; }
+  .info-tag:hover { border-color:#CC0000; color:#CC0000; }
+  .info-tag.active { background:#CC0000; color:#fff; border-color:#CC0000; }
 
   .biz-preview { background:var(--card-bg); border:2px solid #CC0000; border-radius:12px; padding:14px; margin-bottom:16px; }
   .biz-p-name { font-size:18px; font-weight:800; color:var(--text-primary); }
