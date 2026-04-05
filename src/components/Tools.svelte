@@ -22,6 +22,7 @@
   let auditCases = '';
   let auditRolls = '';
   let auditDate = new Date().toISOString().split('T')[0];
+  let auditPerformedDate = new Date().toISOString().split('T')[0];
   let auditStartingCases = '';
   let auditLastShipmentDate = '';
   let auditNextShipmentDate = '';
@@ -602,18 +603,18 @@ Store: ${store}
     
     // Calculate actual usage rate: (starting rolls - current rolls) / days since delivery
     const delDate = new Date(auditDate);
-    const today = new Date();
-    const daysSinceDelivery = Math.max(1, Math.floor((today - delDate) / (1000 * 60 * 60 * 24)));
+    const performedDate = new Date(auditPerformedDate + 'T12:00:00');
+    const daysSinceDelivery = Math.max(1, Math.floor((performedDate - delDate) / (1000 * 60 * 60 * 24)));
     const rollsUsed = startingRolls - totalRolls;
     const usagePerDay = Math.round((rollsUsed / daysSinceDelivery) * 10) / 10;
     const daysUntilRunout = usagePerDay > 0 ? Math.round((totalRolls / usagePerDay) * 10) / 10 : 999;
 
-    const runoutDate = new Date();
+    const runoutDate = new Date(performedDate);
     runoutDate.setDate(runoutDate.getDate() + Math.floor(daysUntilRunout));
 
     // Use the next shipment date that the rep entered
     const nextDelivery = new Date(auditNextShipmentDate);
-    const daysUntilDelivery = Math.ceil((nextDelivery - today) / (1000 * 60 * 60 * 24));
+    const daysUntilDelivery = Math.ceil((nextDelivery - performedDate) / (1000 * 60 * 60 * 24));
     const insufficient = daysUntilRunout < daysUntilDelivery;
     
     // Get expected month name for next delivery
@@ -672,7 +673,7 @@ Store: ${store}
 
       line('Store:', `${r.chain} - ${r.city}, ${r.state}`);
       line('Rep:', repName);
-      line('Audit Date:', new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }));
+      line('Audit Date:', new Date(auditPerformedDate + 'T12:00:00').toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }));
 
       section('DELIVERY');
       line('Delivery Date:', r.deliveryDate);
@@ -1057,8 +1058,13 @@ Store: ${store}
       <p class="subtitle">{selectedStore?.GroceryChain} - {selectedStore?.City}</p>
 
       <div class="form-card">
-        <p class="form-label">📅 Shipment Dates</p>
+        <p class="form-label">📅 Dates</p>
         
+        <div class="form-group">
+          <label>Date Audit Performed *</label>
+          <input type="date" bind:value={auditPerformedDate} required />
+        </div>
+
         <div class="form-group">
           <label>Last Delivery Date *</label>
           <input type="date" bind:value={auditDate} required />
