@@ -129,8 +129,8 @@
     loadingStatus = '📝 Finding matching testimonials...';
     await new Promise(r => setTimeout(r, 100)); // brief yield for UI update
     
-    const categoryKeywords = extractCategoryKeywords(businessCategory, businessName);
-    matchedTestimonials = findMatchingTestimonials(categoryKeywords, businessName, additionalInfo);
+    const { keywords: categoryKeywords, exclude: excludeWords } = extractCategoryKeywords(businessCategory, businessName);
+    matchedTestimonials = findMatchingTestimonials(categoryKeywords, excludeWords, businessName, additionalInfo);
 
     // Find local testimonial
     loadingStep = 4;
@@ -145,10 +145,11 @@
     
     // Specific categories — order matters (more specific first)
     const categoryMap = [
-      { match: ['sports bar', 'bar & grill', 'bar and grill', 'tavern', 'pub', 'taproom', 'brewery', 'playmaker'], 
-        keywords: ['bar', 'grill', 'pub', 'tavern', 'sports', 'wing', 'brew', 'taproom'], weight: 5 },
-      { match: ['pizza', 'pizzeria'], keywords: ['pizza', 'pizzeria'], weight: 5 },
-      { match: ['taco', 'mexican', 'taqueria', 'burrito', 'enchilada'], keywords: ['mexican', 'taco', 'taqueria', 'burrito'], weight: 5 },
+      { match: ['sports bar', 'bar & grill', 'bar and grill', 'tavern', 'pub', 'taproom', 'brewery', 'playmaker', 'sports'], 
+        keywords: ['bar', 'grill', 'pub', 'tavern', 'sports', 'wing', 'brew', 'taproom', 'pizza & wing', 'alehouse'],
+        exclude: ['mexican', 'taco', 'taqueria', 'burrito', 'enchilada', 'asian', 'chinese', 'thai', 'sushi', 'indian'], weight: 5 },
+      { match: ['pizza', 'pizzeria'], keywords: ['pizza', 'pizzeria'], exclude: ['mexican', 'taco'], weight: 5 },
+      { match: ['taco', 'mexican', 'taqueria', 'burrito', 'enchilada'], keywords: ['mexican', 'taco', 'taqueria', 'burrito'], exclude: ['pizza', 'sushi', 'chinese'], weight: 5 },
       { match: ['sushi', 'japanese', 'ramen', 'teriyaki'], keywords: ['sushi', 'japanese', 'ramen', 'teriyaki'], weight: 5 },
       { match: ['chinese', 'wok', 'noodle'], keywords: ['chinese', 'asian', 'wok', 'noodle'], weight: 5 },
       { match: ['thai'], keywords: ['thai', 'curry', 'pad thai'], weight: 5 },
@@ -174,24 +175,24 @@
     ];
 
     let matchedKeywords = [];
+    let excludeWords = [];
     let matched = false;
     
     for (const cat of categoryMap) {
       if (cat.match.some(m => combined.includes(m))) {
         matchedKeywords.push(...cat.keywords);
+        if (cat.exclude) excludeWords.push(...cat.exclude);
         matched = true;
-        break; // Only match the FIRST (most specific) category
+        break;
       }
     }
     
-    // If no specific match, fall back to business name words only (not "restaurant" broadly)
     if (!matched) {
       name.toLowerCase().split(/\s+/).forEach(w => {
         if (w.length > 3 && !['the', 'and', 'bar', 'restaurant', 'inc', 'llc', 'cafe'].includes(w)) {
           matchedKeywords.push(w);
         }
       });
-      // Add the Google category if available
       if (category) {
         category.toLowerCase().split(/\s+/).forEach(w => {
           if (w.length > 3) matchedKeywords.push(w);
@@ -199,10 +200,10 @@
       }
     }
 
-    return [...new Set(matchedKeywords)];
+    return { keywords: [...new Set(matchedKeywords)], exclude: [...new Set(excludeWords)] };
   }
 
-  function findMatchingTestimonials(keywords, name, info = '') {
+  function findMatchingTestimonials(keywords, exclude = [], name, info = '') {
     if (!allTestimonials.length) return [];
 
     const infoLower = (info || '').toLowerCase();
@@ -230,6 +231,13 @@
       const commentLower = comment.toLowerCase();
       let score = 0;
       
+      // EXCLUDE penalty — if business name contains an excluded word, heavy penalty
+      let excluded = false;
+      exclude.forEach(ex => {
+        if (bizLower.includes(ex)) { score -= 50; excluded = true; }
+      });
+      if (excluded) return { business: biz, comment, url: t.u || t.url || '', id: t.id, score };
+
       // Business name keyword match is worth more
       keywords.forEach(kw => {
         if (bizLower.includes(kw)) score += 5;
