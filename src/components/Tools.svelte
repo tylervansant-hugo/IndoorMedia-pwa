@@ -378,6 +378,7 @@ Store: ${store}
   let selectedChainCode = null;
   let selectedRepName = '';
   let repNames = [];
+  let allReps = {}; // Full registry for validation
   let counterData = {
     business_card_image: null,
     landing_page_url: '',
@@ -385,15 +386,17 @@ Store: ${store}
   };
   let generating = false;
 
-  // Load rep names from registry
+  // Load all reps from registry
   function loadRepNames() {
     fetch(import.meta.env.BASE_URL + 'data/rep_registry.json')
       .then(r => r.json())
       .then(d => {
-        // Extract unique rep names and sort
+        allReps = d;
+        // Extract all display names and sort
         const names = new Set();
-        for (const rep of (d.representatives || [])) {
-          if (rep.name) names.add(rep.name);
+        for (const key in d) {
+          const rep = d[key];
+          if (rep.display_name) names.add(rep.display_name);
         }
         repNames = Array.from(names).sort();
       })
@@ -1270,20 +1273,35 @@ Store: ${store}
 
       <div class="form-card">
         <div class="form-group">
-          <label>Select Your Name</label>
-          <select bind:value={selectedRepName} on:change={updateRepLandingPage}>
-            <option value="">-- Choose your name --</option>
-            {#each repNames as rep}
-              <option value={rep}>{rep}</option>
-            {/each}
-          </select>
+          <label>Your Name (Matches IndoorMedia Records)</label>
+          <div class="combo-box-wrapper">
+            <input 
+              type="text" 
+              bind:value={selectedRepName} 
+              on:input={updateRepLandingPage}
+              placeholder="Type or select your name..."
+              list="rep-names-list"
+              autocomplete="off"
+            />
+            <datalist id="rep-names-list">
+              {#each repNames as rep}
+                <option value={rep}>{rep}</option>
+              {/each}
+            </datalist>
+          </div>
+          
           {#if selectedRepName}
             <p class="auto-fill">Your landing page URL will be:</p>
             <p class="landing-page-display">{counterData.landing_page_url}</p>
+            {#if !repNames.includes(selectedRepName)}
+              <p class="warning-text">⚠️ Name not found in registry — URL will be auto-generated but verify it's correct</p>
+            {:else}
+              <p class="success-text">✅ Name matches IndoorMedia Records</p>
+            {/if}
           {/if}
         </div>
 
-        <p class="info-text">💡 We'll auto-generate your landing page URL. Can't find your name? <button class="link-btn" on:click={() => counterSignStep = 3.5} style="all:unset; color:#CC0000; font-weight:700; cursor:pointer; text-decoration:underline;">Enter custom URL</button></p>
+        <p class="info-text">💡 Type your name and we'll auto-generate your landing page URL</p>
 
         <button class="next-btn" on:click={() => counterSignStep = 4} disabled={!counterData.landing_page_url}>
           Next →
@@ -1291,23 +1309,7 @@ Store: ${store}
       </div>
     {/if}
 
-    {#if counterSignStep === 3.5}
-      <h2>2. Custom Landing Page</h2>
-      <p class="subtitle">{selectedChainCode}</p>
 
-      <div class="form-card">
-        <div class="form-group">
-          <label>Your Personal Landing Page URL</label>
-          <input type="url" bind:value={counterData.landing_page_url} placeholder="https://www.indoormedia.com/tape-sales/your-name/" />
-        </div>
-
-        <p class="info-text">💡 Leave blank if you don't have one</p>
-
-        <button class="next-btn" on:click={() => counterSignStep = 4}>
-          Next →
-        </button>
-      </div>
-    {/if}
 
     {#if counterSignStep === 4}
       <h2>3. Ad Proof</h2>
@@ -1762,6 +1764,15 @@ Store: ${store}
     background-size: 20px;
     padding-right: 32px;
   }
+  .combo-box-wrapper {
+    position: relative;
+  }
+  .combo-box-wrapper input {
+    width: 100%;
+  }
+  .combo-box-wrapper input::placeholder {
+    color: #999;
+  }
   .landing-page-display {
     margin-top: 8px;
     padding: 10px;
@@ -1777,15 +1788,19 @@ Store: ${store}
     margin: 8px 0 4px;
     font-size: 12px;
     color: #666;
+    font-weight: 600;
   }
-  .link-btn {
-    color: #CC0000;
-    font-weight: 700;
-    cursor: pointer;
-    text-decoration: underline;
+  .success-text {
+    margin-top: 6px;
+    font-size: 12px;
+    color: #2E7D32;
+    font-weight: 600;
   }
-  .link-btn:hover {
-    text-decoration: none;
+  .warning-text {
+    margin-top: 6px;
+    font-size: 12px;
+    color: #F57C00;
+    font-weight: 600;
   }
 
   .form-group textarea {
