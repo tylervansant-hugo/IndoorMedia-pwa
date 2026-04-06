@@ -130,7 +130,10 @@
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
-    a.download = `renewals_${new Date().toISOString().slice(0,10)}.pdf`;
+    // Build filename from rep names and cycles
+    const repNames = [...new Set(selected.map(r => r.rep || 'Unassigned'))].join(' & ');
+    const cycles = [...new Set(selected.map(r => r.cycle || ''))].sort().join('/');
+    a.download = `${repNames} ${cycles} 2026 Renewals.pdf`;
     a.click();
     URL.revokeObjectURL(url);
   }
