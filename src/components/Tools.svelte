@@ -376,12 +376,44 @@ Store: ${store}
   // Counter sign state
   let counterSignStep = 1; // 1: chain, 2: business card, 3: landing page, 4: ad proof, 5: confirm
   let selectedChainCode = null;
+  let selectedRepName = '';
+  let repNames = [];
   let counterData = {
     business_card_image: null,
     landing_page_url: '',
     ad_proof_image: null
   };
   let generating = false;
+
+  // Load rep names from registry
+  function loadRepNames() {
+    fetch(import.meta.env.BASE_URL + 'data/rep_registry.json')
+      .then(r => r.json())
+      .then(d => {
+        // Extract unique rep names and sort
+        const names = new Set();
+        for (const rep of (d.representatives || [])) {
+          if (rep.name) names.add(rep.name);
+        }
+        repNames = Array.from(names).sort();
+      })
+      .catch(() => { repNames = []; });
+  }
+
+  function updateRepLandingPage() {
+    if (!selectedRepName) {
+      counterData.landing_page_url = '';
+      return;
+    }
+    const parts = selectedRepName.split(' ');
+    const first = (parts[0] || '').toLowerCase();
+    const last = (parts[parts.length - 1] || '').toLowerCase();
+    counterData.landing_page_url = `https://www.indoormedia.com/tape-sales/advertise-with-${first}-${last}/`;
+  }
+
+  onMount(() => {
+    loadRepNames();
+  });
   // Counter Sign API endpoint
   const isDev = window.location.hostname === 'localhost';
   let COUNTER_SIGN_API = isDev 
@@ -1233,7 +1265,34 @@ Store: ${store}
     {/if}
 
     {#if counterSignStep === 3}
-      <h2>2. Landing Page (Optional)</h2>
+      <h2>2. Your Landing Page</h2>
+      <p class="subtitle">{selectedChainCode}</p>
+
+      <div class="form-card">
+        <div class="form-group">
+          <label>Select Your Name</label>
+          <select bind:value={selectedRepName} on:change={updateRepLandingPage}>
+            <option value="">-- Choose your name --</option>
+            {#each repNames as rep}
+              <option value={rep}>{rep}</option>
+            {/each}
+          </select>
+          {#if selectedRepName}
+            <p class="auto-fill">Your landing page URL will be:</p>
+            <p class="landing-page-display">{counterData.landing_page_url}</p>
+          {/if}
+        </div>
+
+        <p class="info-text">💡 We'll auto-generate your landing page URL. Can't find your name? <button class="link-btn" on:click={() => counterSignStep = 3.5} style="all:unset; color:#CC0000; font-weight:700; cursor:pointer; text-decoration:underline;">Enter custom URL</button></p>
+
+        <button class="next-btn" on:click={() => counterSignStep = 4} disabled={!counterData.landing_page_url}>
+          Next →
+        </button>
+      </div>
+    {/if}
+
+    {#if counterSignStep === 3.5}
+      <h2>2. Custom Landing Page</h2>
       <p class="subtitle">{selectedChainCode}</p>
 
       <div class="form-card">
@@ -1685,7 +1744,8 @@ Store: ${store}
   }
 
   .form-group input,
-  .form-group textarea {
+  .form-group textarea,
+  .form-group select {
     width: 100%;
     padding: 10px;
     border: 1px solid #ddd;
@@ -1693,6 +1753,39 @@ Store: ${store}
     font-size: 13px;
     box-sizing: border-box;
     font-family: inherit;
+  }
+  .form-group select {
+    appearance: none;
+    background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+    background-repeat: no-repeat;
+    background-position: right 8px center;
+    background-size: 20px;
+    padding-right: 32px;
+  }
+  .landing-page-display {
+    margin-top: 8px;
+    padding: 10px;
+    background: #f5f5f5;
+    border-left: 4px solid #CC0000;
+    border-radius: 4px;
+    font-size: 12px;
+    font-family: monospace;
+    color: #333;
+    word-break: break-all;
+  }
+  .auto-fill {
+    margin: 8px 0 4px;
+    font-size: 12px;
+    color: #666;
+  }
+  .link-btn {
+    color: #CC0000;
+    font-weight: 700;
+    cursor: pointer;
+    text-decoration: underline;
+  }
+  .link-btn:hover {
+    text-decoration: none;
   }
 
   .form-group textarea {
