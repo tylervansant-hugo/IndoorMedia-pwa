@@ -97,6 +97,10 @@
         </div>
       </div>
 
+      <div style="margin-bottom:12px;">
+        <a href="https://coupons.indoormedia.com/?location={encodeURIComponent(($selectedStore.City || '') + ', ' + ($selectedStore.State || ''))}" target="_blank" class="nearby-link">📋 View Current Nearby Advertisers</a>
+      </div>
+
       <div class="pricing-section">
         <h3>💰 Payment Plans</h3>
 
@@ -256,6 +260,8 @@
     font-weight: 700;
   }
 
+  .nearby-link { display:block; padding:12px; background:var(--card-bg, white); border:2px solid #CC0000; border-radius:10px; text-align:center; text-decoration:none; color:#CC0000; font-size:14px; font-weight:700; }
+  .nearby-link:hover { background:rgba(204,0,0,0.05); }
   .pricing-section {
     background: white;
     border-radius: 8px;

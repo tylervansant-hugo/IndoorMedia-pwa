@@ -1184,6 +1184,7 @@
                 <a href="https://maps.google.com/maps?q={encodeURIComponent(prospect.name + ' ' + prospect.address)}" target="_blank" class="action-btn">📍 Maps</a>
               {/if}
               <a href="https://sales.indoormedia.com/mappoint" target="_blank" class="action-btn">🗺️ Mappoint</a>
+              <a href="https://coupons.indoormedia.com/?location={encodeURIComponent((selectedStore?.City || '') + ', ' + (selectedStore?.State || ''))}" target="_blank" class="action-btn">📋 Nearby Advertisers</a>
             </div>
             <div class="action-row">
               <button class="action-btn" on:click={() => saveProspect(prospect)}>💾 Save</button>

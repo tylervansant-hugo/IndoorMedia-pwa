@@ -1026,6 +1026,8 @@ IndoorMedia`;
     <h2>🔄 Pending Renewals</h2>
     <p class="subtitle">{filteredRenewals.length} of {pendingRenewals.length} accounts — ${pendingRenewals.reduce((sum, r) => sum + (typeof r.contractPrice === 'number' ? r.contractPrice : parseFloat(String(r.contractPrice || '0').replace(/[$,]/g, '')) || 0), 0).toLocaleString()} total value</p>
 
+    <a href="https://coupons.indoormedia.com" target="_blank" class="nearby-advertisers-link">📋 View Current Nearby Advertisers on coupons.indoormedia.com</a>
+
     <input type="text" class="search-input" placeholder="Search by business, rep, store, category..." bind:value={renewalSearch} />
 
     <div class="renewal-filters">
@@ -1627,6 +1629,8 @@ IndoorMedia`;
   .export-btn:hover:not(:disabled) { background:#a00; }
   .select-check { font-size:20px; margin-right:8px; flex-shrink:0; }
   .renewal-card { background: white; border: 1px solid #e0e0e0; border-radius: 10px; padding: 14px; cursor: pointer; transition: all 0.2s; display:flex; align-items:flex-start; }
+  .nearby-advertisers-link { display:block; padding:10px; margin-bottom:12px; background:var(--card-bg, white); border:2px solid #CC0000; border-radius:10px; text-align:center; text-decoration:none; color:#CC0000; font-size:13px; font-weight:700; }
+  .nearby-advertisers-link:hover { background:rgba(204,0,0,0.05); }
   .renewal-completed-badge { font-size:12px; padding:4px 10px; margin-top:6px; border-radius:4px; background:#E8F5E9; color:#2E7D32; font-weight:800; }
   .renewal-completed { font-size:14px; padding:10px; margin-top:12px; border-radius:8px; background:#E8F5E9; color:#2E7D32; font-weight:800; text-align:center; border:2px solid #2E7D32; }
   .schedule-section { margin-top:10px; padding-top:10px; border-top:1px solid var(--border-color, #e0e0e0); }
