@@ -70,7 +70,9 @@
   async function getTestimonialsForCategory() {
     if (!testimonialCache) {
       try {
-        const response = await fetch(import.meta.env.BASE_URL + 'data/testimonials_cache.json');
+        // Try slim first, fall back to full
+        let response = await fetch(import.meta.env.BASE_URL + 'data/testimonials_slim.json?t=' + Date.now()).catch(() => null);
+        if (!response?.ok) response = await fetch(import.meta.env.BASE_URL + 'data/testimonials_cache.json');
         testimonialCache = await response.json();
       } catch (e) {
         console.warn('Could not load testimonials:', e);
@@ -85,11 +87,39 @@
     const results = [];
     const testimonials = Array.isArray(testimonialCache) ? testimonialCache : (testimonialCache.testimonials || []);
     
+    // Normalize fields (slim format uses b/c/u, full uses business/comment/url)
+    const normalize = (t) => ({
+      business_name: t.b || t.business_name || t.business || '',
+      comments: t.c || t.comments || t.comment || '',
+      url: t.u || t.url || '',
+      id: t.id || 0,
+      searchable: t.searchable || ''
+    });
+
     for (const t of testimonials) {
-      const text = (t.searchable || ((t.business_name || '') + ' ' + (t.comments || ''))).toLowerCase();
+      const nt = normalize(t);
+      const text = (nt.searchable || (nt.business_name + ' ' + nt.comments)).toLowerCase();
       if (searchTerms.some(term => text.includes(term))) {
-        results.push(t);
+        results.push(nt);
         if (results.length >= 5) break;
+      }
+    }
+    
+    // Add a nearby testimonial if we have a selected store
+    if (selectedStore) {
+      const city = (selectedStore.City || '').toLowerCase();
+      const chain = (selectedStore.GroceryChain || '').toLowerCase();
+      const resultIds = new Set(results.map(r => r.id));
+      
+      for (const t of testimonials) {
+        const nt = normalize(t);
+        if (resultIds.has(nt.id)) continue;
+        const text = (nt.business_name + ' ' + nt.comments).toLowerCase();
+        if (text.includes(city) || text.includes(chain)) {
+          nt._isLocal = true;
+          results.push(nt);
+          break;
+        }
       }
     }
     
@@ -1195,11 +1225,14 @@
               <h4 class="testimonials-title">📋 Testimonials for {selectedSubcategory || selectedCategory || 'this category'}</h4>
               {#if prospect._testimonialData && prospect._testimonialData.length > 0}
                 {#each prospect._testimonialData as testimonial}
-                  <div class="testimonial-card">
-                    <p class="testimonial-business"><strong>{testimonial.business_name || 'Business'}</strong></p>
-                    <p class="testimonial-text">"{testimonial.comments || testimonial.text || 'Great experience with IndoorMedia!'}"</p>
-                    {#if testimonial.category}
-                      <p class="testimonial-meta">{testimonial.category}</p>
+                  <div class="testimonial-card" class:local-testimonial={testimonial._isLocal}>
+                    {#if testimonial._isLocal}
+                      <p class="local-badge">📍 Nearby Business</p>
+                    {/if}
+                    <p class="testimonial-business"><strong>{(testimonial.business_name || 'Business').replace(/&#x27;/g, "'").replace(/&#x9;/g, '').replace(/&amp;/g, '&')}</strong></p>
+                    <p class="testimonial-text">"{testimonial.comments || 'Great experience with IndoorMedia!'}"</p>
+                    {#if testimonial.url}
+                      <a href={testimonial.url} target="_blank" class="testimonial-link">🔗 View Full Testimonial →</a>
                     {/if}
                   </div>
                 {/each}
@@ -1708,6 +1741,28 @@
     margin: 0;
     font-size: 11px;
     color: #999;
+  }
+  .testimonial-link {
+    display: inline-block;
+    margin-top: 6px;
+    font-size: 12px;
+    color: #CC0000;
+    text-decoration: none;
+    font-weight: 600;
+  }
+  .testimonial-link:hover { text-decoration: underline; }
+  .local-testimonial {
+    border-left-color: #1565C0 !important;
+    background: rgba(21, 101, 192, 0.03) !important;
+  }
+  .local-badge {
+    margin: 0 0 4px;
+    font-size: 11px;
+    font-weight: 700;
+    color: #1565C0;
+  }
+  .testimonial-card {
+    background: var(--card-bg, white);
   }
 
   .testimonial-btn {
