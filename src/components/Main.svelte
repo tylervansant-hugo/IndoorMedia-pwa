@@ -96,15 +96,29 @@
   let nextSellingDate = '';
   let nextSellingDays = 0;
 
+  // Zone install day lookup — from RTUI Zone Chart
+  const ZONE_INSTALL_DAYS = {
+    '01':1,'02':8,'03':26,'04':28,'05':25,'06':1,'07':7,'08':5,'09':14,'10':30,
+    '11':25,'12':16,'13':20,'14':10,'15':18,'16':7,'17':20,'18':20,'19':8,'20':10,
+    '21':16,'22':1,'23':12,'24':14,'25':23,'26':20,'27':25,'28':6,'29':6
+  };
+
+  function getZoneInstallDay() {
+    // Default to zone 07 (day 7) for Tyler's region, but check user's assigned stores
+    const userStores = $user?.assigned_stores || [];
+    if (userStores.length > 0) {
+      const m = (userStores[0] || '').match(/(\d{2})[A-Z]?-/);
+      if (m && ZONE_INSTALL_DAYS[m[1]]) return ZONE_INSTALL_DAYS[m[1]];
+    }
+    return 7; // default zone 07
+  }
+
   function getNextCycle() {
-    // Zone 07 cycle schedule:
-    // Install dates (7th of month): A=Jan/Apr/Jul/Oct, B=Feb/May/Aug/Nov, C=Mar/Jun/Sep/Dec
-    // Selling cycle switches on the 11th, one cycle ahead:
-    //   After A installs (Apr 7) → C selling starts Apr 11
-    //   After B installs (May 7) → A selling starts May 11  
-    //   After C installs (Jun 7) → B selling starts Jun 11
-    // Pattern: A install → sell C, B install → sell A, C install → sell B
+    // Cycle schedule uses the zone-specific install day
+    // A=Jan/Apr/Jul/Oct, B=Feb/May/Aug/Nov, C=Mar/Jun/Sep/Dec
+    // Selling cycle switches 4 days after install
     const now = new Date();
+    const installDay = getZoneInstallDay();
     const installCycles = [
       { name: 'A', months: [0, 3, 6, 9] },
       { name: 'B', months: [1, 4, 7, 10] },
@@ -112,12 +126,12 @@
     ];
     const sellingAfter = { 'A': 'C', 'B': 'A', 'C': 'B' };
 
-    // Find next install date (7th of month)
+    // Find next install date using zone-specific day
     let nearestInstall = null;
     for (const cycle of installCycles) {
       for (const m of cycle.months) {
-        let d = new Date(now.getFullYear(), m, 7);
-        if (d <= now) d = new Date(now.getFullYear() + 1, m, 7);
+        let d = new Date(now.getFullYear(), m, installDay);
+        if (d <= now) d = new Date(now.getFullYear() + 1, m, installDay);
         if (!nearestInstall || d < nearestInstall.date) {
           nearestInstall = { date: d, name: cycle.name };
         }
@@ -130,9 +144,9 @@
       nextInstallDate = nearestInstall.date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
       nextInstallDays = diff;
 
-      // Selling cycle starts on the 11th of the same month as install
+      // Selling cycle starts 4 days after install
       const sellDate = new Date(nearestInstall.date);
-      sellDate.setDate(11);
+      sellDate.setDate(sellDate.getDate() + 4);
       const sellDiff = Math.ceil((sellDate - now) / 86400000);
       nextSellingCycle = sellingAfter[nearestInstall.name];
       nextSellingDate = sellDate.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });

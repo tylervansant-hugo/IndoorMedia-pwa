@@ -498,9 +498,44 @@ Store: ${store}
     }
   }
 
+  // Zone install day lookup from RTUI Zone Chart
+  const ZONE_INSTALL_DAYS = {'01':1,'02':8,'03':26,'04':28,'05':25,'06':1,'07':7,'08':5,'09':14,'10':30,'11':25,'12':16,'13':20,'14':10,'15':18,'16':7,'17':20,'18':20,'19':8,'20':10,'21':16,'22':1,'23':12,'24':14,'25':23,'26':20,'27':25,'28':6,'29':6};
+
+  function getStoreInstallDay(storeId) {
+    const m = (storeId || '').match(/(\d{2})[A-Z]?-/);
+    return m ? (ZONE_INSTALL_DAYS[m[1]] || 7) : 7;
+  }
+
+  function getLastInstallDate(storeId) {
+    const day = getStoreInstallDay(storeId);
+    const now = new Date();
+    // Find the most recent install day (could be this month or last month)
+    let d = new Date(now.getFullYear(), now.getMonth(), day);
+    if (d > now) d.setMonth(d.getMonth() - 1);
+    return d.toISOString().split('T')[0];
+  }
+
+  function getNextInstallDate(storeId) {
+    const day = getStoreInstallDay(storeId);
+    const now = new Date();
+    let d = new Date(now.getFullYear(), now.getMonth(), day);
+    if (d <= now) d.setMonth(d.getMonth() + 1);
+    return d.toISOString().split('T')[0];
+  }
+
+  function getAuditDueDate(storeId) {
+    // Audit is 45 days after the last install
+    const lastInstall = new Date(getLastInstallDate(storeId) + 'T12:00:00');
+    lastInstall.setDate(lastInstall.getDate() + 45);
+    return lastInstall.toISOString().split('T')[0];
+  }
+
   function selectAuditStore(store) {
     selectedStore = store;
     auditStoreNum = store.StoreName;
+    // Auto-populate dates based on zone install schedule
+    auditDate = getLastInstallDate(store.StoreName);
+    auditNextShipmentDate = getNextInstallDate(store.StoreName);
     view = 'audit';
   }
 
@@ -1059,6 +1094,7 @@ Store: ${store}
 
       <div class="form-card">
         <p class="form-label">📅 Dates</p>
+        <p class="hint" style="margin-bottom:10px;">📍 Zone install day: <strong>{getStoreInstallDay(auditStoreNum)}{getStoreInstallDay(auditStoreNum) == 1 || getStoreInstallDay(auditStoreNum) == 21 || getStoreInstallDay(auditStoreNum) == 31 ? 'st' : getStoreInstallDay(auditStoreNum) == 2 || getStoreInstallDay(auditStoreNum) == 22 ? 'nd' : getStoreInstallDay(auditStoreNum) == 3 || getStoreInstallDay(auditStoreNum) == 23 ? 'rd' : 'th'} of each month</strong> | Audit due: <strong>{new Date(getAuditDueDate(auditStoreNum) + 'T12:00:00').toLocaleDateString('en-US', {month:'short', day:'numeric'})}</strong> (45 days post-install)</p>
         
         <div class="form-group">
           <label>Date Audit Performed *</label>
@@ -1066,14 +1102,15 @@ Store: ${store}
         </div>
 
         <div class="form-group">
-          <label>Last Delivery Date *</label>
+          <label>Last Delivery/Install Date *</label>
           <input type="date" bind:value={auditDate} required />
+          <p class="hint">Auto-set from zone schedule — adjust if different</p>
         </div>
 
         <div class="form-group">
-          <label>Projected Next Shipment Date *</label>
+          <label>Next Shipment/Install Date *</label>
           <input type="date" bind:value={auditNextShipmentDate} required />
-          <p class="hint">Typically 90 days after last delivery</p>
+          <p class="hint">Auto-set from zone schedule — next {getStoreInstallDay(auditStoreNum)}{getStoreInstallDay(auditStoreNum) == 1 || getStoreInstallDay(auditStoreNum) == 21 || getStoreInstallDay(auditStoreNum) == 31 ? 'st' : getStoreInstallDay(auditStoreNum) == 2 || getStoreInstallDay(auditStoreNum) == 22 ? 'nd' : getStoreInstallDay(auditStoreNum) == 3 || getStoreInstallDay(auditStoreNum) == 23 ? 'rd' : 'th'}</p>
         </div>
 
         <button class="action-btn" on:click={() => auditStep = 3} disabled={!auditDate || !auditNextShipmentDate}>

@@ -264,12 +264,18 @@
     
     if (!contractDate) return events;
 
-    // Install date: ~30 days after contract (next cycle launch)
+    // Install date: snap to zone-specific install day of month
+    // Zone install day lookup from RTUI Zone Chart
+    const ZONE_DAYS = {'01':1,'02':8,'03':26,'04':28,'05':25,'06':1,'07':7,'08':5,'09':14,'10':30,'11':25,'12':16,'13':20,'14':10,'15':18,'16':7,'17':20,'18':20,'19':8,'20':10,'21':16,'22':1,'23':12,'24':14,'25':23,'26':20,'27':25,'28':6,'29':6};
+    const storeId = contract.storeId || contract.store || '';
+    const zoneMatch = storeId.match(/(\d{2})[A-Z]?-/);
+    const zoneDay = zoneMatch ? (ZONE_DAYS[zoneMatch[1]] || 7) : 7;
+    
     const installDate = new Date(contractDate);
     installDate.setDate(installDate.getDate() + 30);
-    // Snap to 7th of month (cycle launch)
-    const installMonth = installDate.getDate() > 7 ? installDate.getMonth() + 1 : installDate.getMonth();
-    const installLaunch = new Date(installDate.getFullYear(), installMonth, 7);
+    // Snap to zone-specific install day
+    const installMonth = installDate.getDate() > zoneDay ? installDate.getMonth() + 1 : installDate.getMonth();
+    const installLaunch = new Date(installDate.getFullYear(), installMonth, zoneDay);
     if (installLaunch >= today) {
       events.push({ type: '📦', label: 'Install', date: installLaunch });
     }
