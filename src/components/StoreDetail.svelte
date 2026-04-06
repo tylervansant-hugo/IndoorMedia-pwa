@@ -7,6 +7,24 @@
   let selectedProduct = 'singleAd';
   let quantity = 1;
 
+  // Calculate next install date based on zone install day and cycle
+  function getInstallDateDisplay(installDay, cycle) {
+    if (!installDay) return '';
+    const now = new Date();
+    const day = parseInt(installDay);
+    
+    // Cycle schedule: A/B/C rotate every ~3 months
+    // Find next occurrence of this day
+    let nextDate = new Date(now.getFullYear(), now.getMonth(), day);
+    if (nextDate <= now) {
+      nextDate.setMonth(nextDate.getMonth() + 1);
+    }
+    
+    const monthName = nextDate.toLocaleDateString('en-US', { month: 'short' });
+    const ordinal = day + (day === 1 || day === 21 || day === 31 ? 'st' : day === 2 || day === 22 ? 'nd' : day === 3 || day === 23 ? 'rd' : 'th');
+    return `${ordinal} of each month`;
+  }
+
   $: if ($selectedStore) {
     pricingPlans = calculatePricingPlans(
       $selectedStore.SingleAd,
@@ -70,6 +88,12 @@
             <span class="info-label">Cycle</span>
             <span class="info-value">{$selectedStore.Cycle}</span>
           </div>
+          {#if $selectedStore.InstallDay}
+          <div class="info-item">
+            <span class="info-label">In Stores</span>
+            <span class="info-value install-date">{getInstallDateDisplay($selectedStore.InstallDay, $selectedStore.Cycle)}</span>
+          </div>
+          {/if}
         </div>
       </div>
 
@@ -226,6 +250,10 @@
   .info-value {
     color: #1a1a2e;
     font-size: 1rem;
+  }
+  .info-value.install-date {
+    color: #CC0000;
+    font-weight: 700;
   }
 
   .pricing-section {

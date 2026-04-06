@@ -400,7 +400,7 @@ Store: ${store.StoreName}
             <div class="store-info">
               <p class="address">{store.Address}</p>
               <p class="city">{store.City}, {store.State} {store.PostalCode}</p>
-              <p class="cycle">Cycle: {store.Cycle} | Cases: {store['Case Count']}</p>
+              <p class="cycle">Cycle: {store.Cycle} | Cases: {store['Case Count']}{store.InstallDay ? ` | In Stores: ${store.InstallDay}${store.InstallDay == 1 || store.InstallDay == 21 || store.InstallDay == 31 ? 'st' : store.InstallDay == 2 || store.InstallDay == 22 ? 'nd' : store.InstallDay == 3 || store.InstallDay == 23 ? 'rd' : 'th'}` : ''}</p>
               {#if useGeolocation && userLocation && store.latitude && store.longitude}
                 <p class="distance">
                   📍 {(calcDistance(userLocation.lat, userLocation.lng, store.latitude, store.longitude)).toFixed(1)} mi away
