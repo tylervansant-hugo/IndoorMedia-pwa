@@ -305,6 +305,41 @@
     return dl.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
   }
 
+  function openRenewalEmail(renewal, template) {
+    const contact = renewal.contactName || 'there';
+    const firstName = contact.split(' ')[0];
+    const biz = renewal.business || 'your business';
+    const store = renewal.store || 'your store';
+    const chainName = store.split(/\d/)[0] || 'the grocery store';
+    const price = fmtPrice(renewal.contractPrice);
+    const endDate = renewal.endDate || 'soon';
+    const deadline = formatDeadline(renewal);
+    const rep = $user?.name || 'Your IndoorMedia Representative';
+    const adSize = renewal.adSize || 'your ad';
+    const runLength = renewal.runLength ? renewal.runLength + ' quarters' : '';
+
+    let subject = '';
+    let body = '';
+
+    if (template === 'reminder') {
+      subject = `Your IndoorMedia Advertising Renewal — ${biz}`;
+      body = `Hi ${firstName},\n\nI hope business is going well at ${biz}! I'm reaching out because your IndoorMedia register tape advertising at ${store} is coming up for renewal.\n\nYour current contract ends ${endDate}, and I wanted to make sure we get your renewal locked in so there's no gap in your advertising coverage.\n\nHere are the key details:\n• Store: ${store}\n• Ad Size: ${adSize}\n• Contract Value: ${price}\n• Renewal Deadline: ${deadline}\n\nRenewing is simple — I can handle everything for you. Your ad will continue running on the register tape at ${store}, keeping your business in front of every customer who shops there.\n\nWould you like to renew at your current rate, or would you like to discuss upgrading to reach even more customers?\n\nLooking forward to hearing from you!\n\nBest,\n${rep}\nIndoorMedia`;
+    } else if (template === 'value') {
+      subject = `The Value You're Getting from IndoorMedia — ${biz}`;
+      body = `Hi ${firstName},\n\nI wanted to take a moment to highlight the value your IndoorMedia advertising has been delivering for ${biz}.\n\nYour ad at ${store} reaches every single customer who checks out at that location. That's hundreds of shoppers every day seeing your business name, your offers, and your contact information — right at the point of purchase.\n\nHere's what makes this so effective:\n• 100% reach — every customer gets a receipt with your ad\n• Hyper-local — these are shoppers in your neighborhood\n• Trackable — coupon redemptions show direct ROI\n• Affordable — a fraction of the cost of digital ads, direct mail, or billboards\n\nYour contract ends ${endDate}, and I'd love to get your renewal squared away before the deadline of ${deadline}.\n\nMany of our advertisers tell us this is their most consistent source of new customers. I'd hate for ${biz} to lose that momentum.\n\nLet me know if you'd like to continue — I can make it easy!\n\nBest,\n${rep}\nIndoorMedia`;
+    } else if (template === 'urgency') {
+      subject = `Action Needed: ${biz} Renewal Deadline Approaching`;
+      body = `Hi ${firstName},\n\nI wanted to give you a heads-up — your IndoorMedia advertising renewal for ${biz} at ${store} has an upcoming deadline of ${deadline}.\n\nIf we don't get your renewal processed by then, your ad space will become available to other businesses in your area — potentially even a competitor.\n\nHere's what's at stake:\n• Your ad at ${store} reaches every checkout customer\n• Once the space is gone, there may be a waiting period to get back on\n• Your current pricing is locked in — renewal rates may change\n\nI don't want you to lose your spot. Can we get this taken care of this week?\n\nIt only takes a few minutes. I can walk you through everything over the phone or send the renewal paperwork right away.\n\nPlease let me know how you'd like to proceed.\n\nBest,\n${rep}\nIndoorMedia`;
+    } else if (template === 'winback') {
+      subject = `We Miss You at IndoorMedia — ${biz}`;
+      body = `Hi ${firstName},\n\nIt's been a while since we last connected, and I wanted to reach out about your IndoorMedia advertising for ${biz}.\n\nYour contract at ${store} is ending ${endDate}, and I understand that sometimes businesses want to evaluate their advertising options. I completely respect that.\n\nThat said, I'd love the chance to discuss what we can do to make sure your advertising with us continues to work hard for ${biz}. Some things to consider:\n\n• Grocery store receipt advertising reaches more local customers than almost any other medium\n• Your ad at ${store} has been working for you — let's keep that momentum going\n• We have flexible payment plans: monthly, 3-month, 6-month, or paid-in-full with up to 15% off\n• Upgrading to a double-size ad or adding stores could bring even more customers through your doors\n\nI'd love to set up a quick 5-minute call to discuss your options. No pressure — just want to make sure you have all the information you need to make the best decision for ${biz}.\n\nWhen would be a good time to chat?\n\nBest,\n${rep}\nIndoorMedia`;
+    }
+
+    // Open mailto
+    const mailto = `mailto:${renewal.email || ''}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+    window.open(mailto);
+  }
+
   function getDeadlineUrgency(renewal) {
     const dl = getRenewalDeadline(renewal);
     if (!dl) return '';
@@ -982,6 +1017,16 @@
                     <a href="mailto:{renewal.email}?subject=Renewal%20—%20{encodeURIComponent(renewal.business)}" class="action-btn email-btn">✉️ Email</a>
                   {/if}
                 </div>
+                
+                <div class="email-templates">
+                  <p class="tmpl-label">📧 Email Templates:</p>
+                  <div class="tmpl-btns">
+                    <button class="tmpl-btn" on:click|stopPropagation={() => openRenewalEmail(renewal, 'reminder')}>🔔 Renewal Reminder</button>
+                    <button class="tmpl-btn" on:click|stopPropagation={() => openRenewalEmail(renewal, 'value')}>💰 Value Recap</button>
+                    <button class="tmpl-btn" on:click|stopPropagation={() => openRenewalEmail(renewal, 'urgency')}>⏰ Urgency/Deadline</button>
+                    <button class="tmpl-btn" on:click|stopPropagation={() => openRenewalEmail(renewal, 'winback')}>🤝 Win-Back</button>
+                  </div>
+                </div>
               </div>
             {/if}
             </div>
@@ -1421,6 +1466,11 @@
   .export-btn:hover:not(:disabled) { background:#a00; }
   .select-check { font-size:20px; margin-right:8px; flex-shrink:0; }
   .renewal-card { background: white; border: 1px solid #e0e0e0; border-radius: 10px; padding: 14px; cursor: pointer; transition: all 0.2s; display:flex; align-items:flex-start; }
+  .email-templates { margin-top:12px; padding-top:10px; border-top:1px solid var(--border-color, #e0e0e0); }
+  .tmpl-label { font-size:12px; font-weight:700; color:var(--text-secondary, #666); margin:0 0 8px; }
+  .tmpl-btns { display:flex; flex-wrap:wrap; gap:6px; }
+  .tmpl-btn { padding:7px 12px; border:1.5px solid var(--border-color, #ddd); border-radius:8px; background:var(--card-bg, white); font-size:12px; font-weight:600; cursor:pointer; color:var(--text-primary, #333); transition:all .15s; }
+  .tmpl-btn:hover { border-color:#CC0000; color:#CC0000; }
   .renewal-deadline { font-size:12px; padding:4px 8px; margin-top:6px; border-radius:4px; background:rgba(46,125,50,0.08); color:#2E7D32; }
   .renewal-deadline.soon { background:rgba(255,152,0,0.1); color:#E65100; }
   .renewal-deadline.urgent { background:rgba(204,0,0,0.1); color:#CC0000; font-weight:700; }
