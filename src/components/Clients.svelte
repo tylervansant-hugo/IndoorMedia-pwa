@@ -21,6 +21,115 @@
   let renewalRepFilter = 'all';
   let renewalZoneFilter = 'all';
   let expandedRenewal = null;
+  let selectedRenewals = new Set();
+  let selectMode = false;
+
+  function toggleSelect(accountNumber) {
+    if (selectedRenewals.has(accountNumber)) {
+      selectedRenewals.delete(accountNumber);
+    } else {
+      selectedRenewals.add(accountNumber);
+    }
+    selectedRenewals = selectedRenewals; // trigger reactivity
+  }
+
+  function selectAll() {
+    if (selectedRenewals.size === filteredRenewals.length) {
+      selectedRenewals = new Set();
+    } else {
+      selectedRenewals = new Set(filteredRenewals.map(r => r.accountNumber));
+    }
+  }
+
+  async function exportSelectedPdf() {
+    const { PDFDocument, rgb, StandardFonts } = await import('pdf-lib');
+    const selected = filteredRenewals.filter(r => selectedRenewals.has(r.accountNumber));
+    if (selected.length === 0) return alert('No renewals selected');
+
+    const pdf = await PDFDocument.create();
+    const font = await pdf.embedFont(StandardFonts.Helvetica);
+    const fontBold = await pdf.embedFont(StandardFonts.HelveticaBold);
+    
+    const pageW = 612; // Letter
+    const pageH = 792;
+    const margin = 50;
+    let page = pdf.addPage([pageW, pageH]);
+    let y = pageH - margin;
+
+    // Title
+    page.drawText('IndoorMedia — Renewal Assignments', { x: margin, y, font: fontBold, size: 18, color: rgb(0.8, 0, 0) });
+    y -= 22;
+    page.drawText(`Generated: ${new Date().toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })} | ${selected.length} renewal${selected.length !== 1 ? 's' : ''}`, { x: margin, y, font, size: 10, color: rgb(0.4, 0.4, 0.4) });
+    y -= 8;
+
+    // Group by rep
+    const byRep = {};
+    selected.forEach(r => {
+      const rep = r.rep || 'Unassigned';
+      if (!byRep[rep]) byRep[rep] = [];
+      byRep[rep].push(r);
+    });
+
+    for (const [rep, renewals] of Object.entries(byRep)) {
+      // Check if we need a new page
+      if (y < 120) { page = pdf.addPage([pageW, pageH]); y = pageH - margin; }
+
+      y -= 20;
+      page.drawRectangle({ x: margin - 5, y: y - 4, width: pageW - 2 * margin + 10, height: 20, color: rgb(0.8, 0, 0) });
+      page.drawText(`Rep: ${rep} (${renewals.length} renewal${renewals.length !== 1 ? 's' : ''})`, { x: margin, y, font: fontBold, size: 12, color: rgb(1, 1, 1) });
+      y -= 22;
+
+      // Column headers
+      const cols = [
+        { label: 'Business', x: margin, w: 150 },
+        { label: 'Store', x: margin + 155, w: 100 },
+        { label: 'Contact', x: margin + 260, w: 90 },
+        { label: 'Phone', x: margin + 355, w: 80 },
+        { label: 'Price', x: margin + 440, w: 60 },
+        { label: 'Ends', x: margin + 505, w: 55 },
+      ];
+      cols.forEach(c => page.drawText(c.label, { x: c.x, y, font: fontBold, size: 8, color: rgb(0.3, 0.3, 0.3) }));
+      y -= 2;
+      page.drawLine({ start: { x: margin, y }, end: { x: pageW - margin, y }, thickness: 0.5, color: rgb(0.7, 0.7, 0.7) });
+      y -= 12;
+
+      for (const r of renewals) {
+        if (y < 60) { page = pdf.addPage([pageW, pageH]); y = pageH - margin; }
+
+        const row = [
+          (r.business || '').slice(0, 28),
+          (r.store || '').slice(0, 18),
+          (r.contactName || '').slice(0, 16),
+          r.phone || '',
+          fmtPrice(r.contractPrice),
+          r.endDate || '',
+        ];
+        cols.forEach((c, i) => {
+          page.drawText(row[i], { x: c.x, y, font, size: 8, color: rgb(0.1, 0.1, 0.1) });
+        });
+
+        // Add category + address on second line
+        y -= 10;
+        const addr = [r.address, r.city, r.state].filter(Boolean).join(', ');
+        page.drawText(`${r.category || ''} | ${addr}`.slice(0, 80), { x: margin + 10, y, font, size: 7, color: rgb(0.5, 0.5, 0.5) });
+        
+        y -= 14;
+        page.drawLine({ start: { x: margin, y: y + 4 }, end: { x: pageW - margin, y: y + 4 }, thickness: 0.3, color: rgb(0.85, 0.85, 0.85) });
+      }
+    }
+
+    // Footer on last page
+    page.drawText('IndoorMedia imPro Sales Portal — Confidential', { x: margin, y: 30, font, size: 7, color: rgb(0.6, 0.6, 0.6) });
+
+    const pdfBytes = await pdf.save();
+    const blob = new Blob([pdfBytes], { type: 'application/pdf' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `renewals_${new Date().toISOString().slice(0,10)}.pdf`;
+    a.click();
+    URL.revokeObjectURL(url);
+  }
   
   // Ad Proofs
   let adProofs = [];
@@ -713,12 +822,30 @@
       </select>
     </div>
 
+    <div class="select-bar">
+      <button class="select-toggle" class:active={selectMode} on:click={() => { selectMode = !selectMode; if (!selectMode) selectedRenewals = new Set(); }}>
+        {selectMode ? '✕ Cancel' : '☑️ Select'}
+      </button>
+      {#if selectMode}
+        <button class="select-all-btn" on:click={selectAll}>
+          {selectedRenewals.size === filteredRenewals.length ? 'Deselect All' : 'Select All'} ({selectedRenewals.size})
+        </button>
+        <button class="export-btn" on:click={exportSelectedPdf} disabled={selectedRenewals.size === 0}>
+          📄 Export PDF ({selectedRenewals.size})
+        </button>
+      {/if}
+    </div>
+
     {#if filteredRenewals.length === 0}
       <p class="empty">No renewals match your filters.</p>
     {:else}
       <div class="renewal-list">
         {#each filteredRenewals as renewal}
-          <div class="renewal-card" on:click={() => expandedRenewal = expandedRenewal === renewal.accountNumber ? null : renewal.accountNumber}>
+          <div class="renewal-card" class:selected={selectedRenewals.has(renewal.accountNumber)} on:click={() => { if (selectMode) { toggleSelect(renewal.accountNumber); } else { expandedRenewal = expandedRenewal === renewal.accountNumber ? null : renewal.accountNumber; } }}>
+            {#if selectMode}
+              <div class="select-check">{selectedRenewals.has(renewal.accountNumber) ? '☑️' : '⬜'}</div>
+            {/if}
+            <div style="flex:1; min-width:0;">
             <div class="renewal-header">
               <div class="renewal-biz">
                 <h4>{renewal.business}</h4>
@@ -800,6 +927,7 @@
                 </div>
               </div>
             {/if}
+            </div>
           </div>
         {/each}
       </div>
@@ -1227,7 +1355,16 @@
   .renewal-filters { display: flex; gap: 8px; margin-bottom: 16px; }
   .renewal-filters select { flex: 1; padding: 8px; border: 1px solid #ddd; border-radius: 8px; font-size: 13px; background: white; }
   .renewal-list { display: flex; flex-direction: column; gap: 10px; }
-  .renewal-card { background: white; border: 1px solid #e0e0e0; border-radius: 10px; padding: 14px; cursor: pointer; transition: all 0.2s; }
+  .select-bar { display:flex; gap:8px; align-items:center; margin-bottom:12px; flex-wrap:wrap; }
+  .select-toggle { padding:8px 14px; border:2px solid var(--border-color, #ddd); border-radius:8px; background:var(--card-bg, white); font-size:13px; font-weight:700; cursor:pointer; color:var(--text-primary, #333); }
+  .select-toggle.active { border-color:#CC0000; color:#CC0000; }
+  .select-all-btn { padding:8px 12px; border:1px solid var(--border-color, #ddd); border-radius:8px; background:var(--card-bg, white); font-size:12px; font-weight:600; cursor:pointer; color:var(--text-secondary); }
+  .export-btn { padding:8px 16px; border:none; border-radius:8px; background:#CC0000; color:white; font-size:13px; font-weight:700; cursor:pointer; }
+  .export-btn:disabled { background:#999; cursor:not-allowed; }
+  .export-btn:hover:not(:disabled) { background:#a00; }
+  .select-check { font-size:20px; margin-right:8px; flex-shrink:0; }
+  .renewal-card { background: white; border: 1px solid #e0e0e0; border-radius: 10px; padding: 14px; cursor: pointer; transition: all 0.2s; display:flex; align-items:flex-start; }
+  .renewal-card.selected { border-color: #CC0000; background: rgba(204,0,0,0.03); }
   .renewal-card:hover { border-color: #CC0000; box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
   .renewal-header { display: flex; justify-content: space-between; align-items: flex-start; gap: 8px; }
   .renewal-biz h4 { margin: 0; font-size: 15px; color: #333; }
