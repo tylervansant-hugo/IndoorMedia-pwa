@@ -1274,7 +1274,8 @@
                   <p class="email-body-text">{tpl.body.replace(/\{business\}/g, prospect.name).replace(/\{contact\}/g, '').replace(/\{rep\}/g, $user?.name || $user?.first_name || 'Your Rep')}</p>
                   <button class="action-btn full-width email-btn" on:click={() => {
                     const subject = encodeURIComponent(tpl.subject.replace('{business}', prospect.name));
-                    const body = encodeURIComponent(tpl.body.replace(/\{business\}/g, prospect.name).replace(/\{contact\}/g, '').replace(/\{rep\}/g, $user?.name || $user?.first_name || 'Your Rep'));
+                    const rawBody = tpl.body.replace(/\{business\}/g, prospect.name).replace(/\{contact\}/g, '').replace(/\{rep\}/g, $user?.name || $user?.first_name || 'Your Rep');
+                    const body = encodeURIComponent(rawBody.replace(/\n\n/g, '\r\n\r\n').replace(/(?<!\r)\n/g, '\r\n'));
                     window.open('mailto:?subject=' + subject + '&body=' + body);
                   }}>📧 Open in Email App</button>
                 </div>
