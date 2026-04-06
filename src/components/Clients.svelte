@@ -378,17 +378,27 @@
 
   function getRenewalStatus(renewal) {
     if (!contractsData.length) return 'pending';
-    const bizLower = (renewal.business || '').toLowerCase().trim();
-    const storeNum = (renewal.store || '').match(/\d{4}/)?.[0] || '';
+    const bizLower = (renewal.business || '').toLowerCase().replace(/[^a-z0-9 ]/g, ' ').trim();
+    const bizWords = bizLower.split(/\s+/).filter(w => w.length > 2);
+    const storeNum = (renewal.store || '').match(/(\d{4})/)?.[1] || '';
+    const contractNum = (renewal.contractNumber || '').toUpperCase();
     
-    // Match by business name + store number
     const match = contractsData.find(c => {
-      const cBiz = (c.business_name || '').toLowerCase().trim();
-      const cStore = c.store_number || '';
-      // Fuzzy business name match (first 10 chars or contains)
-      const bizMatch = cBiz.includes(bizLower.slice(0, 10)) || bizLower.includes(cBiz.slice(0, 10));
+      const cBiz = (c.business_name || '').toLowerCase().replace(/[^a-z0-9 ]/g, ' ').trim();
+      const cStore = (c.store_number || '').trim();
+      const cContract = (c.contract_number || '').toUpperCase();
+      
+      // Match 1: Same contract number (strongest match)
+      if (contractNum && cContract && cContract === contractNum) return true;
+      
+      // Match 2: Store number + fuzzy business name
       const storeMatch = storeNum && cStore && cStore === storeNum;
-      return bizMatch && storeMatch;
+      if (!storeMatch) return false;
+      
+      // Fuzzy name: any 2+ significant words in common
+      const cWords = cBiz.split(/\s+/).filter(w => w.length > 2);
+      const commonWords = bizWords.filter(w => cWords.some(cw => cw.includes(w) || w.includes(cw)));
+      return commonWords.length >= 1;
     });
     
     return match ? 'completed' : 'pending';
