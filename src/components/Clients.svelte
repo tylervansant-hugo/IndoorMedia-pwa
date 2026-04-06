@@ -81,12 +81,13 @@
 
       // Column headers
       const cols = [
-        { label: 'Business', x: margin, w: 150 },
-        { label: 'Store', x: margin + 155, w: 100 },
-        { label: 'Contact', x: margin + 260, w: 90 },
-        { label: 'Phone', x: margin + 355, w: 80 },
-        { label: 'Price', x: margin + 440, w: 60 },
-        { label: 'Ends', x: margin + 505, w: 55 },
+        { label: 'Business', x: margin, w: 130 },
+        { label: 'Store', x: margin + 135, w: 85 },
+        { label: 'Contact', x: margin + 225, w: 80 },
+        { label: 'Phone', x: margin + 310, w: 75 },
+        { label: 'Price', x: margin + 390, w: 55 },
+        { label: 'Ends', x: margin + 450, w: 50 },
+        { label: 'Due By', x: margin + 505, w: 55 },
       ];
       cols.forEach(c => page.drawText(c.label, { x: c.x, y, font: fontBold, size: 8, color: rgb(0.3, 0.3, 0.3) }));
       y -= 2;
@@ -96,13 +97,16 @@
       for (const r of renewals) {
         if (y < 60) { page = pdf.addPage([pageW, pageH]); y = pageH - margin; }
 
+        const dl = getRenewalDeadline(r);
+        const dlStr = dl ? dl.toLocaleDateString('en-US', {month:'numeric', day:'numeric', year:'2-digit'}) : '';
         const row = [
-          (r.business || '').slice(0, 28),
-          (r.store || '').slice(0, 18),
-          (r.contactName || '').slice(0, 16),
+          (r.business || '').slice(0, 24),
+          (r.store || '').slice(0, 15),
+          (r.contactName || '').slice(0, 14),
           r.phone || '',
           fmtPrice(r.contractPrice),
           r.endDate || '',
+          dlStr,
         ];
         cols.forEach((c, i) => {
           page.drawText(row[i], { x: c.x, y, font, size: 8, color: rgb(0.1, 0.1, 0.1) });
@@ -267,6 +271,50 @@
   $: renewalReps = [...new Set(myRenewals.map(r => r.rep))].sort();
   $: renewalCycles = [...new Set(myRenewals.map(r => r.cycle))].sort();
   $: renewalZones = [...new Set(myRenewals.map(r => r.zone).filter(Boolean))].sort();
+
+  // Zone install day lookup from RTUI Zone Chart
+  const ZONE_DAYS = {'01':1,'02':8,'03':26,'04':28,'05':25,'06':1,'07':7,'08':5,'09':14,'10':30,'11':25,'12':16,'13':20,'14':10,'15':18,'16':7,'17':20,'18':20,'19':8,'20':10,'21':16,'22':1,'23':12,'24':14,'25':23,'26':20,'27':25,'28':6,'29':6};
+
+  function getRenewalDeadline(renewal) {
+    // Deadline = (install_day + 3) in the month before the end date
+    // Zone 7 example: B2 ends 5/1/2026, install day 7, deadline = April 10 (7+3)
+    const storeId = renewal.store || '';
+    const zoneMatch = storeId.match(/(\d{2})[A-Z]?-/) || (renewal.zone || '').match(/(\d{2})/);
+    const zoneNum = zoneMatch ? zoneMatch[1] : '07';
+    const installDay = ZONE_DAYS[zoneNum] || 7;
+    const deadlineDay = installDay + 3;
+
+    // Parse end date
+    const endStr = renewal.endDate || '';
+    const endParts = endStr.split('/');
+    if (endParts.length < 3) return null;
+    const endMonth = parseInt(endParts[0]) - 1; // 0-indexed
+    const endYear = parseInt(endParts[2].length === 2 ? '20' + endParts[2] : endParts[2]);
+    
+    // Deadline is in the month BEFORE the end date
+    let dlMonth = endMonth - 1;
+    let dlYear = endYear;
+    if (dlMonth < 0) { dlMonth = 11; dlYear--; }
+    
+    return new Date(dlYear, dlMonth, deadlineDay);
+  }
+
+  function formatDeadline(renewal) {
+    const dl = getRenewalDeadline(renewal);
+    if (!dl) return '';
+    return dl.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+  }
+
+  function getDeadlineUrgency(renewal) {
+    const dl = getRenewalDeadline(renewal);
+    if (!dl) return '';
+    const now = new Date();
+    const daysLeft = Math.ceil((dl - now) / 86400000);
+    if (daysLeft < 0) return 'overdue';
+    if (daysLeft <= 7) return 'urgent';
+    if (daysLeft <= 14) return 'soon';
+    return 'ok';
+  }
   
   $: filteredRenewals = myRenewals.filter(r => {
     if (renewalCycleFilter !== 'all' && r.cycle !== renewalCycleFilter) return false;
@@ -861,6 +909,15 @@
               <span>👤 {renewal.rep}</span>
               <span>📅 Ends: {renewal.endDate || '—'}</span>
             </div>
+            {#if formatDeadline(renewal)}
+              <div class="renewal-deadline" class:overdue={getDeadlineUrgency(renewal) === 'overdue'} class:urgent={getDeadlineUrgency(renewal) === 'urgent'} class:soon={getDeadlineUrgency(renewal) === 'soon'}>
+                ⏰ Renewal due: <strong>{formatDeadline(renewal)}</strong>
+                {#if getDeadlineUrgency(renewal) === 'overdue'} — OVERDUE
+                {:else if getDeadlineUrgency(renewal) === 'urgent'} — Due this week!
+                {:else if getDeadlineUrgency(renewal) === 'soon'} — Due soon
+                {/if}
+              </div>
+            {/if}
 
             {#if expandedRenewal === renewal.accountNumber}
               <div class="renewal-details">
@@ -1364,6 +1421,10 @@
   .export-btn:hover:not(:disabled) { background:#a00; }
   .select-check { font-size:20px; margin-right:8px; flex-shrink:0; }
   .renewal-card { background: white; border: 1px solid #e0e0e0; border-radius: 10px; padding: 14px; cursor: pointer; transition: all 0.2s; display:flex; align-items:flex-start; }
+  .renewal-deadline { font-size:12px; padding:4px 8px; margin-top:6px; border-radius:4px; background:rgba(46,125,50,0.08); color:#2E7D32; }
+  .renewal-deadline.soon { background:rgba(255,152,0,0.1); color:#E65100; }
+  .renewal-deadline.urgent { background:rgba(204,0,0,0.1); color:#CC0000; font-weight:700; }
+  .renewal-deadline.overdue { background:rgba(204,0,0,0.15); color:#CC0000; font-weight:800; }
   .renewal-card.selected { border-color: #CC0000; background: rgba(204,0,0,0.03); }
   .renewal-card:hover { border-color: #CC0000; box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
   .renewal-header { display: flex; justify-content: space-between; align-items: flex-start; gap: 8px; }
