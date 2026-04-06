@@ -255,6 +255,9 @@
       allStores = await storesRes.json().catch(() => []);
       pendingRenewals = await renewalsRes.json().catch(() => []);
       adProofs = await proofsRes.json().catch(() => []);
+      // Load contracts for renewal matching
+      const cData = await contractsRes.json().catch(() => ({}));
+      contractsData = cData.contracts || cData || [];
     } catch (err) {
       console.error('Failed to load data:', err);
     }
@@ -341,6 +344,54 @@
     // Open mailto
     const mailto = `mailto:${renewal.email || ''}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
     window.open(mailto);
+  }
+
+  // Schedule follow-up via Google Calendar
+  function scheduleRenewal(renewal, type) {
+    const title = type === 'call' 
+      ? `📞 Renewal Call: ${renewal.business}` 
+      : `🚗 Renewal Visit: ${renewal.business}`;
+    const details = `Renewal follow-up for ${renewal.business}\nStore: ${renewal.store}\nContact: ${renewal.contactName || 'N/A'}\nPhone: ${renewal.phone || 'N/A'}\nEmail: ${renewal.email || 'N/A'}\nContract: ${renewal.contractNumber || 'N/A'}\nPrice: ${fmtPrice(renewal.contractPrice)}\nDeadline: ${formatDeadline(renewal)}\nCycle: ${renewal.cycle}`;
+    const location = type === 'visit' ? [renewal.address, renewal.city, renewal.state].filter(Boolean).join(', ') : '';
+    
+    // Default to tomorrow at 10am
+    const tomorrow = new Date();
+    tomorrow.setDate(tomorrow.getDate() + 1);
+    tomorrow.setHours(10, 0, 0, 0);
+    const end = new Date(tomorrow);
+    end.setHours(type === 'visit' ? 11 : 10, type === 'visit' ? 0 : 30, 0, 0);
+    
+    const fmt = d => d.toISOString().replace(/[-:]/g, '').split('.')[0] + 'Z';
+    const gcalUrl = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent(title)}&dates=${fmt(tomorrow)}/${fmt(end)}&details=${encodeURIComponent(details)}&location=${encodeURIComponent(location)}&add=${encodeURIComponent('tyler.vansant@indoormedia.com')}`;
+    window.open(gcalUrl, '_blank');
+  }
+
+  // Match renewals against new contracts to find completed renewals
+  let contractsData = [];
+
+  function loadContracts() {
+    fetch(import.meta.env.BASE_URL + 'data/contracts.json?t=' + Date.now())
+      .then(r => r.json())
+      .then(d => { contractsData = d.contracts || d || []; })
+      .catch(() => { contractsData = []; });
+  }
+
+  function getRenewalStatus(renewal) {
+    if (!contractsData.length) return 'pending';
+    const bizLower = (renewal.business || '').toLowerCase().trim();
+    const storeNum = (renewal.store || '').match(/\d{4}/)?.[0] || '';
+    
+    // Match by business name + store number
+    const match = contractsData.find(c => {
+      const cBiz = (c.business_name || '').toLowerCase().trim();
+      const cStore = c.store_number || '';
+      // Fuzzy business name match (first 10 chars or contains)
+      const bizMatch = cBiz.includes(bizLower.slice(0, 10)) || bizLower.includes(cBiz.slice(0, 10));
+      const storeMatch = storeNum && cStore && cStore === storeNum;
+      return bizMatch && storeMatch;
+    });
+    
+    return match ? 'completed' : 'pending';
   }
 
   function getDeadlineUrgency(renewal) {
@@ -947,7 +998,10 @@
               <span>👤 {renewal.rep}</span>
               <span>📅 Ends: {renewal.endDate || '—'}</span>
             </div>
-            {#if formatDeadline(renewal)}
+            {#if getRenewalStatus(renewal) === 'completed'}
+              <div class="renewal-completed-badge">✅ RENEWED</div>
+            {/if}
+            {#if formatDeadline(renewal) && getRenewalStatus(renewal) !== 'completed'}
               <div class="renewal-deadline" class:overdue={getDeadlineUrgency(renewal) === 'overdue'} class:urgent={getDeadlineUrgency(renewal) === 'urgent'} class:soon={getDeadlineUrgency(renewal) === 'soon'}>
                 ⏰ Renewal due: <strong>{formatDeadline(renewal)}</strong>
                 {#if getDeadlineUrgency(renewal) === 'overdue'} — OVERDUE
@@ -1024,12 +1078,24 @@
                 <div class="email-templates">
                   <p class="tmpl-label">📧 Email Templates:</p>
                   <div class="tmpl-btns">
-                    <button class="tmpl-btn" on:click|stopPropagation={() => openRenewalEmail(renewal, 'reminder')}>🔔 Renewal Reminder</button>
-                    <button class="tmpl-btn" on:click|stopPropagation={() => openRenewalEmail(renewal, 'value')}>💰 Value Recap</button>
-                    <button class="tmpl-btn" on:click|stopPropagation={() => openRenewalEmail(renewal, 'urgency')}>⏰ Urgency/Deadline</button>
+                    <button class="tmpl-btn" on:click|stopPropagation={() => openRenewalEmail(renewal, 'reminder')}>🔔 Reminder</button>
+                    <button class="tmpl-btn" on:click|stopPropagation={() => openRenewalEmail(renewal, 'value')}>💰 Value</button>
+                    <button class="tmpl-btn" on:click|stopPropagation={() => openRenewalEmail(renewal, 'urgency')}>⏰ Urgency</button>
                     <button class="tmpl-btn" on:click|stopPropagation={() => openRenewalEmail(renewal, 'winback')}>🤝 Win-Back</button>
                   </div>
                 </div>
+
+                <div class="schedule-section">
+                  <p class="tmpl-label">📅 Schedule Follow-up:</p>
+                  <div class="tmpl-btns">
+                    <button class="tmpl-btn" on:click|stopPropagation={() => scheduleRenewal(renewal, 'call')}>📞 Schedule Call</button>
+                    <button class="tmpl-btn" on:click|stopPropagation={() => scheduleRenewal(renewal, 'visit')}>🚗 Schedule Visit</button>
+                  </div>
+                </div>
+
+                {#if getRenewalStatus(renewal) === 'completed'}
+                  <div class="renewal-completed">✅ RENEWED — Contract matched</div>
+                {/if}
               </div>
             {/if}
             </div>
@@ -1469,6 +1535,9 @@
   .export-btn:hover:not(:disabled) { background:#a00; }
   .select-check { font-size:20px; margin-right:8px; flex-shrink:0; }
   .renewal-card { background: white; border: 1px solid #e0e0e0; border-radius: 10px; padding: 14px; cursor: pointer; transition: all 0.2s; display:flex; align-items:flex-start; }
+  .renewal-completed-badge { font-size:12px; padding:4px 10px; margin-top:6px; border-radius:4px; background:#E8F5E9; color:#2E7D32; font-weight:800; }
+  .renewal-completed { font-size:14px; padding:10px; margin-top:12px; border-radius:8px; background:#E8F5E9; color:#2E7D32; font-weight:800; text-align:center; border:2px solid #2E7D32; }
+  .schedule-section { margin-top:10px; padding-top:10px; border-top:1px solid var(--border-color, #e0e0e0); }
   .email-templates { margin-top:12px; padding-top:10px; border-top:1px solid var(--border-color, #e0e0e0); }
   .tmpl-label { font-size:12px; font-weight:700; color:var(--text-secondary, #666); margin:0 0 8px; }
   .tmpl-btns { display:flex; flex-wrap:wrap; gap:6px; }
