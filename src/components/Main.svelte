@@ -695,20 +695,10 @@
   ];
   let fontIdx = parseInt(localStorage.getItem('impro_font_idx') || '1');
   let currentFontSize = FONT_SIZES[fontIdx]?.label || 'M';
+  let fontScale = FONT_SIZES[fontIdx]?.scale || 1;
 
   function applyFontScale() {
-    const s = FONT_SIZES[fontIdx]?.scale || 1;
-    const root = document.documentElement;
-    root.style.setProperty('--fs-title', `${Math.round(24 * s)}px`);
-    root.style.setProperty('--fs-heading', `${Math.round(18 * s)}px`);
-    root.style.setProperty('--fs-subheading', `${Math.round(15 * s)}px`);
-    root.style.setProperty('--fs-body', `${Math.round(14 * s)}px`);
-    root.style.setProperty('--fs-small', `${Math.round(12 * s)}px`);
-    root.style.setProperty('--fs-tiny', `${Math.round(11 * s)}px`);
-    root.style.setProperty('--fs-button', `${Math.round(15 * s)}px`);
-    root.style.setProperty('--fs-stat', `${Math.round(32 * s)}px`);
-    root.style.setProperty('--fs-icon', `${Math.round(36 * s)}px`);
-    root.style.fontSize = `${Math.round(16 * s)}px`;
+    fontScale = FONT_SIZES[fontIdx]?.scale || 1;
   }
 
   function cycleFontSize() {
@@ -738,7 +728,7 @@
   }
 </script>
 
-<div class="main" data-theme={currentTheme}>
+<div class="main" data-theme={currentTheme} style="zoom: {fontScale}; -moz-transform: scale({fontScale}); -moz-transform-origin: top left;">
   <!-- Header -->
   <header class="header">
     <div class="header-top">
@@ -1216,16 +1206,6 @@
 </div>
 
 <style>
-  /* Global font size variables — scaled by the font size toggle */
-  :global(h1) { font-size: var(--fs-title, 24px) !important; }
-  :global(h2) { font-size: var(--fs-title, 24px) !important; }
-  :global(h3) { font-size: var(--fs-heading, 18px) !important; }
-  :global(h4) { font-size: var(--fs-subheading, 15px) !important; }
-  :global(p), :global(li), :global(td), :global(span), :global(div), :global(label) { font-size: var(--fs-body, 14px); }
-  :global(button) { font-size: var(--fs-button, 15px); }
-  :global(input), :global(select), :global(textarea) { font-size: var(--fs-body, 14px); }
-  :global(small), :global(.hint), :global(.subtitle) { font-size: var(--fs-small, 12px) !important; }
-
   :global([data-theme='light']) {
     --bg-primary: #ffffff;
     --bg-secondary: #f9f9f9;
@@ -1676,13 +1656,13 @@
   .stat-card.clickable:active { transform: scale(0.98); }
 
   .stat-icon {
-    font-size: var(--fs-icon, 36px);
+    font-size: 36px;
     margin-bottom: 10px;
   }
 
   .stat-card h3 {
     margin: 0 0 10px;
-    font-size: var(--fs-small, 15px);
+    font-size: 15px;
     color: var(--text-secondary);
     text-transform: uppercase;
     letter-spacing: 0.5px;
@@ -1691,7 +1671,7 @@
 
   .stat-value {
     margin: 0 0 6px;
-    font-size: var(--fs-stat, 32px);
+    font-size: 32px;
     font-weight: 800;
     color: #CC0000;
     line-height: 1.1;
@@ -1699,7 +1679,7 @@
 
   .stat-label {
     margin: 0;
-    font-size: var(--fs-small, 13px);
+    font-size: 13px;
     color: var(--text-tertiary);
     font-weight: 500;
   }
