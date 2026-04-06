@@ -674,24 +674,38 @@
   }
 
   const FONT_SIZES = [
-    { label: 'S', value: '14px' },
-    { label: 'M', value: '16px' },
-    { label: 'L', value: '18px' },
-    { label: 'XL', value: '20px' },
+    { label: 'S', scale: 0.85 },
+    { label: 'M', scale: 1.0 },
+    { label: 'L', scale: 1.15 },
+    { label: 'XL', scale: 1.3 },
   ];
-  let currentFontSize = localStorage.getItem('impro_font_size') || '16px';
-  
-  function cycleFontSize() {
-    const idx = FONT_SIZES.findIndex(f => f.value === currentFontSize);
-    const next = FONT_SIZES[(idx + 1) % FONT_SIZES.length];
-    currentFontSize = next.value;
-    localStorage.setItem('impro_font_size', currentFontSize);
-    document.documentElement.style.fontSize = currentFontSize;
+  let fontIdx = parseInt(localStorage.getItem('impro_font_idx') || '1');
+  let currentFontSize = FONT_SIZES[fontIdx]?.label || 'M';
+
+  function applyFontScale() {
+    const s = FONT_SIZES[fontIdx]?.scale || 1;
+    const root = document.documentElement;
+    root.style.setProperty('--fs-title', `${Math.round(24 * s)}px`);
+    root.style.setProperty('--fs-heading', `${Math.round(18 * s)}px`);
+    root.style.setProperty('--fs-subheading', `${Math.round(15 * s)}px`);
+    root.style.setProperty('--fs-body', `${Math.round(14 * s)}px`);
+    root.style.setProperty('--fs-small', `${Math.round(12 * s)}px`);
+    root.style.setProperty('--fs-tiny', `${Math.round(11 * s)}px`);
+    root.style.setProperty('--fs-button', `${Math.round(15 * s)}px`);
+    root.style.setProperty('--fs-stat', `${Math.round(32 * s)}px`);
+    root.style.setProperty('--fs-icon', `${Math.round(36 * s)}px`);
+    root.style.fontSize = `${Math.round(16 * s)}px`;
   }
 
-  // Apply saved font size on load
+  function cycleFontSize() {
+    fontIdx = (fontIdx + 1) % FONT_SIZES.length;
+    currentFontSize = FONT_SIZES[fontIdx].label;
+    localStorage.setItem('impro_font_idx', String(fontIdx));
+    applyFontScale();
+  }
+
   if (typeof document !== 'undefined') {
-    document.documentElement.style.fontSize = currentFontSize;
+    applyFontScale();
   }
 
   function handleLogout() {
@@ -738,8 +752,8 @@
             <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
           {/if}
         </button>
-        <button class="header-icon-btn font-size-btn" on:click={cycleFontSize} title="Font size: {FONT_SIZES.find(f => f.value === currentFontSize)?.label || 'M'}">
-          <span class="font-size-label">{FONT_SIZES.find(f => f.value === currentFontSize)?.label || 'M'}</span>
+        <button class="header-icon-btn font-size-btn" on:click={cycleFontSize} title="Font size: {currentFontSize}">
+          <span class="font-size-label">{currentFontSize}</span>
         </button>
         <button class="header-icon-btn logout-text" on:click={handleLogout}>Logout</button>
       </div>
@@ -1188,6 +1202,16 @@
 </div>
 
 <style>
+  /* Global font size variables — scaled by the font size toggle */
+  :global(h1) { font-size: var(--fs-title, 24px) !important; }
+  :global(h2) { font-size: var(--fs-title, 24px) !important; }
+  :global(h3) { font-size: var(--fs-heading, 18px) !important; }
+  :global(h4) { font-size: var(--fs-subheading, 15px) !important; }
+  :global(p), :global(li), :global(td), :global(span), :global(div), :global(label) { font-size: var(--fs-body, 14px); }
+  :global(button) { font-size: var(--fs-button, 15px); }
+  :global(input), :global(select), :global(textarea) { font-size: var(--fs-body, 14px); }
+  :global(small), :global(.hint), :global(.subtitle) { font-size: var(--fs-small, 12px) !important; }
+
   :global([data-theme='light']) {
     --bg-primary: #ffffff;
     --bg-secondary: #f9f9f9;
@@ -1638,13 +1662,13 @@
   .stat-card.clickable:active { transform: scale(0.98); }
 
   .stat-icon {
-    font-size: 36px;
+    font-size: var(--fs-icon, 36px);
     margin-bottom: 10px;
   }
 
   .stat-card h3 {
     margin: 0 0 10px;
-    font-size: 15px;
+    font-size: var(--fs-small, 15px);
     color: var(--text-secondary);
     text-transform: uppercase;
     letter-spacing: 0.5px;
@@ -1653,7 +1677,7 @@
 
   .stat-value {
     margin: 0 0 6px;
-    font-size: 32px;
+    font-size: var(--fs-stat, 32px);
     font-weight: 800;
     color: #CC0000;
     line-height: 1.1;
@@ -1661,7 +1685,7 @@
 
   .stat-label {
     margin: 0;
-    font-size: 13px;
+    font-size: var(--fs-small, 13px);
     color: var(--text-tertiary);
     font-weight: 500;
   }
