@@ -46,7 +46,7 @@
     }
   });
 
-  // Store search
+  // Store search - supports city, chain, street name, zip
   function searchStores() {
     if (!storeSearch.trim() || storeSearch.length < 2) { storeResults = []; showStoreDropdown = false; return; }
     const term = storeSearch.toLowerCase();
@@ -55,7 +55,9 @@
       (s.GroceryChain || '').toLowerCase().includes(term) ||
       (s.City || '').toLowerCase().includes(term) ||
       (s.PostalCode || '').includes(term) ||
-      (s.Address || '').toLowerCase().includes(term)
+      (s.Address || '').toLowerCase().includes(term) ||
+      // Street name search (extract first words from address)
+      (s.Address || '').toLowerCase().split(/\s+/).slice(0, 3).join(' ').includes(term)
     ).slice(0, 10);
     showStoreDropdown = storeResults.length > 0;
   }
@@ -330,7 +332,13 @@
       {#if showStoreDropdown}
         <div class="dd">
           {#each storeResults as s}
-            <button class="ddi" on:click={() => selectStore(s)}><strong>{s.StoreName}</strong><small>{s.GroceryChain} — {s.City}, {s.State}</small></button>
+            <button class="ddi" on:click={() => selectStore(s)}>
+              <strong>{s.StoreName}</strong>
+              <small>{s.GroceryChain} — {s.City}, {s.State}</small>
+              {#if s.Address}
+                <small style="font-size: 11px; color: #888; display: block; margin-top: 2px;">{s.Address}</small>
+              {/if}
+            </button>
           {/each}
         </div>
       {/if}
@@ -389,7 +397,12 @@
       <div class="info-row"><span class="info-label">Address:</span><span>{businessAddress || 'N/A'}</span></div>
       {#if businessPhone}<div class="info-row"><span class="info-label">Phone:</span><span>{businessPhone}</span></div>{/if}
       {#if businessWebsite}<div class="info-row"><span class="info-label">Website:</span><a href={businessWebsite} target="_blank">{businessWebsite.replace('https://','').split('/')[0]}</a></div>{/if}
-      {#if selectedStore}<div class="info-row"><span class="info-label">Store:</span><span>{selectedStore.GroceryChain} {selectedStore.City} ({selectedStore.StoreName})</span></div>{/if}
+      {#if selectedStore}
+        <div class="info-row"><span class="info-label">Store:</span><span>{selectedStore.GroceryChain} {selectedStore.City} ({selectedStore.StoreName})</span></div>
+        {#if selectedStore.Address}
+          <div class="info-row"><span class="info-label">Address:</span><span>{selectedStore.Address}, {selectedStore.City}, {selectedStore.State} {selectedStore.PostalCode}</span></div>
+        {/if}
+      {/if}
       {#if additionalInfo}<div class="info-row"><span class="info-label">Notes:</span><span>{additionalInfo}</span></div>{/if}
     </div>
 
