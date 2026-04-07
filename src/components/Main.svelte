@@ -506,7 +506,7 @@
     });
     leaderboardPosition = myRank >= 0 ? myRank + 1 : 0;
 
-    // Pending renewals count (loaded async separately)
+    // Pending renewals count + add renewal value to revenue
     fetch(import.meta.env.BASE_URL + 'data/pending_renewals.json')
       .then(r => r.json())
       .then(renewals => {
@@ -517,6 +517,14 @@
           pendingRenewalsData = renewals.filter(r => (r.rep || '').toLowerCase().includes(repName.split(' ')[0]));
           pendingRenewalsCount = pendingRenewalsData.length;
         }
+        // Add renewal contract values to total revenue display
+        const renewalValue = pendingRenewalsData.reduce((sum, r) => {
+          const price = typeof r.contractPrice === 'number' 
+            ? r.contractPrice 
+            : parseFloat(String(r.contractPrice || '0').replace(/[$,]/g, '')) || 0;
+          return sum + price;
+        }, 0);
+        repMonthlyRevenue = revenueThisMonth + renewalValue;
       })
       .catch(() => { pendingRenewalsCount = 0; pendingRenewalsData = []; });
 
@@ -820,7 +828,7 @@
         <!-- Revenue + Key Stats -->
         <button class="revenue-hero clickable" on:click={() => showRevenueDetail = !showRevenueDetail}>
           <div class="revenue-amount">${repMonthlyRevenue.toLocaleString()}</div>
-          <div class="revenue-label">Revenue This Month — tap for details</div>
+          <div class="revenue-label">Contracts + Renewals — tap for details</div>
           {#if growthPercent !== 0}
             <div class="growth-badge" class:positive={growthPercent > 0} class:negative={growthPercent < 0}>
               {growthPercent > 0 ? '↑' : '↓'} {Math.abs(growthPercent)}% vs last month
