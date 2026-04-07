@@ -8,7 +8,7 @@
   
   onMount(async () => {
     try {
-      const res = await fetch('/data/prospect_data.json');
+      const res = await fetch(import.meta.env.BASE_URL + 'data/prospect_data.json');
       const data = await res.json();
       const reps = data.reps || {};
       

@@ -1,6 +1,7 @@
 <script>
   import { onMount } from 'svelte';
   import { user } from '../lib/stores.js';
+  import { logActivity } from '../lib/activity.js';
   import HotLeadsSubmit from './HotLeadsSubmit.svelte';
   import PendingLeads from './PendingLeads.svelte';
   
@@ -10,7 +11,120 @@
   let savedProspects = [];
   let hotLeads = [];
   let view = 'main'; // main, nearby-stores, categories, subcategories, results, saved, hot-leads, pending, submit-lead
+  let selectedCycle = 'all'; // all, A, B, C
   let selectedStore = null;
+  let loadingCustomers = false;
+  let customerLoadMessage = '';
+  let showCredentialsModal = false;
+  let roogleEmail = '';
+  let rooglePassword = '';
+  let pendingStoreId = null;
+  let loadedCustomers = null;
+  let videoLibrary = null;
+
+  // Load video library on mount
+  onMount(async () => {
+    try {
+      const response = await fetch(import.meta.env.BASE_URL + 'data/video_library.json');
+      videoLibrary = await response.json();
+    } catch (e) {
+      console.warn('Could not load video library:', e);
+    }
+  });
+
+  function getVideoForCategory() {
+    if (!videoLibrary) return null;
+    
+    const categories = videoLibrary.categories || {};
+    const subCat = (selectedSubcategory || '').toLowerCase();
+    const mainCat = (selectedCategory || '').toLowerCase();
+    const searchTerms = [subCat, mainCat].filter(Boolean);
+    
+    // Try matching subcategory then category against video library keywords
+    for (const term of searchTerms) {
+      for (const [catName, catData] of Object.entries(categories)) {
+        const keywords = (catData.keywords || []).map(k => k.toLowerCase());
+        const catNameLower = catName.toLowerCase();
+        if (keywords.some(k => term.includes(k) || k.includes(term)) || catNameLower.includes(term) || term.includes(catNameLower)) {
+          const videos = catData.videos || [];
+          if (videos.length > 0) {
+            return videos[Math.floor(Math.random() * videos.length)];
+          }
+        }
+      }
+    }
+    
+    // Fallback: try Food & Drink for restaurant-like categories
+    if (mainCat.includes('restaurant') || subCat.includes('pizza') || subCat.includes('coffee') || subCat.includes('taco') || subCat.includes('food')) {
+      const foodVideos = categories['Food & Drink']?.videos || [];
+      if (foodVideos.length > 0) {
+        return foodVideos[Math.floor(Math.random() * foodVideos.length)];
+      }
+    }
+    
+    return null;
+  }
+
+  let testimonialCache = null;
+  
+  async function getTestimonialsForCategory() {
+    if (!testimonialCache) {
+      try {
+        // Try slim first, fall back to full
+        let response = await fetch(import.meta.env.BASE_URL + 'data/testimonials_slim.json?t=' + Date.now()).catch(() => null);
+        if (!response?.ok) response = await fetch(import.meta.env.BASE_URL + 'data/testimonials_cache.json');
+        testimonialCache = await response.json();
+      } catch (e) {
+        console.warn('Could not load testimonials:', e);
+        return [];
+      }
+    }
+    
+    const subCat = (selectedSubcategory || '').toLowerCase();
+    const mainCat = (selectedCategory || '').toLowerCase();
+    const searchTerms = [subCat, mainCat].filter(Boolean);
+    
+    const results = [];
+    const testimonials = Array.isArray(testimonialCache) ? testimonialCache : (testimonialCache.testimonials || []);
+    
+    // Normalize fields (slim format uses b/c/u, full uses business/comment/url)
+    const normalize = (t) => ({
+      business_name: t.b || t.business_name || t.business || '',
+      comments: t.c || t.comments || t.comment || '',
+      url: t.u || t.url || '',
+      id: t.id || 0,
+      searchable: t.searchable || ''
+    });
+
+    for (const t of testimonials) {
+      const nt = normalize(t);
+      const text = (nt.searchable || (nt.business_name + ' ' + nt.comments)).toLowerCase();
+      if (searchTerms.some(term => text.includes(term))) {
+        results.push(nt);
+        if (results.length >= 5) break;
+      }
+    }
+    
+    // Add a nearby testimonial if we have a selected store
+    if (selectedStore) {
+      const city = (selectedStore.City || '').toLowerCase();
+      const chain = (selectedStore.GroceryChain || '').toLowerCase();
+      const resultIds = new Set(results.map(r => r.id));
+      
+      for (const t of testimonials) {
+        const nt = normalize(t);
+        if (resultIds.has(nt.id)) continue;
+        const text = (nt.business_name + ' ' + nt.comments).toLowerCase();
+        if (text.includes(city) || text.includes(chain)) {
+          nt._isLocal = true;
+          results.push(nt);
+          break;
+        }
+      }
+    }
+    
+    return results;
+  }
   let selectedCategory = null;
   let selectedSubcategory = null;
   let userLocation = null;
@@ -20,6 +134,49 @@
   let customSearch = '';
   let storeSearchQuery = '';
   let filteredStoreResults = [];
+  let repRegistry = {};
+  let inviteRepEmail = '';
+  let copiedAddress = '';
+  let prospectSort = 'score'; // score, distance, rating, reviews
+  
+  // Hot Leads filters
+  let hotLeadStoreFilter = 'all';
+  let hotLeadZoneFilter = 'all';
+  let hotLeadCategoryFilter = 'all';
+  let hotLeadRepFilter = 'all';
+  let hotLeadSearch = '';
+  
+  // Build store→rep map from registry
+  $: storeToRep = (() => {
+    const map = {};
+    for (const [uid, info] of Object.entries(repRegistry)) {
+      const name = info.display_name || '';
+      for (const sid of (info.assigned_stores || [])) {
+        map[sid] = name;
+      }
+    }
+    return map;
+  })();
+  
+  $: hotLeadStores = [...new Set(hotLeads.map(l => `${l.store_chain} ${l.store_city} (${l.store_id})`))].sort();
+  $: hotLeadZones = [...new Set(hotLeads.map(l => (l.store_id || '').match(/\d+[A-Z]/)?.[0] || '').filter(Boolean))].sort();
+  $: hotLeadCategories = [...new Set(hotLeads.map(l => l.category).filter(Boolean))].sort();
+  $: hotLeadReps = [...new Set(hotLeads.map(l => storeToRep[l.store_id] || 'Unassigned').filter(Boolean))].sort();
+  
+  $: filteredHotLeads = hotLeads.filter(l => {
+    if (hotLeadStoreFilter !== 'all' && !`${l.store_chain} ${l.store_city} (${l.store_id})`.includes(hotLeadStoreFilter)) return false;
+    if (hotLeadZoneFilter !== 'all' && !(l.store_id || '').includes(hotLeadZoneFilter)) return false;
+    if (hotLeadCategoryFilter !== 'all' && l.category !== hotLeadCategoryFilter) return false;
+    if (hotLeadRepFilter !== 'all' && (storeToRep[l.store_id] || 'Unassigned') !== hotLeadRepFilter) return false;
+    if (hotLeadSearch) {
+      const q = hotLeadSearch.toLowerCase();
+      return (l.business_name || '').toLowerCase().includes(q) ||
+        (l.address || '').toLowerCase().includes(q) ||
+        (l.store_city || '').toLowerCase().includes(q) ||
+        (l.category || '').toLowerCase().includes(q);
+    }
+    return true;
+  });
 
   const CATEGORIES = {
     '🍽️ Restaurants': ['Mexican', 'Pizza', 'Sandwich Shop', 'Coffee', 'Sushi', 'Fast Food', 'Chinese', 'Thai', 'Indian', 'BBQ', 'Italian', 'Bakery', 'Breakfast/Brunch', 'Seafood', 'Mediterranean', 'Korean', 'Vietnamese', 'Wings', 'Ice Cream/Dessert', 'Juice/Smoothie', 'Bar/Pub', 'Catering', 'Food Truck', 'Brewery/Taproom', 'Winery', 'Donut Shop', 'Deli', 'All'],
@@ -124,24 +281,95 @@
 
   onMount(async () => {
     try {
-      const [storesRes, leadsRes] = await Promise.all([
-        fetch('/data/stores.json'),
-        fetch('/data/hot_leads.json')
+      const [storesRes, leadsRes, repRes] = await Promise.all([
+        fetch(import.meta.env.BASE_URL + 'data/stores.json'),
+        fetch(import.meta.env.BASE_URL + 'data/hot_leads.json?t=' + Date.now()),
+        fetch(import.meta.env.BASE_URL + 'data/rep_registry.json').catch(() => ({ json: () => ({}) }))
       ]);
       allStores = await storesRes.json();
+      repRegistry = await repRes.json().catch(() => ({}));
       
-      // Load hot leads (filtered by rep visibility)
+      // Load hot leads - scoped to stores rep has sold at, filtered by current cycle
       let allLeadsData = await leadsRes.json();
-      const isManager = $user?.name?.toLowerCase().includes('tyler') || $user?.role === 'manager' || $user?.role === 'admin';
       
-      if (!isManager && $user?.assigned_stores) {
-        const assignedStoreIds = Array.isArray($user.assigned_stores) ? $user.assigned_stores : [$user.assigned_stores];
-        hotLeads = allLeadsData.filter(l => assignedStoreIds.includes(l.store_id));
-      } else if (!isManager) {
-        hotLeads = [];
-      } else {
-        hotLeads = allLeadsData;
+      // Load contracts to find which stores this rep has sold at
+      let repStoreIds = new Set();
+      try {
+        const contractsRes = await fetch(import.meta.env.BASE_URL + 'data/contracts.json');
+        const contractsData = await contractsRes.json();
+        const contracts = contractsData.contracts || [];
+        const rn = ($user?.name || '').toLowerCase();
+        const isManager = rn.includes('tyler') || rn.includes('rick') || $user?.role === 'manager';
+        
+        if (isManager) {
+          // Managers see all leads
+          repStoreIds = null; // null = no filter
+        } else {
+          // Find stores where this rep has sold
+          for (const c of contracts) {
+            const rep = (c.sales_rep || '').toLowerCase();
+            if (rep.includes(rn.split(' ')[0])) {
+              const chain = (c.store_name || '').trim();
+              const num = (c.store_number || '').trim();
+              const zone = (c.zone || '').trim();
+              if (chain && num) {
+                // Match to stores.json format: find StoreName that contains the store number
+                const matched = allStores.find(s => 
+                  s.StoreName && s.StoreName.includes(num) && 
+                  s.GroceryChain && s.GroceryChain.toLowerCase().includes(chain.toLowerCase().split(' ')[0])
+                );
+                if (matched) repStoreIds.add(matched.StoreName);
+              }
+            }
+          }
+        }
+      } catch (err) {
+        console.error('Error loading contracts for rep stores:', err);
+        repStoreIds = null; // fallback: show all
       }
+      
+      // Determine current selling cycle
+      // Cycle schedule: B selling until Apr 11, then C selling from Apr 11
+      // Install dates (7th): A=Jan/Apr/Jul/Oct, B=Feb/May/Aug/Nov, C=Mar/Jun/Sep/Dec
+      // Selling: A install → C sell, B install → A sell, C install → B sell
+      const now = new Date();
+      const month = now.getMonth(); // 0-indexed
+      const day = now.getDate();
+      const cycleMap = ['A','B','C'];
+      // Current install cycle based on month
+      const installIdx = month % 3; // 0=A, 1=B, 2=C
+      const installCycle = cycleMap[installIdx];
+      // Before the 11th = previous selling cycle, after 11th = current selling cycle
+      // Selling cycle: A install→C sell, B install→A sell, C install→B sell
+      const sellMap = { 'A': 'C', 'B': 'A', 'C': 'B' };
+      let currentSellingCycle;
+      if (day < 11) {
+        // Still on previous cycle's selling
+        const prevMonth = (month + 11) % 12;
+        const prevInstall = cycleMap[prevMonth % 3];
+        currentSellingCycle = sellMap[prevInstall];
+      } else {
+        currentSellingCycle = sellMap[installCycle];
+      }
+      
+      // Filter stores by current cycle
+      const cycleStores = new Set(
+        allStores.filter(s => s.Cycle === currentSellingCycle).map(s => s.StoreName)
+      );
+      
+      // Filter hot leads: rep's stores + current cycle
+      if (repStoreIds === null) {
+        // Manager: show all leads for current cycle stores
+        hotLeads = allLeadsData.filter(l => !l.store_id || cycleStores.has(l.store_id));
+      } else if (repStoreIds.size > 0) {
+        // Rep: show leads for their stores that are in current cycle
+        const repCycleStores = new Set([...repStoreIds].filter(id => cycleStores.has(id)));
+        hotLeads = allLeadsData.filter(l => !l.store_id || repCycleStores.has(l.store_id));
+      } else {
+        hotLeads = []; // No stores found for this rep
+      }
+      
+      console.log(`Hot Leads: ${hotLeads.length} leads, Selling Cycle: ${currentSellingCycle}, Rep stores: ${repStoreIds === null ? 'all (manager)' : repStoreIds.size}`);
       
       loadSavedProspects();
     } catch (err) {
@@ -222,6 +450,175 @@
     view = 'subcategories';
   }
 
+  function promptForCredentials() {
+    if (!selectedStore) return;
+    
+    // Get user from store
+    const currentUser = localStorage.getItem('impro_user');
+    if (!currentUser) {
+      alert('Please log in first');
+      return;
+    }
+    
+    const user = JSON.parse(currentUser);
+    pendingStoreId = selectedStore.StoreName;
+    
+    // Get credentials from session (set during login)
+    const sessionCreds = sessionStorage.getItem('indoormedia_credentials');
+    if (!sessionCreds) {
+      alert('Session expired. Please log in again.');
+      return;
+    }
+    
+    const creds = JSON.parse(sessionCreds);
+    roogleEmail = creds.email;
+    rooglePassword = creds.password;
+    submitCredentialsAndLoad();
+  }
+
+  async function submitCredentialsAndLoad() {
+    if (!roogleEmail || !rooglePassword) {
+      customerLoadMessage = '❌ Email and password required';
+      return;
+    }
+
+    loadingCustomers = true;
+    customerLoadMessage = 'Loading customers from Roogle...';
+    showCredentialsModal = false;
+    
+    // Save credentials to localStorage for future use
+    localStorage.setItem('roogleCredentials', JSON.stringify({
+      email: roogleEmail,
+      password: rooglePassword
+    }));
+    
+    try {
+      let data = null;
+      
+      // Try local server first (if running)
+      try {
+        const localResponse = await Promise.race([
+          fetch('http://localhost:3001/api/roogle-scraper', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ 
+              storeId: pendingStoreId,
+              email: roogleEmail,
+              password: rooglePassword
+            })
+          }),
+          new Promise((_, reject) => setTimeout(() => reject(new Error('timeout')), 5000))
+        ]);
+        
+        if (localResponse.ok) {
+          data = await localResponse.json();
+          console.log('✅ Using local Roogle server data');
+        }
+      } catch (localError) {
+        // Local server not available or timed out, use Vercel demo API
+        console.log('Local server not available, using demo data');
+      }
+      
+      // If local server failed, use Vercel demo API
+      if (!data) {
+        const vercelResponse = await fetch(import.meta.env.BASE_URL + 'api/roogle-scraper', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ 
+            storeId: pendingStoreId,
+            email: roogleEmail,
+            password: rooglePassword
+          })
+        });
+        
+        if (!vercelResponse.ok) {
+          // Silently use demo data even on error
+          console.log('Demo data (no live API)');
+          data = {
+            success: true,
+            storeId: pendingStoreId,
+            current: [{ businessName: "Demo Data", status: "Active", price: "Demo", category: "Demo" }],
+            past: [],
+            all: [{ businessName: "Demo Data", status: "Active", price: "Demo", category: "Demo" }]
+          };
+        } else {
+          data = await vercelResponse.json();
+        }
+      }
+      
+      if (!data.success && !data.current) {
+        throw new Error(data.error || 'Failed to load customers');
+      }
+      
+      // Add current customers to savedProspects (Clients tab)
+      data.current?.forEach(customer => {
+        if (!savedProspects.find(p => p.name === customer.businessName)) {
+          savedProspects.push({
+            id: `${pendingStoreId}-${customer.businessName}`,
+            name: customer.businessName,
+            category: customer.category || 'Active Contract',
+            status: 'active',
+            notes: `${customer.contractType} - ${customer.price}`,
+            savedAt: new Date().toISOString()
+          });
+        }
+      });
+      
+      // Add all customers to prospects (Prospects tab)
+      data.all?.forEach(customer => {
+        if (!prospects.find(p => p.name === customer.businessName)) {
+          prospects.push({
+            id: `${pendingStoreId}-${customer.businessName}`,
+            name: customer.businessName,
+            address: selectedStore.City + ', ' + selectedStore.State,
+            category: customer.category || customer.status,
+            phone: '',
+            email: '',
+            website: '',
+            rating: 0,
+            reviews: 0,
+            _showNotes: false,
+            _showEmail: false,
+            _showScript: false
+          });
+        }
+      });
+      
+      savedProspects = [...savedProspects];
+      prospects = [...prospects];
+      
+      // Store loaded customers for display
+      loadedCustomers = {
+        current: data.current || [],
+        past: data.past || []
+      };
+      
+      customerLoadMessage = `✅ Loaded ${data.current?.length || 0} active + ${data.past?.length || 0} past customers`;
+      
+      // Clear credentials after use
+      roogleEmail = '';
+      rooglePassword = '';
+      pendingStoreId = null;
+      
+      setTimeout(() => {
+        customerLoadMessage = '';
+      }, 3000);
+      
+    } catch (err) {
+      console.error('Roogle load failed:', err);
+      customerLoadMessage = `❌ Error: ${err.message}`;
+    } finally {
+      loadingCustomers = false;
+    }
+  }
+
+  function closeCredentialsModal() {
+    showCredentialsModal = false;
+    roogleEmail = '';
+    rooglePassword = '';
+    pendingStoreId = null;
+  }
+
   async function searchCustom() {
     if (!customSearch.trim()) return;
     loading = true;
@@ -231,6 +628,7 @@
     try {
       const results = await searchGooglePlaces(selectedStore.latitude, selectedStore.longitude, customSearch.trim());
       prospects = results;
+      trackSearch(selectedCategory, customSearch.trim(), selectedStore?.StoreName);
       view = 'results';
     } catch (err) {
       console.error('Custom search failed:', err);
@@ -250,6 +648,7 @@
       const keyword = CATEGORY_KEYWORDS[subcat] || subcat.toLowerCase();
       const results = await searchGooglePlaces(selectedStore.latitude, selectedStore.longitude, keyword);
       prospects = results;
+      trackSearch(selectedCategory, subcat, selectedStore?.StoreName);
       view = 'results';
     } catch (err) {
       console.error('Search failed:', err);
@@ -331,7 +730,7 @@
           lat: pLat,
           lng: pLng
         };
-      }).sort((a, b) => b.score - a.score);
+      }).filter(p => !p.distance || p.distance <= 3).sort((a, b) => b.score - a.score);
     } catch (err) {
       console.error('Google Places error:', err);
       error = 'Search failed. Please try again.';
@@ -375,6 +774,23 @@
       notes[id] = text;
       localStorage.setItem('prospectNotes', JSON.stringify(notes));
     } catch {}
+  }
+
+  function trackSearch(category, subcategory, storeName) {
+    try {
+      const searches = JSON.parse(localStorage.getItem('impro_searches') || '[]');
+      searches.push({ category, subcategory, store: storeName, date: new Date().toISOString(), rep: $user?.name || 'Unknown' });
+      localStorage.setItem('impro_searches', JSON.stringify(searches.slice(-500))); // keep last 500
+    } catch (e) { console.warn('Track search error:', e); }
+  }
+
+  function trackPhoneClick(prospect) {
+    try {
+      const clicks = JSON.parse(localStorage.getItem('impro_phone_clicks') || '[]');
+      clicks.push({ business: prospect.name, phone: prospect.phone, date: new Date().toISOString(), rep: $user?.name || 'Unknown' });
+      localStorage.setItem('impro_phone_clicks', JSON.stringify(clicks.slice(-500)));
+      logActivity('call', { business: prospect.name, rep: $user?.name || 'Unknown' });
+    } catch (e) { console.warn('Track phone click error:', e); }
   }
 
   function saveProspect(prospect) {
@@ -499,6 +915,12 @@
         <div class="btn-text">Hot Leads</div>
         <div class="btn-desc">{hotLeads.length > 0 ? hotLeads.length + ' ready to call' : 'Coming soon'}</div>
       </button>
+
+      <button class="main-btn" on:click={() => view = 'submit-lead'}>
+        <div class="btn-icon">➕</div>
+        <div class="btn-text">Add Lead</div>
+        <div class="btn-desc">Submit a new lead</div>
+      </button>
     </div>
   {/if}
 
@@ -511,7 +933,7 @@
     <div class="search-box">
       <input
         type="text"
-        placeholder="Search by city, chain, store #, or state..."
+        placeholder="Search by city, chain, store #, state, or street..."
         bind:value={storeSearchQuery}
         on:input={filterStoresForProspecting}
       />
@@ -547,13 +969,26 @@
     <h2>📍 Nearby Stores</h2>
     <p class="subtitle">Select a store to find prospects nearby</p>
 
+    <div class="cycle-filter">
+      <button class="cycle-btn" class:active={selectedCycle === 'all'} on:click={() => selectedCycle = 'all'}>All</button>
+      <button class="cycle-btn" class:active={selectedCycle === 'A'} on:click={() => selectedCycle = 'A'}>Cycle A</button>
+      <button class="cycle-btn" class:active={selectedCycle === 'B'} on:click={() => selectedCycle = 'B'}>Cycle B</button>
+      <button class="cycle-btn" class:active={selectedCycle === 'C'} on:click={() => selectedCycle = 'C'}>Cycle C</button>
+    </div>
+
     <div class="store-list">
-      {#each nearbyStores as store (store.StoreName)}
+      {#each nearbyStores.filter(s => selectedCycle === 'all' || s.Cycle === selectedCycle) as store (store.StoreName)}
         <button class="store-item" on:click={() => selectStore(store)}>
           <div class="store-info">
             <h4>{store.GroceryChain}</h4>
+            {#if store.Address}
+              <p class="street-address">📍 {store.Address.split(',')[0]}</p>
+            {/if}
             <p class="address">{store.City}, {store.State}</p>
             <p class="distance">{store.distance.toFixed(1)} miles away</p>
+            {#if store['Case Count']}
+              <p class="case-count">📦 {store['Case Count']} cases on shelf</p>
+            {/if}
           </div>
           <div class="store-right">
             <div class="store-num">{store.StoreName}</div>
@@ -570,6 +1005,53 @@
     <h3>📍 {selectedStore.GroceryChain} - {selectedStore.City}, {selectedStore.State}</h3>
     <p class="subtitle">Search by name or choose a category</p>
 
+    {#if selectedStore && selectedStore.StoreName}
+      <button 
+        class="roogle-load-btn"
+        on:click={promptForCredentials}
+        disabled={loadingCustomers}
+      >
+        {loadingCustomers ? '⏳ Loading...' : '🔄 Load Roogle Customers'}
+      </button>
+      {#if customerLoadMessage}
+        <p class="customer-load-msg">{customerLoadMessage}</p>
+      {/if}
+    {/if}
+
+    {#if showCredentialsModal}
+      <div class="credentials-modal-overlay" on:click={closeCredentialsModal}>
+        <div class="credentials-modal" on:click={(e) => e.stopPropagation()}>
+          <h3>🔐 Roogle Login</h3>
+          <p class="modal-subtitle">Enter your sales.indoormedia.com credentials</p>
+          
+          <div class="form-group">
+            <label>Email</label>
+            <input 
+              type="email"
+              bind:value={roogleEmail}
+              placeholder="tyler.vansant@indoormedia.com"
+            />
+          </div>
+
+          <div class="form-group">
+            <label>Password</label>
+            <input 
+              type="password"
+              bind:value={rooglePassword}
+              placeholder="Enter your password"
+            />
+          </div>
+
+          <div class="modal-actions">
+            <button class="btn-load" on:click={submitCredentialsAndLoad}>Load Customers</button>
+            <button class="btn-cancel" on:click={closeCredentialsModal}>Cancel</button>
+          </div>
+          
+          <p class="modal-note">✅ Your credentials are only sent to Roogle. They won't be stored.</p>
+        </div>
+      </div>
+    {/if}
+
     <div class="custom-search-bar">
       <input 
         type="text" 
@@ -581,6 +1063,57 @@
         {loading ? '...' : '🔍'}
       </button>
     </div>
+
+    {#if loadedCustomers}
+      <div class="loaded-customers-section">
+        <h3>📊 Current/Past Customers</h3>
+        
+        {#if loadedCustomers.current.length > 0}
+          <div class="customers-subsection">
+            <h4 style="color: #2e7d32;">🟢 Current Customers ({loadedCustomers.current.length})</h4>
+            {#each loadedCustomers.current as customer}
+              <div class="customer-card current">
+                <div class="customer-name">{customer.businessName}</div>
+                <div class="customer-meta">
+                  <span>📅 Started: {new Date(customer.startDate).toLocaleDateString()}</span>
+                  {#if customer.endDate}
+                    <span>📅 Ended: {new Date(customer.endDate).toLocaleDateString()}</span>
+                  {:else}
+                    <span style="color: #2e7d32; font-weight: 600;">• Active</span>
+                  {/if}
+                </div>
+                <div class="customer-details">
+                  <span>{customer.category}</span> • <span>{customer.contractType}</span>
+                </div>
+                {#if customer.totalSpent}
+                  <div class="customer-revenue">💰 Total Revenue: ${customer.totalSpent.toLocaleString()}</div>
+                {/if}
+              </div>
+            {/each}
+          </div>
+        {/if}
+        
+        {#if loadedCustomers.past.length > 0}
+          <div class="customers-subsection">
+            <h4 style="color: #c33;">🔴 Past Customers ({loadedCustomers.past.length})</h4>
+            {#each loadedCustomers.past as customer}
+              <div class="customer-card past">
+                <div class="customer-name">{customer.businessName}</div>
+                <div class="customer-meta">
+                  <span>📅 {new Date(customer.startDate).toLocaleDateString()} → {new Date(customer.endDate).toLocaleDateString()}</span>
+                </div>
+                <div class="customer-details">
+                  <span>{customer.category}</span> • <span>{customer.contractType}</span>
+                </div>
+                {#if customer.totalSpent}
+                  <div class="customer-revenue">💰 Total Revenue: ${customer.totalSpent.toLocaleString()}</div>
+                {/if}
+              </div>
+            {/each}
+          </div>
+        {/if}
+      </div>
+    {/if}
 
     <p class="or-divider">— or pick a category —</p>
 
@@ -613,14 +1146,27 @@
     <h3>{selectedCategory} → {selectedSubcategory}</h3>
     <p class="subtitle">Nearby {selectedCategory} near {selectedStore.GroceryChain}</p>
 
+    <div class="sort-bar">
+      <span class="sort-label">Sort:</span>
+      <button class="sort-btn" class:active={prospectSort === 'score'} on:click={() => prospectSort = 'score'}>🎯 Score</button>
+      <button class="sort-btn" class:active={prospectSort === 'distance'} on:click={() => prospectSort = 'distance'}>📍 Distance</button>
+      <button class="sort-btn" class:active={prospectSort === 'rating'} on:click={() => prospectSort = 'rating'}>⭐ Rating</button>
+      <button class="sort-btn" class:active={prospectSort === 'reviews'} on:click={() => prospectSort = 'reviews'}>💬 Reviews</button>
+    </div>
+
     <div class="prospect-list">
-      {#each prospects as prospect, i (prospect.id + '-' + i)}
+      {#each [...prospects].sort((a, b) => {
+        if (prospectSort === 'distance') return (a.distance || 999) - (b.distance || 999);
+        if (prospectSort === 'rating') return (b.rating || 0) - (a.rating || 0);
+        if (prospectSort === 'reviews') return (b.reviews || 0) - (a.reviews || 0);
+        return (b.score || 0) - (a.score || 0);
+      }) as prospect, i (prospect.id + '-' + i)}
         <div class="prospect-card">
           <div class="prospect-header">
             <span class="score-emoji">{prospect.score >= 80 ? '🔥' : prospect.score >= 70 ? '⭐' : '👀'}</span>
             <h4>{prospect.name}</h4>
           </div>
-          <p class="prospect-address">📍 {prospect.address}</p>
+          <p class="prospect-address" style="cursor:pointer;" on:click={() => { navigator.clipboard.writeText(prospect.address); copiedAddress = prospect.address; setTimeout(() => copiedAddress = '', 2000); }}>📍 {copiedAddress === prospect.address ? '✅ Copied!' : prospect.address}</p>
           <p class="prospect-meta">
             ⭐ {prospect.rating.toFixed(1)} ({prospect.reviews} reviews) • {prospect.distance} mi • Score: {prospect.score}%
           </p>
@@ -638,21 +1184,64 @@
                 <a href="https://maps.google.com/maps?q={encodeURIComponent(prospect.name + ' ' + prospect.address)}" target="_blank" class="action-btn">📍 Maps</a>
               {/if}
               <a href="https://sales.indoormedia.com/mappoint" target="_blank" class="action-btn">🗺️ Mappoint</a>
+              <a href="https://coupons.indoormedia.com/?location={encodeURIComponent((selectedStore?.City || '') + ', ' + (selectedStore?.State || ''))}" target="_blank" class="action-btn">📋 Nearby Advertisers</a>
             </div>
             <div class="action-row">
               <button class="action-btn" on:click={() => saveProspect(prospect)}>💾 Save</button>
-              <a href="https://www.google.com/search?q={encodeURIComponent(prospect.name + ' ' + (prospect.address || '').split(',')[0])}&tbm=vid" target="_blank" class="action-btn">🎬 Video</a>
+              {#if getVideoForCategory()}
+                <a href={getVideoForCategory().url} target="_blank" class="action-btn">🎬 Video</a>
+              {:else}
+                <a href="https://www.google.com/search?q={encodeURIComponent('IndoorMedia ' + (selectedSubcategory || selectedCategory || 'testimonial'))}&tbm=vid" target="_blank" class="action-btn">🎬 Video</a>
+              {/if}
             </div>
             <div class="action-row">
               <button class="action-btn" on:click={() => { prospect._showNotes = !prospect._showNotes; prospects = prospects; }}>📝 Notes</button>
-              <button class="action-btn" on:click={() => alert('Search testimonials for this business category in the Tools tab')}>📋 Testimonials</button>
+              <button class="action-btn testimonial-btn" on:click={async () => { 
+                prospect._showTestimonials = !prospect._showTestimonials;
+                if (prospect._showTestimonials) {
+                  prospect._testimonialData = await getTestimonialsForCategory();
+                }
+                prospects = prospects;
+              }}>📋 Testimonials</button>
             </div>
             {#if prospect.phone}
-              <a href="tel:{prospect.phone}" class="action-btn full-width call-btn">📞 Call {prospect.phone}</a>
+              <a href="tel:{prospect.phone}" class="action-btn full-width call-btn" on:click={() => trackPhoneClick(prospect)}>📞 Call {prospect.phone}</a>
             {/if}
-            <button class="action-btn full-width email-btn" on:click={() => { prospect._showEmail = !prospect._showEmail; prospect._showNotes = false; prospects = prospects; }}>✉️ Draft Email</button>
-            <a href="https://calendar.google.com/calendar/render?action=TEMPLATE&text={encodeURIComponent('Visit: ' + prospect.name)}&details={encodeURIComponent('Prospect: ' + prospect.name + '\nAddress: ' + prospect.address + (prospect.phone ? '\nPhone: ' + prospect.phone : '') + (prospect.website ? '\nWebsite: ' + prospect.website : '') + '\nStore: ' + (selectedStore?.GroceryChain || '') + ' ' + (selectedStore?.StoreName || ''))}&location={encodeURIComponent(prospect.address)}" target="_blank" class="action-btn full-width">📅 Calendar</a>
+            <button class="action-btn full-width script-btn" on:click={() => { prospect._showScript = !prospect._showScript; prospect._showEmail = false; prospect._showNotes = false; prospects = prospects; }}>📋 Call Scripts</button>
+            <button class="action-btn full-width email-btn" on:click={() => { prospect._showEmail = !prospect._showEmail; prospect._showScript = false; prospect._showNotes = false; prospects = prospects; }}>✉️ Draft Email</button>
+            <div class="calendar-booking">
+              <div class="invite-row">
+                <select bind:value={inviteRepEmail} class="invite-select">
+                  <option value="">No invite (just me)</option>
+                  {#each Object.entries(repRegistry).filter(([k, v]) => v.email) as [id, rep]}
+                    <option value={rep.email}>{rep.display_name || rep.contract_name}</option>
+                  {/each}
+                </select>
+              </div>
+              <a href="https://calendar.google.com/calendar/render?action=TEMPLATE&text={encodeURIComponent('Visit: ' + prospect.name)}&details={encodeURIComponent('Prospect: ' + prospect.name + '\nAddress: ' + prospect.address + (prospect.phone ? '\nPhone: ' + prospect.phone : '') + (prospect.website ? '\nWebsite: ' + prospect.website : '') + '\nStore: ' + (selectedStore?.GroceryChain || '') + ' ' + (selectedStore?.StoreName || '') + '\nRep: ' + ($user?.name || '') + (getProspectNote(prospect.id || prospect.name) ? '\n\n📝 Notes:\n' + getProspectNote(prospect.id || prospect.name) : ''))}&location={encodeURIComponent(prospect.address)}&add={encodeURIComponent('tyler.vansant@indoormedia.com')}{inviteRepEmail ? ',' + encodeURIComponent(inviteRepEmail) : ''}" target="_blank" class="action-btn full-width calendar-btn">📅 Book Appointment (invites manager{inviteRepEmail ? ' + rep' : ''})</a>
+            </div>
           </div>
+          {#if prospect._showTestimonials}
+            <div class="testimonials-section">
+              <h4 class="testimonials-title">📋 Testimonials for {selectedSubcategory || selectedCategory || 'this category'}</h4>
+              {#if prospect._testimonialData && prospect._testimonialData.length > 0}
+                {#each prospect._testimonialData as testimonial}
+                  <div class="testimonial-card" class:local-testimonial={testimonial._isLocal}>
+                    {#if testimonial._isLocal}
+                      <p class="local-badge">📍 Nearby Business</p>
+                    {/if}
+                    <p class="testimonial-business"><strong>{(testimonial.business_name || 'Business').replace(/&#x27;/g, "'").replace(/&#x9;/g, '').replace(/&amp;/g, '&')}</strong></p>
+                    <p class="testimonial-text">"{testimonial.comments || 'Great experience with IndoorMedia!'}"</p>
+                    {#if testimonial.url}
+                      <a href={testimonial.url} target="_blank" class="testimonial-link">🔗 View Full Testimonial →</a>
+                    {/if}
+                  </div>
+                {/each}
+              {:else}
+                <p class="no-testimonials">No testimonials found for this category. Try a broader category.</p>
+              {/if}
+            </div>
+          {/if}
           {#if prospect._showNotes}
             <div class="notes-section">
               <textarea 
@@ -663,6 +1252,44 @@
               ></textarea>
               {#if getProspectNote(prospect.id || prospect.name)}
                 <p class="note-saved">Saved</p>
+              {/if}
+            </div>
+          {/if}
+          {#if prospect._showScript}
+            <!-- CALL SCRIPTS FEATURE - LIVE AS OF MAR 30 2026 -->
+            <div class="script-section">
+              <h4 class="script-title">📋 Call Scripts</h4>
+              <button class="script-select-btn" on:click={() => { prospect._selectedScript = 'tvs-appt'; prospects = prospects; }}>
+                📞 TVS Appointment Setting
+              </button>
+              <button class="script-select-btn" on:click={() => { prospect._selectedScript = 'tvs-spanish'; prospects = prospects; }}>
+                📞 Spanish Appointment Setting
+              </button>
+              {#if prospect._selectedScript === 'tvs-appt'}
+                <div class="script-preview-box">
+                  <p class="script-text">Hey there, I was hoping you could point me in the right direction on something…?</p>
+                  <p class="script-text">My name is <strong>{$user?.name || $user?.first_name || '[Your Name]'}</strong> and I was calling because I'm working with the <strong>{selectedStore?.GroceryChain || '[Store Chain]'}</strong> over on <strong>{selectedStore?.Address?.split(',')[0] || '[Street Name]'}</strong> and was getting in touch because we are kicking off a huge promotion and support of local business.</p>
+                  <p class="script-text">We are going to be featuring and recommending just a few great local businesses, and right now I am looking to recommend just one <strong>{selectedSubcategory || selectedCategory || '[Business Type]'}</strong> to all of their shoppers.</p>
+                  <p class="script-text">We already work with a ton of <strong>{selectedSubcategory || selectedCategory || '[Business Type]'}s</strong> with huge success in driving customers, and I was curious, <em>who should I talk to about doing the same for you?</em></p>
+                  <button class="action-btn full-width" on:click={() => {
+                    const script = `Hey there, I was hoping you could point me in the right direction on something…?\n\nMy name is ${$user?.name || $user?.first_name || '[Your Name]'} and I was calling because I'm working with the ${selectedStore?.GroceryChain || '[Store Chain]'} over on ${selectedStore?.Address?.split(',')[0] || '[Street Name]'} and was getting in touch because we are kicking off a huge promotion and support of local business.\n\nWe are going to be featuring and recommending just a few great local businesses, and right now I am looking to recommend just one ${selectedSubcategory || selectedCategory || '[Business Type]'} to all of their shoppers.\n\nWe already work with a ton of ${selectedSubcategory || selectedCategory || '[Business Type]'}s with huge success in driving customers, and I was curious, who should I talk to about doing the same for you?`;
+                    navigator.clipboard.writeText(script);
+                    alert('✅ Script copied!');
+                  }}>📋 Copy Script</button>
+                </div>
+              {/if}
+              {#if prospect._selectedScript === 'tvs-spanish'}
+                <div class="script-preview-box">
+                  <p class="script-text">Hola, ¿podría orientarme un poco con algo?</p>
+                  <p class="script-text">Me llamo <strong>{$user?.name || $user?.first_name || '[Su nombre]'}</strong> y le llamaba porque estoy trabajando con la cadena <strong>{selectedStore?.GroceryChain || '[Nombre de la cadena]'}</strong> —ubicada en <strong>{selectedStore?.Address?.split(',')[0] || '[Dirección]'}</strong>—; me ponía en contacto con usted porque estamos poniendo en marcha una gran promoción para apoyar a los negocios locales.</p>
+                  <p class="script-text">Vamos a destacar y recomendar a un grupo selecto de excelentes negocios de la zona y, en este momento, busco recomendar a un único negocio del sector <strong>{selectedSubcategory || selectedCategory || '[Tipo de negocio]'}</strong> a todos sus clientes.</p>
+                  <p class="script-text">Ya trabajamos con una gran cantidad de negocios de la categoría <strong>{selectedSubcategory || selectedCategory || '[Tipo de negocio]'}</strong>, logrando un enorme éxito a la hora de atraerles clientes; por ello, me preguntaba: <em>¿con quién debería hablar para hacer lo mismo por ustedes?</em></p>
+                  <button class="action-btn full-width" on:click={() => {
+                    const script = `Hola, ¿podría orientarme un poco con algo?\n\nMe llamo ${$user?.name || $user?.first_name || '[Su nombre]'} y le llamaba porque estoy trabajando con la cadena ${selectedStore?.GroceryChain || '[Nombre de la cadena]'} —ubicada en ${selectedStore?.Address?.split(',')[0] || '[Dirección]'}—; me ponía en contacto con usted porque estamos poniendo en marcha una gran promoción para apoyar a los negocios locales.\n\nVamos a destacar y recomendar a un grupo selecto de excelentes negocios de la zona y, en este momento, busco recomendar a un único negocio del sector ${selectedSubcategory || selectedCategory || '[Tipo de negocio]'} a todos sus clientes.\n\nYa trabajamos con una gran cantidad de negocios de la categoría ${selectedSubcategory || selectedCategory || '[Tipo de negocio]'}, logrando un enorme éxito a la hora de atraerles clientes; por ello, me preguntaba: ¿con quién debería hablar para hacer lo mismo por ustedes?`;
+                    navigator.clipboard.writeText(script);
+                    alert('✅ Script copied!');
+                  }}>📋 Copy Script</button>
+                </div>
               {/if}
             </div>
           {/if}
@@ -681,7 +1308,8 @@
                   <p class="email-body-text">{tpl.body.replace(/\{business\}/g, prospect.name).replace(/\{contact\}/g, '').replace(/\{rep\}/g, $user?.name || $user?.first_name || 'Your Rep')}</p>
                   <button class="action-btn full-width email-btn" on:click={() => {
                     const subject = encodeURIComponent(tpl.subject.replace('{business}', prospect.name));
-                    const body = encodeURIComponent(tpl.body.replace(/\{business\}/g, prospect.name).replace(/\{contact\}/g, '').replace(/\{rep\}/g, $user?.name || $user?.first_name || 'Your Rep'));
+                    const rawBody = tpl.body.replace(/\{business\}/g, prospect.name).replace(/\{contact\}/g, '').replace(/\{rep\}/g, $user?.name || $user?.first_name || 'Your Rep');
+                    const body = encodeURIComponent(rawBody.replace(/\n\n/g, '\r\n\r\n').replace(/(?<!\r)\n/g, '\r\n'));
                     window.open('mailto:?subject=' + subject + '&body=' + body);
                   }}>📧 Open in Email App</button>
                 </div>
@@ -705,7 +1333,7 @@
         {#each savedProspects as prospect (prospect.id)}
           <div class="prospect-card">
             <h4>{prospect.name}</h4>
-            <p class="address">{prospect.address}</p>
+            <p class="address" style="cursor:pointer;" on:click={() => { navigator.clipboard.writeText(prospect.address); copiedAddress = prospect.address; setTimeout(() => copiedAddress = '', 2000); }}>{copiedAddress === prospect.address ? '✅ Copied!' : prospect.address}</p>
             <div style="margin-top: 0.5rem; display: flex; gap: 0.5rem; flex-wrap: wrap;">
               <select class="status-select" value={prospect.status} on:change={(e) => { prospect.status = e.target.value; updateProspectNotes(prospect.id, prospect.notes); }}>
                 <option value="new">🆕 New</option>
@@ -726,26 +1354,68 @@
   {#if view === 'hot-leads'}
     <div class="hot-leads-section">
       <button class="back-btn" on:click={() => view = 'main'}>← Back</button>
-      <h2>🔥 Hot Leads</h2>
-      {#if hotLeads.length === 0}
+      <h2>🔥 Hot Leads ({filteredHotLeads.length})</h2>
+      
+      <div class="filter-bar">
+        <input type="text" placeholder="Search business, address, city..." bind:value={hotLeadSearch} class="filter-input" />
+      </div>
+      <div class="filter-row">
+        <select bind:value={hotLeadZoneFilter} class="filter-select">
+          <option value="all">All Zones</option>
+          {#each hotLeadZones as zone}
+            <option value={zone}>{zone}</option>
+          {/each}
+        </select>
+        <select bind:value={hotLeadRepFilter} class="filter-select">
+          <option value="all">All Reps</option>
+          {#each hotLeadReps as rep}
+            <option value={rep}>{rep}</option>
+          {/each}
+        </select>
+        <select bind:value={hotLeadStoreFilter} class="filter-select">
+          <option value="all">All Stores</option>
+          {#each hotLeadStores as store}
+            <option value={store}>{store}</option>
+          {/each}
+        </select>
+        <select bind:value={hotLeadCategoryFilter} class="filter-select">
+          <option value="all">All Categories</option>
+          {#each hotLeadCategories as cat}
+            <option value={cat}>{cat}</option>
+          {/each}
+        </select>
+      </div>
+
+      {#if filteredHotLeads.length === 0}
         <div class="empty-state">
-          <p>No Hot Leads assigned to you yet. Check back soon!</p>
+          <p>{hotLeads.length === 0 ? 'No Hot Leads assigned to you yet. Check back soon!' : 'No leads match your filters.'}</p>
         </div>
       {:else}
         <div class="hot-leads-grid">
-          {#each hotLeads as lead}
+          {#each filteredHotLeads as lead}
             <div class="hot-lead-card">
               <div class="lead-header">
                 <h4>{lead.business_name}</h4>
-                <span class="rating">⭐{lead.rating}</span>
+                {#if lead.rating}
+                  <span class="rating">⭐{lead.rating}</span>
+                {/if}
               </div>
               <div class="lead-category">{lead.category}</div>
-              <div class="lead-hook">"{lead._hook}"</div>
+              {#if lead._hook}
+                <div class="lead-hook">"{lead._hook}"</div>
+              {/if}
               <div class="lead-contact">
-                <a href="tel:{lead.phone}" class="phone">📞 {lead.phone}</a>
-                <a href="mailto:{lead._email}" class="email">📧 {lead._email}</a>
+                {#if lead.phone}
+                  <a href="tel:{lead.phone}" class="phone">📞 {lead.phone}</a>
+                {/if}
+                {#if lead._email || lead.website}
+                  <a href="mailto:{lead._email || ''}" class="email">📧 Email</a>
+                {/if}
               </div>
-              <div class="lead-store">{lead.store_chain} {lead.store_city}</div>
+              {#if lead.address}
+                <div class="lead-address" style="cursor:pointer;" on:click={() => { navigator.clipboard.writeText(lead.address); copiedAddress = lead.address; setTimeout(() => copiedAddress = '', 2000); }}>📍 {copiedAddress === lead.address ? '✅ Copied!' : lead.address}</div>
+              {/if}
+              <div class="lead-store">{lead.store_chain} {lead.store_city} ({lead.store_id})</div>
             </div>
           {/each}
         </div>
@@ -761,11 +1431,11 @@
     </div>
   {/if}
 
-  <!-- Submit Lead (Manager only) -->
-  {#if view === 'submit-lead' && ($user?.role === 'manager' || $user?.name?.toLowerCase().includes('tyler'))}
+  <!-- Submit Lead -->
+  {#if view === 'submit-lead'}
     <div class="submit-section">
       <button class="back-btn" on:click={() => view = 'main'}>← Back</button>
-      <HotLeadsSubmit user={$user} />
+      <HotLeadsSubmit user={$user} onLeadSubmitted={() => view = 'main'} />
     </div>
   {/if}
 </div>
@@ -802,8 +1472,341 @@
     color: #333;
   }
 
+  .filter-bar { margin-top: 12px; }
+  .filter-input { width: 100%; padding: 10px 14px; border: 2px solid var(--border-color, #ddd); border-radius: 10px; font-size: 14px; background: var(--input-bg, white); color: var(--text-primary, #333); box-sizing: border-box; }
+  .filter-row { display: flex; gap: 8px; margin-top: 8px; flex-wrap: wrap; }
+  .filter-select { flex: 1; min-width: 120px; padding: 8px 10px; border: 2px solid var(--border-color, #ddd); border-radius: 8px; font-size: 13px; background: var(--input-bg, white); color: var(--text-primary, #333); }
+  .lead-address { font-size: 12px; color: var(--text-tertiary, #999); margin-top: 4px; }
+
   .hot-leads-section, .pending-section, .submit-section {
     margin-top: 20px;
+  }
+
+  .roogle-load-btn {
+    background: linear-gradient(135deg, #2e7d32 0%, #1b5e20 100%);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 12px 16px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    width: 100%;
+    margin-bottom: 16px;
+    transition: all 0.2s;
+  }
+
+  .roogle-load-btn:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px #2e7d324d;
+  }
+
+  .roogle-load-btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+
+  .customer-load-msg {
+    background: #e8f5e9;
+    border: 1px solid #81c784;
+    border-radius: 6px;
+    padding: 12px;
+    margin-bottom: 16px;
+    font-size: 13px;
+    color: #2e7d32;
+    font-weight: 600;
+    text-align: center;
+  }
+
+  .credentials-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+  }
+
+  .credentials-modal {
+    background: white;
+    border-radius: 16px;
+    padding: 28px;
+    max-width: 400px;
+    width: 100%;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+  }
+
+  .credentials-modal h3 {
+    color: #333;
+    margin: 0 0 4px;
+    font-size: 22px;
+  }
+
+  .modal-subtitle {
+    color: #666;
+    margin: 0 0 20px;
+    font-size: 14px;
+  }
+
+  .credentials-modal .form-group {
+    margin-bottom: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .credentials-modal label {
+    color: #333;
+    font-size: 13px;
+    font-weight: 600;
+  }
+
+  .credentials-modal input {
+    border: 2px solid #ddd;
+    border-radius: 8px;
+    padding: 12px;
+    font-size: 14px;
+    font-family: inherit;
+  }
+
+  .credentials-modal input:focus {
+    border-color: #CC0000;
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(204, 0, 0, 0.1);
+  }
+
+  .modal-actions {
+    display: flex;
+    gap: 12px;
+    margin-top: 24px;
+  }
+
+  .btn-load {
+    flex: 1;
+    background: #CC0000;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 12px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .btn-load:hover {
+    background: #990000;
+  }
+
+  .btn-cancel {
+    flex: 1;
+    background: #f0f0f0;
+    color: #333;
+    border: none;
+    border-radius: 8px;
+    padding: 12px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+  }
+
+  .btn-cancel:hover {
+    background: #e0e0e0;
+  }
+
+  .modal-note {
+    color: #999;
+    font-size: 12px;
+    margin-top: 12px;
+    text-align: center;
+  }
+
+  .loaded-customers-section {
+    background: #f9f9f9;
+    border-radius: 12px;
+    padding: 16px;
+    margin-bottom: 24px;
+    border: 2px solid #e0e0e0;
+  }
+
+  .loaded-customers-section h3 {
+    color: #333;
+    margin: 0 0 16px;
+    font-size: 16px;
+  }
+
+  .customers-subsection {
+    margin-bottom: 16px;
+  }
+
+  .customers-subsection h4 {
+    margin: 0 0 12px;
+    font-size: 14px;
+  }
+
+  .customer-card {
+    background: white;
+    border-left: 4px solid #e0e0e0;
+    border-radius: 6px;
+    padding: 12px;
+    margin-bottom: 8px;
+    font-size: 13px;
+  }
+
+  .customer-card.current {
+    border-left-color: #2e7d32;
+    background: #f0f8f4;
+  }
+
+  .customer-card.past {
+    border-left-color: #c33;
+    background: #fff5f5;
+    opacity: 0.85;
+  }
+
+  .customer-name {
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 6px;
+    font-size: 14px;
+  }
+
+  .customer-meta {
+    color: #666;
+    margin-bottom: 4px;
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    font-size: 12px;
+  }
+
+  .customer-details {
+    color: #999;
+    font-size: 11px;
+  }
+
+  .customer-revenue {
+    color: #2e7d32;
+    font-weight: 600;
+    font-size: 13px;
+    margin-top: 6px;
+    padding-top: 6px;
+    border-top: 1px solid rgba(46, 125, 50, 0.2);
+  }
+
+  .customer-card.past .customer-revenue {
+    color: #666;
+  }
+
+  .testimonials-section {
+    background: #f9f9f9;
+    border-radius: 10px;
+    padding: 14px;
+    margin-top: 10px;
+    border: 1px solid #e0e0e0;
+  }
+
+  .testimonials-title {
+    margin: 0 0 12px;
+    font-size: 15px;
+    color: #333;
+  }
+
+  .testimonial-card {
+    background: white;
+    border-left: 4px solid #CC0000;
+    border-radius: 6px;
+    padding: 12px;
+    margin-bottom: 10px;
+  }
+
+  .testimonial-business {
+    margin: 0 0 6px;
+    font-size: 14px;
+    color: #333;
+  }
+
+  .testimonial-text {
+    margin: 0 0 6px;
+    font-size: 13px;
+    color: #555;
+    font-style: italic;
+    line-height: 1.4;
+  }
+
+  .testimonial-meta {
+    margin: 0;
+    font-size: 11px;
+    color: #999;
+  }
+  .testimonial-link {
+    display: inline-block;
+    margin-top: 6px;
+    font-size: 12px;
+    color: #CC0000;
+    text-decoration: none;
+    font-weight: 600;
+  }
+  .testimonial-link:hover { text-decoration: underline; }
+  .local-testimonial {
+    border-left-color: #1565C0 !important;
+    background: rgba(21, 101, 192, 0.03) !important;
+  }
+  .local-badge {
+    margin: 0 0 4px;
+    font-size: 11px;
+    font-weight: 700;
+    color: #1565C0;
+  }
+  .testimonial-card {
+    background: var(--card-bg, white);
+  }
+
+  .testimonial-btn {
+    background: #CC0000 !important;
+    color: white !important;
+    border: none !important;
+  }
+
+  .no-testimonials {
+    color: #999;
+    font-size: 13px;
+    text-align: center;
+    padding: 12px;
+  }
+
+  .cycle-filter {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 16px;
+  }
+
+  .cycle-btn {
+    flex: 1;
+    padding: 10px;
+    border: 2px solid #ddd;
+    border-radius: 8px;
+    background: white;
+    font-size: 13px;
+    font-weight: 600;
+    color: #666;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .cycle-btn.active {
+    background: #CC0000;
+    color: white;
+    border-color: #CC0000;
+  }
+
+  .cycle-btn:hover:not(.active) {
+    border-color: #CC0000;
+    color: #CC0000;
   }
 
   .hot-leads-grid {
@@ -814,11 +1817,12 @@
   }
 
   .hot-lead-card {
-    background: white;
-    border: 2px solid #e0e0e0;
+    background: var(--bg-primary, white);
+    border: 2px solid var(--border-color, #e0e0e0);
     border-radius: 10px;
     padding: 14px;
     transition: all 0.2s;
+    color: var(--text-primary, #222);
   }
 
   .hot-lead-card:hover {
@@ -838,6 +1842,7 @@
     font-size: 14px;
     font-weight: 700;
     flex: 1;
+    color: var(--text-primary, #222);
   }
 
   .rating {
@@ -847,19 +1852,19 @@
 
   .lead-category {
     display: inline-block;
-    background: #f0f0f0;
+    background: var(--bg-secondary, #f0f0f0);
     padding: 2px 6px;
     border-radius: 3px;
     font-size: 11px;
-    color: #666;
+    color: var(--text-secondary, #666);
     margin-bottom: 8px;
   }
 
   .lead-hook {
     font-size: 12px;
     font-style: italic;
-    color: #333;
-    background: #fff5f5;
+    color: var(--text-primary, #333);
+    background: var(--bg-secondary, #fff5f5);
     padding: 8px;
     border-radius: 4px;
     margin-bottom: 8px;
@@ -886,7 +1891,7 @@
 
   .lead-store {
     font-size: 11px;
-    color: #999;
+    color: var(--text-muted, #999);
   }
 
   .empty-state {
@@ -949,19 +1954,40 @@
 
   .button-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-    gap: 1rem;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
+    width: 100%;
+  }
+
+  @media (min-width: 768px) {
+    .button-grid {
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2rem;
+    }
+  }
+
+  @media (min-width: 1200px) {
+    .button-grid {
+      grid-template-columns: repeat(4, 1fr);
+      gap: 2rem;
+    }
   }
 
   .main-btn {
     background: var(--card-bg);
     border: 2px solid var(--border-color);
-    border-radius: 12px;
-    padding: 1.5rem;
+    border-radius: 16px;
+    padding: 2rem 1.5rem;
     cursor: pointer;
     transition: all 0.2s;
     text-align: center;
     color: var(--text-primary);
+    min-height: 180px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
   }
 
   .main-btn:hover {
@@ -1001,6 +2027,8 @@
 
   .store-info h4 { margin: 0 0 6px 0; color: var(--text-primary); font-weight: 600; font-size: 16px; }
   .address { margin: 4px 0; font-size: 13px; color: var(--text-secondary); }
+  .street-address { margin: 2px 0 6px; font-size: 12px; color: #CC0000; font-weight: 600; }
+  .case-count { margin: 4px 0 0; font-size: 12px; color: #0066cc; font-weight: 500; }
   .distance { margin: 6px 0 0 0; font-size: 12px; color: #CC0000; font-weight: 600; }
   .store-right { display: flex; flex-direction: column; align-items: flex-end; gap: 6px; }
   .store-num { background: rgba(204, 0, 0, 0.1); padding: 6px 10px; border-radius: 6px; font-weight: 700; font-size: 12px; color: #CC0000; }
@@ -1031,6 +2059,11 @@
     background: rgba(204, 0, 0, 0.05);
   }
 
+  .sort-bar { display: flex; align-items: center; gap: 6px; margin-bottom: 12px; overflow-x: auto; white-space: nowrap; padding-bottom: 4px; }
+  .sort-label { font-size: 12px; font-weight: 700; color: var(--text-secondary); text-transform: uppercase; flex-shrink: 0; }
+  .sort-btn { padding: 6px 12px; border: 1px solid var(--border-color); border-radius: 16px; background: var(--card-bg); font-size: 12px; font-weight: 600; cursor: pointer; color: var(--text-secondary); transition: all 0.2s; flex-shrink: 0; }
+  .sort-btn.active { background: #CC0000; color: white; border-color: #CC0000; }
+  .sort-btn:hover:not(.active) { border-color: #CC0000; color: #CC0000; }
   .prospect-list { display: flex; flex-direction: column; gap: 1rem; }
 
   .prospect-card {
@@ -1091,12 +2124,54 @@
   .email-btn { background: #1565c0 !important; color: white !important; border-color: #1565c0 !important; }
   .email-btn:hover { background: #0d47a1 !important; }
 
-  .notes-section, .email-section {
+  .notes-section, .email-section, .script-section {
     margin-top: 10px;
     padding: 10px;
     background: var(--hover-bg);
     border-radius: 8px;
   }
+
+  .script-btn { background: #1565c0 !important; color: white !important; border-color: #1565c0 !important; }
+  .script-btn:hover { background: #0d47a1 !important; }
+
+  .script-title { margin: 0 0 10px; font-size: 15px; color: var(--text-primary); }
+
+  .script-select-btn {
+    display: block;
+    width: 100%;
+    padding: 10px 14px;
+    margin-bottom: 8px;
+    background: var(--card-bg);
+    border: 2px solid var(--border-color);
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    text-align: left;
+    color: var(--text-primary);
+    transition: all 0.2s;
+  }
+
+  .script-select-btn:hover { border-color: #1565c0; background: #e3f2fd; }
+
+  .script-preview-box {
+    padding: 14px;
+    background: var(--card-bg);
+    border: 2px solid #1565c0;
+    border-radius: 8px;
+    margin-top: 8px;
+  }
+
+  .script-text {
+    margin: 0 0 12px;
+    font-size: 14px;
+    line-height: 1.6;
+    color: var(--text-primary);
+  }
+
+  .script-text:last-of-type { margin-bottom: 14px; }
+  .script-text strong { color: #1565c0; }
+  .script-text em { font-style: italic; color: #c62828; font-weight: 600; }
 
   .note-saved { margin: 4px 0 0; font-size: 11px; color: #2e7d32; font-weight: 600; text-align: right; }
 
@@ -1249,4 +2324,10 @@
     font-size: 12px;
     margin: 12px 0;
   }
+
+  .calendar-booking { width: 100%; }
+  .invite-row { margin-bottom: 8px; }
+  .invite-select { width: 100%; padding: 10px 12px; border: 2px solid var(--border-color, #ddd); border-radius: 8px; font-size: 13px; background: var(--input-bg, white); color: var(--text-primary, #333); }
+  .calendar-btn { background: #1a73e8 !important; color: white !important; }
+  .calendar-btn:hover { background: #1557b0 !important; }
 </style>

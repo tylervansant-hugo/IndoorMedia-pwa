@@ -5,7 +5,7 @@
 
   async function loadStores() {
     try {
-      const res = await fetch('/data/stores.json');
+      const res = await fetch(import.meta.env.BASE_URL + 'data/stores.json');
       stores = await res.json();
     } catch (err) {
       console.error('Failed to load stores:', err);

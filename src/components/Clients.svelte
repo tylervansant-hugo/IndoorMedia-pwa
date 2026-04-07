@@ -6,7 +6,7 @@
   // Set worker source for pdfjs
   pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.9.155/pdf.worker.min.mjs';
 
-  let view = 'main'; // main, customers, sales, submit-contract
+  let view = 'main'; // main, customers, sales, submit-contract, renewals, ad-proofs
   let contracts = [];
   let allStores = [];
   let loading = true;
@@ -14,6 +14,228 @@
   let expandedCustomer = null;
   let emailDraft = null;
   
+  // Pending Renewals
+  let pendingRenewals = [];
+  let renewalSearch = '';
+  let renewalCycleFilter = 'all';
+  let renewalRepFilter = 'all';
+  let renewalZoneFilter = 'all';
+  let expandedRenewal = null;
+  let selectedRenewals = new Set();
+  let selectMode = false;
+
+  function toggleSelect(accountNumber) {
+    if (selectedRenewals.has(accountNumber)) {
+      selectedRenewals.delete(accountNumber);
+    } else {
+      selectedRenewals.add(accountNumber);
+    }
+    selectedRenewals = selectedRenewals; // trigger reactivity
+  }
+
+  function selectAll() {
+    if (selectedRenewals.size === filteredRenewals.length) {
+      selectedRenewals = new Set();
+    } else {
+      selectedRenewals = new Set(filteredRenewals.map(r => r.accountNumber));
+    }
+  }
+
+  async function exportSelectedPdf() {
+    const { PDFDocument, rgb, StandardFonts } = await import('pdf-lib');
+    const selected = filteredRenewals.filter(r => selectedRenewals.has(r.accountNumber));
+    if (selected.length === 0) return alert('No renewals selected');
+
+    const pdf = await PDFDocument.create();
+    const font = await pdf.embedFont(StandardFonts.Helvetica);
+    const fontBold = await pdf.embedFont(StandardFonts.HelveticaBold);
+    
+    const pageW = 612; // Letter
+    const pageH = 792;
+    const margin = 50;
+    let page = pdf.addPage([pageW, pageH]);
+    let y = pageH - margin;
+
+    // Title
+    page.drawText('IndoorMedia — Renewal Assignments', { x: margin, y, font: fontBold, size: 18, color: rgb(0.8, 0, 0) });
+    y -= 22;
+    page.drawText(`Generated: ${new Date().toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })} | ${selected.length} renewal${selected.length !== 1 ? 's' : ''}`, { x: margin, y, font, size: 10, color: rgb(0.4, 0.4, 0.4) });
+    y -= 8;
+
+    // Group by rep
+    const byRep = {};
+    selected.forEach(r => {
+      const rep = r.rep || 'Unassigned';
+      if (!byRep[rep]) byRep[rep] = [];
+      byRep[rep].push(r);
+    });
+
+    for (const [rep, renewals] of Object.entries(byRep)) {
+      // Check if we need a new page
+      if (y < 120) { page = pdf.addPage([pageW, pageH]); y = pageH - margin; }
+
+      y -= 20;
+      page.drawRectangle({ x: margin - 5, y: y - 4, width: pageW - 2 * margin + 10, height: 20, color: rgb(0.8, 0, 0) });
+      page.drawText(`Rep: ${rep} (${renewals.length} renewal${renewals.length !== 1 ? 's' : ''})`, { x: margin, y, font: fontBold, size: 12, color: rgb(1, 1, 1) });
+      y -= 22;
+
+      // Column headers
+      const cols = [
+        { label: 'Business', x: margin, w: 130 },
+        { label: 'Store', x: margin + 135, w: 85 },
+        { label: 'Contact', x: margin + 225, w: 80 },
+        { label: 'Phone', x: margin + 310, w: 75 },
+        { label: 'Price', x: margin + 390, w: 55 },
+        { label: 'Ends', x: margin + 450, w: 50 },
+        { label: 'Due By', x: margin + 505, w: 55 },
+      ];
+      cols.forEach(c => page.drawText(c.label, { x: c.x, y, font: fontBold, size: 8, color: rgb(0.3, 0.3, 0.3) }));
+      y -= 2;
+      page.drawLine({ start: { x: margin, y }, end: { x: pageW - margin, y }, thickness: 0.5, color: rgb(0.7, 0.7, 0.7) });
+      y -= 12;
+
+      for (const r of renewals) {
+        if (y < 60) { page = pdf.addPage([pageW, pageH]); y = pageH - margin; }
+
+        const dl = getRenewalDeadline(r);
+        const dlStr = dl ? dl.toLocaleDateString('en-US', {month:'numeric', day:'numeric', year:'2-digit'}) : '';
+        const row = [
+          (r.business || '').slice(0, 24),
+          (r.store || '').slice(0, 15),
+          (r.contactName || '').slice(0, 14),
+          r.phone || '',
+          fmtPrice(r.contractPrice),
+          r.endDate || '',
+          dlStr,
+        ];
+        cols.forEach((c, i) => {
+          page.drawText(row[i], { x: c.x, y, font, size: 8, color: rgb(0.1, 0.1, 0.1) });
+        });
+
+        // Add category + address on second line
+        y -= 10;
+        const addr = [r.address, r.city, r.state].filter(Boolean).join(', ');
+        page.drawText(`${r.category || ''} | ${addr}`.slice(0, 80), { x: margin + 10, y, font, size: 7, color: rgb(0.5, 0.5, 0.5) });
+        
+        y -= 14;
+        page.drawLine({ start: { x: margin, y: y + 4 }, end: { x: pageW - margin, y: y + 4 }, thickness: 0.3, color: rgb(0.85, 0.85, 0.85) });
+      }
+    }
+
+    // Footer on last page
+    page.drawText('IndoorMedia imPro Sales Portal — Confidential', { x: margin, y: 30, font, size: 7, color: rgb(0.6, 0.6, 0.6) });
+
+    const pdfBytes = await pdf.save();
+    const blob = new Blob([pdfBytes], { type: 'application/pdf' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    // Build filename from rep names and cycles
+    const repNames = [...new Set(selected.map(r => r.rep || 'Unassigned'))].join(' & ');
+    const cycles = [...new Set(selected.map(r => r.cycle || ''))].sort().join('/');
+    a.download = `${repNames} ${cycles} 2026 Renewals.pdf`;
+    a.click();
+    URL.revokeObjectURL(url);
+  }
+  
+  // Ad Proofs
+  let adProofs = [];
+  let proofSearch = '';
+  let proofZoneFilter = 'all';
+  let proofRepFilter = 'all';
+  let proofStoreFilter = 'all';
+  let expandedProof = null;
+  let draftPreview = null; // { subject, body, email, proofId }
+
+  function findNearbyStores(storeField) {
+    // Extract city and state from store field like "Fred Meyer 0035, 11425 SW Beaverton Hillsdale Hwy, Beaverton, OR"
+    if (!storeField || !allStores.length) return [];
+    const parts = storeField.replace(/^[>\s]+/, '').split(',').map(s => s.trim());
+    let city = '', state = '';
+    if (parts.length >= 3) {
+      // Last part is state, second-to-last is city
+      state = parts[parts.length - 1].replace(/\d+/g, '').trim();
+      city = parts[parts.length - 2].trim();
+    }
+    if (!city || !state) return [];
+    
+    // Find stores in the same city
+    const sameCityStores = allStores.filter(s => 
+      s.City && s.City.toLowerCase() === city.toLowerCase() &&
+      s.State && s.State.toLowerCase() === state.toLowerCase()
+    );
+    
+    // If not enough, expand to same state
+    if (sameCityStores.length < 5) {
+      const sameStateStores = allStores.filter(s =>
+        s.State && s.State.toLowerCase() === state.toLowerCase()
+      ).slice(0, 10);
+      // Combine: same city first, then same state (deduped)
+      const ids = new Set(sameCityStores.map(s => s.StoreName));
+      const extras = sameStateStores.filter(s => !ids.has(s.StoreName));
+      return [...sameCityStores, ...extras].slice(0, 8);
+    }
+    return sameCityStores.slice(0, 8);
+  }
+
+  function showDraft(proof, templateType) {
+    const contact = proof.contact_name || 'there';
+    const biz = proof.client_name || 'your business';
+    const store = proof.store?.replace(/^[>\s]+/, '') || 'the store';
+    const rep = $user?.name || 'Your IndoorMedia Rep';
+    const installMonth = proof.install_month || 'soon';
+    const adSize = proof.ad_size || 'Single';
+    
+    let subject = '', body = '';
+    
+    if (templateType === 'ready') {
+      subject = `Your Ad Design is Ready! — ${biz}`;
+      body = `Hi ${contact},\n\nGreat news — your ad design for ${biz} is ready!\n\nPlease take a moment to review the proof carefully. Double check that your:\n• Business address is correct\n• Phone number is accurate\n• Any offer/coupon details are right\n• Business name spelling is correct\n\nYour ad will be placed at ${store}.\n\nIf everything looks good, just reply with your approval. If you need any changes, let me know and we'll get it updated right away.\n\nLooking forward to getting this rolling for you!\n\n${rep}`;
+    } else if (templateType === 'stronger') {
+      subject = `Quick Thought on Your Ad — ${biz}`;
+      body = `Hi ${contact},\n\nI was looking at the proof for ${biz} and wanted to share a quick thought.\n\nThe businesses that see the best results from their register tape ads are the ones with a strong, specific offer — something that makes shoppers take action right then and there.\n\nHere are some ideas that consistently drive traffic:\n• A dollar-off or percentage discount (e.g., "$5 off your next visit")\n• A free item with purchase (e.g., "Free appetizer with any entree")\n• A limited-time seasonal offer\n• A "new customer" special\n\nThe more compelling the offer, the more customers it drives through your door. Would you like to update your ad with a stronger call to action? Happy to help refine it.\n\n${rep}`;
+    } else if (templateType === 'upsell') {
+      const upgradeSize = adSize === 'Double' ? 'an even more prominent placement' : 'a Double-size ad';
+      subject = `Maximize Your Results — Upgrade Option for ${biz}`;
+      body = `Hi ${contact},\n\nYour ad for ${biz} is looking great! Quick question — have you considered upgrading to ${upgradeSize}?\n\nHere's why our most successful advertisers go bigger:\n• Double the visibility = double the impressions\n• Your ad stands out more on the receipt\n• Shoppers are more likely to notice a larger coupon\n• Better ROI per dollar spent\n\nThe upgrade is very affordable and the results speak for themselves. Want me to put together a quick comparison for you?\n\n${rep}`;
+    } else if (templateType === 'expand') {
+      const nearby = findNearbyStores(proof.store);
+      let storeList = '';
+      if (nearby.length > 0) {
+        storeList = '\n\nHere are some stores near you that would be a great fit:\n' + nearby.map(s => `• ${s.GroceryChain} — ${s.Address}, ${s.City}, ${s.State} (${s.StoreName})`).join('\n');
+      }
+      subject = `Expand Your Reach — More Stores Near ${biz}`;
+      body = `Hi ${contact},\n\nYour ad for ${biz} at ${store} looks fantastic! I wanted to reach out because we have several other stores nearby that could help you reach even more customers.\n\nMany of our most successful advertisers run their ads across multiple locations — it's the fastest way to build local brand recognition and drive new customers from different neighborhoods.${storeList}\n\nThe more locations you're in, the more people see your name — and the better your results. Want me to put together pricing for any of these?\n\n${rep}`;
+    } else if (templateType === 'approve') {
+      subject = `Your Ad Looks Great! — ${biz}`;
+      body = `Hi ${contact},\n\nJust wanted to check in — your ad proof for ${biz} looks great!\n\nJust a friendly reminder to reply with your approval so we can get it into production. It's scheduled to be installed at ${store} in ${installMonth}.\n\nIf you have any last-minute tweaks, now's the time. Otherwise, we're good to go!\n\n${rep}`;
+    }
+    
+    draftPreview = { subject, body, email: proof.client_email || '', proofId: proof.message_id };
+  }
+
+  function copyDraft() {
+    if (!draftPreview) return;
+    const text = `Subject: ${draftPreview.subject}\n\n${draftPreview.body}`;
+    navigator.clipboard.writeText(text).then(() => {
+      alert('✅ Email draft copied to clipboard!');
+    }).catch(() => {
+      // Fallback
+      const ta = document.createElement('textarea');
+      ta.value = text;
+      document.body.appendChild(ta);
+      ta.select();
+      document.execCommand('copy');
+      document.body.removeChild(ta);
+      alert('✅ Email draft copied to clipboard!');
+    });
+  }
+
+  function openInEmailApp() {
+    if (!draftPreview) return;
+    window.open(`mailto:${draftPreview.email}?subject=${encodeURIComponent(draftPreview.subject)}&body=${encodeURIComponent(draftPreview.body)}`);
+  }
+
   // Submit contract state
   let contractFile = null;
   let contractParsing = false;
@@ -22,21 +244,313 @@
 
   onMount(async () => {
     try {
-      const [contractsRes, storesRes] = await Promise.all([
-        fetch('/data/contracts.json'),
-        fetch('/data/stores.json')
+      const [contractsRes, storesRes, renewalsRes, proofsRes] = await Promise.all([
+        fetch(import.meta.env.BASE_URL + 'data/contracts.json'),
+        fetch(import.meta.env.BASE_URL + 'data/stores.json'),
+        fetch(import.meta.env.BASE_URL + 'data/pending_renewals.json').catch(() => ({ json: () => [] })),
+        fetch(import.meta.env.BASE_URL + 'data/ad_proofs.json').catch(() => ({ json: () => [] }))
       ]);
       const data = await contractsRes.json();
       contracts = data.contracts || [];
       allStores = await storesRes.json().catch(() => []);
+      pendingRenewals = await renewalsRes.json().catch(() => []);
+      adProofs = await proofsRes.json().catch(() => []);
+      // Load contracts for renewal matching
+      const cData = await contractsRes.json().catch(() => ({}));
+      contractsData = cData.contracts || cData || [];
     } catch (err) {
       console.error('Failed to load data:', err);
     }
     loading = false;
   });
 
+  // Get renewals scoped to rep (managers see all, reps see only their own)
+  $: myRenewals = isManager
+    ? pendingRenewals
+    : pendingRenewals.filter(r => {
+        const rn = (repName || '').toLowerCase();
+        const repLower = (r.rep || '').toLowerCase();
+        // Match first name or full name
+        return repLower.includes(rn.split(' ')[0]) && (rn.split(' ').length < 2 || repLower.includes(rn.split(' ')[1] || ''));
+      });
+
+  $: renewalReps = [...new Set(myRenewals.map(r => r.rep))].sort();
+  $: renewalCycles = [...new Set(myRenewals.map(r => r.cycle))].sort();
+  $: renewalZones = [...new Set(myRenewals.map(r => r.zone).filter(Boolean))].sort();
+
+  // Zone install day lookup from RTUI Zone Chart
+  const ZONE_DAYS = {'01':1,'02':8,'03':26,'04':28,'05':25,'06':1,'07':7,'08':5,'09':14,'10':30,'11':25,'12':16,'13':20,'14':10,'15':18,'16':7,'17':20,'18':20,'19':8,'20':10,'21':16,'22':1,'23':12,'24':14,'25':23,'26':20,'27':25,'28':6,'29':6};
+
+  function getRenewalDeadline(renewal) {
+    // Deadline = (install_day + 3) in the month before the end date
+    // Zone 7 example: B2 ends 5/1/2026, install day 7, deadline = April 10 (7+3)
+    const storeId = renewal.store || '';
+    const zoneMatch = storeId.match(/(\d{2})[A-Z]?-/) || (renewal.zone || '').match(/(\d{2})/);
+    const zoneNum = zoneMatch ? zoneMatch[1] : '07';
+    const installDay = ZONE_DAYS[zoneNum] || 7;
+    const deadlineDay = installDay + 3;
+
+    // Parse end date
+    const endStr = renewal.endDate || '';
+    const endParts = endStr.split('/');
+    if (endParts.length < 3) return null;
+    const endMonth = parseInt(endParts[0]) - 1; // 0-indexed
+    const endYear = parseInt(endParts[2].length === 2 ? '20' + endParts[2] : endParts[2]);
+    
+    // Deadline is in the month BEFORE the end date
+    let dlMonth = endMonth - 1;
+    let dlYear = endYear;
+    if (dlMonth < 0) { dlMonth = 11; dlYear--; }
+    
+    return new Date(dlYear, dlMonth, deadlineDay);
+  }
+
+  function formatDeadline(renewal) {
+    const dl = getRenewalDeadline(renewal);
+    if (!dl) return '';
+    return dl.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+  }
+
+  function openRenewalEmail(renewal, template) {
+    const contact = renewal.contactName || 'there';
+    const firstName = contact.split(' ')[0];
+    const biz = renewal.business || 'your business';
+    const store = renewal.store || 'your store';
+    const chainName = store.split(/\d/)[0] || 'the grocery store';
+    const price = fmtPrice(renewal.contractPrice);
+    const endDate = renewal.endDate || 'soon';
+    const deadline = formatDeadline(renewal);
+    const rep = $user?.name || 'Your IndoorMedia Representative';
+    const adSize = renewal.adSize || 'your ad';
+    const runLength = renewal.runLength ? renewal.runLength + ' quarters' : '';
+
+    let subject = '';
+    let body = '';
+
+    if (template === 'reminder') {
+      subject = `Your IndoorMedia Advertising Renewal — ${biz}`;
+      body = `Hi ${firstName},
+
+I hope business is going well at ${biz}! I'm reaching out because your IndoorMedia register tape advertising at ${store} is coming up for renewal.
+
+Your current contract ends ${endDate}, and I wanted to make sure we get your renewal locked in so there's no gap in your advertising coverage.
+
+Here are the key details:
+
+- Store: ${store}
+- Ad Size: ${adSize}
+- Contract Value: ${price}
+- Renewal Deadline: ${deadline}
+
+Renewing is simple — I can handle everything for you. Your ad will continue running on the register tape at ${store}, keeping your business in front of every customer who shops there.
+
+Would you like to renew at your current rate, or would you like to discuss upgrading to reach even more customers?
+
+Looking forward to hearing from you!
+
+Best,
+${rep}
+IndoorMedia`;
+    } else if (template === 'value') {
+      subject = `The Value You're Getting from IndoorMedia — ${biz}`;
+      body = `Hi ${firstName},
+
+I wanted to take a moment to highlight the value your IndoorMedia advertising has been delivering for ${biz}.
+
+Your ad at ${store} reaches every single customer who checks out at that location. That's hundreds of shoppers every day seeing your business name, your offers, and your contact information — right at the point of purchase.
+
+Here's what makes this so effective:
+
+- 100% reach — every customer gets a receipt with your ad
+- Hyper-local — these are shoppers in your neighborhood
+- Trackable — coupon redemptions show direct ROI
+- Affordable — a fraction of the cost of digital ads, direct mail, or billboards
+
+Your contract ends ${endDate}, and I'd love to get your renewal squared away before the deadline of ${deadline}.
+
+Many of our advertisers tell us this is their most consistent source of new customers. I'd hate for ${biz} to lose that momentum.
+
+Let me know if you'd like to continue — I can make it easy!
+
+Best,
+${rep}
+IndoorMedia`;
+    } else if (template === 'urgency') {
+      subject = `Action Needed: ${biz} Renewal Deadline Approaching`;
+      body = `Hi ${firstName},
+
+I wanted to give you a heads-up — your IndoorMedia advertising renewal for ${biz} at ${store} has an upcoming deadline of ${deadline}.
+
+If we don't get your renewal processed by then, your ad space will become available to other businesses in your area — potentially even a competitor.
+
+Here's what's at stake:
+
+- Your ad at ${store} reaches every checkout customer
+- Once the space is gone, there may be a waiting period to get back on
+- Your current pricing is locked in — renewal rates may change
+
+I don't want you to lose your spot. Can we get this taken care of this week?
+
+It only takes a few minutes. I can walk you through everything over the phone or send the renewal paperwork right away.
+
+Please let me know how you'd like to proceed.
+
+Best,
+${rep}
+IndoorMedia`;
+    } else if (template === 'winback') {
+      subject = `We Miss You at IndoorMedia — ${biz}`;
+      body = `Hi ${firstName},
+
+It's been a while since we last connected, and I wanted to reach out about your IndoorMedia advertising for ${biz}.
+
+Your contract at ${store} is ending ${endDate}, and I understand that sometimes businesses want to evaluate their advertising options. I completely respect that.
+
+That said, I'd love the chance to discuss what we can do to make sure your advertising with us continues to work hard for ${biz}. Some things to consider:
+
+- Grocery store receipt advertising reaches more local customers than almost any other medium
+- Your ad at ${store} has been working for you — let's keep that momentum going
+- We have flexible payment plans: monthly, 3-month, 6-month, or paid-in-full with up to 15% off
+- Upgrading to a double-size ad or adding stores could bring even more customers through your doors
+
+I'd love to set up a quick 5-minute call to discuss your options. No pressure — just want to make sure you have all the information you need to make the best decision for ${biz}.
+
+When would be a good time to chat?
+
+Best,
+${rep}
+IndoorMedia`;
+    }
+
+    // Open mailto — replace \n\n with double CRLF for proper paragraph spacing in mail apps
+    const formattedBody = body.replace(/\n\n/g, '\r\n\r\n').replace(/(?<!\r)\n/g, '\r\n');
+    const mailto = `mailto:${renewal.email || ''}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(formattedBody)}`;
+    window.open(mailto);
+  }
+
+  // Schedule follow-up via Google Calendar
+  function scheduleRenewal(renewal, type) {
+    const title = type === 'call' 
+      ? `📞 Renewal Call: ${renewal.business}` 
+      : `🚗 Renewal Visit: ${renewal.business}`;
+    const details = `Renewal follow-up for ${renewal.business}\nStore: ${renewal.store}\nContact: ${renewal.contactName || 'N/A'}\nPhone: ${renewal.phone || 'N/A'}\nEmail: ${renewal.email || 'N/A'}\nContract: ${renewal.contractNumber || 'N/A'}\nPrice: ${fmtPrice(renewal.contractPrice)}\nDeadline: ${formatDeadline(renewal)}\nCycle: ${renewal.cycle}`;
+    const location = type === 'visit' ? [renewal.address, renewal.city, renewal.state].filter(Boolean).join(', ') : '';
+    
+    // Default to tomorrow at 10am
+    const tomorrow = new Date();
+    tomorrow.setDate(tomorrow.getDate() + 1);
+    tomorrow.setHours(10, 0, 0, 0);
+    const end = new Date(tomorrow);
+    end.setHours(type === 'visit' ? 11 : 10, type === 'visit' ? 0 : 30, 0, 0);
+    
+    const fmt = d => d.toISOString().replace(/[-:]/g, '').split('.')[0] + 'Z';
+    const gcalUrl = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent(title)}&dates=${fmt(tomorrow)}/${fmt(end)}&details=${encodeURIComponent(details)}&location=${encodeURIComponent(location)}&add=${encodeURIComponent('tyler.vansant@indoormedia.com')}`;
+    window.open(gcalUrl, '_blank');
+  }
+
+  // Match renewals against new contracts to find completed renewals
+  let contractsData = [];
+
+  function loadContracts() {
+    fetch(import.meta.env.BASE_URL + 'data/contracts.json?t=' + Date.now())
+      .then(r => r.json())
+      .then(d => { contractsData = d.contracts || d || []; })
+      .catch(() => { contractsData = []; });
+  }
+
+  function getRenewalStatus(renewal) {
+    if (!contractsData.length) return 'pending';
+    const bizLower = (renewal.business || '').toLowerCase().replace(/[^a-z0-9 ]/g, ' ').trim();
+    const bizWords = bizLower.split(/\s+/).filter(w => w.length > 2);
+    const storeNum = (renewal.store || '').match(/(\d{4})/)?.[1] || '';
+    const contractNum = (renewal.contractNumber || '').toUpperCase();
+    
+    const match = contractsData.find(c => {
+      const cBiz = (c.business_name || '').toLowerCase().replace(/[^a-z0-9 ]/g, ' ').trim();
+      const cStore = (c.store_number || '').trim();
+      const cContract = (c.contract_number || '').toUpperCase();
+      
+      // Match 1: Same contract number (strongest match)
+      if (contractNum && cContract && cContract === contractNum) return true;
+      
+      // Match 2: Store number + fuzzy business name
+      const storeMatch = storeNum && cStore && cStore === storeNum;
+      if (!storeMatch) return false;
+      
+      // Fuzzy name: any 2+ significant words in common
+      const cWords = cBiz.split(/\s+/).filter(w => w.length > 2);
+      const commonWords = bizWords.filter(w => cWords.some(cw => cw.includes(w) || w.includes(cw)));
+      return commonWords.length >= 1;
+    });
+    
+    return match ? 'completed' : 'pending';
+  }
+
+  function getDeadlineUrgency(renewal) {
+    const dl = getRenewalDeadline(renewal);
+    if (!dl) return '';
+    const now = new Date();
+    const daysLeft = Math.ceil((dl - now) / 86400000);
+    if (daysLeft < 0) return 'overdue';
+    if (daysLeft <= 7) return 'urgent';
+    if (daysLeft <= 14) return 'soon';
+    return 'ok';
+  }
+  
+  $: filteredRenewals = myRenewals.filter(r => {
+    if (renewalCycleFilter !== 'all' && r.cycle !== renewalCycleFilter) return false;
+    if (renewalRepFilter !== 'all' && r.rep !== renewalRepFilter) return false;
+    if (renewalZoneFilter !== 'all' && r.zone !== renewalZoneFilter) return false;
+    if (renewalSearch) {
+      const q = renewalSearch.toLowerCase();
+      return (r.business || '').toLowerCase().includes(q) ||
+        (r.contactName || '').toLowerCase().includes(q) ||
+        (r.store || '').toLowerCase().includes(q) ||
+        (r.rep || '').toLowerCase().includes(q) ||
+        (r.category || '').toLowerCase().includes(q);
+    }
+    return true;
+  });
+
   $: repName = $user?.name || $user?.first_name || '';
-  $: isManager = repName?.toLowerCase().includes('tyler');
+
+  // Format price: handles both number (4175.0) and string ("$4,175.00") formats
+  function fmtPrice(v) {
+    if (v == null || v === '' || v === 0 || v === '$ -' || v === '$-') return '$0';
+    if (typeof v === 'number') return '$' + v.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+    return String(v);
+  }
+  $: isManager = repName?.toLowerCase().includes('tyler') || repName?.toLowerCase().includes('rick leibowitz') || repName?.toLowerCase().includes('richard leibowitz');
+
+  // Ad proofs scoped to rep (managers see all, reps see only their own)
+  $: myAdProofs = isManager
+    ? adProofs
+    : adProofs.filter(p => {
+        const repLower = (repName || '').toLowerCase();
+        return p.recipients?.some(email => {
+          const mapped = (p.reps || []).find(r => r.email === email);
+          if (mapped) return mapped.name.toLowerCase().includes(repLower.split(' ')[0]);
+          return false;
+        });
+      });
+
+  $: proofZones = [...new Set(myAdProofs.map(p => p.zone).filter(Boolean))].sort();
+  $: proofReps = [...new Set(myAdProofs.flatMap(p => (p.reps || []).map(r => r.name)).filter(Boolean))].sort();
+  $: proofStores = [...new Set(myAdProofs.map(p => p.store?.replace(/^[>\s]+/, '')).filter(Boolean))].sort();
+  
+  $: filteredProofs = myAdProofs.filter(p => {
+    if (proofZoneFilter !== 'all' && p.zone !== proofZoneFilter) return false;
+    if (proofRepFilter !== 'all' && !(p.reps || []).some(r => r.name === proofRepFilter)) return false;
+    if (proofStoreFilter !== 'all' && !p.store?.includes(proofStoreFilter)) return false;
+    if (proofSearch) {
+      const q = proofSearch.toLowerCase();
+      return (p.client_name || '').toLowerCase().includes(q) ||
+        (p.contract_number || '').toLowerCase().includes(q) ||
+        (p.store || '').toLowerCase().includes(q) ||
+        (p.location || '').toLowerCase().includes(q);
+    }
+    return true;
+  });
 
   let sortBy = 'date-desc'; // date-desc, date-asc, rep, amount-desc, amount-asc, name
 
@@ -88,12 +602,18 @@
     
     if (!contractDate) return events;
 
-    // Install date: ~30 days after contract (next cycle launch)
+    // Install date: snap to zone-specific install day of month
+    // Zone install day lookup from RTUI Zone Chart
+    const ZONE_DAYS = {'01':1,'02':8,'03':26,'04':28,'05':25,'06':1,'07':7,'08':5,'09':14,'10':30,'11':25,'12':16,'13':20,'14':10,'15':18,'16':7,'17':20,'18':20,'19':8,'20':10,'21':16,'22':1,'23':12,'24':14,'25':23,'26':20,'27':25,'28':6,'29':6};
+    const storeId = contract.storeId || contract.store || '';
+    const zoneMatch = storeId.match(/(\d{2})[A-Z]?-/);
+    const zoneDay = zoneMatch ? (ZONE_DAYS[zoneMatch[1]] || 7) : 7;
+    
     const installDate = new Date(contractDate);
     installDate.setDate(installDate.getDate() + 30);
-    // Snap to 7th of month (cycle launch)
-    const installMonth = installDate.getDate() > 7 ? installDate.getMonth() + 1 : installDate.getMonth();
-    const installLaunch = new Date(installDate.getFullYear(), installMonth, 7);
+    // Snap to zone-specific install day
+    const installMonth = installDate.getDate() > zoneDay ? installDate.getMonth() + 1 : installDate.getMonth();
+    const installLaunch = new Date(installDate.getFullYear(), installMonth, zoneDay);
     if (installLaunch >= today) {
       events.push({ type: '📦', label: 'Install', date: installLaunch });
     }
@@ -330,23 +850,35 @@
     <h2>Clients</h2>
     <p class="subtitle">Manage customers & sales</p>
 
-    <div class="menu-grid">
-      <button class="menu-btn" on:click={() => view = 'customers'}>
-        <div class="menu-emoji">👥</div>
-        <h4>My Customers</h4>
-        <p>{myCustomers.length} closed deals</p>
+    <div class="button-grid">
+      <button class="main-btn" on:click={() => view = 'customers'}>
+        <div class="btn-icon">👥</div>
+        <div class="btn-text">My Customers</div>
+        <div class="btn-desc">{myCustomers.length} closed deals</div>
       </button>
 
-      <button class="menu-btn" on:click={() => view = 'sales'}>
-        <div class="menu-emoji">💳</div>
-        <h4>My Sales</h4>
-        <p>${totalRevenue.toLocaleString()} total</p>
+      <button class="main-btn" on:click={() => view = 'sales'}>
+        <div class="btn-icon">💳</div>
+        <div class="btn-text">My Sales</div>
+        <div class="btn-desc">${totalRevenue.toLocaleString()} total</div>
       </button>
 
-      <button class="menu-btn" on:click={() => view = 'submit-contract'}>
-        <div class="menu-emoji">📄</div>
-        <h4>Submit Contract</h4>
-        <p>Upload signed agreement</p>
+      <button class="main-btn" on:click={() => view = 'submit-contract'}>
+        <div class="btn-icon">📄</div>
+        <div class="btn-text">Submit Contract</div>
+        <div class="btn-desc">Upload signed agreement</div>
+      </button>
+
+      <button class="main-btn" on:click={() => view = 'renewals'}>
+        <div class="btn-icon">🔄</div>
+        <div class="btn-text">Pending Renewals</div>
+        <div class="btn-desc">{myRenewals.length} accounts</div>
+      </button>
+
+      <button class="main-btn" on:click={() => view = 'ad-proofs'}>
+        <div class="btn-icon">🎨</div>
+        <div class="btn-text">Ad Proofs</div>
+        <div class="btn-desc">{myAdProofs.length} proofs</div>
       </button>
     </div>
 
@@ -487,7 +1019,186 @@
     {/if}
   {/if}
 
-  <!-- Submit Contract -->
+  <!-- Pending Renewals -->
+  <!-- Pending Renewals -->
+  {#if view === 'renewals'}
+    <button class="back-btn" on:click={goBack}>&larr; Back</button>
+    <h2>🔄 Pending Renewals</h2>
+    <p class="subtitle">{filteredRenewals.length} of {pendingRenewals.length} accounts — ${pendingRenewals.reduce((sum, r) => sum + (typeof r.contractPrice === 'number' ? r.contractPrice : parseFloat(String(r.contractPrice || '0').replace(/[$,]/g, '')) || 0), 0).toLocaleString()} total value</p>
+
+    <a href="https://coupons.indoormedia.com" target="_blank" class="nearby-advertisers-link">📋 View Current Nearby Advertisers on coupons.indoormedia.com</a>
+
+    <input type="text" class="search-input" placeholder="Search by business, rep, store, category..." bind:value={renewalSearch} />
+
+    <div class="renewal-filters">
+      <select bind:value={renewalZoneFilter}>
+        <option value="all">All Zones</option>
+        {#each renewalZones as zone}
+          <option value={zone}>{zone} ({myRenewals.filter(r => r.zone === zone).length})</option>
+        {/each}
+      </select>
+
+      <select bind:value={renewalRepFilter}>
+        <option value="all">All Reps ({pendingRenewals.length})</option>
+        {#each renewalReps as rep}
+          <option value={rep}>{rep} ({myRenewals.filter(r => r.rep === rep).length})</option>
+        {/each}
+      </select>
+
+      <select bind:value={renewalCycleFilter}>
+        <option value="all">All Cycles</option>
+        {#each renewalCycles as cycle}
+          <option value={cycle}>{cycle} ({myRenewals.filter(r => r.cycle === cycle).length})</option>
+        {/each}
+      </select>
+    </div>
+
+    <div class="select-bar">
+      <button class="select-toggle" class:active={selectMode} on:click={() => { selectMode = !selectMode; if (!selectMode) selectedRenewals = new Set(); }}>
+        {selectMode ? '✕ Cancel' : '☑️ Select'}
+      </button>
+      {#if selectMode}
+        <button class="select-all-btn" on:click={selectAll}>
+          {selectedRenewals.size === filteredRenewals.length ? 'Deselect All' : 'Select All'} ({selectedRenewals.size})
+        </button>
+        <button class="export-btn" on:click={exportSelectedPdf} disabled={selectedRenewals.size === 0}>
+          📄 Export PDF ({selectedRenewals.size})
+        </button>
+      {/if}
+    </div>
+
+    {#if filteredRenewals.length === 0}
+      <p class="empty">No renewals match your filters.</p>
+    {:else}
+      <div class="renewal-list">
+        {#each filteredRenewals as renewal}
+          <div class="renewal-card" class:selected={selectedRenewals.has(renewal.accountNumber)} on:click={() => { if (selectMode) { toggleSelect(renewal.accountNumber); } else { expandedRenewal = expandedRenewal === renewal.accountNumber ? null : renewal.accountNumber; } }}>
+            {#if selectMode}
+              <div class="select-check">{selectedRenewals.has(renewal.accountNumber) ? '☑️' : '⬜'}</div>
+            {/if}
+            <div style="flex:1; min-width:0;">
+            <div class="renewal-header">
+              <div class="renewal-biz">
+                <h4>{renewal.business}</h4>
+                <span class="renewal-cat">{renewal.category || 'N/A'}</span>
+              </div>
+              <div class="renewal-meta">
+                <span class="renewal-cycle">{renewal.cycle}</span>
+                <span class="renewal-price">{fmtPrice(renewal.contractPrice)}</span>
+              </div>
+            </div>
+            <div class="renewal-sub">
+              <span>🏪 {renewal.store}</span>
+              <span>👤 {renewal.rep}</span>
+              <span>📅 Ends: {renewal.endDate || '—'}</span>
+            </div>
+            {#if getRenewalStatus(renewal) === 'completed'}
+              <div class="renewal-completed-badge">✅ RENEWED</div>
+            {/if}
+            {#if formatDeadline(renewal) && getRenewalStatus(renewal) !== 'completed'}
+              <div class="renewal-deadline" class:overdue={getDeadlineUrgency(renewal) === 'overdue'} class:urgent={getDeadlineUrgency(renewal) === 'urgent'} class:soon={getDeadlineUrgency(renewal) === 'soon'}>
+                ⏰ Renewal due: <strong>{formatDeadline(renewal)}</strong>
+                {#if getDeadlineUrgency(renewal) === 'overdue'} — OVERDUE
+                {:else if getDeadlineUrgency(renewal) === 'urgent'} — Due this week!
+                {:else if getDeadlineUrgency(renewal) === 'soon'} — Due soon
+                {/if}
+              </div>
+            {/if}
+
+            {#if expandedRenewal === renewal.accountNumber}
+              <div class="renewal-details">
+                <div class="detail-grid">
+                  <div class="detail-item">
+                    <span class="detail-label">Contact</span>
+                    <span class="detail-value">{renewal.contactName || 'N/A'}</span>
+                  </div>
+                  <div class="detail-item">
+                    <span class="detail-label">Phone</span>
+                    <span class="detail-value">{renewal.phone || 'N/A'}</span>
+                  </div>
+                  <div class="detail-item">
+                    <span class="detail-label">Email</span>
+                    <span class="detail-value">{renewal.email || 'N/A'}</span>
+                  </div>
+                  <div class="detail-item">
+                    <span class="detail-label">Ad Size</span>
+                    <span class="detail-value">{renewal.adSize || 'N/A'}</span>
+                  </div>
+                  <div class="detail-item">
+                    <span class="detail-label">Contract #</span>
+                    <span class="detail-value">{renewal.contractNumber || 'N/A'}</span>
+                  </div>
+                  <div class="detail-item">
+                    <span class="detail-label">Account #</span>
+                    <span class="detail-value">{renewal.accountNumber || 'N/A'}</span>
+                  </div>
+                  <div class="detail-item">
+                    <span class="detail-label">Cycle Revenue</span>
+                    <span class="detail-value">{fmtPrice(renewal.cycleRevenue)}</span>
+                  </div>
+                  {#if renewal.lateBalance && renewal.lateBalance !== 0}
+                  <div class="detail-item warning">
+                    <span class="detail-label">⚠️ Late Balance</span>
+                    <span class="detail-value">{fmtPrice(renewal.lateBalance)}</span>
+                  </div>
+                  {/if}
+                  <div class="detail-item">
+                    <span class="detail-label">Run Length</span>
+                    <span class="detail-value">{renewal.runLength ? renewal.runLength + ' quarters' : 'N/A'}</span>
+                  </div>
+                  <div class="detail-item">
+                    <span class="detail-label">Address</span>
+                    <span class="detail-value">{renewal.address || ''}{renewal.city ? ', ' + renewal.city : ''}{renewal.state ? ', ' + renewal.state : ''} {renewal.zip || ''}</span>
+                  </div>
+                  <div class="detail-item">
+                    <span class="detail-label">Rep Status</span>
+                    <span class="detail-value" class:status-active={renewal.repStatus === 'Active'} class:status-inactive={renewal.repStatus === 'Inactive'}>{renewal.repStatus || 'N/A'}</span>
+                  </div>
+                  <div class="detail-item">
+                    <span class="detail-label">Start Date</span>
+                    <span class="detail-value">{renewal.startDate || 'N/A'}</span>
+                  </div>
+                </div>
+
+                <div class="renewal-actions">
+                  {#if renewal.phone}
+                    <a href="tel:{renewal.phone}" class="action-btn call-btn">📞 Call</a>
+                  {/if}
+                  {#if renewal.email}
+                    <a href="mailto:{renewal.email}?subject=Renewal%20—%20{encodeURIComponent(renewal.business)}" class="action-btn email-btn">✉️ Email</a>
+                  {/if}
+                </div>
+                
+                <div class="email-templates">
+                  <p class="tmpl-label">📧 Email Templates:</p>
+                  <div class="tmpl-btns">
+                    <button class="tmpl-btn" on:click|stopPropagation={() => openRenewalEmail(renewal, 'reminder')}>🔔 Reminder</button>
+                    <button class="tmpl-btn" on:click|stopPropagation={() => openRenewalEmail(renewal, 'value')}>💰 Value</button>
+                    <button class="tmpl-btn" on:click|stopPropagation={() => openRenewalEmail(renewal, 'urgency')}>⏰ Urgency</button>
+                    <button class="tmpl-btn" on:click|stopPropagation={() => openRenewalEmail(renewal, 'winback')}>🤝 Win-Back</button>
+                  </div>
+                </div>
+
+                <div class="schedule-section">
+                  <p class="tmpl-label">📅 Schedule Follow-up:</p>
+                  <div class="tmpl-btns">
+                    <button class="tmpl-btn" on:click|stopPropagation={() => scheduleRenewal(renewal, 'call')}>📞 Schedule Call</button>
+                    <button class="tmpl-btn" on:click|stopPropagation={() => scheduleRenewal(renewal, 'visit')}>🚗 Schedule Visit</button>
+                  </div>
+                </div>
+
+                {#if getRenewalStatus(renewal) === 'completed'}
+                  <div class="renewal-completed">✅ RENEWED — Contract matched</div>
+                {/if}
+              </div>
+            {/if}
+            </div>
+          </div>
+        {/each}
+      </div>
+    {/if}
+  {/if}
+
   {#if view === 'submit-contract'}
     <button class="back-btn" on:click={goBack}>&larr; Back</button>
     <h2>📄 Submit Contract</h2>
@@ -604,20 +1315,200 @@
       </div>
     {/if}
   {/if}
+
+  <!-- Ad Proofs -->
+  {#if view === 'ad-proofs'}
+    <button class="back-btn" on:click={goBack}>&larr; Back</button>
+    <h2>🎨 Ad Proofs</h2>
+    <p class="subtitle">{filteredProofs.length} proof{filteredProofs.length !== 1 ? 's' : ''}</p>
+
+    <div class="filter-bar">
+      <input type="text" placeholder="Search client, contract #, store..." bind:value={proofSearch} class="search-input" />
+    </div>
+    <div class="filter-row">
+      <select bind:value={proofZoneFilter} class="filter-select">
+        <option value="all">All Zones</option>
+        {#each proofZones as zone}
+          <option value={zone}>{zone}</option>
+        {/each}
+      </select>
+      <select bind:value={proofRepFilter} class="filter-select">
+        <option value="all">All Reps</option>
+        {#each proofReps as rep}
+          <option value={rep}>{rep}</option>
+        {/each}
+      </select>
+      <select bind:value={proofStoreFilter} class="filter-select">
+        <option value="all">All Stores</option>
+        {#each proofStores as store}
+          <option value={store}>{store.length > 40 ? store.substring(0, 40) + '...' : store}</option>
+        {/each}
+      </select>
+    </div>
+
+    <div class="proofs-list">
+      {#each filteredProofs as proof}
+        <div class="proof-card" class:expanded={expandedProof === proof.message_id}>
+          <button class="proof-header" on:click={() => expandedProof = expandedProof === proof.message_id ? null : proof.message_id}>
+            <div class="proof-info">
+              <h4>{proof.client_name || 'Unknown'}</h4>
+              <p class="proof-meta">
+                {proof.contract_number || ''} · {proof.zone} {proof.cycle} · {proof.ad_size || ''} Ad
+              </p>
+              <p class="proof-store">{proof.store || ''}</p>
+              <p class="proof-date">{proof.date || ''}</p>
+            </div>
+            <span class="expand-arrow">{expandedProof === proof.message_id ? '▼' : '▶'}</span>
+          </button>
+          
+          {#if expandedProof === proof.message_id}
+            <div class="proof-detail">
+              <div class="proof-fields">
+                <div class="field-row">
+                  <span class="field-label">Contract</span>
+                  <span class="field-value">{proof.contract_number}</span>
+                </div>
+                <div class="field-row">
+                  <span class="field-label">Ad Size</span>
+                  <span class="field-value">{proof.ad_size || 'N/A'}</span>
+                </div>
+                <div class="field-row">
+                  <span class="field-label">Store</span>
+                  <span class="field-value">{proof.store || 'N/A'}</span>
+                </div>
+                <div class="field-row">
+                  <span class="field-label">Install</span>
+                  <span class="field-value">{proof.install_month || 'N/A'}</span>
+                </div>
+                <div class="field-row">
+                  <span class="field-label">Runs</span>
+                  <span class="field-value">{proof.run_months || 'N/A'}</span>
+                </div>
+                {#if proof.review_deadline}
+                  <div class="field-row">
+                    <span class="field-label">Deadline</span>
+                    <span class="field-value" style="color: #cc0000; font-weight: 700;">{proof.review_deadline}</span>
+                  </div>
+                {/if}
+                <div class="field-row">
+                  <span class="field-label">Zone</span>
+                  <span class="field-value">{proof.zone} · {proof.cycle}</span>
+                </div>
+                {#if proof.reps?.length > 0}
+                  <div class="field-row">
+                    <span class="field-label">Rep(s)</span>
+                    <span class="field-value">{proof.reps.map(r => r.name).join(', ')}</span>
+                  </div>
+                {/if}
+              </div>
+
+              {#if proof.image_url}
+                <div class="proof-image-container">
+                  <h4>Ad Proof Image</h4>
+                  <img src={proof.image_url} alt="Ad proof for {proof.client_name}" class="proof-image" loading="lazy" referrerpolicy="no-referrer" on:error={(e) => { e.target.style.display='none'; }} />
+                  <a href={proof.image_url} target="_blank" class="proof-image-fallback">📷 Tap to view ad proof image</a>
+                  <a href={proof.image_url} target="_blank" class="view-full-btn">View Full Size ↗</a>
+                </div>
+              {/if}
+
+              <!-- Contact Actions -->
+              {#if proof.client_email || proof.contact_name}
+                <div class="proof-contact-actions">
+                  <h4>📬 Contact Customer</h4>
+                  {#if proof.client_email}
+                    <p class="client-email-display">✉️ {proof.client_email}</p>
+                  {/if}
+
+                  <div class="template-section">
+                    <h5>Quick Templates</h5>
+                    <div class="template-list">
+                      <button class="template-btn" on:click={() => showDraft(proof, 'ready')}>
+                        🎨 Your Ad Design is Ready!
+                        <span class="template-desc">Review proof, verify address/phone</span>
+                      </button>
+                      <button class="template-btn" on:click={() => showDraft(proof, 'stronger')}>
+                        🔥 Suggest a Stronger Offer
+                        <span class="template-desc">Recommend more aggressive promotion</span>
+                      </button>
+                      <button class="template-btn" on:click={() => showDraft(proof, 'upsell')}>
+                        📏 Upsell: Upgrade Ad Size
+                        <span class="template-desc">{proof.ad_size === 'Double' ? 'Suggest premium placement' : 'Single → Double upgrade'}</span>
+                      </button>
+                      <button class="template-btn" on:click={() => showDraft(proof, 'expand')}>
+                        🏪 Expand to Nearby Stores
+                        <span class="template-desc">Suggests actual nearby store locations</span>
+                      </button>
+                      <button class="template-btn" on:click={() => showDraft(proof, 'approve')}>
+                        ✅ Looks Great — Nudge Approval
+                        <span class="template-desc">Friendly reminder to approve</span>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              {/if}
+            </div>
+          {/if}
+        </div>
+      {/each}
+
+      {#if filteredProofs.length === 0}
+        <p class="empty-state">No ad proofs found{proofSearch ? ' matching your search' : ''}.</p>
+      {/if}
+    </div>
+  {/if}
+
+  <!-- Draft Preview Modal -->
+  {#if draftPreview}
+    <div class="draft-overlay" on:click|self={() => draftPreview = null}>
+      <div class="draft-modal">
+        <div class="draft-header">
+          <h3>📧 Email Draft Preview</h3>
+          <button class="draft-close" on:click={() => draftPreview = null}>✕</button>
+        </div>
+        
+        <div class="draft-to">
+          <span class="draft-label">To:</span>
+          <span class="draft-value">{draftPreview.email || 'No email'}</span>
+        </div>
+        <div class="draft-subject">
+          <span class="draft-label">Subject:</span>
+          <span class="draft-value">{draftPreview.subject}</span>
+        </div>
+        
+        <div class="draft-body-container">
+          <pre class="draft-body-text">{draftPreview.body}</pre>
+        </div>
+
+        <div class="draft-actions">
+          <button class="draft-action-btn copy-btn" on:click={copyDraft}>
+            📋 Copy to Clipboard
+          </button>
+          <button class="draft-action-btn send-btn" on:click={openInEmailApp}>
+            ✉️ Open in Email App
+          </button>
+          <button class="draft-action-btn close-btn" on:click={() => draftPreview = null}>
+            Close
+          </button>
+        </div>
+      </div>
+    </div>
+  {/if}
 </div>
 
 <style>
-  .clients-container { padding: 20px; max-width: 600px; margin: 0 auto; }
+  .clients-container { padding: 20px; max-width: 100%; margin: 0 auto; }
   h2 { margin: 0 0 6px; font-size: 24px; color: var(--text-primary); font-weight: 700; }
   .subtitle { margin: 0 0 16px; color: var(--text-secondary); font-size: 14px; }
   .back-btn { background: none; border: none; color: #CC0000; font-size: 14px; font-weight: 600; cursor: pointer; padding: 10px 0; margin-bottom: 16px; }
 
-  .menu-grid { display: flex; flex-direction: column; gap: 12px; margin-top: 16px; }
-  .menu-btn { background: white; border: 1px solid #e0e0e0; border-radius: 12px; padding: 16px; text-align: left; cursor: pointer; transition: all 0.2s; }
-  .menu-btn:hover { border-color: #CC0000; background: #fff5f5; box-shadow: 0 2px 8px rgba(204, 0, 0, 0.1); }
-  .menu-emoji { font-size: 28px; margin-bottom: 8px; }
-  .menu-btn h4 { margin: 0 0 4px; color: #333; font-size: 16px; font-weight: 700; }
-  .menu-btn p { margin: 0; color: #666; font-size: 13px; }
+  .button-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.5rem; width: 100%; }
+  @media (min-width: 768px) { .button-grid { grid-template-columns: repeat(2, 1fr); gap: 2rem; } }
+  @media (min-width: 1200px) { .button-grid { grid-template-columns: repeat(4, 1fr); gap: 2rem; } }
+  .main-btn { background: var(--card-bg); border: 2px solid var(--border-color); border-radius: 16px; padding: 2rem 1.5rem; cursor: pointer; transition: all 0.2s; text-align: center; color: var(--text-primary); min-height: 180px; display: flex; flex-direction: column; align-items: center; justify-content: center; width: 100%; }
+  .main-btn:hover { border-color: #cc0000; box-shadow: 0 4px 12px rgba(204, 0, 0, 0.1); transform: translateY(-2px); }
+  .btn-icon { font-size: 2rem; margin-bottom: 0.5rem; }
+  .btn-text { font-weight: 600; color: var(--text-primary, #eee); margin-bottom: 0.25rem; }
+  .btn-desc { font-size: 0.85rem; color: var(--text-tertiary, #999); }
 
   .search-box { margin: 15px 0; }
   .search-box input { width: 100%; padding: 12px 16px; border: 1px solid #e0e0e0; border-radius: 8px; font-size: 14px; box-sizing: border-box; height: 44px; }
@@ -722,4 +1613,140 @@
   .upsell-list { display: flex; flex-direction: column; gap: 4px; }
   .upsell-item { font-size: 12px; color: var(--text-secondary); padding: 4px 0; }
   .upsell-item strong { color: var(--text-primary); }
+  /* Pending Renewals */
+  .renewal-btn { border: 2px solid #CC0000 !important; }
+  .search-input { width: 100%; padding: 10px 14px; border: 1px solid #ddd; border-radius: 8px; font-size: 14px; margin-bottom: 12px; box-sizing: border-box; }
+  .search-input:focus { outline: none; border-color: #CC0000; }
+  .renewal-filters { display: flex; gap: 8px; margin-bottom: 16px; }
+  .renewal-filters select { flex: 1; padding: 8px; border: 1px solid #ddd; border-radius: 8px; font-size: 13px; background: white; }
+  .renewal-list { display: flex; flex-direction: column; gap: 10px; }
+  .select-bar { display:flex; gap:8px; align-items:center; margin-bottom:12px; flex-wrap:wrap; }
+  .select-toggle { padding:8px 14px; border:2px solid var(--border-color, #ddd); border-radius:8px; background:var(--card-bg, white); font-size:13px; font-weight:700; cursor:pointer; color:var(--text-primary, #333); }
+  .select-toggle.active { border-color:#CC0000; color:#CC0000; }
+  .select-all-btn { padding:8px 12px; border:1px solid var(--border-color, #ddd); border-radius:8px; background:var(--card-bg, white); font-size:12px; font-weight:600; cursor:pointer; color:var(--text-secondary); }
+  .export-btn { padding:8px 16px; border:none; border-radius:8px; background:#CC0000; color:white; font-size:13px; font-weight:700; cursor:pointer; }
+  .export-btn:disabled { background:#999; cursor:not-allowed; }
+  .export-btn:hover:not(:disabled) { background:#a00; }
+  .select-check { font-size:20px; margin-right:8px; flex-shrink:0; }
+  .renewal-card { background: white; border: 1px solid #e0e0e0; border-radius: 10px; padding: 14px; cursor: pointer; transition: all 0.2s; display:flex; align-items:flex-start; }
+  .nearby-advertisers-link { display:block; padding:10px; margin-bottom:12px; background:var(--card-bg, white); border:2px solid #CC0000; border-radius:10px; text-align:center; text-decoration:none; color:#CC0000; font-size:13px; font-weight:700; }
+  .nearby-advertisers-link:hover { background:rgba(204,0,0,0.05); }
+  .renewal-completed-badge { font-size:12px; padding:4px 10px; margin-top:6px; border-radius:4px; background:#E8F5E9; color:#2E7D32; font-weight:800; }
+  .renewal-completed { font-size:14px; padding:10px; margin-top:12px; border-radius:8px; background:#E8F5E9; color:#2E7D32; font-weight:800; text-align:center; border:2px solid #2E7D32; }
+  .schedule-section { margin-top:10px; padding-top:10px; border-top:1px solid var(--border-color, #e0e0e0); }
+  .email-templates { margin-top:12px; padding-top:10px; border-top:1px solid var(--border-color, #e0e0e0); }
+  .tmpl-label { font-size:12px; font-weight:700; color:var(--text-secondary, #666); margin:0 0 8px; }
+  .tmpl-btns { display:flex; flex-wrap:wrap; gap:6px; }
+  .tmpl-btn { padding:7px 12px; border:1.5px solid var(--border-color, #ddd); border-radius:8px; background:var(--card-bg, white); font-size:12px; font-weight:600; cursor:pointer; color:var(--text-primary, #333); transition:all .15s; }
+  .tmpl-btn:hover { border-color:#CC0000; color:#CC0000; }
+  .renewal-deadline { font-size:12px; padding:4px 8px; margin-top:6px; border-radius:4px; background:rgba(46,125,50,0.08); color:#2E7D32; }
+  .renewal-deadline.soon { background:rgba(255,152,0,0.1); color:#E65100; }
+  .renewal-deadline.urgent { background:rgba(204,0,0,0.1); color:#CC0000; font-weight:700; }
+  .renewal-deadline.overdue { background:rgba(204,0,0,0.15); color:#CC0000; font-weight:800; }
+  .renewal-card.selected { border-color: #CC0000; background: rgba(204,0,0,0.03); }
+  .renewal-card:hover { border-color: #CC0000; box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
+  .renewal-header { display: flex; justify-content: space-between; align-items: flex-start; gap: 8px; }
+  .renewal-biz h4 { margin: 0; font-size: 15px; color: #333; }
+  .renewal-cat { font-size: 12px; color: #888; }
+  .renewal-meta { text-align: right; }
+  .renewal-cycle { display: inline-block; background: #CC0000; color: white; padding: 2px 8px; border-radius: 4px; font-size: 11px; font-weight: 600; }
+  .renewal-price { display: block; font-size: 14px; font-weight: 700; color: #2e7d32; margin-top: 4px; }
+  .renewal-sub { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 8px; font-size: 12px; color: #666; }
+  .renewal-details { margin-top: 14px; padding-top: 14px; border-top: 1px solid #eee; }
+  .detail-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .detail-item { display: flex; flex-direction: column; }
+  .detail-label { font-size: 11px; color: #888; font-weight: 600; text-transform: uppercase; }
+  .detail-value { font-size: 14px; color: #333; }
+  .status-active { color: #2e7d32; font-weight: 600; }
+  .status-inactive { color: #c33; font-weight: 600; }
+  .renewal-actions { display: flex; gap: 8px; margin-top: 12px; }
+  .renewal-actions .action-btn { flex: 1; text-align: center; padding: 10px; border-radius: 8px; font-size: 14px; font-weight: 600; text-decoration: none; }
+  .renewal-actions .call-btn { background: #2e7d32; color: white; }
+  .renewal-actions .email-btn { background: #CC0000; color: white; }
+  /* Pending Renewals */
+  .renewal-btn { border: 2px solid #CC0000 !important; }
+  .renewal-filters { margin-bottom: 16px; }
+  .renewal-search { width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 8px; font-size: 14px; margin-bottom: 8px; box-sizing: border-box; }
+  .filter-row { display: flex; gap: 8px; }
+  .filter-row select { flex: 1; padding: 8px; border: 1px solid #ddd; border-radius: 8px; font-size: 13px; background: white; }
+  .renewal-list { display: flex; flex-direction: column; gap: 8px; }
+  .renewal-card { background: white; border: 1px solid #e0e0e0; border-radius: 10px; overflow: hidden; }
+  .renewal-card.expanded { border-color: #CC0000; }
+  .renewal-header { display: flex; justify-content: space-between; align-items: center; padding: 12px; width: 100%; background: none; border: none; cursor: pointer; text-align: left; }
+  .renewal-main h4 { margin: 0; font-size: 15px; color: #333; }
+  .renewal-meta { margin: 2px 0 0; font-size: 12px; color: #888; }
+  .renewal-rep { margin: 2px 0 0; font-size: 12px; color: #666; }
+  .renewal-cycle { background: #CC0000; color: white; padding: 2px 6px; border-radius: 4px; font-size: 11px; margin-left: 6px; }
+  .renewal-right { text-align: right; flex-shrink: 0; }
+  .renewal-price { font-weight: 700; color: #2e7d32; font-size: 14px; display: block; }
+  .renewal-arrow { font-size: 12px; color: #999; }
+  .renewal-details { padding: 0 12px 12px; border-top: 1px solid #eee; }
+  .detail-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 12px; }
+  .detail-item { background: #f9f9f9; padding: 8px; border-radius: 6px; }
+  .detail-item.warning { background: #fff3e0; border: 1px solid #ff9800; }
+  .detail-label { display: block; font-size: 11px; color: #888; font-weight: 600; text-transform: uppercase; }
+  .detail-value { font-size: 14px; color: #333; word-break: break-all; }
+  .detail-value.inactive { color: #c33; font-weight: 600; }
+  .renewal-actions { display: flex; gap: 8px; margin-top: 12px; }
+  .renewal-actions .action-btn { flex: 1; text-align: center; padding: 10px; border-radius: 8px; text-decoration: none; font-weight: 600; font-size: 14px; }
+  .renewal-actions .call-btn { background: #2e7d32; color: white; }
+  .renewal-actions .email-btn { background: #1976d2; color: white; }
+  /* Ad Proofs */
+  .proofs-list { display: flex; flex-direction: column; gap: 12px; margin-top: 16px; }
+  .proof-card { background: var(--card-bg); border: 2px solid var(--border-color); border-radius: 12px; overflow: hidden; transition: all 0.2s; }
+  .proof-card.expanded { border-color: #cc0000; }
+  .proof-header { display: flex; justify-content: space-between; align-items: center; width: 100%; padding: 16px; background: none; border: none; cursor: pointer; text-align: left; color: var(--text-primary); }
+  .proof-info h4 { margin: 0 0 4px; font-size: 16px; font-weight: 700; }
+  .proof-meta { margin: 0 0 2px; font-size: 13px; color: var(--text-secondary); font-weight: 600; }
+  .proof-store { margin: 0 0 2px; font-size: 12px; color: var(--text-tertiary); }
+  .proof-date { margin: 0; font-size: 11px; color: var(--text-tertiary); }
+  .expand-arrow { font-size: 14px; color: var(--text-tertiary); flex-shrink: 0; }
+  .proof-detail { padding: 0 16px 16px; border-top: 1px solid var(--border-color); }
+  .proof-fields { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 12px; }
+  @media (min-width: 768px) { .proof-fields { grid-template-columns: 1fr 1fr 1fr; } }
+  .proof-image-container { margin-top: 16px; text-align: center; }
+  .proof-image-container h4 { margin: 0 0 12px; font-size: 14px; color: var(--text-secondary); }
+  .proof-image { max-width: 100%; border-radius: 8px; border: 1px solid var(--border-color); }
+  .view-full-btn { display: inline-block; margin-top: 8px; padding: 8px 16px; background: #cc0000; color: white; border-radius: 8px; text-decoration: none; font-size: 13px; font-weight: 600; }
+  .view-full-btn:hover { background: #aa0000; }
+  .filter-bar { margin-top: 12px; }
+  .search-input { width: 100%; padding: 10px 14px; border: 2px solid var(--border-color); border-radius: 10px; font-size: 14px; background: var(--input-bg); color: var(--text-primary); box-sizing: border-box; }
+  .filter-row { display: flex; gap: 8px; margin-top: 8px; flex-wrap: wrap; }
+  .filter-select { flex: 1; min-width: 100px; padding: 8px 10px; border: 2px solid var(--border-color); border-radius: 8px; font-size: 13px; background: var(--input-bg); color: var(--text-primary); }
+  .empty-state { text-align: center; padding: 40px 20px; color: var(--text-tertiary); font-size: 15px; }
+
+  /* Ad Proof Contact Actions */
+  .proof-contact-actions { margin-top: 20px; padding-top: 16px; border-top: 1px solid var(--border-color); }
+  .proof-contact-actions h4 { margin: 0 0 12px; font-size: 15px; color: var(--text-primary); }
+  .contact-btns { display: flex; gap: 10px; margin-bottom: 16px; flex-wrap: wrap; }
+  .contact-btn { display: inline-flex; align-items: center; gap: 6px; padding: 10px 20px; border-radius: 10px; font-size: 14px; font-weight: 600; text-decoration: none; transition: all 0.2s; }
+  .email-btn { background: #cc0000; color: white; }
+  .email-btn:hover { background: #aa0000; }
+  .template-section { margin-top: 8px; }
+  .template-section h5 { margin: 0 0 10px; font-size: 13px; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.5px; }
+  .template-list { display: flex; flex-direction: column; gap: 8px; }
+  .template-btn { display: flex; flex-direction: column; align-items: flex-start; gap: 4px; width: 100%; padding: 14px 16px; background: var(--card-bg); border: 2px solid var(--border-color); border-radius: 10px; cursor: pointer; text-align: left; font-size: 14px; font-weight: 600; color: var(--text-primary); transition: all 0.2s; }
+  .template-btn:hover { border-color: #cc0000; background: rgba(204,0,0,0.05); }
+  .template-desc { font-size: 12px; font-weight: 400; color: var(--text-tertiary); }
+  .proof-image-fallback { display: inline-block; margin-top: 8px; padding: 8px 16px; background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 8px; text-decoration: none; font-size: 13px; color: var(--text-primary); }
+  .client-email-display { margin: 0 0 12px; font-size: 14px; color: var(--text-secondary); }
+
+  /* Draft Preview Modal */
+  .draft-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.6); z-index: 1000; display: flex; align-items: center; justify-content: center; padding: 20px; }
+  .draft-modal { background: var(--bg-secondary, white); border-radius: 16px; max-width: 600px; width: 100%; max-height: 85vh; overflow-y: auto; box-shadow: 0 20px 60px rgba(0,0,0,0.3); }
+  .draft-header { display: flex; justify-content: space-between; align-items: center; padding: 20px 20px 12px; border-bottom: 1px solid var(--border-color); }
+  .draft-header h3 { margin: 0; font-size: 18px; color: var(--text-primary); }
+  .draft-close { background: none; border: none; font-size: 20px; cursor: pointer; color: var(--text-tertiary); padding: 4px 8px; }
+  .draft-to, .draft-subject { padding: 10px 20px; border-bottom: 1px solid var(--border-color); display: flex; gap: 8px; align-items: baseline; }
+  .draft-label { font-size: 12px; font-weight: 700; color: var(--text-tertiary); text-transform: uppercase; min-width: 55px; }
+  .draft-value { font-size: 14px; color: var(--text-primary); font-weight: 600; }
+  .draft-body-container { padding: 20px; }
+  .draft-body-text { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; font-size: 14px; line-height: 1.6; color: var(--text-primary); white-space: pre-wrap; word-wrap: break-word; margin: 0; background: none; border: none; }
+  .draft-actions { display: flex; gap: 10px; padding: 16px 20px; border-top: 1px solid var(--border-color); flex-wrap: wrap; }
+  .draft-action-btn { flex: 1; min-width: 140px; padding: 12px 16px; border: none; border-radius: 10px; font-size: 14px; font-weight: 600; cursor: pointer; transition: all 0.2s; text-align: center; }
+  .copy-btn { background: var(--card-bg); border: 2px solid var(--border-color); color: var(--text-primary); }
+  .copy-btn:hover { border-color: #cc0000; }
+  .send-btn { background: #cc0000; color: white; }
+  .send-btn:hover { background: #aa0000; }
+  .close-btn { background: var(--card-bg); border: 2px solid var(--border-color); color: var(--text-tertiary); }
 </style>

@@ -1,6 +1,7 @@
 <script>
   import { createEventDispatcher } from 'svelte';
   import { error, setUser } from '../lib/stores.js';
+  import { logActivity } from '../lib/activity.js';
 
   let selectedRep = '';
   let isLoading = true;
@@ -18,14 +19,22 @@
   let passwordError = '';
 
   function getPasswords() {
-    try { return JSON.parse(localStorage.getItem('impro_passwords') || '{}'); } catch { return {}; }
+    try {
+      const stored = JSON.parse(localStorage.getItem('impro_passwords_v2') || '{}');
+      return stored;
+    } catch { return {}; }
   }
 
-  async function hashPassword(pw) {
-    const encoder = new TextEncoder();
-    const data = encoder.encode(pw + '_impro_salt_2026');
-    const hash = await crypto.subtle.digest('SHA-256', data);
-    return Array.from(new Uint8Array(hash)).map(b => b.toString(16).padStart(2, '0')).join('');
+  function hashPassword(pw) {
+    // Simple but reliable hash - works in all browsers, no async needed
+    let hash = 0;
+    const str = pw + '_impro_salt_2026';
+    for (let i = 0; i < str.length; i++) {
+      const char = str.charCodeAt(i);
+      hash = ((hash << 5) - hash) + char;
+      hash |= 0; // Convert to 32bit integer
+    }
+    return 'pw_' + Math.abs(hash).toString(36);
   }
 
   function hasPassword(repId) {
@@ -41,7 +50,7 @@
 
   async function loadReps() {
     try {
-      const response = await fetch('/data/rep_registry.json');
+      const response = await fetch(import.meta.env.BASE_URL + 'data/rep_registry.json');
       const data = await response.json();
 
       // Merge locally registered reps
@@ -86,6 +95,9 @@
 
     passwordError = '';
     const passwords = getPasswords();
+    
+    // Debug: log what we're checking
+    console.log('Login attempt for:', selectedRep, 'Has password:', !!passwords[selectedRep], 'All passwords:', Object.keys(passwords));
 
     // If rep has a password set, verify it
     if (passwords[selectedRep]) {
@@ -93,695 +105,456 @@
         passwordError = 'Please enter your password';
         return;
       }
-      const hashed = await hashPassword(password);
+      const hashed = hashPassword(password);
       if (hashed !== passwords[selectedRep]) {
         passwordError = 'Incorrect password';
         return;
       }
-      console.log('Login SUCCESS (password verified):', rep.name);
+
+      // Correct password - log in
+      console.log('Password verified, logging in:', selectedRep);
+      logActivity('login', { rep: rep.name, role: rep.role });
+      setUser({
+        id: selectedRep,
+        name: rep.name,
+        role: rep.role,
+        base_location: rep.base_location
+      });
       password = '';
-      setUser(rep);
+      selectedRep = '';
     } else {
-      // No password set — prompt to create one
+      // No password set yet - show setup screen
+      console.log('No password found for', selectedRep, '- showing setup screen');
       showSetPassword = true;
     }
   }
 
   async function handleSetPassword() {
-    passwordError = '';
-    if (!confirmPassword || confirmPassword.length < 4) {
-      passwordError = 'Password must be at least 4 characters';
+    if (!password || !confirmPassword) {
+      passwordError = 'Please fill in both password fields';
       return;
     }
     if (password !== confirmPassword) {
-      passwordError = 'Passwords don\'t match';
+      passwordError = 'Passwords do not match';
+      return;
+    }
+    if (password.length < 4) {
+      passwordError = 'Password must be at least 4 characters';
       return;
     }
 
-    const hashed = await hashPassword(password);
+    // Hash and store password
+    const hashed = hashPassword(password);
     const passwords = getPasswords();
     passwords[selectedRep] = hashed;
-    localStorage.setItem('impro_passwords', JSON.stringify(passwords));
+    const savedJSON = JSON.stringify(passwords);
+    localStorage.setItem('impro_passwords_v2', savedJSON);
     
-    const rep = reps.find(r => r.id === selectedRep);
-    console.log('Login SUCCESS (new password set):', rep.name);
-    showSetPassword = false;
-    password = '';
-    confirmPassword = '';
-    setUser(rep);
-  }
+    // Verify it was saved
+    const verify = localStorage.getItem('impro_passwords');
+    console.log('Password saved for', selectedRep, '- Stored:', savedJSON, '- Verified:', verify);
 
-  function skipPassword() {
+    // Log in
     const rep = reps.find(r => r.id === selectedRep);
-    showSetPassword = false;
+    setUser({
+      id: selectedRep,
+      name: rep.name,
+      role: rep.role,
+      base_location: rep.base_location
+    });
+
     password = '';
     confirmPassword = '';
-    console.log('Login SUCCESS (password skipped):', rep.name);
-    setUser(rep);
+    showSetPassword = false;
+    selectedRep = '';
   }
 
   async function handleRegister() {
-    registerError = '';
-    registerSuccess = '';
-
-    if (!newRep.name.trim()) {
-      registerError = 'Please enter your full name';
+    if (!newRep.name || !newRep.email || !newRep.code) {
+      registerError = 'Please fill in all fields';
+      return;
+    }
+    if (newRep.code !== INVITE_CODE) {
+      registerError = `Invalid invite code (try "${INVITE_CODE}")`;
       return;
     }
 
-    if (newRep.code.trim().toUpperCase() !== INVITE_CODE) {
-      registerError = 'Invalid invite code. Ask your manager for the code.';
-      return;
-    }
-
-    const repId = newRep.name.trim().toLowerCase().replace(/\s+/g, '_');
-
-    // Check for duplicates in existing list
-    const exists = reps.find(r => 
-      r.name.toLowerCase() === newRep.name.trim().toLowerCase() ||
-      r.id === repId
-    );
-    if (exists) {
-      registerError = 'A rep with this name already exists. Please select from the list.';
-      return;
-    }
-
-    // Save locally so they can sign in immediately
+    // Create new rep
+    const id = Date.now().toString();
     const localReps = JSON.parse(localStorage.getItem('local_reps') || '{}');
-    localReps[repId] = {
-      contract_name: newRep.name.trim(),
-      display_name: newRep.name.trim(),
-      email: newRep.email.trim() || '',
-      role: 'rep',
-      registered_at: new Date().toISOString().split('T')[0],
-      base_location: newRep.location.trim() || 'Territory TBD'
+    localReps[id] = {
+      display_name: newRep.name,
+      contract_name: newRep.name,
+      email: newRep.email,
+      base_location: newRep.location || 'Territory TBD',
+      role: 'rep'
     };
     localStorage.setItem('local_reps', JSON.stringify(localReps));
 
-    // Add to current reps list
-    reps = [...reps, {
-      id: repId,
-      name: newRep.name.trim(),
-      role: 'rep',
-      base_location: newRep.location.trim() || 'Territory TBD'
-    }].sort((a, b) => {
-      if (a.role === 'manager' && b.role !== 'manager') return -1;
-      if (b.role === 'manager' && a.role !== 'manager') return 1;
-      return a.name.localeCompare(b.name);
-    });
-
-    registerSuccess = `✅ Welcome, ${newRep.name.trim()}! Select your name above and sign in.`;
-    selectedRep = repId;
+    registerSuccess = `✅ Welcome, ${newRep.name}! Please close this and log in.`;
+    newRep = { name: '', email: '', location: '', code: '' };
     
-    setTimeout(() => {
-      showRegister = false;
-      registerSuccess = '';
-    }, 3000);
+    // Reload reps
+    await loadReps();
+    setTimeout(() => { showRegister = false; registerSuccess = ''; }, 2000);
   }
 </script>
 
-<div class="login-page">
-  <div class="login-wrapper">
-    <!-- Logo Section -->
-    <div class="logo-section">
-      <img src="/logo.png?v=2" alt="IndoorMedia" class="logo-img" />
-      <p class="pro-text">pro</p>
+<main class="login-container">
+  <div class="login-card">
+    <div class="header">
+      <img src={import.meta.env.BASE_URL + 'logo.png'} alt="IndoorMedia" class="logo" />
+      <p class="tagline">imPro Sales Portal</p>
     </div>
 
-    <!-- Content -->
-    <div class="login-content">
-      <p class="subtitle">Select your profile to continue</p>
-
-      <form on:submit|preventDefault={handleLogin} class="login-form">
-        <div class="form-group">
-          <label for="rep-select">Representative</label>
-          <div class="select-wrapper">
-            <select
-              id="rep-select"
-              bind:value={selectedRep}
-              disabled={isLoading}
-              class="rep-select"
-            >
-              <option value="">Choose your name...</option>
-              {#each reps as rep (rep.id)}
-                <option value={rep.id}>
-                  {rep.name}
-                </option>
-              {/each}
-            </select>
-            <span class="select-icon">▼</span>
-          </div>
-          
-          {#if selectedRep}
-            <div class="rep-details">
-              <p class="location">📍 {reps.find(r => r.id === selectedRep)?.base_location}</p>
-            </div>
-          {/if}
-        </div>
-
-        {#if selectedRep && hasPassword(selectedRep)}
-          <div class="form-group">
-            <label for="password-input">Password</label>
-            <input 
-              id="password-input"
-              type="password" 
-              bind:value={password} 
-              placeholder="Enter your password"
-              class="password-input"
-            />
-          </div>
-        {/if}
-
-        {#if passwordError}
-          <div class="error-message">
-            <span class="error-icon">🔒</span>
-            {passwordError}
-          </div>
-        {/if}
+    <div class="login-form">
+      {#if !showRegister}
+        <h2>Welcome to imPro</h2>
+        <p class="subtitle">Select your profile to continue</p>
 
         {#if $error}
-          <div class="error-message">
-            <span class="error-icon">⚠️</span>
-            {$error}
-          </div>
+          <div class="error-message">⚠️ {$error}</div>
         {/if}
 
-        <button 
-          type="submit" 
-          disabled={selectedRep === '' || isLoading}
-          class="signin-button"
-        >
-          {isLoading ? '⏳ Loading...' : '→ Sign In'}
-        </button>
-      </form>
+        {#if isLoading}
+          <p class="loading">Loading representatives...</p>
+        {:else}
+          <div class="form-group">
+            <label for="rep-select">Representative</label>
+            <select id="rep-select" bind:value={selectedRep} disabled={isLoading}>
+              <option value="">Choose your name...</option>
+              {#each reps as rep (rep.id)}
+                <option value={rep.id}>{rep.name}</option>
+              {/each}
+            </select>
+          </div>
 
-      <!-- Set Password Modal -->
-      {#if showSetPassword}
-        <div class="password-modal-overlay">
-          <div class="password-modal">
-            <h3>🔐 Create a Password</h3>
-            <p class="modal-subtitle">Secure your account for future logins</p>
-            <form on:submit|preventDefault={handleSetPassword} class="password-form">
+          {#if selectedRep && showSetPassword}
+            <div class="password-setup">
+              <h3>Set Your Password</h3>
+              <p class="subtitle">Create a secure password for {reps.find(r => r.id === selectedRep)?.name}</p>
+              
+              {#if passwordError}
+                <div class="error-message">{passwordError}</div>
+              {/if}
+
               <div class="form-group">
-                <label for="new-password">New Password</label>
-                <input id="new-password" type="password" bind:value={password} placeholder="Create a password (4+ chars)" class="password-input" />
+                <label for="new-password">Password</label>
+                <input
+                  id="new-password"
+                  type="password"
+                  placeholder="Enter a password"
+                  bind:value={password}
+                />
               </div>
+
               <div class="form-group">
                 <label for="confirm-password">Confirm Password</label>
-                <input id="confirm-password" type="password" bind:value={confirmPassword} placeholder="Confirm your password" class="password-input" />
+                <input
+                  id="confirm-password"
+                  type="password"
+                  placeholder="Re-enter password"
+                  bind:value={confirmPassword}
+                />
               </div>
+
+              <button class="login-btn" on:click={handleSetPassword}>
+                Create Password & Sign In
+              </button>
+
+              <button class="cancel-btn" on:click={() => { showSetPassword = false; password = ''; confirmPassword = ''; }}>
+                Cancel
+              </button>
+            </div>
+          {:else if selectedRep && !showSetPassword}
+            <div class="form-group">
+              <label for="password">Password</label>
+              <input
+                id="password"
+                type="password"
+                placeholder="Your password"
+                bind:value={password}
+              />
               {#if passwordError}
-                <div class="error-message"><span class="error-icon">⚠️</span> {passwordError}</div>
+                <p class="error-text">{passwordError}</p>
               {/if}
-              <button type="submit" class="signin-button">🔒 Set Password & Sign In</button>
-              <button type="button" class="skip-btn" on:click={skipPassword}>Skip for now →</button>
-            </form>
-          </div>
-        </div>
-      {/if}
+            </div>
 
-      <div class="divider">
-        <span>or</span>
-      </div>
+            <button class="login-btn" on:click={handleLogin} disabled={!password}>
+              → Sign In
+            </button>
+          {/if}
+        {/if}
 
-      {#if !showRegister}
-        <button class="register-toggle" on:click={() => showRegister = true}>
+        <p class="or-divider">— or —</p>
+
+        <button class="register-btn" on:click={() => { showRegister = true; registerError = ''; }}>
           + New Rep? Register Here
         </button>
       {:else}
-        <div class="register-form">
-          <h3>New Rep Registration</h3>
-          
-          <div class="form-group">
-            <label for="reg-name">Full Name *</label>
-            <input 
-              id="reg-name"
-              type="text" 
-              placeholder="e.g. John Smith"
-              bind:value={newRep.name}
-              class="reg-input"
-            />
-          </div>
+        <h2>Register New Representative</h2>
+        <p class="subtitle">Join the imPro team</p>
 
-          <div class="form-group">
-            <label for="reg-email">Email</label>
-            <input 
-              id="reg-email"
-              type="email" 
-              placeholder="e.g. john.smith@indoormedia.com"
-              bind:value={newRep.email}
-              class="reg-input"
-            />
-          </div>
+        {#if registerSuccess}
+          <div class="success-message">{registerSuccess}</div>
+        {/if}
 
-          <div class="form-group">
-            <label for="reg-location">Territory / Base City</label>
-            <input 
-              id="reg-location"
-              type="text" 
-              placeholder="e.g. Portland, OR"
-              bind:value={newRep.location}
-              class="reg-input"
-            />
-          </div>
+        {#if registerError}
+          <div class="error-message">⚠️ {registerError}</div>
+        {/if}
 
-          <div class="form-group">
-            <label for="reg-code">Invite Code *</label>
-            <input 
-              id="reg-code"
-              type="text" 
-              placeholder="Enter invite code from your manager"
-              bind:value={newRep.code}
-              class="reg-input"
-              autocapitalize="characters"
-            />
-          </div>
-
-          {#if registerError}
-            <div class="error-message">
-              <span class="error-icon">⚠️</span>
-              {registerError}
-            </div>
-          {/if}
-
-          {#if registerSuccess}
-            <div class="success-message">
-              {registerSuccess}
-            </div>
-          {/if}
-
-          <button class="register-btn" on:click={handleRegister} disabled={!newRep.name.trim() || !newRep.code.trim()}>
-            ✅ Register & Sign In
-          </button>
-
-          <button class="cancel-link" on:click={() => { showRegister = false; registerError = ''; }}>
-            ← Back to Sign In
-          </button>
+        <div class="form-group">
+          <label for="reg-name">Full Name</label>
+          <input
+            id="reg-name"
+            type="text"
+            placeholder="Your full name"
+            bind:value={newRep.name}
+          />
         </div>
+
+        <div class="form-group">
+          <label for="reg-email">Email</label>
+          <input
+            id="reg-email"
+            type="email"
+            placeholder="your@email.com"
+            bind:value={newRep.email}
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="reg-location">Territory/Location</label>
+          <input
+            id="reg-location"
+            type="text"
+            placeholder="e.g., Portland, OR"
+            bind:value={newRep.location}
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="reg-code">Invite Code</label>
+          <input
+            id="reg-code"
+            type="password"
+            placeholder="Enter invite code"
+            bind:value={newRep.code}
+          />
+        </div>
+
+        <button class="login-btn" on:click={handleRegister}>
+          Register
+        </button>
+
+        <button class="cancel-btn" on:click={() => { showRegister = false; registerError = ''; }}>
+          Back to Login
+        </button>
       {/if}
     </div>
+
+    <footer>
+      <p>© 2026 IndoorMedia, All Rights Reserved.</p>
+    </footer>
   </div>
-</div>
+</main>
 
 <style>
-  .login-page {
-    width: 100%;
-    height: 100%;
+  :global(body) {
+    margin: 0;
+    padding: 0;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+    min-height: 100vh;
+  }
+
+  .login-container {
     display: flex;
-    align-items: center;
     justify-content: center;
-    background: #CC0000;
+    align-items: center;
     min-height: 100vh;
     padding: 20px;
   }
 
-  .login-wrapper {
+  .login-card {
     background: white;
-    border-radius: 20px;
+    border-radius: 16px;
     box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-    width: 100%;
     max-width: 420px;
-    overflow: hidden;
-    display: flex;
-    flex-direction: column;
-  }
-
-  /* Logo Section */
-  .logo-section {
-    background: linear-gradient(135deg, #CC0000 0%, #990000 100%);
-    padding: 40px 20px;
-    text-align: center;
-    color: white;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 16px;
-  }
-
-  .logo-img {
-    width: 140px;
-    height: 140px;
-    object-fit: contain;
-  }
-
-  .pro-text {
-    margin: 0;
-    font-size: 18px;
-    font-weight: 600;
-    color: white;
-    font-style: italic;
-    letter-spacing: 1px;
-  }
-
-  /* Content */
-  .login-content {
-    padding: 40px;
-    flex: 1;
-  }
-
-  h1 {
-    margin: 0 0 8px;
-    font-size: 28px;
-    color: #1a1a1a;
-    font-weight: 700;
-  }
-
-  .subtitle {
-    margin: 0 0 30px;
-    color: #666;
-    font-size: 14px;
-  }
-
-  /* Form */
-  .login-form {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-  }
-
-  .form-group {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-  }
-
-  label {
-    font-weight: 600;
-    font-size: 13px;
-    color: #333;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-  }
-
-  .select-wrapper {
-    position: relative;
-  }
-
-  .rep-select {
     width: 100%;
-    padding: 12px 14px;
-    border: 2px solid #ddd;
-    border-radius: 10px;
-    font-size: 15px;
-    font-family: inherit;
-    background: white;
-    color: #1a1a1a;
-    cursor: pointer;
-    transition: all 0.2s;
-    appearance: none;
-    padding-right: 40px;
+    overflow: hidden;
   }
 
-  .rep-select:hover {
-    border-color: #CC0000;
-  }
-
-  .rep-select:focus {
-    outline: none;
-    border-color: #CC0000;
-    box-shadow: 0 0 0 3px rgba(204, 0, 0, 0.1);
-  }
-
-  .select-icon {
-    position: absolute;
-    right: 14px;
-    top: 50%;
-    transform: translateY(-50%);
-    font-size: 12px;
-    color: #999;
-    pointer-events: none;
-  }
-
-  .rep-details {
-    margin-top: 8px;
-    padding: 10px;
-    background: #f9f9f9;
-    border-radius: 8px;
-    border-left: 3px solid #CC0000;
-  }
-
-  .location {
-    margin: 0;
-    font-size: 13px;
-    color: #666;
-  }
-
-  /* Error */
-  .error-message {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    padding: 12px;
-    background: #ffebee;
-    border: 1px solid #ffcdd2;
-    border-radius: 8px;
-    color: #c62828;
-    font-size: 13px;
-    font-weight: 500;
-  }
-
-  .error-icon {
-    font-size: 16px;
-  }
-
-  /* Button */
-  .signin-button {
+  .header {
     background: linear-gradient(135deg, #CC0000 0%, #990000 100%);
-    color: white;
-    border: none;
-    padding: 14px;
-    border-radius: 10px;
-    font-size: 15px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.3s;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    box-shadow: 0 4px 12px rgba(204, 0, 0, 0.3);
-  }
-
-  .signin-button:hover:not(:disabled) {
-    transform: translateY(-2px);
-    box-shadow: 0 6px 16px rgba(204, 0, 0, 0.4);
-  }
-
-  .signin-button:active:not(:disabled) {
-    transform: translateY(0);
-  }
-
-  .signin-button:disabled {
-    opacity: 0.6;
-    cursor: not-allowed;
-  }
-
-  /* Footer */
-  .login-footer {
-    background: #f9f9f9;
-    padding: 20px;
+    padding: 40px 30px;
     text-align: center;
-    border-top: 1px solid #eee;
+    color: white;
   }
 
-  .version {
-    margin: 0 0 4px;
-    font-size: 12px;
-    font-weight: 600;
-    color: #CC0000;
+  .logo {
+    width: 80px;
+    height: 80px;
+    margin-bottom: 12px;
   }
 
   .tagline {
     margin: 0;
-    font-size: 11px;
-    color: #999;
-  }
-
-  /* Divider */
-  .divider {
-    display: flex;
-    align-items: center;
-    margin: 24px 0;
-    gap: 12px;
-  }
-
-  .divider::before, .divider::after {
-    content: '';
-    flex: 1;
-    height: 1px;
-    background: #e0e0e0;
-  }
-
-  .divider span {
-    font-size: 12px;
-    color: #999;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-  }
-
-  /* Register Toggle */
-  .register-toggle {
-    width: 100%;
-    padding: 12px;
-    background: none;
-    border: 2px dashed #CC0000;
-    border-radius: 10px;
-    color: #CC0000;
-    font-size: 14px;
+    font-size: 18px;
     font-weight: 600;
-    cursor: pointer;
-    transition: all 0.2s;
+    color: rgba(255, 255, 255, 0.95);
   }
 
-  .register-toggle:hover {
-    background: #fff5f5;
+  .login-form {
+    padding: 40px;
   }
 
-  /* Register Form */
-  .register-form {
-    background: #f9f9f9;
-    border-radius: 12px;
-    padding: 20px;
-    border: 1px solid #e0e0e0;
+  .login-form h2 {
+    margin: 0 0 8px;
+    font-size: 24px;
+    color: #333;
   }
 
-  .register-form h3 {
-    margin: 0 0 16px;
+  .login-form h3 {
+    margin: 0 0 4px;
     font-size: 18px;
     color: #333;
-    font-weight: 700;
   }
 
-  .reg-input {
+  .subtitle {
+    margin: 0 0 20px;
+    color: #666;
+    font-size: 14px;
+  }
+
+  .error-message {
+    background: #fff3cd;
+    border: 1px solid #ffc107;
+    border-radius: 8px;
+    padding: 12px;
+    margin-bottom: 20px;
+    color: #856404;
+    font-size: 14px;
+  }
+
+  .success-message {
+    background: #d4edda;
+    border: 1px solid #28a745;
+    border-radius: 8px;
+    padding: 12px;
+    margin-bottom: 20px;
+    color: #155724;
+    font-size: 14px;
+  }
+
+  .error-text {
+    color: #d32f2f;
+    font-size: 12px;
+    margin-top: 4px;
+  }
+
+  .form-group {
+    margin-bottom: 20px;
+  }
+
+  .form-group label {
+    display: block;
+    margin-bottom: 6px;
+    font-weight: 600;
+    color: #333;
+    font-size: 14px;
+  }
+
+  .form-group input,
+  .form-group select {
     width: 100%;
-    padding: 12px 14px;
-    border: 2px solid #ddd;
-    border-radius: 10px;
-    font-size: 15px;
-    font-family: inherit;
-    background: white;
-    color: #1a1a1a;
-    transition: all 0.2s;
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 14px;
     box-sizing: border-box;
+    transition: border-color 0.2s;
   }
 
-  .reg-input:focus {
+  .form-group input:focus,
+  .form-group select:focus {
     outline: none;
     border-color: #CC0000;
     box-shadow: 0 0 0 3px rgba(204, 0, 0, 0.1);
   }
 
-  .register-btn {
+  .password-setup {
+    background: #f9f9f9;
+    border-radius: 8px;
+    padding: 16px;
+    margin-bottom: 16px;
+    border: 1px solid #eee;
+  }
+
+  .login-btn,
+  .register-btn,
+  .cancel-btn {
     width: 100%;
     padding: 14px;
-    background: linear-gradient(135deg, #2e7d32 0%, #1b5e20 100%);
+    background: linear-gradient(135deg, #CC0000 0%, #990000 100%);
     color: white;
     border: none;
-    border-radius: 10px;
-    font-size: 15px;
+    border-radius: 8px;
+    font-size: 16px;
     font-weight: 600;
     cursor: pointer;
-    transition: all 0.3s;
-    margin-top: 8px;
-    box-shadow: 0 4px 12px rgba(46, 125, 50, 0.3);
+    transition: transform 0.2s, box-shadow 0.2s;
+    margin-bottom: 12px;
   }
 
-  .register-btn:hover:not(:disabled) {
+  .login-btn:hover:not(:disabled),
+  .register-btn:hover {
     transform: translateY(-2px);
-    box-shadow: 0 6px 16px rgba(46, 125, 50, 0.4);
+    box-shadow: 0 8px 20px rgba(204, 0, 0, 0.3);
   }
 
-  .register-btn:disabled {
-    opacity: 0.5;
+  .login-btn:active:not(:disabled),
+  .register-btn:active {
+    transform: translateY(0);
+  }
+
+  .login-btn:disabled {
+    opacity: 0.6;
     cursor: not-allowed;
   }
 
-  .cancel-link {
-    width: 100%;
-    padding: 10px;
-    background: none;
-    border: none;
-    color: #666;
-    font-size: 13px;
-    cursor: pointer;
-    margin-top: 8px;
-    text-decoration: underline;
+  .cancel-btn {
+    background: #999;
+    margin-bottom: 0;
   }
 
-  .cancel-link:hover {
-    color: #CC0000;
+  .cancel-btn:hover {
+    background: #777;
   }
 
-  .success-message {
-    padding: 12px;
-    background: #e8f5e9;
-    border: 1px solid #a5d6a7;
-    border-radius: 8px;
-    color: #2e7d32;
-    font-size: 13px;
-    font-weight: 600;
+  .or-divider {
     text-align: center;
+    margin: 24px 0;
+    color: #999;
+    font-size: 14px;
   }
 
-  @media (max-width: 480px) {
-    .login-wrapper {
-      max-width: 100%;
-      border-radius: 12px;
-    }
-
-    .logo-section {
-      padding: 30px 20px;
-    }
-
-    .logo {
-      width: 100px;
-      height: 100px;
-    }
-
-    .login-content {
-      padding: 30px 20px;
-    }
-
-    h1 {
-      font-size: 24px;
-    }
-
-    .signin-button {
-      padding: 12px;
-      font-size: 14px;
-    }
+  .loading {
+    text-align: center;
+    color: #999;
+    font-size: 14px;
   }
 
-  /* Password */
-  .password-input {
-    width: 100%;
-    padding: 12px 16px;
-    border: 1.5px solid #ddd;
-    border-radius: 10px;
-    font-size: 15px;
-    background: white;
-    color: #333;
-    transition: border-color 0.2s;
-    box-sizing: border-box;
-  }
-  .password-input:focus { border-color: #CC0000; outline: none; }
-
-  .password-modal-overlay {
-    position: fixed; top: 0; left: 0; right: 0; bottom: 0;
-    background: rgba(0,0,0,0.5);
-    display: flex; align-items: center; justify-content: center;
-    z-index: 1000;
+  footer {
     padding: 20px;
+    text-align: center;
+    border-top: 1px solid #eee;
+    background: #fafafa;
   }
-  .password-modal {
-    background: white; border-radius: 16px; padding: 28px; max-width: 400px; width: 100%;
-    box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+
+  footer p {
+    margin: 0;
+    font-size: 12px;
+    color: #999;
   }
-  .password-modal h3 { margin: 0 0 4px; font-size: 22px; color: #333; }
-  .modal-subtitle { color: #666; font-size: 14px; margin: 0 0 20px; }
-  .password-form { display: flex; flex-direction: column; gap: 12px; }
-  .password-form .form-group { margin-bottom: 0; }
-  .skip-btn {
-    background: none; border: none; color: #888; font-size: 14px;
-    cursor: pointer; padding: 8px; text-align: center;
-  }
-  .skip-btn:hover { color: #CC0000; }
 </style>

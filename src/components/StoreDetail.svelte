@@ -7,6 +7,24 @@
   let selectedProduct = 'singleAd';
   let quantity = 1;
 
+  // Calculate next install date based on zone install day and cycle
+  function getInstallDateDisplay(installDay, cycle) {
+    if (!installDay) return '';
+    const now = new Date();
+    const day = parseInt(installDay);
+    
+    // Cycle schedule: A/B/C rotate every ~3 months
+    // Find next occurrence of this day
+    let nextDate = new Date(now.getFullYear(), now.getMonth(), day);
+    if (nextDate <= now) {
+      nextDate.setMonth(nextDate.getMonth() + 1);
+    }
+    
+    const monthName = nextDate.toLocaleDateString('en-US', { month: 'short' });
+    const ordinal = day + (day === 1 || day === 21 || day === 31 ? 'st' : day === 2 || day === 22 ? 'nd' : day === 3 || day === 23 ? 'rd' : 'th');
+    return `${ordinal} of each month`;
+  }
+
   $: if ($selectedStore) {
     pricingPlans = calculatePricingPlans(
       $selectedStore.SingleAd,
@@ -70,7 +88,17 @@
             <span class="info-label">Cycle</span>
             <span class="info-value">{$selectedStore.Cycle}</span>
           </div>
+          {#if $selectedStore.InstallDay}
+          <div class="info-item">
+            <span class="info-label">In Stores</span>
+            <span class="info-value install-date">{getInstallDateDisplay($selectedStore.InstallDay, $selectedStore.Cycle)}</span>
+          </div>
+          {/if}
         </div>
+      </div>
+
+      <div style="margin-bottom:12px;">
+        <a href="https://coupons.indoormedia.com/?location={encodeURIComponent(($selectedStore.City || '') + ', ' + ($selectedStore.State || ''))}" target="_blank" class="nearby-link">📋 View Current Nearby Advertisers</a>
       </div>
 
       <div class="pricing-section">
@@ -227,7 +255,13 @@
     color: #1a1a2e;
     font-size: 1rem;
   }
+  .info-value.install-date {
+    color: #CC0000;
+    font-weight: 700;
+  }
 
+  .nearby-link { display:block; padding:12px; background:var(--card-bg, white); border:2px solid #CC0000; border-radius:10px; text-align:center; text-decoration:none; color:#CC0000; font-size:14px; font-weight:700; }
+  .nearby-link:hover { background:rgba(204,0,0,0.05); }
   .pricing-section {
     background: white;
     border-radius: 8px;

@@ -1,6 +1,5 @@
 <script>
   import { onMount } from 'svelte';
-  import HotLeadsSubmit from './HotLeadsSubmit.svelte';
   import PendingLeads from './PendingLeads.svelte';
   
   export let user;
@@ -10,7 +9,7 @@
   let selectedStore = null;
   let selectedLead = null;
   let viewMode = 'grid'; // 'grid' or 'detail'
-  let currentSection = 'approved'; // 'approved' or 'pending' or 'submit'
+  let currentSection = 'approved'; // 'approved' or 'pending'
   let searchText = '';
   let allStores = [];
   let pendingCount = 0;
@@ -21,7 +20,7 @@
   
   onMount(async () => {
     try {
-      const response = await fetch('/data/hot_leads.json');
+      const response = await fetch(import.meta.env.BASE_URL + 'data/hot_leads.json');
       let allLeads = await response.json();
       
       // Check if user is manager (Tyler)
@@ -140,13 +139,6 @@
       on:click={() => { currentSection = 'pending'; }}
     >
       ⏳ Pending {#if pendingCount > 0}({pendingCount}){/if}
-    </button>
-    <button 
-      class="section-tab"
-      class:active={currentSection === 'submit'}
-      on:click={() => { currentSection = 'submit'; }}
-    >
-      ➕ Add Lead
     </button>
   </div>
   
@@ -291,13 +283,6 @@
       onLeadApproved={() => {
         // Reload hot leads to get newly approved ones
         location.reload();
-      }}
-    />
-  {:else if currentSection === 'submit'}
-    <HotLeadsSubmit
-      {user}
-      onLeadSubmitted={() => {
-        currentSection = 'pending';
       }}
     />
   {/if}

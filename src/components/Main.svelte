@@ -2,15 +2,24 @@
   import { onMount } from 'svelte';
   import { theme, user } from '../lib/stores.js';
   import { get } from 'svelte/store';
+  import { logActivity, getRepActivityReport, getDailySummaries } from '../lib/activity.js';
+  import { initFirebase, isFirebaseReady, getAllRepActivity } from '../lib/firebase.js';
   import StoreSearch from './StoreSearch.svelte';
   import ProspectSearch from './ProspectSearch.svelte';
   import Tools from './Tools.svelte';
   import Cart from './Cart.svelte';
   import Products from './Products.svelte';
+  import Present from './Present.svelte';
   import Clients from './Clients.svelte';
   import ManageReps from './ManageReps.svelte';
+  import HotLeadsSubmit from './HotLeadsSubmit.svelte';
 
   let currentTab = 'dashboard';
+  
+  // Track tab changes
+  $: if (currentTab && typeof window !== 'undefined') {
+    logActivity('page_view', { tab: currentTab, rep: $user?.name || $user?.first_name || 'unknown' });
+  }
   let currentTheme = 'light';
   let cartCount = 0;
   let contracts = [];
@@ -24,6 +33,387 @@
   let revenueThisMonth = 0;
   let growthPercent = 0;
   let storesInTerritory = 0;
+  let pendingRenewalsCount = 0;
+  let leaderboardPosition = 0;
+  let leaderboardTotal = 0;
+  let repMonthlyRevenue = 0;
+  let upcomingAppointments = [];
+  let dailyGoal = { calls: 0, target: 0 };
+  let streak = 0;
+  let streakDays = []; // detailed streak history
+  let nextCycleDate = '';
+  let nextCycleName = '';
+  let showRevenueDetail = false;
+  let showStreakDetail = false;
+  let showAppointmentsDetail = false;
+  let thisMonthContracts = [];
+  let pendingRenewalsData = [];
+
+  // Motivational quotes
+  const QUOTES = [
+    { text: "Success is not final, failure is not fatal: it is the courage to continue that counts.", author: "Winston Churchill" },
+    { text: "The only way to do great work is to love what you do.", author: "Steve Jobs" },
+    { text: "Don't watch the clock; do what it does. Keep going.", author: "Sam Levenson" },
+    { text: "Every sale has five basic obstacles: no need, no money, no hurry, no desire, no trust.", author: "Zig Ziglar" },
+    { text: "Your attitude, not your aptitude, will determine your altitude.", author: "Zig Ziglar" },
+    { text: "The difference between a successful person and others is not a lack of strength, but a lack of will.", author: "Vince Lombardi" },
+    { text: "I never lose. I either win or I learn.", author: "Nelson Mandela" },
+    { text: "The harder you work, the luckier you get.", author: "Gary Player" },
+    { text: "People don't buy for logical reasons. They buy for emotional reasons.", author: "Zig Ziglar" },
+    { text: "Hustle beats talent when talent doesn't hustle.", author: "Ross Simmonds" },
+    { text: "Stop selling. Start helping.", author: "Zig Ziglar" },
+    { text: "The secret of getting ahead is getting started.", author: "Mark Twain" },
+    { text: "Be so good they can't ignore you.", author: "Steve Martin" },
+    { text: "Fall seven times, stand up eight.", author: "Japanese Proverb" },
+    { text: "The best time to plant a tree was 20 years ago. The second best time is now.", author: "Chinese Proverb" },
+    { text: "Sales are contingent upon the attitude of the salesman, not the attitude of the prospect.", author: "W. Clement Stone" },
+    { text: "The top salespeople in the world are not selling. They're serving.", author: "Lori Greiner" },
+    { text: "You miss 100% of the shots you don't take.", author: "Wayne Gretzky" },
+    { text: "Opportunities don't happen. You create them.", author: "Chris Grosser" },
+    { text: "It's not about having the right opportunities. It's about handling the opportunities right.", author: "Mark Hunter" },
+    { text: "What you do today can improve all your tomorrows.", author: "Ralph Marston" },
+    { text: "Discipline is the bridge between goals and accomplishment.", author: "Jim Rohn" },
+    { text: "A goal without a plan is just a wish.", author: "Antoine de Saint-Exupéry" },
+    { text: "Make each day your masterpiece.", author: "John Wooden" },
+    { text: "Champions keep playing until they get it right.", author: "Billie Jean King" },
+    { text: "Action is the foundational key to all success.", author: "Pablo Picasso" },
+    { text: "Don't be afraid to give up the good to go for the great.", author: "John D. Rockefeller" },
+    { text: "Success usually comes to those who are too busy to be looking for it.", author: "Henry David Thoreau" },
+    { text: "Small daily improvements are the key to staggering long-term results.", author: "Unknown" },
+    { text: "The only limit to our realization of tomorrow will be our doubts of today.", author: "Franklin D. Roosevelt" },
+  ];
+
+  function getTodaysQuote() {
+    const now = new Date();
+    const dayOfYear = Math.floor((now - new Date(now.getFullYear(), 0, 0)) / 86400000);
+    return QUOTES[dayOfYear % QUOTES.length];
+  }
+
+  let nextInstallCycle = '';
+  let nextInstallDate = '';
+  let nextInstallDays = 0;
+  let nextSellingCycle = '';
+  let nextSellingDate = '';
+  let nextSellingDays = 0;
+
+  // Zone install day lookup — from RTUI Zone Chart
+  const ZONE_INSTALL_DAYS = {
+    '01':1,'02':8,'03':26,'04':28,'05':25,'06':1,'07':7,'08':5,'09':14,'10':30,
+    '11':25,'12':16,'13':20,'14':10,'15':18,'16':7,'17':20,'18':20,'19':8,'20':10,
+    '21':16,'22':1,'23':12,'24':14,'25':23,'26':20,'27':25,'28':6,'29':6
+  };
+
+  function getZoneInstallDay() {
+    // Default to zone 07 (day 7) for Tyler's region, but check user's assigned stores
+    const userStores = $user?.assigned_stores || [];
+    if (userStores.length > 0) {
+      const m = (userStores[0] || '').match(/(\d{2})[A-Z]?-/);
+      if (m && ZONE_INSTALL_DAYS[m[1]]) return ZONE_INSTALL_DAYS[m[1]];
+    }
+    return 7; // default zone 07
+  }
+
+  function getNextCycle() {
+    // Cycle schedule uses the zone-specific install day
+    // A=Jan/Apr/Jul/Oct, B=Feb/May/Aug/Nov, C=Mar/Jun/Sep/Dec
+    // Selling cycle switches 4 days after install
+    const now = new Date();
+    const installDay = getZoneInstallDay();
+    const installCycles = [
+      { name: 'A', months: [0, 3, 6, 9] },
+      { name: 'B', months: [1, 4, 7, 10] },
+      { name: 'C', months: [2, 5, 8, 11] },
+    ];
+    const sellingAfter = { 'A': 'C', 'B': 'A', 'C': 'B' };
+
+    // Find next install date using zone-specific day
+    let nearestInstall = null;
+    for (const cycle of installCycles) {
+      for (const m of cycle.months) {
+        let d = new Date(now.getFullYear(), m, installDay);
+        if (d <= now) d = new Date(now.getFullYear() + 1, m, installDay);
+        if (!nearestInstall || d < nearestInstall.date) {
+          nearestInstall = { date: d, name: cycle.name };
+        }
+      }
+    }
+
+    if (nearestInstall) {
+      const diff = Math.ceil((nearestInstall.date - now) / 86400000);
+      nextInstallCycle = nearestInstall.name;
+      nextInstallDate = nearestInstall.date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+      nextInstallDays = diff;
+
+      // Selling cycle starts 4 days after install
+      const sellDate = new Date(nearestInstall.date);
+      sellDate.setDate(sellDate.getDate() + 4);
+      const sellDiff = Math.ceil((sellDate - now) / 86400000);
+      nextSellingCycle = sellingAfter[nearestInstall.name];
+      nextSellingDate = sellDate.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+      nextSellingDays = sellDiff;
+    }
+  }
+
+  // Sync key uses user ID so goals persist per-rep across devices via shared storage
+  function getGoalKey() {
+    const uid = $user?.id || 'default';
+    return `impro_daily_goal_${uid}`;
+  }
+
+  let repSyncData = {};
+
+  async function loadRepSync() {
+    try {
+      const res = await fetch(import.meta.env.BASE_URL + 'data/rep_sync.json?t=' + Date.now());
+      repSyncData = await res.json();
+    } catch { repSyncData = {}; }
+  }
+
+  function loadDailyGoal() {
+    try {
+      const today = new Date().toISOString().slice(0, 10);
+      // Try user-specific key first, fall back to old key for migration
+      let saved = JSON.parse(localStorage.getItem(getGoalKey()) || 'null');
+      if (!saved) {
+        saved = JSON.parse(localStorage.getItem('impro_daily_goal') || '{}');
+        // Migrate to new key
+        if (saved.date) localStorage.setItem(getGoalKey(), JSON.stringify(saved));
+      }
+      if (saved.date === today) {
+        dailyGoal = saved;
+      } else {
+        dailyGoal = { date: today, target: saved.target || 20, calls: 0 };
+      }
+    } catch { dailyGoal = { date: new Date().toISOString().slice(0, 10), target: 20, calls: 0 }; }
+  }
+
+  function saveDailyGoal() {
+    dailyGoal.date = new Date().toISOString().slice(0, 10);
+    localStorage.setItem(getGoalKey(), JSON.stringify(dailyGoal));
+    // Also save to old key for backward compat
+    localStorage.setItem('impro_daily_goal', JSON.stringify(dailyGoal));
+  }
+
+  // Manager email for appointment invites
+  const MANAGER_EMAIL = 'tyler.vansant@indoormedia.com';
+
+  let syncStatus = '';
+  
+  // Google Apps Script URL for live calendar data
+  // Set this after deploying the Apps Script (scripts/google_apps_script_calendar.js)
+  const CALENDAR_API_URL = 'https://script.googleusercontent.com/a/macros/indoormedia.com/echo?user_content_key=AWDtjMU_lHT0xNAWQkyU5hat-v6ZCGwjFviNlJZf-5KUwna65c55MOdInmDLngcWY6OnpRvF2wh-w9gpkYQrEsTdeDIPtqgE_Vgf-EVAi1wK-UZrSt1dwwm_EL3SjUIWCq4Z1bMoGK20oFP6EU9n7LlUR4ahD_W4zgvPQejQpRsHGTKuiICLTCPNz-19KsQEploptlg4OLbVOBwk1xnsBxJ8sT-4Mgq_BkxVM7_HhUWXCjNCStMuueUe5yF8lfHfZIjyLGuGJhVWNMsk1Z970rGUMuh739WyXHpHditxf0Vd8moEH2wDY233FTBCngTVl8GPhaSgoaP-&lib=Mzz3mqyJSZ0ql-JCrrMKeASMMJ0XCjnoQ';
+
+  async function refreshAppointments() {
+    syncStatus = '🔄 Syncing...';
+    try {
+      let data;
+      
+      // Try live Google Apps Script first, fall back to static file
+      if (CALENDAR_API_URL) {
+        try {
+          const sep = CALENDAR_API_URL.includes('?') ? '&' : '?';
+          const liveRes = await fetch(CALENDAR_API_URL + sep + 'days=30&t=' + Date.now());
+          data = await liveRes.json();
+          if (data.error) throw new Error(data.error);
+          syncStatus = '🔄 Live sync...';
+        } catch {
+          // Fall back to static
+          const res = await fetch(import.meta.env.BASE_URL + 'data/appointments.json?t=' + Date.now());
+          data = await res.json();
+        }
+      } else {
+        const res = await fetch(import.meta.env.BASE_URL + 'data/appointments.json?t=' + Date.now());
+        data = await res.json();
+      }
+      
+      const now = new Date();
+      const repName = ($user?.name || $user?.first_name || '').toLowerCase();
+      const isManagerUser = repName.includes('tyler') || $user?.role === 'manager';
+      
+      const upcoming = (isManagerUser ? data : data.filter(a => {
+        const creator = (a.creator || '').toLowerCase();
+        const attendees = (a.attendees || []).map(att => (att.email || att || '').toLowerCase());
+        return creator.includes(repName.split(' ')[0]) || attendees.some(e => e.includes(repName.split(' ')[0]));
+      })).filter(a => new Date(a.start) >= now)
+        .map(a => ({
+          event_id: a.event_id,
+          title: a.title,
+          date: a.start,
+          end: a.end,
+          location: a.location,
+          description: a.description || '',
+          attendees: a.attendees || [],
+          type: a.is_prospect_visit ? 'prospect' : 'calendar',
+          store: a.store,
+          phone: a.phone
+        }));
+      
+      // Deduplicate by title + exact start time (not event_id — recurring events share IDs)
+      const seen = new Set();
+      const deduped = upcoming.filter(a => {
+        const key = (a.title || '') + '|' + (a.date || '');
+        if (seen.has(key)) return false;
+        seen.add(key);
+        return true;
+      }).sort((a, b) => new Date(a.date) - new Date(b.date));
+      
+      upcomingAppointments = deduped;
+      syncStatus = `✅ ${upcomingAppointments.length} upcoming`;
+      setTimeout(() => syncStatus = '', 3000);
+    } catch (e) {
+      syncStatus = '❌ Sync failed';
+      setTimeout(() => syncStatus = '', 3000);
+    }
+  }
+
+  function bookAppointment(prospect = null) {
+    const repName = $user?.name || $user?.first_name || '';
+    const repEmail = '';
+    const title = prospect ? `IndoorMedia — ${prospect.business_name || prospect.name || 'Prospect Visit'}` : 'IndoorMedia — Prospect Visit';
+    const location = prospect?.address || '';
+    const details = prospect ? `Meeting with ${prospect.contact_name || prospect.business_name || 'prospect'}\\nStore: ${prospect.store || ''}\\nPhone: ${prospect.phone || ''}\\nRep: ${repName}` : `Sales appointment\\nRep: ${repName}`;
+    
+    // Default to tomorrow at 10am, 1 hour
+    const tomorrow = new Date();
+    tomorrow.setDate(tomorrow.getDate() + 1);
+    tomorrow.setHours(10, 0, 0, 0);
+    const end = new Date(tomorrow);
+    end.setHours(11, 0, 0, 0);
+    
+    const fmt = d => d.toISOString().replace(/[-:]/g, '').split('.')[0] + 'Z';
+    
+    // Google Calendar URL with manager auto-invited
+    const gcalUrl = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent(title)}&dates=${fmt(tomorrow)}/${fmt(end)}&details=${encodeURIComponent(details)}&location=${encodeURIComponent(location)}&add=${encodeURIComponent(MANAGER_EMAIL)}`;
+    
+    window.open(gcalUrl, '_blank');
+  }
+
+  async function getActivityData() {
+    const local = getRepActivityReport();
+    
+    // Try to get cross-device data from Firebase
+    if (isFirebaseReady()) {
+      try {
+        const allActivity = await getAllRepActivity(7);
+        if (allActivity.length > 0) {
+          // Group by rep
+          const byRep = {};
+          allActivity.forEach(a => {
+            if (!byRep[a.repName]) byRep[a.repName] = { logins: 0, pageViews: 0, searches: 0, calls: 0, emails: 0, lastActive: '', days: new Set() };
+            const r = byRep[a.repName];
+            r.logins += a.logins || 0;
+            r.pageViews += a.pageViews || 0;
+            r.searches += a.searches || 0;
+            r.calls += a.calls || 0;
+            r.emails += a.emails || 0;
+            r.days.add(a.date);
+            if (a.lastActive > r.lastActive) r.lastActive = a.lastActive;
+          });
+          
+          local.allReps = Object.entries(byRep).map(([name, data]) => ({
+            name,
+            ...data,
+            activeDays: data.days.size,
+            lastActive: data.lastActive ? new Date(data.lastActive).toLocaleString() : 'Never'
+          })).sort((a, b) => b.pageViews - a.pageViews);
+          
+          local.firebaseConnected = true;
+        }
+      } catch (e) {
+        console.warn('Firebase activity fetch error:', e);
+      }
+    }
+    
+    local.firebaseConnected = local.firebaseConnected || false;
+    local.allReps = local.allReps || [];
+    return local;
+  }
+
+  let swipingIndex = -1;
+  let swipeStart = 0;
+
+  function handleSwipeStart(e, idx) {
+    swipeStart = e.touches?.[0]?.clientX || 0;
+    swipingIndex = idx;
+  }
+
+  function handleSwipeEnd(e, idx) {
+    const swipeEnd = e.changedTouches?.[0]?.clientX || 0;
+    const diff = swipeStart - swipeEnd;
+    if (diff > 50) {
+      // Swiped left — delete
+      upcomingAppointments = upcomingAppointments.filter((_, i) => i !== idx);
+    }
+    swipingIndex = -1;
+  }
+
+  function openInCalendar(event) {
+    // Open Google Calendar event (event_id format: Gxx@google.com or similar)
+    if (event.event_id && event.event_id.includes('@')) {
+      window.open(`https://calendar.google.com/calendar/r/eventedit/${event.event_id}`, '_blank');
+    } else {
+      // Fallback: open Google Calendar to create event
+      const start = new Date(event.date);
+      const end = new Date(event.end || new Date(start.getTime() + 60 * 60 * 1000));
+      const fmt = d => d.toISOString().replace(/[-:]/g, '').split('.')[0] + 'Z';
+      window.open(`https://calendar.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent(event.title)}&dates=${fmt(start)}/${fmt(end)}&location=${encodeURIComponent(event.location || '')}`, '_blank');
+    }
+  }
+
+  function incrementCalls() {
+    dailyGoal.calls = (dailyGoal.calls || 0) + 1;
+    dailyGoal = dailyGoal;
+    saveDailyGoal();
+  }
+
+  function setGoalTarget(val) {
+    dailyGoal.target = parseInt(val) || 20;
+    dailyGoal = dailyGoal;
+    saveDailyGoal();
+  }
+
+  function resetDailyGoal() {
+    dailyGoal.calls = 0;
+    dailyGoal = dailyGoal;
+    saveDailyGoal();
+  }
+
+  function calcStreak() {
+    try {
+      const searches = JSON.parse(localStorage.getItem('impro_searches') || '[]');
+      const calls = JSON.parse(localStorage.getItem('impro_phone_clicks') || '[]');
+      
+      // Build daily activity detail
+      const byDay = {};
+      searches.forEach(x => {
+        const d = new Date(x.date).toISOString().slice(0, 10);
+        if (!byDay[d]) byDay[d] = { date: d, searches: 0, calls: 0 };
+        byDay[d].searches++;
+      });
+      calls.forEach(x => {
+        const d = new Date(x.date).toISOString().slice(0, 10);
+        if (!byDay[d]) byDay[d] = { date: d, searches: 0, calls: 0 };
+        byDay[d].calls++;
+      });
+      streakDays = Object.values(byDay).sort((a, b) => b.date.localeCompare(a.date)).slice(0, 14);
+      
+      const unique = Object.keys(byDay).sort().reverse();
+      let s = 0;
+      const today = new Date().toISOString().slice(0, 10);
+      let checkDate = today;
+      for (let i = 0; i < 365; i++) {
+        if (unique.includes(checkDate)) {
+          s++;
+        } else if (checkDate !== today) {
+          break;
+        }
+        const d = new Date(checkDate);
+        d.setDate(d.getDate() - 1);
+        checkDate = d.toISOString().slice(0, 10);
+      }
+      streak = s;
+    } catch { streak = 0; }
+  }
 
   function updateCartCount() {
     try { cartCount = JSON.parse(localStorage.getItem('indoormedia_cart') || '[]').length; } catch { cartCount = 0; }
@@ -34,16 +424,32 @@
     const isManager = repName.includes('tyler') || $user?.role === 'manager' || $user?.role === 'admin';
     const now = new Date();
     
-    // Saved prospects this week
+    // Saved prospects this week (check both key formats)
     try {
-      const saved = JSON.parse(localStorage.getItem('saved_prospects') || '[]');
+      const saved1 = JSON.parse(localStorage.getItem('savedProspects') || '[]');
+      const saved2 = JSON.parse(localStorage.getItem('saved_prospects') || '[]');
+      const saved = saved1.length > saved2.length ? saved1 : saved2;
       const weekAgo = new Date(now);
       weekAgo.setDate(weekAgo.getDate() - 7);
       savedProspects = saved;
-      prospectsThisWeek = saved.filter(p => {
+      
+      // Count saved prospects this week
+      const savedThisWeek = saved.filter(p => {
         const d = new Date(p.savedAt || p.saved_at || 0);
         return d >= weekAgo;
-      }).length || saved.length; // fallback to total if no dates
+      }).length;
+      
+      // Count searches this week
+      const searches = JSON.parse(localStorage.getItem('impro_searches') || '[]');
+      const searchesThisWeek = searches.filter(s => new Date(s.date) >= weekAgo).length;
+      
+      // Count phone clicks this week
+      const phoneCalls = JSON.parse(localStorage.getItem('impro_phone_clicks') || '[]');
+      const callsThisWeek = phoneCalls.filter(c => new Date(c.date) >= weekAgo).length;
+      
+      // Total activity = saved + searches + phone clicks
+      prospectsThisWeek = savedThisWeek + searchesThisWeek + callsThisWeek;
+      if (prospectsThisWeek === 0) prospectsThisWeek = saved.length; // fallback to total saved
     } catch { prospectsThisWeek = 0; }
 
     // Revenue this month from contracts
@@ -57,7 +463,7 @@
       return rep.includes(repName.split(' ')[0]);
     });
     
-    const thisMonthContracts = myContracts.filter(c => {
+    thisMonthContracts = myContracts.filter(c => {
       const d = new Date(c.date);
       return d.getMonth() === thisMonth && d.getFullYear() === thisYear;
     });
@@ -74,13 +480,112 @@
     const userLocation = $user?.base_location || '';
     const userState = userLocation.split(',').pop()?.trim().toUpperCase() || '';
     if (isManager) {
-      // Show OR + WA for Tyler
       storesInTerritory = allStores.filter(s => s.State === 'OR' || s.State === 'WA').length;
     } else if (userState) {
       storesInTerritory = allStores.filter(s => s.State === userState).length;
     } else {
       storesInTerritory = allStores.length;
     }
+
+    // Rep's monthly revenue (individual, not team total)
+    repMonthlyRevenue = thisMonthContracts.reduce((sum, c) => sum + (c.total_amount || 0), 0);
+
+    // Leaderboard — rank by this month's revenue
+    const repTotals = {};
+    contracts.filter(c => {
+      const d = new Date(c.date);
+      return d.getMonth() === thisMonth && d.getFullYear() === thisYear;
+    }).forEach(c => {
+      const rep = c.sales_rep || 'Unknown';
+      repTotals[rep] = (repTotals[rep] || 0) + (c.total_amount || 0);
+    });
+    const ranked = Object.entries(repTotals).sort((a, b) => b[1] - a[1]);
+    leaderboardTotal = ranked.length;
+    const myRank = ranked.findIndex(([rep]) => {
+      return rep.toLowerCase().includes(repName.split(' ')[0]);
+    });
+    leaderboardPosition = myRank >= 0 ? myRank + 1 : 0;
+
+    // Pending renewals count (loaded async separately)
+    fetch(import.meta.env.BASE_URL + 'data/pending_renewals.json')
+      .then(r => r.json())
+      .then(renewals => {
+        if (isManager) {
+          pendingRenewalsData = renewals;
+          pendingRenewalsCount = renewals.length;
+        } else {
+          pendingRenewalsData = renewals.filter(r => (r.rep || '').toLowerCase().includes(repName.split(' ')[0]));
+          pendingRenewalsCount = pendingRenewalsData.length;
+        }
+      })
+      .catch(() => { pendingRenewalsCount = 0; pendingRenewalsData = []; });
+
+    // Upcoming appointments — try live Google Calendar API first, fall back to static
+    const calUrl = CALENDAR_API_URL
+      ? CALENDAR_API_URL + (CALENDAR_API_URL.includes('?') ? '&' : '?') + 't=' + Date.now()
+      : import.meta.env.BASE_URL + 'data/appointments.json?t=' + Date.now();
+    
+    fetch(calUrl)
+      .then(r => r.json())
+      .then(appts => {
+        // If live API returned an error, fall back to static
+        if (appts.error) throw new Error(appts.error);
+        const repEmail = ($user?.email || '').toLowerCase();
+        const rn = repName.toLowerCase();
+        const isAdmin = rn.includes('tyler') || rn.includes('rick');
+        
+        // Filter: managers see all, reps see only events they created or are invited to
+        const myAppts = isAdmin ? appts : appts.filter(a => {
+          // Check if rep is creator
+          if ((a.creator || '').toLowerCase().includes(rn.split(' ')[0])) return true;
+          // Check if rep is in attendees
+          return (a.attendees || []).some(att => {
+            const attEmail = (att.email || '').toLowerCase();
+            return attEmail.includes(rn.split(' ')[0]) || (repEmail && attEmail === repEmail);
+          });
+        });
+        
+        // Filter to future events, sort by date, deduplicate
+        const upcoming = myAppts.filter(a => new Date(a.start) >= now)
+          .sort((a, b) => new Date(a.start) - new Date(b.start))
+          .map(a => ({
+            event_id: a.event_id,
+            title: a.title,
+            date: a.start,
+            end: a.end,
+            location: a.location,
+            description: a.description || '',
+            attendees: a.attendees || [],
+            type: a.is_prospect_visit ? 'prospect' : 'calendar',
+            store: a.store,
+            phone: a.phone,
+          }));
+        const initSeen = new Set();
+        upcomingAppointments = upcoming.filter(a => {
+          const k = (a.title || '') + '|' + (a.date || '');
+          if (initSeen.has(k)) return false;
+          initSeen.add(k);
+          return true;
+        });
+      })
+      .catch(() => {
+        // Fall back to static file if live API fails
+        fetch(import.meta.env.BASE_URL + 'data/appointments.json?t=' + Date.now())
+          .then(r => r.json())
+          .then(appts => {
+            const upcoming = appts.filter(a => new Date(a.start) >= now)
+              .sort((a, b) => new Date(a.start) - new Date(b.start))
+              .map(a => ({ title: a.title, date: a.start, end: a.end, location: a.location, attendees: a.attendees || [], type: a.is_prospect_visit ? 'prospect' : 'calendar' }));
+            upcomingAppointments = upcoming.slice(0, 12);
+          })
+          .catch(() => { upcomingAppointments = []; });
+      });
+
+    getNextCycle();
+    loadDailyGoal();
+    calcStreak();
+    loadRepSync();
+    initFirebase();
   }
 
   onMount(async () => {
@@ -90,8 +595,8 @@
 
     try {
       const [contractsRes, storesRes] = await Promise.all([
-        fetch('/data/contracts.json'),
-        fetch('/data/stores.json')
+        fetch(import.meta.env.BASE_URL + 'data/contracts.json'),
+        fetch(import.meta.env.BASE_URL + 'data/stores.json')
       ]);
       const contractsData = await contractsRes.json();
       contracts = contractsData.contracts || [];
@@ -182,21 +687,54 @@
     localStorage.setItem('theme', newTheme);
   }
 
+  const FONT_SIZES = [
+    { label: 'S', scale: 0.85 },
+    { label: 'M', scale: 1.0 },
+    { label: 'L', scale: 1.15 },
+    { label: 'XL', scale: 1.3 },
+  ];
+  let fontIdx = parseInt(localStorage.getItem('impro_font_idx') || '1');
+  let currentFontSize = FONT_SIZES[fontIdx]?.label || 'M';
+  let fontScale = FONT_SIZES[fontIdx]?.scale || 1;
+
+  function applyFontScale() {
+    fontScale = FONT_SIZES[fontIdx]?.scale || 1;
+  }
+
+  function cycleFontSize() {
+    fontIdx = (fontIdx + 1) % FONT_SIZES.length;
+    currentFontSize = FONT_SIZES[fontIdx].label;
+    localStorage.setItem('impro_font_idx', String(fontIdx));
+    applyFontScale();
+  }
+
+  if (typeof document !== 'undefined') {
+    applyFontScale();
+  }
+
   function handleLogout() {
     if (confirm('Sign out?')) {
       localStorage.removeItem('user');
+      localStorage.removeItem('roogleCredentials');
       window.location.reload();
+    }
+  }
+
+  function forgetRoogleCredentials() {
+    if (confirm('Forget saved Roogle credentials?')) {
+      localStorage.removeItem('roogleCredentials');
+      alert('✅ Credentials cleared. You\'ll need to enter them again next time.');
     }
   }
 </script>
 
-<div class="main" data-theme={currentTheme}>
+<div class="main" data-theme={currentTheme} style="zoom: {fontScale}; -moz-transform: scale({fontScale}); -moz-transform-origin: top left;">
   <!-- Header -->
   <header class="header">
     <div class="header-top">
       <div class="header-logo-wrapper">
         <div class="logo-backdrop">
-          <img src="/logo.png?v=2" alt="IndoorMedia" class="header-logo-img" />
+          <img src="{import.meta.env.BASE_URL}logo.png?v=2" alt="IndoorMedia" class="header-logo-img" />
         </div>
         <div class="header-text">
           <h1 class="portal-title">imPro</h1>
@@ -205,16 +743,23 @@
       </div>
 
       <div class="header-actions">
-        <button class="cart-icon" on:click={() => currentTab = 'cart'} title="Cart">
-          🛒
+        <button class="header-icon-btn" on:click={() => currentTab = 'cart'} title="Cart">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
           {#if cartCount > 0}
             <span class="cart-badge">{cartCount}</span>
           {/if}
         </button>
-        <button class="theme-toggle" on:click={toggleTheme} title="Toggle theme">
-          {currentTheme === 'light' ? '🌙' : '☀️'}
+        <button class="header-icon-btn" on:click={toggleTheme} title="Toggle theme">
+          {#if currentTheme === 'light'}
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+          {:else}
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+          {/if}
         </button>
-        <button class="logout-btn" on:click={handleLogout}>Logout</button>
+        <button class="header-icon-btn font-size-btn" on:click={cycleFontSize} title="Font size: {currentFontSize}">
+          <span class="font-size-label">{currentFontSize}</span>
+        </button>
+        <button class="header-icon-btn logout-text" on:click={handleLogout}>Logout</button>
       </div>
     </div>
 
@@ -225,101 +770,222 @@
 
   <!-- Tabs -->
   <nav class="tabs">
-    <button 
-      class="tab" 
-      class:active={currentTab === 'dashboard'}
-      on:click={() => currentTab = 'dashboard'}
-    >
-      📊 Dashboard
+    <button class="tab" class:active={currentTab === 'dashboard'} on:click={() => currentTab = 'dashboard'}>
+      <svg class="tab-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+      <span>Home</span>
     </button>
-    <button 
-      class="tab" 
-      class:active={currentTab === 'prospects'}
-      on:click={() => currentTab = 'prospects'}
-    >
-      🎯 Prospects
+    <button class="tab" class:active={currentTab === 'prospects'} on:click={() => currentTab = 'prospects'}>
+      <svg class="tab-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      <span>Prospects</span>
     </button>
-    <button 
-      class="tab" 
-      class:active={currentTab === 'stores'}
-      on:click={() => currentTab = 'stores'}
-    >
-      🏪 Stores
+    <button class="tab" class:active={currentTab === 'stores'} on:click={() => currentTab = 'stores'}>
+      <svg class="tab-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+      <span>Stores</span>
     </button>
-    <button 
-      class="tab" 
-      class:active={currentTab === 'tools'}
-      on:click={() => currentTab = 'tools'}
-    >
-      🛠️ Tools
+    <button class="tab" class:active={currentTab === 'clients'} on:click={() => currentTab = 'clients'}>
+      <svg class="tab-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+      <span>Clients</span>
+    </button>
+    <button class="tab" class:active={currentTab === 'tools'} on:click={() => currentTab = 'tools'}>
+      <svg class="tab-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>
+      <span>Tools</span>
+    </button>
+    <button class="tab" class:active={currentTab === 'present'} on:click={() => currentTab = 'present'}>
+      <svg class="tab-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+      <span>Present</span>
+    </button>
+    <button class="tab" class:active={currentTab === 'analytics'} on:click={() => currentTab = 'analytics'}>
+      <svg class="tab-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+      <span>Analytics</span>
     </button>
 
-    <button 
-      class="tab" 
-      class:active={currentTab === 'products'}
-      on:click={() => currentTab = 'products'}
-    >
-      📦 Products
-    </button>
-    <button 
-      class="tab" 
-      class:active={currentTab === 'clients'}
-      on:click={() => currentTab = 'clients'}
-    >
-      💼 Clients
-    </button>
-    <button 
-      class="tab" 
-      class:active={currentTab === 'analytics'}
-      on:click={() => currentTab = 'analytics'}
-    >
-      📊 Analytics
-    </button>
-    {#if $user?.role === 'manager' || $user?.role === 'admin'}
-      <button 
-        class="tab" 
-        class:active={currentTab === 'manage'}
-        on:click={() => currentTab = 'manage'}
-      >
-        👥 Manage
-      </button>
-    {/if}
   </nav>
 
   <!-- Content -->
   <div class="content">
     {#if currentTab === 'dashboard'}
       <div class="dashboard">
-        <h2>Welcome, {$user?.name || $user?.first_name}!</h2>
-        {#if $user?.base_location}
-          <p class="location-badge">📍 Territory: {$user.base_location}</p>
+        <!-- Motivational Quote -->
+        {#if true}
+          {@const quote = getTodaysQuote()}
+          <div class="quote-card">
+            <p class="quote-text">"{quote.text}"</p>
+            <p class="quote-author">— {quote.author}</p>
+          </div>
         {/if}
+
+        <h2>Welcome, {$user?.name || $user?.first_name}!</h2>
+
+
+        <!-- Revenue + Key Stats -->
+        <button class="revenue-hero clickable" on:click={() => showRevenueDetail = !showRevenueDetail}>
+          <div class="revenue-amount">${repMonthlyRevenue.toLocaleString()}</div>
+          <div class="revenue-label">Revenue This Month — tap for details</div>
+          {#if growthPercent !== 0}
+            <div class="growth-badge" class:positive={growthPercent > 0} class:negative={growthPercent < 0}>
+              {growthPercent > 0 ? '↑' : '↓'} {Math.abs(growthPercent)}% vs last month
+            </div>
+          {/if}
+          {#if leaderboardPosition > 0}
+            <div class="leaderboard-badge">🏆 #{leaderboardPosition} of {leaderboardTotal} reps this month</div>
+          {/if}
+        </button>
+
+        {#if showRevenueDetail}
+          <div class="drill-down">
+            <h4>💰 This Month's Contracts ({thisMonthContracts.length})</h4>
+            {#if thisMonthContracts.length === 0}
+              <p class="drill-empty">No contracts this month yet.</p>
+            {:else}
+              {#each thisMonthContracts.sort((a, b) => (b.total_amount || 0) - (a.total_amount || 0)) as c}
+                <div class="drill-row">
+                  <div class="drill-info">
+                    <span class="drill-name">{c.business_name || 'Unknown'}</span>
+                    <span class="drill-meta">{c.sales_rep || ''} • {c.store_name || ''}</span>
+                  </div>
+                  <span class="drill-amount">${(c.total_amount || 0).toLocaleString()}</span>
+                </div>
+              {/each}
+            {/if}
+          </div>
+        {/if}
+
         <div class="dashboard-grid">
-          <div class="stat-card">
+          <button class="stat-card clickable" on:click={() => currentTab = 'prospects'}>
             <div class="stat-icon">🎯</div>
             <h3>Prospects</h3>
             <p class="stat-value">{prospectsThisWeek}</p>
-            <p class="stat-label">This Week</p>
-          </div>
-          <div class="stat-card">
-            <div class="stat-icon">💰</div>
-            <h3>Revenue</h3>
-            <p class="stat-value">${revenueThisMonth.toLocaleString()}</p>
-            <p class="stat-label">This Month</p>
-          </div>
-          <div class="stat-card">
-            <div class="stat-icon">📈</div>
-            <h3>Growth</h3>
-            <p class="stat-value">{growthPercent}%</p>
-            <p class="stat-label">vs Last Month</p>
-          </div>
-          <div class="stat-card">
-            <div class="stat-icon">🏪</div>
-            <h3>Stores</h3>
-            <p class="stat-value">{storesInTerritory.toLocaleString()}</p>
-            <p class="stat-label">In Territory</p>
+            <p class="stat-label">This Week →</p>
+          </button>
+          <button class="stat-card clickable" on:click={() => currentTab = 'clients'}>
+            <div class="stat-icon">🔄</div>
+            <h3>Renewals</h3>
+            <p class="stat-value">{pendingRenewalsCount}</p>
+            <p class="stat-label">Pending →</p>
+          </button>
+          <button class="stat-card clickable" on:click={() => showStreakDetail = !showStreakDetail}>
+            <div class="stat-icon">🔥</div>
+            <h3>Streak</h3>
+            <p class="stat-value">{streak}</p>
+            <p class="stat-label">{streak === 1 ? 'Day' : 'Days'} Active</p>
+          </button>
+
+          {#if nextInstallCycle}
+            <div class="stat-card cycle-card">
+              <div class="stat-icon">📦</div>
+              <h3>Next Cycle</h3>
+              <div class="cycle-info">
+                <p class="cycle-line"><strong>{nextInstallCycle} Install</strong> · {nextInstallDate}</p>
+                <p class="cycle-days-label">{nextInstallDays} day{nextInstallDays !== 1 ? 's' : ''}</p>
+                <p class="cycle-line"><strong>{nextSellingCycle} Selling</strong> · {nextSellingDate}</p>
+                <p class="cycle-days-label">{nextSellingDays} day{nextSellingDays !== 1 ? 's' : ''}</p>
+              </div>
+            </div>
+          {/if}
+
+          <div class="stat-card clickable" style="position: relative;">
+            <div on:click={() => { showAppointmentsDetail = !showAppointmentsDetail; showStreakDetail = false; }} style="cursor:pointer;">
+              <div class="stat-icon">📅</div>
+              <h3>Appointments</h3>
+              <p class="stat-value">{upcomingAppointments.length}</p>
+              <p class="stat-label">{showAppointmentsDetail ? '▼ Hide' : 'Upcoming →'}</p>
+            </div>
+            <button class="sync-btn" on:click={refreshAppointments} title="Sync now">🔄</button>
           </div>
         </div>
+
+        {#if showStreakDetail}
+          <div class="drill-down">
+            <h4>🔥 Activity History (Last 14 Days)</h4>
+            {#if streakDays.length === 0}
+              <p class="drill-empty">No activity recorded yet. Search prospects or make calls to build your streak!</p>
+            {:else}
+              {#each streakDays as day}
+                <div class="drill-row">
+                  <div class="drill-info">
+                    <span class="drill-name">{new Date(day.date + 'T12:00:00').toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' })}</span>
+                    <span class="drill-meta">{day.searches} search{day.searches !== 1 ? 'es' : ''} • {day.calls} call{day.calls !== 1 ? 's' : ''}</span>
+                  </div>
+                  <span class="drill-amount">{day.searches + day.calls} actions</span>
+                </div>
+              {/each}
+            {/if}
+          </div>
+        {/if}
+
+        {#if showAppointmentsDetail}
+          <div class="drill-down" style="border-top: 3px solid #CC0000; margin-top: 16px;">
+            <h4>📅 Upcoming Appointments</h4>
+            {#if upcomingAppointments.length > 0}
+              <div class="appointment-list">
+                {#each upcomingAppointments as appt, idx}
+                  <div class="appointment-item swipeable" 
+                       on:touchstart={(e) => handleSwipeStart(e, idx)}
+                       on:touchend={(e) => handleSwipeEnd(e, idx)}
+                       on:click={() => openInCalendar(appt)}
+                       style="opacity: {swipingIndex === idx ? 0.7 : 1}; cursor: pointer;">
+                    <div class="appt-left">
+                      <div class="appt-date">{new Date(appt.date).toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' })}</div>
+                      <div class="appt-time">{new Date(appt.date).toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' })}</div>
+                    </div>
+                    <div class="appt-right">
+                      <div class="appt-title">{appt.title || 'Appointment'}</div>
+                      {#if appt.location}
+                        <div class="appt-location">📍 {appt.location}</div>
+                      {/if}
+                      {#if appt.attendees?.length > 0}
+                        <div class="appt-attendees">👥 {appt.attendees.map(a => a.name || a.email.split('@')[0]).join(', ')}</div>
+                      {/if}
+                      {#if appt.type === 'prospect'}
+                        <span class="appt-badge prospect">Prospect Visit</span>
+                      {/if}
+                    </div>
+                    <div class="appt-swipe-hint">← swipe to delete</div>
+                  </div>
+                {/each}
+              </div>
+            {:else}
+              <p class="no-appointments">No upcoming appointments yet.</p>
+            {/if}
+            <button class="book-appt-btn" on:click={() => bookAppointment()}>📅 Book New Appointment</button>
+            <div class="sync-bar">
+              <button class="sync-refresh-btn" on:click={refreshAppointments}>🔄 Sync Now</button>
+              {#if syncStatus}<span class="sync-status">{syncStatus}</span>{/if}
+            </div>
+            <p class="sync-note">Calendar syncs hourly (7AM–9PM). Manager auto-invited to all appointments.</p>
+          </div>
+        {/if}
+
+        <!-- Daily Goal Tracker -->
+        <div class="goal-section">
+          <h3>📋 Daily Goal</h3>
+          <div class="goal-card">
+            <div class="goal-progress">
+              <div class="goal-bar">
+                <div class="goal-fill" style="width: {Math.min((dailyGoal.calls / (dailyGoal.target || 20)) * 100, 100)}%"></div>
+              </div>
+              <div class="goal-count">{dailyGoal.calls} / {dailyGoal.target || 20}</div>
+            </div>
+            <p class="goal-label">Outbound Calls / Walk-ins Today</p>
+            <div class="goal-actions">
+              <button class="goal-btn increment" on:click={incrementCalls}>+ Log Call / Walk-in</button>
+              <button class="goal-btn reset" on:click={resetDailyGoal}>↺ Reset</button>
+              <div class="goal-target-set">
+                <label>Goal:</label>
+                <input type="number" value={dailyGoal.target || 20} on:change={(e) => setGoalTarget(e.target.value)} min="1" max="100" />
+              </div>
+            </div>
+            {#if dailyGoal.calls >= (dailyGoal.target || 20)}
+              <p class="goal-achieved">🎉 Goal reached! Keep crushing it!</p>
+            {:else if dailyGoal.calls >= (dailyGoal.target || 20) * 0.5}
+              <p class="goal-halfway">💪 Halfway there! Keep pushing!</p>
+            {/if}
+          </div>
+        </div>
+
+
+
+
 
         <div class="quick-actions">
           <h3>Quick Actions</h3>
@@ -332,9 +998,13 @@
               <span class="action-icon">🏪</span>
               <span>Search Stores</span>
             </button>
-            <button class="action-btn" on:click={() => currentTab = 'tools'}>
-              <span class="action-icon">🛠️</span>
-              <span>Tools & Audit</span>
+            <button class="action-btn" on:click={() => currentTab = 'clients'}>
+              <span class="action-icon">🔄</span>
+              <span>Renewals</span>
+            </button>
+            <button class="action-btn" on:click={() => bookAppointment()}>
+              <span class="action-icon">📅</span>
+              <span>Book Appointment</span>
             </button>
             <button class="action-btn" on:click={() => currentTab = 'cart'}>
               <span class="action-icon">🛒</span>
@@ -353,6 +1023,8 @@
       <Cart />
     {:else if currentTab === 'products'}
       <Products />
+    {:else if currentTab === 'present'}
+      <Present />
     {:else if currentTab === 'clients'}
       <Clients />
     {:else if currentTab === 'analytics'}
@@ -364,6 +1036,9 @@
           <button class="period-btn" class:active={analyticsView === 'year'} on:click={() => analyticsView = 'year'}>By Year</button>
           <button class="period-btn" class:active={analyticsView === 'month'} on:click={() => analyticsView = 'month'}>By Month</button>
           <button class="period-btn" class:active={analyticsView === 'rep'} on:click={() => analyticsView = 'rep'}>By Rep</button>
+          {#if $user?.role === 'manager'}
+            <button class="period-btn" class:active={analyticsView === 'activity'} on:click={() => analyticsView = 'activity'}>📱 App Usage</button>
+          {/if}
         </div>
 
         <!-- Zone filter -->
@@ -427,8 +1102,103 @@
               </tbody>
             </table>
           </div>
+        {:else if analyticsView === 'activity'}
+          <div class="activity-section">
+            <h3>📱 Rep App Usage</h3>
+            <p class="activity-note">Activity tracked per device. Data shown for current device — multi-device rollup coming soon.</p>
+            
+            {#await getActivityData() then actData}
+              <div class="activity-summary">
+                <div class="activity-card">
+                  <div class="activity-icon">📊</div>
+                  <div class="activity-stat">{actData.today.pageViews || 0}</div>
+                  <div class="activity-label">Page Views Today</div>
+                </div>
+                <div class="activity-card">
+                  <div class="activity-icon">🔍</div>
+                  <div class="activity-stat">{actData.today.searches || 0}</div>
+                  <div class="activity-label">Searches Today</div>
+                </div>
+                <div class="activity-card">
+                  <div class="activity-icon">📞</div>
+                  <div class="activity-stat">{actData.today.calls || 0}</div>
+                  <div class="activity-label">Calls Today</div>
+                </div>
+                <div class="activity-card">
+                  <div class="activity-icon">🔐</div>
+                  <div class="activity-stat">{actData.today.logins || 0}</div>
+                  <div class="activity-label">Logins Today</div>
+                </div>
+              </div>
+
+              <h4>Last 7 Days</h4>
+              <div class="activity-table-wrap">
+                <table class="activity-table">
+                  <thead><tr><th>Date</th><th>Views</th><th>Searches</th><th>Calls</th><th>Logins</th></tr></thead>
+                  <tbody>
+                    {#each actData.dailyBreakdown as day}
+                      <tr>
+                        <td>{new Date(day.date + 'T12:00:00').toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' })}</td>
+                        <td>{day.pageViews || 0}</td>
+                        <td>{day.searches || 0}</td>
+                        <td>{day.calls || 0}</td>
+                        <td>{day.logins || 0}</td>
+                      </tr>
+                    {/each}
+                    {#if actData.dailyBreakdown.length === 0}
+                      <tr><td colspan="5" style="text-align:center; color: var(--text-secondary);">No activity data yet. Usage will appear as reps use the app.</td></tr>
+                    {/if}
+                  </tbody>
+                </table>
+              </div>
+
+              {#if actData.firebaseConnected && actData.allReps.length > 0}
+                <h4>👥 All Reps — Last 7 Days</h4>
+                <div class="activity-table-wrap">
+                  <table class="activity-table">
+                    <thead><tr><th>Rep</th><th>Days Active</th><th>Views</th><th>Searches</th><th>Calls</th><th>Last Active</th></tr></thead>
+                    <tbody>
+                      {#each actData.allReps as rep}
+                        <tr>
+                          <td><strong>{rep.name}</strong></td>
+                          <td>{rep.activeDays}/7</td>
+                          <td>{rep.pageViews}</td>
+                          <td>{rep.searches}</td>
+                          <td>{rep.calls}</td>
+                          <td style="font-size:11px;">{rep.lastActive}</td>
+                        </tr>
+                      {/each}
+                    </tbody>
+                  </table>
+                </div>
+              {:else if !actData.firebaseConnected}
+                <div class="firebase-setup-prompt">
+                  <h4>🔗 Enable Cross-Device Tracking</h4>
+                  <p>To see all reps' activity in one place, connect Firebase:</p>
+                  <button class="book-appt-btn" on:click={() => window.open(import.meta.env.BASE_URL + 'setup-firebase.html', '_blank')}>⚙️ Set Up Firebase</button>
+                </div>
+              {/if}
+
+              <h4>📊 Your Device — 30-Day Totals</h4>
+              <div class="activity-totals">
+                <div><strong>Page Views:</strong> {actData.last30days.pageViews || 0}</div>
+                <div><strong>Searches:</strong> {actData.last30days.searches || 0}</div>
+                <div><strong>Calls Made:</strong> {actData.last30days.calls || 0}</div>
+                <div><strong>Emails Sent:</strong> {actData.last30days.emails || 0}</div>
+                <div><strong>Logins:</strong> {actData.last30days.logins || 0}</div>
+              </div>
+            {/await}
+          </div>
         {/if}
       </div>
+    {:else if currentTab === 'addlead'}
+      <HotLeadsSubmit
+        user={$user}
+        onLeadSubmitted={() => {
+          // Optional: show confirmation or navigate back to prospects
+          currentTab = 'prospects';
+        }}
+      />
     {:else if currentTab === 'manage'}
       <ManageReps />
     {/if}
@@ -475,7 +1245,13 @@
     background: linear-gradient(135deg, #CC0000 0%, #990000 100%);
     color: white;
     padding: 0;
-    padding-top: calc(env(safe-area-inset-top, 0px));
+    margin: 0;
+    margin-left: calc(-1 * env(safe-area-inset-left));
+    margin-right: calc(-1 * env(safe-area-inset-right));
+    padding-top: calc(16px + env(safe-area-inset-top));
+    padding-left: calc(20px + env(safe-area-inset-left));
+    padding-right: calc(20px + env(safe-area-inset-right));
+    padding-bottom: 16px;
     display: flex;
     flex-direction: column;
     box-shadow: 0 8px 24px rgba(204, 0, 0, 0.2);
@@ -485,7 +1261,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 16px 20px;
+    padding: 0;
     gap: 20px;
   }
 
@@ -535,7 +1311,7 @@
   }
 
   .header-bottom {
-    padding: 0 20px 12px;
+    padding: 0;
     text-align: left;
   }
 
@@ -556,21 +1332,36 @@
     flex-shrink: 0;
   }
 
-  .cart-icon {
-    background: rgba(255, 255, 255, 0.2);
+  .header-icon-btn {
+    background: rgba(255, 255, 255, 0.15);
     border: none;
     color: white;
-    font-size: 18px;
     cursor: pointer;
     position: relative;
-    padding: 8px 12px;
-    border-radius: 8px;
+    width: 40px;
+    height: 40px;
+    border-radius: 10px;
     transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
   }
 
-  .cart-icon:hover {
-    background: rgba(255, 255, 255, 0.3);
+  .header-icon-btn:hover {
+    background: rgba(255, 255, 255, 0.25);
     transform: translateY(-1px);
+  }
+
+  .font-size-label { font-size: 14px; font-weight: 700; color: white; font-family: inherit; letter-spacing: -0.5px; }
+
+  .header-icon-btn.logout-text {
+    width: auto;
+    padding: 0 14px;
+    font-size: 13px;
+    font-weight: 600;
+    color: white;
+    font-family: inherit;
   }
 
   .cart-badge {
@@ -589,23 +1380,6 @@
     justify-content: center;
   }
 
-  .theme-toggle, .logout-btn {
-    background: rgba(255, 255, 255, 0.2);
-    color: white;
-    border: none;
-    padding: 8px 12px;
-    border-radius: 8px;
-    cursor: pointer;
-    font-size: 14px;
-    font-weight: 600;
-    transition: all 0.2s;
-  }
-
-  .theme-toggle:hover, .logout-btn:hover {
-    background: rgba(255, 255, 255, 0.3);
-    transform: translateY(-1px);
-  }
-
   /* Tabs */
   .tabs {
     background: var(--bg-secondary);
@@ -619,16 +1393,31 @@
   .tab {
     flex: 1;
     min-width: fit-content;
-    padding: 12px 16px;
+    padding: 14px 18px;
     background: none;
     border: none;
-    border-bottom: 2px solid transparent;
+    border-bottom: 3px solid transparent;
     color: #666;
     font-weight: 600;
-    font-size: 13px;
+    font-size: 15px;
     cursor: pointer;
     transition: all 0.2s;
     white-space: nowrap;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+  }
+
+  .tab-icon {
+    width: 22px;
+    height: 22px;
+    stroke: currentColor;
+  }
+
+  .tab span {
+    font-size: 11px;
+    letter-spacing: 0.3px;
   }
 
   .tab:hover {
@@ -644,13 +1433,168 @@
   .content {
     flex: 1;
     overflow-y: auto;
-    padding: 20px;
+    padding: 20px 20px calc(200px + env(safe-area-inset-bottom, 0px));
+    max-width: 1400px;
+    margin: 0 auto;
+    width: 100%;
+    box-sizing: border-box;
   }
 
   /* Dashboard */
+  /* Motivational Quote */
+  .quote-card {
+    background: linear-gradient(135deg, #CC0000, #8B0000);
+    color: white;
+    padding: 16px 20px;
+    border-radius: 12px;
+    margin-bottom: 16px;
+    text-align: center;
+  }
+  .quote-text { font-size: 15px; font-style: italic; line-height: 1.4; margin: 0 0 6px; }
+  .quote-author { font-size: 12px; opacity: 0.85; margin: 0; }
+
+  /* Revenue Hero */
+  .revenue-hero {
+    background: var(--bg-secondary, #1a1a2e);
+    border: 2px solid #CC0000;
+    border-radius: 12px;
+    padding: 20px;
+    text-align: center;
+    margin-bottom: 16px;
+  }
+  .revenue-amount { font-size: 36px; font-weight: 800; color: #CC0000; }
+  .revenue-label { font-size: 13px; color: var(--text-secondary, #999); margin-top: 2px; }
+  .growth-badge { display: inline-block; margin-top: 8px; padding: 4px 12px; border-radius: 20px; font-size: 12px; font-weight: 600; }
+  .growth-badge.positive { background: #e8f5e9; color: #2e7d32; }
+  .growth-badge.negative { background: #ffe0e0; color: #c33; }
+  .leaderboard-badge { margin-top: 6px; font-size: 13px; color: var(--text-secondary, #aaa); }
+
+  /* Daily Goal */
+  .goal-section { margin-bottom: 16px; }
+  .goal-section h3 { margin: 0 0 8px; font-size: 16px; color: var(--text-primary); }
+  .goal-card {
+    background: var(--bg-secondary, #1a1a2e);
+    border-radius: 12px;
+    padding: 16px;
+    border: 1px solid var(--border-color, #333);
+  }
+  .goal-progress { margin-bottom: 8px; }
+  .goal-bar { height: 12px; background: #333; border-radius: 6px; overflow: hidden; }
+  .goal-fill { height: 100%; background: linear-gradient(90deg, #CC0000, #ff4444); border-radius: 6px; transition: width 0.3s; }
+  .goal-count { text-align: center; font-size: 24px; font-weight: 700; color: var(--text-primary); margin-top: 8px; }
+  .goal-label { text-align: center; font-size: 13px; color: var(--text-secondary, #999); margin: 4px 0 12px; }
+  .goal-actions { display: flex; gap: 8px; align-items: center; }
+  .goal-btn.increment {
+    flex: 1;
+    padding: 12px;
+    background: #CC0000;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+  }
+  .goal-btn.increment:active { transform: scale(0.97); }
+  .goal-target-set { display: flex; align-items: center; gap: 6px; }
+  .goal-target-set label { font-size: 13px; color: var(--text-secondary, #999); }
+  .goal-target-set input { width: 50px; padding: 8px; border: 1px solid var(--border-color, #333); border-radius: 6px; font-size: 14px; text-align: center; background: var(--bg-primary, #111); color: var(--text-primary); }
+  .goal-achieved { text-align: center; margin-top: 10px; font-size: 14px; color: #2e7d32; font-weight: 600; }
+  .goal-halfway { text-align: center; margin-top: 10px; font-size: 13px; color: #ff9800; }
+
+  /* Appointments */
+  .appointments-section { margin-bottom: 16px; }
+  .appointments-section h3 { margin: 0 0 12px; font-size: 16px; color: var(--text-primary); }
+  .appointment-list { display: flex; flex-direction: column; gap: 12px; }
+  .appointment-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    background: var(--card-bg);
+    border-radius: 12px;
+    padding: 16px;
+    border: 2px solid var(--border-color);
+    transition: border-color 0.2s;
+    position: relative;
+  }
+  .appointment-item:hover { border-color: #CC0000; background: rgba(204, 0, 0, 0.02); }
+  .appointment-item.swipeable { touch-action: pan-y; user-select: none; transition: opacity 0.15s; }
+  .appt-swipe-hint { position: absolute; right: 16px; top: 50%; transform: translateY(-50%); font-size: 11px; color: rgba(204, 0, 0, 0.5); white-space: nowrap; opacity: 0; transition: opacity 0.2s; }
+  .appointment-item:hover .appt-swipe-hint { opacity: 1; }
+  .appt-left { min-width: 85px; flex-shrink: 0; text-align: center; background: rgba(204,0,0,0.05); border-radius: 8px; padding: 8px 4px; }
+  .appt-date { font-size: 14px; font-weight: 800; color: #CC0000; white-space: nowrap; }
+  .appt-time { font-size: 13px; color: var(--text-tertiary); margin-top: 4px; font-weight: 600; }
+  .appt-right { flex: 1; }
+  .appt-title { font-size: 16px; font-weight: 700; color: var(--text-primary); margin-bottom: 6px; }
+  .appt-location { font-size: 13px; color: var(--text-secondary); margin-bottom: 4px; }
+  .appt-attendees { font-size: 13px; color: var(--text-tertiary); margin-bottom: 6px; }
+  .appt-badge { display: inline-block; font-size: 11px; font-weight: 700; padding: 3px 10px; border-radius: 6px; }
+  .appt-badge.prospect { background: rgba(204,0,0,0.1); color: #CC0000; }
+  .no-appointments { font-size: 13px; color: var(--text-secondary); text-align: center; padding: 12px; }
+  .book-appt-btn { width: 100%; padding: 10px; margin-top: 12px; background: #CC0000; color: white; border: none; border-radius: 8px; font-size: 14px; font-weight: 600; cursor: pointer; }
+  .book-appt-btn:hover { background: #aa0000; }
+  .sync-bar { display: flex; align-items: center; gap: 8px; margin-top: 10px; justify-content: center; }
+  .sync-refresh-btn { padding: 6px 14px; background: var(--bg-secondary, #f0f0f0); border: 1px solid var(--border-color, #ddd); border-radius: 6px; font-size: 13px; cursor: pointer; color: var(--text-primary); }
+  .sync-refresh-btn:hover { background: var(--border-color, #ddd); }
+  .sync-status { font-size: 12px; color: var(--text-secondary, #666); }
+  .sync-btn { position: absolute; top: 6px; right: 6px; background: none; border: none; font-size: 16px; cursor: pointer; padding: 2px; opacity: 0.6; }
+  .sync-btn:hover { opacity: 1; }
+  .stat-card { position: relative; }
+  .sync-note { font-size: 11px; color: var(--text-muted, #999); text-align: center; margin-top: 8px; }
+
+  /* Cycle Countdown */
+  .cycle-card .cycle-info { margin-top: 8px; }
+  .cycle-card .cycle-line { margin: 0; font-size: 13px; color: var(--text-secondary); }
+  .cycle-card .cycle-line strong { color: #CC0000; }
+  .cycle-card .cycle-days-label { margin: 0 0 8px; font-size: 12px; color: var(--text-tertiary); }
+
+  /* Clickable cards */
+  .clickable { cursor: pointer; transition: transform 0.15s, box-shadow 0.15s; }
+  .clickable:active { transform: scale(0.97); }
+  .revenue-hero.clickable { border: none; width: 100%; text-align: center; font-family: inherit; }
+
+  /* Drill-down panels */
+  .drill-down {
+    background: var(--card-bg);
+    border: 2px solid var(--border-color);
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 20px;
+    margin-top: 16px;
+  }
+  .drill-down h4 { margin: 0 0 16px; font-size: 18px; font-weight: 700; color: var(--text-primary); }
+  .drill-empty { font-size: 13px; color: var(--text-secondary, #999); text-align: center; padding: 8px; }
+  .drill-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 10px;
+    background: var(--bg-primary, #111);
+    border-radius: 8px;
+    margin-bottom: 4px;
+  }
+  .drill-info { display: flex; flex-direction: column; }
+  .drill-name { font-size: 14px; font-weight: 600; color: var(--text-primary); }
+  .drill-meta { font-size: 12px; color: var(--text-secondary, #999); }
+  .drill-amount { font-size: 14px; font-weight: 700; color: #2e7d32; white-space: nowrap; }
+
+  /* Reset button */
+  .goal-btn.reset {
+    padding: 12px 14px;
+    background: #555;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+  }
+  .goal-btn.reset:active { background: #333; }
+
   .dashboard {
-    max-width: 1200px;
+    max-width: 100%;
     margin: 0 auto;
+    width: 100%;
   }
 
   .dashboard h2 {
@@ -672,43 +1616,72 @@
 
   .dashboard-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 16px;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
     margin-bottom: 32px;
+    width: 100%;
+  }
+
+  @media (min-width: 768px) {
+    .dashboard-grid {
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2rem;
+    }
+  }
+
+  @media (min-width: 1200px) {
+    .dashboard-grid {
+      grid-template-columns: repeat(4, 1fr);
+      gap: 2rem;
+    }
   }
 
   .stat-card {
     background: var(--card-bg);
-    border: 1px solid var(--border-color);
-    border-radius: 12px;
-    padding: 20px;
+    border: 2px solid var(--border-color);
+    border-radius: 16px;
+    padding: 1.5rem 1.25rem;
     text-align: center;
+    min-height: 180px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    transition: transform 0.15s, box-shadow 0.15s;
   }
 
+  .stat-card.clickable { cursor: pointer; }
+  .stat-card.clickable:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
+  .stat-card.clickable:active { transform: scale(0.98); }
+
   .stat-icon {
-    font-size: 32px;
-    margin-bottom: 8px;
+    font-size: 36px;
+    margin-bottom: 10px;
   }
 
   .stat-card h3 {
-    margin: 0 0 8px;
-    font-size: 14px;
+    margin: 0 0 10px;
+    font-size: 15px;
     color: var(--text-secondary);
     text-transform: uppercase;
     letter-spacing: 0.5px;
+    font-weight: 700;
   }
 
   .stat-value {
-    margin: 0 0 4px;
-    font-size: 28px;
-    font-weight: 700;
+    margin: 0 0 6px;
+    font-size: 32px;
+    font-weight: 800;
     color: #CC0000;
+    line-height: 1.1;
   }
 
   .stat-label {
     margin: 0;
-    font-size: 12px;
+    font-size: 13px;
     color: var(--text-tertiary);
+    font-weight: 500;
   }
 
   .quick-actions {
@@ -723,8 +1696,23 @@
 
   .action-buttons {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-    gap: 12px;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
+    width: 100%;
+  }
+
+  @media (min-width: 768px) {
+    .action-buttons {
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2rem;
+    }
+  }
+
+  @media (min-width: 1200px) {
+    .action-buttons {
+      grid-template-columns: repeat(4, 1fr);
+      gap: 2rem;
+    }
   }
 
   .action-btn {
@@ -773,6 +1761,20 @@
 
     .dashboard-grid {
       grid-template-columns: repeat(2, 1fr);
+      gap: 14px;
+    }
+
+    .stat-card {
+      min-height: 200px;
+      padding: 1.75rem 1rem;
+    }
+
+    .stat-icon {
+      font-size: 42px;
+    }
+
+    .stat-value {
+      font-size: 36px;
     }
 
     .action-buttons {
@@ -815,7 +1817,7 @@
     }
   }
   /* Analytics */
-  .analytics-container { padding: 16px; max-width: 900px; margin: 0 auto; }
+  .analytics-container { padding: 16px; max-width: 100%; margin: 0 auto; width: 100%; }
   .period-selector { display: flex; gap: 8px; margin-bottom: 12px; }
   .zone-filter { display: flex; align-items: center; gap: 6px; margin-bottom: 16px; overflow-x: auto; white-space: nowrap; padding-bottom: 4px; }
   .zone-label { font-size: 12px; font-weight: 700; color: var(--text-secondary); text-transform: uppercase; flex-shrink: 0; }
@@ -833,6 +1835,25 @@
   .analytics-change { font-size: 14px; font-weight: 600; padding: 4px 8px; border-radius: 8px; display: inline-block; }
   .analytics-change.positive { background: #e8f5e9; color: #2e7d32; }
   .analytics-change.negative { background: #ffebee; color: #c62828; }
+  
+  /* App Usage / Activity */
+  .activity-section h3 { font-size: 20px; font-weight: 700; margin-bottom: 8px; color: var(--text-primary); }
+  .activity-section h4 { font-size: 16px; font-weight: 700; margin: 20px 0 10px; color: var(--text-primary); }
+  .activity-note { font-size: 12px; color: var(--text-secondary); margin-bottom: 16px; }
+  .activity-summary { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin-bottom: 20px; }
+  .activity-card { background: var(--card-bg); border: 2px solid var(--border-color); border-radius: 12px; padding: 16px; text-align: center; }
+  .activity-icon { font-size: 28px; margin-bottom: 6px; }
+  .activity-stat { font-size: 28px; font-weight: 800; color: #CC0000; }
+  .activity-label { font-size: 12px; color: var(--text-secondary); font-weight: 600; margin-top: 4px; }
+  .activity-table-wrap { overflow-x: auto; }
+  .activity-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  .activity-table th { background: var(--bg-secondary, #f5f5f5); padding: 8px 10px; text-align: left; font-weight: 700; color: var(--text-secondary); border-bottom: 2px solid var(--border-color); }
+  .activity-table td { padding: 8px 10px; border-bottom: 1px solid var(--border-color); color: var(--text-primary); }
+  .activity-totals { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; font-size: 14px; color: var(--text-primary); }
+  .activity-totals strong { color: var(--text-secondary); }
+  .firebase-setup-prompt { background: var(--card-bg); border: 2px dashed var(--border-color); border-radius: 12px; padding: 20px; text-align: center; margin: 16px 0; }
+  .firebase-setup-prompt h4 { margin: 0 0 8px; color: var(--text-primary); }
+  .firebase-setup-prompt p { font-size: 13px; color: var(--text-secondary); margin: 0 0 12px; }
   .month-table, .rep-table { background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 12px; overflow: hidden; }
   .month-table table, .rep-table table { width: 100%; border-collapse: collapse; }
   .month-table th, .rep-table th { background: var(--bg-secondary); padding: 12px; text-align: left; font-weight: 700; font-size: 12px; color: var(--text-secondary); text-transform: uppercase; border-bottom: 1px solid var(--border-color); }

@@ -4,6 +4,39 @@
   let selectedTier = null;
   let selectedDigitalProduct = null;
 
+  // Product links synced from ProspectBot
+  const PRODUCT_LINKS = {
+    register_tape: {
+      presentation: 'https://docs.google.com/presentation/d/1Xs60nX3i6MJkC81GgnK-50jBrkWVPu06xRpmv8z4PIc/edit?usp=sharing',
+      explainer: 'https://youtu.be/_gdlyEszHfY?si=0_kHou89WrMhvNY_'
+    },
+    cartvertising: {
+      presentation: 'https://docs.google.com/presentation/d/1xwIF4CaTp07AKunGaJysCSIGqN7VCdbL4fgOH3XEpl4/edit?usp=sharing',
+      explainer: 'https://www.youtube.com/watch?v=PduxHWy8sMc'
+    },
+    digital: {
+      presentation: 'https://docs.google.com/presentation/d/1xwIF4CaTp07AKunGaJysCSIGqN7VCdbL4fgOH3XEpl4/edit?usp=sharing',
+      explainer: 'https://www.youtube.com/watch?v=PduxHWy8sMc',
+      connectionHub: 'https://drive.google.com/file/d/199IkMptOlSYviHScKNKUlqELQOhWFxnB/view?usp=sharing'
+    },
+    digitalboost: {
+      presentation: 'https://drive.google.com/file/d/1LvPJjBk1tvMYFoRAy-AUSugUXV82hUeM/view?usp=sharing',
+      explainer: 'https://drive.google.com/file/d/1_QyAlgZRy1bKJSKC1058260d0jPccVTM/view?usp=share_link'
+    },
+    findlocal: {
+      presentation: 'https://drive.google.com/file/d/1rRdFgRWvuzaPJCwxqKzTqtjDtd642DuS/view?usp=sharing',
+      explainer: 'https://youtu.be/5CvlhJHssMs?si=WSmoTeh6adRlc-YW'
+    },
+    reviewboost: {
+      presentation: 'https://drive.google.com/file/d/12hP-Ip7t9vHjBNFctj2X1AiatxS5O1LH/view?usp=sharing',
+      explainer: 'https://youtu.be/PBpbUiIoYcM?si=XEGeu1hmbI-zAf7j'
+    },
+    loyaltyboost: {
+      presentation: 'https://drive.google.com/file/d/1BYpsPLnAC2TRfsaQGuMBytaOYAxuNYMK/view?usp=sharing',
+      explainer: 'https://youtu.be/gthLw2eQF1Y?si=9ggkdGIpcqlDHKaP'
+    }
+  };
+
   function addToCart(name, price, details) {
     let cart = [];
     try { cart = JSON.parse(localStorage.getItem('indoormedia_cart') || '[]'); } catch {}
@@ -188,13 +221,12 @@
     <h2>📦 IndoorMedia Products</h2>
     <p class="subtitle">Premium in-store advertising solutions</p>
 
-    <div class="product-grid">
+    <div class="button-grid">
       {#each Object.entries(PRODUCTS) as [key, product]}
-        <button class="product-btn" on:click={() => selectProduct(key)}>
-          <div class="product-emoji">{product.emoji}</div>
-          <div class="product-name">{product.name}</div>
-          <div class="product-desc">{product.desc}</div>
-          <div class="arrow">→</div>
+        <button class="main-btn" on:click={() => selectProduct(key)}>
+          <div class="btn-icon">{product.emoji}</div>
+          <div class="btn-text">{product.name}</div>
+          <div class="btn-desc">{product.desc}</div>
         </button>
       {/each}
     </div>
@@ -205,6 +237,15 @@
     <button class="back-btn" on:click={goBack}>← Back</button>
     <h2>🧾 Register Tape</h2>
     <p class="detail-subtitle">High-visibility promotional strips at checkout</p>
+
+    <div class="links-section">
+      <a href={PRODUCT_LINKS.register_tape.presentation} target="_blank" class="link-btn">
+        🎬 Sales Presentation
+      </a>
+      <a href={PRODUCT_LINKS.register_tape.explainer} target="_blank" class="link-btn">
+        📹 Explainer Video
+      </a>
+    </div>
 
     <div class="tiers-list">
       {#each Object.entries(PRODUCTS.register_tape.tiers) as [tierKey, tier]}
@@ -252,6 +293,15 @@
     <h2>🛒 Cartvertising</h2>
     <p class="detail-subtitle">Shopping cart advertising - 6-month campaigns</p>
 
+    <div class="links-section">
+      <a href={PRODUCT_LINKS.cartvertising.presentation} target="_blank" class="link-btn">
+        🎬 Sales Presentation
+      </a>
+      <a href={PRODUCT_LINKS.cartvertising.explainer} target="_blank" class="link-btn">
+        📹 Explainer Video
+      </a>
+    </div>
+
     <div class="packages-list">
       {#each Object.entries(PRODUCTS.cartvertising.packages) as [key, pkg]}
         <div class="package-card">
@@ -288,11 +338,24 @@
     <h2>🚀 DigitalBoost</h2>
     <p class="detail-subtitle">Geofence pin delivering digital banner ad impressions</p>
 
+    <div class="links-section">
+      <a href={PRODUCT_LINKS.digitalboost.presentation} target="_blank" class="link-btn">🎬 Sales Presentation</a>
+      <a href={PRODUCT_LINKS.digitalboost.explainer} target="_blank" class="link-btn">📹 Explainer Video</a>
+      <a href={PRODUCT_LINKS.digital.connectionHub} target="_blank" class="link-btn">🔗 Connection Hub</a>
+    </div>
+
     <div class="detail-card">
       <div class="detail-section">
-        <h4>Impressions</h4>
-        <p class="detail-value">240,000/month</p>
-        <p class="detail-note">350K+ impressions when bundled with Register Tape or Cartvertising</p>
+        <h4>Standalone — 240,000 Total Impressions</h4>
+        <p class="detail-value">20,000/mo × 12 months</p>
+        <p class="detail-note">or 40,000/mo × 6 months</p>
+      </div>
+
+      <div class="detail-section">
+        <h4>Bundled with Tape or Cart — 360,000 Total Impressions</h4>
+        <p class="detail-value">30,000/mo × 12 months</p>
+        <p class="detail-note">or 60,000/mo × 6 months</p>
+        <p class="detail-note" style="margin-top: 8px; font-style: italic;">Same total investment regardless of term length</p>
       </div>
 
       <div class="detail-section">
@@ -330,7 +393,7 @@
       </div>
 
       
-      <button class="action-btn" on:click={() => addToCart("DigitalBoost", "$3,600/pin", "240K impressions/month")}>🛒 Add to Cart</button>
+      <button class="action-btn" on:click={() => addToCart("DigitalBoost", "$3,600/pin", "240K standalone / 360K bundled impressions")}>🛒 Add to Cart</button>
     </div>
   {/if}
 
@@ -339,6 +402,11 @@
     <button class="back-btn" on:click={goBack}>← Back</button>
     <h2>📍 FindLocal</h2>
     <p class="detail-subtitle">Local SEO & listings management across 50+ directories</p>
+
+    <div class="links-section">
+      <a href={PRODUCT_LINKS.findlocal.presentation} target="_blank" class="link-btn">🎬 Sales Presentation</a>
+      <a href={PRODUCT_LINKS.findlocal.explainer} target="_blank" class="link-btn">📹 Explainer Video</a>
+    </div>
 
     <div class="detail-card">
       <div class="detail-section">
@@ -366,6 +434,11 @@
     <button class="back-btn" on:click={goBack}>← Back</button>
     <h2>⭐ ReviewBoost</h2>
     <p class="detail-subtitle">Automated review request campaign via Email & SMS</p>
+
+    <div class="links-section">
+      <a href={PRODUCT_LINKS.reviewboost.presentation} target="_blank" class="link-btn">🎬 Sales Presentation</a>
+      <a href={PRODUCT_LINKS.reviewboost.explainer} target="_blank" class="link-btn">📹 Explainer Video</a>
+    </div>
 
     <div class="detail-card">
       <div class="detail-section">
@@ -399,6 +472,11 @@
     <h2>💎 LoyaltyBoost</h2>
     <p class="detail-subtitle">Annual loyalty/rewards campaign per location</p>
 
+    <div class="links-section">
+      <a href={PRODUCT_LINKS.loyaltyboost.presentation} target="_blank" class="link-btn">🎬 Sales Presentation</a>
+      <a href={PRODUCT_LINKS.loyaltyboost.explainer} target="_blank" class="link-btn">📹 Explainer Video</a>
+    </div>
+
     <div class="detail-card">
       <div class="detail-section">
         <h4>Annual Campaign</h4>
@@ -428,7 +506,7 @@
 <style>
   .products-container {
     padding: 20px;
-    max-width: 600px;
+    max-width: 100%;
     margin: 0 auto;
   }
 
@@ -460,58 +538,14 @@
     text-decoration: underline;
   }
 
-  .product-grid {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-    margin-top: 20px;
-  }
-
-  .product-btn {
-    background: white;
-    border: 2px solid #eee;
-    border-radius: 12px;
-    padding: 16px;
-    text-align: left;
-    cursor: pointer;
-    transition: all 0.2s;
-    position: relative;
-    display: flex;
-    align-items: flex-start;
-    gap: 12px;
-  }
-
-  .product-btn:hover {
-    border-color: #CC0000;
-    background: #fff5f5;
-  }
-
-  .product-emoji {
-    font-size: 32px;
-    flex-shrink: 0;
-  }
-
-  .product-name {
-    font-weight: 600;
-    color: #333;
-    font-size: 16px;
-    margin-bottom: 4px;
-  }
-
-  .product-desc {
-    color: #666;
-    font-size: 13px;
-    margin: 0;
-  }
-
-  .arrow {
-    position: absolute;
-    right: 16px;
-    top: 50%;
-    transform: translateY(-50%);
-    color: #CC0000;
-    font-size: 20px;
-  }
+    .button-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.5rem; width: 100%; }
+    @media (min-width: 768px) { .button-grid { grid-template-columns: repeat(3, 1fr); gap: 2rem; } }
+    @media (min-width: 1200px) { .button-grid { grid-template-columns: repeat(3, 1fr); gap: 2rem; } }
+  .main-btn { background: var(--card-bg); border: 2px solid var(--border-color); border-radius: 16px; padding: 2rem 1.5rem; cursor: pointer; transition: all 0.2s; text-align: center; color: var(--text-primary); min-height: 180px; display: flex; flex-direction: column; align-items: center; justify-content: center; width: 100%; }
+  .main-btn:hover { border-color: #cc0000; box-shadow: 0 4px 12px rgba(204, 0, 0, 0.1); transform: translateY(-2px); }
+  .btn-icon { font-size: 2rem; margin-bottom: 0.5rem; }
+  .btn-text { font-weight: 600; color: var(--text-primary, #eee); margin-bottom: 0.25rem; }
+  .btn-desc { font-size: 0.85rem; color: var(--text-tertiary, #999); }
 
   .tiers-list {
     display: flex;
@@ -711,11 +745,46 @@
     background: #990000;
   }
 
+  .links-section {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+  }
+
+  .link-btn {
+    flex: 1;
+    min-width: 150px;
+    background: #f0f0f0;
+    color: #CC0000;
+    text-decoration: none;
+    border: 2px solid #CC0000;
+    border-radius: 8px;
+    padding: 10px 12px;
+    font-size: 14px;
+    font-weight: 600;
+    text-align: center;
+    transition: all 0.2s;
+    cursor: pointer;
+  }
+
+  .link-btn:hover {
+    background: #CC0000;
+    color: white;
+  }
+
   .digital-grid {
     display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 12px;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
     margin-top: 15px;
+    width: 100%;
+  }
+
+  @media (min-width: 768px) {
+    .digital-grid {
+      grid-template-columns: repeat(4, 1fr);
+    }
   }
 
   .digital-card {

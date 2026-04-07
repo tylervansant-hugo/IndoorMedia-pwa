@@ -22,6 +22,7 @@
   let auditCases = '';
   let auditRolls = '';
   let auditDate = new Date().toISOString().split('T')[0];
+  let auditPerformedDate = new Date().toISOString().split('T')[0];
   let auditStartingCases = '';
   let auditLastShipmentDate = '';
   let auditNextShipmentDate = '';
@@ -38,6 +39,7 @@
   let roiTicket = '';
   let roiDiscount = '';
   let roiCogs = '';
+  let roiVisitsPerYear = 1;
   let roiResult = null;
 
   $: roiStoreResults = roiStoreSearch.length >= 2
@@ -71,8 +73,9 @@
     const ticket = parseFloat(roiTicket) || 0;
     const discount = parseFloat(roiDiscount) || 0;
     const cogsPercent = parseFloat(roiCogs) || 0;
+    const visitsPerYear = parseInt(roiVisitsPerYear) || 1;
     
-    const monthlyRevenue = redemptions * ticket;
+    const monthlyRevenue = redemptions * ticket * (visitsPerYear / 12);
     const monthlyDiscounts = redemptions * discount;
     const monthlyCogs = monthlyRevenue * (cogsPercent / 100);
     const monthlyProfit = monthlyRevenue - monthlyDiscounts - monthlyCogs;
@@ -103,6 +106,7 @@
       campaignProfit: Math.round(campaignProfit),
       roiPercent,
       cogsPercent,
+      visitsPerYear,
       breakEvenRedemptions
     };
   }
@@ -152,8 +156,9 @@
 
     section('ASSUMPTIONS');
     line('Monthly Redemptions:', roiRedemptions);
-    line('Average Ticket:', `$${parseFloat(roiTicket || 0).toLocaleString()}`);
-    line('Coupon Discount:', `$${parseFloat(roiDiscount || 0).toLocaleString()}`);
+    line('Average Customer Spend:', `$${parseFloat(roiTicket || 0).toLocaleString()}`);
+    line('Visits per Year:', `${r.visitsPerYear}`);
+    line('Avg Discount per Coupon:', `$${parseFloat(roiDiscount || 0).toLocaleString()}`);
     line('COGS:', `${r.cogsPercent}%`);
 
     section('ROI BREAKDOWN');
@@ -195,6 +200,129 @@
     a.download = `ROI_Report_${biz.replace(/[^a-zA-Z0-9]/g, '_')}.pdf`;
     a.click();
     URL.revokeObjectURL(url);
+  }
+
+  function exportRoiHtml() {
+    if (!roiResult) return;
+    const r = roiResult;
+    const biz = roiBusinessName || 'Customer';
+    const store = roiSelectedStore
+      ? `${roiSelectedStore.GroceryChain} — ${roiSelectedStore.City}, ${roiSelectedStore.State} (${roiSelectedStore.StoreName})`
+      : 'N/A';
+    const date = new Date().toLocaleDateString();
+    const repName = $user?.name || $user?.first_name || 'IndoorMedia Rep';
+
+    const html = `<!DOCTYPE html>
+<html><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ROI Report — ${biz}</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; padding: 24px; max-width: 600px; margin: 0 auto; background: #fff; }
+  .header { background: linear-gradient(135deg, #CC0000, #8B0000); color: white; padding: 24px; border-radius: 12px; margin-bottom: 24px; text-align: center; }
+  .header h1 { font-size: 22px; margin-bottom: 4px; }
+  .header p { font-size: 14px; opacity: 0.9; }
+  .section { margin-bottom: 20px; }
+  .section h3 { font-size: 15px; color: #666; margin-bottom: 8px; border-bottom: 2px solid #eee; padding-bottom: 4px; }
+  .row { display: flex; justify-content: space-between; align-items: center; padding: 10px 12px; background: #f9f9f9; border-radius: 8px; margin-bottom: 6px; }
+  .row.highlight { background: #f0fff0; border: 2px solid #2e7d32; }
+  .label { font-size: 13px; color: #555; }
+  .value { font-size: 16px; font-weight: 700; }
+  .green { color: #2e7d32; }
+  .red { color: #c33; }
+  .big { font-size: 22px; color: #2e7d32; }
+  .footer { text-align: center; color: #999; font-size: 12px; margin-top: 30px; padding-top: 16px; border-top: 1px solid #eee; }
+  .logo { font-size: 18px; font-weight: 700; color: #CC0000; margin-bottom: 4px; }
+  @media print { body { padding: 12px; } .no-print { display: none; } }
+</style></head><body>
+<div class="header">
+  <h1>📊 ROI Analysis Report</h1>
+  <p>Prepared for: ${biz}</p>
+  <p>${store} | ${date}</p>
+</div>
+
+<div class="section">
+  <h3>👤 Details</h3>
+  <div class="row"><span class="label">Business</span><span class="value">${biz}</span></div>
+  <div class="row"><span class="label">Store</span><span class="value">${store}</span></div>
+  <div class="row"><span class="label">Prepared By</span><span class="value">${repName}</span></div>
+</div>
+
+<div class="section">
+  <h3>📋 Campaign Inputs</h3>
+  <div class="row"><span class="label">Ad Size</span><span class="value">${r.adSize === 'double' ? 'Double Ad' : 'Single Ad'}</span></div>
+  <div class="row"><span class="label">Annual Ad Rate</span><span class="value">$${r.annualAdCost.toLocaleString()}</span></div>
+  <div class="row"><span class="label">Campaign</span><span class="value">${r.quarters} quarter(s) / ${r.months} months</span></div>
+  <div class="row"><span class="label">Total Investment</span><span class="value">$${r.totalAdCost.toLocaleString()}</span></div>
+  <div class="row"><span class="label">Monthly Redemptions</span><span class="value">${roiRedemptions}</span></div>
+  <div class="row"><span class="label">Avg Customer Spend</span><span class="value">$${parseFloat(roiTicket || 0).toLocaleString()}</span></div>
+  <div class="row"><span class="label">Visits per Year</span><span class="value">${r.visitsPerYear}</span></div>
+  ${roiDiscount ? `<div class="row"><span class="label">Avg Discount per Coupon</span><span class="value">$${parseFloat(roiDiscount).toLocaleString()}</span></div>` : ''}
+  ${r.cogsPercent ? `<div class="row"><span class="label">COGS</span><span class="value">${r.cogsPercent}%</span></div>` : ''}
+</div>
+
+<div class="section">
+  <h3>💰 Revenue Analysis</h3>
+  <div class="row"><span class="label">Monthly Revenue</span><span class="value green">$${r.monthlyRevenue.toLocaleString()}/mo</span></div>
+  <div class="row"><span class="label">Gross Revenue (${r.months} months)</span><span class="value green">$${r.totalRevenue.toLocaleString()}</span></div>
+  ${r.totalDiscounts ? `<div class="row"><span class="label">Less Discounts</span><span class="value red">-$${r.totalDiscounts.toLocaleString()}</span></div>` : ''}
+  ${r.totalCogs ? `<div class="row"><span class="label">Less COGS (${r.cogsPercent}%)</span><span class="value red">-$${r.totalCogs.toLocaleString()}</span></div>` : ''}
+  <div class="row"><span class="label">Less Ad Investment</span><span class="value red">-$${r.totalAdCost.toLocaleString()}</span></div>
+</div>
+
+<div class="section">
+  <h3>📊 Results</h3>
+  <div class="row highlight"><span class="label">Return on Investment</span><span class="value big">${r.roiPercent}% ROI</span></div>
+  <div class="row"><span class="label">Campaign Net Profit</span><span class="value green">$${r.campaignProfit.toLocaleString()}</span></div>
+  <div class="row"><span class="label">Break-even Redemptions/mo</span><span class="value">${r.breakEvenRedemptions}</span></div>
+</div>
+
+<div class="footer">
+  <div class="logo">imPro — IndoorMedia</div>
+  <p>Generated ${date} | Register Tape Advertising</p>
+</div>
+
+<div class="no-print" style="text-align:center;margin-top:20px;">
+  <button onclick="window.print()" style="padding:12px 32px;background:#CC0000;color:white;border:none;border-radius:8px;font-size:16px;cursor:pointer;">🖨️ Print / Save as PDF</button>
+</div>
+</body></html>`;
+
+    const blob = new Blob([html], { type: 'text/html' });
+    const url = URL.createObjectURL(blob);
+    const w = window.open(url, '_blank');
+    if (!w) {
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `ROI-Report-${biz.replace(/[^a-zA-Z0-9]/g, '_')}.html`;
+      a.click();
+    }
+    setTimeout(() => URL.revokeObjectURL(url), 5000);
+  }
+
+  function shareRoiText() {
+    if (!roiResult) return;
+    const r = roiResult;
+    const biz = roiBusinessName || 'Customer';
+    const store = roiSelectedStore
+      ? `${roiSelectedStore.GroceryChain} — ${roiSelectedStore.City}, ${roiSelectedStore.State}`
+      : 'N/A';
+
+    const text = `📊 ROI Report — ${biz}
+Store: ${store}
+
+💰 Investment: $${r.totalAdCost.toLocaleString()} (${r.quarters}Q)
+📈 Gross Revenue: $${r.totalRevenue.toLocaleString()}${r.totalDiscounts ? `\n🏷️ Discounts: -$${r.totalDiscounts.toLocaleString()}` : ''}${r.totalCogs ? `\n📉 COGS (${r.cogsPercent}%): -$${r.totalCogs.toLocaleString()}` : ''}
+
+✅ ROI: ${r.roiPercent}%
+💵 Net Profit: $${r.campaignProfit.toLocaleString()}
+📍 Break-even: ${r.breakEvenRedemptions} redemptions/mo
+
+— IndoorMedia Register Tape Advertising`;
+
+    if (navigator.share) {
+      navigator.share({ title: `ROI Report — ${biz}`, text }).catch(() => {});
+    } else {
+      navigator.clipboard.writeText(text).then(() => alert('📋 ROI report copied to clipboard!')).catch(() => {});
+    }
   }
 
   // Submit testimonial state (matches ProspectBot flow)
@@ -248,17 +376,52 @@
   // Counter sign state
   let counterSignStep = 1; // 1: chain, 2: business card, 3: landing page, 4: ad proof, 5: confirm
   let selectedChainCode = null;
+  let selectedRepName = '';
+  let repNames = [];
+  let allReps = {}; // Full registry for validation
   let counterData = {
     business_card_image: null,
     landing_page_url: '',
     ad_proof_image: null
   };
   let generating = false;
+
+  // Load all reps from registry
+  function loadRepNames() {
+    fetch(import.meta.env.BASE_URL + 'data/rep_registry.json')
+      .then(r => r.json())
+      .then(d => {
+        allReps = d;
+        // Extract all display names and sort
+        const names = new Set();
+        for (const key in d) {
+          const rep = d[key];
+          if (rep.display_name) names.add(rep.display_name);
+        }
+        repNames = Array.from(names).sort();
+      })
+      .catch(() => { repNames = []; });
+  }
+
+  function updateRepLandingPage() {
+    if (!selectedRepName) {
+      counterData.landing_page_url = '';
+      return;
+    }
+    const parts = selectedRepName.split(' ');
+    const first = (parts[0] || '').toLowerCase();
+    const last = (parts[parts.length - 1] || '').toLowerCase();
+    counterData.landing_page_url = `https://www.indoormedia.com/tape-sales/advertise-with-${first}-${last}/`;
+  }
+
+  onMount(() => {
+    loadRepNames();
+  });
   // Counter Sign API endpoint
   const isDev = window.location.hostname === 'localhost';
   let COUNTER_SIGN_API = isDev 
     ? 'http://localhost:3333'
-    : 'https://confidence-extent-formed-dispatch.trycloudflare.com';
+    : 'https://hansen-welding-finance-drug.trycloudflare.com';
   
   // On production, try to fetch the latest tunnel URL
   if (!isDev) {
@@ -270,7 +433,7 @@
 
   onMount(async () => {
     try {
-      const res = await fetch('/data/stores.json');
+      const res = await fetch(import.meta.env.BASE_URL + 'data/stores.json');
       allStores = await res.json();
     } catch (err) {
       console.error('Failed to load stores:', err);
@@ -328,7 +491,7 @@
   async function loadTestimonialData() {
     if (testimonialData) return testimonialData;
     try {
-      const res = await fetch('/data/testimonials.json');
+      const res = await fetch(import.meta.env.BASE_URL + 'data/testimonials.json');
       if (!res.ok) throw new Error('Failed to load');
       testimonialData = await res.json();
       return testimonialData;
@@ -370,9 +533,44 @@
     }
   }
 
+  // Zone install day lookup from RTUI Zone Chart
+  const ZONE_INSTALL_DAYS = {'01':1,'02':8,'03':26,'04':28,'05':25,'06':1,'07':7,'08':5,'09':14,'10':30,'11':25,'12':16,'13':20,'14':10,'15':18,'16':7,'17':20,'18':20,'19':8,'20':10,'21':16,'22':1,'23':12,'24':14,'25':23,'26':20,'27':25,'28':6,'29':6};
+
+  function getStoreInstallDay(storeId) {
+    const m = (storeId || '').match(/(\d{2})[A-Z]?-/);
+    return m ? (ZONE_INSTALL_DAYS[m[1]] || 7) : 7;
+  }
+
+  function getLastInstallDate(storeId) {
+    const day = getStoreInstallDay(storeId);
+    const now = new Date();
+    // Find the most recent install day (could be this month or last month)
+    let d = new Date(now.getFullYear(), now.getMonth(), day);
+    if (d > now) d.setMonth(d.getMonth() - 1);
+    return d.toISOString().split('T')[0];
+  }
+
+  function getNextInstallDate(storeId) {
+    const day = getStoreInstallDay(storeId);
+    const now = new Date();
+    let d = new Date(now.getFullYear(), now.getMonth(), day);
+    if (d <= now) d.setMonth(d.getMonth() + 1);
+    return d.toISOString().split('T')[0];
+  }
+
+  function getAuditDueDate(storeId) {
+    // Audit is 45 days after the last install
+    const lastInstall = new Date(getLastInstallDate(storeId) + 'T12:00:00');
+    lastInstall.setDate(lastInstall.getDate() + 45);
+    return lastInstall.toISOString().split('T')[0];
+  }
+
   function selectAuditStore(store) {
     selectedStore = store;
     auditStoreNum = store.StoreName;
+    // Auto-populate dates based on zone install schedule
+    auditDate = getLastInstallDate(store.StoreName);
+    auditNextShipmentDate = getNextInstallDate(store.StoreName);
     view = 'audit';
   }
 
@@ -475,18 +673,18 @@
     
     // Calculate actual usage rate: (starting rolls - current rolls) / days since delivery
     const delDate = new Date(auditDate);
-    const today = new Date();
-    const daysSinceDelivery = Math.max(1, Math.floor((today - delDate) / (1000 * 60 * 60 * 24)));
+    const performedDate = new Date(auditPerformedDate + 'T12:00:00');
+    const daysSinceDelivery = Math.max(1, Math.floor((performedDate - delDate) / (1000 * 60 * 60 * 24)));
     const rollsUsed = startingRolls - totalRolls;
     const usagePerDay = Math.round((rollsUsed / daysSinceDelivery) * 10) / 10;
     const daysUntilRunout = usagePerDay > 0 ? Math.round((totalRolls / usagePerDay) * 10) / 10 : 999;
 
-    const runoutDate = new Date();
+    const runoutDate = new Date(performedDate);
     runoutDate.setDate(runoutDate.getDate() + Math.floor(daysUntilRunout));
 
     // Use the next shipment date that the rep entered
     const nextDelivery = new Date(auditNextShipmentDate);
-    const daysUntilDelivery = Math.ceil((nextDelivery - today) / (1000 * 60 * 60 * 24));
+    const daysUntilDelivery = Math.ceil((nextDelivery - performedDate) / (1000 * 60 * 60 * 24));
     const insufficient = daysUntilRunout < daysUntilDelivery;
     
     // Get expected month name for next delivery
@@ -545,7 +743,7 @@
 
       line('Store:', `${r.chain} - ${r.city}, ${r.state}`);
       line('Rep:', repName);
-      line('Audit Date:', new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }));
+      line('Audit Date:', new Date(auditPerformedDate + 'T12:00:00').toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }));
 
       section('DELIVERY');
       line('Delivery Date:', r.deliveryDate);
@@ -589,43 +787,42 @@
     <h2>🛠️ Tools</h2>
     <p class="subtitle">Sales support & management tools</p>
 
-    <div class="tools-grid">
-      <button class="tool-btn" on:click={() => view = 'roi'}>
-        <div class="tool-emoji">📊</div>
-        <h4>ROI Calculator</h4>
-        <p>Calculate campaign ROI before pitching</p>
+    <div class="button-grid">
+      <button class="main-btn" on:click={() => view = 'roi'}>
+        <div class="btn-icon">📊</div>
+        <div class="btn-text">ROI Calculator</div>
+        <div class="btn-desc">Calculate campaign ROI before pitching</div>
       </button>
 
-      <button class="tool-btn" on:click={() => view = 'rates'}>
-        <div class="tool-emoji">💰</div>
-        <h4>Store Rates</h4>
-        <p>Quick pricing lookup by store</p>
+      <button class="main-btn" on:click={() => view = 'rates'}>
+        <div class="btn-icon">💰</div>
+        <div class="btn-text">Store Rates</div>
+        <div class="btn-desc">Quick pricing lookup by store</div>
       </button>
 
-      <button class="tool-btn" on:click={() => view = 'testimonials'}>
-        <div class="tool-emoji">📋</div>
-        <h4>Testimonials</h4>
-        <p>Find relevant case studies</p>
+      <button class="main-btn" on:click={() => view = 'testimonials'}>
+        <div class="btn-icon">📋</div>
+        <div class="btn-text">Testimonials</div>
+        <div class="btn-desc">Find relevant case studies</div>
       </button>
 
-      <button class="tool-btn" on:click={() => view = 'audit'}>
-        <div class="tool-emoji">🏪</div>
-        <h4>Audit Store</h4>
-        <p>Track tape inventory & delivery</p>
+      <button class="main-btn" on:click={() => view = 'audit'}>
+        <div class="btn-icon">🏪</div>
+        <div class="btn-text">Audit Store</div>
+        <div class="btn-desc">Track tape inventory & delivery</div>
       </button>
 
-      <button class="tool-btn" on:click={() => view = 'counter-sign'}>
-        <div class="tool-emoji">🎨</div>
-        <h4>Counter Sign</h4>
-        <p>Generate counter signs (same as bot)</p>
+      <button class="main-btn" on:click={() => view = 'counter-sign'}>
+        <div class="btn-icon">🎨</div>
+        <div class="btn-text">Counter Sign</div>
+        <div class="btn-desc">Generate counter signs</div>
       </button>
 
-      <button class="tool-btn" on:click={() => view = 'submit-testimonial'}>
-        <div class="tool-emoji">⭐</div>
-        <h4>Submit Testimonial</h4>
-        <p>Share customer success stories</p>
+      <button class="main-btn" on:click={() => view = 'submit-testimonial'}>
+        <div class="btn-icon">⭐</div>
+        <div class="btn-text">Submit Testimonial</div>
+        <div class="btn-desc">Share customer success stories</div>
       </button>
-
     </div>
   {/if}
 
@@ -715,12 +912,18 @@
       </div>
 
       <div class="form-group">
-        <label>Average Ticket ($) *</label>
+        <label>Average Ticket / Customer Spend ($) *</label>
         <input type="number" bind:value={roiTicket} placeholder="e.g., 50" />
       </div>
 
       <div class="form-group">
-        <label>Coupon Discount ($)</label>
+        <label>Visits per Year (per customer)</label>
+        <input type="number" bind:value={roiVisitsPerYear} placeholder="1" min="1" />
+        <p class="hint">How often each new customer returns annually (1 = one-time, 12 = monthly)</p>
+      </div>
+
+      <div class="form-group">
+        <label>Avg Discount per Coupon ($)</label>
         <input type="number" bind:value={roiDiscount} placeholder="e.g., 10" />
         <p class="hint">If running a coupon/offer on the ad</p>
       </div>
@@ -800,9 +1003,17 @@
           {/if}
         </div>
 
-        <button class="action-btn" on:click={downloadRoiPdf} style="margin-top: 16px;">
-          📄 Generate ROI Report
-        </button>
+        <div class="roi-export-actions">
+          <button class="action-btn" on:click={downloadRoiPdf}>
+            📄 PDF Report
+          </button>
+          <button class="action-btn" on:click={exportRoiHtml} style="background: #CC0000;">
+            🌐 Export Report
+          </button>
+          <button class="action-btn" on:click={shareRoiText} style="background: #2e7d32;">
+            📤 Share
+          </button>
+        </div>
       </div>
     {/if}
   {/if}
@@ -917,17 +1128,24 @@
       <p class="subtitle">{selectedStore?.GroceryChain} - {selectedStore?.City}</p>
 
       <div class="form-card">
-        <p class="form-label">📅 Shipment Dates</p>
+        <p class="form-label">📅 Dates</p>
+        <p class="hint" style="margin-bottom:10px;">📍 Zone install day: <strong>{getStoreInstallDay(auditStoreNum)}{getStoreInstallDay(auditStoreNum) == 1 || getStoreInstallDay(auditStoreNum) == 21 || getStoreInstallDay(auditStoreNum) == 31 ? 'st' : getStoreInstallDay(auditStoreNum) == 2 || getStoreInstallDay(auditStoreNum) == 22 ? 'nd' : getStoreInstallDay(auditStoreNum) == 3 || getStoreInstallDay(auditStoreNum) == 23 ? 'rd' : 'th'} of each month</strong> | Audit due: <strong>{new Date(getAuditDueDate(auditStoreNum) + 'T12:00:00').toLocaleDateString('en-US', {month:'short', day:'numeric'})}</strong> (45 days post-install)</p>
         
         <div class="form-group">
-          <label>Last Delivery Date *</label>
-          <input type="date" bind:value={auditDate} required />
+          <label>Date Audit Performed *</label>
+          <input type="date" bind:value={auditPerformedDate} required />
         </div>
 
         <div class="form-group">
-          <label>Projected Next Shipment Date *</label>
+          <label>Last Delivery/Install Date *</label>
+          <input type="date" bind:value={auditDate} required />
+          <p class="hint">Auto-set from zone schedule — adjust if different</p>
+        </div>
+
+        <div class="form-group">
+          <label>Next Shipment/Install Date *</label>
           <input type="date" bind:value={auditNextShipmentDate} required />
-          <p class="hint">Typically 90 days after last delivery</p>
+          <p class="hint">Auto-set from zone schedule — next {getStoreInstallDay(auditStoreNum)}{getStoreInstallDay(auditStoreNum) == 1 || getStoreInstallDay(auditStoreNum) == 21 || getStoreInstallDay(auditStoreNum) == 31 ? 'st' : getStoreInstallDay(auditStoreNum) == 2 || getStoreInstallDay(auditStoreNum) == 22 ? 'nd' : getStoreInstallDay(auditStoreNum) == 3 || getStoreInstallDay(auditStoreNum) == 23 ? 'rd' : 'th'}</p>
         </div>
 
         <button class="action-btn" on:click={() => auditStep = 3} disabled={!auditDate || !auditNextShipmentDate}>
@@ -1050,22 +1268,48 @@
     {/if}
 
     {#if counterSignStep === 3}
-      <h2>2. Landing Page (Optional)</h2>
+      <h2>2. Your Landing Page</h2>
       <p class="subtitle">{selectedChainCode}</p>
 
       <div class="form-card">
         <div class="form-group">
-          <label>Your Personal Landing Page URL</label>
-          <input type="url" bind:value={counterData.landing_page_url} placeholder="https://www.indoormedia.com/tape-sales/your-name/" />
+          <label>Your Name (Matches IndoorMedia Records)</label>
+          <div class="combo-box-wrapper">
+            <input 
+              type="text" 
+              bind:value={selectedRepName} 
+              on:input={updateRepLandingPage}
+              placeholder="Type or select your name..."
+              list="rep-names-list"
+              autocomplete="off"
+            />
+            <datalist id="rep-names-list">
+              {#each repNames as rep}
+                <option value={rep}>{rep}</option>
+              {/each}
+            </datalist>
+          </div>
+          
+          {#if selectedRepName}
+            <p class="auto-fill">Your landing page URL will be:</p>
+            <p class="landing-page-display">{counterData.landing_page_url}</p>
+            {#if !repNames.includes(selectedRepName)}
+              <p class="warning-text">⚠️ Name not found in registry — URL will be auto-generated but verify it's correct</p>
+            {:else}
+              <p class="success-text">✅ Name matches IndoorMedia Records</p>
+            {/if}
+          {/if}
         </div>
 
-        <p class="info-text">💡 Leave blank if you don't have one</p>
+        <p class="info-text">💡 Type your name and we'll auto-generate your landing page URL</p>
 
-        <button class="next-btn" on:click={() => counterSignStep = 4}>
+        <button class="next-btn" on:click={() => counterSignStep = 4} disabled={!counterData.landing_page_url}>
           Next →
         </button>
       </div>
     {/if}
+
+
 
     {#if counterSignStep === 4}
       <h2>3. Ad Proof</h2>
@@ -1287,7 +1531,7 @@
 <style>
   .tools-container {
     padding: 20px;
-    max-width: 600px;
+    max-width: 100%;
     margin: 0 auto;
   }
 
@@ -1319,44 +1563,53 @@
     text-decoration: underline;
   }
 
-  .tools-grid {
+  .button-grid {
     display: grid;
-    grid-template-columns: 1fr;
-    gap: 12px;
-    margin-top: 20px;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
+    width: 100%;
   }
 
-  .tool-btn {
-    background: white;
-    border: 2px solid #eee;
-    border-radius: 12px;
-    padding: 16px;
-    text-align: left;
+  @media (min-width: 768px) {
+    .button-grid {
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2rem;
+    }
+  }
+
+  @media (min-width: 1200px) {
+    .button-grid {
+      grid-template-columns: repeat(4, 1fr);
+      gap: 2rem;
+    }
+  }
+
+  .main-btn {
+    background: var(--card-bg);
+    border: 2px solid var(--border-color);
+    border-radius: 16px;
+    padding: 2rem 1.5rem;
     cursor: pointer;
     transition: all 0.2s;
+    text-align: center;
+    color: var(--text-primary);
+    min-height: 180px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
   }
 
-  .tool-btn:hover {
-    border-color: #CC0000;
-    background: #fff5f5;
+  .main-btn:hover {
+    border-color: #cc0000;
+    box-shadow: 0 4px 12px rgba(204, 0, 0, 0.1);
+    transform: translateY(-2px);
   }
 
-  .tool-emoji {
-    font-size: 32px;
-    margin-bottom: 8px;
-  }
-
-  .tool-btn h4 {
-    margin: 0 0 6px;
-    color: #333;
-    font-size: 16px;
-  }
-
-  .tool-btn p {
-    margin: 0;
-    color: #666;
-    font-size: 13px;
-  }
+  .btn-icon { font-size: 2rem; margin-bottom: 0.5rem; }
+  .btn-text { font-weight: 600; color: var(--text-primary, #eee); margin-bottom: 0.25rem; }
+  .btn-desc { font-size: 0.85rem; color: var(--text-tertiary, #999); }
 
   .search-box {
     margin: 15px 0;
@@ -1493,7 +1746,8 @@
   }
 
   .form-group input,
-  .form-group textarea {
+  .form-group textarea,
+  .form-group select {
     width: 100%;
     padding: 10px;
     border: 1px solid #ddd;
@@ -1501,6 +1755,52 @@
     font-size: 13px;
     box-sizing: border-box;
     font-family: inherit;
+  }
+  .form-group select {
+    appearance: none;
+    background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+    background-repeat: no-repeat;
+    background-position: right 8px center;
+    background-size: 20px;
+    padding-right: 32px;
+  }
+  .combo-box-wrapper {
+    position: relative;
+  }
+  .combo-box-wrapper input {
+    width: 100%;
+  }
+  .combo-box-wrapper input::placeholder {
+    color: #999;
+  }
+  .landing-page-display {
+    margin-top: 8px;
+    padding: 10px;
+    background: #f5f5f5;
+    border-left: 4px solid #CC0000;
+    border-radius: 4px;
+    font-size: 12px;
+    font-family: monospace;
+    color: #333;
+    word-break: break-all;
+  }
+  .auto-fill {
+    margin: 8px 0 4px;
+    font-size: 12px;
+    color: #666;
+    font-weight: 600;
+  }
+  .success-text {
+    margin-top: 6px;
+    font-size: 12px;
+    color: #2E7D32;
+    font-weight: 600;
+  }
+  .warning-text {
+    margin-top: 6px;
+    font-size: 12px;
+    color: #F57C00;
+    font-weight: 600;
   }
 
   .form-group textarea {
@@ -1803,6 +2103,8 @@
   .roi-row.total { font-weight: 700; font-size: 14px; border-top: 2px solid #ddd; padding-top: 12px; margin-top: 4px; }
   .roi-row .cost { color: #c33; }
   .roi-row .profit { color: #2e7d32; font-weight: 700; }
+  .roi-export-actions { display: flex; gap: 8px; margin-top: 16px; }
+  .roi-export-actions .action-btn { flex: 1; font-size: 13px; padding: 10px; }
   .roi-verdict { margin-top: 16px; padding: 14px; border-radius: 10px; font-size: 14px; font-weight: 600; text-align: center; }
   .roi-verdict.positive { background: #e8f5e9; color: #2e7d32; border: 1px solid #81c784; }
   .roi-verdict.negative { background: #ffe0e0; color: #c33; border: 1px solid #ff9999; }

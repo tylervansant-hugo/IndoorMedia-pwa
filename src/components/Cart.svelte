@@ -7,6 +7,7 @@
   let addStep = 'type'; // type, store, plan, confirm
   let newItem = { type: '', store: null, plan: '', pins: 1, price: '' };
   let storeSearch = '';
+  let cartAdType = 'single'; // single or double
 
   // Zone 07 cycle launch dates (7th of each month)
   const CYCLE_MONTHS = { 'A': [0,3,6,9], 'B': [1,4,7,10], 'C': [2,5,8,11] };
@@ -29,6 +30,8 @@
   }
 
   const PRODUCT_TYPES = [
+    { id: 'tape_single', name: 'Register Tape — Single Ad', emoji: '🧾', needsStore: true, adSize: 'single' },
+    { id: 'tape_double', name: 'Register Tape — Double Ad', emoji: '🧾', needsStore: true, adSize: 'double' },
     { id: 'tape_coop', name: 'Register Tape — Co-Op', emoji: '🧾', needsStore: true },
     { id: 'tape_exclusive', name: 'Register Tape — Exclusive', emoji: '🧾', needsStore: true },
     { id: 'tape_contractor', name: 'Register Tape — Contractors', emoji: '🧾', needsStore: true },
@@ -47,6 +50,18 @@
   ];
 
   const PAYMENT_PLANS = {
+    tape_single: [
+      { id: 'monthly', name: 'Monthly (12 payments)', calc: (base) => ((base + 125) / 12).toFixed(2) + '/mo × 12 = $' + (base + 125).toFixed(2) },
+      { id: '3month', name: '3-Month (10% off)', calc: (base) => (((base * 0.90) + 125) / 3).toFixed(2) + '/payment × 3 = $' + ((base * 0.90) + 125).toFixed(2) },
+      { id: '6month', name: '6-Month (7.5% off)', calc: (base) => (((base * 0.925) + 125) / 6).toFixed(2) + '/payment × 6 = $' + ((base * 0.925) + 125).toFixed(2) },
+      { id: 'pif', name: 'Paid-in-Full (15% off)', calc: (base) => '$' + ((base * 0.85) + 125).toFixed(2) },
+    ],
+    tape_double: [
+      { id: 'monthly', name: 'Monthly (12 payments)', calc: (base) => ((base + 125) / 12).toFixed(2) + '/mo × 12 = $' + (base + 125).toFixed(2) },
+      { id: '3month', name: '3-Month (10% off)', calc: (base) => (((base * 0.90) + 125) / 3).toFixed(2) + '/payment × 3 = $' + ((base * 0.90) + 125).toFixed(2) },
+      { id: '6month', name: '6-Month (7.5% off)', calc: (base) => (((base * 0.925) + 125) / 6).toFixed(2) + '/payment × 6 = $' + ((base * 0.925) + 125).toFixed(2) },
+      { id: 'pif', name: 'Paid-in-Full (15% off)', calc: (base) => '$' + ((base * 0.85) + 125).toFixed(2) },
+    ],
     tape_coop: [
       { id: 'monthly', name: 'Monthly (12 payments)', calc: (base) => ((base + 125) / 12).toFixed(2) + '/mo × 12 = $' + (base + 125).toFixed(2) },
       { id: '3month', name: '3-Month (10% off)', calc: (base) => (((base * 0.90) + 125) / 3).toFixed(2) + '/payment × 3 = $' + ((base * 0.90) + 125).toFixed(2) },
@@ -66,7 +81,7 @@
   onMount(async () => {
     loadCart();
     try {
-      const res = await fetch('/data/stores.json');
+      const res = await fetch(import.meta.env.BASE_URL + 'data/stores.json');
       allStores = await res.json();
     } catch {}
   });
@@ -163,10 +178,14 @@
   }
 
   function selectPlan(plan) {
-    const base = newItem.store?.SingleAd || 0;
+    // Determine base price: use product adSize if set, otherwise use cart toggle
+    const productType = PRODUCT_TYPES.find(t => t.id === newItem.type);
+    let adSel = productType?.adSize || cartAdType;
+    const base = adSel === 'double' && newItem.store?.DoubleAd ? newItem.store.DoubleAd : (newItem.store?.SingleAd || 0);
     newItem.plan = plan.name;
+    newItem.adType = adSel === 'double' ? 'Double Ad' : 'Single Ad';
     newItem.planCalc = plan.calc(base);
-    newItem.priceText = plan.calc(base); // Display version
+    newItem.priceText = plan.calc(base);
     addStep = 'confirm';
   }
 
@@ -276,15 +295,30 @@
       {#if addStep === 'plan'}
         <h3>Payment Plan</h3>
         <p class="plan-store">{newItem.storeName} ({newItem.storeNum})</p>
+        
+        {#if newItem.store?.DoubleAd}
+          <div class="ad-type-toggle">
+            <button class="ad-toggle-btn" class:active={cartAdType === 'single'} on:click={() => cartAdType = 'single'}>
+              Single Ad — ${newItem.store.SingleAd?.toLocaleString()}
+            </button>
+            <button class="ad-toggle-btn" class:active={cartAdType === 'double'} on:click={() => cartAdType = 'double'}>
+              Double Ad — ${newItem.store.DoubleAd?.toLocaleString()}
+            </button>
+          </div>
+        {/if}
+
+        {@const productType = PRODUCT_TYPES.find(t => t.id === newItem.type)}
+        {@const adSel = productType?.adSize || cartAdType}
+        {@const basePrice = adSel === 'double' && newItem.store?.DoubleAd ? newItem.store.DoubleAd : (newItem.store?.SingleAd || 0)}
         <div class="plan-list">
           {#each PAYMENT_PLANS[newItem.type] || [] as plan}
             <button class="plan-btn" on:click={() => selectPlan(plan)}>
               <span class="plan-name">{plan.name}</span>
-              <span class="plan-price">{plan.calc(newItem.store?.SingleAd || 0)}</span>
+              <span class="plan-price">{plan.calc(basePrice)}</span>
             </button>
           {/each}
         </div>
-        <button class="cancel-btn" on:click={() => { addStep = 'store'; }}>Back</button>
+        <button class="cancel-btn" on:click={() => { addStep = 'store'; cartAdType = 'single'; }}>Back</button>
       {/if}
 
       {#if addStep === 'confirm'}
@@ -354,7 +388,7 @@
 </div>
 
 <style>
-  .quote-container { padding: 20px; max-width: 600px; margin: 0 auto; }
+  .quote-container { padding: 20px 20px 100px; max-width: 100%; margin: 0 auto; }
   h2 { margin: 0 0 6px; font-size: 24px; font-weight: 700; color: var(--text-primary); }
   h3 { margin: 0 0 12px; font-size: 18px; font-weight: 700; color: #333; }
   .subtitle { margin: 0 0 16px; color: var(--text-secondary); font-size: 14px; }
@@ -393,6 +427,10 @@
 
   .plan-store { margin: 0 0 12px; font-size: 13px; color: #666; }
   .plan-list { display: flex; flex-direction: column; gap: 8px; }
+  .ad-type-toggle { display: flex; gap: 8px; margin-bottom: 12px; }
+  .ad-toggle-btn { flex: 1; padding: 10px; border: 2px solid #ddd; border-radius: 8px; background: white; font-size: 13px; font-weight: 600; color: #666; cursor: pointer; transition: all 0.2s; }
+  .ad-toggle-btn.active { background: #CC0000; color: white; border-color: #CC0000; }
+  .ad-toggle-btn:hover:not(.active) { border-color: #CC0000; color: #CC0000; }
   .plan-btn { display: flex; flex-direction: column; padding: 12px; background: white; border: 1px solid #e0e0e0; border-radius: 8px; cursor: pointer; text-align: left; }
   .plan-btn:hover { border-color: #CC0000; }
   .plan-name { font-weight: 600; font-size: 14px; color: #333; }

@@ -7,6 +7,7 @@
   let submitMode = 'manual'; // 'manual' or 'card'
   let formData = {
     business_name: '',
+    contact_name: '',
     category: 'Restaurant',
     phone: '',
     email: '',
@@ -14,9 +15,7 @@
     store_id: '',
     store_chain: '',
     store_city: '',
-    distance_mi: '',
-    rating: 4.5,
-    reviews: 0
+    distance_mi: ''
   };
   
   let cardImage = null;
@@ -26,43 +25,158 @@
   let extractedData = null;
   let submitting = false;
   let submitMessage = '';
+  let tesseractReady = false;
   
   let allStores = [];
   let filteredStores = [];
   let storeSearchText = '';
   
   const categories = [
-    'Restaurant',
-    'Auto Repair',
-    'Salon/Barber',
-    'Dental',
-    'Gym/Fitness',
-    'Veterinary',
-    'Chiropractor',
-    'Other'
+    'Auto / Accessories / Parts',
+    'Auto / Car Wash / Detailing',
+    'Auto / Inspection / Testing / Smog',
+    'Auto / Repair / Body / Maintenance',
+    'Auto / Sales / Leasing / Rental',
+    'Auto / Towing / Storage',
+    'Beauty / Beauty & Health',
+    'Beauty / Hair / Nails / Spa / Tanning',
+    'Education / School',
+    'Entertainment / Bar / Night Club',
+    'Entertainment / Dance Studio / Classes',
+    'Entertainment / Family Entertainment',
+    'Entertainment / Gaming / Casinos',
+    'Entertainment / Golf Courses / Supplies',
+    'Entertainment / Hotel / Motel',
+    'Entertainment / Martial Arts',
+    'Entertainment / Music / Lessons',
+    'Entertainment / Party Supplies / Planning',
+    'Entertainment / Recreation Centers / Halls',
+    'Entertainment / Sports Bar / Lounge / Winery',
+    'Entertainment / Tattoos & Piercing',
+    'Entertainment / Travel Agencies',
+    'General / Child Care',
+    'General / Community Services',
+    'Health / Blood / Plasma Donations',
+    'Health / CBD',
+    'Health / Dental / Orthodontics',
+    'Health / Dispensary',
+    'Health / Fitness & Health',
+    'Health / Hearing Aids / Devices',
+    'Health / Medical',
+    'Health / Optical',
+    'Health / Pharmaceuticals',
+    'Health / Senior Care / Living',
+    'Home Services / Cleaning / Maid Service',
+    'Home Services / Dry Cleaning / Laundry / Tailors',
+    'Home Services / Energy',
+    'Home Services / Funeral Home / Cemetery',
+    'Home Services / Glass Repair',
+    'Home Services / Home Improvement / Contracting',
+    'Home Services / Pet Care',
+    'Home Services / Propane & Natural Gas',
+    'Home Services / Real Estate / Realtors',
+    'Home Services / Recycling / Salvage',
+    'Home Services / Rental Services',
+    'Home Services / Storage',
+    'Home Services / Tool Repair & Parts',
+    'Home Services / Vehicle & License Registration',
+    'Home Services / Video / Production',
+    'Home Services / Water Delivery',
+    'Legal / Attorney / Law Firm',
+    'Legal / Mortgage',
+    'Insurance',
+    'Personal Finance / Financial',
+    'Professional Services / Audio / Video Equipment',
+    'Professional Services / Computers / Repair',
+    'Professional Services / Printing / Supplies',
+    'Professional Services / Recruiting',
+    'Professional Services / Restaurant Equipment',
+    'Professional Services / Transportation / Delivery',
+    'Professional Services / Water Treatment',
+    'Restaurant / Asian',
+    'Restaurant / Bakery',
+    'Restaurant / Breweries',
+    'Restaurant / Casual Dining',
+    'Restaurant / Catering',
+    'Restaurant / Coffee Shops',
+    'Restaurant / Cultural Dining',
+    'Restaurant / Deli',
+    'Restaurant / Donut Shops',
+    'Restaurant / Fast Food',
+    'Restaurant / Fine Dining',
+    'Restaurant / Food Delivery',
+    'Restaurant / Ice Cream / Yogurt Shops',
+    'Restaurant / Mexican',
+    'Restaurant / Pizza',
+    'Restaurant / Sandwich Shops',
+    'Retail / Antiques & Collectibles',
+    'Retail / Arts & Crafts',
+    'Retail / Barbeque Grills & Supplies',
+    'Retail / Battery Supplies',
+    'Retail / Bicycle Shop',
+    'Retail / Candy & Sweets',
+    'Retail / Communication',
+    'Retail / Convenience Store / Gas Station',
+    'Retail / Feed Store / Farm Equipment',
+    'Retail / Florists',
+    'Retail / Framing',
+    'Retail / Furniture',
+    'Retail / Grocery Store',
+    'Retail / Hobby Shops / Equipment',
+    'Retail / Jewelry / Watch Repair',
+    'Retail / Liquor Store',
+    'Retail / Pawn Shops / Gold & Silver',
+    'Retail / Pet Supply Store',
+    'Retail / Shopping / Boutique',
+    'Retail / Sewing Machines / Contractors',
+    'Retail / Shipping / Postal Services',
+    'Retail / Smoke Shop',
+    'Retail / Specialty Foods',
+    'Retail / Sporting / Military Goods',
+    'Retail / Toys / Games',
+    'Retail / Vacuums',
+    'Other / Unknown',
   ];
   
+  // Load Tesseract.js
+  async function loadTesseract() {
+    if (window.Tesseract || tesseractReady) return;
+    
+    return new Promise((resolve) => {
+      const script = document.createElement('script');
+      script.src = 'https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js';
+      script.onload = () => {
+        tesseractReady = true;
+        resolve();
+      };
+      script.onerror = () => {
+        console.error('Failed to load Tesseract');
+        resolve(); // Continue anyway
+      };
+      document.head.appendChild(script);
+    });
+  }
+  
   onMount(async () => {
-    // Load stores for reference
+    // Load all 7,835 stores for reference
     try {
-      const response = await fetch('/data/hot_leads.json');
-      const leads = await response.json();
-      allStores = [...new Set(leads.map(l => ({
-        id: l.store_id,
-        chain: l.store_chain,
-        city: l.store_city,
-        tier: l.store_tier
-      })))];
+      const response = await fetch(import.meta.env.BASE_URL + 'data/stores.json');
+      const stores = await response.json();
+      allStores = stores.map(s => ({
+        id: s.StoreName,
+        chain: s.GroceryChain,
+        city: s.City,
+        state: s.State,
+        address: s.Address,
+        cycle: s.Cycle
+      }));
+      console.log(`Loaded ${allStores.length} stores for reference`);
     } catch (err) {
       console.error('Error loading stores:', err);
     }
     
     // Load Tesseract.js for OCR
-    if (!window.Tesseract) {
-      const script = document.createElement('script');
-      script.src = 'https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js';
-      document.head.appendChild(script);
-    }
+    await loadTesseract();
   });
   
   function handleCardImageSelect(e) {
@@ -81,38 +195,98 @@
     if (!cardImage) return;
     
     ocrLoading = true;
-    submitMessage = 'Reading business card...';
+    submitMessage = 'Loading OCR...';
     
     try {
+      // Wait for Tesseract to load
+      await loadTesseract();
+      
+      if (!window.Tesseract) {
+        submitMessage = '⚠️ OCR unavailable. Please fill in info manually.';
+        ocrLoading = false;
+        return;
+      }
+      
+      submitMessage = 'Reading business card...';
+      
       // Use Tesseract.js for OCR
-      const { data: { text } } = await Tesseract.recognize(cardImagePreview, 'eng');
+      const { data: { text } } = await window.Tesseract.recognize(cardImagePreview, 'eng');
       ocrText = text;
       
-      // Try to extract phone, email, name
+      // Try to extract phone, email, name, address
       const phoneMatch = text.match(/\(?(\d{3})\)?[-.\s]?(\d{3})[-.\s]?(\d{4})/);
       const emailMatch = text.match(/[\w\.-]+@[\w\.-]+\.\w+/);
+      
+      // Extract contact name (usually first line or before title)
+      const lines = text.split('\n').map(l => l.trim()).filter(l => l.length > 0);
+      let contactName = '';
+      if (lines.length > 0) {
+        // First line is often the name (if not title)
+        const firstLine = lines[0];
+        if (firstLine.length < 50 && !firstLine.match(/\d{3}/) && !firstLine.includes('@')) {
+          contactName = firstLine;
+        }
+      }
+      
+      // Extract address (look for zip code pattern)
+      const addressMatch = text.match(/\d+\s+[A-Za-z\s]+(?:St|Ave|Blvd|Dr|Rd|Lane|Way|Court),?\s*[A-Za-z\s]+,?\s*[A-Z]{2}\s*\d{5}/);
+      const address = addressMatch ? addressMatch[0] : '';
       
       extractedData = {
         phone: phoneMatch ? `(${phoneMatch[1]}) ${phoneMatch[2]}-${phoneMatch[3]}` : '',
         email: emailMatch ? emailMatch[0] : '',
+        contact_name: contactName,
+        address: address,
         business_name: '', // User needs to fill this
         raw_text: text
       };
       
       if (extractedData.phone) formData.phone = extractedData.phone;
       if (extractedData.email) formData.email = extractedData.email;
+      if (extractedData.contact_name) formData.contact_name = extractedData.contact_name;
+      if (extractedData.address) {
+        formData.address = extractedData.address;
+        // Find nearest 3 stores to this address
+        findNearestStores(extractedData.address);
+      }
       
       submitMessage = '✓ Card read! Review and fill in any missing info.';
       ocrLoading = false;
     } catch (err) {
-      submitMessage = `Error reading card: ${err.message}`;
+      console.error('OCR error:', err);
+      submitMessage = `Error reading card: ${err.message || 'Unknown error'}. Please fill in manually.`;
       ocrLoading = false;
+    }
+  }
+  
+  function findNearestStores(address) {
+    // Simple heuristic: find stores by city/state from address
+    const addressLower = address.toLowerCase();
+    const stateMatch = address.match(/[A-Z]{2}\s*\d{5}/);
+    
+    if (!stateMatch) {
+      filteredStores = [];
+      return;
+    }
+    
+    const state = stateMatch[0].substring(0, 2);
+    
+    // Find stores in same state, limit to 3
+    const nearbyStores = allStores
+      .filter(s => s.State === state)
+      .slice(0, 3);
+    
+    if (nearbyStores.length > 0) {
+      // Auto-select first nearby store as reference
+      formData.store_id = nearbyStores[0].StoreName;
+      formData.store_chain = nearbyStores[0].GroceryChain;
+      formData.store_city = nearbyStores[0].City;
     }
   }
   
   function filterStores(text) {
     storeSearchText = text;
-    if (!text) {
+    if (!text || text.length < 2) {
       filteredStores = [];
       return;
     }
@@ -120,15 +294,18 @@
     filteredStores = allStores.filter(s => 
       s.id.toLowerCase().includes(search) ||
       s.chain.toLowerCase().includes(search) ||
-      s.city.toLowerCase().includes(search)
-    ).slice(0, 5);
+      s.city.toLowerCase().includes(search) ||
+      (s.state && s.state.toLowerCase().includes(search)) ||
+      (s.address && s.address.toLowerCase().includes(search)) ||
+      `${s.chain} ${s.city}`.toLowerCase().includes(search)
+    ).slice(0, 8);
   }
   
   function selectStore(store) {
     formData.store_id = store.id;
     formData.store_chain = store.chain;
     formData.store_city = store.city;
-    storeSearchText = `${store.chain} ${store.city}`;
+    storeSearchText = `${store.chain} — ${store.city}, ${store.state} (${store.id})`;
     filteredStores = [];
   }
   
@@ -147,27 +324,22 @@
         ...formData,
         submitted_by: user?.name || 'Unknown',
         submitted_at: new Date().toISOString(),
-        status: 'pending_review',
+        status: 'approved',
         _hook: `Submitted by ${user?.name || 'rep'}`
       };
       
-      // Save to submitted_leads.json
-      const response = await fetch('/api/submit-lead', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(newLead)
-      });
+      // Save to localStorage (no backend API)
+      const leads = JSON.parse(localStorage.getItem('submitted_leads') || '[]');
+      leads.push(newLead);
+      localStorage.setItem('submitted_leads', JSON.stringify(leads));
       
-      if (!response.ok) {
-        throw new Error(`API error: ${response.status}`);
-      }
-      
-      submitMessage = '✅ Lead submitted! Waiting for Tyler\'s review.';
+      submitMessage = '✅ Lead added to Hot Leads!';
       
       // Reset form
       setTimeout(() => {
         formData = {
           business_name: '',
+          contact_name: '',
           category: 'Restaurant',
           phone: '',
           email: '',
@@ -175,9 +347,7 @@
           store_id: '',
           store_chain: '',
           store_city: '',
-          distance_mi: '',
-          rating: 4.5,
-          reviews: 0
+          distance_mi: ''
         };
         cardImage = null;
         cardImagePreview = null;
@@ -198,7 +368,7 @@
 <div class="submit-container">
   <div class="submit-header">
     <h3>➕ Submit New Lead</h3>
-    <p>Found a business? Add it here. Tyler will review and approve.</p>
+    <p>Found a business? Add it here.</p>
   </div>
   
   <div class="mode-toggle">
@@ -222,10 +392,12 @@
     <div class="card-upload">
       <div class="upload-area">
         <input
+          id="card-file"
           type="file"
           accept="image/*"
           on:change={handleCardImageSelect}
           class="file-input"
+          capture="environment"
         />
         <label for="card-file" class="upload-label">
           📸 Upload Business Card
@@ -262,6 +434,15 @@
       />
     </div>
     
+    <div class="form-group">
+      <label>Contact Name</label>
+      <input
+        type="text"
+        placeholder="e.g., John Smith"
+        bind:value={formData.contact_name}
+      />
+    </div>
+    
     <div class="form-row">
       <div class="form-group">
         <label>Category</label>
@@ -272,27 +453,7 @@
         </select>
       </div>
       
-      <div class="form-group">
-        <label>Rating (optional)</label>
-        <input
-          type="number"
-          min="0"
-          max="5"
-          step="0.1"
-          bind:value={formData.rating}
-          placeholder="4.5"
-        />
-      </div>
-      
-      <div class="form-group">
-        <label>Reviews (optional)</label>
-        <input
-          type="number"
-          min="0"
-          bind:value={formData.reviews}
-          placeholder="0"
-        />
-      </div>
+
     </div>
     
     <div class="form-row">
@@ -339,15 +500,15 @@
               class="suggestion-item"
               on:click={() => selectStore(store)}
             >
-              <strong>{store.chain}</strong> {store.city}
-              <small>{store.id}</small>
+              <strong>{store.chain}</strong> — {store.city}, {store.state}
+              <small>{store.address} · {store.id} · Cycle {store.cycle}</small>
             </button>
           {/each}
         </div>
       {/if}
       {#if formData.store_id}
         <div class="selected-store">
-          ✓ {formData.store_chain} {formData.store_city}
+          ✅ {formData.store_chain} — {formData.store_city} ({formData.store_id})
         </div>
       {/if}
     </div>
@@ -373,7 +534,10 @@
     background: white;
     border-radius: 12px;
     padding: 24px;
-    max-width: 600px;
+    max-width: 800px;
+    margin: 0 auto;
+    width: 100%;
+    box-sizing: border-box;
   }
   
   .submit-header {
@@ -442,9 +606,14 @@
     transition: all 0.2s;
   }
   
-  .file-input:hover + .upload-label {
+  .file-input:hover + .upload-label,
+  .file-input:focus + .upload-label {
     border-color: #CC0000;
     background: #fff5f5;
+  }
+  
+  .upload-label:active {
+    transform: scale(0.98);
   }
   
   .preview {
@@ -513,6 +682,7 @@
     display: flex;
     flex-direction: column;
     gap: 6px;
+    position: relative;
   }
   
   .form-row {
@@ -546,48 +716,56 @@
     left: 0;
     right: 0;
     background: white;
-    border: 1px solid #ddd;
+    border: 2px solid #cc0000;
     border-top: none;
-    border-radius: 0 0 6px 6px;
-    max-height: 200px;
+    border-radius: 0 0 10px 10px;
+    max-height: 320px;
     overflow-y: auto;
     z-index: 10;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.15);
   }
   
   .suggestion-item {
     display: block;
     width: 100%;
-    padding: 10px 12px;
+    padding: 12px 14px;
     background: white;
     border: none;
+    border-bottom: 1px solid #f0f0f0;
     text-align: left;
-    font-size: 13px;
+    font-size: 14px;
     cursor: pointer;
-    transition: all 0.2s;
+    transition: all 0.15s;
+  }
+  
+  .suggestion-item:last-child {
+    border-bottom: none;
   }
   
   .suggestion-item:hover {
-    background: #f9f9f9;
+    background: #fff5f5;
   }
   
   .suggestion-item strong {
-    font-weight: 600;
-    color: #333;
+    font-weight: 700;
+    color: #cc0000;
   }
   
   .suggestion-item small {
     display: block;
     font-size: 11px;
-    color: #999;
-    margin-top: 2px;
+    color: #888;
+    margin-top: 3px;
   }
   
   .selected-store {
-    padding: 8px 12px;
-    background: #f0f0f0;
-    border-radius: 6px;
-    font-size: 13px;
-    color: #333;
+    padding: 10px 14px;
+    background: #e8f5e9;
+    border-radius: 8px;
+    font-size: 14px;
+    color: #2e7d32;
+    font-weight: 600;
+    margin-top: 4px;
   }
   
   .message {
