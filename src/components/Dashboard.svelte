@@ -4,10 +4,11 @@
   export let user;
   
   let prospects = [];
-  let stats = { total: 0, interested: 0, followup: 0, closed: 0, avgScore: 0 };
+  let stats = { total: 0, interested: 0, followup: 0, closed: 0, avgScore: 0, totalSales: 0 };
   
   onMount(async () => {
     try {
+      // Load prospects
       const res = await fetch(import.meta.env.BASE_URL + 'data/prospect_data.json');
       const data = await res.json();
       const reps = data.reps || {};
@@ -32,6 +33,33 @@
       const scores = prospects.filter(p => p.score).map(p => p.score);
       stats.avgScore = scores.length ? (scores.reduce((a, b) => a + b, 0) / scores.length).toFixed(1) : 0;
       
+      // Load and sum contracts + renewals
+      let totalSales = 0;
+      
+      // Add contracts
+      try {
+        const contractRes = await fetch(import.meta.env.BASE_URL + 'data/contracts.json');
+        const contractData = await contractRes.json();
+        const contracts = contractData.contracts || contractData || [];
+        totalSales += contracts.reduce((sum, c) => sum + (c.total_amount || 0), 0);
+      } catch (e) { console.warn('Could not load contracts:', e); }
+      
+      // Add renewals
+      try {
+        const renewalRes = await fetch(import.meta.env.BASE_URL + 'data/pending_renewals.json');
+        const renewals = await renewalRes.json();
+        if (Array.isArray(renewals)) {
+          totalSales += renewals.reduce((sum, r) => {
+            const price = typeof r.contractPrice === 'number' 
+              ? r.contractPrice 
+              : parseFloat(String(r.contractPrice || '0').replace(/[$,]/g, '')) || 0;
+            return sum + price;
+          }, 0);
+        }
+      } catch (e) { console.warn('Could not load renewals:', e); }
+      
+      stats.totalSales = totalSales;
+      
     } catch (err) {
       console.error('Failed to load dashboard data:', err);
     }
@@ -53,6 +81,10 @@
   <h2>📊 Performance Dashboard</h2>
   
   <div class="stat-grid">
+    <div class="stat-card sales">
+      <div class="stat-number">${(stats.totalSales / 1000).toFixed(1)}K</div>
+      <div class="stat-label">Total Sales (Contracts + Renewals)</div>
+    </div>
     <div class="stat-card">
       <div class="stat-number">{stats.total}</div>
       <div class="stat-label">Total Prospects</div>
@@ -60,10 +92,6 @@
     <div class="stat-card interested">
       <div class="stat-number">{stats.interested}</div>
       <div class="stat-label">Interested</div>
-    </div>
-    <div class="stat-card followup">
-      <div class="stat-number">{stats.followup}</div>
-      <div class="stat-label">Follow-up</div>
     </div>
     <div class="stat-card closed">
       <div class="stat-number">{stats.closed}</div>
@@ -127,6 +155,7 @@
     border-left: 4px solid #ddd;
   }
   
+  .stat-card.sales { border-left-color: #cc0000; }
   .stat-card.interested { border-left-color: #1565c0; }
   .stat-card.followup { border-left-color: #e65100; }
   .stat-card.closed { border-left-color: #2e7d32; }
