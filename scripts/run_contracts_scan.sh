@@ -6,10 +6,14 @@ cd /Users/tylervansant/.openclaw/workspace
 # Step 1: Scan Gmail for new contract emails, download PDFs, create calendar events
 python3 scripts/contract_calendar.py --newer-than 2d >> /tmp/contracts_scan.log 2>&1
 
-# Step 2: Re-parse all PDFs and rebuild contracts.json for PWA
+# Step 2: Re-parse all PDFs and rebuild contracts.json for PWA (now uses contract date, not extraction time)
 python3 scripts/rebuild_contracts.py >> /tmp/contracts_scan.log 2>&1
 
-# Step 3: Push updated contracts to GitHub (Vercel auto-deploys)
+# Step 3: Generate report of TRULY new contracts (by comparing to previous scan)
+python3 scripts/report_new_contracts.py > /tmp/contracts_report.txt 2>&1
+cat /tmp/contracts_report.txt
+
+# Step 4: Push updated contracts to GitHub (Vercel auto-deploys)
 cd pwa
 if ! git diff --quiet public/data/contracts.json; then
     git add public/data/contracts.json
@@ -17,5 +21,5 @@ if ! git diff --quiet public/data/contracts.json; then
     git push origin main
     echo "✅ Contracts updated and pushed" >> /tmp/contracts_scan.log
 else
-    echo "✅ No new contracts" >> /tmp/contracts_scan.log
+    echo "✅ No changes to contracts" >> /tmp/contracts_scan.log
 fi

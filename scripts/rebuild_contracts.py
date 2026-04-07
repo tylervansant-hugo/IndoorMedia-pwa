@@ -157,8 +157,19 @@ for pdf_path in pdfs:
         contract.setdefault("product_description", "")
         contract["zone"] = contract_zone
         contract["extracted_at"] = datetime.now().isoformat()
-        all_contracts.append(contract)
+        # Add contract date if not already set (from PDF extraction)
+        if not entry.get("extracted_at") and entry.get("date"):
+            entry["extracted_at"] = entry["date"]
+        elif not entry.get("extracted_at"):
+            entry["extracted_at"] = datetime.now().isoformat()
+        all_contracts.append(entry)
 
+    # Add extracted_at to main contract record too
+    if not contract.get("extracted_at") and contract.get("date"):
+        contract["extracted_at"] = contract.get("date")
+    elif not contract.get("extracted_at"):
+        contract["extracted_at"] = datetime.now().isoformat()
+    
     biz = contract.get("business_name", "?")
     total = contract.get("total_amount", 0) or 0
     rep = contract.get("sales_rep", "?")
