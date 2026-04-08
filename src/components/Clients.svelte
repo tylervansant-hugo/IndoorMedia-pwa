@@ -458,29 +458,52 @@ IndoorMedia`;
       .catch(() => { contractsData = []; });
   }
 
+  // Normalize text for comparison
+  function norm(s) { return (s || '').toLowerCase().replace(/[^a-z0-9 ]/g, ' ').replace(/\s+/g, ' ').trim(); }
+  function getSignificantWords(s) { return norm(s).split(' ').filter(w => w.length > 2 && !['the','and','inc','llc','restaurant','mexican','food'].includes(w)); }
+
   function getRenewalStatus(renewal) {
     if (!contractsData.length) return 'pending';
-    const bizLower = (renewal.business || '').toLowerCase().replace(/[^a-z0-9 ]/g, ' ').trim();
-    const bizWords = bizLower.split(/\s+/).filter(w => w.length > 2);
-    const storeNum = (renewal.store || '').match(/(\d{4})/)?.[1] || '';
-    const contractNum = (renewal.contractNumber || '').toUpperCase();
+    
+    const rBiz = norm(renewal.business);
+    const rBizWords = getSignificantWords(renewal.business);
+    const rStore = (renewal.store || '').match(/(\d{4})/)?.[1] || '';
+    const rContract = (renewal.contractNumber || '').toUpperCase();
+    const rContact = norm(renewal.contactName);
+    const rContactFirst = rContact.split(' ')[0] || '';
+    const rContactLast = rContact.split(' ').slice(-1)[0] || '';
     
     const match = contractsData.find(c => {
-      const cBiz = (c.business_name || '').toLowerCase().replace(/[^a-z0-9 ]/g, ' ').trim();
+      const cBiz = norm(c.business_name);
       const cStore = (c.store_number || '').trim();
       const cContract = (c.contract_number || '').toUpperCase();
+      const cContact = norm(c.contact_name);
+      const cContactFirst = cContact.split(' ')[0] || '';
+      const cContactLast = cContact.split(' ').slice(-1)[0] || '';
       
-      // Match 1: Same contract number (strongest match)
-      if (contractNum && cContract && cContract === contractNum) return true;
+      // Match 1: Same contract number (strongest — exact renewal)
+      if (rContract && cContract && cContract === rContract) return true;
       
-      // Match 2: Store number + fuzzy business name
-      const storeMatch = storeNum && cStore && cStore === storeNum;
-      if (!storeMatch) return false;
+      // Match 2: Same store number + fuzzy business name (handles different reps)
+      if (rStore && cStore && cStore === rStore) {
+        const cBizWords = getSignificantWords(c.business_name);
+        const commonWords = rBizWords.filter(w => cBizWords.some(cw => cw.includes(w) || w.includes(cw)));
+        if (commonWords.length >= 1) return true;
+      }
       
-      // Fuzzy name: any 2+ significant words in common
-      const cWords = cBiz.split(/\s+/).filter(w => w.length > 2);
-      const commonWords = bizWords.filter(w => cWords.some(cw => cw.includes(w) || w.includes(cw)));
-      return commonWords.length >= 1;
+      // Match 3: Same contact person + same store (different rep renewed it)
+      if (rStore && cStore && cStore === rStore && rContactLast && cContactLast) {
+        if (rContactLast === cContactLast && rContactFirst.slice(0,3) === cContactFirst.slice(0,3)) return true;
+      }
+      
+      // Match 4: Same contact person + similar business name (store may differ slightly)
+      if (rContactLast && cContactLast && rContactLast === cContactLast && rContactFirst.slice(0,3) === cContactFirst.slice(0,3)) {
+        const cBizWords = getSignificantWords(c.business_name);
+        const commonWords = rBizWords.filter(w => cBizWords.some(cw => cw.includes(w) || w.includes(cw)));
+        if (commonWords.length >= 1) return true;
+      }
+      
+      return false;
     });
     
     return match ? 'completed' : 'pending';
