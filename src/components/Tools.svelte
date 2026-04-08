@@ -43,11 +43,14 @@
   let roiResult = null;
 
   $: roiStoreResults = roiStoreSearch.length >= 2
-    ? allStores.filter(s =>
-        s.StoreName?.toLowerCase().includes(roiStoreSearch.toLowerCase()) ||
-        s.GroceryChain?.toLowerCase().includes(roiStoreSearch.toLowerCase()) ||
-        s.City?.toLowerCase().includes(roiStoreSearch.toLowerCase())
-      ).slice(0, 8)
+    ? allStores.filter(s => {
+        const q = roiStoreSearch.toLowerCase();
+        return s.StoreName?.toLowerCase().includes(q) ||
+          s.GroceryChain?.toLowerCase().includes(q) ||
+          s.City?.toLowerCase().includes(q) ||
+          s.Address?.toLowerCase().includes(q) ||
+          s.PostalCode?.includes(q);
+      }).slice(0, 8)
     : [];
 
   // Auto-update ad cost when ad size or store changes
@@ -860,7 +863,7 @@ Store: ${store}
             </div>
           </div>
         {:else}
-          <input type="text" bind:value={roiStoreSearch} placeholder="Search store by name, city, or number..." />
+          <input type="text" bind:value={roiStoreSearch} placeholder="Search by name, city, street, or zip..." />
           {#if roiStoreResults.length > 0}
             <div class="roi-store-list">
               {#each roiStoreResults as store}
