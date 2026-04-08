@@ -665,10 +665,19 @@
       // Build location-aware query
       const storeCity = selectedStore?.City || '';
       const storeState = selectedStore?.State || '';
+      const storeAddr = selectedStore?.Address || '';
+      const storeZip = selectedStore?.PostalCode || '';
       const hasRealCoords = selectedStore && !isBadCoords(lat, lng);
       
-      // If store has bad/dummy coords, put city+state in the query text instead
-      const textQuery = hasRealCoords ? keyword : `${keyword} near ${storeCity}, ${storeState}`;
+      // If store has bad/dummy coords, use address/city/zip for a precise text search
+      let textQuery;
+      if (hasRealCoords) {
+        textQuery = keyword;
+      } else if (storeZip) {
+        textQuery = `${keyword} near ${storeCity}, ${storeState} ${storeZip}`;
+      } else {
+        textQuery = `${keyword} near ${storeCity}, ${storeState}`;
+      }
       
       const requestBody = {
         textQuery: textQuery,
