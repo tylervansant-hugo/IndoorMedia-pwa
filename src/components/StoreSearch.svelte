@@ -9,6 +9,30 @@
   let userLocation = null;
   let storeCycleFilter = 'all';
 
+  // Store phone number lookup (cached)
+  let storePhones = {};
+  const PLACES_KEY = 'AIzaSyBoslNJj8aO6wkQOfkH9e4qTVJZ-G9nOuA';
+  
+  async function lookupStorePhone(store) {
+    const key = store.StoreName;
+    if (storePhones[key] !== undefined) return; // already looked up or in progress
+    storePhones[key] = 'loading';
+    storePhones = storePhones; // trigger reactivity
+    try {
+      const query = `${store.GroceryChain} ${store.Address} ${store.City} ${store.State}`;
+      const res = await fetch('https://places.googleapis.com/v1/places:searchText', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'X-Goog-Api-Key': PLACES_KEY,
+          'X-Goog-FieldMask': 'places.nationalPhoneNumber,places.internationalPhoneNumber' },
+        body: JSON.stringify({ textQuery: query, maxResultCount: 1 })
+      });
+      const data = await res.json();
+      const phone = data.places?.[0]?.nationalPhoneNumber || data.places?.[0]?.internationalPhoneNumber || '';
+      storePhones[key] = phone;
+      storePhones = storePhones;
+    } catch { storePhones[key] = ''; storePhones = storePhones; }
+  }
+
   // ROI Calculator state
   let roiStore = null;
   let roiInvestment = '0';
@@ -250,6 +274,11 @@ Store: ${store.StoreName}
   function toggleExpand(storeName) {
     expandedStore = expandedStore === storeName ? null : storeName;
     if (!adType[storeName]) adType[storeName] = 'single';
+    // Lookup phone number when expanding
+    if (expandedStore === storeName) {
+      const store = filtered.find(s => s.StoreName === storeName) || allStores.find(s => s.StoreName === storeName);
+      if (store) lookupStorePhone(store);
+    }
   }
 
   function toggleAdType(storeName) {
@@ -404,6 +433,11 @@ Store: ${store.StoreName}
             <div class="store-info">
               <p class="address">{store.Address}</p>
               <p class="city">{store.City}, {store.State} {store.PostalCode}</p>
+              {#if storePhones[store.StoreName] && storePhones[store.StoreName] !== 'loading'}
+                <p class="store-phone"><a href="tel:{storePhones[store.StoreName]}">📞 {storePhones[store.StoreName]}</a></p>
+              {:else if storePhones[store.StoreName] === 'loading'}
+                <p class="store-phone" style="color: var(--text-secondary, #999);">📞 Looking up...</p>
+              {/if}
               <p class="cycle">Cycle: {store.Cycle} | Cases: {store['Case Count']}{store.InstallDay ? ` | In Stores: ${store.InstallDay}${store.InstallDay == 1 || store.InstallDay == 21 || store.InstallDay == 31 ? 'st' : store.InstallDay == 2 || store.InstallDay == 22 ? 'nd' : store.InstallDay == 3 || store.InstallDay == 23 ? 'rd' : 'th'}` : ''}</p>
               {#if useGeolocation && userLocation && store.latitude && store.longitude}
                 <p class="distance">
@@ -784,6 +818,7 @@ Store: ${store.StoreName}
     margin-bottom: 12px;
   }
 
+  .store-phone a { color: #1565C0; text-decoration: none; font-weight: 600; }
   .store-info p {
     margin: 4px 0;
     font-size: 14px;

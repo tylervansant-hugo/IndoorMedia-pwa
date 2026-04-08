@@ -440,8 +440,30 @@
     );
   }
 
+  const PLACES_KEY_PS = 'AIzaSyBoslNJj8aO6wkQOfkH9e4qTVJZ-G9nOuA';
+
+  async function lookupStorePhone(store) {
+    if (!store || store._phone || store._phoneLoading) return;
+    store._phoneLoading = true;
+    selectedStore = selectedStore; // trigger reactivity
+    try {
+      const query = `${store.GroceryChain} ${store.Address} ${store.City} ${store.State}`;
+      const res = await fetch('https://places.googleapis.com/v1/places:searchText', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'X-Goog-Api-Key': PLACES_KEY_PS,
+          'X-Goog-FieldMask': 'places.nationalPhoneNumber,places.internationalPhoneNumber' },
+        body: JSON.stringify({ textQuery: query, maxResultCount: 1 })
+      });
+      const data = await res.json();
+      store._phone = data.places?.[0]?.nationalPhoneNumber || data.places?.[0]?.internationalPhoneNumber || '';
+    } catch { store._phone = ''; }
+    store._phoneLoading = false;
+    selectedStore = selectedStore; // trigger reactivity
+  }
+
   function selectStore(store) {
     selectedStore = store;
+    lookupStorePhone(store);
     view = 'categories';
   }
 
@@ -840,6 +862,7 @@
 
   function selectStoreFromBrowse(store) {
     selectedStore = store;
+    lookupStorePhone(store);
     storeSearchQuery = '';
     filteredStoreResults = [];
     view = 'categories';
@@ -1012,6 +1035,11 @@
   {#if view === 'categories'}
     <button class="back-btn" on:click={goBack}>← Back</button>
     <h3>📍 {selectedStore.GroceryChain} - {selectedStore.City}, {selectedStore.State}</h3>
+    {#if selectedStore._phone}
+      <p class="store-phone-display"><a href="tel:{selectedStore._phone}">📞 {selectedStore._phone}</a></p>
+    {:else if selectedStore._phoneLoading}
+      <p class="store-phone-display" style="color:#999;">📞 Looking up store phone...</p>
+    {/if}
     <p class="subtitle">Search by name or choose a category</p>
 
     {#if selectedStore && selectedStore.StoreName}
@@ -1930,6 +1958,8 @@
   h2 { font-size: 24px; }
   h3 { font-size: 18px; }
 
+  .store-phone-display { margin: 4px 0 8px; font-size: 14px; }
+  .store-phone-display a { color: #1565C0; text-decoration: none; font-weight: 600; }
   .subtitle { margin-bottom: 20px; color: var(--text-secondary); font-size: 14px; }
 
   .error-box {
