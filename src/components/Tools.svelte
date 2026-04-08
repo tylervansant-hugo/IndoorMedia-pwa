@@ -35,6 +35,7 @@
   let roiAdSize = 'single'; // single or double
   let roiAdCost = '';
   let roiQuarters = 4;
+  let roiNewCustomers = '';
   let roiRedemptions = '';
   let roiTicket = '';
   let roiDiscount = '';
@@ -69,17 +70,24 @@
     const annualAdCost = parseFloat(roiAdCost) || 0;
     const quarters = parseInt(roiQuarters) || 4;
     const months = quarters * 3;
-    // Annual cost, pro-rate for fewer quarters
     const totalAdCost = Math.round(annualAdCost * (quarters / 4));
     const costPerQuarter = Math.round(annualAdCost / 4);
+    const newCustomers = parseInt(roiNewCustomers) || 0;
     const redemptions = parseInt(roiRedemptions) || 0;
     const ticket = parseFloat(roiTicket) || 0;
     const discount = parseFloat(roiDiscount) || 0;
     const cogsPercent = parseFloat(roiCogs) || 0;
     const visitsPerYear = parseInt(roiVisitsPerYear) || 1;
     
-    const monthlyRevenue = redemptions * ticket * (visitsPerYear / 12);
+    // Revenue from coupon redemptions
+    const monthlyRedemptionRevenue = redemptions * ticket * (visitsPerYear / 12);
     const monthlyDiscounts = redemptions * discount;
+    
+    // Revenue from new customers (they come back visitsPerYear times)
+    const monthlyNewCustomerRevenue = newCustomers * ticket * (visitsPerYear / 12);
+    
+    // Total monthly revenue = redemptions + new customers
+    const monthlyRevenue = monthlyRedemptionRevenue + monthlyNewCustomerRevenue;
     const monthlyCogs = monthlyRevenue * (cogsPercent / 100);
     const monthlyProfit = monthlyRevenue - monthlyDiscounts - monthlyCogs;
     
@@ -90,7 +98,12 @@
     const campaignProfit = totalProfit - totalAdCost;
     const roiPercent = totalAdCost > 0 ? Math.round((campaignProfit / totalAdCost) * 100) : 0;
     
-    // Break-even: how many redemptions per month to cover ad cost
+    // New customer lifetime value
+    const customerLifetimeValue = ticket * visitsPerYear;
+    const totalNewCustomers = newCustomers * months;
+    const newCustomerTotalValue = totalNewCustomers * customerLifetimeValue;
+    
+    // Break-even
     const profitPerRedemption = ticket - discount - (ticket * cogsPercent / 100);
     const breakEvenRedemptions = profitPerRedemption > 0 ? Math.ceil(totalAdCost / (profitPerRedemption * months)) : '∞';
     
@@ -101,6 +114,10 @@
       adSize: roiAdSize,
       quarters,
       months,
+      newCustomersPerMonth: newCustomers,
+      totalNewCustomers,
+      customerLifetimeValue: Math.round(customerLifetimeValue),
+      newCustomerTotalValue: Math.round(newCustomerTotalValue),
       monthlyRevenue: Math.round(monthlyRevenue),
       monthlyProfit: Math.round(monthlyProfit),
       totalRevenue: Math.round(totalRevenue),
@@ -158,7 +175,8 @@
     line('Total Ad Investment:', `$${r.totalAdCost.toLocaleString()}${r.quarters < 4 ? ' (pro-rated)' : ''}`);
 
     section('ASSUMPTIONS');
-    line('Monthly Redemptions:', roiRedemptions);
+    if (r.newCustomersPerMonth > 0) line('New Customers / Month:', String(r.newCustomersPerMonth));
+    line('Monthly Coupon Redemptions:', roiRedemptions);
     line('Average Customer Spend:', `$${parseFloat(roiTicket || 0).toLocaleString()}`);
     line('Visits per Year:', `${r.visitsPerYear}`);
     line('Avg Discount per Coupon:', `$${parseFloat(roiDiscount || 0).toLocaleString()}`);
@@ -909,9 +927,15 @@ Store: ${store}
       </div>
 
       <div class="form-group">
-        <label>Monthly Redemptions *</label>
+        <label>New Customers Per Month</label>
+        <input type="number" bind:value={roiNewCustomers} placeholder="e.g., 15" />
+        <p class="hint">New customers gained each month from register tape exposure (not just coupon users)</p>
+      </div>
+
+      <div class="form-group">
+        <label>Monthly Coupon Redemptions *</label>
         <input type="number" bind:value={roiRedemptions} placeholder="e.g., 30" />
-        <p class="hint">Estimated new customers per month from the ad</p>
+        <p class="hint">Coupons redeemed per month from the ad</p>
       </div>
 
       <div class="form-group">
@@ -960,6 +984,30 @@ Store: ${store}
             <span class="roi-label">Campaign Profit</span>
           </div>
         </div>
+
+        {#if roiResult.newCustomersPerMonth > 0}
+          <div class="new-customer-section">
+            <h4>👥 New Customer Impact</h4>
+            <div class="roi-detail">
+              <div class="roi-row">
+                <span>New Customers / Month</span>
+                <span>{roiResult.newCustomersPerMonth}</span>
+              </div>
+              <div class="roi-row">
+                <span>Total New Customers ({roiResult.months} months)</span>
+                <span class="profit">{roiResult.totalNewCustomers}</span>
+              </div>
+              <div class="roi-row">
+                <span>Customer Lifetime Value (annually)</span>
+                <span>${roiResult.customerLifetimeValue.toLocaleString()}</span>
+              </div>
+              <div class="roi-row total">
+                <span>New Customer Total Value</span>
+                <span class="profit">${roiResult.newCustomerTotalValue.toLocaleString()}</span>
+              </div>
+            </div>
+          </div>
+        {/if}
 
         <div class="roi-detail">
           <div class="roi-row">
@@ -2101,6 +2149,8 @@ Store: ${store}
   .roi-value { display: block; font-size: 20px; font-weight: 700; color: #CC0000; }
   .roi-label { display: block; font-size: 11px; color: #888; margin-top: 4px; text-transform: uppercase; }
   .roi-detail { background: var(--card-bg, white); border: 1px solid var(--border-color, #eee); border-radius: 10px; padding: 16px; }
+  .new-customer-section { margin: 16px 0; }
+  .new-customer-section h4 { margin: 0 0 10px; font-size: 15px; color: var(--text-primary); }
   .roi-row { display: flex; justify-content: space-between; padding: 8px 0; font-size: 13px; border-bottom: 1px solid #f0f0f0; }
   .roi-row:last-child { border-bottom: none; }
   .roi-row.total { font-weight: 700; font-size: 14px; border-top: 2px solid #ddd; padding-top: 12px; margin-top: 4px; }
