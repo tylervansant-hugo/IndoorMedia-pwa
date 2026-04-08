@@ -856,7 +856,8 @@
       (s.GroceryChain && s.GroceryChain.toLowerCase().includes(term)) ||
       (s.City && s.City.toLowerCase().includes(term)) ||
       (s.State && s.State.toLowerCase().includes(term)) ||
-      (s.Address && s.Address.toLowerCase().includes(term))
+      (s.Address && s.Address.toLowerCase().includes(term)) ||
+      (s.PostalCode && s.PostalCode.includes(term))
     ).slice(0, 20);
   }
 
@@ -965,7 +966,7 @@
     <div class="search-box">
       <input
         type="text"
-        placeholder="Search by city, chain, store #, state, or street..."
+        placeholder="Search by city, chain, store #, state, street, or zip..."
         bind:value={storeSearchQuery}
         on:input={filterStoresForProspecting}
       />
