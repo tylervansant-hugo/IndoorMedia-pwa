@@ -66,6 +66,48 @@
     roiStoreSearch = '';
   }
 
+  // Build a single scenario given a multiplier on new customers
+  function buildScenario(label, multiplier, baseData) {
+    const { totalAdCost, months, redemptions, newCustomers, ticket, discount, cogsPercent, visitsPerYear } = baseData;
+    const scenarioNewCustomers = Math.round(newCustomers * multiplier);
+    
+    // Coupon redemptions (trackable)
+    const monthlyRedemptionRevenue = redemptions * ticket * (visitsPerYear / 12);
+    const monthlyDiscounts = redemptions * discount;
+    
+    // New customers (includes non-coupon exposure customers)
+    const monthlyNewCustomerRevenue = scenarioNewCustomers * ticket * (visitsPerYear / 12);
+    
+    const monthlyRevenue = monthlyRedemptionRevenue + monthlyNewCustomerRevenue;
+    const monthlyCogs = monthlyRevenue * (cogsPercent / 100);
+    const monthlyProfit = monthlyRevenue - monthlyDiscounts - monthlyCogs;
+    
+    const totalRevenue = monthlyRevenue * months;
+    const totalDiscounts = monthlyDiscounts * months;
+    const totalCogs = monthlyCogs * months;
+    const campaignProfit = (monthlyProfit * months) - totalAdCost;
+    const roiPercent = totalAdCost > 0 ? Math.round((campaignProfit / totalAdCost) * 100) : 0;
+    
+    const totalNewCustomers = scenarioNewCustomers * months;
+    const customerLifetimeValue = ticket * visitsPerYear;
+    
+    return {
+      label,
+      multiplier,
+      newCustomersPerMonth: scenarioNewCustomers,
+      totalNewCustomers,
+      customerLifetimeValue: Math.round(customerLifetimeValue),
+      newCustomerTotalValue: Math.round(totalNewCustomers * customerLifetimeValue),
+      monthlyRevenue: Math.round(monthlyRevenue),
+      monthlyProfit: Math.round(monthlyProfit),
+      totalRevenue: Math.round(totalRevenue),
+      totalDiscounts: Math.round(totalDiscounts),
+      totalCogs: Math.round(totalCogs),
+      campaignProfit: Math.round(campaignProfit),
+      roiPercent,
+    };
+  }
+
   function calculateROI() {
     const annualAdCost = parseFloat(roiAdCost) || 0;
     const quarters = parseInt(roiQuarters) || 4;
@@ -79,29 +121,15 @@
     const cogsPercent = parseFloat(roiCogs) || 0;
     const visitsPerYear = parseInt(roiVisitsPerYear) || 1;
     
-    // Revenue from coupon redemptions
-    const monthlyRedemptionRevenue = redemptions * ticket * (visitsPerYear / 12);
-    const monthlyDiscounts = redemptions * discount;
+    const baseData = { totalAdCost, months, redemptions, newCustomers, ticket, discount, cogsPercent, visitsPerYear };
     
-    // Revenue from new customers (they come back visitsPerYear times)
-    const monthlyNewCustomerRevenue = newCustomers * ticket * (visitsPerYear / 12);
-    
-    // Total monthly revenue = redemptions + new customers
-    const monthlyRevenue = monthlyRedemptionRevenue + monthlyNewCustomerRevenue;
-    const monthlyCogs = monthlyRevenue * (cogsPercent / 100);
-    const monthlyProfit = monthlyRevenue - monthlyDiscounts - monthlyCogs;
-    
-    const totalRevenue = monthlyRevenue * months;
-    const totalDiscounts = monthlyDiscounts * months;
-    const totalCogs = monthlyCogs * months;
-    const totalProfit = monthlyProfit * months;
-    const campaignProfit = totalProfit - totalAdCost;
-    const roiPercent = totalAdCost > 0 ? Math.round((campaignProfit / totalAdCost) * 100) : 0;
-    
-    // New customer lifetime value
-    const customerLifetimeValue = ticket * visitsPerYear;
-    const totalNewCustomers = newCustomers * months;
-    const newCustomerTotalValue = totalNewCustomers * customerLifetimeValue;
+    // Three scenarios:
+    // Conservative: only coupon redemptions (trackable customers)
+    // Balanced: redemptions + new customers as entered (your best estimate)
+    // Optimistic: redemptions + 3x new customers (many see ad but don't use coupon)
+    const conservative = buildScenario('🟢 Conservative', 0, baseData);
+    const balanced = buildScenario('🔵 Balanced', 1, baseData);
+    const optimistic = buildScenario('🚀 Optimistic', 3, baseData);
     
     // Break-even
     const profitPerRedemption = ticket - discount - (ticket * cogsPercent / 100);
@@ -114,20 +142,13 @@
       adSize: roiAdSize,
       quarters,
       months,
-      newCustomersPerMonth: newCustomers,
-      totalNewCustomers,
-      customerLifetimeValue: Math.round(customerLifetimeValue),
-      newCustomerTotalValue: Math.round(newCustomerTotalValue),
-      monthlyRevenue: Math.round(monthlyRevenue),
-      monthlyProfit: Math.round(monthlyProfit),
-      totalRevenue: Math.round(totalRevenue),
-      totalDiscounts: Math.round(totalDiscounts),
-      totalCogs: Math.round(totalCogs),
-      campaignProfit: Math.round(campaignProfit),
-      roiPercent,
+      // Balanced is the "main" result for backward compat
+      ...balanced,
       cogsPercent,
       visitsPerYear,
-      breakEvenRedemptions
+      breakEvenRedemptions,
+      // Three tiers
+      scenarios: [conservative, balanced, optimistic],
     };
   }
 
@@ -198,7 +219,20 @@
     y -= 25;
     line('Break-even Redemptions/mo:', String(r.breakEvenRedemptions));
 
-    y -= 20;
+    // Scenario comparison table
+    if (r.scenarios && r.scenarios.length) {
+      y -= 15;
+      section('SCENARIO ANALYSIS');
+      line('', 'Conservative  |  Balanced  |  Optimistic');
+      for (const s of r.scenarios) {
+        line(`${s.label}:`, `Profit: $${s.campaignProfit.toLocaleString()}  |  ROI: ${s.roiPercent}%  |  New Customers: ${s.totalNewCustomers}`);
+      }
+      y -= 5;
+      page.drawText('* Many shoppers see your ad but never use a coupon — they still become customers.', { x: 50, y, size: 8, font: regular, color: rgb(0.5, 0.5, 0.5) });
+      y -= 15;
+    }
+
+    y -= 5;
     // Verdict box
     const verdictColor = r.roiPercent >= 100 ? rgb(0.91, 0.96, 0.91) : r.roiPercent >= 0 ? rgb(0.95, 0.98, 0.95) : rgb(1, 0.93, 0.93);
     const verdictTextColor = r.roiPercent >= 0 ? rgb(0.18, 0.49, 0.2) : rgb(0.8, 0.2, 0.2);
@@ -985,26 +1019,44 @@ Store: ${store}
           </div>
         </div>
 
-        {#if roiResult.newCustomersPerMonth > 0}
-          <div class="new-customer-section">
-            <h4>👥 New Customer Impact</h4>
-            <div class="roi-detail">
-              <div class="roi-row">
-                <span>New Customers / Month</span>
-                <span>{roiResult.newCustomersPerMonth}</span>
-              </div>
-              <div class="roi-row">
-                <span>Total New Customers ({roiResult.months} months)</span>
-                <span class="profit">{roiResult.totalNewCustomers}</span>
-              </div>
-              <div class="roi-row">
-                <span>Customer Lifetime Value (annually)</span>
-                <span>${roiResult.customerLifetimeValue.toLocaleString()}</span>
-              </div>
-              <div class="roi-row total">
-                <span>New Customer Total Value</span>
-                <span class="profit">${roiResult.newCustomerTotalValue.toLocaleString()}</span>
-              </div>
+        {#if roiResult.scenarios}
+          <div class="scenarios-section">
+            <h4>📊 Three Scenarios — The Full Picture</h4>
+            <p class="scenario-explainer">Coupons only capture a fraction of your ad's impact. Many shoppers see your ad every visit but never use a coupon — they still become customers.</p>
+            
+            <div class="scenario-grid">
+              {#each roiResult.scenarios as s}
+                <div class="scenario-card" class:conservative={s.multiplier === 0} class:balanced={s.multiplier === 1} class:optimistic={s.multiplier === 3}>
+                  <div class="scenario-label">{s.label}</div>
+                  <div class="scenario-desc">
+                    {#if s.multiplier === 0}
+                      Only tracked coupon redemptions
+                    {:else if s.multiplier === 1}
+                      Your estimate of new customers
+                    {:else}
+                      3× new customers (ad seen but no coupon)
+                    {/if}
+                  </div>
+                  <div class="scenario-stat">
+                    <span class="scenario-value" class:profit={s.campaignProfit >= 0} class:cost={s.campaignProfit < 0}>${s.campaignProfit.toLocaleString()}</span>
+                    <span class="scenario-meta">net profit</span>
+                  </div>
+                  <div class="scenario-stat">
+                    <span class="scenario-value" class:profit={s.roiPercent >= 0} class:cost={s.roiPercent < 0}>{s.roiPercent}%</span>
+                    <span class="scenario-meta">ROI</span>
+                  </div>
+                  {#if s.newCustomersPerMonth > 0}
+                    <div class="scenario-stat">
+                      <span class="scenario-value">{s.totalNewCustomers}</span>
+                      <span class="scenario-meta">new customers</span>
+                    </div>
+                  {/if}
+                  <div class="scenario-stat">
+                    <span class="scenario-value">${s.totalRevenue.toLocaleString()}</span>
+                    <span class="scenario-meta">gross revenue</span>
+                  </div>
+                </div>
+              {/each}
             </div>
           </div>
         {/if}
@@ -2149,8 +2201,23 @@ Store: ${store}
   .roi-value { display: block; font-size: 20px; font-weight: 700; color: #CC0000; }
   .roi-label { display: block; font-size: 11px; color: #888; margin-top: 4px; text-transform: uppercase; }
   .roi-detail { background: var(--card-bg, white); border: 1px solid var(--border-color, #eee); border-radius: 10px; padding: 16px; }
-  .new-customer-section { margin: 16px 0; }
-  .new-customer-section h4 { margin: 0 0 10px; font-size: 15px; color: var(--text-primary); }
+  .scenarios-section { margin: 16px 0; }
+  .scenarios-section h4 { margin: 0 0 6px; font-size: 15px; color: var(--text-primary); }
+  .scenario-explainer { font-size: 12px; color: var(--text-secondary, #888); margin: 0 0 12px; line-height: 1.4; font-style: italic; }
+  .scenario-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+  @media (max-width: 600px) { .scenario-grid { grid-template-columns: 1fr; } }
+  .scenario-card { padding: 14px; border-radius: 10px; border: 2px solid var(--border-color, #e0e0e0); background: var(--card-bg, white); text-align: center; }
+  .scenario-card.conservative { border-color: #43A047; }
+  .scenario-card.balanced { border-color: #1565C0; }
+  .scenario-card.optimistic { border-color: #E65100; }
+  .scenario-label { font-size: 14px; font-weight: 800; margin-bottom: 2px; }
+  .scenario-card.conservative .scenario-label { color: #43A047; }
+  .scenario-card.balanced .scenario-label { color: #1565C0; }
+  .scenario-card.optimistic .scenario-label { color: #E65100; }
+  .scenario-desc { font-size: 11px; color: var(--text-secondary, #888); margin-bottom: 10px; }
+  .scenario-stat { margin-bottom: 8px; }
+  .scenario-value { font-size: 18px; font-weight: 800; display: block; }
+  .scenario-meta { font-size: 11px; color: var(--text-secondary, #888); text-transform: uppercase; }
   .roi-row { display: flex; justify-content: space-between; padding: 8px 0; font-size: 13px; border-bottom: 1px solid #f0f0f0; }
   .roi-row:last-child { border-bottom: none; }
   .roi-row.total { font-weight: 700; font-size: 14px; border-top: 2px solid #ddd; padding-top: 12px; margin-top: 4px; }
