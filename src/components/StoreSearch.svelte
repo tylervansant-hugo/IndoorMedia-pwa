@@ -127,26 +127,30 @@
 
   function shareROI(store) {
     const investment = parseFloat(roiInvestment.replace(/,/g, ''));
-    const grossRevenue = roiAvgSpend * roiNewCustomers * 12 * (roiVisitsPerYear || 1);
-    const cogsAmount = grossRevenue * ((roiCOGS || 0) / 100);
-    const annualRevenue = grossRevenue - cogsAmount;
+    const cogsRate = (roiCOGS || 0) / 100;
     const annualRedemptions = (roiTotalRedemptions || 0) * 12;
-    const couponRevenue = annualRedemptions ? (roiAvgSpend - (roiCouponDiscount || 0)) * annualRedemptions : 0;
-    const couponCOGS = couponRevenue * ((roiCOGS || 0) / 100);
-    const totalRevenue = annualRevenue + couponRevenue - couponCOGS;
     const couponCost = (roiCouponDiscount || 0) * annualRedemptions;
-    const netRevenue = totalRevenue - couponCost;
-    const roiPercent = ((netRevenue - investment) / investment * 100).toFixed(0);
-    const netProfit = netRevenue - investment;
+    const calcSc = (mult) => {
+      const c = Math.round(roiNewCustomers * mult);
+      const cR = roiAvgSpend * c * 12 * (roiVisitsPerYear || 1);
+      const cpR = annualRedemptions ? (roiAvgSpend - (roiCouponDiscount || 0)) * annualRedemptions : 0;
+      const tot = cR * (1 - cogsRate) + cpR * (1 - cogsRate) - couponCost;
+      const p = Math.round(tot - investment);
+      return { profit: p, roi: ((p / investment) * 100).toFixed(0), customers: c * 12 };
+    };
+    const con = calcSc(0); const bal = calcSc(1); const opt = calcSc(3);
 
     const text = `📊 ROI Report — ${store.GroceryChain} ${store.City}, ${store.State}
 Store: ${store.StoreName}
 
 💰 Investment: $${investment.toLocaleString()}
-📈 Gross Annual Revenue: $${grossRevenue.toLocaleString()}${roiCOGS ? `\n📉 COGS (${roiCOGS}%): -$${cogsAmount.toLocaleString()}` : ''}${roiTotalRedemptions ? `\n🎟️ Coupon Revenue: $${couponRevenue.toLocaleString()}\n🏷️ Coupon Cost: -$${couponCost.toLocaleString()}` : ''}
 
-✅ ROI: ${roiPercent}%
-💵 Net Profit: $${netProfit.toLocaleString()}
+📊 THREE SCENARIOS:
+🟢 Conservative (coupons only): $${con.profit.toLocaleString()} profit / ${con.roi}% ROI
+🔵 Balanced (${roiNewCustomers} new/mo): $${bal.profit.toLocaleString()} profit / ${bal.roi}% ROI
+🚀 Optimistic (${roiNewCustomers * 3} new/mo): $${opt.profit.toLocaleString()} profit / ${opt.roi}% ROI
+
+*Many shoppers see your ad every visit but never use a coupon — they still become customers.
 
 — IndoorMedia Register Tape Advertising`;
 
@@ -542,59 +546,63 @@ Store: ${store.StoreName}
                     </div>
 
                     {#if roiAvgSpend && roiNewCustomers}
-                      {@const grossRevenue = roiAvgSpend * roiNewCustomers * 12 * (roiVisitsPerYear || 1)}
-                      {@const cogsAmount = grossRevenue * ((roiCOGS || 0) / 100)}
-                      {@const annualRevenue = grossRevenue - cogsAmount}
-                      {@const annualRedemptions = (roiTotalRedemptions || 0) * 12}
-                      {@const couponRevenue = annualRedemptions ? (roiAvgSpend - (roiCouponDiscount || 0)) * annualRedemptions : 0}
-                      {@const couponCOGS = couponRevenue * ((roiCOGS || 0) / 100)}
-                      {@const totalRevenue = annualRevenue + couponRevenue - couponCOGS}
-                      {@const couponCost = (roiCouponDiscount || 0) * annualRedemptions}
                       {@const investment = parseFloat(roiInvestment.replace(/,/g, ''))}
-                      {@const netRevenue = totalRevenue - couponCost}
-                      {@const roiPercent = ((netRevenue - investment) / investment * 100).toFixed(0)}
+                      {@const cogsRate = (roiCOGS || 0) / 100}
+                      {@const annualRedemptions = (roiTotalRedemptions || 0) * 12}
+                      {@const couponCost = (roiCouponDiscount || 0) * annualRedemptions}
+                      {@const scenarioCalc = (custMultiplier) => {
+                        const customers = Math.round(roiNewCustomers * custMultiplier);
+                        const custRevenue = roiAvgSpend * customers * 12 * (roiVisitsPerYear || 1);
+                        const custCogs = custRevenue * cogsRate;
+                        const couponRev = annualRedemptions ? (roiAvgSpend - (roiCouponDiscount || 0)) * annualRedemptions : 0;
+                        const couponCogs = couponRev * cogsRate;
+                        const totalRev = custRevenue - custCogs + couponRev - couponCogs - couponCost;
+                        const profit = totalRev - investment;
+                        const roi = ((profit / investment) * 100).toFixed(0);
+                        return { customers, totalRev: Math.round(totalRev), profit: Math.round(profit), roi, totalNewCustomers: customers * 12 };
+                      }}
+                      {@const conservative = scenarioCalc(0)}
+                      {@const balanced = scenarioCalc(1)}
+                      {@const optimistic = scenarioCalc(3)}
                       {@const monthlyRevenue = roiAvgSpend * roiNewCustomers * (roiVisitsPerYear || 1)}
                       
                       <div class="roi-results">
                         <div class="roi-result-card">
-                          <span class="roi-label">Monthly Revenue from New Customers</span>
+                          <span class="roi-label">Monthly Revenue (Balanced)</span>
                           <span class="roi-value green">${monthlyRevenue.toLocaleString()}/mo</span>
                         </div>
-                        <div class="roi-result-card">
-                          <span class="roi-label">Gross Annual Revenue</span>
-                          <span class="roi-value green">${grossRevenue.toLocaleString()}/yr</span>
-                        </div>
-                        {#if roiCOGS > 0}
-                          <div class="roi-result-card">
-                            <span class="roi-label">Cost of Goods Sold ({roiCOGS}%)</span>
-                            <span class="roi-value" style="color: #c33;">-${cogsAmount.toLocaleString()}</span>
-                          </div>
-                          <div class="roi-result-card">
-                            <span class="roi-label">Net Annual Revenue</span>
-                            <span class="roi-value green">${annualRevenue.toLocaleString()}/yr</span>
-                          </div>
-                        {/if}
-                        {#if roiTotalRedemptions > 0}
-                          <div class="roi-result-card">
-                            <span class="roi-label">Annual Redemptions ({roiTotalRedemptions}/mo × 12)</span>
-                            <span class="roi-value">{annualRedemptions.toLocaleString()}</span>
-                          </div>
-                          <div class="roi-result-card">
-                            <span class="roi-label">Coupon Redemption Revenue</span>
-                            <span class="roi-value green">${couponRevenue.toLocaleString()}</span>
-                          </div>
-                          <div class="roi-result-card">
-                            <span class="roi-label">Coupon Discount Cost</span>
-                            <span class="roi-value" style="color: #c33;">-${couponCost.toLocaleString()}</span>
-                          </div>
-                        {/if}
                         <div class="roi-result-card highlight">
-                          <span class="roi-label">Return on Investment</span>
-                          <span class="roi-value big">{roiPercent}% ROI</span>
+                          <span class="roi-label">Return on Investment (Balanced)</span>
+                          <span class="roi-value big">{balanced.roi}% ROI</span>
                         </div>
                         <div class="roi-result-card">
-                          <span class="roi-label">Net Profit</span>
-                          <span class="roi-value green">${(netRevenue - investment).toLocaleString()}</span>
+                          <span class="roi-label">Net Profit (Balanced)</span>
+                          <span class="roi-value green">${balanced.profit.toLocaleString()}</span>
+                        </div>
+                      </div>
+
+                      <div class="scenario-section">
+                        <h5>📊 Three Scenarios</h5>
+                        <p class="scenario-hint">Many shoppers see your ad but never use a coupon — they still become customers.</p>
+                        <div class="scenario-row">
+                          <div class="scenario-box conservative">
+                            <div class="sc-label">🟢 Conservative</div>
+                            <div class="sc-desc">Coupons only</div>
+                            <div class="sc-profit">${conservative.profit.toLocaleString()}</div>
+                            <div class="sc-roi">{conservative.roi}% ROI</div>
+                          </div>
+                          <div class="scenario-box balanced">
+                            <div class="sc-label">🔵 Balanced</div>
+                            <div class="sc-desc">{balanced.customers} new/mo</div>
+                            <div class="sc-profit">${balanced.profit.toLocaleString()}</div>
+                            <div class="sc-roi">{balanced.roi}% ROI</div>
+                          </div>
+                          <div class="scenario-box optimistic">
+                            <div class="sc-label">🚀 Optimistic</div>
+                            <div class="sc-desc">{optimistic.customers} new/mo</div>
+                            <div class="sc-profit">${optimistic.profit.toLocaleString()}</div>
+                            <div class="sc-roi">{optimistic.roi}% ROI</div>
+                          </div>
                         </div>
                       </div>
                     {/if}
@@ -1055,6 +1063,21 @@ Store: ${store.StoreName}
     color: white;
   }
 
+  .scenario-section { margin-top: 14px; }
+  .scenario-section h5 { font-size: 14px; margin: 0 0 4px; color: var(--text-primary); }
+  .scenario-hint { font-size: 11px; color: var(--text-secondary, #888); margin: 0 0 10px; font-style: italic; }
+  .scenario-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+  .scenario-box { padding: 10px; border-radius: 8px; text-align: center; border: 2px solid var(--border-color, #e0e0e0); background: var(--card-bg, white); }
+  .scenario-box.conservative { border-color: #43A047; }
+  .scenario-box.balanced { border-color: #1565C0; }
+  .scenario-box.optimistic { border-color: #E65100; }
+  .sc-label { font-size: 12px; font-weight: 800; }
+  .scenario-box.conservative .sc-label { color: #43A047; }
+  .scenario-box.balanced .sc-label { color: #1565C0; }
+  .scenario-box.optimistic .sc-label { color: #E65100; }
+  .sc-desc { font-size: 10px; color: var(--text-secondary, #888); margin-bottom: 6px; }
+  .sc-profit { font-size: 16px; font-weight: 800; color: #2E7D32; }
+  .sc-roi { font-size: 12px; font-weight: 700; color: var(--text-secondary, #666); }
   .roi-calculator {
     background: #f9f9f9;
     border: 2px solid #CC0000;
