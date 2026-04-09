@@ -297,7 +297,137 @@
   }
 
   function cleanBizName(name) {
-    return (name || '').replace(/&#x27;/g, "'").replace(/&#x9;/g, '').replace(/\s+-\s+/g, ' — ').trim();
+    return (name || '').replace(/&#x27;/g, "'").replace(/&#x9;/g, '').replace(/&amp;/g, '&').replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/\s+-\s+/g, ' — ').trim();
+  }
+
+  async function downloadTestimonialsPdf() {
+    const { PDFDocument, rgb, StandardFonts } = await import('pdf-lib');
+    const doc = await PDFDocument.create();
+    const regular = await doc.embedFont(StandardFonts.Helvetica);
+    const bold = await doc.embedFont(StandardFonts.HelveticaBold);
+    const italic = await doc.embedFont(StandardFonts.HelveticaOblique);
+
+    const pageW = 612; const pageH = 792;
+    const margin = 50;
+    const maxW = pageW - margin * 2;
+    let page = doc.addPage([pageW, pageH]);
+    let y = pageH - margin;
+
+    function checkPage(need) {
+      if (y < need + margin) {
+        page = doc.addPage([pageW, pageH]);
+        y = pageH - margin;
+      }
+    }
+
+    // Wrap text to fit width
+    function wrapText(text, font, size, maxWidth) {
+      const words = text.split(' ');
+      const lines = [];
+      let current = '';
+      for (const word of words) {
+        const test = current ? current + ' ' + word : word;
+        if (font.widthOfTextAtSize(test, size) > maxWidth) {
+          if (current) lines.push(current);
+          current = word;
+        } else {
+          current = test;
+        }
+      }
+      if (current) lines.push(current);
+      return lines;
+    }
+
+    // Header bar
+    page.drawRectangle({ x: 0, y: pageH - 80, width: pageW, height: 80, color: rgb(0.8, 0, 0) });
+    page.drawText('IndoorMedia', { x: margin, y: pageH - 35, size: 22, font: bold, color: rgb(1, 1, 1) });
+    page.drawText('Testimonials for Meeting Prep', { x: margin, y: pageH - 55, size: 12, font: regular, color: rgb(1, 0.9, 0.9) });
+    page.drawText(new Date().toLocaleDateString(), { x: pageW - margin - 80, y: pageH - 35, size: 10, font: regular, color: rgb(1, 0.9, 0.9) });
+    y = pageH - 100;
+
+    // Business info
+    page.drawText(businessName || 'Business', { x: margin, y, size: 16, font: bold, color: rgb(0.1, 0.1, 0.1) });
+    y -= 18;
+    if (businessCategory) { page.drawText(`Category: ${businessCategory}`, { x: margin, y, size: 10, font: regular, color: rgb(0.4, 0.4, 0.4) }); y -= 14; }
+    if (selectedStore) { page.drawText(`Store: ${selectedStore.GroceryChain} ${selectedStore.City} (${selectedStore.StoreName})`, { x: margin, y, size: 10, font: regular, color: rgb(0.4, 0.4, 0.4) }); y -= 14; }
+    if (businessAddress) { page.drawText(`Address: ${businessAddress}`, { x: margin, y, size: 10, font: regular, color: rgb(0.4, 0.4, 0.4) }); y -= 14; }
+    y -= 10;
+
+    // Section header
+    function sectionHeader(text) {
+      checkPage(40);
+      page.drawRectangle({ x: margin, y: y - 2, width: maxW, height: 22, color: rgb(0.96, 0.96, 0.96) });
+      page.drawText(text, { x: margin + 8, y: y + 3, size: 12, font: bold, color: rgb(0.2, 0.2, 0.2) });
+      y -= 30;
+    }
+
+    // Testimonial block
+    function addTestimonial(num, t) {
+      const bizName = cleanBizName(t.business);
+      const quote = `"${t.comment}"`;
+      const quoteLines = wrapText(quote, italic, 10, maxW - 30);
+      const needed = 20 + (quoteLines.length * 14) + 20;
+      checkPage(needed);
+
+      // Number circle
+      page.drawCircle({ x: margin + 8, y: y - 4, size: 8, color: rgb(0.8, 0, 0) });
+      page.drawText(String(num), { x: margin + 5, y: y - 8, size: 9, font: bold, color: rgb(1, 1, 1) });
+
+      // Business name
+      page.drawText(bizName, { x: margin + 24, y, size: 11, font: bold, color: rgb(0.15, 0.15, 0.15) });
+      y -= 18;
+
+      // Quote
+      for (const line of quoteLines) {
+        page.drawText(line, { x: margin + 24, y, size: 10, font: italic, color: rgb(0.35, 0.35, 0.35) });
+        y -= 14;
+      }
+
+      // URL
+      if (t.url) {
+        page.drawText(`View: ${t.url}`, { x: margin + 24, y, size: 8, font: regular, color: rgb(0.08, 0.38, 0.75) });
+        y -= 12;
+      }
+      y -= 8;
+    }
+
+    sectionHeader('Similar Business Testimonials');
+    matchedTestimonials.forEach((t, i) => addTestimonial(i + 1, t));
+
+    if (localTestimonial) {
+      sectionHeader('Local Testimonial');
+      const bizName = cleanBizName(localTestimonial.business);
+      const quote = `"${localTestimonial.comment}"`;
+      const quoteLines = wrapText(quote, italic, 10, maxW - 30);
+      checkPage(20 + quoteLines.length * 14 + 20);
+
+      page.drawText('📍', { x: margin + 2, y, size: 12, font: regular });
+      page.drawText(bizName, { x: margin + 24, y, size: 11, font: bold, color: rgb(0.08, 0.38, 0.75) });
+      y -= 18;
+      for (const line of quoteLines) {
+        page.drawText(line, { x: margin + 24, y, size: 10, font: italic, color: rgb(0.35, 0.35, 0.35) });
+        y -= 14;
+      }
+      if (localTestimonial.url) {
+        page.drawText(`View: ${localTestimonial.url}`, { x: margin + 24, y, size: 8, font: regular, color: rgb(0.08, 0.38, 0.75) });
+        y -= 12;
+      }
+    }
+
+    // Footer
+    checkPage(30);
+    y -= 10;
+    page.drawLine({ start: { x: margin, y: y + 5 }, end: { x: pageW - margin, y: y + 5 }, thickness: 0.5, color: rgb(0.8, 0.8, 0.8) });
+    page.drawText(`Generated by imPro Sales Portal — ${new Date().toLocaleString()}`, { x: margin, y: y - 10, size: 8, font: regular, color: rgb(0.6, 0.6, 0.6) });
+
+    const bytes = await doc.save();
+    const blob = new Blob([bytes], { type: 'application/pdf' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `Testimonials - ${businessName || 'Meeting Prep'}.pdf`;
+    a.click();
+    URL.revokeObjectURL(url);
   }
 
   function copyTestimonials() {
@@ -489,13 +619,15 @@
             {/if}
           </div>
           <div class="modal-footer">
-            <button class="btn-copy" on:click={copyTestimonials}>📋 Copy All</button>
+            <button class="btn-pdf" on:click={downloadTestimonialsPdf}>📄 PDF</button>
+            <button class="btn-copy" on:click={copyTestimonials}>📋 Copy</button>
             <button class="btn-secondary" on:click={() => showTestimonialModal = false}>Close</button>
           </div>
         </div>
       </div>
     {/if}
 
+    <button class="btn-pdf" on:click={downloadTestimonialsPdf}>📄 Download as PDF</button>
     <button class="btn-copy" on:click={copyTestimonials}>📋 Copy All to Clipboard</button>
     <button class="btn-secondary" on:click={() => step = 'search'}>🔄 New Prep</button>
     <div style="height:80px;"></div>
@@ -582,6 +714,8 @@
   .empty { text-align:center; }
   .empty p { color:var(--text-secondary); font-size:14px; }
 
+  .btn-pdf { width:100%; padding:14px; background:#CC0000; color:#fff; border:none; border-radius:10px; font-size:15px; font-weight:700; cursor:pointer; margin-bottom:8px; }
+  .btn-pdf:hover { background:#990000; }
   .btn-copy { width:100%; padding:14px; background:#2E7D32; color:#fff; border:none; border-radius:10px; font-size:15px; font-weight:700; cursor:pointer; margin-bottom:8px; }
   .btn-copy:hover { background:#1B5E20; }
   .btn-secondary { width:100%; padding:12px; background:var(--card-bg); color:var(--text-primary); border:2px solid var(--border-color); border-radius:10px; font-size:14px; font-weight:600; cursor:pointer; }
