@@ -9,6 +9,9 @@
   let nearbyStores = [];
   let prospects = [];
   let savedProspects = [];
+  let savedSearch = '';
+  let savedStatusFilter = 'all';
+  let expandedSaved = null;
   let hotLeads = [];
   let view = 'main'; // main, nearby-stores, categories, subcategories, results, saved, hot-leads, pending, submit-lead
   let selectedCycle = 'all'; // all, A, B, C
@@ -1367,21 +1370,137 @@
     {#if savedProspects.length === 0}
       <p class="subtitle">No saved prospects yet. Start searching!</p>
     {:else}
+      <input type="text" class="filter-input" placeholder="Search saved prospects..." bind:value={savedSearch} style="margin-bottom:12px;" />
+      <div class="filter-chips" style="margin-bottom:12px;">
+        <button class="chip" class:active={savedStatusFilter === 'all'} on:click={() => savedStatusFilter = 'all'}>All ({savedProspects.length})</button>
+        <button class="chip" class:active={savedStatusFilter === 'new'} on:click={() => savedStatusFilter = 'new'}>🆕 New</button>
+        <button class="chip" class:active={savedStatusFilter === 'contacted'} on:click={() => savedStatusFilter = 'contacted'}>⏳ Contacted</button>
+        <button class="chip" class:active={savedStatusFilter === 'proposal'} on:click={() => savedStatusFilter = 'proposal'}>📋 Proposal</button>
+        <button class="chip" class:active={savedStatusFilter === 'closed'} on:click={() => savedStatusFilter = 'closed'}>🎉 Closed</button>
+      </div>
       <div class="prospect-list">
-        {#each savedProspects as prospect (prospect.id)}
-          <div class="prospect-card">
-            <h4>{prospect.name}</h4>
-            <p class="address" style="cursor:pointer;" on:click={() => { navigator.clipboard.writeText(prospect.address); copiedAddress = prospect.address; setTimeout(() => copiedAddress = '', 2000); }}>{copiedAddress === prospect.address ? '✅ Copied!' : prospect.address}</p>
-            <div style="margin-top: 0.5rem; display: flex; gap: 0.5rem; flex-wrap: wrap;">
-              <select class="status-select" value={prospect.status} on:change={(e) => { prospect.status = e.target.value; updateProspectNotes(prospect.id, prospect.notes); }}>
-                <option value="new">🆕 New</option>
-                <option value="contacted">⏳ Contacted</option>
-                <option value="proposal">📋 Proposal</option>
-                <option value="closed">🎉 Closed</option>
-              </select>
-              <button class="delete-btn" on:click={() => deleteProspect(prospect.id)}>🗑️ Delete</button>
+        {#each savedProspects.filter(p => {
+          if (savedStatusFilter !== 'all' && p.status !== savedStatusFilter) return false;
+          if (savedSearch) {
+            const q = savedSearch.toLowerCase();
+            return (p.name || '').toLowerCase().includes(q) || (p.address || '').toLowerCase().includes(q) || (p.notes || '').toLowerCase().includes(q);
+          }
+          return true;
+        }) as prospect (prospect.id)}
+          <div class="prospect-card saved-card" class:expanded={expandedSaved === prospect.id}>
+            <!-- Header (always visible) -->
+            <div class="saved-header" on:click={() => expandedSaved = expandedSaved === prospect.id ? null : prospect.id}>
+              <div>
+                <h4>{prospect.name}</h4>
+                <p class="saved-addr">{prospect.address || ''}</p>
+                {#if prospect.phone}
+                  <p class="saved-meta">📞 {prospect.phone}</p>
+                {/if}
+              </div>
+              <div class="saved-right">
+                <span class="status-badge status-{prospect.status}">{prospect.status === 'new' ? '🆕' : prospect.status === 'contacted' ? '⏳' : prospect.status === 'proposal' ? '📋' : '🎉'} {prospect.status}</span>
+                <span class="expand-arrow">{expandedSaved === prospect.id ? '▲' : '▼'}</span>
+              </div>
             </div>
-            <textarea placeholder="Add notes..." class="notes-input" value={prospect.notes} on:change={(e) => updateProspectNotes(prospect.id, e.target.value)}></textarea>
+
+            <!-- Expanded actions -->
+            {#if expandedSaved === prospect.id}
+              <div class="saved-actions">
+                <!-- Quick actions row -->
+                <div class="action-row">
+                  {#if prospect.phone}
+                    <a href="tel:{prospect.phone}" class="action-btn">📞 Call</a>
+                  {/if}
+                  {#if prospect.email}
+                    <a href="mailto:{prospect.email}" class="action-btn">✉️ Email</a>
+                  {/if}
+                  <a href="https://maps.google.com/maps?q={encodeURIComponent(prospect.name + ' ' + (prospect.address || ''))}" target="_blank" class="action-btn">📍 Maps</a>
+                  {#if prospect.website}
+                    <a href={prospect.website} target="_blank" class="action-btn">🌐 Web</a>
+                  {/if}
+                </div>
+
+                <!-- Contact info -->
+                <div class="saved-contact-info">
+                  {#if prospect.phone}
+                    <p>📞 <a href="tel:{prospect.phone}">{prospect.phone}</a></p>
+                  {/if}
+                  {#if prospect.email}
+                    <p>✉️ <a href="mailto:{prospect.email}">{prospect.email}</a></p>
+                  {/if}
+                  {#if prospect.website}
+                    <p>🌐 <a href={prospect.website} target="_blank">{prospect.website.replace('https://','').split('/')[0]}</a></p>
+                  {/if}
+                  {#if prospect.rating}
+                    <p>⭐ {prospect.rating} ({prospect.reviews || 0} reviews)</p>
+                  {/if}
+                  <p class="saved-addr-copy" on:click={() => { navigator.clipboard.writeText(prospect.address); copiedAddress = prospect.address; setTimeout(() => copiedAddress = '', 2000); }}>
+                    📋 {copiedAddress === prospect.address ? '✅ Copied!' : 'Copy address'}
+                  </p>
+                </div>
+
+                <!-- Email templates -->
+                <div class="saved-email-templates">
+                  <p class="tmpl-label">📧 Email Templates:</p>
+                  <div class="tmpl-btns">
+                    {#each [
+                      { id: 'intro', icon: '🎯', name: 'Initial Appointment' },
+                      { id: 'roi', icon: '📊', name: 'ROI / Value' },
+                      { id: 'followup', icon: '⏰', name: 'Follow-up' },
+                      { id: 'reengagement', icon: '🔄', name: 'Re-engagement' },
+                      { id: 'limited', icon: '⚡', name: 'Limited Time' }
+                    ] as tpl}
+                      <button class="tmpl-btn" on:click|stopPropagation={() => {
+                        const templates = {
+                          intro: { subject: `Partnership Opportunity — ${prospect.name}`, body: `Hi,\n\nI noticed ${prospect.name} near one of our grocery store partners and wanted to reach out about a great advertising opportunity.\n\nWe help local businesses reach thousands of shoppers each week through register tape advertising. It's affordable, hyper-local, and puts your name directly in customers' hands.\n\nWould you have 10 minutes this week for a quick chat?\n\nBest,\n${$user?.name || 'Your Rep'}\nIndoorMedia` },
+                          roi: { subject: `The Value of Register Tape Advertising — ${prospect.name}`, body: `Hi,\n\nDid you know the average grocery store gets 10,000+ visitors per week? That's 10,000 potential customers seeing your ad every single week.\n\nBusinesses like yours have reported strong ROI — many seeing results within the first month. Our register tape ads put your name, offer, and location directly in shoppers' hands.\n\nI'd love to show you how the numbers work for ${prospect.name}. Can we schedule a quick call?\n\nBest,\n${$user?.name || 'Your Rep'}\nIndoorMedia` },
+                          followup: { subject: `Following Up — ${prospect.name}`, body: `Hi,\n\nI reached out a few days ago about a potential partnership with ${prospect.name} and wanted to follow up.\n\nWe help local businesses reach thousands of nearby shoppers each week through register tape advertising. I think there's a great fit here.\n\nWould you have 10 minutes this week for a quick chat?\n\nBest,\n${$user?.name || 'Your Rep'}\nIndoorMedia` },
+                          reengagement: { subject: `New Opportunities for ${prospect.name}`, body: `Hi,\n\nIt's been a while since we last connected, and I wanted to reach out. We've been growing our grocery store network and there are some exciting new opportunities in your area.\n\nI'd love to share how ${prospect.name} could benefit from being in front of thousands of local shoppers every week.\n\nWhen would be a good time for a quick 5-minute call?\n\nBest,\n${$user?.name || 'Your Rep'}\nIndoorMedia` },
+                          limited: { subject: `Limited Availability — Ad Space Near ${prospect.name}`, body: `Hi,\n\nI wanted to reach out because we have limited ad space available at a grocery store near ${prospect.name}. These spots fill quickly and your business would be a great fit.\n\nRegister tape advertising puts your name, offer, and contact info directly in the hands of every shopper — hundreds per day.\n\nCan I send you a quick overview of the opportunity?\n\nBest,\n${$user?.name || 'Your Rep'}\nIndoorMedia` }
+                        };
+                        const t = templates[tpl.id];
+                        const body = t.body.replace(/\n\n/g, '\r\n\r\n').replace(/(?<!\r)\n/g, '\r\n');
+                        window.open(`mailto:${prospect.email || ''}?subject=${encodeURIComponent(t.subject)}&body=${encodeURIComponent(body)}`);
+                      }}>{tpl.icon} {tpl.name}</button>
+                    {/each}
+                  </div>
+                </div>
+
+                <!-- Schedule -->
+                <div class="saved-schedule">
+                  <p class="tmpl-label">📅 Schedule:</p>
+                  <div class="tmpl-btns">
+                    <button class="tmpl-btn" on:click|stopPropagation={() => {
+                      const tomorrow = new Date(); tomorrow.setDate(tomorrow.getDate() + 1); tomorrow.setHours(10,0,0,0);
+                      const end = new Date(tomorrow); end.setMinutes(30);
+                      const fmt = d => d.toISOString().replace(/[-:]/g,'').split('.')[0]+'Z';
+                      window.open(`https://calendar.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent('📞 Call: ' + prospect.name)}&dates=${fmt(tomorrow)}/${fmt(end)}&details=${encodeURIComponent('Prospect call\nBusiness: ' + prospect.name + '\nPhone: ' + (prospect.phone||'N/A') + '\nAddress: ' + (prospect.address||''))}&add=${encodeURIComponent('tyler.vansant@indoormedia.com')}`, '_blank');
+                    }}>📞 Schedule Call</button>
+                    <button class="tmpl-btn" on:click|stopPropagation={() => {
+                      const tomorrow = new Date(); tomorrow.setDate(tomorrow.getDate() + 1); tomorrow.setHours(10,0,0,0);
+                      const end = new Date(tomorrow); end.setHours(11);
+                      const fmt = d => d.toISOString().replace(/[-:]/g,'').split('.')[0]+'Z';
+                      window.open(`https://calendar.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent('🚗 Visit: ' + prospect.name)}&dates=${fmt(tomorrow)}/${fmt(end)}&details=${encodeURIComponent('Prospect visit\nBusiness: ' + prospect.name + '\nPhone: ' + (prospect.phone||'N/A'))}&location=${encodeURIComponent(prospect.address||'')}&add=${encodeURIComponent('tyler.vansant@indoormedia.com')}`, '_blank');
+                    }}>🚗 Schedule Visit</button>
+                  </div>
+                </div>
+
+                <!-- Nearby advertisers -->
+                <a href="https://coupons.indoormedia.com/?location={encodeURIComponent(prospect.address || '')}" target="_blank" class="nearby-btn">📋 View Nearby Advertisers</a>
+
+                <!-- Status + Notes -->
+                <div class="saved-status-row">
+                  <select class="status-select" value={prospect.status} on:change={(e) => { prospect.status = e.target.value; updateProspectNotes(prospect.id, prospect.notes); savedProspects = savedProspects; localStorage.setItem('savedProspects', JSON.stringify(savedProspects)); }}>
+                    <option value="new">🆕 New</option>
+                    <option value="contacted">⏳ Contacted</option>
+                    <option value="proposal">📋 Proposal</option>
+                    <option value="closed">🎉 Closed</option>
+                  </select>
+                  <button class="delete-btn" on:click={() => deleteProspect(prospect.id)}>🗑️ Delete</button>
+                </div>
+                <textarea placeholder="Add notes..." class="notes-input" value={prospect.notes} on:change={(e) => updateProspectNotes(prospect.id, e.target.value)}></textarea>
+              </div>
+            {/if}
           </div>
         {/each}
       </div>
@@ -1959,6 +2078,30 @@
   h2 { font-size: 24px; }
   h3 { font-size: 18px; }
 
+  .saved-card { cursor: default; }
+  .saved-header { display: flex; justify-content: space-between; align-items: flex-start; cursor: pointer; }
+  .saved-header h4 { margin: 0 0 2px; font-size: 15px; }
+  .saved-addr { font-size: 12px; color: var(--text-secondary, #888); margin: 0; }
+  .saved-meta { font-size: 12px; color: var(--text-secondary, #888); margin: 2px 0 0; }
+  .saved-right { display: flex; flex-direction: column; align-items: flex-end; gap: 4px; flex-shrink: 0; }
+  .expand-arrow { font-size: 12px; color: var(--text-secondary, #888); }
+  .status-badge { font-size: 11px; padding: 3px 8px; border-radius: 12px; font-weight: 700; text-transform: capitalize; }
+  .status-new { background: #E3F2FD; color: #1565C0; }
+  .status-contacted { background: #FFF3E0; color: #E65100; }
+  .status-proposal { background: #F3E5F5; color: #6A1B9A; }
+  .status-closed { background: #E8F5E9; color: #2E7D32; }
+  .saved-actions { margin-top: 12px; padding-top: 12px; border-top: 1px solid var(--border-color, #eee); }
+  .saved-contact-info { margin: 10px 0; font-size: 13px; }
+  .saved-contact-info p { margin: 4px 0; }
+  .saved-contact-info a { color: #1565C0; text-decoration: none; }
+  .saved-addr-copy { cursor: pointer; color: #1565C0; font-weight: 600; }
+  .saved-email-templates { margin: 12px 0; padding-top: 10px; border-top: 1px solid var(--border-color, #eee); }
+  .saved-schedule { margin: 10px 0; padding-top: 10px; border-top: 1px solid var(--border-color, #eee); }
+  .saved-status-row { display: flex; gap: 8px; margin-top: 12px; padding-top: 10px; border-top: 1px solid var(--border-color, #eee); }
+  .nearby-btn { display: block; padding: 10px; margin: 10px 0; background: var(--card-bg, white); border: 2px solid #CC0000; border-radius: 8px; text-align: center; text-decoration: none; color: #CC0000; font-size: 13px; font-weight: 700; }
+  .filter-chips { display: flex; flex-wrap: wrap; gap: 6px; }
+  .chip { padding: 6px 12px; border-radius: 20px; border: 1px solid var(--border-color, #ddd); background: var(--card-bg, white); font-size: 12px; font-weight: 600; cursor: pointer; color: var(--text-primary); }
+  .chip.active { background: #CC0000; color: white; border-color: #CC0000; }
   .store-phone-display { margin: 4px 0 8px; font-size: 14px; }
   .store-phone-display a { color: #1565C0; text-decoration: none; font-weight: 600; }
   .subtitle { margin-bottom: 20px; color: var(--text-secondary); font-size: 14px; }
