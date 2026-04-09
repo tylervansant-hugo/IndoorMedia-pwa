@@ -12,6 +12,8 @@
   let savedSearch = '';
   let savedStatusFilter = 'all';
   let expandedSaved = null;
+  let allContracts = []; // For attribution matching
+  let phoneClicks = []; // Track call history
   let hotLeads = [];
   let view = 'main'; // main, nearby-stores, categories, subcategories, results, saved, hot-leads, pending, submit-lead
   let selectedCycle = 'all'; // all, A, B, C
@@ -33,6 +35,16 @@
     } catch (e) {
       console.warn('Could not load video library:', e);
     }
+    // Load contracts for attribution
+    try {
+      const cRes = await fetch(import.meta.env.BASE_URL + 'data/contracts.json');
+      const cData = await cRes.json();
+      allContracts = cData.contracts || cData || [];
+    } catch { allContracts = []; }
+    // Load phone click history
+    try {
+      phoneClicks = JSON.parse(localStorage.getItem('impro_phone_clicks') || '[]');
+    } catch { phoneClicks = []; }
   });
 
   function getVideoForCategory() {
@@ -821,10 +833,45 @@
   function trackPhoneClick(prospect) {
     try {
       const clicks = JSON.parse(localStorage.getItem('impro_phone_clicks') || '[]');
-      clicks.push({ business: prospect.name, phone: prospect.phone, date: new Date().toISOString(), rep: $user?.name || 'Unknown' });
+      clicks.push({ business: prospect.name, phone: prospect.phone, address: prospect.address || '', date: new Date().toISOString(), rep: $user?.name || 'Unknown' });
       localStorage.setItem('impro_phone_clicks', JSON.stringify(clicks.slice(-500)));
+      phoneClicks = clicks;
       logActivity('call', { business: prospect.name, rep: $user?.name || 'Unknown' });
     } catch (e) { console.warn('Track phone click error:', e); }
+  }
+
+  // Attribution: match prospect phone clicks → contracts
+  function norm(s) { return (s || '').toLowerCase().replace(/[^a-z0-9 ]/g, ' ').replace(/\s+/g, ' ').trim(); }
+
+  function getAttribution(prospect) {
+    if (!allContracts.length) return null;
+    const pName = norm(prospect.name);
+    const pWords = pName.split(' ').filter(w => w.length > 2);
+    const pPhone = (prospect.phone || '').replace(/\D/g, '');
+    
+    // Find matching contract
+    const match = allContracts.find(c => {
+      const cName = norm(c.business_name);
+      const cPhone = (c.contact_phone || '').replace(/\D/g, '');
+      
+      // Phone match (strongest)
+      if (pPhone && cPhone && (pPhone.includes(cPhone) || cPhone.includes(pPhone))) return true;
+      
+      // Business name fuzzy match
+      const cWords = cName.split(' ').filter(w => w.length > 2);
+      const common = pWords.filter(w => cWords.some(cw => cw.includes(w) || w.includes(cw)));
+      return common.length >= 1 && (common.length / Math.min(pWords.length, cWords.length)) >= 0.5;
+    });
+    
+    if (!match) return null;
+    
+    // Check if there's a phone click for this prospect
+    const callMade = phoneClicks.find(c => {
+      const cBiz = norm(c.business);
+      return pWords.some(w => cBiz.includes(w));
+    });
+    
+    return { contract: match, callMade };
   }
 
   function saveProspect(prospect) {
@@ -1367,6 +1414,31 @@
     <button class="back-btn" on:click={() => view = 'main'}>← Back</button>
     <h2>💾 Saved Prospects ({savedProspects.length})</h2>
 
+    {@const totalCalls = phoneClicks.length}
+    {@const conversions = savedProspects.filter(p => getAttribution(p)).length}
+    {#if totalCalls > 0 || conversions > 0}
+      <div class="attribution-summary">
+        <div class="attr-stat">
+          <span class="attr-value">{totalCalls}</span>
+          <span class="attr-label">Calls Made</span>
+        </div>
+        <div class="attr-stat">
+          <span class="attr-value">{savedProspects.length}</span>
+          <span class="attr-label">Saved</span>
+        </div>
+        <div class="attr-stat highlight">
+          <span class="attr-value">{conversions}</span>
+          <span class="attr-label">Converted ✅</span>
+        </div>
+        {#if totalCalls > 0 && conversions > 0}
+          <div class="attr-stat">
+            <span class="attr-value">{Math.round(conversions / totalCalls * 100)}%</span>
+            <span class="attr-label">Close Rate</span>
+          </div>
+        {/if}
+      </div>
+    {/if}
+
     {#if savedProspects.length === 0}
       <p class="subtitle">No saved prospects yet. Start searching!</p>
     {:else}
@@ -1387,14 +1459,25 @@
           }
           return true;
         }) as prospect (prospect.id)}
-          <div class="prospect-card saved-card" class:expanded={expandedSaved === prospect.id}>
+          {@const attribution = getAttribution(prospect)}
+          {@const callCount = phoneClicks.filter(c => norm(c.business).includes(norm(prospect.name).split(' ')[0]) && norm(prospect.name).split(' ').length > 0).length}
+          <div class="prospect-card saved-card" class:expanded={expandedSaved === prospect.id} class:converted={attribution}>
+            <!-- Attribution banner -->
+            {#if attribution}
+              <div class="attribution-banner">
+                ✅ CONTRACT SIGNED — {attribution.contract.business_name} | ${(attribution.contract.total_amount || 0).toLocaleString()} | {attribution.contract.sales_rep}
+                {#if attribution.callMade}
+                  <span class="call-tracked">📞 Call tracked {new Date(attribution.callMade.date).toLocaleDateString()}</span>
+                {/if}
+              </div>
+            {/if}
             <!-- Header (always visible) -->
             <div class="saved-header" on:click={() => expandedSaved = expandedSaved === prospect.id ? null : prospect.id}>
               <div>
                 <h4>{prospect.name}</h4>
                 <p class="saved-addr">{prospect.address || ''}</p>
                 {#if prospect.phone}
-                  <p class="saved-meta">📞 {prospect.phone}</p>
+                  <p class="saved-meta">📞 {prospect.phone} {#if callCount > 0}<span class="call-count">({callCount} call{callCount > 1 ? 's' : ''} made)</span>{/if}</p>
                 {/if}
               </div>
               <div class="saved-right">
@@ -1409,7 +1492,7 @@
                 <!-- Quick actions row -->
                 <div class="action-row">
                   {#if prospect.phone}
-                    <a href="tel:{prospect.phone}" class="action-btn">📞 Call</a>
+                    <a href="tel:{prospect.phone}" class="action-btn" on:click={() => trackPhoneClick(prospect)}>📞 Call</a>
                   {/if}
                   {#if prospect.email}
                     <a href="mailto:{prospect.email}" class="action-btn">✉️ Email</a>
@@ -2078,6 +2161,15 @@
   h2 { font-size: 24px; }
   h3 { font-size: 18px; }
 
+  .attribution-summary { display: flex; gap: 10px; margin-bottom: 14px; }
+  .attr-stat { flex: 1; text-align: center; padding: 10px 6px; background: var(--card-bg, white); border-radius: 10px; border: 1px solid var(--border-color, #e0e0e0); }
+  .attr-stat.highlight { border-color: #2E7D32; background: #E8F5E9; }
+  .attr-value { font-size: 20px; font-weight: 800; display: block; color: var(--text-primary); }
+  .attr-label { font-size: 10px; color: var(--text-secondary, #888); text-transform: uppercase; font-weight: 600; }
+  .attribution-banner { padding: 8px 12px; background: #E8F5E9; border: 1px solid #2E7D32; border-radius: 8px; margin-bottom: 8px; font-size: 12px; font-weight: 700; color: #2E7D32; }
+  .call-tracked { display: block; font-size: 11px; font-weight: 600; color: #1565C0; margin-top: 2px; }
+  .call-count { color: #1565C0; font-weight: 700; font-size: 11px; }
+  .saved-card.converted { border-left: 4px solid #2E7D32; }
   .saved-card { cursor: default; }
   .saved-header { display: flex; justify-content: space-between; align-items: flex-start; cursor: pointer; }
   .saved-header h4 { margin: 0 0 2px; font-size: 15px; }
