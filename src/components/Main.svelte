@@ -45,6 +45,7 @@
   let nextCycleName = '';
   let showRevenueDetail = false;
   let showStreakDetail = false;
+  let analyticsExpandedRep = null;
   let showAppointmentsDetail = false;
   let thisMonthContracts = [];
   let pendingRenewalsData = [];
@@ -1190,6 +1191,62 @@
                 <div><strong>Logins:</strong> {actData.last30days.logins || 0}</div>
               </div>
             {/await}
+
+            <!-- Closed Deals by Rep -->
+            <h4>💰 Closed Deals — This Month</h4>
+            {#if true}
+              {@const now = new Date()}
+              {@const thisMonth = now.getMonth()}
+              {@const thisYear = now.getFullYear()}
+              {@const monthContracts = contracts.filter(c => { const d = new Date(c.date); return d.getMonth() === thisMonth && d.getFullYear() === thisYear; })}
+              {@const repDeals = (() => {
+                const map = {};
+                monthContracts.forEach(c => {
+                  const rep = c.sales_rep || 'Unknown';
+                  if (!map[rep]) map[rep] = { name: rep, deals: 0, revenue: 0, businesses: [] };
+                  map[rep].deals++;
+                  map[rep].revenue += (c.total_amount || 0);
+                  const biz = c.business_name || 'Unknown';
+                  if (!map[rep].businesses.find(b => b.name === biz)) {
+                    map[rep].businesses.push({ name: biz, amount: c.total_amount || 0, store: c.store_number || '', date: c.date || '' });
+                  }
+                });
+                return Object.values(map).sort((a, b) => b.revenue - a.revenue);
+              })()}
+              {#if repDeals.length > 0}
+                <div class="deals-summary">
+                  <div class="deals-total">
+                    <span class="deals-total-value">${monthContracts.reduce((s,c) => s + (c.total_amount||0), 0).toLocaleString()}</span>
+                    <span class="deals-total-label">{monthContracts.length} deals this month</span>
+                  </div>
+                </div>
+                <div class="activity-table-wrap">
+                  <table class="activity-table">
+                    <thead><tr><th>Rep</th><th>Deals</th><th>Revenue</th></tr></thead>
+                    <tbody>
+                      {#each repDeals as rep}
+                        <tr on:click={() => analyticsExpandedRep = analyticsExpandedRep === rep.name ? null : rep.name} style="cursor:pointer;">
+                          <td><strong>{rep.name}</strong></td>
+                          <td>{rep.deals}</td>
+                          <td class="profit">${rep.revenue.toLocaleString()}</td>
+                        </tr>
+                        {#if analyticsExpandedRep === rep.name}
+                          {#each rep.businesses.sort((a,b) => b.amount - a.amount) as biz}
+                            <tr class="deal-detail-row">
+                              <td style="padding-left:24px;font-size:12px;color:var(--text-secondary);">{biz.name}</td>
+                              <td style="font-size:12px;color:var(--text-secondary);">{biz.store ? `#${biz.store}` : ''}</td>
+                              <td style="font-size:12px;color:#2E7D32;">${biz.amount.toLocaleString()}</td>
+                            </tr>
+                          {/each}
+                        {/if}
+                      {/each}
+                    </tbody>
+                  </table>
+                </div>
+              {:else}
+                <p class="subtitle" style="font-size:13px;">No contracts this month yet.</p>
+              {/if}
+            {/if}
           </div>
         {/if}
       </div>
@@ -1853,6 +1910,12 @@
   .activity-table td { padding: 8px 10px; border-bottom: 1px solid var(--border-color); color: var(--text-primary); }
   .activity-totals { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; font-size: 14px; color: var(--text-primary); }
   .activity-totals strong { color: var(--text-secondary); }
+  .deals-summary { margin-bottom: 12px; }
+  .deals-total { text-align: center; padding: 14px; background: #E8F5E9; border-radius: 10px; border: 1px solid #2E7D32; }
+  .deals-total-value { font-size: 24px; font-weight: 800; color: #2E7D32; display: block; }
+  .deals-total-label { font-size: 12px; color: #2E7D32; font-weight: 600; }
+  .deal-detail-row { background: var(--bg-secondary, #f9f9f9) !important; }
+  .profit { color: #2E7D32; font-weight: 700; }
   .firebase-setup-prompt { background: var(--card-bg); border: 2px dashed var(--border-color); border-radius: 12px; padding: 20px; text-align: center; margin: 16px 0; }
   .firebase-setup-prompt h4 { margin: 0 0 8px; color: var(--text-primary); }
   .firebase-setup-prompt p { font-size: 13px; color: var(--text-secondary); margin: 0 0 12px; }
