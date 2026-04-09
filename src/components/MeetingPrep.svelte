@@ -27,6 +27,7 @@
   let searchResults = [];
   let searching = false;
   let allTestimonials = [];
+  let showTestimonialModal = false;
 
   onMount(async () => {
     try {
@@ -409,15 +410,23 @@
     {#if matchedTestimonials.length > 0}
       <div class="result-card">
         <h3>⭐ Similar Business Testimonials</h3>
-        <p class="result-hint">These are from businesses similar to {businessName} — use after the testimonial slide in your presentation</p>
+        <p class="result-hint">These are from businesses similar to {businessName} — use after the testimonial slide in your presentation. Tap any testimonial to view full details.</p>
         
+        {#if matchedTestimonials.some(t => t.url)}
+          <button class="open-all-btn" on:click={() => {
+            const urls = [...matchedTestimonials, localTestimonial].filter(t => t && t.url);
+            if (urls.length === 0) return;
+            showTestimonialModal = true;
+          }}>🔗 Open All Testimonials ({matchedTestimonials.filter(t => t.url).length + (localTestimonial?.url ? 1 : 0)})</button>
+        {/if}
+
         {#each matchedTestimonials as t, i}
-          <div class="testimonial">
+          <div class="testimonial" class:clickable={t.url} on:click={() => { if (t.url) window.open(t.url, '_blank'); }}>
             <div class="test-num">{i + 1}</div>
             <div class="test-body">
               <div class="test-biz">{cleanBizName(t.business)}</div>
               <div class="test-quote">"{t.comment}"</div>
-              {#if t.url}<a href={t.url} target="_blank" class="test-link">View full →</a>{/if}
+              {#if t.url}<span class="test-link">🔗 Tap to view full testimonial →</span>{/if}
             </div>
           </div>
         {/each}
@@ -433,12 +442,55 @@
       <div class="result-card local-card">
         <h3>📍 Local Testimonial</h3>
         <p class="result-hint">A business near {selectedStore?.City || 'this area'} — great for "right here in your neighborhood" credibility</p>
-        <div class="testimonial">
+        <div class="testimonial" class:clickable={localTestimonial.url} on:click={() => { if (localTestimonial.url) window.open(localTestimonial.url, '_blank'); }}>
           <div class="test-num">📍</div>
           <div class="test-body">
             <div class="test-biz">{cleanBizName(localTestimonial.business)}</div>
             <div class="test-quote">"{localTestimonial.comment}"</div>
-            {#if localTestimonial.url}<a href={localTestimonial.url} target="_blank" class="test-link">View full →</a>{/if}
+            {#if localTestimonial.url}<span class="test-link">🔗 Tap to view full testimonial →</span>{/if}
+          </div>
+        </div>
+      </div>
+    {/if}
+
+    <!-- Testimonial Modal - grouped view -->
+    {#if showTestimonialModal}
+      <div class="modal-overlay" on:click={() => showTestimonialModal = false}>
+        <div class="modal-content" on:click|stopPropagation>
+          <div class="modal-header">
+            <h3>📋 All Testimonials for {businessName}</h3>
+            <button class="modal-close" on:click={() => showTestimonialModal = false}>✕</button>
+          </div>
+          <div class="modal-body">
+            {#each matchedTestimonials as t, i}
+              <div class="modal-testimonial">
+                <div class="modal-test-header">
+                  <span class="modal-test-num">{i + 1}</span>
+                  <strong>{cleanBizName(t.business)}</strong>
+                </div>
+                <p class="modal-test-quote">"{t.comment}"</p>
+                {#if t.url}
+                  <a href={t.url} target="_blank" class="modal-test-link">🔗 Open Full Testimonial</a>
+                {/if}
+              </div>
+            {/each}
+            {#if localTestimonial}
+              <div class="modal-testimonial local">
+                <div class="modal-test-header">
+                  <span class="modal-test-num">📍</span>
+                  <strong>{cleanBizName(localTestimonial.business)}</strong>
+                  <span class="local-tag">Local</span>
+                </div>
+                <p class="modal-test-quote">"{localTestimonial.comment}"</p>
+                {#if localTestimonial.url}
+                  <a href={localTestimonial.url} target="_blank" class="modal-test-link">🔗 Open Full Testimonial</a>
+                {/if}
+              </div>
+            {/if}
+          </div>
+          <div class="modal-footer">
+            <button class="btn-copy" on:click={copyTestimonials}>📋 Copy All</button>
+            <button class="btn-secondary" on:click={() => showTestimonialModal = false}>Close</button>
           </div>
         </div>
       </div>
@@ -502,6 +554,23 @@
   .info-row a { color:#CC0000; text-decoration:none; }
 
   .testimonial { display:flex; gap:12px; padding:12px 0; border-bottom:1px solid var(--border-color); }
+  .testimonial.clickable { cursor:pointer; border-radius:8px; padding:12px; margin:0 -12px; transition: background 0.15s; }
+  .testimonial.clickable:hover, .testimonial.clickable:active { background:rgba(204,0,0,0.04); }
+  .open-all-btn { width:100%; padding:12px; margin-bottom:12px; background:#CC0000; color:white; border:none; border-radius:10px; font-size:14px; font-weight:700; cursor:pointer; }
+  .modal-overlay { position:fixed; top:0; left:0; right:0; bottom:0; background:rgba(0,0,0,0.6); z-index:9999; display:flex; align-items:center; justify-content:center; padding:20px; }
+  .modal-content { background:var(--card-bg, white); border-radius:16px; width:100%; max-width:500px; max-height:85vh; display:flex; flex-direction:column; overflow:hidden; }
+  .modal-header { display:flex; justify-content:space-between; align-items:center; padding:16px 20px; border-bottom:1px solid var(--border-color, #eee); }
+  .modal-header h3 { margin:0; font-size:16px; }
+  .modal-close { background:none; border:none; font-size:20px; cursor:pointer; padding:4px 8px; color:var(--text-secondary); }
+  .modal-body { overflow-y:auto; padding:16px 20px; flex:1; }
+  .modal-testimonial { padding:14px; margin-bottom:12px; background:var(--bg-secondary, #f9f9f9); border-radius:10px; border-left:4px solid #CC0000; }
+  .modal-testimonial.local { border-left-color:#1565C0; }
+  .modal-test-header { display:flex; align-items:center; gap:8px; margin-bottom:6px; font-size:14px; }
+  .modal-test-num { width:24px; height:24px; background:#CC0000; color:white; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:12px; font-weight:800; flex-shrink:0; }
+  .modal-test-quote { font-size:13px; font-style:italic; color:var(--text-secondary, #666); line-height:1.4; margin:0 0 8px; }
+  .modal-test-link { font-size:13px; color:#CC0000; text-decoration:none; font-weight:700; display:inline-block; padding:6px 12px; background:rgba(204,0,0,0.06); border-radius:6px; }
+  .local-tag { font-size:10px; padding:2px 6px; background:#E3F2FD; color:#1565C0; border-radius:4px; font-weight:700; }
+  .modal-footer { padding:14px 20px; border-top:1px solid var(--border-color, #eee); display:flex; gap:10px; }
   .testimonial:last-child { border-bottom:none; }
   .test-num { width:28px; height:28px; background:#CC0000; color:#fff; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:13px; font-weight:800; flex-shrink:0; }
   .local-card .test-num { background:#1565C0; }
