@@ -6471,6 +6471,23 @@
       "payment_date": "4/8/2026",
       "address": "2615 NE 112th Ave, Vancouver, 98684",
       "extracted_at": "2026-04-08 00:00"
+    },
+    {
+      "contract_number": "J410188E",
+      "date": "2025-06-10 00:00",
+      "business_name": "Greenhouse Group, LLC (Curaleaf)",
+      "contact_name": "Ami Cadugan",
+      "contact_email": "Ami.Cadugan@curaleaf.com",
+      "contact_phone": "",
+      "sales_rep": "Michael Tubek",
+      "store_name": "Jewel-Osco",
+      "store_number": "3236",
+      "zone": "25X",
+      "product_description": "Double Ad",
+      "total_amount": 0,
+      "payment_date": "",
+      "address": "7036 Roosevelt Rd, Oak Park, IL",
+      "extracted_at": "2025-06-10 00:00"
     }
   ],
   "last_scan": "2026-04-08T20:00:14.865425"
