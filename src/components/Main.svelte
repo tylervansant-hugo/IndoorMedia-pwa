@@ -1265,6 +1265,12 @@
 </div>
 
 <style>
+  :global(html) {
+    background: #CC0000;
+  }
+  :global(body) {
+    background: var(--bg-primary, #ffffff);
+  }
   :global([data-theme='light']) {
     --bg-primary: #ffffff;
     --bg-secondary: #f9f9f9;
