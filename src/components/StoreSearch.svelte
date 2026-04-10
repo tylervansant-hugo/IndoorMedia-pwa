@@ -252,7 +252,17 @@ ${plans.map((p, i) => `<tr class="${i === plans.length - 1 ? 'best' : ''}"><td>$
     roiCOGS = 0;
   }
 
-  function exportROI(store) {
+  const ROI_TRANSLATIONS = {
+    en: { title: 'ROI Analysis Report', inputs: 'Inputs', investment: 'Investment', avgSpend: 'Avg Customer Spend', newCust: 'New Customers / Month', visits: 'Visits / Year', discount: 'Avg Discount per Coupon', redemptions: 'Monthly Coupon Redemptions', cogs: 'Cost of Goods Sold', revenue: 'Revenue Analysis', monthlyRev: 'Monthly Revenue (New Customers)', grossAnnual: 'Gross Annual Revenue', cogsLabel: 'Cost of Goods Sold', netAnnual: 'Net Annual Revenue', annualRedemptions: 'Annual Redemptions', couponRev: 'Coupon Redemption Revenue', couponCost: 'Coupon Discount Cost', results: 'Results', roi: 'Return on Investment', netProfit: 'Net Profit', generated: 'Generated', registerTape: 'Register Tape Advertising', printSave: 'Print / Save as PDF' },
+    es: { title: 'Informe de Análisis ROI', inputs: 'Datos', investment: 'Inversión', avgSpend: 'Gasto Promedio del Cliente', newCust: 'Nuevos Clientes / Mes', visits: 'Visitas / Año', discount: 'Descuento Promedio por Cupón', redemptions: 'Canjes de Cupones Mensuales', cogs: 'Costo de Bienes Vendidos', revenue: 'Análisis de Ingresos', monthlyRev: 'Ingresos Mensuales (Nuevos Clientes)', grossAnnual: 'Ingresos Brutos Anuales', cogsLabel: 'Costo de Bienes Vendidos', netAnnual: 'Ingresos Netos Anuales', annualRedemptions: 'Canjes Anuales', couponRev: 'Ingresos por Cupones', couponCost: 'Costo de Descuento por Cupones', results: 'Resultados', roi: 'Retorno de Inversión', netProfit: 'Ganancia Neta', generated: 'Generado', registerTape: 'Publicidad en Cinta de Caja', printSave: 'Imprimir / Guardar como PDF' },
+    zh: { title: 'ROI分析报告', inputs: '输入数据', investment: '投资', avgSpend: '平均客单价', newCust: '每月新客户', visits: '每年回访次数', discount: '平均优惠券折扣', redemptions: '每月优惠券兑换', cogs: '商品成本', revenue: '收入分析', monthlyRev: '月收入（新客户）', grossAnnual: '年毛收入', cogsLabel: '商品成本', netAnnual: '年净收入', annualRedemptions: '年兑换量', couponRev: '优惠券收入', couponCost: '优惠券折扣成本', results: '结果', roi: '投资回报率', netProfit: '净利润', generated: '生成于', registerTape: '收银台小票广告', printSave: '打印 / 保存为PDF' },
+    vi: { title: 'Báo Cáo Phân Tích ROI', inputs: 'Dữ Liệu', investment: 'Đầu tư', avgSpend: 'Chi tiêu TB/khách', newCust: 'Khách mới / Tháng', visits: 'Lượt ghé / Năm', discount: 'Giảm giá TB/coupon', redemptions: 'Đổi coupon / Tháng', cogs: 'Giá vốn hàng bán', revenue: 'Phân Tích Doanh Thu', monthlyRev: 'Doanh thu tháng (Khách mới)', grossAnnual: 'Tổng doanh thu năm', cogsLabel: 'Giá vốn hàng bán', netAnnual: 'Doanh thu ròng năm', annualRedemptions: 'Đổi coupon hàng năm', couponRev: 'Doanh thu coupon', couponCost: 'Chi phí giảm giá coupon', results: 'Kết Quả', roi: 'Tỷ suất hoàn vốn', netProfit: 'Lợi nhuận ròng', generated: 'Tạo ngày', registerTape: 'Quảng cáo hóa đơn', printSave: 'In / Lưu PDF' },
+    tl: { title: 'ROI Analysis Report', inputs: 'Mga Input', investment: 'Puhunan', avgSpend: 'Avg na Gastos ng Customer', newCust: 'Bagong Customer / Buwan', visits: 'Bisita / Taon', discount: 'Avg Diskwento sa Kupon', redemptions: 'Buwanang Kupon', cogs: 'Halaga ng Benta', revenue: 'Pagsusuri ng Kita', monthlyRev: 'Buwanang Kita (Bagong Customer)', grossAnnual: 'Taunang Gross na Kita', cogsLabel: 'Halaga ng Benta', netAnnual: 'Taunang Net na Kita', annualRedemptions: 'Taunang Kupon', couponRev: 'Kita mula sa Kupon', couponCost: 'Gastos sa Diskwento ng Kupon', results: 'Mga Resulta', roi: 'Return on Investment', netProfit: 'Net na Kita', generated: 'Ginawa', registerTape: 'Register Tape Advertising', printSave: 'I-print / I-save bilang PDF' },
+    ko: { title: 'ROI 분석 보고서', inputs: '입력 데이터', investment: '투자', avgSpend: '평균 고객 지출', newCust: '월 신규 고객', visits: '연간 방문 횟수', discount: '평균 쿠폰 할인', redemptions: '월간 쿠폰 사용', cogs: '매출원가', revenue: '수익 분석', monthlyRev: '월 수익 (신규 고객)', grossAnnual: '연간 총 수익', cogsLabel: '매출원가', netAnnual: '연간 순 수익', annualRedemptions: '연간 쿠폰 사용', couponRev: '쿠폰 수익', couponCost: '쿠폰 할인 비용', results: '결과', roi: '투자 수익률', netProfit: '순이익', generated: '생성일', registerTape: '영수증 광고', printSave: '인쇄 / PDF 저장' }
+  };
+
+  function exportROI(store, lang = 'en') {
+    const r = ROI_TRANSLATIONS[lang] || ROI_TRANSLATIONS.en;
     const investment = parseFloat(roiInvestment.replace(/,/g, ''));
     const grossRevenue = roiAvgSpend * roiNewCustomers * 12 * (roiVisitsPerYear || 1);
     const cogsAmount = grossRevenue * ((roiCOGS || 0) / 100);
@@ -291,46 +301,46 @@ ${plans.map((p, i) => `<tr class="${i === plans.length - 1 ? 'best' : ''}"><td>$
   @media print { body { padding: 12px; } .no-print { display: none; } }
 </style></head><body>
 <div class="header">
-  <h1>📊 ROI Analysis Report</h1>
+  <h1>${r.title}</h1>
   <p>${store.GroceryChain} — ${store.City}, ${store.State}</p>
   <p>Store: ${store.StoreName} | ${date}</p>
 </div>
 
 <div class="section">
-  <h3>📋 Inputs</h3>
-  <div class="row"><span class="label">Investment</span><span class="value">$${investment.toLocaleString()}</span></div>
-  <div class="row"><span class="label">Avg Customer Spend</span><span class="value">$${roiAvgSpend}</span></div>
-  <div class="row"><span class="label">New Customers / Month</span><span class="value">${roiNewCustomers}</span></div>
-  <div class="row"><span class="label">Visits / Year</span><span class="value">${roiVisitsPerYear}</span></div>
-  ${roiCouponDiscount ? `<div class="row"><span class="label">Avg Discount per Coupon</span><span class="value">$${roiCouponDiscount}</span></div>` : ''}
-  ${roiTotalRedemptions ? `<div class="row"><span class="label">Monthly Coupon Redemptions</span><span class="value">${roiTotalRedemptions}</span></div>` : ''}
-  ${roiCOGS ? `<div class="row"><span class="label">Cost of Goods Sold</span><span class="value">${roiCOGS}%</span></div>` : ''}
+  <h3>${r.inputs}</h3>
+  <div class="row"><span class="label">${r.investment}</span><span class="value">$${investment.toLocaleString()}</span></div>
+  <div class="row"><span class="label">${r.avgSpend}</span><span class="value">$${roiAvgSpend}</span></div>
+  <div class="row"><span class="label">${r.newCust}</span><span class="value">${roiNewCustomers}</span></div>
+  <div class="row"><span class="label">${r.visits}</span><span class="value">${roiVisitsPerYear}</span></div>
+  ${roiCouponDiscount ? `<div class="row"><span class="label">${r.discount}</span><span class="value">$${roiCouponDiscount}</span></div>` : ''}
+  ${roiTotalRedemptions ? `<div class="row"><span class="label">${r.redemptions}</span><span class="value">${roiTotalRedemptions}</span></div>` : ''}
+  ${roiCOGS ? `<div class="row"><span class="label">${r.cogs}</span><span class="value">${roiCOGS}%</span></div>` : ''}
 </div>
 
 <div class="section">
-  <h3>💰 Revenue Analysis</h3>
-  <div class="row"><span class="label">Monthly Revenue (New Customers)</span><span class="value green">$${monthlyRevenue.toLocaleString()}/mo</span></div>
-  <div class="row"><span class="label">Gross Annual Revenue</span><span class="value green">$${grossRevenue.toLocaleString()}</span></div>
-  ${roiCOGS ? `<div class="row"><span class="label">Cost of Goods Sold (${roiCOGS}%)</span><span class="value red">-$${cogsAmount.toLocaleString()}</span></div>
-  <div class="row"><span class="label">Net Annual Revenue</span><span class="value green">$${annualRevenue.toLocaleString()}</span></div>` : ''}
-  ${roiTotalRedemptions ? `<div class="row"><span class="label">Annual Redemptions (${roiTotalRedemptions}/mo × 12)</span><span class="value">${annualRedemptions.toLocaleString()}</span></div>
-  <div class="row"><span class="label">Coupon Redemption Revenue</span><span class="value green">$${couponRevenue.toLocaleString()}</span></div>
-  <div class="row"><span class="label">Coupon Discount Cost</span><span class="value red">-$${couponCost.toLocaleString()}</span></div>` : ''}
+  <h3>${r.revenue}</h3>
+  <div class="row"><span class="label">${r.monthlyRev}</span><span class="value green">$${monthlyRevenue.toLocaleString()}/mo</span></div>
+  <div class="row"><span class="label">${r.grossAnnual}</span><span class="value green">$${grossRevenue.toLocaleString()}</span></div>
+  ${roiCOGS ? `<div class="row"><span class="label">${r.cogsLabel} (${roiCOGS}%)</span><span class="value red">-$${cogsAmount.toLocaleString()}</span></div>
+  <div class="row"><span class="label">${r.netAnnual}</span><span class="value green">$${annualRevenue.toLocaleString()}</span></div>` : ''}
+  ${roiTotalRedemptions ? `<div class="row"><span class="label">${r.annualRedemptions} (${roiTotalRedemptions}/mo x 12)</span><span class="value">${annualRedemptions.toLocaleString()}</span></div>
+  <div class="row"><span class="label">${r.couponRev}</span><span class="value green">$${couponRevenue.toLocaleString()}</span></div>
+  <div class="row"><span class="label">${r.couponCost}</span><span class="value red">-$${couponCost.toLocaleString()}</span></div>` : ''}
 </div>
 
 <div class="section">
-  <h3>📊 Results</h3>
-  <div class="row highlight"><span class="label">Return on Investment</span><span class="value big">${roiPercent}% ROI</span></div>
-  <div class="row"><span class="label">Net Profit</span><span class="value green">$${netProfit.toLocaleString()}</span></div>
+  <h3>${r.results}</h3>
+  <div class="row highlight"><span class="label">${r.roi}</span><span class="value big">${roiPercent}% ROI</span></div>
+  <div class="row"><span class="label">${r.netProfit}</span><span class="value green">$${netProfit.toLocaleString()}</span></div>
 </div>
 
 <div class="footer">
   <div class="logo">imPro — IndoorMedia</div>
-  <p>Generated ${date} | Register Tape Advertising</p>
+  <p>${r.generated} ${date} | ${r.registerTape}</p>
 </div>
 
 <div class="no-print" style="text-align:center;margin-top:20px;">
-  <button onclick="window.print()" style="padding:12px 32px;background:#CC0000;color:white;border:none;border-radius:8px;font-size:16px;cursor:pointer;">🖨️ Print / Save as PDF</button>
+  <button onclick="window.print()" style="padding:12px 32px;background:#CC0000;color:white;border:none;border-radius:8px;font-size:16px;cursor:pointer;">${r.printSave}</button>
 </div>
 </body></html>`;
 
@@ -877,6 +887,13 @@ Store: ${store.StoreName}
                     <div class="roi-action-btns">
                       <button class="roi-export-btn" on:click={() => exportROI(store)}>📄 Export Report</button>
                       <button class="roi-share-btn" on:click={() => shareROI(store)}>📤 Share</button>
+                    </div>
+                    <div class="lang-btns" style="margin-top:8px;">
+                      <button class="lang-btn" on:click={() => exportROI(store, 'es')}>🇪🇸 Español</button>
+                      <button class="lang-btn" on:click={() => exportROI(store, 'zh')}>🇨🇳 中文</button>
+                      <button class="lang-btn" on:click={() => exportROI(store, 'vi')}>🇻🇳 Tiếng Việt</button>
+                      <button class="lang-btn" on:click={() => exportROI(store, 'tl')}>🇵🇭 Tagalog</button>
+                      <button class="lang-btn" on:click={() => exportROI(store, 'ko')}>🇰🇷 한국어</button>
                     </div>
                     <button class="roi-close-btn" on:click={() => { roiStore = null; }}>Close Calculator</button>
                   </div>
