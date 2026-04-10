@@ -19,7 +19,19 @@
     ko: { title: '광고 투자 요약', store: '매장', address: '주소', adType: '광고 유형', cases: '계산대 수', impressions: '예상 노출수', daily: '일일', monthly: '월간', annual: '연간', paymentPlans: '결제 플랜', plan: '플랜', payments: '회', perMonth: '/월', total: '합계', dailyInvestment: '일일 투자', bestDeal: '최고 할인 — 15% 절약', onePayment: '일시불', save: '절약', formula: '케이스 × 50롤 × 137구간 × 2회인쇄 × 4분기', poweredBy: 'imPro Sales Portal 생성 — IndoorMedia', yourAd: '귀하의 광고는 계산대의 모든 고객에게 도달합니다 — 100% 가시성, 모든 거래.' }
   };
 
+  // Strip emoji and non-WinAnsi characters for PDF text
+  function pdfSafe(str) {
+    return (str || '').replace(/[\u{1F000}-\u{1FFFF}|\u{2600}-\u{27BF}|\u{FE00}-\u{FE0F}|\u{200D}|\u{20E3}|\u{E0020}-\u{E007F}]/gu, '').replace(/[^\x00-\xFF]/g, '').trim();
+  }
+
+  // Check if language needs Unicode (CJK/Korean)
+  function needsUnicode(lang) { return ['zh', 'ko', 'vi', 'tl'].includes(lang); }
+
   async function exportPricingSheet(store, pricing, adType, lang) {
+    // For non-Latin languages, export as HTML (handles Unicode natively)
+    if (needsUnicode(lang)) {
+      return exportPricingSheetHTML(store, pricing, adType, lang);
+    }
     try {
     const { PDFDocument, rgb, StandardFonts } = await import('pdf-lib');
     const t = TRANSLATIONS[lang] || TRANSLATIONS.en;
@@ -45,8 +57,8 @@
     const dailyImp = Math.round(annualImp / 365);
 
     function line(label, value, isBold) {
-      page.drawText(label, { x: margin, y, size: 11, font: bold, color: rgb(0.3, 0.3, 0.3) });
-      page.drawText(value, { x: margin + 140, y, size: 11, font: isBold ? bold : regular, color: rgb(0.1, 0.1, 0.1) });
+      page.drawText(pdfSafe(label), { x: margin, y, size: 11, font: bold, color: rgb(0.3, 0.3, 0.3) });
+      page.drawText(pdfSafe(value), { x: margin + 140, y, size: 11, font: isBold ? bold : regular, color: rgb(0.1, 0.1, 0.1) });
       y -= 18;
     }
 
@@ -58,7 +70,7 @@
 
     // Impressions box
     page.drawRectangle({ x: margin, y: y - 50, width: maxW, height: 60, color: rgb(0.95, 0.97, 1), borderColor: rgb(0.08, 0.39, 0.75), borderWidth: 1 });
-    page.drawText(`👁️ ${t.impressions}`, { x: margin + 10, y: y - 5, size: 12, font: bold, color: rgb(0.08, 0.39, 0.75) });
+    page.drawText(pdfSafe(`${t.impressions}`), { x: margin + 10, y: y - 5, size: 12, font: bold, color: rgb(0.08, 0.39, 0.75) });
     page.drawText(`${t.daily}: ${dailyImp.toLocaleString()}`, { x: margin + 10, y: y - 22, size: 10, font: regular, color: rgb(0.2, 0.2, 0.2) });
     page.drawText(`${t.monthly}: ${monthlyImp.toLocaleString()}`, { x: margin + 180, y: y - 22, size: 10, font: regular, color: rgb(0.2, 0.2, 0.2) });
     page.drawText(`${t.annual}: ${annualImp.toLocaleString()}`, { x: margin + 350, y: y - 22, size: 11, font: bold, color: rgb(0.08, 0.39, 0.75) });
@@ -66,25 +78,25 @@
     y -= 70;
 
     // Value prop
-    page.drawText(t.yourAd, { x: margin, y, size: 10, font: regular, color: rgb(0.4, 0.4, 0.4) });
+    page.drawText(pdfSafe(t.yourAd), { x: margin, y, size: 10, font: regular, color: rgb(0.4, 0.4, 0.4) });
     y -= 25;
 
     // Payment plans table
-    page.drawText(t.paymentPlans, { x: margin, y, size: 14, font: bold, color: rgb(0.1, 0.1, 0.1) });
+    page.drawText(pdfSafe(t.paymentPlans), { x: margin, y, size: 14, font: bold, color: rgb(0.1, 0.1, 0.1) });
     y -= 25;
 
     // Table header
     page.drawRectangle({ x: margin, y: y - 2, width: maxW, height: 20, color: rgb(0.95, 0.95, 0.95) });
-    page.drawText(t.plan, { x: margin + 5, y: y + 2, size: 10, font: bold, color: rgb(0.3, 0.3, 0.3) });
-    page.drawText(t.total, { x: margin + 200, y: y + 2, size: 10, font: bold, color: rgb(0.3, 0.3, 0.3) });
-    page.drawText(t.dailyInvestment, { x: margin + 340, y: y + 2, size: 10, font: bold, color: rgb(0.3, 0.3, 0.3) });
+    page.drawText(pdfSafe(t.plan), { x: margin + 5, y: y + 2, size: 10, font: bold, color: rgb(0.3, 0.3, 0.3) });
+    page.drawText(pdfSafe(t.total), { x: margin + 200, y: y + 2, size: 10, font: bold, color: rgb(0.3, 0.3, 0.3) });
+    page.drawText(pdfSafe(t.dailyInvestment), { x: margin + 340, y: y + 2, size: 10, font: bold, color: rgb(0.3, 0.3, 0.3) });
     y -= 22;
 
     const plans = [
-      { name: `📅 ${t.monthly} (12 ${t.payments})`, price: `$${pricing.monthly}${t.perMonth}`, total: pricing.monthlyTotal, daily: (parseFloat(pricing.monthlyTotal) / 365).toFixed(2) },
-      { name: `📦 3-${t.monthly} (3 ${t.payments}) — ${t.save} 10%`, price: `$${pricing.threeMonth} × 3`, total: pricing.threeMonthTotal, daily: (parseFloat(pricing.threeMonthTotal) / 365).toFixed(2) },
-      { name: `📦 6-${t.monthly} (6 ${t.payments}) — ${t.save} 7.5%`, price: `$${pricing.sixMonth} × 6`, total: pricing.sixMonthTotal, daily: (parseFloat(pricing.sixMonthTotal) / 365).toFixed(2) },
-      { name: `⭐ ${t.onePayment} — ${t.save} 15%`, price: `$${pricing.pif}`, total: pricing.pif, daily: (parseFloat(pricing.pif) / 365).toFixed(2) },
+      { name: `${t.monthly} (12 ${t.payments})`, price: `$${pricing.monthly}${t.perMonth}`, total: pricing.monthlyTotal, daily: (parseFloat(pricing.monthlyTotal) / 365).toFixed(2) },
+      { name: `3-${t.monthly} (3 ${t.payments}) - ${t.save} 10%`, price: `$${pricing.threeMonth} x 3`, total: pricing.threeMonthTotal, daily: (parseFloat(pricing.threeMonthTotal) / 365).toFixed(2) },
+      { name: `6-${t.monthly} (6 ${t.payments}) - ${t.save} 7.5%`, price: `$${pricing.sixMonth} x 6`, total: pricing.sixMonthTotal, daily: (parseFloat(pricing.sixMonthTotal) / 365).toFixed(2) },
+      { name: `${t.onePayment} - ${t.save} 15% (Best Deal)`, price: `$${pricing.pif}`, total: pricing.pif, daily: (parseFloat(pricing.pif) / 365).toFixed(2) },
     ];
 
     plans.forEach((p, i) => {
@@ -92,7 +104,7 @@
       if (isLast) {
         page.drawRectangle({ x: margin, y: y - 4, width: maxW, height: 22, color: rgb(0.91, 0.96, 0.91) });
       }
-      page.drawText(p.name, { x: margin + 5, y, size: 10, font: isLast ? bold : regular, color: rgb(0.1, 0.1, 0.1) });
+      page.drawText(pdfSafe(p.name), { x: margin + 5, y, size: 10, font: isLast ? bold : regular, color: rgb(0.1, 0.1, 0.1) });
       page.drawText(`$${p.total}`, { x: margin + 200, y, size: 10, font: bold, color: rgb(0.1, 0.1, 0.1) });
       page.drawText(`$${p.daily}/day`, { x: margin + 340, y, size: 10, font: regular, color: rgb(0.18, 0.49, 0.2) });
       y -= 24;
@@ -105,7 +117,7 @@
     // Footer
     page.drawLine({ start: { x: margin, y }, end: { x: pageW - margin, y }, thickness: 0.5, color: rgb(0.8, 0.8, 0.8) });
     y -= 15;
-    page.drawText(t.poweredBy, { x: margin, y, size: 8, font: regular, color: rgb(0.5, 0.5, 0.5) });
+    page.drawText(pdfSafe(t.poweredBy), { x: margin, y, size: 8, font: regular, color: rgb(0.5, 0.5, 0.5) });
 
     const bytes = await doc.save();
     const blob = new Blob([bytes], { type: 'application/pdf' });
@@ -129,6 +141,68 @@
       console.error('PDF export error:', err);
       alert('❌ Error generating PDF: ' + err.message);
     }
+  }
+
+  // HTML export for CJK/Unicode languages
+  function exportPricingSheetHTML(store, pricing, adType, lang) {
+    const t = TRANSLATIONS[lang] || TRANSLATIONS.en;
+    const caseCount = parseInt(store['Case Count']) || 0;
+    const annualImp = caseCount * 50 * 137 * 2 * 4;
+    const monthlyImp = Math.round(annualImp / 12);
+    const dailyImp = Math.round(annualImp / 365);
+
+    const plans = [
+      { name: `${t.monthly} (12 ${t.payments})`, total: pricing.monthlyTotal, daily: (parseFloat(pricing.monthlyTotal) / 365).toFixed(2) },
+      { name: `3-${t.monthly} (3 ${t.payments}) — ${t.save} 10%`, total: pricing.threeMonthTotal, daily: (parseFloat(pricing.threeMonthTotal) / 365).toFixed(2) },
+      { name: `6-${t.monthly} (6 ${t.payments}) — ${t.save} 7.5%`, total: pricing.sixMonthTotal, daily: (parseFloat(pricing.sixMonthTotal) / 365).toFixed(2) },
+      { name: `⭐ ${t.onePayment} — ${t.save} 15%`, total: pricing.pif, daily: (parseFloat(pricing.pif) / 365).toFixed(2) },
+    ];
+
+    const html = `<!DOCTYPE html><html><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>${t.title} — ${store.GroceryChain} ${store.City}</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;max-width:600px;margin:0 auto;padding:16px;background:#fff}
+.header{background:linear-gradient(135deg,#CC0000,#8B0000);color:#fff;padding:20px;border-radius:12px;margin-bottom:20px;text-align:center}
+.header h1{font-size:22px;margin-bottom:4px}.header p{font-size:13px;opacity:.9}
+.info{margin-bottom:16px;font-size:14px}.info div{padding:6px 0;border-bottom:1px solid #eee}
+.info strong{display:inline-block;width:100px;color:#666}
+.imp{background:linear-gradient(135deg,#E3F2FD,#F3E5F5);border:1px solid #1565C0;border-radius:12px;padding:16px;margin-bottom:16px;text-align:center}
+.imp h3{color:#1565C0;margin-bottom:10px}.imp-grid{display:flex;gap:8px}
+.imp-stat{flex:1;background:rgba(255,255,255,.8);border-radius:8px;padding:10px 4px;text-align:center}
+.imp-stat.hl{background:#1565C0;color:#fff}.imp-val{font-size:18px;font-weight:800;display:block}
+.imp-lbl{font-size:10px;text-transform:uppercase;color:#666}.imp-stat.hl .imp-lbl{color:rgba(255,255,255,.8)}
+table{width:100%;border-collapse:collapse;margin-bottom:16px}th{background:#f5f5f5;text-align:left;padding:10px;font-size:12px;color:#666}
+td{padding:10px;border-bottom:1px solid #eee;font-size:13px}.best{background:#E8F5E9}
+.daily{color:#2E7D32;font-weight:700}.save{color:#2E7D32;font-weight:800;font-size:14px;margin:12px 0}
+.vp{font-size:13px;color:#555;font-style:italic;margin-bottom:16px;padding:12px;background:#f9f9f9;border-radius:8px}
+.footer{font-size:10px;color:#999;text-align:center;margin-top:20px;border-top:1px solid #eee;padding-top:10px}
+@media print{body{padding:0}.header{border-radius:0}}
+</style></head><body>
+<div class="header"><h1>IndoorMedia</h1><p>${t.title}</p><p>${new Date().toLocaleDateString()}</p></div>
+<div class="info">
+<div><strong>${t.store}:</strong> ${store.GroceryChain} — ${store.StoreName}</div>
+<div><strong>${t.address}:</strong> ${store.Address}, ${store.City}, ${store.State} ${store.PostalCode}</div>
+<div><strong>${t.adType}:</strong> ${adType === 'double' ? 'Double Ad' : 'Single Ad'}</div>
+<div><strong>${t.cases}:</strong> ${caseCount}</div>
+</div>
+<div class="imp"><h3>👁️ ${t.impressions}</h3>
+<div class="imp-grid">
+<div class="imp-stat"><span class="imp-val">${dailyImp.toLocaleString()}</span><span class="imp-lbl">${t.daily}</span></div>
+<div class="imp-stat"><span class="imp-val">${monthlyImp.toLocaleString()}</span><span class="imp-lbl">${t.monthly}</span></div>
+<div class="imp-stat hl"><span class="imp-val">${annualImp.toLocaleString()}</span><span class="imp-lbl">${t.annual}</span></div>
+</div></div>
+<div class="vp">${t.yourAd}</div>
+<table><thead><tr><th>${t.plan}</th><th>${t.total}</th><th>${t.dailyInvestment}</th></tr></thead><tbody>
+${plans.map((p, i) => `<tr class="${i === plans.length - 1 ? 'best' : ''}"><td>${p.name}</td><td><strong>$${p.total}</strong></td><td class="daily">$${p.daily}/${t.daily.toLowerCase()}</td></tr>`).join('')}
+</tbody></table>
+<div class="save">${t.save}: $${pricing.savings}</div>
+<div class="footer">${t.poweredBy}</div>
+</body></html>`;
+
+    const blob = new Blob([html], { type: 'text/html;charset=utf-8' });
+    const url = URL.createObjectURL(blob);
+    window.open(url, '_blank');
+    setTimeout(() => URL.revokeObjectURL(url), 10000);
   }
 
   // Store phone number lookup (cached)
