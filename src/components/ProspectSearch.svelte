@@ -1293,7 +1293,10 @@
               }}>📋 Testimonials</button>
             </div>
             {#if prospect.phone}
-              <a href="tel:{prospect.phone}" class="action-btn full-width call-btn" on:click={() => trackPhoneClick(prospect)}>📞 Call {prospect.phone}</a>
+              <div class="action-row">
+                <a href="tel:{prospect.phone}" class="action-btn call-btn" on:click={() => trackPhoneClick(prospect)}>📞 Call {prospect.phone}</a>
+                <a href="sms:{prospect.phone}" class="action-btn text-btn">💬 Text</a>
+              </div>
             {/if}
             <button class="action-btn full-width script-btn" on:click={() => { prospect._showScript = !prospect._showScript; prospect._showEmail = false; prospect._showNotes = false; prospects = prospects; }}>📋 Call Scripts</button>
             <button class="action-btn full-width email-btn" on:click={() => { prospect._showEmail = !prospect._showEmail; prospect._showScript = false; prospect._showNotes = false; prospects = prospects; }}>✉️ Draft Email</button>
@@ -1493,6 +1496,7 @@
                 <div class="action-row">
                   {#if prospect.phone}
                     <a href="tel:{prospect.phone}" class="action-btn" on:click={() => trackPhoneClick(prospect)}>📞 Call</a>
+                    <a href="sms:{prospect.phone}" class="action-btn text-btn">💬 Text</a>
                   {/if}
                   {#if prospect.email}
                     <a href="mailto:{prospect.email}" class="action-btn">✉️ Email</a>
@@ -2395,6 +2399,8 @@
 
   .call-btn { background: #2e7d32 !important; color: white !important; border-color: #2e7d32 !important; }
   .call-btn:hover { background: #1b5e20 !important; }
+  .text-btn { background: #1565C0 !important; color: white !important; border-color: #1565C0 !important; }
+  .text-btn:hover { background: #0D47A1 !important; }
 
   .email-btn { background: #1565c0 !important; color: white !important; border-color: #1565c0 !important; }
   .email-btn:hover { background: #0d47a1 !important; }

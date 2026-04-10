@@ -1001,6 +1001,7 @@ IndoorMedia`;
             <div class="card-actions">
               {#if c.contact_phone}
                 <a href="tel:{c.contact_phone}" class="action-btn call">📞 Call</a>
+                <a href="sms:{c.contact_phone}" class="action-btn text-btn">💬 Text</a>
               {/if}
               {#if c.contact_email}
                 <a href="mailto:{c.contact_email}" class="action-btn">📧 Email</a>
@@ -1213,6 +1214,7 @@ IndoorMedia`;
                 <div class="renewal-actions">
                   {#if renewal.phone}
                     <a href="tel:{renewal.phone}" class="action-btn call-btn">📞 Call</a>
+                    <a href="sms:{renewal.phone}" class="action-btn text-btn">💬 Text</a>
                   {/if}
                   {#if renewal.email}
                     <a href="mailto:{renewal.email}?subject=Renewal%20—%20{encodeURIComponent(renewal.business)}" class="action-btn email-btn">✉️ Email</a>
@@ -1776,6 +1778,7 @@ IndoorMedia`;
   .renewal-actions { display: flex; gap: 8px; margin-top: 12px; }
   .renewal-actions .action-btn { flex: 1; text-align: center; padding: 10px; border-radius: 8px; font-size: 14px; font-weight: 600; text-decoration: none; }
   .renewal-actions .call-btn { background: #2e7d32; color: white; }
+  .renewal-actions .text-btn, .text-btn { background: #1565C0; color: white; }
   .renewal-actions .email-btn { background: #CC0000; color: white; }
   /* Pending Renewals */
   .renewal-btn { border: 2px solid #CC0000 !important; }
