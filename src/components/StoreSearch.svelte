@@ -87,16 +87,17 @@
 
     // Table header
     page.drawRectangle({ x: margin, y: y - 2, width: maxW, height: 20, color: rgb(0.95, 0.95, 0.95) });
-    page.drawText(pdfSafe(t.plan), { x: margin + 5, y: y + 2, size: 10, font: bold, color: rgb(0.3, 0.3, 0.3) });
-    page.drawText(pdfSafe(t.total), { x: margin + 200, y: y + 2, size: 10, font: bold, color: rgb(0.3, 0.3, 0.3) });
-    page.drawText(pdfSafe(t.dailyInvestment), { x: margin + 340, y: y + 2, size: 10, font: bold, color: rgb(0.3, 0.3, 0.3) });
+    page.drawText(pdfSafe(t.plan), { x: margin + 5, y: y + 2, size: 9, font: bold, color: rgb(0.3, 0.3, 0.3) });
+    page.drawText('Payment', { x: margin + 155, y: y + 2, size: 9, font: bold, color: rgb(0.3, 0.3, 0.3) });
+    page.drawText(pdfSafe(t.total), { x: margin + 270, y: y + 2, size: 9, font: bold, color: rgb(0.3, 0.3, 0.3) });
+    page.drawText(pdfSafe(t.dailyInvestment), { x: margin + 380, y: y + 2, size: 9, font: bold, color: rgb(0.3, 0.3, 0.3) });
     y -= 22;
 
     const plans = [
-      { name: `${t.monthly} (12 ${t.payments})`, price: `$${pricing.monthly}${t.perMonth}`, total: pricing.monthlyTotal, daily: (parseFloat(pricing.monthlyTotal) / 365).toFixed(2) },
-      { name: `3-${t.monthly} (3 ${t.payments}) - ${t.save} 10%`, price: `$${pricing.threeMonth} x 3`, total: pricing.threeMonthTotal, daily: (parseFloat(pricing.threeMonthTotal) / 365).toFixed(2) },
-      { name: `6-${t.monthly} (6 ${t.payments}) - ${t.save} 7.5%`, price: `$${pricing.sixMonth} x 6`, total: pricing.sixMonthTotal, daily: (parseFloat(pricing.sixMonthTotal) / 365).toFixed(2) },
-      { name: `${t.onePayment} - ${t.save} 15% (Best Deal)`, price: `$${pricing.pif}`, total: pricing.pif, daily: (parseFloat(pricing.pif) / 365).toFixed(2) },
+      { name: `Monthly (12 ${t.payments})`, payment: `$${pricing.monthly}/mo`, total: pricing.monthlyTotal, daily: (parseFloat(pricing.monthlyTotal) / 365).toFixed(2) },
+      { name: `3-Month (3 ${t.payments}) - 10% off`, payment: `$${pricing.threeMonth} x 3`, total: pricing.threeMonthTotal, daily: (parseFloat(pricing.threeMonthTotal) / 365).toFixed(2) },
+      { name: `6-Month (6 ${t.payments}) - 7.5% off`, payment: `$${pricing.sixMonth} x 6`, total: pricing.sixMonthTotal, daily: (parseFloat(pricing.sixMonthTotal) / 365).toFixed(2) },
+      { name: `Paid in Full - 15% off`, payment: `$${pricing.pif}`, total: pricing.pif, daily: (parseFloat(pricing.pif) / 365).toFixed(2) },
     ];
 
     plans.forEach((p, i) => {
@@ -104,9 +105,10 @@
       if (isLast) {
         page.drawRectangle({ x: margin, y: y - 4, width: maxW, height: 22, color: rgb(0.91, 0.96, 0.91) });
       }
-      page.drawText(pdfSafe(p.name), { x: margin + 5, y, size: 10, font: isLast ? bold : regular, color: rgb(0.1, 0.1, 0.1) });
-      page.drawText(`$${p.total}`, { x: margin + 200, y, size: 10, font: bold, color: rgb(0.1, 0.1, 0.1) });
-      page.drawText(`$${p.daily}/day`, { x: margin + 340, y, size: 10, font: regular, color: rgb(0.18, 0.49, 0.2) });
+      page.drawText(pdfSafe(p.name), { x: margin + 5, y, size: 9, font: isLast ? bold : regular, color: rgb(0.1, 0.1, 0.1) });
+      page.drawText(pdfSafe(p.payment), { x: margin + 155, y, size: 9, font: regular, color: rgb(0.3, 0.3, 0.3) });
+      page.drawText(`$${p.total}`, { x: margin + 270, y, size: 9, font: bold, color: rgb(0.1, 0.1, 0.1) });
+      page.drawText(`$${p.daily}/day`, { x: margin + 380, y, size: 9, font: regular, color: rgb(0.18, 0.49, 0.2) });
       y -= 24;
     });
 
@@ -152,10 +154,10 @@
     const dailyImp = Math.round(annualImp / 365);
 
     const plans = [
-      { name: `${t.monthly} (12 ${t.payments})`, total: pricing.monthlyTotal, daily: (parseFloat(pricing.monthlyTotal) / 365).toFixed(2) },
-      { name: `3-${t.monthly} (3 ${t.payments}) — ${t.save} 10%`, total: pricing.threeMonthTotal, daily: (parseFloat(pricing.threeMonthTotal) / 365).toFixed(2) },
-      { name: `6-${t.monthly} (6 ${t.payments}) — ${t.save} 7.5%`, total: pricing.sixMonthTotal, daily: (parseFloat(pricing.sixMonthTotal) / 365).toFixed(2) },
-      { name: `⭐ ${t.onePayment} — ${t.save} 15%`, total: pricing.pif, daily: (parseFloat(pricing.pif) / 365).toFixed(2) },
+      { name: `${t.monthly} (12 ${t.payments})`, payment: `$${pricing.monthly}/${t.monthly.toLowerCase().slice(0,2)}`, total: pricing.monthlyTotal, daily: (parseFloat(pricing.monthlyTotal) / 365).toFixed(2) },
+      { name: `3-${t.monthly} (3 ${t.payments}) — ${t.save} 10%`, payment: `$${pricing.threeMonth} x 3`, total: pricing.threeMonthTotal, daily: (parseFloat(pricing.threeMonthTotal) / 365).toFixed(2) },
+      { name: `6-${t.monthly} (6 ${t.payments}) — ${t.save} 7.5%`, payment: `$${pricing.sixMonth} x 6`, total: pricing.sixMonthTotal, daily: (parseFloat(pricing.sixMonthTotal) / 365).toFixed(2) },
+      { name: `⭐ ${t.onePayment} — ${t.save} 15%`, payment: `$${pricing.pif}`, total: pricing.pif, daily: (parseFloat(pricing.pif) / 365).toFixed(2) },
     ];
 
     const html = `<!DOCTYPE html><html><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
@@ -171,8 +173,8 @@
 .imp-stat{flex:1;background:rgba(255,255,255,.8);border-radius:8px;padding:10px 4px;text-align:center}
 .imp-stat.hl{background:#1565C0;color:#fff}.imp-val{font-size:18px;font-weight:800;display:block}
 .imp-lbl{font-size:10px;text-transform:uppercase;color:#666}.imp-stat.hl .imp-lbl{color:rgba(255,255,255,.8)}
-table{width:100%;border-collapse:collapse;margin-bottom:16px}th{background:#f5f5f5;text-align:left;padding:10px;font-size:12px;color:#666}
-td{padding:10px;border-bottom:1px solid #eee;font-size:13px}.best{background:#E8F5E9}
+table{width:100%;border-collapse:collapse;margin-bottom:16px}th{background:#f5f5f5;text-align:left;padding:8px;font-size:11px;color:#666}
+td{padding:8px;border-bottom:1px solid #eee;font-size:12px}.best{background:#E8F5E9}
 .daily{color:#2E7D32;font-weight:700}.save{color:#2E7D32;font-weight:800;font-size:14px;margin:12px 0}
 .vp{font-size:13px;color:#555;font-style:italic;margin-bottom:16px;padding:12px;background:#f9f9f9;border-radius:8px}
 .footer{font-size:10px;color:#999;text-align:center;margin-top:20px;border-top:1px solid #eee;padding-top:10px}
@@ -192,8 +194,8 @@ td{padding:10px;border-bottom:1px solid #eee;font-size:13px}.best{background:#E8
 <div class="imp-stat hl"><span class="imp-val">${annualImp.toLocaleString()}</span><span class="imp-lbl">${t.annual}</span></div>
 </div></div>
 <div class="vp">${t.yourAd}</div>
-<table><thead><tr><th>${t.plan}</th><th>${t.total}</th><th>${t.dailyInvestment}</th></tr></thead><tbody>
-${plans.map((p, i) => `<tr class="${i === plans.length - 1 ? 'best' : ''}"><td>${p.name}</td><td><strong>$${p.total}</strong></td><td class="daily">$${p.daily}/${t.daily.toLowerCase()}</td></tr>`).join('')}
+<table><thead><tr><th>${t.plan}</th><th>Payment</th><th>${t.total}</th><th>${t.dailyInvestment}</th></tr></thead><tbody>
+${plans.map((p, i) => `<tr class="${i === plans.length - 1 ? 'best' : ''}"><td>${p.name}</td><td>${p.payment}</td><td><strong>$${p.total}</strong></td><td class="daily">$${p.daily}/${t.daily.toLowerCase()}</td></tr>`).join('')}
 </tbody></table>
 <div class="save">${t.save}: $${pricing.savings}</div>
 <div class="footer">${t.poweredBy}</div>
