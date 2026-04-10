@@ -48,6 +48,9 @@
   let analyticsExpandedRep = null;
   let showAppointmentsDetail = false;
   let thisMonthContracts = [];
+  let thisWeekContracts = [];
+  let thisWeekRevenue = 0;
+  let weeklyBreakdown = []; // { weekLabel, contracts, revenue }
   let pendingRenewalsData = [];
 
   // Motivational quotes
@@ -474,6 +477,58 @@
     });
     
     revenueThisMonth = thisMonthContracts.reduce((sum, c) => sum + (c.total_amount || 0), 0);
+    
+    // This week's contracts (Mon-Sun)
+    const today = new Date();
+    const dayOfWeek = today.getDay();
+    const mondayOffset = dayOfWeek === 0 ? 6 : dayOfWeek - 1;
+    const weekStart = new Date(today);
+    weekStart.setDate(today.getDate() - mondayOffset);
+    weekStart.setHours(0, 0, 0, 0);
+    
+    thisWeekContracts = myContracts.filter(c => {
+      const d = new Date(c.date);
+      return d >= weekStart;
+    });
+    thisWeekRevenue = thisWeekContracts.reduce((sum, c) => sum + (c.total_amount || 0), 0);
+    
+    // Weekly breakdown for the current month
+    const firstOfMonth = new Date(thisYear, thisMonth, 1);
+    const weeks = [];
+    let wStart = new Date(firstOfMonth);
+    // Align to Monday
+    const dow = wStart.getDay();
+    if (dow !== 1) wStart.setDate(wStart.getDate() - (dow === 0 ? 6 : dow - 1));
+    
+    while (wStart.getMonth() <= thisMonth || (wStart.getMonth() === 0 && thisMonth === 11)) {
+      const wEnd = new Date(wStart);
+      wEnd.setDate(wEnd.getDate() + 6);
+      wEnd.setHours(23, 59, 59, 999);
+      
+      const weekContracts = thisMonthContracts.filter(c => {
+        const d = new Date(c.date);
+        return d >= wStart && d <= wEnd;
+      });
+      
+      const startLabel = wStart.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+      const endLabel = wEnd.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+      const isCurrentWeek = today >= wStart && today <= wEnd;
+      
+      weeks.push({
+        weekLabel: `${startLabel} – ${endLabel}`,
+        contracts: weekContracts,
+        revenue: weekContracts.reduce((s, c) => s + (c.total_amount || 0), 0),
+        count: weekContracts.length,
+        isCurrent: isCurrentWeek
+      });
+      
+      wStart = new Date(wEnd);
+      wStart.setDate(wStart.getDate() + 1);
+      wStart.setHours(0, 0, 0, 0);
+      if (wStart.getMonth() > thisMonth && wStart.getFullYear() >= thisYear) break;
+      if (weeks.length > 6) break;
+    }
+    weeklyBreakdown = weeks;
     const lastMonthRevenue = lastMonthContracts.reduce((sum, c) => sum + (c.total_amount || 0), 0);
     growthPercent = lastMonthRevenue > 0 ? Math.round(((revenueThisMonth - lastMonthRevenue) / lastMonthRevenue) * 100) : 0;
 
@@ -829,6 +884,7 @@
               {growthPercent > 0 ? '↑' : '↓'} {Math.abs(growthPercent)}% vs last month
             </div>
           {/if}
+          <div class="week-revenue">This Week: <strong>${thisWeekRevenue.toLocaleString()}</strong> ({thisWeekContracts.length} deal{thisWeekContracts.length !== 1 ? 's' : ''})</div>
           {#if leaderboardPosition > 0}
             <div class="leaderboard-badge">🏆 #{leaderboardPosition} of {leaderboardTotal} reps this month</div>
           {/if}
@@ -836,7 +892,25 @@
 
         {#if showRevenueDetail}
           <div class="drill-down">
-            <h4>💰 This Month's Contracts ({thisMonthContracts.length})</h4>
+            <!-- Weekly breakdown -->
+            <h4>📅 Weekly Breakdown</h4>
+            <div class="week-breakdown">
+              {#each weeklyBreakdown as week}
+                <div class="week-row" class:current-week={week.isCurrent}>
+                  <div class="week-label">
+                    <span>{week.weekLabel}</span>
+                    {#if week.isCurrent}<span class="current-badge">This Week</span>{/if}
+                  </div>
+                  <div class="week-stats">
+                    <span class="week-deals">{week.count} deal{week.count !== 1 ? 's' : ''}</span>
+                    <span class="week-amount">${week.revenue.toLocaleString()}</span>
+                  </div>
+                </div>
+              {/each}
+            </div>
+
+            <!-- Monthly total contracts list -->
+            <h4 style="margin-top:16px;">💰 All Contracts This Month ({thisMonthContracts.length})</h4>
             {#if thisMonthContracts.length === 0}
               <p class="drill-empty">No contracts this month yet.</p>
             {:else}
@@ -1529,6 +1603,16 @@
   }
   .revenue-amount { font-size: 36px; font-weight: 800; color: #CC0000; }
   .revenue-label { font-size: 13px; color: var(--text-secondary, #999); margin-top: 2px; }
+  .week-revenue { font-size: 14px; color: var(--text-secondary, #999); margin-top: 6px; }
+  .week-revenue strong { color: var(--text-primary, #333); }
+  .week-breakdown { margin-bottom: 16px; }
+  .week-row { display: flex; justify-content: space-between; align-items: center; padding: 10px 12px; border-radius: 8px; margin-bottom: 4px; background: var(--bg-secondary, #f9f9f9); }
+  .week-row.current-week { background: #FFF3E0; border: 1px solid #E65100; }
+  .week-label { display: flex; align-items: center; gap: 6px; font-size: 13px; color: var(--text-primary); }
+  .current-badge { font-size: 10px; padding: 2px 6px; background: #E65100; color: white; border-radius: 4px; font-weight: 700; }
+  .week-stats { display: flex; gap: 12px; align-items: center; }
+  .week-deals { font-size: 12px; color: var(--text-secondary, #888); }
+  .week-amount { font-size: 15px; font-weight: 800; color: #2E7D32; }
   .growth-badge { display: inline-block; margin-top: 8px; padding: 4px 12px; border-radius: 20px; font-size: 12px; font-weight: 600; }
   .growth-badge.positive { background: #e8f5e9; color: #2e7d32; }
   .growth-badge.negative { background: #ffe0e0; color: #c33; }
