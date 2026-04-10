@@ -20,6 +20,7 @@
   };
 
   async function exportPricingSheet(store, pricing, adType, lang) {
+    try {
     const { PDFDocument, rgb, StandardFonts } = await import('pdf-lib');
     const t = TRANSLATIONS[lang] || TRANSLATIONS.en;
     const doc = await PDFDocument.create();
@@ -109,12 +110,25 @@
     const bytes = await doc.save();
     const blob = new Blob([bytes], { type: 'application/pdf' });
     const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
     const langSuffix = lang !== 'en' ? ` (${lang.toUpperCase()})` : '';
-    a.download = `Pricing - ${store.GroceryChain} ${store.City}${langSuffix}.pdf`;
-    a.click();
-    URL.revokeObjectURL(url);
+    const filename = `Pricing - ${store.GroceryChain} ${store.City}${langSuffix}.pdf`;
+    
+    // iOS Safari needs window.open for blob PDFs
+    if (/iPhone|iPad|iPod/i.test(navigator.userAgent)) {
+      window.open(url, '_blank');
+    } else {
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = filename;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+    }
+    setTimeout(() => URL.revokeObjectURL(url), 10000);
+    } catch (err) {
+      console.error('PDF export error:', err);
+      alert('❌ Error generating PDF: ' + err.message);
+    }
   }
 
   // Store phone number lookup (cached)
