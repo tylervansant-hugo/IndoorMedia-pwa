@@ -508,6 +508,7 @@ Store: ${store.StoreName}
                   </div>
                   <div class="plan-price">${pricing.monthly}<span class="per">/month</span></div>
                   <div class="plan-total">Total: ${pricing.monthlyTotal}</div>
+                  <div class="plan-daily">That's just <strong>${(parseFloat(pricing.monthlyTotal) / 365).toFixed(2)}/day</strong></div>
                   <button class="roi-btn" on:click|stopPropagation={() => showROI(pricing.monthlyTotal, store)}>📊 ROI Calculator</button>
                 </div>
 
@@ -518,6 +519,7 @@ Store: ${store.StoreName}
                   </div>
                   <div class="plan-price">${pricing.threeMonth}<span class="per"> × 3</span></div>
                   <div class="plan-total">Total: ${pricing.threeMonthTotal}</div>
+                  <div class="plan-daily">That's just <strong>${(parseFloat(pricing.threeMonthTotal) / 365).toFixed(2)}/day</strong></div>
                   <button class="roi-btn" on:click|stopPropagation={() => showROI(pricing.threeMonthTotal, store)}>📊 ROI Calculator</button>
                 </div>
 
@@ -528,6 +530,7 @@ Store: ${store.StoreName}
                   </div>
                   <div class="plan-price">${pricing.sixMonth}<span class="per"> × 6</span></div>
                   <div class="plan-total">Total: ${pricing.sixMonthTotal}</div>
+                  <div class="plan-daily">That's just <strong>${(parseFloat(pricing.sixMonthTotal) / 365).toFixed(2)}/day</strong></div>
                   <button class="roi-btn" on:click|stopPropagation={() => showROI(pricing.sixMonthTotal, store)}>📊 ROI Calculator</button>
                 </div>
 
@@ -538,6 +541,7 @@ Store: ${store.StoreName}
                   </div>
                   <div class="plan-price">${pricing.pif}</div>
                   <div class="plan-total">One payment — Save ${pricing.savings}</div>
+                  <div class="plan-daily">That's just <strong>${(parseFloat(pricing.pif) / 365).toFixed(2)}/day</strong></div>
                   <button class="roi-btn" on:click|stopPropagation={() => showROI(pricing.pif, store)}>📊 ROI Calculator</button>
                 </div>
 
@@ -1012,6 +1016,15 @@ Store: ${store.StoreName}
   .plan-total {
     font-size: 13px;
     color: #666;
+  }
+  .plan-daily {
+    font-size: 12px;
+    color: #2E7D32;
+    margin-top: 4px;
+    padding: 4px 8px;
+    background: #E8F5E9;
+    border-radius: 6px;
+    display: inline-block;
   }
 
   .pricing-label {
