@@ -117,6 +117,28 @@ for pdf_path in pdfs:
         text, re.DOTALL
     )
 
+    # Helper to build a contract entry
+    def make_entry(**overrides):
+        entry = {
+            "contract_number": contract.get("contract_number", ""),
+            "date": contract.get("date", ""),
+            "business_name": contract.get("business_name", ""),
+            "contact_name": contract.get("contact_name", ""),
+            "contact_email": contract.get("contact_email", ""),
+            "contact_phone": contract.get("contact_phone", ""),
+            "sales_rep": contract.get("sales_rep", ""),
+            "store_name": "",
+            "store_number": "",
+            "zone": contract_zone,
+            "product_description": "",
+            "total_amount": 0,
+            "payment_date": contract.get("payment_date", ""),
+            "address": contract.get("address", ""),
+            "extracted_at": contract.get("date", datetime.now().isoformat()),
+        }
+        entry.update(overrides)
+        return entry
+
     if rt_pattern:
         for store_num, zone, addr, est_start, ad_type, price in rt_pattern:
             price_val = 0
@@ -124,23 +146,14 @@ for pdf_path in pdfs:
                 price_val = float(price.replace(",", "").strip())
             except:
                 pass
-            entry = {
-                "contract_number": contract.get("contract_number", ""),
-                "date": contract.get("date", ""),
-                "business_name": contract.get("business_name", ""),
-                "contact_name": contract.get("contact_name", ""),
-                "contact_email": contract.get("contact_email", ""),
-                "contact_phone": contract.get("contact_phone", ""),
-                "sales_rep": contract.get("sales_rep", ""),
-                "store_name": store_num.strip().split("-")[0].strip() if "-" in store_num else "",
-                "store_number": store_num.strip().split("-")[-1] if "-" in store_num else "",
-                "zone": zone if re.match(r'\d{2}[A-Z]', zone) else contract_zone,
-                "product_description": f"{ad_type} Ad",
-                "total_amount": price_val,
-                "payment_date": contract.get("payment_date", ""),
-                "address": addr.strip(),
-                "extracted_at": datetime.now().isoformat(),
-            }
+            entry = make_entry(
+                store_name=store_num.strip().split("-")[0].strip() if "-" in store_num else "",
+                store_number=store_num.strip().split("-")[-1] if "-" in store_num else "",
+                zone=zone if re.match(r'\d{2}[A-Z]', zone) else contract_zone,
+                product_description=f"{ad_type} Ad",
+                total_amount=price_val,
+                address=addr.strip(),
+            )
             all_contracts.append(entry)
         
         # If all line items have $0, use total contract amount spread across items
@@ -152,30 +165,51 @@ for pdf_path in pdfs:
                 e["total_amount"] = per_item
     else:
         # Single store or couldn't parse line items - save as one entry with contract total
-        contract.setdefault("store_name", "")
-        contract.setdefault("store_number", "")
-        contract.setdefault("product_description", "")
-        contract["zone"] = contract_zone
-        contract["extracted_at"] = datetime.now().isoformat()
-        # Add contract date if not already set (from PDF extraction)
-        if not entry.get("extracted_at") and entry.get("date"):
-            entry["extracted_at"] = entry["date"]
-        elif not entry.get("extracted_at"):
-            entry["extracted_at"] = datetime.now().isoformat()
+        entry = make_entry(
+            product_description="",
+            total_amount=contract.get("total_amount", 0),
+        )
         all_contracts.append(entry)
 
-    # Add extracted_at to main contract record too
-    if not contract.get("extracted_at") and contract.get("date"):
-        contract["extracted_at"] = contract.get("date")
-    elif not contract.get("extracted_at"):
-        contract["extracted_at"] = datetime.now().isoformat()
+    # Extract digital products: FindLocal, ReviewBoost, LoyaltyBoost, DigitalBoost
+    digital_pattern = re.findall(
+        r"(FindLocal|ReviewBoost|LoyaltyBoost|DigitalBoost)\s*\n([^\n]*)\n[^\n]*Est\.\s*Start:\s*(\S+)\s*\n([^\n]*)\n?\s*\$?([\d,]+\.\d{2})",
+        text
+    )
+    for product, addr, est_start, duration, price in digital_pattern:
+        price_val = 0
+        try:
+            price_val = float(price.replace(",", "").strip())
+        except:
+            pass
+        entry = make_entry(
+            product_description=product,
+            total_amount=price_val,
+            address=addr.strip(),
+            product_type="digital",
+        )
+        all_contracts.append(entry)
     
     biz = contract.get("business_name", "?")
     total = contract.get("total_amount", 0) or 0
     rep = contract.get("sales_rep", "?")
     print(f'  ✅ {contract.get("contract_number")}: {biz} - {rep} - ${total:,.0f}')
 
-print(f"\nTotal line items: {len(all_contracts)}")
+print(f"\nTotal line items (raw): {len(all_contracts)}")
+
+# Deduplicate: same contract_number + store_number + product_description = duplicate
+seen = set()
+deduped = []
+for c in all_contracts:
+    key = (c.get("contract_number",""), c.get("store_number",""), c.get("product_description",""), str(c.get("total_amount",0)))
+    if key not in seen:
+        seen.add(key)
+        deduped.append(c)
+    else:
+        print(f"  🔄 Deduped: {c.get('contract_number')} | {c.get('business_name')} | {c.get('product_description')} | ${c.get('total_amount',0):,.0f}")
+
+all_contracts = deduped
+print(f"Total line items (after dedup): {len(all_contracts)}")
 
 # Save
 with open(pwa_contracts, "w") as f:

@@ -14229,7 +14229,263 @@
       ],
       "createdAt": "2026-03-26T11:05:53.575974",
       "count": 1
+    },
+    "c48d1176e72e74bc": {
+      "storeNumber": "SAF26Y-2719",
+      "category": "mexican",
+      "prospects": [
+        {
+          "name": "Celia's",
+          "type": "restaurant, food, point_of_interest, establishment",
+          "address": "1850 El Camino Real, Menlo Park",
+          "lat": 37.4594088,
+          "lon": -122.1943456,
+          "distance_miles": 1.04,
+          "likelihood_score": 85,
+          "rating": 4.2,
+          "user_ratings_total": 887,
+          "phone": "+1 650-321-8227",
+          "website": "http://www.celiasrestaurants.com/",
+          "place_id": "ChIJq6CCdl-jj4ARjkoQDdcOsDE",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 2,
+          "source": "Google Places"
+        },
+        {
+          "name": "Reposado",
+          "type": "bar, restaurant, food, point_of_interest, establishment",
+          "address": "236 Hamilton Ave, Palo Alto",
+          "lat": 37.4441583,
+          "lon": -122.1609667,
+          "distance_miles": 1.08,
+          "likelihood_score": 85,
+          "rating": 4.3,
+          "user_ratings_total": 2093,
+          "phone": "+1 650-833-3151",
+          "website": "http://www.reposadorestaurant.com/",
+          "place_id": "ChIJY0yKLzq7j4ARNNLYPbJMgN8",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 3,
+          "source": "Google Places"
+        },
+        {
+          "name": "Mama Coco Cocina Mexicana",
+          "type": "restaurant, food, point_of_interest, establishment",
+          "address": "1081 El Camino Real, Menlo Park",
+          "lat": 37.4532544,
+          "lon": -122.1827867,
+          "distance_miles": 0.28,
+          "likelihood_score": 93,
+          "rating": 4.3,
+          "user_ratings_total": 384,
+          "phone": "+1 650-272-6634",
+          "website": "https://www.mamacocorestaurant.com/",
+          "place_id": "ChIJrbqcMa6kj4ARYORVCGFGaI0",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 2,
+          "source": "Google Places"
+        },
+        {
+          "name": "Mami Cheli's",
+          "type": "restaurant, food, point_of_interest, establishment",
+          "address": "989 El Camino Real Ste B, Menlo Park",
+          "lat": 37.4526448,
+          "lon": -122.1815696,
+          "distance_miles": 0.2,
+          "likelihood_score": 94,
+          "rating": 4.3,
+          "user_ratings_total": 276,
+          "phone": "+1 650-521-0636",
+          "website": "https://mamichelis.com/",
+          "place_id": "ChIJzeMWMVKlj4ARlDbb3WjiFZ0",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 1,
+          "source": "Google Places"
+        },
+        {
+          "name": "San Agus Cocina Urbana & Cocktails",
+          "type": "bar, night_club, restaurant, food, point_of_interest, establishment",
+          "address": "115 Hamilton Ave, Palo Alto",
+          "lat": 37.4430253,
+          "lon": -122.1626141,
+          "distance_miles": 1.04,
+          "likelihood_score": 86,
+          "rating": 4.4,
+          "user_ratings_total": 514,
+          "phone": "+1 877-408-8702",
+          "website": "https://www.sanagus.com/",
+          "place_id": "ChIJxRoy-X27j4AR_bK2I_FqBVg",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 2,
+          "source": "Google Places"
+        },
+        {
+          "name": "Guapa's Mexican Grill",
+          "type": "restaurant, food, point_of_interest, establishment",
+          "address": "515 El Camino Real suite 110, Menlo Park",
+          "lat": 37.4496803,
+          "lon": -122.1784631,
+          "distance_miles": 0.07,
+          "likelihood_score": 95,
+          "rating": 4.3,
+          "user_ratings_total": 97,
+          "phone": "+1 650-656-9905",
+          "website": "http://guapasmexicangrill.com/",
+          "place_id": "ChIJKQDyuVGlj4ARv_rHjJdjDAw",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 1,
+          "source": "Google Places"
+        },
+        {
+          "name": "Sancho's Taqueria",
+          "type": "restaurant, food, point_of_interest, establishment",
+          "address": "491 Lytton Ave, Palo Alto",
+          "lat": 37.4489978,
+          "lon": -122.1608828,
+          "distance_miles": 1.0,
+          "likelihood_score": 86,
+          "rating": 4.3,
+          "user_ratings_total": 893,
+          "phone": "+1 650-322-8226",
+          "website": "https://sanchostaqueria.com/sanchostaqueria-downtown?utm_source=google",
+          "place_id": "ChIJhbe6ZDi7j4ARhSkIguAM5oU",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 1,
+          "source": "Google Places"
+        },
+        {
+          "name": "LuLu's Town & Country Village",
+          "type": "meal_takeaway, restaurant, food, point_of_interest, establishment",
+          "address": "855 El Camino Real #49, Palo Alto",
+          "lat": 37.4382786,
+          "lon": -122.1602677,
+          "distance_miles": 1.33,
+          "likelihood_score": 79,
+          "rating": 3.7,
+          "user_ratings_total": 275,
+          "phone": "+1 650-327-8226",
+          "website": "http://www.lulusmexicanfood.com/",
+          "place_id": "ChIJHz4XFiW7j4AR2-XMc9X0J6I",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 2,
+          "source": "Google Places"
+        },
+        {
+          "name": "Market Cocina",
+          "type": "restaurant, food, point_of_interest, establishment",
+          "address": "774 Emerson St, Palo Alto",
+          "lat": 37.4424053,
+          "lon": -122.1596147,
+          "distance_miles": 1.2,
+          "likelihood_score": 74,
+          "rating": 4.3,
+          "user_ratings_total": 6,
+          "phone": "+1 650-326-8676",
+          "website": "http://www.wholefoodsmarket.com/stores/paloalto?utm_source=google&utm_medium=organic&utm_campaign=listings",
+          "place_id": "ChIJl0gDDDu7j4AROSlXdFpN3oM",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 3,
+          "source": "Google Places"
+        }
+      ],
+      "createdAt": "2026-04-08T15:19:35.110590",
+      "count": 9
+    },
+    "e2acf9fcaba1e489": {
+      "storeNumber": "SAF26Y-2719",
+      "category": "oil change/lube",
+      "prospects": [
+        {
+          "name": "M & R Automotive Auto Repair Shop of Menlo Park, CA",
+          "type": "car_repair, point_of_interest, establishment",
+          "address": "1281 El Camino Real, Menlo Park",
+          "lat": 37.454999,
+          "lon": -122.1861903,
+          "distance_miles": 0.5,
+          "likelihood_score": 94,
+          "rating": 4.8,
+          "user_ratings_total": 122,
+          "phone": "+1 650-325-3900",
+          "website": "https://mandrauto.com/",
+          "place_id": "ChIJzRAPjKWkj4ARwrQ5vdFUQe0",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        },
+        {
+          "name": "Menlo Atherton Auto Repair",
+          "type": "car_repair, store, point_of_interest, establishment",
+          "address": "1279 El Camino Real, Menlo Park",
+          "lat": 37.454906,
+          "lon": -122.1860552,
+          "distance_miles": 0.49,
+          "likelihood_score": 94,
+          "rating": 4.9,
+          "user_ratings_total": 935,
+          "phone": "+1 650-325-1280",
+          "website": "http://www.menloathertonautorepair.com/",
+          "place_id": "ChIJw8r0caakj4ARp9soqnAo_Uk",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        },
+        {
+          "name": "Auto Pride Hand Car Wash",
+          "type": "car_wash, point_of_interest, establishment",
+          "address": "841 El Camino Real, Palo Alto",
+          "lat": 37.43881620000001,
+          "lon": -122.1610806,
+          "distance_miles": 1.27,
+          "likelihood_score": 80,
+          "rating": 3.6,
+          "user_ratings_total": 475,
+          "phone": "+1 650-324-2634",
+          "website": "https://www.autopridecarwash.com/",
+          "place_id": "ChIJOxGXIiW7j4ARD-16J5oZ_nE",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        }
+      ],
+      "createdAt": "2026-04-08T15:21:39.718048",
+      "count": 3
     }
   },
-  "lastUpdated": "2026-03-26T14:12:49.861959"
+  "lastUpdated": "2026-04-08T15:21:39.718064"
 }

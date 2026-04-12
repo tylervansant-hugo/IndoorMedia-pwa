@@ -290,7 +290,8 @@
       "search_history": [],
       "contact_history": {},
       "session_searches": 0,
-      "session_bookmarks": 0
+      "session_bookmarks": 0,
+      "cart": []
     },
     "999999999": {
       "status": "approved"
@@ -342,7 +343,7 @@
       "saved_prospects": {},
       "search_history": [],
       "contact_history": {},
-      "session_searches": 2,
+      "session_searches": 4,
       "session_bookmarks": 0,
       "cart": []
     },
