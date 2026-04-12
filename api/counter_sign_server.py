@@ -43,8 +43,11 @@ def generate():
             return jsonify({'error': 'Missing chain_code'}), 400
         if not rep_name:
             return jsonify({'error': 'Missing rep_name'}), 400
-        if 'ad_proof' not in request.files:
-            return jsonify({'error': 'Missing ad_proof image'}), 400
+        
+        # Handle both single ad_proof (legacy) and multiple ad_proofs (new)
+        ad_files = request.files.getlist('ad_proof')
+        if not ad_files or not any(f.filename for f in ad_files):
+            return jsonify({'error': 'Missing ad_proof image(s) — provide at least one'}), 400
 
         # Look up rep info
         team = get_direct_team_by_name(rep_name)
@@ -54,9 +57,16 @@ def generate():
         with tempfile.TemporaryDirectory() as tmpdir:
             tmp = Path(tmpdir)
 
-            # Save ad proof
-            ad_path = tmp / 'ad_proof.jpg'
-            request.files['ad_proof'].save(str(ad_path))
+            # Save all ad proof images
+            ad_paths = []
+            for i, ad_file in enumerate(ad_files):
+                if ad_file and ad_file.filename:
+                    ad_path = tmp / f'ad_proof_{i}.jpg'
+                    ad_file.save(str(ad_path))
+                    ad_paths.append(str(ad_path))
+
+            if not ad_paths:
+                return jsonify({'error': 'No valid ad_proof images'}), 400
 
             # Save business card if provided
             bc_path = None
@@ -64,12 +74,12 @@ def generate():
                 bc_path = tmp / 'business_card.jpg'
                 request.files['business_card'].save(str(bc_path))
 
-            logger.info(f"Generating: chain={chain_code}, rep={rep_name}")
+            logger.info(f"Generating: chain={chain_code}, rep={rep_name}, {len(ad_paths)} ad image(s)")
 
             # Call the SAME function the bot uses
             result = generate_counter_sign(
                 chain_code=chain_code,
-                ad_image_path=str(ad_path),
+                ad_image_paths=ad_paths,
                 rep_name=rep_name,
                 rep_cell=rep_cell,
                 rep_email=rep_email,

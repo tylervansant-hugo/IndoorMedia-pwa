@@ -206,28 +206,20 @@ def create_footer_text_overlay(
         return None
 
 
-def resize_ad_image(image_path: str, scale: float = 0.75) -> Tuple[Image.Image, float, float]:
+def resize_ad_image(image_path: str, max_width: float, max_height: float) -> Tuple[Image.Image, float, float]:
     """
-    Load and resize ad image to fit the middle section perfectly.
-    
-    The ad image fits within:
-    - Width: 540 pts (612 - 36*2 margins)
-    - Height: 493 pts (from Y 110.5 to 603.5)
-    - Scale: 0.75 (default, 25% smaller for white space around edges)
+    Load and resize ad image to fit within max dimensions while maintaining aspect ratio.
     
     Args:
         image_path: Path to ad image file
-        scale: Scale factor (default 0.75 = 25% reduction)
+        max_width: Maximum width in points
+        max_height: Maximum height in points
     
     Returns:
         (resized_image, final_width, final_height) in points
     """
     try:
         img = Image.open(image_path)
-        
-        # Available space (in points)
-        max_width = AD_WIDTH * scale  # Apply scale
-        max_height = AD_ZONE_HEIGHT * scale  # Apply scale
         
         # Calculate scaling to fit (maintain aspect ratio)
         img_ratio = img.width / img.height
@@ -251,7 +243,7 @@ def resize_ad_image(image_path: str, scale: float = 0.75) -> Tuple[Image.Image, 
             Image.Resampling.LANCZOS
         )
         
-        logger.info(f"Resized ad image to {final_width:.1f}×{final_height:.1f} pts ({new_width_px}×{new_height_px} px) at {scale*100:.0f}% scale")
+        logger.info(f"Resized ad image to {final_width:.1f}×{final_height:.1f} pts ({new_width_px}×{new_height_px} px)")
         
         return img_resized, final_width, final_height
     
@@ -260,9 +252,58 @@ def resize_ad_image(image_path: str, scale: float = 0.75) -> Tuple[Image.Image, 
         return None, None, None
 
 
+def calculate_grid_layout(num_images: int) -> Tuple[int, int, float, float]:
+    """
+    Calculate grid layout for multiple ad images.
+    
+    Returns: (num_columns, num_rows, cell_width, cell_height)
+    - 1-2 images: 2 columns, 1 row
+    - 3-6 images: 2 columns, multiple rows
+    """
+    if num_images <= 2:
+        cols = min(num_images, 2)
+        rows = 1
+    else:
+        cols = 2
+        rows = (num_images + 1) // 2  # Round up
+    
+    # Available space in ad zone
+    total_width = AD_WIDTH  # Full width minus outer margins (already applied)
+    total_height = AD_ZONE_HEIGHT
+    
+    # Internal spacing
+    col_gap = 15  # pts between columns
+    row_gap = 15  # pts between rows
+    
+    # Calculate cell dimensions
+    usable_width = total_width - (col_gap * (cols - 1))
+    usable_height = total_height - (row_gap * max(0, rows - 1))
+    
+    cell_width = usable_width / cols
+    cell_height = usable_height / rows
+    
+    logger.info(f"Grid layout: {num_images} images → {cols} cols × {rows} rows, cell: {cell_width:.1f}×{cell_height:.1f} pts")
+    
+    return cols, rows, cell_width, cell_height
+
+
+def get_image_position_in_grid(image_index: int, cols: int, cell_width: float, cell_height: float, col_gap: float = 15, row_gap: float = 15) -> Tuple[float, float]:
+    """
+    Calculate position (x, y) for an image in grid layout.
+    Position is bottom-left of grid zone.
+    """
+    col = image_index % cols
+    row = image_index // cols
+    
+    x = AD_X_MARGIN + (col * (cell_width + col_gap))
+    y = AD_Y_POS - ((row + 1) * cell_height) - (row * row_gap)
+    
+    return x, y
+
+
 def overlay_content_on_template(
     template_pdf_path: str,
-    ad_image_path: Optional[str] = None,
+    ad_image_paths: Optional[list] = None,
     business_card_path: Optional[str] = None,
     qr_image: Optional[Image.Image] = None,
     rep_data: Optional[Dict] = None,
@@ -271,19 +312,23 @@ def overlay_content_on_template(
     """
     Overlay all components on store template with EXACT positioning.
     
-    FOOTER LAYOUT (updated):
+    FOOTER LAYOUT:
     - Bottom-left: Business card (144×144 pts at X:36, Y:22.7)
-    - Bottom-center: White text on transparent background, no white box
-      - "SCAN HERE TO SEE HOW WE CAN HELP YOUR BUSINESS" (if landing_page_url)
-      - "CALL NOW TO SEE HOW WE CAN HELP YOUR BUSINESS" (if no landing_page_url)
-    - Bottom-right: QR code (109.9×109.9 pts, unchanged position)
+    - Bottom-right: QR code (109.9×109.9 pts, exact position)
+    
+    AD ZONE LAYOUT (Middle):
+    - Supports 1-6 images in a 2-column grid
+    - Auto-calculates grid dimensions based on image count
+    - Maintains aspect ratio for each image
     
     Overlay order (important for layering):
     1. White background box (to cover original QR code)
-    2. Ad image (fills middle section)
+    2. Ad images (grid layout in middle section)
     3. Business card (bottom-left)
-    4. Text overlay (bottom-center, white on transparent)
-    5. QR code (bottom-right, on white background)
+    4. QR code (bottom-right, on white background)
+    
+    Args:
+        ad_image_paths: List of paths to ad images (1-6)
     
     Returns PDF bytes.
     """
@@ -305,27 +350,48 @@ def overlay_content_on_template(
         c.rect(QR_BG_X_MIN, QR_BG_Y_MIN, QR_BG_SIZE, QR_BG_SIZE, fill=1, stroke=0)
         logger.info(f"✓ White background at ({QR_BG_X_MIN}, {QR_BG_Y_MIN}): {QR_BG_SIZE}×{QR_BG_SIZE} pts")
         
-        # ========== 2. AD IMAGE (shrunk 25%, centered in zone) ==========
-        if ad_image_path:
+        # ========== 2. AD IMAGES (GRID LAYOUT) ==========
+        if ad_image_paths and len(ad_image_paths) > 0:
             try:
-                # Apply 1.51 scale (increased 25% from 1.21 scale)
-                img_resized, final_width, final_height = resize_ad_image(ad_image_path, scale=1.51)
+                num_ads = len(ad_image_paths)
+                cols, rows, cell_width, cell_height = calculate_grid_layout(num_ads)
                 
-                if img_resized:
-                    # Center horizontally, position bottom at AD_Y_POS (17.7 pts above footer)
-                    ad_x = AD_X_MARGIN + (AD_WIDTH - final_width) / 2
-                    ad_y = AD_Y_POS - final_height  # Bottom of ad at 157.9, so start Y is 157.9 - height
+                for idx, ad_path in enumerate(ad_image_paths):
+                    if not ad_path or not Path(ad_path).exists():
+                        logger.warning(f"Skipping missing ad image: {ad_path}")
+                        continue
                     
-                    # Save to temp file for reportlab
-                    with tempfile.NamedTemporaryFile(suffix='.png', delete=False) as tmp:
-                        img_resized.save(tmp.name, format='PNG')
-                        c.drawImage(tmp.name, ad_x, ad_y, width=final_width, height=final_height)
-                        logger.info(f"✓ Ad image (25% smaller, centered) at ({ad_x:.1f}, {ad_y:.1f}): {final_width:.1f}×{final_height:.1f} pts")
+                    # Resize image to fit cell
+                    img_resized, final_width, final_height = resize_ad_image(
+                        ad_path,
+                        max_width=cell_width * 0.9,  # 90% of cell to add padding
+                        max_height=cell_height * 0.9
+                    )
+                    
+                    if img_resized:
+                        # Calculate position in grid
+                        grid_x, grid_y = get_image_position_in_grid(idx, cols, cell_width, cell_height)
+                        
+                        # Center image within cell
+                        cell_col = idx % cols
+                        cell_row = idx // cols
+                        cell_x = AD_X_MARGIN + (cell_col * (cell_width + 15))
+                        cell_y = AD_Y_POS - ((cell_row + 1) * cell_height)
+                        
+                        # Center within cell
+                        ad_x = cell_x + (cell_width - final_width) / 2
+                        ad_y = cell_y + (cell_height - final_height) / 2
+                        
+                        # Save to temp file for reportlab
+                        with tempfile.NamedTemporaryFile(suffix='.png', delete=False) as tmp:
+                            img_resized.save(tmp.name, format='PNG')
+                            c.drawImage(tmp.name, ad_x, ad_y, width=final_width, height=final_height)
+                            logger.info(f"✓ Ad image #{idx+1} at ({ad_x:.1f}, {ad_y:.1f}): {final_width:.1f}×{final_height:.1f} pts")
             except Exception as e:
-                logger.warning(f"Could not add ad image: {e}")
+                logger.warning(f"Could not add ad images: {e}")
         
         # ========== 3. BUSINESS CARD (BOTTOM-LEFT) ==========
-        if business_card_path:
+        if business_card_path and Path(business_card_path).exists():
             try:
                 bc_img = Image.open(business_card_path)
                 
@@ -342,35 +408,25 @@ def overlay_content_on_template(
                 bc_x = BC_X_BOTTOM + (BC_WIDTH - final_bc_width) / 2
                 bc_y = BC_Y_BOTTOM + (BC_HEIGHT - final_bc_height) / 2
                 
-                # Use LANCZOS for high-quality resampling (best for both upscaling and downscaling)
+                # Use LANCZOS for high-quality resampling
                 bc_img_resized = bc_img.resize(
                     (int(final_bc_width), int(final_bc_height)),
                     Image.Resampling.LANCZOS
                 )
                 
                 with tempfile.NamedTemporaryFile(suffix='.png', delete=False) as tmp:
-                    # Save at highest quality - PNG is lossless, so quality parameter doesn't affect
                     bc_img_resized.save(tmp.name, format='PNG', optimize=False)
                     c.drawImage(tmp.name, bc_x, bc_y, width=final_bc_width, height=final_bc_height)
                     logger.info(f"✓ Business card (bottom-left) at ({bc_x:.1f}, {bc_y:.1f}): {final_bc_width:.1f}×{final_bc_height:.1f} pts")
             except Exception as e:
                 logger.warning(f"Could not add business card: {e}")
         
-        # ========== 4. FOOTER TEXT OVERLAY (REMOVED) ==========
-        # Footer text overlay removed per user request - original template footer text preserved
-        logger.info(f"✓ Footer text overlay removed - original template footer text retained")
-        
-        # ========== 5. QR CODE (on top of white background) ==========
+        # ========== 4. QR CODE (on top of white background) ==========
         if qr_image:
             with tempfile.NamedTemporaryFile(suffix='.png', delete=False) as tmp:
                 qr_image.save(tmp.name, format='PNG')
-                # Draw QR code at exact original position
                 c.drawImage(tmp.name, QR_CODE_X_MIN, QR_CODE_Y_MIN, width=QR_CODE_SIZE, height=QR_CODE_SIZE)
-                logger.info(f"✓ QR code at ({QR_CODE_X_MIN}, {QR_CODE_Y_MIN}): {QR_CODE_SIZE}×{QR_CODE_SIZE} pts (EXACT)")
-        
-        # ========== 6. REP INFO (REMOVED - no longer displayed in footer) ==========
-        # Rep contact info is now only used for QR code generation
-        # Text-based rep info display in footer has been removed
+                logger.info(f"✓ QR code at ({QR_CODE_X_MIN}, {QR_CODE_Y_MIN}): {QR_CODE_SIZE}×{QR_CODE_SIZE} pts")
         
         # Finalize overlay
         c.save()
@@ -405,7 +461,7 @@ def overlay_content_on_template(
 
 def generate_counter_sign(
     chain_code: str,
-    ad_image_path: str,
+    ad_image_paths: list,
     rep_name: str,
     rep_cell: str,
     rep_email: str,
@@ -417,7 +473,7 @@ def generate_counter_sign(
     
     Args:
         chain_code: Store code (SAF, HIT, MAC, etc.)
-        ad_image_path: Path to ad image
+        ad_image_paths: List of paths to ad images (1-6)
         rep_name: Representative name
         rep_cell: Cell phone number
         rep_email: Email address
@@ -427,6 +483,21 @@ def generate_counter_sign(
     Returns:
         (PDF bytes, output path) or (None, None) if failed
     """
+    # Validate ad image paths
+    if not ad_image_paths:
+        logger.error("No ad images provided")
+        return None, None
+    
+    # Filter out None/empty paths
+    valid_paths = [p for p in ad_image_paths if p and Path(p).exists()]
+    if not valid_paths:
+        logger.error("No valid ad image paths")
+        return None, None
+    
+    if len(valid_paths) > 6:
+        logger.warning(f"Too many ad images ({len(valid_paths)}), limiting to 6")
+        valid_paths = valid_paths[:6]
+    
     # Find template (case-insensitive search)
     templates_dir = Path(__file__).parent.parent / "data" / "store_templates"
     template_files = list(templates_dir.glob(f"{chain_code.upper()}_CounterSign_Fillable*.pdf"))
@@ -449,6 +520,7 @@ def generate_counter_sign(
     
     template_path = template_files[0]
     logger.info(f"Using template: {template_path.name}")
+    logger.info(f"Processing {len(valid_paths)} ad image(s)")
     
     # Generate QR code
     qr_image = None
@@ -470,7 +542,7 @@ def generate_counter_sign(
     # Create overlay
     pdf_bytes = overlay_content_on_template(
         str(template_path),
-        ad_image_path=ad_image_path,
+        ad_image_paths=valid_paths,
         business_card_path=business_card_path,
         qr_image=qr_image,
         rep_data=rep_data,
