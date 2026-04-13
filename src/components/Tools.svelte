@@ -429,7 +429,7 @@ Store: ${store}
   }
   
   // Counter sign state
-  let counterSignStep = 1; // 1: chain, 2: business card, 3: landing page, 4: ad proof, 5: confirm
+  let counterSignStep = 1; // 1: chain, 2: business card, 3: landing page, 4: ad proofs, 5: confirm
   let selectedChainCode = null;
   let selectedRepName = '';
   let repNames = [];
@@ -437,7 +437,7 @@ Store: ${store}
   let counterData = {
     business_card_image: null,
     landing_page_url: '',
-    ad_proof_image: null
+    ad_proof_images: [] // Array of images now
   };
   let generating = false;
 
@@ -683,7 +683,11 @@ Store: ${store}
       const formData = new FormData();
       formData.append('chain_code', selectedChainCode);
       formData.append('rep_name', repName);
-      formData.append('ad_proof', counterData.ad_proof_image);
+      
+      // Append all ad proof images
+      for (const adImg of counterData.ad_proof_images) {
+        formData.append('ad_proof', adImg);
+      }
       
       if (counterData.business_card_image) {
         formData.append('business_card', counterData.business_card_image);
@@ -709,7 +713,7 @@ Store: ${store}
       
       counterSignStep = 1;
       selectedChainCode = null;
-      counterData = { business_card_image: null, landing_page_url: '', ad_proof_image: null };
+      counterData = { business_card_image: null, landing_page_url: '', ad_proof_images: [] };
       view = 'main';
     } catch (err) {
       alert(`❌ Error: ${err.message}`);
@@ -1415,19 +1419,26 @@ Store: ${store}
 
 
     {#if counterSignStep === 4}
-      <h2>3. Ad Proof</h2>
+      <h2>3. Ad Proofs (1-6 images)</h2>
       <p class="subtitle">{selectedChainCode}</p>
 
       <div class="upload-card">
         <div class="upload-box">
-          <p>📸 Upload the advertiser's ad proof/proof of concept image</p>
-          <input type="file" accept="image/*" on:change={(e) => counterData.ad_proof_image = e.target.files?.[0]} />
-          {#if counterData.ad_proof_image}
-            <p class="upload-ok">✅ {counterData.ad_proof_image.name}</p>
+          <p>📸 Upload ad proof image(s) - select 1-6 images</p>
+          <input type="file" accept="image/*" multiple on:change={(e) => {
+            const files = Array.from(e.target.files || []).slice(0, 6);
+            counterData.ad_proof_images = files;
+          }} />
+          {#if counterData.ad_proof_images.length > 0}
+            <div style="margin-top: 12px;">
+              {#each counterData.ad_proof_images as img, idx}
+                <p class="upload-ok">✅ {idx + 1}. {img.name}</p>
+              {/each}
+            </div>
           {/if}
         </div>
 
-        <button class="next-btn" on:click={() => counterSignStep = 5} disabled={!counterData.ad_proof_image}>
+        <button class="next-btn" on:click={() => counterSignStep = 5} disabled={counterData.ad_proof_images.length === 0}>
           Review & Generate →
         </button>
       </div>
@@ -1440,7 +1451,7 @@ Store: ${store}
       <div class="review-card">
         <div class="review-section">
           <h4>Business Card</h4>
-          <p>✅ {counterData.business_card_image?.name}</p>
+          <p>{counterData.business_card_image ? `✅ ${counterData.business_card_image.name}` : '(Optional - not provided)'}</p>
         </div>
 
         <div class="review-section">
@@ -1449,8 +1460,10 @@ Store: ${store}
         </div>
 
         <div class="review-section">
-          <h4>Ad Proof</h4>
-          <p>✅ {counterData.ad_proof_image?.name}</p>
+          <h4>Ad Proofs ({counterData.ad_proof_images.length})</h4>
+          {#each counterData.ad_proof_images as img, idx}
+            <p>✅ {idx + 1}. {img.name}</p>
+          {/each}
         </div>
 
         <button class="action-btn" on:click={submitCounterSign} disabled={generating}>
