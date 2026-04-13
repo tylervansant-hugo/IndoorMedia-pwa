@@ -9,6 +9,87 @@
   let storeSearch = '';
   let cartAdType = 'single'; // single or double
 
+  // Drag-and-drop reorder state
+  let dragIndex = null;
+  let dragOverIndex = null;
+  let touchStartY = 0;
+  let isDragging = false;
+
+  function handleDragStart(e, index) {
+    dragIndex = index;
+    isDragging = true;
+    e.dataTransfer.effectAllowed = 'move';
+    e.dataTransfer.setData('text/plain', index);
+  }
+
+  function handleDragOver(e, index) {
+    e.preventDefault();
+    e.dataTransfer.dropEffect = 'move';
+    dragOverIndex = index;
+  }
+
+  function handleDragLeave() {
+    dragOverIndex = null;
+  }
+
+  function handleDrop(e, index) {
+    e.preventDefault();
+    if (dragIndex !== null && dragIndex !== index) {
+      reorderItems(dragIndex, index);
+    }
+    dragIndex = null;
+    dragOverIndex = null;
+    isDragging = false;
+  }
+
+  function handleDragEnd() {
+    dragIndex = null;
+    dragOverIndex = null;
+    isDragging = false;
+  }
+
+  // Touch handlers for mobile drag
+  function handleTouchStart(e, index) {
+    dragIndex = index;
+    touchStartY = e.touches[0].clientY;
+  }
+
+  function handleTouchMove(e, index) {
+    if (dragIndex === null) return;
+    const touch = e.touches[0];
+    const elements = document.querySelectorAll('.quote-item');
+    
+    for (let i = 0; i < elements.length; i++) {
+      const rect = elements[i].getBoundingClientRect();
+      if (touch.clientY >= rect.top && touch.clientY <= rect.bottom) {
+        dragOverIndex = i;
+        break;
+      }
+    }
+  }
+
+  function handleTouchEnd() {
+    if (dragIndex !== null && dragOverIndex !== null && dragIndex !== dragOverIndex) {
+      reorderItems(dragIndex, dragOverIndex);
+    }
+    dragIndex = null;
+    dragOverIndex = null;
+  }
+
+  function reorderItems(fromIndex, toIndex) {
+    const items = [...cartItems];
+    const [moved] = items.splice(fromIndex, 1);
+    items.splice(toIndex, 0, moved);
+    cartItems = items;
+    saveCart();
+  }
+
+  function moveItem(index, direction) {
+    const newIndex = index + direction;
+    if (newIndex < 0 || newIndex >= cartItems.length) return;
+    reorderItems(index, newIndex);
+  }
+
   // Zone 07 cycle launch dates (7th of each month)
   const CYCLE_MONTHS = { 'A': [0,3,6,9], 'B': [1,4,7,10], 'C': [2,5,8,11] };
 
@@ -356,7 +437,25 @@
   {#if cartItems.length > 0}
     <div class="quote-items">
       {#each cartItems as item, i}
-        <div class="quote-item">
+        <div 
+          class="quote-item"
+          class:dragging={dragIndex === i}
+          class:drag-over={dragOverIndex === i && dragIndex !== i}
+          draggable="true"
+          on:dragstart={(e) => handleDragStart(e, i)}
+          on:dragover={(e) => handleDragOver(e, i)}
+          on:dragleave={handleDragLeave}
+          on:drop={(e) => handleDrop(e, i)}
+          on:dragend={handleDragEnd}
+          on:touchstart={(e) => handleTouchStart(e, i)}
+          on:touchmove={(e) => handleTouchMove(e, i)}
+          on:touchend={handleTouchEnd}
+        >
+          <div class="reorder-controls">
+            <button class="reorder-btn" on:click={() => moveItem(i, -1)} disabled={i === 0}>▲</button>
+            <span class="drag-handle">☰</span>
+            <button class="reorder-btn" on:click={() => moveItem(i, 1)} disabled={i === cartItems.length - 1}>▼</button>
+          </div>
           <div class="item-info">
             <h4>{item.emoji || ''} {item.name}</h4>
             {#if item.store}<p class="item-store">{item.store} ({item.storeNum}){#if item.storeCycle} — Cycle {item.storeCycle}{/if}</p>{/if}
@@ -446,7 +545,16 @@
   .cancel-btn { width: 100%; padding: 10px; background: none; border: 1px solid #e0e0e0; border-radius: 8px; color: #666; font-size: 13px; cursor: pointer; margin-top: 8px; }
 
   .quote-items { display: flex; flex-direction: column; gap: 12px; margin-bottom: 16px; }
-  .quote-item { display: flex; justify-content: space-between; align-items: flex-start; background: white; border: 1px solid #e0e0e0; border-radius: 12px; padding: 16px; }
+  .quote-item { display: flex; justify-content: space-between; align-items: flex-start; background: white; border: 1px solid #e0e0e0; border-radius: 12px; padding: 16px; cursor: grab; transition: all 0.2s; }
+  .quote-item:active { cursor: grabbing; }
+  .quote-item.dragging { opacity: 0.4; border-color: #CC0000; }
+  .quote-item.drag-over { border-color: #CC0000; border-style: dashed; background: #fff5f5; }
+
+  .reorder-controls { display: flex; flex-direction: column; align-items: center; gap: 2px; margin-right: 10px; min-width: 28px; }
+  .reorder-btn { width: 28px; height: 22px; border: 1px solid #ddd; border-radius: 4px; background: #f9f9f9; cursor: pointer; font-size: 10px; display: flex; align-items: center; justify-content: center; padding: 0; }
+  .reorder-btn:hover:not(:disabled) { background: #CC0000; color: white; border-color: #CC0000; }
+  .reorder-btn:disabled { opacity: 0.3; cursor: not-allowed; }
+  .drag-handle { font-size: 16px; color: #999; cursor: grab; user-select: none; }
   .item-info { flex: 1; }
   .quote-item h4 { margin: 0 0 4px; font-size: 15px; font-weight: 700; color: #333; }
   .item-store { margin: 0 0 2px; font-size: 12px; color: #666; }
