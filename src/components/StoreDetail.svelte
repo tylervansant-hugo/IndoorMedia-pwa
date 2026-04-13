@@ -1,11 +1,34 @@
 <script>
   import { appState, selectedStore, addToCart } from '../lib/stores.js';
   import { calculatePricingPlans, formatPrice } from '../lib/pricing.js';
+  import { onMount } from 'svelte';
 
   let pricingPlans = {};
   let selectedPlan = 'annualPif';
   let selectedProduct = 'singleAd';
   let quantity = 1;
+  let storePhone = '';
+  let phoneLoading = false;
+  const PLACES_KEY = 'AIzaSyBoslNJj8aO6wkQOfkH9e4qTVJZ-G9nOuA';
+
+  async function lookupPhone(store) {
+    if (!store || phoneLoading) return;
+    phoneLoading = true;
+    try {
+      const query = `${store.GroceryChain} ${store.Address} ${store.City} ${store.State}`;
+      const res = await fetch('https://places.googleapis.com/v1/places:searchText', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'X-Goog-Api-Key': PLACES_KEY,
+          'X-Goog-FieldMask': 'places.nationalPhoneNumber,places.internationalPhoneNumber' },
+        body: JSON.stringify({ textQuery: query, maxResultCount: 1 })
+      });
+      const data = await res.json();
+      storePhone = data.places?.[0]?.nationalPhoneNumber || data.places?.[0]?.internationalPhoneNumber || '';
+    } catch { storePhone = ''; }
+    phoneLoading = false;
+  }
+
+  $: if ($selectedStore) lookupPhone($selectedStore);
 
   // Calculate next install date based on zone install day and cycle
   function getInstallDateDisplay(installDay, cycle) {
@@ -76,6 +99,17 @@
               {$selectedStore.City}, {$selectedStore.State} {$selectedStore.PostalCode}
             </span>
           </div>
+          {#if storePhone}
+          <div class="info-item">
+            <span class="info-label">Phone</span>
+            <span class="info-value"><a href="tel:{storePhone}" style="color:#1565C0;text-decoration:none;font-weight:600;">📞 {storePhone}</a></span>
+          </div>
+          {:else if phoneLoading}
+          <div class="info-item">
+            <span class="info-label">Phone</span>
+            <span class="info-value" style="color:#999;">Looking up...</span>
+          </div>
+          {/if}
           <div class="info-item">
             <span class="info-label">Zone</span>
             <span class="info-value">{$selectedStore.ZoneName}</span>

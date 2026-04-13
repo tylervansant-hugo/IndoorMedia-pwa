@@ -9,6 +9,11 @@
   let nearbyStores = [];
   let prospects = [];
   let savedProspects = [];
+  let savedSearch = '';
+  let savedStatusFilter = 'all';
+  let expandedSaved = null;
+  let allContracts = []; // For attribution matching
+  let phoneClicks = []; // Track call history
   let hotLeads = [];
   let view = 'main'; // main, nearby-stores, categories, subcategories, results, saved, hot-leads, pending, submit-lead
   let selectedCycle = 'all'; // all, A, B, C
@@ -30,6 +35,16 @@
     } catch (e) {
       console.warn('Could not load video library:', e);
     }
+    // Load contracts for attribution
+    try {
+      const cRes = await fetch(import.meta.env.BASE_URL + 'data/contracts.json');
+      const cData = await cRes.json();
+      allContracts = cData.contracts || cData || [];
+    } catch { allContracts = []; }
+    // Load phone click history
+    try {
+      phoneClicks = JSON.parse(localStorage.getItem('impro_phone_clicks') || '[]');
+    } catch { phoneClicks = []; }
   });
 
   function getVideoForCategory() {
@@ -440,8 +455,30 @@
     );
   }
 
+  const PLACES_KEY_PS = 'AIzaSyBoslNJj8aO6wkQOfkH9e4qTVJZ-G9nOuA';
+
+  async function lookupStorePhone(store) {
+    if (!store || store._phone || store._phoneLoading) return;
+    store._phoneLoading = true;
+    selectedStore = selectedStore; // trigger reactivity
+    try {
+      const query = `${store.GroceryChain} ${store.Address} ${store.City} ${store.State}`;
+      const res = await fetch('https://places.googleapis.com/v1/places:searchText', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'X-Goog-Api-Key': PLACES_KEY_PS,
+          'X-Goog-FieldMask': 'places.nationalPhoneNumber,places.internationalPhoneNumber' },
+        body: JSON.stringify({ textQuery: query, maxResultCount: 1 })
+      });
+      const data = await res.json();
+      store._phone = data.places?.[0]?.nationalPhoneNumber || data.places?.[0]?.internationalPhoneNumber || '';
+    } catch { store._phone = ''; }
+    store._phoneLoading = false;
+    selectedStore = selectedStore; // trigger reactivity
+  }
+
   function selectStore(store) {
     selectedStore = store;
+    lookupStorePhone(store);
     view = 'categories';
   }
 
@@ -665,10 +702,19 @@
       // Build location-aware query
       const storeCity = selectedStore?.City || '';
       const storeState = selectedStore?.State || '';
+      const storeAddr = selectedStore?.Address || '';
+      const storeZip = selectedStore?.PostalCode || '';
       const hasRealCoords = selectedStore && !isBadCoords(lat, lng);
       
-      // If store has bad/dummy coords, put city+state in the query text instead
-      const textQuery = hasRealCoords ? keyword : `${keyword} near ${storeCity}, ${storeState}`;
+      // If store has bad/dummy coords, use address/city/zip for a precise text search
+      let textQuery;
+      if (hasRealCoords) {
+        textQuery = keyword;
+      } else if (storeZip) {
+        textQuery = `${keyword} near ${storeCity}, ${storeState} ${storeZip}`;
+      } else {
+        textQuery = `${keyword} near ${storeCity}, ${storeState}`;
+      }
       
       const requestBody = {
         textQuery: textQuery,
@@ -787,10 +833,45 @@
   function trackPhoneClick(prospect) {
     try {
       const clicks = JSON.parse(localStorage.getItem('impro_phone_clicks') || '[]');
-      clicks.push({ business: prospect.name, phone: prospect.phone, date: new Date().toISOString(), rep: $user?.name || 'Unknown' });
+      clicks.push({ business: prospect.name, phone: prospect.phone, address: prospect.address || '', date: new Date().toISOString(), rep: $user?.name || 'Unknown' });
       localStorage.setItem('impro_phone_clicks', JSON.stringify(clicks.slice(-500)));
+      phoneClicks = clicks;
       logActivity('call', { business: prospect.name, rep: $user?.name || 'Unknown' });
     } catch (e) { console.warn('Track phone click error:', e); }
+  }
+
+  // Attribution: match prospect phone clicks → contracts
+  function norm(s) { return (s || '').toLowerCase().replace(/[^a-z0-9 ]/g, ' ').replace(/\s+/g, ' ').trim(); }
+
+  function getAttribution(prospect) {
+    if (!allContracts.length) return null;
+    const pName = norm(prospect.name);
+    const pWords = pName.split(' ').filter(w => w.length > 2);
+    const pPhone = (prospect.phone || '').replace(/\D/g, '');
+    
+    // Find matching contract
+    const match = allContracts.find(c => {
+      const cName = norm(c.business_name);
+      const cPhone = (c.contact_phone || '').replace(/\D/g, '');
+      
+      // Phone match (strongest)
+      if (pPhone && cPhone && (pPhone.includes(cPhone) || cPhone.includes(pPhone))) return true;
+      
+      // Business name fuzzy match
+      const cWords = cName.split(' ').filter(w => w.length > 2);
+      const common = pWords.filter(w => cWords.some(cw => cw.includes(w) || w.includes(cw)));
+      return common.length >= 1 && (common.length / Math.min(pWords.length, cWords.length)) >= 0.5;
+    });
+    
+    if (!match) return null;
+    
+    // Check if there's a phone click for this prospect
+    const callMade = phoneClicks.find(c => {
+      const cBiz = norm(c.business);
+      return pWords.some(w => cBiz.includes(w));
+    });
+    
+    return { contract: match, callMade };
   }
 
   function saveProspect(prospect) {
@@ -825,12 +906,14 @@
       (s.GroceryChain && s.GroceryChain.toLowerCase().includes(term)) ||
       (s.City && s.City.toLowerCase().includes(term)) ||
       (s.State && s.State.toLowerCase().includes(term)) ||
-      (s.Address && s.Address.toLowerCase().includes(term))
+      (s.Address && s.Address.toLowerCase().includes(term)) ||
+      (s.PostalCode && s.PostalCode.includes(term))
     ).slice(0, 20);
   }
 
   function selectStoreFromBrowse(store) {
     selectedStore = store;
+    lookupStorePhone(store);
     storeSearchQuery = '';
     filteredStoreResults = [];
     view = 'categories';
@@ -933,7 +1016,7 @@
     <div class="search-box">
       <input
         type="text"
-        placeholder="Search by city, chain, store #, state, or street..."
+        placeholder="Search by city, chain, store #, state, street, or zip..."
         bind:value={storeSearchQuery}
         on:input={filterStoresForProspecting}
       />
@@ -1003,6 +1086,11 @@
   {#if view === 'categories'}
     <button class="back-btn" on:click={goBack}>← Back</button>
     <h3>📍 {selectedStore.GroceryChain} - {selectedStore.City}, {selectedStore.State}</h3>
+    {#if selectedStore._phone}
+      <p class="store-phone-display"><a href="tel:{selectedStore._phone}">📞 {selectedStore._phone}</a></p>
+    {:else if selectedStore._phoneLoading}
+      <p class="store-phone-display" style="color:#999;">📞 Looking up store phone...</p>
+    {/if}
     <p class="subtitle">Search by name or choose a category</p>
 
     {#if selectedStore && selectedStore.StoreName}
@@ -1205,7 +1293,10 @@
               }}>📋 Testimonials</button>
             </div>
             {#if prospect.phone}
-              <a href="tel:{prospect.phone}" class="action-btn full-width call-btn" on:click={() => trackPhoneClick(prospect)}>📞 Call {prospect.phone}</a>
+              <div class="action-row">
+                <a href="tel:{prospect.phone}" class="action-btn call-btn" on:click={() => trackPhoneClick(prospect)}>📞 Call {prospect.phone}</a>
+                <a href="sms:{prospect.phone}" class="action-btn text-btn">💬 Text</a>
+              </div>
             {/if}
             <button class="action-btn full-width script-btn" on:click={() => { prospect._showScript = !prospect._showScript; prospect._showEmail = false; prospect._showNotes = false; prospects = prospects; }}>📋 Call Scripts</button>
             <button class="action-btn full-width email-btn" on:click={() => { prospect._showEmail = !prospect._showEmail; prospect._showScript = false; prospect._showNotes = false; prospects = prospects; }}>✉️ Draft Email</button>
@@ -1326,24 +1417,177 @@
     <button class="back-btn" on:click={() => view = 'main'}>← Back</button>
     <h2>💾 Saved Prospects ({savedProspects.length})</h2>
 
+    {@const totalCalls = phoneClicks.length}
+    {@const conversions = savedProspects.filter(p => getAttribution(p)).length}
+    {#if totalCalls > 0 || conversions > 0}
+      <div class="attribution-summary">
+        <div class="attr-stat">
+          <span class="attr-value">{totalCalls}</span>
+          <span class="attr-label">Calls Made</span>
+        </div>
+        <div class="attr-stat">
+          <span class="attr-value">{savedProspects.length}</span>
+          <span class="attr-label">Saved</span>
+        </div>
+        <div class="attr-stat highlight">
+          <span class="attr-value">{conversions}</span>
+          <span class="attr-label">Converted ✅</span>
+        </div>
+        {#if totalCalls > 0 && conversions > 0}
+          <div class="attr-stat">
+            <span class="attr-value">{Math.round(conversions / totalCalls * 100)}%</span>
+            <span class="attr-label">Close Rate</span>
+          </div>
+        {/if}
+      </div>
+    {/if}
+
     {#if savedProspects.length === 0}
       <p class="subtitle">No saved prospects yet. Start searching!</p>
     {:else}
+      <input type="text" class="filter-input" placeholder="Search saved prospects..." bind:value={savedSearch} style="margin-bottom:12px;" />
+      <div class="filter-chips" style="margin-bottom:12px;">
+        <button class="chip" class:active={savedStatusFilter === 'all'} on:click={() => savedStatusFilter = 'all'}>All ({savedProspects.length})</button>
+        <button class="chip" class:active={savedStatusFilter === 'new'} on:click={() => savedStatusFilter = 'new'}>🆕 New</button>
+        <button class="chip" class:active={savedStatusFilter === 'contacted'} on:click={() => savedStatusFilter = 'contacted'}>⏳ Contacted</button>
+        <button class="chip" class:active={savedStatusFilter === 'proposal'} on:click={() => savedStatusFilter = 'proposal'}>📋 Proposal</button>
+        <button class="chip" class:active={savedStatusFilter === 'closed'} on:click={() => savedStatusFilter = 'closed'}>🎉 Closed</button>
+      </div>
       <div class="prospect-list">
-        {#each savedProspects as prospect (prospect.id)}
-          <div class="prospect-card">
-            <h4>{prospect.name}</h4>
-            <p class="address" style="cursor:pointer;" on:click={() => { navigator.clipboard.writeText(prospect.address); copiedAddress = prospect.address; setTimeout(() => copiedAddress = '', 2000); }}>{copiedAddress === prospect.address ? '✅ Copied!' : prospect.address}</p>
-            <div style="margin-top: 0.5rem; display: flex; gap: 0.5rem; flex-wrap: wrap;">
-              <select class="status-select" value={prospect.status} on:change={(e) => { prospect.status = e.target.value; updateProspectNotes(prospect.id, prospect.notes); }}>
-                <option value="new">🆕 New</option>
-                <option value="contacted">⏳ Contacted</option>
-                <option value="proposal">📋 Proposal</option>
-                <option value="closed">🎉 Closed</option>
-              </select>
-              <button class="delete-btn" on:click={() => deleteProspect(prospect.id)}>🗑️ Delete</button>
+        {#each savedProspects.filter(p => {
+          if (savedStatusFilter !== 'all' && p.status !== savedStatusFilter) return false;
+          if (savedSearch) {
+            const q = savedSearch.toLowerCase();
+            return (p.name || '').toLowerCase().includes(q) || (p.address || '').toLowerCase().includes(q) || (p.notes || '').toLowerCase().includes(q);
+          }
+          return true;
+        }) as prospect (prospect.id)}
+          {@const attribution = getAttribution(prospect)}
+          {@const callCount = phoneClicks.filter(c => norm(c.business).includes(norm(prospect.name).split(' ')[0]) && norm(prospect.name).split(' ').length > 0).length}
+          <div class="prospect-card saved-card" class:expanded={expandedSaved === prospect.id} class:converted={attribution}>
+            <!-- Attribution banner -->
+            {#if attribution}
+              <div class="attribution-banner">
+                ✅ CONTRACT SIGNED — {attribution.contract.business_name} | ${(attribution.contract.total_amount || 0).toLocaleString()} | {attribution.contract.sales_rep}
+                {#if attribution.callMade}
+                  <span class="call-tracked">📞 Call tracked {new Date(attribution.callMade.date).toLocaleDateString()}</span>
+                {/if}
+              </div>
+            {/if}
+            <!-- Header (always visible) -->
+            <div class="saved-header" on:click={() => expandedSaved = expandedSaved === prospect.id ? null : prospect.id}>
+              <div>
+                <h4>{prospect.name}</h4>
+                <p class="saved-addr">{prospect.address || ''}</p>
+                {#if prospect.phone}
+                  <p class="saved-meta">📞 {prospect.phone} {#if callCount > 0}<span class="call-count">({callCount} call{callCount > 1 ? 's' : ''} made)</span>{/if}</p>
+                {/if}
+              </div>
+              <div class="saved-right">
+                <span class="status-badge status-{prospect.status}">{prospect.status === 'new' ? '🆕' : prospect.status === 'contacted' ? '⏳' : prospect.status === 'proposal' ? '📋' : '🎉'} {prospect.status}</span>
+                <span class="expand-arrow">{expandedSaved === prospect.id ? '▲' : '▼'}</span>
+              </div>
             </div>
-            <textarea placeholder="Add notes..." class="notes-input" value={prospect.notes} on:change={(e) => updateProspectNotes(prospect.id, e.target.value)}></textarea>
+
+            <!-- Expanded actions -->
+            {#if expandedSaved === prospect.id}
+              <div class="saved-actions">
+                <!-- Quick actions row -->
+                <div class="action-row">
+                  {#if prospect.phone}
+                    <a href="tel:{prospect.phone}" class="action-btn" on:click={() => trackPhoneClick(prospect)}>📞 Call</a>
+                    <a href="sms:{prospect.phone}" class="action-btn text-btn">💬 Text</a>
+                  {/if}
+                  {#if prospect.email}
+                    <a href="mailto:{prospect.email}" class="action-btn">✉️ Email</a>
+                  {/if}
+                  <a href="https://maps.google.com/maps?q={encodeURIComponent(prospect.name + ' ' + (prospect.address || ''))}" target="_blank" class="action-btn">📍 Maps</a>
+                  {#if prospect.website}
+                    <a href={prospect.website} target="_blank" class="action-btn">🌐 Web</a>
+                  {/if}
+                </div>
+
+                <!-- Contact info -->
+                <div class="saved-contact-info">
+                  {#if prospect.phone}
+                    <p>📞 <a href="tel:{prospect.phone}">{prospect.phone}</a></p>
+                  {/if}
+                  {#if prospect.email}
+                    <p>✉️ <a href="mailto:{prospect.email}">{prospect.email}</a></p>
+                  {/if}
+                  {#if prospect.website}
+                    <p>🌐 <a href={prospect.website} target="_blank">{prospect.website.replace('https://','').split('/')[0]}</a></p>
+                  {/if}
+                  {#if prospect.rating}
+                    <p>⭐ {prospect.rating} ({prospect.reviews || 0} reviews)</p>
+                  {/if}
+                  <p class="saved-addr-copy" on:click={() => { navigator.clipboard.writeText(prospect.address); copiedAddress = prospect.address; setTimeout(() => copiedAddress = '', 2000); }}>
+                    📋 {copiedAddress === prospect.address ? '✅ Copied!' : 'Copy address'}
+                  </p>
+                </div>
+
+                <!-- Email templates -->
+                <div class="saved-email-templates">
+                  <p class="tmpl-label">📧 Email Templates:</p>
+                  <div class="tmpl-btns">
+                    {#each [
+                      { id: 'intro', icon: '🎯', name: 'Initial Appointment' },
+                      { id: 'roi', icon: '📊', name: 'ROI / Value' },
+                      { id: 'followup', icon: '⏰', name: 'Follow-up' },
+                      { id: 'reengagement', icon: '🔄', name: 'Re-engagement' },
+                      { id: 'limited', icon: '⚡', name: 'Limited Time' }
+                    ] as tpl}
+                      <button class="tmpl-btn" on:click|stopPropagation={() => {
+                        const templates = {
+                          intro: { subject: `Partnership Opportunity — ${prospect.name}`, body: `Hi,\n\nI noticed ${prospect.name} near one of our grocery store partners and wanted to reach out about a great advertising opportunity.\n\nWe help local businesses reach thousands of shoppers each week through register tape advertising. It's affordable, hyper-local, and puts your name directly in customers' hands.\n\nWould you have 10 minutes this week for a quick chat?\n\nBest,\n${$user?.name || 'Your Rep'}\nIndoorMedia` },
+                          roi: { subject: `The Value of Register Tape Advertising — ${prospect.name}`, body: `Hi,\n\nDid you know the average grocery store gets 10,000+ visitors per week? That's 10,000 potential customers seeing your ad every single week.\n\nBusinesses like yours have reported strong ROI — many seeing results within the first month. Our register tape ads put your name, offer, and location directly in shoppers' hands.\n\nI'd love to show you how the numbers work for ${prospect.name}. Can we schedule a quick call?\n\nBest,\n${$user?.name || 'Your Rep'}\nIndoorMedia` },
+                          followup: { subject: `Following Up — ${prospect.name}`, body: `Hi,\n\nI reached out a few days ago about a potential partnership with ${prospect.name} and wanted to follow up.\n\nWe help local businesses reach thousands of nearby shoppers each week through register tape advertising. I think there's a great fit here.\n\nWould you have 10 minutes this week for a quick chat?\n\nBest,\n${$user?.name || 'Your Rep'}\nIndoorMedia` },
+                          reengagement: { subject: `New Opportunities for ${prospect.name}`, body: `Hi,\n\nIt's been a while since we last connected, and I wanted to reach out. We've been growing our grocery store network and there are some exciting new opportunities in your area.\n\nI'd love to share how ${prospect.name} could benefit from being in front of thousands of local shoppers every week.\n\nWhen would be a good time for a quick 5-minute call?\n\nBest,\n${$user?.name || 'Your Rep'}\nIndoorMedia` },
+                          limited: { subject: `Limited Availability — Ad Space Near ${prospect.name}`, body: `Hi,\n\nI wanted to reach out because we have limited ad space available at a grocery store near ${prospect.name}. These spots fill quickly and your business would be a great fit.\n\nRegister tape advertising puts your name, offer, and contact info directly in the hands of every shopper — hundreds per day.\n\nCan I send you a quick overview of the opportunity?\n\nBest,\n${$user?.name || 'Your Rep'}\nIndoorMedia` }
+                        };
+                        const t = templates[tpl.id];
+                        const body = t.body.replace(/\n\n/g, '\r\n\r\n').replace(/(?<!\r)\n/g, '\r\n');
+                        window.open(`mailto:${prospect.email || ''}?subject=${encodeURIComponent(t.subject)}&body=${encodeURIComponent(body)}`);
+                      }}>{tpl.icon} {tpl.name}</button>
+                    {/each}
+                  </div>
+                </div>
+
+                <!-- Schedule -->
+                <div class="saved-schedule">
+                  <p class="tmpl-label">📅 Schedule:</p>
+                  <div class="tmpl-btns">
+                    <button class="tmpl-btn" on:click|stopPropagation={() => {
+                      const tomorrow = new Date(); tomorrow.setDate(tomorrow.getDate() + 1); tomorrow.setHours(10,0,0,0);
+                      const end = new Date(tomorrow); end.setMinutes(30);
+                      const fmt = d => d.toISOString().replace(/[-:]/g,'').split('.')[0]+'Z';
+                      window.open(`https://calendar.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent('📞 Call: ' + prospect.name)}&dates=${fmt(tomorrow)}/${fmt(end)}&details=${encodeURIComponent('Prospect call\nBusiness: ' + prospect.name + '\nPhone: ' + (prospect.phone||'N/A') + '\nAddress: ' + (prospect.address||''))}&add=${encodeURIComponent('tyler.vansant@indoormedia.com')}`, '_blank');
+                    }}>📞 Schedule Call</button>
+                    <button class="tmpl-btn" on:click|stopPropagation={() => {
+                      const tomorrow = new Date(); tomorrow.setDate(tomorrow.getDate() + 1); tomorrow.setHours(10,0,0,0);
+                      const end = new Date(tomorrow); end.setHours(11);
+                      const fmt = d => d.toISOString().replace(/[-:]/g,'').split('.')[0]+'Z';
+                      window.open(`https://calendar.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent('🚗 Visit: ' + prospect.name)}&dates=${fmt(tomorrow)}/${fmt(end)}&details=${encodeURIComponent('Prospect visit\nBusiness: ' + prospect.name + '\nPhone: ' + (prospect.phone||'N/A'))}&location=${encodeURIComponent(prospect.address||'')}&add=${encodeURIComponent('tyler.vansant@indoormedia.com')}`, '_blank');
+                    }}>🚗 Schedule Visit</button>
+                  </div>
+                </div>
+
+                <!-- Nearby advertisers -->
+                <a href="https://coupons.indoormedia.com/?location={encodeURIComponent(prospect.address || '')}" target="_blank" class="nearby-btn">📋 View Nearby Advertisers</a>
+
+                <!-- Status + Notes -->
+                <div class="saved-status-row">
+                  <select class="status-select" value={prospect.status} on:change={(e) => { prospect.status = e.target.value; updateProspectNotes(prospect.id, prospect.notes); savedProspects = savedProspects; localStorage.setItem('savedProspects', JSON.stringify(savedProspects)); }}>
+                    <option value="new">🆕 New</option>
+                    <option value="contacted">⏳ Contacted</option>
+                    <option value="proposal">📋 Proposal</option>
+                    <option value="closed">🎉 Closed</option>
+                  </select>
+                  <button class="delete-btn" on:click={() => deleteProspect(prospect.id)}>🗑️ Delete</button>
+                </div>
+                <textarea placeholder="Add notes..." class="notes-input" value={prospect.notes} on:change={(e) => updateProspectNotes(prospect.id, e.target.value)}></textarea>
+              </div>
+            {/if}
           </div>
         {/each}
       </div>
@@ -1921,6 +2165,41 @@
   h2 { font-size: 24px; }
   h3 { font-size: 18px; }
 
+  .attribution-summary { display: flex; gap: 10px; margin-bottom: 14px; }
+  .attr-stat { flex: 1; text-align: center; padding: 10px 6px; background: var(--card-bg, white); border-radius: 10px; border: 1px solid var(--border-color, #e0e0e0); }
+  .attr-stat.highlight { border-color: #2E7D32; background: #E8F5E9; }
+  .attr-value { font-size: 20px; font-weight: 800; display: block; color: var(--text-primary); }
+  .attr-label { font-size: 10px; color: var(--text-secondary, #888); text-transform: uppercase; font-weight: 600; }
+  .attribution-banner { padding: 8px 12px; background: #E8F5E9; border: 1px solid #2E7D32; border-radius: 8px; margin-bottom: 8px; font-size: 12px; font-weight: 700; color: #2E7D32; }
+  .call-tracked { display: block; font-size: 11px; font-weight: 600; color: #1565C0; margin-top: 2px; }
+  .call-count { color: #1565C0; font-weight: 700; font-size: 11px; }
+  .saved-card.converted { border-left: 4px solid #2E7D32; }
+  .saved-card { cursor: default; }
+  .saved-header { display: flex; justify-content: space-between; align-items: flex-start; cursor: pointer; }
+  .saved-header h4 { margin: 0 0 2px; font-size: 15px; }
+  .saved-addr { font-size: 12px; color: var(--text-secondary, #888); margin: 0; }
+  .saved-meta { font-size: 12px; color: var(--text-secondary, #888); margin: 2px 0 0; }
+  .saved-right { display: flex; flex-direction: column; align-items: flex-end; gap: 4px; flex-shrink: 0; }
+  .expand-arrow { font-size: 12px; color: var(--text-secondary, #888); }
+  .status-badge { font-size: 11px; padding: 3px 8px; border-radius: 12px; font-weight: 700; text-transform: capitalize; }
+  .status-new { background: #E3F2FD; color: #1565C0; }
+  .status-contacted { background: #FFF3E0; color: #E65100; }
+  .status-proposal { background: #F3E5F5; color: #6A1B9A; }
+  .status-closed { background: #E8F5E9; color: #2E7D32; }
+  .saved-actions { margin-top: 12px; padding-top: 12px; border-top: 1px solid var(--border-color, #eee); }
+  .saved-contact-info { margin: 10px 0; font-size: 13px; }
+  .saved-contact-info p { margin: 4px 0; }
+  .saved-contact-info a { color: #1565C0; text-decoration: none; }
+  .saved-addr-copy { cursor: pointer; color: #1565C0; font-weight: 600; }
+  .saved-email-templates { margin: 12px 0; padding-top: 10px; border-top: 1px solid var(--border-color, #eee); }
+  .saved-schedule { margin: 10px 0; padding-top: 10px; border-top: 1px solid var(--border-color, #eee); }
+  .saved-status-row { display: flex; gap: 8px; margin-top: 12px; padding-top: 10px; border-top: 1px solid var(--border-color, #eee); }
+  .nearby-btn { display: block; padding: 10px; margin: 10px 0; background: var(--card-bg, white); border: 2px solid #CC0000; border-radius: 8px; text-align: center; text-decoration: none; color: #CC0000; font-size: 13px; font-weight: 700; }
+  .filter-chips { display: flex; flex-wrap: wrap; gap: 6px; }
+  .chip { padding: 6px 12px; border-radius: 20px; border: 1px solid var(--border-color, #ddd); background: var(--card-bg, white); font-size: 12px; font-weight: 600; cursor: pointer; color: var(--text-primary); }
+  .chip.active { background: #CC0000; color: white; border-color: #CC0000; }
+  .store-phone-display { margin: 4px 0 8px; font-size: 14px; }
+  .store-phone-display a { color: #1565C0; text-decoration: none; font-weight: 600; }
   .subtitle { margin-bottom: 20px; color: var(--text-secondary); font-size: 14px; }
 
   .error-box {
@@ -2120,6 +2399,8 @@
 
   .call-btn { background: #2e7d32 !important; color: white !important; border-color: #2e7d32 !important; }
   .call-btn:hover { background: #1b5e20 !important; }
+  .text-btn { background: #1565C0 !important; color: white !important; border-color: #1565C0 !important; }
+  .text-btn:hover { background: #0D47A1 !important; }
 
   .email-btn { background: #1565c0 !important; color: white !important; border-color: #1565c0 !important; }
   .email-btn:hover { background: #0d47a1 !important; }

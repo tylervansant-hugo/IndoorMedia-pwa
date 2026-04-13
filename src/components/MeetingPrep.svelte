@@ -27,6 +27,7 @@
   let searchResults = [];
   let searching = false;
   let allTestimonials = [];
+  let showTestimonialModal = false;
 
   onMount(async () => {
     try {
@@ -296,7 +297,137 @@
   }
 
   function cleanBizName(name) {
-    return (name || '').replace(/&#x27;/g, "'").replace(/&#x9;/g, '').replace(/\s+-\s+/g, ' — ').trim();
+    return (name || '').replace(/&#x27;/g, "'").replace(/&#x9;/g, '').replace(/&amp;/g, '&').replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/\s+-\s+/g, ' — ').trim();
+  }
+
+  async function downloadTestimonialsPdf() {
+    const { PDFDocument, rgb, StandardFonts } = await import('pdf-lib');
+    const doc = await PDFDocument.create();
+    const regular = await doc.embedFont(StandardFonts.Helvetica);
+    const bold = await doc.embedFont(StandardFonts.HelveticaBold);
+    const italic = await doc.embedFont(StandardFonts.HelveticaOblique);
+
+    const pageW = 612; const pageH = 792;
+    const margin = 50;
+    const maxW = pageW - margin * 2;
+    let page = doc.addPage([pageW, pageH]);
+    let y = pageH - margin;
+
+    function checkPage(need) {
+      if (y < need + margin) {
+        page = doc.addPage([pageW, pageH]);
+        y = pageH - margin;
+      }
+    }
+
+    // Wrap text to fit width
+    function wrapText(text, font, size, maxWidth) {
+      const words = text.split(' ');
+      const lines = [];
+      let current = '';
+      for (const word of words) {
+        const test = current ? current + ' ' + word : word;
+        if (font.widthOfTextAtSize(test, size) > maxWidth) {
+          if (current) lines.push(current);
+          current = word;
+        } else {
+          current = test;
+        }
+      }
+      if (current) lines.push(current);
+      return lines;
+    }
+
+    // Header bar
+    page.drawRectangle({ x: 0, y: pageH - 80, width: pageW, height: 80, color: rgb(0.8, 0, 0) });
+    page.drawText('IndoorMedia', { x: margin, y: pageH - 35, size: 22, font: bold, color: rgb(1, 1, 1) });
+    page.drawText('Testimonials for Meeting Prep', { x: margin, y: pageH - 55, size: 12, font: regular, color: rgb(1, 0.9, 0.9) });
+    page.drawText(new Date().toLocaleDateString(), { x: pageW - margin - 80, y: pageH - 35, size: 10, font: regular, color: rgb(1, 0.9, 0.9) });
+    y = pageH - 100;
+
+    // Business info
+    page.drawText(businessName || 'Business', { x: margin, y, size: 16, font: bold, color: rgb(0.1, 0.1, 0.1) });
+    y -= 18;
+    if (businessCategory) { page.drawText(`Category: ${businessCategory}`, { x: margin, y, size: 10, font: regular, color: rgb(0.4, 0.4, 0.4) }); y -= 14; }
+    if (selectedStore) { page.drawText(`Store: ${selectedStore.GroceryChain} ${selectedStore.City} (${selectedStore.StoreName})`, { x: margin, y, size: 10, font: regular, color: rgb(0.4, 0.4, 0.4) }); y -= 14; }
+    if (businessAddress) { page.drawText(`Address: ${businessAddress}`, { x: margin, y, size: 10, font: regular, color: rgb(0.4, 0.4, 0.4) }); y -= 14; }
+    y -= 10;
+
+    // Section header
+    function sectionHeader(text) {
+      checkPage(40);
+      page.drawRectangle({ x: margin, y: y - 2, width: maxW, height: 22, color: rgb(0.96, 0.96, 0.96) });
+      page.drawText(text, { x: margin + 8, y: y + 3, size: 12, font: bold, color: rgb(0.2, 0.2, 0.2) });
+      y -= 30;
+    }
+
+    // Testimonial block
+    function addTestimonial(num, t) {
+      const bizName = cleanBizName(t.business);
+      const quote = `"${t.comment}"`;
+      const quoteLines = wrapText(quote, italic, 10, maxW - 30);
+      const needed = 20 + (quoteLines.length * 14) + 20;
+      checkPage(needed);
+
+      // Number circle
+      page.drawCircle({ x: margin + 8, y: y - 4, size: 8, color: rgb(0.8, 0, 0) });
+      page.drawText(String(num), { x: margin + 5, y: y - 8, size: 9, font: bold, color: rgb(1, 1, 1) });
+
+      // Business name
+      page.drawText(bizName, { x: margin + 24, y, size: 11, font: bold, color: rgb(0.15, 0.15, 0.15) });
+      y -= 18;
+
+      // Quote
+      for (const line of quoteLines) {
+        page.drawText(line, { x: margin + 24, y, size: 10, font: italic, color: rgb(0.35, 0.35, 0.35) });
+        y -= 14;
+      }
+
+      // URL
+      if (t.url) {
+        page.drawText(`View: ${t.url}`, { x: margin + 24, y, size: 8, font: regular, color: rgb(0.08, 0.38, 0.75) });
+        y -= 12;
+      }
+      y -= 8;
+    }
+
+    sectionHeader('Similar Business Testimonials');
+    matchedTestimonials.forEach((t, i) => addTestimonial(i + 1, t));
+
+    if (localTestimonial) {
+      sectionHeader('Local Testimonial');
+      const bizName = cleanBizName(localTestimonial.business);
+      const quote = `"${localTestimonial.comment}"`;
+      const quoteLines = wrapText(quote, italic, 10, maxW - 30);
+      checkPage(20 + quoteLines.length * 14 + 20);
+
+      page.drawText('📍', { x: margin + 2, y, size: 12, font: regular });
+      page.drawText(bizName, { x: margin + 24, y, size: 11, font: bold, color: rgb(0.08, 0.38, 0.75) });
+      y -= 18;
+      for (const line of quoteLines) {
+        page.drawText(line, { x: margin + 24, y, size: 10, font: italic, color: rgb(0.35, 0.35, 0.35) });
+        y -= 14;
+      }
+      if (localTestimonial.url) {
+        page.drawText(`View: ${localTestimonial.url}`, { x: margin + 24, y, size: 8, font: regular, color: rgb(0.08, 0.38, 0.75) });
+        y -= 12;
+      }
+    }
+
+    // Footer
+    checkPage(30);
+    y -= 10;
+    page.drawLine({ start: { x: margin, y: y + 5 }, end: { x: pageW - margin, y: y + 5 }, thickness: 0.5, color: rgb(0.8, 0.8, 0.8) });
+    page.drawText(`Generated by imPro Sales Portal — ${new Date().toLocaleString()}`, { x: margin, y: y - 10, size: 8, font: regular, color: rgb(0.6, 0.6, 0.6) });
+
+    const bytes = await doc.save();
+    const blob = new Blob([bytes], { type: 'application/pdf' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `Testimonials - ${businessName || 'Meeting Prep'}.pdf`;
+    a.click();
+    URL.revokeObjectURL(url);
   }
 
   function copyTestimonials() {
@@ -409,15 +540,23 @@
     {#if matchedTestimonials.length > 0}
       <div class="result-card">
         <h3>⭐ Similar Business Testimonials</h3>
-        <p class="result-hint">These are from businesses similar to {businessName} — use after the testimonial slide in your presentation</p>
+        <p class="result-hint">These are from businesses similar to {businessName} — use after the testimonial slide in your presentation. Tap any testimonial to view full details.</p>
         
+        {#if matchedTestimonials.some(t => t.url)}
+          <button class="open-all-btn" on:click={() => {
+            const urls = [...matchedTestimonials, localTestimonial].filter(t => t && t.url);
+            if (urls.length === 0) return;
+            showTestimonialModal = true;
+          }}>🔗 Open All Testimonials ({matchedTestimonials.filter(t => t.url).length + (localTestimonial?.url ? 1 : 0)})</button>
+        {/if}
+
         {#each matchedTestimonials as t, i}
-          <div class="testimonial">
+          <div class="testimonial" class:clickable={t.url} on:click={() => { if (t.url) window.open(t.url, '_blank'); }}>
             <div class="test-num">{i + 1}</div>
             <div class="test-body">
               <div class="test-biz">{cleanBizName(t.business)}</div>
               <div class="test-quote">"{t.comment}"</div>
-              {#if t.url}<a href={t.url} target="_blank" class="test-link">View full →</a>{/if}
+              {#if t.url}<span class="test-link">🔗 Tap to view full testimonial →</span>{/if}
             </div>
           </div>
         {/each}
@@ -433,17 +572,62 @@
       <div class="result-card local-card">
         <h3>📍 Local Testimonial</h3>
         <p class="result-hint">A business near {selectedStore?.City || 'this area'} — great for "right here in your neighborhood" credibility</p>
-        <div class="testimonial">
+        <div class="testimonial" class:clickable={localTestimonial.url} on:click={() => { if (localTestimonial.url) window.open(localTestimonial.url, '_blank'); }}>
           <div class="test-num">📍</div>
           <div class="test-body">
             <div class="test-biz">{cleanBizName(localTestimonial.business)}</div>
             <div class="test-quote">"{localTestimonial.comment}"</div>
-            {#if localTestimonial.url}<a href={localTestimonial.url} target="_blank" class="test-link">View full →</a>{/if}
+            {#if localTestimonial.url}<span class="test-link">🔗 Tap to view full testimonial →</span>{/if}
           </div>
         </div>
       </div>
     {/if}
 
+    <!-- Testimonial Modal - grouped view -->
+    {#if showTestimonialModal}
+      <div class="modal-overlay" on:click={() => showTestimonialModal = false}>
+        <div class="modal-content" on:click|stopPropagation>
+          <div class="modal-header">
+            <h3>📋 All Testimonials for {businessName}</h3>
+            <button class="modal-close" on:click={() => showTestimonialModal = false}>✕</button>
+          </div>
+          <div class="modal-body">
+            {#each matchedTestimonials as t, i}
+              <div class="modal-testimonial">
+                <div class="modal-test-header">
+                  <span class="modal-test-num">{i + 1}</span>
+                  <strong>{cleanBizName(t.business)}</strong>
+                </div>
+                <p class="modal-test-quote">"{t.comment}"</p>
+                {#if t.url}
+                  <a href={t.url} target="_blank" class="modal-test-link">🔗 Open Full Testimonial</a>
+                {/if}
+              </div>
+            {/each}
+            {#if localTestimonial}
+              <div class="modal-testimonial local">
+                <div class="modal-test-header">
+                  <span class="modal-test-num">📍</span>
+                  <strong>{cleanBizName(localTestimonial.business)}</strong>
+                  <span class="local-tag">Local</span>
+                </div>
+                <p class="modal-test-quote">"{localTestimonial.comment}"</p>
+                {#if localTestimonial.url}
+                  <a href={localTestimonial.url} target="_blank" class="modal-test-link">🔗 Open Full Testimonial</a>
+                {/if}
+              </div>
+            {/if}
+          </div>
+          <div class="modal-footer">
+            <button class="btn-pdf" on:click={downloadTestimonialsPdf}>📄 PDF</button>
+            <button class="btn-copy" on:click={copyTestimonials}>📋 Copy</button>
+            <button class="btn-secondary" on:click={() => showTestimonialModal = false}>Close</button>
+          </div>
+        </div>
+      </div>
+    {/if}
+
+    <button class="btn-pdf" on:click={downloadTestimonialsPdf}>📄 Download as PDF</button>
     <button class="btn-copy" on:click={copyTestimonials}>📋 Copy All to Clipboard</button>
     <button class="btn-secondary" on:click={() => step = 'search'}>🔄 New Prep</button>
     <div style="height:80px;"></div>
@@ -502,6 +686,23 @@
   .info-row a { color:#CC0000; text-decoration:none; }
 
   .testimonial { display:flex; gap:12px; padding:12px 0; border-bottom:1px solid var(--border-color); }
+  .testimonial.clickable { cursor:pointer; border-radius:8px; padding:12px; margin:0 -12px; transition: background 0.15s; }
+  .testimonial.clickable:hover, .testimonial.clickable:active { background:rgba(204,0,0,0.04); }
+  .open-all-btn { width:100%; padding:12px; margin-bottom:12px; background:#CC0000; color:white; border:none; border-radius:10px; font-size:14px; font-weight:700; cursor:pointer; }
+  .modal-overlay { position:fixed; top:0; left:0; right:0; bottom:0; background:rgba(0,0,0,0.6); z-index:9999; display:flex; align-items:center; justify-content:center; padding:20px; }
+  .modal-content { background:var(--card-bg, white); border-radius:16px; width:100%; max-width:500px; max-height:85vh; display:flex; flex-direction:column; overflow:hidden; }
+  .modal-header { display:flex; justify-content:space-between; align-items:center; padding:16px 20px; border-bottom:1px solid var(--border-color, #eee); }
+  .modal-header h3 { margin:0; font-size:16px; }
+  .modal-close { background:none; border:none; font-size:20px; cursor:pointer; padding:4px 8px; color:var(--text-secondary); }
+  .modal-body { overflow-y:auto; padding:16px 20px; flex:1; }
+  .modal-testimonial { padding:14px; margin-bottom:12px; background:var(--bg-secondary, #f9f9f9); border-radius:10px; border-left:4px solid #CC0000; }
+  .modal-testimonial.local { border-left-color:#1565C0; }
+  .modal-test-header { display:flex; align-items:center; gap:8px; margin-bottom:6px; font-size:14px; }
+  .modal-test-num { width:24px; height:24px; background:#CC0000; color:white; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:12px; font-weight:800; flex-shrink:0; }
+  .modal-test-quote { font-size:13px; font-style:italic; color:var(--text-secondary, #666); line-height:1.4; margin:0 0 8px; }
+  .modal-test-link { font-size:13px; color:#CC0000; text-decoration:none; font-weight:700; display:inline-block; padding:6px 12px; background:rgba(204,0,0,0.06); border-radius:6px; }
+  .local-tag { font-size:10px; padding:2px 6px; background:#E3F2FD; color:#1565C0; border-radius:4px; font-weight:700; }
+  .modal-footer { padding:14px 20px; border-top:1px solid var(--border-color, #eee); display:flex; gap:10px; }
   .testimonial:last-child { border-bottom:none; }
   .test-num { width:28px; height:28px; background:#CC0000; color:#fff; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:13px; font-weight:800; flex-shrink:0; }
   .local-card .test-num { background:#1565C0; }
@@ -513,6 +714,8 @@
   .empty { text-align:center; }
   .empty p { color:var(--text-secondary); font-size:14px; }
 
+  .btn-pdf { width:100%; padding:14px; background:#CC0000; color:#fff; border:none; border-radius:10px; font-size:15px; font-weight:700; cursor:pointer; margin-bottom:8px; }
+  .btn-pdf:hover { background:#990000; }
   .btn-copy { width:100%; padding:14px; background:#2E7D32; color:#fff; border:none; border-radius:10px; font-size:15px; font-weight:700; cursor:pointer; margin-bottom:8px; }
   .btn-copy:hover { background:#1B5E20; }
   .btn-secondary { width:100%; padding:12px; background:var(--card-bg); color:var(--text-primary); border:2px solid var(--border-color); border-radius:10px; font-size:14px; font-weight:600; cursor:pointer; }

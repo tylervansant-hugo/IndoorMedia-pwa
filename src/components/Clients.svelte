@@ -458,29 +458,52 @@ IndoorMedia`;
       .catch(() => { contractsData = []; });
   }
 
+  // Normalize text for comparison
+  function norm(s) { return (s || '').toLowerCase().replace(/[^a-z0-9 ]/g, ' ').replace(/\s+/g, ' ').trim(); }
+  function getSignificantWords(s) { return norm(s).split(' ').filter(w => w.length > 2 && !['the','and','inc','llc','restaurant','mexican','food'].includes(w)); }
+
   function getRenewalStatus(renewal) {
     if (!contractsData.length) return 'pending';
-    const bizLower = (renewal.business || '').toLowerCase().replace(/[^a-z0-9 ]/g, ' ').trim();
-    const bizWords = bizLower.split(/\s+/).filter(w => w.length > 2);
-    const storeNum = (renewal.store || '').match(/(\d{4})/)?.[1] || '';
-    const contractNum = (renewal.contractNumber || '').toUpperCase();
+    
+    const rBiz = norm(renewal.business);
+    const rBizWords = getSignificantWords(renewal.business);
+    const rStore = (renewal.store || '').match(/(\d{4})/)?.[1] || '';
+    const rContract = (renewal.contractNumber || '').toUpperCase();
+    const rContact = norm(renewal.contactName);
+    const rContactFirst = rContact.split(' ')[0] || '';
+    const rContactLast = rContact.split(' ').slice(-1)[0] || '';
     
     const match = contractsData.find(c => {
-      const cBiz = (c.business_name || '').toLowerCase().replace(/[^a-z0-9 ]/g, ' ').trim();
+      const cBiz = norm(c.business_name);
       const cStore = (c.store_number || '').trim();
       const cContract = (c.contract_number || '').toUpperCase();
+      const cContact = norm(c.contact_name);
+      const cContactFirst = cContact.split(' ')[0] || '';
+      const cContactLast = cContact.split(' ').slice(-1)[0] || '';
       
-      // Match 1: Same contract number (strongest match)
-      if (contractNum && cContract && cContract === contractNum) return true;
+      // Match 1: Same contract number (strongest — exact renewal)
+      if (rContract && cContract && cContract === rContract) return true;
       
-      // Match 2: Store number + fuzzy business name
-      const storeMatch = storeNum && cStore && cStore === storeNum;
-      if (!storeMatch) return false;
+      // Match 2: Same store number + fuzzy business name (handles different reps)
+      if (rStore && cStore && cStore === rStore) {
+        const cBizWords = getSignificantWords(c.business_name);
+        const commonWords = rBizWords.filter(w => cBizWords.some(cw => cw.includes(w) || w.includes(cw)));
+        if (commonWords.length >= 1) return true;
+      }
       
-      // Fuzzy name: any 2+ significant words in common
-      const cWords = cBiz.split(/\s+/).filter(w => w.length > 2);
-      const commonWords = bizWords.filter(w => cWords.some(cw => cw.includes(w) || w.includes(cw)));
-      return commonWords.length >= 1;
+      // Match 3: Same contact person + same store (different rep renewed it)
+      if (rStore && cStore && cStore === rStore && rContactLast && cContactLast) {
+        if (rContactLast === cContactLast && rContactFirst.slice(0,3) === cContactFirst.slice(0,3)) return true;
+      }
+      
+      // Match 4: Same contact person + similar business name (store may differ slightly)
+      if (rContactLast && cContactLast && rContactLast === cContactLast && rContactFirst.slice(0,3) === cContactFirst.slice(0,3)) {
+        const cBizWords = getSignificantWords(c.business_name);
+        const commonWords = rBizWords.filter(w => cBizWords.some(cw => cw.includes(w) || w.includes(cw)));
+        if (commonWords.length >= 1) return true;
+      }
+      
+      return false;
     });
     
     return match ? 'completed' : 'pending';
@@ -566,6 +589,27 @@ IndoorMedia`;
   $: mySales = myCustomers;
 
   $: totalRevenue = mySales.reduce((sum, c) => sum + (c.total_amount || 0), 0);
+
+  // Digital contracts (FindLocal, ReviewBoost, LoyaltyBoost, DigitalBoost)
+  const DIGITAL_PRODUCTS = ['FindLocal', 'ReviewBoost', 'LoyaltyBoost', 'DigitalBoost'];
+  $: digitalContracts = (() => {
+    const all = isManager ? contracts : contracts.filter(c => {
+      const rep = (c.sales_rep || '').toLowerCase();
+      return rep.includes((repName || '').toLowerCase().split(' ')[0]);
+    });
+    return all.filter(c => DIGITAL_PRODUCTS.includes(c.product_description));
+  })();
+  $: digitalRevenue = digitalContracts.reduce((sum, c) => sum + (c.total_amount || 0), 0);
+  let digitalSearch = '';
+  let digitalProductFilter = '';
+  $: filteredDigital = digitalContracts.filter(c => {
+    if (digitalProductFilter && c.product_description !== digitalProductFilter) return false;
+    if (digitalSearch) {
+      const q = digitalSearch.toLowerCase();
+      return (c.business_name || '').toLowerCase().includes(q) || (c.sales_rep || '').toLowerCase().includes(q) || (c.contact_name || '').toLowerCase().includes(q);
+    }
+    return true;
+  });
 
   $: filteredCustomers = (() => {
     let list = searchQuery
@@ -880,6 +924,12 @@ IndoorMedia`;
         <div class="btn-text">Ad Proofs</div>
         <div class="btn-desc">{myAdProofs.length} proofs</div>
       </button>
+
+      <button class="main-btn" on:click={() => view = 'digital'}>
+        <div class="btn-icon">📱</div>
+        <div class="btn-text">Digital Contracts</div>
+        <div class="btn-desc">{digitalContracts.length} active</div>
+      </button>
     </div>
 
   {/if}
@@ -951,6 +1001,7 @@ IndoorMedia`;
             <div class="card-actions">
               {#if c.contact_phone}
                 <a href="tel:{c.contact_phone}" class="action-btn call">📞 Call</a>
+                <a href="sms:{c.contact_phone}" class="action-btn text-btn">💬 Text</a>
               {/if}
               {#if c.contact_email}
                 <a href="mailto:{c.contact_email}" class="action-btn">📧 Email</a>
@@ -1163,6 +1214,7 @@ IndoorMedia`;
                 <div class="renewal-actions">
                   {#if renewal.phone}
                     <a href="tel:{renewal.phone}" class="action-btn call-btn">📞 Call</a>
+                    <a href="sms:{renewal.phone}" class="action-btn text-btn">💬 Text</a>
                   {/if}
                   {#if renewal.email}
                     <a href="mailto:{renewal.email}?subject=Renewal%20—%20{encodeURIComponent(renewal.business)}" class="action-btn email-btn">✉️ Email</a>
@@ -1317,6 +1369,53 @@ IndoorMedia`;
   {/if}
 
   <!-- Ad Proofs -->
+  {#if view === 'digital'}
+    <button class="back-btn" on:click={goBack}>&larr; Back</button>
+    <h2>📱 Digital Contracts</h2>
+    <p class="subtitle">{digitalContracts.length} digital products — ${digitalRevenue.toLocaleString()} total value</p>
+
+    <div class="digital-filters">
+      <input type="text" class="search-input" placeholder="Search by business, rep..." bind:value={digitalSearch} />
+      <div class="filter-chips">
+        <button class="chip" class:active={!digitalProductFilter} on:click={() => digitalProductFilter = ''}>All ({digitalContracts.length})</button>
+        {#each DIGITAL_PRODUCTS as p}
+          {@const count = digitalContracts.filter(c => c.product_description === p).length}
+          {#if count > 0}
+            <button class="chip" class:active={digitalProductFilter === p} on:click={() => digitalProductFilter = p}>{p} ({count})</button>
+          {/if}
+        {/each}
+      </div>
+    </div>
+
+    {#each filteredDigital as c}
+      <div class="digital-card">
+        <div class="digital-header">
+          <div class="digital-product-badge" class:findlocal={c.product_description === 'FindLocal'} class:reviewboost={c.product_description === 'ReviewBoost'} class:loyaltyboost={c.product_description === 'LoyaltyBoost'} class:digitalboost={c.product_description === 'DigitalBoost'}>
+            {c.product_description}
+          </div>
+          <span class="digital-amount">${(c.total_amount || 0).toLocaleString()}</span>
+        </div>
+        <div class="digital-biz">{c.business_name || 'Unknown'}</div>
+        <div class="digital-meta">
+          {c.sales_rep || ''} • {c.contract_number}
+          {#if c.date} • {new Date(c.date).toLocaleDateString()}{/if}
+        </div>
+        {#if c.contact_name || c.contact_phone || c.contact_email}
+          <div class="digital-contact">
+            {#if c.contact_name}<span>👤 {c.contact_name}</span>{/if}
+            {#if c.contact_phone}<a href="tel:{c.contact_phone}">📞 {c.contact_phone}</a>{/if}
+            {#if c.contact_email}<a href="mailto:{c.contact_email}">✉️ {c.contact_email}</a>{/if}
+          </div>
+        {/if}
+        {#if c.address}
+          <div class="digital-addr">📍 {c.address}</div>
+        {/if}
+      </div>
+    {:else}
+      <p class="empty-state">No digital contracts found{digitalProductFilter ? ` for ${digitalProductFilter}` : ''}.</p>
+    {/each}
+  {/if}
+
   {#if view === 'ad-proofs'}
     <button class="back-btn" on:click={goBack}>&larr; Back</button>
     <h2>🎨 Ad Proofs</h2>
@@ -1629,6 +1728,23 @@ IndoorMedia`;
   .export-btn:hover:not(:disabled) { background:#a00; }
   .select-check { font-size:20px; margin-right:8px; flex-shrink:0; }
   .renewal-card { background: white; border: 1px solid #e0e0e0; border-radius: 10px; padding: 14px; cursor: pointer; transition: all 0.2s; display:flex; align-items:flex-start; }
+  .digital-filters { margin-bottom: 12px; }
+  .digital-card { background: var(--card-bg, white); border-radius: 10px; padding: 14px; margin-bottom: 10px; border: 1px solid var(--border-color, #e0e0e0); }
+  .digital-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; }
+  .digital-product-badge { font-size: 11px; font-weight: 800; padding: 3px 10px; border-radius: 20px; color: white; }
+  .digital-product-badge.findlocal { background: #1565C0; }
+  .digital-product-badge.reviewboost { background: #E65100; }
+  .digital-product-badge.loyaltyboost { background: #2E7D32; }
+  .digital-product-badge.digitalboost { background: #6A1B9A; }
+  .digital-amount { font-size: 16px; font-weight: 800; color: #2E7D32; }
+  .digital-biz { font-size: 15px; font-weight: 700; color: var(--text-primary); margin-bottom: 4px; }
+  .digital-meta { font-size: 12px; color: var(--text-secondary, #999); margin-bottom: 6px; }
+  .digital-contact { display: flex; flex-wrap: wrap; gap: 10px; font-size: 12px; margin-bottom: 4px; }
+  .digital-contact a { color: #1565C0; text-decoration: none; }
+  .digital-addr { font-size: 12px; color: var(--text-secondary, #888); }
+  .filter-chips { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
+  .chip { padding: 6px 12px; border-radius: 20px; border: 1px solid var(--border-color, #ddd); background: var(--card-bg, white); font-size: 12px; font-weight: 600; cursor: pointer; color: var(--text-primary); }
+  .chip.active { background: #CC0000; color: white; border-color: #CC0000; }
   .nearby-advertisers-link { display:block; padding:10px; margin-bottom:12px; background:var(--card-bg, white); border:2px solid #CC0000; border-radius:10px; text-align:center; text-decoration:none; color:#CC0000; font-size:13px; font-weight:700; }
   .nearby-advertisers-link:hover { background:rgba(204,0,0,0.05); }
   .renewal-completed-badge { font-size:12px; padding:4px 10px; margin-top:6px; border-radius:4px; background:#E8F5E9; color:#2E7D32; font-weight:800; }
@@ -1662,6 +1778,7 @@ IndoorMedia`;
   .renewal-actions { display: flex; gap: 8px; margin-top: 12px; }
   .renewal-actions .action-btn { flex: 1; text-align: center; padding: 10px; border-radius: 8px; font-size: 14px; font-weight: 600; text-decoration: none; }
   .renewal-actions .call-btn { background: #2e7d32; color: white; }
+  .renewal-actions .text-btn, .text-btn { background: #1565C0; color: white; }
   .renewal-actions .email-btn { background: #CC0000; color: white; }
   /* Pending Renewals */
   .renewal-btn { border: 2px solid #CC0000 !important; }

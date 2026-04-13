@@ -45,8 +45,12 @@
   let nextCycleName = '';
   let showRevenueDetail = false;
   let showStreakDetail = false;
+  let analyticsExpandedRep = null;
   let showAppointmentsDetail = false;
   let thisMonthContracts = [];
+  let thisWeekContracts = [];
+  let thisWeekRevenue = 0;
+  let weeklyBreakdown = []; // { weekLabel, contracts, revenue }
   let pendingRenewalsData = [];
 
   // Motivational quotes
@@ -473,6 +477,58 @@
     });
     
     revenueThisMonth = thisMonthContracts.reduce((sum, c) => sum + (c.total_amount || 0), 0);
+    
+    // This week's contracts (Mon-Sun)
+    const today = new Date();
+    const dayOfWeek = today.getDay();
+    const mondayOffset = dayOfWeek === 0 ? 6 : dayOfWeek - 1;
+    const weekStart = new Date(today);
+    weekStart.setDate(today.getDate() - mondayOffset);
+    weekStart.setHours(0, 0, 0, 0);
+    
+    thisWeekContracts = myContracts.filter(c => {
+      const d = new Date(c.date);
+      return d >= weekStart;
+    });
+    thisWeekRevenue = thisWeekContracts.reduce((sum, c) => sum + (c.total_amount || 0), 0);
+    
+    // Weekly breakdown for the current month
+    const firstOfMonth = new Date(thisYear, thisMonth, 1);
+    const weeks = [];
+    let wStart = new Date(firstOfMonth);
+    // Align to Monday
+    const dow = wStart.getDay();
+    if (dow !== 1) wStart.setDate(wStart.getDate() - (dow === 0 ? 6 : dow - 1));
+    
+    while (wStart.getMonth() <= thisMonth || (wStart.getMonth() === 0 && thisMonth === 11)) {
+      const wEnd = new Date(wStart);
+      wEnd.setDate(wEnd.getDate() + 6);
+      wEnd.setHours(23, 59, 59, 999);
+      
+      const weekContracts = thisMonthContracts.filter(c => {
+        const d = new Date(c.date);
+        return d >= wStart && d <= wEnd;
+      });
+      
+      const startLabel = wStart.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+      const endLabel = wEnd.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+      const isCurrentWeek = today >= wStart && today <= wEnd;
+      
+      weeks.push({
+        weekLabel: `${startLabel} – ${endLabel}`,
+        contracts: weekContracts,
+        revenue: weekContracts.reduce((s, c) => s + (c.total_amount || 0), 0),
+        count: weekContracts.length,
+        isCurrent: isCurrentWeek
+      });
+      
+      wStart = new Date(wEnd);
+      wStart.setDate(wStart.getDate() + 1);
+      wStart.setHours(0, 0, 0, 0);
+      if (wStart.getMonth() > thisMonth && wStart.getFullYear() >= thisYear) break;
+      if (weeks.length > 6) break;
+    }
+    weeklyBreakdown = weeks;
     const lastMonthRevenue = lastMonthContracts.reduce((sum, c) => sum + (c.total_amount || 0), 0);
     growthPercent = lastMonthRevenue > 0 ? Math.round(((revenueThisMonth - lastMonthRevenue) / lastMonthRevenue) * 100) : 0;
 
@@ -506,7 +562,7 @@
     });
     leaderboardPosition = myRank >= 0 ? myRank + 1 : 0;
 
-    // Pending renewals count (loaded async separately)
+    // Pending renewals count + add renewal value to revenue
     fetch(import.meta.env.BASE_URL + 'data/pending_renewals.json')
       .then(r => r.json())
       .then(renewals => {
@@ -517,6 +573,8 @@
           pendingRenewalsData = renewals.filter(r => (r.rep || '').toLowerCase().includes(repName.split(' ')[0]));
           pendingRenewalsCount = pendingRenewalsData.length;
         }
+        // Revenue stays as this month's contracts only
+        repMonthlyRevenue = revenueThisMonth;
       })
       .catch(() => { pendingRenewalsCount = 0; pendingRenewalsData = []; });
 
@@ -776,7 +834,11 @@
     </button>
     <button class="tab" class:active={currentTab === 'prospects'} on:click={() => currentTab = 'prospects'}>
       <svg class="tab-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-      <span>Prospects</span>
+      <span>Prospect</span>
+    </button>
+    <button class="tab" class:active={currentTab === 'present'} on:click={() => currentTab = 'present'}>
+      <svg class="tab-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+      <span>Present</span>
     </button>
     <button class="tab" class:active={currentTab === 'stores'} on:click={() => currentTab = 'stores'}>
       <svg class="tab-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
@@ -789,10 +851,6 @@
     <button class="tab" class:active={currentTab === 'tools'} on:click={() => currentTab = 'tools'}>
       <svg class="tab-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>
       <span>Tools</span>
-    </button>
-    <button class="tab" class:active={currentTab === 'present'} on:click={() => currentTab = 'present'}>
-      <svg class="tab-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
-      <span>Present</span>
     </button>
     <button class="tab" class:active={currentTab === 'analytics'} on:click={() => currentTab = 'analytics'}>
       <svg class="tab-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
@@ -826,6 +884,7 @@
               {growthPercent > 0 ? '↑' : '↓'} {Math.abs(growthPercent)}% vs last month
             </div>
           {/if}
+          <div class="week-revenue">This Week: <strong>${thisWeekRevenue.toLocaleString()}</strong> ({thisWeekContracts.length} deal{thisWeekContracts.length !== 1 ? 's' : ''})</div>
           {#if leaderboardPosition > 0}
             <div class="leaderboard-badge">🏆 #{leaderboardPosition} of {leaderboardTotal} reps this month</div>
           {/if}
@@ -833,7 +892,25 @@
 
         {#if showRevenueDetail}
           <div class="drill-down">
-            <h4>💰 This Month's Contracts ({thisMonthContracts.length})</h4>
+            <!-- Weekly breakdown -->
+            <h4>📅 Weekly Breakdown</h4>
+            <div class="week-breakdown">
+              {#each weeklyBreakdown as week}
+                <div class="week-row" class:current-week={week.isCurrent}>
+                  <div class="week-label">
+                    <span>{week.weekLabel}</span>
+                    {#if week.isCurrent}<span class="current-badge">This Week</span>{/if}
+                  </div>
+                  <div class="week-stats">
+                    <span class="week-deals">{week.count} deal{week.count !== 1 ? 's' : ''}</span>
+                    <span class="week-amount">${week.revenue.toLocaleString()}</span>
+                  </div>
+                </div>
+              {/each}
+            </div>
+
+            <!-- Monthly total contracts list -->
+            <h4 style="margin-top:16px;">💰 All Contracts This Month ({thisMonthContracts.length})</h4>
             {#if thisMonthContracts.length === 0}
               <p class="drill-empty">No contracts this month yet.</p>
             {:else}
@@ -1188,6 +1265,62 @@
                 <div><strong>Logins:</strong> {actData.last30days.logins || 0}</div>
               </div>
             {/await}
+
+            <!-- Closed Deals by Rep -->
+            <h4>💰 Closed Deals — This Month</h4>
+            {#if true}
+              {@const now = new Date()}
+              {@const thisMonth = now.getMonth()}
+              {@const thisYear = now.getFullYear()}
+              {@const monthContracts = contracts.filter(c => { const d = new Date(c.date); return d.getMonth() === thisMonth && d.getFullYear() === thisYear; })}
+              {@const repDeals = (() => {
+                const map = {};
+                monthContracts.forEach(c => {
+                  const rep = c.sales_rep || 'Unknown';
+                  if (!map[rep]) map[rep] = { name: rep, deals: 0, revenue: 0, businesses: [] };
+                  map[rep].deals++;
+                  map[rep].revenue += (c.total_amount || 0);
+                  const biz = c.business_name || 'Unknown';
+                  if (!map[rep].businesses.find(b => b.name === biz)) {
+                    map[rep].businesses.push({ name: biz, amount: c.total_amount || 0, store: c.store_number || '', date: c.date || '' });
+                  }
+                });
+                return Object.values(map).sort((a, b) => b.revenue - a.revenue);
+              })()}
+              {#if repDeals.length > 0}
+                <div class="deals-summary">
+                  <div class="deals-total">
+                    <span class="deals-total-value">${monthContracts.reduce((s,c) => s + (c.total_amount||0), 0).toLocaleString()}</span>
+                    <span class="deals-total-label">{monthContracts.length} deals this month</span>
+                  </div>
+                </div>
+                <div class="activity-table-wrap">
+                  <table class="activity-table">
+                    <thead><tr><th>Rep</th><th>Deals</th><th>Revenue</th></tr></thead>
+                    <tbody>
+                      {#each repDeals as rep}
+                        <tr on:click={() => analyticsExpandedRep = analyticsExpandedRep === rep.name ? null : rep.name} style="cursor:pointer;">
+                          <td><strong>{rep.name}</strong></td>
+                          <td>{rep.deals}</td>
+                          <td class="profit">${rep.revenue.toLocaleString()}</td>
+                        </tr>
+                        {#if analyticsExpandedRep === rep.name}
+                          {#each rep.businesses.sort((a,b) => b.amount - a.amount) as biz}
+                            <tr class="deal-detail-row">
+                              <td style="padding-left:24px;font-size:12px;color:var(--text-secondary);">{biz.name}</td>
+                              <td style="font-size:12px;color:var(--text-secondary);">{biz.store ? `#${biz.store}` : ''}</td>
+                              <td style="font-size:12px;color:#2E7D32;">${biz.amount.toLocaleString()}</td>
+                            </tr>
+                          {/each}
+                        {/if}
+                      {/each}
+                    </tbody>
+                  </table>
+                </div>
+              {:else}
+                <p class="subtitle" style="font-size:13px;">No contracts this month yet.</p>
+              {/if}
+            {/if}
           </div>
         {/if}
       </div>
@@ -1206,6 +1339,12 @@
 </div>
 
 <style>
+  :global(html) {
+    background: #CC0000;
+  }
+  :global(body) {
+    background: var(--bg-primary, #ffffff);
+  }
   :global([data-theme='light']) {
     --bg-primary: #ffffff;
     --bg-secondary: #f9f9f9;
@@ -1464,6 +1603,16 @@
   }
   .revenue-amount { font-size: 36px; font-weight: 800; color: #CC0000; }
   .revenue-label { font-size: 13px; color: var(--text-secondary, #999); margin-top: 2px; }
+  .week-revenue { font-size: 14px; color: var(--text-secondary, #999); margin-top: 6px; }
+  .week-revenue strong { color: var(--text-primary, #333); }
+  .week-breakdown { margin-bottom: 16px; }
+  .week-row { display: flex; justify-content: space-between; align-items: center; padding: 10px 12px; border-radius: 8px; margin-bottom: 4px; background: var(--bg-secondary, #f9f9f9); }
+  .week-row.current-week { background: #FFF3E0; border: 1px solid #E65100; }
+  .week-label { display: flex; align-items: center; gap: 6px; font-size: 13px; color: var(--text-primary); }
+  .current-badge { font-size: 10px; padding: 2px 6px; background: #E65100; color: white; border-radius: 4px; font-weight: 700; }
+  .week-stats { display: flex; gap: 12px; align-items: center; }
+  .week-deals { font-size: 12px; color: var(--text-secondary, #888); }
+  .week-amount { font-size: 15px; font-weight: 800; color: #2E7D32; }
   .growth-badge { display: inline-block; margin-top: 8px; padding: 4px 12px; border-radius: 20px; font-size: 12px; font-weight: 600; }
   .growth-badge.positive { background: #e8f5e9; color: #2e7d32; }
   .growth-badge.negative { background: #ffe0e0; color: #c33; }
@@ -1851,6 +2000,12 @@
   .activity-table td { padding: 8px 10px; border-bottom: 1px solid var(--border-color); color: var(--text-primary); }
   .activity-totals { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; font-size: 14px; color: var(--text-primary); }
   .activity-totals strong { color: var(--text-secondary); }
+  .deals-summary { margin-bottom: 12px; }
+  .deals-total { text-align: center; padding: 14px; background: #E8F5E9; border-radius: 10px; border: 1px solid #2E7D32; }
+  .deals-total-value { font-size: 24px; font-weight: 800; color: #2E7D32; display: block; }
+  .deals-total-label { font-size: 12px; color: #2E7D32; font-weight: 600; }
+  .deal-detail-row { background: var(--bg-secondary, #f9f9f9) !important; }
+  .profit { color: #2E7D32; font-weight: 700; }
   .firebase-setup-prompt { background: var(--card-bg); border: 2px dashed var(--border-color); border-radius: 12px; padding: 20px; text-align: center; margin: 16px 0; }
   .firebase-setup-prompt h4 { margin: 0 0 8px; color: var(--text-primary); }
   .firebase-setup-prompt p { font-size: 13px; color: var(--text-secondary); margin: 0 0 12px; }
