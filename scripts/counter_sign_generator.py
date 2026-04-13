@@ -252,53 +252,55 @@ def resize_ad_image(image_path: str, max_width: float, max_height: float) -> Tup
         return None, None, None
 
 
-def calculate_grid_layout(num_images: int) -> Tuple[int, int, float, float]:
-    """
-    Calculate grid layout for multiple ad images.
-    
-    Returns: (num_columns, num_rows, cell_width, cell_height)
-    - 1-2 images: 2 columns, 1 row
-    - 3-6 images: 2 columns, multiple rows
-    """
-    if num_images <= 2:
-        cols = min(num_images, 2)
-        rows = 1
-    else:
-        cols = 2
-        rows = (num_images + 1) // 2  # Round up
-    
-    # Available space in ad zone
-    total_width = AD_WIDTH  # Full width minus outer margins (already applied)
-    total_height = AD_ZONE_HEIGHT
-    
-    # Internal spacing
-    col_gap = 15  # pts between columns
-    row_gap = 15  # pts between rows
-    
-    # Calculate cell dimensions
-    usable_width = total_width - (col_gap * (cols - 1))
-    usable_height = total_height - (row_gap * max(0, rows - 1))
-    
-    cell_width = usable_width / cols
-    cell_height = usable_height / rows
-    
-    logger.info(f"Grid layout: {num_images} images → {cols} cols × {rows} rows, cell: {cell_width:.1f}×{cell_height:.1f} pts")
-    
-    return cols, rows, cell_width, cell_height
+# Full ad zone: from just above footer to just below header
+# Footer top ~140 pts, Header bottom ~603.5 pts
+# Use 150 to 600 as safe zone (with some padding)
+GRID_Y_BOTTOM = 150.0   # Just above footer area
+GRID_Y_TOP = 600.0       # Just below header
+GRID_HEIGHT = GRID_Y_TOP - GRID_Y_BOTTOM  # 450 pts total
+GRID_GAP = 12.0          # Gap between images
 
 
-def get_image_position_in_grid(image_index: int, cols: int, cell_width: float, cell_height: float, col_gap: float = 15, row_gap: float = 15) -> Tuple[float, float]:
+def calculate_grid_positions(num_images: int) -> list:
     """
-    Calculate position (x, y) for an image in grid layout.
-    Position is bottom-left of grid zone.
+    Calculate (x, y, width, height) for each image in a 2-column grid.
+    Uses the full white space between header and footer.
+    
+    Returns list of (x, y, cell_width, cell_height) tuples — one per image.
+    y is the BOTTOM of the cell (PDF coordinate system: origin at bottom-left).
     """
-    col = image_index % cols
-    row = image_index // cols
+    if num_images == 1:
+        # Single image: centered, use most of the space
+        w = AD_WIDTH * 0.85
+        h = GRID_HEIGHT * 0.85
+        x = AD_X_MARGIN + (AD_WIDTH - w) / 2
+        y = GRID_Y_BOTTOM + (GRID_HEIGHT - h) / 2
+        return [(x, y, w, h)]
     
-    x = AD_X_MARGIN + (col * (cell_width + col_gap))
-    y = AD_Y_POS - ((row + 1) * cell_height) - (row * row_gap)
+    # 2+ images: 2-column grid
+    cols = 2
+    rows = (num_images + 1) // 2  # Round up
     
-    return x, y
+    usable_width = AD_WIDTH - (GRID_GAP * (cols - 1))
+    usable_height = GRID_HEIGHT - (GRID_GAP * (rows - 1))
+    
+    cell_w = usable_width / cols
+    cell_h = usable_height / rows
+    
+    positions = []
+    for idx in range(num_images):
+        col = idx % cols
+        row = idx // cols
+        
+        x = AD_X_MARGIN + col * (cell_w + GRID_GAP)
+        # Top row starts at top of grid, rows go downward
+        y = GRID_Y_TOP - (row + 1) * cell_h - row * GRID_GAP
+        
+        positions.append((x, y, cell_w, cell_h))
+    
+    logger.info(f"Grid layout: {num_images} images → {cols} cols × {rows} rows, cell: {cell_w:.1f}×{cell_h:.1f} pts, zone: {GRID_Y_BOTTOM:.0f}-{GRID_Y_TOP:.0f}")
+    
+    return positions
 
 
 def overlay_content_on_template(
@@ -353,42 +355,33 @@ def overlay_content_on_template(
         # ========== 2. AD IMAGES (GRID LAYOUT) ==========
         if ad_image_paths and len(ad_image_paths) > 0:
             try:
-                num_ads = len(ad_image_paths)
-                cols, rows, cell_width, cell_height = calculate_grid_layout(num_ads)
+                valid_paths = [p for p in ad_image_paths if p and Path(p).exists()]
+                positions = calculate_grid_positions(len(valid_paths))
                 
-                for idx, ad_path in enumerate(ad_image_paths):
-                    if not ad_path or not Path(ad_path).exists():
-                        logger.warning(f"Skipping missing ad image: {ad_path}")
-                        continue
+                for idx, ad_path in enumerate(valid_paths):
+                    cell_x, cell_y, cell_w, cell_h = positions[idx]
                     
-                    # Resize image to fit cell
+                    # Resize image to fit cell (95% to leave a tiny margin)
                     img_resized, final_width, final_height = resize_ad_image(
                         ad_path,
-                        max_width=cell_width * 0.9,  # 90% of cell to add padding
-                        max_height=cell_height * 0.9
+                        max_width=cell_w * 0.95,
+                        max_height=cell_h * 0.95
                     )
                     
                     if img_resized:
-                        # Calculate position in grid
-                        grid_x, grid_y = get_image_position_in_grid(idx, cols, cell_width, cell_height)
-                        
-                        # Center image within cell
-                        cell_col = idx % cols
-                        cell_row = idx // cols
-                        cell_x = AD_X_MARGIN + (cell_col * (cell_width + 15))
-                        cell_y = AD_Y_POS - ((cell_row + 1) * cell_height)
-                        
-                        # Center within cell
-                        ad_x = cell_x + (cell_width - final_width) / 2
-                        ad_y = cell_y + (cell_height - final_height) / 2
+                        # Center image within its cell
+                        ad_x = cell_x + (cell_w - final_width) / 2
+                        ad_y = cell_y + (cell_h - final_height) / 2
                         
                         # Save to temp file for reportlab
                         with tempfile.NamedTemporaryFile(suffix='.png', delete=False) as tmp:
                             img_resized.save(tmp.name, format='PNG')
                             c.drawImage(tmp.name, ad_x, ad_y, width=final_width, height=final_height)
-                            logger.info(f"✓ Ad image #{idx+1} at ({ad_x:.1f}, {ad_y:.1f}): {final_width:.1f}×{final_height:.1f} pts")
+                            logger.info(f"✓ Ad image #{idx+1}/{len(valid_paths)} at ({ad_x:.1f}, {ad_y:.1f}): {final_width:.1f}×{final_height:.1f} pts [cell: {cell_x:.0f},{cell_y:.0f} {cell_w:.0f}×{cell_h:.0f}]")
             except Exception as e:
                 logger.warning(f"Could not add ad images: {e}")
+                import traceback
+                traceback.print_exc()
         
         # ========== 3. BUSINESS CARD (BOTTOM-LEFT) ==========
         if business_card_path and Path(business_card_path).exists():
