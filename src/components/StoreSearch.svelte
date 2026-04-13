@@ -3,6 +3,8 @@
   import { onMount } from 'svelte';
 
   let searchTerm = '';
+  let addressSearch = '';
+  let addressSearching = false;
   let allStores = [];
   let filtered = [];
   let useGeolocation = false;
@@ -462,6 +464,54 @@ Store: ${store.StoreName}
     );
   }
 
+  async function findByAddress() {
+    if (!addressSearch.trim()) return;
+    addressSearching = true;
+    setLoading(true);
+    setError('');
+
+    try {
+      // Geocode using Nominatim (free, no API key)
+      const q = encodeURIComponent(addressSearch.trim());
+      const res = await fetch(`https://nominatim.openstreetmap.org/search?q=${q}&format=json&limit=1&countrycodes=us`, {
+        headers: { 'Accept': 'application/json' }
+      });
+      const data = await res.json();
+
+      if (!data || data.length === 0) {
+        setError(`Could not find location for "${addressSearch}". Try a full address, city, or zip code.`);
+        setLoading(false);
+        addressSearching = false;
+        return;
+      }
+
+      const lat = parseFloat(data[0].lat);
+      const lng = parseFloat(data[0].lon);
+      const displayName = data[0].display_name?.split(',').slice(0, 3).join(',') || addressSearch;
+
+      userLocation = { lat, lng };
+      useGeolocation = true;
+
+      // Sort all stores by distance from this address
+      filtered = allStores
+        .filter(s => s.latitude && s.longitude)
+        .map(s => ({
+          ...s,
+          _dist: calcDistance(lat, lng, s.latitude, s.longitude)
+        }))
+        .sort((a, b) => a._dist - b._dist)
+        .slice(0, 20);
+
+      searchTerm = '';
+      searchResults.set(filtered);
+    } catch (err) {
+      setError('Address lookup failed: ' + err.message);
+    } finally {
+      setLoading(false);
+      addressSearching = false;
+    }
+  }
+
   function calcDistance(lat1, lon1, lat2, lon2) {
     const R = 3959; // Earth radius in miles
     const dLat = (lat2 - lat1) * Math.PI / 180;
@@ -584,16 +634,33 @@ Store: ${store.StoreName}
     {/if}
   </div>
 
+  <div class="address-search-box">
+    <input
+      type="text"
+      placeholder="Enter any address, city, or zip to find closest stores..."
+      bind:value={addressSearch}
+      on:keydown={(e) => { if (e.key === 'Enter') findByAddress(); }}
+      disabled={$loading}
+    />
+    <button
+      class="address-btn"
+      on:click={findByAddress}
+      disabled={$loading || !addressSearch.trim()}
+    >
+      {addressSearching ? '⏳' : '📍'} Find Closest
+    </button>
+  </div>
+
   <div class="location-toggle">
     <button
       class="geo-btn"
       on:click={findNearby}
       disabled={$loading}
     >
-      📍 Find Nearby Stores
+      📍 Use My Location
     </button>
     {#if useGeolocation && userLocation}
-      <span class="location-indicator">Using your location</span>
+      <span class="location-indicator">Showing closest stores</span>
     {/if}
   </div>
 
@@ -929,6 +996,31 @@ Store: ${store.StoreName}
     font-size: 14px;
     color: var(--text-secondary);
   }
+
+  .address-search-box {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 12px;
+  }
+
+  .address-search-box input {
+    flex: 1;
+  }
+
+  .address-btn {
+    padding: 12px 16px;
+    background: #CC0000;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    white-space: nowrap;
+  }
+
+  .address-btn:hover { background: #990000; }
+  .address-btn:disabled { background: #ccc; cursor: not-allowed; }
 
   .search-box {
     position: relative;
