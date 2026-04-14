@@ -15,7 +15,7 @@
       "total_amount": 3200.0,
       "payment_date": "",
       "address": "3707 N Main St, Vancouver, 98663",
-      "extracted_at": "2026-04-12T20:00:06.368555"
+      "extracted_at": "2026-04-13T20:00:42.555710"
     },
     {
       "contract_number": "D403451E",
@@ -27,12 +27,12 @@
       "sales_rep": "Jan Banks",
       "store_name": "",
       "store_number": "",
-      "zone": "07Y",
+      "zone": "",
       "product_description": "",
       "total_amount": 695.0,
       "payment_date": "",
       "address": "9375 SW Commerce Circle Ste",
-      "extracted_at": "2026-04-12T20:00:06.383709"
+      "extracted_at": "2026-04-13T20:00:42.572505"
     },
     {
       "contract_number": "D403451E",
@@ -44,12 +44,12 @@
       "sales_rep": "Jan Banks",
       "store_name": "",
       "store_number": "",
-      "zone": "07Y",
+      "zone": "",
       "product_description": "FindLocal",
       "total_amount": 695.0,
       "payment_date": "",
       "address": "9375 SW Commerce Circle Ste A6",
-      "extracted_at": "2026-04-12T20:00:06.383755",
+      "extracted_at": "2026-04-13T20:00:42.572549",
       "product_type": "digital"
     },
     {
@@ -62,12 +62,12 @@
       "sales_rep": "Jan Banks",
       "store_name": "",
       "store_number": "",
-      "zone": "07Y",
+      "zone": "",
       "product_description": "",
       "total_amount": 890.0,
       "payment_date": "",
       "address": "16325 SW Boones Ferry Rd Ste",
-      "extracted_at": "2026-04-12T20:00:06.398894"
+      "extracted_at": "2026-04-13T20:00:42.586818"
     },
     {
       "contract_number": "D406825E",
@@ -79,12 +79,12 @@
       "sales_rep": "Jan Banks",
       "store_name": "",
       "store_number": "",
-      "zone": "07Y",
+      "zone": "",
       "product_description": "",
       "total_amount": 695.0,
       "payment_date": "",
       "address": "7990 SW Cirrus Drive, Building",
-      "extracted_at": "2026-04-12T20:00:06.414428"
+      "extracted_at": "2026-04-13T20:00:42.601231"
     },
     {
       "contract_number": "D406825E",
@@ -96,12 +96,12 @@
       "sales_rep": "Jan Banks",
       "store_name": "",
       "store_number": "",
-      "zone": "07Y",
+      "zone": "",
       "product_description": "FindLocal",
       "total_amount": 695.0,
       "payment_date": "",
       "address": "7990 SW Cirrus Drive, Building 13 Beaverton, Or 97008",
-      "extracted_at": "2026-04-12T20:00:06.414470",
+      "extracted_at": "2026-04-13T20:00:42.601270",
       "product_type": "digital"
     },
     {
@@ -114,12 +114,12 @@
       "sales_rep": "Jan Banks",
       "store_name": "",
       "store_number": "",
-      "zone": "07Y",
+      "zone": "",
       "product_description": "",
       "total_amount": 695.0,
       "payment_date": "",
       "address": "15220 NW Laidlaw. Ste 210",
-      "extracted_at": "2026-04-12T20:00:06.429418"
+      "extracted_at": "2026-04-13T20:00:42.615488"
     },
     {
       "contract_number": "D410025E",
@@ -131,12 +131,12 @@
       "sales_rep": "Jan Banks",
       "store_name": "",
       "store_number": "",
-      "zone": "07Y",
+      "zone": "",
       "product_description": "FindLocal",
       "total_amount": 695.0,
       "payment_date": "",
       "address": "15220 NW Laidlaw Ste 210",
-      "extracted_at": "2026-04-12T20:00:06.429462",
+      "extracted_at": "2026-04-13T20:00:42.615527",
       "product_type": "digital"
     },
     {
@@ -149,7 +149,7 @@
       "sales_rep": "Jan Banks",
       "store_name": "",
       "store_number": "",
-      "zone": "07Y",
+      "zone": "",
       "product_description": "",
       "total_amount": 3540.0,
       "payment_date": "12/17/2025",
@@ -166,7 +166,7 @@
       "sales_rep": "Dave Boring",
       "store_name": "",
       "store_number": "",
-      "zone": "07Z",
+      "zone": "",
       "product_description": "",
       "total_amount": 2910.4,
       "payment_date": "4/10/2026",
@@ -188,7 +188,7 @@
       "total_amount": 3024.0,
       "payment_date": "",
       "address": "6411 SE Milwaukie Ave, Portland, 97202",
-      "extracted_at": "2026-04-12T20:00:06.478609"
+      "extracted_at": "2026-04-13T20:00:42.662509"
     },
     {
       "contract_number": "J401808E",
@@ -205,7 +205,7 @@
       "total_amount": 6000.0,
       "payment_date": "",
       "address": "2631 n pearl",
-      "extracted_at": "2026-04-12T20:00:06.493773"
+      "extracted_at": "2026-04-13T20:00:42.676639"
     },
     {
       "contract_number": "J401839E",
@@ -222,7 +222,7 @@
       "total_amount": 4900.06,
       "payment_date": "",
       "address": "1820 NW Louisiana Ave",
-      "extracted_at": "2026-04-12T20:00:06.507752"
+      "extracted_at": "2026-04-13T20:00:42.690158"
     },
     {
       "contract_number": "J402883E",
@@ -239,7 +239,7 @@
       "total_amount": 8496.2,
       "payment_date": "",
       "address": "4205 Crestview Drive suite 133;",
-      "extracted_at": "2026-04-12T20:00:06.521887"
+      "extracted_at": "2026-04-13T20:00:42.704529"
     },
     {
       "contract_number": "J402890E",
@@ -256,7 +256,7 @@
       "total_amount": 7356.0,
       "payment_date": "",
       "address": "112 Robbins St.",
-      "extracted_at": "2026-04-12T20:00:06.536507"
+      "extracted_at": "2026-04-13T20:00:42.719013"
     },
     {
       "contract_number": "J403369E",
@@ -273,7 +273,7 @@
       "total_amount": 1560.0,
       "payment_date": "",
       "address": "2631 n pearl st",
-      "extracted_at": "2026-04-12T20:00:06.551111"
+      "extracted_at": "2026-04-13T20:00:42.733321"
     },
     {
       "contract_number": "J403372E",
@@ -290,7 +290,7 @@
       "total_amount": 2589.0,
       "payment_date": "",
       "address": "25250 Pacific Highway South, Kent, 98032",
-      "extracted_at": "2026-04-12T20:00:06.564948"
+      "extracted_at": "2026-04-13T20:00:42.747195"
     },
     {
       "contract_number": "J403489E",
@@ -307,7 +307,7 @@
       "total_amount": 7245.0,
       "payment_date": "",
       "address": "2620 Country Club Rd. NW",
-      "extracted_at": "2026-04-12T20:00:06.579310"
+      "extracted_at": "2026-04-13T20:00:42.761152"
     },
     {
       "contract_number": "J403669E",
@@ -324,7 +324,7 @@
       "total_amount": 3433.0,
       "payment_date": "",
       "address": "1010 Main Street",
-      "extracted_at": "2026-04-12T20:00:06.592909"
+      "extracted_at": "2026-04-13T20:00:42.774362"
     },
     {
       "contract_number": "J403695E",
@@ -336,12 +336,12 @@
       "sales_rep": "Tyler VanSant",
       "store_name": "",
       "store_number": "",
-      "zone": "07Z",
+      "zone": "",
       "product_description": "",
       "total_amount": 2795.0,
       "payment_date": "",
       "address": "219 Pioneer Street",
-      "extracted_at": "2026-04-12T20:00:06.607767"
+      "extracted_at": "2026-04-13T20:00:42.788337"
     },
     {
       "contract_number": "J403697E",
@@ -358,7 +358,7 @@
       "total_amount": 3432.5,
       "payment_date": "",
       "address": "90 NE Division St.",
-      "extracted_at": "2026-04-12T20:00:06.622806"
+      "extracted_at": "2026-04-13T20:00:42.803388"
     },
     {
       "contract_number": "J403733E",
@@ -375,7 +375,7 @@
       "total_amount": 4268.0,
       "payment_date": "",
       "address": "155 se vista ave",
-      "extracted_at": "2026-04-12T20:00:06.637263"
+      "extracted_at": "2026-04-13T20:00:42.817316"
     },
     {
       "contract_number": "J403789E",
@@ -392,7 +392,7 @@
       "total_amount": 4993.74,
       "payment_date": "",
       "address": "14354 SE Carol Ave",
-      "extracted_at": "2026-04-12T20:00:06.651605"
+      "extracted_at": "2026-04-13T20:00:42.831387"
     },
     {
       "contract_number": "J404142E",
@@ -409,7 +409,7 @@
       "total_amount": 6025.0,
       "payment_date": "",
       "address": "751 NE 242nd DR, OR 97060",
-      "extracted_at": "2026-04-12T20:00:06.665999"
+      "extracted_at": "2026-04-13T20:00:42.845330"
     },
     {
       "contract_number": "J404465E",
@@ -426,7 +426,7 @@
       "total_amount": 4590.0,
       "payment_date": "",
       "address": "4727 SE Woodstock Blvd.",
-      "extracted_at": "2026-04-12T20:00:06.680260"
+      "extracted_at": "2026-04-13T20:00:42.859581"
     },
     {
       "contract_number": "J404581E",
@@ -443,7 +443,7 @@
       "total_amount": 4783.0,
       "payment_date": "",
       "address": "1935 Belmont Loop, Suite B",
-      "extracted_at": "2026-04-12T20:00:06.694621"
+      "extracted_at": "2026-04-13T20:00:42.873505"
     },
     {
       "contract_number": "J404830E",
@@ -460,7 +460,7 @@
       "total_amount": 5304.0,
       "payment_date": "",
       "address": "1725 Pacific Ave, Woodland, 98674",
-      "extracted_at": "2026-04-12T20:00:06.708842"
+      "extracted_at": "2026-04-13T20:00:42.887336"
     },
     {
       "contract_number": "J405000E",
@@ -477,7 +477,7 @@
       "total_amount": 4644.0,
       "payment_date": "",
       "address": "22741 NE Park LN suite E",
-      "extracted_at": "2026-04-12T20:00:06.723232"
+      "extracted_at": "2026-04-13T20:00:42.901622"
     },
     {
       "contract_number": "J405138E",
@@ -494,7 +494,7 @@
       "total_amount": 6504.0,
       "payment_date": "",
       "address": "1725 Pacific Ave, Woodland, 98674",
-      "extracted_at": "2026-04-12T20:00:06.737554"
+      "extracted_at": "2026-04-13T20:00:42.915512"
     },
     {
       "contract_number": "J405151E",
@@ -511,7 +511,7 @@
       "total_amount": 4788.0,
       "payment_date": "",
       "address": "1725 Pacific Ave, Woodland, 98674",
-      "extracted_at": "2026-04-12T20:00:06.751860"
+      "extracted_at": "2026-04-13T20:00:42.929282"
     },
     {
       "contract_number": "J405171E",
@@ -528,7 +528,7 @@
       "total_amount": 4090.56,
       "payment_date": "",
       "address": "1535 North 1St Street, Stayton, 97383",
-      "extracted_at": "2026-04-12T20:00:06.766410"
+      "extracted_at": "2026-04-13T20:00:42.943412"
     },
     {
       "contract_number": "J405246E",
@@ -545,7 +545,7 @@
       "total_amount": 3036.5,
       "payment_date": "",
       "address": "451 NE 181st Ave, Portland, 97230",
-      "extracted_at": "2026-04-12T20:00:06.780745"
+      "extracted_at": "2026-04-13T20:00:42.957375"
     },
     {
       "contract_number": "J405648E",
@@ -562,7 +562,7 @@
       "total_amount": 2328.0,
       "payment_date": "",
       "address": "138 W Ellendale Ave, Dallas, 97338",
-      "extracted_at": "2026-04-12T20:00:06.794758"
+      "extracted_at": "2026-04-13T20:00:42.970951"
     },
     {
       "contract_number": "J405658E",
@@ -579,7 +579,7 @@
       "total_amount": 4548.0,
       "payment_date": "",
       "address": "1227 15Th Ave, Longview, 98632",
-      "extracted_at": "2026-04-12T20:00:06.809010"
+      "extracted_at": "2026-04-13T20:00:42.985391"
     },
     {
       "contract_number": "J405664E",
@@ -596,7 +596,7 @@
       "total_amount": 4265.0,
       "payment_date": "",
       "address": "138 W Ellendale Ave, Dallas, 97338",
-      "extracted_at": "2026-04-12T20:00:06.823546"
+      "extracted_at": "2026-04-13T20:00:42.999195"
     },
     {
       "contract_number": "J405667E",
@@ -613,7 +613,7 @@
       "total_amount": 4265.0,
       "payment_date": "",
       "address": "138 W Ellendale Ave, Dallas, 97338",
-      "extracted_at": "2026-04-12T20:00:06.837786"
+      "extracted_at": "2026-04-13T20:00:43.012900"
     },
     {
       "contract_number": "J405722E",
@@ -625,12 +625,12 @@
       "sales_rep": "Tyler VanSant",
       "store_name": "",
       "store_number": "",
-      "zone": "07Z",
+      "zone": "",
       "product_description": "",
       "total_amount": 2795.0,
       "payment_date": "",
       "address": "16508 SE 24th Street Ste 200",
-      "extracted_at": "2026-04-12T20:00:06.852227"
+      "extracted_at": "2026-04-13T20:00:43.027444"
     },
     {
       "contract_number": "J405739E",
@@ -647,7 +647,7 @@
       "total_amount": 14175.0,
       "payment_date": "",
       "address": "138 W Ellendale Ave, Dallas, 97338",
-      "extracted_at": "2026-04-12T20:00:06.868080"
+      "extracted_at": "2026-04-13T20:00:43.042783"
     },
     {
       "contract_number": "J405901E",
@@ -664,7 +664,7 @@
       "total_amount": 4725.0,
       "payment_date": "",
       "address": "138 W Ellendale Ave, Dallas, 97338",
-      "extracted_at": "2026-04-12T20:00:06.882448"
+      "extracted_at": "2026-04-13T20:00:43.056752"
     },
     {
       "contract_number": "J405912E",
@@ -681,7 +681,7 @@
       "total_amount": 2132.5,
       "payment_date": "",
       "address": "2855 Broadway St NE, Salem, 97303-6502",
-      "extracted_at": "2026-04-12T20:00:06.896301"
+      "extracted_at": "2026-04-13T20:00:43.070452"
     },
     {
       "contract_number": "J405914E",
@@ -698,7 +698,7 @@
       "total_amount": 6409.0,
       "payment_date": "",
       "address": "615 SW Keck Dr, Mcminnville, 97128",
-      "extracted_at": "2026-04-12T20:00:06.910783"
+      "extracted_at": "2026-04-13T20:00:43.084562"
     },
     {
       "contract_number": "J405914E",
@@ -715,7 +715,7 @@
       "total_amount": 6584.0,
       "payment_date": "",
       "address": "2490 NE HIGHWAY 99W, McMinnville, 97128",
-      "extracted_at": "2026-04-12T20:00:06.910804"
+      "extracted_at": "2026-04-13T20:00:43.084574"
     },
     {
       "contract_number": "J405924E",
@@ -732,7 +732,7 @@
       "total_amount": 3487.0,
       "payment_date": "",
       "address": "1140 North Springbrook Road, Newberg, 97132",
-      "extracted_at": "2026-04-12T20:00:06.924524"
+      "extracted_at": "2026-04-13T20:00:43.097945"
     },
     {
       "contract_number": "J406158E",
@@ -749,7 +749,7 @@
       "total_amount": 5460.0,
       "payment_date": "",
       "address": "7411 NE 117th Ave, Vancouver, 98662",
-      "extracted_at": "2026-04-12T20:00:06.938876"
+      "extracted_at": "2026-04-13T20:00:43.112344"
     },
     {
       "contract_number": "J406188E",
@@ -761,12 +761,12 @@
       "sales_rep": "Jan Banks",
       "store_name": "",
       "store_number": "",
-      "zone": "07Y",
+      "zone": "",
       "product_description": "",
       "total_amount": 2795.0,
       "payment_date": "",
       "address": "4805 SW 77th Ave",
-      "extracted_at": "2026-04-12T20:00:06.953422"
+      "extracted_at": "2026-04-13T20:00:43.126435"
     },
     {
       "contract_number": "J406443E",
@@ -783,7 +783,7 @@
       "total_amount": 2844.0,
       "payment_date": "",
       "address": "1140 North Springbrook Road, Newberg, 97132",
-      "extracted_at": "2026-04-12T20:00:06.967593"
+      "extracted_at": "2026-04-13T20:00:43.140491"
     },
     {
       "contract_number": "J406519E",
@@ -800,7 +800,7 @@
       "total_amount": 3545.04,
       "payment_date": "",
       "address": "6700 NE 162nd Ave Ste 500, Vancouver, 98682",
-      "extracted_at": "2026-04-12T20:00:06.981782"
+      "extracted_at": "2026-04-13T20:00:43.154273"
     },
     {
       "contract_number": "J406535E",
@@ -817,7 +817,7 @@
       "total_amount": 3924.0,
       "payment_date": "",
       "address": "3300 PORTLAND RD, Newberg, 97132-5412",
-      "extracted_at": "2026-04-12T20:00:06.995907"
+      "extracted_at": "2026-04-13T20:00:43.168169"
     },
     {
       "contract_number": "J406675E",
@@ -834,7 +834,7 @@
       "total_amount": 3904.8,
       "payment_date": "",
       "address": "1140 North Springbrook Road, Newberg, 97132",
-      "extracted_at": "2026-04-12T20:00:07.010370"
+      "extracted_at": "2026-04-13T20:00:43.182400"
     },
     {
       "contract_number": "J406839E",
@@ -851,7 +851,7 @@
       "total_amount": 4656.0,
       "payment_date": "",
       "address": "1111 Northeast 102nd Avenue, Portland, 97220-3902",
-      "extracted_at": "2026-04-12T20:00:07.024605"
+      "extracted_at": "2026-04-13T20:00:43.196239"
     },
     {
       "contract_number": "J406889E",
@@ -868,7 +868,7 @@
       "total_amount": 4175.0,
       "payment_date": "",
       "address": "1535 North 1St Street, Stayton, 97383",
-      "extracted_at": "2026-04-12T20:00:07.038295"
+      "extracted_at": "2026-04-13T20:00:43.210047"
     },
     {
       "contract_number": "J406958E",
@@ -885,7 +885,7 @@
       "total_amount": 4086.0,
       "payment_date": "",
       "address": "6615 NE Glisan St, Portland, 97213-5068",
-      "extracted_at": "2026-04-12T20:00:07.052546"
+      "extracted_at": "2026-04-13T20:00:43.223938"
     },
     {
       "contract_number": "J407143E",
@@ -902,7 +902,7 @@
       "total_amount": 4316.0,
       "payment_date": "",
       "address": "3137 Grand Ave, Billings, 59102",
-      "extracted_at": "2026-04-12T20:00:07.066666"
+      "extracted_at": "2026-04-13T20:00:43.238054"
     },
     {
       "contract_number": "J407194E",
@@ -919,7 +919,7 @@
       "total_amount": 3800.0,
       "payment_date": "",
       "address": "1760 E Charleston Blvd, Las Vegas, 89104",
-      "extracted_at": "2026-04-12T20:00:07.080979"
+      "extracted_at": "2026-04-13T20:00:43.251819"
     },
     {
       "contract_number": "J407328E",
@@ -936,7 +936,7 @@
       "total_amount": 5165.0,
       "payment_date": "",
       "address": "115 SE 7th Street, Grants Pass, 97526",
-      "extracted_at": "2026-04-12T20:00:07.095173"
+      "extracted_at": "2026-04-13T20:00:43.265784"
     },
     {
       "contract_number": "J407414E",
@@ -953,7 +953,7 @@
       "total_amount": 4498.44,
       "payment_date": "",
       "address": "888 N.E. 25th Ave, Hillsboro, 97124",
-      "extracted_at": "2026-04-12T20:00:07.109272"
+      "extracted_at": "2026-04-13T20:00:43.279917"
     },
     {
       "contract_number": "J407631E",
@@ -970,7 +970,7 @@
       "total_amount": 10890.0,
       "payment_date": "",
       "address": "2836 Pacific Ave, Forest Grove, 97116",
-      "extracted_at": "2026-04-12T20:00:07.124406"
+      "extracted_at": "2026-04-13T20:00:43.294850"
     },
     {
       "contract_number": "J407689E",
@@ -987,7 +987,7 @@
       "total_amount": 3195.0,
       "payment_date": "",
       "address": "888 N.E. 25th Ave, Hillsboro, 97124",
-      "extracted_at": "2026-04-12T20:00:07.138681"
+      "extracted_at": "2026-04-13T20:00:43.309540"
     },
     {
       "contract_number": "J407898E",
@@ -1004,7 +1004,7 @@
       "total_amount": 4005.0,
       "payment_date": "",
       "address": "1455 NE Division St, Gresham, 97030",
-      "extracted_at": "2026-04-12T20:00:07.152917"
+      "extracted_at": "2026-04-13T20:00:43.323741"
     },
     {
       "contract_number": "J408204E",
@@ -1021,7 +1021,7 @@
       "total_amount": 2850.0,
       "payment_date": "",
       "address": "35820 Fremont Blvd., Fremont, 94536",
-      "extracted_at": "2026-04-12T20:00:07.167155"
+      "extracted_at": "2026-04-13T20:00:43.339294"
     },
     {
       "contract_number": "J408208E",
@@ -1038,7 +1038,7 @@
       "total_amount": 3120.0,
       "payment_date": "",
       "address": "13023 NE Hwy 99, Vancouver, 98686",
-      "extracted_at": "2026-04-12T20:00:07.181627"
+      "extracted_at": "2026-04-13T20:00:43.354609"
     },
     {
       "contract_number": "J408208E",
@@ -1055,7 +1055,7 @@
       "total_amount": 3120.0,
       "payment_date": "",
       "address": "14300 NE 20th Ave, Vancouver, 98686",
-      "extracted_at": "2026-04-12T20:00:07.181642"
+      "extracted_at": "2026-04-13T20:00:43.354623"
     },
     {
       "contract_number": "J408208E",
@@ -1072,7 +1072,7 @@
       "total_amount": 4686.0,
       "payment_date": "",
       "address": "800 NE Tenney Rd, Vancouver, 98685",
-      "extracted_at": "2026-04-12T20:00:07.181645"
+      "extracted_at": "2026-04-13T20:00:43.354626"
     },
     {
       "contract_number": "J408237E",
@@ -1089,7 +1089,7 @@
       "total_amount": 4680.25,
       "payment_date": "",
       "address": "101 S. 47th Avenue, Ridgefield, 98642",
-      "extracted_at": "2026-04-12T20:00:07.195527"
+      "extracted_at": "2026-04-13T20:00:43.368544"
     },
     {
       "contract_number": "J408422E",
@@ -1106,7 +1106,7 @@
       "total_amount": 7065.0,
       "payment_date": "",
       "address": "1839 Molalla Avenue, Oregon City, 97045-4011",
-      "extracted_at": "2026-04-12T20:00:07.209639"
+      "extracted_at": "2026-04-13T20:00:43.382868"
     },
     {
       "contract_number": "J408525E",
@@ -1123,7 +1123,7 @@
       "total_amount": 6500.0,
       "payment_date": "",
       "address": "2500 Santiam Highway Southeast, Albany, 97322",
-      "extracted_at": "2026-04-12T20:00:07.223925"
+      "extracted_at": "2026-04-13T20:00:43.397079"
     },
     {
       "contract_number": "J408663E",
@@ -1140,7 +1140,7 @@
       "total_amount": 5172.0,
       "payment_date": "",
       "address": "2500 Santiam Highway Southeast, Albany, 97322",
-      "extracted_at": "2026-04-12T20:00:07.237770"
+      "extracted_at": "2026-04-13T20:00:43.410632"
     },
     {
       "contract_number": "J408686E",
@@ -1157,7 +1157,7 @@
       "total_amount": 5000.0,
       "payment_date": "",
       "address": "2500 Santiam Highway Southeast, Albany, 97322",
-      "extracted_at": "2026-04-12T20:00:07.251921"
+      "extracted_at": "2026-04-13T20:00:43.424771"
     },
     {
       "contract_number": "J408818E",
@@ -1174,7 +1174,7 @@
       "total_amount": 4085.0,
       "payment_date": "",
       "address": "4990 River Rd N, Keizer, 97303",
-      "extracted_at": "2026-04-12T20:00:07.266177"
+      "extracted_at": "2026-04-13T20:00:43.438656"
     },
     {
       "contract_number": "J408916E",
@@ -1191,7 +1191,7 @@
       "total_amount": 4355.04,
       "payment_date": "",
       "address": "4515 SE Woodstock Blvd, Portland, 97206",
-      "extracted_at": "2026-04-12T20:00:07.280256"
+      "extracted_at": "2026-04-13T20:00:43.452039"
     },
     {
       "contract_number": "J409018E",
@@ -1208,7 +1208,7 @@
       "total_amount": 5025.0,
       "payment_date": "",
       "address": "100 Northwest 20Th Place, Portland, 97209-1099",
-      "extracted_at": "2026-04-12T20:00:07.294743"
+      "extracted_at": "2026-04-13T20:00:43.466395"
     },
     {
       "contract_number": "J409102E",
@@ -1225,7 +1225,7 @@
       "total_amount": 5025.0,
       "payment_date": "",
       "address": "100 Northwest 20Th Place, Portland, 97209-1099",
-      "extracted_at": "2026-04-12T20:00:07.309250"
+      "extracted_at": "2026-04-13T20:00:43.480368"
     },
     {
       "contract_number": "J409162E",
@@ -1242,7 +1242,7 @@
       "total_amount": 5302.98,
       "payment_date": "",
       "address": "5900 NW Friberg strunk st",
-      "extracted_at": "2026-04-12T20:00:07.323449"
+      "extracted_at": "2026-04-13T20:00:43.494159"
     },
     {
       "contract_number": "J409244E",
@@ -1259,7 +1259,7 @@
       "total_amount": 3972.5,
       "payment_date": "",
       "address": "2615 NE 112th Ave, Vancouver, 98684",
-      "extracted_at": "2026-04-12T20:00:07.337865"
+      "extracted_at": "2026-04-13T20:00:43.508246"
     },
     {
       "contract_number": "J409424E",
@@ -1276,7 +1276,7 @@
       "total_amount": 3675.0,
       "payment_date": "",
       "address": "21401 Pacific Hwy S, Des Moines, 98198",
-      "extracted_at": "2026-04-12T20:00:07.352418"
+      "extracted_at": "2026-04-13T20:00:43.522681"
     },
     {
       "contract_number": "J409474E",
@@ -1293,7 +1293,7 @@
       "total_amount": 4750.0,
       "payment_date": "",
       "address": "101 S. 47th Avenue, Ridgefield, 98642",
-      "extracted_at": "2026-04-12T20:00:07.366953"
+      "extracted_at": "2026-04-13T20:00:43.536672"
     },
     {
       "contract_number": "J409944E",
@@ -1310,7 +1310,7 @@
       "total_amount": 5325.0,
       "payment_date": "",
       "address": "25250 Pacific Highway South, Kent, 98032",
-      "extracted_at": "2026-04-12T20:00:07.381506"
+      "extracted_at": "2026-04-13T20:00:43.551246"
     },
     {
       "contract_number": "J409946E",
@@ -1327,7 +1327,7 @@
       "total_amount": 3533.0,
       "payment_date": "",
       "address": "3300 PORTLAND RD, Newberg, 97132-5412",
-      "extracted_at": "2026-04-12T20:00:07.395888"
+      "extracted_at": "2026-04-13T20:00:43.566698"
     },
     {
       "contract_number": "J409959E",
@@ -1344,7 +1344,7 @@
       "total_amount": 4531.12,
       "payment_date": "",
       "address": "2500 Santiam Highway Southeast, Albany, 97322",
-      "extracted_at": "2026-04-12T20:00:07.410498"
+      "extracted_at": "2026-04-13T20:00:43.583481"
     },
     {
       "contract_number": "J410048E",
@@ -1361,7 +1361,7 @@
       "total_amount": 3882.49,
       "payment_date": "",
       "address": "777 Kings Boulevard, Corvallis, 97330-5620",
-      "extracted_at": "2026-04-12T20:00:07.424810"
+      "extracted_at": "2026-04-13T20:00:43.599823"
     },
     {
       "contract_number": "J410050E",
@@ -1378,7 +1378,7 @@
       "total_amount": 4780.0,
       "payment_date": "",
       "address": "11325 Southeast Mill Plain Blvd, Vancouver, 98684",
-      "extracted_at": "2026-04-12T20:00:07.439299"
+      "extracted_at": "2026-04-13T20:00:43.614847"
     },
     {
       "contract_number": "J410188E",
@@ -1395,7 +1395,7 @@
       "total_amount": 12167.6,
       "payment_date": "",
       "address": "770 Pilot Road Suite A",
-      "extracted_at": "2026-04-12T20:00:07.453047"
+      "extracted_at": "2026-04-13T20:00:43.629315"
     },
     {
       "contract_number": "J410207E",
@@ -1412,7 +1412,7 @@
       "total_amount": 3870.0,
       "payment_date": "",
       "address": "1550 North Pacific Highway, Woodburn, 97071",
-      "extracted_at": "2026-04-12T20:00:07.468485"
+      "extracted_at": "2026-04-13T20:00:43.644404"
     },
     {
       "contract_number": "J410332E",
@@ -1429,7 +1429,7 @@
       "total_amount": 1962.5,
       "payment_date": "",
       "address": "7700 NE Highway 99, Vancouver, 98665-8890",
-      "extracted_at": "2026-04-12T20:00:07.485515"
+      "extracted_at": "2026-04-13T20:00:43.661159"
     },
     {
       "contract_number": "J410332E",
@@ -1446,7 +1446,7 @@
       "total_amount": 1350.0,
       "payment_date": "",
       "address": "3707 N Main St, Vancouver, 98663",
-      "extracted_at": "2026-04-12T20:00:07.485532"
+      "extracted_at": "2026-04-13T20:00:43.661174"
     },
     {
       "contract_number": "J410332E",
@@ -1463,7 +1463,7 @@
       "total_amount": 675.0,
       "payment_date": "",
       "address": "3707 N Main St, Vancouver, 98663",
-      "extracted_at": "2026-04-12T20:00:07.485540"
+      "extracted_at": "2026-04-13T20:00:43.661182"
     },
     {
       "contract_number": "J410412E",
@@ -1480,7 +1480,7 @@
       "total_amount": 5270.4,
       "payment_date": "",
       "address": "3184 Ocean Beach Highway, Longview, 98632-4395",
-      "extracted_at": "2026-04-12T20:00:07.499355"
+      "extracted_at": "2026-04-13T20:00:43.675365"
     },
     {
       "contract_number": "J410538E",
@@ -1497,7 +1497,7 @@
       "total_amount": 3751.56,
       "payment_date": "",
       "address": "450 Southwest Third Avenue, Corvallis, 97333",
-      "extracted_at": "2026-04-12T20:00:07.513423"
+      "extracted_at": "2026-04-13T20:00:43.689321"
     },
     {
       "contract_number": "J410538E",
@@ -1514,7 +1514,7 @@
       "total_amount": 0.0,
       "payment_date": "",
       "address": "777 Kings Boulevard, Corvallis, 97330-5620",
-      "extracted_at": "2026-04-12T20:00:07.513439"
+      "extracted_at": "2026-04-13T20:00:43.689337"
     },
     {
       "contract_number": "J410720E",
@@ -1531,7 +1531,7 @@
       "total_amount": 7950.0,
       "payment_date": "",
       "address": "4101 NW Logan Road, Lincoln City, 97367",
-      "extracted_at": "2026-04-12T20:00:07.527438"
+      "extracted_at": "2026-04-13T20:00:43.703371"
     },
     {
       "contract_number": "J410733E",
@@ -1548,7 +1548,7 @@
       "total_amount": 4937.0,
       "payment_date": "",
       "address": "1500 E Main St, Cottage Grove, 97424",
-      "extracted_at": "2026-04-12T20:00:07.542178"
+      "extracted_at": "2026-04-13T20:00:43.717939"
     },
     {
       "contract_number": "J410747E",
@@ -1565,7 +1565,7 @@
       "total_amount": 4440.0,
       "payment_date": "",
       "address": "1525 West Main Street, Molalla, 97038",
-      "extracted_at": "2026-04-12T20:00:07.557207"
+      "extracted_at": "2026-04-13T20:00:43.732244"
     },
     {
       "contract_number": "J410883E",
@@ -1582,7 +1582,7 @@
       "total_amount": 4174.0,
       "payment_date": "",
       "address": "1550 North Pacific Highway, Woodburn, 97071",
-      "extracted_at": "2026-04-12T20:00:07.571404"
+      "extracted_at": "2026-04-13T20:00:43.746692"
     },
     {
       "contract_number": "J410991E",
@@ -1599,7 +1599,7 @@
       "total_amount": 4932.0,
       "payment_date": "",
       "address": "1500 E Main St, Cottage Grove, 97424",
-      "extracted_at": "2026-04-12T20:00:07.586563"
+      "extracted_at": "2026-04-13T20:00:43.762371"
     },
     {
       "contract_number": "J410991E",
@@ -1616,7 +1616,7 @@
       "total_amount": 0.0,
       "payment_date": "",
       "address": "96 Palmer Ave",
-      "extracted_at": "2026-04-12T20:00:07.586629",
+      "extracted_at": "2026-04-13T20:00:43.762420",
       "product_type": "digital"
     },
     {
@@ -1634,7 +1634,7 @@
       "total_amount": 2000.0,
       "payment_date": "",
       "address": "7700 SW Beaverton Hillsdale Hwy, Portland, 97225-2101",
-      "extracted_at": "2026-04-12T20:00:07.600369"
+      "extracted_at": "2026-04-13T20:00:43.776156"
     },
     {
       "contract_number": "J411143E",
@@ -1651,7 +1651,7 @@
       "total_amount": 4932.0,
       "payment_date": "",
       "address": "1500 E Main St, Cottage Grove, 97424",
-      "extracted_at": "2026-04-12T20:00:07.614955"
+      "extracted_at": "2026-04-13T20:00:43.790367"
     },
     {
       "contract_number": "J411204E",
@@ -1668,7 +1668,7 @@
       "total_amount": 4932.0,
       "payment_date": "",
       "address": "1500 E Main St, Cottage Grove, 97424",
-      "extracted_at": "2026-04-12T20:00:07.630556"
+      "extracted_at": "2026-04-13T20:00:43.805709"
     },
     {
       "contract_number": "J411232E",
@@ -1685,7 +1685,7 @@
       "total_amount": 2525.0,
       "payment_date": "",
       "address": "2000 Marcola Rd., Springfield, 97477",
-      "extracted_at": "2026-04-12T20:00:07.644832"
+      "extracted_at": "2026-04-13T20:00:43.820130"
     },
     {
       "contract_number": "J411256E",
@@ -1702,7 +1702,7 @@
       "total_amount": 2725.0,
       "payment_date": "",
       "address": "650 Q Street, Springfield, 97477-2325",
-      "extracted_at": "2026-04-12T20:00:07.659087"
+      "extracted_at": "2026-04-13T20:00:43.834869"
     },
     {
       "contract_number": "J411256E",
@@ -1719,7 +1719,7 @@
       "total_amount": 2525.0,
       "payment_date": "",
       "address": "2000 Marcola Rd., Springfield, 97477",
-      "extracted_at": "2026-04-12T20:00:07.659105"
+      "extracted_at": "2026-04-13T20:00:43.834884"
     },
     {
       "contract_number": "J411288E",
@@ -1736,7 +1736,7 @@
       "total_amount": 4300.0,
       "payment_date": "",
       "address": "1550 North Pacific Highway, Woodburn, 97071",
-      "extracted_at": "2026-04-12T20:00:07.673779"
+      "extracted_at": "2026-04-13T20:00:43.849501"
     },
     {
       "contract_number": "J411373E",
@@ -1753,7 +1753,7 @@
       "total_amount": 4299.96,
       "payment_date": "",
       "address": "1550 North Pacific Highway, Woodburn, 97071",
-      "extracted_at": "2026-04-12T20:00:07.688539"
+      "extracted_at": "2026-04-13T20:00:43.863844"
     },
     {
       "contract_number": "J411380E",
@@ -1770,7 +1770,7 @@
       "total_amount": 3125.0,
       "payment_date": "",
       "address": "1140 North Springbrook Road, Newberg, 97132",
-      "extracted_at": "2026-04-12T20:00:07.703278"
+      "extracted_at": "2026-04-13T20:00:43.878137"
     },
     {
       "contract_number": "J411491E",
@@ -1787,7 +1787,7 @@
       "total_amount": 4680.0,
       "payment_date": "",
       "address": "1500 E Main St, Cottage Grove, 97424",
-      "extracted_at": "2026-04-12T20:00:07.718048"
+      "extracted_at": "2026-04-13T20:00:43.892812"
     },
     {
       "contract_number": "J411492E",
@@ -1804,7 +1804,7 @@
       "total_amount": 3432.0,
       "payment_date": "",
       "address": "1500 E Main St, Cottage Grove, 97424",
-      "extracted_at": "2026-04-12T20:00:07.732472"
+      "extracted_at": "2026-04-13T20:00:43.907252"
     },
     {
       "contract_number": "J411513E",
@@ -1821,7 +1821,7 @@
       "total_amount": 5335.0,
       "payment_date": "",
       "address": "8145 Southwest Barbur Boulevard, Portland, 97219",
-      "extracted_at": "2026-04-12T20:00:07.746826"
+      "extracted_at": "2026-04-13T20:00:43.921903"
     },
     {
       "contract_number": "J411548E",
@@ -1838,7 +1838,7 @@
       "total_amount": 4050.0,
       "payment_date": "",
       "address": "650 Q Street, Springfield, 97477-2325",
-      "extracted_at": "2026-04-12T20:00:07.761837"
+      "extracted_at": "2026-04-13T20:00:43.936882"
     },
     {
       "contract_number": "J411548E",
@@ -1855,7 +1855,7 @@
       "total_amount": 3820.62,
       "payment_date": "",
       "address": "60 Division Ave, Eugene, 97404-5127",
-      "extracted_at": "2026-04-12T20:00:07.761861"
+      "extracted_at": "2026-04-13T20:00:43.936896"
     },
     {
       "contract_number": "J411666E",
@@ -1872,7 +1872,7 @@
       "total_amount": 1835.0,
       "payment_date": "",
       "address": "6901 S 19th St, Tacoma, 98466-5529",
-      "extracted_at": "2026-04-12T20:00:07.775957"
+      "extracted_at": "2026-04-13T20:00:43.950983"
     },
     {
       "contract_number": "J411666E",
@@ -1889,7 +1889,7 @@
       "total_amount": 1610.0,
       "payment_date": "",
       "address": "11012 Canyon Rd E, Puyallup, 98373",
-      "extracted_at": "2026-04-12T20:00:07.775973"
+      "extracted_at": "2026-04-13T20:00:43.950995"
     },
     {
       "contract_number": "J411687E",
@@ -1906,7 +1906,7 @@
       "total_amount": 3425.0,
       "payment_date": "",
       "address": "4280 Martin Way E, Olympia, 98516",
-      "extracted_at": "2026-04-12T20:00:07.790581"
+      "extracted_at": "2026-04-13T20:00:43.965743"
     },
     {
       "contract_number": "J411687E",
@@ -1923,7 +1923,7 @@
       "total_amount": 0.0,
       "payment_date": "",
       "address": "700 Sleater Kinney Rd SE, Lacey, 98503-1113",
-      "extracted_at": "2026-04-12T20:00:07.790603"
+      "extracted_at": "2026-04-13T20:00:43.965756"
     },
     {
       "contract_number": "J411719E",
@@ -1940,7 +1940,7 @@
       "total_amount": 3925.0,
       "payment_date": "",
       "address": "3300 PORTLAND RD, Newberg, 97132-5412",
-      "extracted_at": "2026-04-12T20:00:07.805129"
+      "extracted_at": "2026-04-13T20:00:43.980022"
     },
     {
       "contract_number": "J411739E",
@@ -1957,7 +1957,7 @@
       "total_amount": 3276.0,
       "payment_date": "",
       "address": "13023 NE Hwy 99, Vancouver, 98686",
-      "extracted_at": "2026-04-12T20:00:07.819970"
+      "extracted_at": "2026-04-13T20:00:43.994087"
     },
     {
       "contract_number": "J411739E",
@@ -1974,7 +1974,7 @@
       "total_amount": 2784.0,
       "payment_date": "",
       "address": "7700 NE Highway 99, Vancouver, 98665-8890",
-      "extracted_at": "2026-04-12T20:00:07.819990"
+      "extracted_at": "2026-04-13T20:00:43.994098"
     },
     {
       "contract_number": "J411762E",
@@ -1991,7 +1991,7 @@
       "total_amount": 3275.0,
       "payment_date": "",
       "address": "590 NE Circle Boulevard, Corvallis, 97330",
-      "extracted_at": "2026-04-12T20:00:07.833883"
+      "extracted_at": "2026-04-13T20:00:44.007892"
     },
     {
       "contract_number": "J411762E",
@@ -2008,7 +2008,7 @@
       "total_amount": 0.0,
       "payment_date": "",
       "address": "777 Kings Boulevard, Corvallis, 97330-5620",
-      "extracted_at": "2026-04-12T20:00:07.833900"
+      "extracted_at": "2026-04-13T20:00:44.007904"
     },
     {
       "contract_number": "J411853E",
@@ -2025,7 +2025,7 @@
       "total_amount": 4625.0,
       "payment_date": "",
       "address": "1624 72nd St E, Tacoma, 98404",
-      "extracted_at": "2026-04-12T20:00:07.849943"
+      "extracted_at": "2026-04-13T20:00:44.024157"
     },
     {
       "contract_number": "J412027E",
@@ -2042,7 +2042,7 @@
       "total_amount": 6145.0,
       "payment_date": "",
       "address": "1401 Southeast First, Canby, 97013",
-      "extracted_at": "2026-04-12T20:00:07.864414"
+      "extracted_at": "2026-04-13T20:00:44.038237"
     },
     {
       "contract_number": "J412076E",
@@ -2059,7 +2059,7 @@
       "total_amount": 4050.0,
       "payment_date": "",
       "address": "7700 NE Highway 99, Vancouver, 98665-8890",
-      "extracted_at": "2026-04-12T20:00:07.879240"
+      "extracted_at": "2026-04-13T20:00:44.052357"
     },
     {
       "contract_number": "J412174E",
@@ -2076,7 +2076,7 @@
       "total_amount": 4425.0,
       "payment_date": "",
       "address": "1401 Southeast First, Canby, 97013",
-      "extracted_at": "2026-04-12T20:00:07.893971"
+      "extracted_at": "2026-04-13T20:00:44.068031"
     },
     {
       "contract_number": "J412217E",
@@ -2093,7 +2093,7 @@
       "total_amount": 5450.0,
       "payment_date": "",
       "address": "450 Southwest Third Avenue, Corvallis, 97333",
-      "extracted_at": "2026-04-12T20:00:07.908236"
+      "extracted_at": "2026-04-13T20:00:44.083197"
     },
     {
       "contract_number": "J412217E",
@@ -2110,7 +2110,7 @@
       "total_amount": 7850.0,
       "payment_date": "",
       "address": "5270 SW PHILOMATH BLVD, Corvallis, 97333",
-      "extracted_at": "2026-04-12T20:00:07.908254"
+      "extracted_at": "2026-04-13T20:00:44.083211"
     },
     {
       "contract_number": "J412217E",
@@ -2127,7 +2127,7 @@
       "total_amount": 3250.0,
       "payment_date": "",
       "address": "590 NE Circle Boulevard, Corvallis, 97330",
-      "extracted_at": "2026-04-12T20:00:07.908256"
+      "extracted_at": "2026-04-13T20:00:44.083214"
     },
     {
       "contract_number": "J412217E",
@@ -2144,7 +2144,7 @@
       "total_amount": 6950.0,
       "payment_date": "",
       "address": "1990 14th Ave SE, Albany, 97322",
-      "extracted_at": "2026-04-12T20:00:07.908260"
+      "extracted_at": "2026-04-13T20:00:44.083216"
     },
     {
       "contract_number": "J412243E",
@@ -2161,7 +2161,7 @@
       "total_amount": 3925.0,
       "payment_date": "",
       "address": "3520 Pacific Ave S E, Olympia, 98501",
-      "extracted_at": "2026-04-12T20:00:07.922761"
+      "extracted_at": "2026-04-13T20:00:44.097733"
     },
     {
       "contract_number": "J412245E",
@@ -2178,7 +2178,7 @@
       "total_amount": 3483.6,
       "payment_date": "",
       "address": "888 N.E. 25th Ave, Hillsboro, 97124",
-      "extracted_at": "2026-04-12T20:00:07.937071"
+      "extracted_at": "2026-04-13T20:00:44.111978"
     },
     {
       "contract_number": "J412410E",
@@ -2195,7 +2195,7 @@
       "total_amount": 4056.0,
       "payment_date": "",
       "address": "650 Q Street, Springfield, 97477-2325",
-      "extracted_at": "2026-04-12T20:00:07.951654"
+      "extracted_at": "2026-04-13T20:00:44.126412"
     },
     {
       "contract_number": "J412439E",
@@ -2212,7 +2212,7 @@
       "total_amount": 4020.0,
       "payment_date": "",
       "address": "650 Q Street, Springfield, 97477-2325",
-      "extracted_at": "2026-04-12T20:00:07.965437"
+      "extracted_at": "2026-04-13T20:00:44.140239"
     },
     {
       "contract_number": "J412486E",
@@ -2229,7 +2229,7 @@
       "total_amount": 3550.0,
       "payment_date": "",
       "address": "2411 N PROCTOR ST, Tacoma, 98406",
-      "extracted_at": "2026-04-12T20:00:07.979874"
+      "extracted_at": "2026-04-13T20:00:44.154428"
     },
     {
       "contract_number": "J412486E",
@@ -2246,7 +2246,7 @@
       "total_amount": 0.0,
       "payment_date": "",
       "address": "2637 North Pearl Street, Tacoma, 98407",
-      "extracted_at": "2026-04-12T20:00:07.979893"
+      "extracted_at": "2026-04-13T20:00:44.154443"
     },
     {
       "contract_number": "J412496E",
@@ -2263,7 +2263,7 @@
       "total_amount": 4825.0,
       "payment_date": "",
       "address": "12032 SE Sunnyside Rd, Clackamas, 97015",
-      "extracted_at": "2026-04-12T20:00:07.994351"
+      "extracted_at": "2026-04-13T20:00:44.168540"
     },
     {
       "contract_number": "J412501E",
@@ -2280,7 +2280,7 @@
       "total_amount": 1967.75,
       "payment_date": "",
       "address": "4280 Martin Way E, Olympia, 98516",
-      "extracted_at": "2026-04-12T20:00:08.008444"
+      "extracted_at": "2026-04-13T20:00:44.182004"
     },
     {
       "contract_number": "J412523E",
@@ -2297,7 +2297,7 @@
       "total_amount": 3925.0,
       "payment_date": "",
       "address": "1313 Cooper Point Road SW, Olympia, 98502",
-      "extracted_at": "2026-04-12T20:00:08.023326"
+      "extracted_at": "2026-04-13T20:00:44.196357"
     },
     {
       "contract_number": "J412523E",
@@ -2314,7 +2314,7 @@
       "total_amount": 0.0,
       "payment_date": "",
       "address": "3215 Harrison Ave NW, Olympia, 98502",
-      "extracted_at": "2026-04-12T20:00:08.023344"
+      "extracted_at": "2026-04-13T20:00:44.196370"
     },
     {
       "contract_number": "J412586E",
@@ -2331,7 +2331,7 @@
       "total_amount": 1380.0,
       "payment_date": "",
       "address": "6200 Pacific Avenue SE, Lacey, 98503",
-      "extracted_at": "2026-04-12T20:00:08.037543"
+      "extracted_at": "2026-04-13T20:00:44.209915"
     },
     {
       "contract_number": "J412681E",
@@ -2348,7 +2348,7 @@
       "total_amount": 3481.2,
       "payment_date": "",
       "address": "888 N.E. 25th Ave, Hillsboro, 97124",
-      "extracted_at": "2026-04-12T20:00:08.052097"
+      "extracted_at": "2026-04-13T20:00:44.223913"
     },
     {
       "contract_number": "J412830E",
@@ -2365,7 +2365,7 @@
       "total_amount": 5997.0,
       "payment_date": "",
       "address": "60 Division Ave, Eugene, 97404-5127",
-      "extracted_at": "2026-04-12T20:00:08.066170"
+      "extracted_at": "2026-04-13T20:00:44.237676"
     },
     {
       "contract_number": "J412830E",
@@ -2382,7 +2382,7 @@
       "total_amount": 0.0,
       "payment_date": "",
       "address": "650 Q Street, Springfield, 97477-2325",
-      "extracted_at": "2026-04-12T20:00:08.066191"
+      "extracted_at": "2026-04-13T20:00:44.237691"
     },
     {
       "contract_number": "J412833E",
@@ -2399,7 +2399,7 @@
       "total_amount": 4325.0,
       "payment_date": "",
       "address": "7700 NE Highway 99, Vancouver, 98665-8890",
-      "extracted_at": "2026-04-12T20:00:08.080581"
+      "extracted_at": "2026-04-13T20:00:44.251822"
     },
     {
       "contract_number": "J412869E",
@@ -2416,7 +2416,7 @@
       "total_amount": 3948.0,
       "payment_date": "",
       "address": "670 Main St., Billings, 59105",
-      "extracted_at": "2026-04-12T20:00:08.095213"
+      "extracted_at": "2026-04-13T20:00:44.266459"
     },
     {
       "contract_number": "J412917E",
@@ -2433,7 +2433,7 @@
       "total_amount": 3550.0,
       "payment_date": "",
       "address": "101 S. 47th Avenue, Ridgefield, 98642",
-      "extracted_at": "2026-04-12T20:00:08.109852"
+      "extracted_at": "2026-04-13T20:00:44.280704"
     },
     {
       "contract_number": "J412923E",
@@ -2450,7 +2450,7 @@
       "total_amount": 5616.0,
       "payment_date": "",
       "address": "650 Q Street, Springfield, 97477-2325",
-      "extracted_at": "2026-04-12T20:00:08.124406"
+      "extracted_at": "2026-04-13T20:00:44.294935"
     },
     {
       "contract_number": "J413038E",
@@ -2467,7 +2467,7 @@
       "total_amount": 3675.0,
       "payment_date": "",
       "address": "20685 SW Roy Rogers Road, Sherwood, 97140",
-      "extracted_at": "2026-04-12T20:00:08.139304"
+      "extracted_at": "2026-04-13T20:00:44.309509"
     },
     {
       "contract_number": "J413038E",
@@ -2484,7 +2484,7 @@
       "total_amount": 3925.0,
       "payment_date": "",
       "address": "3300 PORTLAND RD, Newberg, 97132-5412",
-      "extracted_at": "2026-04-12T20:00:08.139321"
+      "extracted_at": "2026-04-13T20:00:44.309523"
     },
     {
       "contract_number": "J413038E",
@@ -2501,7 +2501,7 @@
       "total_amount": 5025.0,
       "payment_date": "",
       "address": "30300 Southwest boones ferry Road, Wilsonville, 97070",
-      "extracted_at": "2026-04-12T20:00:08.139324"
+      "extracted_at": "2026-04-13T20:00:44.309525"
     },
     {
       "contract_number": "J413060E",
@@ -2518,7 +2518,7 @@
       "total_amount": 4678.75,
       "payment_date": "",
       "address": "1725 Pacific Ave, Woodland, 98674",
-      "extracted_at": "2026-04-12T20:00:08.153327"
+      "extracted_at": "2026-04-13T20:00:44.323247"
     },
     {
       "contract_number": "J413060E",
@@ -2535,7 +2535,7 @@
       "total_amount": 4963.75,
       "payment_date": "",
       "address": "3184 Ocean Beach Highway, Longview, 98632-4395",
-      "extracted_at": "2026-04-12T20:00:08.153347"
+      "extracted_at": "2026-04-13T20:00:44.323261"
     },
     {
       "contract_number": "J413101E",
@@ -2552,7 +2552,7 @@
       "total_amount": 4200.0,
       "payment_date": "",
       "address": "650 Q Street, Springfield, 97477-2325",
-      "extracted_at": "2026-04-12T20:00:08.167898"
+      "extracted_at": "2026-04-13T20:00:44.337371"
     },
     {
       "contract_number": "J413143E",
@@ -2569,7 +2569,7 @@
       "total_amount": 0.0,
       "payment_date": "",
       "address": "650 Q Street, Springfield, 97477-2325",
-      "extracted_at": "2026-04-12T20:00:08.182682"
+      "extracted_at": "2026-04-13T20:00:44.351636"
     },
     {
       "contract_number": "J413143E",
@@ -2586,7 +2586,7 @@
       "total_amount": 4824.0,
       "payment_date": "",
       "address": "5755 Main St, Springfield, 97478",
-      "extracted_at": "2026-04-12T20:00:08.182699"
+      "extracted_at": "2026-04-13T20:00:44.351651"
     },
     {
       "contract_number": "J413213E",
@@ -2603,7 +2603,7 @@
       "total_amount": 0.0,
       "payment_date": "",
       "address": "7250 Pacific Ave, Tacoma, 98408",
-      "extracted_at": "2026-04-12T20:00:08.198036"
+      "extracted_at": "2026-04-13T20:00:44.365745"
     },
     {
       "contract_number": "J413213E",
@@ -2620,7 +2620,7 @@
       "total_amount": 3725.0,
       "payment_date": "",
       "address": "13322 Pacific Ave S, Parkland, 98444",
-      "extracted_at": "2026-04-12T20:00:08.198056"
+      "extracted_at": "2026-04-13T20:00:44.365759"
     },
     {
       "contract_number": "J413256E",
@@ -2637,7 +2637,7 @@
       "total_amount": 6025.0,
       "payment_date": "",
       "address": "5755 Main St, Springfield, 97478",
-      "extracted_at": "2026-04-12T20:00:08.215290"
+      "extracted_at": "2026-04-13T20:00:44.380999"
     },
     {
       "contract_number": "J413256E",
@@ -2654,7 +2654,7 @@
       "total_amount": 5375.0,
       "payment_date": "",
       "address": "1675 W 18th Ave, Eugene, 97402",
-      "extracted_at": "2026-04-12T20:00:08.215315"
+      "extracted_at": "2026-04-13T20:00:44.381014"
     },
     {
       "contract_number": "J413416E",
@@ -2671,7 +2671,7 @@
       "total_amount": 4445.0,
       "payment_date": "",
       "address": "4990 River Rd N, Keizer, 97303",
-      "extracted_at": "2026-04-12T20:00:08.232104"
+      "extracted_at": "2026-04-13T20:00:44.395794"
     },
     {
       "contract_number": "J413416E",
@@ -2688,7 +2688,7 @@
       "total_amount": 4725.0,
       "payment_date": "",
       "address": "2855 Broadway St NE, Salem, 97303-6502",
-      "extracted_at": "2026-04-12T20:00:08.232125"
+      "extracted_at": "2026-04-13T20:00:44.395807"
     },
     {
       "contract_number": "J413507E",
@@ -2705,7 +2705,7 @@
       "total_amount": 4825.0,
       "payment_date": "",
       "address": "51501 South Columbia River, Scappoose, 97056",
-      "extracted_at": "2026-04-12T20:00:08.249667"
+      "extracted_at": "2026-04-13T20:00:44.410132"
     },
     {
       "contract_number": "J413507E",
@@ -2722,7 +2722,7 @@
       "total_amount": 5825.0,
       "payment_date": "",
       "address": "11425 SW Beaverton Hillsdale Hwy, Beaverton, 970053050",
-      "extracted_at": "2026-04-12T20:00:08.249687"
+      "extracted_at": "2026-04-13T20:00:44.410144"
     },
     {
       "contract_number": "J413507E",
@@ -2739,7 +2739,7 @@
       "total_amount": 4425.0,
       "payment_date": "",
       "address": "2500 North Main Street, Tillamook, 97141",
-      "extracted_at": "2026-04-12T20:00:08.249690"
+      "extracted_at": "2026-04-13T20:00:44.410146"
     },
     {
       "contract_number": "J413549E",
@@ -2773,7 +2773,7 @@
       "total_amount": 1660.0,
       "payment_date": "",
       "address": "1983 South Main Street, Lebanon, 97355",
-      "extracted_at": "2026-04-12T20:00:08.280766"
+      "extracted_at": "2026-04-13T20:00:44.437914"
     },
     {
       "contract_number": "J413618E",
@@ -2790,7 +2790,7 @@
       "total_amount": 3732.0,
       "payment_date": "",
       "address": "1540 Main Street, Sweet Home, 97386",
-      "extracted_at": "2026-04-12T20:00:08.296566"
+      "extracted_at": "2026-04-13T20:00:44.451958"
     },
     {
       "contract_number": "J413771E",
@@ -2807,7 +2807,7 @@
       "total_amount": 2800.0,
       "payment_date": "",
       "address": "7525 Southwest Barnes Road, Portland, 97225",
-      "extracted_at": "2026-04-12T20:00:08.313486"
+      "extracted_at": "2026-04-13T20:00:44.466156"
     },
     {
       "contract_number": "J413771E",
@@ -2824,7 +2824,7 @@
       "total_amount": 695.0,
       "payment_date": "",
       "address": "7535 SW Barnes Rd. Ste 112",
-      "extracted_at": "2026-04-12T20:00:08.313557",
+      "extracted_at": "2026-04-13T20:00:44.466203",
       "product_type": "digital"
     },
     {
@@ -2842,7 +2842,7 @@
       "total_amount": 1947.5,
       "payment_date": "",
       "address": "1755 Ivy St, Junction City, 97448",
-      "extracted_at": "2026-04-12T20:00:08.329610"
+      "extracted_at": "2026-04-13T20:00:44.480577"
     },
     {
       "contract_number": "J414216E",
@@ -2928,7 +2928,7 @@
       "total_amount": 3774.0,
       "payment_date": "",
       "address": "1755 Ivy St, Junction City, 97448",
-      "extracted_at": "2026-04-12T20:00:08.394211"
+      "extracted_at": "2026-04-13T20:00:44.537693"
     },
     {
       "contract_number": "J414560E",
@@ -3127,7 +3127,7 @@
       "sales_rep": "Dave Boring",
       "store_name": "",
       "store_number": "",
-      "zone": "07Z",
+      "zone": "",
       "product_description": "",
       "total_amount": 3490.0,
       "payment_date": "8/29/2025",
@@ -4047,7 +4047,7 @@
       "sales_rep": "Anthony Marty Eng",
       "store_name": "",
       "store_number": "",
-      "zone": "07Y",
+      "zone": "",
       "product_description": "",
       "total_amount": 695.0,
       "payment_date": "10/14/2025",
@@ -4064,7 +4064,7 @@
       "sales_rep": "Anthony Marty Eng",
       "store_name": "",
       "store_number": "",
-      "zone": "07Y",
+      "zone": "",
       "product_description": "FindLocal",
       "total_amount": 695.0,
       "payment_date": "10/14/2025",
@@ -4321,7 +4321,7 @@
       "sales_rep": "Megan Wink",
       "store_name": "",
       "store_number": "",
-      "zone": "07Z",
+      "zone": "",
       "product_description": "",
       "total_amount": 3040.52,
       "payment_date": "12/5/2025",
@@ -5665,7 +5665,7 @@
       "sales_rep": "Jan Banks",
       "store_name": "",
       "store_number": "",
-      "zone": "07Y",
+      "zone": "",
       "product_description": "",
       "total_amount": 4895.0,
       "payment_date": "1/17/2026",
@@ -5767,7 +5767,7 @@
       "sales_rep": "Jan Banks",
       "store_name": "",
       "store_number": "",
-      "zone": "07Y",
+      "zone": "",
       "product_description": "",
       "total_amount": 695.0,
       "payment_date": "2/10/2026",
@@ -6505,7 +6505,41 @@
       "payment_date": "4/8/2026",
       "address": "2615 NE 112th Ave, Vancouver, 98684",
       "extracted_at": "2026-04-08 00:00"
+    },
+    {
+      "contract_number": "J429002E",
+      "date": "2026-04-09 00:00",
+      "business_name": "Triad Wellness",
+      "contact_name": "Stefanie Nyland",
+      "contact_email": "stefanie@triadwellness.net",
+      "contact_phone": "(360) 340-6193",
+      "sales_rep": "Ryan Rohner-talton",
+      "store_name": "Safeway",
+      "store_number": "1680",
+      "zone": "07X",
+      "product_description": "Single Ad",
+      "total_amount": 5184.0,
+      "payment_date": "4/9/2026",
+      "address": "2890 Nw Bucklin Hill Road, Silverdale, 98383",
+      "extracted_at": "2026-04-09 00:00"
+    },
+    {
+      "contract_number": "J429244E",
+      "date": "2026-04-13 00:00",
+      "business_name": "Bolt on Motors",
+      "contact_name": "Mary Vega",
+      "contact_email": "boltononmotors@hotmail.com",
+      "contact_phone": "(503) 372-6569",
+      "sales_rep": "Jan Banks",
+      "store_name": "Safeway",
+      "store_number": "1800",
+      "zone": "07Y",
+      "product_description": "Single Ad",
+      "total_amount": 3475.0,
+      "payment_date": "4/13/2026",
+      "address": "20685 SW Roy Rogers Road, Sherwood, 97140",
+      "extracted_at": "2026-04-13 00:00"
     }
   ],
-  "last_scan": "2026-04-12T20:00:10.857900"
+  "last_scan": "2026-04-13T20:00:47.105188"
 }
