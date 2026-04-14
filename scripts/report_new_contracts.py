@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
 """
-Generate a report of TRULY new contracts by comparing current and previous scans.
-Compares contract_number to identify new ones.
+Generate a report of new contracts by comparing current and previous scans.
+Uses composite key (contract_number + store_number + product) to detect new line items,
+even when a contract number already existed with different stores.
 """
 
 import json
@@ -19,35 +20,74 @@ def load_contracts(filepath):
             return data.get("contracts", data) if isinstance(data, dict) else data
     return []
 
-def get_contract_numbers(contracts):
-    """Get set of contract numbers."""
-    return set(c.get("contract_number") for c in contracts if c.get("contract_number"))
+def contract_key(c):
+    """Unique key for a contract line item."""
+    return (
+        c.get("contract_number", ""),
+        c.get("store_number", ""),
+        c.get("product_description", ""),
+        str(c.get("total_amount", 0))
+    )
 
 def main():
     current = load_contracts(CONTRACTS_FILE)
     previous = load_contracts(PREVIOUS_CONTRACTS_FILE)
     
-    current_nums = get_contract_numbers(current)
-    previous_nums = get_contract_numbers(previous)
+    current_keys = {contract_key(c) for c in current}
+    previous_keys = {contract_key(c) for c in previous}
     
-    new_nums = current_nums - previous_nums
+    new_keys = current_keys - previous_keys
+    removed_keys = previous_keys - current_keys
+    
+    # Find the actual new contract objects
+    new_contracts = [c for c in current if contract_key(c) in new_keys]
+    # Also track new contract NUMBERS (not just line items)
+    new_contract_nums = {c.get("contract_number") for c in new_contracts} - {c.get("contract_number") for c in previous}
+    
+    # Sort: truly new contract numbers first, then new line items from existing contracts
+    new_contracts.sort(key=lambda c: (
+        0 if c.get("contract_number") in new_contract_nums else 1,
+        c.get("contract_number", ""),
+        c.get("store_number", "")
+    ))
     
     print(f"📊 Contracts Report ({datetime.now().strftime('%Y-%m-%d %H:%M')})")
-    print(f"   Previous scan: {len(previous)} contracts")
-    print(f"   Current scan: {len(current)} contracts")
-    print(f"   New contracts: {len(new_nums)}")
+    print(f"   Previous scan: {len(previous)} line items")
+    print(f"   Current scan: {len(current)} line items")
+    print(f"   New line items: {len(new_keys)}")
+    if new_contract_nums:
+        print(f"   New contract numbers: {len(new_contract_nums)}")
     
-    if new_nums:
-        print(f"\n📬 NEW CONTRACTS ({len(new_nums)}):")
-        new_contracts = [c for c in current if c.get("contract_number") in new_nums]
-        # Sort by extracted_at (contract date)
-        new_contracts = sorted(new_contracts, key=lambda x: x.get("extracted_at", ""), reverse=True)
+    if new_contracts:
+        # Group by contract number
+        by_contract = {}
         for c in new_contracts:
-            biz = c.get("business_name", "?")
-            rep = c.get("sales_rep", "?")
-            amount = c.get("total_amount", 0)
-            date = c.get("extracted_at", "").split("T")[0] if c.get("extracted_at") else "?"
-            print(f"   • {c['contract_number']} | {biz} ({rep}) | ${amount:,.0f} | {date}")
+            num = c.get("contract_number", "?")
+            by_contract.setdefault(num, []).append(c)
+        
+        print(f"\n📬 NEW CONTRACTS ({len(new_contracts)} line items across {len(by_contract)} contracts):")
+        
+        total_new_revenue = 0
+        for num, items in by_contract.items():
+            is_brand_new = num in new_contract_nums
+            tag = "🆕 NEW" if is_brand_new else "➕ Added stores"
+            biz = items[0].get("business_name", "?")
+            rep = items[0].get("sales_rep", "?")
+            date = items[0].get("date", "").split(" ")[0] if items[0].get("date") else "?"
+            contract_total = sum(c.get("total_amount", 0) for c in items)
+            total_new_revenue += contract_total
+            
+            print(f"\n   {tag} {num} | {biz} | {rep} | ${contract_total:,.0f} | {date}")
+            for c in items:
+                store = c.get("store_name", "")
+                snum = c.get("store_number", "")
+                zone = c.get("zone", "")
+                product = c.get("product_description", "")
+                amt = c.get("total_amount", 0)
+                store_info = f"{store} #{snum} ({zone})" if snum else "(no store)"
+                print(f"      • {store_info} | {product} | ${amt:,.0f}")
+        
+        print(f"\n   💰 Total new revenue: ${total_new_revenue:,.0f}")
     else:
         print("\n✅ No new contracts")
     
@@ -55,7 +95,7 @@ def main():
     with open(PREVIOUS_CONTRACTS_FILE, 'w') as f:
         json.dump({"contracts": current}, f, indent=2, default=str)
     
-    return len(new_nums)
+    return len(new_contracts)
 
 if __name__ == "__main__":
     main()
