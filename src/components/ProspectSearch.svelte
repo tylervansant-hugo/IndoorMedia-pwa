@@ -4,6 +4,7 @@
   import { logActivity } from '../lib/activity.js';
   import HotLeadsSubmit from './HotLeadsSubmit.svelte';
   import PendingLeads from './PendingLeads.svelte';
+  import StoreSearchInput from '../lib/StoreSearchInput.svelte';
   
   let allStores = [];
   let nearbyStores = [];
@@ -895,20 +896,8 @@
     }
   }
 
-  function filterStoresForProspecting() {
-    if (!storeSearchQuery.trim()) {
-      filteredStoreResults = [];
-      return;
-    }
-    const term = storeSearchQuery.toLowerCase();
-    filteredStoreResults = allStores.filter(s =>
-      (s.StoreName && s.StoreName.toLowerCase().includes(term)) ||
-      (s.GroceryChain && s.GroceryChain.toLowerCase().includes(term)) ||
-      (s.City && s.City.toLowerCase().includes(term)) ||
-      (s.State && s.State.toLowerCase().includes(term)) ||
-      (s.Address && s.Address.toLowerCase().includes(term)) ||
-      (s.PostalCode && s.PostalCode.includes(term))
-    ).slice(0, 20);
+  function onProspectStoreResults(e) {
+    filteredStoreResults = e.detail || [];
   }
 
   function selectStoreFromBrowse(store) {
@@ -931,8 +920,6 @@
         view = 'nearby-stores';
       } else {
         view = 'browse-stores';
-        // Restore the previous search so results are still visible
-        filterStoresForProspecting();
       }
       selectedStore = null;
     } else if (view === 'nearby-stores') {
@@ -1014,11 +1001,13 @@
     <p class="subtitle">Search any store to find prospects nearby</p>
 
     <div class="search-box">
-      <input
-        type="text"
+      <StoreSearchInput
+        stores={allStores}
         placeholder="Search by city, chain, store #, state, street, or zip..."
-        bind:value={storeSearchQuery}
-        on:input={filterStoresForProspecting}
+        maxResults={20}
+        showGeo={true}
+        on:select={e => selectStoreFromBrowse(e.detail)}
+        on:results={onProspectStoreResults}
       />
     </div>
 
@@ -1035,6 +1024,7 @@
               <div class="store-num">{store.StoreName}</div>
               <div class="store-cycle">Cycle {store.Cycle || '?'}</div>
               {#if store['Case Count']}<div class="store-cases">📦 {store['Case Count']} cases</div>{/if}
+              {#if store._dist !== undefined}<div class="store-distance">📍 {store._dist.toFixed(1)} mi</div>{/if}
             </div>
           </button>
         {/each}
@@ -1042,7 +1032,7 @@
     {:else if storeSearchQuery.trim()}
       <p class="empty-msg">No stores found for "{storeSearchQuery}"</p>
     {:else}
-      <p class="empty-msg">Type to search 7,835+ stores</p>
+      <p class="empty-msg">Type to search 7,835+ stores or use address/GPS</p>
     {/if}
   {/if}
 

@@ -1,6 +1,7 @@
 <script>
   import { searchResults, loading, error, setLoading, setError, addToCart } from '../lib/stores.js';
   import { onMount } from 'svelte';
+  import { calculateROI as sharedCalculateROI } from '../lib/roi.js';
 
   let searchTerm = '';
   let addressSearch = '';
@@ -266,18 +267,29 @@ ${plans.map((p, i) => `<tr class="${i === plans.length - 1 ? 'best' : ''}"><td>$
   function exportROI(store, lang = 'en') {
     const r = ROI_TRANSLATIONS[lang] || ROI_TRANSLATIONS.en;
     const investment = parseFloat(roiInvestment.replace(/,/g, ''));
-    const grossRevenue = roiAvgSpend * roiNewCustomers * 12 * (roiVisitsPerYear || 1);
-    const cogsAmount = grossRevenue * ((roiCOGS || 0) / 100);
+    // Use shared canonical ROI formula
+    const roiCalc = sharedCalculateROI({
+      totalAdCost: investment,
+      months: 12,
+      redemptions: roiTotalRedemptions || 0,
+      newCustomers: roiNewCustomers || 0,
+      ticket: roiAvgSpend || 0,
+      discount: roiCouponDiscount || 0,
+      cogsPercent: roiCOGS || 0,
+      visitsPerYear: roiVisitsPerYear || 1,
+    });
+    const grossRevenue = roiCalc.totalRevenue + roiCalc.totalDiscounts + roiCalc.totalCogs;
+    const cogsAmount = roiCalc.totalCogs;
     const annualRevenue = grossRevenue - cogsAmount;
     const annualRedemptions = (roiTotalRedemptions || 0) * 12;
     const couponRevenue = annualRedemptions ? (roiAvgSpend - (roiCouponDiscount || 0)) * annualRedemptions : 0;
-    const couponCOGS = couponRevenue * ((roiCOGS || 0) / 100);
-    const totalRevenue = annualRevenue + couponRevenue - couponCOGS;
     const couponCost = (roiCouponDiscount || 0) * annualRedemptions;
-    const netRevenue = totalRevenue - couponCost;
-    const roiPercent = ((netRevenue - investment) / investment * 100).toFixed(0);
-    const monthlyRevenue = roiAvgSpend * roiNewCustomers * (roiVisitsPerYear || 1);
-    const netProfit = netRevenue - investment;
+    const couponCOGS = couponRevenue * ((roiCOGS || 0) / 100);
+    const totalRevenue = roiCalc.totalRevenue + roiCalc.totalDiscounts;
+    const netRevenue = totalRevenue - roiCalc.totalDiscounts;
+    const roiPercent = roiCalc.roiPercent;
+    const monthlyRevenue = roiCalc.monthlyRevenue;
+    const netProfit = roiCalc.campaignProfit;
     const date = new Date().toLocaleDateString();
 
     const html = `<!DOCTYPE html>
@@ -361,16 +373,18 @@ ${plans.map((p, i) => `<tr class="${i === plans.length - 1 ? 'best' : ''}"><td>$
 
   function shareROI(store) {
     const investment = parseFloat(roiInvestment.replace(/,/g, ''));
-    const cogsRate = (roiCOGS || 0) / 100;
-    const annualRedemptions = (roiTotalRedemptions || 0) * 12;
-    const couponCost = (roiCouponDiscount || 0) * annualRedemptions;
     const calcSc = (mult) => {
-      const c = Math.round(roiNewCustomers * mult);
-      const cR = roiAvgSpend * c * 12 * (roiVisitsPerYear || 1);
-      const cpR = annualRedemptions ? (roiAvgSpend - (roiCouponDiscount || 0)) * annualRedemptions : 0;
-      const tot = cR * (1 - cogsRate) + cpR * (1 - cogsRate) - couponCost;
-      const p = Math.round(tot - investment);
-      return { profit: p, roi: ((p / investment) * 100).toFixed(0), customers: c * 12 };
+      const sc = sharedCalculateROI({
+        totalAdCost: investment,
+        months: 12,
+        redemptions: roiTotalRedemptions || 0,
+        newCustomers: Math.round((roiNewCustomers || 0) * mult),
+        ticket: roiAvgSpend || 0,
+        discount: roiCouponDiscount || 0,
+        cogsPercent: roiCOGS || 0,
+        visitsPerYear: roiVisitsPerYear || 1,
+      });
+      return { profit: sc.campaignProfit, roi: sc.roiPercent, customers: sc.totalNewCustomers };
     };
     const con = calcSc(0); const bal = calcSc(1); const opt = calcSc(3);
 

@@ -1,6 +1,7 @@
 <script>
   import { user } from '../lib/stores.js';
   import { onMount } from 'svelte';
+  import StoreSearchInput from '../lib/StoreSearchInput.svelte';
 
   export let onBack = () => {};
 
@@ -47,25 +48,9 @@
     }
   });
 
-  // Store search - supports city, chain, street name, zip
-  function searchStores() {
-    if (!storeSearch.trim() || storeSearch.length < 2) { storeResults = []; showStoreDropdown = false; return; }
-    const term = storeSearch.toLowerCase();
-    storeResults = allStores.filter(s =>
-      (s.StoreName || '').toLowerCase().includes(term) ||
-      (s.GroceryChain || '').toLowerCase().includes(term) ||
-      (s.City || '').toLowerCase().includes(term) ||
-      (s.PostalCode || '').includes(term) ||
-      (s.Address || '').toLowerCase().includes(term) ||
-      // Street name search (extract first words from address)
-      (s.Address || '').toLowerCase().split(/\s+/).slice(0, 3).join(' ').includes(term)
-    ).slice(0, 10);
-    showStoreDropdown = storeResults.length > 0;
-  }
   function selectStore(store) {
     selectedStore = store;
     storeSearch = `${store.GroceryChain} — ${store.City}, ${store.State} (${store.StoreName})`;
-    showStoreDropdown = false; storeResults = [];
   }
 
   // Business search with location bias
@@ -459,20 +444,13 @@
 
     <div class="f rel">
       <label>Nearby Store (select first for better results)</label>
-      <input type="text" bind:value={storeSearch} on:input={searchStores} placeholder="City, zip, store #..." autocomplete="off" />
-      {#if showStoreDropdown}
-        <div class="dd">
-          {#each storeResults as s}
-            <button class="ddi" on:click={() => selectStore(s)}>
-              <strong>{s.StoreName}</strong>
-              <small>{s.GroceryChain} — {s.City}, {s.State}</small>
-              {#if s.Address}
-                <small style="font-size: 11px; color: #888; display: block; margin-top: 2px;">{s.Address}</small>
-              {/if}
-            </button>
-          {/each}
-        </div>
-      {/if}
+      <StoreSearchInput
+        stores={allStores}
+        placeholder="City, zip, store #, address..."
+        maxResults={10}
+        showGeo={true}
+        on:select={e => selectStore(e.detail)}
+      />
     </div>
 
     <div class="f rel">

@@ -1,5 +1,6 @@
 <script>
   import { onMount } from 'svelte';
+  import StoreSearchInput from '../lib/StoreSearchInput.svelte';
   
   export let user;
   export let onLeadSubmitted = () => {};
@@ -27,7 +28,8 @@
   let submitMessage = '';
   let tesseractReady = false;
   
-  let allStores = [];
+  let allStores = [];      // mapped format (id, chain, city) for OCR matching
+  let allStoresRaw = [];   // original format for StoreSearchInput
   let filteredStores = [];
   let storeSearchText = '';
   
@@ -162,6 +164,7 @@
     try {
       const response = await fetch(import.meta.env.BASE_URL + 'data/stores.json');
       const stores = await response.json();
+      allStoresRaw = stores;
       allStores = stores.map(s => ({
         id: s.StoreName,
         chain: s.GroceryChain,
@@ -284,28 +287,12 @@
     }
   }
   
-  function filterStores(text) {
-    storeSearchText = text;
-    if (!text || text.length < 2) {
-      filteredStores = [];
-      return;
-    }
-    const search = text.toLowerCase();
-    filteredStores = allStores.filter(s => 
-      s.id.toLowerCase().includes(search) ||
-      s.chain.toLowerCase().includes(search) ||
-      s.city.toLowerCase().includes(search) ||
-      (s.state && s.state.toLowerCase().includes(search)) ||
-      (s.address && s.address.toLowerCase().includes(search)) ||
-      `${s.chain} ${s.city}`.toLowerCase().includes(search)
-    ).slice(0, 8);
-  }
-  
-  function selectStore(store) {
-    formData.store_id = store.id;
-    formData.store_chain = store.chain;
-    formData.store_city = store.city;
-    storeSearchText = `${store.chain} — ${store.city}, ${store.state} (${store.id})`;
+  function selectStoreFromSearch(store) {
+    // Store objects from StoreSearchInput use original field names
+    formData.store_id = store.StoreName || store.id;
+    formData.store_chain = store.GroceryChain || store.chain;
+    formData.store_city = store.City || store.city;
+    storeSearchText = `${formData.store_chain} — ${formData.store_city}, ${store.State || store.state} (${formData.store_id})`;
     filteredStores = [];
   }
   
@@ -487,25 +474,13 @@
     
     <div class="form-group">
       <label>Store Reference (optional)</label>
-      <input
-        type="text"
-        placeholder="Search by store ID, chain, or city..."
-        value={storeSearchText}
-        on:input={(e) => filterStores(e.target.value)}
+      <StoreSearchInput
+        stores={allStoresRaw}
+        placeholder="Search by store ID, chain, city, address, or zip..."
+        maxResults={8}
+        showGeo={true}
+        on:select={e => selectStoreFromSearch(e.detail)}
       />
-      {#if filteredStores.length > 0}
-        <div class="store-suggestions">
-          {#each filteredStores as store}
-            <button
-              class="suggestion-item"
-              on:click={() => selectStore(store)}
-            >
-              <strong>{store.chain}</strong> — {store.city}, {store.state}
-              <small>{store.address} · {store.id} · Cycle {store.cycle}</small>
-            </button>
-          {/each}
-        </div>
-      {/if}
       {#if formData.store_id}
         <div class="selected-store">
           ✅ {formData.store_chain} — {formData.store_city} ({formData.store_id})

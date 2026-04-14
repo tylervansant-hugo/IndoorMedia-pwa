@@ -1,5 +1,6 @@
 <script>
   import { onMount } from 'svelte';
+  import StoreSearchInput from '../lib/StoreSearchInput.svelte';
   
   let allStores = [];
   let searchTerm = '';
@@ -19,20 +20,7 @@
     }
   });
   
-  function searchStores() {
-    if (!searchTerm.trim()) {
-      filteredStores = [];
-      return;
-    }
-    const term = searchTerm.toLowerCase();
-    filteredStores = allStores.filter(s =>
-      s.StoreName?.toLowerCase().includes(term) ||
-      s.City?.toLowerCase().includes(term) ||
-      s.GroceryChain?.toLowerCase().includes(term)
-    ).slice(0, 10);
-  }
-  
-  function selectStore(store) {
+  function handleStoreSelect(store) {
     selectedStore = store;
     filteredStores = [];
     searchTerm = `${store.GroceryChain} - ${store.City} (${store.StoreName})`;
@@ -76,22 +64,13 @@
   
   <div class="form-section">
     <label>Select Store</label>
-    <input
-      type="text"
-      placeholder="Search by store name or city..."
-      bind:value={searchTerm}
-      on:input={searchStores}
+    <StoreSearchInput
+      stores={allStores}
+      placeholder="Search by store name, city, address, or zip..."
+      maxResults={10}
+      showGeo={true}
+      on:select={e => handleStoreSelect(e.detail)}
     />
-    
-    {#if filteredStores.length > 0}
-      <div class="store-dropdown">
-        {#each filteredStores as store}
-          <button class="store-option" on:click={() => selectStore(store)}>
-            {store.GroceryChain} — {store.City}, {store.State} ({store.StoreName})
-          </button>
-        {/each}
-      </div>
-    {/if}
   </div>
   
   {#if selectedStore}

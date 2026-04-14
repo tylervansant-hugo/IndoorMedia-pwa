@@ -1,5 +1,6 @@
 <script>
   import { onMount } from 'svelte';
+  import StoreSearchInput from '../lib/StoreSearchInput.svelte';
 
   let cartItems = [];
   let allStores = [];
@@ -194,13 +195,9 @@
     }
   }
 
-  $: filteredStores = storeSearch
-    ? allStores.filter(s =>
-        s.StoreName?.toLowerCase().includes(storeSearch.toLowerCase()) ||
-        s.GroceryChain?.toLowerCase().includes(storeSearch.toLowerCase()) ||
-        s.City?.toLowerCase().includes(storeSearch.toLowerCase())
-      ).slice(0, 15)
-    : [];
+  let filteredStores = [];
+  function onCartStoreResults(e) { filteredStores = e.detail || []; }
+  let storeSearchInput;
 
   function startAdd() {
     showAddProduct = true;
@@ -351,7 +348,15 @@
         {#if newItem.hasMap}
           <button class="map-btn" on:click={useMapArea}>🗺️ Choose Area on Map Instead</button>
         {/if}
-        <input type="text" placeholder="Search store by name, city, or number..." bind:value={storeSearch} class="search-input" />
+        <StoreSearchInput
+          bind:this={storeSearchInput}
+          stores={allStores}
+          placeholder="Search store by name, city, address, zip, or number..."
+          maxResults={15}
+          showGeo={true}
+          on:select={e => selectStore(e.detail)}
+          on:results={onCartStoreResults}
+        />
         <div class="store-list">
           {#each filteredStores as store}
             <button class="store-btn" on:click={() => selectStore(store)}>
@@ -367,10 +372,13 @@
               {#if store.Cycle}
                 <span class="store-launch">Next launch: {getNextLaunch(store.Cycle)}</span>
               {/if}
+              {#if store._dist !== undefined}
+                <span class="store-distance">📍 {store._dist.toFixed(1)} mi</span>
+              {/if}
             </button>
           {/each}
         </div>
-        <button class="cancel-btn" on:click={() => { addStep = 'type'; storeSearch = ''; }}>Back</button>
+        <button class="cancel-btn" on:click={() => { addStep = 'type'; storeSearch = ''; if (storeSearchInput) storeSearchInput.clear(); }}>Back</button>
       {/if}
 
       {#if addStep === 'plan'}

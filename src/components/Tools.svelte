@@ -2,11 +2,12 @@
   import { onMount } from 'svelte';
   import { PDFDocument, rgb, StandardFonts } from 'pdf-lib';
   import { user } from '../lib/stores.js';
+  import { calculateROI as sharedCalculateROI } from '../lib/roi.js';
+  import StoreSearchInput from '../lib/StoreSearchInput.svelte';
   
   let view = 'main'; // main, roi, rates, testimonials, audit, counter-sign, submit-testimonial
   let stores = [];
   let allStores = [];
-  let searchQuery = '';
   let selectedStore = null;
   
   // Testimonials state
@@ -30,7 +31,6 @@
 
   // ROI Calculator state
   let roiBusinessName = '';
-  let roiStoreSearch = '';
   let roiSelectedStore = null;
   let roiAdSize = 'single'; // single or double
   let roiAdCost = '';
@@ -43,16 +43,7 @@
   let roiVisitsPerYear = 1;
   let roiResult = null;
 
-  $: roiStoreResults = roiStoreSearch.length >= 2
-    ? allStores.filter(s => {
-        const q = roiStoreSearch.toLowerCase();
-        return s.StoreName?.toLowerCase().includes(q) ||
-          s.GroceryChain?.toLowerCase().includes(q) ||
-          s.City?.toLowerCase().includes(q) ||
-          s.Address?.toLowerCase().includes(q) ||
-          s.PostalCode?.includes(q);
-      }).slice(0, 8)
-    : [];
+  // ROI store search now handled by StoreSearchInput component
 
   // Auto-update ad cost when ad size or store changes
   $: if (roiSelectedStore) {
@@ -66,46 +57,11 @@
     roiStoreSearch = '';
   }
 
-  // Build a single scenario given a multiplier on new customers
+  // Build a single scenario given a multiplier on new customers (uses shared ROI module)
   function buildScenario(label, multiplier, baseData) {
-    const { totalAdCost, months, redemptions, newCustomers, ticket, discount, cogsPercent, visitsPerYear } = baseData;
-    const scenarioNewCustomers = Math.round(newCustomers * multiplier);
-    
-    // Coupon redemptions (trackable)
-    const monthlyRedemptionRevenue = redemptions * ticket * (visitsPerYear / 12);
-    const monthlyDiscounts = redemptions * discount;
-    
-    // New customers (includes non-coupon exposure customers)
-    const monthlyNewCustomerRevenue = scenarioNewCustomers * ticket * (visitsPerYear / 12);
-    
-    const monthlyRevenue = monthlyRedemptionRevenue + monthlyNewCustomerRevenue;
-    const monthlyCogs = monthlyRevenue * (cogsPercent / 100);
-    const monthlyProfit = monthlyRevenue - monthlyDiscounts - monthlyCogs;
-    
-    const totalRevenue = monthlyRevenue * months;
-    const totalDiscounts = monthlyDiscounts * months;
-    const totalCogs = monthlyCogs * months;
-    const campaignProfit = (monthlyProfit * months) - totalAdCost;
-    const roiPercent = totalAdCost > 0 ? Math.round((campaignProfit / totalAdCost) * 100) : 0;
-    
-    const totalNewCustomers = scenarioNewCustomers * months;
-    const customerLifetimeValue = ticket * visitsPerYear;
-    
-    return {
-      label,
-      multiplier,
-      newCustomersPerMonth: scenarioNewCustomers,
-      totalNewCustomers,
-      customerLifetimeValue: Math.round(customerLifetimeValue),
-      newCustomerTotalValue: Math.round(totalNewCustomers * customerLifetimeValue),
-      monthlyRevenue: Math.round(monthlyRevenue),
-      monthlyProfit: Math.round(monthlyProfit),
-      totalRevenue: Math.round(totalRevenue),
-      totalDiscounts: Math.round(totalDiscounts),
-      totalCogs: Math.round(totalCogs),
-      campaignProfit: Math.round(campaignProfit),
-      roiPercent,
-    };
+    const scenarioNewCustomers = Math.round(baseData.newCustomers * multiplier);
+    const result = sharedCalculateROI({ ...baseData, newCustomers: scenarioNewCustomers });
+    return { label, multiplier, ...result };
   }
 
   function calculateROI() {
@@ -495,13 +451,8 @@ Store: ${store}
     }
   });
 
-  $: filteredStores = searchQuery
-    ? allStores.filter(s => 
-        s.StoreName?.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        s.GroceryChain?.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        s.City?.toLowerCase().includes(searchQuery.toLowerCase())
-      )
-    : [];
+  let filteredStores = [];
+  function onRatesResults(e) { filteredStores = e.detail || []; }
 
   async function submitTestimonial() {
     testSubmitting = true;
@@ -537,7 +488,7 @@ Store: ${store}
     } else {
       view = 'main';
       selectedStore = null;
-      searchQuery = '';
+      filteredStores = [];
       testimonialQuery = '';
       testimonialResults = [];
     }
@@ -919,17 +870,13 @@ Store: ${store}
             </div>
           </div>
         {:else}
-          <input type="text" bind:value={roiStoreSearch} placeholder="Search by name, city, street, or zip..." />
-          {#if roiStoreResults.length > 0}
-            <div class="roi-store-list">
-              {#each roiStoreResults as store}
-                <button class="roi-store-btn" on:click={() => selectRoiStore(store)}>
-                  <strong>{store.GroceryChain}</strong> — {store.City}, {store.State}
-                  <span class="store-id">{store.StoreName}</span>
-                </button>
-              {/each}
-            </div>
-          {/if}
+          <StoreSearchInput
+            stores={allStores}
+            placeholder="Search by name, city, street, or zip..."
+            maxResults={8}
+            showGeo={false}
+            on:select={e => selectRoiStore(e.detail)}
+          />
         {/if}
       </div>
 
@@ -1132,14 +1079,16 @@ Store: ${store}
     <p class="subtitle">Quick pricing lookup</p>
 
     <div class="search-box">
-      <input
-        type="text"
+      <StoreSearchInput
+        stores={allStores}
         placeholder="Search by store number, city, or chain..."
-        bind:value={searchQuery}
+        maxResults={10}
+        showGeo={false}
+        on:results={onRatesResults}
       />
     </div>
 
-    {#if searchQuery}
+    {#if filteredStores.length > 0}
       <div class="store-list">
         {#each filteredStores.slice(0, 10) as store}
           <div class="store-card">
@@ -1211,10 +1160,13 @@ Store: ${store}
       <p class="subtitle">Select store to audit</p>
 
       <div class="search-box">
-        <input
-          type="text"
+        <StoreSearchInput
+          stores={allStores}
           placeholder="Search store..."
-          bind:value={searchQuery}
+          maxResults={15}
+          showGeo={false}
+          on:select={e => { selectAuditStore(e.detail); auditStep = 2; }}
+          on:results={onRatesResults}
         />
       </div>
 
