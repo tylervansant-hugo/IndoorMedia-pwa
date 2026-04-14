@@ -57,12 +57,72 @@
     return R * c;
   }
 
+  /**
+   * Detect stores with "junk" coordinates (many stores sharing the exact same lat/lng = state centroid).
+   * Build a Set of bad coordinate pairs on first call.
+   */
+  let _badCoords = null;
+  function getBadCoords() {
+    if (_badCoords) return _badCoords;
+    const counts = {};
+    for (const s of stores) {
+      if (!s.latitude || !s.longitude) continue;
+      const key = `${s.latitude.toFixed(4)},${s.longitude.toFixed(4)}`;
+      counts[key] = (counts[key] || 0) + 1;
+    }
+    _badCoords = new Set(Object.entries(counts).filter(([, v]) => v > 10).map(([k]) => k));
+    return _badCoords;
+  }
+
+  function hasGoodCoords(s) {
+    if (!s.latitude || !s.longitude) return false;
+    const key = `${s.latitude.toFixed(4)},${s.longitude.toFixed(4)}`;
+    return !getBadCoords().has(key);
+  }
+
   function sortByDistance(lat, lng) {
-    filtered = stores
-      .filter(s => s.latitude && s.longitude)
-      .map(s => ({ ...s, _dist: calcDistance(lat, lng, s.latitude, s.longitude) }))
-      .sort((a, b) => a._dist - b._dist)
-      .slice(0, maxResults);
+    // Split into stores with good coords vs bad coords
+    const withCoords = [];
+    const withoutCoords = [];
+
+    for (const s of stores) {
+      if (hasGoodCoords(s)) {
+        withCoords.push({ ...s, _dist: calcDistance(lat, lng, s.latitude, s.longitude) });
+      } else {
+        withoutCoords.push(s);
+      }
+    }
+
+    // Sort good-coord stores by distance
+    withCoords.sort((a, b) => a._dist - b._dist);
+
+    // For bad-coord stores, do a reverse-geocode city match:
+    // Get the city/state from the geocoded point and match stores in that area
+    let nearby = withCoords.slice(0, maxResults);
+
+    // If we got fewer than maxResults from coords, supplement with city-matched stores
+    if (nearby.length < maxResults && withoutCoords.length > 0) {
+      // Use the closest good-coord store's city as a reference, or fall back to address search text
+      const refCity = nearby.length > 0 ? nearby[0].City?.toLowerCase() : addressSearch?.toLowerCase() || '';
+      const refState = nearby.length > 0 ? nearby[0].State?.toLowerCase() : '';
+
+      const cityMatches = withoutCoords.filter(s => {
+        const city = (s.City || '').toLowerCase();
+        const state = (s.State || '').toLowerCase();
+        return (refCity && city.includes(refCity)) || (refCity && refCity.includes(city)) ||
+               (refState && state === refState && city === refCity);
+      });
+
+      // Add city-matched stores (mark distance as approximate)
+      for (const s of cityMatches) {
+        if (nearby.length >= maxResults * 2) break;
+        if (!nearby.find(n => n.StoreName === s.StoreName)) {
+          nearby.push({ ...s, _dist: undefined, _approx: true });
+        }
+      }
+    }
+
+    filtered = nearby.slice(0, maxResults * 2); // Show more results to be helpful
     showDropdown = filtered.length > 0;
     dispatch('results', filtered);
   }
@@ -159,7 +219,7 @@
           </div>
           <div class="ssi-opt-detail">
             {store.Address || ''} · {store.StoreName} · Cycle {store.Cycle || '?'}
-            {#if store._dist !== undefined} · 📍 {store._dist.toFixed(1)} mi{/if}
+            {#if store._dist !== undefined} · 📍 {store._dist.toFixed(1)} mi{:else if store._approx} · 📍 Nearby{/if}
           </div>
         </button>
       {/each}

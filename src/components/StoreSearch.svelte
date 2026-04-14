@@ -456,16 +456,8 @@ Store: ${store.StoreName}
         userLocation = { lat: latitude, lng: longitude };
         useGeolocation = true;
         
-        // Sort ALL stores by distance, show closest 20
-        filtered = allStores
-          .filter(s => s.latitude && s.longitude)
-          .map(s => ({
-            ...s,
-            _dist: calcDistance(latitude, longitude, s.latitude, s.longitude)
-          }))
-          .sort((a, b) => a._dist - b._dist)
-          .slice(0, 20);
-        
+        // Sort stores by distance, filtering out bad coords
+        filtered = smartSortByDistance(latitude, longitude);
         searchTerm = '';
         searchResults.set(filtered);
         setLoading(false);
@@ -506,16 +498,8 @@ Store: ${store.StoreName}
       userLocation = { lat, lng };
       useGeolocation = true;
 
-      // Sort all stores by distance from this address
-      filtered = allStores
-        .filter(s => s.latitude && s.longitude)
-        .map(s => ({
-          ...s,
-          _dist: calcDistance(lat, lng, s.latitude, s.longitude)
-        }))
-        .sort((a, b) => a._dist - b._dist)
-        .slice(0, 20);
-
+      // Sort stores by distance, filtering out bad coords
+      filtered = smartSortByDistance(lat, lng, addressSearch);
       searchTerm = '';
       searchResults.set(filtered);
     } catch (err) {
@@ -524,6 +508,51 @@ Store: ${store.StoreName}
       setLoading(false);
       addressSearching = false;
     }
+  }
+
+  // Detect stores with junk coordinates (state centroids shared by >10 stores)
+  let _badCoordSet = null;
+  function isBadCoord(s) {
+    if (!s.latitude || !s.longitude) return true;
+    if (!_badCoordSet) {
+      const counts = {};
+      for (const st of allStores) {
+        if (!st.latitude || !st.longitude) continue;
+        const key = `${st.latitude.toFixed(4)},${st.longitude.toFixed(4)}`;
+        counts[key] = (counts[key] || 0) + 1;
+      }
+      _badCoordSet = new Set(Object.entries(counts).filter(([, v]) => v > 10).map(([k]) => k));
+    }
+    return _badCoordSet.has(`${s.latitude.toFixed(4)},${s.longitude.toFixed(4)}`);
+  }
+
+  function smartSortByDistance(lat, lng, sourceText = '') {
+    const withCoords = [];
+    const withoutCoords = [];
+    for (const s of allStores) {
+      if (!isBadCoord(s)) {
+        withCoords.push({ ...s, _dist: calcDistance(lat, lng, s.latitude, s.longitude) });
+      } else {
+        withoutCoords.push(s);
+      }
+    }
+    withCoords.sort((a, b) => a._dist - b._dist);
+    let results = withCoords.slice(0, 30);
+
+    // Supplement with city-matched stores that have bad coords
+    if (withoutCoords.length > 0) {
+      const refCity = results.length > 0 ? results[0].City?.toLowerCase() : sourceText.toLowerCase();
+      const cityMatches = withoutCoords.filter(s => {
+        const city = (s.City || '').toLowerCase();
+        return refCity && (city.includes(refCity) || refCity.includes(city));
+      });
+      for (const s of cityMatches) {
+        if (!results.find(r => r.StoreName === s.StoreName)) {
+          results.push({ ...s, _dist: undefined });
+        }
+      }
+    }
+    return results.slice(0, 40);
   }
 
   function calcDistance(lat1, lon1, lat2, lon2) {
