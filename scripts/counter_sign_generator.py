@@ -463,7 +463,7 @@ def overlay_content_on_template(
 CLEAN_FOOTER_HEIGHT = 155.0  # Taller to fully cover original footer text
 CLEAN_FOOTER_Y = 0.0         # Bottom of page
 CLEAN_FOOTER_COLOR = (0.6, 0.0, 0.0)  # Dark maroon/red
-LOGO_PATH = Path(__file__).parent.parent / "pwa" / "public" / "logo.png"
+LOGO_PATH = Path(__file__).parent.parent / "data" / "indoormedia_logo_clean.png"
 
 
 def overlay_clean_footer(
@@ -494,37 +494,21 @@ def overlay_clean_footer(
         c.rect(0, CLEAN_FOOTER_Y, page_width, CLEAN_FOOTER_HEIGHT, fill=1, stroke=0)
         logger.info(f"✓ Clean footer bar: {page_width}×{CLEAN_FOOTER_HEIGHT} pts")
 
-        # ========== 2. INDOORMEDIA LOGO (left) — inverted colors on dark red ==========
+        # ========== 2. INDOORMEDIA LOGO (left) — white logo on maroon bg ==========
         logo_path = LOGO_PATH
         if logo_path.exists():
             try:
-                logo_img = Image.open(str(logo_path)).convert('RGBA')
-                
-                # Invert: background (white/light) → transparent, colored parts → inverted
-                pixels = logo_img.load()
-                for py in range(logo_img.height):
-                    for px in range(logo_img.width):
-                        r, g, b, a = pixels[px, py]
-                        if a < 30:
-                            # Already transparent → keep transparent
-                            continue
-                        elif r > 230 and g > 230 and b > 230:
-                            # White/near-white background → transparent
-                            pixels[px, py] = (0, 0, 0, 0)
-                        else:
-                            # Colored pixel → invert it
-                            pixels[px, py] = (255 - r, 255 - g, 255 - b, a)
-
+                logo_img = Image.open(str(logo_path))
                 logo_ratio = logo_img.width / logo_img.height
-                logo_h = CLEAN_FOOTER_HEIGHT * 0.55
+                logo_h = CLEAN_FOOTER_HEIGHT * 0.70
                 logo_w = logo_h * logo_ratio
-                logo_x = 20
+                logo_x = 15
                 logo_y = CLEAN_FOOTER_Y + (CLEAN_FOOTER_HEIGHT - logo_h) / 2
 
                 with tempfile.NamedTemporaryFile(suffix='.png', delete=False) as tmp:
                     logo_img.save(tmp.name, format='PNG')
-                    c.drawImage(tmp.name, logo_x, logo_y, width=logo_w, height=logo_h, mask='auto')
-                    logger.info(f"✓ Logo at ({logo_x:.0f}, {logo_y:.0f}): {logo_w:.0f}×{logo_h:.0f} (white on transparent)")
+                    c.drawImage(tmp.name, logo_x, logo_y, width=logo_w, height=logo_h)
+                    logger.info(f"✓ Logo at ({logo_x:.0f}, {logo_y:.0f}): {logo_w:.0f}×{logo_h:.0f}")
             except Exception as e:
                 logger.warning(f"Could not add logo: {e}")
 
