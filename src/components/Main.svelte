@@ -826,37 +826,43 @@
     </div>
   </header>
 
-  <!-- Tabs -->
-  <nav class="tabs">
-    <button class="tab" class:active={currentTab === 'dashboard'} on:click={() => currentTab = 'dashboard'}>
-      <svg class="tab-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
-      <span>Home</span>
+  <!-- Tab Bar (fixed bottom) -->
+  <nav class="tab-bar">
+    <button class="tab-bar-item" class:active={currentTab === 'dashboard'} on:click={() => currentTab = 'dashboard'}>
+      <div class="tab-bar-indicator"></div>
+      <svg class="tab-bar-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+      <span class="tab-bar-label">Home</span>
     </button>
-    <button class="tab" class:active={currentTab === 'prospects'} on:click={() => currentTab = 'prospects'}>
-      <svg class="tab-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-      <span>Prospect</span>
+    <button class="tab-bar-item" class:active={currentTab === 'prospects'} on:click={() => currentTab = 'prospects'}>
+      <div class="tab-bar-indicator"></div>
+      <svg class="tab-bar-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      <span class="tab-bar-label">Prospect</span>
     </button>
-    <button class="tab" class:active={currentTab === 'present'} on:click={() => currentTab = 'present'}>
-      <svg class="tab-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
-      <span>Present</span>
+    <button class="tab-bar-item" class:active={currentTab === 'present'} on:click={() => currentTab = 'present'}>
+      <div class="tab-bar-indicator"></div>
+      <svg class="tab-bar-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+      <span class="tab-bar-label">Present</span>
     </button>
-    <button class="tab" class:active={currentTab === 'stores'} on:click={() => currentTab = 'stores'}>
-      <svg class="tab-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
-      <span>Stores</span>
+    <button class="tab-bar-item" class:active={currentTab === 'stores'} on:click={() => currentTab = 'stores'}>
+      <div class="tab-bar-indicator"></div>
+      <svg class="tab-bar-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+      <span class="tab-bar-label">Stores</span>
     </button>
-    <button class="tab" class:active={currentTab === 'clients'} on:click={() => currentTab = 'clients'}>
-      <svg class="tab-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
-      <span>Clients</span>
+    <button class="tab-bar-item" class:active={currentTab === 'clients'} on:click={() => currentTab = 'clients'}>
+      <div class="tab-bar-indicator"></div>
+      <svg class="tab-bar-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+      <span class="tab-bar-label">Clients</span>
     </button>
-    <button class="tab" class:active={currentTab === 'tools'} on:click={() => currentTab = 'tools'}>
-      <svg class="tab-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>
-      <span>Tools</span>
+    <button class="tab-bar-item" class:active={currentTab === 'tools'} on:click={() => currentTab = 'tools'}>
+      <div class="tab-bar-indicator"></div>
+      <svg class="tab-bar-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>
+      <span class="tab-bar-label">Tools</span>
     </button>
-    <button class="tab" class:active={currentTab === 'analytics'} on:click={() => currentTab = 'analytics'}>
-      <svg class="tab-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
-      <span>Analytics</span>
+    <button class="tab-bar-item" class:active={currentTab === 'analytics'} on:click={() => currentTab = 'analytics'}>
+      <div class="tab-bar-indicator"></div>
+      <svg class="tab-bar-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+      <span class="tab-bar-label">Stats</span>
     </button>
-
   </nav>
 
   <!-- Content -->
@@ -872,7 +878,7 @@
           </div>
         {/if}
 
-        <h2>Welcome, {$user?.name || $user?.first_name}!</h2>
+        <h2 class="typo-page-title">Welcome, {$user?.name || $user?.first_name}!</h2>
 
 
         <!-- Revenue + Key Stats -->
@@ -1106,7 +1112,7 @@
       <Clients />
     {:else if currentTab === 'analytics'}
       <div class="analytics-container">
-        <h2>📊 Sales Analytics</h2>
+        <h2 class="typo-page-title">📊 Sales Analytics</h2>
         
         <!-- View selector -->
         <div class="period-selector">
@@ -1519,60 +1525,87 @@
     justify-content: center;
   }
 
-  /* Tabs */
-  .tabs {
-    background: var(--bg-secondary);
-    border-bottom: 1px solid var(--border-color);
+  /* Tab Bar — fixed bottom */
+  .tab-bar {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+    background: white;
+    border-top: 1px solid #eee;
+    box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.05);
+    height: 60px;
     display: flex;
-    overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
-    padding: 0 4px;
+    align-items: stretch;
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+  }
+  :global([data-theme='dark']) .tab-bar {
+    background: #1e1e1e;
+    border-top-color: #333;
+    box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.2);
   }
 
-  .tab {
+  .tab-bar-item {
     flex: 1;
-    min-width: fit-content;
-    padding: 14px 18px;
-    background: none;
-    border: none;
-    border-bottom: 3px solid transparent;
-    color: #666;
-    font-weight: 600;
-    font-size: 15px;
-    cursor: pointer;
-    transition: all 0.2s;
-    white-space: nowrap;
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 4px;
+    justify-content: center;
+    gap: 2px;
+    background: none;
+    border: none;
+    color: #999;
+    cursor: pointer;
+    position: relative;
+    padding: 6px 2px 4px;
+    transition: color 0.2s;
+    -webkit-tap-highlight-color: transparent;
   }
 
-  .tab-icon {
+  .tab-bar-item:hover {
+    color: #666;
+  }
+
+  .tab-bar-item.active {
+    color: #CC0000;
+  }
+
+  .tab-bar-indicator {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 20px;
+    height: 3px;
+    border-radius: 0 0 3px 3px;
+    background: transparent;
+    transition: background 0.2s;
+  }
+
+  .tab-bar-item.active .tab-bar-indicator {
+    background: #CC0000;
+  }
+
+  .tab-bar-icon {
     width: 22px;
     height: 22px;
     stroke: currentColor;
+    flex-shrink: 0;
   }
 
-  .tab span {
-    font-size: 11px;
-    letter-spacing: 0.3px;
-  }
-
-  .tab:hover {
-    color: var(--text-primary);
-  }
-
-  .tab.active {
-    color: #CC0000;
-    border-bottom-color: #CC0000;
+  .tab-bar-label {
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.2px;
+    line-height: 1;
   }
 
   /* Content */
   .content {
     flex: 1;
     overflow-y: auto;
-    padding: 20px 20px calc(200px + env(safe-area-inset-bottom, 0px));
+    padding: 20px 20px calc(80px + env(safe-area-inset-bottom, 0px));
     max-width: 1400px;
     margin: 0 auto;
     width: 100%;
@@ -1620,12 +1653,17 @@
 
   /* Daily Goal */
   .goal-section { margin-bottom: 16px; }
-  .goal-section h3 { margin: 0 0 8px; font-size: 16px; color: var(--text-primary); }
+  .goal-section h3 { margin: 0 0 8px; font-size: 17px; font-weight: 700; color: var(--text-primary); }
   .goal-card {
-    background: var(--bg-secondary, #1a1a2e);
+    background: var(--card-bg, #ffffff);
     border-radius: 12px;
     padding: 16px;
-    border: 1px solid var(--border-color, #333);
+    border: 1px solid #e8e8e8;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+  }
+  :global([data-theme='dark']) .goal-card {
+    background: #1e1e1e;
+    border-color: #333;
   }
   .goal-progress { margin-bottom: 8px; }
   .goal-bar { height: 12px; background: #333; border-radius: 6px; overflow: hidden; }
@@ -1711,7 +1749,7 @@
     margin-bottom: 20px;
     margin-top: 16px;
   }
-  .drill-down h4 { margin: 0 0 16px; font-size: 18px; font-weight: 700; color: var(--text-primary); }
+  .drill-down h4 { margin: 0 0 16px; font-size: 17px; font-weight: 700; color: var(--text-primary); }
   .drill-empty { font-size: 13px; color: var(--text-secondary, #999); text-align: center; padding: 8px; }
   .drill-row {
     display: flex;
@@ -1749,7 +1787,8 @@
   .dashboard h2 {
     margin: 0 0 8px;
     color: var(--text-primary);
-    font-size: 24px;
+    font-size: 22px;
+    font-weight: 700;
   }
 
   .location-badge {
@@ -1786,9 +1825,10 @@
   }
 
   .stat-card {
-    background: var(--card-bg);
-    border: 2px solid var(--border-color);
-    border-radius: 16px;
+    background: var(--card-bg, #ffffff);
+    border-radius: 12px;
+    border: 1px solid #e8e8e8;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
     padding: 1.5rem 1.25rem;
     text-align: center;
     min-height: 180px;
@@ -1797,7 +1837,11 @@
     align-items: center;
     justify-content: center;
     width: 100%;
-    transition: transform 0.15s, box-shadow 0.15s;
+    transition: transform 0.15s, box-shadow 0.2s;
+  }
+  :global([data-theme='dark']) .stat-card {
+    background: #1e1e1e;
+    border-color: #333;
   }
 
   .stat-card.clickable { cursor: pointer; }
@@ -1811,11 +1855,11 @@
 
   .stat-card h3 {
     margin: 0 0 10px;
-    font-size: 15px;
+    font-size: 13px;
     color: var(--text-secondary);
     text-transform: uppercase;
     letter-spacing: 0.5px;
-    font-weight: 700;
+    font-weight: 500;
   }
 
   .stat-value {
@@ -1840,7 +1884,8 @@
   .quick-actions h3 {
     margin: 0 0 16px;
     color: var(--text-primary);
-    font-size: 16px;
+    font-size: 17px;
+    font-weight: 700;
   }
 
   .action-buttons {
@@ -1870,14 +1915,19 @@
     align-items: center;
     gap: 8px;
     padding: 16px;
-    background: var(--card-bg);
-    border: 2px solid var(--border-color);
+    background: var(--card-bg, #ffffff);
+    border: 1px solid #e8e8e8;
     border-radius: 12px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
     cursor: pointer;
     transition: all 0.2s;
     color: var(--text-primary);
     font-weight: 600;
     font-size: 13px;
+  }
+  :global([data-theme='dark']) .action-btn {
+    background: #1e1e1e;
+    border-color: #333;
   }
 
   .action-btn:hover {
@@ -1958,7 +2008,7 @@
     }
 
     .dashboard h2 {
-      font-size: 20px;
+      font-size: 22px;
     }
 
     .dashboard-grid, .action-buttons {
@@ -1977,7 +2027,9 @@
   .period-btn { padding: 8px 16px; border: 1px solid var(--border-color); border-radius: 20px; background: var(--card-bg); color: var(--text-secondary); font-size: 13px; font-weight: 600; cursor: pointer; transition: all 0.2s; }
   .period-btn.active { background: #CC0000; color: white; border-color: #CC0000; }
   .analytics-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 16px; }
-  .analytics-card { background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 12px; padding: 16px; text-align: center; }
+  .analytics-card { background: var(--card-bg, #ffffff); border: 1px solid #e8e8e8; border-radius: 12px; padding: 16px; text-align: center; box-shadow: 0 1px 3px rgba(0,0,0,0.06); transition: box-shadow 0.2s; }
+  .analytics-card:hover { box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+  :global([data-theme='dark']) .analytics-card { background: #1e1e1e; border-color: #333; }
   .analytics-year { font-size: 18px; font-weight: 700; color: var(--text-primary); margin-bottom: 8px; }
   .analytics-amount { font-size: 28px; font-weight: 800; color: #CC0000; margin-bottom: 4px; }
   .analytics-count { font-size: 12px; color: var(--text-secondary); margin-bottom: 8px; }
@@ -1986,11 +2038,12 @@
   .analytics-change.negative { background: #ffebee; color: #c62828; }
   
   /* App Usage / Activity */
-  .activity-section h3 { font-size: 20px; font-weight: 700; margin-bottom: 8px; color: var(--text-primary); }
-  .activity-section h4 { font-size: 16px; font-weight: 700; margin: 20px 0 10px; color: var(--text-primary); }
+  .activity-section h3 { font-size: 17px; font-weight: 700; margin-bottom: 8px; color: var(--text-primary); }
+  .activity-section h4 { font-size: 15px; font-weight: 600; margin: 20px 0 10px; color: var(--text-primary); }
   .activity-note { font-size: 12px; color: var(--text-secondary); margin-bottom: 16px; }
   .activity-summary { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin-bottom: 20px; }
-  .activity-card { background: var(--card-bg); border: 2px solid var(--border-color); border-radius: 12px; padding: 16px; text-align: center; }
+  .activity-card { background: var(--card-bg, #ffffff); border: 1px solid #e8e8e8; border-radius: 12px; padding: 16px; text-align: center; box-shadow: 0 1px 3px rgba(0,0,0,0.06); }
+  :global([data-theme='dark']) .activity-card { background: #1e1e1e; border-color: #333; }
   .activity-icon { font-size: 28px; margin-bottom: 6px; }
   .activity-stat { font-size: 28px; font-weight: 800; color: #CC0000; }
   .activity-label { font-size: 12px; color: var(--text-secondary); font-weight: 600; margin-top: 4px; }

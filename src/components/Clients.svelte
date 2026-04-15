@@ -1596,7 +1596,7 @@ IndoorMedia`;
 
 <style>
   .clients-container { padding: 20px; max-width: 100%; margin: 0 auto; }
-  h2 { margin: 0 0 6px; font-size: 24px; color: var(--text-primary); font-weight: 700; }
+  h2 { margin: 0 0 6px; font-size: 22px; color: var(--text-primary); font-weight: 700; }
   .subtitle { margin: 0 0 16px; color: var(--text-secondary); font-size: 14px; }
   .back-btn { background: none; border: none; color: #CC0000; font-size: 14px; font-weight: 600; cursor: pointer; padding: 10px 0; margin-bottom: 16px; }
 
@@ -1613,7 +1613,9 @@ IndoorMedia`;
   .search-box input { width: 100%; padding: 12px 16px; border: 1px solid #e0e0e0; border-radius: 8px; font-size: 14px; box-sizing: border-box; height: 44px; }
 
   .customer-list { display: flex; flex-direction: column; gap: 12px; }
-  .customer-card { background: white; border: 1px solid #e0e0e0; border-radius: 12px; padding: 16px; }
+  .customer-card { background: var(--card-bg, #ffffff); border: 1px solid #e8e8e8; border-radius: 12px; padding: 16px; box-shadow: 0 1px 3px rgba(0,0,0,0.06); transition: box-shadow 0.2s; }
+  .customer-card:hover { box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+  :global([data-theme='dark']) .customer-card { background: #1e1e1e; border-color: #333; }
   .card-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 8px; }
   .card-header h4 { margin: 0; font-size: 16px; color: #333; font-weight: 700; flex: 1; }
   .amount { font-weight: 700; color: #CC0000; font-size: 16px; white-space: nowrap; margin-left: 8px; }
@@ -1673,7 +1675,7 @@ IndoorMedia`;
   .error-text { color: #c33; font-size: 13px; margin: 8px 0; }
 
   .parsed-card { background: var(--card-bg, white); border: 1px solid var(--border-color, #eee); border-radius: 10px; padding: 16px; margin-top: 16px; }
-  .parsed-card h3 { margin: 0 0 12px; font-size: 16px; color: #2e7d32; }
+  .parsed-card h3 { margin: 0 0 12px; font-size: 17px; font-weight: 700; color: #2e7d32; }
   .parsed-field { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #f0f0f0; font-size: 13px; }
   .parsed-field:last-of-type { border-bottom: none; }
   .parsed-field.highlight { background: #fff5f5; margin: 4px -8px; padding: 8px; border-radius: 6px; }
@@ -1727,7 +1729,7 @@ IndoorMedia`;
   .export-btn:disabled { background:#999; cursor:not-allowed; }
   .export-btn:hover:not(:disabled) { background:#a00; }
   .select-check { font-size:20px; margin-right:8px; flex-shrink:0; }
-  .renewal-card { background: white; border: 1px solid #e0e0e0; border-radius: 10px; padding: 14px; cursor: pointer; transition: all 0.2s; display:flex; align-items:flex-start; }
+  .renewal-card { background: var(--card-bg, #ffffff); border: 1px solid #e8e8e8; border-radius: 12px; box-shadow: 0 1px 3px rgba(0,0,0,0.06); padding: 16px; cursor: pointer; transition: box-shadow 0.2s; display:flex; align-items:flex-start; }
   .digital-filters { margin-bottom: 12px; }
   .digital-card { background: var(--card-bg, white); border-radius: 10px; padding: 14px; margin-bottom: 10px; border: 1px solid var(--border-color, #e0e0e0); }
   .digital-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; }
@@ -1760,7 +1762,7 @@ IndoorMedia`;
   .renewal-deadline.urgent { background:rgba(204,0,0,0.1); color:#CC0000; font-weight:700; }
   .renewal-deadline.overdue { background:rgba(204,0,0,0.15); color:#CC0000; font-weight:800; }
   .renewal-card.selected { border-color: #CC0000; background: rgba(204,0,0,0.03); }
-  .renewal-card:hover { border-color: #CC0000; box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
+  .renewal-card:hover { box-shadow: 0 2px 8px rgba(0,0,0,0.1); border-color: #CC0000; }
   .renewal-header { display: flex; justify-content: space-between; align-items: flex-start; gap: 8px; }
   .renewal-biz h4 { margin: 0; font-size: 15px; color: #333; }
   .renewal-cat { font-size: 12px; color: #888; }
@@ -1787,7 +1789,8 @@ IndoorMedia`;
   .filter-row { display: flex; gap: 8px; }
   .filter-row select { flex: 1; padding: 8px; border: 1px solid #ddd; border-radius: 8px; font-size: 13px; background: white; }
   .renewal-list { display: flex; flex-direction: column; gap: 8px; }
-  .renewal-card { background: white; border: 1px solid #e0e0e0; border-radius: 10px; overflow: hidden; }
+  .renewal-card { background: var(--card-bg, #ffffff); border: 1px solid #e8e8e8; border-radius: 12px; box-shadow: 0 1px 3px rgba(0,0,0,0.06); overflow: hidden; transition: box-shadow 0.2s; }
+  :global([data-theme='dark']) .renewal-card { background: #1e1e1e; border-color: #333; }
   .renewal-card.expanded { border-color: #CC0000; }
   .renewal-header { display: flex; justify-content: space-between; align-items: center; padding: 12px; width: 100%; background: none; border: none; cursor: pointer; text-align: left; }
   .renewal-main h4 { margin: 0; font-size: 15px; color: #333; }
@@ -1852,7 +1855,7 @@ IndoorMedia`;
   .draft-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.6); z-index: 1000; display: flex; align-items: center; justify-content: center; padding: 20px; }
   .draft-modal { background: var(--bg-secondary, white); border-radius: 16px; max-width: 600px; width: 100%; max-height: 85vh; overflow-y: auto; box-shadow: 0 20px 60px rgba(0,0,0,0.3); }
   .draft-header { display: flex; justify-content: space-between; align-items: center; padding: 20px 20px 12px; border-bottom: 1px solid var(--border-color); }
-  .draft-header h3 { margin: 0; font-size: 18px; color: var(--text-primary); }
+  .draft-header h3 { margin: 0; font-size: 17px; font-weight: 700; color: var(--text-primary); }
   .draft-close { background: none; border: none; font-size: 20px; cursor: pointer; color: var(--text-tertiary); padding: 4px 8px; }
   .draft-to, .draft-subject { padding: 10px 20px; border-bottom: 1px solid var(--border-color); display: flex; gap: 8px; align-items: baseline; }
   .draft-label { font-size: 12px; font-weight: 700; color: var(--text-tertiary); text-transform: uppercase; min-width: 55px; }

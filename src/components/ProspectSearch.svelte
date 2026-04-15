@@ -1951,12 +1951,17 @@
   }
 
   .testimonial-card {
-    background: white;
+    background: var(--card-bg, #ffffff);
+    border-radius: 12px;
+    border: 1px solid #e8e8e8;
     border-left: 4px solid #CC0000;
-    border-radius: 6px;
-    padding: 12px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+    padding: 16px;
     margin-bottom: 10px;
+    transition: box-shadow 0.2s;
   }
+  .testimonial-card:hover { box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+  :global([data-theme='dark']) .testimonial-card { background: #1e1e1e; border-color: #333; border-left-color: #CC0000; }
 
   .testimonial-business {
     margin: 0 0 6px;
@@ -1996,9 +2001,7 @@
     font-weight: 700;
     color: #1565C0;
   }
-  .testimonial-card {
-    background: var(--card-bg, white);
-  }
+  /* testimonial-card dark mode handled above */
 
   .testimonial-btn {
     background: #CC0000 !important;
@@ -2152,8 +2155,8 @@
   }
 
   h2, h3 { margin: 0 0 0.75rem 0; color: var(--text-primary); font-weight: 700; }
-  h2 { font-size: 24px; }
-  h3 { font-size: 18px; }
+  h2 { font-size: 22px; }
+  h3 { font-size: 17px; }
 
   .attribution-summary { display: flex; gap: 10px; margin-bottom: 14px; }
   .attr-stat { flex: 1; text-align: center; padding: 10px 6px; background: var(--card-bg, white); border-radius: 10px; border: 1px solid var(--border-color, #e0e0e0); }
@@ -2336,17 +2339,25 @@
   .prospect-list { display: flex; flex-direction: column; gap: 1rem; }
 
   .prospect-card {
-    background: var(--card-bg);
+    background: var(--card-bg, #ffffff);
     border-radius: 12px;
-    padding: 14px;
-    box-shadow: 0 2px 8px var(--card-shadow);
-    border: 1px solid var(--border-color);
+    padding: 16px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+    border: 1px solid #e8e8e8;
     color: var(--text-primary);
+    transition: box-shadow 0.2s;
+  }
+  .prospect-card:hover {
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  }
+  :global([data-theme='dark']) .prospect-card {
+    background: #1e1e1e;
+    border-color: #333;
   }
 
   .prospect-header { display: flex; align-items: center; gap: 6px; margin-bottom: 6px; }
   .score-emoji { font-size: 18px; }
-  .prospect-card h4 { margin: 0; color: var(--text-primary); font-weight: 700; font-size: 17px; }
+  .prospect-card h4 { margin: 0; color: var(--text-primary); font-weight: 600; font-size: 15px; }
   .prospect-address { margin: 4px 0; font-size: 13px; color: var(--text-secondary); }
   .prospect-meta { margin: 6px 0; font-size: 12px; color: var(--text-tertiary); }
   .prospect-phone { margin: 6px 0 10px; font-size: 15px; font-weight: 600; color: var(--text-primary); }

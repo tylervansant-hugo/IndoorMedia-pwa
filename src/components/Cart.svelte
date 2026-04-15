@@ -496,7 +496,7 @@
 
 <style>
   .quote-container { padding: 20px 20px 100px; max-width: 100%; margin: 0 auto; }
-  h2 { margin: 0 0 6px; font-size: 24px; font-weight: 700; color: var(--text-primary); }
+  h2 { margin: 0 0 6px; font-size: 22px; font-weight: 700; color: var(--text-primary); }
   h3 { margin: 0 0 12px; font-size: 18px; font-weight: 700; color: #333; }
   .subtitle { margin: 0 0 16px; color: var(--text-secondary); font-size: 14px; }
 
@@ -553,7 +553,9 @@
   .cancel-btn { width: 100%; padding: 10px; background: none; border: 1px solid #e0e0e0; border-radius: 8px; color: #666; font-size: 13px; cursor: pointer; margin-top: 8px; }
 
   .quote-items { display: flex; flex-direction: column; gap: 12px; margin-bottom: 16px; }
-  .quote-item { display: flex; justify-content: space-between; align-items: flex-start; background: white; border: 1px solid #e0e0e0; border-radius: 12px; padding: 16px; cursor: grab; transition: all 0.2s; }
+  .quote-item { display: flex; justify-content: space-between; align-items: flex-start; background: var(--card-bg, #ffffff); border: 1px solid #e8e8e8; border-radius: 12px; padding: 16px; box-shadow: 0 1px 3px rgba(0,0,0,0.06); cursor: grab; transition: box-shadow 0.2s; }
+  .quote-item:hover { box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+  :global([data-theme='dark']) .quote-item { background: #1e1e1e; border-color: #333; }
   .quote-item:active { cursor: grabbing; }
   .quote-item.dragging { opacity: 0.4; border-color: #CC0000; }
   .quote-item.drag-over { border-color: #CC0000; border-style: dashed; background: #fff5f5; }
@@ -564,7 +566,7 @@
   .reorder-btn:disabled { opacity: 0.3; cursor: not-allowed; }
   .drag-handle { font-size: 16px; color: #999; cursor: grab; user-select: none; }
   .item-info { flex: 1; }
-  .quote-item h4 { margin: 0 0 4px; font-size: 15px; font-weight: 700; color: #333; }
+  .quote-item h4 { margin: 0 0 4px; font-size: 15px; font-weight: 600; color: var(--text-primary, #333); }
   .item-store { margin: 0 0 2px; font-size: 12px; color: #666; }
   .item-plan { margin: 0 0 2px; font-size: 12px; color: #888; }
   .price-edit { margin-top: 8px; }

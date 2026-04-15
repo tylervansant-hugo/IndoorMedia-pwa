@@ -664,8 +664,8 @@ Store: ${store.StoreName}
 </script>
 
 <div class="search-container">
-  <h2>🏪 Store Network</h2>
-  <p class="subtitle">Find pricing and delivery info for 7,835+ stores nationwide</p>
+  <h2 class="typo-page-title">🏪 Store Network</h2>
+  <p class="typo-subtitle">Find pricing and delivery info for 7,835+ stores nationwide</p>
 
   <div class="search-box">
     <input
@@ -1004,7 +1004,7 @@ Store: ${store.StoreName}
 
   h2 {
     margin: 0 0 0.5rem 0;
-    font-size: 24px;
+    font-size: 22px;
     font-weight: 700;
     color: var(--text-primary);
   }
@@ -1138,22 +1138,27 @@ Store: ${store.StoreName}
   }
 
   .store-card {
-    background: white;
-    border-radius: 8px;
+    background: var(--card-bg, #ffffff);
+    border-radius: 12px;
+    border: 1px solid #e8e8e8;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
     padding: 16px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-    transition: all 0.2s;
+    transition: box-shadow 0.2s;
+  }
+  :global([data-theme='dark']) .store-card {
+    background: #1e1e1e;
+    border-color: #333;
   }
 
   .store-card:hover {
-    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
-    transform: translateY(-2px);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
   }
 
   .store-header h3 {
     margin: 0;
-    font-size: 16px;
-    color: #1a1a1a;
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--text-primary, #1a1a1a);
     flex: 1;
   }
 

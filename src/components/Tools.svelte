@@ -1624,7 +1624,7 @@ Store: ${store}
 
   h2 {
     margin: 0 0 8px;
-    font-size: 24px;
+    font-size: 22px;
     font-weight: 700;
     color: var(--text-primary);
   }
@@ -1720,16 +1720,21 @@ Store: ${store}
   }
 
   .store-card {
-    background: white;
-    border: 1px solid #eee;
-    border-radius: 8px;
-    padding: 12px;
+    background: var(--card-bg, #ffffff);
+    border: 1px solid #e8e8e8;
+    border-radius: 12px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+    padding: 16px;
+    transition: box-shadow 0.2s;
   }
+  .store-card:hover { box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+  :global([data-theme='dark']) .store-card { background: #1e1e1e; border-color: #333; }
 
   .store-card h4 {
     margin: 0 0 4px;
-    font-size: 14px;
-    color: #333;
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--text-primary, #333);
   }
 
   .store-num, .store-pricing {
@@ -1799,11 +1804,16 @@ Store: ${store}
   }
 
   .form-card {
-    background: #f9f9f9;
+    background: var(--card-bg, #ffffff);
     border-radius: 12px;
+    border: 1px solid #e8e8e8;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
     padding: 16px;
     margin-top: 15px;
+    transition: box-shadow 0.2s;
   }
+  .form-card:hover { box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+  :global([data-theme='dark']) .form-card { background: #1e1e1e; border-color: #333; }
 
   .form-label {
     display: block;
@@ -1928,11 +1938,16 @@ Store: ${store}
   }
 
   .review-card {
-    background: #f5f5f5;
+    background: var(--card-bg, #ffffff);
     border-radius: 12px;
+    border: 1px solid #e8e8e8;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
     padding: 16px;
     margin-top: 16px;
+    transition: box-shadow 0.2s;
   }
+  .review-card:hover { box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+  :global([data-theme='dark']) .review-card { background: #1e1e1e; border-color: #333; }
 
   .review-section {
     margin-bottom: 16px;
@@ -2050,11 +2065,16 @@ Store: ${store}
   }
 
   .upload-card {
-    background: #f9f9f9;
+    background: var(--card-bg, #ffffff);
     border-radius: 12px;
+    border: 1px solid #e8e8e8;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
     padding: 16px;
     margin-top: 15px;
+    transition: box-shadow 0.2s;
   }
+  .upload-card:hover { box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+  :global([data-theme='dark']) .upload-card { background: #1e1e1e; border-color: #333; }
 
   .upload-box {
     background: white;

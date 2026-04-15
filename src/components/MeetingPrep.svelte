@@ -653,8 +653,10 @@
   .progress-fill { height:100%; background:#CC0000; border-radius:3px; transition:width .5s; }
 
   /* Results */
-  .result-card { background:var(--card-bg); border:2px solid var(--border-color); border-radius:14px; padding:18px; margin-bottom:16px; }
-  .result-card h3 { margin:0 0 8px; font-size:17px; font-weight:800; color:var(--text-primary); }
+  .result-card { background:var(--card-bg, #ffffff); border:1px solid #e8e8e8; border-radius:12px; box-shadow:0 1px 3px rgba(0,0,0,0.06); padding:16px; margin-bottom:16px; transition:box-shadow 0.2s; }
+  .result-card:hover { box-shadow:0 2px 8px rgba(0,0,0,0.1); }
+  :global([data-theme='dark']) .result-card { background:#1e1e1e; border-color:#333; }
+  .result-card h3 { margin:0 0 8px; font-size:17px; font-weight:700; color:var(--text-primary); }
   .result-hint { font-size:12px; color:var(--text-secondary); margin:0 0 14px; font-style:italic; }
   .info-card { border-color:#CC000030; }
   .local-card { border-color:#1565C030; background:rgba(21,101,192,.03); }
