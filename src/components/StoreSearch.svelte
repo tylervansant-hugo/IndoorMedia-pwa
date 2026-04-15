@@ -4,8 +4,7 @@
   import { calculateROI as sharedCalculateROI } from '../lib/roi.js';
 
   let searchTerm = '';
-  let addressSearch = '';
-  let addressSearching = false;
+  let geoDebounce = null;
   let allStores = [];
   let filtered = [];
   let useGeolocation = false;
@@ -425,8 +424,11 @@ Store: ${store.StoreName}
   }
 
   function filterStores() {
+    clearTimeout(geoDebounce);
+
     if (!searchTerm.trim()) {
       filtered = [];
+      searchResults.set(filtered);
       return;
     }
 
@@ -441,6 +443,14 @@ Store: ${store.StoreName}
     ).slice(0, 50);
 
     searchResults.set(filtered);
+
+    // If no text results and looks like an address/zip, auto-geocode after a delay
+    if (filtered.length === 0 && searchTerm.trim().length >= 3) {
+      const t = searchTerm.trim();
+      if (/^\d{5}/.test(t) || /^\d+\s+\w/.test(t)) {
+        geoDebounce = setTimeout(() => findByAddress(), 800);
+      }
+    }
   }
 
   function findNearby() {
@@ -471,42 +481,35 @@ Store: ${store.StoreName}
   }
 
   async function findByAddress() {
-    if (!addressSearch.trim()) return;
-    addressSearching = true;
+    const term = searchTerm.trim();
+    if (!term) return;
     setLoading(true);
     setError('');
 
     try {
-      // Geocode using Nominatim (free, no API key)
-      const q = encodeURIComponent(addressSearch.trim());
+      const q = encodeURIComponent(term);
       const res = await fetch(`https://nominatim.openstreetmap.org/search?q=${q}&format=json&limit=1&countrycodes=us`, {
         headers: { 'Accept': 'application/json' }
       });
       const data = await res.json();
 
       if (!data || data.length === 0) {
-        setError(`Could not find location for "${addressSearch}". Try a full address, city, or zip code.`);
         setLoading(false);
-        addressSearching = false;
         return;
       }
 
       const lat = parseFloat(data[0].lat);
       const lng = parseFloat(data[0].lon);
-      const displayName = data[0].display_name?.split(',').slice(0, 3).join(',') || addressSearch;
 
       userLocation = { lat, lng };
       useGeolocation = true;
 
-      // Sort stores by distance, filtering out bad coords
-      filtered = smartSortByDistance(lat, lng, addressSearch);
-      searchTerm = '';
+      filtered = smartSortByDistance(lat, lng, term);
       searchResults.set(filtered);
     } catch (err) {
-      setError('Address lookup failed: ' + err.message);
+      // Silently fail — text search results are still showing
     } finally {
       setLoading(false);
-      addressSearching = false;
     }
   }
 
@@ -667,43 +670,15 @@ Store: ${store.StoreName}
   <div class="search-box">
     <input
       type="text"
-      placeholder="Search by store name, city, zip code, or number..."
+      placeholder="Search store, city, zip, or address..."
       bind:value={searchTerm}
       on:input={filterStores}
+      on:keydown={(e) => { if (e.key === 'Enter' && searchTerm.trim().length >= 2 && filtered.length <= 3) findByAddress(); }}
       disabled={$loading}
     />
+    <button class="geo-icon-btn" on:click={findNearby} disabled={$loading} title="Use my location">📍</button>
     {#if $loading}
       <div class="spinner"></div>
-    {/if}
-  </div>
-
-  <div class="address-search-box">
-    <input
-      type="text"
-      placeholder="Enter any address, city, or zip to find closest stores..."
-      bind:value={addressSearch}
-      on:keydown={(e) => { if (e.key === 'Enter') findByAddress(); }}
-      disabled={$loading}
-    />
-    <button
-      class="address-btn"
-      on:click={findByAddress}
-      disabled={$loading || !addressSearch.trim()}
-    >
-      {addressSearching ? '⏳' : '📍'} Find Closest
-    </button>
-  </div>
-
-  <div class="location-toggle">
-    <button
-      class="geo-btn"
-      on:click={findNearby}
-      disabled={$loading}
-    >
-      📍 Use My Location
-    </button>
-    {#if useGeolocation && userLocation}
-      <span class="location-indicator">Showing closest stores</span>
     {/if}
   </div>
 
@@ -1040,50 +1015,44 @@ Store: ${store.StoreName}
     color: var(--text-secondary);
   }
 
-  .address-search-box {
-    display: flex;
-    gap: 8px;
-    margin-bottom: 12px;
-  }
-
-  .address-search-box input {
-    flex: 1;
-  }
-
-  .address-btn {
-    padding: 12px 16px;
-    background: #CC0000;
-    color: white;
-    border: none;
-    border-radius: 8px;
-    font-size: 14px;
-    font-weight: 600;
-    cursor: pointer;
-    white-space: nowrap;
-  }
-
-  .address-btn:hover { background: #990000; }
-  .address-btn:disabled { background: #ccc; cursor: not-allowed; }
-
   .search-box {
     position: relative;
-    margin-bottom: 20px;
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    border: 2px solid #ddd;
+    border-radius: 10px;
+    background: white;
+    overflow: hidden;
   }
+
+  .search-box:focus-within {
+    border-color: #CC0000;
+    box-shadow: 0 0 0 2px rgba(204,0,0,.1);
+  }
+
+  .geo-icon-btn {
+    padding: 10px 14px;
+    border: none;
+    border-left: 1px solid #eee;
+    background: none;
+    font-size: 18px;
+    cursor: pointer;
+    flex-shrink: 0;
+  }
+
+  .geo-icon-btn:hover { background: #f5f5f5; }
+  .geo-icon-btn:disabled { opacity: 0.4; cursor: not-allowed; }
 
   input {
-    width: 100%;
+    flex: 1;
     padding: 14px 16px;
-    border: 2px solid #ddd;
-    border-radius: 8px;
+    border: none;
     font-size: 16px;
     font-family: inherit;
-    transition: border-color 0.3s;
-  }
-
-  input:focus {
     outline: none;
-    border-color: #CC0000;
-    box-shadow: 0 0 0 3px rgba(255, 107, 53, 0.1);
+    background: transparent;
+    min-width: 0;
   }
 
   input:disabled {
