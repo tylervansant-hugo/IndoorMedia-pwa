@@ -494,21 +494,23 @@ def overlay_clean_footer(
         c.rect(0, CLEAN_FOOTER_Y, page_width, CLEAN_FOOTER_HEIGHT, fill=1, stroke=0)
         logger.info(f"✓ Clean footer bar: {page_width}×{CLEAN_FOOTER_HEIGHT} pts")
 
-        # ========== 2. INDOORMEDIA LOGO (left) ==========
+        # ========== 2. INDOORMEDIA LOGO (left) — white on dark red ==========
         logo_path = LOGO_PATH
         if logo_path.exists():
             try:
                 logo_img = Image.open(str(logo_path)).convert('RGBA')
                 
-                # Replace white/light background with the footer color
-                footer_rgb = tuple(int(c * 255) for c in CLEAN_FOOTER_COLOR)
+                # Convert entire logo to white with transparent background
                 pixels = logo_img.load()
                 for py in range(logo_img.height):
                     for px in range(logo_img.width):
                         r, g, b, a = pixels[px, py]
-                        # If pixel is white-ish or transparent, replace with footer color
-                        if (r > 200 and g > 200 and b > 200) or a < 128:
-                            pixels[px, py] = (*footer_rgb, 255)
+                        if r > 220 and g > 220 and b > 220:
+                            # Light/white pixel → fully transparent
+                            pixels[px, py] = (0, 0, 0, 0)
+                        elif a > 30:
+                            # Any visible non-white pixel → make it white
+                            pixels[px, py] = (255, 255, 255, a)
 
                 logo_ratio = logo_img.width / logo_img.height
                 logo_h = CLEAN_FOOTER_HEIGHT * 0.55
@@ -518,8 +520,8 @@ def overlay_clean_footer(
 
                 with tempfile.NamedTemporaryFile(suffix='.png', delete=False) as tmp:
                     logo_img.save(tmp.name, format='PNG')
-                    c.drawImage(tmp.name, logo_x, logo_y, width=logo_w, height=logo_h)
-                    logger.info(f"✓ Logo at ({logo_x:.0f}, {logo_y:.0f}): {logo_w:.0f}×{logo_h:.0f} (bg matched)")
+                    c.drawImage(tmp.name, logo_x, logo_y, width=logo_w, height=logo_h, mask='auto')
+                    logger.info(f"✓ Logo at ({logo_x:.0f}, {logo_y:.0f}): {logo_w:.0f}×{logo_h:.0f} (white on transparent)")
             except Exception as e:
                 logger.warning(f"Could not add logo: {e}")
 
