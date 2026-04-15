@@ -494,23 +494,26 @@ def overlay_clean_footer(
         c.rect(0, CLEAN_FOOTER_Y, page_width, CLEAN_FOOTER_HEIGHT, fill=1, stroke=0)
         logger.info(f"✓ Clean footer bar: {page_width}×{CLEAN_FOOTER_HEIGHT} pts")
 
-        # ========== 2. INDOORMEDIA LOGO (left) — white on dark red ==========
+        # ========== 2. INDOORMEDIA LOGO (left) — inverted colors on dark red ==========
         logo_path = LOGO_PATH
         if logo_path.exists():
             try:
                 logo_img = Image.open(str(logo_path)).convert('RGBA')
                 
-                # Convert entire logo to white with transparent background
+                # Invert: background (white/light) → transparent, colored parts → inverted
                 pixels = logo_img.load()
                 for py in range(logo_img.height):
                     for px in range(logo_img.width):
                         r, g, b, a = pixels[px, py]
-                        if r > 220 and g > 220 and b > 220:
-                            # Light/white pixel → fully transparent
+                        if a < 30:
+                            # Already transparent → keep transparent
+                            continue
+                        elif r > 230 and g > 230 and b > 230:
+                            # White/near-white background → transparent
                             pixels[px, py] = (0, 0, 0, 0)
-                        elif a > 30:
-                            # Any visible non-white pixel → make it white
-                            pixels[px, py] = (255, 255, 255, a)
+                        else:
+                            # Colored pixel → invert it
+                            pixels[px, py] = (255 - r, 255 - g, 255 - b, a)
 
                 logo_ratio = logo_img.width / logo_img.height
                 logo_h = CLEAN_FOOTER_HEIGHT * 0.55
