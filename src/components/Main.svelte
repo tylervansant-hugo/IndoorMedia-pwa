@@ -1385,6 +1385,14 @@
     color: var(--text-primary);
   }
 
+  /* Red status bar area (above header) on iOS */
+  :global(html) {
+    background: #CC0000;
+  }
+  :global(body) {
+    background: var(--bg-primary, #f5f5f5);
+  }
+
   /* Header */
   .header {
     background: linear-gradient(135deg, #CC0000 0%, #990000 100%);
@@ -1532,18 +1540,18 @@
     left: 0;
     right: 0;
     z-index: 1000;
-    background: white;
-    border-top: 1px solid #eee;
-    box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.05);
-    height: 60px;
+    background: linear-gradient(135deg, #CC0000 0%, #990000 100%);
+    border-top: none;
+    box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.15);
+    height: 70px;
     display: flex;
     align-items: stretch;
     padding-bottom: env(safe-area-inset-bottom, 0px);
   }
   :global([data-theme='dark']) .tab-bar {
-    background: #1e1e1e;
-    border-top-color: #333;
-    box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.2);
+    background: linear-gradient(135deg, #990000 0%, #660000 100%);
+    border-top: none;
+    box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.3);
   }
 
   .tab-bar-item {
@@ -1555,7 +1563,7 @@
     gap: 2px;
     background: none;
     border: none;
-    color: #999;
+    color: rgba(255, 255, 255, 0.6);
     cursor: pointer;
     position: relative;
     padding: 6px 2px 4px;
@@ -1564,11 +1572,11 @@
   }
 
   .tab-bar-item:hover {
-    color: #666;
+    color: rgba(255, 255, 255, 0.85);
   }
 
   .tab-bar-item.active {
-    color: #CC0000;
+    color: #ffffff;
   }
 
   .tab-bar-indicator {
@@ -1584,7 +1592,7 @@
   }
 
   .tab-bar-item.active .tab-bar-indicator {
-    background: #CC0000;
+    background: #ffffff;
   }
 
   .tab-bar-icon {
@@ -1605,7 +1613,7 @@
   .content {
     flex: 1;
     overflow-y: auto;
-    padding: 20px 20px calc(80px + env(safe-area-inset-bottom, 0px));
+    padding: 20px 20px calc(90px + env(safe-area-inset-bottom, 0px));
     max-width: 1400px;
     margin: 0 auto;
     width: 100%;
