@@ -395,6 +395,7 @@ Store: ${store}
     landing_page_url: '',
     ad_proof_images: [] // Array of images now
   };
+  let counterSignStyle = 'classic'; // 'classic' or 'clean'
   let generating = false;
 
   // Load all reps from registry
@@ -634,6 +635,7 @@ Store: ${store}
       const formData = new FormData();
       formData.append('chain_code', selectedChainCode);
       formData.append('rep_name', repName);
+      formData.append('style', counterSignStyle);
       
       // Append all ad proof images
       for (const adImg of counterData.ad_proof_images) {
@@ -1296,7 +1298,19 @@ Store: ${store}
     
     {#if counterSignStep === 1}
       <h2>🎨 Counter Sign Generator</h2>
-      <p class="subtitle">Select store chain template</p>
+      <p class="subtitle">Select template style & store chain</p>
+
+      <div class="style-toggle">
+        <button class="style-btn" class:active={counterSignStyle === 'classic'} on:click={() => counterSignStyle = 'classic'}>
+          🏷️ Classic
+        </button>
+        <button class="style-btn" class:active={counterSignStyle === 'clean'} on:click={() => counterSignStyle = 'clean'}>
+          ✨ Clean
+        </button>
+      </div>
+      <p class="style-desc">
+        {counterSignStyle === 'classic' ? 'Original template footer with standard layout' : 'Professional dark footer with IndoorMedia logo, business card & QR code'}
+      </p>
 
       <div class="chain-grid">
         {#each CHAIN_CODES as code}
@@ -1401,6 +1415,11 @@ Store: ${store}
       <p class="subtitle">{selectedChainCode}</p>
 
       <div class="review-card">
+        <div class="review-section">
+          <h4>Template Style</h4>
+          <p>{counterSignStyle === 'clean' ? '✨ Clean' : '🏷️ Classic'}</p>
+        </div>
+
         <div class="review-section">
           <h4>Business Card</h4>
           <p>{counterData.business_card_image ? `✅ ${counterData.business_card_image.name}` : '(Optional - not provided)'}</p>
@@ -1999,6 +2018,12 @@ Store: ${store}
     background: #fce4ec;
     color: #c62828;
   }
+
+  .style-toggle { display: flex; gap: 10px; margin-bottom: 8px; }
+  .style-btn { flex: 1; padding: 14px; border: 2px solid #ddd; border-radius: 10px; background: white; font-size: 15px; font-weight: 700; cursor: pointer; transition: all 0.2s; }
+  .style-btn:hover { border-color: #CC0000; }
+  .style-btn.active { background: #CC0000; color: white; border-color: #CC0000; }
+  .style-desc { font-size: 12px; color: #888; text-align: center; margin-bottom: 16px; }
 
   .chain-grid {
     display: grid;
