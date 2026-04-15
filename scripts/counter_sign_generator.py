@@ -252,13 +252,13 @@ def resize_ad_image(image_path: str, max_width: float, max_height: float) -> Tup
         return None, None, None
 
 
-# Full ad zone: from just above footer to just below header
-# Footer top ~140 pts, Header bottom ~603.5 pts
-# Use 150 to 600 as safe zone (with some padding)
+# Full ad zone: from just above footer to below template text
+# Footer top ~140 pts, Template text ("CASH REGISTER RECEIPT TAPE?") ends ~470 pts
+# Use 150 to 430 as safe zone — more clearance below template text
 GRID_Y_BOTTOM = 150.0   # Just above footer area
-GRID_Y_TOP = 600.0       # Just below header
-GRID_HEIGHT = GRID_Y_TOP - GRID_Y_BOTTOM  # 450 pts total
-GRID_GAP = 12.0          # Gap between images
+GRID_Y_TOP = 430.0       # Well below "CASH REGISTER RECEIPT TAPE?" text
+GRID_HEIGHT = GRID_Y_TOP - GRID_Y_BOTTOM  # 280 pts total
+GRID_GAP = 10.0          # Gap between images
 
 
 def calculate_grid_positions(num_images: int) -> list:
@@ -277,9 +277,14 @@ def calculate_grid_positions(num_images: int) -> list:
         y = GRID_Y_BOTTOM + (GRID_HEIGHT - h) / 2
         return [(x, y, w, h)]
     
-    # 2+ images: 2-column grid
-    cols = 2
-    rows = (num_images + 1) // 2  # Round up
+    # 2-4 images: 2-column grid
+    # 5-6 images: 3-column × 2-row grid
+    if num_images <= 4:
+        cols = 2
+        rows = (num_images + 1) // 2
+    else:
+        cols = 3
+        rows = 2
     
     usable_width = AD_WIDTH - (GRID_GAP * (cols - 1))
     usable_height = GRID_HEIGHT - (GRID_GAP * (rows - 1))
@@ -452,6 +457,180 @@ def overlay_content_on_template(
         return None
 
 
+# ======================== CLEAN TEMPLATE FOOTER ========================
+# Dark red bar across the bottom with: IndoorMedia logo (left), business card (center), QR code (right)
+
+CLEAN_FOOTER_HEIGHT = 155.0  # Taller to fully cover original footer text
+CLEAN_FOOTER_Y = 0.0         # Bottom of page
+CLEAN_FOOTER_COLOR = (0.6, 0.0, 0.0)  # Dark maroon/red
+LOGO_PATH = Path(__file__).parent.parent / "pwa" / "public" / "logo.png"
+
+
+def overlay_clean_footer(
+    template_pdf_path: str,
+    ad_image_paths: Optional[list] = None,
+    business_card_path: Optional[str] = None,
+    qr_image: Optional[Image.Image] = None,
+    rep_data: Optional[Dict] = None,
+    landing_page_url: Optional[str] = None,
+) -> bytes:
+    """
+    Clean template: Same chain header + ad zone, but replaces the original footer
+    with a dark red bar containing IndoorMedia logo (left), business card (center), QR code (right).
+    """
+    try:
+        pdf_reader = PdfReader(template_pdf_path)
+        page = pdf_reader.pages[0]
+        page_width = float(page.mediabox.width)
+        page_height = float(page.mediabox.height)
+
+        logger.info(f"Clean template: {page_width}×{page_height} pts")
+
+        overlay_buffer = io.BytesIO()
+        c = canvas.Canvas(overlay_buffer, pagesize=(page_width, page_height))
+
+        # ========== 1. DARK RED FOOTER BAR ==========
+        c.setFillColorRGB(*CLEAN_FOOTER_COLOR)
+        c.rect(0, CLEAN_FOOTER_Y, page_width, CLEAN_FOOTER_HEIGHT, fill=1, stroke=0)
+        logger.info(f"✓ Clean footer bar: {page_width}×{CLEAN_FOOTER_HEIGHT} pts")
+
+        # ========== 2. INDOORMEDIA LOGO (left) ==========
+        logo_path = LOGO_PATH
+        if logo_path.exists():
+            try:
+                logo_img = Image.open(str(logo_path)).convert('RGBA')
+                
+                # Replace white/light background with the footer color
+                footer_rgb = tuple(int(c * 255) for c in CLEAN_FOOTER_COLOR)
+                pixels = logo_img.load()
+                for py in range(logo_img.height):
+                    for px in range(logo_img.width):
+                        r, g, b, a = pixels[px, py]
+                        # If pixel is white-ish or transparent, replace with footer color
+                        if (r > 200 and g > 200 and b > 200) or a < 128:
+                            pixels[px, py] = (*footer_rgb, 255)
+
+                logo_ratio = logo_img.width / logo_img.height
+                logo_h = CLEAN_FOOTER_HEIGHT * 0.55
+                logo_w = logo_h * logo_ratio
+                logo_x = 20
+                logo_y = CLEAN_FOOTER_Y + (CLEAN_FOOTER_HEIGHT - logo_h) / 2
+
+                with tempfile.NamedTemporaryFile(suffix='.png', delete=False) as tmp:
+                    logo_img.save(tmp.name, format='PNG')
+                    c.drawImage(tmp.name, logo_x, logo_y, width=logo_w, height=logo_h)
+                    logger.info(f"✓ Logo at ({logo_x:.0f}, {logo_y:.0f}): {logo_w:.0f}×{logo_h:.0f} (bg matched)")
+            except Exception as e:
+                logger.warning(f"Could not add logo: {e}")
+
+        # ========== 3. BUSINESS CARD (center) ==========
+        if business_card_path and Path(business_card_path).exists():
+            try:
+                bc_img = Image.open(business_card_path)
+                bc_ratio = bc_img.width / bc_img.height
+                # Business card: ~45% of footer width, centered
+                bc_max_w = page_width * 0.42
+                bc_max_h = CLEAN_FOOTER_HEIGHT * 0.80
+
+                if bc_ratio > bc_max_w / bc_max_h:
+                    bc_w = bc_max_w
+                    bc_h = bc_w / bc_ratio
+                else:
+                    bc_h = bc_max_h
+                    bc_w = bc_h * bc_ratio
+
+                bc_x = (page_width - bc_w) / 2
+                bc_y = CLEAN_FOOTER_Y + (CLEAN_FOOTER_HEIGHT - bc_h) / 2
+
+                bc_resized = bc_img.resize((int(bc_w * 2), int(bc_h * 2)), Image.Resampling.LANCZOS)
+                with tempfile.NamedTemporaryFile(suffix='.png', delete=False) as tmp:
+                    bc_resized.save(tmp.name, format='PNG')
+                    c.drawImage(tmp.name, bc_x, bc_y, width=bc_w, height=bc_h)
+                    logger.info(f"✓ Business card (center) at ({bc_x:.0f}, {bc_y:.0f}): {bc_w:.0f}×{bc_h:.0f}")
+            except Exception as e:
+                logger.warning(f"Could not add business card: {e}")
+
+        # ========== 4. QR CODE (right) ==========
+        if qr_image:
+            qr_size = CLEAN_FOOTER_HEIGHT * 0.75
+            qr_x = page_width - qr_size - 20
+            qr_y = CLEAN_FOOTER_Y + (CLEAN_FOOTER_HEIGHT - qr_size) / 2
+            with tempfile.NamedTemporaryFile(suffix='.png', delete=False) as tmp:
+                qr_image.save(tmp.name, format='PNG')
+                c.drawImage(tmp.name, qr_x, qr_y, width=qr_size, height=qr_size)
+                logger.info(f"✓ QR code (right) at ({qr_x:.0f}, {qr_y:.0f}): {qr_size:.0f}×{qr_size:.0f}")
+
+        # ========== 5. AD IMAGES (same grid, but shift zone down to account for taller footer) ==========
+        if ad_image_paths and len(ad_image_paths) > 0:
+            try:
+                valid_paths = [p for p in ad_image_paths if p and Path(p).exists()]
+                # Adjust grid: bottom at footer top, top same as classic
+                clean_grid_bottom = CLEAN_FOOTER_HEIGHT + 5
+                clean_grid_top = 430.0
+                clean_grid_height = clean_grid_top - clean_grid_bottom
+
+                if len(valid_paths) == 1:
+                    w = (page_width - 72) * 0.85
+                    h = clean_grid_height * 0.85
+                    positions = [((page_width - w) / 2, clean_grid_bottom + (clean_grid_height - h) / 2, w, h)]
+                else:
+                    cols = 2 if len(valid_paths) <= 4 else 3
+                    rows = (len(valid_paths) + cols - 1) // cols
+                    gap = 10
+                    usable_w = (page_width - 72) - (gap * (cols - 1))
+                    usable_h = clean_grid_height - (gap * (rows - 1))
+                    cell_w = usable_w / cols
+                    cell_h = usable_h / rows
+                    positions = []
+                    for idx in range(len(valid_paths)):
+                        col = idx % cols
+                        row = idx // cols
+                        x = 36 + col * (cell_w + gap)
+                        y = clean_grid_top - (row + 1) * cell_h - row * gap
+                        positions.append((x, y, cell_w, cell_h))
+
+                for idx, ad_path in enumerate(valid_paths):
+                    cell_x, cell_y, cell_w, cell_h = positions[idx]
+                    img_resized, fw, fh = resize_ad_image(ad_path, cell_w * 0.95, cell_h * 0.95)
+                    if img_resized:
+                        ad_x = cell_x + (cell_w - fw) / 2
+                        ad_y = cell_y + (cell_h - fh) / 2
+                        with tempfile.NamedTemporaryFile(suffix='.png', delete=False) as tmp:
+                            img_resized.save(tmp.name, format='PNG')
+                            c.drawImage(tmp.name, ad_x, ad_y, width=fw, height=fh)
+                            logger.info(f"✓ Clean ad #{idx+1} at ({ad_x:.0f}, {ad_y:.0f}): {fw:.0f}×{fh:.0f}")
+            except Exception as e:
+                logger.warning(f"Could not add ad images: {e}")
+                import traceback
+                traceback.print_exc()
+
+        c.save()
+
+        overlay_buffer.seek(0)
+        overlay_pdf = PdfReader(overlay_buffer)
+        overlay_page = overlay_pdf.pages[0]
+
+        page.merge_page(overlay_page)
+
+        pdf_writer = PdfWriter()
+        pdf_writer.add_page(page)
+        for additional_page in pdf_reader.pages[1:]:
+            pdf_writer.add_page(additional_page)
+
+        output_buffer = io.BytesIO()
+        pdf_writer.write(output_buffer)
+        output_buffer.seek(0)
+
+        logger.info("✓ Clean template PDF complete")
+        return output_buffer.getvalue()
+
+    except Exception as e:
+        logger.error(f"Error creating clean template PDF: {e}")
+        import traceback
+        traceback.print_exc()
+        return None
+
+
 def generate_counter_sign(
     chain_code: str,
     ad_image_paths: list,
@@ -460,6 +639,7 @@ def generate_counter_sign(
     rep_email: str,
     landing_page_url: Optional[str] = None,
     business_card_path: Optional[str] = None,
+    style: str = 'classic',
 ) -> Tuple[Optional[bytes], Optional[str]]:
     """
     Generate counter sign with precise positioning.
@@ -532,15 +712,25 @@ def generate_counter_sign(
         'email': rep_email,
     }
     
-    # Create overlay
-    pdf_bytes = overlay_content_on_template(
-        str(template_path),
-        ad_image_paths=valid_paths,
-        business_card_path=business_card_path,
-        qr_image=qr_image,
-        rep_data=rep_data,
-        landing_page_url=landing_page_url,
-    )
+    # Create overlay based on style
+    if style == 'clean':
+        pdf_bytes = overlay_clean_footer(
+            str(template_path),
+            ad_image_paths=valid_paths,
+            business_card_path=business_card_path,
+            qr_image=qr_image,
+            rep_data=rep_data,
+            landing_page_url=landing_page_url,
+        )
+    else:
+        pdf_bytes = overlay_content_on_template(
+            str(template_path),
+            ad_image_paths=valid_paths,
+            business_card_path=business_card_path,
+            qr_image=qr_image,
+            rep_data=rep_data,
+            landing_page_url=landing_page_url,
+        )
     
     if not pdf_bytes:
         return None, None
