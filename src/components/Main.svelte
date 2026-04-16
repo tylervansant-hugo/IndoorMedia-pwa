@@ -1566,7 +1566,7 @@
     color: rgba(255, 255, 255, 0.6);
     cursor: pointer;
     position: relative;
-    padding: 6px 2px 4px;
+    padding: 0;
     transition: color 0.2s;
     -webkit-tap-highlight-color: transparent;
   }
