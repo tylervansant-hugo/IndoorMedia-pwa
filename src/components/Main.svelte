@@ -99,6 +99,9 @@
   let nextSellingCycle = '';
   let nextSellingDate = '';
   let nextSellingDays = 0;
+  let currentSellingCycle = '';
+  let currentSellingDates = '';
+  let currentInstallCycle = '';
 
   // Zone install day lookup — from RTUI Zone Chart
   const ZONE_INSTALL_DAYS = {
@@ -155,6 +158,36 @@
       nextSellingCycle = sellingAfter[nearestInstall.name];
       nextSellingDate = sellDate.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
       nextSellingDays = sellDiff;
+
+      // Current cycle: what we're selling NOW and what installs from it
+      // The selling cycle that's active is the one BEFORE the next selling cycle
+      const cycleOrder = ['A', 'B', 'C'];
+      const sellingInstall = { 'A': 'B', 'B': 'C', 'C': 'A' }; // selling A → installs as B
+      currentSellingCycle = sellingAfter[nearestInstall.name]; // same as nextSellingCycle label
+      // Actually: current selling = the cycle we're in right now
+      // If next install is B (May 7), we're currently selling A (which installs as A on May 7? No...)
+      // Cycle logic: selling C now → A install on Apr 7 already happened → next is B install May 7
+      // So current selling cycle is the one whose selling window we're in
+      // Selling window = from previous install+4 to next install+4
+      // If next install is B on May 7, and next selling is A on May 11
+      // Then CURRENT selling is C (Apr 11 to May 10), with A install (Apr 7)
+      const prevInstallCycleName = sellingAfter[sellingAfter[nearestInstall.name]]; // two before next
+      currentSellingCycle = prevInstallCycleName === 'A' ? 'C' : prevInstallCycleName === 'B' ? 'A' : 'B';
+      // Simpler: current selling cycle is what comes before next selling
+      // Next selling is A → current selling is C
+      // Next selling is B → current selling is A  
+      // Next selling is C → current selling is B
+      const currentSellMap = { 'A': 'C', 'B': 'A', 'C': 'B' };
+      currentSellingCycle = currentSellMap[nextSellingCycle];
+      currentInstallCycle = sellingInstall[currentSellingCycle] || currentSellingCycle;
+      
+      // Current selling dates: from last selling start to next install+3
+      const prevSellStart = new Date(nearestInstall.date);
+      prevSellStart.setMonth(prevSellStart.getMonth() - 1);
+      prevSellStart.setDate(installDay + 4);
+      const currentSellEnd = new Date(nearestInstall.date);
+      currentSellEnd.setDate(currentSellEnd.getDate() + 3);
+      currentSellingDates = `${prevSellStart.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })} – ${currentSellEnd.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}`;
     }
   }
 
@@ -817,12 +850,12 @@
         <button class="header-icon-btn font-size-btn" on:click={cycleFontSize} title="Font size: {currentFontSize}">
           <span class="font-size-label">{currentFontSize}</span>
         </button>
-        <button class="header-icon-btn logout-text" on:click={handleLogout}>Logout</button>
       </div>
     </div>
 
     <div class="header-bottom">
       <p class="user-greeting">Welcome, <strong>{$user?.name || $user?.first_name}</strong></p>
+      <button class="header-logout-btn" on:click={handleLogout}>Log Out</button>
     </div>
   </header>
 
@@ -956,12 +989,22 @@
           {#if nextInstallCycle}
             <div class="stat-card cycle-card">
               <div class="stat-icon">📦</div>
-              <h3>Next Cycle</h3>
-              <div class="cycle-info">
-                <p class="cycle-line"><strong>{nextInstallCycle} Install</strong> · {nextInstallDate}</p>
-                <p class="cycle-days-label">{nextInstallDays} day{nextInstallDays !== 1 ? 's' : ''}</p>
-                <p class="cycle-line"><strong>{nextSellingCycle} Selling</strong> · {nextSellingDate}</p>
-                <p class="cycle-days-label">{nextSellingDays} day{nextSellingDays !== 1 ? 's' : ''}</p>
+              <h3>Cycles</h3>
+              <div class="cycle-columns">
+                <div class="cycle-col">
+                  <p class="cycle-col-title">CURRENT</p>
+                  <p class="cycle-line"><strong>{currentSellingCycle} Selling</strong></p>
+                  <p class="cycle-days-label">{currentSellingDates}</p>
+                  <p class="cycle-line"><strong>{currentSellingCycle} Install</strong> · {nextInstallDate}</p>
+                </div>
+                <div class="cycle-divider"></div>
+                <div class="cycle-col">
+                  <p class="cycle-col-title">NEXT</p>
+                  <p class="cycle-line"><strong>{nextInstallCycle} Install</strong> · {nextInstallDate}</p>
+                  <p class="cycle-days-label">{nextInstallDays} day{nextInstallDays !== 1 ? 's' : ''}</p>
+                  <p class="cycle-line"><strong>{nextSellingCycle} Selling</strong> · {nextSellingDate}</p>
+                  <p class="cycle-days-label">{nextSellingDays} day{nextSellingDays !== 1 ? 's' : ''}</p>
+                </div>
               </div>
             </div>
           {/if}
@@ -1742,6 +1785,23 @@
   .cycle-card .cycle-line { margin: 0; font-size: 13px; color: var(--text-secondary); }
   .cycle-card .cycle-line strong { color: #CC0000; }
   .cycle-card .cycle-days-label { margin: 0 0 8px; font-size: 12px; color: var(--text-tertiary); }
+  .cycle-columns { display: flex; gap: 0; margin-top: 8px; }
+  .cycle-col { flex: 1; text-align: center; }
+  .cycle-col-title { font-size: 11px; font-weight: 700; color: #CC0000; letter-spacing: 1px; margin: 0 0 6px; }
+  .cycle-divider { width: 1px; background: #e0e0e0; margin: 0 8px; }
+
+  .header-logout-btn {
+    background: rgba(255,255,255,0.2);
+    border: 1px solid rgba(255,255,255,0.4);
+    color: white;
+    padding: 4px 14px;
+    border-radius: 6px;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    margin-top: 6px;
+  }
+  .header-logout-btn:hover { background: rgba(255,255,255,0.3); }
 
   /* Clickable cards */
   .clickable { cursor: pointer; transition: transform 0.15s, box-shadow 0.15s; }
