@@ -54,10 +54,10 @@ QR_CODE_X_MIN = 484.4
 QR_CODE_Y_MIN = 22.7
 QR_CODE_SIZE = 109.9  # 109.9 × 109.9 pts (~1.53" × 1.53")
 
-# WHITE BACKGROUND BOX (covers original QR)
-QR_BG_X_MIN = 476.9
-QR_BG_Y_MIN = 15.1
-QR_BG_SIZE = 125.1  # 125.1 × 125.1 pts (~1.74" × 1.74")
+# WHITE BACKGROUND BOX (covers original QR — oversized to ensure full coverage)
+QR_BG_X_MIN = 470.0
+QR_BG_Y_MIN = 10.0
+QR_BG_SIZE = 140.0  # Oversized to fully cover original QR
 
 # BUSINESS CARD - BOTTOM-LEFT (replaces RTUI logo area)
 BC_X_BOTTOM = 9.2  # Shifted left by 5 pts more (was 14.2)
@@ -500,7 +500,9 @@ def overlay_clean_footer(
             try:
                 logo_img = Image.open(str(logo_path))
                 logo_ratio = logo_img.width / logo_img.height
-                logo_h = CLEAN_FOOTER_HEIGHT * 0.70
+                # Match QR code size (75% of footer height)
+                qr_size = CLEAN_FOOTER_HEIGHT * 0.75
+                logo_h = qr_size
                 logo_w = logo_h * logo_ratio
                 logo_x = 15
                 logo_y = CLEAN_FOOTER_Y + (CLEAN_FOOTER_HEIGHT - logo_h) / 2
@@ -539,10 +541,12 @@ def overlay_clean_footer(
             except Exception as e:
                 logger.warning(f"Could not add business card: {e}")
 
-        # ========== 4. QR CODE (right) ==========
+        # ========== 4. QR CODE (right) — must fully cover original template QR ==========
         if qr_image:
-            qr_size = CLEAN_FOOTER_HEIGHT * 0.75
-            qr_x = page_width - qr_size - 20
+            # Original template QR: x=476.9, y=15.1, size=125.1pt
+            # Make our QR at least that big and positioned to cover it
+            qr_size = max(CLEAN_FOOTER_HEIGHT * 0.85, QR_BG_SIZE)
+            qr_x = page_width - qr_size - 10
             qr_y = CLEAN_FOOTER_Y + (CLEAN_FOOTER_HEIGHT - qr_size) / 2
             with tempfile.NamedTemporaryFile(suffix='.png', delete=False) as tmp:
                 qr_image.save(tmp.name, format='PNG')
