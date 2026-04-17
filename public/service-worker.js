@@ -3,7 +3,7 @@
  * Handles offline caching, push notifications, and background sync
  */
 
-const CACHE_VERSION = 'v2';
+const CACHE_VERSION = 'v3';
 const CACHE_NAME = `indoormedia-${CACHE_VERSION}`;
 
 // Assets to cache on install

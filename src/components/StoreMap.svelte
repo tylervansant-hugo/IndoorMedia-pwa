@@ -100,13 +100,16 @@
 
       if (hasContract) withContracts++;
 
-      const color = hasContract ? '#22c55e' : '#ef4444';
+      // Purple for rep-filtered stores, green for contracted, red for open
+      const isRepFiltered = !!selectedRep;
+      const color = isRepFiltered ? '#8b5cf6' : (hasContract ? '#22c55e' : '#ef4444');
+      const borderColor = isRepFiltered ? '#5b21b6' : (hasContract ? '#166534' : '#991b1b');
       const fillOpacity = hasContract ? 0.9 : 0.6;
 
       const marker = L.circleMarker([store.latitude, store.longitude], {
         radius: 7,
         fillColor: color,
-        color: hasContract ? '#166534' : '#991b1b',
+        color: borderColor,
         weight: 1.5,
         fillOpacity: fillOpacity,
       });
