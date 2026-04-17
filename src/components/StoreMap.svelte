@@ -60,8 +60,11 @@
       stores = stores.filter(s => s.GroceryChain === selectedChain);
     }
     if (selectedRep) {
-      // Show all stores matching other filters, but only those with contracts from this rep get green
-      // We still show all stores but the color logic handles rep filtering
+      // Only show stores where this rep has contracts
+      stores = stores.filter(s => {
+        const storeNum = s.StoreName.split('-')[1] || '';
+        return storeHasContractForRep(storeNum, selectedRep);
+      });
     }
 
     return stores;
