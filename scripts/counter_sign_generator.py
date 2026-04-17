@@ -543,11 +543,15 @@ def overlay_clean_footer(
 
         # ========== 4. QR CODE (right) — must fully cover original template QR ==========
         if qr_image:
-            # Original template QR: x=476.9, y=15.1, size=125.1pt
-            # Make our QR at least that big and positioned to cover it
-            qr_size = max(CLEAN_FOOTER_HEIGHT * 0.85, QR_BG_SIZE)
-            qr_x = page_width - qr_size - 10
+            # Original template QR sits at x=476.9 to x=602 (right edge), y=15.1, size=125.1pt
+            # Our QR must cover that entire area — use the original's exact position
+            qr_size = CLEAN_FOOTER_HEIGHT * 0.85  # ~131pt
+            # Position so right edge of QR aligns with right edge of original (with small margin)
+            qr_x = page_width - qr_size - 5  # Nearly flush right
             qr_y = CLEAN_FOOTER_Y + (CLEAN_FOOTER_HEIGHT - qr_size) / 2
+            # Draw footer-colored rect behind QR area to fully obliterate original QR
+            c.setFillColorRGB(*CLEAN_FOOTER_COLOR)
+            c.rect(QR_BG_X_MIN - 5, 0, page_width - QR_BG_X_MIN + 10, CLEAN_FOOTER_HEIGHT, fill=1, stroke=0)
             with tempfile.NamedTemporaryFile(suffix='.png', delete=False) as tmp:
                 qr_image.save(tmp.name, format='PNG')
                 c.drawImage(tmp.name, qr_x, qr_y, width=qr_size, height=qr_size)
