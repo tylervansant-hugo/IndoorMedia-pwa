@@ -5,6 +5,7 @@
   import { logActivity, getRepActivityReport, getDailySummaries } from '../lib/activity.js';
   import { initFirebase, isFirebaseReady, getAllRepActivity } from '../lib/firebase.js';
   import StoreSearch from './StoreSearch.svelte';
+  import StoreMap from './StoreMap.svelte';
   import ProspectSearch from './ProspectSearch.svelte';
   import Tools from './Tools.svelte';
   import Cart from './Cart.svelte';
@@ -15,6 +16,7 @@
   import HotLeadsSubmit from './HotLeadsSubmit.svelte';
 
   let currentTab = 'dashboard';
+  let storesView = 'list'; // 'list' or 'map'
   
   // Track tab changes
   $: if (currentTab && typeof window !== 'undefined') {
@@ -1142,7 +1144,15 @@
     {:else if currentTab === 'prospects'}
       <ProspectSearch />
     {:else if currentTab === 'stores'}
-      <StoreSearch />
+      <div class="stores-view-toggle">
+        <button class="view-toggle-btn" class:active={storesView === 'list'} on:click={() => storesView = 'list'}>📋 List</button>
+        <button class="view-toggle-btn" class:active={storesView === 'map'} on:click={() => storesView = 'map'}>🗺️ Map</button>
+      </div>
+      {#if storesView === 'list'}
+        <StoreSearch />
+      {:else}
+        <StoreMap />
+      {/if}
     {:else if currentTab === 'tools'}
       <Tools />
     {:else if currentTab === 'cart'}
@@ -2136,4 +2146,31 @@
   .month-table td, .rep-table td { padding: 12px; border-bottom: 1px solid var(--border-color); color: var(--text-primary); }
   .month-table tr:last-child td, .rep-table tr:last-child td { border-bottom: none; }
   .month-table tr:hover, .rep-table tr:hover { background: var(--bg-secondary); }
+
+  /* Stores view toggle */
+  .stores-view-toggle {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 12px;
+  }
+  .view-toggle-btn {
+    padding: 8px 20px;
+    border: 1px solid var(--border-color, #ddd);
+    border-radius: 20px;
+    background: var(--card-bg, #fff);
+    color: var(--text-secondary, #666);
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .view-toggle-btn.active {
+    background: #CC0000;
+    color: white;
+    border-color: #CC0000;
+  }
+  .view-toggle-btn:hover:not(.active) {
+    border-color: #CC0000;
+    color: #CC0000;
+  }
 </style>
