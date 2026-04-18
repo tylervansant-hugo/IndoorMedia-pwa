@@ -30,6 +30,16 @@
   let totalCount = 0;
   let contractCount = 0;
 
+  // Rep location beacons
+  let showBeacons = true;
+  let repBeaconLayers = [];
+  const REP_COLORS = [
+    '#e63946', '#457b9d', '#2a9d8f', '#e9c46a', '#f4a261',
+    '#264653', '#8338ec', '#ff006e', '#3a86ff', '#fb5607',
+    '#606c38', '#023e8a', '#d62828', '#6a4c93', '#1d3557',
+    '#f77f00', '#7209b7', '#4cc9f0', '#80b918', '#dc2f02'
+  ];
+
   function extractStoreNumber(storeName) {
     if (!storeName) return '';
     const parts = storeName.split('-');
@@ -158,6 +168,73 @@
     contractCount = withContracts;
   }
 
+  function updateBeacons() {
+    if (!map) return;
+    // Remove old beacons
+    repBeaconLayers.forEach(l => map.removeLayer(l));
+    repBeaconLayers = [];
+
+    if (!showBeacons) return;
+
+    try {
+      const repLocations = JSON.parse(localStorage.getItem('repLastLocations') || '{}');
+      const repNames = Object.keys(repLocations);
+      if (repNames.length === 0) return;
+
+      repNames.forEach((repName, idx) => {
+        const loc = repLocations[repName];
+        if (!loc || !loc.lat || !loc.lng) return;
+
+        // Skip if filtering by rep and this isn't the selected rep
+        if (selectedRep && repName !== selectedRep) return;
+
+        const color = REP_COLORS[idx % REP_COLORS.length];
+        const timeSince = loc.timestamp ? getTimeSince(loc.timestamp) : 'Unknown';
+
+        // Pulsing beacon — outer ring
+        const outerRing = L.circleMarker([loc.lat, loc.lng], {
+          radius: 18,
+          fillColor: color,
+          color: color,
+          weight: 2,
+          fillOpacity: 0.15,
+          className: 'beacon-pulse'
+        }).addTo(map);
+
+        // Inner dot
+        const innerDot = L.circleMarker([loc.lat, loc.lng], {
+          radius: 8,
+          fillColor: color,
+          color: '#fff',
+          weight: 2.5,
+          fillOpacity: 1,
+        }).addTo(map);
+
+        innerDot.bindPopup(`
+          <div class="store-popup">
+            <div class="popup-header" style="color:${color}">📍 ${repName}</div>
+            <div class="popup-detail">Last "Near Me" search</div>
+            <div class="popup-detail">${timeSince}</div>
+            <div class="popup-detail" style="font-size:11px;color:#999;">${loc.lat.toFixed(4)}, ${loc.lng.toFixed(4)}</div>
+          </div>
+        `, { maxWidth: 250, className: 'store-map-popup' });
+
+        repBeaconLayers.push(outerRing, innerDot);
+      });
+    } catch (e) { /* ignore */ }
+  }
+
+  function getTimeSince(timestamp) {
+    const diff = Date.now() - new Date(timestamp).getTime();
+    const mins = Math.floor(diff / 60000);
+    if (mins < 1) return 'Just now';
+    if (mins < 60) return `${mins}m ago`;
+    const hours = Math.floor(mins / 60);
+    if (hours < 24) return `${hours}h ago`;
+    const days = Math.floor(hours / 24);
+    return `${days}d ago`;
+  }
+
   function handlePrint() {
     window.print();
   }
@@ -214,6 +291,7 @@
       map.addLayer(markerClusterGroup);
 
       updateMap();
+      updateBeacons();
     } catch (err) {
       console.error('StoreMap init error:', err);
     }
@@ -228,8 +306,9 @@
 
   // Reactively update map when filters change
   $: if (map) {
-    selectedRep, selectedZone, selectedCycle, selectedChain;
+    selectedRep, selectedZone, selectedCycle, selectedChain, showBeacons;
     updateMap();
+    updateBeacons();
   }
 </script>
 
@@ -265,6 +344,10 @@
       </select>
 
       <button class="print-btn" on:click={handlePrint} title="Print map">🖨️</button>
+      <label class="beacon-toggle" title="Show rep location beacons">
+        <input type="checkbox" bind:checked={showBeacons} />
+        📍 Reps
+      </label>
     </div>
 
     <div class="filter-status">
@@ -330,6 +413,29 @@
 
   .print-btn:hover {
     background: var(--hover-bg, #f0f0f0);
+  }
+
+  .beacon-toggle {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    padding: 4px 8px;
+    border-radius: 6px;
+    background: var(--bg-primary, #fff);
+    border: 1px solid var(--border-color, #ddd);
+    white-space: nowrap;
+  }
+  .beacon-toggle input { margin: 0; }
+
+  :global(.beacon-pulse) {
+    animation: pulse-beacon 2s ease-in-out infinite;
+  }
+  @keyframes pulse-beacon {
+    0%, 100% { opacity: 0.15; }
+    50% { opacity: 0.4; }
   }
 
   .filter-status {

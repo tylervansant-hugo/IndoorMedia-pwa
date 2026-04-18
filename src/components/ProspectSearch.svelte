@@ -431,6 +431,14 @@
       (pos) => {
         userLocation = { lat: pos.coords.latitude, lng: pos.coords.longitude };
         
+        // Save last GPS location for this rep (used by territory map beacons)
+        try {
+          const repName = $user?.contract_name || $user?.display_name || $user?.name || 'Unknown';
+          const repLocations = JSON.parse(localStorage.getItem('repLastLocations') || '{}');
+          repLocations[repName] = { lat: pos.coords.latitude, lng: pos.coords.longitude, timestamp: new Date().toISOString() };
+          localStorage.setItem('repLastLocations', JSON.stringify(repLocations));
+        } catch (e) { /* ignore */ }
+        
         // Find 10 nearest stores
         const withDistances = allStores
           .map(store => ({
