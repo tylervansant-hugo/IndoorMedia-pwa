@@ -38,6 +38,7 @@ def generate():
         chain_code = request.form.get('chain_code', '').strip()
         rep_name = request.form.get('rep_name', '').strip()
         landing_page_url = request.form.get('landing_page_url', '').strip() or None
+        style = request.form.get('style', 'classic').strip()  # 'classic' or 'clean'
 
         if not chain_code:
             return jsonify({'error': 'Missing chain_code'}), 400
@@ -74,7 +75,7 @@ def generate():
                 bc_path = tmp / 'business_card.jpg'
                 request.files['business_card'].save(str(bc_path))
 
-            logger.info(f"Generating: chain={chain_code}, rep={rep_name}, {len(ad_paths)} ad image(s)")
+            logger.info(f"Generating: chain={chain_code}, rep={rep_name}, {len(ad_paths)} ad image(s), style={style}")
 
             # Call the SAME function the bot uses
             result = generate_counter_sign(
@@ -85,6 +86,7 @@ def generate():
                 rep_email=rep_email,
                 landing_page_url=landing_page_url,
                 business_card_path=str(bc_path) if bc_path else None,
+                style=style,
             )
 
             # Returns (pdf_bytes, output_path) or (None, None)
