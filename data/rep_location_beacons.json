@@ -1,0 +1,96 @@
+{
+  "beacons": [
+    {
+      "rep_id": "8548368719",
+      "rep_name": "Tyler Van Sant",
+      "latitude": 45.8296,
+      "longitude": -122.7744,
+      "location_name": "Ridgefield, WA",
+      "timestamp": "2026-04-19T08:45:00Z",
+      "distance_from_base": 0,
+      "store_searched": "ROS07Z-0042"
+    },
+    {
+      "rep_id": "8703124669",
+      "rep_name": "Meghan Wink",
+      "latitude": 45.6387,
+      "longitude": -122.6615,
+      "location_name": "Vancouver, WA - Downtown",
+      "timestamp": "2026-04-19T09:15:00Z",
+      "distance_from_base": 0.3,
+      "store_searched": "SAF07X-0128"
+    },
+    {
+      "rep_id": "adan_ramos",
+      "rep_name": "Adan Ramos",
+      "latitude": 45.5917,
+      "longitude": -122.6649,
+      "location_name": "Vancouver, WA - Central",
+      "timestamp": "2026-04-19T08:30:00Z",
+      "distance_from_base": 0.5,
+      "store_searched": "FME07X-0091"
+    },
+    {
+      "rep_id": "7711642836",
+      "rep_name": "Matthew Boozer",
+      "latitude": 43.6150,
+      "longitude": -123.0976,
+      "location_name": "Cottage Grove, OR",
+      "timestamp": "2026-04-19T07:45:00Z",
+      "distance_from_base": 0,
+      "store_searched": "ALB07Y-0015"
+    },
+    {
+      "rep_id": "amy_dixon",
+      "rep_name": "Amy Dixon",
+      "latitude": 45.3829,
+      "longitude": -122.7610,
+      "location_name": "Tualatin, OR - Target Store Area",
+      "timestamp": "2026-04-19T08:20:00Z",
+      "distance_from_base": 0.2,
+      "store_searched": "WMT05X-0634"
+    },
+    {
+      "rep_id": "jan_banks",
+      "rep_name": "Jan Banks",
+      "latitude": 45.4149,
+      "longitude": -122.7356,
+      "location_name": "Tualatin, OR - West Side",
+      "timestamp": "2026-04-18T16:55:00Z",
+      "distance_from_base": 1.2,
+      "store_searched": "SAF05X-0042"
+    },
+    {
+      "rep_id": "anthony_eng",
+      "rep_name": "Anthony Eng",
+      "latitude": 45.2906,
+      "longitude": -122.9068,
+      "location_name": "Newberg, OR - Highway 219",
+      "timestamp": "2026-04-19T06:30:00Z",
+      "distance_from_base": 0.1,
+      "store_searched": "FME07Y-0089"
+    },
+    {
+      "rep_id": "8003974335",
+      "rep_name": "Marty",
+      "latitude": 45.2906,
+      "longitude": -122.9068,
+      "location_name": "Newberg, OR",
+      "timestamp": "2026-04-18T14:20:00Z",
+      "distance_from_base": 0,
+      "store_searched": "SAF07Y-0063"
+    },
+    {
+      "rep_id": "dave_boring",
+      "rep_name": "Dave Boring",
+      "latitude": 45.7431,
+      "longitude": -122.4433,
+      "location_name": "Battle Ground, WA - Glenwood Area",
+      "timestamp": "2026-04-19T07:10:00Z",
+      "distance_from_base": 0.3,
+      "store_searched": "FME07X-0076"
+    }
+  ],
+  "last_updated": "2026-04-19T09:02:00Z",
+  "note": "Test seed data - beacons will auto-update as reps use Near Me feature in Prospect Search"
+}
