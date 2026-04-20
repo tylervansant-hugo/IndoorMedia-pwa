@@ -1,0 +1,299 @@
+[
+  {
+    "event_id": "5pltr87lhu176f0qomb94ihgni",
+    "title": "Bamboo Nail & Spa",
+    "start": "2026-04-02T11:00:00-07:00",
+    "end": "2026-04-02T12:00:00-07:00",
+    "location": "20149 Viking Ave NW unit 121, Poulsbo, WA 98370, USA",
+    "description": "Meeting with the owner Lynn",
+    "prospect_name": "",
+    "phone": "",
+    "address": "",
+    "store": "",
+    "rep": "",
+    "attendees": [
+      {
+        "email": "ryan.rohner-talton@indoormedia.com",
+        "name": "",
+        "status": "accepted"
+      },
+      {
+        "email": "tyler.vansant@indoormedia.com",
+        "name": "",
+        "status": "needsAction"
+      }
+    ],
+    "is_prospect_visit": false,
+    "creator": "ryan.rohner-talton@indoormedia.com"
+  },
+  {
+    "event_id": "p8oqa5f76kkovhlqub58st21fg",
+    "title": "Visit: Mama Chio mayan",
+    "start": "2026-04-02T18:00:00-07:00",
+    "end": "2026-04-02T19:00:00-07:00",
+    "location": "8124 SW Barbur Blvd, Portland, OR 97219, USA",
+    "description": "Prospect: Mama Chio mayan\nAddress: 8124 SW Barbur Blvd, Portland, OR 97219, USA\nPhone: (971) 341-8664\nStore: Safeway SAF07Y-3136\nRep: Tyler Van Sant",
+    "prospect_name": "Mama Chio mayan",
+    "phone": "(971) 341-8664",
+    "address": "8124 SW Barbur Blvd, Portland, OR 97219, USA",
+    "store": "Safeway SAF07Y-3136",
+    "rep": "Tyler Van Sant",
+    "attendees": [
+      {
+        "email": "tyler.vansant@indoormedia.com",
+        "name": "",
+        "status": "accepted"
+      },
+      {
+        "email": "adan.ramos@indoormedia.com",
+        "name": "",
+        "status": "needsAction"
+      }
+    ],
+    "is_prospect_visit": true,
+    "creator": "tyler.vansant@indoormedia.com"
+  },
+  {
+    "event_id": "_8d13ihhk8l336b9h74p38b9k8opk2ba27534ab9k71142cpl6kqjgh9j70_20260403T030000Z",
+    "title": "Take out garbage - STOP what I\u2019m doing or I will forget",
+    "start": "2026-04-02T20:00:00-07:00",
+    "end": "2026-04-02T21:00:00-07:00",
+    "location": "",
+    "description": "",
+    "prospect_name": "",
+    "phone": "",
+    "address": "",
+    "store": "",
+    "rep": "",
+    "attendees": [],
+    "is_prospect_visit": false,
+    "creator": "tyler.vansant@indoormedia.com"
+  },
+  {
+    "event_id": "hq0n6ijtdvp3niifgl066654ok",
+    "title": "IndoorMedia \u2014 Prospect Visit",
+    "start": "2026-04-03T10:00:00-07:00",
+    "end": "2026-04-03T11:00:00-07:00",
+    "location": "",
+    "description": "Sales appointment\\nRep: Tyler Van Sant",
+    "prospect_name": "",
+    "phone": "",
+    "address": "",
+    "store": "",
+    "rep": "Tyler Van Sant",
+    "attendees": [
+      {
+        "email": "tyler.vansant@indoormedia.com",
+        "name": "",
+        "status": "accepted"
+      }
+    ],
+    "is_prospect_visit": false,
+    "creator": "tyler.vansant@indoormedia.com"
+  },
+  {
+    "event_id": "rm47k9sqhdp044f8gotirap16g",
+    "title": "IndoorMedia \u2014 Prospect Visit",
+    "start": "2026-04-03T10:00:00-07:00",
+    "end": "2026-04-03T11:00:00-07:00",
+    "location": "",
+    "description": "Sales appointment\\nRep: Tyler Van Sant",
+    "prospect_name": "",
+    "phone": "",
+    "address": "",
+    "store": "",
+    "rep": "Tyler Van Sant",
+    "attendees": [
+      {
+        "email": "tyler.vansant@indoormedia.com",
+        "name": "",
+        "status": "accepted"
+      }
+    ],
+    "is_prospect_visit": false,
+    "creator": "tyler.vansant@indoormedia.com"
+  },
+  {
+    "event_id": "2fgu9dobemkcdkgh5q9hptbk10",
+    "title": "Visit: La Palapa II Mexican Grill",
+    "start": "2026-04-03T12:00:00-07:00",
+    "end": "2026-04-03T13:00:00-07:00",
+    "location": "23730 WA-3, Belfair, WA 98528, USA",
+    "description": "Prospect: La Palapa II Mexican Grill\nAddress: 23730 WA-3, Belfair, WA 98528, USA\nPhone: (360) 552-2377\nWebsite: https://lapalapamexicangrill.com/\nStore: Safeway SAF07X-1571\n\nAlejandro",
+    "prospect_name": "La Palapa II Mexican Grill",
+    "phone": "(360) 552-2377",
+    "address": "23730 WA-3, Belfair, WA 98528, USA",
+    "store": "Safeway SAF07X-1571",
+    "rep": "",
+    "attendees": [],
+    "is_prospect_visit": true,
+    "creator": "tyler.vansant@indoormedia.com"
+  },
+  {
+    "event_id": "3p2qcov113eb3n56sjv1hsh9e8_20260405T160000Z",
+    "title": "Send out Delivery/renewal reports to reps",
+    "start": "2026-04-05T09:00:00-07:00",
+    "end": "2026-04-05T10:00:00-07:00",
+    "location": "",
+    "description": "",
+    "prospect_name": "",
+    "phone": "",
+    "address": "",
+    "store": "",
+    "rep": "",
+    "attendees": [],
+    "is_prospect_visit": false,
+    "creator": "tyler.vansant@indoormedia.com"
+  },
+  {
+    "event_id": "4a2735ne6kjo5pbiaigsim6cok_20260406T160000Z",
+    "title": "Check Aging Report",
+    "start": "2026-04-06T09:00:00-07:00",
+    "end": "2026-04-06T10:00:00-07:00",
+    "location": "",
+    "description": "",
+    "prospect_name": "",
+    "phone": "",
+    "address": "",
+    "store": "",
+    "rep": "",
+    "attendees": [
+      {
+        "email": "richard.leibowitz@rtui.com",
+        "name": "",
+        "status": "needsAction"
+      },
+      {
+        "email": "tyler.vansant@indoormedia.com",
+        "name": "",
+        "status": "accepted"
+      }
+    ],
+    "is_prospect_visit": false,
+    "creator": "tyler.vansant@indoormedia.com"
+  },
+  {
+    "event_id": "sue6tm5763v5l6kl3c20u5psl4",
+    "title": "Meet with rigo at La sierra",
+    "start": "2026-04-06T12:00:00-07:00",
+    "end": "2026-04-06T13:00:00-07:00",
+    "location": "",
+    "description": "",
+    "prospect_name": "",
+    "phone": "",
+    "address": "",
+    "store": "",
+    "rep": "",
+    "attendees": [
+      {
+        "email": "anthony.eng@indoormedia.com",
+        "name": "",
+        "status": "accepted"
+      },
+      {
+        "email": "tyler.vansant@indoormedia.com",
+        "name": "",
+        "status": "needsAction"
+      }
+    ],
+    "is_prospect_visit": false,
+    "creator": "anthony.eng@indoormedia.com"
+  },
+  {
+    "event_id": "n17hi1rs1e3rsi09kfsr3pafe2_20260407T160000Z",
+    "title": "Weekly 7Y & 7Z Oregon/Washington Team Kick-Off",
+    "start": "2026-04-07T09:00:00-07:00",
+    "end": "2026-04-07T09:30:00-07:00",
+    "location": "",
+    "description": "This will be our once a week opportunity to meet as a team to sharpen our skills, discuss what we are working on, and collaborate with each other",
+    "prospect_name": "",
+    "phone": "",
+    "address": "",
+    "store": "",
+    "rep": "",
+    "attendees": [
+      {
+        "email": "dave.boring@indoormedia.com",
+        "name": "",
+        "status": "accepted"
+      },
+      {
+        "email": "tyler.vansant@indoormedia.com",
+        "name": "",
+        "status": "accepted"
+      },
+      {
+        "email": "jan.banks@indoormedia.com",
+        "name": "",
+        "status": "needsAction"
+      },
+      {
+        "email": "amy.dixon@rtui.com",
+        "name": "",
+        "status": "declined"
+      },
+      {
+        "email": "anthony.eng@indoormedia.com",
+        "name": "",
+        "status": "needsAction"
+      },
+      {
+        "email": "austin.dewitt@indoormedia.com",
+        "name": "",
+        "status": "needsAction"
+      },
+      {
+        "email": "matthew.boozer@indoormedia.com",
+        "name": "",
+        "status": "needsAction"
+      },
+      {
+        "email": "ben.patacsil@indoormedia.com",
+        "name": "",
+        "status": "needsAction"
+      },
+      {
+        "email": "christian.johnson@indoormedia.com",
+        "name": "",
+        "status": "needsAction"
+      },
+      {
+        "email": "david.mordvinov@indoormedia.com",
+        "name": "",
+        "status": "accepted"
+      },
+      {
+        "email": "kale.lundberg@indoormedia.com",
+        "name": "",
+        "status": "needsAction"
+      },
+      {
+        "email": "richard.diamond@indoormedia.com",
+        "name": "",
+        "status": "accepted"
+      },
+      {
+        "email": "william.flerry@indoormedia.com",
+        "name": "",
+        "status": "needsAction"
+      },
+      {
+        "email": "adan.ramos@indoormedia.com",
+        "name": "",
+        "status": "accepted"
+      },
+      {
+        "email": "megan.wink@indoormedia.com",
+        "name": "",
+        "status": "accepted"
+      },
+      {
+        "email": "tony.ortega@rtui.com",
+        "name": "",
+        "status": "needsAction"
+      }
+    ],
+    "is_prospect_visit": false,
+    "creator": "tyler.vansant@indoormedia.com"
+  }
+]
