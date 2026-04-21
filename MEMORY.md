@@ -29,6 +29,43 @@
 - Now displays 2-month forward-looking cycle info on home screen
 - Matches sales team's need to see "C installs June 7" while in B cycle
 
+## 📅 Appointment Summary by Rep (Apr 21, 2026)
+**Status:** ✅ LIVE - Shows who has appointments set + quantity + next meetings
+
+**What's Displayed:**
+When you click "Appointments" on the dashboard, the detail view now shows:
+1. **Summary Grid** (top of appointments section)
+   - Each rep gets a card showing their appointment count
+   - Cards sorted by count (busiest reps first)
+   - Shows preview of next 2 appointment titles per rep
+   - Red accent border, clean grid layout
+
+2. **Rep Info on Each Card:**
+   - Rep name
+   - Total appointment count (large red number)
+   - List of next 2 appointments with titles
+   - "+X more" indicator if they have additional appointments
+
+3. **Full Details Below**
+   - Complete appointment list with dates, times, locations
+   - Attendee info
+   - Click to open in Google Calendar
+
+**Example Display:**
+```
+Megan Wink
+   5
+appointments
+• Dental clinic visit
+• Follow-up call
++ 3 more
+```
+
+**Technical:**
+- `appointmentsByRep` object groups by `rep` field from appointments.json
+- Recalculated when appointments sync (every hour 7AM-9PM)
+- Sorts reps by descending count for priority visibility
+
 ## 📍 Rep Location Beacons (Apr 19, 2026)
 **Status:** ✅ LIVE - Seed data + auto-update system ready
 
