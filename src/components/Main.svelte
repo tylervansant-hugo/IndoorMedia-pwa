@@ -104,6 +104,9 @@
   let currentSellingCycle = '';
   let currentSellingDates = '';
   let currentInstallCycle = '';
+  let secondInstallCycle = '';
+  let secondInstallDate = '';
+  let secondInstallDays = 0;
 
   // Zone install day lookup — from RTUI Zone Chart
   const ZONE_INSTALL_DAYS = {
@@ -152,6 +155,23 @@
       nextInstallCycle = nearestInstall.name;
       nextInstallDate = nearestInstall.date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
       nextInstallDays = diff;
+
+      // Find second install (the one after next)
+      let secondInstall = null;
+      for (const cycle of installCycles) {
+        for (const m of cycle.months) {
+          let d = new Date(now.getFullYear(), m, installDay);
+          if (d <= nearestInstall.date) d = new Date(d.getFullYear() + 1, m, installDay);
+          if (!secondInstall || d < secondInstall.date) {
+            secondInstall = { date: d, name: cycle.name };
+          }
+        }
+      }
+      if (secondInstall) {
+        secondInstallCycle = secondInstall.name;
+        secondInstallDate = secondInstall.date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+        secondInstallDays = Math.ceil((secondInstall.date - now) / 86400000);
+      }
 
       // Selling cycle starts 4 days after install
       const sellDate = new Date(nearestInstall.date);
@@ -1001,11 +1021,9 @@
                 </div>
                 <div class="cycle-divider"></div>
                 <div class="cycle-col">
-                  <p class="cycle-col-title">NEXT</p>
-                  <p class="cycle-line"><strong>{nextInstallCycle} Install</strong> · {nextInstallDate}</p>
-                  <p class="cycle-days-label">{nextInstallDays} day{nextInstallDays !== 1 ? 's' : ''}</p>
-                  <p class="cycle-line"><strong>{nextSellingCycle} Selling</strong> · {nextSellingDate}</p>
-                  <p class="cycle-days-label">{nextSellingDays} day{nextSellingDays !== 1 ? 's' : ''}</p>
+                  <p class="cycle-col-title">UPCOMING</p>
+                  <p class="cycle-line"><strong>{secondInstallCycle} Install</strong> · {secondInstallDate}</p>
+                  <p class="cycle-days-label">{secondInstallDays} day{secondInstallDays !== 1 ? 's' : ''}</p>
                 </div>
               </div>
             </div>
