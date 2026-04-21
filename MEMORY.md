@@ -6,13 +6,54 @@
 **Tech Stack:** Svelte + Vite → GitHub Pages (no Vercel)
 
 **Tabs:**
-1. 📊 Dashboard — Quick stats & actions
+1. 📊 Dashboard — Quick stats & actions (+ **Cycles display fixed Apr 21** to show C-cycle Jun 7)
 2. 🔥 **Hot Leads** — NEW! 5 max per store, phone + email ready (Mar 27)
 3. 🎯 Prospects — Real businesses via Google Places API (240K+ results cached)
-4. 🏪 Stores — Store rates lookup (7,835 stores nationwide)
+4. 🏪 Stores — Store rates lookup (7,835 stores nationwide) + 📍 **Rep Location Beacons** (Apr 19)
 5. 📦 Products — Register Tape, Cartvertising, Digital (DigitalBoost, FindLocal, ReviewBoost, LoyaltyBoost)
 6. 🛒 Cart — Order management
 7. 🛠️ Tools — ROI Calc, Rates, Testimonials, Audit Store, Counter Sign Generator
+
+## 📦 Dashboard Cycles Display (Apr 21, 2026)
+**Status:** ✅ FIXED - Now shows full 2-cycle lookahead
+
+**What Changed:**
+- **BEFORE:** Showed same `nextInstallDate` for both CURRENT and NEXT columns (confusing duplicate)
+- **AFTER:** 
+  - CURRENT: B cycle context (what we're selling now)
+  - UPCOMING: C cycle install date (Jun 7, 2026)
+
+**Technical:**
+- Added `secondInstallCycle`, `secondInstallDate`, `secondInstallDays` variables
+- Updated `getNextCycle()` to calculate install cycle after the immediate next one
+- Now displays 2-month forward-looking cycle info on home screen
+- Matches sales team's need to see "C installs June 7" while in B cycle
+
+## 📍 Rep Location Beacons (Apr 19, 2026)
+**Status:** ✅ LIVE - Seed data + auto-update system ready
+
+**How It Works:**
+- **Map view (Stores tab):** Color-coded pulsing beacons showing each rep's last "Near Me" search location
+- **Live updates:** As reps use "Near Me" in Prospect Search, their location is saved to browser localStorage
+- **Toggle:** "📍 Reps" checkbox in filter bar shows/hides all beacons
+- **Rep filtering:** When a specific rep is selected, only their beacon displays
+- **Beacon details:** Tap any beacon → popup showing rep name + time since last search ("5m ago", "2h ago", etc.)
+
+**Seed Data (Apr 19):**
+- 9 reps with realistic starting locations from their base territories
+- File: `data/rep_location_beacons.json` (format: rep_name, lat/lng, timestamp, store_searched)
+- Colors: 20-color rotation system ensures visual distinction across team
+
+**Technical:**
+- StoreMap.svelte loads seed beacons from JSON when localStorage empty
+- Seed beacons never overwrite live data (localStorage takes priority)
+- Each rep gets unique color from REP_COLORS palette
+- Distance calculations support "distance_from_base" tracking for future analytics
+
+**Live Updates Coming From:**
+- ProspectBot "Near Me" searches (will save location on each search)
+- Manual location entry (future feature)
+- Calendar event locations (future integration)
 
 **🔥 Hot Leads Tab** (Mar 27 — COMPLETE SYSTEM):
 
