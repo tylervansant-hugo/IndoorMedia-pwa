@@ -29,42 +29,41 @@
 - Now displays 2-month forward-looking cycle info on home screen
 - Matches sales team's need to see "C installs June 7" while in B cycle
 
-## 📅 Appointment Summary by Rep (Apr 21, 2026)
-**Status:** ✅ LIVE - Shows who has appointments set + quantity + next meetings
+## 📅 Appointment Detail View — Team Activity + Appointments (Apr 21, 2026)
+**Status:** ✅ LIVE - Shows team engagement stats + upcoming appointments
 
 **What's Displayed:**
-When you click "Appointments" on the dashboard, the detail view now shows:
-1. **Summary Grid** (top of appointments section)
-   - Each rep gets a card showing their appointment count
-   - Cards sorted by count (busiest reps first)
-   - Shows preview of next 2 appointment titles per rep
-   - Red accent border, clean grid layout
+When you click "Appointments" on the dashboard, the detail view shows:
 
-2. **Rep Info on Each Card:**
-   - Rep name
-   - Total appointment count (large red number)
-   - List of next 2 appointments with titles
-   - "+X more" indicator if they have additional appointments
+1. **Team Activity Table (Top)** — "👥 All Reps — Last 7 Days"
+   - **Rep** — Name of the rep
+   - **Days Active** — How many of last 7 days they were active (e.g., "6/7")
+   - **Views** — Page views in last 7 days
+   - **Searches** — Prospect searches
+   - **Calls** — Phone clicks / call tracking
+   - **Last Active** — When they last used the app (timestamp)
+   - Sorted by most active reps first
 
-3. **Full Details Below**
-   - Complete appointment list with dates, times, locations
-   - Attendee info
+2. **Full Appointments List Below**
+   - Date + time for each appointment
+   - Business name / title
+   - Location (store details)
+   - Attendees
    - Click to open in Google Calendar
 
-**Example Display:**
-```
-Megan Wink
-   5
-appointments
-• Dental clinic visit
-• Follow-up call
-+ 3 more
-```
-
 **Technical:**
-- `appointmentsByRep` object groups by `rep` field from appointments.json
-- Recalculated when appointments sync (every hour 7AM-9PM)
-- Sorts reps by descending count for priority visibility
+- Uses `getActivityData()` function which combines:
+  - Local storage activity (current device)
+  - Firebase cross-device data (if connected)
+- Calculates `activeDays` from unique dates in activity log
+- Syncs hourly (7AM–9PM), manual refresh available
+- Reps sorted by `pageViews` descending for engagement ranking
+
+**What This Shows Tyler:**
+- Who's actively using the app this week (Days Active)
+- Engagement metrics (views, searches, calls)
+- When each rep was last online
+- All in one place + upcoming appointments below
 
 ## 📍 Rep Location Beacons (Apr 19, 2026)
 **Status:** ✅ LIVE - Seed data + auto-update system ready
