@@ -1,10 +1,12 @@
 <script>
-  import { onMount } from 'svelte';
+  import { onMount, onDestroy, tick } from 'svelte';
   import { user } from '../lib/stores.js';
   import { logActivity } from '../lib/activity.js';
   import HotLeadsSubmit from './HotLeadsSubmit.svelte';
   import PendingLeads from './PendingLeads.svelte';
   import StoreSearchInput from '../lib/StoreSearchInput.svelte';
+  import L from 'leaflet';
+  import 'leaflet/dist/leaflet.css';
   
   let allStores = [];
   let nearbyStores = [];
@@ -21,6 +23,134 @@
   let storesViewMode = 'list'; // list or map
   let prospectsViewMode = 'list'; // list or map
   let selectedStore = null;
+  
+  // Map state
+  let storeMapContainer;
+  let storeMap;
+  let prospectMapContainer;
+  let prospectMap;
+  
+  async function initStoreMap() {
+    await tick();
+    if (!storeMapContainer || storeMap) return;
+    const filtered = nearbyStores.filter(s => selectedCycle === 'all' || s.Cycle === selectedCycle);
+    if (filtered.length === 0) return;
+    
+    const firstWithCoords = filtered.find(s => s.latitude && s.longitude);
+    const center = firstWithCoords ? [firstWithCoords.latitude, firstWithCoords.longitude] : [45.5, -122.5];
+    
+    storeMap = L.map(storeMapContainer, { center, zoom: 10, zoomControl: true });
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: '© OpenStreetMap',
+      maxZoom: 19,
+    }).addTo(storeMap);
+    
+    const bounds = [];
+    filtered.forEach(store => {
+      if (!store.latitude || !store.longitude) return;
+      bounds.push([store.latitude, store.longitude]);
+      
+      const marker = L.circleMarker([store.latitude, store.longitude], {
+        radius: 10,
+        fillColor: '#CC0000',
+        color: '#fff',
+        weight: 2,
+        fillOpacity: 0.9,
+      }).addTo(storeMap);
+      
+      marker.bindPopup(`
+        <div style="min-width: 180px;">
+          <strong>${store.GroceryChain}</strong><br>
+          <span style="font-size:12px;">${store.Address || ''}</span><br>
+          <span style="font-size:12px;">${store.City}, ${store.State}</span><br>
+          <span style="font-size:11px; color:#666;">Cycle ${store.Cycle || '?'} · ${store.StoreName}</span><br>
+          <span style="font-size:11px; color:#666;">${store.distance ? store.distance.toFixed(1) + ' mi' : ''} ${store['Case Count'] ? '· ' + store['Case Count'] + ' cases' : ''}</span><br>
+          <button onclick="document.dispatchEvent(new CustomEvent('select-store-from-map', {detail: '${store.StoreName}'}))" 
+            style="margin-top:8px; background:#CC0000; color:white; border:none; border-radius:6px; padding:8px 12px; font-size:12px; font-weight:600; cursor:pointer; width:100%;">
+            🎯 Find Prospects
+          </button>
+        </div>
+      `);
+    });
+    
+    if (bounds.length > 1) storeMap.fitBounds(bounds, { padding: [30, 30] });
+  }
+  
+  function destroyStoreMap() {
+    if (storeMap) { storeMap.remove(); storeMap = null; }
+  }
+  
+  async function initProspectMap() {
+    await tick();
+    if (!prospectMapContainer || prospectMap) return;
+    if (prospects.length === 0) return;
+    
+    // Use store location as center, or first prospect
+    const storeLat = selectedStore?.latitude;
+    const storeLng = selectedStore?.longitude;
+    const center = storeLat && storeLng ? [storeLat, storeLng] : 
+      (prospects[0]?.lat && prospects[0]?.lng ? [prospects[0].lat, prospects[0].lng] : [45.5, -122.5]);
+    
+    prospectMap = L.map(prospectMapContainer, { center, zoom: 13, zoomControl: true });
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: '© OpenStreetMap',
+      maxZoom: 19,
+    }).addTo(prospectMap);
+    
+    // Add store marker (star)
+    if (storeLat && storeLng) {
+      L.circleMarker([storeLat, storeLng], {
+        radius: 14,
+        fillColor: '#CC0000',
+        color: '#fff',
+        weight: 3,
+        fillOpacity: 1,
+      }).addTo(prospectMap).bindPopup(`<strong>🏪 ${selectedStore.GroceryChain}</strong><br>${selectedStore.City}, ${selectedStore.State}`);
+    }
+    
+    const bounds = storeLat && storeLng ? [[storeLat, storeLng]] : [];
+    
+    prospects.forEach((p, i) => {
+      const lat = p.lat || p.latitude;
+      const lng = p.lng || p.longitude;
+      if (!lat || !lng) return;
+      bounds.push([lat, lng]);
+      
+      const score = p.score || 0;
+      const color = score >= 80 ? '#22c55e' : score >= 70 ? '#f59e0b' : '#6b7280';
+      const emoji = score >= 80 ? '🔥' : score >= 70 ? '⭐' : '👀';
+      
+      const marker = L.circleMarker([lat, lng], {
+        radius: 8,
+        fillColor: color,
+        color: '#fff',
+        weight: 2,
+        fillOpacity: 0.9,
+      }).addTo(prospectMap);
+      
+      marker.bindPopup(`
+        <div style="min-width: 200px;">
+          <strong>${emoji} ${p.name}</strong><br>
+          <span style="font-size:12px;">📍 ${p.address || ''}</span><br>
+          <span style="font-size:12px;">⭐ ${(p.rating || 0).toFixed(1)} (${p.reviews || 0} reviews) · ${p.distance || '?'} mi</span><br>
+          <span style="font-size:11px; color:#666;">Score: ${score}%</span><br>
+          ${p.phone ? `<a href="tel:${p.phone}" style="display:block; margin-top:6px; background:#CC0000; color:white; text-align:center; border-radius:6px; padding:6px; font-size:12px; font-weight:600; text-decoration:none;">📞 ${p.phone}</a>` : ''}
+          ${p.website ? `<a href="${p.website}" target="_blank" style="display:block; margin-top:4px; background:#2563eb; color:white; text-align:center; border-radius:6px; padding:6px; font-size:12px; font-weight:600; text-decoration:none;">🌐 Website</a>` : ''}
+        </div>
+      `);
+    });
+    
+    if (bounds.length > 1) prospectMap.fitBounds(bounds, { padding: [30, 30] });
+  }
+  
+  function destroyProspectMap() {
+    if (prospectMap) { prospectMap.remove(); prospectMap = null; }
+  }
+  
+  // React to view mode changes
+  $: if (storesViewMode === 'map') { destroyStoreMap(); setTimeout(initStoreMap, 50); } else { destroyStoreMap(); }
+  $: if (prospectsViewMode === 'map') { destroyProspectMap(); setTimeout(initProspectMap, 50); } else { destroyProspectMap(); }
+  $: if (storesViewMode === 'map' && selectedCycle) { destroyStoreMap(); setTimeout(initStoreMap, 50); }
   let loadingCustomers = false;
   let customerLoadMessage = '';
   let showCredentialsModal = false;
@@ -31,7 +161,14 @@
   let videoLibrary = null;
 
   // Load video library on mount
+  function handleStoreSelectFromMap(e) {
+    const storeName = e.detail;
+    const store = nearbyStores.find(s => s.StoreName === storeName) || allStores.find(s => s.StoreName === storeName);
+    if (store) selectStore(store);
+  }
+  
   onMount(async () => {
+    document.addEventListener('select-store-from-map', handleStoreSelectFromMap);
     try {
       const response = await fetch(import.meta.env.BASE_URL + 'data/video_library.json');
       videoLibrary = await response.json();
@@ -48,6 +185,12 @@
     try {
       phoneClicks = JSON.parse(localStorage.getItem('impro_phone_clicks') || '[]');
     } catch { phoneClicks = []; }
+  });
+  
+  onDestroy(() => {
+    document.removeEventListener('select-store-from-map', handleStoreSelectFromMap);
+    destroyStoreMap();
+    destroyProspectMap();
   });
 
   function getVideoForCategory() {
@@ -1087,10 +1230,8 @@
       {/each}
     </div>
     {:else if storesViewMode === 'map'}
-    <div style="height: 500px; margin: 16px 0; border-radius: 8px; overflow: hidden; background: #f0f0f0; display: flex; align-items: center; justify-content: center;">
-      <p style="color: #999; text-align: center;">📍 Store Map<br><span style="font-size: 12px;">Interactive map showing {nearbyStores.filter(s => selectedCycle === 'all' || s.Cycle === selectedCycle).length} stores</span></p>
-    </div>
-    <p style="font-size: 12px; color: #999; text-align: center; margin: 8px 0;">Tap stores in the map to view prospects (map integration coming soon)</p>
+    <div bind:this={storeMapContainer} style="height: 500px; margin: 16px 0; border-radius: 12px; overflow: hidden; border: 2px solid var(--border-color, #ddd);"></div>
+    <p style="font-size: 12px; color: #999; text-align: center; margin: 8px 0;">🔴 = Store · Tap for details & "Find Prospects" · {nearbyStores.filter(s => selectedCycle === 'all' || s.Cycle === selectedCycle).length} stores shown</p>
     {/if}
   {/if}
 
@@ -1430,10 +1571,8 @@
       {/each}
     </div>
     {:else if prospectsViewMode === 'map'}
-    <div style="height: 500px; margin: 16px 0; border-radius: 8px; overflow: hidden; background: #f0f0f0; display: flex; align-items: center; justify-content: center;">
-      <p style="color: #999; text-align: center;">🗺️ Prospect Map<br><span style="font-size: 12px;">Showing {prospects.length} businesses in this category</span></p>
-    </div>
-    <p style="font-size: 12px; color: #999; text-align: center; margin: 8px 0;">Tap businesses in the map to view details (map integration coming soon)</p>
+    <div bind:this={prospectMapContainer} style="height: 500px; margin: 16px 0; border-radius: 12px; overflow: hidden; border: 2px solid var(--border-color, #ddd);"></div>
+    <p style="font-size: 12px; color: #999; text-align: center; margin: 8px 0;">🔴 = Store · 🟢 = Hot (80%+) · 🟡 = Warm (70%+) · ⚪ = Cool · Tap for details · {prospects.length} businesses</p>
     {/if}
   {/if}
 
