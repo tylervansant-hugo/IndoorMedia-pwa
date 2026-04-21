@@ -1741,6 +1741,29 @@
     color: #333;
   }
 
+  .toggle-btn {
+    background: var(--input-bg, #f5f5f5);
+    border: 2px solid var(--border-color, #ddd);
+    border-radius: 8px;
+    padding: 10px 14px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    color: var(--text-secondary, #666);
+    transition: all 0.2s;
+    white-space: nowrap;
+  }
+
+  .toggle-btn:hover {
+    background: var(--border-color, #e8e8e8);
+  }
+
+  .toggle-btn.active {
+    background: #CC0000;
+    color: white;
+    border-color: #CC0000;
+  }
+
   .filter-bar { margin-top: 12px; }
   .filter-input { width: 100%; padding: 10px 14px; border: 2px solid var(--border-color, #ddd); border-radius: 10px; font-size: 14px; background: var(--input-bg, white); color: var(--text-primary, #333); box-sizing: border-box; }
   .filter-row { display: flex; gap: 8px; margin-top: 8px; flex-wrap: wrap; }
