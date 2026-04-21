@@ -49,6 +49,7 @@
   let showStreakDetail = false;
   let analyticsExpandedRep = null;
   let showAppointmentsDetail = false;
+  let appointmentsByRep = {}; // { rep_name: { count, appointments: [...] } }
   let thisMonthContracts = [];
   let thisWeekContracts = [];
   let thisWeekRevenue = 0;
@@ -317,6 +318,18 @@
       }).sort((a, b) => new Date(a.date) - new Date(b.date));
       
       upcomingAppointments = deduped;
+      
+      // Group appointments by rep
+      appointmentsByRep = {};
+      deduped.forEach(appt => {
+        const repName = appt.rep || 'Unassigned';
+        if (!appointmentsByRep[repName]) {
+          appointmentsByRep[repName] = { count: 0, appointments: [] };
+        }
+        appointmentsByRep[repName].count += 1;
+        appointmentsByRep[repName].appointments.push(appt);
+      });
+      
       syncStatus = `✅ ${upcomingAppointments.length} upcoming`;
       setTimeout(() => syncStatus = '', 3000);
     } catch (e) {
@@ -1062,6 +1075,32 @@
         {#if showAppointmentsDetail}
           <div class="drill-down" style="border-top: 3px solid #CC0000; margin-top: 16px;">
             <h4>📅 Upcoming Appointments</h4>
+            
+            {#if Object.keys(appointmentsByRep).length > 0}
+              <div class="rep-summary" style="margin-bottom: 16px; padding: 12px; background: #f5f5f5; border-radius: 8px;">
+                <h5 style="margin: 0 0 8px 0; font-size: 12px; font-weight: 600; color: #666; text-transform: uppercase;">By Rep</h5>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 8px;">
+                  {#each Object.entries(appointmentsByRep).sort((a, b) => b[1].count - a[1].count) as [repName, data]}
+                    <div style="padding: 8px; background: white; border-radius: 6px; border-left: 3px solid #CC0000;">
+                      <div style="font-weight: 600; font-size: 13px; color: #222;">{repName}</div>
+                      <div style="font-size: 18px; color: #CC0000; font-weight: bold;">{data.count}</div>
+                      <div style="font-size: 11px; color: #888;">appointment{data.count !== 1 ? 's' : ''}</div>
+                      {#if data.appointments.length > 0}
+                        <div style="font-size: 10px; color: #666; margin-top: 4px; line-height: 1.3;">
+                          {#each data.appointments.slice(0, 2) as appt}
+                            <div>• {appt.title || 'Event'}</div>
+                          {/each}
+                          {#if data.appointments.length > 2}
+                            <div style="font-style: italic;">+ {data.appointments.length - 2} more</div>
+                          {/if}
+                        </div>
+                      {/if}
+                    </div>
+                  {/each}
+                </div>
+              </div>
+            {/if}
+            
             {#if upcomingAppointments.length > 0}
               <div class="appointment-list">
                 {#each upcomingAppointments as appt, idx}
