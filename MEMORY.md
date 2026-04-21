@@ -8,7 +8,7 @@
 **Tabs:**
 1. 📊 Dashboard — Quick stats & actions (+ **Cycles display fixed Apr 21** to show C-cycle Jun 7)
 2. 🔥 **Hot Leads** — NEW! 5 max per store, phone + email ready (Mar 27)
-3. 🎯 Prospects — Real businesses via Google Places API (240K+ results cached)
+3. 🎯 **Prospects** — Real businesses via Google Places API + **Map View Toggle** (Apr 21)
 4. 🏪 Stores — Store rates lookup (7,835 stores nationwide) + 📍 **Rep Location Beacons** (Apr 19)
 5. 📦 Products — Register Tape, Cartvertising, Digital (DigitalBoost, FindLocal, ReviewBoost, LoyaltyBoost)
 6. 🛒 Cart — Order management
@@ -55,6 +55,37 @@ When you click "Appointments" on the dashboard, shows:
 - Appointments uses `getActivityData()` + Google Calendar API
 - Activity metrics from Firebase + local storage
 - Syncs hourly (7AM–9PM), manual 🔄 refresh available
+
+## 🗺️ Map View Toggles (Apr 21, 2026)
+**Status:** ✅ Map toggles added | 🔨 Full map integration coming soon
+
+**Where Map Views Are:**
+1. **Nearby Stores** (Prospects tab → Near Me)
+   - Toggle: 📋 List / 🗺️ Map
+   - Shows all filtered stores (All/Cycle A/B/C)
+   - List: Address, distance, case count
+   - Map: Placeholder ready for Leaflet markers
+
+2. **Prospect Search Results** (Select category)
+   - Toggle: 📋 List / 🗺️ Map
+   - Shows businesses in selected category (Restaurants, Salons, etc.)
+   - List: Address, phone, rating, save/call/email actions
+   - Map: Placeholder showing business count
+
+**What's Coming Soon:**
+- Full Leaflet integration with:
+  - Interactive markers for stores & businesses
+  - Marker clustering for dense areas
+  - Click markers → show info window with actions
+  - Color-coded by distance/relevance
+  - Filter on map by category/cycle
+  - Directions link to Google Maps
+
+**Technical Notes:**
+- `storesViewMode` (list/map) state variable
+- `prospectsViewMode` (list/map) state variable
+- Placeholder divs ready for Leaflet container
+- Backend data (lat/lng) already in store/prospect objects
 
 ## 📍 Rep Location Beacons (Apr 19, 2026)
 **Status:** ✅ LIVE - Seed data + auto-update system ready
