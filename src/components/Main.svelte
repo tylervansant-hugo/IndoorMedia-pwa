@@ -1076,36 +1076,6 @@
           <div class="drill-down" style="border-top: 3px solid #CC0000; margin-top: 16px;">
             <h4>📅 Upcoming Appointments</h4>
             
-            <!-- Rep Activity Stats -->
-            {#await getActivityData()}
-              <p style="text-align: center; color: #999;">Loading team activity...</p>
-            {:then actData}
-              {#if actData && actData.allReps && actData.allReps.length > 0}
-                <div style="margin-bottom: 20px;">
-                  <h5 style="margin: 0 0 12px 0; font-size: 13px; font-weight: 600; color: #222;">👥 All Reps — Last 7 Days</h5>
-                  <div class="activity-table-wrap">
-                    <table class="activity-table">
-                      <thead><tr><th>Rep</th><th>Days Active</th><th>Views</th><th>Searches</th><th>Calls</th><th>Last Active</th></tr></thead>
-                      <tbody>
-                        {#each actData.allReps as rep}
-                          <tr>
-                            <td><strong>{rep.name}</strong></td>
-                            <td>{rep.activeDays}/7</td>
-                            <td>{rep.pageViews}</td>
-                            <td>{rep.searches}</td>
-                            <td>{rep.calls}</td>
-                            <td style="font-size:11px;">{rep.lastActive}</td>
-                          </tr>
-                        {/each}
-                      </tbody>
-                    </table>
-                  </div>
-                </div>
-              {/if}
-            {:catch error}
-              <!-- Activity data not available -->
-            {/await}
-            
             {#if upcomingAppointments.length > 0}
               <div class="appointment-list">
                 {#each upcomingAppointments as appt, idx}
