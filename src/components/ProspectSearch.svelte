@@ -18,6 +18,8 @@
   let hotLeads = [];
   let view = 'main'; // main, nearby-stores, categories, subcategories, results, saved, hot-leads, pending, submit-lead
   let selectedCycle = 'all'; // all, A, B, C
+  let storesViewMode = 'list'; // list or map
+  let prospectsViewMode = 'list'; // list or map
   let selectedStore = null;
   let loadingCustomers = false;
   let customerLoadMessage = '';
@@ -1057,6 +1059,12 @@
       <button class="cycle-btn" class:active={selectedCycle === 'C'} on:click={() => selectedCycle = 'C'}>Cycle C</button>
     </div>
 
+    <div class="view-toggle" style="display: flex; gap: 8px; margin-bottom: 16px; justify-content: center;">
+      <button class="toggle-btn" class:active={storesViewMode === 'list'} on:click={() => storesViewMode = 'list'} style="flex: 1;">📋 List</button>
+      <button class="toggle-btn" class:active={storesViewMode === 'map'} on:click={() => storesViewMode = 'map'} style="flex: 1;">🗺️ Map</button>
+    </div>
+
+    {#if storesViewMode === 'list'}
     <div class="store-list">
       {#each nearbyStores.filter(s => selectedCycle === 'all' || s.Cycle === selectedCycle) as store (store.StoreName)}
         <button class="store-item" on:click={() => selectStore(store)}>
@@ -1078,6 +1086,12 @@
         </button>
       {/each}
     </div>
+    {:else if storesViewMode === 'map'}
+    <div style="height: 500px; margin: 16px 0; border-radius: 8px; overflow: hidden; background: #f0f0f0; display: flex; align-items: center; justify-content: center;">
+      <p style="color: #999; text-align: center;">📍 Store Map<br><span style="font-size: 12px;">Interactive map showing {nearbyStores.filter(s => selectedCycle === 'all' || s.Cycle === selectedCycle).length} stores</span></p>
+    </div>
+    <p style="font-size: 12px; color: #999; text-align: center; margin: 8px 0;">Tap stores in the map to view prospects (map integration coming soon)</p>
+    {/if}
   {/if}
 
   <!-- Category Selection -->
@@ -1232,14 +1246,21 @@
     <h3>{selectedCategory} → {selectedSubcategory}</h3>
     <p class="subtitle">Nearby {selectedCategory} near {selectedStore.GroceryChain}</p>
 
-    <div class="sort-bar">
-      <span class="sort-label">Sort:</span>
-      <button class="sort-btn" class:active={prospectSort === 'score'} on:click={() => prospectSort = 'score'}>🎯 Score</button>
-      <button class="sort-btn" class:active={prospectSort === 'distance'} on:click={() => prospectSort = 'distance'}>📍 Distance</button>
-      <button class="sort-btn" class:active={prospectSort === 'rating'} on:click={() => prospectSort = 'rating'}>⭐ Rating</button>
-      <button class="sort-btn" class:active={prospectSort === 'reviews'} on:click={() => prospectSort = 'reviews'}>💬 Reviews</button>
+    <div style="display: flex; gap: 8px; margin: 12px 0; justify-content: space-between; align-items: center;">
+      <div class="sort-bar">
+        <span class="sort-label">Sort:</span>
+        <button class="sort-btn" class:active={prospectSort === 'score'} on:click={() => prospectSort = 'score'}>🎯 Score</button>
+        <button class="sort-btn" class:active={prospectSort === 'distance'} on:click={() => prospectSort = 'distance'}>📍 Distance</button>
+        <button class="sort-btn" class:active={prospectSort === 'rating'} on:click={() => prospectSort = 'rating'}>⭐ Rating</button>
+        <button class="sort-btn" class:active={prospectSort === 'reviews'} on:click={() => prospectSort = 'reviews'}>💬 Reviews</button>
+      </div>
+      <div class="view-toggle" style="display: flex; gap: 6px; flex-shrink: 0;">
+        <button class="toggle-btn" class:active={prospectsViewMode === 'list'} on:click={() => prospectsViewMode = 'list'} style="padding: 6px 10px; font-size: 12px;">📋 List</button>
+        <button class="toggle-btn" class:active={prospectsViewMode === 'map'} on:click={() => prospectsViewMode = 'map'} style="padding: 6px 10px; font-size: 12px;">🗺️ Map</button>
+      </div>
     </div>
 
+    {#if prospectsViewMode === 'list'}
     <div class="prospect-list">
       {#each [...prospects].sort((a, b) => {
         if (prospectSort === 'distance') return (a.distance || 999) - (b.distance || 999);
@@ -1408,6 +1429,12 @@
         </div>
       {/each}
     </div>
+    {:else if prospectsViewMode === 'map'}
+    <div style="height: 500px; margin: 16px 0; border-radius: 8px; overflow: hidden; background: #f0f0f0; display: flex; align-items: center; justify-content: center;">
+      <p style="color: #999; text-align: center;">🗺️ Prospect Map<br><span style="font-size: 12px;">Showing {prospects.length} businesses in this category</span></p>
+    </div>
+    <p style="font-size: 12px; color: #999; text-align: center; margin: 8px 0;">Tap businesses in the map to view details (map integration coming soon)</p>
+    {/if}
   {/if}
 
   <!-- Saved Prospects -->
