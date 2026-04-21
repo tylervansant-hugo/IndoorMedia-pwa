@@ -168,7 +168,7 @@
     contractCount = withContracts;
   }
 
-  function updateBeacons() {
+  async function updateBeacons() {
     if (!map) return;
     // Remove old beacons
     repBeaconLayers.forEach(l => map.removeLayer(l));
@@ -177,8 +177,28 @@
     if (!showBeacons) return;
 
     try {
-      const repLocations = JSON.parse(localStorage.getItem('repLastLocations') || '{}');
-      const repNames = Object.keys(repLocations);
+      // Try to load from seed data first, fall back to localStorage
+      let beaconData = JSON.parse(localStorage.getItem('repLastLocations') || '{}');
+      
+      // If no localStorage data, try to load seed beacons from JSON
+      if (Object.keys(beaconData).length === 0) {
+        try {
+          const seedRes = await fetch(import.meta.env.BASE_URL + 'data/rep_location_beacons.json');
+          if (seedRes.ok) {
+            const seedData = await seedRes.json();
+            // Convert seed format to localStorage format
+            seedData.beacons.forEach(beacon => {
+              beaconData[beacon.rep_name] = {
+                lat: beacon.latitude,
+                lng: beacon.longitude,
+                timestamp: beacon.timestamp
+              };
+            });
+          }
+        } catch (e) { /* seed data not available yet */ }
+      }
+
+      const repNames = Object.keys(beaconData);
       if (repNames.length === 0) return;
 
       repNames.forEach((repName, idx) => {
