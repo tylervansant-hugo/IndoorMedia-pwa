@@ -29,41 +29,32 @@
 - Now displays 2-month forward-looking cycle info on home screen
 - Matches sales team's need to see "C installs June 7" while in B cycle
 
-## 📅 Appointment Detail View — Team Activity + Appointments (Apr 21, 2026)
-**Status:** ✅ LIVE - Shows team engagement stats + upcoming appointments
+## 📅 Appointments Detail View (Apr 21, 2026)
+**Status:** ✅ LIVE - Shows upcoming appointments
 
 **What's Displayed:**
-When you click "Appointments" on the dashboard, the detail view shows:
+When you click "Appointments" on the dashboard, shows:
+- Date + time for each appointment
+- Business name / title
+- Location (store details)
+- Attendees
+- Click any appointment to open in Google Calendar
+- Sorted by earliest first
+- Swipe left to delete (on mobile)
 
-1. **Team Activity Table (Top)** — "👥 All Reps — Last 7 Days"
-   - **Rep** — Name of the rep
-   - **Days Active** — How many of last 7 days they were active (e.g., "6/7")
-   - **Views** — Page views in last 7 days
-   - **Searches** — Prospect searches
-   - **Calls** — Phone clicks / call tracking
-   - **Last Active** — When they last used the app (timestamp)
-   - Sorted by most active reps first
-
-2. **Full Appointments List Below**
-   - Date + time for each appointment
-   - Business name / title
-   - Location (store details)
-   - Attendees
-   - Click to open in Google Calendar
+**For Team Activity & Engagement Metrics:**
+- Go to **Analytics** tab → **App Usage**
+- Shows "👥 All Reps — Last 7 Days" table with:
+  - **Rep** name
+  - **Days Active** (e.g., 6/7)
+  - **Views**, **Searches**, **Calls** counts
+  - **Last Active** timestamp
+  - Sorted by most active reps first
 
 **Technical:**
-- Uses `getActivityData()` function which combines:
-  - Local storage activity (current device)
-  - Firebase cross-device data (if connected)
-- Calculates `activeDays` from unique dates in activity log
-- Syncs hourly (7AM–9PM), manual refresh available
-- Reps sorted by `pageViews` descending for engagement ranking
-
-**What This Shows Tyler:**
-- Who's actively using the app this week (Days Active)
-- Engagement metrics (views, searches, calls)
-- When each rep was last online
-- All in one place + upcoming appointments below
+- Appointments uses `getActivityData()` + Google Calendar API
+- Activity metrics from Firebase + local storage
+- Syncs hourly (7AM–9PM), manual 🔄 refresh available
 
 ## 📍 Rep Location Beacons (Apr 19, 2026)
 **Status:** ✅ LIVE - Seed data + auto-update system ready
