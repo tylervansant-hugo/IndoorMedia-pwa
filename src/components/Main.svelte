@@ -1076,30 +1076,35 @@
           <div class="drill-down" style="border-top: 3px solid #CC0000; margin-top: 16px;">
             <h4>📅 Upcoming Appointments</h4>
             
-            {#if Object.keys(appointmentsByRep).length > 0}
-              <div class="rep-summary" style="margin-bottom: 16px; padding: 12px; background: #f5f5f5; border-radius: 8px;">
-                <h5 style="margin: 0 0 8px 0; font-size: 12px; font-weight: 600; color: #666; text-transform: uppercase;">By Rep</h5>
-                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 8px;">
-                  {#each Object.entries(appointmentsByRep).sort((a, b) => b[1].count - a[1].count) as [repName, data]}
-                    <div style="padding: 8px; background: white; border-radius: 6px; border-left: 3px solid #CC0000;">
-                      <div style="font-weight: 600; font-size: 13px; color: #222;">{repName}</div>
-                      <div style="font-size: 18px; color: #CC0000; font-weight: bold;">{data.count}</div>
-                      <div style="font-size: 11px; color: #888;">appointment{data.count !== 1 ? 's' : ''}</div>
-                      {#if data.appointments.length > 0}
-                        <div style="font-size: 10px; color: #666; margin-top: 4px; line-height: 1.3;">
-                          {#each data.appointments.slice(0, 2) as appt}
-                            <div>• {appt.title || 'Event'}</div>
-                          {/each}
-                          {#if data.appointments.length > 2}
-                            <div style="font-style: italic;">+ {data.appointments.length - 2} more</div>
-                          {/if}
-                        </div>
-                      {/if}
-                    </div>
-                  {/each}
+            <!-- Rep Activity Stats -->
+            {#await getActivityData()}
+              <p style="text-align: center; color: #999;">Loading team activity...</p>
+            {:then actData}
+              {#if actData && actData.allReps && actData.allReps.length > 0}
+                <div style="margin-bottom: 20px;">
+                  <h5 style="margin: 0 0 12px 0; font-size: 13px; font-weight: 600; color: #222;">👥 All Reps — Last 7 Days</h5>
+                  <div class="activity-table-wrap">
+                    <table class="activity-table">
+                      <thead><tr><th>Rep</th><th>Days Active</th><th>Views</th><th>Searches</th><th>Calls</th><th>Last Active</th></tr></thead>
+                      <tbody>
+                        {#each actData.allReps as rep}
+                          <tr>
+                            <td><strong>{rep.name}</strong></td>
+                            <td>{rep.activeDays}/7</td>
+                            <td>{rep.pageViews}</td>
+                            <td>{rep.searches}</td>
+                            <td>{rep.calls}</td>
+                            <td style="font-size:11px;">{rep.lastActive}</td>
+                          </tr>
+                        {/each}
+                      </tbody>
+                    </table>
+                  </div>
                 </div>
-              </div>
-            {/if}
+              {/if}
+            {:catch error}
+              <!-- Activity data not available -->
+            {/await}
             
             {#if upcomingAppointments.length > 0}
               <div class="appointment-list">
