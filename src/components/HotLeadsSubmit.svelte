@@ -384,7 +384,6 @@
           accept="image/*"
           on:change={handleCardImageSelect}
           class="file-input"
-          capture="environment"
         />
         <label for="card-file" class="upload-label">
           📸 Upload Business Card
