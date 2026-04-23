@@ -493,7 +493,9 @@
         {submitMessage}
       </div>
     {/if}
-    
+  </div>
+  
+  <div class="submit-footer">
     <button
       class="submit-btn"
       on:click={submitLead}
@@ -513,6 +515,11 @@
     margin: 0 auto;
     width: 100%;
     box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
   }
   
   .submit-header {
@@ -758,7 +765,18 @@
     border-color: #64b5f6;
   }
   
+  .submit-footer {
+    position: sticky;
+    bottom: 0;
+    background: white;
+    padding: 16px 24px;
+    border-top: 2px solid #e0e0e0;
+    margin: 16px -24px -24px -24px;
+    padding-bottom: calc(16px + env(safe-area-inset-bottom));
+  }
+  
   .submit-btn {
+    width: 100%;
     padding: 12px 16px;
     background: #CC0000;
     color: white;
