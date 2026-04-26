@@ -352,9 +352,29 @@
       "saved_prospects": {},
       "search_history": [],
       "contact_history": {},
-      "session_searches": 0,
+      "session_searches": 4,
       "session_bookmarks": 0,
-      "cart": []
+      "cart": [
+        {
+          "product_type": "register_tape",
+          "product_name": "Register Tape",
+          "store_num": "SAF26Z-0205",
+          "store_name": "Safeway",
+          "city": "Kailua",
+          "state": "HI",
+          "address": "1060 Keolu Drive",
+          "tier": "exclusive",
+          "ad_type": "single",
+          "payment_plan": "monthly",
+          "price": 3440.0,
+          "case_count": 9,
+          "daily_impressions": 1370,
+          "annual_impressions": 500050,
+          "cpm": 6.879312068793121,
+          "cost_per_day": 9.424657534246576,
+          "added_at": "2026-04-22T12:25:41.172867"
+        }
+      ]
     }
   },
   "global_searches": []

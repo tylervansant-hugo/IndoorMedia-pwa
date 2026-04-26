@@ -14485,7 +14485,631 @@
       ],
       "createdAt": "2026-04-08T15:21:39.718048",
       "count": 3
+    },
+    "f7bd10a1103db6c8": {
+      "storeNumber": "SAF26Z-1087",
+      "category": "all restaurants",
+      "prospects": [
+        {
+          "name": "OH MY GRILL- Kailua",
+          "type": "restaurant, food, point_of_interest, establishment",
+          "address": "16 Kainehe St, Kailua",
+          "lat": 21.3937859,
+          "lon": -157.7451252,
+          "distance_miles": 0.35,
+          "likelihood_score": 94,
+          "rating": 4.6,
+          "user_ratings_total": 196,
+          "phone": "+1 808-261-2121",
+          "website": "https://ohmygrillhawaii.com/",
+          "place_id": "ChIJ4VL5Ta0VAHwRj_tjkZfnAVk",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 1,
+          "source": "Google Places"
+        },
+        {
+          "name": "Lilikoi Kitchen Kailua Rd",
+          "type": "restaurant, food, point_of_interest, establishment",
+          "address": "539 Kailua Rd Suite 102, Kailua",
+          "lat": 21.39317,
+          "lon": -157.7408742,
+          "distance_miles": 0.13,
+          "likelihood_score": 95,
+          "rating": 4.5,
+          "user_ratings_total": 87,
+          "phone": "+1 808-499-8264",
+          "website": "https://www.lilikoikitchenhawaii.com/",
+          "place_id": "ChIJFbTY-XcVAHwRzh2ZVSa3ybo",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        },
+        {
+          "name": "Easy \u2018Que",
+          "type": "restaurant, food, point_of_interest, establishment",
+          "address": "767 Kailua Rd #106, Kailua",
+          "lat": 21.3931385,
+          "lon": -157.7448925,
+          "distance_miles": 0.32,
+          "likelihood_score": 94,
+          "rating": 4.7,
+          "user_ratings_total": 856,
+          "phone": "+1 808-762-3089",
+          "website": "http://www.easyquehi.com/",
+          "place_id": "ChIJ4T5mu18VAHwRu2tGmsx-5m8",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 2,
+          "source": "Google Places"
+        },
+        {
+          "name": "The Hibachi",
+          "type": "meal_takeaway, restaurant, food, point_of_interest, establishment",
+          "address": "515 Kailua Rd, Kailua",
+          "lat": 21.3932369,
+          "lon": -157.7398728,
+          "distance_miles": 0.13,
+          "likelihood_score": 96,
+          "rating": 4.6,
+          "user_ratings_total": 565,
+          "phone": "+1 808-263-7980",
+          "website": "https://www.thehibachihawaii.net/",
+          "place_id": "ChIJFZQnFN0UAHwRwTFi-MKLhrY",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        },
+        {
+          "name": "TANAKA RAMEN & IZAKAYA",
+          "type": "restaurant, food, point_of_interest, establishment",
+          "address": "108 Hekili St #107, Kailua",
+          "lat": 21.3927307,
+          "lon": -157.7440428,
+          "distance_miles": 0.25,
+          "likelihood_score": 95,
+          "rating": 4.6,
+          "user_ratings_total": 46,
+          "phone": "+1 808-200-3166",
+          "website": null,
+          "place_id": "ChIJWZVlm9oVAHwRrINYJzZuOmw",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 1,
+          "source": "Google Places"
+        },
+        {
+          "name": "The Sunrise Shack - Kailua",
+          "type": "cafe, restaurant, food, point_of_interest, establishment",
+          "address": "130 Kailua Rd unit 109, Kailua",
+          "lat": 21.3971265,
+          "lon": -157.7307791,
+          "distance_miles": 0.73,
+          "likelihood_score": 90,
+          "rating": 4.7,
+          "user_ratings_total": 1281,
+          "phone": "+1 808-892-1999",
+          "website": "https://www.sunriseshackhawaii.com/",
+          "place_id": "ChIJ9xyXiMYVAHwRuFDJUTTqvHM",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        },
+        {
+          "name": "Over Easy",
+          "type": "restaurant, food, point_of_interest, establishment",
+          "address": "418 Kuulei Rd #103, Kailua",
+          "lat": 21.3950809,
+          "lon": -157.7431179,
+          "distance_miles": 0.31,
+          "likelihood_score": 94,
+          "rating": 4.7,
+          "user_ratings_total": 1785,
+          "phone": "+1 808-260-1732",
+          "website": "http://www.overeasyhi.com/",
+          "place_id": "ChIJ-4AXfdwUAHwR_LaVGoOOAsc",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 2,
+          "source": "Google Places"
+        },
+        {
+          "name": "New Kamana Kitchen",
+          "type": "restaurant, food, point_of_interest, establishment",
+          "address": "600 Kailua Rd, Kailua",
+          "lat": 21.3940776,
+          "lon": -157.7407088,
+          "distance_miles": 0.19,
+          "likelihood_score": 97,
+          "rating": 4.9,
+          "user_ratings_total": 38,
+          "phone": "+1 808-994-7210",
+          "website": "https://newkamanakitchen.com/kailua/",
+          "place_id": "ChIJwTvcGQAVAHwRW9qHDOuPcrc",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        },
+        {
+          "name": "Kono's Northshore",
+          "type": "restaurant, food, point_of_interest, establishment",
+          "address": "131 Hekili St #102, Kailua",
+          "lat": 21.3922043,
+          "lon": -157.7426403,
+          "distance_miles": 0.16,
+          "likelihood_score": 95,
+          "rating": 4.5,
+          "user_ratings_total": 1420,
+          "phone": "+1 808-261-1144",
+          "website": "https://konosnorthshore.com/konos-northshorekailua?utm_source=google",
+          "place_id": "ChIJjbu_s9wUAHwRBHgGkjUGAJU",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 2,
+          "source": "Google Places"
+        },
+        {
+          "name": "The Garden at Boardroom",
+          "type": "cafe, meal_takeaway, store, bar, restaurant, food, point_of_interest, establishment",
+          "address": "44 Kainehe St, Kailua",
+          "lat": 21.39463,
+          "lon": -157.745834,
+          "distance_miles": 0.42,
+          "likelihood_score": 91,
+          "rating": 4.3,
+          "user_ratings_total": 85,
+          "phone": "+1 808-807-5640",
+          "website": "http://thegardenkailua.com/",
+          "place_id": "ChIJZ5u9VJQVAHwR8_yvlKOR-oM",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 2,
+          "source": "Google Places"
+        }
+      ],
+      "createdAt": "2026-04-19T14:33:07.535595",
+      "count": 10
+    },
+    "4141b94c36ecfade": {
+      "storeNumber": "SAF26Z-0205",
+      "category": "all restaurants",
+      "prospects": [
+        {
+          "name": "Lilikoi Kitchen Kailua Rd",
+          "type": "restaurant, food, point_of_interest, establishment",
+          "address": "539 Kailua Rd Suite 102, Kailua",
+          "lat": 21.39317,
+          "lon": -157.7408742,
+          "distance_miles": 1.33,
+          "likelihood_score": 83,
+          "rating": 4.5,
+          "user_ratings_total": 91,
+          "phone": "+1 808-499-8264",
+          "website": "https://www.lilikoikitchenhawaii.com/",
+          "place_id": "ChIJFbTY-XcVAHwRzh2ZVSa3ybo",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        },
+        {
+          "name": "The Hibachi",
+          "type": "meal_takeaway, restaurant, food, point_of_interest, establishment",
+          "address": "515 Kailua Rd, Kailua",
+          "lat": 21.3932369,
+          "lon": -157.7398728,
+          "distance_miles": 1.3,
+          "likelihood_score": 85,
+          "rating": 4.6,
+          "user_ratings_total": 566,
+          "phone": "+1 808-263-7980",
+          "website": "https://www.thehibachihawaii.net/",
+          "place_id": "ChIJFZQnFN0UAHwRwTFi-MKLhrY",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        },
+        {
+          "name": "Kono's Northshore",
+          "type": "restaurant, food, point_of_interest, establishment",
+          "address": "131 Hekili St #102, Kailua",
+          "lat": 21.3922043,
+          "lon": -157.7426403,
+          "distance_miles": 1.34,
+          "likelihood_score": 83,
+          "rating": 4.5,
+          "user_ratings_total": 1420,
+          "phone": "+1 808-261-1144",
+          "website": "https://konosnorthshore.com/konos-northshorekailua?utm_source=google",
+          "place_id": "ChIJjbu_s9wUAHwRBHgGkjUGAJU",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 2,
+          "source": "Google Places"
+        },
+        {
+          "name": "Kalapawai Cafe & Deli",
+          "type": "cafe, bakery, store, restaurant, food, point_of_interest, establishment",
+          "address": "750 Kailua Rd, Kailua",
+          "lat": 21.393561,
+          "lon": -157.744973,
+          "distance_miles": 1.51,
+          "likelihood_score": 81,
+          "rating": 4.5,
+          "user_ratings_total": 1230,
+          "phone": "+1 808-262-3354",
+          "website": "http://www.kalapawaimarket.com/",
+          "place_id": "ChIJwV5OQdsUAHwRDWPAK6RigXQ",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 2,
+          "source": "Google Places"
+        },
+        {
+          "name": "The Food Company Restaurant & Catering",
+          "type": "restaurant, food, point_of_interest, establishment",
+          "address": "1090 Keolu Dr, Kailua",
+          "lat": 21.3766722,
+          "lon": -157.7302096,
+          "distance_miles": 0.07,
+          "likelihood_score": 97,
+          "rating": 4.7,
+          "user_ratings_total": 340,
+          "phone": "+1 808-262-6440",
+          "website": "https://www.foodcompanykailua.com/",
+          "place_id": "ChIJ02201ZIUAHwRm8WrKaOFGDM",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 1,
+          "source": "Google Places"
+        },
+        {
+          "name": "Big City Diner - Kailua, Hawaii",
+          "type": "restaurant, food, point_of_interest, establishment",
+          "address": "108 Hekili St #101, Kailua",
+          "lat": 21.3925137,
+          "lon": -157.7443106,
+          "distance_miles": 1.43,
+          "likelihood_score": 81,
+          "rating": 4.2,
+          "user_ratings_total": 572,
+          "phone": "+1 808-263-8880",
+          "website": "http://www.bigcitydinerhawaii.com/",
+          "place_id": "ChIJw1aGVtsUAHwRd_ekwGPV4-8",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 2,
+          "source": "Google Places"
+        },
+        {
+          "name": "Nalu Health Bar & Cafe",
+          "type": "meal_takeaway, cafe, store, restaurant, food, point_of_interest, establishment",
+          "address": "131 Hekili St #109, Kailua",
+          "lat": 21.392094,
+          "lon": -157.742185,
+          "distance_miles": 1.32,
+          "likelihood_score": 84,
+          "rating": 4.6,
+          "user_ratings_total": 632,
+          "phone": "+1 808-263-6258",
+          "website": "http://naluhealthbar.com/",
+          "place_id": "ChIJjbu_s9wUAHwRCq7JYDF6X7w",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 2,
+          "source": "Google Places"
+        },
+        {
+          "name": "Times Coffee Shop Kailua",
+          "type": "cafe, store, restaurant, food, point_of_interest, establishment",
+          "address": "153 Hamakua Dr Ste A, Kailua",
+          "lat": 21.39117,
+          "lon": -157.7429192,
+          "distance_miles": 1.3,
+          "likelihood_score": 85,
+          "rating": 4.6,
+          "user_ratings_total": 381,
+          "phone": "+1 808-262-0300",
+          "website": "https://www.timescoffeeshopkailua.com/",
+          "place_id": "ChIJEVhNW8MUAHwRxXUMiwBF_L0",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 1,
+          "source": "Google Places"
+        },
+        {
+          "name": "OH MY GRILL- Kailua",
+          "type": "restaurant, food, point_of_interest, establishment",
+          "address": "16 Kainehe St, Kailua",
+          "lat": 21.3937859,
+          "lon": -157.7451252,
+          "distance_miles": 1.53,
+          "likelihood_score": 72,
+          "rating": 4.6,
+          "user_ratings_total": 196,
+          "phone": "+1 808-261-2121",
+          "website": "https://ohmygrillhawaii.com/",
+          "place_id": "ChIJ4VL5Ta0VAHwRj_tjkZfnAVk",
+          "opening_hours": {
+            "open_now": false
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 1,
+          "source": "Google Places"
+        },
+        {
+          "name": "TANAKA RAMEN & IZAKAYA",
+          "type": "restaurant, food, point_of_interest, establishment",
+          "address": "108 Hekili St #107, Kailua",
+          "lat": 21.3927307,
+          "lon": -157.7440428,
+          "distance_miles": 1.43,
+          "likelihood_score": 73,
+          "rating": 4.6,
+          "user_ratings_total": 47,
+          "phone": "+1 808-200-3166",
+          "website": null,
+          "place_id": "ChIJWZVlm9oVAHwRrINYJzZuOmw",
+          "opening_hours": {
+            "open_now": false
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 1,
+          "source": "Google Places"
+        }
+      ],
+      "createdAt": "2026-04-22T12:27:12.256197",
+      "count": 10
+    },
+    "c235811a3de8b546": {
+      "storeNumber": "SAF26Z-0205",
+      "category": "clothing/apparel",
+      "prospects": [
+        {
+          "name": "Mahina Clothing",
+          "type": "clothing_store, store, point_of_interest, establishment",
+          "address": "539 Kailua Rd, Kailua",
+          "lat": 21.393329,
+          "lon": -157.7407188,
+          "distance_miles": 1.33,
+          "likelihood_score": 72,
+          "rating": 4.3,
+          "user_ratings_total": 29,
+          "phone": "+1 808-262-2240",
+          "website": "https://shopmahina.com/",
+          "place_id": "ChIJp2y84dwUAHwR_HwUSslbHuU",
+          "opening_hours": {
+            "open_now": false
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        },
+        {
+          "name": "Aloha Kira",
+          "type": "clothing_store, store, point_of_interest, establishment",
+          "address": "131 Hekili St #104, Kailua",
+          "lat": 21.3921902,
+          "lon": -157.7425629,
+          "distance_miles": 1.34,
+          "likelihood_score": 75,
+          "rating": 4.8,
+          "user_ratings_total": 16,
+          "phone": "+1 808-897-3763",
+          "website": "http://www.thekirashop.com/",
+          "place_id": "ChIJszeQPY4VAHwR6Ej8p8wzPPQ",
+          "opening_hours": {
+            "open_now": false
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        },
+        {
+          "name": "Crazy Shirts",
+          "type": "clothing_store, store, point_of_interest, establishment",
+          "address": "Lau Hala Shops, 573 Kailua Rd #108, Kailua",
+          "lat": 21.3934357,
+          "lon": -157.7414403,
+          "distance_miles": 1.37,
+          "likelihood_score": 70,
+          "rating": 3.8,
+          "user_ratings_total": 12,
+          "phone": "+1 808-263-3528",
+          "website": "https://www.crazyshirts.com/store-details?code=139",
+          "place_id": "ChIJ7X0cv1QVAHwRv9osvvb9ubI",
+          "opening_hours": {
+            "open_now": false
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        },
+        {
+          "name": "GILLIA",
+          "type": "clothing_store, store, point_of_interest, establishment",
+          "address": "131 Hekili St #113, Kailua",
+          "lat": 21.3920199,
+          "lon": -157.7420057,
+          "distance_miles": 1.31,
+          "likelihood_score": 66,
+          "rating": 4.7,
+          "user_ratings_total": 7,
+          "phone": "+1 808-888-0413",
+          "website": null,
+          "place_id": "ChIJh9mcm_ZzAHwRRgVPjsKhrcU",
+          "opening_hours": {
+            "open_now": false
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        },
+        {
+          "name": "KAILUA XCHNG",
+          "type": "clothing_store, store, point_of_interest, establishment",
+          "address": "573 Kailua Rd, Kailua",
+          "lat": 21.3935959,
+          "lon": -157.7409603,
+          "distance_miles": 1.36,
+          "likelihood_score": 67,
+          "rating": 1.2,
+          "user_ratings_total": 26,
+          "phone": "+1 808-499-7809",
+          "website": null,
+          "place_id": "ChIJwyvz-EoVAHwR4PqrcOZXPMc",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        },
+        {
+          "name": "Lexbreezy Hawai'i",
+          "type": "clothing_store, store, point_of_interest, establishment",
+          "address": "16 Kainehe St # A, Kailua",
+          "lat": 21.3939248,
+          "lon": -157.7451178,
+          "distance_miles": 1.54,
+          "likelihood_score": 62,
+          "rating": 2.7,
+          "user_ratings_total": 20,
+          "phone": "+1 808-379-2974",
+          "website": "http://www.lexbreezyhawaii.com/",
+          "place_id": "ChIJA-yniNoVAHwR8vs725ud4Ts",
+          "opening_hours": {
+            "open_now": false
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        },
+        {
+          "name": "Sugar Sugar Hawaii - Kailua Boutique",
+          "type": "jewelry_store, clothing_store, store, point_of_interest, establishment",
+          "address": "131 Hekili St # 111, Kailua",
+          "lat": 21.3920631,
+          "lon": -157.742127,
+          "distance_miles": 1.32,
+          "likelihood_score": 75,
+          "rating": 4.9,
+          "user_ratings_total": 63,
+          "phone": null,
+          "website": "http://sugarsugarhi.com/",
+          "place_id": "ChIJwaumMM9tAHwR5y2wUwuInb8",
+          "opening_hours": {
+            "open_now": false
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        },
+        {
+          "name": "Target",
+          "type": "department_store, shoe_store, electronics_store, clothing_store, furniture_store, home_goods_store, store, point_of_interest, establishment",
+          "address": "345 Hahani St, Kailua",
+          "lat": 21.3914281,
+          "lon": -157.7394305,
+          "distance_miles": 1.18,
+          "likelihood_score": 84,
+          "rating": 4.2,
+          "user_ratings_total": 749,
+          "phone": "+1 808-489-9319",
+          "website": "https://www.target.com/sl/oahu-kailua/2697",
+          "place_id": "ChIJicU7y8IUAHwRwvd3B-iDcGM",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 2,
+          "source": "Google Places"
+        },
+        {
+          "name": "bikinibird Kailua",
+          "type": "clothing_store, store, point_of_interest, establishment",
+          "address": "131 Hekili St #103, Kailua",
+          "lat": 21.3920783,
+          "lon": -157.7423665,
+          "distance_miles": 1.33,
+          "likelihood_score": 75,
+          "rating": 4.8,
+          "user_ratings_total": 40,
+          "phone": "+1 808-263-8389",
+          "website": "http://bikinibird.com/",
+          "place_id": "ChIJjbu_s9wUAHwRFn-tNW7uSfY",
+          "opening_hours": {
+            "open_now": false
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        },
+        {
+          "name": "Splash! Hawaii Kailua",
+          "type": "shoe_store, store, point_of_interest, establishment",
+          "address": "143 Hekili St, Kailua",
+          "lat": 21.3919208,
+          "lon": -157.7417644,
+          "distance_miles": 1.29,
+          "likelihood_score": 73,
+          "rating": 4.2,
+          "user_ratings_total": 18,
+          "phone": "+1 808-262-8080",
+          "website": "http://splashhawaii.com/",
+          "place_id": "ChIJHYdpN8MUAHwRkjkQARhEwts",
+          "opening_hours": {
+            "open_now": false
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        }
+      ],
+      "createdAt": "2026-04-22T12:48:46.791643",
+      "count": 10
     }
   },
-  "lastUpdated": "2026-04-08T15:21:39.718064"
+  "lastUpdated": "2026-04-22T12:48:46.791654"
 }
