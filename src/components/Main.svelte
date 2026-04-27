@@ -1054,7 +1054,6 @@
                   <p class="cycle-col-title">CURRENT</p>
                   <p class="cycle-line"><strong>{currentSellingCycle} Selling</strong></p>
                   <p class="cycle-days-label">{currentSellingDates}</p>
-                  <p class="cycle-line"><strong>{currentSellingCycle} Install</strong> · {nextInstallDate}</p>
                 </div>
                 <div class="cycle-divider"></div>
                 <div class="cycle-col">
