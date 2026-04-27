@@ -32,7 +32,7 @@
 
   onMount(async () => {
     try {
-      const storeRes = await fetch(import.meta.env.BASE_URL + 'data/stores.json');
+      const storeRes = await fetch(import.meta.env.BASE_URL + 'data/stores.json?t=' + Date.now());
       allStores = await storeRes.json();
     } catch {}
     // Load testimonials lazily (don't block UI)
@@ -42,7 +42,7 @@
     } catch {
       // Fallback to full cache
       try {
-        const testRes2 = await fetch(import.meta.env.BASE_URL + 'data/testimonials_cache.json');
+        const testRes2 = await fetch(import.meta.env.BASE_URL + 'data/testimonials_cache.json?t=' + Date.now());
         allTestimonials = await testRes2.json();
       } catch {}
     }

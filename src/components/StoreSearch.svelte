@@ -411,7 +411,7 @@ Store: ${store.StoreName}
   async function loadStores() {
     try {
       setLoading(true);
-      const response = await fetch(import.meta.env.BASE_URL + 'data/stores.json');
+      const response = await fetch(import.meta.env.BASE_URL + 'data/stores.json?t=' + Date.now());
       if (!response.ok) throw new Error('Failed to load stores');
       const data = await response.json();
       allStores = data || [];

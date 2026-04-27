@@ -9,7 +9,7 @@
   onMount(async () => {
     try {
       // Load prospects
-      const res = await fetch(import.meta.env.BASE_URL + 'data/prospect_data.json');
+      const res = await fetch(import.meta.env.BASE_URL + 'data/prospect_data.json?t=' + Date.now());
       const data = await res.json();
       const reps = data.reps || {};
       
@@ -38,7 +38,7 @@
       
       // Add contracts
       try {
-        const contractRes = await fetch(import.meta.env.BASE_URL + 'data/contracts.json');
+        const contractRes = await fetch(import.meta.env.BASE_URL + 'data/contracts.json?t=' + Date.now());
         const contractData = await contractRes.json();
         const contracts = contractData.contracts || contractData || [];
         totalSales += contracts.reduce((sum, c) => sum + (c.total_amount || 0), 0);
@@ -46,7 +46,7 @@
       
       // Add renewals
       try {
-        const renewalRes = await fetch(import.meta.env.BASE_URL + 'data/pending_renewals.json');
+        const renewalRes = await fetch(import.meta.env.BASE_URL + 'data/pending_renewals.json?t=' + Date.now());
         const renewals = await renewalRes.json();
         if (Array.isArray(renewals)) {
           totalSales += renewals.reduce((sum, r) => {

@@ -170,14 +170,14 @@
   onMount(async () => {
     document.addEventListener('select-store-from-map', handleStoreSelectFromMap);
     try {
-      const response = await fetch(import.meta.env.BASE_URL + 'data/video_library.json');
+      const response = await fetch(import.meta.env.BASE_URL + 'data/video_library.json?t=' + Date.now());
       videoLibrary = await response.json();
     } catch (e) {
       console.warn('Could not load video library:', e);
     }
     // Load contracts for attribution
     try {
-      const cRes = await fetch(import.meta.env.BASE_URL + 'data/contracts.json');
+      const cRes = await fetch(import.meta.env.BASE_URL + 'data/contracts.json?t=' + Date.now());
       const cData = await cRes.json();
       allContracts = cData.contracts || cData || [];
     } catch { allContracts = []; }
@@ -233,7 +233,7 @@
       try {
         // Try slim first, fall back to full
         let response = await fetch(import.meta.env.BASE_URL + 'data/testimonials_slim.json?t=' + Date.now()).catch(() => null);
-        if (!response?.ok) response = await fetch(import.meta.env.BASE_URL + 'data/testimonials_cache.json');
+        if (!response?.ok) response = await fetch(import.meta.env.BASE_URL + 'data/testimonials_cache.json?t=' + Date.now());
         testimonialCache = await response.json();
       } catch (e) {
         console.warn('Could not load testimonials:', e);
@@ -443,9 +443,9 @@
   onMount(async () => {
     try {
       const [storesRes, leadsRes, repRes] = await Promise.all([
-        fetch(import.meta.env.BASE_URL + 'data/stores.json'),
+        fetch(import.meta.env.BASE_URL + 'data/stores.json?t=' + Date.now()),
         fetch(import.meta.env.BASE_URL + 'data/hot_leads.json?t=' + Date.now()),
-        fetch(import.meta.env.BASE_URL + 'data/rep_registry.json').catch(() => ({ json: () => ({}) }))
+        fetch(import.meta.env.BASE_URL + 'data/rep_registry.json?t=' + Date.now()).catch(() => ({ json: () => ({}) }))
       ]);
       allStores = await storesRes.json();
       repRegistry = await repRes.json().catch(() => ({}));
@@ -456,7 +456,7 @@
       // Load contracts to find which stores this rep has sold at
       let repStoreIds = new Set();
       try {
-        const contractsRes = await fetch(import.meta.env.BASE_URL + 'data/contracts.json');
+        const contractsRes = await fetch(import.meta.env.BASE_URL + 'data/contracts.json?t=' + Date.now());
         const contractsData = await contractsRes.json();
         const contracts = contractsData.contracts || [];
         const rn = ($user?.name || '').toLowerCase();

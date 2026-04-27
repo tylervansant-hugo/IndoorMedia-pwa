@@ -50,7 +50,7 @@
 
   async function loadReps() {
     try {
-      const response = await fetch(import.meta.env.BASE_URL + 'data/rep_registry.json');
+      const response = await fetch(import.meta.env.BASE_URL + 'data/rep_registry.json?t=' + Date.now());
       const data = await response.json();
 
       // Merge locally registered reps

@@ -162,7 +162,7 @@
   onMount(async () => {
     // Load all 7,835 stores for reference
     try {
-      const response = await fetch(import.meta.env.BASE_URL + 'data/stores.json');
+      const response = await fetch(import.meta.env.BASE_URL + 'data/stores.json?t=' + Date.now());
       const stores = await response.json();
       allStoresRaw = stores;
       allStores = stores.map(s => ({

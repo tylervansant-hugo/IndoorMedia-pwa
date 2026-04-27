@@ -611,8 +611,8 @@
       storesInTerritory = allStores.length;
     }
 
-    // Rep's monthly revenue (individual, not team total)
-    repMonthlyRevenue = thisMonthContracts.reduce((sum, c) => sum + (c.total_amount || 0), 0);
+    // Set monthly revenue (team total if manager, individual if rep)
+    repMonthlyRevenue = revenueThisMonth;
 
     // Leaderboard — rank by this month's revenue
     const repTotals = {};
@@ -631,7 +631,7 @@
     leaderboardPosition = myRank >= 0 ? myRank + 1 : 0;
 
     // Pending renewals count + add renewal value to revenue
-    fetch(import.meta.env.BASE_URL + 'data/pending_renewals.json')
+    fetch(import.meta.env.BASE_URL + 'data/pending_renewals.json?t=' + Date.now())
       .then(r => r.json())
       .then(renewals => {
         if (isManager) {
@@ -641,8 +641,7 @@
           pendingRenewalsData = renewals.filter(r => (r.rep || '').toLowerCase().includes(repName.split(' ')[0]));
           pendingRenewalsCount = pendingRenewalsData.length;
         }
-        // Revenue stays as this month's contracts only
-        repMonthlyRevenue = revenueThisMonth;
+
       })
       .catch(() => { pendingRenewalsCount = 0; pendingRenewalsData = []; });
 
@@ -721,8 +720,8 @@
 
     try {
       const [contractsRes, storesRes] = await Promise.all([
-        fetch(import.meta.env.BASE_URL + 'data/contracts.json'),
-        fetch(import.meta.env.BASE_URL + 'data/stores.json')
+        fetch(import.meta.env.BASE_URL + 'data/contracts.json?t=' + Date.now()),
+        fetch(import.meta.env.BASE_URL + 'data/stores.json?t=' + Date.now())
       ]);
       const contractsData = await contractsRes.json();
       contracts = contractsData.contracts || [];

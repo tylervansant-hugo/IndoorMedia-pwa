@@ -183,7 +183,7 @@
       // If no localStorage data, try to load seed beacons from JSON
       if (Object.keys(beaconData).length === 0) {
         try {
-          const seedRes = await fetch(import.meta.env.BASE_URL + 'data/rep_location_beacons.json');
+          const seedRes = await fetch(import.meta.env.BASE_URL + 'data/rep_location_beacons.json?t=' + Date.now());
           if (seedRes.ok) {
             const seedData = await seedRes.json();
             // Convert seed format to localStorage format
@@ -262,8 +262,8 @@
   onMount(async () => {
     try {
       const [storesRes, contractsRes] = await Promise.all([
-        fetch(import.meta.env.BASE_URL + 'data/stores.json'),
-        fetch(import.meta.env.BASE_URL + 'data/contracts.json'),
+        fetch(import.meta.env.BASE_URL + 'data/stores.json?t=' + Date.now()),
+        fetch(import.meta.env.BASE_URL + 'data/contracts.json?t=' + Date.now()),
       ]);
 
       allStores = await storesRes.json();

@@ -245,10 +245,10 @@
   onMount(async () => {
     try {
       const [contractsRes, storesRes, renewalsRes, proofsRes] = await Promise.all([
-        fetch(import.meta.env.BASE_URL + 'data/contracts.json'),
-        fetch(import.meta.env.BASE_URL + 'data/stores.json'),
-        fetch(import.meta.env.BASE_URL + 'data/pending_renewals.json').catch(() => ({ json: () => [] })),
-        fetch(import.meta.env.BASE_URL + 'data/ad_proofs.json').catch(() => ({ json: () => [] }))
+        fetch(import.meta.env.BASE_URL + 'data/contracts.json?t=' + Date.now()),
+        fetch(import.meta.env.BASE_URL + 'data/stores.json?t=' + Date.now()),
+        fetch(import.meta.env.BASE_URL + 'data/pending_renewals.json?t=' + Date.now()).catch(() => ({ json: () => [] })),
+        fetch(import.meta.env.BASE_URL + 'data/ad_proofs.json?t=' + Date.now()).catch(() => ({ json: () => [] }))
       ]);
       const data = await contractsRes.json();
       contracts = data.contracts || [];

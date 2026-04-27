@@ -14,7 +14,7 @@
   
   async function loadPendingLeads() {
     try {
-      const response = await fetch(import.meta.env.BASE_URL + 'data/pending_leads.json');
+      const response = await fetch(import.meta.env.BASE_URL + 'data/pending_leads.json?t=' + Date.now());
       if (response.ok) {
         pendingLeads = await response.json();
       } else {

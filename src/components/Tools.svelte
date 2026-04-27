@@ -400,7 +400,7 @@ Store: ${store}
 
   // Load all reps from registry
   function loadRepNames() {
-    fetch(import.meta.env.BASE_URL + 'data/rep_registry.json')
+    fetch(import.meta.env.BASE_URL + 'data/rep_registry.json?t=' + Date.now())
       .then(r => r.json())
       .then(d => {
         allReps = d;
@@ -445,7 +445,7 @@ Store: ${store}
 
   onMount(async () => {
     try {
-      const res = await fetch(import.meta.env.BASE_URL + 'data/stores.json');
+      const res = await fetch(import.meta.env.BASE_URL + 'data/stores.json?t=' + Date.now());
       allStores = await res.json();
     } catch (err) {
       console.error('Failed to load stores:', err);
@@ -498,7 +498,7 @@ Store: ${store}
   async function loadTestimonialData() {
     if (testimonialData) return testimonialData;
     try {
-      const res = await fetch(import.meta.env.BASE_URL + 'data/testimonials.json');
+      const res = await fetch(import.meta.env.BASE_URL + 'data/testimonials.json?t=' + Date.now());
       if (!res.ok) throw new Error('Failed to load');
       testimonialData = await res.json();
       return testimonialData;
