@@ -1714,32 +1714,26 @@
 
   .tab-bar-item.home-btn {
     position: relative;
-    margin-top: -18px;
   }
 
   .home-circle {
-    width: 52px;
-    height: 52px;
+    width: 40px;
+    height: 40px;
     border-radius: 50%;
     background: #CC0000;
     display: flex;
     align-items: center;
     justify-content: center;
-    border: 3px solid rgba(255, 255, 255, 0.25);
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
-    transition: transform 0.2s, box-shadow 0.2s;
+    transition: background 0.2s;
   }
 
-  .tab-bar-item.home-btn:hover .home-circle,
   .tab-bar-item.home-btn.active .home-circle {
-    transform: scale(1.05);
-    border-color: rgba(255, 255, 255, 0.5);
-    box-shadow: 0 4px 12px rgba(204, 0, 0, 0.4);
+    background: #e60000;
   }
 
   .home-icon {
-    width: 26px;
-    height: 26px;
+    width: 22px;
+    height: 22px;
     stroke: white;
   }
 
