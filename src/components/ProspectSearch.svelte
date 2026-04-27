@@ -1201,16 +1201,16 @@
     <h2>📍 Nearby Stores</h2>
     <p class="subtitle">Select a store to find prospects nearby</p>
 
+    <div class="view-toggle" style="display: flex; gap: 8px; margin-bottom: 16px; justify-content: center;">
+      <button class="toggle-btn" class:active={storesViewMode === 'list'} on:click={() => storesViewMode = 'list'} style="flex: 1;">📋 List</button>
+      <button class="toggle-btn" class:active={storesViewMode === 'map'} on:click={() => storesViewMode = 'map'} style="flex: 1;">🗺️ Map</button>
+    </div>
+
     <div class="cycle-filter">
       <button class="cycle-btn" class:active={selectedCycle === 'all'} on:click={() => selectedCycle = 'all'}>All</button>
       <button class="cycle-btn" class:active={selectedCycle === 'A'} on:click={() => selectedCycle = 'A'}>Cycle A</button>
       <button class="cycle-btn" class:active={selectedCycle === 'B'} on:click={() => selectedCycle = 'B'}>Cycle B</button>
       <button class="cycle-btn" class:active={selectedCycle === 'C'} on:click={() => selectedCycle = 'C'}>Cycle C</button>
-    </div>
-
-    <div class="view-toggle" style="display: flex; gap: 8px; margin-bottom: 16px; justify-content: center;">
-      <button class="toggle-btn" class:active={storesViewMode === 'list'} on:click={() => storesViewMode = 'list'} style="flex: 1;">📋 List</button>
-      <button class="toggle-btn" class:active={storesViewMode === 'map'} on:click={() => storesViewMode = 'map'} style="flex: 1;">🗺️ Map</button>
     </div>
 
     {#if storesViewMode === 'list'}
