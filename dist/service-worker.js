@@ -3,7 +3,7 @@
  * Handles offline caching, push notifications, and background sync
  */
 
-const CACHE_VERSION = 'v3';
+const CACHE_VERSION = 'v4-network-first';
 const CACHE_NAME = `indoormedia-${CACHE_VERSION}`;
 
 // Assets to cache on install
@@ -121,7 +121,27 @@ self.addEventListener('fetch', (event) => {
     );
   }
 
-  // Static assets - cache first, network fallback
+  // HTML pages & JSON data - NETWORK FIRST (always check for updates)
+  if (url.endsWith('.html') || url.endsWith('.json') || url.endsWith('/')) {
+    return event.respondWith(
+      fetch(request)
+        .then((response) => {
+          if (response.ok) {
+            caches.open(CACHE_NAME).then((cache) => {
+              cache.put(request, response.clone());
+            });
+          }
+          return response;
+        })
+        .catch(() => {
+          return caches.match(request).then((cached) => {
+            return cached || new Response('Offline - cached version unavailable', { status: 503 });
+          });
+        })
+    );
+  }
+
+  // Other static assets - cache first, network fallback
   event.respondWith(
     caches.match(request).then((cached) => {
       if (cached) {
