@@ -517,7 +517,7 @@
       
       // Count phone clicks this week
       const phoneCalls = JSON.parse(localStorage.getItem('impro_phone_clicks') || '[]');
-      const callsThisWeek = phoneCalls.filter(c => new Date(c.date) >= weekAgo).length;
+      const callsThisWeek = phoneCalls.filter(c => new Date(c.date + 'T12:00:00') >= weekAgo).length;
       
       // Total activity = saved + searches + phone clicks
       prospectsThisWeek = savedThisWeek + searchesThisWeek + callsThisWeek;
@@ -536,11 +536,11 @@
     });
     
     thisMonthContracts = myContracts.filter(c => {
-      const d = new Date(c.date);
+      const d = new Date(c.date + 'T12:00:00');
       return d.getMonth() === thisMonth && d.getFullYear() === thisYear;
     });
     const lastMonthContracts = myContracts.filter(c => {
-      const d = new Date(c.date);
+      const d = new Date(c.date + 'T12:00:00');
       return d.getMonth() === lastMonth && d.getFullYear() === lastMonthYear;
     });
     
@@ -555,7 +555,7 @@
     weekStart.setHours(0, 0, 0, 0);
     
     thisWeekContracts = myContracts.filter(c => {
-      const d = new Date(c.date);
+      const d = new Date(c.date + 'T12:00:00');
       return d >= weekStart;
     });
     thisWeekRevenue = thisWeekContracts.reduce((sum, c) => sum + (c.total_amount || 0), 0);
@@ -574,7 +574,7 @@
       wEnd.setHours(23, 59, 59, 999);
       
       const weekContracts = thisMonthContracts.filter(c => {
-        const d = new Date(c.date);
+        const d = new Date(c.date + 'T12:00:00');
         return d >= wStart && d <= wEnd;
       });
       
@@ -617,7 +617,7 @@
     // Leaderboard — rank by this month's revenue
     const repTotals = {};
     contracts.filter(c => {
-      const d = new Date(c.date);
+      const d = new Date(c.date + 'T12:00:00');
       return d.getMonth() === thisMonth && d.getFullYear() === thisYear;
     }).forEach(c => {
       const rep = c.sales_rep || 'Unknown';
@@ -1362,7 +1362,7 @@
               {@const now = new Date()}
               {@const thisMonth = now.getMonth()}
               {@const thisYear = now.getFullYear()}
-              {@const monthContracts = contracts.filter(c => { const d = new Date(c.date); return d.getMonth() === thisMonth && d.getFullYear() === thisYear; })}
+              {@const monthContracts = contracts.filter(c => { const d = new Date(c.date + 'T12:00:00'); return d.getMonth() === thisMonth && d.getFullYear() === thisYear; })}
               {@const repDeals = (() => {
                 const map = {};
                 monthContracts.forEach(c => {
