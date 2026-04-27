@@ -935,9 +935,10 @@
       <svg class="tab-bar-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
       <span class="tab-bar-label">Present</span>
     </button>
-    <button class="tab-bar-item" class:active={currentTab === 'dashboard'} on:click={() => currentTab = 'dashboard'}>
-      <div class="tab-bar-indicator"></div>
-      <svg class="tab-bar-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+    <button class="tab-bar-item home-btn" class:active={currentTab === 'dashboard'} on:click={() => currentTab = 'dashboard'}>
+      <div class="home-circle">
+        <svg class="tab-bar-icon home-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+      </div>
       <span class="tab-bar-label">Home</span>
     </button>
     <button class="tab-bar-item" class:active={currentTab === 'clients'} on:click={() => currentTab = 'clients'}>
@@ -1709,6 +1710,37 @@
     height: 28px;
     stroke: currentColor;
     flex-shrink: 0;
+  }
+
+  .tab-bar-item.home-btn {
+    position: relative;
+    margin-top: -18px;
+  }
+
+  .home-circle {
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
+    background: #CC0000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 3px solid rgba(255, 255, 255, 0.25);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+
+  .tab-bar-item.home-btn:hover .home-circle,
+  .tab-bar-item.home-btn.active .home-circle {
+    transform: scale(1.05);
+    border-color: rgba(255, 255, 255, 0.5);
+    box-shadow: 0 4px 12px rgba(204, 0, 0, 0.4);
+  }
+
+  .home-icon {
+    width: 26px;
+    height: 26px;
+    stroke: white;
   }
 
   .tab-bar-label {
