@@ -1115,6 +1115,12 @@
     <p class="subtitle">Discover new business opportunities</p>
 
     <div class="button-grid">
+      <a href="https://coupons.indoormedia.com/" target="_blank" class="main-btn" style="text-decoration: none; color: inherit;">
+        <div class="btn-icon">📋</div>
+        <div class="btn-text">Nearby Advertisers</div>
+        <div class="btn-desc">See who's already advertising</div>
+      </a>
+
       <button class="main-btn" on:click={startNearMeSearch}>
         <div class="btn-icon">📍</div>
         <div class="btn-text">Near Me</div>
@@ -1246,52 +1252,7 @@
     {/if}
     <p class="subtitle">Search by name or choose a category</p>
 
-    {#if selectedStore && selectedStore.StoreName}
-      <button 
-        class="roogle-load-btn"
-        on:click={promptForCredentials}
-        disabled={loadingCustomers}
-      >
-        {loadingCustomers ? '⏳ Loading...' : '🔄 Load Roogle Customers'}
-      </button>
-      {#if customerLoadMessage}
-        <p class="customer-load-msg">{customerLoadMessage}</p>
-      {/if}
-    {/if}
 
-    {#if showCredentialsModal}
-      <div class="credentials-modal-overlay" on:click={closeCredentialsModal}>
-        <div class="credentials-modal" on:click={(e) => e.stopPropagation()}>
-          <h3>🔐 Roogle Login</h3>
-          <p class="modal-subtitle">Enter your sales.indoormedia.com credentials</p>
-          
-          <div class="form-group">
-            <label>Email</label>
-            <input 
-              type="email"
-              bind:value={roogleEmail}
-              placeholder="tyler.vansant@indoormedia.com"
-            />
-          </div>
-
-          <div class="form-group">
-            <label>Password</label>
-            <input 
-              type="password"
-              bind:value={rooglePassword}
-              placeholder="Enter your password"
-            />
-          </div>
-
-          <div class="modal-actions">
-            <button class="btn-load" on:click={submitCredentialsAndLoad}>Load Customers</button>
-            <button class="btn-cancel" on:click={closeCredentialsModal}>Cancel</button>
-          </div>
-          
-          <p class="modal-note">✅ Your credentials are only sent to Roogle. They won't be stored.</p>
-        </div>
-      </div>
-    {/if}
 
     <div class="custom-search-bar">
       <input 

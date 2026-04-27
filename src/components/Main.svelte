@@ -563,6 +563,7 @@
     });
     
     revenueThisMonth = thisMonthContracts.reduce((sum, c) => sum + (c.total_amount || 0), 0);
+    console.log('[Dashboard] isManager:', isManager, 'repName:', repName, 'contracts:', contracts.length, 'myContracts:', myContracts.length, 'thisMonth:', thisMonth, 'thisMonthContracts:', thisMonthContracts.length, 'revenue:', revenueThisMonth);
     
     // This week's contracts (Mon-Sun)
     const today = new Date();
@@ -743,8 +744,14 @@
       ]);
       const contractsData = await contractsRes.json();
       contracts = contractsData.contracts || [];
+      console.log('[Dashboard] Loaded contracts:', contracts.length);
       allStores = await storesRes.json().catch(() => []);
-      computeDashboardStats();
+      console.log('[Dashboard] Loaded stores:', allStores.length);
+      try {
+        computeDashboardStats();
+      } catch (statsErr) {
+        console.error('[Dashboard] computeDashboardStats ERROR:', statsErr);
+      }
     } catch (err) {
       console.error('Failed to load dashboard data:', err);
     }
