@@ -1,7 +1,12 @@
 # MEMORY.md - Shelldon's Long-Term Memory
 
-## PWA (imPro Sales Portal) - Mar 27, 2026
-**Status:** ✅ LIVE on GitHub Pages
+## PWA (imPro Sales Portal) - Apr 27, 2026
+**Status:** ✅ LIVE on GitHub Pages — Service worker fixed for real-time updates
+
+**April 2026 Sales:** 
+- **Total Revenue:** $82,349.61 (17 contracts)
+- Top performer: Green Bee's Landscaping (Jan Banks) — $10,310
+- Monthly comparison: Apr down vs Mar ($107K) but contracts still flowing strong
 
 **Tech Stack:** Svelte + Vite → GitHub Pages (no Vercel)
 
