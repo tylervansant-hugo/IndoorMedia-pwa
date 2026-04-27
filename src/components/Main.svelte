@@ -2,6 +2,24 @@
   import { onMount } from 'svelte';
   import { theme, user } from '../lib/stores.js';
   import { get } from 'svelte/store';
+
+  // Parse contract dates safely — handles "2026-04-10 00:00", "2026-04-10", "4/10/2026"
+  function parseContractDate(dateStr) {
+    if (!dateStr) return new Date(0);
+    // Strip time portion like " 00:00" or " 16:58"
+    const dateOnly = dateStr.split(' ')[0];
+    // Parse as local date (noon) to avoid UTC timezone shift
+    const parts = dateOnly.includes('-') ? dateOnly.split('-') : null;
+    if (parts && parts.length === 3) {
+      return new Date(parseInt(parts[0]), parseInt(parts[1]) - 1, parseInt(parts[2]), 12, 0, 0);
+    }
+    // M/D/YYYY format
+    const slashParts = dateOnly.split('/');
+    if (slashParts.length === 3) {
+      return new Date(parseInt(slashParts[2]), parseInt(slashParts[0]) - 1, parseInt(slashParts[1]), 12, 0, 0);
+    }
+    return new Date(dateStr);
+  }
   import { logActivity, getRepActivityReport, getDailySummaries } from '../lib/activity.js';
   import { initFirebase, isFirebaseReady, getAllRepActivity } from '../lib/firebase.js';
   import StoreSearch from './StoreSearch.svelte';
@@ -517,7 +535,7 @@
       
       // Count phone clicks this week
       const phoneCalls = JSON.parse(localStorage.getItem('impro_phone_clicks') || '[]');
-      const callsThisWeek = phoneCalls.filter(c => new Date(c.date + 'T12:00:00') >= weekAgo).length;
+      const callsThisWeek = phoneCalls.filter(c => parseContractDate(c.date) >= weekAgo).length;
       
       // Total activity = saved + searches + phone clicks
       prospectsThisWeek = savedThisWeek + searchesThisWeek + callsThisWeek;
@@ -536,11 +554,11 @@
     });
     
     thisMonthContracts = myContracts.filter(c => {
-      const d = new Date(c.date + 'T12:00:00');
+      const d = parseContractDate(c.date);
       return d.getMonth() === thisMonth && d.getFullYear() === thisYear;
     });
     const lastMonthContracts = myContracts.filter(c => {
-      const d = new Date(c.date + 'T12:00:00');
+      const d = parseContractDate(c.date);
       return d.getMonth() === lastMonth && d.getFullYear() === lastMonthYear;
     });
     
@@ -555,7 +573,7 @@
     weekStart.setHours(0, 0, 0, 0);
     
     thisWeekContracts = myContracts.filter(c => {
-      const d = new Date(c.date + 'T12:00:00');
+      const d = parseContractDate(c.date);
       return d >= weekStart;
     });
     thisWeekRevenue = thisWeekContracts.reduce((sum, c) => sum + (c.total_amount || 0), 0);
@@ -574,7 +592,7 @@
       wEnd.setHours(23, 59, 59, 999);
       
       const weekContracts = thisMonthContracts.filter(c => {
-        const d = new Date(c.date + 'T12:00:00');
+        const d = parseContractDate(c.date);
         return d >= wStart && d <= wEnd;
       });
       
@@ -617,7 +635,7 @@
     // Leaderboard — rank by this month's revenue
     const repTotals = {};
     contracts.filter(c => {
-      const d = new Date(c.date + 'T12:00:00');
+      const d = parseContractDate(c.date);
       return d.getMonth() === thisMonth && d.getFullYear() === thisYear;
     }).forEach(c => {
       const rep = c.sales_rep || 'Unknown';
@@ -1362,7 +1380,7 @@
               {@const now = new Date()}
               {@const thisMonth = now.getMonth()}
               {@const thisYear = now.getFullYear()}
-              {@const monthContracts = contracts.filter(c => { const d = new Date(c.date + 'T12:00:00'); return d.getMonth() === thisMonth && d.getFullYear() === thisYear; })}
+              {@const monthContracts = contracts.filter(c => { const d = parseContractDate(c.date); return d.getMonth() === thisMonth && d.getFullYear() === thisYear; })}
               {@const repDeals = (() => {
                 const map = {};
                 monthContracts.forEach(c => {
