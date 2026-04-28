@@ -6641,6 +6641,23 @@
       "address": "",
       "customer_city_state": "Oregon City, OR 97045",
       "extracted_at": "2026-04-25T20:00:06.339777"
+    },
+    {
+      "contract_number": "J429424E",
+      "date": "4/27/2026",
+      "business_name": "Pisa Pizza",
+      "contact_name": "Malak Guirgis",
+      "contact_email": "zak1160@hotmail.com",
+      "contact_phone": "(909) 518-4107",
+      "sales_rep": "Christian Johnson",
+      "store_name": "",
+      "store_number": "Food 4 Less-0303",
+      "product_description": "Single",
+      "total_amount": 5346.0,
+      "payment_date": "4/27/2026",
+      "address": "17500 Foothill Blvd STE #A8",
+      "customer_city_state": "Fontana, CA 92335",
+      "extracted_at": "2026-04-27T20:00:08.377859"
     }
   ],
   "last_scan": "2026-04-19T20:00:11.243578"
