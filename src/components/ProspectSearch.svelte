@@ -1383,28 +1383,28 @@
             <p class="prospect-phone">📞 {prospect.phone}</p>
           {/if}
           <div class="prospect-actions">
-            {#if prospect.website}
-              <a href={prospect.website} target="_blank" class="action-btn full-width">🌐 Website</a>
+            {#if prospect.phone}
+              <div class="action-row">
+                <a href="tel:{prospect.phone}" class="action-btn call-btn" on:click={() => trackPhoneClick(prospect)}>📞 Call</a>
+                <a href="sms:{prospect.phone}" class="action-btn text-btn">💬 Text</a>
+                <button class="action-btn" on:click={() => saveProspect(prospect)}>💾 Save</button>
+              </div>
+            {:else}
+              <div class="action-row">
+                <button class="action-btn" on:click={() => saveProspect(prospect)}>💾 Save</button>
+                {#if prospect.website}
+                  <a href={prospect.website} target="_blank" class="action-btn">🌐 Website</a>
+                {/if}
+              </div>
             {/if}
+
             <div class="action-row">
-              {#if prospect.mapsUrl}
-                <a href={prospect.mapsUrl} target="_blank" class="action-btn">📍 Maps</a>
-              {:else}
-                <a href="https://maps.google.com/maps?q={encodeURIComponent(prospect.name + ' ' + prospect.address)}" target="_blank" class="action-btn">📍 Maps</a>
-              {/if}
-              <a href="https://sales.indoormedia.com/mappoint" target="_blank" class="action-btn">🗺️ Mappoint</a>
-              <a href="https://coupons.indoormedia.com/?location={encodeURIComponent((selectedStore?.City || '') + ', ' + (selectedStore?.State || ''))}" target="_blank" class="action-btn">📋 Nearby Advertisers</a>
-            </div>
-            <div class="action-row">
-              <button class="action-btn" on:click={() => saveProspect(prospect)}>💾 Save</button>
-              {#if getVideoForCategory()}
-                <a href={getVideoForCategory().url} target="_blank" class="action-btn">🎬 Video</a>
-              {:else}
-                <a href="https://www.google.com/search?q={encodeURIComponent('IndoorMedia ' + (selectedSubcategory || selectedCategory || 'testimonial'))}&tbm=vid" target="_blank" class="action-btn">🎬 Video</a>
-              {/if}
-            </div>
-            <div class="action-row">
+              <button class="action-btn script-btn" on:click={() => { prospect._showScript = !prospect._showScript; prospect._showEmail = false; prospect._showNotes = false; prospects = prospects; }}>📋 Scripts</button>
+              <button class="action-btn email-btn" on:click={() => { prospect._showEmail = !prospect._showEmail; prospect._showScript = false; prospect._showNotes = false; prospects = prospects; }}>✉️ Email</button>
               <button class="action-btn" on:click={() => { prospect._showNotes = !prospect._showNotes; prospects = prospects; }}>📝 Notes</button>
+            </div>
+
+            <div class="action-row">
               <button class="action-btn testimonial-btn" on:click={async () => { 
                 prospect._showTestimonials = !prospect._showTestimonials;
                 if (prospect._showTestimonials) {
@@ -1412,25 +1412,7 @@
                 }
                 prospects = prospects;
               }}>📋 Testimonials</button>
-            </div>
-            {#if prospect.phone}
-              <div class="action-row">
-                <a href="tel:{prospect.phone}" class="action-btn call-btn" on:click={() => trackPhoneClick(prospect)}>📞 Call {prospect.phone}</a>
-                <a href="sms:{prospect.phone}" class="action-btn text-btn">💬 Text</a>
-              </div>
-            {/if}
-            <button class="action-btn full-width script-btn" on:click={() => { prospect._showScript = !prospect._showScript; prospect._showEmail = false; prospect._showNotes = false; prospects = prospects; }}>📋 Call Scripts</button>
-            <button class="action-btn full-width email-btn" on:click={() => { prospect._showEmail = !prospect._showEmail; prospect._showScript = false; prospect._showNotes = false; prospects = prospects; }}>✉️ Draft Email</button>
-            <div class="calendar-booking">
-              <div class="invite-row">
-                <select bind:value={inviteRepEmail} class="invite-select">
-                  <option value="">No invite (just me)</option>
-                  {#each Object.entries(repRegistry).filter(([k, v]) => v.email) as [id, rep]}
-                    <option value={rep.email}>{rep.display_name || rep.contract_name}</option>
-                  {/each}
-                </select>
-              </div>
-              <a href="https://calendar.google.com/calendar/render?action=TEMPLATE&text={encodeURIComponent('Visit: ' + prospect.name)}&details={encodeURIComponent('Prospect: ' + prospect.name + '\nAddress: ' + prospect.address + (prospect.phone ? '\nPhone: ' + prospect.phone : '') + (prospect.website ? '\nWebsite: ' + prospect.website : '') + '\nStore: ' + (selectedStore?.GroceryChain || '') + ' ' + (selectedStore?.StoreName || '') + '\nRep: ' + ($user?.name || '') + (getProspectNote(prospect.id || prospect.name) ? '\n\n📝 Notes:\n' + getProspectNote(prospect.id || prospect.name) : ''))}&location={encodeURIComponent(prospect.address)}&add={encodeURIComponent('tyler.vansant@indoormedia.com')}{inviteRepEmail ? ',' + encodeURIComponent(inviteRepEmail) : ''}" target="_blank" class="action-btn full-width calendar-btn">📅 Book Appointment (invites manager{inviteRepEmail ? ' + rep' : ''})</a>
+              <a href="https://calendar.google.com/calendar/render?action=TEMPLATE&text={encodeURIComponent('Visit: ' + prospect.name)}&details={encodeURIComponent('Prospect: ' + prospect.name + '\nAddress: ' + prospect.address + (prospect.phone ? '\nPhone: ' + prospect.phone : '') + (prospect.website ? '\nWebsite: ' + prospect.website : '') + '\nStore: ' + (selectedStore?.GroceryChain || '') + ' ' + (selectedStore?.StoreName || '') + '\nRep: ' + ($user?.name || '') + (getProspectNote(prospect.id || prospect.name) ? '\n\n📝 Notes:\n' + getProspectNote(prospect.id || prospect.name) : ''))}&location={encodeURIComponent(prospect.address)}&add={encodeURIComponent('tyler.vansant@indoormedia.com')}" target="_blank" class="action-btn calendar-btn">📅 Book Appt</a>
             </div>
           </div>
           {#if prospect._showTestimonials}
