@@ -1383,37 +1383,46 @@
             <p class="prospect-phone">📞 {prospect.phone}</p>
           {/if}
           <div class="prospect-actions">
-            {#if prospect.phone}
-              <div class="action-row">
-                <a href="tel:{prospect.phone}" class="action-btn call-btn" on:click={() => trackPhoneClick(prospect)}>📞 Call</a>
-                <a href="sms:{prospect.phone}" class="action-btn text-btn">💬 Text</a>
-                <button class="action-btn" on:click={() => saveProspect(prospect)}>💾 Save</button>
-              </div>
-            {:else}
-              <div class="action-row">
-                <button class="action-btn" on:click={() => saveProspect(prospect)}>💾 Save</button>
-                {#if prospect.website}
-                  <a href={prospect.website} target="_blank" class="action-btn">🌐 Website</a>
-                {/if}
-              </div>
-            {/if}
-
+            <!-- Row 1: Contact -->
             <div class="action-row">
-              <button class="action-btn script-btn" on:click={() => { prospect._showScript = !prospect._showScript; prospect._showEmail = false; prospect._showNotes = false; prospects = prospects; }}>📋 Scripts</button>
-              <button class="action-btn email-btn" on:click={() => { prospect._showEmail = !prospect._showEmail; prospect._showScript = false; prospect._showNotes = false; prospects = prospects; }}>✉️ Email</button>
-              <button class="action-btn" on:click={() => { prospect._showNotes = !prospect._showNotes; prospects = prospects; }}>📝 Notes</button>
+              {#if prospect.phone}
+                <a href="tel:{prospect.phone}" class="action-btn btn-green" on:click={() => trackPhoneClick(prospect)}>📞 Call</a>
+                <a href="sms:{prospect.phone}" class="action-btn btn-blue">💬 Text</a>
+              {/if}
+              <button class="action-btn btn-purple" on:click={() => { prospect._showEmail = !prospect._showEmail; prospect._showScript = false; prospect._showNotes = false; prospects = prospects; }}>✉️ Email</button>
             </div>
 
+            <!-- Row 2: Research -->
             <div class="action-row">
-              <button class="action-btn testimonial-btn" on:click={async () => { 
+              {#if prospect.website}
+                <a href={prospect.website} target="_blank" class="action-btn btn-gray">🌐 Website</a>
+              {/if}
+              <button class="action-btn btn-gray" on:click={() => saveProspect(prospect)}>💾 Save</button>
+              <button class="action-btn btn-gray" on:click={() => { prospect._showNotes = !prospect._showNotes; prospects = prospects; }}>📝 Notes</button>
+            </div>
+
+            <!-- Row 3: Sales tools -->
+            <div class="action-row">
+              <button class="action-btn btn-outline" on:click={() => { prospect._showScript = !prospect._showScript; prospect._showEmail = false; prospect._showNotes = false; prospects = prospects; }}>📋 Scripts</button>
+              <button class="action-btn btn-outline" on:click={async () => { 
                 prospect._showTestimonials = !prospect._showTestimonials;
                 if (prospect._showTestimonials) {
                   prospect._testimonialData = await getTestimonialsForCategory();
                 }
                 prospects = prospects;
-              }}>📋 Testimonials</button>
-              <a href="https://calendar.google.com/calendar/render?action=TEMPLATE&text={encodeURIComponent('Visit: ' + prospect.name)}&details={encodeURIComponent('Prospect: ' + prospect.name + '\nAddress: ' + prospect.address + (prospect.phone ? '\nPhone: ' + prospect.phone : '') + (prospect.website ? '\nWebsite: ' + prospect.website : '') + '\nStore: ' + (selectedStore?.GroceryChain || '') + ' ' + (selectedStore?.StoreName || '') + '\nRep: ' + ($user?.name || '') + (getProspectNote(prospect.id || prospect.name) ? '\n\n📝 Notes:\n' + getProspectNote(prospect.id || prospect.name) : ''))}&location={encodeURIComponent(prospect.address)}&add={encodeURIComponent('tyler.vansant@indoormedia.com')}" target="_blank" class="action-btn calendar-btn">📅 Book Appt</a>
+              }}>⭐ Testimonials</button>
             </div>
+
+            <!-- Big Book Appointment -->
+            <div class="invite-row">
+              <select bind:value={inviteRepEmail} class="invite-select">
+                <option value="">No invite (just me)</option>
+                {#each Object.entries(repRegistry).filter(([k, v]) => v.email) as [id, rep]}
+                  <option value={rep.email}>{rep.display_name || rep.contract_name}</option>
+                {/each}
+              </select>
+            </div>
+            <a href="https://calendar.google.com/calendar/render?action=TEMPLATE&text={encodeURIComponent('Visit: ' + prospect.name)}&details={encodeURIComponent('Prospect: ' + prospect.name + '\nAddress: ' + prospect.address + (prospect.phone ? '\nPhone: ' + prospect.phone : '') + (prospect.website ? '\nWebsite: ' + prospect.website : '') + '\nStore: ' + (selectedStore?.GroceryChain || '') + ' ' + (selectedStore?.StoreName || '') + '\nRep: ' + ($user?.name || '') + (getProspectNote(prospect.id || prospect.name) ? '\n\n📝 Notes:\n' + getProspectNote(prospect.id || prospect.name) : ''))}&location={encodeURIComponent(prospect.address)}&add={encodeURIComponent('tyler.vansant@indoormedia.com')}{inviteRepEmail ? ',' + encodeURIComponent(inviteRepEmail) : ''}" target="_blank" class="action-btn btn-book-appt">📅 Book Appointment{inviteRepEmail ? ' (+ rep)' : ''}</a>
           </div>
           {#if prospect._showTestimonials}
             <div class="testimonials-section">
@@ -2540,6 +2549,40 @@
 
   .call-btn { background: #2e7d32 !important; color: white !important; border-color: #2e7d32 !important; }
   .call-btn:hover { background: #1b5e20 !important; }
+
+  /* Color-coded buttons */
+  .btn-green { background: #2e7d32 !important; color: white !important; border-color: #2e7d32 !important; }
+  .btn-green:hover { background: #1b5e20 !important; }
+
+  .btn-blue { background: #1565C0 !important; color: white !important; border-color: #1565C0 !important; }
+  .btn-blue:hover { background: #0D47A1 !important; }
+
+  .btn-purple { background: #6A1B9A !important; color: white !important; border-color: #6A1B9A !important; }
+  .btn-purple:hover { background: #4A148C !important; }
+
+  .btn-gray { background: #f5f5f5 !important; color: #333 !important; border-color: #ddd !important; }
+  :global([data-theme='dark']) .btn-gray { background: #2a2a2a !important; color: #ddd !important; border-color: #444 !important; }
+  .btn-gray:hover { background: #e0e0e0 !important; }
+
+  .btn-outline { background: transparent !important; color: #CC0000 !important; border: 2px solid #CC0000 !important; }
+  .btn-outline:hover { background: #CC0000 !important; color: white !important; }
+
+  .btn-book-appt {
+    display: block;
+    width: 100%;
+    padding: 14px 16px !important;
+    background: #CC0000 !important;
+    color: white !important;
+    border-color: #CC0000 !important;
+    font-size: 1rem !important;
+    font-weight: 700 !important;
+    border-radius: 12px !important;
+    text-align: center;
+    text-decoration: none;
+    letter-spacing: 0.3px;
+    box-shadow: 0 2px 8px rgba(204, 0, 0, 0.3);
+  }
+  .btn-book-appt:hover { background: #aa0000 !important; box-shadow: 0 4px 12px rgba(204, 0, 0, 0.4); }
   .text-btn { background: #1565C0 !important; color: white !important; border-color: #1565C0 !important; }
   .text-btn:hover { background: #0D47A1 !important; }
 
