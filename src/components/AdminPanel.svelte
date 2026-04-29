@@ -312,6 +312,7 @@
 <style>
 	.admin-panel {
 		padding: 1rem;
+		padding-bottom: calc(120px + env(safe-area-inset-bottom, 0px));
 		background: #f5f5f5;
 		min-height: 100vh;
 	}

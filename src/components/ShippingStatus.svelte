@@ -271,6 +271,7 @@
 <style>
 	.shipping-status {
 		padding: 1rem;
+		padding-bottom: calc(120px + env(safe-area-inset-bottom, 0px));
 		background: #f9f9f9;
 		min-height: 100vh;
 	}
