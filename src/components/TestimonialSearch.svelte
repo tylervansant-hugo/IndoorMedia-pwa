@@ -28,29 +28,14 @@
 
     const term = searchTerm.toLowerCase();
     filtered = allTestimonials.filter(t => {
-      const comment = t.comment || t.comments || '';
-      const business = t.business || t.business_name || '';
-      const searchable = t.searchable || '';
       return (
-        comment.toLowerCase().includes(term) ||
-        business.toLowerCase().includes(term) ||
-        searchable.toLowerCase().includes(term)
+        (t.comment && t.comment.toLowerCase().includes(term)) ||
+        (t.business && t.business.toLowerCase().includes(term)) ||
+        (t.searchable && t.searchable.toLowerCase().includes(term))
       );
     }).slice(0, 20);
 
-    // Normalize field names for display
-    filtered = filtered.map(t => ({
-      ...t,
-      comment: t.comment || t.comments || '',
-      business: t.business || t.business_name || 'Unknown Business',
-    }));
-
     searchResults.set(filtered);
-  }
-
-  function openAllTabs() {
-    const urls = filtered.filter(t => t.url).map(t => t.url);
-    urls.forEach(url => window.open(url, '_blank'));
   }
 
   onMount(loadTestimonials);
@@ -82,28 +67,15 @@
     {:else if filtered.length === 0}
       <p class="hint">Start typing to search for testimonials</p>
     {:else}
-      <div class="results-header">
-        <span class="results-count">{filtered.length} result{filtered.length === 1 ? '' : 's'}</span>
-        {#if filtered.filter(t => t.url).length > 1}
-          <button class="open-all-btn" on:click={openAllTabs}>
-            📂 Open All ({filtered.filter(t => t.url).length})
-          </button>
-        {/if}
-      </div>
       <div class="testimonial-list">
         {#each filtered as testimonial (testimonial.id)}
-          <div class="testimonial-card" class:clickable={testimonial.url} on:click={() => testimonial.url && window.open(testimonial.url, '_blank')}>
-            <div class="card-body">
-              <p class="testimonial-text">"{testimonial.comment}"</p>
-              <div class="testimonial-author">
-                <strong>{testimonial.business}</strong>
-              </div>
+          <div class="testimonial-card">
+            <p class="testimonial-text">"{testimonial.comment}"</p>
+            <div class="testimonial-author">
+              <strong>{testimonial.business}</strong>
             </div>
             {#if testimonial.url}
-              <div class="card-link-hint">
-                <span>View on IndoorMedia →</span>
-                <span class="open-icon">↗</span>
-              </div>
+              <a href={testimonial.url} target="_blank" class="testimonial-link">View on IndoorMedia →</a>
             {/if}
           </div>
         {/each}
@@ -223,64 +195,16 @@
     margin: 0;
   }
 
-  .results-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 12px;
-  }
-
-  .results-count {
+  .testimonial-link {
+    display: inline-block;
+    margin-top: 8px;
     font-size: 13px;
-    color: #888;
+    color: #CC0000;
+    text-decoration: none;
     font-weight: 500;
   }
 
-  .open-all-btn {
-    padding: 8px 16px;
-    border-radius: 20px;
-    border: 2px solid #CC0000;
-    background: white;
-    color: #CC0000;
-    font-size: 13px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.2s;
-  }
-
-  .open-all-btn:hover {
-    background: #CC0000;
-    color: white;
-  }
-
-  .testimonial-card.clickable {
-    cursor: pointer;
-    transition: transform 0.15s, box-shadow 0.15s;
-  }
-
-  .testimonial-card.clickable:hover {
-    transform: translateY(-1px);
-    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.12);
-  }
-
-  .testimonial-card.clickable:active {
-    transform: scale(0.99);
-  }
-
-  .card-link-hint {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-top: 10px;
-    padding-top: 10px;
-    border-top: 1px solid #f0f0f0;
-    font-size: 13px;
-    color: #CC0000;
-    font-weight: 500;
-  }
-
-  .open-icon {
-    font-size: 16px;
-    font-weight: 700;
+  .testimonial-link:hover {
+    text-decoration: underline;
   }
 </style>

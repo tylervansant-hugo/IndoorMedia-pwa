@@ -22,8 +22,6 @@
   let selectedCycle = 'all'; // all, A, B, C
   let storesViewMode = 'list'; // list or map
   let prospectsViewMode = 'list'; // list or map
-  let subcatsViewMode = 'list'; // list or map
-  let categoriesViewMode = 'list'; // list or map
   let selectedStore = null;
   
   // Map state
@@ -31,10 +29,6 @@
   let storeMap;
   let prospectMapContainer;
   let prospectMap;
-  let subcatMapContainer;
-  let subcatMap;
-  let categoriesMapContainer;
-  let categoriesMap;
   
   async function initStoreMap() {
     await tick();
@@ -152,66 +146,10 @@
   function destroyProspectMap() {
     if (prospectMap) { prospectMap.remove(); prospectMap = null; }
   }
-
-  async function initSubcatMap() {
-    await tick();
-    if (!subcatMapContainer || subcatMap) return;
-    
-    const center = [selectedStore?.latitude || 45.5, selectedStore?.longitude || -122.5];
-    subcatMap = L.map(subcatMapContainer, { center, zoom: 12, zoomControl: true });
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-      attribution: '© OpenStreetMap',
-      maxZoom: 19,
-    }).addTo(subcatMap);
-    
-    // Add store marker
-    if (selectedStore?.latitude && selectedStore?.longitude) {
-      L.circleMarker([selectedStore.latitude, selectedStore.longitude], {
-        radius: 12,
-        fillColor: '#CC0000',
-        color: '#fff',
-        weight: 3,
-        fillOpacity: 1,
-      }).addTo(subcatMap).bindPopup(`<strong>🏪 ${selectedStore.GroceryChain}</strong>`);
-    }
-  }
-
-  function destroySubcatMap() {
-    if (subcatMap) { subcatMap.remove(); subcatMap = null; }
-  }
-
-  async function initCategoriesMap() {
-    await tick();
-    if (!categoriesMapContainer || categoriesMap) return;
-    
-    const center = [selectedStore?.latitude || 45.5, selectedStore?.longitude || -122.5];
-    categoriesMap = L.map(categoriesMapContainer, { center, zoom: 12, zoomControl: true });
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-      attribution: '© OpenStreetMap',
-      maxZoom: 19,
-    }).addTo(categoriesMap);
-    
-    // Add store marker
-    if (selectedStore?.latitude && selectedStore?.longitude) {
-      L.circleMarker([selectedStore.latitude, selectedStore.longitude], {
-        radius: 12,
-        fillColor: '#CC0000',
-        color: '#fff',
-        weight: 3,
-        fillOpacity: 1,
-      }).addTo(categoriesMap).bindPopup(`<strong>🏪 ${selectedStore.GroceryChain}</strong>`);
-    }
-  }
-
-  function destroyCategoriesMap() {
-    if (categoriesMap) { categoriesMap.remove(); categoriesMap = null; }
-  }
   
   // React to view mode changes
   $: if (storesViewMode === 'map') { destroyStoreMap(); setTimeout(initStoreMap, 50); } else { destroyStoreMap(); }
   $: if (prospectsViewMode === 'map') { destroyProspectMap(); setTimeout(initProspectMap, 50); } else { destroyProspectMap(); }
-  $: if (subcatsViewMode === 'map') { destroySubcatMap(); setTimeout(initSubcatMap, 50); } else { destroySubcatMap(); }
-  $: if (categoriesViewMode === 'map') { destroyCategoriesMap(); setTimeout(initCategoriesMap, 50); } else { destroyCategoriesMap(); }
   $: if (storesViewMode === 'map' && selectedCycle) { destroyStoreMap(); setTimeout(initStoreMap, 50); }
   let loadingCustomers = false;
   let customerLoadMessage = '';
@@ -232,14 +170,14 @@
   onMount(async () => {
     document.addEventListener('select-store-from-map', handleStoreSelectFromMap);
     try {
-      const response = await fetch(import.meta.env.BASE_URL + 'data/video_library.json');
+      const response = await fetch(import.meta.env.BASE_URL + 'data/video_library.json?t=' + Date.now());
       videoLibrary = await response.json();
     } catch (e) {
       console.warn('Could not load video library:', e);
     }
     // Load contracts for attribution
     try {
-      const cRes = await fetch(import.meta.env.BASE_URL + 'data/contracts.json');
+      const cRes = await fetch(import.meta.env.BASE_URL + 'data/contracts.json?t=' + Date.now());
       const cData = await cRes.json();
       allContracts = cData.contracts || cData || [];
     } catch { allContracts = []; }
@@ -253,8 +191,6 @@
     document.removeEventListener('select-store-from-map', handleStoreSelectFromMap);
     destroyStoreMap();
     destroyProspectMap();
-    destroySubcatMap();
-    destroyCategoriesMap();
   });
 
   function getVideoForCategory() {
@@ -297,7 +233,7 @@
       try {
         // Try slim first, fall back to full
         let response = await fetch(import.meta.env.BASE_URL + 'data/testimonials_slim.json?t=' + Date.now()).catch(() => null);
-        if (!response?.ok) response = await fetch(import.meta.env.BASE_URL + 'data/testimonials_cache.json');
+        if (!response?.ok) response = await fetch(import.meta.env.BASE_URL + 'data/testimonials_cache.json?t=' + Date.now());
         testimonialCache = await response.json();
       } catch (e) {
         console.warn('Could not load testimonials:', e);
@@ -507,9 +443,9 @@
   onMount(async () => {
     try {
       const [storesRes, leadsRes, repRes] = await Promise.all([
-        fetch(import.meta.env.BASE_URL + 'data/stores.json'),
+        fetch(import.meta.env.BASE_URL + 'data/stores.json?t=' + Date.now()),
         fetch(import.meta.env.BASE_URL + 'data/hot_leads.json?t=' + Date.now()),
-        fetch(import.meta.env.BASE_URL + 'data/rep_registry.json').catch(() => ({ json: () => ({}) }))
+        fetch(import.meta.env.BASE_URL + 'data/rep_registry.json?t=' + Date.now()).catch(() => ({ json: () => ({}) }))
       ]);
       allStores = await storesRes.json();
       repRegistry = await repRes.json().catch(() => ({}));
@@ -520,7 +456,7 @@
       // Load contracts to find which stores this rep has sold at
       let repStoreIds = new Set();
       try {
-        const contractsRes = await fetch(import.meta.env.BASE_URL + 'data/contracts.json');
+        const contractsRes = await fetch(import.meta.env.BASE_URL + 'data/contracts.json?t=' + Date.now());
         const contractsData = await contractsRes.json();
         const contracts = contractsData.contracts || [];
         const rn = ($user?.name || '').toLowerCase();
@@ -1179,6 +1115,12 @@
     <p class="subtitle">Discover new business opportunities</p>
 
     <div class="button-grid">
+      <a href="https://coupons.indoormedia.com/" target="_blank" class="main-btn" style="text-decoration: none; color: inherit;">
+        <div class="btn-icon">📋</div>
+        <div class="btn-text">Nearby Advertisers</div>
+        <div class="btn-desc">See who's already advertising</div>
+      </a>
+
       <button class="main-btn" on:click={startNearMeSearch}>
         <div class="btn-icon">📍</div>
         <div class="btn-text">Near Me</div>
@@ -1259,16 +1201,16 @@
     <h2>📍 Nearby Stores</h2>
     <p class="subtitle">Select a store to find prospects nearby</p>
 
+    <div class="view-toggle" style="display: flex; gap: 8px; margin-bottom: 16px; justify-content: center;">
+      <button class="toggle-btn" class:active={storesViewMode === 'list'} on:click={() => storesViewMode = 'list'} style="flex: 1;">📋 List</button>
+      <button class="toggle-btn" class:active={storesViewMode === 'map'} on:click={() => storesViewMode = 'map'} style="flex: 1;">🗺️ Map</button>
+    </div>
+
     <div class="cycle-filter">
       <button class="cycle-btn" class:active={selectedCycle === 'all'} on:click={() => selectedCycle = 'all'}>All</button>
       <button class="cycle-btn" class:active={selectedCycle === 'A'} on:click={() => selectedCycle = 'A'}>Cycle A</button>
       <button class="cycle-btn" class:active={selectedCycle === 'B'} on:click={() => selectedCycle = 'B'}>Cycle B</button>
       <button class="cycle-btn" class:active={selectedCycle === 'C'} on:click={() => selectedCycle = 'C'}>Cycle C</button>
-    </div>
-
-    <div class="view-toggle" style="display: flex; gap: 12px; margin: 16px 0; padding: 16px; background: #CC0000; border-radius: 12px; justify-content: center; align-items: center; position: relative; z-index: 100;">
-      <button class="toggle-btn" class:active={storesViewMode === 'list'} on:click={() => { console.log('List clicked'); storesViewMode = 'list'; }} style="flex: 1; padding: 16px; font-size: 18px; font-weight: 700; background: white; color: #333;">📋 List</button>
-      <button class="toggle-btn" class:active={storesViewMode === 'map'} on:click={() => { console.log('Map clicked'); storesViewMode = 'map'; }} style="flex: 1; padding: 16px; font-size: 18px; font-weight: 700; background: white; color: #333;">🗺️ Map</button>
     </div>
 
     {#if storesViewMode === 'list'}
@@ -1310,57 +1252,7 @@
     {/if}
     <p class="subtitle">Search by name or choose a category</p>
 
-    <div class="view-toggle" style="display: flex; gap: 12px; margin: 16px 0; padding: 16px; background: #CC0000; border-radius: 12px; justify-content: center; align-items: center; position: relative; z-index: 100;">
-      <button class="toggle-btn" class:active={categoriesViewMode === 'list'} on:click={() => categoriesViewMode = 'list'} style="flex: 1; padding: 16px; font-size: 18px; font-weight: 700; background: white; color: #333;">📋 List</button>
-      <button class="toggle-btn" class:active={categoriesViewMode === 'map'} on:click={() => categoriesViewMode = 'map'} style="flex: 1; padding: 16px; font-size: 18px; font-weight: 700; background: white; color: #333;">🗺️ Map</button>
-    </div>
 
-    {#if selectedStore && selectedStore.StoreName}
-      <button 
-        class="roogle-load-btn"
-        on:click={promptForCredentials}
-        disabled={loadingCustomers}
-      >
-        {loadingCustomers ? '⏳ Loading...' : '🔄 Load Roogle Customers'}
-      </button>
-      {#if customerLoadMessage}
-        <p class="customer-load-msg">{customerLoadMessage}</p>
-      {/if}
-    {/if}
-
-    {#if showCredentialsModal}
-      <div class="credentials-modal-overlay" on:click={closeCredentialsModal}>
-        <div class="credentials-modal" on:click={(e) => e.stopPropagation()}>
-          <h3>🔐 Roogle Login</h3>
-          <p class="modal-subtitle">Enter your sales.indoormedia.com credentials</p>
-          
-          <div class="form-group">
-            <label>Email</label>
-            <input 
-              type="email"
-              bind:value={roogleEmail}
-              placeholder="tyler.vansant@indoormedia.com"
-            />
-          </div>
-
-          <div class="form-group">
-            <label>Password</label>
-            <input 
-              type="password"
-              bind:value={rooglePassword}
-              placeholder="Enter your password"
-            />
-          </div>
-
-          <div class="modal-actions">
-            <button class="btn-load" on:click={submitCredentialsAndLoad}>Load Customers</button>
-            <button class="btn-cancel" on:click={closeCredentialsModal}>Cancel</button>
-          </div>
-          
-          <p class="modal-note">✅ Your credentials are only sent to Roogle. They won't be stored.</p>
-        </div>
-      </div>
-    {/if}
 
     <div class="custom-search-bar">
       <input 
@@ -1427,18 +1319,13 @@
 
     <p class="or-divider">— or pick a category —</p>
 
-    {#if categoriesViewMode === 'list'}
-      <div class="category-grid">
-        {#each Object.keys(CATEGORIES) as cat}
-          <button class="category-btn" on:click={() => selectCategory(cat)}>
-            {cat}
-          </button>
-        {/each}
-      </div>
-    {:else if categoriesViewMode === 'map'}
-      <div bind:this={categoriesMapContainer} style="height: 500px; margin: 16px 0; border-radius: 12px; overflow: hidden; border: 2px solid var(--border-color, #ddd);"></div>
-      <p style="font-size: 12px; color: #999; text-align: center; margin: 8px 0;">📍 Store location · Click "List" to browse categories</p>
-    {/if}
+    <div class="category-grid">
+      {#each Object.keys(CATEGORIES) as cat}
+        <button class="category-btn" on:click={() => selectCategory(cat)}>
+          {cat}
+        </button>
+      {/each}
+    </div>
   {/if}
 
   <!-- Subcategory Selection -->
@@ -1446,23 +1333,13 @@
     <button class="back-btn" on:click={goBack}>← {selectedCategory}</button>
     <h3>Choose a type</h3>
 
-    <div class="view-toggle" style="display: flex; gap: 12px; margin: 16px 0; padding: 16px; background: #f9f9f9; border-radius: 12px; justify-content: center; align-items: center;">
-      <button class="toggle-btn" class:active={subcatsViewMode === 'list'} on:click={() => subcatsViewMode = 'list'} style="flex: 1; padding: 14px; font-size: 16px; font-weight: 700;">📋 List</button>
-      <button class="toggle-btn" class:active={subcatsViewMode === 'map'} on:click={() => subcatsViewMode = 'map'} style="flex: 1; padding: 14px; font-size: 16px; font-weight: 700;">🗺️ Map</button>
+    <div class="subcat-grid">
+      {#each CATEGORIES[selectedCategory] as subcat}
+        <button class="subcat-btn" on:click={() => selectSubcategory(subcat)}>
+          {subcat}
+        </button>
+      {/each}
     </div>
-
-    {#if subcatsViewMode === 'list'}
-      <div class="subcat-grid">
-        {#each CATEGORIES[selectedCategory] as subcat}
-          <button class="subcat-btn" on:click={() => selectSubcategory(subcat)}>
-            {subcat}
-          </button>
-        {/each}
-      </div>
-    {:else if subcatsViewMode === 'map'}
-      <div bind:this={subcatMapContainer} style="height: 500px; margin: 16px 0; border-radius: 12px; overflow: hidden; border: 2px solid var(--border-color, #ddd);"></div>
-      <p style="font-size: 12px; color: #999; text-align: center; margin: 8px 0;">🟢 = High match (80%+) · 🟡 = Good match (70%+) · ⚪ = Other · Tap a marker to select category</p>
-    {/if}
   {/if}
 
   <!-- Prospect Results -->
@@ -1479,9 +1356,9 @@
         <button class="sort-btn" class:active={prospectSort === 'rating'} on:click={() => prospectSort = 'rating'}>⭐ Rating</button>
         <button class="sort-btn" class:active={prospectSort === 'reviews'} on:click={() => prospectSort = 'reviews'}>💬 Reviews</button>
       </div>
-      <div class="view-toggle" style="display: flex; gap: 8px; flex-shrink: 0;">
-        <button class="toggle-btn" class:active={prospectsViewMode === 'list'} on:click={() => prospectsViewMode = 'list'} style="padding: 10px 14px; font-size: 14px; font-weight: 700;">📋 List</button>
-        <button class="toggle-btn" class:active={prospectsViewMode === 'map'} on:click={() => prospectsViewMode = 'map'} style="padding: 10px 14px; font-size: 14px; font-weight: 700;">🗺️ Map</button>
+      <div class="view-toggle" style="display: flex; gap: 6px; flex-shrink: 0;">
+        <button class="toggle-btn" class:active={prospectsViewMode === 'list'} on:click={() => prospectsViewMode = 'list'} style="padding: 6px 10px; font-size: 12px;">📋 List</button>
+        <button class="toggle-btn" class:active={prospectsViewMode === 'map'} on:click={() => prospectsViewMode = 'map'} style="padding: 6px 10px; font-size: 12px;">🗺️ Map</button>
       </div>
     </div>
 
@@ -1506,74 +1383,60 @@
             <p class="prospect-phone">📞 {prospect.phone}</p>
           {/if}
           <div class="prospect-actions">
-            {#if prospect.website}
-              <a href={prospect.website} target="_blank" class="action-btn full-width">🌐 Website</a>
-            {/if}
+            <!-- Row 1: Contact -->
             <div class="action-row">
-              {#if prospect.mapsUrl}
-                <a href={prospect.mapsUrl} target="_blank" class="action-btn">📍 Maps</a>
-              {:else}
-                <a href="https://maps.google.com/maps?q={encodeURIComponent(prospect.name + ' ' + prospect.address)}" target="_blank" class="action-btn">📍 Maps</a>
+              {#if prospect.phone}
+                <a href="tel:{prospect.phone}" class="action-btn btn-green" on:click={() => trackPhoneClick(prospect)}>📞 Call</a>
+                <a href="sms:{prospect.phone}" class="action-btn btn-blue">💬 Text</a>
               {/if}
-              <a href="https://sales.indoormedia.com/mappoint" target="_blank" class="action-btn">🗺️ Mappoint</a>
-              <a href="https://coupons.indoormedia.com/?location={encodeURIComponent((selectedStore?.City || '') + ', ' + (selectedStore?.State || ''))}" target="_blank" class="action-btn">📋 Nearby Advertisers</a>
+              <button class="action-btn btn-purple" on:click={() => { prospect._showEmail = !prospect._showEmail; prospect._showScript = false; prospect._showNotes = false; prospects = prospects; }}>✉️ Email</button>
             </div>
+
+            <!-- Row 2: Research -->
             <div class="action-row">
-              <button class="action-btn" on:click={() => saveProspect(prospect)}>💾 Save</button>
-              {#if getVideoForCategory()}
-                <a href={getVideoForCategory().url} target="_blank" class="action-btn">🎬 Video</a>
-              {:else}
-                <a href="https://www.google.com/search?q={encodeURIComponent('IndoorMedia ' + (selectedSubcategory || selectedCategory || 'testimonial'))}&tbm=vid" target="_blank" class="action-btn">🎬 Video</a>
+              {#if prospect.website}
+                <a href={prospect.website} target="_blank" class="action-btn btn-gray">🌐 Website</a>
               {/if}
+              <button class="action-btn btn-gray" on:click={() => saveProspect(prospect)}>💾 Save</button>
+              <button class="action-btn btn-gray" on:click={() => { prospect._showNotes = !prospect._showNotes; prospects = prospects; }}>📝 Notes</button>
             </div>
+
+            <!-- Row 3: Sales tools -->
             <div class="action-row">
-              <button class="action-btn" on:click={() => { prospect._showNotes = !prospect._showNotes; prospects = prospects; }}>📝 Notes</button>
-              <button class="action-btn testimonial-btn" on:click={async () => { 
+              <button class="action-btn btn-outline" on:click={() => { prospect._showScript = !prospect._showScript; prospect._showEmail = false; prospect._showNotes = false; prospects = prospects; }}>📋 Scripts</button>
+              <button class="action-btn btn-outline" on:click={async () => { 
                 prospect._showTestimonials = !prospect._showTestimonials;
                 if (prospect._showTestimonials) {
                   prospect._testimonialData = await getTestimonialsForCategory();
                 }
                 prospects = prospects;
-              }}>📋 Testimonials</button>
+              }}>⭐ Testimonials</button>
             </div>
-            {#if prospect.phone}
-              <div class="action-row">
-                <a href="tel:{prospect.phone}" class="action-btn call-btn" on:click={() => trackPhoneClick(prospect)}>📞 Call {prospect.phone}</a>
-                <a href="sms:{prospect.phone}" class="action-btn text-btn">💬 Text</a>
-              </div>
-            {/if}
-            <button class="action-btn full-width script-btn" on:click={() => { prospect._showScript = !prospect._showScript; prospect._showEmail = false; prospect._showNotes = false; prospects = prospects; }}>📋 Call Scripts</button>
-            <button class="action-btn full-width email-btn" on:click={() => { prospect._showEmail = !prospect._showEmail; prospect._showScript = false; prospect._showNotes = false; prospects = prospects; }}>✉️ Draft Email</button>
-            <div class="calendar-booking">
-              <div class="invite-row">
-                <select bind:value={inviteRepEmail} class="invite-select">
-                  <option value="">No invite (just me)</option>
-                  {#each Object.entries(repRegistry).filter(([k, v]) => v.email) as [id, rep]}
-                    <option value={rep.email}>{rep.display_name || rep.contract_name}</option>
-                  {/each}
-                </select>
-              </div>
-              <a href="https://calendar.google.com/calendar/render?action=TEMPLATE&text={encodeURIComponent('Visit: ' + prospect.name)}&details={encodeURIComponent('Prospect: ' + prospect.name + '\nAddress: ' + prospect.address + (prospect.phone ? '\nPhone: ' + prospect.phone : '') + (prospect.website ? '\nWebsite: ' + prospect.website : '') + '\nStore: ' + (selectedStore?.GroceryChain || '') + ' ' + (selectedStore?.StoreName || '') + '\nRep: ' + ($user?.name || '') + (getProspectNote(prospect.id || prospect.name) ? '\n\n📝 Notes:\n' + getProspectNote(prospect.id || prospect.name) : ''))}&location={encodeURIComponent(prospect.address)}&add={encodeURIComponent('tyler.vansant@indoormedia.com')}{inviteRepEmail ? ',' + encodeURIComponent(inviteRepEmail) : ''}" target="_blank" class="action-btn full-width calendar-btn">📅 Book Appointment (invites manager{inviteRepEmail ? ' + rep' : ''})</a>
+
+            <!-- Big Book Appointment -->
+            <div class="invite-row">
+              <select bind:value={inviteRepEmail} class="invite-select">
+                <option value="">No invite (just me)</option>
+                {#each Object.entries(repRegistry).filter(([k, v]) => v.email) as [id, rep]}
+                  <option value={rep.email}>{rep.display_name || rep.contract_name}</option>
+                {/each}
+              </select>
             </div>
+            <a href="https://calendar.google.com/calendar/render?action=TEMPLATE&text={encodeURIComponent('Visit: ' + prospect.name)}&details={encodeURIComponent('Prospect: ' + prospect.name + '\nAddress: ' + prospect.address + (prospect.phone ? '\nPhone: ' + prospect.phone : '') + (prospect.website ? '\nWebsite: ' + prospect.website : '') + '\nStore: ' + (selectedStore?.GroceryChain || '') + ' ' + (selectedStore?.StoreName || '') + '\nRep: ' + ($user?.name || '') + (getProspectNote(prospect.id || prospect.name) ? '\n\n📝 Notes:\n' + getProspectNote(prospect.id || prospect.name) : ''))}&location={encodeURIComponent(prospect.address)}&add={encodeURIComponent('tyler.vansant@indoormedia.com')}{inviteRepEmail ? ',' + encodeURIComponent(inviteRepEmail) : ''}" target="_blank" class="action-btn btn-book-appt">📅 Book Appointment{inviteRepEmail ? ' (+ rep)' : ''}</a>
           </div>
           {#if prospect._showTestimonials}
             <div class="testimonials-section">
               <h4 class="testimonials-title">📋 Testimonials for {selectedSubcategory || selectedCategory || 'this category'}</h4>
               {#if prospect._testimonialData && prospect._testimonialData.length > 0}
-                {#if prospect._testimonialData.filter(t => t.url).length > 1}
-                  <button class="open-all-testimonials-btn" on:click|stopPropagation={() => { prospect._testimonialData.filter(t => t.url).forEach(t => window.open(t.url, '_blank')); }}>
-                    📂 Open All ({prospect._testimonialData.filter(t => t.url).length})
-                  </button>
-                {/if}
                 {#each prospect._testimonialData as testimonial}
-                  <div class="testimonial-card" class:local-testimonial={testimonial._isLocal} class:clickable-testimonial={testimonial.url} on:click|stopPropagation={() => { if (testimonial.url) window.open(testimonial.url, '_blank'); }}>
+                  <div class="testimonial-card" class:local-testimonial={testimonial._isLocal}>
                     {#if testimonial._isLocal}
                       <p class="local-badge">📍 Nearby Business</p>
                     {/if}
                     <p class="testimonial-business"><strong>{(testimonial.business_name || 'Business').replace(/&#x27;/g, "'").replace(/&#x9;/g, '').replace(/&amp;/g, '&')}</strong></p>
                     <p class="testimonial-text">"{testimonial.comments || 'Great experience with IndoorMedia!'}"</p>
                     {#if testimonial.url}
-                      <p class="testimonial-tap-hint">Tap to view on IndoorMedia ↗</p>
+                      <a href={testimonial.url} target="_blank" class="testimonial-link">🔗 View Full Testimonial →</a>
                     {/if}
                   </div>
                 {/each}
@@ -2247,13 +2110,6 @@
     transition: box-shadow 0.2s;
   }
   .testimonial-card:hover { box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
-  .testimonial-card.clickable-testimonial { cursor: pointer; transition: transform 0.15s, box-shadow 0.15s; }
-  .testimonial-card.clickable-testimonial:active { transform: scale(0.98); }
-  .testimonial-tap-hint { font-size: 12px; color: #CC0000; font-weight: 500; margin-top: 8px; }
-  :global([data-theme='dark']) .testimonial-tap-hint { color: #ff6666; }
-  .open-all-testimonials-btn { display: block; width: 100%; padding: 10px; margin-bottom: 10px; border-radius: 8px; border: 2px solid #CC0000; background: white; color: #CC0000; font-size: 14px; font-weight: 600; cursor: pointer; text-align: center; }
-  .open-all-testimonials-btn:active { background: #CC0000; color: white; }
-  :global([data-theme='dark']) .open-all-testimonials-btn { background: #1e1e1e; border-color: #ff6666; color: #ff6666; }
   :global([data-theme='dark']) .testimonial-card { background: #1e1e1e; border-color: #333; border-left-color: #CC0000; }
 
   .testimonial-business {
@@ -2562,8 +2418,8 @@
   }
 
   .btn-icon { font-size: 2rem; margin-bottom: 0.5rem; }
-  .btn-text { font-size: 15px; font-weight: 600; color: var(--text-primary); margin-bottom: 0.25rem; line-height: 1.3; }
-  .btn-desc { font-size: 13px; color: var(--text-tertiary); line-height: 1.3; }
+  .btn-text { font-weight: 600; color: var(--text-primary); margin-bottom: 0.25rem; }
+  .btn-desc { font-size: 0.85rem; color: var(--text-tertiary); }
 
   .store-list {
     display: flex;
@@ -2693,6 +2549,40 @@
 
   .call-btn { background: #2e7d32 !important; color: white !important; border-color: #2e7d32 !important; }
   .call-btn:hover { background: #1b5e20 !important; }
+
+  /* Color-coded buttons */
+  .btn-green { background: #2e7d32 !important; color: white !important; border-color: #2e7d32 !important; }
+  .btn-green:hover { background: #1b5e20 !important; }
+
+  .btn-blue { background: #1565C0 !important; color: white !important; border-color: #1565C0 !important; }
+  .btn-blue:hover { background: #0D47A1 !important; }
+
+  .btn-purple { background: #6A1B9A !important; color: white !important; border-color: #6A1B9A !important; }
+  .btn-purple:hover { background: #4A148C !important; }
+
+  .btn-gray { background: #f5f5f5 !important; color: #333 !important; border-color: #ddd !important; }
+  :global([data-theme='dark']) .btn-gray { background: #2a2a2a !important; color: #ddd !important; border-color: #444 !important; }
+  .btn-gray:hover { background: #e0e0e0 !important; }
+
+  .btn-outline { background: transparent !important; color: #CC0000 !important; border: 2px solid #CC0000 !important; }
+  .btn-outline:hover { background: #CC0000 !important; color: white !important; }
+
+  .btn-book-appt {
+    display: block;
+    width: 100%;
+    padding: 14px 16px !important;
+    background: #CC0000 !important;
+    color: white !important;
+    border-color: #CC0000 !important;
+    font-size: 1rem !important;
+    font-weight: 700 !important;
+    border-radius: 12px !important;
+    text-align: center;
+    text-decoration: none;
+    letter-spacing: 0.3px;
+    box-shadow: 0 2px 8px rgba(204, 0, 0, 0.3);
+  }
+  .btn-book-appt:hover { background: #aa0000 !important; box-shadow: 0 4px 12px rgba(204, 0, 0, 0.4); }
   .text-btn { background: #1565C0 !important; color: white !important; border-color: #1565C0 !important; }
   .text-btn:hover { background: #0D47A1 !important; }
 
