@@ -2562,8 +2562,8 @@
   }
 
   .btn-icon { font-size: 2rem; margin-bottom: 0.5rem; }
-  .btn-text { font-weight: 600; color: var(--text-primary); margin-bottom: 0.25rem; }
-  .btn-desc { font-size: 0.85rem; color: var(--text-tertiary); }
+  .btn-text { font-size: 15px; font-weight: 600; color: var(--text-primary); margin-bottom: 0.25rem; line-height: 1.3; }
+  .btn-desc { font-size: 13px; color: var(--text-tertiary); line-height: 1.3; }
 
   .store-list {
     display: flex;
