@@ -1387,9 +1387,9 @@
             <div class="action-row">
               {#if prospect.phone}
                 <a href="tel:{prospect.phone}" class="action-btn btn-green" on:click={() => trackPhoneClick(prospect)}>📞 Call</a>
-                <a href="sms:{prospect.phone}" class="action-btn btn-blue">💬 Text</a>
+                <button class="action-btn btn-blue" on:click={() => { prospect._showText = !prospect._showText; prospect._showEmail = false; prospect._showScript = false; prospect._showNotes = false; prospects = prospects; }}>💬 Text</button>
               {/if}
-              <button class="action-btn btn-purple" on:click={() => { prospect._showEmail = !prospect._showEmail; prospect._showScript = false; prospect._showNotes = false; prospects = prospects; }}>✉️ Email</button>
+              <button class="action-btn btn-purple" on:click={() => { prospect._showEmail = !prospect._showEmail; prospect._showText = false; prospect._showScript = false; prospect._showNotes = false; prospects = prospects; }}>✉️ Email</button>
             </div>
 
             <!-- Row 2: Research -->
@@ -1424,6 +1424,37 @@
             </div>
             <a href="https://calendar.google.com/calendar/render?action=TEMPLATE&text={encodeURIComponent('Visit: ' + prospect.name)}&details={encodeURIComponent('Prospect: ' + prospect.name + '\nAddress: ' + prospect.address + (prospect.phone ? '\nPhone: ' + prospect.phone : '') + (prospect.website ? '\nWebsite: ' + prospect.website : '') + '\nStore: ' + (selectedStore?.GroceryChain || '') + ' ' + (selectedStore?.StoreName || '') + '\nRep: ' + ($user?.name || '') + (getProspectNote(prospect.id || prospect.name) ? '\n\n📝 Notes:\n' + getProspectNote(prospect.id || prospect.name) : ''))}&location={encodeURIComponent(prospect.address)}&add={encodeURIComponent('tyler.vansant@indoormedia.com')}{inviteRepEmail ? ',' + encodeURIComponent(inviteRepEmail) : ''}" target="_blank" class="action-btn btn-book-appt">📅 Book Appointment{inviteRepEmail ? ' (+ rep)' : ''}</a>
           </div>
+          {#if prospect._showText}
+            <div class="text-templates-section">
+              <h4 class="text-templates-title">💬 Text Templates</h4>
+              <p class="text-templates-hint">Tap to copy, then paste into your text. Or tap "Send" to open SMS.</p>
+              {@const bizName = prospect.name || 'your business'}
+              {@const storeName = (selectedStore?.GroceryChain || 'the grocery store') + ' ' + (selectedStore?.StoreName || '')}
+              {@const repName = $user?.name || $user?.first_name || '[Your Name]'}
+              {@const subcat = selectedSubcategory || selectedCategory?.replace(/^[^\s]+\s/, '') || 'business'}
+              {#each [
+                { label: '🤝 Intro / Appointment', msg: `Hi! This is ${repName} — I work with ${storeName.trim()} and we're looking for one great ${subcat.toLowerCase()} to feature to all their shoppers. Would love to show you how it works. Do you have 10 min this week?` },
+                { label: '📊 Value / ROI', msg: `Hey! ${repName} here from IndoorMedia. We partner with ${storeName.trim()} to drive customers to local businesses. Other ${subcat.toLowerCase()}s in the area are seeing great results. Would you be open to a quick chat about what we could do for ${bizName}?` },
+                { label: '⏰ Follow-up', msg: `Hi, just following up — I reached out about featuring ${bizName} at ${storeName.trim()}. It's a really unique way to get in front of thousands of local shoppers. Still interested in hearing more?` },
+                { label: '🔥 Urgency / Limited', msg: `Hey! Quick heads up — we have one last ad spot available at ${storeName.trim()} for this cycle. Wanted to give ${bizName} first shot before we fill it. Can I send over the details?` },
+                { label: '🔄 Re-engage', msg: `Hi! We chatted a while back about advertising ${bizName} at ${storeName.trim()}. Things have been going great for the businesses we've partnered with since then. Worth revisiting? Happy to show you updated results.` },
+                { label: '📸 After Visit', msg: `Great meeting you today! As discussed, here's how we'd feature ${bizName} to thousands of shoppers at ${storeName.trim()}. Let me know if you have any questions — happy to get you set up!` }
+              ] as template}
+                <div class="text-template-card">
+                  <div class="text-template-label">{template.label}</div>
+                  <div class="text-template-msg">{template.msg}</div>
+                  <div class="text-template-actions">
+                    <button class="text-copy-btn" on:click|stopPropagation={() => { navigator.clipboard.writeText(template.msg); prospect._copiedText = template.label; prospects = prospects; setTimeout(() => { prospect._copiedText = ''; prospects = prospects; }, 2000); }}>
+                      {prospect._copiedText === template.label ? '✅ Copied!' : '📋 Copy'}
+                    </button>
+                    {#if prospect.phone}
+                      <a href="sms:{prospect.phone}?body={encodeURIComponent(template.msg)}" class="text-send-btn">📱 Send</a>
+                    {/if}
+                  </div>
+                </div>
+              {/each}
+            </div>
+          {/if}
           {#if prospect._showTestimonials}
             <div class="testimonials-section">
               <h4 class="testimonials-title">📋 Testimonials for {selectedSubcategory || selectedCategory || 'this category'}</h4>
@@ -2084,6 +2115,56 @@
   .customer-card.past .customer-revenue {
     color: #666;
   }
+
+  /* Text Templates */
+  .text-templates-section {
+    background: #f0f7ff;
+    border-radius: 10px;
+    padding: 14px;
+    margin-top: 10px;
+  }
+  :global([data-theme='dark']) .text-templates-section { background: #1a2332; }
+  .text-templates-title { font-size: 15px; font-weight: 700; margin: 0 0 4px; color: var(--text-primary); }
+  .text-templates-hint { font-size: 12px; color: var(--text-secondary); margin: 0 0 12px; }
+  .text-template-card {
+    background: var(--card-bg, white);
+    border-radius: 10px;
+    padding: 12px;
+    margin-bottom: 10px;
+    border: 1px solid var(--border-color, #e0e0e0);
+  }
+  :global([data-theme='dark']) .text-template-card { background: #1e1e1e; border-color: #333; }
+  .text-template-label { font-size: 13px; font-weight: 700; margin-bottom: 6px; color: var(--text-primary); }
+  .text-template-msg { font-size: 14px; line-height: 1.5; color: var(--text-secondary); margin-bottom: 10px; white-space: pre-wrap; }
+  .text-template-actions { display: flex; gap: 8px; }
+  .text-copy-btn {
+    flex: 1;
+    padding: 8px 12px;
+    border-radius: 8px;
+    border: 1.5px solid #2563EB;
+    background: white;
+    color: #2563EB;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    text-align: center;
+  }
+  .text-copy-btn:active { background: #2563EB; color: white; }
+  :global([data-theme='dark']) .text-copy-btn { background: #1e1e1e; border-color: #5b9aff; color: #5b9aff; }
+  .text-send-btn {
+    flex: 1;
+    padding: 8px 12px;
+    border-radius: 8px;
+    border: none;
+    background: #2563EB;
+    color: white;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    text-align: center;
+    text-decoration: none;
+  }
+  .text-send-btn:active { background: #1d4ed8; }
 
   .testimonials-section {
     background: #f9f9f9;
