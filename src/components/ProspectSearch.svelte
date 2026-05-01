@@ -1468,14 +1468,14 @@
               <h4 class="testimonials-title">📋 Testimonials for {selectedSubcategory || selectedCategory || 'this category'}</h4>
               {#if prospect._testimonialData && prospect._testimonialData.length > 0}
                 {#each prospect._testimonialData as testimonial}
-                  <div class="testimonial-card" class:local-testimonial={testimonial._isLocal}>
+                  <div class="testimonial-card" class:local-testimonial={testimonial._isLocal} class:clickable-testimonial={testimonial.url} on:click|stopPropagation={() => { if (testimonial.url) window.open(testimonial.url, '_blank'); }} role={testimonial.url ? 'link' : undefined}>
                     {#if testimonial._isLocal}
                       <p class="local-badge">📍 Nearby Business</p>
                     {/if}
                     <p class="testimonial-business"><strong>{(testimonial.business_name || 'Business').replace(/&#x27;/g, "'").replace(/&#x9;/g, '').replace(/&amp;/g, '&')}</strong></p>
                     <p class="testimonial-text">"{testimonial.comments || 'Great experience with IndoorMedia!'}"</p>
                     {#if testimonial.url}
-                      <a href={testimonial.url} target="_blank" class="testimonial-link">🔗 View Full Testimonial →</a>
+                      <p class="testimonial-tap-hint">Tap to view on IndoorMedia ↗</p>
                     {/if}
                   </div>
                 {/each}
@@ -2199,6 +2199,10 @@
     transition: box-shadow 0.2s;
   }
   .testimonial-card:hover { box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+  .testimonial-card.clickable-testimonial { cursor: pointer; transition: transform 0.15s, box-shadow 0.15s; }
+  .testimonial-card.clickable-testimonial:active { transform: scale(0.98); }
+  .testimonial-tap-hint { font-size: 12px; color: #CC0000; font-weight: 500; margin-top: 8px; }
+  :global([data-theme='dark']) .testimonial-tap-hint { color: #ff6666; }
   :global([data-theme='dark']) .testimonial-card { background: #1e1e1e; border-color: #333; border-left-color: #CC0000; }
 
   .testimonial-business {
