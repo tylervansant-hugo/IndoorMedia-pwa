@@ -978,7 +978,10 @@
 
   function getTextTemplates(prospect) {
     const bizName = prospect.name || 'your business';
-    const storeName = ((selectedStore?.GroceryChain || 'the grocery store') + ' ' + (selectedStore?.StoreName || '')).trim();
+    const chain = selectedStore?.GroceryChain || 'the grocery store';
+    const street = selectedStore?.Address?.split(',')[0]?.trim() || '';
+    const city = selectedStore?.City || '';
+    const storeName = street && city ? `${chain} on ${street} in ${city}` : chain;
     const repName = $user?.name || $user?.first_name || '[Your Name]';
     const subcat = selectedSubcategory || selectedCategory?.replace(/^[^\s]+\s/, '') || 'business';
     return [
