@@ -976,6 +976,21 @@
     } catch {}
   }
 
+  function getTextTemplates(prospect) {
+    const bizName = prospect.name || 'your business';
+    const storeName = ((selectedStore?.GroceryChain || 'the grocery store') + ' ' + (selectedStore?.StoreName || '')).trim();
+    const repName = $user?.name || $user?.first_name || '[Your Name]';
+    const subcat = selectedSubcategory || selectedCategory?.replace(/^[^\s]+\s/, '') || 'business';
+    return [
+      { label: '🤝 Intro / Appointment', msg: `Hi! This is ${repName} — I work with ${storeName} and we're looking for one great ${subcat.toLowerCase()} to feature to all their shoppers. Would love to show you how it works. Do you have 10 min this week?` },
+      { label: '📊 Value / ROI', msg: `Hey! ${repName} here from IndoorMedia. We partner with ${storeName} to drive customers to local businesses. Other ${subcat.toLowerCase()}s in the area are seeing great results. Would you be open to a quick chat about what we could do for ${bizName}?` },
+      { label: '⏰ Follow-up', msg: `Hi, just following up — I reached out about featuring ${bizName} at ${storeName}. It's a really unique way to get in front of thousands of local shoppers. Still interested in hearing more?` },
+      { label: '🔥 Urgency / Limited', msg: `Hey! Quick heads up — we have one last ad spot available at ${storeName} for this cycle. Wanted to give ${bizName} first shot before we fill it. Can I send over the details?` },
+      { label: '🔄 Re-engage', msg: `Hi! We chatted a while back about advertising ${bizName} at ${storeName}. Things have been going great for the businesses we've partnered with since then. Worth revisiting? Happy to show you updated results.` },
+      { label: '📸 After Visit', msg: `Great meeting you today! As discussed, here's how we'd feature ${bizName} to thousands of shoppers at ${storeName}. Let me know if you have any questions — happy to get you set up!` }
+    ];
+  }
+
   function trackSearch(category, subcategory, storeName) {
     try {
       const searches = JSON.parse(localStorage.getItem('impro_searches') || '[]');
@@ -1428,18 +1443,7 @@
             <div class="text-templates-section">
               <h4 class="text-templates-title">💬 Text Templates</h4>
               <p class="text-templates-hint">Tap to copy, then paste into your text. Or tap "Send" to open SMS.</p>
-              {@const bizName = prospect.name || 'your business'}
-              {@const storeName = (selectedStore?.GroceryChain || 'the grocery store') + ' ' + (selectedStore?.StoreName || '')}
-              {@const repName = $user?.name || $user?.first_name || '[Your Name]'}
-              {@const subcat = selectedSubcategory || selectedCategory?.replace(/^[^\s]+\s/, '') || 'business'}
-              {#each [
-                { label: '🤝 Intro / Appointment', msg: `Hi! This is ${repName} — I work with ${storeName.trim()} and we're looking for one great ${subcat.toLowerCase()} to feature to all their shoppers. Would love to show you how it works. Do you have 10 min this week?` },
-                { label: '📊 Value / ROI', msg: `Hey! ${repName} here from IndoorMedia. We partner with ${storeName.trim()} to drive customers to local businesses. Other ${subcat.toLowerCase()}s in the area are seeing great results. Would you be open to a quick chat about what we could do for ${bizName}?` },
-                { label: '⏰ Follow-up', msg: `Hi, just following up — I reached out about featuring ${bizName} at ${storeName.trim()}. It's a really unique way to get in front of thousands of local shoppers. Still interested in hearing more?` },
-                { label: '🔥 Urgency / Limited', msg: `Hey! Quick heads up — we have one last ad spot available at ${storeName.trim()} for this cycle. Wanted to give ${bizName} first shot before we fill it. Can I send over the details?` },
-                { label: '🔄 Re-engage', msg: `Hi! We chatted a while back about advertising ${bizName} at ${storeName.trim()}. Things have been going great for the businesses we've partnered with since then. Worth revisiting? Happy to show you updated results.` },
-                { label: '📸 After Visit', msg: `Great meeting you today! As discussed, here's how we'd feature ${bizName} to thousands of shoppers at ${storeName.trim()}. Let me know if you have any questions — happy to get you set up!` }
-              ] as template}
+              {#each getTextTemplates(prospect) as template}
                 <div class="text-template-card">
                   <div class="text-template-label">{template.label}</div>
                   <div class="text-template-msg">{template.msg}</div>
