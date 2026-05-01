@@ -1019,21 +1019,29 @@
   function getAttribution(prospect) {
     if (!allContracts.length) return null;
     const pName = norm(prospect.name);
-    const pWords = pName.split(' ').filter(w => w.length > 2);
     const pPhone = (prospect.phone || '').replace(/\D/g, '');
+    
+    // Generic words to ignore in fuzzy matching
+    const stopWords = new Set(['the','and','inc','llc','corp','auto','car','wash','restaurant','cafe','shop','store','bar','grill','pizza','salon','spa','dental','repair','service','services','center','east','west','north','south','new','old','big','little','great']);
+    
+    const pWords = pName.split(' ').filter(w => w.length > 2 && !stopWords.has(w));
     
     // Find matching contract
     const match = allContracts.find(c => {
       const cName = norm(c.business_name);
       const cPhone = (c.contact_phone || '').replace(/\D/g, '');
       
-      // Phone match (strongest)
-      if (pPhone && cPhone && (pPhone.includes(cPhone) || cPhone.includes(pPhone))) return true;
+      // Phone match — must be 7+ digits and exact
+      if (pPhone.length >= 7 && cPhone.length >= 7 && pPhone.slice(-7) === cPhone.slice(-7)) return true;
       
-      // Business name fuzzy match
-      const cWords = cName.split(' ').filter(w => w.length > 2);
-      const common = pWords.filter(w => cWords.some(cw => cw.includes(w) || w.includes(cw)));
-      return common.length >= 1 && (common.length / Math.min(pWords.length, cWords.length)) >= 0.5;
+      // Exact business name match
+      if (pName === cName) return true;
+      
+      // Substantial name overlap — require 2+ meaningful words matching AND at least 60% overlap
+      const cWords = cName.split(' ').filter(w => w.length > 2 && !stopWords.has(w));
+      if (pWords.length === 0 || cWords.length === 0) return false;
+      const common = pWords.filter(w => cWords.some(cw => cw === w));
+      return common.length >= 2 && (common.length / Math.max(pWords.length, cWords.length)) >= 0.6;
     });
     
     if (!match) return null;
@@ -1041,7 +1049,9 @@
     // Check if there's a phone click for this prospect
     const callMade = phoneClicks.find(c => {
       const cBiz = norm(c.business);
-      return pWords.some(w => cBiz.includes(w));
+      const cWords = cBiz.split(' ').filter(w => w.length > 2 && !stopWords.has(w));
+      const common = pWords.filter(w => cWords.some(cw => cw === w));
+      return common.length >= 2 || pName === cBiz;
     });
     
     return { contract: match, callMade };
