@@ -2300,6 +2300,7 @@
     max-width: 1000px;
     margin: 0 auto;
     padding: 0;
+    padding-bottom: 140px;
     color: var(--text-primary);
   }
 
