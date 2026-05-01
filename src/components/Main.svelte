@@ -1724,11 +1724,14 @@
     flex: 1;
     overflow-y: auto;
     -webkit-overflow-scrolling: touch;
-    padding: 20px 20px calc(120px + env(safe-area-inset-bottom, 0px));
+    padding: 20px 20px calc(140px + env(safe-area-inset-bottom, 0px));
     max-width: 1400px;
     margin: 0 auto;
     width: 100%;
     box-sizing: border-box;
+  }
+  .content :global(> *:last-child) {
+    padding-bottom: 140px !important;
   }
 
   /* Dashboard */
@@ -1918,6 +1921,7 @@
     max-width: 100%;
     margin: 0 auto;
     width: 100%;
+    padding-bottom: 140px;
   }
 
   .dashboard h2 {
@@ -2152,7 +2156,7 @@
     }
   }
   /* Analytics */
-  .analytics-container { padding: 16px; max-width: 100%; margin: 0 auto; width: 100%; }
+  .analytics-container { padding: 16px; padding-bottom: 140px; max-width: 100%; margin: 0 auto; width: 100%; }
   .period-selector { display: flex; gap: 8px; margin-bottom: 12px; }
   .zone-filter { display: flex; align-items: center; gap: 6px; margin-bottom: 16px; overflow-x: auto; white-space: nowrap; padding-bottom: 4px; }
   .zone-label { font-size: 12px; font-weight: 700; color: var(--text-secondary); text-transform: uppercase; flex-shrink: 0; }

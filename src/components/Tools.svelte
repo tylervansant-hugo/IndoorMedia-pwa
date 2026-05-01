@@ -1618,6 +1618,7 @@ Store: ${store}
 <style>
   .tools-container {
     padding: 20px;
+    padding-bottom: 140px;
     max-width: 100%;
     margin: 0 auto;
   }

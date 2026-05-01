@@ -272,7 +272,7 @@
 </div>
 
 <style>
-  .present { }
+  .present { padding-bottom: 140px; }
   .subtitle { font-size:14px; color:var(--text-secondary); margin:0 0 16px; }
   .back-btn { background:none; border:none; color:var(--text-secondary); font-size:14px; cursor:pointer; padding:8px 0; }
   

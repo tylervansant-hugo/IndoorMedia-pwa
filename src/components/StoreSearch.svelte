@@ -1000,6 +1000,7 @@ Store: ${store.StoreName}
   .search-container {
     max-width: 1200px;
     margin: 0 auto;
+    padding-bottom: 140px;
   }
 
   h2 {
