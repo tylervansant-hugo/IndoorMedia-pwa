@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>imPro v2 — Simplified</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #f5f5f5; color: #1a1a1a; max-width: 390px; margin: 0 auto; min-height: 100vh; display: flex; flex-direction: column; }
+  
+  /* Header */
+  .header { background: linear-gradient(135deg, #CC0000, #8B0000); color: white; padding: 16px 20px 12px; }
+  .header-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
+  .header h1 { font-size: 20px; font-weight: 700; }
+  .header .rep-name { font-size: 13px; opacity: 0.85; }
+  .header .avatar { width: 36px; height: 36px; background: rgba(255,255,255,0.2); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 16px; }
+  
+  /* Goal Bar */
+  .goal-bar { background: rgba(255,255,255,0.15); border-radius: 12px; padding: 10px 14px; margin-top: 4px; }
+  .goal-label { font-size: 11px; text-transform: uppercase; letter-spacing: 0.5px; opacity: 0.8; margin-bottom: 6px; }
+  .goal-track { background: rgba(255,255,255,0.2); border-radius: 8px; height: 8px; overflow: hidden; }
+  .goal-fill { background: #4ADE80; height: 100%; border-radius: 8px; width: 62%; }
+  .goal-numbers { display: flex; justify-content: space-between; font-size: 12px; margin-top: 4px; }
+  .goal-numbers .current { font-weight: 700; }
+  
+  /* Screen Content */
+  .screen { flex: 1; overflow-y: auto; padding: 16px; padding-bottom: 80px; }
+  .screen.hidden { display: none; }
+  
+  /* Section Headers */
+  .section-header { font-size: 13px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; color: #888; margin: 16px 0 10px; }
+  .section-header:first-child { margin-top: 0; }
+  
+  /* Big CTA */
+  .big-cta { background: linear-gradient(135deg, #CC0000, #E53935); color: white; border: none; width: 100%; padding: 18px; border-radius: 16px; font-size: 17px; font-weight: 700; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 10px; box-shadow: 0 4px 12px rgba(204,0,0,0.3); margin-bottom: 16px; }
+  .big-cta .icon { font-size: 22px; }
+  
+  /* Cards */
+  .card { background: white; border-radius: 14px; padding: 14px 16px; margin-bottom: 10px; box-shadow: 0 1px 3px rgba(0,0,0,0.06); }
+  .card-row { display: flex; justify-content: space-between; align-items: center; }
+  .card-title { font-size: 15px; font-weight: 600; }
+  .card-sub { font-size: 13px; color: #666; margin-top: 2px; }
+  .card-badge { font-size: 11px; padding: 3px 10px; border-radius: 20px; font-weight: 600; }
+  .badge-hot { background: #FEE2E2; color: #DC2626; }
+  .badge-appt { background: #DBEAFE; color: #2563EB; }
+  .badge-time { background: #F3F4F6; color: #6B7280; }
+  
+  /* Quick Actions */
+  .quick-actions { display: flex; gap: 8px; margin-top: 8px; }
+  .qa-btn { flex: 1; padding: 8px; border-radius: 10px; border: 1.5px solid #E5E7EB; background: white; font-size: 13px; font-weight: 600; cursor: pointer; text-align: center; }
+  .qa-btn.call { color: #16A34A; border-color: #BBF7D0; }
+  .qa-btn.email { color: #2563EB; border-color: #BFDBFE; }
+  .qa-btn.nav { color: #9333EA; border-color: #E9D5FF; }
+  
+  /* Empty State */
+  .empty { text-align: center; padding: 24px; color: #999; font-size: 14px; }
+  
+  /* Prospect Screen */
+  .search-bar { display: flex; gap: 8px; margin-bottom: 16px; }
+  .search-bar input { flex: 1; padding: 12px 16px; border-radius: 12px; border: 1.5px solid #E5E7EB; font-size: 15px; background: white; }
+  .search-bar button { padding: 12px 16px; border-radius: 12px; border: none; background: #CC0000; color: white; font-size: 18px; cursor: pointer; }
+  
+  .category-chips { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 8px; margin-bottom: 16px; -webkit-overflow-scrolling: touch; }
+  .chip { padding: 8px 14px; border-radius: 20px; border: 1.5px solid #E5E7EB; background: white; font-size: 13px; white-space: nowrap; cursor: pointer; font-weight: 500; }
+  .chip.active { background: #CC0000; color: white; border-color: #CC0000; }
+  
+  .biz-card { background: white; border-radius: 14px; padding: 14px 16px; margin-bottom: 10px; box-shadow: 0 1px 3px rgba(0,0,0,0.06); }
+  .biz-name { font-size: 15px; font-weight: 600; }
+  .biz-info { font-size: 13px; color: #666; margin-top: 2px; }
+  .biz-rating { color: #F59E0B; font-size: 13px; margin-top: 4px; }
+  .biz-actions { display: flex; gap: 8px; margin-top: 10px; }
+  .biz-btn { flex: 1; padding: 10px; border-radius: 10px; border: none; font-size: 13px; font-weight: 600; cursor: pointer; text-align: center; }
+  .biz-btn.call { background: #DCFCE7; color: #16A34A; }
+  .biz-btn.email { background: #DBEAFE; color: #2563EB; }
+  .biz-btn.save { background: #FEF3C7; color: #D97706; }
+  
+  /* Tools Screen */
+  .tool-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .tool-card { background: white; border-radius: 14px; padding: 20px 16px; text-align: center; box-shadow: 0 1px 3px rgba(0,0,0,0.06); cursor: pointer; }
+  .tool-icon { font-size: 28px; margin-bottom: 8px; }
+  .tool-label { font-size: 14px; font-weight: 600; }
+  .tool-desc { font-size: 11px; color: #888; margin-top: 3px; }
+  
+  /* Bottom Nav */
+  .bottom-nav { position: fixed; bottom: 0; left: 50%; transform: translateX(-50%); width: 100%; max-width: 390px; background: white; border-top: 1px solid #E5E7EB; display: flex; padding: 8px 0 20px; z-index: 100; }
+  .nav-item { flex: 1; text-align: center; cursor: pointer; padding: 6px 0; }
+  .nav-icon { font-size: 22px; margin-bottom: 2px; }
+  .nav-label { font-size: 10px; font-weight: 600; color: #999; }
+  .nav-item.active .nav-label { color: #CC0000; }
+  .nav-item.active .nav-icon { filter: none; }
+  
+  /* Notification dot */
+  .notif { position: relative; }
+  .notif::after { content: '3'; position: absolute; top: -2px; right: calc(50% - 18px); background: #CC0000; color: white; font-size: 9px; font-weight: 700; width: 16px; height: 16px; border-radius: 50%; display: flex; align-items: center; justify-content: center; }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="header">
+  <div class="header-top">
+    <div>
+      <h1>imPro</h1>
+      <div class="rep-name">👋 Hey Meghan — Vancouver, WA</div>
+    </div>
+    <div class="avatar">MW</div>
+  </div>
+  <div class="goal-bar">
+    <div class="goal-label">April Goal</div>
+    <div class="goal-track"><div class="goal-fill"></div></div>
+    <div class="goal-numbers">
+      <span class="current">$5,120</span>
+      <span>$8,200 goal</span>
+    </div>
+  </div>
+</div>
+
+<!-- HOME SCREEN -->
+<div class="screen" id="screen-home">
+  
+  <button class="big-cta" onclick="showScreen('prospect')">
+    <span class="icon">📍</span> Find Prospects Near Me
+  </button>
+  
+  <div class="section-header">🔥 My Hot Leads</div>
+  
+  <div class="card">
+    <div class="card-row">
+      <div>
+        <div class="card-title">Mario's Pizza</div>
+        <div class="card-sub">Near Safeway #1832 · Added 2d ago</div>
+      </div>
+      <span class="card-badge badge-hot">HOT</span>
+    </div>
+    <div class="quick-actions">
+      <button class="qa-btn call">📞 Call</button>
+      <button class="qa-btn email">✉️ Email</button>
+      <button class="qa-btn nav">📍 Nav</button>
+    </div>
+  </div>
+  
+  <div class="card">
+    <div class="card-row">
+      <div>
+        <div class="card-title">Cascade Auto Repair</div>
+        <div class="card-sub">Near Fred Meyer #0423 · Added 5d ago</div>
+      </div>
+      <span class="card-badge badge-hot">HOT</span>
+    </div>
+    <div class="quick-actions">
+      <button class="qa-btn call">📞 Call</button>
+      <button class="qa-btn email">✉️ Email</button>
+      <button class="qa-btn nav">📍 Nav</button>
+    </div>
+  </div>
+  
+  <div class="section-header">📅 Today's Appointments</div>
+  
+  <div class="card">
+    <div class="card-row">
+      <div>
+        <div class="card-title">Bella Salon & Spa</div>
+        <div class="card-sub">2:30 PM · 1847 Main St, Vancouver</div>
+      </div>
+      <span class="card-badge badge-appt">2:30</span>
+    </div>
+  </div>
+  
+  <div class="card" style="opacity: 0.6;">
+    <div class="card-row">
+      <div>
+        <div class="card-title">Pacific Dental</div>
+        <div class="card-sub">10:00 AM · Completed ✓</div>
+      </div>
+      <span class="card-badge badge-time">Done</span>
+    </div>
+  </div>
+
+</div>
+
+<!-- PROSPECT SCREEN -->
+<div class="screen hidden" id="screen-prospect">
+  
+  <div class="search-bar">
+    <input type="text" placeholder="Search businesses nearby..." value="Vancouver, WA">
+    <button>🔍</button>
+  </div>
+  
+  <div class="category-chips">
+    <div class="chip active">🍕 Restaurant</div>
+    <div class="chip">💇 Salon</div>
+    <div class="chip">🦷 Dental</div>
+    <div class="chip">🔧 Auto</div>
+    <div class="chip">💪 Gym</div>
+    <div class="chip">🐾 Vet</div>
+    <div class="chip">☕ Coffee</div>
+  </div>
+  
+  <div class="section-header">12 businesses near Safeway #1832</div>
+  
+  <div class="biz-card">
+    <div class="biz-name">Taco Loco</div>
+    <div class="biz-info">0.3 mi · 8911 NE Hwy 99, Vancouver</div>
+    <div class="biz-rating">⭐⭐⭐⭐⭐ 4.7 (312 reviews)</div>
+    <div class="biz-actions">
+      <button class="biz-btn call">📞 Call</button>
+      <button class="biz-btn email">✉️ Email</button>
+      <button class="biz-btn save">⭐ Save</button>
+    </div>
+  </div>
+  
+  <div class="biz-card">
+    <div class="biz-name">Pho King Good</div>
+    <div class="biz-info">0.5 mi · 2201 E Mill Plain Blvd</div>
+    <div class="biz-rating">⭐⭐⭐⭐ 4.5 (187 reviews)</div>
+    <div class="biz-actions">
+      <button class="biz-btn call">📞 Call</button>
+      <button class="biz-btn email">✉️ Email</button>
+      <button class="biz-btn save">⭐ Save</button>
+    </div>
+  </div>
+  
+  <div class="biz-card">
+    <div class="biz-name">Noodle House</div>
+    <div class="biz-info">0.7 mi · 500 SE Chkalov Dr</div>
+    <div class="biz-rating">⭐⭐⭐⭐ 4.3 (94 reviews)</div>
+    <div class="biz-actions">
+      <button class="biz-btn call">📞 Call</button>
+      <button class="biz-btn email">✉️ Email</button>
+      <button class="biz-btn save">⭐ Save</button>
+    </div>
+  </div>
+  
+</div>
+
+<!-- TOOLS SCREEN -->
+<div class="screen hidden" id="screen-tools">
+  
+  <div class="section-header">Sales Tools</div>
+  
+  <div class="tool-grid">
+    <div class="tool-card">
+      <div class="tool-icon">💰</div>
+      <div class="tool-label">Store Rates</div>
+      <div class="tool-desc">Look up pricing</div>
+    </div>
+    <div class="tool-card">
+      <div class="tool-icon">📊</div>
+      <div class="tool-label">ROI Calculator</div>
+      <div class="tool-desc">Show the value</div>
+    </div>
+    <div class="tool-card">
+      <div class="tool-icon">🖨️</div>
+      <div class="tool-label">Counter Sign</div>
+      <div class="tool-desc">Generate PDF</div>
+    </div>
+    <div class="tool-card">
+      <div class="tool-icon">⭐</div>
+      <div class="tool-label">Testimonials</div>
+      <div class="tool-desc">Social proof</div>
+    </div>
+    <div class="tool-card">
+      <div class="tool-icon">🏪</div>
+      <div class="tool-label">Audit Store</div>
+      <div class="tool-desc">Check inventory</div>
+    </div>
+    <div class="tool-card">
+      <div class="tool-icon">📦</div>
+      <div class="tool-label">Products</div>
+      <div class="tool-desc">Digital & tape info</div>
+    </div>
+  </div>
+  
+</div>
+
+<!-- BOTTOM NAV -->
+<div class="bottom-nav">
+  <div class="nav-item active" onclick="showScreen('home')">
+    <div class="nav-icon">🏠</div>
+    <div class="nav-label">Home</div>
+  </div>
+  <div class="nav-item notif" onclick="showScreen('prospect')">
+    <div class="nav-icon">🔍</div>
+    <div class="nav-label">Prospect</div>
+  </div>
+  <div class="nav-item" onclick="showScreen('tools')">
+    <div class="nav-icon">🛠️</div>
+    <div class="nav-label">Tools</div>
+  </div>
+</div>
+
+<script>
+function showScreen(name) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.add('hidden'));
+  document.getElementById('screen-' + name).classList.remove('hidden');
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+  event.currentTarget.classList.add('active');
+}
+</script>
+
+</body>
+</html>
