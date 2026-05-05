@@ -19,6 +19,9 @@
   let phoneClicks = []; // Track call history
   let hotLeads = [];
   let view = 'main'; // main, nearby-stores, categories, subcategories, results, saved, hot-leads, pending, submit-lead
+  let _edgeSwipeActive = false;
+  let _edgeSwipeStartX = 0;
+  let _edgeSwipeX = 0;
   let selectedCycle = 'all'; // all, A, B, C
   let storesViewMode = 'list'; // list or map
   let prospectsViewMode = 'list'; // list or map
@@ -1118,7 +1121,19 @@
   }
 </script>
 
-<div class="prospects-container">
+<div class="prospects-container"
+  on:touchstart|passive={(e) => {
+    const x = e.touches[0].clientX;
+    if (x < 30) { _edgeSwipeActive = true; _edgeSwipeStartX = x; _edgeSwipeX = 0; }
+  }}
+  on:touchmove|passive={(e) => {
+    if (!_edgeSwipeActive) return;
+    _edgeSwipeX = e.touches[0].clientX - _edgeSwipeStartX;
+  }}
+  on:touchend={() => {
+    if (_edgeSwipeActive && _edgeSwipeX > 80 && view !== 'main') goBack();
+    _edgeSwipeActive = false; _edgeSwipeX = 0;
+  }}>
   {#if error}
     <div class="error-box">{error}</div>
   {/if}
