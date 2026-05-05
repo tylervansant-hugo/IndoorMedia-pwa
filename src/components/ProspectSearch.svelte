@@ -1377,7 +1377,7 @@
     <h3>{selectedCategory} → {selectedSubcategory}</h3>
     <p class="subtitle">Nearby {selectedCategory} near {selectedStore.GroceryChain}</p>
 
-    <div style="display: flex; gap: 8px; margin: 12px 0; justify-content: space-between; align-items: center;">
+    <div class="prospect-toolbar">
       <div class="sort-bar">
         <span class="sort-label">Sort:</span>
         <button class="sort-btn" class:active={prospectSort === 'score'} on:click={() => prospectSort = 'score'}>🎯 Score</button>
@@ -1385,9 +1385,9 @@
         <button class="sort-btn" class:active={prospectSort === 'rating'} on:click={() => prospectSort = 'rating'}>⭐ Rating</button>
         <button class="sort-btn" class:active={prospectSort === 'reviews'} on:click={() => prospectSort = 'reviews'}>💬 Reviews</button>
       </div>
-      <div class="view-toggle" style="display: flex; gap: 6px; flex-shrink: 0;">
-        <button class="toggle-btn" class:active={prospectsViewMode === 'list'} on:click={() => prospectsViewMode = 'list'} style="padding: 6px 10px; font-size: 12px;">📋 List</button>
-        <button class="toggle-btn" class:active={prospectsViewMode === 'map'} on:click={() => prospectsViewMode = 'map'} style="padding: 6px 10px; font-size: 12px;">🗺️ Map</button>
+      <div class="view-toggle">
+        <button class="toggle-btn" class:active={prospectsViewMode === 'list'} on:click={() => prospectsViewMode = 'list'}>📋 List</button>
+        <button class="toggle-btn" class:active={prospectsViewMode === 'map'} on:click={() => prospectsViewMode = 'map'}>🗺️ Map</button>
       </div>
     </div>
 
@@ -2636,11 +2636,13 @@
     background: rgba(204, 0, 0, 0.05);
   }
 
-  .sort-bar { display: flex; align-items: center; gap: 6px; margin-bottom: 12px; overflow-x: auto; white-space: nowrap; padding-bottom: 4px; }
+  .prospect-toolbar { display: flex; flex-wrap: wrap; gap: 8px; margin: 12px 0; justify-content: space-between; align-items: center; }
+  .sort-bar { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
   .sort-label { font-size: 12px; font-weight: 700; color: var(--text-secondary); text-transform: uppercase; flex-shrink: 0; }
-  .sort-btn { padding: 6px 12px; border: 1px solid var(--border-color); border-radius: 16px; background: var(--card-bg); font-size: 12px; font-weight: 600; cursor: pointer; color: var(--text-secondary); transition: all 0.2s; flex-shrink: 0; }
+  .sort-btn { padding: 6px 12px; border: 1px solid var(--border-color); border-radius: 16px; background: var(--card-bg); font-size: 12px; font-weight: 600; cursor: pointer; color: var(--text-secondary); transition: all 0.2s; white-space: nowrap; }
   .sort-btn.active { background: #CC0000; color: white; border-color: #CC0000; }
   .sort-btn:hover:not(.active) { border-color: #CC0000; color: #CC0000; }
+  .view-toggle { display: flex; gap: 6px; flex-shrink: 0; }
   .prospect-list { display: flex; flex-direction: column; gap: 1rem; }
 
   .prospect-card {
