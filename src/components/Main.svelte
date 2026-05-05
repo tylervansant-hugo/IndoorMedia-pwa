@@ -982,142 +982,68 @@
   <div class="content">
     {#if currentTab === 'dashboard'}
       <div class="dashboard">
-        <!-- Motivational Quote -->
-        {#if true}
-          {@const quote = getTodaysQuote()}
-          <div class="quote-card">
-            <p class="quote-text">"{quote.text}"</p>
-            <p class="quote-author">— {quote.author}</p>
-          </div>
-        {/if}
-
-        <h2 class="typo-page-title">Welcome, {$user?.name || $user?.first_name}!</h2>
-
-
-        <!-- Revenue + Key Stats -->
-        <button class="revenue-hero clickable" on:click={() => showRevenueDetail = !showRevenueDetail}>
-          <div class="revenue-amount">${repMonthlyRevenue.toLocaleString()}</div>
-          <div class="revenue-label">Revenue This Month — tap for details</div>
-          {#if growthPercent !== 0}
-            <div class="growth-badge" class:positive={growthPercent > 0} class:negative={growthPercent < 0}>
-              {growthPercent > 0 ? '↑' : '↓'} {Math.abs(growthPercent)}% vs last month
-            </div>
-          {/if}
-          <div class="week-revenue">This Week: <strong>${thisWeekRevenue.toLocaleString()}</strong> ({thisWeekContracts.length} deal{thisWeekContracts.length !== 1 ? 's' : ''})</div>
-          {#if leaderboardPosition > 0}
-            <div class="leaderboard-badge">🏆 #{leaderboardPosition} of {leaderboardTotal} reps this month</div>
-          {/if}
-        </button>
-
-        {#if showRevenueDetail}
-          <div class="drill-down">
-            <!-- Weekly breakdown -->
-            <h4>📅 Weekly Breakdown</h4>
-            <div class="week-breakdown">
-              {#each weeklyBreakdown as week}
-                <div class="week-row" class:current-week={week.isCurrent}>
-                  <div class="week-label">
-                    <span>{week.weekLabel}</span>
-                    {#if week.isCurrent}<span class="current-badge">This Week</span>{/if}
-                  </div>
-                  <div class="week-stats">
-                    <span class="week-deals">{week.count} deal{week.count !== 1 ? 's' : ''}</span>
-                    <span class="week-amount">${week.revenue.toLocaleString()}</span>
-                  </div>
-                </div>
-              {/each}
-            </div>
-
-            <!-- Monthly total contracts list -->
-            <h4 style="margin-top:16px;">💰 All Contracts This Month ({thisMonthContracts.length})</h4>
-            {#if thisMonthContracts.length === 0}
-              <p class="drill-empty">No contracts this month yet.</p>
-            {:else}
-              {#each thisMonthContracts.sort((a, b) => (b.total_amount || 0) - (a.total_amount || 0)) as c}
-                <div class="drill-row">
-                  <div class="drill-info">
-                    <span class="drill-name">{c.business_name || 'Unknown'}</span>
-                    <span class="drill-meta">{c.sales_rep || ''} • {c.store_name || ''}</span>
-                  </div>
-                  <span class="drill-amount">${(c.total_amount || 0).toLocaleString()}</span>
-                </div>
-              {/each}
-            {/if}
-          </div>
-        {/if}
-
-        <div class="dashboard-grid">
-          <button class="stat-card clickable" on:click={() => currentTab = 'prospects'}>
-            <div class="stat-icon">🎯</div>
-            <h3>Prospects</h3>
-            <p class="stat-value">{prospectsThisWeek}</p>
-            <p class="stat-label">This Week →</p>
-          </button>
-          <button class="stat-card clickable" on:click={() => currentTab = 'clients'}>
-            <div class="stat-icon">🔄</div>
-            <h3>Renewals</h3>
-            <p class="stat-value">{pendingRenewalsCount}</p>
-            <p class="stat-label">Pending →</p>
-          </button>
-          <button class="stat-card clickable" on:click={() => showStreakDetail = !showStreakDetail}>
-            <div class="stat-icon">🔥</div>
-            <h3>Streak</h3>
-            <p class="stat-value">{streak}</p>
-            <p class="stat-label">{streak === 1 ? 'Day' : 'Days'} Active</p>
-          </button>
-
+        <!-- 1. GREETING + QUICK ACTIONS — the "cockpit" -->
+        <div class="hero-greeting">
+          <h2 class="greeting-text">{new Date().getHours() < 12 ? 'Good morning' : new Date().getHours() < 17 ? 'Good afternoon' : 'Good evening'}, {($user?.name || $user?.first_name || '').split(' ')[0]}!</h2>
           {#if nextInstallCycle}
-            <div class="stat-card cycle-card">
-              <div class="stat-icon">📦</div>
-              <h3>Cycles</h3>
-              <div class="cycle-columns">
-                <div class="cycle-col">
-                  <p class="cycle-col-title">CURRENT</p>
-                  <p class="cycle-line"><strong>{currentSellingCycle} Selling</strong></p>
-                  <p class="cycle-days-label">{currentSellingDates}</p>
-                </div>
-                <div class="cycle-divider"></div>
-                <div class="cycle-col">
-                  <p class="cycle-col-title">UPCOMING</p>
-                  <p class="cycle-line"><strong>{secondInstallCycle} Install</strong> · {secondInstallDate}</p>
-                  <p class="cycle-days-label">{secondInstallDays} day{secondInstallDays !== 1 ? 's' : ''}</p>
-                </div>
-              </div>
-            </div>
+            <p class="cycle-pill">📦 {currentSellingCycle} Selling · {secondInstallCycle} installs {secondInstallDate} ({secondInstallDays}d)</p>
           {/if}
+        </div>
 
-          <div class="stat-card clickable" style="position: relative;">
-            <div on:click={() => { showAppointmentsDetail = !showAppointmentsDetail; showStreakDetail = false; }} style="cursor:pointer;">
-              <div class="stat-icon">📅</div>
-              <h3>Appointments</h3>
-              <p class="stat-value">{upcomingAppointments.length}</p>
-              <p class="stat-label">{showAppointmentsDetail ? '▼ Hide' : 'Upcoming →'}</p>
+        <div class="quick-actions-top">
+          <button class="qa-btn qa-primary" on:click={() => currentTab = 'prospects'}>
+            <span class="qa-icon">🎯</span>
+            <span class="qa-label">Find Prospects</span>
+          </button>
+          <button class="qa-btn" on:click={() => currentTab = 'stores'}>
+            <span class="qa-icon">🏪</span>
+            <span class="qa-label">Stores</span>
+          </button>
+          <button class="qa-btn" on:click={() => bookAppointment()}>
+            <span class="qa-icon">📅</span>
+            <span class="qa-label">Book Appt</span>
+          </button>
+          <button class="qa-btn" on:click={() => currentTab = 'clients'}>
+            <span class="qa-icon">🔄</span>
+            <span class="qa-label">Renewals{#if pendingRenewalsCount > 0} <span class="qa-badge">{pendingRenewalsCount}</span>{/if}</span>
+          </button>
+        </div>
+
+        <!-- 2. TODAY AT A GLANCE — next appointment + daily goal side by side -->
+        <div class="today-glance">
+          <button class="today-card" on:click={() => { showAppointmentsDetail = !showAppointmentsDetail; showStreakDetail = false; }}>
+            <div class="today-icon">📅</div>
+            {#if upcomingAppointments.length > 0}
+              {@const next = upcomingAppointments[0]}
+              <div class="today-info">
+                <span class="today-title">{next.title || 'Appointment'}</span>
+                <span class="today-meta">{new Date(next.date).toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' })} · {new Date(next.date).toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' })}</span>
+              </div>
+              {#if upcomingAppointments.length > 1}
+                <span class="today-extra">+{upcomingAppointments.length - 1}</span>
+              {/if}
+            {:else}
+              <div class="today-info">
+                <span class="today-title">No appointments</span>
+                <span class="today-meta">Tap to view or book</span>
+              </div>
+            {/if}
+          </button>
+
+          <div class="today-card goal-mini">
+            <div class="goal-mini-header">
+              <span class="today-icon">📋</span>
+              <span class="goal-mini-count">{dailyGoal.calls}/{dailyGoal.target || 20}</span>
             </div>
-            <button class="sync-btn" on:click={refreshAppointments} title="Sync now">🔄</button>
+            <div class="goal-mini-bar">
+              <div class="goal-mini-fill" style="width: {Math.min((dailyGoal.calls / (dailyGoal.target || 20)) * 100, 100)}%"></div>
+            </div>
+            <button class="goal-mini-btn" on:click={incrementCalls}>+ Log Call</button>
           </div>
         </div>
 
-        {#if showStreakDetail}
-          <div class="drill-down">
-            <h4>🔥 Activity History (Last 14 Days)</h4>
-            {#if streakDays.length === 0}
-              <p class="drill-empty">No activity recorded yet. Search prospects or make calls to build your streak!</p>
-            {:else}
-              {#each streakDays as day}
-                <div class="drill-row">
-                  <div class="drill-info">
-                    <span class="drill-name">{new Date(day.date + 'T12:00:00').toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' })}</span>
-                    <span class="drill-meta">{day.searches} search{day.searches !== 1 ? 'es' : ''} • {day.calls} call{day.calls !== 1 ? 's' : ''}</span>
-                  </div>
-                  <span class="drill-amount">{day.searches + day.calls} actions</span>
-                </div>
-              {/each}
-            {/if}
-          </div>
-        {/if}
-
         {#if showAppointmentsDetail}
-          <div class="drill-down" style="border-top: 3px solid #CC0000; margin-top: 16px;">
+          <div class="drill-down" style="border-top: 3px solid #CC0000; margin-top: 8px;">
             <h4>📅 Upcoming Appointments</h4>
             
             {#if upcomingAppointments.length > 0}
@@ -1156,21 +1082,111 @@
               <button class="sync-refresh-btn" on:click={refreshAppointments}>🔄 Sync Now</button>
               {#if syncStatus}<span class="sync-status">{syncStatus}</span>{/if}
             </div>
-            <p class="sync-note">Calendar syncs hourly (7AM–9PM). Manager auto-invited to all appointments.</p>
           </div>
         {/if}
 
-        <!-- Daily Goal Tracker -->
+        <!-- 3. REVENUE HERO — motivation -->
+        <button class="revenue-hero clickable" on:click={() => showRevenueDetail = !showRevenueDetail}>
+          <div class="revenue-amount">${repMonthlyRevenue.toLocaleString()}</div>
+          <div class="revenue-label">Revenue This Month — tap for details</div>
+          {#if growthPercent !== 0}
+            <div class="growth-badge" class:positive={growthPercent > 0} class:negative={growthPercent < 0}>
+              {growthPercent > 0 ? '↑' : '↓'} {Math.abs(growthPercent)}% vs last month
+            </div>
+          {/if}
+          <div class="week-revenue">This Week: <strong>${thisWeekRevenue.toLocaleString()}</strong> ({thisWeekContracts.length} deal{thisWeekContracts.length !== 1 ? 's' : ''})</div>
+          {#if leaderboardPosition > 0}
+            <div class="leaderboard-badge">🏆 #{leaderboardPosition} of {leaderboardTotal} reps this month</div>
+          {/if}
+        </button>
+
+        {#if showRevenueDetail}
+          <div class="drill-down">
+            <h4>📅 Weekly Breakdown</h4>
+            <div class="week-breakdown">
+              {#each weeklyBreakdown as week}
+                <div class="week-row" class:current-week={week.isCurrent}>
+                  <div class="week-label">
+                    <span>{week.weekLabel}</span>
+                    {#if week.isCurrent}<span class="current-badge">This Week</span>{/if}
+                  </div>
+                  <div class="week-stats">
+                    <span class="week-deals">{week.count} deal{week.count !== 1 ? 's' : ''}</span>
+                    <span class="week-amount">${week.revenue.toLocaleString()}</span>
+                  </div>
+                </div>
+              {/each}
+            </div>
+
+            <h4 style="margin-top:16px;">💰 All Contracts This Month ({thisMonthContracts.length})</h4>
+            {#if thisMonthContracts.length === 0}
+              <p class="drill-empty">No contracts this month yet.</p>
+            {:else}
+              {#each thisMonthContracts.sort((a, b) => (b.total_amount || 0) - (a.total_amount || 0)) as c}
+                <div class="drill-row">
+                  <div class="drill-info">
+                    <span class="drill-name">{c.business_name || 'Unknown'}</span>
+                    <span class="drill-meta">{c.sales_rep || ''} • {c.store_name || ''}</span>
+                  </div>
+                  <span class="drill-amount">${(c.total_amount || 0).toLocaleString()}</span>
+                </div>
+              {/each}
+            {/if}
+          </div>
+        {/if}
+
+        <!-- 4. STATS GRID — Prospects, Streak, Renewals -->
+        <div class="dashboard-grid">
+          <button class="stat-card clickable" on:click={() => currentTab = 'prospects'}>
+            <div class="stat-icon">🎯</div>
+            <h3>Prospects</h3>
+            <p class="stat-value">{prospectsThisWeek}</p>
+            <p class="stat-label">This Week →</p>
+          </button>
+          <button class="stat-card clickable" on:click={() => showStreakDetail = !showStreakDetail}>
+            <div class="stat-icon">🔥</div>
+            <h3>Streak</h3>
+            <p class="stat-value">{streak}</p>
+            <p class="stat-label">{streak === 1 ? 'Day' : 'Days'} Active</p>
+          </button>
+        </div>
+
+        {#if showStreakDetail}
+          <div class="drill-down">
+            <h4>🔥 Activity History (Last 14 Days)</h4>
+            {#if streakDays.length === 0}
+              <p class="drill-empty">No activity recorded yet. Search prospects or make calls to build your streak!</p>
+            {:else}
+              {#each streakDays as day}
+                <div class="drill-row">
+                  <div class="drill-info">
+                    <span class="drill-name">{new Date(day.date + 'T12:00:00').toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' })}</span>
+                    <span class="drill-meta">{day.searches} search{day.searches !== 1 ? 'es' : ''} • {day.calls} call{day.calls !== 1 ? 's' : ''}</span>
+                  </div>
+                  <span class="drill-amount">{day.searches + day.calls} actions</span>
+                </div>
+              {/each}
+            {/if}
+          </div>
+        {/if}
+
+        <!-- 5. FULL DAILY GOAL — expandable -->
         <div class="goal-section">
-          <h3>📋 Daily Goal</h3>
           <div class="goal-card">
+            <div class="goal-header-row">
+              <h3 class="goal-title">📋 Daily Goal</h3>
+              <div class="goal-count-inline">{dailyGoal.calls} / {dailyGoal.target || 20}</div>
+            </div>
             <div class="goal-progress">
               <div class="goal-bar">
                 <div class="goal-fill" style="width: {Math.min((dailyGoal.calls / (dailyGoal.target || 20)) * 100, 100)}%"></div>
               </div>
-              <div class="goal-count">{dailyGoal.calls} / {dailyGoal.target || 20}</div>
             </div>
-            <p class="goal-label">Outbound Calls / Walk-ins Today</p>
+            {#if dailyGoal.calls >= (dailyGoal.target || 20)}
+              <p class="goal-achieved">🎉 Goal reached! Keep crushing it!</p>
+            {:else if dailyGoal.calls >= (dailyGoal.target || 20) * 0.5}
+              <p class="goal-halfway">💪 Halfway there! Keep pushing!</p>
+            {/if}
             <div class="goal-actions">
               <button class="goal-btn increment" on:click={incrementCalls}>+ Log Call / Walk-in</button>
               <button class="goal-btn reset" on:click={resetDailyGoal}>↺ Reset</button>
@@ -1179,43 +1195,17 @@
                 <input type="number" value={dailyGoal.target || 20} on:change={(e) => setGoalTarget(e.target.value)} min="1" max="100" />
               </div>
             </div>
-            {#if dailyGoal.calls >= (dailyGoal.target || 20)}
-              <p class="goal-achieved">🎉 Goal reached! Keep crushing it!</p>
-            {:else if dailyGoal.calls >= (dailyGoal.target || 20) * 0.5}
-              <p class="goal-halfway">💪 Halfway there! Keep pushing!</p>
-            {/if}
           </div>
         </div>
 
-
-
-
-
-        <div class="quick-actions">
-          <h3>Quick Actions</h3>
-          <div class="action-buttons">
-            <button class="action-btn" on:click={() => currentTab = 'prospects'}>
-              <span class="action-icon">🎯</span>
-              <span>Find Prospects</span>
-            </button>
-            <button class="action-btn" on:click={() => currentTab = 'stores'}>
-              <span class="action-icon">🏪</span>
-              <span>Search Stores</span>
-            </button>
-            <button class="action-btn" on:click={() => currentTab = 'clients'}>
-              <span class="action-icon">🔄</span>
-              <span>Renewals</span>
-            </button>
-            <button class="action-btn" on:click={() => bookAppointment()}>
-              <span class="action-icon">📅</span>
-              <span>Book Appointment</span>
-            </button>
-            <button class="action-btn" on:click={() => currentTab = 'cart'}>
-              <span class="action-icon">🛒</span>
-              <span>View Cart</span>
-            </button>
+        <!-- 6. MOTIVATIONAL QUOTE — reward at the bottom -->
+        {#if true}
+          {@const quote = getTodaysQuote()}
+          <div class="quote-card">
+            <p class="quote-text">"{quote.text}"</p>
+            <p class="quote-author">— {quote.author}</p>
           </div>
-        </div>
+        {/if}
       </div>
     {:else if currentTab === 'prospects'}
       <ProspectSearch />
@@ -1757,6 +1747,55 @@
 
   /* Dashboard */
   /* Motivational Quote */
+  /* Hero Greeting */
+  .hero-greeting { margin-bottom: 12px; }
+  .greeting-text { font-size: 22px; font-weight: 700; margin: 0 0 4px; color: var(--text-primary); }
+  .cycle-pill { font-size: 12px; color: var(--text-secondary); margin: 0; padding: 4px 10px; background: var(--card-bg, #f5f5f5); border-radius: 20px; display: inline-block; border: 1px solid var(--border-color, #e0e0e0); }
+
+  /* Quick Actions Top Row */
+  .quick-actions-top { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-bottom: 16px; }
+  .qa-btn {
+    display: flex; flex-direction: column; align-items: center; gap: 4px;
+    padding: 12px 6px; border-radius: 12px; border: 1px solid var(--border-color, #e0e0e0);
+    background: var(--card-bg, #fff); cursor: pointer; transition: all 0.2s;
+    color: var(--text-primary);
+  }
+  .qa-btn:active { transform: scale(0.96); }
+  .qa-btn.qa-primary { background: #CC0000; color: white; border-color: #CC0000; }
+  .qa-btn.qa-primary .qa-label { color: white; }
+  .qa-icon { font-size: 22px; }
+  .qa-label { font-size: 11px; font-weight: 600; text-align: center; line-height: 1.2; color: var(--text-secondary); }
+  .qa-badge { background: #CC0000; color: white; font-size: 10px; padding: 1px 5px; border-radius: 8px; margin-left: 2px; }
+  .qa-btn.qa-primary .qa-badge { background: white; color: #CC0000; }
+
+  /* Today at a Glance */
+  .today-glance { display: grid; grid-template-columns: 1fr auto; gap: 10px; margin-bottom: 16px; }
+  .today-card {
+    background: var(--card-bg, #fff); border-radius: 12px; padding: 12px;
+    border: 1px solid var(--border-color, #e0e0e0); display: flex; align-items: center; gap: 10px;
+    cursor: pointer; transition: all 0.2s; color: var(--text-primary);
+  }
+  .today-card:active { transform: scale(0.98); }
+  .today-icon { font-size: 20px; flex-shrink: 0; }
+  .today-info { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+  .today-title { font-size: 13px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .today-meta { font-size: 11px; color: var(--text-secondary); }
+  .today-extra { font-size: 11px; font-weight: 700; color: #CC0000; flex-shrink: 0; }
+
+  /* Goal Mini */
+  .goal-mini { flex-direction: column !important; align-items: stretch !important; gap: 6px !important; min-width: 100px; }
+  .goal-mini-header { display: flex; align-items: center; gap: 6px; }
+  .goal-mini-count { font-size: 14px; font-weight: 700; color: var(--text-primary); }
+  .goal-mini-bar { height: 6px; background: var(--border-color, #e0e0e0); border-radius: 3px; overflow: hidden; }
+  .goal-mini-fill { height: 100%; background: #CC0000; border-radius: 3px; transition: width 0.3s; }
+  .goal-mini-btn { font-size: 11px; font-weight: 600; padding: 4px 8px; border: 1px solid #CC0000; color: #CC0000; background: none; border-radius: 6px; cursor: pointer; }
+  .goal-mini-btn:active { background: #CC0000; color: white; }
+
+  /* Goal section improvements */
+  .goal-header-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
+  .goal-title { margin: 0; font-size: 16px; }
+  .goal-count-inline { font-size: 18px; font-weight: 700; color: #CC0000; }
+
   .quote-card {
     background: linear-gradient(135deg, #CC0000, #8B0000);
     color: white;
