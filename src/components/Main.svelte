@@ -759,9 +759,14 @@
     return () => clearInterval(interval);
   });
 
+  // Reactive filtered contracts — triggers re-render when analyticsZone changes
+  $: filteredContracts = analyticsZone === 'all' ? contracts : contracts.filter(c => (c.zone || '') === analyticsZone);
+  $: yearlyStats = calcYearlyStats(filteredContracts);
+  $: monthlyStats = calcMonthlyStats(filteredContracts);
+  $: repStats = calcRepStats(filteredContracts);
+
   function getFilteredContracts() {
-    if (analyticsZone === 'all') return contracts;
-    return contracts.filter(c => (c.zone || '') === analyticsZone);
+    return filteredContracts;
   }
 
   function getAvailableZones() {
@@ -770,8 +775,7 @@
     return Array.from(zones).sort();
   }
 
-  function getYearlyStats() {
-    const filtered = getFilteredContracts();
+  function calcYearlyStats(filtered) {
     const byYear = {};
     filtered.forEach(c => {
       const date = c.date || '';
@@ -791,8 +795,7 @@
     return sorted;
   }
 
-  function getMonthlyStats() {
-    const filtered = getFilteredContracts();
+  function calcMonthlyStats(filtered) {
     const byMonth = {};
     filtered.forEach(c => {
       const date = c.date || '';
@@ -811,8 +814,7 @@
     }));
   }
 
-  function getRepStats() {
-    const filtered = getFilteredContracts();
+  function calcRepStats(filtered) {
     const byRep = {};
     filtered.forEach(c => {
       const rep = c.sales_rep || 'Unknown';
@@ -1242,12 +1244,12 @@
         </div>
 
         {#if analyticsZone !== 'all'}
-          <p class="zone-active-label">Filtered: Zone {analyticsZone} ({getFilteredContracts().length} contracts, ${getFilteredContracts().reduce((s,c) => s + (c.total_amount||0), 0).toLocaleString()})</p>
+          <p class="zone-active-label">Filtered: Zone {analyticsZone} ({filteredContracts.length} contracts, ${filteredContracts.reduce((s,c) => s + (c.total_amount||0), 0).toLocaleString()})</p>
         {/if}
 
         {#if analyticsView === 'year'}
           <div class="analytics-cards">
-            {#each getYearlyStats() as stat}
+            {#each yearlyStats as stat}
               <div class="analytics-card">
                 <div class="analytics-year">{stat.year}</div>
                 <div class="analytics-amount">${(stat.total / 1000).toFixed(0)}K</div>
@@ -1265,7 +1267,7 @@
             <table>
               <thead><tr><th>Month</th><th>Revenue</th><th>Contracts</th><th>Avg Deal</th></tr></thead>
               <tbody>
-                {#each getMonthlyStats() as stat}
+                {#each monthlyStats as stat}
                   <tr>
                     <td>{stat.label}</td>
                     <td>${stat.total.toLocaleString()}</td>
@@ -1281,7 +1283,7 @@
             <table>
               <thead><tr><th>Rep</th><th>2025</th><th>2026 YTD</th><th>Total</th><th>Deals</th></tr></thead>
               <tbody>
-                {#each getRepStats() as stat}
+                {#each repStats as stat}
                   <tr>
                     <td>{stat.rep}</td>
                     <td>${stat.y2025.toLocaleString()}</td>
