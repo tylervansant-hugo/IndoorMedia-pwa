@@ -32,10 +32,12 @@
   import Clients from './Clients.svelte';
   import ManageReps from './ManageReps.svelte';
   import HotLeadsSubmit from './HotLeadsSubmit.svelte';
+  import DrivingMode from './DrivingMode.svelte';
 
   let currentTab = 'dashboard';
   let previousTab = 'dashboard';
   let storesView = 'list'; // 'list' or 'map'
+  let showDrivingMode = false;
   let _appEdgeSwipe = false;
   let _appEdgeStartX = 0;
   let _appEdgeDX = 0;
@@ -761,6 +763,18 @@
       console.error('Failed to load dashboard data:', err);
     }
 
+    // URL parameter actions (for Siri Shortcuts / deep links)
+    const params = new URLSearchParams(window.location.search);
+    if (params.get('mode') === 'driving') {
+      showDrivingMode = true;
+      // Clean URL
+      window.history.replaceState({}, '', window.location.pathname);
+    }
+    if (params.get('action') === 'logcall') {
+      incrementCalls();
+      window.history.replaceState({}, '', window.location.pathname);
+    }
+
     return () => clearInterval(interval);
   });
 
@@ -1012,9 +1026,9 @@
             <span class="qa-icon">📅</span>
             <span class="qa-label">Book Appt</span>
           </button>
-          <button class="qa-btn" on:click={() => currentTab = 'clients'}>
-            <span class="qa-icon">🔄</span>
-            <span class="qa-label">Renewals{#if pendingRenewalsCount > 0} <span class="qa-badge">{pendingRenewalsCount}</span>{/if}</span>
+          <button class="qa-btn qa-driving" on:click={() => showDrivingMode = true}>
+            <span class="qa-icon">🚗</span>
+            <span class="qa-label">Drive Mode</span>
           </button>
         </div>
 
@@ -1450,6 +1464,17 @@
       <ManageReps />
     {/if}
   </div>
+
+  {#if showDrivingMode}
+    <DrivingMode
+      appointments={upcomingAppointments}
+      dailyGoal={dailyGoal}
+      savedProspects={prospectsThisWeek}
+      revenueThisMonth={repMonthlyRevenue}
+      onClose={() => showDrivingMode = false}
+      onLogCall={() => { incrementCalls(); }}
+    />
+  {/if}
 </div>
 
 <style>
@@ -1756,6 +1781,8 @@
   .qa-label { font-size: 11px; font-weight: 600; text-align: center; line-height: 1.2; color: var(--text-secondary); }
   .qa-badge { background: #CC0000; color: white; font-size: 10px; padding: 1px 5px; border-radius: 8px; margin-left: 2px; }
   .qa-btn.qa-primary .qa-badge { background: white; color: #CC0000; }
+  .qa-btn.qa-driving { background: #1a1a2e; color: #fff; border-color: #333; }
+  .qa-btn.qa-driving .qa-label { color: #ccc; }
 
   /* Today at a Glance */
   .today-card-full {
