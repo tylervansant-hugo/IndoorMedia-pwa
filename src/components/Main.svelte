@@ -982,7 +982,16 @@
   <div class="content">
     {#if currentTab === 'dashboard'}
       <div class="dashboard">
-        <!-- 1. GREETING + QUICK ACTIONS — the "cockpit" -->
+        <!-- 1. MOTIVATIONAL QUOTE — start the day right -->
+        {#if true}
+          {@const quote = getTodaysQuote()}
+          <div class="quote-card">
+            <p class="quote-text">"{quote.text}"</p>
+            <p class="quote-author">— {quote.author}</p>
+          </div>
+        {/if}
+
+        <!-- 2. GREETING + QUICK ACTIONS — the "cockpit" -->
         <div class="hero-greeting">
           <h2 class="greeting-text">{new Date().getHours() < 12 ? 'Good morning' : new Date().getHours() < 17 ? 'Good afternoon' : 'Good evening'}, {($user?.name || $user?.first_name || '').split(' ')[0]}!</h2>
           {#if nextInstallCycle}
@@ -1198,14 +1207,7 @@
           </div>
         </div>
 
-        <!-- 6. MOTIVATIONAL QUOTE — reward at the bottom -->
-        {#if true}
-          {@const quote = getTodaysQuote()}
-          <div class="quote-card">
-            <p class="quote-text">"{quote.text}"</p>
-            <p class="quote-author">— {quote.author}</p>
-          </div>
-        {/if}
+
       </div>
     {:else if currentTab === 'prospects'}
       <ProspectSearch />
