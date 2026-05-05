@@ -1399,7 +1399,59 @@
         if (prospectSort === 'reviews') return (b.reviews || 0) - (a.reviews || 0);
         return (b.score || 0) - (a.score || 0);
       }) as prospect, i (prospect.id + '-' + i)}
-        <div class="prospect-card">
+        <div class="prospect-card swipeable"
+          style="transform: translateX({prospect._dismissing ? '-120vw' : (prospect._swipeX || 0) + 'px'}) rotate({prospect._dismissing ? '-30deg' : ((prospect._swipeX || 0) * 0.05) + 'deg'}); {prospect._dismissing ? 'transition: transform 0.4s ease, opacity 0.4s ease; opacity: 0;' : prospect._swiping ? '' : 'transition: transform 0.3s ease;'}"
+          on:touchstart|passive={(e) => { prospect._swipeStartX = e.touches[0].clientX; prospect._swipeStartY = e.touches[0].clientY; prospect._swiping = false; prospect._swipeX = 0; prospects = prospects; }}
+          on:touchmove|passive={(e) => {
+            const dx = e.touches[0].clientX - prospect._swipeStartX;
+            const dy = e.touches[0].clientY - prospect._swipeStartY;
+            if (!prospect._swiping && Math.abs(dx) > 10 && Math.abs(dx) > Math.abs(dy)) prospect._swiping = true;
+            if (prospect._swiping) { prospect._swipeX = dx; prospects = prospects; }
+          }}
+          on:touchend={() => {
+            if (prospect._swipeX > 80) {
+              // Swipe right → Book appointment
+              const calUrl = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent('Visit: ' + prospect.name)}&details=${encodeURIComponent('Prospect: ' + prospect.name + '\nAddress: ' + prospect.address + (prospect.phone ? '\nPhone: ' + prospect.phone : '') + (prospect.website ? '\nWebsite: ' + prospect.website : '') + '\nStore: ' + (selectedStore?.GroceryChain || '') + ' ' + (selectedStore?.StoreName || '') + '\nRep: ' + ($user?.name || ''))}&location=${encodeURIComponent(prospect.address)}&add=${encodeURIComponent('tyler.vansant@indoormedia.com')}${inviteRepEmail ? ',' + encodeURIComponent(inviteRepEmail) : ''}`;
+              window.open(calUrl, '_blank');
+              prospect._swipeX = 0; prospect._swiping = false; prospects = prospects;
+            } else if (prospect._swipeX < -80) {
+              // Swipe left → Dismiss
+              prospect._dismissing = true; prospect._dismissDir = -1; prospects = prospects;
+              setTimeout(() => { prospects = prospects.filter(p => p !== prospect); }, 400);
+            } else {
+              prospect._swipeX = 0; prospect._swiping = false; prospects = prospects;
+            }
+          }}
+          on:mousedown={(e) => { prospect._mouseDown = true; prospect._swipeStartX = e.clientX; prospect._swiping = false; prospect._swipeX = 0; prospects = prospects; }}
+          on:mousemove={(e) => {
+            if (!prospect._mouseDown) return;
+            const dx = e.clientX - prospect._swipeStartX;
+            if (!prospect._swiping && Math.abs(dx) > 10) prospect._swiping = true;
+            if (prospect._swiping) { e.preventDefault(); prospect._swipeX = dx; prospects = prospects; }
+          }}
+          on:mouseup={() => {
+            if (!prospect._mouseDown) return;
+            prospect._mouseDown = false;
+            if (prospect._swipeX > 80) {
+              const calUrl = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent('Visit: ' + prospect.name)}&details=${encodeURIComponent('Prospect: ' + prospect.name + '\nAddress: ' + prospect.address + (prospect.phone ? '\nPhone: ' + prospect.phone : '') + (prospect.website ? '\nWebsite: ' + prospect.website : '') + '\nStore: ' + (selectedStore?.GroceryChain || '') + ' ' + (selectedStore?.StoreName || '') + '\nRep: ' + ($user?.name || ''))}&location=${encodeURIComponent(prospect.address)}&add=${encodeURIComponent('tyler.vansant@indoormedia.com')}${inviteRepEmail ? ',' + encodeURIComponent(inviteRepEmail) : ''}`;
+              window.open(calUrl, '_blank');
+              prospect._swipeX = 0; prospect._swiping = false; prospects = prospects;
+            } else if (prospect._swipeX < -80) {
+              prospect._dismissing = true; prospect._dismissDir = -1; prospects = prospects;
+              setTimeout(() => { prospects = prospects.filter(p => p !== prospect); }, 400);
+            } else {
+              prospect._swipeX = 0; prospect._swiping = false; prospects = prospects;
+            }
+          }}
+          on:mouseleave={() => { if (prospect._mouseDown) { prospect._mouseDown = false; prospect._swipeX = 0; prospect._swiping = false; prospects = prospects; } }}
+        >
+          <!-- Swipe indicators -->
+          {#if prospect._swipeX > 30}
+            <div class="swipe-indicator swipe-book" style="opacity: {Math.min((prospect._swipeX - 30) / 50, 1)}">📅 BOOK</div>
+          {/if}
+          {#if prospect._swipeX < -30}
+            <div class="swipe-indicator swipe-skip" style="opacity: {Math.min((-prospect._swipeX - 30) / 50, 1)}">♻️ SKIP</div>
+          {/if}
           <div class="prospect-header">
             <span class="score-emoji">{prospect.score >= 80 ? '🔥' : prospect.score >= 70 ? '⭐' : '👀'}</span>
             <h4>{prospect.name}</h4>
@@ -2599,7 +2651,25 @@
     border: 1px solid #e8e8e8;
     color: var(--text-primary);
     transition: box-shadow 0.2s;
+    position: relative;
+    overflow: hidden;
+    user-select: none;
+    -webkit-user-select: none;
   }
+  .prospect-card.swipeable { cursor: grab; touch-action: pan-y; }
+  .swipe-indicator {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 22px;
+    font-weight: 800;
+    padding: 8px 16px;
+    border-radius: 10px;
+    z-index: 10;
+    pointer-events: none;
+  }
+  .swipe-book { right: 16px; color: #fff; background: rgba(34,139,34,0.85); }
+  .swipe-skip { left: 16px; color: #fff; background: rgba(204,0,0,0.85); }
   .prospect-card:hover {
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
   }
