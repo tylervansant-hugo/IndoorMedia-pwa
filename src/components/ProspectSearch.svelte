@@ -170,8 +170,13 @@
     if (store) selectStore(store);
   }
   
+  function handleEdgeSwipeBack() {
+    if (view !== 'main') goBack();
+  }
+
   onMount(async () => {
     document.addEventListener('select-store-from-map', handleStoreSelectFromMap);
+    document.addEventListener('edge-swipe-back', handleEdgeSwipeBack);
     try {
       const response = await fetch(import.meta.env.BASE_URL + 'data/video_library.json?t=' + Date.now());
       videoLibrary = await response.json();
@@ -192,6 +197,7 @@
   
   onDestroy(() => {
     document.removeEventListener('select-store-from-map', handleStoreSelectFromMap);
+    document.removeEventListener('edge-swipe-back', handleEdgeSwipeBack);
     destroyStoreMap();
     destroyProspectMap();
   });
@@ -1121,19 +1127,7 @@
   }
 </script>
 
-<div class="prospects-container"
-  on:touchstart|passive={(e) => {
-    const x = e.touches[0].clientX;
-    if (x < 30) { _edgeSwipeActive = true; _edgeSwipeStartX = x; _edgeSwipeX = 0; }
-  }}
-  on:touchmove|passive={(e) => {
-    if (!_edgeSwipeActive) return;
-    _edgeSwipeX = e.touches[0].clientX - _edgeSwipeStartX;
-  }}
-  on:touchend={() => {
-    if (_edgeSwipeActive && _edgeSwipeX > 80 && view !== 'main') goBack();
-    _edgeSwipeActive = false; _edgeSwipeX = 0;
-  }}>
+<div class="prospects-container">
   {#if error}
     <div class="error-box">{error}</div>
   {/if}

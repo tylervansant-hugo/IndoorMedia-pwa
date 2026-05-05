@@ -1,7 +1,7 @@
 <script>
   import { appState, selectedStore, addToCart } from '../lib/stores.js';
   import { calculatePricingPlans, formatPrice } from '../lib/pricing.js';
-  import { onMount } from 'svelte';
+  import { onMount, onDestroy } from 'svelte';
 
   let pricingPlans = {};
   let selectedPlan = 'annualPif';
@@ -74,6 +74,10 @@
   function goBack() {
     appState.set('search');
   }
+
+  function _handleEdgeBack() { goBack(); }
+  onMount(() => { document.addEventListener('edge-swipe-back', _handleEdgeBack); });
+  onDestroy(() => { document.removeEventListener('edge-swipe-back', _handleEdgeBack); });
 </script>
 
 {#if $selectedStore}

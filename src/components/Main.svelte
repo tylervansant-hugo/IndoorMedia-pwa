@@ -34,10 +34,15 @@
   import HotLeadsSubmit from './HotLeadsSubmit.svelte';
 
   let currentTab = 'dashboard';
+  let previousTab = 'dashboard';
   let storesView = 'list'; // 'list' or 'map'
+  let _appEdgeSwipe = false;
+  let _appEdgeStartX = 0;
+  let _appEdgeDX = 0;
   
   // Track tab changes
   $: if (currentTab && typeof window !== 'undefined') {
+    if (currentTab !== previousTab) previousTab = currentTab;
     logActivity('page_view', { tab: currentTab, rep: $user?.name || $user?.first_name || 'unknown' });
   }
   let currentTheme = 'light';
@@ -880,7 +885,21 @@
   }
 </script>
 
-<div class="main" data-theme={currentTheme} style="zoom: {fontScale}; -moz-transform: scale({fontScale}); -moz-transform-origin: top left;">
+<div class="main" data-theme={currentTheme} style="zoom: {fontScale}; -moz-transform: scale({fontScale}); -moz-transform-origin: top left;"
+  on:touchstart|passive={(e) => {
+    const x = e.touches[0].clientX;
+    if (x < 30) { _appEdgeSwipe = true; _appEdgeStartX = x; _appEdgeDX = 0; }
+  }}
+  on:touchmove|passive={(e) => {
+    if (!_appEdgeSwipe) return;
+    _appEdgeDX = e.touches[0].clientX - _appEdgeStartX;
+  }}
+  on:touchend={() => {
+    if (_appEdgeSwipe && _appEdgeDX > 80) {
+      document.dispatchEvent(new CustomEvent('edge-swipe-back'));
+    }
+    _appEdgeSwipe = false; _appEdgeDX = 0;
+  }}>
   <!-- Header -->
   <header class="header">
     <div class="header-top">

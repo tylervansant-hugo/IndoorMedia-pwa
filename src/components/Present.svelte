@@ -1,8 +1,13 @@
 <script>
+  import { onMount, onDestroy } from 'svelte';
   import { user } from '../lib/stores.js';
   import MeetingPrep from './MeetingPrep.svelte';
 
   let view = 'menu'; 
+
+  function _handleEdgeBack() { if (view !== 'menu') view = 'menu'; }
+  onMount(() => { document.addEventListener('edge-swipe-back', _handleEdgeBack); });
+  onDestroy(() => { document.removeEventListener('edge-swipe-back', _handleEdgeBack); });
 
   const VIDEO_LINKS = {
     'register-tape': {

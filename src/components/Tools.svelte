@@ -1,5 +1,5 @@
 <script>
-  import { onMount } from 'svelte';
+  import { onMount, onDestroy } from 'svelte';
   import { PDFDocument, rgb, StandardFonts } from 'pdf-lib';
   import { user } from '../lib/stores.js';
   import { calculateROI as sharedCalculateROI } from '../lib/roi.js';
@@ -494,6 +494,10 @@ Store: ${store}
       testimonialResults = [];
     }
   }
+
+  function _handleEdgeBack() { if (view !== 'main') goBack(); }
+  onMount(() => { document.addEventListener('edge-swipe-back', _handleEdgeBack); });
+  onDestroy(() => { document.removeEventListener('edge-swipe-back', _handleEdgeBack); });
 
   async function loadTestimonialData() {
     if (testimonialData) return testimonialData;

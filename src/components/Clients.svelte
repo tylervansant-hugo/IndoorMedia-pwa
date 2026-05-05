@@ -1,5 +1,5 @@
 <script>
-  import { onMount } from 'svelte';
+  import { onMount, onDestroy } from 'svelte';
   import { user } from '../lib/stores.js';
   import * as pdfjsLib from 'pdfjs-dist';
   
@@ -887,6 +887,10 @@ IndoorMedia`;
     contractFile = null;
     contractError = '';
   }
+
+  function _handleEdgeBack() { if (view !== 'main') goBack(); }
+  onMount(() => { document.addEventListener('edge-swipe-back', _handleEdgeBack); });
+  onDestroy(() => { document.removeEventListener('edge-swipe-back', _handleEdgeBack); });
 </script>
 
 <div class="clients-container">
