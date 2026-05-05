@@ -1018,38 +1018,25 @@
           </button>
         </div>
 
-        <!-- 2. TODAY AT A GLANCE — next appointment + daily goal side by side -->
-        <div class="today-glance">
-          <button class="today-card" on:click={() => { showAppointmentsDetail = !showAppointmentsDetail; showStreakDetail = false; }}>
-            <div class="today-icon">📅</div>
-            {#if upcomingAppointments.length > 0}
-              {@const next = upcomingAppointments[0]}
-              <div class="today-info">
-                <span class="today-title">{next.title || 'Appointment'}</span>
-                <span class="today-meta">{new Date(next.date).toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' })} · {new Date(next.date).toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' })}</span>
-              </div>
-              {#if upcomingAppointments.length > 1}
-                <span class="today-extra">+{upcomingAppointments.length - 1}</span>
-              {/if}
-            {:else}
-              <div class="today-info">
-                <span class="today-title">No appointments</span>
-                <span class="today-meta">Tap to view or book</span>
-              </div>
+        <!-- 2. TODAY AT A GLANCE — next appointment -->
+        <button class="today-card-full" on:click={() => { showAppointmentsDetail = !showAppointmentsDetail; showStreakDetail = false; }}>
+          <div class="today-icon">📅</div>
+          {#if upcomingAppointments.length > 0}
+            {@const next = upcomingAppointments[0]}
+            <div class="today-info">
+              <span class="today-title">{next.title || 'Appointment'}</span>
+              <span class="today-meta">{new Date(next.date).toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' })} · {new Date(next.date).toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' })}</span>
+            </div>
+            {#if upcomingAppointments.length > 1}
+              <span class="today-extra">+{upcomingAppointments.length - 1}</span>
             {/if}
-          </button>
-
-          <div class="today-card goal-mini">
-            <div class="goal-mini-header">
-              <span class="today-icon">📋</span>
-              <span class="goal-mini-count">{dailyGoal.calls}/{dailyGoal.target || 20}</span>
+          {:else}
+            <div class="today-info">
+              <span class="today-title">No appointments</span>
+              <span class="today-meta">Tap to view or book</span>
             </div>
-            <div class="goal-mini-bar">
-              <div class="goal-mini-fill" style="width: {Math.min((dailyGoal.calls / (dailyGoal.target || 20)) * 100, 100)}%"></div>
-            </div>
-            <button class="goal-mini-btn" on:click={incrementCalls}>+ Log Call</button>
-          </div>
-        </div>
+          {/if}
+        </button>
 
         {#if showAppointmentsDetail}
           <div class="drill-down" style="border-top: 3px solid #CC0000; margin-top: 8px;">
@@ -1771,27 +1758,18 @@
   .qa-btn.qa-primary .qa-badge { background: white; color: #CC0000; }
 
   /* Today at a Glance */
-  .today-glance { display: grid; grid-template-columns: 1fr auto; gap: 10px; margin-bottom: 16px; }
-  .today-card {
-    background: var(--card-bg, #fff); border-radius: 12px; padding: 12px;
+  .today-card-full {
+    background: var(--card-bg, #fff); border-radius: 12px; padding: 12px 14px;
     border: 1px solid var(--border-color, #e0e0e0); display: flex; align-items: center; gap: 10px;
-    cursor: pointer; transition: all 0.2s; color: var(--text-primary);
+    cursor: pointer; transition: all 0.2s; color: var(--text-primary); width: 100%;
+    margin-bottom: 16px; box-sizing: border-box; font-family: inherit;
   }
-  .today-card:active { transform: scale(0.98); }
+  .today-card-full:active { transform: scale(0.98); }
   .today-icon { font-size: 20px; flex-shrink: 0; }
-  .today-info { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
-  .today-title { font-size: 13px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .today-info { display: flex; flex-direction: column; gap: 2px; min-width: 0; flex: 1; }
+  .today-title { font-size: 13px; font-weight: 600; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
   .today-meta { font-size: 11px; color: var(--text-secondary); }
   .today-extra { font-size: 11px; font-weight: 700; color: #CC0000; flex-shrink: 0; }
-
-  /* Goal Mini */
-  .goal-mini { flex-direction: column !important; align-items: stretch !important; gap: 6px !important; min-width: 100px; }
-  .goal-mini-header { display: flex; align-items: center; gap: 6px; }
-  .goal-mini-count { font-size: 14px; font-weight: 700; color: var(--text-primary); }
-  .goal-mini-bar { height: 6px; background: var(--border-color, #e0e0e0); border-radius: 3px; overflow: hidden; }
-  .goal-mini-fill { height: 100%; background: #CC0000; border-radius: 3px; transition: width 0.3s; }
-  .goal-mini-btn { font-size: 11px; font-weight: 600; padding: 4px 8px; border: 1px solid #CC0000; color: #CC0000; background: none; border-radius: 6px; cursor: pointer; }
-  .goal-mini-btn:active { background: #CC0000; color: white; }
 
   /* Goal section improvements */
   .goal-header-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
