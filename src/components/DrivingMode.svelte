@@ -58,6 +58,10 @@
   let selectedCategory = null;
   let prospects = [];
   let currentProspectIndex = 0;
+  let showNoteInput = false;
+  let noteText = '';
+
+  export let onBookAppointment = null; // passed from Main
 
   $: firstName = ($user?.name || $user?.first_name || 'Rep').split(' ')[0];
   $: nextAppt = appointments.length > 0 ? appointments[0] : null;
@@ -315,6 +319,51 @@
       onLogCall();
       window.location.href = `tel:${p.phone}`;
     }
+  }
+
+  function saveNote() {
+    const p = prospects[currentProspectIndex];
+    if (!p || !noteText.trim()) return;
+    // Save to localStorage keyed by prospect name
+    const key = 'impro_prospect_notes';
+    let notes = {};
+    try { notes = JSON.parse(localStorage.getItem(key) || '{}'); } catch {}
+    const id = p.name.replace(/\s+/g, '_').toLowerCase();
+    notes[id] = { name: p.name, note: noteText.trim(), date: new Date().toISOString(), store: selectedStore?.StoreName || '' };
+    localStorage.setItem(key, JSON.stringify(notes));
+    speak(`Note saved for ${p.name}.`);
+    noteText = '';
+    showNoteInput = false;
+  }
+
+  function voiceNote() {
+    if (!recognition) { showNoteInput = true; return; }
+    listen().then(heard => {
+      if (heard) {
+        noteText = heard;
+        saveNote();
+      }
+    });
+  }
+
+  function bookProspectAppt() {
+    const p = prospects[currentProspectIndex];
+    if (!p) return;
+    const title = `IndoorMedia — ${p.name}`;
+    const location = p.address || '';
+    const repName = $user?.name || $user?.first_name || '';
+    const details = `Prospect: ${p.name}\nAddress: ${p.address}\nPhone: ${p.phone || 'N/A'}\nStore: ${selectedStore?.GroceryChain || ''} ${selectedStore?.StoreName || ''}\nRep: ${repName}`;
+
+    const tomorrow = new Date();
+    tomorrow.setDate(tomorrow.getDate() + 1);
+    tomorrow.setHours(10, 0, 0, 0);
+    const end = new Date(tomorrow);
+    end.setHours(11, 0, 0, 0);
+    const fmt = d => d.toISOString().replace(/[-:]/g, '').split('.')[0] + 'Z';
+
+    const gcalUrl = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent(title)}&dates=${fmt(tomorrow)}/${fmt(end)}&details=${encodeURIComponent(details)}&location=${encodeURIComponent(location)}&add=${encodeURIComponent('tyler.vansant@indoormedia.com')}`;
+    window.open(gcalUrl, '_blank');
+    speak(`Booking appointment for ${p.name}.`);
   }
 
   async function skipProspect() {
@@ -620,7 +669,7 @@
       <div class="yes-no-actions">
         {#if currentProspect.phone}
           <button class="yn-btn yn-yes" on:click={callProspectNow}>
-            📞 Yes, Call
+            📞 Call
           </button>
         {:else}
           <button class="yn-btn yn-skip" on:click={skipProspect}>
@@ -632,9 +681,18 @@
         </button>
       </div>
 
-      <button class="driving-brief-btn" style="margin-top: 12px;" on:click={() => presentCurrentProspect()}>
-        🔊 Read Again
-      </button>
+      <div class="prospect-extras">
+        <button class="extra-btn extra-book" on:click={bookProspectAppt}>📅 Book Appt</button>
+        <button class="extra-btn extra-note" on:click={() => showNoteInput ? saveNote() : (showNoteInput = true)}>📝 {showNoteInput ? 'Save Note' : 'Add Note'}</button>
+        <button class="extra-btn extra-voice" on:click={voiceNote}>🎤 Voice Note</button>
+        <button class="extra-btn extra-read" on:click={() => presentCurrentProspect()}>🔊 Replay</button>
+      </div>
+
+      {#if showNoteInput}
+        <div class="note-input-row">
+          <input class="note-input" type="text" placeholder="Type a note..." bind:value={noteText} on:keydown={(e) => e.key === 'Enter' && saveNote()} />
+        </div>
+      {/if}
     {/if}
   {/if}
 
@@ -776,6 +834,30 @@
     border: none; cursor: pointer; text-align: center;
   }
   .yn-btn:active { transform: scale(0.96); }
+
+  /* Prospect extras row */
+  .prospect-extras {
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px;
+    margin-top: 12px; flex-shrink: 0;
+  }
+  .extra-btn {
+    padding: 12px 6px; border-radius: 12px; font-size: 13px; font-weight: 600;
+    border: 1px solid #333; background: #1a1a1a; color: #ccc; cursor: pointer;
+    text-align: center;
+  }
+  .extra-btn:active { transform: scale(0.96); background: #2a2a2a; }
+  .extra-book { border-color: #1a73e8; color: #5cacf8; }
+  .extra-note { border-color: #f5a623; color: #f5c869; }
+  .extra-voice { border-color: #CC0000; color: #ff6666; }
+  .extra-read { border-color: #555; color: #999; }
+
+  .note-input-row { margin-top: 10px; flex-shrink: 0; }
+  .note-input {
+    width: 100%; padding: 14px; border-radius: 12px; border: 1px solid #444;
+    background: #1a1a1a; color: #fff; font-size: 16px; box-sizing: border-box;
+    font-family: inherit;
+  }
+  .note-input::placeholder { color: #666; }
   .yn-yes { background: #34a853; color: white; }
   .yn-no { background: #333; color: #ccc; }
   .yn-skip { background: #555; color: #ccc; }
