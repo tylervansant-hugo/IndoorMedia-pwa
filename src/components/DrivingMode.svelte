@@ -96,12 +96,54 @@
   });
 
   // --- Speech ---
+  let preferredVoice = null;
+
+  // Rank voices by quality — iOS/macOS premium voices first
+  function pickBestVoice() {
+    const voices = window.speechSynthesis.getVoices();
+    if (!voices.length) return null;
+
+    // Priority list: best-sounding English voices on Apple devices
+    const preferred = [
+      'Samantha (Enhanced)', 'Ava (Premium)', 'Ava (Enhanced)', 'Zoe (Premium)', 'Zoe (Enhanced)',
+      'Allison (Enhanced)', 'Tom (Enhanced)', 'Evan (Enhanced)',
+      'Samantha', 'Ava', 'Zoe', 'Allison', 'Tom',
+      'Karen', 'Daniel', 'Google US English', 'Google UK English Female',
+      'Microsoft Zira', 'Microsoft David',
+    ];
+
+    for (const name of preferred) {
+      const match = voices.find(v => v.name.includes(name) && v.lang.startsWith('en'));
+      if (match) return match;
+    }
+
+    // Fallback: best English voice available
+    const english = voices.filter(v => v.lang.startsWith('en'));
+    // Prefer non-compact, non-default voices (they tend to be higher quality)
+    const enhanced = english.find(v => v.name.includes('Enhanced') || v.name.includes('Premium'));
+    if (enhanced) return enhanced;
+
+    return english[0] || voices[0];
+  }
+
+  function initVoices() {
+    preferredVoice = pickBestVoice();
+    if (preferredVoice) console.log('[DrivingMode] Using voice:', preferredVoice.name);
+  }
+
+  // Voices load async on some browsers
+  if (typeof window !== 'undefined' && window.speechSynthesis) {
+    window.speechSynthesis.onvoiceschanged = initVoices;
+    initVoices();
+  }
+
   function speak(text) {
     return new Promise((resolve) => {
       window.speechSynthesis.cancel();
       speaking = true;
       const u = new SpeechSynthesisUtterance(text);
-      u.rate = 1.0; u.pitch = 1;
+      if (preferredVoice) u.voice = preferredVoice;
+      u.rate = 0.95; u.pitch = 1.05;
       u.onend = () => { speaking = false; resolve(); };
       u.onerror = () => { speaking = false; resolve(); };
       window.speechSynthesis.speak(u);
