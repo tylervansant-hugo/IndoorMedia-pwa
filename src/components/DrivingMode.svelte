@@ -9,81 +9,103 @@
   export let onClose = () => {};
   export let onLogCall = () => {};
 
+  const PLACES_API_KEY = 'AIzaSyBoslNJj8aO6wkQOfkH9e4qTVJZ-G9nOuA';
+
+  // State machine: home | listening-store | store-results | categories | subcategories | searching | prospects | calling
+  let phase = 'home';
   let speaking = false;
+  let listening = false;
+  let recognition = null;
   let wakeLock = null;
   let currentTime = new Date();
   let timeInterval;
+  let statusText = '';
+
+  // Store search
+  let allStores = [];
+  let matchedStores = [];
+  let selectedStore = null;
+
+  // Categories
+  const CATEGORIES = {
+    '🍽️ Restaurants': ['Mexican', 'Pizza', 'Coffee', 'Sushi', 'Fast Food', 'Chinese', 'Thai', 'BBQ', 'Italian', 'Bakery', 'Seafood', 'All'],
+    '🚗 Auto': ['Oil Change', 'Car Wash', 'Auto Repair', 'Tires', 'Body Shop', 'Detailing'],
+    '💄 Beauty': ['Hair Salon', 'Barber', 'Nails', 'Spa', 'Gym', 'Massage'],
+    '🏥 Health': ['Dentist', 'Chiropractor', 'Eye Care', 'Vet', 'Pharmacy', 'Urgent Care'],
+    '🏠 Home': ['Plumber', 'Electrician', 'HVAC', 'Roofing', 'Landscaping', 'Cleaning', 'Pest Control'],
+    '🛍️ Retail': ['Clothing', 'Pet Store', 'Florist', 'Furniture', 'Liquor'],
+    '🐾 Pets': ['Grooming', 'Boarding/Kennel', 'Dog Training', 'Vet'],
+  };
+
+  const CATEGORY_KEYWORDS = {
+    'Mexican': 'mexican restaurant', 'Pizza': 'pizza restaurant', 'Coffee': 'coffee cafe',
+    'Sushi': 'sushi restaurant', 'Fast Food': 'fast food restaurant', 'Chinese': 'chinese restaurant',
+    'Thai': 'thai restaurant', 'BBQ': 'bbq restaurant', 'Italian': 'italian restaurant',
+    'Bakery': 'bakery', 'Seafood': 'seafood restaurant', 'All': 'restaurant',
+    'Oil Change': 'oil change', 'Car Wash': 'car wash', 'Auto Repair': 'auto repair',
+    'Tires': 'tire shop', 'Body Shop': 'body shop', 'Detailing': 'auto detailing',
+    'Hair Salon': 'hair salon', 'Barber': 'barber', 'Nails': 'nail salon',
+    'Spa': 'spa massage', 'Gym': 'gym fitness', 'Massage': 'massage therapist',
+    'Dentist': 'dentist', 'Chiropractor': 'chiropractor', 'Eye Care': 'optometrist eye care',
+    'Vet': 'veterinarian', 'Pharmacy': 'pharmacy', 'Urgent Care': 'urgent care',
+    'Plumber': 'plumber', 'Electrician': 'electrician', 'HVAC': 'hvac',
+    'Roofing': 'roofing', 'Landscaping': 'landscaping', 'Cleaning': 'cleaning service',
+    'Pest Control': 'pest control', 'Clothing': 'clothing store', 'Pet Store': 'pet store',
+    'Florist': 'florist', 'Furniture': 'furniture store', 'Liquor': 'liquor store',
+    'Grooming': 'pet grooming', 'Boarding/Kennel': 'pet boarding kennel', 'Dog Training': 'dog training',
+  };
+
+  let selectedCategory = null;
+  let prospects = [];
+  let currentProspectIndex = 0;
 
   $: firstName = ($user?.name || $user?.first_name || 'Rep').split(' ')[0];
   $: nextAppt = appointments.length > 0 ? appointments[0] : null;
   $: goalPercent = Math.min((dailyGoal.calls / (dailyGoal.target || 20)) * 100, 100);
+  $: currentProspect = prospects[currentProspectIndex] || null;
 
   onMount(async () => {
-    // Keep screen on
     try {
-      if ('wakeLock' in navigator) {
-        wakeLock = await navigator.wakeLock.request('screen');
-      }
-    } catch (e) { console.warn('Wake lock not available:', e); }
-
-    // Update clock
+      if ('wakeLock' in navigator) wakeLock = await navigator.wakeLock.request('screen');
+    } catch {}
     timeInterval = setInterval(() => { currentTime = new Date(); }, 60000);
 
-    // Auto-briefing on launch
+    // Load stores
+    try {
+      const res = await fetch(import.meta.env.BASE_URL + 'data/stores.json?t=' + Date.now());
+      allStores = await res.json();
+    } catch { allStores = []; }
+
+    // Setup speech recognition
+    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+    if (SpeechRecognition) {
+      recognition = new SpeechRecognition();
+      recognition.continuous = false;
+      recognition.interimResults = false;
+      recognition.lang = 'en-US';
+    }
+
     speakBriefing();
   });
 
   onDestroy(() => {
     if (wakeLock) wakeLock.release();
     if (timeInterval) clearInterval(timeInterval);
+    if (recognition) recognition.abort();
     window.speechSynthesis.cancel();
   });
 
-  function speakBriefing() {
-    if (!('speechSynthesis' in window)) return;
-    window.speechSynthesis.cancel();
-    speaking = true;
-
-    const hour = new Date().getHours();
-    const greeting = hour < 12 ? 'Good morning' : hour < 17 ? 'Good afternoon' : 'Good evening';
-
-    let text = `${greeting}, ${firstName}. Here's your briefing. `;
-
-    // Appointments
-    if (appointments.length === 0) {
-      text += `You have no upcoming appointments. `;
-    } else if (appointments.length === 1) {
-      const a = appointments[0];
-      const time = new Date(a.date).toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' });
-      text += `You have 1 appointment coming up. ${a.title || 'Appointment'} at ${time}. `;
-      if (a.location) text += `Located at ${a.location}. `;
-    } else {
-      const a = appointments[0];
-      const time = new Date(a.date).toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' });
-      text += `You have ${appointments.length} appointments. Next up: ${a.title || 'Appointment'} at ${time}. `;
-    }
-
-    // Daily goal
-    text += `Daily goal: ${dailyGoal.calls} of ${dailyGoal.target || 20} calls logged. `;
-    if (dailyGoal.calls >= (dailyGoal.target || 20)) {
-      text += `You've hit your goal! Keep it up. `;
-    } else {
-      text += `${(dailyGoal.target || 20) - dailyGoal.calls} to go. `;
-    }
-
-    // Revenue
-    if (revenueThisMonth > 0) {
-      text += `Revenue this month: $${revenueThisMonth.toLocaleString()}. `;
-    }
-
-    text += `Have a great run out there.`;
-
-    const utterance = new SpeechSynthesisUtterance(text);
-    utterance.rate = 0.95;
-    utterance.pitch = 1;
-    utterance.onend = () => { speaking = false; };
-    utterance.onerror = () => { speaking = false; };
-    window.speechSynthesis.speak(utterance);
+  // --- Speech ---
+  function speak(text) {
+    return new Promise((resolve) => {
+      window.speechSynthesis.cancel();
+      speaking = true;
+      const u = new SpeechSynthesisUtterance(text);
+      u.rate = 1.0; u.pitch = 1;
+      u.onend = () => { speaking = false; resolve(); };
+      u.onerror = () => { speaking = false; resolve(); };
+      window.speechSynthesis.speak(u);
+    });
   }
 
   function stopSpeaking() {
@@ -91,88 +113,343 @@
     speaking = false;
   }
 
-  function navigateToAppt() {
-    if (!nextAppt?.location) return;
-    const url = `https://maps.apple.com/?daddr=${encodeURIComponent(nextAppt.location)}`;
-    window.open(url, '_blank');
+  function listen() {
+    if (!recognition) { statusText = 'Voice not supported'; return Promise.resolve(''); }
+    return new Promise((resolve) => {
+      listening = true;
+      statusText = '🎤 Listening...';
+      recognition.onresult = (e) => {
+        const text = e.results[0][0].transcript;
+        listening = false;
+        statusText = '';
+        resolve(text);
+      };
+      recognition.onerror = () => { listening = false; statusText = ''; resolve(''); };
+      recognition.onend = () => { if (listening) { listening = false; statusText = ''; resolve(''); } };
+      recognition.start();
+    });
   }
 
-  function callProspect() {
-    if (!nextAppt) return;
-    // Try to extract phone from appointment details
-    const details = nextAppt.details || nextAppt.description || '';
-    const phoneMatch = details.match(/Phone:\s*([\d\-\(\)\s\+]+)/i);
-    if (phoneMatch) {
-      window.open(`tel:${phoneMatch[1].trim()}`, '_self');
+  // --- Briefing ---
+  async function speakBriefing() {
+    const hour = new Date().getHours();
+    const greeting = hour < 12 ? 'Good morning' : hour < 17 ? 'Good afternoon' : 'Good evening';
+    let text = `${greeting}, ${firstName}. `;
+
+    if (appointments.length === 0) {
+      text += `No appointments on deck. `;
+    } else {
+      const a = appointments[0];
+      const time = new Date(a.date).toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' });
+      text += `Next up: ${a.title || 'Appointment'} at ${time}. `;
+      if (appointments.length > 1) text += `Plus ${appointments.length - 1} more. `;
     }
+
+    text += `${dailyGoal.calls} of ${dailyGoal.target || 20} calls logged. `;
+    if (revenueThisMonth > 0) text += `$${Math.round(revenueThisMonth / 1000)}K this month. `;
+    text += `Tap Find Prospects to start voice prospecting.`;
+
+    await speak(text);
+  }
+
+  // --- Store Search ---
+  function searchStores(query) {
+    if (!query || query.length < 2) return [];
+    const q = query.toLowerCase().trim();
+    return allStores.filter(s => {
+      const searchable = `${s.GroceryChain} ${s.City} ${s.State} ${s.StoreName} ${s.Address} ${s.Zip || ''}`.toLowerCase();
+      return searchable.includes(q);
+    }).slice(0, 8);
+  }
+
+  async function startStoreSearch() {
+    phase = 'listening-store';
+    await speak('What store would you like to work? Say the city, street, store number, or chain name.');
+    const heard = await listen();
+    if (!heard) {
+      statusText = 'Didn\'t catch that';
+      phase = 'home';
+      return;
+    }
+    statusText = `Heard: "${heard}"`;
+    matchedStores = searchStores(heard);
+
+    if (matchedStores.length === 0) {
+      await speak(`No stores found for "${heard}". Try again.`);
+      phase = 'home';
+    } else if (matchedStores.length === 1) {
+      selectedStore = matchedStores[0];
+      await speak(`Found ${selectedStore.GroceryChain} in ${selectedStore.City}. What category?`);
+      phase = 'categories';
+    } else {
+      await speak(`Found ${matchedStores.length} stores. Pick one.`);
+      phase = 'store-results';
+    }
+  }
+
+  function pickStore(store) {
+    selectedStore = store;
+    speak(`${store.GroceryChain}, ${store.City}. What category?`);
+    phase = 'categories';
+  }
+
+  function pickCategory(cat) {
+    selectedCategory = cat;
+    phase = 'subcategories';
+  }
+
+  async function pickSubcategory(sub) {
+    phase = 'searching';
+    statusText = `Searching ${sub} near ${selectedStore?.GroceryChain}...`;
+    await speak(`Searching for ${sub} near ${selectedStore?.GroceryChain}.`);
+
+    try {
+      const keyword = CATEGORY_KEYWORDS[sub] || sub.toLowerCase();
+      const lat = selectedStore?.latitude || selectedStore?.Latitude || 0;
+      const lng = selectedStore?.longitude || selectedStore?.Longitude || 0;
+      const query = `${keyword} near ${selectedStore?.Address || ''} ${selectedStore?.City || ''} ${selectedStore?.State || ''}`;
+
+      const requestBody = { textQuery: query, maxResultCount: 10 };
+      if (lat && lng) {
+        requestBody.locationBias = { circle: { center: { latitude: lat, longitude: lng }, radius: 16000.0 } };
+      }
+
+      const response = await fetch('https://places.googleapis.com/v1/places:searchText', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-Goog-Api-Key': PLACES_API_KEY,
+          'X-Goog-FieldMask': 'places.displayName,places.formattedAddress,places.rating,places.userRatingCount,places.nationalPhoneNumber,places.websiteUri'
+        },
+        body: JSON.stringify(requestBody)
+      });
+
+      const data = await response.json();
+      prospects = (data.places || []).map(p => ({
+        name: p.displayName?.text || 'Unknown',
+        address: p.formattedAddress || '',
+        rating: p.rating || 0,
+        reviews: p.userRatingCount || 0,
+        phone: p.nationalPhoneNumber || null,
+        website: p.websiteUri || null,
+      }));
+
+      currentProspectIndex = 0;
+
+      if (prospects.length === 0) {
+        await speak(`No ${sub} businesses found nearby. Try a different category.`);
+        phase = 'categories';
+      } else {
+        phase = 'prospects';
+        await presentCurrentProspect();
+      }
+    } catch (err) {
+      console.error('Places search error:', err);
+      await speak('Search failed. Try again.');
+      phase = 'categories';
+    }
+  }
+
+  async function presentCurrentProspect() {
+    const p = prospects[currentProspectIndex];
+    if (!p) {
+      await speak('That\'s all the prospects. Want to search another category?');
+      phase = 'categories';
+      return;
+    }
+    const num = currentProspectIndex + 1;
+    const total = prospects.length;
+    let text = `Number ${num} of ${total}. ${p.name}. `;
+    if (p.rating) text += `Rated ${p.rating} stars with ${p.reviews} reviews. `;
+    text += `${p.address}. `;
+    if (p.phone) text += `Phone: ${p.phone}. `;
+    text += `Call them now?`;
+    await speak(text);
+  }
+
+  function callProspectNow() {
+    const p = prospects[currentProspectIndex];
+    if (p?.phone) {
+      onLogCall();
+      window.location.href = `tel:${p.phone}`;
+    }
+  }
+
+  async function skipProspect() {
+    currentProspectIndex++;
+    if (currentProspectIndex >= prospects.length) {
+      await speak('No more prospects. Search another category?');
+      phase = 'categories';
+    } else {
+      await presentCurrentProspect();
+    }
+  }
+
+  function navigateToAppt() {
+    if (!nextAppt?.location) return;
+    window.open(`https://maps.apple.com/?daddr=${encodeURIComponent(nextAppt.location)}`, '_blank');
+  }
+
+  function goHome() {
+    stopSpeaking();
+    if (recognition) recognition.abort();
+    phase = 'home';
+    prospects = [];
+    selectedStore = null;
+    selectedCategory = null;
+    statusText = '';
   }
 </script>
 
 <div class="driving-overlay">
   <div class="driving-header">
     <div class="driving-time">{currentTime.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' })}</div>
-    <button class="driving-close" on:click={onClose}>✕ Exit</button>
-  </div>
-
-  <!-- Next Appointment — BIG and tappable -->
-  <div class="driving-section">
-    {#if nextAppt}
-      <div class="driving-appt">
-        <div class="driving-appt-label">NEXT UP</div>
-        <div class="driving-appt-title">{nextAppt.title || 'Appointment'}</div>
-        <div class="driving-appt-time">
-          {new Date(nextAppt.date).toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' })}
-          {#if nextAppt.location}
-            <span class="driving-appt-loc">📍 {nextAppt.location}</span>
-          {/if}
-        </div>
-        <div class="driving-appt-actions">
-          {#if nextAppt.location}
-            <button class="driving-btn driving-btn-nav" on:click={navigateToAppt}>
-              🗺️ Navigate
-            </button>
-          {/if}
-          <button class="driving-btn driving-btn-call" on:click={callProspect}>
-            📞 Call
-          </button>
-        </div>
-      </div>
-    {:else}
-      <div class="driving-appt">
-        <div class="driving-appt-label">NO APPOINTMENTS</div>
-        <div class="driving-appt-title" style="font-size: 24px;">You're free to prospect! 🎯</div>
-      </div>
+    {#if phase !== 'home'}
+      <button class="driving-back" on:click={goHome}>← Home</button>
     {/if}
+    <button class="driving-close" on:click={onClose}>✕</button>
   </div>
 
-  <!-- Stats Row — big, glanceable -->
-  <div class="driving-stats">
-    <div class="driving-stat">
-      <div class="driving-stat-value">{dailyGoal.calls}/{dailyGoal.target || 20}</div>
-      <div class="driving-stat-label">Calls</div>
-      <div class="driving-goal-bar">
-        <div class="driving-goal-fill" style="width: {goalPercent}%"></div>
+  {#if statusText}
+    <div class="status-bar">{statusText}</div>
+  {/if}
+
+  <!-- HOME -->
+  {#if phase === 'home'}
+    <div class="driving-section">
+      {#if nextAppt}
+        <div class="driving-appt">
+          <div class="driving-appt-label">NEXT UP</div>
+          <div class="driving-appt-title">{nextAppt.title || 'Appointment'}</div>
+          <div class="driving-appt-time">
+            {new Date(nextAppt.date).toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' })}
+          </div>
+          {#if nextAppt.location}
+            <button class="driving-btn driving-btn-nav" on:click={navigateToAppt}>🗺️ Navigate</button>
+          {/if}
+        </div>
+      {:else}
+        <div class="driving-appt">
+          <div class="driving-appt-title" style="font-size: 22px;">Ready to prospect 🎯</div>
+        </div>
+      {/if}
+    </div>
+
+    <div class="driving-stats">
+      <div class="driving-stat">
+        <div class="driving-stat-value">{dailyGoal.calls}/{dailyGoal.target || 20}</div>
+        <div class="driving-stat-label">Calls</div>
+        <div class="driving-goal-bar"><div class="driving-goal-fill" style="width: {goalPercent}%"></div></div>
+      </div>
+      <div class="driving-stat">
+        <div class="driving-stat-value">{appointments.length}</div>
+        <div class="driving-stat-label">Appts</div>
+      </div>
+      <div class="driving-stat">
+        <div class="driving-stat-value">${(revenueThisMonth / 1000).toFixed(1)}K</div>
+        <div class="driving-stat-label">Month</div>
       </div>
     </div>
-    <div class="driving-stat">
-      <div class="driving-stat-value">{appointments.length}</div>
-      <div class="driving-stat-label">Appts</div>
-    </div>
-    <div class="driving-stat">
-      <div class="driving-stat-value">${(revenueThisMonth / 1000).toFixed(1)}K</div>
-      <div class="driving-stat-label">Month</div>
-    </div>
-  </div>
 
-  <!-- Big Action Buttons -->
-  <div class="driving-actions">
-    <button class="driving-big-btn driving-big-log" on:click={onLogCall}>
-      📞 Log Call
-    </button>
-    <button class="driving-big-btn driving-big-brief" on:click={speaking ? stopSpeaking : speakBriefing}>
+    <div class="driving-actions">
+      <button class="driving-big-btn driving-big-prospect" on:click={startStoreSearch}>
+        🎯 Find Prospects
+      </button>
+      <button class="driving-big-btn driving-big-log" on:click={onLogCall}>
+        📞 Log Call
+      </button>
+    </div>
+    <button class="driving-brief-btn" on:click={speaking ? stopSpeaking : speakBriefing}>
       {speaking ? '⏹️ Stop' : '🔊 Briefing'}
     </button>
-  </div>
+
+  <!-- STORE RESULTS (multiple matches) -->
+  {:else if phase === 'store-results'}
+    <div class="phase-title">Pick a Store</div>
+    <div class="store-list">
+      {#each matchedStores as store}
+        <button class="store-pick" on:click={() => pickStore(store)}>
+          <div class="store-pick-name">{store.GroceryChain}</div>
+          <div class="store-pick-detail">{store.City}, {store.State} · {store.StoreName}</div>
+          <div class="store-pick-addr">{store.Address}</div>
+        </button>
+      {/each}
+    </div>
+
+  <!-- LISTENING FOR STORE -->
+  {:else if phase === 'listening-store'}
+    <div class="listening-phase">
+      <div class="mic-pulse">🎤</div>
+      <div class="listening-text">Say a store name, city, or address...</div>
+    </div>
+
+  <!-- CATEGORIES -->
+  {:else if phase === 'categories'}
+    <div class="phase-title">{selectedStore?.GroceryChain} — {selectedStore?.City}</div>
+    <div class="cat-grid">
+      {#each Object.keys(CATEGORIES) as cat}
+        <button class="cat-btn" on:click={() => pickCategory(cat)}>{cat}</button>
+      {/each}
+    </div>
+
+  <!-- SUBCATEGORIES -->
+  {:else if phase === 'subcategories'}
+    <div class="phase-title">{selectedCategory}</div>
+    <div class="cat-grid sub-grid">
+      {#each CATEGORIES[selectedCategory] as sub}
+        <button class="cat-btn sub-btn" on:click={() => pickSubcategory(sub)}>{sub}</button>
+      {/each}
+    </div>
+
+  <!-- SEARCHING -->
+  {:else if phase === 'searching'}
+    <div class="listening-phase">
+      <div class="mic-pulse">🔍</div>
+      <div class="listening-text">Searching...</div>
+    </div>
+
+  <!-- PROSPECTS — one at a time, big Yes/No -->
+  {:else if phase === 'prospects'}
+    {#if currentProspect}
+      <div class="prospect-display">
+        <div class="prospect-counter">{currentProspectIndex + 1} of {prospects.length}</div>
+        <div class="prospect-name">{currentProspect.name}</div>
+        {#if currentProspect.rating}
+          <div class="prospect-rating">⭐ {currentProspect.rating} ({currentProspect.reviews} reviews)</div>
+        {/if}
+        <div class="prospect-addr">{currentProspect.address}</div>
+        {#if currentProspect.phone}
+          <div class="prospect-phone">📞 {currentProspect.phone}</div>
+        {/if}
+      </div>
+
+      <div class="yes-no-actions">
+        {#if currentProspect.phone}
+          <button class="yn-btn yn-yes" on:click={callProspectNow}>
+            📞 Yes, Call
+          </button>
+        {:else}
+          <button class="yn-btn yn-skip" on:click={skipProspect}>
+            ⏭️ No Phone
+          </button>
+        {/if}
+        <button class="yn-btn yn-no" on:click={skipProspect}>
+          ➡️ Skip
+        </button>
+      </div>
+
+      <button class="driving-brief-btn" style="margin-top: 12px;" on:click={() => presentCurrentProspect()}>
+        🔊 Read Again
+      </button>
+    {/if}
+  {/if}
+
+  {#if listening}
+    <div class="listening-indicator">
+      <div class="pulse-ring"></div>
+      <span>🎤 Listening...</span>
+    </div>
+  {/if}
 </div>
 
 <style>
@@ -181,57 +458,136 @@
     background: #0a0a0a; color: #fff;
     display: flex; flex-direction: column; padding: 16px;
     font-family: -apple-system, BlinkMacSystemFont, 'SF Pro', sans-serif;
-    overflow-y: auto;
+    overflow-y: auto; -webkit-overflow-scrolling: touch;
   }
 
   .driving-header {
     display: flex; justify-content: space-between; align-items: center;
-    margin-bottom: 20px; flex-shrink: 0;
+    margin-bottom: 12px; flex-shrink: 0; gap: 8px;
   }
-  .driving-time { font-size: 18px; font-weight: 300; color: #aaa; }
-  .driving-close {
-    font-size: 16px; padding: 8px 16px; border-radius: 20px;
+  .driving-time { font-size: 18px; font-weight: 300; color: #aaa; flex: 1; }
+  .driving-close, .driving-back {
+    font-size: 15px; padding: 8px 14px; border-radius: 20px;
     border: 1px solid #444; background: none; color: #aaa; cursor: pointer;
+  }
+  .driving-back { border-color: #CC0000; color: #CC0000; }
+
+  .status-bar {
+    background: #1a1a2e; padding: 8px 14px; border-radius: 10px; font-size: 13px;
+    color: #aaa; margin-bottom: 12px; text-align: center;
   }
 
   .driving-section { flex: 1; display: flex; align-items: center; justify-content: center; }
 
   .driving-appt { text-align: center; width: 100%; }
   .driving-appt-label { font-size: 12px; font-weight: 700; letter-spacing: 2px; color: #CC0000; margin-bottom: 8px; }
-  .driving-appt-title { font-size: 28px; font-weight: 700; margin-bottom: 8px; line-height: 1.2; }
+  .driving-appt-title { font-size: 26px; font-weight: 700; margin-bottom: 8px; line-height: 1.2; }
   .driving-appt-time { font-size: 18px; color: #aaa; margin-bottom: 16px; }
-  .driving-appt-loc { display: block; font-size: 14px; margin-top: 4px; color: #888; }
 
-  .driving-appt-actions { display: flex; gap: 12px; justify-content: center; }
   .driving-btn {
     padding: 14px 28px; border-radius: 14px; font-size: 18px; font-weight: 600;
-    border: none; cursor: pointer; min-width: 140px;
+    border: none; cursor: pointer; display: inline-block; margin: 4px;
   }
   .driving-btn-nav { background: #1a73e8; color: white; }
-  .driving-btn-call { background: #34a853; color: white; }
   .driving-btn:active { opacity: 0.8; transform: scale(0.97); }
 
   .driving-stats {
-    display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px;
-    margin: 20px 0; flex-shrink: 0;
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px;
+    margin: 16px 0; flex-shrink: 0;
   }
-  .driving-stat {
-    background: #1a1a1a; border-radius: 14px; padding: 14px; text-align: center;
-  }
-  .driving-stat-value { font-size: 26px; font-weight: 700; }
+  .driving-stat { background: #1a1a1a; border-radius: 14px; padding: 12px; text-align: center; }
+  .driving-stat-value { font-size: 24px; font-weight: 700; }
   .driving-stat-label { font-size: 11px; color: #888; text-transform: uppercase; letter-spacing: 1px; margin-top: 2px; }
-  .driving-goal-bar { height: 4px; background: #333; border-radius: 2px; margin-top: 8px; overflow: hidden; }
+  .driving-goal-bar { height: 4px; background: #333; border-radius: 2px; margin-top: 6px; overflow: hidden; }
   .driving-goal-fill { height: 100%; background: #CC0000; border-radius: 2px; transition: width 0.3s; }
 
   .driving-actions {
     display: grid; grid-template-columns: 1fr 1fr; gap: 12px;
-    flex-shrink: 0; padding-bottom: env(safe-area-inset-bottom, 16px);
+    flex-shrink: 0; margin-bottom: 8px;
   }
   .driving-big-btn {
     padding: 20px; border-radius: 16px; font-size: 20px; font-weight: 700;
     border: none; cursor: pointer; text-align: center;
   }
   .driving-big-btn:active { opacity: 0.8; transform: scale(0.97); }
-  .driving-big-log { background: #CC0000; color: white; }
-  .driving-big-brief { background: #2a2a2a; color: white; border: 1px solid #444; }
+  .driving-big-prospect { background: #CC0000; color: white; }
+  .driving-big-log { background: #2a2a2a; color: white; border: 1px solid #444; }
+
+  .driving-brief-btn {
+    width: 100%; padding: 12px; border-radius: 12px; font-size: 16px; font-weight: 600;
+    background: #1a1a1a; color: #aaa; border: 1px solid #333; cursor: pointer;
+    margin-bottom: env(safe-area-inset-bottom, 8px);
+  }
+
+  /* Store picking */
+  .phase-title {
+    font-size: 18px; font-weight: 700; text-align: center; margin-bottom: 16px;
+    color: #CC0000; flex-shrink: 0;
+  }
+  .store-list { display: flex; flex-direction: column; gap: 10px; flex: 1; overflow-y: auto; }
+  .store-pick {
+    background: #1a1a1a; border: 1px solid #333; border-radius: 14px;
+    padding: 16px; text-align: left; cursor: pointer; color: #fff;
+  }
+  .store-pick:active { background: #2a2a2a; border-color: #CC0000; }
+  .store-pick-name { font-size: 18px; font-weight: 700; }
+  .store-pick-detail { font-size: 13px; color: #aaa; margin-top: 2px; }
+  .store-pick-addr { font-size: 12px; color: #666; margin-top: 2px; }
+
+  /* Listening state */
+  .listening-phase { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+  .mic-pulse { font-size: 64px; animation: pulse 1.5s ease-in-out infinite; }
+  .listening-text { font-size: 18px; color: #aaa; margin-top: 16px; }
+
+  @keyframes pulse {
+    0%, 100% { transform: scale(1); opacity: 1; }
+    50% { transform: scale(1.15); opacity: 0.7; }
+  }
+
+  /* Categories */
+  .cat-grid {
+    display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px;
+    flex: 1; overflow-y: auto; align-content: start;
+  }
+  .cat-btn {
+    background: #1a1a1a; border: 1px solid #333; border-radius: 14px;
+    padding: 16px 12px; font-size: 17px; font-weight: 600; color: #fff;
+    cursor: pointer; text-align: center;
+  }
+  .cat-btn:active { background: #CC0000; border-color: #CC0000; }
+  .sub-grid { grid-template-columns: repeat(3, 1fr); }
+  .sub-btn { font-size: 14px; padding: 14px 8px; }
+
+  /* Prospect display */
+  .prospect-display {
+    flex: 1; display: flex; flex-direction: column; align-items: center;
+    justify-content: center; text-align: center; padding: 16px 0;
+  }
+  .prospect-counter { font-size: 12px; color: #666; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 12px; }
+  .prospect-name { font-size: 28px; font-weight: 800; line-height: 1.2; margin-bottom: 8px; }
+  .prospect-rating { font-size: 16px; color: #f5a623; margin-bottom: 8px; }
+  .prospect-addr { font-size: 15px; color: #aaa; margin-bottom: 8px; line-height: 1.3; }
+  .prospect-phone { font-size: 20px; font-weight: 600; color: #34a853; margin-top: 8px; }
+
+  /* Yes / No */
+  .yes-no-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; flex-shrink: 0; }
+  .yn-btn {
+    padding: 24px 16px; border-radius: 16px; font-size: 22px; font-weight: 700;
+    border: none; cursor: pointer; text-align: center;
+  }
+  .yn-btn:active { transform: scale(0.96); }
+  .yn-yes { background: #34a853; color: white; }
+  .yn-no { background: #333; color: #ccc; }
+  .yn-skip { background: #555; color: #ccc; }
+
+  /* Listening indicator */
+  .listening-indicator {
+    position: fixed; bottom: 100px; left: 50%; transform: translateX(-50%);
+    background: #CC0000; padding: 10px 24px; border-radius: 30px;
+    font-size: 16px; font-weight: 600; display: flex; align-items: center; gap: 8px;
+  }
+  .pulse-ring {
+    width: 12px; height: 12px; background: white; border-radius: 50%;
+    animation: pulse 1s ease-in-out infinite;
+  }
 </style>
