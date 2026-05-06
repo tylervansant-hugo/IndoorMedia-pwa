@@ -285,6 +285,129 @@
     }
   }
 
+  // --- Voice Q&A about stores ---
+  let qaAnswer = '';
+
+  async function startAskQuestion() {
+    phase = 'asking';
+    await speak('What would you like to know? Ask about a store\'s case count, pricing, cycle, or anything else.');
+    const heard = await listen();
+    if (!heard) {
+      statusText = 'Didn\'t catch that';
+      phase = 'home';
+      return;
+    }
+    statusText = `"${heard}"`;
+    await answerQuestion(heard);
+  }
+
+  async function answerQuestion(question) {
+    const q = question.toLowerCase();
+
+    // Try to find a store reference in the question
+    let store = null;
+    if (selectedStore) {
+      // If we already have a store selected, use it as default context
+      store = selectedStore;
+    }
+    // Try to match a store from the question text
+    const bestMatch = findStoreInQuestion(q);
+    if (bestMatch) store = bestMatch;
+
+    if (!store) {
+      // No store found — ask them to specify
+      qaAnswer = 'I couldn\'t identify a store. Try saying the store name, city, or number.';
+      await speak(qaAnswer);
+      phase = 'home';
+      return;
+    }
+
+    // Parse what they're asking about
+    if (q.includes('case count') || q.includes('cases') || q.includes('how many cases')) {
+      const cases = store['Case Count'] || 'unknown';
+      qaAnswer = `${store.GroceryChain} in ${store.City} has ${cases} cases.`;
+    } else if (q.includes('lowest price') || q.includes('cheapest') || q.includes('co-op') || q.includes('coop') || q.includes('best price') || q.includes('minimum') || q.includes('manager approved')) {
+      const singleBase = store.SingleAd || 0;
+      const doubleBase = store.DoubleAd || 0;
+
+      // Paid-in-full (15% off) + $125 production = lowest possible
+      const lowestSingle = Math.round((singleBase * 0.85) + 125);
+      const lowestDouble = Math.round((doubleBase * 0.85) + 125);
+
+      // Also calculate monthly
+      const monthlySingle = Math.round(((singleBase + 125) / 12));
+
+      qaAnswer = `${store.GroceryChain} in ${store.City}. ` +
+        `Single ad base price: $${singleBase.toLocaleString()}. ` +
+        `Lowest paid-in-full with co-op: $${lowestSingle.toLocaleString()}. ` +
+        `Monthly payment: $${monthlySingle.toLocaleString()} per month for 12 months. ` +
+        `Double ad base: $${doubleBase.toLocaleString()}, lowest: $${lowestDouble.toLocaleString()}.`;
+    } else if (q.includes('price') || q.includes('cost') || q.includes('how much') || q.includes('rate')) {
+      const singleBase = store.SingleAd || 0;
+      const doubleBase = store.DoubleAd || 0;
+      const production = 125;
+
+      const monthly = Math.round((singleBase + production) / 12);
+      const threeMonth = Math.round(((singleBase * 0.90) + production) / 3);
+      const sixMonth = Math.round(((singleBase * 0.925) + production) / 6);
+      const paidInFull = Math.round((singleBase * 0.85) + production);
+
+      qaAnswer = `${store.GroceryChain} in ${store.City}. Single ad: $${singleBase.toLocaleString()} base. ` +
+        `Monthly: $${monthly} times 12. ` +
+        `3-month: $${threeMonth} times 3, that's 10% off. ` +
+        `6-month: $${sixMonth} times 6, 7 and a half percent off. ` +
+        `Paid in full: $${paidInFull}, 15% off. ` +
+        `Double ad base: $${doubleBase.toLocaleString()}.`;
+    } else if (q.includes('cycle') || q.includes('when') || q.includes('install')) {
+      qaAnswer = `${store.GroceryChain} in ${store.City} is on Cycle ${store.Cycle || '?'}. ` +
+        `Zone ${store.ZoneName || '?'}. Install day: ${store.InstallDay || '?'}.`;
+    } else if (q.includes('address') || q.includes('where') || q.includes('location')) {
+      qaAnswer = `${store.GroceryChain} is at ${store.Address}, ${store.City}, ${store.State} ${store.PostalCode || ''}.`;
+    } else if (q.includes('store number') || q.includes('store name') || q.includes('store id')) {
+      qaAnswer = `Store number: ${store.StoreName}. ${store.GroceryChain}, ${store.City}, ${store.State}. Zone ${store.ZoneName || '?'}, Cycle ${store.Cycle || '?'}.`;
+    } else {
+      // General store info dump
+      qaAnswer = `${store.GroceryChain} in ${store.City}, ${store.State}. ` +
+        `Store ${store.StoreName}. ${store['Case Count'] || '?'} cases. Cycle ${store.Cycle || '?'}. ` +
+        `Single ad: $${(store.SingleAd || 0).toLocaleString()}. Double ad: $${(store.DoubleAd || 0).toLocaleString()}.`;
+    }
+
+    phase = 'qa-answer';
+    await speak(qaAnswer);
+  }
+
+  function findStoreInQuestion(q) {
+    // Try progressively broader matching
+    let best = null;
+    let bestScore = 0;
+
+    for (const s of allStores) {
+      let score = 0;
+      const chain = (s.GroceryChain || '').toLowerCase();
+      const city = (s.City || '').toLowerCase();
+      const storeNum = (s.StoreName || '').toLowerCase();
+      const addr = (s.Address || '').toLowerCase();
+      const zip = (s.PostalCode || '').toLowerCase();
+
+      if (q.includes(storeNum)) score += 100;
+      if (zip && q.includes(zip)) score += 50;
+      if (city && q.includes(city)) score += 30;
+      if (chain && q.includes(chain.split(' ')[0])) score += 20;
+      // Check for partial street name matches
+      const streetWords = addr.split(/\s+/).filter(w => w.length > 3);
+      for (const w of streetWords) {
+        if (q.includes(w)) score += 15;
+      }
+
+      if (score > bestScore) {
+        bestScore = score;
+        best = s;
+      }
+    }
+
+    return bestScore >= 20 ? best : null;
+  }
+
   function navigateToAppt() {
     if (!nextAppt?.location) return;
     window.open(`https://maps.apple.com/?daddr=${encodeURIComponent(nextAppt.location)}`, '_blank');
@@ -355,13 +478,18 @@
       <button class="driving-big-btn driving-big-prospect" on:click={startStoreSearch}>
         🎯 Find Prospects
       </button>
+      <button class="driving-big-btn driving-big-ask" on:click={startAskQuestion}>
+        🗣️ Ask a Question
+      </button>
+    </div>
+    <div class="driving-actions" style="margin-top: 0;">
       <button class="driving-big-btn driving-big-log" on:click={onLogCall}>
         📞 Log Call
       </button>
+      <button class="driving-big-btn driving-big-brief" on:click={speaking ? stopSpeaking : speakBriefing}>
+        {speaking ? '⏹️ Stop' : '🔊 Briefing'}
+      </button>
     </div>
-    <button class="driving-brief-btn" on:click={speaking ? stopSpeaking : speakBriefing}>
-      {speaking ? '⏹️ Stop' : '🔊 Briefing'}
-    </button>
 
   <!-- STORE RESULTS (multiple matches) -->
   {:else if phase === 'store-results'}
@@ -400,6 +528,30 @@
         <button class="cat-btn sub-btn" on:click={() => pickSubcategory(sub)}>{sub}</button>
       {/each}
     </div>
+
+  <!-- ASKING A QUESTION -->
+  {:else if phase === 'asking'}
+    <div class="listening-phase">
+      <div class="mic-pulse">🗣️</div>
+      <div class="listening-text">Ask about case counts, pricing, cycles...</div>
+    </div>
+
+  <!-- Q&A ANSWER -->
+  {:else if phase === 'qa-answer'}
+    <div class="qa-display">
+      <div class="qa-answer-text">{qaAnswer}</div>
+    </div>
+    <div class="driving-actions">
+      <button class="driving-big-btn driving-big-ask" on:click={startAskQuestion}>
+        🗣️ Ask Another
+      </button>
+      <button class="driving-big-btn driving-big-log" on:click={goHome}>
+        🏠 Home
+      </button>
+    </div>
+    <button class="driving-brief-btn" style="margin-top: 8px;" on:click={() => speak(qaAnswer)}>
+      🔊 Read Again
+    </button>
 
   <!-- SEARCHING -->
   {:else if phase === 'searching'}
@@ -511,7 +663,13 @@
   }
   .driving-big-btn:active { opacity: 0.8; transform: scale(0.97); }
   .driving-big-prospect { background: #CC0000; color: white; }
+  .driving-big-ask { background: #1a73e8; color: white; }
   .driving-big-log { background: #2a2a2a; color: white; border: 1px solid #444; }
+  .driving-big-brief { background: #1a1a1a; color: #aaa; border: 1px solid #333; }
+
+  /* Q&A display */
+  .qa-display { flex: 1; display: flex; align-items: center; justify-content: center; padding: 20px; }
+  .qa-answer-text { font-size: 20px; line-height: 1.5; text-align: center; color: #fff; }
 
   .driving-brief-btn {
     width: 100%; padding: 12px; border-radius: 12px; font-size: 16px; font-weight: 600;
