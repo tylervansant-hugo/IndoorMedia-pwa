@@ -28,6 +28,9 @@
   let auditLastShipmentDate = '';
   let auditNextShipmentDate = '';
   let auditReport = null;
+  let auditOldCasesDiscarded = '';
+  let auditBlankTapeUsage = '';
+  let auditNotes = '';
 
   // ROI Calculator state
   let roiBusinessName = '';
@@ -725,7 +728,10 @@ Store: ${store}
       nextDelivery: nextDelivery.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }),
       nextDeliveryMonth: nextDeliveryMonth,
       daysUntilDelivery: daysUntilDelivery,
-      insufficient: insufficient
+      insufficient: insufficient,
+      oldCasesDiscarded: parseInt(auditOldCasesDiscarded) || 0,
+      blankTapeUsage: parseInt(auditBlankTapeUsage) || 0,
+      notes: auditNotes.trim()
     };
     auditStep = 4;
   }
@@ -776,6 +782,32 @@ Store: ${store}
       line('Days Until Runout:', String(r.daysUntilRunout));
       line('Est. Runout Date:', r.runoutDate);
       line('Next Delivery:', `${r.nextDelivery} (${r.daysUntilDelivery} days)`);
+
+      if (r.oldCasesDiscarded > 0 || r.blankTapeUsage > 0) {
+        section('ADDITIONAL');
+        if (r.oldCasesDiscarded > 0) line('Old Cases Discarded:', String(r.oldCasesDiscarded));
+        if (r.blankTapeUsage > 0) line('Blank Tape Usage:', `${r.blankTapeUsage} rolls`);
+      }
+
+      if (r.notes) {
+        section('NOTES');
+        // Word-wrap notes
+        const words = r.notes.split(' ');
+        let noteLine = '';
+        for (const word of words) {
+          if ((noteLine + ' ' + word).length > 80) {
+            page.drawText(noteLine.trim(), { x: 50, y, size: 10, font: reg, color: rgb(0.2, 0.2, 0.2) });
+            y -= 14;
+            noteLine = word;
+          } else {
+            noteLine += ' ' + word;
+          }
+        }
+        if (noteLine.trim()) {
+          page.drawText(noteLine.trim(), { x: 50, y, size: 10, font: reg, color: rgb(0.2, 0.2, 0.2) });
+          y -= 14;
+        }
+      }
 
       y -= 15;
       const statusText = r.insufficient
@@ -1244,6 +1276,21 @@ Store: ${store}
           <input type="number" bind:value={auditRolls} min="0" max="49" placeholder="0-49" />
         </div>
 
+        <div class="form-group">
+          <label>🗑️ Old Cases Discarded</label>
+          <input type="number" bind:value={auditOldCasesDiscarded} min="0" max="50" placeholder="0" />
+        </div>
+
+        <div class="form-group">
+          <label>📋 Blank Tape Usage</label>
+          <input type="number" bind:value={auditBlankTapeUsage} min="0" max="50" placeholder="Rolls used for blank tape" />
+        </div>
+
+        <div class="form-group">
+          <label>📝 Notes</label>
+          <textarea bind:value={auditNotes} rows="3" placeholder="Any observations, issues, or comments..." style="width:100%; padding:10px; border-radius:8px; border:1px solid var(--border-color, #ddd); background:var(--card-bg, #fff); color:var(--text-primary); font-family:inherit; font-size:14px; resize:vertical;"></textarea>
+        </div>
+
         <button class="action-btn" on:click={generateAuditReport} disabled={!auditCases && auditCases !== 0}>
           Generate Audit Report
         </button>
@@ -1280,6 +1327,25 @@ Store: ${store}
           <p class="next-delivery-highlight">📅 Next delivery: <strong>{auditReport.nextDeliveryMonth}</strong></p>
           <p class="next-delivery-detail">({auditReport.nextDelivery}, {auditReport.daysUntilDelivery} days away)</p>
         </div>
+
+        {#if auditReport.oldCasesDiscarded > 0 || auditReport.blankTapeUsage > 0}
+          <div class="report-section">
+            <h4>Additional</h4>
+            {#if auditReport.oldCasesDiscarded > 0}
+              <p>🗑️ Old cases discarded: {auditReport.oldCasesDiscarded}</p>
+            {/if}
+            {#if auditReport.blankTapeUsage > 0}
+              <p>📋 Blank tape usage: {auditReport.blankTapeUsage} rolls</p>
+            {/if}
+          </div>
+        {/if}
+
+        {#if auditReport.notes}
+          <div class="report-section">
+            <h4>📝 Notes</h4>
+            <p style="white-space: pre-wrap;">{auditReport.notes}</p>
+          </div>
+        {/if}
 
         <div class="report-status" class:status-ok={!auditReport.insufficient} class:status-warn={auditReport.insufficient}>
           {auditReport.insufficient ? 'INSUFFICIENT: Inventory may run out before next delivery!' : 'SUFFICIENT: Inventory should last until next delivery.'}
