@@ -461,14 +461,30 @@ Store: ${store}
   async function submitTestimonial() {
     testSubmitting = true;
     try {
-      const submitted = JSON.parse(localStorage.getItem('submitted_testimonials') || '[]');
-      submitted.push({
+      const payload = {
         ...testForm,
         couponImage: testForm.couponImage ? testForm.couponImage.name : null,
         submittedAt: new Date().toISOString(),
         submittedBy: $user?.name || 'Unknown Rep'
-      });
+      };
+
+      // Save to localStorage as backup
+      const submitted = JSON.parse(localStorage.getItem('submitted_testimonials') || '[]');
+      submitted.push(payload);
       localStorage.setItem('submitted_testimonials', JSON.stringify(submitted));
+
+      // Email to Tyler + testimonials@rtui.com
+      try {
+        const res = await fetch((import.meta.env.VITE_API_URL || '') + '/api/submit-testimonial', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload),
+        });
+        if (!res.ok) console.warn('Email send failed, but testimonial saved locally');
+      } catch (emailErr) {
+        console.warn('Email send failed (offline?), testimonial saved locally:', emailErr);
+      }
+
       testSubmitted = true;
       setTimeout(() => {
         testForm = { name:'', business:'', address:'', phone:'', groceryChain:'', zone:'', storeNumber:'', couponsPerWeek:'', avgTicket:'', roi:'', duration:'', wouldRenew:'', recommend:'', comments:'', couponImage:null };
