@@ -1,17 +1,20 @@
-// Vercel Serverless Function: Submit Testimonial via Email
-// Sends formatted testimonial to Tyler + testimonials@rtui.com
+// Vercel Serverless Function: Submit Testimonial via Gmail SMTP
+// Sends formatted testimonial from Tyler's email to Tyler + testimonials@rtui.com
+
+import nodemailer from 'nodemailer';
 
 export default async function handler(req, res) {
-  // CORS
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
   if (req.method === 'OPTIONS') return res.status(200).end();
   if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed' });
 
-  const RESEND_API_KEY = process.env.RESEND_API_KEY;
-  if (!RESEND_API_KEY) {
-    return res.status(500).json({ error: 'Email service not configured' });
+  const GMAIL_USER = process.env.GMAIL_USER;
+  const GMAIL_APP_PASSWORD = process.env.GMAIL_APP_PASSWORD;
+
+  if (!GMAIL_USER || !GMAIL_APP_PASSWORD) {
+    return res.status(500).json({ error: 'Email credentials not configured' });
   }
 
   try {
@@ -57,32 +60,25 @@ export default async function handler(req, res) {
       </div>
     `;
 
-    // Send to both recipients
-    const response = await fetch('https://api.resend.com/emails', {
-      method: 'POST',
-      headers: {
-        'Authorization': `Bearer ${RESEND_API_KEY}`,
-        'Content-Type': 'application/json',
+    const transporter = nodemailer.createTransport({
+      service: 'gmail',
+      auth: {
+        user: GMAIL_USER,
+        pass: GMAIL_APP_PASSWORD,
       },
-      body: JSON.stringify({
-        from: 'imPro Portal <noreply@updates.indoormedia.com>',
-        to: ['tyler.vansant@indoormedia.com', 'testimonials@rtui.com'],
-        subject,
-        html,
-      }),
     });
 
-    if (!response.ok) {
-      const errData = await response.json().catch(() => ({}));
-      console.error('Resend error:', errData);
-      return res.status(500).json({ error: 'Failed to send email', details: errData });
-    }
+    await transporter.sendMail({
+      from: `"imPro Portal" <${GMAIL_USER}>`,
+      to: 'tyler.vansant@indoormedia.com, testimonials@rtui.com',
+      subject,
+      html,
+    });
 
-    const result = await response.json();
-    return res.status(200).json({ success: true, emailId: result.id });
+    return res.status(200).json({ success: true });
 
   } catch (err) {
     console.error('Submit testimonial error:', err);
-    return res.status(500).json({ error: 'Internal server error' });
+    return res.status(500).json({ error: 'Failed to send email' });
   }
 }
