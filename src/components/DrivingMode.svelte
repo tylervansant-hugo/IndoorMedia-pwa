@@ -89,15 +89,53 @@
       recognition.lang = 'en-US';
     }
 
+    // Force audio to media channel (Bluetooth/car speakers)
+    ensureMediaAudioRoute();
+
     speakBriefing();
   });
 
   onDestroy(() => {
+    releaseMediaAudioRoute();
     if (wakeLock) wakeLock.release();
     if (timeInterval) clearInterval(timeInterval);
     if (recognition) recognition.abort();
     window.speechSynthesis.cancel();
   });
+
+  // --- Audio routing: force Bluetooth/media channel ---
+  let audioCtx = null;
+  let silentSource = null;
+
+  /**
+   * On iOS and Android, SpeechSynthesis often plays through the phone earpiece/speaker
+   * instead of Bluetooth because it's classified as a "telephony" or "system" sound.
+   * Creating an AudioContext and playing a silent buffer forces the OS to route ALL audio
+   * through the "media" channel, which goes to Bluetooth speakers/car systems.
+   */
+  function ensureMediaAudioRoute() {
+    if (audioCtx) return; // already set up
+    try {
+      audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+      // Create a silent oscillator that keeps the audio session alive
+      silentSource = audioCtx.createOscillator();
+      const gain = audioCtx.createGain();
+      gain.gain.value = 0.001; // essentially silent
+      silentSource.connect(gain);
+      gain.connect(audioCtx.destination);
+      silentSource.start();
+      console.log('[DrivingMode] Media audio route established for Bluetooth');
+    } catch (e) {
+      console.warn('[DrivingMode] Could not create audio context:', e);
+    }
+  }
+
+  function releaseMediaAudioRoute() {
+    try {
+      if (silentSource) { silentSource.stop(); silentSource = null; }
+      if (audioCtx) { audioCtx.close(); audioCtx = null; }
+    } catch {}
+  }
 
   // --- Speech ---
   let preferredVoice = null;
@@ -143,6 +181,10 @@
 
   function speak(text) {
     return new Promise((resolve) => {
+      // Resume audio context on user gesture (iOS requirement)
+      if (audioCtx && audioCtx.state === 'suspended') {
+        audioCtx.resume();
+      }
       window.speechSynthesis.cancel();
       speaking = true;
       const u = new SpeechSynthesisUtterance(text);
