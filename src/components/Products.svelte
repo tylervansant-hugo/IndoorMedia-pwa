@@ -115,27 +115,48 @@
 
     if (!text) return;
 
-    // Copy with fallback
-    if (navigator.clipboard && navigator.clipboard.writeText) {
-      navigator.clipboard.writeText(text).then(() => {
-        copyFeedback = productKey + (tierKey || '') + (subKey || '');
+    const feedbackKey = productKey + (tierKey || '') + (subKey || '');
+
+    // Try native Share API first (mobile — lets you pick text/email/etc directly)
+    if (navigator.share) {
+      navigator.share({ text }).then(() => {
+        copyFeedback = feedbackKey;
         setTimeout(() => { copyFeedback = ''; }, 2000);
-      }).catch(() => fallbackCopyText(text, productKey, tierKey, subKey));
+      }).catch((err) => {
+        // User cancelled share — that's fine, try clipboard instead
+        if (err.name !== 'AbortError') {
+          clipboardCopy(text, feedbackKey);
+        }
+      });
     } else {
-      fallbackCopyText(text, productKey, tierKey, subKey);
+      clipboardCopy(text, feedbackKey);
     }
   }
 
-  function fallbackCopyText(text, productKey, tierKey, subKey) {
+  function clipboardCopy(text, feedbackKey) {
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(text).then(() => {
+        copyFeedback = feedbackKey;
+        setTimeout(() => { copyFeedback = ''; }, 2000);
+      }).catch(() => textareaCopy(text, feedbackKey));
+    } else {
+      textareaCopy(text, feedbackKey);
+    }
+  }
+
+  function textareaCopy(text, feedbackKey) {
     const ta = document.createElement('textarea');
     ta.value = text;
     ta.style.position = 'fixed';
     ta.style.left = '-9999px';
+    ta.style.top = '0';
+    ta.style.opacity = '0';
     document.body.appendChild(ta);
+    ta.focus();
     ta.select();
-    document.execCommand('copy');
+    try { document.execCommand('copy'); } catch {}
     document.body.removeChild(ta);
-    copyFeedback = productKey + (tierKey || '') + (subKey || '');
+    copyFeedback = feedbackKey;
     setTimeout(() => { copyFeedback = ''; }, 2000);
   }
 
