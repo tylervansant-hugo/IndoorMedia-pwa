@@ -6845,6 +6845,23 @@
       "address": "9811 Mickelberry Rd NW",
       "customer_city_state": "Silverdale, WA 98383",
       "extracted_at": "2026-05-07T20:00:05.100076"
+    },
+    {
+      "contract_number": "D430828E",
+      "date": "5/10/2026",
+      "business_name": "Synergy Heating and air",
+      "contact_name": "Ryan Goosmann",
+      "contact_email": "Cceryan1@outlook.com",
+      "contact_phone": "(503) 539-7825",
+      "sales_rep": "Anthony Marty Eng",
+      "store_name": "",
+      "store_number": "",
+      "product_description": "Single",
+      "total_amount": 695.0,
+      "payment_date": "5/10/2026",
+      "address": "19450 SW Cipole Rd UNIT 105",
+      "customer_city_state": "Tualatin, OR 97062",
+      "extracted_at": "2026-05-10T20:00:04.496728"
     }
   ],
   "last_scan": "2026-04-19T20:00:11.243578"
