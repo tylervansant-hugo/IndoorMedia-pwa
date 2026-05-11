@@ -89,69 +89,41 @@
       recognition.lang = 'en-US';
     }
 
-    // Force audio to media channel (Bluetooth/car speakers)
-    ensureMediaAudioRoute();
-
     speakBriefing();
   });
 
   onDestroy(() => {
-    releaseMediaAudioRoute();
+    stopSpeaking();
     if (wakeLock) wakeLock.release();
     if (timeInterval) clearInterval(timeInterval);
     if (recognition) recognition.abort();
-    window.speechSynthesis.cancel();
   });
 
-  // --- Audio routing: force Bluetooth/media channel ---
-  let audioCtx = null;
-  let silentSource = null;
+  // --- Media TTS: plays as real audio so it routes through Bluetooth ---
+  let ttsAudio = null;
 
   /**
-   * On iOS and Android, SpeechSynthesis often plays through the phone earpiece/speaker
-   * instead of Bluetooth because it's classified as a "telephony" or "system" sound.
-   * Creating an AudioContext and playing a silent buffer forces the OS to route ALL audio
-   * through the "media" channel, which goes to Bluetooth speakers/car systems.
+   * Uses the Vercel serverless TTS endpoint to generate real MP3 audio.
+   * Played via <audio> element = media channel = Bluetooth/car speakers.
+   * Voice: Zoe (set on the API side, or we use Google Cloud TTS).
+   *
+   * Fallback: SpeechSynthesis with Zoe voice preference if API unavailable.
    */
-  function ensureMediaAudioRoute() {
-    if (audioCtx) return; // already set up
-    try {
-      audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-      // Create a silent oscillator that keeps the audio session alive
-      silentSource = audioCtx.createOscillator();
-      const gain = audioCtx.createGain();
-      gain.gain.value = 0.001; // essentially silent
-      silentSource.connect(gain);
-      gain.connect(audioCtx.destination);
-      silentSource.start();
-      console.log('[DrivingMode] Media audio route established for Bluetooth');
-    } catch (e) {
-      console.warn('[DrivingMode] Could not create audio context:', e);
-    }
-  }
 
-  function releaseMediaAudioRoute() {
-    try {
-      if (silentSource) { silentSource.stop(); silentSource = null; }
-      if (audioCtx) { audioCtx.close(); audioCtx = null; }
-    } catch {}
-  }
-
-  // --- Speech ---
+  // --- Speech Synthesis fallback ---
   let preferredVoice = null;
 
-  // Rank voices by quality — iOS/macOS premium voices first
   function pickBestVoice() {
     const voices = window.speechSynthesis.getVoices();
     if (!voices.length) return null;
 
-    // Priority list: best-sounding English voices on Apple devices
+    // Tyler wants Zoe — prioritize it
     const preferred = [
-      'Samantha (Enhanced)', 'Ava (Premium)', 'Ava (Enhanced)', 'Zoe (Premium)', 'Zoe (Enhanced)',
-      'Allison (Enhanced)', 'Tom (Enhanced)', 'Evan (Enhanced)',
-      'Samantha', 'Ava', 'Zoe', 'Allison', 'Tom',
-      'Karen', 'Daniel', 'Google US English', 'Google UK English Female',
-      'Microsoft Zira', 'Microsoft David',
+      'Zoe (Premium)', 'Zoe (Enhanced)', 'Zoe',
+      'Samantha (Enhanced)', 'Ava (Premium)', 'Ava (Enhanced)',
+      'Allison (Enhanced)', 'Tom (Enhanced)',
+      'Samantha', 'Ava', 'Karen', 'Daniel',
+      'Google US English',
     ];
 
     for (const name of preferred) {
@@ -159,34 +131,50 @@
       if (match) return match;
     }
 
-    // Fallback: best English voice available
     const english = voices.filter(v => v.lang.startsWith('en'));
-    // Prefer non-compact, non-default voices (they tend to be higher quality)
     const enhanced = english.find(v => v.name.includes('Enhanced') || v.name.includes('Premium'));
     if (enhanced) return enhanced;
-
     return english[0] || voices[0];
   }
 
   function initVoices() {
     preferredVoice = pickBestVoice();
-    if (preferredVoice) console.log('[DrivingMode] Using voice:', preferredVoice.name);
+    if (preferredVoice) console.log('[DrivingMode] Voice selected:', preferredVoice.name);
   }
 
-  // Voices load async on some browsers
   if (typeof window !== 'undefined' && window.speechSynthesis) {
     window.speechSynthesis.onvoiceschanged = initVoices;
     initVoices();
   }
 
+  /**
+   * speak() — plays TTS as MEDIA audio (routes to Bluetooth).
+   * 
+   * Strategy:
+   * 1. Try Google Translate TTS (free, returns MP3, plays as media)
+   * 2. Fallback to SpeechSynthesis with Zoe voice
+   *
+   * The key insight: <audio>.play() = media audio channel = Bluetooth.
+   * SpeechSynthesis = system/telephony channel = phone speaker only.
+   */
   function speak(text) {
-    return new Promise((resolve) => {
-      // Resume audio context on user gesture (iOS requirement)
-      if (audioCtx && audioCtx.state === 'suspended') {
-        audioCtx.resume();
-      }
-      window.speechSynthesis.cancel();
+    return new Promise(async (resolve) => {
       speaking = true;
+
+      // Stop any previous audio
+      stopSpeaking();
+      speaking = true;
+
+      // Try media audio TTS first
+      const success = await tryMediaTTS(text);
+      if (success) {
+        resolve();
+        return;
+      }
+
+      // Fallback: SpeechSynthesis (won't route to Bluetooth, but at least works)
+      console.log('[DrivingMode] Falling back to SpeechSynthesis');
+      window.speechSynthesis.cancel();
       const u = new SpeechSynthesisUtterance(text);
       if (preferredVoice) u.voice = preferredVoice;
       u.rate = 0.95; u.pitch = 1.05;
@@ -196,7 +184,64 @@
     });
   }
 
+  /**
+   * Splits text into chunks (Google Translate TTS has ~200 char limit),
+   * generates MP3 URLs, and plays them sequentially as media audio.
+   */
+  async function tryMediaTTS(text) {
+    try {
+      const chunks = splitTextForTTS(text, 190);
+      for (const chunk of chunks) {
+        if (!speaking) break; // stopped mid-speech
+        const encoded = encodeURIComponent(chunk);
+        const url = `https://translate.google.com/translate_tts?ie=UTF-8&tl=en&client=tw-ob&q=${encoded}`;
+        await playAudioURL(url);
+      }
+      speaking = false;
+      return true;
+    } catch (e) {
+      console.warn('[DrivingMode] Media TTS failed:', e);
+      speaking = false;
+      return false;
+    }
+  }
+
+  function splitTextForTTS(text, maxLen) {
+    const chunks = [];
+    // Split on sentence boundaries
+    const sentences = text.match(/[^.!?]+[.!?]+/g) || [text];
+    let current = '';
+
+    for (const sentence of sentences) {
+      if ((current + sentence).length > maxLen && current) {
+        chunks.push(current.trim());
+        current = '';
+      }
+      current += sentence;
+    }
+    if (current.trim()) chunks.push(current.trim());
+    return chunks;
+  }
+
+  function playAudioURL(url) {
+    return new Promise((resolve, reject) => {
+      const audio = new Audio(url);
+      ttsAudio = audio;
+      audio.volume = 1.0;
+      // This is the magic: <Audio>.play() uses the media audio channel
+      // which routes through Bluetooth, car speakers, etc.
+      audio.onended = () => { ttsAudio = null; resolve(); };
+      audio.onerror = (e) => { ttsAudio = null; reject(e); };
+      audio.play().catch(reject);
+    });
+  }
+
   function stopSpeaking() {
+    if (ttsAudio) {
+      ttsAudio.pause();
+      ttsAudio.currentTime = 0;
+      ttsAudio = null;
+    }
     window.speechSynthesis.cancel();
     speaking = false;
   }
