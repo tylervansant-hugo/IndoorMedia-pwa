@@ -115,6 +115,9 @@
     { text: "The only limit to our realization of tomorrow will be our doubts of today.", author: "Franklin D. Roosevelt" },
   ];
 
+  let quoteCopied = false;
+  let copyTimer;
+
   function getTodaysQuote() {
     const now = new Date();
     const dayOfYear = Math.floor((now - new Date(now.getFullYear(), 0, 0)) / 86400000);
@@ -999,9 +1002,29 @@
         <!-- 1. MOTIVATIONAL QUOTE — start the day right -->
         {#if true}
           {@const quote = getTodaysQuote()}
-          <div class="quote-card">
-            <p class="quote-text">"{quote.text}"</p>
-            <p class="quote-author">— {quote.author}</p>
+          <div class="quote-card" role="button" tabindex="0"
+            on:contextmenu|preventDefault={() => {
+              navigator.clipboard.writeText(`"${quote.text}" — ${quote.author}`);
+              quoteCopied = true;
+              setTimeout(() => quoteCopied = false, 1500);
+            }}
+            on:pointerdown={(e) => {
+              copyTimer = setTimeout(() => {
+                navigator.clipboard.writeText(`"${quote.text}" — ${quote.author}`);
+                quoteCopied = true;
+                setTimeout(() => quoteCopied = false, 1500);
+              }, 500);
+            }}
+            on:pointerup={() => clearTimeout(copyTimer)}
+            on:pointerleave={() => clearTimeout(copyTimer)}
+          >
+            {#if quoteCopied}
+              <p class="quote-copied-toast">✅ Copied!</p>
+            {:else}
+              <p class="quote-text">"{quote.text}"</p>
+              <p class="quote-author">— {quote.author}</p>
+              <p class="quote-hint">Hold to copy</p>
+            {/if}
           </div>
         {/if}
 
@@ -1813,6 +1836,9 @@
   }
   .quote-text { font-size: 15px; font-style: italic; line-height: 1.4; margin: 0 0 6px; }
   .quote-author { font-size: 12px; opacity: 0.85; margin: 0; }
+  .quote-hint { font-size: 10px; opacity: 0.5; margin: 4px 0 0; }
+  .quote-copied-toast { font-size: 15px; margin: 0; padding: 4px 0; }
+  .quote-card { cursor: pointer; -webkit-user-select: none; user-select: none; -webkit-touch-callout: none; }
 
   /* Revenue Hero */
   .revenue-hero {
