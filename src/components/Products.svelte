@@ -37,6 +37,108 @@
     }
   };
 
+  let copyFeedback = '';
+
+  function copyProductPackage(productKey, subKey = null, tierKey = null) {
+    let text = '';
+
+    if (productKey === 'register_tape' && tierKey) {
+      const tier = PRODUCTS.register_tape.tiers[tierKey];
+      const links = PRODUCT_LINKS.register_tape;
+      text = `🧾 Register Tape — ${tier.name}\n`;
+      text += `${tier.desc}\n\n`;
+      text += `💰 Payment Plans:\n`;
+      for (const [plan, formula] of Object.entries(tier.pricing)) {
+        text += `• ${plan.charAt(0).toUpperCase() + plan.slice(1)}: ${formula}\n`;
+      }
+      text += `\n🎬 Presentation: ${links.presentation}\n`;
+      text += `📹 Explainer: ${links.explainer}`;
+    } else if (productKey === 'register_tape') {
+      const links = PRODUCT_LINKS.register_tape;
+      text = `🧾 Register Tape\nHigh-visibility promotional strips at checkout\n\n`;
+      text += `Tiers:\n`;
+      for (const [k, tier] of Object.entries(PRODUCTS.register_tape.tiers)) {
+        text += `• ${tier.emoji} ${tier.name} — ${tier.desc}\n`;
+      }
+      text += `\n🎬 Presentation: ${links.presentation}\n`;
+      text += `📹 Explainer: ${links.explainer}`;
+    } else if (productKey === 'cartvertising') {
+      const links = PRODUCT_LINKS.cartvertising;
+      text = `🛒 Cartvertising\nShopping cart advertising — 6-month campaigns\n\n💰 Packages:\n`;
+      for (const [k, pkg] of Object.entries(PRODUCTS.cartvertising.packages)) {
+        text += `• ${pkg.name} — ${pkg.price}\n`;
+      }
+      text += `\n🎬 Presentation: ${links.presentation}\n`;
+      text += `📹 Explainer: ${links.explainer}`;
+    } else if (productKey === 'digitalboost') {
+      const db = PRODUCTS.digital.subproducts.digitalboost;
+      const links = PRODUCT_LINKS.digitalboost;
+      text = `🚀 DigitalBoost\n${db.desc}\n\n`;
+      text += `📊 Impressions:\n• Standalone: 240,000\n• Bundled w/ Tape or Cart: 360,000\n\n`;
+      text += `💰 Standard: $3,600/pin (+$395 production)\n`;
+      text += `💰 Co-Op: $2,400/pin (+$395 production)\n\n`;
+      text += `Pricing Examples:\n`;
+      for (const ex of db.examples) {
+        text += `• ${ex.pins} pin${ex.pins > 1 ? 's' : ''}: ${ex.standard} (standard) / ${ex.coop} (co-op)\n`;
+      }
+      text += `\n🎬 Presentation: ${links.presentation}\n`;
+      text += `📹 Explainer: ${links.explainer}`;
+    } else if (productKey === 'findlocal') {
+      const fl = PRODUCTS.digital.subproducts.findlocal;
+      const links = PRODUCT_LINKS.findlocal;
+      text = `📍 FindLocal\n${fl.desc}\n\n`;
+      text += `💰 ${fl.pricing}\n${fl.googleProfileAssistance}\n\n`;
+      text += `Features:\n`;
+      for (const f of fl.features) { text += `• ${f}\n`; }
+      text += `\n🎬 Presentation: ${links.presentation}\n`;
+      text += `📹 Explainer: ${links.explainer}`;
+    } else if (productKey === 'reviewboost') {
+      const rb = PRODUCTS.digital.subproducts.reviewboost;
+      const links = PRODUCT_LINKS.reviewboost;
+      text = `⭐ ReviewBoost\n${rb.desc}\n\n`;
+      text += `💰 ${rb.pricing} (${rb.contacts})\n`;
+      text += `Additional: ${rb.additional}\n\n`;
+      text += `Includes:\n`;
+      for (const f of rb.features) { text += `• ${f}\n`; }
+      text += `\n🎬 Presentation: ${links.presentation}\n`;
+      text += `📹 Explainer: ${links.explainer}`;
+    } else if (productKey === 'loyaltyboost') {
+      const lb = PRODUCTS.digital.subproducts.loyaltyboost;
+      const links = PRODUCT_LINKS.loyaltyboost;
+      text = `💎 LoyaltyBoost\n${lb.desc}\n\n`;
+      text += `💰 ${lb.pricing}\nProduction: ${lb.production}\n\n`;
+      text += `Payment Options:\n`;
+      for (const o of lb.paymentOptions) { text += `• ${o}\n`; }
+      text += `\n🎬 Presentation: ${links.presentation}\n`;
+      text += `📹 Explainer: ${links.explainer}`;
+    }
+
+    if (!text) return;
+
+    // Copy with fallback
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(text).then(() => {
+        copyFeedback = productKey + (tierKey || '') + (subKey || '');
+        setTimeout(() => { copyFeedback = ''; }, 2000);
+      }).catch(() => fallbackCopyText(text, productKey, tierKey, subKey));
+    } else {
+      fallbackCopyText(text, productKey, tierKey, subKey);
+    }
+  }
+
+  function fallbackCopyText(text, productKey, tierKey, subKey) {
+    const ta = document.createElement('textarea');
+    ta.value = text;
+    ta.style.position = 'fixed';
+    ta.style.left = '-9999px';
+    document.body.appendChild(ta);
+    ta.select();
+    document.execCommand('copy');
+    document.body.removeChild(ta);
+    copyFeedback = productKey + (tierKey || '') + (subKey || '');
+    setTimeout(() => { copyFeedback = ''; }, 2000);
+  }
+
   function addToCart(name, price, details) {
     let cart = [];
     try { cart = JSON.parse(localStorage.getItem('indoormedia_cart') || '[]'); } catch {}
@@ -247,6 +349,10 @@
       </a>
     </div>
 
+    <button class="share-btn" on:click={() => copyProductPackage('register_tape')}>
+      {copyFeedback === 'register_tape' ? '✅ Copied!' : '📋 Copy & Send'}
+    </button>
+
     <div class="tiers-list">
       {#each Object.entries(PRODUCTS.register_tape.tiers) as [tierKey, tier]}
         <button class="tier-card" on:click={() => selectTier(tierKey)}>
@@ -283,6 +389,9 @@
         </div>
       </div>
 
+      <button class="share-btn" on:click={() => copyProductPackage('register_tape', null, selectedTier)}>
+        {copyFeedback === 'register_tape' + selectedTier ? '✅ Copied!' : '📋 Copy & Send'}
+      </button>
       <button class="action-btn" on:click={() => addToCart('Register Tape - ' + PRODUCTS.register_tape.tiers[selectedTier].name, 'Store-based', selectedTier)}>🛒 Add to Cart</button>
     </div>
   {/if}
@@ -301,6 +410,10 @@
         📹 Explainer Video
       </a>
     </div>
+
+    <button class="share-btn" on:click={() => copyProductPackage('cartvertising')}>
+      {copyFeedback === 'cartvertising' ? '✅ Copied!' : '📋 Copy & Send'}
+    </button>
 
     <div class="packages-list">
       {#each Object.entries(PRODUCTS.cartvertising.packages) as [key, pkg]}
@@ -393,6 +506,9 @@
       </div>
 
       
+      <button class="share-btn" on:click={() => copyProductPackage('digitalboost')}>
+        {copyFeedback === 'digitalboost' ? '✅ Copied!' : '📋 Copy & Send'}
+      </button>
       <button class="action-btn" on:click={() => addToCart("DigitalBoost", "$3,600/pin", "240K standalone / 360K bundled impressions")}>🛒 Add to Cart</button>
     </div>
   {/if}
@@ -425,6 +541,9 @@
       </div>
 
       
+      <button class="share-btn" on:click={() => copyProductPackage('findlocal')}>
+        {copyFeedback === 'findlocal' ? '✅ Copied!' : '📋 Copy & Send'}
+      </button>
       <button class="action-btn" on:click={() => addToCart("FindLocal", "$695/location", "50+ directory listings")}>🛒 Add to Cart</button>
     </div>
   {/if}
@@ -462,6 +581,9 @@
         </ul>
       </div>
 
+      <button class="share-btn" on:click={() => copyProductPackage('reviewboost')}>
+        {copyFeedback === 'reviewboost' ? '✅ Copied!' : '📋 Copy & Send'}
+      </button>
       <button class="action-btn" on:click={() => addToCart("ReviewBoost", "$695", "4-month campaign, 4000 contacts")}>🛒 Add to Cart</button>
     </div>
   {/if}
@@ -498,6 +620,9 @@
         </ul>
       </div>
 
+      <button class="share-btn" on:click={() => copyProductPackage('loyaltyboost')}>
+        {copyFeedback === 'loyaltyboost' ? '✅ Copied!' : '📋 Copy & Send'}
+      </button>
       <button class="action-btn" on:click={() => addToCart("LoyaltyBoost", "$3,600/year", "Annual loyalty campaign")}>🛒 Add to Cart</button>
     </div>
   {/if}
@@ -739,6 +864,24 @@
     color: #555;
     font-size: 13px;
     border-radius: 4px;
+  }
+
+  .share-btn {
+    width: 100%;
+    background: #1a73e8;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 12px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    margin-top: 10px;
+    transition: background 0.2s;
+  }
+
+  .share-btn:hover {
+    background: #1557b0;
   }
 
   .action-btn {
