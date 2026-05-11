@@ -117,6 +117,32 @@
 
   let quoteCopied = false;
   let copyTimer;
+  let pressStart = 0;
+
+  function copyQuoteText(text) {
+    // Try clipboard API first, fallback to execCommand
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(text).then(() => {
+        quoteCopied = true;
+        setTimeout(() => { quoteCopied = false; }, 1500);
+      }).catch(() => fallbackCopy(text));
+    } else {
+      fallbackCopy(text);
+    }
+  }
+
+  function fallbackCopy(text) {
+    const ta = document.createElement('textarea');
+    ta.value = text;
+    ta.style.position = 'fixed';
+    ta.style.left = '-9999px';
+    document.body.appendChild(ta);
+    ta.select();
+    document.execCommand('copy');
+    document.body.removeChild(ta);
+    quoteCopied = true;
+    setTimeout(() => { quoteCopied = false; }, 1500);
+  }
 
   function getTodaysQuote() {
     const now = new Date();
@@ -1002,24 +1028,28 @@
         <!-- 1. MOTIVATIONAL QUOTE — start the day right -->
         {#if true}
           {@const quote = getTodaysQuote()}
-          <div class="quote-card" role="button" tabindex="0"
-            on:contextmenu|preventDefault={() => {
-              navigator.clipboard.writeText(`"${quote.text}" — ${quote.author}`);
-              quoteCopied = true;
-              setTimeout(() => quoteCopied = false, 1500);
-            }}
-            on:pointerdown={(e) => {
+          <!-- svelte-ignore a11y-no-static-element-interactions -->
+          <div class="quote-card"
+            on:touchstart|preventDefault={(e) => {
+              pressStart = Date.now();
               copyTimer = setTimeout(() => {
-                navigator.clipboard.writeText(`"${quote.text}" — ${quote.author}`);
-                quoteCopied = true;
-                setTimeout(() => quoteCopied = false, 1500);
+                copyQuoteText(`"${quote.text}" — ${quote.author}`);
               }, 500);
             }}
-            on:pointerup={() => clearTimeout(copyTimer)}
-            on:pointerleave={() => clearTimeout(copyTimer)}
+            on:touchend={() => { clearTimeout(copyTimer); }}
+            on:touchmove={() => { clearTimeout(copyTimer); }}
+            on:mousedown={() => {
+              pressStart = Date.now();
+              copyTimer = setTimeout(() => {
+                copyQuoteText(`"${quote.text}" — ${quote.author}`);
+              }, 500);
+            }}
+            on:mouseup={() => { clearTimeout(copyTimer); }}
+            on:mouseleave={() => { clearTimeout(copyTimer); }}
+            on:contextmenu|preventDefault
           >
             {#if quoteCopied}
-              <p class="quote-copied-toast">✅ Copied!</p>
+              <p class="quote-copied-toast">✅ Copied to clipboard!</p>
             {:else}
               <p class="quote-text">"{quote.text}"</p>
               <p class="quote-author">— {quote.author}</p>
