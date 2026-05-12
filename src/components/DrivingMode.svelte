@@ -151,15 +151,13 @@
     }
   }
 
-  // --- Media TTS ---
-  let ttsAudio = null;
-
-  // SpeechSynthesis fallback voice (Zoe preferred)
+  // --- TTS (SpeechSynthesis — native, works in-browser) ---
   let preferredVoice = null;
 
   function pickBestVoice() {
     const voices = window.speechSynthesis.getVoices();
     if (!voices.length) return null;
+    // Zoe first per Tyler's preference
     const preferred = [
       'Zoe (Premium)', 'Zoe (Enhanced)', 'Zoe',
       'Samantha (Enhanced)', 'Ava (Premium)', 'Ava (Enhanced)',
@@ -185,86 +183,75 @@
   }
 
   function speak(text) {
-    return new Promise(async (resolve) => {
-      stopSpeaking();
-      speaking = true;
-
-      // Try media audio first (routes to Bluetooth)
-      const success = await tryMediaTTS(text);
-      if (success) { resolve(); return; }
-
-      // Fallback: SpeechSynthesis
+    return new Promise((resolve) => {
       window.speechSynthesis.cancel();
+      speaking = true;
       const u = new SpeechSynthesisUtterance(text);
       if (preferredVoice) u.voice = preferredVoice;
-      u.rate = 0.95; u.pitch = 1.05;
+      u.rate = 0.95;
+      u.pitch = 1.05;
       u.onend = () => { speaking = false; resolve(); };
       u.onerror = () => { speaking = false; resolve(); };
       window.speechSynthesis.speak(u);
     });
   }
 
-  async function tryMediaTTS(text) {
-    try {
-      const chunks = splitTextForTTS(text, 190);
-      for (const chunk of chunks) {
-        if (!speaking) break;
-        const encoded = encodeURIComponent(chunk);
-        const url = `https://translate.google.com/translate_tts?ie=UTF-8&tl=en&client=tw-ob&q=${encoded}`;
-        await playAudioURL(url);
-      }
-      speaking = false;
-      return true;
-    } catch {
-      speaking = false;
-      return false;
-    }
-  }
-
-  function splitTextForTTS(text, maxLen) {
-    const chunks = [];
-    const sentences = text.match(/[^.!?]+[.!?]+/g) || [text];
-    let current = '';
-    for (const sentence of sentences) {
-      if ((current + sentence).length > maxLen && current) {
-        chunks.push(current.trim());
-        current = '';
-      }
-      current += sentence;
-    }
-    if (current.trim()) chunks.push(current.trim());
-    return chunks;
-  }
-
-  function playAudioURL(url) {
-    return new Promise((resolve, reject) => {
-      const audio = new Audio(url);
-      ttsAudio = audio;
-      audio.volume = 1.0;
-      audio.onended = () => { ttsAudio = null; resolve(); };
-      audio.onerror = (e) => { ttsAudio = null; reject(e); };
-      audio.play().catch(reject);
-    });
-  }
-
   function stopSpeaking() {
-    if (ttsAudio) { ttsAudio.pause(); ttsAudio.currentTime = 0; ttsAudio = null; }
     window.speechSynthesis.cancel();
     speaking = false;
   }
 
-  function listen() {
-    if (!recognition) { statusText = 'Voice not supported'; return Promise.resolve(''); }
+  // --- Microphone (Speech Recognition) ---
+  let micPermission = 'unknown'; // unknown | granted | denied
+
+  async function requestMicPermission() {
+    try {
+      const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+      // Got permission — stop the stream immediately (we just needed the prompt)
+      stream.getTracks().forEach(t => t.stop());
+      micPermission = 'granted';
+      return true;
+    } catch {
+      micPermission = 'denied';
+      statusText = '⚠️ Microphone access denied. Check browser settings.';
+      return false;
+    }
+  }
+
+  async function listen() {
+    if (!recognition) {
+      statusText = 'Voice not supported on this browser';
+      return '';
+    }
+
+    // Ensure mic permission on first use (needs user gesture context)
+    if (micPermission !== 'granted') {
+      const ok = await requestMicPermission();
+      if (!ok) return '';
+    }
+
     return new Promise((resolve) => {
       listening = true;
       statusText = '🎤 Listening...';
       recognition.onresult = (e) => {
         const text = e.results[0][0].transcript;
-        listening = false; statusText = '';
+        listening = false;
+        statusText = '';
         resolve(text);
       };
-      recognition.onerror = () => { listening = false; statusText = ''; resolve(''); };
-      recognition.onend = () => { if (listening) { listening = false; statusText = ''; resolve(''); } };
+      recognition.onerror = (e) => {
+        listening = false;
+        if (e.error === 'not-allowed') {
+          statusText = '⚠️ Microphone blocked. Enable in Settings → Safari → Microphone.';
+          micPermission = 'denied';
+        } else {
+          statusText = '';
+        }
+        resolve('');
+      };
+      recognition.onend = () => {
+        if (listening) { listening = false; statusText = ''; resolve(''); }
+      };
       recognition.start();
     });
   }
