@@ -257,6 +257,8 @@
   }
 
   // --- Store Search ---
+  let storeSearchQuery = '';
+
   function searchStores(query) {
     if (!query || query.length < 2) return [];
     const q = query.toLowerCase().trim();
@@ -266,28 +268,32 @@
     }).slice(0, 8);
   }
 
-  async function startStoreSearch() {
-    phase = 'listening-store';
-    await speak('What store are you working?');
-    const heard = await listen();
-    if (!heard) {
-      statusText = 'Didn\'t catch that';
-      phase = 'home';
-      return;
-    }
-    statusText = `Heard: "${heard}"`;
-    matchedStores = searchStores(heard);
+  // Reactive: live-filter stores as you type
+  $: liveStoreResults = storeSearchQuery.length >= 2 ? searchStores(storeSearchQuery) : [];
 
-    if (matchedStores.length === 0) {
-      await speak(`No stores found for "${heard}". Try again.`);
-      phase = 'home';
-    } else if (matchedStores.length === 1) {
-      selectedStore = matchedStores[0];
-      await speak(`${selectedStore.GroceryChain}, ${selectedStore.City}. Pick a category.`);
-      phase = 'categories';
-    } else {
-      await speak(`Found ${matchedStores.length} stores. Pick one.`);
+  function startStoreSearch() {
+    storeSearchQuery = '';
+    matchedStores = [];
+    phase = 'store-search';
+    speak('What store are you working?');
+  }
+
+  async function voiceStoreSearch() {
+    const heard = await listen();
+    if (heard) {
+      storeSearchQuery = heard;
+      doStoreSearch(heard);
+    }
+  }
+
+  function doStoreSearch(query) {
+    matchedStores = searchStores(query);
+    if (matchedStores.length === 1) {
+      pickStore(matchedStores[0]);
+    } else if (matchedStores.length > 1) {
       phase = 'store-results';
+    } else {
+      statusText = `No stores found for "${query}"`;
     }
   }
 
@@ -486,25 +492,43 @@
       </button>
     </div>
 
-  <!-- STORE RESULTS -->
-  {:else if phase === 'store-results'}
-    <div class="phase-title">Pick a Store</div>
-    <div class="scroll-list">
-      {#each matchedStores as store}
-        <button class="list-card" on:click={() => pickStore(store)}>
-          <div class="list-card-name">{store.GroceryChain}</div>
-          <div class="list-card-detail">{store.City}, {store.State} · {store.StoreName}</div>
-          <div class="list-card-sub">{store.Address}</div>
-        </button>
-      {/each}
+  <!-- STORE SEARCH (type or speak) -->
+  {:else if phase === 'store-search' || phase === 'store-results'}
+    <div class="phase-title">Find a Store</div>
+
+    <div class="search-row">
+      <input
+        class="search-input"
+        type="text"
+        placeholder="City, chain, store #, address..."
+        bind:value={storeSearchQuery}
+        on:keydown={(e) => e.key === 'Enter' && storeSearchQuery && doStoreSearch(storeSearchQuery)}
+        autofocus
+      />
+      <button class="mic-btn" on:click={voiceStoreSearch}>
+        {listening ? '⏹️' : '🎤'}
+      </button>
     </div>
 
-  <!-- LISTENING FOR STORE -->
-  {:else if phase === 'listening-store'}
-    <div class="center-phase">
-      <div class="mic-pulse">🎤</div>
-      <div class="center-text">Say a store name, city, or address...</div>
-    </div>
+    {#if liveStoreResults.length > 0 || matchedStores.length > 0}
+      <div class="scroll-list">
+        {#each (liveStoreResults.length > 0 ? liveStoreResults : matchedStores) as store}
+          <button class="list-card" on:click={() => pickStore(store)}>
+            <div class="list-card-name">{store.GroceryChain}</div>
+            <div class="list-card-detail">{store.City}, {store.State} · {store.StoreName}</div>
+            <div class="list-card-sub">{store.Address}</div>
+          </button>
+        {/each}
+      </div>
+    {:else if storeSearchQuery.length >= 2}
+      <div class="center-phase">
+        <div class="center-text">No stores found for "{storeSearchQuery}"</div>
+      </div>
+    {:else}
+      <div class="center-phase">
+        <div class="center-text">Type or tap 🎤 to search</div>
+      </div>
+    {/if}
 
   <!-- CATEGORIES -->
   {:else if phase === 'categories'}
@@ -707,6 +731,24 @@
     background: #1a1a1a; color: #aaa; border: 1px solid #333; border-radius: 20px;
     padding: 6px 14px; font-size: 13px; font-weight: 600; cursor: pointer;
   }
+
+  /* Search row */
+  .search-row {
+    display: flex; gap: 10px; margin-bottom: 12px; flex-shrink: 0;
+  }
+  .search-input {
+    flex: 1; padding: 16px; border-radius: 14px; border: 1px solid #444;
+    background: #1a1a1a; color: #fff; font-size: 18px; font-family: inherit;
+    box-sizing: border-box;
+  }
+  .search-input::placeholder { color: #666; }
+  .search-input:focus { border-color: #CC0000; outline: none; }
+  .mic-btn {
+    width: 56px; height: 56px; border-radius: 14px; border: 1px solid #444;
+    background: #1a1a1a; font-size: 24px; cursor: pointer; flex-shrink: 0;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .mic-btn:active { background: #CC0000; border-color: #CC0000; }
 
   /* Scroll list (stores, renewals) */
   .scroll-list { display: flex; flex-direction: column; gap: 10px; flex: 1; overflow-y: auto; padding-bottom: 20px; }
