@@ -3,15 +3,12 @@
   import { user } from '../lib/stores.js';
 
   export let appointments = [];
-  export let dailyGoal = { calls: 0, target: 20 };
-  export let savedProspects = 0;
-  export let revenueThisMonth = 0;
   export let onClose = () => {};
-  export let onLogCall = () => {};
 
   const PLACES_API_KEY = 'AIzaSyBoslNJj8aO6wkQOfkH9e4qTVJZ-G9nOuA';
 
-  // State machine: home | listening-store | store-results | categories | subcategories | searching | prospects | calling
+  // State: home | listening-store | store-results | categories | subcategories | searching | prospects
+  //        renewals | renewal-detail
   let phase = 'home';
   let speaking = false;
   let listening = false;
@@ -61,11 +58,16 @@
   let showNoteInput = false;
   let noteText = '';
 
-  export let onBookAppointment = null; // passed from Main
+  // Renewals
+  let renewals = [];
+  let filteredRenewals = [];
+  let selectedRenewal = null;
+  let renewalFilter = 'mine'; // mine | all
+
+  export let onBookAppointment = null;
 
   $: firstName = ($user?.name || $user?.first_name || 'Rep').split(' ')[0];
   $: nextAppt = appointments.length > 0 ? appointments[0] : null;
-  $: goalPercent = Math.min((dailyGoal.calls / (dailyGoal.target || 20)) * 100, 100);
   $: currentProspect = prospects[currentProspectIndex] || null;
 
   onMount(async () => {
@@ -80,6 +82,13 @@
       allStores = await res.json();
     } catch { allStores = []; }
 
+    // Load pending renewals
+    try {
+      const res = await fetch(import.meta.env.BASE_URL + 'data/pending_renewals.json?t=' + Date.now());
+      renewals = await res.json();
+      filterRenewals();
+    } catch { renewals = []; }
+
     // Setup speech recognition
     const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
     if (SpeechRecognition) {
@@ -89,7 +98,8 @@
       recognition.lang = 'en-US';
     }
 
-    speakBriefing();
+    // Quick voice greeting
+    speak(`Ready to go, ${firstName}.`);
   });
 
   onDestroy(() => {
@@ -99,47 +109,74 @@
     if (recognition) recognition.abort();
   });
 
-  // --- Media TTS: plays as real audio so it routes through Bluetooth ---
+  // --- Renewals ---
+  function filterRenewals() {
+    const repName = ($user?.name || $user?.first_name || '').toLowerCase();
+    if (renewalFilter === 'mine' && repName) {
+      filteredRenewals = renewals.filter(r => (r.rep || '').toLowerCase().includes(repName.split(' ')[0]));
+    } else {
+      filteredRenewals = [...renewals];
+    }
+    // Sort by end date (soonest first)
+    filteredRenewals.sort((a, b) => {
+      const da = new Date(a.endDate || '2099-01-01');
+      const db = new Date(b.endDate || '2099-01-01');
+      return da - db;
+    });
+  }
+
+  function toggleRenewalFilter() {
+    renewalFilter = renewalFilter === 'mine' ? 'all' : 'mine';
+    filterRenewals();
+  }
+
+  function openRenewal(r) {
+    selectedRenewal = r;
+    phase = 'renewal-detail';
+    const text = `${r.business}. ${r.adSize} ad at ${r.store.split('-')[0]}. Contract ends ${r.endDate}. ${r.contactName ? 'Contact: ' + r.contactName : ''}`;
+    speak(text);
+  }
+
+  function callRenewal() {
+    if (selectedRenewal?.phone) {
+      window.location.href = `tel:${selectedRenewal.phone}`;
+    }
+  }
+
+  function emailRenewal() {
+    if (selectedRenewal?.email) {
+      const subject = encodeURIComponent(`Renewal — ${selectedRenewal.business}`);
+      const body = encodeURIComponent(`Hi ${selectedRenewal.contactName || ''},\n\nI wanted to reach out about renewing your IndoorMedia advertising at ${selectedRenewal.store}.\n\nLooking forward to connecting!\n\n${$user?.name || firstName}`);
+      window.location.href = `mailto:${selectedRenewal.email}?subject=${subject}&body=${body}`;
+    }
+  }
+
+  // --- Media TTS ---
   let ttsAudio = null;
 
-  /**
-   * Uses the Vercel serverless TTS endpoint to generate real MP3 audio.
-   * Played via <audio> element = media channel = Bluetooth/car speakers.
-   * Voice: Zoe (set on the API side, or we use Google Cloud TTS).
-   *
-   * Fallback: SpeechSynthesis with Zoe voice preference if API unavailable.
-   */
-
-  // --- Speech Synthesis fallback ---
+  // SpeechSynthesis fallback voice (Zoe preferred)
   let preferredVoice = null;
 
   function pickBestVoice() {
     const voices = window.speechSynthesis.getVoices();
     if (!voices.length) return null;
-
-    // Tyler wants Zoe — prioritize it
     const preferred = [
       'Zoe (Premium)', 'Zoe (Enhanced)', 'Zoe',
       'Samantha (Enhanced)', 'Ava (Premium)', 'Ava (Enhanced)',
-      'Allison (Enhanced)', 'Tom (Enhanced)',
-      'Samantha', 'Ava', 'Karen', 'Daniel',
+      'Samantha', 'Ava', 'Karen',
       'Google US English',
     ];
-
     for (const name of preferred) {
       const match = voices.find(v => v.name.includes(name) && v.lang.startsWith('en'));
       if (match) return match;
     }
-
     const english = voices.filter(v => v.lang.startsWith('en'));
-    const enhanced = english.find(v => v.name.includes('Enhanced') || v.name.includes('Premium'));
-    if (enhanced) return enhanced;
-    return english[0] || voices[0];
+    return english.find(v => v.name.includes('Enhanced') || v.name.includes('Premium')) || english[0] || voices[0];
   }
 
   function initVoices() {
     preferredVoice = pickBestVoice();
-    if (preferredVoice) console.log('[DrivingMode] Voice selected:', preferredVoice.name);
+    if (preferredVoice) console.log('[DrivingMode] Voice:', preferredVoice.name);
   }
 
   if (typeof window !== 'undefined' && window.speechSynthesis) {
@@ -147,33 +184,16 @@
     initVoices();
   }
 
-  /**
-   * speak() — plays TTS as MEDIA audio (routes to Bluetooth).
-   * 
-   * Strategy:
-   * 1. Try Google Translate TTS (free, returns MP3, plays as media)
-   * 2. Fallback to SpeechSynthesis with Zoe voice
-   *
-   * The key insight: <audio>.play() = media audio channel = Bluetooth.
-   * SpeechSynthesis = system/telephony channel = phone speaker only.
-   */
   function speak(text) {
     return new Promise(async (resolve) => {
-      speaking = true;
-
-      // Stop any previous audio
       stopSpeaking();
       speaking = true;
 
-      // Try media audio TTS first
+      // Try media audio first (routes to Bluetooth)
       const success = await tryMediaTTS(text);
-      if (success) {
-        resolve();
-        return;
-      }
+      if (success) { resolve(); return; }
 
-      // Fallback: SpeechSynthesis (won't route to Bluetooth, but at least works)
-      console.log('[DrivingMode] Falling back to SpeechSynthesis');
+      // Fallback: SpeechSynthesis
       window.speechSynthesis.cancel();
       const u = new SpeechSynthesisUtterance(text);
       if (preferredVoice) u.voice = preferredVoice;
@@ -184,23 +204,18 @@
     });
   }
 
-  /**
-   * Splits text into chunks (Google Translate TTS has ~200 char limit),
-   * generates MP3 URLs, and plays them sequentially as media audio.
-   */
   async function tryMediaTTS(text) {
     try {
       const chunks = splitTextForTTS(text, 190);
       for (const chunk of chunks) {
-        if (!speaking) break; // stopped mid-speech
+        if (!speaking) break;
         const encoded = encodeURIComponent(chunk);
         const url = `https://translate.google.com/translate_tts?ie=UTF-8&tl=en&client=tw-ob&q=${encoded}`;
         await playAudioURL(url);
       }
       speaking = false;
       return true;
-    } catch (e) {
-      console.warn('[DrivingMode] Media TTS failed:', e);
+    } catch {
       speaking = false;
       return false;
     }
@@ -208,10 +223,8 @@
 
   function splitTextForTTS(text, maxLen) {
     const chunks = [];
-    // Split on sentence boundaries
     const sentences = text.match(/[^.!?]+[.!?]+/g) || [text];
     let current = '';
-
     for (const sentence of sentences) {
       if ((current + sentence).length > maxLen && current) {
         chunks.push(current.trim());
@@ -228,8 +241,6 @@
       const audio = new Audio(url);
       ttsAudio = audio;
       audio.volume = 1.0;
-      // This is the magic: <Audio>.play() uses the media audio channel
-      // which routes through Bluetooth, car speakers, etc.
       audio.onended = () => { ttsAudio = null; resolve(); };
       audio.onerror = (e) => { ttsAudio = null; reject(e); };
       audio.play().catch(reject);
@@ -237,11 +248,7 @@
   }
 
   function stopSpeaking() {
-    if (ttsAudio) {
-      ttsAudio.pause();
-      ttsAudio.currentTime = 0;
-      ttsAudio = null;
-    }
+    if (ttsAudio) { ttsAudio.pause(); ttsAudio.currentTime = 0; ttsAudio = null; }
     window.speechSynthesis.cancel();
     speaking = false;
   }
@@ -253,36 +260,13 @@
       statusText = '🎤 Listening...';
       recognition.onresult = (e) => {
         const text = e.results[0][0].transcript;
-        listening = false;
-        statusText = '';
+        listening = false; statusText = '';
         resolve(text);
       };
       recognition.onerror = () => { listening = false; statusText = ''; resolve(''); };
       recognition.onend = () => { if (listening) { listening = false; statusText = ''; resolve(''); } };
       recognition.start();
     });
-  }
-
-  // --- Briefing ---
-  async function speakBriefing() {
-    const hour = new Date().getHours();
-    const greeting = hour < 12 ? 'Good morning' : hour < 17 ? 'Good afternoon' : 'Good evening';
-    let text = `${greeting}, ${firstName}. `;
-
-    if (appointments.length === 0) {
-      text += `No appointments on deck. `;
-    } else {
-      const a = appointments[0];
-      const time = new Date(a.date).toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' });
-      text += `Next up: ${a.title || 'Appointment'} at ${time}. `;
-      if (appointments.length > 1) text += `Plus ${appointments.length - 1} more. `;
-    }
-
-    text += `${dailyGoal.calls} of ${dailyGoal.target || 20} calls logged. `;
-    if (revenueThisMonth > 0) text += `$${Math.round(revenueThisMonth / 1000)}K this month. `;
-    text += `Tap Find Prospects to start voice prospecting.`;
-
-    await speak(text);
   }
 
   // --- Store Search ---
@@ -297,7 +281,7 @@
 
   async function startStoreSearch() {
     phase = 'listening-store';
-    await speak('What store would you like to work? Say the city, street, store number, or chain name.');
+    await speak('What store are you working?');
     const heard = await listen();
     if (!heard) {
       statusText = 'Didn\'t catch that';
@@ -312,7 +296,7 @@
       phase = 'home';
     } else if (matchedStores.length === 1) {
       selectedStore = matchedStores[0];
-      await speak(`Found ${selectedStore.GroceryChain} in ${selectedStore.City}. What category?`);
+      await speak(`${selectedStore.GroceryChain}, ${selectedStore.City}. Pick a category.`);
       phase = 'categories';
     } else {
       await speak(`Found ${matchedStores.length} stores. Pick one.`);
@@ -322,7 +306,7 @@
 
   function pickStore(store) {
     selectedStore = store;
-    speak(`${store.GroceryChain}, ${store.City}. What category?`);
+    speak(`${store.GroceryChain}, ${store.City}. Pick a category.`);
     phase = 'categories';
   }
 
@@ -333,7 +317,7 @@
 
   async function pickSubcategory(sub) {
     phase = 'searching';
-    statusText = `Searching ${sub} near ${selectedStore?.GroceryChain}...`;
+    statusText = `Searching ${sub}...`;
     await speak(`Searching for ${sub} near ${selectedStore?.GroceryChain}.`);
 
     try {
@@ -366,11 +350,10 @@
         phone: p.nationalPhoneNumber || null,
         website: p.websiteUri || null,
       }));
-
       currentProspectIndex = 0;
 
       if (prospects.length === 0) {
-        await speak(`No ${sub} businesses found nearby. Try a different category.`);
+        await speak(`No ${sub} businesses found nearby.`);
         phase = 'categories';
       } else {
         phase = 'prospects';
@@ -386,39 +369,32 @@
   async function presentCurrentProspect() {
     const p = prospects[currentProspectIndex];
     if (!p) {
-      await speak('That\'s all the prospects. Want to search another category?');
+      await speak('No more prospects. Pick another category.');
       phase = 'categories';
       return;
     }
     const num = currentProspectIndex + 1;
-    const total = prospects.length;
-    let text = `Number ${num} of ${total}. ${p.name}. `;
-    if (p.rating) text += `Rated ${p.rating} stars with ${p.reviews} reviews. `;
-    text += `${p.address}. `;
-    if (p.phone) text += `Phone: ${p.phone}. `;
-    text += `Call them now?`;
+    let text = `${num} of ${prospects.length}. ${p.name}. `;
+    if (p.rating) text += `${p.rating} stars. `;
+    if (p.phone) text += `${p.phone}. `;
     await speak(text);
   }
 
   function callProspectNow() {
     const p = prospects[currentProspectIndex];
-    if (p?.phone) {
-      onLogCall();
-      window.location.href = `tel:${p.phone}`;
-    }
+    if (p?.phone) window.location.href = `tel:${p.phone}`;
   }
 
   function saveNote() {
     const p = prospects[currentProspectIndex];
     if (!p || !noteText.trim()) return;
-    // Save to localStorage keyed by prospect name
     const key = 'impro_prospect_notes';
     let notes = {};
     try { notes = JSON.parse(localStorage.getItem(key) || '{}'); } catch {}
     const id = p.name.replace(/\s+/g, '_').toLowerCase();
     notes[id] = { name: p.name, note: noteText.trim(), date: new Date().toISOString(), store: selectedStore?.StoreName || '' };
     localStorage.setItem(key, JSON.stringify(notes));
-    speak(`Note saved for ${p.name}.`);
+    speak(`Note saved.`);
     noteText = '';
     showNoteInput = false;
   }
@@ -426,10 +402,7 @@
   function voiceNote() {
     if (!recognition) { showNoteInput = true; return; }
     listen().then(heard => {
-      if (heard) {
-        noteText = heard;
-        saveNote();
-      }
+      if (heard) { noteText = heard; saveNote(); }
     });
   }
 
@@ -456,134 +429,11 @@
   async function skipProspect() {
     currentProspectIndex++;
     if (currentProspectIndex >= prospects.length) {
-      await speak('No more prospects. Search another category?');
+      await speak('No more prospects.');
       phase = 'categories';
     } else {
       await presentCurrentProspect();
     }
-  }
-
-  // --- Voice Q&A about stores ---
-  let qaAnswer = '';
-
-  async function startAskQuestion() {
-    phase = 'asking';
-    await speak('What would you like to know? Ask about a store\'s case count, pricing, cycle, or anything else.');
-    const heard = await listen();
-    if (!heard) {
-      statusText = 'Didn\'t catch that';
-      phase = 'home';
-      return;
-    }
-    statusText = `"${heard}"`;
-    await answerQuestion(heard);
-  }
-
-  async function answerQuestion(question) {
-    const q = question.toLowerCase();
-
-    // Try to find a store reference in the question
-    let store = null;
-    if (selectedStore) {
-      // If we already have a store selected, use it as default context
-      store = selectedStore;
-    }
-    // Try to match a store from the question text
-    const bestMatch = findStoreInQuestion(q);
-    if (bestMatch) store = bestMatch;
-
-    if (!store) {
-      // No store found — ask them to specify
-      qaAnswer = 'I couldn\'t identify a store. Try saying the store name, city, or number.';
-      await speak(qaAnswer);
-      phase = 'home';
-      return;
-    }
-
-    // Parse what they're asking about
-    if (q.includes('case count') || q.includes('cases') || q.includes('how many cases')) {
-      const cases = store['Case Count'] || 'unknown';
-      qaAnswer = `${store.GroceryChain} in ${store.City} has ${cases} cases.`;
-    } else if (q.includes('lowest price') || q.includes('cheapest') || q.includes('co-op') || q.includes('coop') || q.includes('best price') || q.includes('minimum') || q.includes('manager approved')) {
-      const singleBase = store.SingleAd || 0;
-      const doubleBase = store.DoubleAd || 0;
-
-      // Paid-in-full (15% off) + $125 production = lowest possible
-      const lowestSingle = Math.round((singleBase * 0.85) + 125);
-      const lowestDouble = Math.round((doubleBase * 0.85) + 125);
-
-      // Also calculate monthly
-      const monthlySingle = Math.round(((singleBase + 125) / 12));
-
-      qaAnswer = `${store.GroceryChain} in ${store.City}. ` +
-        `Single ad base price: $${singleBase.toLocaleString()}. ` +
-        `Lowest paid-in-full with co-op: $${lowestSingle.toLocaleString()}. ` +
-        `Monthly payment: $${monthlySingle.toLocaleString()} per month for 12 months. ` +
-        `Double ad base: $${doubleBase.toLocaleString()}, lowest: $${lowestDouble.toLocaleString()}.`;
-    } else if (q.includes('price') || q.includes('cost') || q.includes('how much') || q.includes('rate')) {
-      const singleBase = store.SingleAd || 0;
-      const doubleBase = store.DoubleAd || 0;
-      const production = 125;
-
-      const monthly = Math.round((singleBase + production) / 12);
-      const threeMonth = Math.round(((singleBase * 0.90) + production) / 3);
-      const sixMonth = Math.round(((singleBase * 0.925) + production) / 6);
-      const paidInFull = Math.round((singleBase * 0.85) + production);
-
-      qaAnswer = `${store.GroceryChain} in ${store.City}. Single ad: $${singleBase.toLocaleString()} base. ` +
-        `Monthly: $${monthly} times 12. ` +
-        `3-month: $${threeMonth} times 3, that's 10% off. ` +
-        `6-month: $${sixMonth} times 6, 7 and a half percent off. ` +
-        `Paid in full: $${paidInFull}, 15% off. ` +
-        `Double ad base: $${doubleBase.toLocaleString()}.`;
-    } else if (q.includes('cycle') || q.includes('when') || q.includes('install')) {
-      qaAnswer = `${store.GroceryChain} in ${store.City} is on Cycle ${store.Cycle || '?'}. ` +
-        `Zone ${store.ZoneName || '?'}. Install day: ${store.InstallDay || '?'}.`;
-    } else if (q.includes('address') || q.includes('where') || q.includes('location')) {
-      qaAnswer = `${store.GroceryChain} is at ${store.Address}, ${store.City}, ${store.State} ${store.PostalCode || ''}.`;
-    } else if (q.includes('store number') || q.includes('store name') || q.includes('store id')) {
-      qaAnswer = `Store number: ${store.StoreName}. ${store.GroceryChain}, ${store.City}, ${store.State}. Zone ${store.ZoneName || '?'}, Cycle ${store.Cycle || '?'}.`;
-    } else {
-      // General store info dump
-      qaAnswer = `${store.GroceryChain} in ${store.City}, ${store.State}. ` +
-        `Store ${store.StoreName}. ${store['Case Count'] || '?'} cases. Cycle ${store.Cycle || '?'}. ` +
-        `Single ad: $${(store.SingleAd || 0).toLocaleString()}. Double ad: $${(store.DoubleAd || 0).toLocaleString()}.`;
-    }
-
-    phase = 'qa-answer';
-    await speak(qaAnswer);
-  }
-
-  function findStoreInQuestion(q) {
-    // Try progressively broader matching
-    let best = null;
-    let bestScore = 0;
-
-    for (const s of allStores) {
-      let score = 0;
-      const chain = (s.GroceryChain || '').toLowerCase();
-      const city = (s.City || '').toLowerCase();
-      const storeNum = (s.StoreName || '').toLowerCase();
-      const addr = (s.Address || '').toLowerCase();
-      const zip = (s.PostalCode || '').toLowerCase();
-
-      if (q.includes(storeNum)) score += 100;
-      if (zip && q.includes(zip)) score += 50;
-      if (city && q.includes(city)) score += 30;
-      if (chain && q.includes(chain.split(' ')[0])) score += 20;
-      // Check for partial street name matches
-      const streetWords = addr.split(/\s+/).filter(w => w.length > 3);
-      for (const w of streetWords) {
-        if (q.includes(w)) score += 15;
-      }
-
-      if (score > bestScore) {
-        bestScore = score;
-        best = s;
-      }
-    }
-
-    return bestScore >= 20 ? best : null;
   }
 
   function navigateToAppt() {
@@ -598,6 +448,7 @@
     prospects = [];
     selectedStore = null;
     selectedCategory = null;
+    selectedRenewal = null;
     statusText = '';
   }
 </script>
@@ -617,76 +468,55 @@
 
   <!-- HOME -->
   {#if phase === 'home'}
-    <div class="driving-section">
+    <div class="driving-hero">
       {#if nextAppt}
         <div class="driving-appt">
-          <div class="driving-appt-label">NEXT UP</div>
+          <div class="driving-appt-label">NEXT APPOINTMENT</div>
           <div class="driving-appt-title">{nextAppt.title || 'Appointment'}</div>
           <div class="driving-appt-time">
             {new Date(nextAppt.date).toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' })}
           </div>
           {#if nextAppt.location}
-            <button class="driving-btn driving-btn-nav" on:click={navigateToAppt}>🗺️ Navigate</button>
+            <button class="nav-btn" on:click={navigateToAppt}>🗺️ Navigate</button>
           {/if}
         </div>
       {:else}
         <div class="driving-appt">
-          <div class="driving-appt-title" style="font-size: 22px;">Ready to prospect 🎯</div>
+          <div class="driving-appt-title" style="font-size: 24px;">Ready to go 🎯</div>
         </div>
       {/if}
     </div>
 
-    <div class="driving-stats">
-      <div class="driving-stat">
-        <div class="driving-stat-value">{dailyGoal.calls}/{dailyGoal.target || 20}</div>
-        <div class="driving-stat-label">Calls</div>
-        <div class="driving-goal-bar"><div class="driving-goal-fill" style="width: {goalPercent}%"></div></div>
-      </div>
-      <div class="driving-stat">
-        <div class="driving-stat-value">{appointments.length}</div>
-        <div class="driving-stat-label">Appts</div>
-      </div>
-      <div class="driving-stat">
-        <div class="driving-stat-value">${(revenueThisMonth / 1000).toFixed(1)}K</div>
-        <div class="driving-stat-label">Month</div>
-      </div>
-    </div>
-
     <div class="driving-actions">
-      <button class="driving-big-btn driving-big-prospect" on:click={startStoreSearch}>
+      <button class="driving-big-btn btn-prospect" on:click={startStoreSearch}>
         🎯 Find Prospects
       </button>
-      <button class="driving-big-btn driving-big-ask" on:click={startAskQuestion}>
-        🗣️ Ask a Question
-      </button>
-    </div>
-    <div class="driving-actions" style="margin-top: 0;">
-      <button class="driving-big-btn driving-big-log" on:click={onLogCall}>
-        📞 Log Call
-      </button>
-      <button class="driving-big-btn driving-big-brief" on:click={speaking ? stopSpeaking : speakBriefing}>
-        {speaking ? '⏹️ Stop' : '🔊 Briefing'}
+      <button class="driving-big-btn btn-renewals" on:click={() => { filterRenewals(); phase = 'renewals'; }}>
+        🔄 Renewals
+        {#if filteredRenewals.length > 0}
+          <span class="badge">{filteredRenewals.length}</span>
+        {/if}
       </button>
     </div>
 
-  <!-- STORE RESULTS (multiple matches) -->
+  <!-- STORE RESULTS -->
   {:else if phase === 'store-results'}
     <div class="phase-title">Pick a Store</div>
-    <div class="store-list">
+    <div class="scroll-list">
       {#each matchedStores as store}
-        <button class="store-pick" on:click={() => pickStore(store)}>
-          <div class="store-pick-name">{store.GroceryChain}</div>
-          <div class="store-pick-detail">{store.City}, {store.State} · {store.StoreName}</div>
-          <div class="store-pick-addr">{store.Address}</div>
+        <button class="list-card" on:click={() => pickStore(store)}>
+          <div class="list-card-name">{store.GroceryChain}</div>
+          <div class="list-card-detail">{store.City}, {store.State} · {store.StoreName}</div>
+          <div class="list-card-sub">{store.Address}</div>
         </button>
       {/each}
     </div>
 
   <!-- LISTENING FOR STORE -->
   {:else if phase === 'listening-store'}
-    <div class="listening-phase">
+    <div class="center-phase">
       <div class="mic-pulse">🎤</div>
-      <div class="listening-text">Say a store name, city, or address...</div>
+      <div class="center-text">Say a store name, city, or address...</div>
     </div>
 
   <!-- CATEGORIES -->
@@ -707,45 +537,21 @@
       {/each}
     </div>
 
-  <!-- ASKING A QUESTION -->
-  {:else if phase === 'asking'}
-    <div class="listening-phase">
-      <div class="mic-pulse">🗣️</div>
-      <div class="listening-text">Ask about case counts, pricing, cycles...</div>
-    </div>
-
-  <!-- Q&A ANSWER -->
-  {:else if phase === 'qa-answer'}
-    <div class="qa-display">
-      <div class="qa-answer-text">{qaAnswer}</div>
-    </div>
-    <div class="driving-actions">
-      <button class="driving-big-btn driving-big-ask" on:click={startAskQuestion}>
-        🗣️ Ask Another
-      </button>
-      <button class="driving-big-btn driving-big-log" on:click={goHome}>
-        🏠 Home
-      </button>
-    </div>
-    <button class="driving-brief-btn" style="margin-top: 8px;" on:click={() => speak(qaAnswer)}>
-      🔊 Read Again
-    </button>
-
   <!-- SEARCHING -->
   {:else if phase === 'searching'}
-    <div class="listening-phase">
+    <div class="center-phase">
       <div class="mic-pulse">🔍</div>
-      <div class="listening-text">Searching...</div>
+      <div class="center-text">Searching...</div>
     </div>
 
-  <!-- PROSPECTS — one at a time, big Yes/No -->
+  <!-- PROSPECTS -->
   {:else if phase === 'prospects'}
     {#if currentProspect}
       <div class="prospect-display">
-        <div class="prospect-counter">{currentProspectIndex + 1} of {prospects.length}</div>
+        <div class="prospect-counter">{currentProspectIndex + 1} / {prospects.length}</div>
         <div class="prospect-name">{currentProspect.name}</div>
         {#if currentProspect.rating}
-          <div class="prospect-rating">⭐ {currentProspect.rating} ({currentProspect.reviews} reviews)</div>
+          <div class="prospect-rating">⭐ {currentProspect.rating} ({currentProspect.reviews})</div>
         {/if}
         <div class="prospect-addr">{currentProspect.address}</div>
         {#if currentProspect.phone}
@@ -753,34 +559,97 @@
         {/if}
       </div>
 
-      <div class="yes-no-actions">
+      <div class="two-btn-row">
         {#if currentProspect.phone}
-          <button class="yn-btn yn-yes" on:click={callProspectNow}>
-            📞 Call
-          </button>
+          <button class="yn-btn yn-call" on:click={callProspectNow}>📞 Call</button>
         {:else}
-          <button class="yn-btn yn-skip" on:click={skipProspect}>
-            ⏭️ No Phone
-          </button>
+          <button class="yn-btn yn-skip" on:click={skipProspect}>⏭️ No Phone</button>
         {/if}
-        <button class="yn-btn yn-no" on:click={skipProspect}>
-          ➡️ Skip
-        </button>
+        <button class="yn-btn yn-next" on:click={skipProspect}>➡️ Next</button>
       </div>
 
       <div class="prospect-extras">
-        <button class="extra-btn extra-book" on:click={bookProspectAppt}>📅 Book Appt</button>
-        <button class="extra-btn extra-note" on:click={() => showNoteInput ? saveNote() : (showNoteInput = true)}>📝 {showNoteInput ? 'Save Note' : 'Add Note'}</button>
-        <button class="extra-btn extra-voice" on:click={voiceNote}>🎤 Voice Note</button>
-        <button class="extra-btn extra-read" on:click={() => presentCurrentProspect()}>🔊 Replay</button>
+        <button class="extra-btn" on:click={bookProspectAppt}>📅 Book</button>
+        <button class="extra-btn" on:click={() => showNoteInput ? saveNote() : (showNoteInput = true)}>
+          📝 {showNoteInput ? 'Save' : 'Note'}
+        </button>
+        <button class="extra-btn" on:click={voiceNote}>🎤 Voice Note</button>
+        <button class="extra-btn" on:click={() => presentCurrentProspect()}>🔊 Replay</button>
       </div>
 
       {#if showNoteInput}
-        <div class="note-input-row">
-          <input class="note-input" type="text" placeholder="Type a note..." bind:value={noteText} on:keydown={(e) => e.key === 'Enter' && saveNote()} />
+        <div class="note-row">
+          <input class="note-input" type="text" placeholder="Type a note..." bind:value={noteText}
+            on:keydown={(e) => e.key === 'Enter' && saveNote()} />
         </div>
       {/if}
     {/if}
+
+  <!-- RENEWALS LIST -->
+  {:else if phase === 'renewals'}
+    <div class="phase-header">
+      <div class="phase-title">🔄 Pending Renewals</div>
+      <button class="filter-toggle" on:click={toggleRenewalFilter}>
+        {renewalFilter === 'mine' ? '👤 Mine' : '👥 All'} ({filteredRenewals.length})
+      </button>
+    </div>
+
+    {#if filteredRenewals.length === 0}
+      <div class="center-phase">
+        <div class="center-text">No pending renewals{renewalFilter === 'mine' ? ' for you' : ''}.</div>
+      </div>
+    {:else}
+      <div class="scroll-list">
+        {#each filteredRenewals as r}
+          <button class="list-card renewal-card" on:click={() => openRenewal(r)}>
+            <div class="renewal-top">
+              <div class="list-card-name">{r.business}</div>
+              <div class="renewal-price">${r.contractPrice?.toLocaleString() || '—'}</div>
+            </div>
+            <div class="list-card-detail">
+              {r.adSize} · {r.store} · Ends {r.endDate}
+            </div>
+            {#if r.contactName}
+              <div class="list-card-sub">{r.contactName} · {r.phone || 'No phone'}</div>
+            {/if}
+          </button>
+        {/each}
+      </div>
+    {/if}
+
+  <!-- RENEWAL DETAIL -->
+  {:else if phase === 'renewal-detail' && selectedRenewal}
+    <div class="prospect-display">
+      <div class="prospect-counter">RENEWAL</div>
+      <div class="prospect-name">{selectedRenewal.business}</div>
+      <div class="renewal-meta">
+        <span>{selectedRenewal.adSize} Ad</span> · <span>{selectedRenewal.product}</span>
+      </div>
+      <div class="renewal-meta">Store: {selectedRenewal.store}</div>
+      <div class="renewal-meta">Contract: {selectedRenewal.contractNumber} · ${selectedRenewal.contractPrice?.toLocaleString()}</div>
+      <div class="renewal-meta">{selectedRenewal.startDate} → {selectedRenewal.endDate}</div>
+      {#if selectedRenewal.contactName}
+        <div class="prospect-addr" style="margin-top: 12px;">{selectedRenewal.contactName}</div>
+      {/if}
+      {#if selectedRenewal.phone}
+        <div class="prospect-phone">📞 {selectedRenewal.phone}</div>
+      {/if}
+      {#if selectedRenewal.email}
+        <div class="renewal-email">✉️ {selectedRenewal.email}</div>
+      {/if}
+      {#if selectedRenewal.address}
+        <div class="prospect-addr">{selectedRenewal.address}, {selectedRenewal.city}, {selectedRenewal.state} {selectedRenewal.zip}</div>
+      {/if}
+    </div>
+
+    <div class="two-btn-row">
+      {#if selectedRenewal.phone}
+        <button class="yn-btn yn-call" on:click={callRenewal}>📞 Call</button>
+      {/if}
+      {#if selectedRenewal.email}
+        <button class="yn-btn yn-email" on:click={emailRenewal}>✉️ Email</button>
+      {/if}
+    </div>
   {/if}
 
   {#if listening}
@@ -816,73 +685,62 @@
     color: #aaa; margin-bottom: 12px; text-align: center;
   }
 
-  .driving-section { flex: 1; display: flex; align-items: center; justify-content: center; }
-
+  /* Home */
+  .driving-hero { flex: 1; display: flex; align-items: center; justify-content: center; }
   .driving-appt { text-align: center; width: 100%; }
-  .driving-appt-label { font-size: 12px; font-weight: 700; letter-spacing: 2px; color: #CC0000; margin-bottom: 8px; }
+  .driving-appt-label { font-size: 11px; font-weight: 700; letter-spacing: 2px; color: #CC0000; margin-bottom: 8px; }
   .driving-appt-title { font-size: 26px; font-weight: 700; margin-bottom: 8px; line-height: 1.2; }
   .driving-appt-time { font-size: 18px; color: #aaa; margin-bottom: 16px; }
+  .nav-btn { background: #1a73e8; color: white; border: none; border-radius: 12px; padding: 12px 24px; font-size: 16px; font-weight: 600; cursor: pointer; }
 
-  .driving-btn {
-    padding: 14px 28px; border-radius: 14px; font-size: 18px; font-weight: 600;
-    border: none; cursor: pointer; display: inline-block; margin: 4px;
-  }
-  .driving-btn-nav { background: #1a73e8; color: white; }
-  .driving-btn:active { opacity: 0.8; transform: scale(0.97); }
-
-  .driving-stats {
-    display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px;
-    margin: 16px 0; flex-shrink: 0;
-  }
-  .driving-stat { background: #1a1a1a; border-radius: 14px; padding: 12px; text-align: center; }
-  .driving-stat-value { font-size: 24px; font-weight: 700; }
-  .driving-stat-label { font-size: 11px; color: #888; text-transform: uppercase; letter-spacing: 1px; margin-top: 2px; }
-  .driving-goal-bar { height: 4px; background: #333; border-radius: 2px; margin-top: 6px; overflow: hidden; }
-  .driving-goal-fill { height: 100%; background: #CC0000; border-radius: 2px; transition: width 0.3s; }
-
+  /* Main action buttons */
   .driving-actions {
     display: grid; grid-template-columns: 1fr 1fr; gap: 12px;
     flex-shrink: 0; margin-bottom: 8px;
+    padding-bottom: env(safe-area-inset-bottom, 16px);
   }
   .driving-big-btn {
-    padding: 20px; border-radius: 16px; font-size: 20px; font-weight: 700;
-    border: none; cursor: pointer; text-align: center;
+    padding: 28px 16px; border-radius: 18px; font-size: 22px; font-weight: 700;
+    border: none; cursor: pointer; text-align: center; position: relative;
   }
-  .driving-big-btn:active { opacity: 0.8; transform: scale(0.97); }
-  .driving-big-prospect { background: #CC0000; color: white; }
-  .driving-big-ask { background: #1a73e8; color: white; }
-  .driving-big-log { background: #2a2a2a; color: white; border: 1px solid #444; }
-  .driving-big-brief { background: #1a1a1a; color: #aaa; border: 1px solid #333; }
+  .driving-big-btn:active { opacity: 0.85; transform: scale(0.97); }
+  .btn-prospect { background: #CC0000; color: white; }
+  .btn-renewals { background: #1a73e8; color: white; }
 
-  /* Q&A display */
-  .qa-display { flex: 1; display: flex; align-items: center; justify-content: center; padding: 20px; }
-  .qa-answer-text { font-size: 20px; line-height: 1.5; text-align: center; color: #fff; }
-
-  .driving-brief-btn {
-    width: 100%; padding: 12px; border-radius: 12px; font-size: 16px; font-weight: 600;
-    background: #1a1a1a; color: #aaa; border: 1px solid #333; cursor: pointer;
-    margin-bottom: env(safe-area-inset-bottom, 8px);
+  .badge {
+    position: absolute; top: 10px; right: 12px;
+    background: #fff; color: #1a73e8; font-size: 13px; font-weight: 800;
+    padding: 2px 8px; border-radius: 12px; min-width: 20px;
   }
 
-  /* Store picking */
-  .phase-title {
-    font-size: 18px; font-weight: 700; text-align: center; margin-bottom: 16px;
-    color: #CC0000; flex-shrink: 0;
+  /* Phase header */
+  .phase-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; flex-shrink: 0; }
+  .phase-title { font-size: 18px; font-weight: 700; color: #CC0000; }
+  .filter-toggle {
+    background: #1a1a1a; color: #aaa; border: 1px solid #333; border-radius: 20px;
+    padding: 6px 14px; font-size: 13px; font-weight: 600; cursor: pointer;
   }
-  .store-list { display: flex; flex-direction: column; gap: 10px; flex: 1; overflow-y: auto; }
-  .store-pick {
+
+  /* Scroll list (stores, renewals) */
+  .scroll-list { display: flex; flex-direction: column; gap: 10px; flex: 1; overflow-y: auto; padding-bottom: 20px; }
+  .list-card {
     background: #1a1a1a; border: 1px solid #333; border-radius: 14px;
     padding: 16px; text-align: left; cursor: pointer; color: #fff;
   }
-  .store-pick:active { background: #2a2a2a; border-color: #CC0000; }
-  .store-pick-name { font-size: 18px; font-weight: 700; }
-  .store-pick-detail { font-size: 13px; color: #aaa; margin-top: 2px; }
-  .store-pick-addr { font-size: 12px; color: #666; margin-top: 2px; }
+  .list-card:active { background: #2a2a2a; border-color: #CC0000; }
+  .list-card-name { font-size: 18px; font-weight: 700; }
+  .list-card-detail { font-size: 13px; color: #aaa; margin-top: 4px; }
+  .list-card-sub { font-size: 12px; color: #666; margin-top: 2px; }
 
-  /* Listening state */
-  .listening-phase { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+  .renewal-top { display: flex; justify-content: space-between; align-items: baseline; }
+  .renewal-price { font-size: 16px; font-weight: 700; color: #34a853; flex-shrink: 0; }
+  .renewal-meta { font-size: 14px; color: #aaa; margin-top: 4px; }
+  .renewal-email { font-size: 14px; color: #5cacf8; margin-top: 4px; }
+
+  /* Center phase (listening, searching) */
+  .center-phase { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; }
   .mic-pulse { font-size: 64px; animation: pulse 1.5s ease-in-out infinite; }
-  .listening-text { font-size: 18px; color: #aaa; margin-top: 16px; }
+  .center-text { font-size: 18px; color: #aaa; margin-top: 16px; text-align: center; }
 
   @keyframes pulse {
     0%, 100% { transform: scale(1); opacity: 1; }
@@ -892,7 +750,7 @@
   /* Categories */
   .cat-grid {
     display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px;
-    flex: 1; overflow-y: auto; align-content: start;
+    flex: 1; overflow-y: auto; align-content: start; padding-bottom: 20px;
   }
   .cat-btn {
     background: #1a1a1a; border: 1px solid #333; border-radius: 14px;
@@ -914,15 +772,19 @@
   .prospect-addr { font-size: 15px; color: #aaa; margin-bottom: 8px; line-height: 1.3; }
   .prospect-phone { font-size: 20px; font-weight: 600; color: #34a853; margin-top: 8px; }
 
-  /* Yes / No */
-  .yes-no-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; flex-shrink: 0; }
+  /* Two-button rows */
+  .two-btn-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; flex-shrink: 0; }
   .yn-btn {
-    padding: 24px 16px; border-radius: 16px; font-size: 22px; font-weight: 700;
+    padding: 22px 16px; border-radius: 16px; font-size: 22px; font-weight: 700;
     border: none; cursor: pointer; text-align: center;
   }
   .yn-btn:active { transform: scale(0.96); }
+  .yn-call { background: #34a853; color: white; }
+  .yn-email { background: #1a73e8; color: white; }
+  .yn-next { background: #333; color: #ccc; }
+  .yn-skip { background: #555; color: #ccc; }
 
-  /* Prospect extras row */
+  /* Prospect extras */
   .prospect-extras {
     display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px;
     margin-top: 12px; flex-shrink: 0;
@@ -933,21 +795,14 @@
     text-align: center;
   }
   .extra-btn:active { transform: scale(0.96); background: #2a2a2a; }
-  .extra-book { border-color: #1a73e8; color: #5cacf8; }
-  .extra-note { border-color: #f5a623; color: #f5c869; }
-  .extra-voice { border-color: #CC0000; color: #ff6666; }
-  .extra-read { border-color: #555; color: #999; }
 
-  .note-input-row { margin-top: 10px; flex-shrink: 0; }
+  .note-row { margin-top: 10px; flex-shrink: 0; }
   .note-input {
     width: 100%; padding: 14px; border-radius: 12px; border: 1px solid #444;
     background: #1a1a1a; color: #fff; font-size: 16px; box-sizing: border-box;
     font-family: inherit;
   }
   .note-input::placeholder { color: #666; }
-  .yn-yes { background: #34a853; color: white; }
-  .yn-no { background: #333; color: #ccc; }
-  .yn-skip { background: #555; color: #ccc; }
 
   /* Listening indicator */
   .listening-indicator {

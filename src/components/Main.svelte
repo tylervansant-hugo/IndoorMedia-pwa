@@ -1521,11 +1521,7 @@
   {#if showDrivingMode}
     <DrivingMode
       appointments={upcomingAppointments}
-      dailyGoal={dailyGoal}
-      savedProspects={prospectsThisWeek}
-      revenueThisMonth={repMonthlyRevenue}
       onClose={() => showDrivingMode = false}
-      onLogCall={() => { incrementCalls(); }}
     />
   {/if}
 </div>
