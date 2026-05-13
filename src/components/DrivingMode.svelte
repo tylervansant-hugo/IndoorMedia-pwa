@@ -308,6 +308,72 @@
     phase = 'subcategories';
   }
 
+  async function searchNewBusinesses() {
+    phase = 'searching';
+    statusText = 'Finding new businesses...';
+    await speak('Searching for new businesses near the store.');
+
+    try {
+      const lat = selectedStore?.latitude || selectedStore?.Latitude || 0;
+      const lng = selectedStore?.longitude || selectedStore?.Longitude || 0;
+      const query = `new business near ${selectedStore?.Address || ''} ${selectedStore?.City || ''} ${selectedStore?.State || ''}`;
+
+      const requestBody = { textQuery: query, maxResultCount: 20 };
+      if (lat && lng) {
+        requestBody.locationBias = { circle: { center: { latitude: lat, longitude: lng }, radius: 16000.0 } };
+      }
+
+      const response = await fetch('https://places.googleapis.com/v1/places:searchText', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-Goog-Api-Key': PLACES_API_KEY,
+          'X-Goog-FieldMask': 'places.displayName,places.formattedAddress,places.rating,places.userRatingCount,places.nationalPhoneNumber,places.websiteUri,places.types,places.googleMapsUri'
+        },
+        body: JSON.stringify(requestBody)
+      });
+
+      const data = await response.json();
+
+      // Filter to businesses with few reviews (proxy for "new" — established places have 50+ reviews)
+      const allPlaces = (data.places || []).map(p => ({
+        name: p.displayName?.text || 'Unknown',
+        address: p.formattedAddress || '',
+        rating: p.rating || 0,
+        reviews: p.userRatingCount || 0,
+        phone: p.nationalPhoneNumber || null,
+        website: p.websiteUri || null,
+        types: p.types || [],
+      }));
+
+      // "New" heuristic: fewer than 30 reviews usually means opened within the last year
+      // Sort by fewest reviews first (newest businesses)
+      prospects = allPlaces
+        .filter(p => p.reviews <= 30)
+        .sort((a, b) => a.reviews - b.reviews);
+
+      // If low-review filter gives us nothing, show all sorted by fewest reviews
+      if (prospects.length === 0) {
+        prospects = allPlaces.sort((a, b) => a.reviews - b.reviews).slice(0, 10);
+      }
+
+      currentProspectIndex = 0;
+
+      if (prospects.length === 0) {
+        await speak('No new businesses found nearby.');
+        phase = 'categories';
+      } else {
+        phase = 'prospects';
+        await speak(`Found ${prospects.length} new businesses.`);
+        await presentCurrentProspect();
+      }
+    } catch (err) {
+      console.error('New business search error:', err);
+      await speak('Search failed. Try again.');
+      phase = 'categories';
+    }
+  }
+
   async function pickSubcategory(sub) {
     phase = 'searching';
     statusText = `Searching ${sub}...`;
@@ -533,6 +599,12 @@
   <!-- CATEGORIES -->
   {:else if phase === 'categories'}
     <div class="phase-title">{selectedStore?.GroceryChain} — {selectedStore?.City}</div>
+
+    <button class="new-biz-btn" on:click={searchNewBusinesses}>
+      🆕 New Businesses
+      <span class="new-biz-sub">Opened in the last year</span>
+    </button>
+
     <div class="cat-grid">
       {#each Object.keys(CATEGORIES) as cat}
         <button class="cat-btn" on:click={() => pickCategory(cat)}>{cat}</button>
@@ -775,6 +847,16 @@
     0%, 100% { transform: scale(1); opacity: 1; }
     50% { transform: scale(1.15); opacity: 0.7; }
   }
+
+  /* New Businesses button */
+  .new-biz-btn {
+    width: 100%; padding: 18px; border-radius: 14px; font-size: 20px; font-weight: 700;
+    background: linear-gradient(135deg, #1a73e8, #0d47a1); color: white;
+    border: none; cursor: pointer; text-align: center; margin-bottom: 12px;
+    flex-shrink: 0; display: flex; flex-direction: column; align-items: center; gap: 4px;
+  }
+  .new-biz-btn:active { opacity: 0.85; transform: scale(0.97); }
+  .new-biz-sub { font-size: 12px; font-weight: 400; opacity: 0.8; }
 
   /* Categories */
   .cat-grid {

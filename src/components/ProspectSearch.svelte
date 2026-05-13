@@ -838,6 +838,83 @@
     }
   }
 
+  async function searchNewBusinesses() {
+    selectedCategory = '🆕 New Businesses';
+    selectedSubcategory = 'New (Last Year)';
+    loading = true;
+    error = '';
+
+    try {
+      const lat = selectedStore?.latitude || selectedStore?.Latitude || 0;
+      const lng = selectedStore?.longitude || selectedStore?.Longitude || 0;
+      const storeCity = selectedStore?.City || '';
+      const storeState = selectedStore?.State || '';
+      const storeAddr = selectedStore?.Address || '';
+      const storeZip = selectedStore?.PostalCode || '';
+      const hasRealCoords = selectedStore && !isBadCoords(lat, lng);
+
+      let textQuery;
+      if (hasRealCoords) {
+        textQuery = 'new business';
+      } else if (storeZip) {
+        textQuery = `new business near ${storeCity}, ${storeState} ${storeZip}`;
+      } else {
+        textQuery = `new business near ${storeCity}, ${storeState}`;
+      }
+
+      const requestBody = { textQuery, maxResultCount: 20 };
+      if (hasRealCoords) {
+        requestBody.locationBias = { circle: { center: { latitude: lat, longitude: lng }, radius: 16000.0 } };
+      }
+
+      const response = await fetch('https://places.googleapis.com/v1/places:searchText', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-Goog-Api-Key': PLACES_API_KEY,
+          'X-Goog-FieldMask': 'places.displayName,places.formattedAddress,places.rating,places.userRatingCount,places.location,places.businessStatus,places.nationalPhoneNumber,places.websiteUri,places.googleMapsUri'
+        },
+        body: JSON.stringify(requestBody)
+      });
+
+      const data = await response.json();
+
+      const allPlaces = (data.places || []).map((place) => {
+        const pLat = place.location?.latitude || 0;
+        const pLng = place.location?.longitude || 0;
+        const dist = calculateDistance(lat, lng, pLat, pLng);
+        const rating = place.rating || 0;
+        const reviews = place.userRatingCount || 0;
+        return {
+          id: place.displayName?.text || 'unknown',
+          name: place.displayName?.text || 'Unnamed',
+          address: place.formattedAddress || 'Address unavailable',
+          rating, reviews,
+          distance: Math.round(dist * 10) / 10,
+          score: reviews <= 20 ? 95 : reviews <= 50 ? 80 : 60, // Fewer reviews = higher "new" score
+          phone: place.nationalPhoneNumber || null,
+          website: place.websiteUri || null,
+          mapsUrl: place.googleMapsUri || null,
+          status: place.businessStatus === 'OPERATIONAL' ? 'open' : 'check',
+          lat: pLat, lng: pLng,
+        };
+      });
+
+      // Prioritize low-review businesses (proxy for new), then sort by distance
+      prospects = allPlaces
+        .sort((a, b) => a.reviews - b.reviews)
+        .slice(0, 15);
+
+      trackSearch('🆕 New Businesses', 'New (Last Year)', selectedStore?.StoreName);
+      view = 'results';
+    } catch (err) {
+      console.error('New business search failed:', err);
+      error = 'Failed to find new businesses. Try again.';
+    } finally {
+      loading = false;
+    }
+  }
+
   async function selectSubcategory(subcat) {
     selectedSubcategory = subcat;
     loading = true;
@@ -1356,6 +1433,11 @@
     {/if}
 
     <p class="or-divider">— or pick a category —</p>
+
+    <button class="new-biz-banner" on:click={searchNewBusinesses}>
+      🆕 New Businesses
+      <span class="new-biz-hint">Opened in the last year near this store</span>
+    </button>
 
     <div class="category-grid">
       {#each Object.keys(CATEGORIES) as cat}
@@ -2620,6 +2702,16 @@
   .store-num { background: rgba(204, 0, 0, 0.1); padding: 6px 10px; border-radius: 6px; font-weight: 700; font-size: 12px; color: #CC0000; }
   .store-cycle { font-size: 11px; font-weight: 600; color: #666; }
   .store-cases { font-size: 11px; font-weight: 600; color: #2e7d32; }
+
+  .new-biz-banner {
+    width: 100%; padding: 14px 16px; border-radius: 12px; font-size: 16px; font-weight: 700;
+    background: linear-gradient(135deg, #1a73e8, #0d47a1); color: white;
+    border: none; cursor: pointer; text-align: center; margin-bottom: 12px;
+    display: flex; flex-direction: column; align-items: center; gap: 2px;
+    transition: transform 0.1s;
+  }
+  .new-biz-banner:active { transform: scale(0.97); }
+  .new-biz-hint { font-size: 11px; font-weight: 400; opacity: 0.8; }
 
   .category-grid, .subcat-grid {
     display: grid;
