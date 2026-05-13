@@ -6862,6 +6862,40 @@
       "address": "19450 SW Cipole Rd UNIT 105",
       "customer_city_state": "Tualatin, OR 97062",
       "extracted_at": "2026-05-10T20:00:04.496728"
+    },
+    {
+      "contract_number": "J430883E",
+      "date": "5/12/2026",
+      "business_name": "Habaneros",
+      "contact_name": "Cristina Sanchez",
+      "contact_email": "criss@habanerosmex.com",
+      "contact_phone": "(503) 585-3258",
+      "sales_rep": "Megan Wink",
+      "store_name": "",
+      "store_number": "Fred Meyer-0355",
+      "product_description": "Double",
+      "total_amount": 10979.35,
+      "payment_date": "5/12/2026",
+      "address": "2112 23rd St suite 110",
+      "customer_city_state": "Salem, OR 97302",
+      "extracted_at": "2026-05-12T20:00:04.683458"
+    },
+    {
+      "contract_number": "J430533E",
+      "date": "5/11/2026",
+      "business_name": "Ink & Drink",
+      "contact_name": "Ben Berry",
+      "contact_email": "Houseoftattooshop@gmail.com",
+      "contact_phone": "(971) 444-7303",
+      "sales_rep": "Megan Wink",
+      "store_name": "",
+      "store_number": "Safeway-0430",
+      "product_description": "Double",
+      "total_amount": 4498.25,
+      "payment_date": "5/11/2026",
+      "address": "788 N Main Ave",
+      "customer_city_state": "Gresham, OR 97030",
+      "extracted_at": "2026-05-12T20:00:26.877130"
     }
   ],
   "last_scan": "2026-04-19T20:00:11.243578"
