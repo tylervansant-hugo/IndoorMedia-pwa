@@ -463,55 +463,71 @@
 </script>
 
 <div class="store-map-wrapper" class:fullscreen={isFullscreen}>
-  <div class="filter-bar no-print">
-    <div class="filter-row">
-      <select bind:value={selectedRep} class="filter-select">
-        <option value="">All Reps</option>
-        {#each uniqueReps as rep}
-          <option value={rep}>{rep}</option>
-        {/each}
-      </select>
+  {#if !isFullscreen}
+    <!-- Normal mode: full filter bar -->
+    <div class="filter-bar no-print">
+      <div class="filter-row">
+        <select bind:value={selectedRep} class="filter-select">
+          <option value="">All Reps</option>
+          {#each uniqueReps as rep}
+            <option value={rep}>{rep}</option>
+          {/each}
+        </select>
 
-      <select bind:value={selectedZone} class="filter-select">
-        <option value="">All Zones</option>
-        {#each uniqueZones as zone}
-          <option value={zone}>{zone}</option>
-        {/each}
-      </select>
+        <select bind:value={selectedZone} class="filter-select">
+          <option value="">All Zones</option>
+          {#each uniqueZones as zone}
+            <option value={zone}>{zone}</option>
+          {/each}
+        </select>
 
-      <select bind:value={selectedCycle} class="filter-select">
-        <option value="">All Cycles</option>
-        {#each uniqueCycles as cycle}
-          <option value={cycle}>Cycle {cycle}</option>
-        {/each}
-      </select>
+        <select bind:value={selectedCycle} class="filter-select">
+          <option value="">All Cycles</option>
+          {#each uniqueCycles as cycle}
+            <option value={cycle}>Cycle {cycle}</option>
+          {/each}
+        </select>
 
-      <select bind:value={selectedChain} class="filter-select">
-        <option value="">All Chains</option>
-        {#each uniqueChains as chain}
-          <option value={chain}>{chain}</option>
-        {/each}
-      </select>
+        <select bind:value={selectedChain} class="filter-select">
+          <option value="">All Chains</option>
+          {#each uniqueChains as chain}
+            <option value={chain}>{chain}</option>
+          {/each}
+        </select>
 
-      <button class="print-btn" on:click={handlePrint} title="Print map">🖨️</button>
-      <button class="fullscreen-btn" on:click={toggleFullscreen} title={isFullscreen ? 'Exit fullscreen' : 'Fullscreen'}>
-        {#if isFullscreen}✕{:else}⛶{/if}
-      </button>
-      <button class="location-btn" on:click={centerOnUserLocation} title="Center on my location" disabled={!userLatLng}>📍</button>
-      <label class="beacon-toggle" title="Show rep location beacons">
-        <input type="checkbox" bind:checked={showBeacons} />
-        📍 Reps
-      </label>
+        <button class="print-btn" on:click={handlePrint} title="Print map">🖨️</button>
+        <button class="fullscreen-btn" on:click={toggleFullscreen} title="Fullscreen">⛶</button>
+        <button class="location-btn" on:click={centerOnUserLocation} title="Center on my location" disabled={!userLatLng}>📍</button>
+        <label class="beacon-toggle" title="Show rep location beacons">
+          <input type="checkbox" bind:checked={showBeacons} />
+          📍 Reps
+        </label>
+      </div>
+
+      <div class="filter-status">
+        Showing <strong>{showingCount}</strong> of <strong>{totalCount}</strong> stores
+        (<strong>{contractCount}</strong> with contracts)
+      </div>
     </div>
-
-    <div class="filter-status">
-      Showing <strong>{showingCount}</strong> of <strong>{totalCount}</strong> stores
-      (<strong>{contractCount}</strong> with contracts)
+  {:else}
+    <!-- Fullscreen mode: compact toolbar -->
+    <div class="fs-toolbar">
+      <button class="fs-btn fs-exit" on:click={toggleFullscreen}>✕</button>
+      <button class="fs-btn" on:click={centerOnUserLocation} disabled={!userLatLng}>📍</button>
+      <select bind:value={selectedZone} class="fs-select">
+        <option value="">Zone</option>
+        {#each uniqueZones as zone}<option value={zone}>{zone}</option>{/each}
+      </select>
+      <select bind:value={selectedCycle} class="fs-select">
+        <option value="">Cycle</option>
+        {#each uniqueCycles as cycle}<option value={cycle}>{cycle}</option>{/each}
+      </select>
+      <select bind:value={selectedRep} class="fs-select">
+        <option value="">Rep</option>
+        {#each uniqueReps as rep}<option value={rep}>{rep.split(' ')[0]}</option>{/each}
+      </select>
+      <div class="fs-status">{showingCount} stores</div>
     </div>
-  </div>
-
-  {#if isFullscreen}
-    <button class="exit-fullscreen-btn" on:click={toggleFullscreen}>✕ Exit Fullscreen</button>
   {/if}
 
   <div class="map-container" bind:this={mapContainer}></div>
@@ -534,9 +550,40 @@
     bottom: 0;
     z-index: 9999;
     height: 100vh !important;
+    height: 100dvh !important;
     border-radius: 0;
     background: white;
     padding: 0;
+  }
+
+  /* Fullscreen compact toolbar */
+  .fs-toolbar {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 10px;
+    padding-top: calc(8px + env(safe-area-inset-top, 0px));
+    background: rgba(255,255,255,0.95);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-bottom: 1px solid #e0e0e0;
+    z-index: 10001;
+    flex-shrink: 0;
+  }
+  .fs-btn {
+    width: 36px; height: 36px; border-radius: 8px; border: 1px solid #ddd;
+    background: #fff; font-size: 16px; cursor: pointer; flex-shrink: 0;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .fs-btn:active { background: #eee; }
+  .fs-exit { background: #CC0000; color: white; border-color: #CC0000; font-weight: 700; }
+  .fs-exit:active { background: #990000; }
+  .fs-select {
+    flex: 1; min-width: 0; padding: 6px 4px; border: 1px solid #ddd; border-radius: 8px;
+    background: #fff; font-size: 12px; font-weight: 600; appearance: auto;
+  }
+  .fs-status {
+    font-size: 11px; color: #666; white-space: nowrap; flex-shrink: 0;
   }
 
   .filter-bar {
@@ -549,13 +596,7 @@
     position: relative;
   }
 
-  .fullscreen .filter-bar {
-    border-radius: 0;
-    margin-bottom: 0;
-    border-left: none;
-    border-right: none;
-    border-top: none;
-  }
+
 
   .filter-row {
     display: flex;
@@ -607,25 +648,7 @@
     cursor: default;
   }
 
-  .exit-fullscreen-btn {
-    position: absolute;
-    top: 60px;
-    right: 12px;
-    z-index: 10001;
-    padding: 8px 16px;
-    background: rgba(0, 0, 0, 0.75);
-    color: white;
-    border: none;
-    border-radius: 8px;
-    font-size: 14px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: background 0.2s;
-  }
 
-  .exit-fullscreen-btn:hover {
-    background: rgba(0, 0, 0, 0.9);
-  }
 
   .beacon-toggle {
     display: flex;
