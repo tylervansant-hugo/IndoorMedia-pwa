@@ -36,7 +36,7 @@
 
   let currentTab = 'dashboard';
   let previousTab = 'dashboard';
-  let storesView = 'list'; // 'list' or 'map'
+  let storesView = 'rates'; // 'rates', 'prospects', or 'map'
   let showDrivingMode = false;
   let _appEdgeSwipe = false;
   let _appEdgeStartX = 0;
@@ -989,11 +989,6 @@
       <svg class="tab-bar-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
       <span class="tab-bar-label">Stores</span>
     </button>
-    <button class="tab-bar-item" class:active={currentTab === 'prospects'} on:click={() => currentTab = 'prospects'}>
-      <div class="tab-bar-indicator"></div>
-      <svg class="tab-bar-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-      <span class="tab-bar-label">Prospect</span>
-    </button>
     <button class="tab-bar-item" class:active={currentTab === 'present'} on:click={() => currentTab = 'present'}>
       <div class="tab-bar-indicator"></div>
       <svg class="tab-bar-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
@@ -1013,11 +1008,6 @@
       <div class="tab-bar-indicator"></div>
       <svg class="tab-bar-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>
       <span class="tab-bar-label">Tools</span>
-    </button>
-    <button class="tab-bar-item" class:active={currentTab === 'analytics'} on:click={() => currentTab = 'analytics'}>
-      <div class="tab-bar-indicator"></div>
-      <svg class="tab-bar-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
-      <span class="tab-bar-label">Stats</span>
     </button>
   </nav>
 
@@ -1067,7 +1057,7 @@
         </div>
 
         <div class="quick-actions-top">
-          <button class="qa-btn qa-primary" on:click={() => currentTab = 'prospects'}>
+          <button class="qa-btn qa-primary" on:click={() => { storesView = 'prospects'; currentTab = 'stores'; }}>
             <span class="qa-icon">🎯</span>
             <span class="qa-label">Find Prospects</span>
           </button>
@@ -1200,7 +1190,7 @@
 
         <!-- 4. STATS GRID — Prospects, Streak, Renewals -->
         <div class="dashboard-grid">
-          <button class="stat-card clickable" on:click={() => currentTab = 'prospects'}>
+          <button class="stat-card clickable" on:click={() => { storesView = 'prospects'; currentTab = 'stores'; }}>
             <div class="stat-icon">🎯</div>
             <h3>Prospects</h3>
             <p class="stat-value">{prospectsThisWeek}</p>
@@ -1263,20 +1253,21 @@
 
 
       </div>
-    {:else if currentTab === 'prospects'}
-      <ProspectSearch />
     {:else if currentTab === 'stores'}
       <div class="stores-view-toggle">
-        <button class="view-toggle-btn" class:active={storesView === 'list'} on:click={() => storesView = 'list'}>📋 List</button>
+        <button class="view-toggle-btn" class:active={storesView === 'rates'} on:click={() => storesView = 'rates'}>📊 Rates</button>
+        <button class="view-toggle-btn" class:active={storesView === 'prospects'} on:click={() => storesView = 'prospects'}>🎯 Prospects</button>
         <button class="view-toggle-btn" class:active={storesView === 'map'} on:click={() => storesView = 'map'}>🗺️ Map</button>
       </div>
-      {#if storesView === 'list'}
+      {#if storesView === 'rates'}
         <StoreSearch />
+      {:else if storesView === 'prospects'}
+        <ProspectSearch />
       {:else}
         <StoreMap />
       {/if}
     {:else if currentTab === 'tools'}
-      <Tools />
+      <Tools {contracts} />
     {:else if currentTab === 'cart'}
       <Cart />
     {:else if currentTab === 'products'}
@@ -1285,232 +1276,12 @@
       <Present />
     {:else if currentTab === 'clients'}
       <Clients />
-    {:else if currentTab === 'analytics'}
-      <div class="analytics-container">
-        <h2 class="typo-page-title">📊 Sales Analytics</h2>
-        
-        <!-- View selector -->
-        <div class="period-selector">
-          <button class="period-btn" class:active={analyticsView === 'year'} on:click={() => analyticsView = 'year'}>By Year</button>
-          <button class="period-btn" class:active={analyticsView === 'month'} on:click={() => analyticsView = 'month'}>By Month</button>
-          <button class="period-btn" class:active={analyticsView === 'rep'} on:click={() => analyticsView = 'rep'}>By Rep</button>
-          {#if $user?.role === 'manager'}
-            <button class="period-btn" class:active={analyticsView === 'activity'} on:click={() => analyticsView = 'activity'}>📱 App Usage</button>
-          {/if}
-        </div>
-
-        <!-- Zone filter -->
-        <div class="zone-filter">
-          <span class="zone-label">Zone:</span>
-          <button class="zone-btn" class:active={analyticsZone === 'all'} on:click={() => analyticsZone = 'all'}>All</button>
-          {#each getAvailableZones() as zone}
-            <button class="zone-btn" class:active={analyticsZone === zone} on:click={() => analyticsZone = zone}>{zone}</button>
-          {/each}
-        </div>
-
-        {#if analyticsZone !== 'all'}
-          <p class="zone-active-label">Filtered: Zone {analyticsZone} ({filteredContracts.length} contracts, ${filteredContracts.reduce((s,c) => s + (c.total_amount||0), 0).toLocaleString()})</p>
-        {/if}
-
-        {#if analyticsView === 'year'}
-          <div class="analytics-cards">
-            {#each yearlyStats as stat}
-              <div class="analytics-card">
-                <div class="analytics-year">{stat.year}</div>
-                <div class="analytics-amount">${(stat.total / 1000).toFixed(0)}K</div>
-                <div class="analytics-count">{stat.count} contracts</div>
-                {#if stat.change !== null}
-                  <div class="analytics-change" class:positive={stat.change > 0} class:negative={stat.change < 0}>
-                    {stat.change > 0 ? '↑' : '↓'} {Math.abs(stat.change).toFixed(1)}%
-                  </div>
-                {/if}
-              </div>
-            {/each}
-          </div>
-        {:else if analyticsView === 'month'}
-          <div class="month-table">
-            <table>
-              <thead><tr><th>Month</th><th>Revenue</th><th>Contracts</th><th>Avg Deal</th></tr></thead>
-              <tbody>
-                {#each monthlyStats as stat}
-                  <tr>
-                    <td>{stat.label}</td>
-                    <td>${stat.total.toLocaleString()}</td>
-                    <td>{stat.count}</td>
-                    <td>${(stat.total / stat.count).toLocaleString(undefined, {maximumFractionDigits: 0})}</td>
-                  </tr>
-                {/each}
-              </tbody>
-            </table>
-          </div>
-        {:else if analyticsView === 'rep'}
-          <div class="rep-table">
-            <table>
-              <thead><tr><th>Rep</th><th>2025</th><th>2026 YTD</th><th>Total</th><th>Deals</th></tr></thead>
-              <tbody>
-                {#each repStats as stat}
-                  <tr>
-                    <td>{stat.rep}</td>
-                    <td>${stat.y2025.toLocaleString()}</td>
-                    <td>${stat.y2026.toLocaleString()}</td>
-                    <td>${stat.total.toLocaleString()}</td>
-                    <td>{stat.count}</td>
-                  </tr>
-                {/each}
-              </tbody>
-            </table>
-          </div>
-        {:else if analyticsView === 'activity'}
-          <div class="activity-section">
-            <h3>📱 Rep App Usage</h3>
-            <p class="activity-note">Activity tracked per device. Data shown for current device — multi-device rollup coming soon.</p>
-            
-            {#await getActivityData() then actData}
-              <div class="activity-summary">
-                <div class="activity-card">
-                  <div class="activity-icon">📊</div>
-                  <div class="activity-stat">{actData.today.pageViews || 0}</div>
-                  <div class="activity-label">Page Views Today</div>
-                </div>
-                <div class="activity-card">
-                  <div class="activity-icon">🔍</div>
-                  <div class="activity-stat">{actData.today.searches || 0}</div>
-                  <div class="activity-label">Searches Today</div>
-                </div>
-                <div class="activity-card">
-                  <div class="activity-icon">📞</div>
-                  <div class="activity-stat">{actData.today.calls || 0}</div>
-                  <div class="activity-label">Calls Today</div>
-                </div>
-                <div class="activity-card">
-                  <div class="activity-icon">🔐</div>
-                  <div class="activity-stat">{actData.today.logins || 0}</div>
-                  <div class="activity-label">Logins Today</div>
-                </div>
-              </div>
-
-              <h4>Last 7 Days</h4>
-              <div class="activity-table-wrap">
-                <table class="activity-table">
-                  <thead><tr><th>Date</th><th>Views</th><th>Searches</th><th>Calls</th><th>Logins</th></tr></thead>
-                  <tbody>
-                    {#each actData.dailyBreakdown as day}
-                      <tr>
-                        <td>{new Date(day.date + 'T12:00:00').toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' })}</td>
-                        <td>{day.pageViews || 0}</td>
-                        <td>{day.searches || 0}</td>
-                        <td>{day.calls || 0}</td>
-                        <td>{day.logins || 0}</td>
-                      </tr>
-                    {/each}
-                    {#if actData.dailyBreakdown.length === 0}
-                      <tr><td colspan="5" style="text-align:center; color: var(--text-secondary);">No activity data yet. Usage will appear as reps use the app.</td></tr>
-                    {/if}
-                  </tbody>
-                </table>
-              </div>
-
-              {#if actData.firebaseConnected && actData.allReps.length > 0}
-                <h4>👥 All Reps — Last 7 Days</h4>
-                <div class="activity-table-wrap">
-                  <table class="activity-table">
-                    <thead><tr><th>Rep</th><th>Days Active</th><th>Views</th><th>Searches</th><th>Calls</th><th>Last Active</th></tr></thead>
-                    <tbody>
-                      {#each actData.allReps as rep}
-                        <tr>
-                          <td><strong>{rep.name}</strong></td>
-                          <td>{rep.activeDays}/7</td>
-                          <td>{rep.pageViews}</td>
-                          <td>{rep.searches}</td>
-                          <td>{rep.calls}</td>
-                          <td style="font-size:11px;">{rep.lastActive}</td>
-                        </tr>
-                      {/each}
-                    </tbody>
-                  </table>
-                </div>
-              {:else if !actData.firebaseConnected}
-                <div class="firebase-setup-prompt">
-                  <h4>🔗 Enable Cross-Device Tracking</h4>
-                  <p>To see all reps' activity in one place, connect Firebase:</p>
-                  <button class="book-appt-btn" on:click={() => window.open(import.meta.env.BASE_URL + 'setup-firebase.html', '_blank')}>⚙️ Set Up Firebase</button>
-                </div>
-              {/if}
-
-              <h4>📊 Your Device — 30-Day Totals</h4>
-              <div class="activity-totals">
-                <div><strong>Page Views:</strong> {actData.last30days.pageViews || 0}</div>
-                <div><strong>Searches:</strong> {actData.last30days.searches || 0}</div>
-                <div><strong>Calls Made:</strong> {actData.last30days.calls || 0}</div>
-                <div><strong>Emails Sent:</strong> {actData.last30days.emails || 0}</div>
-                <div><strong>Logins:</strong> {actData.last30days.logins || 0}</div>
-              </div>
-            {/await}
-
-            <!-- Closed Deals by Rep -->
-            <h4>💰 Closed Deals — This Month</h4>
-            {#if true}
-              {@const now = new Date()}
-              {@const thisMonth = now.getMonth()}
-              {@const thisYear = now.getFullYear()}
-              {@const monthContracts = contracts.filter(c => { const d = parseContractDate(c.date); return d.getMonth() === thisMonth && d.getFullYear() === thisYear; })}
-              {@const repDeals = (() => {
-                const map = {};
-                monthContracts.forEach(c => {
-                  const rep = c.sales_rep || 'Unknown';
-                  if (!map[rep]) map[rep] = { name: rep, deals: 0, revenue: 0, businesses: [] };
-                  map[rep].deals++;
-                  map[rep].revenue += (c.total_amount || 0);
-                  const biz = c.business_name || 'Unknown';
-                  if (!map[rep].businesses.find(b => b.name === biz)) {
-                    map[rep].businesses.push({ name: biz, amount: c.total_amount || 0, store: c.store_number || '', date: c.date || '' });
-                  }
-                });
-                return Object.values(map).sort((a, b) => b.revenue - a.revenue);
-              })()}
-              {#if repDeals.length > 0}
-                <div class="deals-summary">
-                  <div class="deals-total">
-                    <span class="deals-total-value">${monthContracts.reduce((s,c) => s + (c.total_amount||0), 0).toLocaleString()}</span>
-                    <span class="deals-total-label">{monthContracts.length} deals this month</span>
-                  </div>
-                </div>
-                <div class="activity-table-wrap">
-                  <table class="activity-table">
-                    <thead><tr><th>Rep</th><th>Deals</th><th>Revenue</th></tr></thead>
-                    <tbody>
-                      {#each repDeals as rep}
-                        <tr on:click={() => analyticsExpandedRep = analyticsExpandedRep === rep.name ? null : rep.name} style="cursor:pointer;">
-                          <td><strong>{rep.name}</strong></td>
-                          <td>{rep.deals}</td>
-                          <td class="profit">${rep.revenue.toLocaleString()}</td>
-                        </tr>
-                        {#if analyticsExpandedRep === rep.name}
-                          {#each rep.businesses.sort((a,b) => b.amount - a.amount) as biz}
-                            <tr class="deal-detail-row">
-                              <td style="padding-left:24px;font-size:12px;color:var(--text-secondary);">{biz.name}</td>
-                              <td style="font-size:12px;color:var(--text-secondary);">{biz.store ? `#${biz.store}` : ''}</td>
-                              <td style="font-size:12px;color:#2E7D32;">${biz.amount.toLocaleString()}</td>
-                            </tr>
-                          {/each}
-                        {/if}
-                      {/each}
-                    </tbody>
-                  </table>
-                </div>
-              {:else}
-                <p class="subtitle" style="font-size:13px;">No contracts this month yet.</p>
-              {/if}
-            {/if}
-          </div>
-        {/if}
-      </div>
     {:else if currentTab === 'addlead'}
       <HotLeadsSubmit
         user={$user}
         onLeadSubmitted={() => {
           // Optional: show confirmation or navigate back to prospects
-          currentTab = 'prospects';
+          storesView = 'prospects'; currentTab = 'stores';
         }}
       />
     {:else if currentTab === 'manage'}

@@ -4,8 +4,11 @@
   import { user } from '../lib/stores.js';
   import { calculateROI as sharedCalculateROI } from '../lib/roi.js';
   import StoreSearchInput from '../lib/StoreSearchInput.svelte';
+  import Analytics from './Analytics.svelte';
   
-  let view = 'main'; // main, roi, rates, testimonials, audit, counter-sign, submit-testimonial
+  export let contracts = [];
+
+  let view = 'main'; // main, roi, rates, testimonials, audit, counter-sign, submit-testimonial, analytics
   let stores = [];
   let allStores = [];
   let selectedStore = null;
@@ -887,6 +890,12 @@ Store: ${store}
         <div class="btn-text">Submit Testimonial</div>
         <div class="btn-desc">Share customer success stories</div>
       </button>
+
+      <button class="main-btn" on:click={() => view = 'analytics'}>
+        <div class="btn-icon">📊</div>
+        <div class="btn-text">Sales Analytics</div>
+        <div class="btn-desc">Revenue, reps & app usage stats</div>
+      </button>
     </div>
   {/if}
 
@@ -1698,6 +1707,12 @@ Store: ${store}
 
       </div>
     {/if}
+  {/if}
+
+  <!-- Sales Analytics -->
+  {#if view === 'analytics'}
+    <button class="back-btn" on:click={goBack}>← Back</button>
+    <Analytics {contracts} />
   {/if}
 </div>
 
