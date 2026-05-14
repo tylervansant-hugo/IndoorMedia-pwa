@@ -40,6 +40,98 @@
     '#f77f00', '#7209b7', '#4cc9f0', '#80b918', '#dc2f02'
   ];
 
+  // Fullscreen state
+  let isFullscreen = false;
+
+  // Geolocation state
+  let userLatLng = null;
+  let userAccuracy = null;
+  let userLocationLayers = [];
+  let geoWatchId = null;
+
+  // Popup timing for mobile fix
+  let lastPopupOpenTime = 0;
+
+  function toggleFullscreen() {
+    isFullscreen = !isFullscreen;
+    // Let Svelte update the DOM, then invalidate map size
+    setTimeout(() => {
+      if (map) map.invalidateSize();
+    }, 50);
+  }
+
+  function handleEscKey(e) {
+    if (e.key === 'Escape' && isFullscreen) {
+      isFullscreen = false;
+      setTimeout(() => {
+        if (map) map.invalidateSize();
+      }, 50);
+    }
+  }
+
+  function centerOnUserLocation() {
+    if (userLatLng && map) {
+      map.setView(userLatLng, 14);
+    }
+  }
+
+  function updateUserLocationMarker() {
+    if (!map) return;
+    // Remove old location layers
+    userLocationLayers.forEach(l => map.removeLayer(l));
+    userLocationLayers = [];
+
+    if (!userLatLng) return;
+
+    // Accuracy circle
+    const accuracyCircle = L.circle(userLatLng, {
+      radius: userAccuracy || 50,
+      fillColor: '#4285F4',
+      fillOpacity: 0.12,
+      color: '#4285F4',
+      weight: 1,
+      opacity: 0.3,
+      interactive: false,
+    }).addTo(map);
+
+    // Blue pulsing dot
+    const blueDot = L.circleMarker(userLatLng, {
+      radius: 9,
+      fillColor: '#4285F4',
+      color: '#fff',
+      weight: 3,
+      fillOpacity: 1,
+      interactive: false,
+      className: 'user-location-pulse',
+    }).addTo(map);
+
+    userLocationLayers.push(accuracyCircle, blueDot);
+  }
+
+  function initGeolocation() {
+    if (!navigator.geolocation) return;
+
+    navigator.geolocation.getCurrentPosition(
+      (pos) => {
+        userLatLng = [pos.coords.latitude, pos.coords.longitude];
+        userAccuracy = pos.coords.accuracy;
+        updateUserLocationMarker();
+      },
+      () => { /* permission denied or error — silently ignore */ },
+      { enableHighAccuracy: true, timeout: 10000 }
+    );
+
+    geoWatchId = navigator.geolocation.watchPosition(
+      (pos) => {
+        userLatLng = [pos.coords.latitude, pos.coords.longitude];
+        userAccuracy = pos.coords.accuracy;
+        updateUserLocationMarker();
+      },
+      () => {},
+      { enableHighAccuracy: true, maximumAge: 15000 }
+    );
+  }
+
   function extractStoreNumber(storeName) {
     if (!storeName) return '';
     const parts = storeName.split('-');
@@ -117,11 +209,13 @@
       const fillOpacity = hasContract ? 0.9 : 0.6;
 
       const marker = L.circleMarker([store.latitude, store.longitude], {
-        radius: 7,
+        radius: 10,
         fillColor: color,
         color: borderColor,
         weight: 1.5,
         fillOpacity: fillOpacity,
+        interactive: true,
+        bubblingMouseEvents: false,
       });
 
       // Build popup
@@ -159,7 +253,12 @@
       }
 
       popupHtml += `</div>`;
-      marker.bindPopup(popupHtml, { maxWidth: 300, className: 'store-map-popup' });
+      marker.bindPopup(popupHtml, {
+        maxWidth: 300,
+        minWidth: 250,
+        className: 'store-map-popup',
+        autoPan: true,
+      });
 
       markerClusterGroup.addLayer(marker);
     });
@@ -202,7 +301,7 @@
       if (repNames.length === 0) return;
 
       repNames.forEach((repName, idx) => {
-        const loc = repLocations[repName];
+        const loc = beaconData[repName];
         if (!loc || !loc.lat || !loc.lng) return;
 
         // Skip if filtering by rep and this isn't the selected rep
@@ -260,6 +359,9 @@
   }
 
   onMount(async () => {
+    // Listen for ESC key to exit fullscreen
+    window.addEventListener('keydown', handleEscKey);
+
     try {
       const [storesRes, contractsRes] = await Promise.all([
         fetch(import.meta.env.BASE_URL + 'data/stores.json?t=' + Date.now()),
@@ -278,11 +380,21 @@
       uniqueCycles = [...new Set(allStores.map(s => s.Cycle).filter(Boolean))].sort();
       uniqueChains = [...new Set(allStores.map(s => s.GroceryChain).filter(Boolean))].sort();
 
-      // Init map
+      // Init map — closeOnClick: false prevents popups from vanishing on mobile
       map = L.map(mapContainer, {
         center: [45.5, -122.5],
         zoom: 7,
         zoomControl: true,
+        closePopupOnClick: false,
+      });
+
+      // Popup close delay: prevent closing within 500ms of opening
+      map.on('popupopen', () => {
+        lastPopupOpenTime = Date.now();
+      });
+      map.on('click', (e) => {
+        if (Date.now() - lastPopupOpenTime < 500) return;
+        map.closePopup();
       });
 
       L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -312,12 +424,20 @@
 
       updateMap();
       updateBeacons();
+
+      // Init geolocation
+      initGeolocation();
     } catch (err) {
       console.error('StoreMap init error:', err);
     }
   });
 
   onDestroy(() => {
+    window.removeEventListener('keydown', handleEscKey);
+    if (geoWatchId !== null) {
+      navigator.geolocation.clearWatch(geoWatchId);
+      geoWatchId = null;
+    }
     if (map) {
       map.remove();
       map = null;
@@ -332,7 +452,7 @@
   }
 </script>
 
-<div class="store-map-wrapper">
+<div class="store-map-wrapper" class:fullscreen={isFullscreen}>
   <div class="filter-bar no-print">
     <div class="filter-row">
       <select bind:value={selectedRep} class="filter-select">
@@ -364,6 +484,10 @@
       </select>
 
       <button class="print-btn" on:click={handlePrint} title="Print map">🖨️</button>
+      <button class="fullscreen-btn" on:click={toggleFullscreen} title={isFullscreen ? 'Exit fullscreen' : 'Fullscreen'}>
+        {#if isFullscreen}✕{:else}⛶{/if}
+      </button>
+      <button class="location-btn" on:click={centerOnUserLocation} title="Center on my location" disabled={!userLatLng}>📍</button>
       <label class="beacon-toggle" title="Show rep location beacons">
         <input type="checkbox" bind:checked={showBeacons} />
         📍 Reps
@@ -376,6 +500,10 @@
     </div>
   </div>
 
+  {#if isFullscreen}
+    <button class="exit-fullscreen-btn" on:click={toggleFullscreen}>✕ Exit Fullscreen</button>
+  {/if}
+
   <div class="map-container" bind:this={mapContainer}></div>
 </div>
 
@@ -385,6 +513,20 @@
     flex-direction: column;
     height: calc(100vh - 180px);
     min-height: 400px;
+    position: relative;
+  }
+
+  .store-map-wrapper.fullscreen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 9999;
+    height: 100vh !important;
+    border-radius: 0;
+    background: white;
+    padding: 0;
   }
 
   .filter-bar {
@@ -393,6 +535,16 @@
     border-radius: 10px;
     padding: 10px 12px;
     margin-bottom: 8px;
+    z-index: 10000;
+    position: relative;
+  }
+
+  .fullscreen .filter-bar {
+    border-radius: 0;
+    margin-bottom: 0;
+    border-left: none;
+    border-right: none;
+    border-top: none;
   }
 
   .filter-row {
@@ -421,7 +573,9 @@
     border-color: #CC0000;
   }
 
-  .print-btn {
+  .print-btn,
+  .fullscreen-btn,
+  .location-btn {
     padding: 8px 12px;
     background: var(--card-bg, #fff);
     border: 1px solid var(--border-color, #ddd);
@@ -429,10 +583,38 @@
     cursor: pointer;
     font-size: 16px;
     transition: background 0.2s;
+    line-height: 1;
   }
 
-  .print-btn:hover {
+  .print-btn:hover,
+  .fullscreen-btn:hover,
+  .location-btn:hover {
     background: var(--hover-bg, #f0f0f0);
+  }
+
+  .location-btn:disabled {
+    opacity: 0.4;
+    cursor: default;
+  }
+
+  .exit-fullscreen-btn {
+    position: absolute;
+    top: 60px;
+    right: 12px;
+    z-index: 10001;
+    padding: 8px 16px;
+    background: rgba(0, 0, 0, 0.75);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+
+  .exit-fullscreen-btn:hover {
+    background: rgba(0, 0, 0, 0.9);
   }
 
   .beacon-toggle {
@@ -458,6 +640,15 @@
     50% { opacity: 0.4; }
   }
 
+  /* User location pulse */
+  :global(.user-location-pulse) {
+    animation: pulse-user-loc 1.5s ease-in-out infinite;
+  }
+  @keyframes pulse-user-loc {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.7; }
+  }
+
   .filter-status {
     margin-top: 6px;
     font-size: 12px;
@@ -475,6 +666,11 @@
     overflow: hidden;
     border: 1px solid var(--border-color, #e0e0e0);
     min-height: 300px;
+  }
+
+  .fullscreen .map-container {
+    border-radius: 0;
+    border: none;
   }
 
   /* Cluster icons */
