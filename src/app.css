@@ -136,6 +136,25 @@ body {
   color: #999;
 }
 
+/* Prevent iOS auto-zoom on input focus (requires font-size >= 16px) */
+input, textarea, select {
+  font-size: 16px !important;
+}
+
+/* Prevent any accidental page zoom/overflow */
+html {
+  overflow: hidden;
+  overscroll-behavior: none;
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
+body {
+  overflow: auto;
+  overscroll-behavior: none;
+  -webkit-overflow-scrolling: touch;
+}
+
 /* iOS specific fixes */
 @supports (-webkit-touch-callout: none) {
   html {
