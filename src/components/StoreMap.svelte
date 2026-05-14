@@ -252,6 +252,16 @@
         popupHtml += `<div class="popup-open">🔴 No active contracts — Open for sales!</div>`;
       }
 
+      // Action buttons — Prospect & Rates
+      const safeStoreName = store.StoreName.replace(/'/g, "\\'");
+      popupHtml += `
+        <div class="popup-actions">
+          <button onclick="document.dispatchEvent(new CustomEvent('map-action', {detail: {action: 'prospect', store: '${safeStoreName}'}}))"
+            class="popup-action-btn popup-action-prospect">🎯 Prospect</button>
+          <button onclick="document.dispatchEvent(new CustomEvent('map-action', {detail: {action: 'rates', store: '${safeStoreName}'}}))"
+            class="popup-action-btn popup-action-rates">📊 Rates</button>
+        </div>
+      `;
       popupHtml += `</div>`;
       marker.bindPopup(popupHtml, {
         maxWidth: 300,
@@ -796,6 +806,18 @@
     font-size: 11px;
     color: #666;
   }
+
+  :global(.popup-actions) {
+    display: flex; gap: 8px; margin-top: 10px; padding-top: 10px; border-top: 1px solid #e0e0e0;
+  }
+  :global(.popup-action-btn) {
+    flex: 1; padding: 8px 6px; border: none; border-radius: 8px;
+    font-size: 13px; font-weight: 700; cursor: pointer; text-align: center;
+  }
+  :global(.popup-action-prospect) { background: #CC0000; color: white; }
+  :global(.popup-action-prospect:active) { background: #990000; }
+  :global(.popup-action-rates) { background: #1a73e8; color: white; }
+  :global(.popup-action-rates:active) { background: #0d47a1; }
 
   :global(.popup-open) {
     margin-top: 8px;

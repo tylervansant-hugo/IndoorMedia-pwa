@@ -804,7 +804,23 @@
       window.history.replaceState({}, '', window.location.pathname);
     }
 
-    return () => clearInterval(interval);
+    // Listen for map action events (Prospect/Rates from StoreMap popups)
+    function handleMapAction(e) {
+      const { action, store } = e.detail || {};
+      if (action === 'prospect') {
+        storesView = 'prospects';
+        currentTab = 'stores';
+      } else if (action === 'rates') {
+        storesView = 'rates';
+        currentTab = 'stores';
+      }
+    }
+    document.addEventListener('map-action', handleMapAction);
+
+    return () => {
+      clearInterval(interval);
+      document.removeEventListener('map-action', handleMapAction);
+    };
   });
 
   // Reactive filtered contracts — triggers re-render when analyticsZone changes
