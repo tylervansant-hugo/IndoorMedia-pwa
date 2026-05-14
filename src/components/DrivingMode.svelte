@@ -308,55 +308,79 @@
     phase = 'subcategories';
   }
 
+  // Top-performing categories from testimonials data (ranked by success stories)
+  const NEW_BIZ_QUERIES = [
+    'new restaurant', 'new mexican restaurant', 'new pizza',
+    'new car wash', 'new oil change', 'new auto repair',
+    'new hair salon', 'new barber', 'new nail salon',
+    'new coffee shop', 'new bakery', 'new sushi',
+    'new spa', 'new massage', 'new vet veterinarian',
+    'new gym fitness', 'new dentist',
+  ];
+
   async function searchNewBusinesses() {
     phase = 'searching';
     statusText = 'Finding new businesses...';
-    await speak('Searching for new businesses near the store.');
+    await speak('Searching for new restaurants, auto, salons, and more near the store.');
 
     try {
       const lat = selectedStore?.latitude || selectedStore?.Latitude || 0;
       const lng = selectedStore?.longitude || selectedStore?.Longitude || 0;
-      const query = `new business near ${selectedStore?.Address || ''} ${selectedStore?.City || ''} ${selectedStore?.State || ''}`;
+      const locationSuffix = `${selectedStore?.City || ''} ${selectedStore?.State || ''}`;
+      const hasCoords = lat && lng;
+      const allResults = [];
+      const seenNames = new Set();
 
-      const requestBody = { textQuery: query, maxResultCount: 20 };
-      if (lat && lng) {
-        requestBody.locationBias = { circle: { center: { latitude: lat, longitude: lng }, radius: 16000.0 } };
+      // Run searches across top categories (batch 3-4 at a time to stay fast)
+      const searchBatch = async (queries) => {
+        const promises = queries.map(async (q) => {
+          const textQuery = hasCoords ? q : `${q} near ${locationSuffix}`;
+          const requestBody = { textQuery, maxResultCount: 5 };
+          if (hasCoords) {
+            requestBody.locationBias = { circle: { center: { latitude: lat, longitude: lng }, radius: 16000.0 } };
+          }
+          try {
+            const response = await fetch('https://places.googleapis.com/v1/places:searchText', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+                'X-Goog-Api-Key': PLACES_API_KEY,
+                'X-Goog-FieldMask': 'places.displayName,places.formattedAddress,places.rating,places.userRatingCount,places.nationalPhoneNumber,places.websiteUri'
+              },
+              body: JSON.stringify(requestBody)
+            });
+            const data = await response.json();
+            return data.places || [];
+          } catch { return []; }
+        });
+        return (await Promise.all(promises)).flat();
+      };
+
+      // Run in batches of 4 to avoid hammering the API
+      for (let i = 0; i < NEW_BIZ_QUERIES.length; i += 4) {
+        const batch = NEW_BIZ_QUERIES.slice(i, i + 4);
+        const places = await searchBatch(batch);
+        for (const p of places) {
+          const name = p.displayName?.text || '';
+          const reviews = p.userRatingCount || 0;
+          // Dedup by name and filter to low-review (new) businesses
+          if (name && !seenNames.has(name.toLowerCase()) && reviews <= 40) {
+            seenNames.add(name.toLowerCase());
+            allResults.push({
+              name,
+              address: p.formattedAddress || '',
+              rating: p.rating || 0,
+              reviews,
+              phone: p.nationalPhoneNumber || null,
+              website: p.websiteUri || null,
+            });
+          }
+        }
+        statusText = `Found ${allResults.length} new businesses so far...`;
       }
 
-      const response = await fetch('https://places.googleapis.com/v1/places:searchText', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'X-Goog-Api-Key': PLACES_API_KEY,
-          'X-Goog-FieldMask': 'places.displayName,places.formattedAddress,places.rating,places.userRatingCount,places.nationalPhoneNumber,places.websiteUri,places.types,places.googleMapsUri'
-        },
-        body: JSON.stringify(requestBody)
-      });
-
-      const data = await response.json();
-
-      // Filter to businesses with few reviews (proxy for "new" — established places have 50+ reviews)
-      const allPlaces = (data.places || []).map(p => ({
-        name: p.displayName?.text || 'Unknown',
-        address: p.formattedAddress || '',
-        rating: p.rating || 0,
-        reviews: p.userRatingCount || 0,
-        phone: p.nationalPhoneNumber || null,
-        website: p.websiteUri || null,
-        types: p.types || [],
-      }));
-
-      // "New" heuristic: fewer than 30 reviews usually means opened within the last year
-      // Sort by fewest reviews first (newest businesses)
-      prospects = allPlaces
-        .filter(p => p.reviews <= 30)
-        .sort((a, b) => a.reviews - b.reviews);
-
-      // If low-review filter gives us nothing, show all sorted by fewest reviews
-      if (prospects.length === 0) {
-        prospects = allPlaces.sort((a, b) => a.reviews - b.reviews).slice(0, 10);
-      }
-
+      // Sort: fewest reviews first (newest)
+      prospects = allResults.sort((a, b) => a.reviews - b.reviews);
       currentProspectIndex = 0;
 
       if (prospects.length === 0) {

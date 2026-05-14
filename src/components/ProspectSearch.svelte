@@ -838,6 +838,16 @@
     }
   }
 
+  // Top-performing categories from 10K+ testimonials (ranked by advertiser success)
+  const NEW_BIZ_QUERIES = [
+    'new restaurant', 'new mexican restaurant', 'new pizza',
+    'new car wash', 'new oil change', 'new auto repair',
+    'new hair salon', 'new barber', 'new nail salon',
+    'new coffee shop', 'new bakery', 'new sushi',
+    'new spa', 'new massage', 'new vet veterinarian',
+    'new gym fitness', 'new dentist',
+  ];
+
   async function searchNewBusinesses() {
     selectedCategory = '🆕 New Businesses';
     selectedSubcategory = 'New (Last Year)';
@@ -849,62 +859,76 @@
       const lng = selectedStore?.longitude || selectedStore?.Longitude || 0;
       const storeCity = selectedStore?.City || '';
       const storeState = selectedStore?.State || '';
-      const storeAddr = selectedStore?.Address || '';
       const storeZip = selectedStore?.PostalCode || '';
       const hasRealCoords = selectedStore && !isBadCoords(lat, lng);
 
-      let textQuery;
-      if (hasRealCoords) {
-        textQuery = 'new business';
-      } else if (storeZip) {
-        textQuery = `new business near ${storeCity}, ${storeState} ${storeZip}`;
-      } else {
-        textQuery = `new business near ${storeCity}, ${storeState}`;
+      const allResults = [];
+      const seenNames = new Set();
+
+      const searchBatch = async (queries) => {
+        const promises = queries.map(async (q) => {
+          let textQuery;
+          if (hasRealCoords) {
+            textQuery = q;
+          } else if (storeZip) {
+            textQuery = `${q} near ${storeCity}, ${storeState} ${storeZip}`;
+          } else {
+            textQuery = `${q} near ${storeCity}, ${storeState}`;
+          }
+
+          const requestBody = { textQuery, maxResultCount: 5 };
+          if (hasRealCoords) {
+            requestBody.locationBias = { circle: { center: { latitude: lat, longitude: lng }, radius: 16000.0 } };
+          }
+
+          try {
+            const response = await fetch('https://places.googleapis.com/v1/places:searchText', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+                'X-Goog-Api-Key': PLACES_API_KEY,
+                'X-Goog-FieldMask': 'places.displayName,places.formattedAddress,places.rating,places.userRatingCount,places.location,places.businessStatus,places.nationalPhoneNumber,places.websiteUri,places.googleMapsUri'
+              },
+              body: JSON.stringify(requestBody)
+            });
+            const data = await response.json();
+            return data.places || [];
+          } catch { return []; }
+        });
+        return (await Promise.all(promises)).flat();
+      };
+
+      // Run in batches of 4
+      for (let i = 0; i < NEW_BIZ_QUERIES.length; i += 4) {
+        const batch = NEW_BIZ_QUERIES.slice(i, i + 4);
+        const places = await searchBatch(batch);
+        for (const place of places) {
+          const name = place.displayName?.text || '';
+          const reviews = place.userRatingCount || 0;
+          if (name && !seenNames.has(name.toLowerCase()) && reviews <= 40) {
+            seenNames.add(name.toLowerCase());
+            const pLat = place.location?.latitude || 0;
+            const pLng = place.location?.longitude || 0;
+            const dist = calculateDistance(lat, lng, pLat, pLng);
+            allResults.push({
+              id: name,
+              name,
+              address: place.formattedAddress || 'Address unavailable',
+              rating: place.rating || 0,
+              reviews,
+              distance: Math.round(dist * 10) / 10,
+              score: reviews <= 10 ? 98 : reviews <= 20 ? 90 : reviews <= 30 ? 80 : 70,
+              phone: place.nationalPhoneNumber || null,
+              website: place.websiteUri || null,
+              mapsUrl: place.googleMapsUri || null,
+              status: place.businessStatus === 'OPERATIONAL' ? 'open' : 'check',
+              lat: pLat, lng: pLng,
+            });
+          }
+        }
       }
 
-      const requestBody = { textQuery, maxResultCount: 20 };
-      if (hasRealCoords) {
-        requestBody.locationBias = { circle: { center: { latitude: lat, longitude: lng }, radius: 16000.0 } };
-      }
-
-      const response = await fetch('https://places.googleapis.com/v1/places:searchText', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'X-Goog-Api-Key': PLACES_API_KEY,
-          'X-Goog-FieldMask': 'places.displayName,places.formattedAddress,places.rating,places.userRatingCount,places.location,places.businessStatus,places.nationalPhoneNumber,places.websiteUri,places.googleMapsUri'
-        },
-        body: JSON.stringify(requestBody)
-      });
-
-      const data = await response.json();
-
-      const allPlaces = (data.places || []).map((place) => {
-        const pLat = place.location?.latitude || 0;
-        const pLng = place.location?.longitude || 0;
-        const dist = calculateDistance(lat, lng, pLat, pLng);
-        const rating = place.rating || 0;
-        const reviews = place.userRatingCount || 0;
-        return {
-          id: place.displayName?.text || 'unknown',
-          name: place.displayName?.text || 'Unnamed',
-          address: place.formattedAddress || 'Address unavailable',
-          rating, reviews,
-          distance: Math.round(dist * 10) / 10,
-          score: reviews <= 20 ? 95 : reviews <= 50 ? 80 : 60, // Fewer reviews = higher "new" score
-          phone: place.nationalPhoneNumber || null,
-          website: place.websiteUri || null,
-          mapsUrl: place.googleMapsUri || null,
-          status: place.businessStatus === 'OPERATIONAL' ? 'open' : 'check',
-          lat: pLat, lng: pLng,
-        };
-      });
-
-      // Prioritize low-review businesses (proxy for new), then sort by distance
-      prospects = allPlaces
-        .sort((a, b) => a.reviews - b.reviews)
-        .slice(0, 15);
-
+      prospects = allResults.sort((a, b) => a.reviews - b.reviews);
       trackSearch('🆕 New Businesses', 'New (Last Year)', selectedStore?.StoreName);
       view = 'results';
     } catch (err) {
