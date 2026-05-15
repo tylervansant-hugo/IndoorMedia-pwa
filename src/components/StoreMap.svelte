@@ -254,6 +254,7 @@
 
       // Action buttons — Prospect & Rates
       const safeStoreName = store.StoreName.replace(/'/g, "\\'");
+      const navAddr = encodeURIComponent(`${store.Address || ''}, ${store.City || ''}, ${store.State || ''} ${store.PostalCode || ''}`);
       popupHtml += `
         <div class="popup-actions">
           <button onclick="document.dispatchEvent(new CustomEvent('map-action', {detail: {action: 'prospect', store: '${safeStoreName}'}}))"
@@ -261,6 +262,7 @@
           <button onclick="document.dispatchEvent(new CustomEvent('map-action', {detail: {action: 'rates', store: '${safeStoreName}'}}))"
             class="popup-action-btn popup-action-rates">📊 Rates</button>
         </div>
+        <a href="https://maps.apple.com/?daddr=${navAddr}" target="_blank" class="popup-nav-btn">🗺️ Navigate to Store</a>
       `;
       popupHtml += `</div>`;
       marker.bindPopup(popupHtml, {
@@ -841,6 +843,12 @@
   :global(.popup-action-prospect:active) { background: #990000; }
   :global(.popup-action-rates) { background: #1a73e8; color: white; }
   :global(.popup-action-rates:active) { background: #0d47a1; }
+  :global(.popup-nav-btn) {
+    display: block; text-align: center; margin-top: 8px; padding: 8px;
+    background: #34a853; color: white; border-radius: 8px; font-size: 13px;
+    font-weight: 700; text-decoration: none; cursor: pointer;
+  }
+  :global(.popup-nav-btn:active) { background: #2d8a46; }
 
   :global(.popup-open) {
     margin-top: 8px;

@@ -1473,6 +1473,9 @@
               </select>
             </div>
             <a href="https://calendar.google.com/calendar/render?action=TEMPLATE&text={encodeURIComponent('Visit: ' + prospect.name)}&details={encodeURIComponent('Prospect: ' + prospect.name + '\nAddress: ' + prospect.address + (prospect.phone ? '\nPhone: ' + prospect.phone : '') + (prospect.website ? '\nWebsite: ' + prospect.website : '') + '\nStore: ' + (selectedStore?.GroceryChain || '') + ' ' + (selectedStore?.StoreName || '') + '\nRep: ' + ($user?.name || '') + (getProspectNote(prospect.id || prospect.name) ? '\n\n📝 Notes:\n' + getProspectNote(prospect.id || prospect.name) : ''))}&location={encodeURIComponent(prospect.address)}&add={encodeURIComponent('tyler.vansant@indoormedia.com')}{inviteRepEmail ? ',' + encodeURIComponent(inviteRepEmail) : ''}" target="_blank" class="action-btn btn-book-appt">📅 Book Appointment{inviteRepEmail ? ' (+ rep)' : ''}</a>
+            {#if prospect.address}
+              <a href="https://maps.apple.com/?daddr={encodeURIComponent(prospect.address)}" target="_blank" class="action-btn btn-navigate">🗺️ Navigate</a>
+            {/if}
           </div>
           {#if prospect._showText}
             <div class="text-templates-section">
@@ -2735,6 +2738,23 @@
     box-shadow: 0 2px 8px rgba(204, 0, 0, 0.3);
   }
   .btn-book-appt:hover { background: #aa0000 !important; box-shadow: 0 4px 12px rgba(204, 0, 0, 0.4); }
+  .btn-navigate {
+    display: block;
+    width: 100%;
+    padding: 14px 16px !important;
+    background: #34a853 !important;
+    color: white !important;
+    border-color: #34a853 !important;
+    font-size: 1rem !important;
+    font-weight: 700 !important;
+    border-radius: 12px !important;
+    text-align: center;
+    text-decoration: none;
+    letter-spacing: 0.3px;
+    box-shadow: 0 2px 8px rgba(52, 168, 83, 0.3);
+    margin-top: 8px;
+  }
+  .btn-navigate:hover { background: #2d8a46 !important; }
   .text-btn { background: #1565C0 !important; color: white !important; border-color: #1565C0 !important; }
   .text-btn:hover { background: #0D47A1 !important; }
 
