@@ -985,17 +985,17 @@
       subject: 'Quick question about {business}',
       body: 'Hi {contact},\n\nI noticed {business} in the area and wanted to reach out. We work with local businesses to help drive foot traffic through register tape advertising at {store}.\n\nThousands of businesses like yours have seen measurable results — would you be open to a quick 10-minute chat this week?\n\nBest,\n{rep}\nIndoorMedia' },
     { id: 'roi', icon: '📊', name: 'ROI / Value Focused',
-      subject: 'How {business} can reach 10,000+ local customers weekly',
-      body: 'Hi {contact},\n\n{store_cap} gets 10,000+ visitors per week. That\'s 10,000 potential customers seeing your ad every single week.\n\nBusinesses in your category have reported strong ROI — many seeing results within the first month. Our register tape ads put your name, offer, and location directly in shoppers\' hands at {store}.\n\nI\'d love to show you how the numbers work for {business}. Can we schedule a quick call?\n\nBest,\n{rep}\nIndoorMedia' },
+      subject: 'How {business} can reach {customers} local customers weekly',
+      body: 'Hi {contact},\n\n{store_cap} sees {customers} customers per week. That\'s {customers} potential customers seeing your ad every single week.\n\nBusinesses in your category have reported strong ROI — many seeing results within the first month. Our register tape ads put your name, offer, and location directly in shoppers\' hands at {store}.\n\nI\'d love to show you how the numbers work for {business}. Can we schedule a quick call?\n\nBest,\n{rep}\nIndoorMedia' },
     { id: 'followup', icon: '⏰', name: 'Follow-up (No Response)',
       subject: 'Following up — {business}',
-      body: 'Hi {contact},\n\nI reached out a few days ago about a partnership opportunity for {business} at {store} and wanted to follow up.\n\nWe help local businesses reach thousands of nearby shoppers each week through register tape advertising. I think there\'s a great fit here.\n\nWould you have 10 minutes this week for a quick chat?\n\nBest,\n{rep}\nIndoorMedia' },
+      body: 'Hi {contact},\n\nI reached out a few days ago about a partnership opportunity for {business} at {store} and wanted to follow up.\n\nWith {customers} shoppers coming through each week, register tape advertising is one of the most effective ways to reach local customers. I think there\'s a great fit here.\n\nWould you have 10 minutes this week for a quick chat?\n\nBest,\n{rep}\nIndoorMedia' },
     { id: 'reengagement', icon: '🔄', name: 'Re-engagement',
       subject: 'Things have changed — {business}',
       body: 'Hi {contact},\n\nIt\'s been a while since we last connected about {business}. A lot has changed at IndoorMedia — new store locations, better pricing, and stronger results for businesses like yours.\n\nWe have availability at {store} right now and I think it could be a great fit.\n\nWould you be open to reconnecting for a quick 10-minute call?\n\nBest,\n{rep}\nIndoorMedia' },
     { id: 'limited', icon: '⚡', name: 'Limited Time Offer',
       subject: 'Limited availability at {store_short} near {business}',
-      body: 'Hi {contact},\n\nI wanted to give you a heads up — we have limited ad placement availability at {store}.\n\nOur partnership program is filling up fast, and I\'d hate for {business} to miss out on reaching thousands of local shoppers each week.\n\nCan we schedule a quick call this week?\n\nBest,\n{rep}\nIndoorMedia' },
+      body: 'Hi {contact},\n\nI wanted to give you a heads up — we have limited ad placement availability at {store}.\n\nWith {customers} shoppers per week, this is one of the highest-traffic locations in the area. Our partnership program is filling up fast, and I\'d hate for {business} to miss out.\n\nCan we schedule a quick call this week?\n\nBest,\n{rep}\nIndoorMedia' },
   ];
 
   // Build a natural store reference like "the Safeway on Center Street in Salem"
@@ -1016,7 +1016,15 @@
     return city ? `${chain} in ${city}` : chain;
   }
 
-  // Replace all template placeholders including {store} variants
+  // Estimate weekly customers from case count (~550 customers per register per week)
+  function getStoreCustomers() {
+    const cases = selectedStore?.['Case Count'] || 0;
+    if (!cases) return '10,000+';
+    const estimate = Math.round(cases * 550 / 1000) * 1000; // round to nearest thousand
+    return estimate.toLocaleString() + '+';
+  }
+
+  // Replace all template placeholders including {store} and {customers} variants
   function fillTemplate(text, prospectName) {
     const rep = $user?.name || $user?.first_name || 'Your Rep';
     return text
@@ -1025,7 +1033,8 @@
       .replace(/\{rep\}/g, rep)
       .replace(/\{store_cap\}/g, getStoreRef().replace(/^the /, 'The '))
       .replace(/\{store_short\}/g, getStoreShort())
-      .replace(/\{store\}/g, getStoreRef());
+      .replace(/\{store\}/g, getStoreRef())
+      .replace(/\{customers\}/g, getStoreCustomers());
   }
 
   function loadSavedProspects() {
