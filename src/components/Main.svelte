@@ -1016,9 +1016,11 @@
       <svg class="tab-bar-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
       <span class="tab-bar-label">Present</span>
     </button>
-    <button class="tab-bar-item" class:active={currentTab === 'dashboard'} on:click={() => currentTab = 'dashboard'}>
+    <button class="tab-bar-item tab-home" class:active={currentTab === 'dashboard'} on:click={() => currentTab = 'dashboard'}>
       <div class="tab-bar-indicator"></div>
-      <svg class="tab-bar-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+      <div class="home-icon-circle">
+        <svg class="tab-bar-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+      </div>
       <span class="tab-bar-label">Home</span>
     </button>
     <button class="tab-bar-item" class:active={currentTab === 'clients'} on:click={() => currentTab = 'clients'}>
@@ -1516,11 +1518,11 @@
     right: 0;
     z-index: 1000;
     background: linear-gradient(135deg, #CC0000 0%, #990000 100%);
-    border-top: none;
+    border-top: 3px solid #ff3333;
     box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.15);
-    height: 70px;
+    height: 74px;
     display: flex;
-    align-items: stretch;
+    align-items: center;
     padding-bottom: env(safe-area-inset-bottom, 0px);
   }
   :global([data-theme='dark']) .tab-bar {
@@ -1535,13 +1537,14 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: 2px;
+    gap: 3px;
     background: none;
     border: none;
     color: rgba(255, 255, 255, 0.6);
     cursor: pointer;
     position: relative;
-    padding: 10px 2px 0;
+    padding: 0 2px;
+    padding-bottom: env(safe-area-inset-bottom, 0px);
     transition: color 0.2s;
     -webkit-tap-highlight-color: transparent;
   }
@@ -1556,10 +1559,10 @@
 
   .tab-bar-indicator {
     position: absolute;
-    top: 0;
+    top: -2px;
     left: 50%;
     transform: translateX(-50%);
-    width: 20px;
+    width: 30px;
     height: 3px;
     border-radius: 0 0 3px 3px;
     background: transparent;
@@ -1571,13 +1574,32 @@
   }
 
   .tab-bar-icon {
-    width: 28px;
-    height: 28px;
+    width: 26px;
+    height: 26px;
     stroke: currentColor;
     flex-shrink: 0;
   }
 
-
+  /* Home button — black circle backdrop */
+  .home-icon-circle {
+    width: 46px;
+    height: 46px;
+    border-radius: 50%;
+    background: #000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: -14px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+    border: 2px solid rgba(255, 255, 255, 0.2);
+  }
+  .tab-home.active .home-icon-circle {
+    border-color: rgba(255, 255, 255, 0.5);
+  }
+  .home-icon-circle .tab-bar-icon {
+    width: 24px;
+    height: 24px;
+  }
 
   .tab-bar-label {
     font-size: 10px;
