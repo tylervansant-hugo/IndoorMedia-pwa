@@ -1580,10 +1580,10 @@
     flex-shrink: 0;
   }
 
-  /* Home button — black circle backdrop */
+  /* Home button — black circle backdrop, same vertical position as other icons */
   .home-icon-circle {
-    width: 44px;
-    height: 44px;
+    width: 40px;
+    height: 40px;
     border-radius: 50%;
     background: #000;
     display: flex;
@@ -1599,10 +1599,6 @@
   .home-icon-circle .tab-bar-icon {
     width: 22px;
     height: 22px;
-  }
-  /* Home label needs less gap since circle is bigger */
-  .tab-home .tab-bar-label {
-    margin-top: -1px;
   }
 
   .tab-bar-label {
