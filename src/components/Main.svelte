@@ -810,6 +810,12 @@
       if (action === 'prospect') {
         storesView = 'prospects';
         currentTab = 'stores';
+        // Tell ProspectSearch to select this store and jump to categories
+        if (store) {
+          setTimeout(() => {
+            document.dispatchEvent(new CustomEvent('select-store-from-map', { detail: store }));
+          }, 100);
+        }
       } else if (action === 'rates') {
         storesView = 'rates';
         currentTab = 'stores';
