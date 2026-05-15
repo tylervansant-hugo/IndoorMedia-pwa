@@ -15,7 +15,7 @@
       explainer: 'https://youtu.be/_gdlyEszHfY?si=0_kHou89WrMhvNY_'
     },
     'cartvertising': {
-      presentation: 'https://www.youtube.com/watch?v=PduxHWy8sMc',
+      presentation: 'https://docs.google.com/presentation/d/1xwIF4CaTp07AKunGaJysCSIGqN7VCdbL4fgOH3XEpl4/edit?usp=sharing',
       explainer: 'https://www.youtube.com/watch?v=PduxHWy8sMc'
     },
     'digitalboost': {
