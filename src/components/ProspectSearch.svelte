@@ -2636,6 +2636,8 @@
     overflow: hidden;
     user-select: none;
     -webkit-user-select: none;
+    box-sizing: border-box;
+    max-width: 100%;
   }
   .prospect-card.swipeable { cursor: grab; touch-action: pan-y; }
   .swipe-indicator {
@@ -2668,15 +2670,18 @@
 
   .prospect-actions {
     display: flex;
+    flex-direction: column;
     gap: 8px;
-    flex-wrap: wrap;
     padding-top: 10px;
     border-top: 1px solid var(--border-color);
+    overflow: hidden;
+    width: 100%;
+    box-sizing: border-box;
   }
 
   .action-btn {
     flex: 1;
-    min-width: 60px;
+    min-width: 0;
     padding: 8px 4px;
     background: var(--hover-bg);
     border: 1px solid var(--border-color);
@@ -2688,6 +2693,10 @@
     font-weight: 600;
     transition: all 0.2s;
     color: var(--text-primary);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    box-sizing: border-box;
   }
 
   .action-btn:hover { background: #cc0000; color: white; }
@@ -2698,7 +2707,7 @@
     width: 100%;
   }
 
-  .action-row .action-btn { flex: 1; }
+  .action-row .action-btn { flex: 1; min-width: 0; }
 
   .full-width { width: 100%; flex: none !important; }
 
@@ -2723,8 +2732,9 @@
   .btn-outline:hover { background: #CC0000 !important; color: white !important; }
 
   .btn-book-appt {
-    display: block;
-    width: 100%;
+    display: block !important;
+    width: 100% !important;
+    flex: none !important;
     padding: 14px 16px !important;
     background: #CC0000 !important;
     color: white !important;
@@ -2736,11 +2746,16 @@
     text-decoration: none;
     letter-spacing: 0.3px;
     box-shadow: 0 2px 8px rgba(204, 0, 0, 0.3);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    box-sizing: border-box;
   }
   .btn-book-appt:hover { background: #aa0000 !important; box-shadow: 0 4px 12px rgba(204, 0, 0, 0.4); }
   .btn-navigate {
-    display: block;
-    width: 100%;
+    display: block !important;
+    width: 100% !important;
+    flex: none !important;
     padding: 14px 16px !important;
     background: #34a853 !important;
     color: white !important;
@@ -2752,7 +2767,10 @@
     text-decoration: none;
     letter-spacing: 0.3px;
     box-shadow: 0 2px 8px rgba(52, 168, 83, 0.3);
-    margin-top: 8px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    box-sizing: border-box;
   }
   .btn-navigate:hover { background: #2d8a46 !important; }
   .text-btn { background: #1565C0 !important; color: white !important; border-color: #1565C0 !important; }
@@ -2963,8 +2981,8 @@
   }
 
   .calendar-booking { width: 100%; }
-  .invite-row { margin-bottom: 8px; }
-  .invite-select { width: 100%; padding: 10px 12px; border: 2px solid var(--border-color, #ddd); border-radius: 8px; font-size: 13px; background: var(--input-bg, white); color: var(--text-primary, #333); }
+  .invite-row { margin-bottom: 8px; width: 100%; }
+  .invite-select { width: 100%; padding: 10px 12px; border: 2px solid var(--border-color, #ddd); border-radius: 8px; font-size: 16px; background: var(--input-bg, white); color: var(--text-primary, #333); box-sizing: border-box; max-width: 100%; }
   .calendar-btn { background: #1a73e8 !important; color: white !important; }
   .calendar-btn:hover { background: #1557b0 !important; }
 </style>
