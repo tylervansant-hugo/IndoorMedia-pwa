@@ -1722,8 +1722,8 @@ IndoorMedia`;
   .renewal-btn { border: 2px solid #CC0000 !important; }
   .search-input { width: 100%; padding: 10px 14px; border: 1px solid #ddd; border-radius: 8px; font-size: 14px; margin-bottom: 12px; box-sizing: border-box; }
   .search-input:focus { outline: none; border-color: #CC0000; }
-  .renewal-filters { display: flex; gap: 8px; margin-bottom: 16px; }
-  .renewal-filters select { flex: 1; padding: 8px; border: 1px solid #ddd; border-radius: 8px; font-size: 13px; background: white; }
+  .renewal-filters { display: flex; gap: 8px; margin-bottom: 16px; flex-wrap: wrap; }
+  .renewal-filters select { flex: 1; min-width: 0; padding: 8px; border: 1px solid #ddd; border-radius: 8px; font-size: 16px; background: white; box-sizing: border-box; }
   .renewal-list { display: flex; flex-direction: column; gap: 10px; }
   .select-bar { display:flex; gap:8px; align-items:center; margin-bottom:12px; flex-wrap:wrap; }
   .select-toggle { padding:8px 14px; border:2px solid var(--border-color, #ddd); border-radius:8px; background:var(--card-bg, white); font-size:13px; font-weight:700; cursor:pointer; color:var(--text-primary, #333); }
@@ -1788,10 +1788,10 @@ IndoorMedia`;
   .renewal-actions .email-btn { background: #CC0000; color: white; }
   /* Pending Renewals */
   .renewal-btn { border: 2px solid #CC0000 !important; }
-  .renewal-filters { margin-bottom: 16px; }
+  .renewal-filters { margin-bottom: 16px; overflow: hidden; }
   .renewal-search { width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 8px; font-size: 14px; margin-bottom: 8px; box-sizing: border-box; }
-  .filter-row { display: flex; gap: 8px; }
-  .filter-row select { flex: 1; padding: 8px; border: 1px solid #ddd; border-radius: 8px; font-size: 13px; background: white; }
+  .filter-row { display: flex; gap: 8px; flex-wrap: wrap; }
+  .filter-row select { flex: 1; min-width: 0; padding: 8px; border: 1px solid #ddd; border-radius: 8px; font-size: 16px; background: white; box-sizing: border-box; }
   .renewal-list { display: flex; flex-direction: column; gap: 8px; }
   .renewal-card { background: var(--card-bg, #ffffff); border: 1px solid #e8e8e8; border-radius: 12px; box-shadow: 0 1px 3px rgba(0,0,0,0.06); overflow: hidden; transition: box-shadow 0.2s; }
   :global([data-theme='dark']) .renewal-card { background: #1e1e1e; border-color: #333; }
@@ -1836,7 +1836,7 @@ IndoorMedia`;
   .filter-bar { margin-top: 12px; }
   .search-input { width: 100%; padding: 10px 14px; border: 2px solid var(--border-color); border-radius: 10px; font-size: 14px; background: var(--input-bg); color: var(--text-primary); box-sizing: border-box; }
   .filter-row { display: flex; gap: 8px; margin-top: 8px; flex-wrap: wrap; }
-  .filter-select { flex: 1; min-width: 100px; padding: 8px 10px; border: 2px solid var(--border-color); border-radius: 8px; font-size: 13px; background: var(--input-bg); color: var(--text-primary); }
+  .filter-select { flex: 1; min-width: 0; padding: 8px 10px; border: 2px solid var(--border-color); border-radius: 8px; font-size: 16px; background: var(--input-bg); color: var(--text-primary); box-sizing: border-box; }
   .empty-state { text-align: center; padding: 40px 20px; color: var(--text-tertiary); font-size: 15px; }
 
   /* Ad Proof Contact Actions */
