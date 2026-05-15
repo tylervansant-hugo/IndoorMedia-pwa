@@ -1041,6 +1041,15 @@
   function loadSavedProspects() {
     const saved = localStorage.getItem('savedProspects');
     savedProspects = saved ? JSON.parse(saved) : [];
+    // Backfill notes from prospectNotes if saved prospect has empty notes
+    let updated = false;
+    savedProspects.forEach(p => {
+      if (!p.notes) {
+        const note = getProspectNote(p.id || p.name);
+        if (note) { p.notes = note; updated = true; }
+      }
+    });
+    if (updated) localStorage.setItem('savedProspects', JSON.stringify(savedProspects));
   }
 
   function getProspectNote(id) {
@@ -1056,6 +1065,12 @@
       notes[id] = text;
       localStorage.setItem('prospectNotes', JSON.stringify(notes));
     } catch {}
+    // Also sync to savedProspects if this prospect is saved
+    const idx = savedProspects.findIndex(p => (p.id || p.name) === id);
+    if (idx >= 0) {
+      savedProspects[idx].notes = text;
+      localStorage.setItem('savedProspects', JSON.stringify(savedProspects));
+    }
   }
 
   function getTextTemplates(prospect) {
@@ -1141,7 +1156,9 @@
 
   function saveProspect(prospect) {
     if (!savedProspects.find(p => p.id === prospect.id)) {
-      savedProspects = [...savedProspects, { ...prospect, savedAt: new Date().toISOString(), status: 'new', notes: '' }];
+      // Carry over notes from prospectNotes if they exist
+      const existingNote = getProspectNote(prospect.id || prospect.name);
+      savedProspects = [...savedProspects, { ...prospect, savedAt: new Date().toISOString(), status: 'new', notes: existingNote || '' }];
       localStorage.setItem('savedProspects', JSON.stringify(savedProspects));
       alert(`✅ Saved: ${prospect.name}`);
     }
@@ -1158,6 +1175,12 @@
       savedProspects[idx].notes = notes;
       localStorage.setItem('savedProspects', JSON.stringify(savedProspects));
     }
+    // Also sync to prospectNotes store
+    try {
+      const allNotes = JSON.parse(localStorage.getItem('prospectNotes') || '{}');
+      allNotes[id] = notes;
+      localStorage.setItem('prospectNotes', JSON.stringify(allNotes));
+    } catch {}
   }
 
   function onProspectStoreResults(e) {
