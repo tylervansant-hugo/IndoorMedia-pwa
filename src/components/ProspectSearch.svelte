@@ -5,7 +5,8 @@
   import HotLeadsSubmit from './HotLeadsSubmit.svelte';
   import PendingLeads from './PendingLeads.svelte';
   import StoreSearchInput from '../lib/StoreSearchInput.svelte';
-  // Map removed — use the main StoreMap via the Stores > Map tab
+  import L from 'leaflet';
+  import 'leaflet/dist/leaflet.css';
   
   let allStores = [];
   let nearbyStores = [];
@@ -426,6 +427,67 @@
       Math.abs((s.longitude || 0) - lng) < 0.01
     );
     return matching.length > 10; // More than 10 stores at same spot = dummy coords
+  }
+
+  // Svelte action: renders a mini Leaflet map showing prospect + store + distance
+  function initMiniMap(node, params) {
+    const { prospect, store } = params;
+    const pLat = prospect.lat;
+    const pLng = prospect.lng;
+    const sLat = store?.latitude || store?.Latitude;
+    const sLng = store?.longitude || store?.Longitude;
+
+    const map = L.map(node, {
+      center: [pLat, pLng],
+      zoom: 13,
+      zoomControl: true,
+      attributionControl: false,
+      dragging: true,
+      scrollWheelZoom: false,
+    });
+
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      maxZoom: 19,
+    }).addTo(map);
+
+    // Prospect marker (red)
+    L.circleMarker([pLat, pLng], {
+      radius: 10, fillColor: '#CC0000', color: '#fff', weight: 2, fillOpacity: 0.9,
+    }).addTo(map).bindPopup(`<strong>${prospect.name}</strong><br><span style="font-size:12px;">${prospect.address || ''}</span>`).openPopup();
+
+    // Store marker (blue) + distance line
+    if (sLat && sLng) {
+      L.circleMarker([sLat, sLng], {
+        radius: 12, fillColor: '#1a73e8', color: '#fff', weight: 3, fillOpacity: 0.9,
+      }).addTo(map).bindPopup(`<strong>🏪 ${store.GroceryChain || ''}</strong><br><span style="font-size:12px;">${store.Address || ''}, ${store.City || ''}</span>`);
+
+      // Dashed line between store and prospect
+      L.polyline([[sLat, sLng], [pLat, pLng]], {
+        color: '#CC0000', weight: 2, dashArray: '8, 6', opacity: 0.7,
+      }).addTo(map);
+
+      // Distance label at midpoint
+      const midLat = (pLat + sLat) / 2;
+      const midLng = (pLng + sLng) / 2;
+      const dist = calculateDistance(pLat, pLng, sLat, sLng);
+      L.marker([midLat, midLng], {
+        icon: L.divIcon({
+          className: 'distance-label',
+          html: `<div style="background:#fff;border:1px solid #ccc;border-radius:8px;padding:2px 8px;font-size:12px;font-weight:700;color:#CC0000;white-space:nowrap;box-shadow:0 1px 3px rgba(0,0,0,0.2);">${dist.toFixed(1)} mi</div>`,
+          iconSize: [60, 24],
+          iconAnchor: [30, 12],
+        }),
+      }).addTo(map);
+
+      // Fit both markers in view
+      map.fitBounds([[pLat, pLng], [sLat, sLng]], { padding: [40, 40] });
+    }
+
+    return {
+      destroy() {
+        map.remove();
+      }
+    };
   }
 
   function calculateDistance(lat1, lon1, lat2, lon2) {
@@ -1476,7 +1538,17 @@
             {#if prospect.address}
               <a href="https://maps.apple.com/?daddr={encodeURIComponent(prospect.address)}" target="_blank" class="action-btn btn-navigate">🗺️ Navigate</a>
             {/if}
+            {#if prospect.lat && prospect.lng}
+              <button class="action-btn btn-showmap" on:click={() => { prospect._showMap = !prospect._showMap; prospects = prospects; }}>
+                {prospect._showMap ? '✕ Close Map' : '📍 Show on Map'}
+              </button>
+            {/if}
           </div>
+
+          {#if prospect._showMap && prospect.lat && prospect.lng}
+            <div class="prospect-minimap" use:initMiniMap={{ prospect, store: selectedStore }}></div>
+          {/if}
+
           {#if prospect._showText}
             <div class="text-templates-section">
               <h4 class="text-templates-title">💬 Text Templates</h4>
@@ -2773,6 +2845,29 @@
     box-sizing: border-box;
   }
   .btn-navigate:hover { background: #2d8a46 !important; }
+  .btn-showmap {
+    display: block !important;
+    width: 100% !important;
+    flex: none !important;
+    padding: 14px 16px !important;
+    background: #1a73e8 !important;
+    color: white !important;
+    border-color: #1a73e8 !important;
+    font-size: 1rem !important;
+    font-weight: 700 !important;
+    border-radius: 12px !important;
+    text-align: center;
+    box-shadow: 0 2px 8px rgba(26, 115, 232, 0.3);
+    box-sizing: border-box;
+  }
+  .btn-showmap:hover { background: #0d47a1 !important; }
+  .prospect-minimap {
+    height: 250px;
+    border-radius: 12px;
+    overflow: hidden;
+    border: 2px solid var(--border-color, #ddd);
+    margin-top: 10px;
+  }
   .text-btn { background: #1565C0 !important; color: white !important; border-color: #1565C0 !important; }
   .text-btn:hover { background: #0D47A1 !important; }
 
