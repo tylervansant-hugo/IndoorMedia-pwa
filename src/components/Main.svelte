@@ -1520,10 +1520,10 @@
     background: linear-gradient(135deg, #CC0000 0%, #990000 100%);
     border-top: 3px solid #ff3333;
     box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.15);
-    height: 74px;
     display: flex;
-    align-items: center;
+    align-items: stretch;
     padding-bottom: env(safe-area-inset-bottom, 0px);
+    height: calc(70px + env(safe-area-inset-bottom, 0px));
   }
   :global([data-theme='dark']) .tab-bar {
     background: linear-gradient(135deg, #990000 0%, #660000 100%);
@@ -1544,7 +1544,7 @@
     cursor: pointer;
     position: relative;
     padding: 0 2px;
-    padding-bottom: env(safe-area-inset-bottom, 0px);
+    height: 70px;
     transition: color 0.2s;
     -webkit-tap-highlight-color: transparent;
   }
@@ -1559,12 +1559,12 @@
 
   .tab-bar-indicator {
     position: absolute;
-    top: -2px;
+    top: 4px;
     left: 50%;
     transform: translateX(-50%);
     width: 30px;
     height: 3px;
-    border-radius: 0 0 3px 3px;
+    border-radius: 3px;
     background: transparent;
     transition: background 0.2s;
   }
@@ -1582,23 +1582,27 @@
 
   /* Home button — black circle backdrop */
   .home-icon-circle {
-    width: 46px;
-    height: 46px;
+    width: 44px;
+    height: 44px;
     border-radius: 50%;
     background: #000;
     display: flex;
     align-items: center;
     justify-content: center;
-    margin-top: -14px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
-    border: 2px solid rgba(255, 255, 255, 0.2);
+    border: 2px solid rgba(255, 255, 255, 0.25);
+    flex-shrink: 0;
   }
   .tab-home.active .home-icon-circle {
-    border-color: rgba(255, 255, 255, 0.5);
+    border-color: rgba(255, 255, 255, 0.6);
   }
   .home-icon-circle .tab-bar-icon {
-    width: 24px;
-    height: 24px;
+    width: 22px;
+    height: 22px;
+  }
+  /* Home label needs less gap since circle is bigger */
+  .tab-home .tab-bar-label {
+    margin-top: -1px;
   }
 
   .tab-bar-label {
