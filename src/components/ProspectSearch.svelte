@@ -1016,12 +1016,13 @@
     return city ? `${chain} in ${city}` : chain;
   }
 
-  // Estimate weekly customers from case count (~550 customers per register per week)
+  // Weekly customer impressions: cases × 50 × 137 × 2 / 90 = daily, × 7 = weekly
   function getStoreCustomers() {
     const cases = selectedStore?.['Case Count'] || 0;
     if (!cases) return '10,000+';
-    const estimate = Math.round(cases * 550 / 1000) * 1000; // round to nearest thousand
-    return estimate.toLocaleString() + '+';
+    const weekly = cases * 50 * 137 * 2 / 90 * 7;
+    const rounded = Math.round(weekly / 1000) * 1000;
+    return rounded.toLocaleString() + '+';
   }
 
   // Replace all template placeholders including {store} and {customers} variants
