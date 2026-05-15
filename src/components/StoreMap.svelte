@@ -132,21 +132,50 @@
     );
   }
 
-  function extractStoreNumber(storeName) {
-    if (!storeName) return '';
-    const parts = storeName.split('-');
-    return parts.length > 1 ? parts[1] : '';
+  // Chain name → prefix mapping (built from stores data)
+  let chainToPrefix = {};
+
+  function buildChainPrefixMap(stores) {
+    const map = {};
+    stores.forEach(s => {
+      const name = s.StoreName || '';
+      const chain = s.GroceryChain || '';
+      const prefix = name.split(/\d/)[0]; // e.g. "SAF" from "SAF07Z-0424"
+      if (prefix && chain && !map[chain]) {
+        map[chain] = prefix;
+      }
+    });
+    return map;
   }
 
   function buildContractMap(contracts) {
+    // Key by "PREFIX + storeNumber" to avoid cross-chain collisions
+    // e.g. store_name="Safeway" + store_number="0424" → key "SAF-0424"
     const map = {};
     contracts.forEach(c => {
       const sn = (c.store_number || '').replace(/^0+/, '');
       if (!sn) return;
+      const chainName = c.store_name || '';
+      const prefix = chainToPrefix[chainName] || '';
+      // Store with chain-qualified key
+      const qualifiedKey = prefix ? `${prefix}-${sn}` : sn;
+      if (!map[qualifiedKey]) map[qualifiedKey] = [];
+      map[qualifiedKey].push(c);
+      // Also keep a bare number fallback for stores without chain match
       if (!map[sn]) map[sn] = [];
       map[sn].push(c);
     });
     return map;
+  }
+
+  function getStoreKey(storeName) {
+    // "SAF07Z-0424" → prefix "SAF", number "0424" → "SAF-0424"
+    if (!storeName) return '';
+    const parts = storeName.split('-');
+    if (parts.length < 2) return '';
+    const prefix = parts[0].replace(/\d+[A-Z]*$/, ''); // "SAF07Z" → "SAF"
+    const num = parts[1].replace(/^0+/, '');
+    return `${prefix}-${num}`;
   }
 
   function getFilteredStores() {
@@ -163,25 +192,22 @@
     }
     if (selectedRep) {
       // Only show stores where this rep has contracts
-      stores = stores.filter(s => {
-        const storeNum = s.StoreName.split('-')[1] || '';
-        return storeHasContractForRep(storeNum, selectedRep);
-      });
+      stores = stores.filter(s => storeHasContractForRep(s.StoreName, selectedRep));
     }
 
     return stores;
   }
 
-  function storeHasContractForRep(storeNumber, rep) {
-    const normalized = storeNumber.replace(/^0+/, '');
-    const contracts = contractsByStore[normalized] || [];
+  function storeHasContractForRep(storeName, rep) {
+    const key = getStoreKey(storeName);
+    const contracts = contractsByStore[key] || [];
     if (!rep) return contracts.length > 0;
     return contracts.some(c => c.sales_rep === rep);
   }
 
-  function getStoreContracts(storeNumber) {
-    const normalized = storeNumber.replace(/^0+/, '');
-    return contractsByStore[normalized] || [];
+  function getStoreContracts(storeName) {
+    const key = getStoreKey(storeName);
+    return contractsByStore[key] || [];
   }
 
   function updateMap() {
@@ -195,10 +221,9 @@
     filtered.forEach(store => {
       if (!store.latitude || !store.longitude) return;
 
-      const storeNum = extractStoreNumber(store.StoreName);
       const hasContract = selectedRep
-        ? storeHasContractForRep(storeNum, selectedRep)
-        : storeHasContractForRep(storeNum, '');
+        ? storeHasContractForRep(store.StoreName, selectedRep)
+        : storeHasContractForRep(store.StoreName, '');
 
       if (hasContract) withContracts++;
 
@@ -219,7 +244,7 @@
       });
 
       // Build popup
-      const contracts = getStoreContracts(storeNum);
+      const contracts = getStoreContracts(store.StoreName);
       let popupHtml = `
         <div class="store-popup">
           <div class="popup-header">${store.StoreName}</div>
@@ -383,6 +408,7 @@
       allStores = await storesRes.json();
       const contractsData = await contractsRes.json();
       allContracts = contractsData.contracts || contractsData;
+      chainToPrefix = buildChainPrefixMap(allStores);
       contractsByStore = buildContractMap(allContracts);
       totalCount = allStores.length;
 
