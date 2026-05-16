@@ -57,6 +57,8 @@
 
   // Dashboard stats
   let prospectsThisWeek = 0;
+  let prospectBreakdown = { saved: 0, searches: 0, calls: 0, savedNames: [], searchTerms: [], callNames: [] };
+  let showProspectDetail = false;
   let revenueThisMonth = 0;
   let growthPercent = 0;
   let storesInTerritory = 0;
@@ -567,15 +569,27 @@
       
       // Count searches this week
       const searches = JSON.parse(localStorage.getItem('impro_searches') || '[]');
-      const searchesThisWeek = searches.filter(s => new Date(s.date) >= weekAgo).length;
+      const recentSearches = searches.filter(s => new Date(s.date) >= weekAgo);
+      const searchesThisWeek = recentSearches.length;
       
       // Count phone clicks this week
       const phoneCalls = JSON.parse(localStorage.getItem('impro_phone_clicks') || '[]');
-      const callsThisWeek = phoneCalls.filter(c => parseContractDate(c.date) >= weekAgo).length;
+      const recentCalls = phoneCalls.filter(c => parseContractDate(c.date) >= weekAgo);
+      const callsThisWeek = recentCalls.length;
       
       // Total activity = saved + searches + phone clicks
       prospectsThisWeek = savedThisWeek + searchesThisWeek + callsThisWeek;
-      if (prospectsThisWeek === 0) prospectsThisWeek = saved.length; // fallback to total saved
+      if (prospectsThisWeek === 0) prospectsThisWeek = saved.length;
+
+      // Store breakdown for detail view
+      prospectBreakdown = {
+        saved: savedThisWeek,
+        searches: searchesThisWeek,
+        calls: callsThisWeek,
+        savedNames: saved.filter(p => { try { return new Date(p.savedAt) >= weekAgo; } catch { return false; } }).map(p => ({ name: p.name, date: p.savedAt })).slice(0, 20),
+        searchTerms: recentSearches.map(s => ({ category: s.category || s.subcategory || '', store: s.store || '', date: s.date })).slice(0, 20),
+        callNames: recentCalls.map(c => ({ name: c.name || c.business || '', phone: c.phone || '', date: c.date })).slice(0, 20),
+      };
     } catch { prospectsThisWeek = 0; }
 
     // Revenue this month from contracts
@@ -1210,19 +1224,73 @@
 
         <!-- 4. STATS GRID — Prospects, Streak, Renewals -->
         <div class="dashboard-grid">
-          <button class="stat-card clickable" on:click={() => { storesView = 'prospects'; currentTab = 'stores'; }}>
+          <button class="stat-card clickable" on:click={() => { showProspectDetail = !showProspectDetail; showStreakDetail = false; }}>
             <div class="stat-icon">🎯</div>
             <h3>Prospects</h3>
             <p class="stat-value">{prospectsThisWeek}</p>
-            <p class="stat-label">This Week →</p>
+            <p class="stat-label">This Week — tap for breakdown</p>
           </button>
-          <button class="stat-card clickable" on:click={() => showStreakDetail = !showStreakDetail}>
+          <button class="stat-card clickable" on:click={() => { showStreakDetail = !showStreakDetail; showProspectDetail = false; }}>
             <div class="stat-icon">🔥</div>
             <h3>Streak</h3>
             <p class="stat-value">{streak}</p>
             <p class="stat-label">{streak === 1 ? 'Day' : 'Days'} Active</p>
           </button>
         </div>
+
+        {#if showProspectDetail}
+          <div class="drill-down">
+            <h4>🎯 Prospect Activity — This Week</h4>
+            <div class="prospect-breakdown-grid">
+              <div class="breakdown-card">
+                <div class="breakdown-value">{prospectBreakdown.searches}</div>
+                <div class="breakdown-label">🔍 Searches</div>
+              </div>
+              <div class="breakdown-card">
+                <div class="breakdown-value">{prospectBreakdown.calls}</div>
+                <div class="breakdown-label">📞 Calls</div>
+              </div>
+              <div class="breakdown-card">
+                <div class="breakdown-value">{prospectBreakdown.saved}</div>
+                <div class="breakdown-label">💾 Saved</div>
+              </div>
+            </div>
+
+            {#if prospectBreakdown.callNames.length > 0}
+              <h5 style="margin: 16px 0 8px;">📞 Recent Calls</h5>
+              {#each prospectBreakdown.callNames as call}
+                <div class="breakdown-row">
+                  <span>{call.name || 'Unknown'}</span>
+                  <span class="breakdown-date">{call.phone}</span>
+                </div>
+              {/each}
+            {/if}
+
+            {#if prospectBreakdown.savedNames.length > 0}
+              <h5 style="margin: 16px 0 8px;">💾 Saved Prospects</h5>
+              {#each prospectBreakdown.savedNames as prospect}
+                <div class="breakdown-row">
+                  <span>{prospect.name}</span>
+                  <span class="breakdown-date">{new Date(prospect.date).toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' })}</span>
+                </div>
+              {/each}
+            {/if}
+
+            {#if prospectBreakdown.searchTerms.length > 0}
+              <h5 style="margin: 16px 0 8px;">🔍 Searches</h5>
+              {#each prospectBreakdown.searchTerms as search}
+                <div class="breakdown-row">
+                  <span>{search.category || 'Search'}{search.store ? ` @ ${search.store}` : ''}</span>
+                  <span class="breakdown-date">{new Date(search.date).toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' })}</span>
+                </div>
+              {/each}
+            {/if}
+
+            <button class="drill-goto-btn" on:click={() => { storesView = 'prospects'; currentTab = 'stores'; }}>
+              🎯 Go to Prospects →
+            </button>
+          </div>
+        {/if}
 
         {#if showStreakDetail}
           <div class="drill-down">
@@ -1824,6 +1892,27 @@
     margin-top: 16px;
   }
   .drill-down h4 { margin: 0 0 16px; font-size: 17px; font-weight: 700; color: var(--text-primary); }
+  .drill-down h5 { font-size: 14px; font-weight: 700; color: var(--text-secondary); }
+
+  .prospect-breakdown-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 16px;
+  }
+  .breakdown-card {
+    background: var(--bg-secondary, #f9f9f9); border-radius: 10px; padding: 14px 8px; text-align: center;
+    border: 1px solid var(--border-color, #eee);
+  }
+  .breakdown-value { font-size: 28px; font-weight: 800; color: #CC0000; }
+  .breakdown-label { font-size: 12px; color: var(--text-secondary); font-weight: 600; margin-top: 4px; }
+  .breakdown-row {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 8px 0; border-bottom: 1px solid var(--border-color, #eee); font-size: 13px;
+  }
+  .breakdown-date { font-size: 11px; color: var(--text-tertiary, #999); }
+  .drill-goto-btn {
+    display: block; width: 100%; margin-top: 16px; padding: 14px;
+    background: #CC0000; color: white; border: none; border-radius: 12px;
+    font-size: 16px; font-weight: 700; cursor: pointer; text-align: center;
+  }
   .drill-empty { font-size: 13px; color: var(--text-secondary, #999); text-align: center; padding: 8px; }
   .drill-row {
     display: flex;
