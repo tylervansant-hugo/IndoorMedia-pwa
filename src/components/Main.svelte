@@ -974,7 +974,7 @@
         </div>
         <div class="header-text">
           <h1 class="portal-title">imPro</h1>
-          <p class="portal-subtitle">Sales Portal</p>
+          <p class="portal-subtitle">Hi, {($user?.name || $user?.first_name || '').split(' ')[0]}</p>
         </div>
       </div>
 
@@ -995,12 +995,8 @@
         <button class="header-icon-btn font-size-btn" on:click={cycleFontSize} title="Font size: {currentFontSize}">
           <span class="font-size-label">{currentFontSize}</span>
         </button>
+        <button class="header-logout-btn" on:click={handleLogout}>Log Out</button>
       </div>
-    </div>
-
-    <div class="header-bottom">
-      <p class="user-greeting">Welcome, <strong>{$user?.name || $user?.first_name}</strong></p>
-      <button class="header-logout-btn" on:click={handleLogout}>Log Out</button>
     </div>
   </header>
 
@@ -1795,15 +1791,16 @@
   .cycle-divider { width: 1px; background: #e0e0e0; margin: 0 8px; }
 
   .header-logout-btn {
-    background: rgba(255,255,255,0.2);
-    border: 1px solid rgba(255,255,255,0.4);
-    color: white;
-    padding: 4px 14px;
-    border-radius: 6px;
-    font-size: 12px;
+    background: rgba(255,255,255,0.15);
+    border: 1px solid rgba(255,255,255,0.3);
+    color: rgba(255,255,255,0.8);
+    padding: 6px 10px;
+    border-radius: 8px;
+    font-size: 11px;
     font-weight: 600;
     cursor: pointer;
-    margin-top: 6px;
+    margin: 0;
+    white-space: nowrap;
   }
   .header-logout-btn:hover { background: rgba(255,255,255,0.3); }
 
