@@ -1521,9 +1521,8 @@
     border-top: 3px solid #ff3333;
     box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.15);
     display: flex;
-    align-items: stretch;
+    align-items: flex-start;
     padding-bottom: env(safe-area-inset-bottom, 0px);
-    height: calc(70px + env(safe-area-inset-bottom, 0px));
   }
   :global([data-theme='dark']) .tab-bar {
     background: linear-gradient(135deg, #990000 0%, #660000 100%);
@@ -1536,15 +1535,14 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
-    gap: 3px;
+    justify-content: flex-start;
+    gap: 2px;
     background: none;
     border: none;
     color: rgba(255, 255, 255, 0.6);
     cursor: pointer;
     position: relative;
-    padding: 0 2px;
-    height: 70px;
+    padding: 10px 2px 10px;
     transition: color 0.2s;
     -webkit-tap-highlight-color: transparent;
   }
