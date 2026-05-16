@@ -1388,7 +1388,8 @@
     justify-content: space-between;
     align-items: center;
     padding: 0;
-    gap: 20px;
+    gap: 8px;
+    overflow: hidden;
   }
 
   .header-logo-wrapper {
@@ -1454,8 +1455,10 @@
   .header-actions {
     display: flex;
     align-items: center;
-    gap: 10px;
-    flex-shrink: 0;
+    gap: 6px;
+    flex-shrink: 1;
+    min-width: 0;
+    overflow: hidden;
   }
 
   .header-icon-btn {
@@ -1794,13 +1797,14 @@
     background: rgba(255,255,255,0.15);
     border: 1px solid rgba(255,255,255,0.3);
     color: rgba(255,255,255,0.8);
-    padding: 6px 10px;
+    padding: 6px 8px;
     border-radius: 8px;
-    font-size: 11px;
+    font-size: 10px;
     font-weight: 600;
     cursor: pointer;
     margin: 0;
     white-space: nowrap;
+    flex-shrink: 0;
   }
   .header-logout-btn:hover { background: rgba(255,255,255,0.3); }
 
