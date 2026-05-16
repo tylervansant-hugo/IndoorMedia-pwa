@@ -1389,7 +1389,7 @@
     align-items: center;
     padding: 0;
     gap: 8px;
-    overflow: hidden;
+    overflow: visible;
   }
 
   .header-logo-wrapper {
@@ -1458,7 +1458,7 @@
     gap: 6px;
     flex-shrink: 1;
     min-width: 0;
-    overflow: hidden;
+    overflow: visible;
   }
 
   .header-icon-btn {
@@ -1467,14 +1467,15 @@
     color: white;
     cursor: pointer;
     position: relative;
-    width: 40px;
-    height: 40px;
+    width: 36px;
+    height: 36px;
     border-radius: 10px;
     transition: all 0.2s;
     display: flex;
     align-items: center;
     justify-content: center;
     padding: 0;
+    flex-shrink: 0;
   }
 
   .header-icon-btn:hover {
