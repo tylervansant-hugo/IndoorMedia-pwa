@@ -626,22 +626,22 @@
 
 
 
-  /* Filter grid — 2x2 on mobile */
+  /* Filters + toolbar in one compact row each */
   .filter-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 6px;
-    margin-bottom: 8px;
+    display: flex;
+    gap: 4px;
+    margin-bottom: 6px;
   }
 
   .filter-select {
-    width: 100%;
-    padding: 8px 10px;
+    flex: 1;
+    min-width: 0;
+    padding: 6px 4px;
     border: 1px solid var(--border-color, #ddd);
     border-radius: 8px;
     background: var(--input-bg, #fff);
     color: var(--text-primary, #333);
-    font-size: 16px;
+    font-size: 13px;
     font-weight: 500;
     cursor: pointer;
     appearance: auto;
@@ -653,36 +653,36 @@
     border-color: #CC0000;
   }
 
-  /* Compact toolbar row */
+  /* Toolbar: buttons + status all in one horizontal line */
   .map-toolbar {
     display: flex;
     align-items: center;
     gap: 6px;
-    flex-wrap: nowrap;
   }
 
   .tb-btn {
-    width: 36px; height: 36px; border-radius: 8px;
+    width: 32px; height: 32px; border-radius: 8px;
     border: 1px solid var(--border-color, #ddd);
     background: var(--card-bg, #fff);
-    cursor: pointer; font-size: 16px; flex-shrink: 0;
+    cursor: pointer; font-size: 14px; flex-shrink: 0;
     display: flex; align-items: center; justify-content: center;
+    padding: 0;
   }
   .tb-btn:active { background: var(--hover-bg, #eee); }
   .tb-btn:disabled { opacity: 0.4; cursor: default; }
 
   .tb-toggle {
     display: flex; align-items: center; gap: 3px;
-    font-size: 12px; font-weight: 600; cursor: pointer;
-    padding: 4px 8px; border-radius: 6px;
+    font-size: 11px; font-weight: 600; cursor: pointer;
+    padding: 4px 6px; border-radius: 6px;
     background: var(--bg-primary, #fff);
     border: 1px solid var(--border-color, #ddd);
     white-space: nowrap; flex-shrink: 0;
   }
-  .tb-toggle input { margin: 0; }
+  .tb-toggle input { margin: 0; width: 14px; height: 14px; }
 
   .tb-status {
-    font-size: 11px; color: var(--text-secondary, #666);
+    font-size: 10px; color: var(--text-secondary, #666);
     white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
     flex: 1; text-align: right;
   }
