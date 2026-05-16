@@ -20,6 +20,7 @@
   let renewalCycleFilter = 'all';
   let renewalRepFilter = 'all';
   let renewalZoneFilter = 'all';
+  let renewalStatusFilter = 'all'; // all | overdue | current
   let expandedRenewal = null;
   let selectedRenewals = new Set();
   let selectMode = false;
@@ -524,6 +525,11 @@ IndoorMedia`;
     if (renewalCycleFilter !== 'all' && r.cycle !== renewalCycleFilter) return false;
     if (renewalRepFilter !== 'all' && r.rep !== renewalRepFilter) return false;
     if (renewalZoneFilter !== 'all' && r.zone !== renewalZoneFilter) return false;
+    if (renewalStatusFilter !== 'all') {
+      const urgency = getDeadlineUrgency(r);
+      if (renewalStatusFilter === 'overdue' && urgency !== 'overdue') return false;
+      if (renewalStatusFilter === 'current' && urgency === 'overdue') return false;
+    }
     if (renewalSearch) {
       const q = renewalSearch.toLowerCase();
       return (r.business || '').toLowerCase().includes(q) ||
@@ -534,6 +540,9 @@ IndoorMedia`;
     }
     return true;
   });
+
+  $: overdueCount = myRenewals.filter(r => getDeadlineUrgency(r) === 'overdue').length;
+  $: currentCount = myRenewals.length - overdueCount;
 
   $: repName = $user?.name || $user?.first_name || '';
 
@@ -1106,6 +1115,18 @@ IndoorMedia`;
           <option value={cycle}>{cycle} ({myRenewals.filter(r => r.cycle === cycle).length})</option>
         {/each}
       </select>
+    </div>
+
+    <div class="status-toggles">
+      <button class="status-btn" class:active={renewalStatusFilter === 'all'} on:click={() => renewalStatusFilter = 'all'}>
+        All ({myRenewals.length})
+      </button>
+      <button class="status-btn status-overdue" class:active={renewalStatusFilter === 'overdue'} on:click={() => renewalStatusFilter = 'overdue'}>
+        🔴 Overdue ({overdueCount})
+      </button>
+      <button class="status-btn status-current" class:active={renewalStatusFilter === 'current'} on:click={() => renewalStatusFilter = 'current'}>
+        🟢 Current ({currentCount})
+      </button>
     </div>
 
     <div class="select-bar">
@@ -1788,6 +1809,19 @@ IndoorMedia`;
   .renewal-actions .email-btn { background: #CC0000; color: white; }
   /* Pending Renewals */
   .renewal-btn { border: 2px solid #CC0000 !important; }
+  .status-toggles {
+    display: flex; gap: 6px; margin-bottom: 12px;
+  }
+  .status-btn {
+    flex: 1; padding: 10px 8px; border: 2px solid var(--border-color, #ddd); border-radius: 10px;
+    background: var(--card-bg, #fff); color: var(--text-secondary, #666);
+    font-size: 13px; font-weight: 700; cursor: pointer; text-align: center;
+    transition: all 0.2s;
+  }
+  .status-btn.active { border-color: #CC0000; color: #CC0000; background: #fff5f5; }
+  .status-btn.status-overdue.active { border-color: #c62828; color: #c62828; background: #ffebee; }
+  .status-btn.status-current.active { border-color: #2e7d32; color: #2e7d32; background: #e8f5e9; }
+
   .renewal-filters { margin-bottom: 16px; overflow: hidden; }
   .renewal-search { width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 8px; font-size: 14px; margin-bottom: 8px; box-sizing: border-box; }
   .filter-row { display: flex; gap: 8px; flex-wrap: wrap; }
