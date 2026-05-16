@@ -494,7 +494,7 @@
   {#if !isFullscreen}
     <!-- Normal mode: full filter bar -->
     <div class="filter-bar no-print">
-      <div class="filter-row">
+      <div class="filter-grid">
         <select bind:value={selectedRep} class="filter-select">
           <option value="">All Reps</option>
           {#each uniqueReps as rep}
@@ -522,19 +522,19 @@
             <option value={chain}>{chain}</option>
           {/each}
         </select>
+      </div>
 
-        <button class="print-btn" on:click={handlePrint} title="Print map">🖨️</button>
-        <button class="fullscreen-btn" on:click={toggleFullscreen} title="Fullscreen">⛶</button>
-        <button class="location-btn" on:click={centerOnUserLocation} title="Center on my location" disabled={!userLatLng}>📍</button>
-        <label class="beacon-toggle" title="Show rep location beacons">
+      <div class="map-toolbar">
+        <button class="tb-btn" on:click={handlePrint} title="Print">🖨️</button>
+        <button class="tb-btn" on:click={toggleFullscreen} title="Fullscreen">⛶</button>
+        <button class="tb-btn" on:click={centerOnUserLocation} title="My location" disabled={!userLatLng}>📍</button>
+        <label class="tb-toggle">
           <input type="checkbox" bind:checked={showBeacons} />
           📍 Reps
         </label>
-      </div>
-
-      <div class="filter-status">
-        Showing <strong>{showingCount}</strong> of <strong>{totalCount}</strong> stores
-        (<strong>{contractCount}</strong> with contracts)
+        <span class="tb-status">
+          <strong>{showingCount}</strong>/{totalCount} stores · <strong>{contractCount}</strong> contracted
+        </span>
       </div>
     </div>
   {:else}
@@ -626,25 +626,26 @@
 
 
 
-  .filter-row {
-    display: flex;
-    gap: 8px;
-    flex-wrap: wrap;
-    align-items: center;
+  /* Filter grid — 2x2 on mobile */
+  .filter-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 6px;
+    margin-bottom: 8px;
   }
 
   .filter-select {
-    flex: 1;
-    min-width: 120px;
+    width: 100%;
     padding: 8px 10px;
     border: 1px solid var(--border-color, #ddd);
     border-radius: 8px;
     background: var(--input-bg, #fff);
     color: var(--text-primary, #333);
-    font-size: 13px;
+    font-size: 16px;
     font-weight: 500;
     cursor: pointer;
     appearance: auto;
+    box-sizing: border-box;
   }
 
   .filter-select:focus {
@@ -652,46 +653,40 @@
     border-color: #CC0000;
   }
 
-  .print-btn,
-  .fullscreen-btn,
-  .location-btn {
-    padding: 8px 12px;
-    background: var(--card-bg, #fff);
-    border: 1px solid var(--border-color, #ddd);
-    border-radius: 8px;
-    cursor: pointer;
-    font-size: 16px;
-    transition: background 0.2s;
-    line-height: 1;
-  }
-
-  .print-btn:hover,
-  .fullscreen-btn:hover,
-  .location-btn:hover {
-    background: var(--hover-bg, #f0f0f0);
-  }
-
-  .location-btn:disabled {
-    opacity: 0.4;
-    cursor: default;
-  }
-
-
-
-  .beacon-toggle {
+  /* Compact toolbar row */
+  .map-toolbar {
     display: flex;
     align-items: center;
-    gap: 4px;
-    font-size: 12px;
-    font-weight: 600;
-    cursor: pointer;
-    padding: 4px 8px;
-    border-radius: 6px;
+    gap: 6px;
+    flex-wrap: nowrap;
+  }
+
+  .tb-btn {
+    width: 36px; height: 36px; border-radius: 8px;
+    border: 1px solid var(--border-color, #ddd);
+    background: var(--card-bg, #fff);
+    cursor: pointer; font-size: 16px; flex-shrink: 0;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .tb-btn:active { background: var(--hover-bg, #eee); }
+  .tb-btn:disabled { opacity: 0.4; cursor: default; }
+
+  .tb-toggle {
+    display: flex; align-items: center; gap: 3px;
+    font-size: 12px; font-weight: 600; cursor: pointer;
+    padding: 4px 8px; border-radius: 6px;
     background: var(--bg-primary, #fff);
     border: 1px solid var(--border-color, #ddd);
-    white-space: nowrap;
+    white-space: nowrap; flex-shrink: 0;
   }
-  .beacon-toggle input { margin: 0; }
+  .tb-toggle input { margin: 0; }
+
+  .tb-status {
+    font-size: 11px; color: var(--text-secondary, #666);
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+    flex: 1; text-align: right;
+  }
+  .tb-status strong { color: var(--text-primary, #333); }
 
   :global(.beacon-pulse) {
     animation: pulse-beacon 2s ease-in-out infinite;
@@ -708,17 +703,6 @@
   @keyframes pulse-user-loc {
     0%, 100% { opacity: 1; }
     50% { opacity: 0.7; }
-  }
-
-  .filter-status {
-    margin-top: 6px;
-    font-size: 12px;
-    color: var(--text-secondary, #666);
-    text-align: center;
-  }
-
-  .filter-status strong {
-    color: var(--text-primary, #333);
   }
 
   .map-container {
