@@ -15109,7 +15109,1111 @@
       ],
       "createdAt": "2026-04-22T12:48:46.791643",
       "count": 10
+    },
+    "e4ba2234e298359f": {
+      "storeNumber": "FME07Y-0417",
+      "category": "all restaurants",
+      "prospects": [
+        {
+          "name": "Forresters Bar & Grill",
+          "type": "restaurant, food, point_of_interest, establishment",
+          "address": "1190 City View St, Eugene",
+          "lat": 44.0466465,
+          "lon": -123.128125,
+          "distance_miles": 0.73,
+          "likelihood_score": 79,
+          "rating": 4.4,
+          "user_ratings_total": 675,
+          "phone": "+1 541-780-6922",
+          "website": "http://www.forrestersgrill.com/",
+          "place_id": "ChIJCUJQz_kfwVQRSOkvktD1Yc4",
+          "opening_hours": {
+            "open_now": false
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 2,
+          "source": "Google Places"
+        },
+        {
+          "name": "Kasumi house",
+          "type": "restaurant, food, point_of_interest, establishment",
+          "address": "2190 W 11th Ave, Eugene",
+          "lat": 44.0475283,
+          "lon": -123.1266412,
+          "distance_miles": 0.79,
+          "likelihood_score": 80,
+          "rating": 4.6,
+          "user_ratings_total": 90,
+          "phone": "+1 541-393-6877",
+          "website": "http://kasumihouse.com/",
+          "place_id": "ChIJ9zI2AAkfwVQR5YlatM4JGeQ",
+          "opening_hours": {
+            "open_now": false
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        },
+        {
+          "name": "Hole in the Wall BBQ",
+          "type": "restaurant, food, point_of_interest, establishment",
+          "address": "3200 W 11th Ave, Eugene",
+          "lat": 44.04755590000001,
+          "lon": -123.1405142,
+          "distance_miles": 0.16,
+          "likelihood_score": 84,
+          "rating": 4.3,
+          "user_ratings_total": 539,
+          "phone": "+1 541-683-7378",
+          "website": "http://holeinthewallbbq.com/",
+          "place_id": "ChIJT7YUGYMewVQRvBJLONatOb4",
+          "opening_hours": {
+            "open_now": false
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 2,
+          "source": "Google Places"
+        },
+        {
+          "name": "Fitti\u2019s Pizza",
+          "type": "restaurant, food, point_of_interest, establishment",
+          "address": "1035 Conger St Unit #7, Eugene",
+          "lat": 44.0487296,
+          "lon": -123.1331767,
+          "distance_miles": 0.46,
+          "likelihood_score": 84,
+          "rating": 4.9,
+          "user_ratings_total": 62,
+          "phone": "+1 541-321-8472",
+          "website": "https://www.fittispizza.com/",
+          "place_id": "ChIJQ_4EPgAfwVQRdk28zhPBlWs",
+          "opening_hours": {
+            "open_now": false
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        },
+        {
+          "name": "Og poke eu",
+          "type": "restaurant, food, point_of_interest, establishment",
+          "address": "2132 W 6th Ave, Eugene",
+          "lat": 44.0531844,
+          "lon": -123.1248211,
+          "distance_miles": 0.91,
+          "likelihood_score": 79,
+          "rating": 4.9,
+          "user_ratings_total": 65,
+          "phone": "+1 541-255-5598",
+          "website": "http://ogpokeco.com/",
+          "place_id": "ChIJJTMyexYfwVQRBV6Fw3RZTvk",
+          "opening_hours": {
+            "open_now": false
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        },
+        {
+          "name": "Toxic Burger",
+          "type": "restaurant, food, point_of_interest, establishment",
+          "address": "2766 W 11th Ave, Eugene",
+          "lat": 44.0476886,
+          "lon": -123.1331233,
+          "distance_miles": 0.47,
+          "likelihood_score": 82,
+          "rating": 4.4,
+          "user_ratings_total": 1468,
+          "phone": "+1 541-255-4345",
+          "website": "https://www.toxicburger.com/toxic-burger-west-11th",
+          "place_id": "ChIJ9zEhsoYewVQRGtxyWvaCf5E",
+          "opening_hours": {
+            "open_now": false
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 2,
+          "source": "Google Places"
+        },
+        {
+          "name": "Zay's Place",
+          "type": "bar, restaurant, food, point_of_interest, establishment",
+          "address": "3570 W 11th Ave, Eugene",
+          "lat": 44.0478147,
+          "lon": -123.145317,
+          "distance_miles": 0.19,
+          "likelihood_score": 88,
+          "rating": 5,
+          "user_ratings_total": 26,
+          "phone": "+1 541-505-8345",
+          "website": null,
+          "place_id": "ChIJ4dGIcaEfwVQRrRx1kfO-TXY",
+          "opening_hours": {
+            "open_now": false
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        },
+        {
+          "name": "Albee's NY Gyros",
+          "type": "restaurant, food, point_of_interest, establishment",
+          "address": "2260 W 18th Ave, Eugene",
+          "lat": 44.04018569999999,
+          "lon": -123.1271482,
+          "distance_miles": 0.99,
+          "likelihood_score": 78,
+          "rating": 4.6,
+          "user_ratings_total": 608,
+          "phone": "+1 541-214-8099",
+          "website": "http://nygyros.com/",
+          "place_id": "ChIJpRnFmI4ewVQRs7ou_cKnL7M",
+          "opening_hours": {
+            "open_now": false
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 1,
+          "source": "Google Places"
+        },
+        {
+          "name": "Applebee's Grill + Bar",
+          "type": "restaurant, bar, food, point_of_interest, establishment",
+          "address": "2300 W 11th Ave, Eugene",
+          "lat": 44.0475275,
+          "lon": -123.1281494,
+          "distance_miles": 0.71,
+          "likelihood_score": 77,
+          "rating": 4,
+          "user_ratings_total": 1731,
+          "phone": "+1 541-338-7121",
+          "website": "https://restaurants.applebees.com/en-us/or/eugene/2300-w-11th-avenue-84027?utm_source=google&utm_medium=organic&utm_campaign=google_my_business&utm_term=84027&utm_content=website",
+          "place_id": "ChIJ4d6RDYcewVQRJhNSdMhHrU4",
+          "opening_hours": {
+            "open_now": false
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 2,
+          "source": "Google Places"
+        },
+        {
+          "name": "Hawaiian Time",
+          "type": "restaurant, food, point_of_interest, establishment",
+          "address": "3510 W 11th Ave, Eugene",
+          "lat": 44.0476668,
+          "lon": -123.1433438,
+          "distance_miles": 0.13,
+          "likelihood_score": 84,
+          "rating": 4.2,
+          "user_ratings_total": 1173,
+          "phone": "+1 541-393-9578",
+          "website": "http://hawaiiantime.com/",
+          "place_id": "ChIJIyWSLJ0ewVQRYeFUlkKbETk",
+          "opening_hours": {
+            "open_now": false
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 1,
+          "source": "Google Places"
+        }
+      ],
+      "createdAt": "2026-05-13T04:26:57.736495",
+      "count": 10
+    },
+    "dbedf404d187dab2": {
+      "storeNumber": "FME07Y-0328",
+      "category": "fast food",
+      "prospects": [
+        {
+          "name": "Sonic Drive-In",
+          "type": "meal_takeaway, store, restaurant, food, point_of_interest, establishment",
+          "address": "2043 Olympic St, Springfield",
+          "lat": 44.05928129999999,
+          "lon": -122.9958547,
+          "distance_miles": 1.13,
+          "likelihood_score": 82,
+          "rating": 3.8,
+          "user_ratings_total": 3115,
+          "phone": "+1 541-228-3840",
+          "website": "http://www.sonicdrivein.com/locations/us/or/springfield/2043-olympic-street/store-5917?utm_source=google-my-business&utm_medium=organic&utm_campaign=website-link&y_source=1_MjAzMzg1ODg0OC03MTUtbG9jYXRpb24ud2Vic2l0ZQ%3D%3D",
+          "place_id": "ChIJUQgqVADhwFQRZ8bczK3H0Ng",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 1,
+          "source": "Google Places"
+        },
+        {
+          "name": "Dutch Bros Coffee",
+          "type": "cafe, store, food, point_of_interest, establishment",
+          "address": "1503 Mohawk Blvd, Springfield",
+          "lat": 44.0581902,
+          "lon": -123.0003904,
+          "distance_miles": 0.94,
+          "likelihood_score": 88,
+          "rating": 4.6,
+          "user_ratings_total": 998,
+          "phone": "+1 877-899-2767",
+          "website": "https://www.dutchbros.com/locations/or/springfield/1503-mohawk-blvd.?y_source=1_MTUyMjg0MTMtNzE1LWxvY2F0aW9uLndlYnNpdGU%3D",
+          "place_id": "ChIJy5-huTXgwFQR7e_bVSoxe_o",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 1,
+          "source": "Google Places"
+        },
+        {
+          "name": "Dave's Hot Chicken",
+          "type": "restaurant, food, point_of_interest, establishment",
+          "address": "1572 Mohawk Blvd, Springfield",
+          "lat": 44.0591191,
+          "lon": -123.0004152,
+          "distance_miles": 0.91,
+          "likelihood_score": 77,
+          "rating": 4.5,
+          "user_ratings_total": 446,
+          "phone": "+1 458-325-0160",
+          "website": "https://restaurants.daveshotchicken.com/or/springfield/spicy-chicken-sandwich-mohawk-blvd/?utm_campaign=google_maps&utm_medium=organic&utm_source=google&utm_content=website&utm_keyword=1047",
+          "place_id": "ChIJwdvMXgDhwFQRhnnd5lrH0_0",
+          "opening_hours": {
+            "open_now": false
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        },
+        {
+          "name": "WinCo Foods",
+          "type": "supermarket, bakery, grocery_or_supermarket, store, food, point_of_interest, establishment",
+          "address": "1920 Olympic St, Springfield",
+          "lat": 44.060981,
+          "lon": -122.995412,
+          "distance_miles": 1.12,
+          "likelihood_score": 84,
+          "rating": 4.3,
+          "user_ratings_total": 2479,
+          "phone": "+1 541-746-6593",
+          "website": "http://www.wincofoods.com/",
+          "place_id": "ChIJMwo9PQHhwFQRNGh42xQObXg",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        },
+        {
+          "name": "McDonald's",
+          "type": "cafe, store, restaurant, food, point_of_interest, establishment",
+          "address": "1565 Mohawk Blvd, Springfield",
+          "lat": 44.0592615,
+          "lon": -122.9993597,
+          "distance_miles": 0.96,
+          "likelihood_score": 72,
+          "rating": 3.4,
+          "user_ratings_total": 1976,
+          "phone": "+1 541-726-4007",
+          "website": "https://www.mcdonalds.com/us/en-us/location/or/springfield/1565-mohawk-blvd/2014.html",
+          "place_id": "ChIJueuKngDhwFQRVmcCGS4w9rQ",
+          "opening_hours": {
+            "open_now": false
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 1,
+          "source": "Google Places"
+        },
+        {
+          "name": "Northgate Shopping Center",
+          "type": "shopping_mall, point_of_interest, establishment",
+          "address": "Springfield",
+          "lat": 44.0571255,
+          "lon": -123.0024563,
+          "distance_miles": 0.88,
+          "likelihood_score": 77,
+          "rating": 4.2,
+          "user_ratings_total": 80,
+          "phone": null,
+          "website": null,
+          "place_id": "ChIJVVVVCKvhwFQRf0P2udgVMW8",
+          "opening_hours": {},
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        },
+        {
+          "name": "Jack in the Box",
+          "type": "meal_delivery, restaurant, food, point_of_interest, establishment",
+          "address": "1805 Pioneer Pkwy E, Springfield",
+          "lat": 44.0623803,
+          "lon": -123.0244408,
+          "distance_miles": 0.34,
+          "likelihood_score": 77,
+          "rating": 3.2,
+          "user_ratings_total": 969,
+          "phone": "+1 541-746-9940",
+          "website": "https://locations.jackinthebox.com/us/or/springfield/1805-pioneer-pkwy-e?utm_source=google&utm_medium=local&utm_campaign=google-local",
+          "place_id": "ChIJ3TH9ervhwFQRBSImGD3jFuQ",
+          "opening_hours": {
+            "open_now": false
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 1,
+          "source": "Google Places"
+        },
+        {
+          "name": "Taco Bell",
+          "type": "meal_takeaway, restaurant, food, point_of_interest, establishment",
+          "address": "1505 Mohawk Blvd, Springfield",
+          "lat": 44.05864709999999,
+          "lon": -122.9999662,
+          "distance_miles": 0.95,
+          "likelihood_score": 71,
+          "rating": 3.2,
+          "user_ratings_total": 1572,
+          "phone": "+1 541-746-7301",
+          "website": "https://locations.tacobell.com/or/springfield/1505-mohawk-blvd.html?utm_source=yext&utm_campaign=googlelistings&utm_medium=referral&utm_term=032563&utm_content=website&y_source=1_NjE0NjE3MC03MTUtbG9jYXRpb24ud2Vic2l0ZQ%3D%3D",
+          "place_id": "ChIJrUTob6rhwFQRzHYeryVPNow",
+          "opening_hours": {
+            "open_now": false
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 1,
+          "source": "Google Places"
+        },
+        {
+          "name": "Burger King",
+          "type": "restaurant, food, point_of_interest, establishment",
+          "address": "1611 18th St, Springfield",
+          "lat": 44.06002669999999,
+          "lon": -122.9977275,
+          "distance_miles": 1.02,
+          "likelihood_score": 70,
+          "rating": 3.3,
+          "user_ratings_total": 1241,
+          "phone": "+1 541-726-8911",
+          "website": "https://burgerking.com/store-locator/store/1652",
+          "place_id": "ChIJb55BM1XgwFQRjKHLuuea8g0",
+          "opening_hours": {
+            "open_now": false
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 1,
+          "source": "Google Places"
+        },
+        {
+          "name": "Wendy's",
+          "type": "restaurant, food, point_of_interest, establishment",
+          "address": "1930 Mohawk Blvd, Springfield",
+          "lat": 44.0635604,
+          "lon": -122.9972416,
+          "distance_miles": 1.02,
+          "likelihood_score": 72,
+          "rating": 3.6,
+          "user_ratings_total": 422,
+          "phone": "+1 458-202-5531",
+          "website": "https://www.wendys.com/",
+          "place_id": "ChIJP-I8HFrhwFQRxFMyEZzf1uE",
+          "opening_hours": {
+            "open_now": false
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 1,
+          "source": "Google Places"
+        }
+      ],
+      "createdAt": "2026-05-13T04:34:22.719224",
+      "count": 10
+    },
+    "12648dc81e60efbe": {
+      "storeNumber": "ALB07Y-0572",
+      "category": "all restaurants",
+      "prospects": [
+        {
+          "name": "Bag O Crab",
+          "type": "restaurant, food, point_of_interest, establishment",
+          "address": "1600 Coburg Rd, Eugene",
+          "lat": 44.07992429999999,
+          "lon": -123.0684943,
+          "distance_miles": 1.09,
+          "likelihood_score": 86,
+          "rating": 4.5,
+          "user_ratings_total": 246,
+          "phone": "+1 541-246-8083",
+          "website": "https://thebagocrab.com/",
+          "place_id": "ChIJ8TIMC7DjwFQRZ6n4gK-58GE",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        },
+        {
+          "name": "Eugene Burger Company",
+          "type": "restaurant, food, point_of_interest, establishment",
+          "address": "296 E 5th Ave #201, Eugene",
+          "lat": 44.053984,
+          "lon": -123.0885591,
+          "distance_miles": 1.04,
+          "likelihood_score": 87,
+          "rating": 4.6,
+          "user_ratings_total": 361,
+          "phone": "+1 541-505-8323",
+          "website": "http://www.eugeneburgercompany.com/",
+          "place_id": "ChIJaYLyyIIfwVQRbDiAb1bPMc4",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 2,
+          "source": "Google Places"
+        },
+        {
+          "name": "Johnny Ocean's Grille",
+          "type": "restaurant, food, point_of_interest, establishment",
+          "address": "114 Oakway Center, Eugene",
+          "lat": 44.0665892,
+          "lon": -123.0767266,
+          "distance_miles": 0.2,
+          "likelihood_score": 94,
+          "rating": 4.3,
+          "user_ratings_total": 304,
+          "phone": "+1 541-342-7994",
+          "website": null,
+          "place_id": "ChIJeRv3wv3hwFQRzdMqTT_p8kY",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 2,
+          "source": "Google Places"
+        },
+        {
+          "name": "Trophy Room",
+          "type": "restaurant, bar, food, point_of_interest, establishment",
+          "address": "66 E 6th Ave, Eugene",
+          "lat": 44.0525725,
+          "lon": -123.0919897,
+          "distance_miles": 1.23,
+          "likelihood_score": 84,
+          "rating": 4.5,
+          "user_ratings_total": 26,
+          "phone": "+1 541-342-2000",
+          "website": "https://www.hilton.com/en/hotels/euggegu-graduate-eugene/dining/?y_source=1_MTA2Njc4ODczNS03MTUtbG9jYXRpb24ud2Vic2l0ZQ%3D%3D",
+          "place_id": "ChIJwc8M_H4fwVQR4CHcvkGuZR8",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        },
+        {
+          "name": "Cornucopia Bar & Burgers",
+          "type": "bar, restaurant, food, point_of_interest, establishment",
+          "address": "207 E 5th Ave Suite 109, Eugene",
+          "lat": 44.0547048,
+          "lon": -123.0895313,
+          "distance_miles": 1.04,
+          "likelihood_score": 85,
+          "rating": 4.3,
+          "user_ratings_total": 1762,
+          "phone": "+1 541-485-2676",
+          "website": "https://www.cornucopiaeugene.com/locations/east-5th",
+          "place_id": "ChIJmWVWnREewVQRRS5lF9yW8FU",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 2,
+          "source": "Google Places"
+        },
+        {
+          "name": "Magpie Coffeeshop",
+          "type": "cafe, bakery, store, restaurant, food, point_of_interest, establishment",
+          "address": "590 Pearl St suite 110, Eugene",
+          "lat": 44.0533684,
+          "lon": -123.0906563,
+          "distance_miles": 1.14,
+          "likelihood_score": 84,
+          "rating": 4.2,
+          "user_ratings_total": 205,
+          "phone": "+1 541-743-5554",
+          "website": "https://magpiecoffeeshop.com/",
+          "place_id": "ChIJJQl3TpQfwVQR8gXIjCTteV0",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        },
+        {
+          "name": "The Tie Died Chef",
+          "type": "restaurant, food, point_of_interest, establishment",
+          "address": "61 W 8th Ave, Eugene",
+          "lat": 44.0513123,
+          "lon": -123.0941278,
+          "distance_miles": 1.36,
+          "likelihood_score": 85,
+          "rating": 4.8,
+          "user_ratings_total": 405,
+          "phone": "+1 458-210-4130",
+          "website": null,
+          "place_id": "ChIJsXOfFKsfwVQR9x2yPLPk8Pk",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        },
+        {
+          "name": "Havana Cafe",
+          "type": "cafe, restaurant, food, point_of_interest, establishment",
+          "address": "225 W Broadway, Eugene",
+          "lat": 44.0500163,
+          "lon": -123.0962518,
+          "distance_miles": 1.5,
+          "likelihood_score": 83,
+          "rating": 4.7,
+          "user_ratings_total": 257,
+          "phone": "+1 541-844-1247",
+          "website": "https://havanacafeeugene.com/",
+          "place_id": "ChIJnXdCUe0fwVQRAClhOP3TV5E",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 1,
+          "source": "Google Places"
+        },
+        {
+          "name": "Sunriver Brewing Co. - Oakway Pub",
+          "type": "restaurant, bar, food, point_of_interest, establishment",
+          "address": "329 Oakway Rd, Eugene",
+          "lat": 44.0666677,
+          "lon": -123.0781258,
+          "distance_miles": 0.26,
+          "likelihood_score": 94,
+          "rating": 4.4,
+          "user_ratings_total": 332,
+          "phone": "+1 541-876-5048",
+          "website": "https://www.sunriverbrewingcompany.com/pubs#oakway-pub",
+          "place_id": "ChIJF5b3903hwFQR5MC62CTWEic",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 2,
+          "source": "Google Places"
+        },
+        {
+          "name": "Good Times Cafe",
+          "type": "bar, restaurant, food, point_of_interest, establishment",
+          "address": "375 E 7th Ave, Eugene",
+          "lat": 44.0526278,
+          "lon": -123.0873383,
+          "distance_miles": 1.06,
+          "likelihood_score": 84,
+          "rating": 4.1,
+          "user_ratings_total": 850,
+          "phone": "+1 541-484-7181",
+          "website": "https://www.goodtimeseugene.com/",
+          "place_id": "ChIJE97krBYewVQRpRuwPg9WcGc",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 1,
+          "source": "Google Places"
+        }
+      ],
+      "createdAt": "2026-05-15T14:31:57.208930",
+      "count": 10
+    },
+    "bba1ca2817c4fd8a": {
+      "storeNumber": "ALB07Y-0572",
+      "category": "coffee/caf\u00e9",
+      "prospects": [
+        {
+          "name": "Dark Pine Coffee",
+          "type": "cafe, store, food, point_of_interest, establishment",
+          "address": "954 Pearl St, Eugene",
+          "lat": 44.0493001,
+          "lon": -123.0899905,
+          "distance_miles": 1.33,
+          "likelihood_score": 84,
+          "rating": 4.7,
+          "user_ratings_total": 372,
+          "phone": "+1 541-868-2895",
+          "website": "http://www.darkpinecoffee.com/",
+          "place_id": "ChIJvdsYU1EfwVQRiOhaz8uQrV8",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        },
+        {
+          "name": "Magpie Coffeeshop",
+          "type": "cafe, bakery, restaurant, store, food, point_of_interest, establishment",
+          "address": "590 Pearl St suite 110, Eugene",
+          "lat": 44.0533684,
+          "lon": -123.0906563,
+          "distance_miles": 1.14,
+          "likelihood_score": 84,
+          "rating": 4.2,
+          "user_ratings_total": 205,
+          "phone": "+1 541-743-5554",
+          "website": "https://magpiecoffeeshop.com/",
+          "place_id": "ChIJJQl3TpQfwVQR8gXIjCTteV0",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        },
+        {
+          "name": "Community Cup Coffee",
+          "type": "cafe, store, food, point_of_interest, establishment",
+          "address": "901 Pearl St, Eugene",
+          "lat": 44.0497908,
+          "lon": -123.089402,
+          "distance_miles": 1.28,
+          "likelihood_score": 86,
+          "rating": 4.8,
+          "user_ratings_total": 175,
+          "phone": "+1 541-246-8986",
+          "website": "http://communitycupcoffee.net/",
+          "place_id": "ChIJabwEgBUfwVQRcnwAaM8z9I4",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        },
+        {
+          "name": "Palace Coffee | Bakery",
+          "type": "cafe, bakery, store, food, point_of_interest, establishment",
+          "address": "842 Pearl St, Eugene",
+          "lat": 44.0505406,
+          "lon": -123.0900242,
+          "distance_miles": 1.26,
+          "likelihood_score": 84,
+          "rating": 4.5,
+          "user_ratings_total": 312,
+          "phone": "+1 541-344-0475",
+          "website": "https://www.palacecoffeebakery.com/",
+          "place_id": "ChIJa7Rr9RQewVQR1qvYBO1z-Kk",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 1,
+          "source": "Google Places"
+        },
+        {
+          "name": "Sparrow Nest Coffee",
+          "type": "cafe, store, food, point_of_interest, establishment",
+          "address": "132 E Broadway ste 115, Eugene",
+          "lat": 44.0496984,
+          "lon": -123.0905995,
+          "distance_miles": 1.32,
+          "likelihood_score": 85,
+          "rating": 4.8,
+          "user_ratings_total": 58,
+          "phone": "+1 541-848-0903",
+          "website": "https://sparrownestcoffee.com/",
+          "place_id": "ChIJpcRKFv4fwVQR_Pb9EdaEfwM",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        },
+        {
+          "name": "Farmers Union Coffee Roasters",
+          "type": "cafe, bakery, restaurant, store, food, point_of_interest, establishment",
+          "address": "152 W 5th Ave, Eugene",
+          "lat": 44.0541486,
+          "lon": -123.0947355,
+          "distance_miles": 1.26,
+          "likelihood_score": 84,
+          "rating": 4.4,
+          "user_ratings_total": 337,
+          "phone": null,
+          "website": "http://www.farmersunioncoffee.com/",
+          "place_id": "ChIJ533Q1KkfwVQRpmKNQOAxLhg",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        },
+        {
+          "name": "BLENDED",
+          "type": "cafe, food, point_of_interest, establishment",
+          "address": "590 Pearl St unit 103, Eugene",
+          "lat": 44.0534773,
+          "lon": -123.0903546,
+          "distance_miles": 1.12,
+          "likelihood_score": 85,
+          "rating": 4.5,
+          "user_ratings_total": 148,
+          "phone": "+1 458-344-3925",
+          "website": null,
+          "place_id": "ChIJO6WBLUnhwFQRlfCAPa478Rc",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        },
+        {
+          "name": "Perugino",
+          "type": "cafe, restaurant, store, food, point_of_interest, establishment",
+          "address": "767 Willamette St #102, Eugene",
+          "lat": 44.0514786,
+          "lon": -123.0926151,
+          "distance_miles": 1.3,
+          "likelihood_score": 85,
+          "rating": 4.6,
+          "user_ratings_total": 346,
+          "phone": "+1 541-687-9102",
+          "website": null,
+          "place_id": "ChIJv-CJZhMewVQRfMwpgdw8wdg",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 2,
+          "source": "Google Places"
+        },
+        {
+          "name": "Alchemy Coffee House",
+          "type": "cafe, store, food, point_of_interest, establishment",
+          "address": "545 E 8th Ave A, Eugene",
+          "lat": 44.0513024,
+          "lon": -123.0847127,
+          "distance_miles": 1.07,
+          "likelihood_score": 87,
+          "rating": 4.7,
+          "user_ratings_total": 10,
+          "phone": "+1 458-210-5698",
+          "website": "http://www.alchemyeugene.com/",
+          "place_id": "ChIJu2lL5jEfwVQR5uAcdcXU4Xk",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        },
+        {
+          "name": "Chapter & Steam Coffee & Mocktails",
+          "type": "cafe, store, food, point_of_interest, establishment",
+          "address": "27 W 5th Ave, Eugene",
+          "lat": 44.0544825,
+          "lon": -123.0930791,
+          "distance_miles": 1.18,
+          "likelihood_score": 75,
+          "rating": 5,
+          "user_ratings_total": 5,
+          "phone": "+1 541-954-9690",
+          "website": null,
+          "place_id": "ChIJz0dXXwAfwVQRAPLpBkuSF4g",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        }
+      ],
+      "createdAt": "2026-05-15T14:33:07.702073",
+      "count": 10
+    },
+    "45a67f2ac7ae00be": {
+      "storeNumber": "ALB07Y-0572",
+      "category": "bakery",
+      "prospects": [
+        {
+          "name": "Palace Coffee | Bakery",
+          "type": "cafe, bakery, store, food, point_of_interest, establishment",
+          "address": "842 Pearl St, Eugene",
+          "lat": 44.0505406,
+          "lon": -123.0900242,
+          "distance_miles": 1.26,
+          "likelihood_score": 84,
+          "rating": 4.5,
+          "user_ratings_total": 312,
+          "phone": "+1 541-344-0475",
+          "website": "https://www.palacecoffeebakery.com/",
+          "place_id": "ChIJa7Rr9RQewVQR1qvYBO1z-Kk",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 1,
+          "source": "Google Places"
+        },
+        {
+          "name": "Elegant Elephant Baking Co.",
+          "type": "bakery, store, food, point_of_interest, establishment",
+          "address": "120 Shelton Mcmurphey Blvd Suite 150, Eugene",
+          "lat": 44.0558797,
+          "lon": -123.0936986,
+          "distance_miles": 1.16,
+          "likelihood_score": 85,
+          "rating": 4.4,
+          "user_ratings_total": 153,
+          "phone": "+1 541-556-7540",
+          "website": "http://www.elegantelephantbaking.com/",
+          "place_id": "ChIJ5RJOow0ewVQR5cn5EMK59cA",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 1,
+          "source": "Google Places"
+        },
+        {
+          "name": "La Dolce Vita Bakery",
+          "type": "bakery, store, food, point_of_interest, establishment",
+          "address": "207 E 5th Ave Suite 105, Eugene",
+          "lat": 44.0545127,
+          "lon": -123.089312,
+          "distance_miles": 1.04,
+          "likelihood_score": 89,
+          "rating": 5,
+          "user_ratings_total": 20,
+          "phone": "+1 541-603-8318",
+          "website": "http://ladolcevitaeugene.com/",
+          "place_id": "ChIJLf4DKHQfwVQRHn07zMIud9A",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        },
+        {
+          "name": "Noisette Pastry Kitchen",
+          "type": "cafe, bakery, store, restaurant, food, point_of_interest, establishment",
+          "address": "200 W Broadway, Eugene",
+          "lat": 44.049833,
+          "lon": -123.0960115,
+          "distance_miles": 1.5,
+          "likelihood_score": 82,
+          "rating": 4.5,
+          "user_ratings_total": 532,
+          "phone": "+1 541-654-5257",
+          "website": "http://www.noisettepk.com/",
+          "place_id": "ChIJr1zfYWsewVQRKUwi_VP9Y8k",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 2,
+          "source": "Google Places"
+        },
+        {
+          "name": "O'My Mini Donuts & Beignets",
+          "type": "bakery, store, food, point_of_interest, establishment",
+          "address": "460 Willamette St, Eugene",
+          "lat": 44.0546326,
+          "lon": -123.0931477,
+          "distance_miles": 1.18,
+          "likelihood_score": 87,
+          "rating": 4.8,
+          "user_ratings_total": 190,
+          "phone": "+1 541-954-9690",
+          "website": "https://omydonuts.com/",
+          "place_id": "ChIJPfkKBDrhwFQR_GuLn5kf-tI",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        },
+        {
+          "name": "Magpie Coffeeshop",
+          "type": "cafe, bakery, store, restaurant, food, point_of_interest, establishment",
+          "address": "590 Pearl St suite 110, Eugene",
+          "lat": 44.0533684,
+          "lon": -123.0906563,
+          "distance_miles": 1.14,
+          "likelihood_score": 84,
+          "rating": 4.2,
+          "user_ratings_total": 205,
+          "phone": "+1 541-743-5554",
+          "website": "https://magpiecoffeeshop.com/",
+          "place_id": "ChIJJQl3TpQfwVQR8gXIjCTteV0",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        },
+        {
+          "name": "Dippers LLC",
+          "type": "bakery, store, food, point_of_interest, establishment",
+          "address": "2000 Cal Young Rd, Eugene",
+          "lat": 44.0743657,
+          "lon": -123.0832734,
+          "distance_miles": 0.82,
+          "likelihood_score": 78,
+          "rating": 5,
+          "user_ratings_total": 5,
+          "phone": null,
+          "website": "http://www.dippersllc.com/",
+          "place_id": "ChIJz9J3FE7jwFQRMrmffGNh2l0",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        },
+        {
+          "name": "Horai Bakery \u00b7 Cafe \u00b7 Market",
+          "type": "bakery, cafe, grocery_or_supermarket, store, food, point_of_interest, establishment",
+          "address": "345 E 11th Ave, Eugene",
+          "lat": 44.0479276,
+          "lon": -123.0875204,
+          "distance_miles": 1.34,
+          "likelihood_score": 84,
+          "rating": 4.7,
+          "user_ratings_total": 61,
+          "phone": "+1 541-603-9977",
+          "website": "https://horai.farm/",
+          "place_id": "ChIJs0pGVgsfwVQRWJVfqPPK7zE",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        },
+        {
+          "name": "Voodoo Doughnut",
+          "type": "bakery, store, food, point_of_interest, establishment",
+          "address": "20 E Broadway, Eugene",
+          "lat": 44.0497081,
+          "lon": -123.0923677,
+          "distance_miles": 1.38,
+          "likelihood_score": 83,
+          "rating": 4.5,
+          "user_ratings_total": 2738,
+          "phone": "+1 541-868-8666",
+          "website": "https://www.voodoodoughnut.com/",
+          "place_id": "ChIJz3D7yRQewVQROm9TEwwNbrs",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 1,
+          "source": "Google Places"
+        },
+        {
+          "name": "Hadley's Kitchen - Sourdough Bakery",
+          "type": "bakery, store, food, point_of_interest, establishment",
+          "address": "527 N Garden Way, Eugene",
+          "lat": 44.0680698,
+          "lon": -123.0519849,
+          "distance_miles": 1.11,
+          "likelihood_score": 73,
+          "rating": 5,
+          "user_ratings_total": 8,
+          "phone": "+1 541-515-7390",
+          "website": "https://hadleyskitchen.com/",
+          "place_id": "ChIJZWcVgjnhwFQRsUzPFqGOf1o",
+          "opening_hours": {},
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        }
+      ],
+      "createdAt": "2026-05-15T14:34:12.069124",
+      "count": 10
+    },
+    "d1a749f5d1b5be25": {
+      "storeNumber": "SAF07Y-0420",
+      "category": "pet store",
+      "prospects": [
+        {
+          "name": "PetSmart",
+          "type": "point_of_interest, store, establishment",
+          "address": "2847 Chad Dr, Eugene",
+          "lat": 44.09168140000001,
+          "lon": -123.0652186,
+          "distance_miles": 0.96,
+          "likelihood_score": 86,
+          "rating": 4.3,
+          "user_ratings_total": 2343,
+          "phone": "+1 541-683-3353",
+          "website": "https://www.petsmart.com/stores/us/or/eugene-store0390.html?utm_source=google&utm_medium=organic&utm_campaign=google-my-business",
+          "place_id": "ChIJlcqaFDniwFQRYvrCrMPma4s",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        },
+        {
+          "name": "Wags! Cat & Dog Emporium",
+          "type": "point_of_interest, store, establishment",
+          "address": "136 Oakway Rd, Eugene",
+          "lat": 44.0640924,
+          "lon": -123.0791455,
+          "distance_miles": 1.07,
+          "likelihood_score": 87,
+          "rating": 4.7,
+          "user_ratings_total": 215,
+          "phone": "+1 541-338-8801",
+          "website": "https://wagsdog.com/",
+          "place_id": "ChIJDUk6-vvhwFQRM22x0mC-W_8",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        },
+        {
+          "name": "PetSmart Grooming",
+          "type": "point_of_interest, establishment",
+          "address": "2847 Chad Dr, Eugene",
+          "lat": 44.09168140000001,
+          "lon": -123.0652186,
+          "distance_miles": 0.96,
+          "likelihood_score": 85,
+          "rating": 4.1,
+          "user_ratings_total": 13,
+          "phone": "+1 541-683-3353",
+          "website": "https://stores.petsmart.com/or/eugene/eugene/grooming?utm_source=google&utm_medium=organic&utm_campaign=google-my-business",
+          "place_id": "ChIJRcafPbvjwFQRpIOd_wwc-Cg",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        }
+      ],
+      "createdAt": "2026-05-15T14:35:13.291401",
+      "count": 3
     }
   },
-  "lastUpdated": "2026-04-22T12:48:46.791654"
+  "lastUpdated": "2026-05-15T14:35:13.291412"
 }

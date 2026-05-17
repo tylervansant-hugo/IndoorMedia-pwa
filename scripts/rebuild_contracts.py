@@ -113,9 +113,21 @@ for pdf_path in pdfs:
     # Extract individual Register Tape line items
     # Pattern: Register Tape, store-number (zone), address, Est. Start date, Ad type, price
     rt_pattern = re.findall(
-        r"Register Tape\s*\n?([\w][\w\s]*?-\d+)\s*\((\w+)\)\s*\n([^\n]+)\n[^\n]*Est\.\s*Start:\s*\w*\s*(\d{1,2}/\d{1,2}/\d{4})\s*\n(Single|Double)\s+Ad[^\$]*\$([\d,]+\.\d{2})",
+        r"Register Tape\s*\n?([\w][\w\s]*?-\d+)\s*\((\w+)\)\s*\n([^\n]+)\n[^\n]*Est\.\s*Start:\s*\w*\s*(\d{1,2}/\d{1,2}/\d{4})\s*\n(Single|Double)\s+Ad,?\s*(\d+)\s*quarter[^\$]*\$([\d,]+\.\d{2})",
         text, re.DOTALL
     )
+    # Fallback: try without quarters capture (older format)
+    if not rt_pattern:
+        rt_old = re.findall(
+            r"Register Tape\s*\n?([\w][\w\s]*?-\d+)\s*\((\w+)\)\s*\n([^\n]+)\n[^\n]*Est\.\s*Start:\s*\w*\s*(\d{1,2}/\d{1,2}/\d{4})\s*\n(Single|Double)\s+Ad[^\$]*\$([\d,]+\.\d{2})",
+            text, re.DOTALL
+        )
+        # Convert to same tuple format with quarters=None
+        rt_pattern = [(s, z, a, d, t, '0', p) for s, z, a, d, t, p in rt_old]
+
+    # Also extract overall quarter count as fallback
+    overall_quarters_match = re.search(r'(\d+)\s*quarter', text, re.IGNORECASE)
+    overall_quarters = int(overall_quarters_match.group(1)) if overall_quarters_match else 4
 
     # Helper to build a contract entry
     def make_entry(**overrides):
@@ -135,12 +147,20 @@ for pdf_path in pdfs:
             "payment_date": contract.get("payment_date", ""),
             "address": contract.get("address", ""),
             "extracted_at": contract.get("date", datetime.now().isoformat()),
+            "quarters": overall_quarters,
+            "term_months": overall_quarters * 3,
         }
         entry.update(overrides)
         return entry
 
     if rt_pattern:
-        for store_num, zone, addr, est_start, ad_type, price in rt_pattern:
+        for item in rt_pattern:
+            if len(item) == 7:
+                store_num, zone, addr, est_start, ad_type, quarters_str, price = item
+            else:
+                store_num, zone, addr, est_start, ad_type, price = item
+                quarters_str = '0'
+            item_quarters = int(quarters_str) if quarters_str and quarters_str != '0' else overall_quarters
             price_val = 0
             try:
                 price_val = float(price.replace(",", "").strip())
@@ -153,6 +173,8 @@ for pdf_path in pdfs:
                 product_description=f"{ad_type} Ad",
                 total_amount=price_val,
                 address=addr.strip(),
+                quarters=item_quarters,
+                term_months=item_quarters * 3,
             )
             all_contracts.append(entry)
         
