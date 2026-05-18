@@ -1028,9 +1028,7 @@
     </button>
     <button class="tab-bar-item tab-home" class:active={currentTab === 'dashboard'} on:click={() => currentTab = 'dashboard'}>
       <div class="tab-bar-indicator"></div>
-      <div class="home-icon-circle">
-        <svg class="tab-bar-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
-      </div>
+      <svg class="tab-bar-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
       <span class="tab-bar-label">Home</span>
     </button>
     <button class="tab-bar-item" class:active={currentTab === 'clients'} on:click={() => currentTab = 'clients'}>
@@ -1646,26 +1644,7 @@
     flex-shrink: 0;
   }
 
-  /* Home button — black circle backdrop, same vertical position as other icons */
-  .home-icon-circle {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    background: #000;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
-    border: 2px solid rgba(255, 255, 255, 0.25);
-    flex-shrink: 0;
-  }
-  .tab-home.active .home-icon-circle {
-    border-color: rgba(255, 255, 255, 0.6);
-  }
-  .home-icon-circle .tab-bar-icon {
-    width: 22px;
-    height: 22px;
-  }
+
 
   .tab-bar-label {
     font-size: 10px;

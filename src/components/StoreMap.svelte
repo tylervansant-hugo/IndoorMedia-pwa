@@ -628,7 +628,8 @@
 
   /* Filters + toolbar in one compact row each */
   .filter-grid {
-    display: flex;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
     gap: 4px;
     margin-bottom: 6px;
   }
