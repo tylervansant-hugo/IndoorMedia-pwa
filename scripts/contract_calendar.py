@@ -290,6 +290,11 @@ def parse_contract_pdf(pdf_path):
             except ValueError:
                 pass
     
+    # Term length (quarters)
+    q_match = re.search(r'(\d+)\s*quarter', text, re.IGNORECASE)
+    contract['quarters'] = int(q_match.group(1)) if q_match else 4
+    contract['term_months'] = contract['quarters'] * 3
+    
     return contract
 
 
@@ -298,57 +303,69 @@ def parse_date(date_str):
     return datetime.strptime(date_str, "%m/%d/%Y")
 
 
-def calculate_event_dates(est_start_str):
-    """Calculate all calendar event dates from the Est. Start date.
-    
-    Timeline (from install date):
-    - Day 0: Install (Q1)
-    - Day 45: Audit #1 + Check-in
-    - Day 90: Install (Q2) + Check-in
-    - Day 135: Audit #2 + Check-in
-    - Day 180: Install (Q3) + Check-in
-    - Day 225: Audit #3 + Check-in
-    - Day 270: Install (Q4) + Renewal Conversation #1
-    - Day 300: Renewal Conversation #2
-    - Day 330: Renewal Conversation #3 (final)
-    - Day 365: Renewal
+def calculate_event_dates(est_start_str, quarters=4):
+    """Calculate all calendar event dates scaled to contract term length.
+
+    Args:
+        est_start_str: MM/DD/YYYY estimated start date
+        quarters: number of quarters (1Q=3mo, 2Q=6mo, 4Q=12mo, etc.)
+
+    Timeline scales with term:
+    - Installs: every 90 days (one per quarter)
+    - Audits: 45 days after each install (except last quarter)
+    - Renewal conversations: 3 touches in the final ~90 days before expiration
+    - Renewal deadline: 30 days before contract end
+
+    Examples:
+      12mo (4Q): renewal convos at months 9, 10, 11
+      6mo  (2Q): renewal convos at months 3, 4, 5
+      3mo  (1Q): renewal convo at ~month 2
     """
     est_start = parse_date(est_start_str)
-    
     install_date = est_start - timedelta(days=10)
-    renewal_date = install_date + timedelta(days=365)
-    
-    # Quarterly installs at 0, 90, 180, 270 days
-    installs = [
-        install_date,
-        install_date + timedelta(days=90),
-        install_date + timedelta(days=180),
-        install_date + timedelta(days=270),
-    ]
-    
-    # Audits at 45, 135, 225 days  
-    audits = [
-        install_date + timedelta(days=45),
-        install_date + timedelta(days=135),
-        install_date + timedelta(days=225),
-    ]
-    
-    # Renewal conversations at 270, 300, and 330 days
-    renewal_conversations = [
-        install_date + timedelta(days=270),
-        install_date + timedelta(days=300),
-        install_date + timedelta(days=330),
-    ]
-    
-    # Final renewal deadline is at day 330 (11 months) - last opportunity to renew
-    # NOT at day 365, which is already expired
-    renewal_deadline = install_date + timedelta(days=330)
-    
+
+    term_days = quarters * 90  # Each quarter ~ 90 days
+
+    # Quarterly installs: one per quarter
+    installs = [install_date + timedelta(days=90 * i) for i in range(quarters)]
+
+    # Audits: 45 days after each install, skip if it falls in the last 30 days
+    audits = []
+    for i in range(quarters):
+        audit_day = (90 * i) + 45
+        if audit_day < (term_days - 30):
+            audits.append(install_date + timedelta(days=audit_day))
+
+    # Renewal conversations: spread across the final ~90 days (or shorter for short terms)
+    if quarters <= 1:
+        # 3-month contract: single renewal convo at day ~60
+        renewal_conversations = [
+            install_date + timedelta(days=max(term_days - 30, 30)),
+        ]
+    elif quarters <= 2:
+        # 6-month contract: 2 renewal convos (month 4 and month 5)
+        renewal_conversations = [
+            install_date + timedelta(days=term_days - 60),
+            install_date + timedelta(days=term_days - 30),
+        ]
+    else:
+        # 9+ month contracts: 3 renewal convos in final 90 days
+        renewal_conversations = [
+            install_date + timedelta(days=term_days - 90),
+            install_date + timedelta(days=term_days - 60),
+            install_date + timedelta(days=term_days - 30),
+        ]
+
+    # Renewal deadline: 30 days before contract end (last chance)
+    renewal_deadline = install_date + timedelta(days=term_days - 30)
+
     return {
         'installs': installs,
         'audits': audits,
         'renewal_conversations': renewal_conversations,
-        'renewal': renewal_deadline,  # Use day 330 as the actual renewal date
+        'renewal': renewal_deadline,
+        'term_days': term_days,
+        'quarters': quarters,
     }
 
 
@@ -436,7 +453,9 @@ def process_contract(contract):
         print(f"❌ No Est. Start date found for {contract_num}")
         return False
     
-    dates = calculate_event_dates(est_start)
+    quarters = contract.get('quarters', 4)
+    term_months = quarters * 3
+    dates = calculate_event_dates(est_start, quarters=quarters)
     attendees = [TYLER_EMAIL]
     if rep_email and rep_email != TYLER_EMAIL:
         attendees.append(rep_email)
@@ -447,12 +466,13 @@ def process_contract(contract):
         f"Customer: {customer}\n"
         f"Rep: {rep_name}\n"
         f"Store: {chain} {store_num}, {city}\n"
-        f"Est. Start: {est_start}"
+        f"Est. Start: {est_start}\n"
+        f"Term: {quarters}Q ({term_months} months)"
     )
     
     print(f"\n📋 Contract {contract_num}: {biz} at {chain} {city}")
     print(f"   Rep: {rep_name} ({rep_email})")
-    print(f"   Est. Start: {est_start}")
+    print(f"   Est. Start: {est_start} | Term: {quarters}Q ({term_months}mo)")
     print(f"   Creating calendar events...\n")
     
     # 1. Quarterly Installs (Q1, Q2, Q3, Q4)
