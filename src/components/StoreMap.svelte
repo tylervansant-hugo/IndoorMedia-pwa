@@ -424,6 +424,8 @@
         zoom: 7,
         zoomControl: true,
         closePopupOnClick: false,
+        scrollWheelZoom: false,   // Disable scroll-to-zoom (trackpad two-finger scroll)
+        touchZoom: true,          // Keep pinch-to-zoom on touch devices
       });
 
       // Popup close delay: prevent closing within 500ms of opening
