@@ -54,7 +54,9 @@ def main():
             contract_total = sum(c.get("total_amount", 0) for c in items)
             total_revenue += contract_total
             
-            print(f"\n   {num} | {biz} | {rep} | ${contract_total:,.0f}")
+            term = items[0].get("term_months", "?")
+            term_label = f"{term}mo" if isinstance(term, int) else "?"
+            print(f"\n   {num} | {biz} | {rep} | ${contract_total:,.0f} | {term_label}")
             for c in items:
                 store = c.get("store_name", "")
                 product = c.get("product_description", "")
