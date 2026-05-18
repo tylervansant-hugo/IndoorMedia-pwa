@@ -671,23 +671,28 @@ IndoorMedia`;
       events.push({ type: '📦', label: 'Install', date: installLaunch });
     }
 
-    // Audit window: 45 days after install
+    // Term length from contract data (default 12 months / 4 quarters)
+    const termMonths = contract.term_months || (contract.quarters ? contract.quarters * 3 : 12);
+
+    // Audit window: 45 days after install (only if before renewal window)
     const auditDate = new Date(installLaunch);
     auditDate.setDate(auditDate.getDate() + 45);
-    if (auditDate >= today) {
+    const renewalWindowStart = new Date(contractDate);
+    renewalWindowStart.setMonth(renewalWindowStart.getMonth() + Math.max(termMonths - 3, 1));
+    if (auditDate >= today && auditDate < renewalWindowStart) {
       events.push({ type: '🔍', label: 'Audit Due', date: auditDate });
     }
 
-    // Renewal conversation: 10 months after contract
+    // Renewal conversation: ~2 months before contract ends
     const renewalDate = new Date(contractDate);
-    renewalDate.setMonth(renewalDate.getMonth() + 10);
+    renewalDate.setMonth(renewalDate.getMonth() + Math.max(termMonths - 2, 1));
     if (renewalDate >= today) {
       events.push({ type: '🔄', label: 'Renewal Conversation', date: renewalDate });
     }
 
-    // Contract end: 12 months after contract
+    // Contract end: based on actual term length
     const endDate = new Date(contractDate);
-    endDate.setMonth(endDate.getMonth() + 12);
+    endDate.setMonth(endDate.getMonth() + termMonths);
     if (endDate >= today) {
       events.push({ type: '📋', label: 'Contract Ends', date: endDate });
     }
