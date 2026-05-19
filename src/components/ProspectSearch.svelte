@@ -15,6 +15,11 @@
   let savedSearch = '';
   let savedStatusFilter = 'all';
   let expandedSaved = null;
+  let teamProspects = []; // All reps' prospects from prospect_data.json
+  let teamRepFilter = 'all';
+  let teamStatusFilter = 'all';
+  let teamSearch = '';
+  let expandedTeam = null;
   let allContracts = []; // For attribution matching
   let phoneClicks = []; // Track call history
   let hotLeads = [];
@@ -63,6 +68,27 @@
     try {
       phoneClicks = JSON.parse(localStorage.getItem('impro_phone_clicks') || '[]');
     } catch { phoneClicks = []; }
+
+    // Load team prospect data for manager view
+    try {
+      const pdRes = await fetch(import.meta.env.BASE_URL + 'data/prospect_data.json?t=' + Date.now());
+      const pdData = await pdRes.json();
+      const reps = pdData.reps || {};
+      teamProspects = [];
+      for (const [repId, repData] of Object.entries(reps)) {
+        const repName = repData.name || 'Unknown';
+        const prospects = repData.saved_prospects || {};
+        for (const [pid, p] of Object.entries(prospects)) {
+          teamProspects.push({
+            ...p,
+            id: pid,
+            rep_name: repName,
+            rep_id: repId,
+            notes: Array.isArray(p.notes) ? p.notes.join('\n') : (p.notes || ''),
+          });
+        }
+      }
+    } catch { teamProspects = []; }
   });
   
   onDestroy(() => {
@@ -1238,6 +1264,9 @@
     <button class="tab-btn" class:active={view === 'hot-leads'} on:click={() => view = 'hot-leads'}>🔥 Hot Leads {#if hotLeads.length > 0}({hotLeads.length}){/if}</button>
     <button class="tab-btn" class:active={view === 'saved'} on:click={() => view = 'saved'}>💾 Saved ({savedProspects.length})</button>
     {#if $user?.role === 'manager' || $user?.name?.toLowerCase().includes('tyler')}
+      <button class="tab-btn" class:active={view === 'team'} on:click={() => view = 'team'}>👥 Team ({teamProspects.length})</button>
+    {/if}
+    {#if $user?.role === 'manager' || $user?.name?.toLowerCase().includes('tyler')}
       <button class="tab-btn" class:active={view === 'pending'} on:click={() => view = 'pending'}>⏳ Pending</button>
       <button class="tab-btn" class:active={view === 'submit-lead'} on:click={() => view = 'submit-lead'}>➕ Add Lead</button>
     {/if}
@@ -1732,6 +1761,97 @@
         </div>
       {/each}
     </div>
+    {/if}
+  {/if}
+
+  <!-- Team Prospects (Manager View) -->
+  {#if view === 'team'}
+    <button class="back-btn" on:click={() => view = 'main'}>← Back</button>
+    <h2>👥 Team Prospects ({teamProspects.length})</h2>
+    <p class="subtitle">All reps' saved prospects &amp; notes</p>
+
+    {#if teamProspects.length === 0}
+      <p class="subtitle">No team prospect data found.</p>
+    {:else}
+      <input type="text" class="filter-input" placeholder="Search all team prospects..." bind:value={teamSearch} style="margin-bottom:12px;" />
+      <div class="filter-chips" style="margin-bottom:8px;">
+        <select class="filter-select" bind:value={teamRepFilter} style="flex:1; padding:8px; border-radius:8px; border:1px solid var(--border-color, #ddd); font-size:14px; font-weight:600;">
+          <option value="all">All Reps ({teamProspects.length})</option>
+          {#each [...new Set(teamProspects.map(p => p.rep_name).filter(n => n && n !== 'Unknown' && n !== '?'))].sort() as rep}
+            <option value={rep}>{rep} ({teamProspects.filter(p => p.rep_name === rep).length})</option>
+          {/each}
+        </select>
+      </div>
+      <div class="filter-chips" style="margin-bottom:12px;">
+        <button class="chip" class:active={teamStatusFilter === 'all'} on:click={() => teamStatusFilter = 'all'}>All</button>
+        <button class="chip" class:active={teamStatusFilter === 'new'} on:click={() => teamStatusFilter = 'new'}>🆕 New</button>
+        <button class="chip" class:active={teamStatusFilter === 'interested'} on:click={() => teamStatusFilter = 'interested'}>🎯 Interested</button>
+        <button class="chip" class:active={teamStatusFilter === 'follow-up'} on:click={() => teamStatusFilter = 'follow-up'}>⏳ Follow-up</button>
+        <button class="chip" class:active={teamStatusFilter === 'contacted'} on:click={() => teamStatusFilter = 'contacted'}>📞 Contacted</button>
+        <button class="chip" class:active={teamStatusFilter === 'proposal'} on:click={() => teamStatusFilter = 'proposal'}>📋 Proposal</button>
+        <button class="chip" class:active={teamStatusFilter === 'closed'} on:click={() => teamStatusFilter = 'closed'}>🎉 Closed</button>
+      </div>
+
+      <div class="prospect-list">
+        {#each teamProspects.filter(p => {
+          if (teamRepFilter !== 'all' && p.rep_name !== teamRepFilter) return false;
+          if (teamStatusFilter !== 'all' && p.status !== teamStatusFilter) return false;
+          if (teamSearch) {
+            const q = teamSearch.toLowerCase();
+            return (p.name || '').toLowerCase().includes(q) || (p.address || '').toLowerCase().includes(q) || (p.notes || '').toLowerCase().includes(q) || (p.rep_name || '').toLowerCase().includes(q);
+          }
+          return true;
+        }) as prospect (prospect.id)}
+          <div class="prospect-card saved-card" class:expanded={expandedTeam === prospect.id}>
+            <div class="saved-header" on:click={() => expandedTeam = expandedTeam === prospect.id ? null : prospect.id}>
+              <div>
+                <h4>{prospect.name || 'Unknown'}</h4>
+                <p class="saved-addr">{prospect.address || ''}</p>
+                {#if prospect.phone}
+                  <p class="saved-meta">📞 {prospect.phone}</p>
+                {/if}
+                <p class="saved-meta" style="color: var(--accent-color, #CC0000); font-weight: 600;">👤 {prospect.rep_name}</p>
+              </div>
+              <div class="saved-right">
+                <span class="status-badge status-{prospect.status}">{prospect.status === 'new' ? '🆕' : prospect.status === 'interested' ? '🎯' : prospect.status === 'follow-up' ? '⏳' : prospect.status === 'contacted' ? '📞' : prospect.status === 'proposal' ? '📋' : '🎉'} {prospect.status || 'new'}</span>
+                <span class="expand-arrow">{expandedTeam === prospect.id ? '▲' : '▼'}</span>
+              </div>
+            </div>
+
+            {#if expandedTeam === prospect.id}
+              <div class="saved-actions">
+                <div class="action-row">
+                  {#if prospect.phone}
+                    <a href="tel:{prospect.phone}" class="action-btn">📞 Call</a>
+                    <a href="sms:{prospect.phone}" class="action-btn text-btn">💬 Text</a>
+                  {/if}
+                  {#if prospect.email}
+                    <a href="mailto:{prospect.email}" class="action-btn">✉️ Email</a>
+                  {/if}
+                  <a href="https://maps.google.com/maps?q={encodeURIComponent((prospect.name || '') + ' ' + (prospect.address || ''))}" target="_blank" class="action-btn">📍 Maps</a>
+                </div>
+
+                <div class="saved-contact-info">
+                  {#if prospect.phone}<p>📞 <a href="tel:{prospect.phone}">{prospect.phone}</a></p>{/if}
+                  {#if prospect.email}<p>✉️ <a href="mailto:{prospect.email}">{prospect.email}</a></p>{/if}
+                  {#if prospect.contact_name}<p>👤 Contact: {prospect.contact_name}</p>{/if}
+                  {#if prospect.rating}<p>⭐ {prospect.rating} ({prospect.reviews || 0} reviews)</p>{/if}
+                  {#if prospect.score}<p>🎯 Score: {prospect.score}%</p>{/if}
+                  <p>📅 Saved: {prospect.saved_date ? new Date(prospect.saved_date).toLocaleDateString() : 'N/A'}</p>
+                  {#if prospect.last_contacted}<p>📞 Last Contact: {new Date(prospect.last_contacted).toLocaleDateString()}</p>{/if}
+                </div>
+
+                {#if prospect.notes}
+                  <div class="notes-section" style="margin-top:8px;">
+                    <p class="tmpl-label">📝 Notes:</p>
+                    <div style="background: var(--bg-secondary, #f5f5f5); padding: 10px; border-radius: 8px; font-size: 13px; white-space: pre-wrap;">{prospect.notes}</div>
+                  </div>
+                {/if}
+              </div>
+            {/if}
+          </div>
+        {/each}
+      </div>
     {/if}
   {/if}
 
