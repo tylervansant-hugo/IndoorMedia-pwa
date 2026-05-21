@@ -41,8 +41,23 @@
   // Load video library on mount
   function handleStoreSelectFromMap(e) {
     const storeName = e.detail;
-    const store = nearbyStores.find(s => s.StoreName === storeName) || allStores.find(s => s.StoreName === storeName);
-    if (store) selectStore(store);
+    // Try immediately, then retry if allStores hasn't loaded yet
+    function trySelect() {
+      const store = nearbyStores.find(s => s.StoreName === storeName) || allStores.find(s => s.StoreName === storeName);
+      if (store) {
+        selectStore(store);
+        return true;
+      }
+      return false;
+    }
+    if (!trySelect()) {
+      // Retry after stores finish loading (up to 3 seconds)
+      let attempts = 0;
+      const retry = setInterval(() => {
+        attempts++;
+        if (trySelect() || attempts >= 15) clearInterval(retry);
+      }, 200);
+    }
   }
   
   function handleEdgeSwipeBack() {

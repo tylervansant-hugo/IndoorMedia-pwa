@@ -828,7 +828,7 @@
         if (store) {
           setTimeout(() => {
             document.dispatchEvent(new CustomEvent('select-store-from-map', { detail: store }));
-          }, 100);
+          }, 300);
         }
       } else if (action === 'rates') {
         storesView = 'rates';
