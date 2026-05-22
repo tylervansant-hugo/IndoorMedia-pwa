@@ -1,6 +1,6 @@
 <script>
   import { createEventDispatcher } from 'svelte';
-  import { error, setUser } from '../lib/stores.js';
+  import { error, setUser, padAmount } from '../lib/stores.js';
   import { logActivity } from '../lib/activity.js';
 
   let selectedRep = '';
@@ -119,7 +119,7 @@
         const repPads = JSON.parse(localStorage.getItem('impro_rep_pads') || '{}');
         const repKey = rep.contract_name || rep.name;
         const pad = repPads[repKey] !== undefined ? repPads[repKey] : 1200;
-        localStorage.setItem('impro_pad_amount', pad.toString());
+        localStorage.setItem('impro_pad_amount', pad.toString()); padAmount.set(pad);
       } catch {}
       setUser({
         id: selectedRep,
@@ -169,7 +169,7 @@
       const repPads = JSON.parse(localStorage.getItem('impro_rep_pads') || '{}');
       const repKey = rep.contract_name || rep.name;
       const pad = repPads[repKey] !== undefined ? repPads[repKey] : 1200;
-      localStorage.setItem('impro_pad_amount', pad.toString());
+      localStorage.setItem('impro_pad_amount', pad.toString()); padAmount.set(pad);
     } catch {}
     setUser({
       id: selectedRep,

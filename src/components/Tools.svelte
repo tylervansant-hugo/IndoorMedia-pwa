@@ -1,7 +1,7 @@
 <script>
   import { onMount, onDestroy } from 'svelte';
   import { PDFDocument, rgb, StandardFonts } from 'pdf-lib';
-  import { user } from '../lib/stores.js';
+  import { user, padAmount } from '../lib/stores.js';
   import { calculateROI as sharedCalculateROI } from '../lib/roi.js';
   import StoreSearchInput from '../lib/StoreSearchInput.svelte';
   import Analytics from './Analytics.svelte';
@@ -937,7 +937,7 @@ Store: ${store}
       <p style="font-size: 12px; color: #888; margin-bottom: 12px;">Added to base price before discounts</p>
       <div style="display: flex; align-items: center; gap: 8px;">
         <span style="font-size: 18px; font-weight: 700; color: var(--text-primary, #333);">$</span>
-        <input type="number" value={myPad} on:change={(e) => { setRepPad(myName, e.target.value); localStorage.setItem('impro_pad_amount', e.target.value); }}
+        <input type="number" value={myPad} on:change={(e) => { setRepPad(myName, e.target.value); padAmount.set(parseFloat(e.target.value) || 0); }}
           style="flex: 1; padding: 12px; border: 1px solid var(--border-color, #ddd); border-radius: 8px; font-size: 20px; font-weight: 700; background: var(--input-bg, #fff); color: var(--text-primary, #333);" />
       </div>
       <p style="margin-top: 8px; font-size: 11px; color: #888;">+ $125 production fee always applied{myPad !== 1200 ? ' · ⚠️ Default is $1,200' : ''}</p>

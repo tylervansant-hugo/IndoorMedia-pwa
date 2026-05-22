@@ -14,6 +14,15 @@ export const currentTab = writable('search'); // 'search', 'prospects', 'testimo
 // Cart items
 export const cart = writable([]);
 
+// Pricing pad amount (reactive, syncs to localStorage)
+const savedPad = typeof localStorage !== 'undefined' ? parseFloat(localStorage.getItem('impro_pad_amount')) || 1200 : 1200;
+export const padAmount = writable(savedPad);
+padAmount.subscribe(val => {
+  if (typeof localStorage !== 'undefined') {
+    localStorage.setItem('impro_pad_amount', val.toString());
+  }
+});
+
 // Search results
 export const searchResults = writable([]);
 

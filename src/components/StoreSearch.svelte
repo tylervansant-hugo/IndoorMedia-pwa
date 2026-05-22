@@ -1,5 +1,5 @@
 <script>
-  import { searchResults, loading, error, setLoading, setError, addToCart } from '../lib/stores.js';
+  import { searchResults, loading, error, setLoading, setError, addToCart, padAmount } from '../lib/stores.js';
   import { onMount } from 'svelte';
   import { calculateROI as sharedCalculateROI } from '../lib/roi.js';
 
@@ -598,13 +598,10 @@ Store: ${store.StoreName}
   // Payment plan calculations
   // Standard = base + pad + $125 production
   // Co-Op = base + $125 production (no pad)
-  // Pad amount is configurable via Tools → Settings (default $1,200)
-  function getPadAmount() {
-    try { return parseFloat(localStorage.getItem('impro_pad_amount')) || 1200; } catch { return 1200; }
-  }
+  // Pad amount comes from reactive Svelte store ($padAmount)
   function calcPricing(basePrice, isCoop = false) {
     const prod = 125;
-    const pad = isCoop ? 0 : getPadAmount();
+    const pad = isCoop ? 0 : ($padAmount || 1200);
     const total = basePrice + pad + prod;
     return {
       monthly: (total / 12).toFixed(2),
