@@ -9,6 +9,11 @@
   export let contracts = [];
 
   let view = 'main'; // main, roi, rates, testimonials, audit, counter-sign, submit-testimonial, analytics
+  let padAmount = 1200;
+  try { padAmount = parseFloat(localStorage.getItem('impro_pad_amount')) || 1200; } catch {}
+  function savePadAmount() {
+    localStorage.setItem('impro_pad_amount', padAmount.toString());
+  }
   let stores = [];
   let allStores = [];
   let selectedStore = null;
@@ -897,6 +902,22 @@ Store: ${store}
         <div class="btn-desc">Revenue, reps & app usage stats</div>
       </button>
     </div>
+
+    {#if $user?.role === 'manager' || $user?.name?.toLowerCase().includes('tyler')}
+      <div style="margin-top: 24px; padding: 16px; background: var(--bg-secondary, #f5f5f5); border-radius: 12px; border: 1px solid var(--border-color, #e0e0e0);">
+        <h3 style="font-size: 15px; margin-bottom: 12px; color: var(--text-primary, #333);">⚙️ Manager Settings</h3>
+        <div style="display: flex; align-items: center; gap: 10px;">
+          <label style="font-size: 14px; font-weight: 600; white-space: nowrap; color: var(--text-primary, #333);">Pricing Pad:</label>
+          <span style="font-size: 16px; font-weight: 600; color: var(--text-primary, #333);">$</span>
+          <input type="number" bind:value={padAmount} on:change={savePadAmount}
+            style="flex: 1; padding: 10px 12px; border: 1px solid var(--border-color, #ddd); border-radius: 8px; font-size: 16px; font-weight: 600; max-width: 140px; background: var(--input-bg, #fff); color: var(--text-primary, #333);" />
+          <span style="font-size: 12px; color: #888;">added to base before discounts</span>
+        </div>
+        {#if padAmount !== 1200}
+          <p style="margin-top: 8px; font-size: 12px; color: #CC0000; font-weight: 600;">⚠️ Default is $1,200 — currently set to ${padAmount.toLocaleString()}</p>
+        {/if}
+      </div>
+    {/if}
   {/if}
 
   <!-- ROI Calculator -->

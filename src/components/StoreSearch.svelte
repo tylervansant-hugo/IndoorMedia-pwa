@@ -596,11 +596,15 @@ Store: ${store.StoreName}
   }
 
   // Payment plan calculations
-  // Standard = base + $1,200 pad + $125 production
+  // Standard = base + pad + $125 production
   // Co-Op = base + $125 production (no pad)
+  // Pad amount is configurable via Tools → Settings (default $1,200)
+  function getPadAmount() {
+    try { return parseFloat(localStorage.getItem('impro_pad_amount')) || 1200; } catch { return 1200; }
+  }
   function calcPricing(basePrice, isCoop = false) {
     const prod = 125;
-    const pad = isCoop ? 0 : 1200;
+    const pad = isCoop ? 0 : getPadAmount();
     const total = basePrice + pad + prod;
     return {
       monthly: (total / 12).toFixed(2),
