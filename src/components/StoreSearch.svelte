@@ -755,11 +755,11 @@ Store: ${store.StoreName}
             </div>
 
             <!-- Impressions summary (visible before expand) -->
-            {@const caseCount = parseInt(store['Case Count']) || 0}
-            {@const annualImp = caseCount * 50 * 137 * 2 * 4}
-            {@const monthlyImp = Math.round(annualImp / 12)}
-            {@const dailyImp = Math.round(annualImp / 365)}
             {#if !isExpanded}
+              {@const caseCount = parseInt(store['Case Count']) || 0}
+              {@const annualImp = caseCount * 50 * 137 * 2 * 4}
+              {@const monthlyImp = Math.round(annualImp / 12)}
+              {@const dailyImp = Math.round(annualImp / 365)}
               <div class="impressions-preview">
                 <div class="imp-stat"><span class="imp-num">{dailyImp.toLocaleString()}</span><span class="imp-label">daily</span></div>
                 <div class="imp-stat"><span class="imp-num">{monthlyImp.toLocaleString()}</span><span class="imp-label">monthly</span></div>
