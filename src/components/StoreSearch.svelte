@@ -601,7 +601,7 @@ Store: ${store.StoreName}
   // Pad amount comes from reactive Svelte store ($padAmount)
   function calcPricing(basePrice, isCoop = false) {
     const prod = 125;
-    const pad = isCoop ? 0 : ($padAmount || 1200);
+    const pad = isCoop ? 0 : ($padAmount != null ? $padAmount : 1200);
     const total = basePrice + pad + prod;
     return {
       monthly: (total / 12).toFixed(2),

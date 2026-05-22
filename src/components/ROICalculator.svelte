@@ -10,7 +10,7 @@
   $: netPerRedemption = (avgTicket - couponValue) * (1 - cogsPercent / 100);
   $: monthlyRevenue = redemptionsPerMonth * (avgTicket - couponValue);
   $: monthlyProfit = redemptionsPerMonth * netPerRedemption;
-  $: monthlyAdCost = (storePrice + ($padAmount || 1200) + 125) / 12;
+  $: monthlyAdCost = (storePrice + ($padAmount != null ? $padAmount : 1200) + 125) / 12;
   $: monthlyNet = monthlyProfit - monthlyAdCost;
   $: roi = monthlyAdCost > 0 ? ((monthlyProfit / monthlyAdCost) * 100).toFixed(0) : 0;
   $: breakEven = netPerRedemption > 0 ? Math.ceil(monthlyAdCost / netPerRedemption) : 0;

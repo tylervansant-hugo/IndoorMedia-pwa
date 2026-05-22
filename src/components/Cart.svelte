@@ -135,7 +135,7 @@
   // Payment plans: base = raw store price, pad = rep's pad amount, prod = $125 production
   // Co-op plans use pad=0; standard plans use the rep's configured pad
   $: PAYMENT_PLANS = (() => {
-    const pad = $padAmount || 1200;
+    const pad = $padAmount != null ? $padAmount : 1200;
     const prod = 125;
     return {
       tape_single: [
