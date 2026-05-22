@@ -295,6 +295,8 @@
         minWidth: 250,
         className: 'store-map-popup',
         autoPan: true,
+        autoClose: true,      // Close when another popup opens
+        closeOnClick: false,   // Don't close on map click
       });
 
       markerClusterGroup.addLayer(marker);
@@ -428,14 +430,8 @@
         touchZoom: true,          // Keep pinch-to-zoom on touch devices
       });
 
-      // Popup close delay: prevent closing within 500ms of opening
-      map.on('popupopen', () => {
-        lastPopupOpenTime = Date.now();
-      });
-      map.on('click', (e) => {
-        if (Date.now() - lastPopupOpenTime < 500) return;
-        map.closePopup();
-      });
+      // Popups close only via X button or by opening another popup
+      // No map-click-to-close — prevents accidental dismissal on mobile
 
       L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         attribution: '© OpenStreetMap contributors',
