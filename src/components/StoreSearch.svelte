@@ -754,31 +754,45 @@ Store: ${store.StoreName}
               >Double Ad</button>
             </div>
 
-            <!-- Standard Pricing (always visible) -->
-            <div class="pricing-label">{isCoop ? '🤝 Co-Op Pricing' : '💼 Standard Pricing'}</div>
-            <div class="pricing">
-              <div class="price-row">
-                <span class="price-label">Monthly</span>
-                <span class="price-value">${pricing.monthly}/mo × 12 = ${pricing.monthlyTotal}</span>
+            <!-- Impressions summary (visible before expand) -->
+            {@const caseCount = parseInt(store['Case Count']) || 0}
+            {@const annualImp = caseCount * 50 * 137 * 2 * 4}
+            {@const monthlyImp = Math.round(annualImp / 12)}
+            {@const dailyImp = Math.round(annualImp / 365)}
+            {#if !isExpanded}
+              <div class="impressions-preview">
+                <div class="imp-stat"><span class="imp-num">{dailyImp.toLocaleString()}</span><span class="imp-label">daily</span></div>
+                <div class="imp-stat"><span class="imp-num">{monthlyImp.toLocaleString()}</span><span class="imp-label">monthly</span></div>
+                <div class="imp-stat imp-highlight"><span class="imp-num">{annualImp.toLocaleString()}</span><span class="imp-label">annual</span></div>
               </div>
-              <div class="price-row highlight">
-                <span class="price-label">Paid in Full</span>
-                <span class="price-value pif">${pricing.pif} (15% off)</span>
-              </div>
-            </div>
+              <p style="text-align: center; font-size: 11px; color: var(--text-secondary, #888); margin: 4px 0 8px;">👁️ Estimated ad impressions · Tap to see pricing</p>
+            {/if}
 
-            <!-- Co-Op Unlock Button -->
-            <button
-              class="coop-btn"
-              class:unlocked={isCoop}
-              on:click={() => unlockCoop(store.StoreName)}
-            >
-              {isCoop ? '🔓 Showing Co-Op Pricing — Tap to Reset' : '🔒 Manager Approved Co-Op'}
-            </button>
-
-            <!-- Expanded: All 4 Payment Plans -->
+            <!-- Expanded: Pricing + Payment Plans -->
             {#if isExpanded}
               <div class="expanded-pricing">
+                <!-- Pricing summary -->
+                <div class="pricing-label">{isCoop ? '🤝 Co-Op Pricing' : '💼 Standard Pricing'}</div>
+                <div class="pricing">
+                  <div class="price-row">
+                    <span class="price-label">Monthly</span>
+                    <span class="price-value">${pricing.monthly}/mo × 12 = ${pricing.monthlyTotal}</span>
+                  </div>
+                  <div class="price-row highlight">
+                    <span class="price-label">Paid in Full</span>
+                    <span class="price-value pif">${pricing.pif} (15% off)</span>
+                  </div>
+                </div>
+
+                <!-- Co-Op Unlock Button -->
+                <button
+                  class="coop-btn"
+                  class:unlocked={isCoop}
+                  on:click={() => unlockCoop(store.StoreName)}
+                >
+                  {isCoop ? '🔓 Showing Co-Op Pricing — Tap to Reset' : '🔒 Manager Approved Co-Op'}
+                </button>
+
                 <!-- Ad Type Toggle in Expanded View -->
                 <div class="expanded-ad-toggle">
                   <button
@@ -1396,6 +1410,35 @@ Store: ${store.StoreName}
   .export-btn { width: 100%; padding: 12px; background: #CC0000; color: white; border: none; border-radius: 10px; font-size: 14px; font-weight: 700; cursor: pointer; margin-bottom: 8px; }
   .lang-btns { display: flex; flex-wrap: wrap; gap: 6px; }
   .lang-btn { flex: 1; min-width: 80px; padding: 8px 6px; border: 1px solid var(--border-color, #ddd); border-radius: 8px; background: var(--card-bg, white); font-size: 11px; font-weight: 600; cursor: pointer; text-align: center; color: var(--text-primary); }
+
+  .impressions-preview {
+    display: flex;
+    gap: 6px;
+    margin: 8px 0 2px;
+  }
+  .impressions-preview .imp-stat {
+    flex: 1;
+    text-align: center;
+    padding: 8px 4px;
+    background: var(--bg-secondary, #f5f5f5);
+    border-radius: 8px;
+  }
+  .impressions-preview .imp-highlight {
+    background: linear-gradient(135deg, #E3F2FD, #F3E5F5);
+    border: 1px solid #1565C0;
+  }
+  .impressions-preview .imp-num {
+    display: block;
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--text-primary, #333);
+  }
+  .impressions-preview .imp-label {
+    font-size: 10px;
+    text-transform: uppercase;
+    color: var(--text-secondary, #888);
+    font-weight: 600;
+  }
 
   .pricing-label {
     font-size: 12px;
