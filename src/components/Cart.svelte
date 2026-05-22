@@ -1,5 +1,6 @@
 <script>
   import { onMount } from 'svelte';
+  import { padAmount } from '../lib/stores.js';
   import StoreSearchInput from '../lib/StoreSearchInput.svelte';
 
   let cartItems = [];
@@ -131,34 +132,40 @@
     { id: 'loyaltyboost', name: 'LoyaltyBoost', emoji: '💎', price: '$3,600/year', needsStore: true, skipPlan: true },
   ];
 
-  const PAYMENT_PLANS = {
-    tape_single: [
-      { id: 'monthly', name: 'Monthly (12 payments)', calc: (base) => ((base + 125) / 12).toFixed(2) + '/mo × 12 = $' + (base + 125).toFixed(2) },
-      { id: '3month', name: '3-Month (10% off)', calc: (base) => (((base * 0.90) + 125) / 3).toFixed(2) + '/payment × 3 = $' + ((base * 0.90) + 125).toFixed(2) },
-      { id: '6month', name: '6-Month (7.5% off)', calc: (base) => (((base * 0.925) + 125) / 6).toFixed(2) + '/payment × 6 = $' + ((base * 0.925) + 125).toFixed(2) },
-      { id: 'pif', name: 'Paid-in-Full (15% off)', calc: (base) => '$' + ((base * 0.85) + 125).toFixed(2) },
-    ],
-    tape_double: [
-      { id: 'monthly', name: 'Monthly (12 payments)', calc: (base) => ((base + 125) / 12).toFixed(2) + '/mo × 12 = $' + (base + 125).toFixed(2) },
-      { id: '3month', name: '3-Month (10% off)', calc: (base) => (((base * 0.90) + 125) / 3).toFixed(2) + '/payment × 3 = $' + ((base * 0.90) + 125).toFixed(2) },
-      { id: '6month', name: '6-Month (7.5% off)', calc: (base) => (((base * 0.925) + 125) / 6).toFixed(2) + '/payment × 6 = $' + ((base * 0.925) + 125).toFixed(2) },
-      { id: 'pif', name: 'Paid-in-Full (15% off)', calc: (base) => '$' + ((base * 0.85) + 125).toFixed(2) },
-    ],
-    tape_coop: [
-      { id: 'monthly', name: 'Monthly (12 payments)', calc: (base) => ((base + 125) / 12).toFixed(2) + '/mo × 12 = $' + (base + 125).toFixed(2) },
-      { id: '3month', name: '3-Month (10% off)', calc: (base) => (((base * 0.90) + 125) / 3).toFixed(2) + '/payment × 3 = $' + ((base * 0.90) + 125).toFixed(2) },
-      { id: '6month', name: '6-Month (7.5% off)', calc: (base) => (((base * 0.925) + 125) / 6).toFixed(2) + '/payment × 6 = $' + ((base * 0.925) + 125).toFixed(2) },
-      { id: 'pif', name: 'Paid-in-Full (15% off)', calc: (base) => '$' + ((base * 0.85) + 125).toFixed(2) },
-    ],
-    tape_exclusive: [
-      { id: 'monthly', name: 'Monthly', calc: (base) => ((base + 125) / 12).toFixed(2) + '/mo × 12 = $' + (base + 125).toFixed(2) },
-      { id: 'pif', name: 'Paid-in-Full (5% off)', calc: (base) => '$' + (base * 0.95).toFixed(2) },
-    ],
-    tape_contractor: [
-      { id: '3month', name: '3-Month', calc: (base) => (((base) + 125) / 3).toFixed(2) + '/payment × 3 = $' + ((base) + 125).toFixed(2) },
-      { id: 'pif', name: 'Paid-in-Full (5% off)', calc: (base) => '$' + (base * 0.95).toFixed(2) },
-    ],
-  };
+  // Payment plans: base = raw store price, pad = rep's pad amount, prod = $125 production
+  // Co-op plans use pad=0; standard plans use the rep's configured pad
+  $: PAYMENT_PLANS = (() => {
+    const pad = $padAmount || 1200;
+    const prod = 125;
+    return {
+      tape_single: [
+        { id: 'monthly', name: 'Monthly (12 payments)', calc: (base) => { const t = base + pad + prod; return (t / 12).toFixed(2) + '/mo × 12 = $' + t.toFixed(2); } },
+        { id: '3month', name: '3-Month (10% off)', calc: (base) => { const t = ((base + pad) * 0.90) + prod; return (t / 3).toFixed(2) + '/payment × 3 = $' + t.toFixed(2); } },
+        { id: '6month', name: '6-Month (7.5% off)', calc: (base) => { const t = ((base + pad) * 0.925) + prod; return (t / 6).toFixed(2) + '/payment × 6 = $' + t.toFixed(2); } },
+        { id: 'pif', name: 'Paid-in-Full (15% off)', calc: (base) => '$' + (((base + pad) * 0.85) + prod).toFixed(2) },
+      ],
+      tape_double: [
+        { id: 'monthly', name: 'Monthly (12 payments)', calc: (base) => { const t = base + pad + prod; return (t / 12).toFixed(2) + '/mo × 12 = $' + t.toFixed(2); } },
+        { id: '3month', name: '3-Month (10% off)', calc: (base) => { const t = ((base + pad) * 0.90) + prod; return (t / 3).toFixed(2) + '/payment × 3 = $' + t.toFixed(2); } },
+        { id: '6month', name: '6-Month (7.5% off)', calc: (base) => { const t = ((base + pad) * 0.925) + prod; return (t / 6).toFixed(2) + '/payment × 6 = $' + t.toFixed(2); } },
+        { id: 'pif', name: 'Paid-in-Full (15% off)', calc: (base) => '$' + (((base + pad) * 0.85) + prod).toFixed(2) },
+      ],
+      tape_coop: [
+        { id: 'monthly', name: 'Monthly (12 payments)', calc: (base) => { const t = base + prod; return (t / 12).toFixed(2) + '/mo × 12 = $' + t.toFixed(2); } },
+        { id: '3month', name: '3-Month (10% off)', calc: (base) => { const t = (base * 0.90) + prod; return (t / 3).toFixed(2) + '/payment × 3 = $' + t.toFixed(2); } },
+        { id: '6month', name: '6-Month (7.5% off)', calc: (base) => { const t = (base * 0.925) + prod; return (t / 6).toFixed(2) + '/payment × 6 = $' + t.toFixed(2); } },
+        { id: 'pif', name: 'Paid-in-Full (15% off)', calc: (base) => '$' + ((base * 0.85) + prod).toFixed(2) },
+      ],
+      tape_exclusive: [
+        { id: 'monthly', name: 'Monthly', calc: (base) => { const t = base + pad + prod; return (t / 12).toFixed(2) + '/mo × 12 = $' + t.toFixed(2); } },
+        { id: 'pif', name: 'Paid-in-Full (5% off)', calc: (base) => '$' + ((base + pad) * 0.95).toFixed(2) },
+      ],
+      tape_contractor: [
+        { id: '3month', name: '3-Month', calc: (base) => { const t = base + pad + prod; return (t / 3).toFixed(2) + '/payment × 3 = $' + t.toFixed(2); } },
+        { id: 'pif', name: 'Paid-in-Full (5% off)', calc: (base) => '$' + ((base + pad) * 0.95).toFixed(2) },
+      ],
+    };
+  })();
 
   onMount(async () => {
     loadCart();

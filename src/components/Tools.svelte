@@ -92,7 +92,10 @@
   }
 
   function calculateROI() {
-    const annualAdCost = parseFloat(roiAdCost) || 0;
+    const baseAdCost = parseFloat(roiAdCost) || 0;
+    const pad = $padAmount || 1200;
+    const prod = 125;
+    const annualAdCost = baseAdCost + pad + prod;
     const quarters = parseInt(roiQuarters) || 4;
     const months = quarters * 3;
     const totalAdCost = Math.round(annualAdCost * (quarters / 4));
