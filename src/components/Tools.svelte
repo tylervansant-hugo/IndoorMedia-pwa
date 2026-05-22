@@ -9,10 +9,26 @@
   export let contracts = [];
 
   let view = 'main'; // main, roi, rates, testimonials, audit, counter-sign, submit-testimonial, analytics
-  let padAmount = 1200;
-  try { padAmount = parseFloat(localStorage.getItem('impro_pad_amount')) || 1200; } catch {}
-  function savePadAmount() {
-    localStorage.setItem('impro_pad_amount', padAmount.toString());
+  // Per-rep pricing pad amounts (manager configurable)
+  let repPadAmounts = {};
+  try { repPadAmounts = JSON.parse(localStorage.getItem('impro_rep_pads') || '{}'); } catch {}
+  let repRegistry = {};
+
+  function saveRepPads() {
+    localStorage.setItem('impro_rep_pads', JSON.stringify(repPadAmounts));
+    // Also save current user's pad for StoreSearch to read
+    const myName = $user?.contract_name || $user?.display_name || $user?.name || '';
+    if (myName && repPadAmounts[myName] !== undefined) {
+      localStorage.setItem('impro_pad_amount', repPadAmounts[myName].toString());
+    }
+  }
+  function getRepPad(repName) {
+    return repPadAmounts[repName] !== undefined ? repPadAmounts[repName] : 1200;
+  }
+  function setRepPad(repName, val) {
+    repPadAmounts[repName] = parseFloat(val) || 0;
+    repPadAmounts = repPadAmounts; // trigger reactivity
+    saveRepPads();
   }
   let stores = [];
   let allStores = [];
@@ -461,6 +477,16 @@ Store: ${store}
     } catch (err) {
       console.error('Failed to load stores:', err);
     }
+    try {
+      const regRes = await fetch(import.meta.env.BASE_URL + 'data/rep_registry.json?t=' + Date.now());
+      repRegistry = await regRes.json();
+    } catch {}
+    // Set current user's pad on load
+    const myName = $user?.contract_name || $user?.display_name || $user?.name || '';
+    if (myName) {
+      const myPad = getRepPad(myName);
+      localStorage.setItem('impro_pad_amount', myPad.toString());
+    }
   });
 
   let filteredStores = [];
@@ -905,17 +931,20 @@ Store: ${store}
 
     {#if $user?.role === 'manager' || $user?.name?.toLowerCase().includes('tyler')}
       <div style="margin-top: 24px; padding: 16px; background: var(--bg-secondary, #f5f5f5); border-radius: 12px; border: 1px solid var(--border-color, #e0e0e0);">
-        <h3 style="font-size: 15px; margin-bottom: 12px; color: var(--text-primary, #333);">⚙️ Manager Settings</h3>
-        <div style="display: flex; align-items: center; gap: 10px;">
-          <label style="font-size: 14px; font-weight: 600; white-space: nowrap; color: var(--text-primary, #333);">Pricing Pad:</label>
-          <span style="font-size: 16px; font-weight: 600; color: var(--text-primary, #333);">$</span>
-          <input type="number" bind:value={padAmount} on:change={savePadAmount}
-            style="flex: 1; padding: 10px 12px; border: 1px solid var(--border-color, #ddd); border-radius: 8px; font-size: 16px; font-weight: 600; max-width: 140px; background: var(--input-bg, #fff); color: var(--text-primary, #333);" />
-          <span style="font-size: 12px; color: #888;">added to base before discounts</span>
+        <h3 style="font-size: 15px; margin-bottom: 12px; color: var(--text-primary, #333);">⚙️ Rep Pricing Pads</h3>
+        <p style="font-size: 12px; color: #888; margin-bottom: 12px;">Amount added to base price before discounts. Default: $1,200. Production fee ($125) is always added separately.</p>
+        <div style="display: flex; flex-direction: column; gap: 8px;">
+          {#each Object.entries(repRegistry).filter(([k, v]) => v.role === 'rep' || v.role === 'manager').sort((a, b) => (a[1].display_name || '').localeCompare(b[1].display_name || '')) as [repId, rep]}
+            {@const repName = rep.contract_name || rep.display_name || repId}
+            {@const currentPad = getRepPad(repName)}
+            <div style="display: flex; align-items: center; gap: 8px; padding: 8px 10px; background: var(--card-bg, #fff); border-radius: 8px; border: 1px solid {currentPad !== 1200 ? '#CC0000' : 'var(--border-color, #e0e0e0)'};">
+              <span style="flex: 1; font-size: 13px; font-weight: 600; color: var(--text-primary, #333); min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">{rep.display_name || repId}</span>
+              <span style="font-size: 14px; font-weight: 600; color: var(--text-primary, #333);">$</span>
+              <input type="number" value={currentPad} on:change={(e) => setRepPad(repName, e.target.value)}
+                style="width: 80px; padding: 6px 8px; border: 1px solid var(--border-color, #ddd); border-radius: 6px; font-size: 14px; font-weight: 600; text-align: right; background: var(--input-bg, #fff); color: var(--text-primary, #333);" />
+            </div>
+          {/each}
         </div>
-        {#if padAmount !== 1200}
-          <p style="margin-top: 8px; font-size: 12px; color: #CC0000; font-weight: 600;">⚠️ Default is $1,200 — currently set to ${padAmount.toLocaleString()}</p>
-        {/if}
       </div>
     {/if}
   {/if}

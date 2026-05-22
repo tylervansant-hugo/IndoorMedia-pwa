@@ -114,9 +114,17 @@
       // Correct password - log in
       console.log('Password verified, logging in:', selectedRep);
       logActivity('login', { rep: rep.name, role: rep.role });
+      // Set this rep's pricing pad amount
+      try {
+        const repPads = JSON.parse(localStorage.getItem('impro_rep_pads') || '{}');
+        const repKey = rep.contract_name || rep.name;
+        const pad = repPads[repKey] !== undefined ? repPads[repKey] : 1200;
+        localStorage.setItem('impro_pad_amount', pad.toString());
+      } catch {}
       setUser({
         id: selectedRep,
         name: rep.name,
+        contract_name: rep.contract_name,
         role: rep.role,
         base_location: rep.base_location
       });
@@ -156,9 +164,17 @@
 
     // Log in
     const rep = reps.find(r => r.id === selectedRep);
+    // Set this rep's pricing pad amount
+    try {
+      const repPads = JSON.parse(localStorage.getItem('impro_rep_pads') || '{}');
+      const repKey = rep.contract_name || rep.name;
+      const pad = repPads[repKey] !== undefined ? repPads[repKey] : 1200;
+      localStorage.setItem('impro_pad_amount', pad.toString());
+    } catch {}
     setUser({
       id: selectedRep,
       name: rep.name,
+      contract_name: rep.contract_name,
       role: rep.role,
       base_location: rep.base_location
     });
