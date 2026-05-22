@@ -929,11 +929,27 @@ Store: ${store}
       </button>
     </div>
 
+    <!-- My Pricing Pad (visible to all reps) -->
+    {@const myName = $user?.contract_name || $user?.display_name || $user?.name || ''}
+    {@const myPad = getRepPad(myName)}
+    <div style="margin-top: 24px; padding: 16px; background: var(--bg-secondary, #f5f5f5); border-radius: 12px; border: 1px solid var(--border-color, #e0e0e0);">
+      <h3 style="font-size: 15px; margin-bottom: 8px; color: var(--text-primary, #333);">💰 My Pricing Pad</h3>
+      <p style="font-size: 12px; color: #888; margin-bottom: 12px;">Added to store base price before discounts. Production fee ($125) is always separate.</p>
+      <div style="display: flex; align-items: center; gap: 10px;">
+        <span style="font-size: 18px; font-weight: 700; color: var(--text-primary, #333);">$</span>
+        <input type="number" value={myPad} on:change={(e) => { setRepPad(myName, e.target.value); localStorage.setItem('impro_pad_amount', e.target.value); }}
+          style="flex: 1; padding: 12px; border: 1px solid var(--border-color, #ddd); border-radius: 8px; font-size: 18px; font-weight: 700; max-width: 160px; background: var(--input-bg, #fff); color: var(--text-primary, #333);" />
+      </div>
+      {#if myPad !== 1200}
+        <p style="margin-top: 8px; font-size: 12px; color: #CC0000; font-weight: 600;">Custom — default is $1,200</p>
+      {/if}
+    </div>
+
+    <!-- Manager: view all reps' pads -->
     {#if $user?.role === 'manager' || $user?.name?.toLowerCase().includes('tyler')}
-      <div style="margin-top: 24px; padding: 16px; background: var(--bg-secondary, #f5f5f5); border-radius: 12px; border: 1px solid var(--border-color, #e0e0e0);">
-        <h3 style="font-size: 15px; margin-bottom: 12px; color: var(--text-primary, #333);">⚙️ Rep Pricing Pads</h3>
-        <p style="font-size: 12px; color: #888; margin-bottom: 12px;">Amount added to base price before discounts. Default: $1,200. Production fee ($125) is always added separately.</p>
-        <div style="display: flex; flex-direction: column; gap: 8px;">
+      <div style="margin-top: 12px; padding: 16px; background: var(--bg-secondary, #f5f5f5); border-radius: 12px; border: 1px solid var(--border-color, #e0e0e0);">
+        <h3 style="font-size: 15px; margin-bottom: 8px; color: var(--text-primary, #333);">⚙️ Team Pricing Pads</h3>
+        <div style="display: flex; flex-direction: column; gap: 6px;">
           {#each Object.entries(repRegistry).filter(([k, v]) => v.role === 'rep' || v.role === 'manager').sort((a, b) => (a[1].display_name || '').localeCompare(b[1].display_name || '')) as [repId, rep]}
             {@const repName = rep.contract_name || rep.display_name || repId}
             {@const currentPad = getRepPad(repName)}
