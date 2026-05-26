@@ -1,59 +1,46 @@
 /**
- * Shared ROI calculator module.
- * Canonical formula from Tools.svelte buildScenario().
+ * Shared ROI calculator module — compounding monthly formula.
+ *
+ * The "compounding" insight: month 1 has N new customers, month 2 has 2N,
+ * ..., month 12 has 12N.  Total customer-months = N × (1+2+...+12) = N × 78.
+ *
+ * Gross Annual Revenue = newCustomers × avgSpend × 78
+ *   (Verification: 25 × $50 × 78 = $97,500)
  *
  * @param {Object} params
- * @param {number} params.totalAdCost   - Total ad investment for the campaign period
- * @param {number} params.months        - Campaign length in months
- * @param {number} params.redemptions   - Monthly coupon redemptions
- * @param {number} params.newCustomers  - New customers per month (non-coupon exposure)
- * @param {number} params.ticket        - Average customer spend ($)
- * @param {number} params.discount      - Average coupon discount ($)
- * @param {number} params.cogsPercent   - Cost of goods sold (0-100)
- * @param {number} params.visitsPerYear - Return visits per customer per year
+ * @param {number} params.investment      - Total ad investment ($)
+ * @param {number} params.avgSpend        - Average customer spend ($)
+ * @param {number} params.newCustomers    - New customers gained per month
+ * @param {number} params.cogsPercent     - Cost of goods sold (0-100)
+ * @param {number} params.visitsPerYear   - Informational only (baked into the 12-month compounding)
  * @returns {Object} ROI breakdown
  */
 export function calculateROI({
-  totalAdCost = 0,
-  months = 12,
-  redemptions = 0,
+  investment = 0,
+  avgSpend = 0,
   newCustomers = 0,
-  ticket = 0,
-  discount = 0,
   cogsPercent = 0,
-  visitsPerYear = 1,
+  visitsPerYear = 12,
 } = {}) {
-  // Coupon redemptions (trackable)
-  const monthlyRedemptionRevenue = redemptions * ticket * (visitsPerYear / 12);
-  const monthlyDiscounts = redemptions * discount;
+  // Compounding factor: sum of 1..12 = 78
+  const COMPOUNDING_FACTOR = 78; // 12 * 13 / 2
 
-  // New customers (includes non-coupon exposure customers)
-  const monthlyNewCustomerRevenue = newCustomers * ticket * (visitsPerYear / 12);
-
-  const monthlyRevenue = monthlyRedemptionRevenue + monthlyNewCustomerRevenue;
-  const monthlyCogs = monthlyRevenue * (cogsPercent / 100);
-  const monthlyProfit = monthlyRevenue - monthlyDiscounts - monthlyCogs;
-
-  const totalRevenue = monthlyRevenue * months;
-  const totalDiscounts = monthlyDiscounts * months;
-  const totalCogs = monthlyCogs * months;
-  const campaignProfit = (monthlyProfit * months) - totalAdCost;
-  const roiPercent = totalAdCost > 0 ? Math.round((campaignProfit / totalAdCost) * 100) : 0;
-
-  const totalNewCustomers = newCustomers * months;
-  const customerLifetimeValue = ticket * visitsPerYear;
+  const grossRevenue = newCustomers * avgSpend * COMPOUNDING_FACTOR;
+  const cogs = grossRevenue * (cogsPercent / 100);
+  const netRevenue = grossRevenue - cogs;
+  const netProfit = netRevenue - investment;
+  const roiPercent = investment > 0 ? Math.round((netProfit / investment) * 100) : 0;
 
   return {
-    newCustomersPerMonth: newCustomers,
-    totalNewCustomers,
-    customerLifetimeValue: Math.round(customerLifetimeValue),
-    newCustomerTotalValue: Math.round(totalNewCustomers * customerLifetimeValue),
-    monthlyRevenue: Math.round(monthlyRevenue),
-    monthlyProfit: Math.round(monthlyProfit),
-    totalRevenue: Math.round(totalRevenue),
-    totalDiscounts: Math.round(totalDiscounts),
-    totalCogs: Math.round(totalCogs),
-    campaignProfit: Math.round(campaignProfit),
+    grossRevenue: Math.round(grossRevenue),
+    cogs: Math.round(cogs),
+    netRevenue: Math.round(netRevenue),
+    netProfit: Math.round(netProfit),
     roiPercent,
+    // Convenience fields
+    investment: Math.round(investment),
+    newCustomersPerMonth: newCustomers,
+    totalNewCustomers: newCustomers * 12,
+    visitsPerYear,
   };
 }

@@ -63,11 +63,9 @@
   let roiAdCost = '';
   let roiQuarters = 4;
   let roiNewCustomers = '';
-  let roiRedemptions = '';
-  let roiTicket = '';
-  let roiDiscount = '';
+  let roiAvgSpend = '';
   let roiCogs = '';
-  let roiVisitsPerYear = 1;
+  let roiVisitsPerYear = 12;
   let roiResult = null;
 
   // ROI store search now handled by StoreSearchInput component
@@ -84,42 +82,26 @@
     roiStoreSearch = '';
   }
 
-  // Build a single scenario given a multiplier on new customers (uses shared ROI module)
-  function buildScenario(label, multiplier, baseData) {
-    const scenarioNewCustomers = Math.round(baseData.newCustomers * multiplier);
-    const result = sharedCalculateROI({ ...baseData, newCustomers: scenarioNewCustomers });
-    return { label, multiplier, ...result };
-  }
-
   function calculateROI() {
     const baseAdCost = parseFloat(roiAdCost) || 0;
     const pad = $padAmount != null ? $padAmount : 1200;
     const prod = 125;
     const annualAdCost = baseAdCost + pad + prod;
     const quarters = parseInt(roiQuarters) || 4;
-    const months = quarters * 3;
     const totalAdCost = Math.round(annualAdCost * (quarters / 4));
     const costPerQuarter = Math.round(annualAdCost / 4);
     const newCustomers = parseInt(roiNewCustomers) || 0;
-    const redemptions = parseInt(roiRedemptions) || 0;
-    const ticket = parseFloat(roiTicket) || 0;
-    const discount = parseFloat(roiDiscount) || 0;
+    const avgSpend = parseFloat(roiAvgSpend) || 0;
     const cogsPercent = parseFloat(roiCogs) || 0;
-    const visitsPerYear = parseInt(roiVisitsPerYear) || 1;
+    const visitsPerYear = parseInt(roiVisitsPerYear) || 12;
     
-    const baseData = { totalAdCost, months, redemptions, newCustomers, ticket, discount, cogsPercent, visitsPerYear };
-    
-    // Three scenarios:
-    // Conservative: only coupon redemptions (trackable customers)
-    // Balanced: redemptions + new customers as entered (your best estimate)
-    // Optimistic: redemptions + 3x new customers (many see ad but don't use coupon)
-    const conservative = buildScenario('🟢 Conservative', 0, baseData);
-    const balanced = buildScenario('🔵 Balanced', 1, baseData);
-    const optimistic = buildScenario('🚀 Optimistic', 3, baseData);
-    
-    // Break-even
-    const profitPerRedemption = ticket - discount - (ticket * cogsPercent / 100);
-    const breakEvenRedemptions = profitPerRedemption > 0 ? Math.ceil(totalAdCost / (profitPerRedemption * months)) : '∞';
+    const result = sharedCalculateROI({
+      investment: totalAdCost,
+      avgSpend,
+      newCustomers,
+      cogsPercent,
+      visitsPerYear,
+    });
     
     roiResult = {
       annualAdCost: Math.round(annualAdCost),
@@ -127,14 +109,9 @@
       totalAdCost: Math.round(totalAdCost),
       adSize: roiAdSize,
       quarters,
-      months,
-      // Balanced is the "main" result for backward compat
-      ...balanced,
       cogsPercent,
       visitsPerYear,
-      breakEvenRedemptions,
-      // Three tiers
-      scenarios: [conservative, balanced, optimistic],
+      ...result,
     };
   }
 
@@ -183,51 +160,34 @@
 
     section('ASSUMPTIONS');
     if (r.newCustomersPerMonth > 0) line('New Customers / Month:', String(r.newCustomersPerMonth));
-    line('Monthly Coupon Redemptions:', roiRedemptions);
-    line('Average Customer Spend:', `$${parseFloat(roiTicket || 0).toLocaleString()}`);
-    line('Visits per Year:', `${r.visitsPerYear}`);
-    line('Avg Discount per Coupon:', `$${parseFloat(roiDiscount || 0).toLocaleString()}`);
+    line('Average Customer Spend:', `$${parseFloat(roiAvgSpend || 0).toLocaleString()}`);
+    line('Visits per Year (informational):', `${r.visitsPerYear}`);
     line('COGS:', `${r.cogsPercent}%`);
 
     section('ROI BREAKDOWN');
-    line('Gross Revenue:', `$${r.totalRevenue.toLocaleString()}`);
-    line('Less Discounts:', `-$${r.totalDiscounts.toLocaleString()}`);
-    line('Less COGS:', `-$${r.totalCogs.toLocaleString()}`);
-    line('Less Ad Cost:', `-$${r.totalAdCost.toLocaleString()}`);
+    line('Gross Annual Revenue:', `$${r.grossRevenue.toLocaleString()}`);
+    line('Less COGS:', `-$${r.cogs.toLocaleString()}`);
+    line('Net Annual Revenue:', `$${r.netRevenue.toLocaleString()}`);
+    line('Less Ad Investment:', `-$${r.totalAdCost.toLocaleString()}`);
     y -= 5;
     page.drawLine({ start: { x: 50, y: y + 12 }, end: { x: 550, y: y + 12 }, thickness: 1.5, color: rgb(0.8, 0, 0) });
     y -= 5;
     page.drawText('NET PROFIT', { x: 50, y, size: 13, font: bold, color: rgb(0.1, 0.1, 0.1) });
-    page.drawText(`$${r.campaignProfit.toLocaleString()}`, { x: 350, y, size: 13, font: bold, color: r.campaignProfit >= 0 ? rgb(0.18, 0.49, 0.2) : rgb(0.8, 0, 0) });
+    page.drawText(`$${r.netProfit.toLocaleString()}`, { x: 350, y, size: 13, font: bold, color: r.netProfit >= 0 ? rgb(0.18, 0.49, 0.2) : rgb(0.8, 0, 0) });
     y -= 25;
     page.drawText('RETURN ON INVESTMENT', { x: 50, y, size: 13, font: bold, color: rgb(0.1, 0.1, 0.1) });
     page.drawText(`${r.roiPercent}%`, { x: 350, y, size: 13, font: bold, color: r.roiPercent >= 0 ? rgb(0.18, 0.49, 0.2) : rgb(0.8, 0, 0) });
-    y -= 25;
-    line('Break-even Redemptions/mo:', String(r.breakEvenRedemptions));
 
-    // Scenario comparison table
-    if (r.scenarios && r.scenarios.length) {
-      y -= 15;
-      section('SCENARIO ANALYSIS');
-      line('', 'Conservative  |  Balanced  |  Optimistic');
-      for (const s of r.scenarios) {
-        line(`${s.label}:`, `Profit: $${s.campaignProfit.toLocaleString()}  |  ROI: ${s.roiPercent}%  |  New Customers: ${s.totalNewCustomers}`);
-      }
-      y -= 5;
-      page.drawText('* Many shoppers see your ad but never use a coupon — they still become customers.', { x: 50, y, size: 8, font: regular, color: rgb(0.5, 0.5, 0.5) });
-      y -= 15;
-    }
-
-    y -= 5;
+    y -= 15;
     // Verdict box
     const verdictColor = r.roiPercent >= 100 ? rgb(0.91, 0.96, 0.91) : r.roiPercent >= 0 ? rgb(0.95, 0.98, 0.95) : rgb(1, 0.93, 0.93);
     const verdictTextColor = r.roiPercent >= 0 ? rgb(0.18, 0.49, 0.2) : rgb(0.8, 0.2, 0.2);
     page.drawRectangle({ x: 40, y: y - 10, width: 530, height: 40, color: verdictColor, borderColor: verdictTextColor, borderWidth: 1 });
     const verdict = r.roiPercent >= 100
-      ? `Excellent ROI! $${r.campaignProfit.toLocaleString()} profit on a $${r.totalAdCost.toLocaleString()} investment.`
+      ? `Excellent ROI! $${r.netProfit.toLocaleString()} profit on a $${r.totalAdCost.toLocaleString()} investment.`
       : r.roiPercent >= 0
-        ? `Positive ROI. Campaign generates $${r.campaignProfit.toLocaleString()} in profit.`
-        : 'Negative ROI at these numbers. Adjust redemptions or ticket size.';
+        ? `Positive ROI. Campaign generates $${r.netProfit.toLocaleString()} in profit.`
+        : 'Negative ROI at these numbers. Adjust customer count or spend.';
     page.drawText(verdict, { x: 55, y: y + 5, size: 11, font: bold, color: verdictTextColor });
 
     // Footer
@@ -294,27 +254,24 @@
   <div class="row"><span class="label">Annual Ad Rate</span><span class="value">$${r.annualAdCost.toLocaleString()}</span></div>
   <div class="row"><span class="label">Campaign</span><span class="value">${r.quarters} quarter(s) / ${r.months} months</span></div>
   <div class="row"><span class="label">Total Investment</span><span class="value">$${r.totalAdCost.toLocaleString()}</span></div>
-  <div class="row"><span class="label">Monthly Redemptions</span><span class="value">${roiRedemptions}</span></div>
-  <div class="row"><span class="label">Avg Customer Spend</span><span class="value">$${parseFloat(roiTicket || 0).toLocaleString()}</span></div>
-  <div class="row"><span class="label">Visits per Year</span><span class="value">${r.visitsPerYear}</span></div>
-  ${roiDiscount ? `<div class="row"><span class="label">Avg Discount per Coupon</span><span class="value">$${parseFloat(roiDiscount).toLocaleString()}</span></div>` : ''}
+  <div class="row"><span class="label">Avg Customer Spend</span><span class="value">$${parseFloat(roiAvgSpend || 0).toLocaleString()}</span></div>
+  <div class="row"><span class="label">New Customers / Month</span><span class="value">${r.newCustomersPerMonth}</span></div>
+  <div class="row"><span class="label">Visits per Year (informational)</span><span class="value">${r.visitsPerYear}</span></div>
   ${r.cogsPercent ? `<div class="row"><span class="label">COGS</span><span class="value">${r.cogsPercent}%</span></div>` : ''}
 </div>
 
 <div class="section">
   <h3>💰 Revenue Analysis</h3>
-  <div class="row"><span class="label">Monthly Revenue</span><span class="value green">$${r.monthlyRevenue.toLocaleString()}/mo</span></div>
-  <div class="row"><span class="label">Gross Revenue (${r.months} months)</span><span class="value green">$${r.totalRevenue.toLocaleString()}</span></div>
-  ${r.totalDiscounts ? `<div class="row"><span class="label">Less Discounts</span><span class="value red">-$${r.totalDiscounts.toLocaleString()}</span></div>` : ''}
-  ${r.totalCogs ? `<div class="row"><span class="label">Less COGS (${r.cogsPercent}%)</span><span class="value red">-$${r.totalCogs.toLocaleString()}</span></div>` : ''}
+  <div class="row"><span class="label">Gross Annual Revenue</span><span class="value green">$${r.grossRevenue.toLocaleString()}</span></div>
+  ${r.cogs ? `<div class="row"><span class="label">Less COGS (${r.cogsPercent}%)</span><span class="value red">-$${r.cogs.toLocaleString()}</span></div>` : ''}
+  <div class="row"><span class="label">Net Annual Revenue</span><span class="value green">$${r.netRevenue.toLocaleString()}</span></div>
   <div class="row"><span class="label">Less Ad Investment</span><span class="value red">-$${r.totalAdCost.toLocaleString()}</span></div>
 </div>
 
 <div class="section">
   <h3>📊 Results</h3>
   <div class="row highlight"><span class="label">Return on Investment</span><span class="value big">${r.roiPercent}% ROI</span></div>
-  <div class="row"><span class="label">Campaign Net Profit</span><span class="value green">$${r.campaignProfit.toLocaleString()}</span></div>
-  <div class="row"><span class="label">Break-even Redemptions/mo</span><span class="value">${r.breakEvenRedemptions}</span></div>
+  <div class="row"><span class="label">Net Profit</span><span class="value green">$${r.netProfit.toLocaleString()}</span></div>
 </div>
 
 <div class="footer">
@@ -351,11 +308,11 @@
 Store: ${store}
 
 💰 Investment: $${r.totalAdCost.toLocaleString()} (${r.quarters}Q)
-📈 Gross Revenue: $${r.totalRevenue.toLocaleString()}${r.totalDiscounts ? `\n🏷️ Discounts: -$${r.totalDiscounts.toLocaleString()}` : ''}${r.totalCogs ? `\n📉 COGS (${r.cogsPercent}%): -$${r.totalCogs.toLocaleString()}` : ''}
+📈 Gross Annual Revenue: $${r.grossRevenue.toLocaleString()}${r.cogs ? `\n📉 COGS (${r.cogsPercent}%): -$${r.cogs.toLocaleString()}` : ''}
+💵 Net Annual Revenue: $${r.netRevenue.toLocaleString()}
 
 ✅ ROI: ${r.roiPercent}%
-💵 Net Profit: $${r.campaignProfit.toLocaleString()}
-📍 Break-even: ${r.breakEvenRedemptions} redemptions/mo
+💵 Net Profit: $${r.netProfit.toLocaleString()}
 
 — IndoorMedia Register Tape Advertising`;
 
@@ -1042,32 +999,20 @@ Store: ${store}
       </div>
 
       <div class="form-group">
-        <label>New Customers Per Month</label>
+        <label>New Customers Per Month *</label>
         <input type="number" bind:value={roiNewCustomers} placeholder="e.g., 15" />
-        <p class="hint">New customers gained each month from register tape exposure (not just coupon users)</p>
+        <p class="hint">New customers gained each month from register tape exposure</p>
       </div>
 
       <div class="form-group">
-        <label>Monthly Coupon Redemptions *</label>
-        <input type="number" bind:value={roiRedemptions} placeholder="e.g., 30" />
-        <p class="hint">Coupons redeemed per month from the ad</p>
+        <label>Average Customer Spend ($) *</label>
+        <input type="number" bind:value={roiAvgSpend} placeholder="e.g., 50" />
       </div>
 
       <div class="form-group">
-        <label>Average Ticket / Customer Spend ($) *</label>
-        <input type="number" bind:value={roiTicket} placeholder="e.g., 50" />
-      </div>
-
-      <div class="form-group">
-        <label>Visits per Year (per customer)</label>
-        <input type="number" bind:value={roiVisitsPerYear} placeholder="1" min="1" />
-        <p class="hint">How often each new customer returns annually (1 = one-time, 12 = monthly)</p>
-      </div>
-
-      <div class="form-group">
-        <label>Avg Discount per Coupon ($)</label>
-        <input type="number" bind:value={roiDiscount} placeholder="e.g., 10" />
-        <p class="hint">If running a coupon/offer on the ad</p>
+        <label>Visits per Year (informational)</label>
+        <input type="number" bind:value={roiVisitsPerYear} placeholder="12" min="1" />
+        <p class="hint">Already baked into the 12-month compounding formula</p>
       </div>
 
       <div class="form-group">
@@ -1076,7 +1021,7 @@ Store: ${store}
         <p class="hint">Cost of goods sold (typical: 25-40%)</p>
       </div>
 
-      <button class="action-btn" on:click={calculateROI} disabled={!roiAdCost || !roiRedemptions || !roiTicket}>
+      <button class="action-btn" on:click={calculateROI} disabled={!roiAdCost || !roiNewCustomers || !roiAvgSpend}>
         Calculate ROI
       </button>
     </div>
@@ -1087,60 +1032,22 @@ Store: ${store}
         
         <div class="roi-stats">
           <div class="roi-stat">
-            <span class="roi-value">${roiResult.monthlyRevenue.toLocaleString()}</span>
-            <span class="roi-label">Monthly Revenue</span>
+            <span class="roi-value">${roiResult.grossRevenue.toLocaleString()}</span>
+            <span class="roi-label">Gross Annual Revenue</span>
           </div>
           <div class="roi-stat">
-            <span class="roi-value">${roiResult.monthlyProfit.toLocaleString()}</span>
-            <span class="roi-label">Monthly Profit</span>
+            <span class="roi-value">-${roiResult.cogs.toLocaleString()}</span>
+            <span class="roi-label">COGS ({roiResult.cogsPercent}%)</span>
+          </div>
+          <div class="roi-stat">
+            <span class="roi-value">${roiResult.netRevenue.toLocaleString()}</span>
+            <span class="roi-label">Net Annual Revenue</span>
           </div>
           <div class="roi-stat highlight">
-            <span class="roi-value">${roiResult.campaignProfit.toLocaleString()}</span>
-            <span class="roi-label">Campaign Profit</span>
+            <span class="roi-value">${roiResult.netProfit.toLocaleString()}</span>
+            <span class="roi-label">Net Profit</span>
           </div>
         </div>
-
-        {#if roiResult.scenarios}
-          <div class="scenarios-section">
-            <h4>📊 Three Scenarios — The Full Picture</h4>
-            <p class="scenario-explainer">Coupons only capture a fraction of your ad's impact. Many shoppers see your ad every visit but never use a coupon — they still become customers.</p>
-            
-            <div class="scenario-grid">
-              {#each roiResult.scenarios as s}
-                <div class="scenario-card" class:conservative={s.multiplier === 0} class:balanced={s.multiplier === 1} class:optimistic={s.multiplier === 3}>
-                  <div class="scenario-label">{s.label}</div>
-                  <div class="scenario-desc">
-                    {#if s.multiplier === 0}
-                      Only tracked coupon redemptions
-                    {:else if s.multiplier === 1}
-                      Your estimate of new customers
-                    {:else}
-                      3× new customers (ad seen but no coupon)
-                    {/if}
-                  </div>
-                  <div class="scenario-stat">
-                    <span class="scenario-value" class:profit={s.campaignProfit >= 0} class:cost={s.campaignProfit < 0}>${s.campaignProfit.toLocaleString()}</span>
-                    <span class="scenario-meta">net profit</span>
-                  </div>
-                  <div class="scenario-stat">
-                    <span class="scenario-value" class:profit={s.roiPercent >= 0} class:cost={s.roiPercent < 0}>{s.roiPercent}%</span>
-                    <span class="scenario-meta">ROI</span>
-                  </div>
-                  {#if s.newCustomersPerMonth > 0}
-                    <div class="scenario-stat">
-                      <span class="scenario-value">{s.totalNewCustomers}</span>
-                      <span class="scenario-meta">new customers</span>
-                    </div>
-                  {/if}
-                  <div class="scenario-stat">
-                    <span class="scenario-value">${s.totalRevenue.toLocaleString()}</span>
-                    <span class="scenario-meta">gross revenue</span>
-                  </div>
-                </div>
-              {/each}
-            </div>
-          </div>
-        {/if}
 
         <div class="roi-detail">
           <div class="roi-row">
@@ -1152,38 +1059,34 @@ Store: ${store}
             <span class="cost">${roiResult.totalAdCost.toLocaleString()}</span>
           </div>
           <div class="roi-row">
-            <span>Gross Revenue ({roiResult.months} months)</span>
-            <span>${roiResult.totalRevenue.toLocaleString()}</span>
-          </div>
-          <div class="roi-row">
-            <span>Less Discounts</span>
-            <span class="cost">-${roiResult.totalDiscounts.toLocaleString()}</span>
+            <span>Gross Annual Revenue</span>
+            <span>${roiResult.grossRevenue.toLocaleString()}</span>
           </div>
           <div class="roi-row">
             <span>Less COGS ({roiResult.cogsPercent}%)</span>
-            <span class="cost">-${roiResult.totalCogs.toLocaleString()}</span>
+            <span class="cost">-${roiResult.cogs.toLocaleString()}</span>
+          </div>
+          <div class="roi-row">
+            <span>Net Annual Revenue</span>
+            <span>${roiResult.netRevenue.toLocaleString()}</span>
           </div>
           <div class="roi-row total">
             <span>Net Profit After Ad Cost</span>
-            <span class="{roiResult.campaignProfit >= 0 ? 'profit' : 'cost'}">${roiResult.campaignProfit.toLocaleString()}</span>
+            <span class="{roiResult.netProfit >= 0 ? 'profit' : 'cost'}">${roiResult.netProfit.toLocaleString()}</span>
           </div>
           <div class="roi-row total">
             <span>ROI</span>
             <span class="{roiResult.roiPercent >= 0 ? 'profit' : 'cost'}">{roiResult.roiPercent}%</span>
           </div>
-          <div class="roi-row">
-            <span>Break-even Redemptions/mo</span>
-            <span>{roiResult.breakEvenRedemptions}</span>
-          </div>
         </div>
 
         <div class="roi-verdict" class:positive={roiResult.roiPercent >= 0} class:negative={roiResult.roiPercent < 0}>
           {#if roiResult.roiPercent >= 100}
-            🚀 Excellent ROI! Customer makes ${roiResult.campaignProfit.toLocaleString()} profit on a ${roiResult.totalAdCost.toLocaleString()} investment.
+            🚀 Excellent ROI! Customer makes ${roiResult.netProfit.toLocaleString()} profit on a ${roiResult.totalAdCost.toLocaleString()} investment.
           {:else if roiResult.roiPercent >= 0}
-            ✅ Positive ROI. Campaign pays for itself and generates ${roiResult.campaignProfit.toLocaleString()} in profit.
+            ✅ Positive ROI. Campaign pays for itself and generates ${roiResult.netProfit.toLocaleString()} in profit.
           {:else}
-            ⚠️ Negative ROI at these numbers. Try adjusting redemptions or ticket size.
+            ⚠️ Negative ROI at these numbers. Try adjusting customer count or average spend.
           {/if}
         </div>
 

@@ -1,20 +1,17 @@
 <script>
   import { padAmount } from '../lib/stores.js';
   
-  let storePrice = 3500;
-  let avgTicket = 50;
-  let couponValue = 10;
-  let redemptionsPerMonth = 30;
+  let investment = 3500;
+  let avgSpend = 50;
+  let newCustomers = 25;
   let cogsPercent = 35;
   
-  $: netPerRedemption = (avgTicket - couponValue) * (1 - cogsPercent / 100);
-  $: monthlyRevenue = redemptionsPerMonth * (avgTicket - couponValue);
-  $: monthlyProfit = redemptionsPerMonth * netPerRedemption;
-  $: monthlyAdCost = (storePrice + ($padAmount != null ? $padAmount : 1200) + 125) / 12;
-  $: monthlyNet = monthlyProfit - monthlyAdCost;
-  $: roi = monthlyAdCost > 0 ? ((monthlyProfit / monthlyAdCost) * 100).toFixed(0) : 0;
-  $: breakEven = netPerRedemption > 0 ? Math.ceil(monthlyAdCost / netPerRedemption) : 0;
-  $: annualNet = monthlyNet * 12;
+  // Compounding factor: 12 * 13 / 2 = 78
+  $: grossRevenue = newCustomers * avgSpend * 78;
+  $: cogs = grossRevenue * (cogsPercent / 100);
+  $: netRevenue = grossRevenue - cogs;
+  $: netProfit = netRevenue - investment;
+  $: roi = investment > 0 ? ((netProfit / investment) * 100).toFixed(0) : 0;
 </script>
 
 <div class="roi-container">
@@ -23,50 +20,49 @@
   
   <div class="inputs">
     <div class="input-group">
-      <label>Annual Store Price ($)</label>
-      <input type="range" min="1000" max="10000" step="100" bind:value={storePrice}>
-      <span class="value">${storePrice.toLocaleString()}</span>
+      <label>Investment ($)</label>
+      <input type="range" min="500" max="15000" step="100" bind:value={investment}>
+      <span class="value">${investment.toLocaleString()}</span>
     </div>
     
     <div class="input-group">
-      <label>Avg Ticket Size ($)</label>
-      <input type="range" min="10" max="200" step="5" bind:value={avgTicket}>
-      <span class="value">${avgTicket}</span>
+      <label>Avg Customer Spend ($)</label>
+      <input type="range" min="10" max="200" step="5" bind:value={avgSpend}>
+      <span class="value">${avgSpend}</span>
     </div>
     
     <div class="input-group">
-      <label>Coupon Value ($)</label>
-      <input type="range" min="1" max="50" step="1" bind:value={couponValue}>
-      <span class="value">${couponValue}</span>
-    </div>
-    
-    <div class="input-group">
-      <label>Redemptions / Month</label>
-      <input type="range" min="5" max="200" step="5" bind:value={redemptionsPerMonth}>
-      <span class="value">{redemptionsPerMonth}</span>
+      <label>New Customers / Month</label>
+      <input type="range" min="1" max="100" step="1" bind:value={newCustomers}>
+      <span class="value">{newCustomers}</span>
     </div>
     
     <div class="input-group">
       <label>COGS %</label>
-      <input type="range" min="10" max="70" step="5" bind:value={cogsPercent}>
+      <input type="range" min="0" max="70" step="5" bind:value={cogsPercent}>
       <span class="value">{cogsPercent}%</span>
     </div>
   </div>
   
   <div class="results">
-    <div class="result-card profit">
-      <div class="result-label">Monthly Profit</div>
-      <div class="result-value">${monthlyProfit.toFixed(2)}</div>
+    <div class="result-card">
+      <div class="result-label">Gross Annual Revenue</div>
+      <div class="result-value">${grossRevenue.toLocaleString()}</div>
     </div>
     
     <div class="result-card cost">
-      <div class="result-label">Monthly Ad Cost</div>
-      <div class="result-value">${monthlyAdCost.toFixed(2)}</div>
+      <div class="result-label">COGS ({cogsPercent}%)</div>
+      <div class="result-value">-${cogs.toLocaleString()}</div>
     </div>
     
-    <div class="result-card net" class:positive={monthlyNet > 0} class:negative={monthlyNet <= 0}>
-      <div class="result-label">Monthly Net</div>
-      <div class="result-value">${monthlyNet.toFixed(2)}</div>
+    <div class="result-card">
+      <div class="result-label">Net Annual Revenue</div>
+      <div class="result-value">${netRevenue.toLocaleString()}</div>
+    </div>
+    
+    <div class="result-card net" class:positive={netProfit > 0} class:negative={netProfit <= 0}>
+      <div class="result-label">Net Profit</div>
+      <div class="result-value">${netProfit.toLocaleString()}</div>
     </div>
     
     <div class="result-card roi-card" class:great={roi > 200} class:good={roi > 100 && roi <= 200} class:low={roi <= 100}>
@@ -75,15 +71,12 @@
     </div>
     
     <div class="result-card">
-      <div class="result-label">Break-Even Redemptions</div>
-      <div class="result-value">{breakEven}/month</div>
-    </div>
-    
-    <div class="result-card">
-      <div class="result-label">Annual Net Profit</div>
-      <div class="result-value">${annualNet.toFixed(2)}</div>
+      <div class="result-label">New Customers (Year)</div>
+      <div class="result-value">{newCustomers * 12}</div>
     </div>
   </div>
+  
+  <p class="formula-note">Formula: {newCustomers} customers × ${avgSpend} spend × 78 (compounding monthly). Each month adds {newCustomers} new customers who keep returning.</p>
 </div>
 
 <style>
@@ -159,6 +152,14 @@
   .roi-card.good .result-value { color: #e65100; }
   .roi-card.low { background: #fce4ec; }
   .roi-card.low .result-value { color: #c62828; }
+  
+  .formula-note {
+    margin-top: 16px;
+    font-size: 12px;
+    color: #888;
+    text-align: center;
+    font-style: italic;
+  }
   
   @media (max-width: 480px) {
     .results { grid-template-columns: 1fr; }
