@@ -173,7 +173,13 @@
   };
 
   function getZoneInstallDay() {
-    // Default to zone 07 (day 7) for Tyler's region, but check user's assigned stores
+    // Check user's zone field first (e.g., "24X" → zone "24")
+    const userZone = $user?.zone || '';
+    if (userZone) {
+      const zm = userZone.match(/(\d{2})/);
+      if (zm && ZONE_INSTALL_DAYS[zm[1]]) return ZONE_INSTALL_DAYS[zm[1]];
+    }
+    // Then check assigned stores
     const userStores = $user?.assigned_stores || [];
     if (userStores.length > 0) {
       const m = (userStores[0] || '').match(/(\d{2})[A-Z]?-/);

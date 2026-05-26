@@ -61,7 +61,9 @@
         id: id,
         name: rep.display_name || rep.contract_name,
         role: rep.role || 'rep',
-        base_location: rep.base_location || 'Territory TBD'
+        base_location: rep.base_location || 'Territory TBD',
+        zone: rep.zone || '',
+        assigned_stores: rep.assigned_stores || []
       }));
       
       reps.sort((a, b) => {
@@ -126,7 +128,9 @@
         name: rep.name,
         contract_name: rep.contract_name,
         role: rep.role,
-        base_location: rep.base_location
+        base_location: rep.base_location,
+        zone: rep.zone,
+        assigned_stores: rep.assigned_stores
       });
       password = '';
       selectedRep = '';
@@ -176,7 +180,9 @@
       name: rep.name,
       contract_name: rep.contract_name,
       role: rep.role,
-      base_location: rep.base_location
+      base_location: rep.base_location,
+      zone: rep.zone,
+      assigned_stores: rep.assigned_stores
     });
 
     password = '';
