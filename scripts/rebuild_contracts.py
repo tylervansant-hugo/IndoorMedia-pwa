@@ -10,6 +10,20 @@ pwa_contracts = Path(__file__).parent.parent / "pwa" / "public" / "data" / "cont
 pdfs = sorted(contracts_dir.glob("*.pdf"))
 print(f"Found {len(pdfs)} PDFs")
 
+# Load existing contracts to preserve their extracted_at timestamps
+existing_timestamps = {}
+if pwa_contracts.exists():
+    try:
+        with open(pwa_contracts) as f:
+            existing_data = json.load(f)
+        for c in existing_data.get("contracts", []):
+            key = (c.get("contract_number",""), c.get("store_number",""), c.get("product_description",""), str(c.get("total_amount",0)))
+            if c.get("extracted_at"):
+                existing_timestamps[key] = c["extracted_at"]
+        print(f"Loaded {len(existing_timestamps)} existing timestamp keys")
+    except Exception as e:
+        print(f"⚠️ Could not load existing contracts: {e}")
+
 all_contracts = []
 
 for pdf_path in pdfs:
@@ -146,11 +160,15 @@ for pdf_path in pdfs:
             "total_amount": 0,
             "payment_date": contract.get("payment_date", ""),
             "address": contract.get("address", ""),
-            "extracted_at": contract.get("date", datetime.now().isoformat()),
+            "extracted_at": datetime.now().isoformat(),  # default for new contracts
             "quarters": overall_quarters,
             "term_months": overall_quarters * 3,
         }
         entry.update(overrides)
+        # Preserve existing extracted_at if this contract was already in the system
+        key = (entry.get("contract_number",""), entry.get("store_number",""), entry.get("product_description",""), str(entry.get("total_amount",0)))
+        if key in existing_timestamps:
+            entry["extracted_at"] = existing_timestamps[key]
         return entry
 
     if rt_pattern:
