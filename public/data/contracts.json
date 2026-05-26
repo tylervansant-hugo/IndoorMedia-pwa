@@ -15,7 +15,7 @@
       "total_amount": 3200.0,
       "payment_date": "",
       "address": "3707 N Main St, Vancouver, 98663",
-      "extracted_at": "2026-05-25T20:00:05.785880",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12
     },
@@ -34,7 +34,7 @@
       "total_amount": 695.0,
       "payment_date": "",
       "address": "9375 SW Commerce Circle Ste",
-      "extracted_at": "2026-05-25T20:00:05.800370",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12
     },
@@ -53,7 +53,7 @@
       "total_amount": 695.0,
       "payment_date": "",
       "address": "9375 SW Commerce Circle Ste A6",
-      "extracted_at": "2026-05-25T20:00:05.800415",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12,
       "product_type": "digital"
@@ -73,7 +73,7 @@
       "total_amount": 890.0,
       "payment_date": "",
       "address": "16325 SW Boones Ferry Rd Ste",
-      "extracted_at": "2026-05-25T20:00:05.814641",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12
     },
@@ -92,7 +92,7 @@
       "total_amount": 695.0,
       "payment_date": "",
       "address": "7990 SW Cirrus Drive, Building",
-      "extracted_at": "2026-05-25T20:00:05.829074",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12
     },
@@ -111,7 +111,7 @@
       "total_amount": 695.0,
       "payment_date": "",
       "address": "7990 SW Cirrus Drive, Building 13 Beaverton, Or 97008",
-      "extracted_at": "2026-05-25T20:00:05.829118",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12,
       "product_type": "digital"
@@ -131,7 +131,7 @@
       "total_amount": 695.0,
       "payment_date": "",
       "address": "15220 NW Laidlaw. Ste 210",
-      "extracted_at": "2026-05-25T20:00:05.843503",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12
     },
@@ -150,7 +150,7 @@
       "total_amount": 695.0,
       "payment_date": "",
       "address": "15220 NW Laidlaw Ste 210",
-      "extracted_at": "2026-05-25T20:00:05.843546",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12,
       "product_type": "digital"
@@ -170,7 +170,7 @@
       "total_amount": 3540.0,
       "payment_date": "12/17/2025",
       "address": "3400 NE 82nd Ave",
-      "extracted_at": "2025-12-17 00:00",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12
     },
@@ -189,7 +189,7 @@
       "total_amount": 4362.56,
       "payment_date": "4/29/2026",
       "address": "1405 ne mcwilliams rd suite",
-      "extracted_at": "2026-04-29 00:00",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12
     },
@@ -208,7 +208,7 @@
       "total_amount": 2910.4,
       "payment_date": "4/10/2026",
       "address": "1411 Washington St.",
-      "extracted_at": "2026-04-10 00:00",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12
     },
@@ -227,7 +227,7 @@
       "total_amount": 0.0,
       "payment_date": "4/28/2026",
       "address": "15800 Boones Ferry Road",
-      "extracted_at": "2026-04-28 00:00",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12
     },
@@ -246,7 +246,7 @@
       "total_amount": 4300.0,
       "payment_date": "5/6/2026",
       "address": "22000 Salamo Road, West Linn, 97068",
-      "extracted_at": "2026-05-06 00:00",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12
     },
@@ -265,7 +265,7 @@
       "total_amount": 2795.0,
       "payment_date": "5/6/2026",
       "address": "Zupan's - 16380 Boones Ferry Rd, Lake Oswego, 97035",
-      "extracted_at": "2026-05-06 00:00",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12,
       "product_type": "digital"
@@ -285,7 +285,7 @@
       "total_amount": 695.0,
       "payment_date": "5/10/2026",
       "address": "19450 SW Cipole Rd UNIT 105",
-      "extracted_at": "2026-05-10 00:00",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12
     },
@@ -304,7 +304,7 @@
       "total_amount": 695.0,
       "payment_date": "5/10/2026",
       "address": "19450 SW Cipole Rd UNIT 105, Tualatin, OR 97062",
-      "extracted_at": "2026-05-10 00:00",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12,
       "product_type": "digital"
@@ -324,7 +324,7 @@
       "total_amount": 3024.0,
       "payment_date": "",
       "address": "6411 SE Milwaukie Ave, Portland, 97202",
-      "extracted_at": "2026-05-25T20:00:05.949092",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12
     },
@@ -343,7 +343,7 @@
       "total_amount": 6000.0,
       "payment_date": "",
       "address": "2631 n pearl",
-      "extracted_at": "2026-05-25T20:00:05.963595",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12
     },
@@ -362,7 +362,7 @@
       "total_amount": 4900.06,
       "payment_date": "",
       "address": "1820 NW Louisiana Ave",
-      "extracted_at": "2026-05-25T20:00:05.977306",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 1,
       "term_months": 3
     },
@@ -381,7 +381,7 @@
       "total_amount": 8496.2,
       "payment_date": "",
       "address": "4205 Crestview Drive suite 133;",
-      "extracted_at": "2026-05-25T20:00:05.991735",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12
     },
@@ -400,7 +400,7 @@
       "total_amount": 7356.0,
       "payment_date": "",
       "address": "112 Robbins St.",
-      "extracted_at": "2026-05-25T20:00:06.005813",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12
     },
@@ -419,7 +419,7 @@
       "total_amount": 1560.0,
       "payment_date": "",
       "address": "2631 n pearl st",
-      "extracted_at": "2026-05-25T20:00:06.020403",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12
     },
@@ -438,7 +438,7 @@
       "total_amount": 2589.0,
       "payment_date": "",
       "address": "25250 Pacific Highway South, Kent, 98032",
-      "extracted_at": "2026-05-25T20:00:06.034356",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 8,
       "term_months": 24
     },
@@ -457,7 +457,7 @@
       "total_amount": 7245.0,
       "payment_date": "",
       "address": "2620 Country Club Rd. NW",
-      "extracted_at": "2026-05-25T20:00:06.049243",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 12,
       "term_months": 36
     },
@@ -476,7 +476,7 @@
       "total_amount": 3433.0,
       "payment_date": "",
       "address": "1010 Main Street",
-      "extracted_at": "2026-05-25T20:00:06.063467",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12
     },
@@ -495,7 +495,7 @@
       "total_amount": 2795.0,
       "payment_date": "",
       "address": "219 Pioneer Street",
-      "extracted_at": "2026-05-25T20:00:06.078988",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12
     },
@@ -514,7 +514,7 @@
       "total_amount": 3432.5,
       "payment_date": "",
       "address": "90 NE Division St.",
-      "extracted_at": "2026-05-25T20:00:06.095982",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12
     },
@@ -533,7 +533,7 @@
       "total_amount": 4268.0,
       "payment_date": "",
       "address": "155 se vista ave",
-      "extracted_at": "2026-05-25T20:00:06.112519",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12
     },
@@ -552,7 +552,7 @@
       "total_amount": 4993.74,
       "payment_date": "",
       "address": "14354 SE Carol Ave",
-      "extracted_at": "2026-05-25T20:00:06.129558",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12
     },
@@ -571,7 +571,7 @@
       "total_amount": 6025.0,
       "payment_date": "",
       "address": "751 NE 242nd DR, OR 97060",
-      "extracted_at": "2026-05-25T20:00:06.146410",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12
     },
@@ -590,7 +590,7 @@
       "total_amount": 4590.0,
       "payment_date": "",
       "address": "4727 SE Woodstock Blvd.",
-      "extracted_at": "2026-05-25T20:00:06.161710",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12
     },
@@ -609,7 +609,7 @@
       "total_amount": 4783.0,
       "payment_date": "",
       "address": "1935 Belmont Loop, Suite B",
-      "extracted_at": "2026-05-25T20:00:06.177473",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12
     },
@@ -628,7 +628,7 @@
       "total_amount": 5304.0,
       "payment_date": "",
       "address": "1725 Pacific Ave, Woodland, 98674",
-      "extracted_at": "2026-05-25T20:00:06.194259",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12
     },
@@ -647,7 +647,7 @@
       "total_amount": 4644.0,
       "payment_date": "",
       "address": "22741 NE Park LN suite E",
-      "extracted_at": "2026-05-25T20:00:06.210629",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12
     },
@@ -666,7 +666,7 @@
       "total_amount": 6504.0,
       "payment_date": "",
       "address": "1725 Pacific Ave, Woodland, 98674",
-      "extracted_at": "2026-05-25T20:00:06.227379",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12
     },
@@ -685,7 +685,7 @@
       "total_amount": 4788.0,
       "payment_date": "",
       "address": "1725 Pacific Ave, Woodland, 98674",
-      "extracted_at": "2026-05-25T20:00:06.243798",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12
     },
@@ -704,7 +704,7 @@
       "total_amount": 4090.56,
       "payment_date": "",
       "address": "1535 North 1St Street, Stayton, 97383",
-      "extracted_at": "2026-05-25T20:00:06.259267",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12
     },
@@ -723,7 +723,7 @@
       "total_amount": 3036.5,
       "payment_date": "",
       "address": "451 NE 181st Ave, Portland, 97230",
-      "extracted_at": "2026-05-25T20:00:06.275659",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12
     },
@@ -742,7 +742,7 @@
       "total_amount": 2328.0,
       "payment_date": "",
       "address": "138 W Ellendale Ave, Dallas, 97338",
-      "extracted_at": "2026-05-25T20:00:06.290493",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 2,
       "term_months": 6
     },
@@ -761,7 +761,7 @@
       "total_amount": 4548.0,
       "payment_date": "",
       "address": "1227 15Th Ave, Longview, 98632",
-      "extracted_at": "2026-05-25T20:00:06.306086",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12
     },
@@ -780,7 +780,7 @@
       "total_amount": 4265.0,
       "payment_date": "",
       "address": "138 W Ellendale Ave, Dallas, 97338",
-      "extracted_at": "2026-05-25T20:00:06.321235",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12
     },
@@ -799,7 +799,7 @@
       "total_amount": 4265.0,
       "payment_date": "",
       "address": "138 W Ellendale Ave, Dallas, 97338",
-      "extracted_at": "2026-05-25T20:00:06.336520",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12
     },
@@ -818,7 +818,7 @@
       "total_amount": 2795.0,
       "payment_date": "",
       "address": "16508 SE 24th Street Ste 200",
-      "extracted_at": "2026-05-25T20:00:06.351937",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12
     },
@@ -837,7 +837,7 @@
       "total_amount": 14175.0,
       "payment_date": "",
       "address": "138 W Ellendale Ave, Dallas, 97338",
-      "extracted_at": "2026-05-25T20:00:06.369561",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 12,
       "term_months": 36
     },
@@ -856,7 +856,7 @@
       "total_amount": 4725.0,
       "payment_date": "",
       "address": "138 W Ellendale Ave, Dallas, 97338",
-      "extracted_at": "2026-05-25T20:00:06.384196",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12
     },
@@ -875,7 +875,7 @@
       "total_amount": 2132.5,
       "payment_date": "",
       "address": "2855 Broadway St NE, Salem, 97303-6502",
-      "extracted_at": "2026-05-25T20:00:06.398864",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 2,
       "term_months": 6
     },
@@ -894,7 +894,7 @@
       "total_amount": 6409.0,
       "payment_date": "",
       "address": "615 SW Keck Dr, Mcminnville, 97128",
-      "extracted_at": "2026-05-25T20:00:06.415184",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12
     },
@@ -913,7 +913,7 @@
       "total_amount": 6584.0,
       "payment_date": "",
       "address": "2490 NE HIGHWAY 99W, McMinnville, 97128",
-      "extracted_at": "2026-05-25T20:00:06.415202",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12
     },
@@ -932,7 +932,7 @@
       "total_amount": 3487.0,
       "payment_date": "",
       "address": "1140 North Springbrook Road, Newberg, 97132",
-      "extracted_at": "2026-05-25T20:00:06.429860",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12
     },
@@ -951,7 +951,7 @@
       "total_amount": 5460.0,
       "payment_date": "",
       "address": "7411 NE 117th Ave, Vancouver, 98662",
-      "extracted_at": "2026-05-25T20:00:06.445011",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12
     },
@@ -970,7 +970,7 @@
       "total_amount": 2795.0,
       "payment_date": "",
       "address": "4805 SW 77th Ave",
-      "extracted_at": "2026-05-25T20:00:06.461128",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12
     },
@@ -989,7 +989,7 @@
       "total_amount": 2844.0,
       "payment_date": "",
       "address": "1140 North Springbrook Road, Newberg, 97132",
-      "extracted_at": "2026-05-25T20:00:06.476531",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12
     },
@@ -1008,7 +1008,7 @@
       "total_amount": 3545.04,
       "payment_date": "",
       "address": "6700 NE 162nd Ave Ste 500, Vancouver, 98682",
-      "extracted_at": "2026-05-25T20:00:06.492502",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12
     },
@@ -1027,7 +1027,7 @@
       "total_amount": 3924.0,
       "payment_date": "",
       "address": "3300 PORTLAND RD, Newberg, 97132-5412",
-      "extracted_at": "2026-05-25T20:00:06.507389",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12
     },
@@ -1046,7 +1046,7 @@
       "total_amount": 3904.8,
       "payment_date": "",
       "address": "1140 North Springbrook Road, Newberg, 97132",
-      "extracted_at": "2026-05-25T20:00:06.522930",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12
     },
@@ -1065,7 +1065,7 @@
       "total_amount": 4656.0,
       "payment_date": "",
       "address": "1111 Northeast 102nd Avenue, Portland, 97220-3902",
-      "extracted_at": "2026-05-25T20:00:06.537386",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12
     },
@@ -1084,7 +1084,7 @@
       "total_amount": 4175.0,
       "payment_date": "",
       "address": "1535 North 1St Street, Stayton, 97383",
-      "extracted_at": "2026-05-25T20:00:06.551415",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12
     },
@@ -1103,7 +1103,7 @@
       "total_amount": 4086.0,
       "payment_date": "",
       "address": "6615 NE Glisan St, Portland, 97213-5068",
-      "extracted_at": "2026-05-25T20:00:06.566287",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12
     },
@@ -1122,7 +1122,7 @@
       "total_amount": 4316.0,
       "payment_date": "",
       "address": "3137 Grand Ave, Billings, 59102",
-      "extracted_at": "2026-05-25T20:00:06.580825",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12
     },
@@ -1141,7 +1141,7 @@
       "total_amount": 3800.0,
       "payment_date": "",
       "address": "1760 E Charleston Blvd, Las Vegas, 89104",
-      "extracted_at": "2026-05-25T20:00:06.595149",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12
     },
@@ -1160,7 +1160,7 @@
       "total_amount": 5165.0,
       "payment_date": "",
       "address": "115 SE 7th Street, Grants Pass, 97526",
-      "extracted_at": "2026-05-25T20:00:06.610023",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12
     },
@@ -1179,7 +1179,7 @@
       "total_amount": 4498.44,
       "payment_date": "",
       "address": "888 N.E. 25th Ave, Hillsboro, 97124",
-      "extracted_at": "2026-05-25T20:00:06.625063",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12
     },
@@ -1198,7 +1198,7 @@
       "total_amount": 10890.0,
       "payment_date": "",
       "address": "2836 Pacific Ave, Forest Grove, 97116",
-      "extracted_at": "2026-05-25T20:00:06.640462",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 8,
       "term_months": 24
     },
@@ -1217,7 +1217,7 @@
       "total_amount": 3195.0,
       "payment_date": "",
       "address": "888 N.E. 25th Ave, Hillsboro, 97124",
-      "extracted_at": "2026-05-25T20:00:06.654826",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12
     },
@@ -1236,7 +1236,7 @@
       "total_amount": 4005.0,
       "payment_date": "",
       "address": "1455 NE Division St, Gresham, 97030",
-      "extracted_at": "2026-05-25T20:00:06.669936",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12
     },
@@ -1255,7 +1255,7 @@
       "total_amount": 2850.0,
       "payment_date": "",
       "address": "35820 Fremont Blvd., Fremont, 94536",
-      "extracted_at": "2026-05-25T20:00:06.684745",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12
     },
@@ -1274,7 +1274,7 @@
       "total_amount": 3120.0,
       "payment_date": "",
       "address": "13023 NE Hwy 99, Vancouver, 98686",
-      "extracted_at": "2026-05-25T20:00:06.699854",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12
     },
@@ -1293,7 +1293,7 @@
       "total_amount": 3120.0,
       "payment_date": "",
       "address": "14300 NE 20th Ave, Vancouver, 98686",
-      "extracted_at": "2026-05-25T20:00:06.699873",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12
     },
@@ -1312,7 +1312,7 @@
       "total_amount": 4686.0,
       "payment_date": "",
       "address": "800 NE Tenney Rd, Vancouver, 98685",
-      "extracted_at": "2026-05-25T20:00:06.699877",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12
     },
@@ -1331,7 +1331,7 @@
       "total_amount": 4680.25,
       "payment_date": "",
       "address": "101 S. 47th Avenue, Ridgefield, 98642",
-      "extracted_at": "2026-05-25T20:00:06.714110",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12
     },
@@ -1350,7 +1350,7 @@
       "total_amount": 7065.0,
       "payment_date": "",
       "address": "1839 Molalla Avenue, Oregon City, 97045-4011",
-      "extracted_at": "2026-05-25T20:00:06.728917",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12
     },
@@ -1369,7 +1369,7 @@
       "total_amount": 6500.0,
       "payment_date": "",
       "address": "2500 Santiam Highway Southeast, Albany, 97322",
-      "extracted_at": "2026-05-25T20:00:06.743721",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12
     },
@@ -1388,7 +1388,7 @@
       "total_amount": 5172.0,
       "payment_date": "",
       "address": "2500 Santiam Highway Southeast, Albany, 97322",
-      "extracted_at": "2026-05-25T20:00:06.757949",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12
     },
@@ -1407,7 +1407,7 @@
       "total_amount": 5000.0,
       "payment_date": "",
       "address": "2500 Santiam Highway Southeast, Albany, 97322",
-      "extracted_at": "2026-05-25T20:00:06.772497",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12
     },
@@ -1426,7 +1426,7 @@
       "total_amount": 4085.0,
       "payment_date": "",
       "address": "4990 River Rd N, Keizer, 97303",
-      "extracted_at": "2026-05-25T20:00:06.787228",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12
     },
@@ -1445,7 +1445,7 @@
       "total_amount": 4355.04,
       "payment_date": "",
       "address": "4515 SE Woodstock Blvd, Portland, 97206",
-      "extracted_at": "2026-05-25T20:00:06.801265",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12
     },
@@ -1464,7 +1464,7 @@
       "total_amount": 5025.0,
       "payment_date": "",
       "address": "100 Northwest 20Th Place, Portland, 97209-1099",
-      "extracted_at": "2026-05-25T20:00:06.815639",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12
     },
@@ -1483,7 +1483,7 @@
       "total_amount": 5025.0,
       "payment_date": "",
       "address": "100 Northwest 20Th Place, Portland, 97209-1099",
-      "extracted_at": "2026-05-25T20:00:06.830362",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12
     },
@@ -1502,7 +1502,7 @@
       "total_amount": 5302.98,
       "payment_date": "",
       "address": "5900 NW Friberg strunk st",
-      "extracted_at": "2026-05-25T20:00:06.844282",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12
     },
@@ -1521,7 +1521,7 @@
       "total_amount": 3972.5,
       "payment_date": "",
       "address": "2615 NE 112th Ave, Vancouver, 98684",
-      "extracted_at": "2026-05-25T20:00:06.858794",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12
     },
@@ -1540,7 +1540,7 @@
       "total_amount": 3675.0,
       "payment_date": "",
       "address": "21401 Pacific Hwy S, Des Moines, 98198",
-      "extracted_at": "2026-05-25T20:00:06.873418",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12
     },
@@ -1559,7 +1559,7 @@
       "total_amount": 4750.0,
       "payment_date": "",
       "address": "101 S. 47th Avenue, Ridgefield, 98642",
-      "extracted_at": "2026-05-25T20:00:06.888027",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12
     },
@@ -1578,7 +1578,7 @@
       "total_amount": 5325.0,
       "payment_date": "",
       "address": "25250 Pacific Highway South, Kent, 98032",
-      "extracted_at": "2026-05-25T20:00:06.902374",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12
     },
@@ -1597,7 +1597,7 @@
       "total_amount": 3533.0,
       "payment_date": "",
       "address": "3300 PORTLAND RD, Newberg, 97132-5412",
-      "extracted_at": "2026-05-25T20:00:06.916807",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12
     },
@@ -1616,7 +1616,7 @@
       "total_amount": 4531.12,
       "payment_date": "",
       "address": "2500 Santiam Highway Southeast, Albany, 97322",
-      "extracted_at": "2026-05-25T20:00:06.931362",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12
     },
@@ -1635,7 +1635,7 @@
       "total_amount": 3882.49,
       "payment_date": "",
       "address": "777 Kings Boulevard, Corvallis, 97330-5620",
-      "extracted_at": "2026-05-25T20:00:06.945902",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12
     },
@@ -1654,7 +1654,7 @@
       "total_amount": 4780.0,
       "payment_date": "",
       "address": "11325 Southeast Mill Plain Blvd, Vancouver, 98684",
-      "extracted_at": "2026-05-25T20:00:06.960365",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12
     },
@@ -1673,7 +1673,7 @@
       "total_amount": 12167.6,
       "payment_date": "",
       "address": "770 Pilot Road Suite A",
-      "extracted_at": "2026-05-25T20:00:06.974252",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12
     },
@@ -1692,7 +1692,7 @@
       "total_amount": 3870.0,
       "payment_date": "",
       "address": "1550 North Pacific Highway, Woodburn, 97071",
-      "extracted_at": "2026-05-25T20:00:06.988804",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12
     },
@@ -1711,7 +1711,7 @@
       "total_amount": 1962.5,
       "payment_date": "",
       "address": "7700 NE Highway 99, Vancouver, 98665-8890",
-      "extracted_at": "2026-05-25T20:00:07.005548",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 2,
       "term_months": 6
     },
@@ -1730,7 +1730,7 @@
       "total_amount": 1350.0,
       "payment_date": "",
       "address": "3707 N Main St, Vancouver, 98663",
-      "extracted_at": "2026-05-25T20:00:07.005564",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 2,
       "term_months": 6
     },
@@ -1749,7 +1749,7 @@
       "total_amount": 675.0,
       "payment_date": "",
       "address": "3707 N Main St, Vancouver, 98663",
-      "extracted_at": "2026-05-25T20:00:07.005575",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 1,
       "term_months": 3
     },
@@ -1768,7 +1768,7 @@
       "total_amount": 5270.4,
       "payment_date": "",
       "address": "3184 Ocean Beach Highway, Longview, 98632-4395",
-      "extracted_at": "2026-05-25T20:00:07.019900",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12
     },
@@ -1787,7 +1787,7 @@
       "total_amount": 3751.56,
       "payment_date": "",
       "address": "450 Southwest Third Avenue, Corvallis, 97333",
-      "extracted_at": "2026-05-25T20:00:07.033620",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12
     },
@@ -1806,7 +1806,7 @@
       "total_amount": 0.0,
       "payment_date": "",
       "address": "777 Kings Boulevard, Corvallis, 97330-5620",
-      "extracted_at": "2026-05-25T20:00:07.033635",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 1,
       "term_months": 3
     },
@@ -1825,7 +1825,7 @@
       "total_amount": 7950.0,
       "payment_date": "",
       "address": "4101 NW Logan Road, Lincoln City, 97367",
-      "extracted_at": "2026-05-25T20:00:07.047760",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12
     },
@@ -1844,7 +1844,7 @@
       "total_amount": 4937.0,
       "payment_date": "",
       "address": "1500 E Main St, Cottage Grove, 97424",
-      "extracted_at": "2026-05-25T20:00:07.062003",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12
     },
@@ -1863,7 +1863,7 @@
       "total_amount": 4440.0,
       "payment_date": "",
       "address": "1525 West Main Street, Molalla, 97038",
-      "extracted_at": "2026-05-25T20:00:07.076466",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12
     },
@@ -1882,7 +1882,7 @@
       "total_amount": 4174.0,
       "payment_date": "",
       "address": "1550 North Pacific Highway, Woodburn, 97071",
-      "extracted_at": "2026-05-25T20:00:07.091007",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 5,
       "term_months": 15
     },
@@ -1901,7 +1901,7 @@
       "total_amount": 4932.0,
       "payment_date": "",
       "address": "1500 E Main St, Cottage Grove, 97424",
-      "extracted_at": "2026-05-25T20:00:07.106529",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12
     },
@@ -1920,7 +1920,7 @@
       "total_amount": 0.0,
       "payment_date": "",
       "address": "96 Palmer Ave",
-      "extracted_at": "2026-05-25T20:00:07.106580",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12,
       "product_type": "digital"
@@ -1940,7 +1940,7 @@
       "total_amount": 2000.0,
       "payment_date": "",
       "address": "7700 SW Beaverton Hillsdale Hwy, Portland, 97225-2101",
-      "extracted_at": "2026-05-25T20:00:07.120560",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 2,
       "term_months": 6
     },
@@ -1959,7 +1959,7 @@
       "total_amount": 4932.0,
       "payment_date": "",
       "address": "1500 E Main St, Cottage Grove, 97424",
-      "extracted_at": "2026-05-25T20:00:07.135068",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12
     },
@@ -1978,7 +1978,7 @@
       "total_amount": 4932.0,
       "payment_date": "",
       "address": "1500 E Main St, Cottage Grove, 97424",
-      "extracted_at": "2026-05-25T20:00:07.150073",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12
     },
@@ -1997,7 +1997,7 @@
       "total_amount": 2525.0,
       "payment_date": "",
       "address": "2000 Marcola Rd., Springfield, 97477",
-      "extracted_at": "2026-05-25T20:00:07.164704",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 5,
       "term_months": 15
     },
@@ -2016,7 +2016,7 @@
       "total_amount": 2725.0,
       "payment_date": "",
       "address": "650 Q Street, Springfield, 97477-2325",
-      "extracted_at": "2026-05-25T20:00:07.179173",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12
     },
@@ -2035,7 +2035,7 @@
       "total_amount": 2525.0,
       "payment_date": "",
       "address": "2000 Marcola Rd., Springfield, 97477",
-      "extracted_at": "2026-05-25T20:00:07.179188",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12
     },
@@ -2054,7 +2054,7 @@
       "total_amount": 4300.0,
       "payment_date": "",
       "address": "1550 North Pacific Highway, Woodburn, 97071",
-      "extracted_at": "2026-05-25T20:00:07.193608",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 5,
       "term_months": 15
     },
@@ -2073,7 +2073,7 @@
       "total_amount": 4299.96,
       "payment_date": "",
       "address": "1550 North Pacific Highway, Woodburn, 97071",
-      "extracted_at": "2026-05-25T20:00:07.207967",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 5,
       "term_months": 15
     },
@@ -2092,7 +2092,7 @@
       "total_amount": 3125.0,
       "payment_date": "",
       "address": "1140 North Springbrook Road, Newberg, 97132",
-      "extracted_at": "2026-05-25T20:00:07.222249",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 5,
       "term_months": 15
     },
@@ -2111,7 +2111,7 @@
       "total_amount": 4680.0,
       "payment_date": "",
       "address": "1500 E Main St, Cottage Grove, 97424",
-      "extracted_at": "2026-05-25T20:00:07.236636",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12
     },
@@ -2130,7 +2130,7 @@
       "total_amount": 3432.0,
       "payment_date": "",
       "address": "1500 E Main St, Cottage Grove, 97424",
-      "extracted_at": "2026-05-25T20:00:07.250902",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12
     },
@@ -2149,7 +2149,7 @@
       "total_amount": 5335.0,
       "payment_date": "",
       "address": "8145 Southwest Barbur Boulevard, Portland, 97219",
-      "extracted_at": "2026-05-25T20:00:07.265100",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12
     },
@@ -2168,7 +2168,7 @@
       "total_amount": 4050.0,
       "payment_date": "",
       "address": "650 Q Street, Springfield, 97477-2325",
-      "extracted_at": "2026-05-25T20:00:07.279701",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12
     },
@@ -2187,7 +2187,7 @@
       "total_amount": 3820.62,
       "payment_date": "",
       "address": "60 Division Ave, Eugene, 97404-5127",
-      "extracted_at": "2026-05-25T20:00:07.279718",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12
     },
@@ -2206,7 +2206,7 @@
       "total_amount": 1835.0,
       "payment_date": "",
       "address": "6901 S 19th St, Tacoma, 98466-5529",
-      "extracted_at": "2026-05-25T20:00:07.293899",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 2,
       "term_months": 6
     },
@@ -2225,7 +2225,7 @@
       "total_amount": 1610.0,
       "payment_date": "",
       "address": "11012 Canyon Rd E, Puyallup, 98373",
-      "extracted_at": "2026-05-25T20:00:07.293918",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 2,
       "term_months": 6
     },
@@ -2244,7 +2244,7 @@
       "total_amount": 3425.0,
       "payment_date": "",
       "address": "4280 Martin Way E, Olympia, 98516",
-      "extracted_at": "2026-05-25T20:00:07.308603",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12
     },
@@ -2263,7 +2263,7 @@
       "total_amount": 0.0,
       "payment_date": "",
       "address": "700 Sleater Kinney Rd SE, Lacey, 98503-1113",
-      "extracted_at": "2026-05-25T20:00:07.308620",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 1,
       "term_months": 3
     },
@@ -2282,7 +2282,7 @@
       "total_amount": 3925.0,
       "payment_date": "",
       "address": "3300 PORTLAND RD, Newberg, 97132-5412",
-      "extracted_at": "2026-05-25T20:00:07.323273",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 5,
       "term_months": 15
     },
@@ -2301,7 +2301,7 @@
       "total_amount": 3276.0,
       "payment_date": "",
       "address": "13023 NE Hwy 99, Vancouver, 98686",
-      "extracted_at": "2026-05-25T20:00:07.337755",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12
     },
@@ -2320,7 +2320,7 @@
       "total_amount": 2784.0,
       "payment_date": "",
       "address": "7700 NE Highway 99, Vancouver, 98665-8890",
-      "extracted_at": "2026-05-25T20:00:07.337771",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12
     },
@@ -2339,7 +2339,7 @@
       "total_amount": 3275.0,
       "payment_date": "",
       "address": "590 NE Circle Boulevard, Corvallis, 97330",
-      "extracted_at": "2026-05-25T20:00:07.351944",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12
     },
@@ -2358,7 +2358,7 @@
       "total_amount": 0.0,
       "payment_date": "",
       "address": "777 Kings Boulevard, Corvallis, 97330-5620",
-      "extracted_at": "2026-05-25T20:00:07.351959",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 1,
       "term_months": 3
     },
@@ -2377,7 +2377,7 @@
       "total_amount": 4625.0,
       "payment_date": "",
       "address": "1624 72nd St E, Tacoma, 98404",
-      "extracted_at": "2026-05-25T20:00:07.367884",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 5,
       "term_months": 15
     },
@@ -2396,7 +2396,7 @@
       "total_amount": 6145.0,
       "payment_date": "",
       "address": "1401 Southeast First, Canby, 97013",
-      "extracted_at": "2026-05-25T20:00:07.382326",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 5,
       "term_months": 15
     },
@@ -2415,7 +2415,7 @@
       "total_amount": 4050.0,
       "payment_date": "",
       "address": "7700 NE Highway 99, Vancouver, 98665-8890",
-      "extracted_at": "2026-05-25T20:00:07.396544",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 5,
       "term_months": 15
     },
@@ -2434,7 +2434,7 @@
       "total_amount": 4425.0,
       "payment_date": "",
       "address": "1401 Southeast First, Canby, 97013",
-      "extracted_at": "2026-05-25T20:00:07.411159",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 5,
       "term_months": 15
     },
@@ -2453,7 +2453,7 @@
       "total_amount": 5450.0,
       "payment_date": "",
       "address": "450 Southwest Third Avenue, Corvallis, 97333",
-      "extracted_at": "2026-05-25T20:00:07.425393",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12
     },
@@ -2472,7 +2472,7 @@
       "total_amount": 7850.0,
       "payment_date": "",
       "address": "5270 SW PHILOMATH BLVD, Corvallis, 97333",
-      "extracted_at": "2026-05-25T20:00:07.425409",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12
     },
@@ -2491,7 +2491,7 @@
       "total_amount": 3250.0,
       "payment_date": "",
       "address": "590 NE Circle Boulevard, Corvallis, 97330",
-      "extracted_at": "2026-05-25T20:00:07.425412",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12
     },
@@ -2510,7 +2510,7 @@
       "total_amount": 6950.0,
       "payment_date": "",
       "address": "1990 14th Ave SE, Albany, 97322",
-      "extracted_at": "2026-05-25T20:00:07.425414",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12
     },
@@ -2529,7 +2529,7 @@
       "total_amount": 3925.0,
       "payment_date": "",
       "address": "3520 Pacific Ave S E, Olympia, 98501",
-      "extracted_at": "2026-05-25T20:00:07.439817",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 5,
       "term_months": 15
     },
@@ -2548,7 +2548,7 @@
       "total_amount": 3483.6,
       "payment_date": "",
       "address": "888 N.E. 25th Ave, Hillsboro, 97124",
-      "extracted_at": "2026-05-25T20:00:07.454235",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 5,
       "term_months": 15
     },
@@ -2567,7 +2567,7 @@
       "total_amount": 4056.0,
       "payment_date": "",
       "address": "650 Q Street, Springfield, 97477-2325",
-      "extracted_at": "2026-05-25T20:00:07.468656",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12
     },
@@ -2586,7 +2586,7 @@
       "total_amount": 4020.0,
       "payment_date": "",
       "address": "650 Q Street, Springfield, 97477-2325",
-      "extracted_at": "2026-05-25T20:00:07.482556",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12
     },
@@ -2605,7 +2605,7 @@
       "total_amount": 3550.0,
       "payment_date": "",
       "address": "2411 N PROCTOR ST, Tacoma, 98406",
-      "extracted_at": "2026-05-25T20:00:07.496969",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12
     },
@@ -2624,7 +2624,7 @@
       "total_amount": 0.0,
       "payment_date": "",
       "address": "2637 North Pearl Street, Tacoma, 98407",
-      "extracted_at": "2026-05-25T20:00:07.496985",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 1,
       "term_months": 3
     },
@@ -2643,7 +2643,7 @@
       "total_amount": 4825.0,
       "payment_date": "",
       "address": "12032 SE Sunnyside Rd, Clackamas, 97015",
-      "extracted_at": "2026-05-25T20:00:07.511613",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 5,
       "term_months": 15
     },
@@ -2662,7 +2662,7 @@
       "total_amount": 1967.75,
       "payment_date": "",
       "address": "4280 Martin Way E, Olympia, 98516",
-      "extracted_at": "2026-05-25T20:00:07.525476",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 2,
       "term_months": 6
     },
@@ -2681,7 +2681,7 @@
       "total_amount": 3925.0,
       "payment_date": "",
       "address": "1313 Cooper Point Road SW, Olympia, 98502",
-      "extracted_at": "2026-05-25T20:00:07.540006",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12
     },
@@ -2700,7 +2700,7 @@
       "total_amount": 0.0,
       "payment_date": "",
       "address": "3215 Harrison Ave NW, Olympia, 98502",
-      "extracted_at": "2026-05-25T20:00:07.540021",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 1,
       "term_months": 3
     },
@@ -2719,7 +2719,7 @@
       "total_amount": 1380.0,
       "payment_date": "",
       "address": "6200 Pacific Avenue SE, Lacey, 98503",
-      "extracted_at": "2026-05-25T20:00:07.553920",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 2,
       "term_months": 6
     },
@@ -2738,7 +2738,7 @@
       "total_amount": 3481.2,
       "payment_date": "",
       "address": "888 N.E. 25th Ave, Hillsboro, 97124",
-      "extracted_at": "2026-05-25T20:00:07.568401",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 5,
       "term_months": 15
     },
@@ -2757,7 +2757,7 @@
       "total_amount": 5997.0,
       "payment_date": "",
       "address": "60 Division Ave, Eugene, 97404-5127",
-      "extracted_at": "2026-05-25T20:00:07.582557",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12
     },
@@ -2776,7 +2776,7 @@
       "total_amount": 0.0,
       "payment_date": "",
       "address": "650 Q Street, Springfield, 97477-2325",
-      "extracted_at": "2026-05-25T20:00:07.582574",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 1,
       "term_months": 3
     },
@@ -2795,7 +2795,7 @@
       "total_amount": 4325.0,
       "payment_date": "",
       "address": "7700 NE Highway 99, Vancouver, 98665-8890",
-      "extracted_at": "2026-05-25T20:00:07.597063",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 5,
       "term_months": 15
     },
@@ -2814,7 +2814,7 @@
       "total_amount": 3948.0,
       "payment_date": "",
       "address": "670 Main St., Billings, 59105",
-      "extracted_at": "2026-05-25T20:00:07.611622",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 5,
       "term_months": 15
     },
@@ -2833,7 +2833,7 @@
       "total_amount": 3550.0,
       "payment_date": "",
       "address": "101 S. 47th Avenue, Ridgefield, 98642",
-      "extracted_at": "2026-05-25T20:00:07.626119",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 5,
       "term_months": 15
     },
@@ -2852,7 +2852,7 @@
       "total_amount": 5616.0,
       "payment_date": "",
       "address": "650 Q Street, Springfield, 97477-2325",
-      "extracted_at": "2026-05-25T20:00:07.640950",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12
     },
@@ -2871,7 +2871,7 @@
       "total_amount": 3675.0,
       "payment_date": "",
       "address": "20685 SW Roy Rogers Road, Sherwood, 97140",
-      "extracted_at": "2026-05-25T20:00:07.656097",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 5,
       "term_months": 15
     },
@@ -2890,7 +2890,7 @@
       "total_amount": 3925.0,
       "payment_date": "",
       "address": "3300 PORTLAND RD, Newberg, 97132-5412",
-      "extracted_at": "2026-05-25T20:00:07.656113",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 5,
       "term_months": 15
     },
@@ -2909,7 +2909,7 @@
       "total_amount": 5025.0,
       "payment_date": "",
       "address": "30300 Southwest boones ferry Road, Wilsonville, 97070",
-      "extracted_at": "2026-05-25T20:00:07.656117",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 5,
       "term_months": 15
     },
@@ -2928,7 +2928,7 @@
       "total_amount": 4678.75,
       "payment_date": "",
       "address": "1725 Pacific Ave, Woodland, 98674",
-      "extracted_at": "2026-05-25T20:00:07.670383",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 5,
       "term_months": 15
     },
@@ -2947,7 +2947,7 @@
       "total_amount": 4963.75,
       "payment_date": "",
       "address": "3184 Ocean Beach Highway, Longview, 98632-4395",
-      "extracted_at": "2026-05-25T20:00:07.670398",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 5,
       "term_months": 15
     },
@@ -2966,7 +2966,7 @@
       "total_amount": 4200.0,
       "payment_date": "",
       "address": "650 Q Street, Springfield, 97477-2325",
-      "extracted_at": "2026-05-25T20:00:07.685301",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12
     },
@@ -2985,7 +2985,7 @@
       "total_amount": 0.0,
       "payment_date": "",
       "address": "650 Q Street, Springfield, 97477-2325",
-      "extracted_at": "2026-05-25T20:00:07.700274",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 1,
       "term_months": 3
     },
@@ -3004,7 +3004,7 @@
       "total_amount": 4824.0,
       "payment_date": "",
       "address": "5755 Main St, Springfield, 97478",
-      "extracted_at": "2026-05-25T20:00:07.700291",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12
     },
@@ -3023,7 +3023,7 @@
       "total_amount": 0.0,
       "payment_date": "",
       "address": "7250 Pacific Ave, Tacoma, 98408",
-      "extracted_at": "2026-05-25T20:00:07.715239",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 2,
       "term_months": 6
     },
@@ -3042,7 +3042,7 @@
       "total_amount": 3725.0,
       "payment_date": "",
       "address": "13322 Pacific Ave S, Parkland, 98444",
-      "extracted_at": "2026-05-25T20:00:07.715258",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12
     },
@@ -3061,7 +3061,7 @@
       "total_amount": 6025.0,
       "payment_date": "",
       "address": "5755 Main St, Springfield, 97478",
-      "extracted_at": "2026-05-25T20:00:07.731135",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 5,
       "term_months": 15
     },
@@ -3080,7 +3080,7 @@
       "total_amount": 5375.0,
       "payment_date": "",
       "address": "1675 W 18th Ave, Eugene, 97402",
-      "extracted_at": "2026-05-25T20:00:07.731155",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 5,
       "term_months": 15
     },
@@ -3099,7 +3099,7 @@
       "total_amount": 4445.0,
       "payment_date": "",
       "address": "4990 River Rd N, Keizer, 97303",
-      "extracted_at": "2026-05-25T20:00:07.745776",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12
     },
@@ -3118,7 +3118,7 @@
       "total_amount": 4725.0,
       "payment_date": "",
       "address": "2855 Broadway St NE, Salem, 97303-6502",
-      "extracted_at": "2026-05-25T20:00:07.745791",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12
     },
@@ -3137,7 +3137,7 @@
       "total_amount": 4825.0,
       "payment_date": "",
       "address": "51501 South Columbia River, Scappoose, 97056",
-      "extracted_at": "2026-05-25T20:00:07.760294",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 5,
       "term_months": 15
     },
@@ -3156,7 +3156,7 @@
       "total_amount": 5825.0,
       "payment_date": "",
       "address": "11425 SW Beaverton Hillsdale Hwy, Beaverton, 970053050",
-      "extracted_at": "2026-05-25T20:00:07.760312",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 5,
       "term_months": 15
     },
@@ -3175,7 +3175,7 @@
       "total_amount": 4425.0,
       "payment_date": "",
       "address": "2500 North Main Street, Tillamook, 97141",
-      "extracted_at": "2026-05-25T20:00:07.760316",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12
     },
@@ -3194,7 +3194,7 @@
       "total_amount": 6275.0,
       "payment_date": "8/15/2025",
       "address": "6495 SE Tualatin Valley Hwy, Hillsboro, 97123",
-      "extracted_at": "2025-08-15 00:00",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 5,
       "term_months": 15
     },
@@ -3213,7 +3213,7 @@
       "total_amount": 1660.0,
       "payment_date": "",
       "address": "1983 South Main Street, Lebanon, 97355",
-      "extracted_at": "2026-05-25T20:00:07.788673",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 2,
       "term_months": 6
     },
@@ -3232,7 +3232,7 @@
       "total_amount": 3732.0,
       "payment_date": "",
       "address": "1540 Main Street, Sweet Home, 97386",
-      "extracted_at": "2026-05-25T20:00:07.803224",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 5,
       "term_months": 15
     },
@@ -3251,7 +3251,7 @@
       "total_amount": 2800.0,
       "payment_date": "",
       "address": "7525 Southwest Barnes Road, Portland, 97225",
-      "extracted_at": "2026-05-25T20:00:07.818164",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12
     },
@@ -3270,7 +3270,7 @@
       "total_amount": 695.0,
       "payment_date": "",
       "address": "7535 SW Barnes Rd. Ste 112",
-      "extracted_at": "2026-05-25T20:00:07.818223",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12,
       "product_type": "digital"
@@ -3290,7 +3290,7 @@
       "total_amount": 1947.5,
       "payment_date": "",
       "address": "1755 Ivy St, Junction City, 97448",
-      "extracted_at": "2026-05-25T20:00:07.832581",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 2,
       "term_months": 6
     },
@@ -3309,7 +3309,7 @@
       "total_amount": 6725.0,
       "payment_date": "8/12/2025",
       "address": "1129 Harrison Avenue, Centralia, 98531",
-      "extracted_at": "2025-08-12 00:00",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 5,
       "term_months": 15
     },
@@ -3328,7 +3328,7 @@
       "total_amount": 0.0,
       "payment_date": "8/12/2025",
       "address": "1106 w Main Street",
-      "extracted_at": "2025-08-12 00:00",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 5,
       "term_months": 15,
       "product_type": "digital"
@@ -3348,7 +3348,7 @@
       "total_amount": 3871.25,
       "payment_date": "8/18/2025",
       "address": "6850 N Lombard St, Portland, 97203-6247",
-      "extracted_at": "2025-08-18 00:00",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12
     },
@@ -3367,7 +3367,7 @@
       "total_amount": 4596.0,
       "payment_date": "8/8/2025",
       "address": "3333 W 11th Ave, Eugene, 97402-3053",
-      "extracted_at": "2025-08-08 00:00",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 5,
       "term_months": 15
     },
@@ -3386,7 +3386,7 @@
       "total_amount": 3774.0,
       "payment_date": "",
       "address": "1755 Ivy St, Junction City, 97448",
-      "extracted_at": "2026-05-25T20:00:07.892051",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12
     },
@@ -3405,7 +3405,7 @@
       "total_amount": 2004.0,
       "payment_date": "8/8/2025",
       "address": "1550 North Pacific Highway, Woodburn, 97071",
-      "extracted_at": "2025-08-08 00:00",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 2,
       "term_months": 6
     },
@@ -3424,7 +3424,7 @@
       "total_amount": 15960.0,
       "payment_date": "8/8/2025",
       "address": "60 Division Ave, Eugene, 97404-5127",
-      "extracted_at": "2025-08-08 00:00",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 13,
       "term_months": 39
     },
@@ -3443,7 +3443,7 @@
       "total_amount": 12611.25,
       "payment_date": "8/8/2025",
       "address": "4740 Royal Ave, Eugene, 97402",
-      "extracted_at": "2025-08-08 00:00",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 13,
       "term_months": 39
     },
@@ -3462,7 +3462,7 @@
       "total_amount": 10830.0,
       "payment_date": "8/8/2025",
       "address": "1500 E Main St, Cottage Grove, 97424",
-      "extracted_at": "2025-08-08 00:00",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 13,
       "term_months": 39
     },
@@ -3481,7 +3481,7 @@
       "total_amount": 11898.75,
       "payment_date": "8/8/2025",
       "address": "1755 Ivy St, Junction City, 97448",
-      "extracted_at": "2025-08-08 00:00",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 13,
       "term_months": 39
     },
@@ -3500,7 +3500,7 @@
       "total_amount": 10473.75,
       "payment_date": "8/8/2025",
       "address": "1983 South Main Street, Lebanon, 97355",
-      "extracted_at": "2025-08-08 00:00",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 13,
       "term_months": 39
     },
@@ -3519,7 +3519,7 @@
       "total_amount": 13181.25,
       "payment_date": "8/8/2025",
       "address": "929 NW Garden Valley Blvd, Roseburg, 97471-1900",
-      "extracted_at": "2025-08-08 00:00",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 13,
       "term_months": 39
     },
@@ -3538,7 +3538,7 @@
       "total_amount": 5533.75,
       "payment_date": "8/12/2025",
       "address": "5660 Commercial St SE, Salem, 97306",
-      "extracted_at": "2025-08-12 00:00",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12
     },
@@ -3557,7 +3557,7 @@
       "total_amount": 5438.75,
       "payment_date": "8/12/2025",
       "address": "1455 Edgewater St NW, Salem, 97304",
-      "extracted_at": "2025-08-12 00:00",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12
     },
@@ -3576,7 +3576,7 @@
       "total_amount": 2388.0,
       "payment_date": "8/14/2025",
       "address": "2000 Marcola Rd., Springfield, 97477",
-      "extracted_at": "2025-08-14 00:00",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 5,
       "term_months": 15
     },
@@ -3595,7 +3595,7 @@
       "total_amount": 5475.0,
       "payment_date": "8/11/2025",
       "address": "700 Sleater Kinney Rd SE, Lacey, 98503-1113",
-      "extracted_at": "2025-08-11 00:00",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12
     },
@@ -3614,7 +3614,7 @@
       "total_amount": 3490.0,
       "payment_date": "8/29/2025",
       "address": "8311 NE Hwy. 99",
-      "extracted_at": "2025-08-29 00:00",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12
     },
@@ -3633,7 +3633,7 @@
       "total_amount": 4333.75,
       "payment_date": "8/12/2025",
       "address": "5660 Commercial St SE, Salem, 97306",
-      "extracted_at": "2025-08-12 00:00",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12
     },
@@ -3652,7 +3652,7 @@
       "total_amount": 4239.0,
       "payment_date": "8/12/2025",
       "address": "1455 Edgewater St NW, Salem, 97304",
-      "extracted_at": "2025-08-12 00:00",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12
     },
@@ -3671,7 +3671,7 @@
       "total_amount": 1962.5,
       "payment_date": "10/2/2025",
       "address": "3520 Pacific Ave S E, Olympia, 98501",
-      "extracted_at": "2025-10-02 00:00",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 2,
       "term_months": 6
     },
@@ -3690,7 +3690,7 @@
       "total_amount": 5892.0,
       "payment_date": "8/15/2025",
       "address": "5755 Main St, Springfield, 97478",
-      "extracted_at": "2025-08-15 00:00",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12
     },
@@ -3709,7 +3709,7 @@
       "total_amount": 5125.0,
       "payment_date": "8/20/2025",
       "address": "1500 Coburg Rd, Eugene, 97401",
-      "extracted_at": "2025-08-20 00:00",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12
     },
@@ -3728,7 +3728,7 @@
       "total_amount": 4175.0,
       "payment_date": "8/18/2025",
       "address": "1550 North Pacific Highway, Woodburn, 97071",
-      "extracted_at": "2025-08-18 00:00",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12
     },
@@ -3747,7 +3747,7 @@
       "total_amount": 5795.0,
       "payment_date": "8/19/2025",
       "address": "7437 N Saint Louis Ave",
-      "extracted_at": "2025-08-19 00:00",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12
     },
@@ -3766,7 +3766,7 @@
       "total_amount": 8096.5,
       "payment_date": "8/28/2025",
       "address": "6495 SE Tualatin Valley Hwy, Hillsboro, 97123",
-      "extracted_at": "2025-08-28 00:00",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12
     },
@@ -3785,7 +3785,7 @@
       "total_amount": 4300.0,
       "payment_date": "8/20/2025",
       "address": "1550 North Pacific Highway, Woodburn, 97071",
-      "extracted_at": "2025-08-20 00:00",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12
     },
@@ -3804,7 +3804,7 @@
       "total_amount": 5436.0,
       "payment_date": "8/26/2025",
       "address": "145 E 18th Ave, Eugene, 97401",
-      "extracted_at": "2025-08-26 00:00",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12
     },
@@ -3823,7 +3823,7 @@
       "total_amount": 3724.02,
       "payment_date": "8/27/2025",
       "address": "6700 NE 162nd Ave Ste 500, Vancouver, 98682",
-      "extracted_at": "2025-08-27 00:00",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12
     },
@@ -3842,7 +3842,7 @@
       "total_amount": 3425.0,
       "payment_date": "8/27/2025",
       "address": "904 W Main St, Battle Ground, 98604",
-      "extracted_at": "2025-08-27 00:00",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 5,
       "term_months": 15
     },
@@ -3861,7 +3861,7 @@
       "total_amount": 3276.24,
       "payment_date": "8/26/2025",
       "address": "80 NE Cedar, Madras, 97741",
-      "extracted_at": "2025-08-26 00:00",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12
     },
@@ -3880,7 +3880,7 @@
       "total_amount": 3695.46,
       "payment_date": "8/28/2025",
       "address": "138 W Ellendale Ave, Dallas, 97338",
-      "extracted_at": "2025-08-28 00:00",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12
     },
@@ -3899,7 +3899,7 @@
       "total_amount": 2400.0,
       "payment_date": "8/28/2025",
       "address": "138 w ellendale Ave., 97338",
-      "extracted_at": "2025-08-28 00:00",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12,
       "product_type": "digital"
@@ -3919,7 +3919,7 @@
       "total_amount": 2807.0,
       "payment_date": "9/4/2025",
       "address": "944 SW Veterans Way, Redmond, 97756",
-      "extracted_at": "2025-09-04 00:00",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 2,
       "term_months": 6
     },
@@ -3938,7 +3938,7 @@
       "total_amount": 4926.0,
       "payment_date": "9/12/2025",
       "address": "401 Northwest 12Th Avenue, Battle Ground, 98604",
-      "extracted_at": "2025-09-12 00:00",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12
     },
@@ -3957,7 +3957,7 @@
       "total_amount": 4050.0,
       "payment_date": "9/12/2025",
       "address": "7700 NE Highway 99, Vancouver, 98665-8890",
-      "extracted_at": "2025-09-12 00:00",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12
     },
@@ -3976,7 +3976,7 @@
       "total_amount": 4600.0,
       "payment_date": "9/5/2025",
       "address": "900 Diablo Avenue, Novato, 94947",
-      "extracted_at": "2025-09-05 00:00",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12
     },
@@ -3995,7 +3995,7 @@
       "total_amount": 4600.0,
       "payment_date": "9/5/2025",
       "address": "5720 Nave Dr, Novato, 94949",
-      "extracted_at": "2025-09-05 00:00",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12
     },
@@ -4014,7 +4014,7 @@
       "total_amount": 0.0,
       "payment_date": "9/5/2025",
       "address": "700 B St, San Rafael, 94901",
-      "extracted_at": "2025-09-05 00:00",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12
     },
@@ -4033,7 +4033,7 @@
       "total_amount": 6225.0,
       "payment_date": "9/12/2025",
       "address": "11325 Southeast Mill Plain Blvd, Vancouver, 98684",
-      "extracted_at": "2025-09-12 00:00",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12
     },
@@ -4052,7 +4052,7 @@
       "total_amount": 6000.0,
       "payment_date": "10/3/2025",
       "address": "1252 23rd st se 110",
-      "extracted_at": "2025-10-03 00:00",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12
     },
@@ -4071,7 +4071,7 @@
       "total_amount": 3996.0,
       "payment_date": "9/11/2025",
       "address": "1500 E Main St, Cottage Grove, 97424",
-      "extracted_at": "2025-09-11 00:00",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12
     },
@@ -4090,7 +4090,7 @@
       "total_amount": 3660.0,
       "payment_date": "9/11/2025",
       "address": "1500 E Main St, Cottage Grove, 97424",
-      "extracted_at": "2025-09-11 00:00",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12
     },
@@ -4109,7 +4109,7 @@
       "total_amount": 5088.0,
       "payment_date": "9/25/2025",
       "address": "1891 Pioneer Parkway East, Springfield, 97477",
-      "extracted_at": "2025-09-25 00:00",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12
     },
@@ -4128,7 +4128,7 @@
       "total_amount": 3462.25,
       "payment_date": "9/15/2025",
       "address": "7700 NE Highway 99, Vancouver, 98665-8890",
-      "extracted_at": "2025-09-15 00:00",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12
     },
@@ -4147,7 +4147,7 @@
       "total_amount": 3678.0,
       "payment_date": "9/17/2025",
       "address": "18425 NW West Union Rd, Portland, 97229",
-      "extracted_at": "2025-09-17 00:00",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12
     },
@@ -4166,7 +4166,7 @@
       "total_amount": 4050.0,
       "payment_date": "9/16/2025",
       "address": "6711 NE 63rd St, Vancouver, 98661",
-      "extracted_at": "2025-09-16 00:00",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12
     },
@@ -4185,7 +4185,7 @@
       "total_amount": 2525.0,
       "payment_date": "9/18/2025",
       "address": "18425 NW West Union Rd, Portland, 97229",
-      "extracted_at": "2025-09-18 00:00",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12
     },
@@ -4204,7 +4204,7 @@
       "total_amount": 2364.0,
       "payment_date": "9/18/2025",
       "address": "18425 NW West Union Rd, Portland, 97229",
-      "extracted_at": "2025-09-18 00:00",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12
     },
@@ -4223,7 +4223,7 @@
       "total_amount": 3275.04,
       "payment_date": "9/19/2025",
       "address": "4756 Northwest Bethany Boulevard, Portland, 97229",
-      "extracted_at": "2025-09-19 00:00",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12
     },
@@ -4242,7 +4242,7 @@
       "total_amount": 4305.0,
       "payment_date": "9/26/2025",
       "address": "2111 Adams Avenue, La Grande, 97850",
-      "extracted_at": "2025-09-26 00:00",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12
     },
@@ -4261,7 +4261,7 @@
       "total_amount": 695.0,
       "payment_date": "9/26/2025",
       "address": "2102 Adams Ave., La Grande, OR 97850",
-      "extracted_at": "2025-09-26 00:00",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12,
       "product_type": "digital"
@@ -4281,7 +4281,7 @@
       "total_amount": 0.0,
       "payment_date": "9/22/2025",
       "address": "1227 15Th Ave, Longview, 98632",
-      "extracted_at": "2025-09-22 00:00",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 1,
       "term_months": 3
     },
@@ -4300,7 +4300,7 @@
       "total_amount": 3274.8,
       "payment_date": "9/23/2025",
       "address": "4756 Northwest Bethany Boulevard, Portland, 97229",
-      "extracted_at": "2025-09-23 00:00",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12
     },
@@ -4319,7 +4319,7 @@
       "total_amount": 2947.5,
       "payment_date": "9/23/2025",
       "address": "4756 Northwest Bethany Boulevard, Portland, 97229",
-      "extracted_at": "2025-09-23 00:00",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12
     },
@@ -4338,7 +4338,7 @@
       "total_amount": 5125.0,
       "payment_date": "9/29/2025",
       "address": "2177 NW 185th Avenue, Hillsboro, 97124",
-      "extracted_at": "2025-09-29 00:00",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12
     },
@@ -4357,7 +4357,7 @@
       "total_amount": 3370.0,
       "payment_date": "9/25/2025",
       "address": "2000 Marcola Rd., Springfield, 97477",
-      "extracted_at": "2025-09-25 00:00",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12
     },
@@ -4376,7 +4376,7 @@
       "total_amount": 3800.0,
       "payment_date": "10/3/2025",
       "address": "1500 E Main St, Cottage Grove, 97424",
-      "extracted_at": "2025-10-03 00:00",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12
     },
@@ -4395,7 +4395,7 @@
       "total_amount": 2197.5,
       "payment_date": "10/30/2025",
       "address": "1867 12th Street, Hood River, 97031",
-      "extracted_at": "2025-10-30 00:00",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 3,
       "term_months": 9
     },
@@ -4414,7 +4414,7 @@
       "total_amount": 732.5,
       "payment_date": "10/30/2025",
       "address": "2249 Cascade Avenue, Hood River, 97031",
-      "extracted_at": "2025-10-30 00:00",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 1,
       "term_months": 3
     },
@@ -4433,7 +4433,7 @@
       "total_amount": 6744.0,
       "payment_date": "10/13/2025",
       "address": "138 W Ellendale Ave, Dallas, 97338",
-      "extracted_at": "2025-10-13 00:00",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12
     },
@@ -4452,7 +4452,7 @@
       "total_amount": 3564.0,
       "payment_date": "10/10/2025",
       "address": "2111 Adams Avenue, La Grande, 97850",
-      "extracted_at": "2025-10-10 00:00",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12
     },
@@ -4471,7 +4471,7 @@
       "total_amount": 7070.0,
       "payment_date": "10/9/2025",
       "address": "1100 S Market Blvd, Chehalis, 98532",
-      "extracted_at": "2025-10-09 00:00",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12
     },
@@ -4490,7 +4490,7 @@
       "total_amount": 7470.0,
       "payment_date": "10/9/2025",
       "address": "1129 Harrison Avenue, Centralia, 98531",
-      "extracted_at": "2025-10-09 00:00",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12
     },
@@ -4509,7 +4509,7 @@
       "total_amount": 3314.0,
       "payment_date": "12/3/2025",
       "address": "15000 NE 24Th Street, Redmond, 98052",
-      "extracted_at": "2025-12-03 00:00",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12
     },
@@ -4528,7 +4528,7 @@
       "total_amount": 3974.0,
       "payment_date": "12/3/2025",
       "address": "1645 140Th Avenue Ne, Bellevue, 98005",
-      "extracted_at": "2025-12-03 00:00",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12
     },
@@ -4547,7 +4547,7 @@
       "total_amount": 9336.0,
       "payment_date": "10/9/2025",
       "address": "17005 SE Sunnyside Rd, Happy Valley, 97015",
-      "extracted_at": "2025-10-09 00:00",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 8,
       "term_months": 24
     },
@@ -4566,7 +4566,7 @@
       "total_amount": 3432.48,
       "payment_date": "10/15/2025",
       "address": "19007 South Beavercreek Rd, Oregon City, 97045",
-      "extracted_at": "2025-10-15 00:00",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 12,
       "term_months": 36
     },
@@ -4585,7 +4585,7 @@
       "total_amount": 4625.0,
       "payment_date": "10/10/2025",
       "address": "18919 SE Mill Plain Blvd. #200",
-      "extracted_at": "2025-10-10 00:00",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12
     },
@@ -4604,7 +4604,7 @@
       "total_amount": 6276.0,
       "payment_date": "10/30/2025",
       "address": "4701 Highway 101, Florence, 97439",
-      "extracted_at": "2025-10-30 00:00",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12
     },
@@ -4623,7 +4623,7 @@
       "total_amount": 5499.13,
       "payment_date": "10/22/2025",
       "address": "5850 NE Prescott St, Portland, 97218",
-      "extracted_at": "2025-10-22 00:00",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12
     },
@@ -4642,7 +4642,7 @@
       "total_amount": 695.0,
       "payment_date": "10/14/2025",
       "address": "15640 SE Happy Valley Town",
-      "extracted_at": "2025-10-14 00:00",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12
     },
@@ -4661,7 +4661,7 @@
       "total_amount": 695.0,
       "payment_date": "10/14/2025",
       "address": "15640 SE Happy Valley Town Center Drive",
-      "extracted_at": "2025-10-14 00:00",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12,
       "product_type": "digital"
@@ -4681,7 +4681,7 @@
       "total_amount": 4932.0,
       "payment_date": "10/31/2025",
       "address": "1100 NE Broadway St, Portland, 97232",
-      "extracted_at": "2025-10-31 00:00",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12
     },
@@ -4700,7 +4700,7 @@
       "total_amount": 4325.0,
       "payment_date": "10/16/2025",
       "address": "95 82nd Drive, Gladstone, 97027",
-      "extracted_at": "2025-10-16 00:00",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12
     },
@@ -4719,7 +4719,7 @@
       "total_amount": 3125.04,
       "payment_date": "10/24/2025",
       "address": "95 82nd Drive, Gladstone, 97027",
-      "extracted_at": "2025-10-24 00:00",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12
     },
@@ -4738,7 +4738,7 @@
       "total_amount": 2675.0,
       "payment_date": "10/28/2025",
       "address": "95 82nd Drive, Gladstone, 97027",
-      "extracted_at": "2025-10-28 00:00",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12
     },
@@ -4757,7 +4757,7 @@
       "total_amount": 3675.0,
       "payment_date": "10/21/2025",
       "address": "555 Trosper Road Southwest, Tumwater, 98512",
-      "extracted_at": "2025-10-21 00:00",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 2,
       "term_months": 6
     },
@@ -4776,7 +4776,7 @@
       "total_amount": 2625.0,
       "payment_date": "10/21/2025",
       "address": "555 Trosper Road Southwest, Tumwater, 98512",
-      "extracted_at": "2025-10-21 00:00",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 2,
       "term_months": 6
     },
@@ -4795,7 +4795,7 @@
       "total_amount": 5400.0,
       "payment_date": "10/24/2025",
       "address": "1129 Harrison Avenue, Centralia, 98531",
-      "extracted_at": "2025-10-24 00:00",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12
     },
@@ -4814,7 +4814,7 @@
       "total_amount": 2844.0,
       "payment_date": "10/28/2025",
       "address": "6701 E Mill Plain Blvd, Vancouver, 98661",
-      "extracted_at": "2025-10-28 00:00",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12
     },
@@ -4833,7 +4833,7 @@
       "total_amount": 4052.0,
       "payment_date": "10/30/2025",
       "address": "6701 E Mill Plain Blvd, Vancouver, 98661",
-      "extracted_at": "2025-10-30 00:00",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12
     },
@@ -4852,7 +4852,7 @@
       "total_amount": 3095.0,
       "payment_date": "11/3/2025",
       "address": "2249 Cascade Avenue, Hood River, 97031",
-      "extracted_at": "2025-11-03 00:00",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12
     },
@@ -4871,7 +4871,7 @@
       "total_amount": 2700.0,
       "payment_date": "11/17/2025",
       "address": "14300 SW Barrows Rd, Tigard, 97223",
-      "extracted_at": "2025-11-17 00:00",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12
     },
@@ -4890,7 +4890,7 @@
       "total_amount": 3995.0,
       "payment_date": "11/5/2025",
       "address": "138 W Ellendale Ave, Dallas, 97338",
-      "extracted_at": "2025-11-05 00:00",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12
     },
@@ -4909,7 +4909,7 @@
       "total_amount": 695.0,
       "payment_date": "11/5/2025",
       "address": "Apedersonsplumbingandexcavation.com",
-      "extracted_at": "2025-11-05 00:00",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12,
       "product_type": "digital"
@@ -4929,7 +4929,7 @@
       "total_amount": 4932.0,
       "payment_date": "10/31/2025",
       "address": "1100 NE Broadway St, Portland, 97232",
-      "extracted_at": "2025-10-31 00:00",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12
     },
@@ -4948,7 +4948,7 @@
       "total_amount": 3040.52,
       "payment_date": "12/5/2025",
       "address": "110 s 65th Ave ste 121",
-      "extracted_at": "2025-12-05 00:00",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12
     },
@@ -4967,7 +4967,7 @@
       "total_amount": 1846.26,
       "payment_date": "11/8/2025",
       "address": "301 Westfield Street, Silverton, 97381",
-      "extracted_at": "2025-11-08 00:00",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 2,
       "term_months": 6
     },
@@ -4986,7 +4986,7 @@
       "total_amount": 2081.25,
       "payment_date": "11/8/2025",
       "address": "5660 Commercial St SE, Salem, 97306",
-      "extracted_at": "2025-11-08 00:00",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 2,
       "term_months": 6
     },
@@ -5005,7 +5005,7 @@
       "total_amount": 5302.0,
       "payment_date": "12/4/2025",
       "address": "301 Westfield Street, Silverton, 97381",
-      "extracted_at": "2025-12-04 00:00",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12
     },
@@ -5024,7 +5024,7 @@
       "total_amount": 6725.0,
       "payment_date": "11/11/2025",
       "address": "800 NE Tenney Rd, Vancouver, 98685",
-      "extracted_at": "2025-11-11 00:00",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12
     },
@@ -5043,7 +5043,7 @@
       "total_amount": 0.0,
       "payment_date": "11/11/2025",
       "address": "Mountainmike.com",
-      "extracted_at": "2025-11-11 00:00",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12,
       "product_type": "digital"
@@ -5063,7 +5063,7 @@
       "total_amount": 4200.0,
       "payment_date": "11/12/2025",
       "address": "4101 NW Logan Road, Lincoln City, 97367",
-      "extracted_at": "2025-11-12 00:00",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12
     },
@@ -5082,7 +5082,7 @@
       "total_amount": 3324.0,
       "payment_date": "11/17/2025",
       "address": "311 Coburg Rd, Eugene, 97401",
-      "extracted_at": "2025-11-17 00:00",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12
     },
@@ -5101,7 +5101,7 @@
       "total_amount": 3975.0,
       "payment_date": "11/14/2025",
       "address": "3532 172Nd Street Ne, Arlington, 98223",
-      "extracted_at": "2025-11-14 00:00",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12
     },
@@ -5120,7 +5120,7 @@
       "total_amount": 3975.0,
       "payment_date": "11/14/2025",
       "address": "2601 E Division St, Mount Vernon, 98274",
-      "extracted_at": "2025-11-14 00:00",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12
     },
@@ -5139,7 +5139,7 @@
       "total_amount": 3432.0,
       "payment_date": "11/14/2025",
       "address": "17779 Boones Ferry Road, Lake Oswego, 97035",
-      "extracted_at": "2025-11-14 00:00",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12
     },
@@ -5158,7 +5158,7 @@
       "total_amount": 3770.0,
       "payment_date": "11/21/2025",
       "address": "1227 15Th Ave, Longview, 98632",
-      "extracted_at": "2025-11-21 00:00",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12
     },
@@ -5177,7 +5177,7 @@
       "total_amount": 3095.0,
       "payment_date": "11/19/2025",
       "address": "2249 Cascade Avenue, Hood River, 97031",
-      "extracted_at": "2025-11-19 00:00",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12
     },
@@ -5196,7 +5196,7 @@
       "total_amount": 3600.0,
       "payment_date": "12/5/2025",
       "address": "632 W Valley Blvd",
-      "extracted_at": "2025-12-05 00:00",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12
     },
@@ -5215,7 +5215,7 @@
       "total_amount": 2067.12,
       "payment_date": "11/19/2025",
       "address": "401 E Columbia River Hwy, Clatskanie, 97016",
-      "extracted_at": "2025-11-19 00:00",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12
     },
@@ -5234,7 +5234,7 @@
       "total_amount": 3095.0,
       "payment_date": "11/25/2025",
       "address": "37601 U.S. 26, Sandy, 97055",
-      "extracted_at": "2025-11-25 00:00",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12
     },
@@ -5253,7 +5253,7 @@
       "total_amount": 2525.0,
       "payment_date": "12/3/2025",
       "address": "2000 Marcola Rd., Springfield, 97477",
-      "extracted_at": "2025-12-03 00:00",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12
     },
@@ -5272,7 +5272,7 @@
       "total_amount": 4651.25,
       "payment_date": "11/19/2025",
       "address": "1215 W 6Th St, The Dalles, 97058-3585",
-      "extracted_at": "2025-11-19 00:00",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12
     },
@@ -5291,7 +5291,7 @@
       "total_amount": 3550.0,
       "payment_date": "11/19/2025",
       "address": "101 S. 47th Avenue, Ridgefield, 98642",
-      "extracted_at": "2025-11-19 00:00",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12
     },
@@ -5310,7 +5310,7 @@
       "total_amount": 4080.0,
       "payment_date": "11/20/2025",
       "address": "520 Mount Hood Street, The Dalles, 97058",
-      "extracted_at": "2025-11-20 00:00",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12
     },
@@ -5329,7 +5329,7 @@
       "total_amount": 4850.0,
       "payment_date": "11/22/2025",
       "address": "5050 State Highway 303 Northeast, Bremerton, 983113687",
-      "extracted_at": "2025-11-22 00:00",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12
     },
@@ -5348,7 +5348,7 @@
       "total_amount": 4050.0,
       "payment_date": "11/20/2025",
       "address": "1227 15Th Ave, Longview, 98632",
-      "extracted_at": "2025-11-20 00:00",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12
     },
@@ -5367,7 +5367,7 @@
       "total_amount": 3150.0,
       "payment_date": "11/20/2025",
       "address": "2930 Ocean Beach Highway, Longview, 98632",
-      "extracted_at": "2025-11-20 00:00",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12
     },
@@ -5386,7 +5386,7 @@
       "total_amount": 5100.0,
       "payment_date": "11/20/2025",
       "address": "3184 Ocean Beach Highway, Longview, 98632-4395",
-      "extracted_at": "2025-11-20 00:00",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12
     },
@@ -5405,7 +5405,7 @@
       "total_amount": 3350.0,
       "payment_date": "11/20/2025",
       "address": "411 Three River Drive, Kelso, 98626",
-      "extracted_at": "2025-11-20 00:00",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12
     },
@@ -5424,7 +5424,7 @@
       "total_amount": 3770.0,
       "payment_date": "11/22/2025",
       "address": "13434 Colton Place, Oregon City, 97045",
-      "extracted_at": "2025-11-22 00:00",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12
     },
@@ -5443,7 +5443,7 @@
       "total_amount": 2825.0,
       "payment_date": "11/22/2025",
       "address": "411 Three River Drive, Kelso, 98626",
-      "extracted_at": "2025-11-22 00:00",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12
     },
@@ -5462,7 +5462,7 @@
       "total_amount": 3770.0,
       "payment_date": "12/2/2025",
       "address": "1227 15Th Ave, Longview, 98632",
-      "extracted_at": "2025-12-02 00:00",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12
     },
@@ -5481,7 +5481,7 @@
       "total_amount": 3925.0,
       "payment_date": "11/25/2025",
       "address": "700 Highway 101, Florence, 97439",
-      "extracted_at": "2025-11-25 00:00",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12
     },
@@ -5500,7 +5500,7 @@
       "total_amount": 3925.0,
       "payment_date": "11/25/2025",
       "address": "4701 Highway 101, Florence, 97439",
-      "extracted_at": "2025-11-25 00:00",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12
     },
@@ -5519,7 +5519,7 @@
       "total_amount": 4862.23,
       "payment_date": "12/19/2025",
       "address": "601 South Pioneer Way, Moses Lake, 98837",
-      "extracted_at": "2025-12-19 00:00",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12
     },
@@ -5538,7 +5538,7 @@
       "total_amount": 5250.0,
       "payment_date": "12/17/2025",
       "address": "795 Columbia River Highway, St. Helens, 97051",
-      "extracted_at": "2025-12-17 00:00",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12
     },
@@ -5557,7 +5557,7 @@
       "total_amount": 2975.0,
       "payment_date": "12/11/2025",
       "address": "55 Division Ave, Eugene, 97404",
-      "extracted_at": "2025-12-11 00:00",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12
     },
@@ -5576,7 +5576,7 @@
       "total_amount": 1800.0,
       "payment_date": "12/9/2025",
       "address": "301 Westfield Street, Silverton, 97381",
-      "extracted_at": "2025-12-09 00:00",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 2,
       "term_months": 6
     },
@@ -5595,7 +5595,7 @@
       "total_amount": 3600.0,
       "payment_date": "12/6/2025",
       "address": "11221 California St",
-      "extracted_at": "2025-12-06 00:00",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12
     },
@@ -5614,7 +5614,7 @@
       "total_amount": 2000.0,
       "payment_date": "12/5/2025",
       "address": "7700 SW Beaverton Hillsdale Hwy, Portland, 97225-2101",
-      "extracted_at": "2025-12-05 00:00",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 2,
       "term_months": 6
     },
@@ -5633,7 +5633,7 @@
       "total_amount": 5052.0,
       "payment_date": "12/18/2025",
       "address": "3520 Pacific Ave S E, Olympia, 98501",
-      "extracted_at": "2025-12-18 00:00",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12
     },
@@ -5652,7 +5652,7 @@
       "total_amount": 3249.0,
       "payment_date": "1/9/2026",
       "address": "1983 South Main Street, Lebanon, 97355",
-      "extracted_at": "2026-01-09 00:00",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12
     },
@@ -5671,7 +5671,7 @@
       "total_amount": 3875.0,
       "payment_date": "12/8/2025",
       "address": "3250 Leif Erikson Dr, Astoria, 97103",
-      "extracted_at": "2025-12-08 00:00",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12
     },
@@ -5690,7 +5690,7 @@
       "total_amount": 1731.5,
       "payment_date": "12/9/2025",
       "address": "3250 Leif Erikson Dr, Astoria, 97103",
-      "extracted_at": "2025-12-09 00:00",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 2,
       "term_months": 6
     },
@@ -5709,7 +5709,7 @@
       "total_amount": 1210.0,
       "payment_date": "12/11/2025",
       "address": "3250 Leif Erikson Dr, Astoria, 97103",
-      "extracted_at": "2025-12-11 00:00",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 2,
       "term_months": 6
     },
@@ -5728,7 +5728,7 @@
       "total_amount": 2675.0,
       "payment_date": "12/9/2025",
       "address": "3250 Leif Erikson Dr, Astoria, 97103",
-      "extracted_at": "2025-12-09 00:00",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12
     },
@@ -5747,7 +5747,7 @@
       "total_amount": 3768.0,
       "payment_date": "12/11/2025",
       "address": "401 South Roosevelt, Seaside, 97138",
-      "extracted_at": "2025-12-11 00:00",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12
     },
@@ -5766,7 +5766,7 @@
       "total_amount": 2525.0,
       "payment_date": "12/11/2025",
       "address": "2000 Marcola Rd., Springfield, 97477",
-      "extracted_at": "2025-12-11 00:00",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12
     },
@@ -5785,7 +5785,7 @@
       "total_amount": 5881.0,
       "payment_date": "1/14/2026",
       "address": "5755 Main St, Springfield, 97478",
-      "extracted_at": "2026-01-14 00:00",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12
     },
@@ -5804,7 +5804,7 @@
       "total_amount": 1370.67,
       "payment_date": "1/14/2026",
       "address": "145 E 18th Ave, Eugene, 97401",
-      "extracted_at": "2026-01-14 00:00",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 1,
       "term_months": 3
     },
@@ -5823,7 +5823,7 @@
       "total_amount": 2741.34,
       "payment_date": "1/14/2026",
       "address": "145 E 18th Ave, Eugene, 97401",
-      "extracted_at": "2026-01-14 00:00",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 2,
       "term_months": 6
     },
@@ -5842,7 +5842,7 @@
       "total_amount": 3312.0,
       "payment_date": "12/22/2025",
       "address": "3307 SE Evergreen Way Ste 5, Washougal, 98671",
-      "extracted_at": "2025-12-22 00:00",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12
     },
@@ -5861,7 +5861,7 @@
       "total_amount": 4175.0,
       "payment_date": "12/22/2025",
       "address": "2342 N Del Rosa Ave",
-      "extracted_at": "2025-12-22 00:00",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12
     },
@@ -5880,7 +5880,7 @@
       "total_amount": 5172.0,
       "payment_date": "12/31/2025",
       "address": "795 Columbia River Highway, St. Helens, 97051",
-      "extracted_at": "2025-12-31 00:00",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12
     },
@@ -5899,7 +5899,7 @@
       "total_amount": 4715.0,
       "payment_date": "2/25/2026",
       "address": "15995 Southwest Walker Road, Beaverton, 97006-4944",
-      "extracted_at": "2026-02-25 00:00",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12
     },
@@ -5918,7 +5918,7 @@
       "total_amount": 1632.0,
       "payment_date": "1/8/2026",
       "address": "3505 SE 192nd Ave, Vancouver, 98683",
-      "extracted_at": "2026-01-08 00:00",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 2,
       "term_months": 6
     },
@@ -5937,7 +5937,7 @@
       "total_amount": 1800.0,
       "payment_date": "12/29/2025",
       "address": "255 E. Highland Ave, Suite 2",
-      "extracted_at": "2025-12-29 00:00",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 2,
       "term_months": 6
     },
@@ -5956,7 +5956,7 @@
       "total_amount": 4875.0,
       "payment_date": "1/8/2026",
       "address": "4208 Phelan Road",
-      "extracted_at": "2026-01-08 00:00",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12
     },
@@ -5975,7 +5975,7 @@
       "total_amount": 4000.0,
       "payment_date": "1/14/2026",
       "address": "325 5th St, Brookings, 97415",
-      "extracted_at": "2026-01-14 00:00",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12
     },
@@ -5994,7 +5994,7 @@
       "total_amount": 12135.96,
       "payment_date": "1/10/2026",
       "address": "101 S. 47th Avenue, Ridgefield, 98642",
-      "extracted_at": "2026-01-10 00:00",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 12,
       "term_months": 36
     },
@@ -6013,7 +6013,7 @@
       "total_amount": 3433.0,
       "payment_date": "1/10/2026",
       "address": "1540 Main Street, Sweet Home, 97386",
-      "extracted_at": "2026-01-10 00:00",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12
     },
@@ -6032,7 +6032,7 @@
       "total_amount": 3597.48,
       "payment_date": "1/2/2026",
       "address": "795 Columbia River Highway, St. Helens, 97051",
-      "extracted_at": "2026-01-02 00:00",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12
     },
@@ -6051,7 +6051,7 @@
       "total_amount": 5068.0,
       "payment_date": "1/27/2026",
       "address": "11425 SW Beaverton Hillsdale Hwy, Beaverton, 970053050",
-      "extracted_at": "2026-01-27 00:00",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12
     },
@@ -6070,7 +6070,7 @@
       "total_amount": 4760.0,
       "payment_date": "1/27/2026",
       "address": "30300 Southwest boones ferry Road, Wilsonville, 97070",
-      "extracted_at": "2026-01-27 00:00",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12
     },
@@ -6089,7 +6089,7 @@
       "total_amount": 4375.0,
       "payment_date": "1/27/2026",
       "address": "3450 Commercial St SE, Salem, 97302-4682",
-      "extracted_at": "2026-01-27 00:00",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12
     },
@@ -6108,7 +6108,7 @@
       "total_amount": 3275.0,
       "payment_date": "1/2/2026",
       "address": "8145 Southwest Barbur Boulevard, Portland, 97219",
-      "extracted_at": "2026-01-02 00:00",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12
     },
@@ -6127,7 +6127,7 @@
       "total_amount": 1075.0,
       "payment_date": "1/14/2026",
       "address": "777 Kings Boulevard, Corvallis, 97330-5620",
-      "extracted_at": "2026-01-14 00:00",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 2,
       "term_months": 6
     },
@@ -6146,7 +6146,7 @@
       "total_amount": 3248.0,
       "payment_date": "1/9/2026",
       "address": "1983 South Main Street, Lebanon, 97355",
-      "extracted_at": "2026-01-09 00:00",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12
     },
@@ -6165,7 +6165,7 @@
       "total_amount": 2375.0,
       "payment_date": "2/10/2026",
       "address": "19200 SW Martinazzi AVE, Tualatin, 97062-6357",
-      "extracted_at": "2026-02-10 00:00",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 2,
       "term_months": 6
     },
@@ -6184,7 +6184,7 @@
       "total_amount": 3180.0,
       "payment_date": "1/22/2026",
       "address": "1540 Main Street, Sweet Home, 97386",
-      "extracted_at": "2026-01-22 00:00",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12
     },
@@ -6203,7 +6203,7 @@
       "total_amount": 3577.68,
       "payment_date": "1/9/2026",
       "address": "795 Columbia River Highway, St. Helens, 97051",
-      "extracted_at": "2026-01-09 00:00",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12
     },
@@ -6222,7 +6222,7 @@
       "total_amount": 6103.76,
       "payment_date": "1/10/2026",
       "address": "16409 SE 1st Street",
-      "extracted_at": "2026-01-10 00:00",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12
     },
@@ -6241,7 +6241,7 @@
       "total_amount": 3207.48,
       "payment_date": "1/9/2026",
       "address": "1080 E Washington St STE E",
-      "extracted_at": "2026-01-09 00:00",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12
     },
@@ -6260,7 +6260,7 @@
       "total_amount": 1884.0,
       "payment_date": "1/15/2026",
       "address": "1060 S. Mount Vernon Ave",
-      "extracted_at": "2026-01-15 00:00",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 2,
       "term_months": 6
     },
@@ -6279,7 +6279,7 @@
       "total_amount": 2930.0,
       "payment_date": "1/20/2026",
       "address": "2249 Cascade Avenue, Hood River, 97031",
-      "extracted_at": "2026-01-20 00:00",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12
     },
@@ -6298,7 +6298,7 @@
       "total_amount": 3572.4,
       "payment_date": "1/12/2026",
       "address": "1500 E Main St, Cottage Grove, 97424",
-      "extracted_at": "2026-01-12 00:00",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12
     },
@@ -6317,7 +6317,7 @@
       "total_amount": 3925.0,
       "payment_date": "1/20/2026",
       "address": "795 Columbia River Highway, St. Helens, 97051",
-      "extracted_at": "2026-01-20 00:00",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12
     },
@@ -6336,7 +6336,7 @@
       "total_amount": 4525.0,
       "payment_date": "1/14/2026",
       "address": "145 E 18th Ave, Eugene, 97401",
-      "extracted_at": "2026-01-14 00:00",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12
     },
@@ -6355,7 +6355,7 @@
       "total_amount": 4725.0,
       "payment_date": "2/2/2026",
       "address": "3333 W 11th Ave, Eugene, 97402-3053",
-      "extracted_at": "2026-02-02 00:00",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12
     },
@@ -6374,7 +6374,7 @@
       "total_amount": 2975.0,
       "payment_date": "2/2/2026",
       "address": "3075 Hilyard St., Eugene, 97405",
-      "extracted_at": "2026-02-02 00:00",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12
     },
@@ -6393,7 +6393,7 @@
       "total_amount": 5600.0,
       "payment_date": "2/2/2026",
       "address": "60 Division Ave, Eugene, 97404-5127",
-      "extracted_at": "2026-02-02 00:00",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12
     },
@@ -6412,7 +6412,7 @@
       "total_amount": 3000.0,
       "payment_date": "1/15/2026",
       "address": "655 Highland Springs Ave",
-      "extracted_at": "2026-01-15 00:00",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12
     },
@@ -6431,7 +6431,7 @@
       "total_amount": 4536.0,
       "payment_date": "1/16/2026",
       "address": "1910 N. Campus Ave., Upland, 91784",
-      "extracted_at": "2026-01-16 00:00",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12
     },
@@ -6450,7 +6450,7 @@
       "total_amount": 4895.0,
       "payment_date": "1/17/2026",
       "address": "13915 SW Bell Rd",
-      "extracted_at": "2026-01-17 00:00",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12
     },
@@ -6469,7 +6469,7 @@
       "total_amount": 2916.0,
       "payment_date": "1/16/2026",
       "address": "3505 SE 192nd Ave, Vancouver, 98683",
-      "extracted_at": "2026-01-16 00:00",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12
     },
@@ -6488,7 +6488,7 @@
       "total_amount": 0.0,
       "payment_date": "1/16/2026",
       "address": "12032 SE Sunnyside Rd, Clackamas, 97015",
-      "extracted_at": "2026-01-16 00:00",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 1,
       "term_months": 3
     },
@@ -6507,7 +6507,7 @@
       "total_amount": 3888.0,
       "payment_date": "1/29/2026",
       "address": "1390 E 6th Street Suite 1",
-      "extracted_at": "2026-01-29 00:00",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12
     },
@@ -6526,7 +6526,7 @@
       "total_amount": 3905.0,
       "payment_date": "5/6/2026",
       "address": "3505 SE 192nd Ave, Vancouver, 98683",
-      "extracted_at": "2026-05-06 00:00",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12
     },
@@ -6545,7 +6545,7 @@
       "total_amount": 2795.0,
       "payment_date": "5/6/2026",
       "address": "19610 SE 1st St Camas, WA 98607 United States, 98607",
-      "extracted_at": "2026-05-06 00:00",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12,
       "product_type": "digital"
@@ -6565,7 +6565,7 @@
       "total_amount": 3240.0,
       "payment_date": "2/3/2026",
       "address": "601 W State St #D",
-      "extracted_at": "2026-02-03 00:00",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12
     },
@@ -6584,7 +6584,7 @@
       "total_amount": 3550.0,
       "payment_date": "3/11/2026",
       "address": "311 Coburg Rd, Eugene, 97401",
-      "extracted_at": "2026-03-11 00:00",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12
     },
@@ -6603,7 +6603,7 @@
       "total_amount": 695.0,
       "payment_date": "2/10/2026",
       "address": "280 S. Main St.",
-      "extracted_at": "2026-02-10 00:00",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12
     },
@@ -6622,7 +6622,7 @@
       "total_amount": 7307.0,
       "payment_date": "3/6/2026",
       "address": "11425 SW Beaverton Hillsdale Hwy, Beaverton, 970053050",
-      "extracted_at": "2026-03-06 00:00",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12
     },
@@ -6641,7 +6641,7 @@
       "total_amount": 6845.0,
       "payment_date": "3/6/2026",
       "address": "14555 SW Teal Blvd, Beaverton, 97007",
-      "extracted_at": "2026-03-06 00:00",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12
     },
@@ -6660,7 +6660,7 @@
       "total_amount": 4438.25,
       "payment_date": "2/19/2026",
       "address": "7411 NE 117th Ave, Vancouver, 98662",
-      "extracted_at": "2026-02-19 00:00",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12
     },
@@ -6679,7 +6679,7 @@
       "total_amount": 3432.5,
       "payment_date": "2/17/2026",
       "address": "401 South Roosevelt, Seaside, 97138",
-      "extracted_at": "2026-02-17 00:00",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12
     },
@@ -6698,7 +6698,7 @@
       "total_amount": 3545.04,
       "payment_date": "2/25/2026",
       "address": "6700 NE 162nd Ave Ste 500, Vancouver, 98682",
-      "extracted_at": "2026-02-25 00:00",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12
     },
@@ -6717,7 +6717,7 @@
       "total_amount": 5124.96,
       "payment_date": "2/20/2026",
       "address": "705 B Park Crest Ave",
-      "extracted_at": "2026-02-20 00:00",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12
     },
@@ -6736,7 +6736,7 @@
       "total_amount": 3432.0,
       "payment_date": "2/23/2026",
       "address": "401 South Roosevelt, Seaside, 97138",
-      "extracted_at": "2026-02-23 00:00",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12
     },
@@ -6755,7 +6755,7 @@
       "total_amount": 6299.0,
       "payment_date": "2/24/2026",
       "address": "11325 Southeast Mill Plain Blvd, Vancouver, 98684",
-      "extracted_at": "2026-02-24 00:00",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12
     },
@@ -6774,7 +6774,7 @@
       "total_amount": 4800.0,
       "payment_date": "2/24/2026",
       "address": "100 Northwest 20Th Place, Portland, 97209-1099",
-      "extracted_at": "2026-02-24 00:00",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12
     },
@@ -6793,7 +6793,7 @@
       "total_amount": 4625.0,
       "payment_date": "2/25/2026",
       "address": "11325 Southeast Mill Plain Blvd, Vancouver, 98684",
-      "extracted_at": "2026-02-25 00:00",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12
     },
@@ -6812,7 +6812,7 @@
       "total_amount": 4704.0,
       "payment_date": "2/25/2026",
       "address": "15995 Southwest Walker Road, Beaverton, 97006-4944",
-      "extracted_at": "2026-02-25 00:00",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12
     },
@@ -6831,7 +6831,7 @@
       "total_amount": 4884.0,
       "payment_date": "3/2/2026",
       "address": "1725 Pacific Ave, Woodland, 98674",
-      "extracted_at": "2026-03-02 00:00",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12
     },
@@ -6850,7 +6850,7 @@
       "total_amount": 3125.0,
       "payment_date": "3/6/2026",
       "address": "3707 N Main St, Vancouver, 98663",
-      "extracted_at": "2026-03-06 00:00",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12
     },
@@ -6869,7 +6869,7 @@
       "total_amount": 3800.0,
       "payment_date": "3/31/2026",
       "address": "1752 E Lugonia Ave Unit 118",
-      "extracted_at": "2026-03-31 00:00",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12
     },
@@ -6888,7 +6888,7 @@
       "total_amount": 4085.0,
       "payment_date": "3/13/2026",
       "address": "520 Mount Hood Street, The Dalles, 97058",
-      "extracted_at": "2026-03-13 00:00",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12
     },
@@ -6907,7 +6907,7 @@
       "total_amount": 2690.0,
       "payment_date": "3/10/2026",
       "address": "7404 North Interstate Avenue, Portland, 97217",
-      "extracted_at": "2026-03-10 00:00",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 2,
       "term_months": 6
     },
@@ -6926,7 +6926,7 @@
       "total_amount": 1835.0,
       "payment_date": "3/10/2026",
       "address": "5920 NE Martin Luther King Jr Blvd, Portland, 97211",
-      "extracted_at": "2026-03-10 00:00",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 2,
       "term_months": 6
     },
@@ -6945,7 +6945,7 @@
       "total_amount": 2165.0,
       "payment_date": "3/4/2026",
       "address": "6411 SE Milwaukie Ave, Portland, 97202",
-      "extracted_at": "2026-03-04 00:00",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12
     },
@@ -6964,7 +6964,7 @@
       "total_amount": 6929.0,
       "payment_date": "3/6/2026",
       "address": "11565 SW Pacific Hwy, Tigard, 97223",
-      "extracted_at": "2026-03-06 00:00",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12
     },
@@ -6983,7 +6983,7 @@
       "total_amount": 3716.0,
       "payment_date": "3/6/2026",
       "address": "401 A Avenue, Lake Oswego, 97034",
-      "extracted_at": "2026-03-06 00:00",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12
     },
@@ -7002,7 +7002,7 @@
       "total_amount": 3125.0,
       "payment_date": "3/18/2026",
       "address": "5544 East Burnside, Portland, 97215",
-      "extracted_at": "2026-03-18 00:00",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12
     },
@@ -7021,7 +7021,7 @@
       "total_amount": 4755.0,
       "payment_date": "4/8/2026",
       "address": "2111 Adams Avenue, La Grande, 97850",
-      "extracted_at": "2026-04-08 00:00",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12
     },
@@ -7040,7 +7040,7 @@
       "total_amount": 5592.0,
       "payment_date": "3/17/2026",
       "address": "60 Division Ave, Eugene, 97404-5127",
-      "extracted_at": "2026-03-17 00:00",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12
     },
@@ -7059,7 +7059,7 @@
       "total_amount": 4525.0,
       "payment_date": "3/11/2026",
       "address": "1500 Coburg Rd, Eugene, 97401",
-      "extracted_at": "2026-03-11 00:00",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12
     },
@@ -7078,7 +7078,7 @@
       "total_amount": 4425.0,
       "payment_date": "3/11/2026",
       "address": "138 W Ellendale Ave, Dallas, 97338",
-      "extracted_at": "2026-03-11 00:00",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12
     },
@@ -7097,7 +7097,7 @@
       "total_amount": 4725.0,
       "payment_date": "3/16/2026",
       "address": "138 W Ellendale Ave, Dallas, 97338",
-      "extracted_at": "2026-03-16 00:00",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12
     },
@@ -7116,7 +7116,7 @@
       "total_amount": 5600.0,
       "payment_date": "3/18/2026",
       "address": "60 Division Ave, Eugene, 97404-5127",
-      "extracted_at": "2026-03-18 00:00",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12
     },
@@ -7135,7 +7135,7 @@
       "total_amount": 4525.0,
       "payment_date": "3/27/2026",
       "address": "1500 Coburg Rd, Eugene, 97401",
-      "extracted_at": "2026-03-27 00:00",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12
     },
@@ -7154,7 +7154,7 @@
       "total_amount": 2420.0,
       "payment_date": "3/20/2026",
       "address": "3184 Ocean Beach Highway, Longview, 98632-4395",
-      "extracted_at": "2026-03-20 00:00",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 2,
       "term_months": 6
     },
@@ -7173,7 +7173,7 @@
       "total_amount": 1947.5,
       "payment_date": "3/20/2026",
       "address": "1227 15Th Ave, Longview, 98632",
-      "extracted_at": "2026-03-20 00:00",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 2,
       "term_months": 6
     },
@@ -7192,7 +7192,7 @@
       "total_amount": 4316.0,
       "payment_date": "3/24/2026",
       "address": "3137 Grand Ave, Billings, 59102",
-      "extracted_at": "2026-03-24 00:00",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12
     },
@@ -7211,7 +7211,7 @@
       "total_amount": 4625.0,
       "payment_date": "3/25/2026",
       "address": "15570 SW Pacific Hwy, King City, 97224",
-      "extracted_at": "2026-03-25 00:00",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12
     },
@@ -7230,7 +7230,7 @@
       "total_amount": 3950.0,
       "payment_date": "3/25/2026",
       "address": "15570 SW Pacific Hwy, King City, 97224",
-      "extracted_at": "2026-03-25 00:00",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12
     },
@@ -7249,7 +7249,7 @@
       "total_amount": 5450.0,
       "payment_date": "4/6/2026",
       "address": "7555 SW Barbur Blvd, Portland, 97219-2836",
-      "extracted_at": "2026-04-06 00:00",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12
     },
@@ -7268,7 +7268,7 @@
       "total_amount": 5215.0,
       "payment_date": "4/1/2026",
       "address": "1755 Ivy St, Junction City, 97448",
-      "extracted_at": "2026-04-01 00:00",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12
     },
@@ -7287,7 +7287,7 @@
       "total_amount": 4750.0,
       "payment_date": "3/31/2026",
       "address": "23961 NE State Route 3, Belfair, 98528",
-      "extracted_at": "2026-03-31 00:00",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12
     },
@@ -7306,7 +7306,7 @@
       "total_amount": 2363.0,
       "payment_date": "3/31/2026",
       "address": "3333 W 11th Ave, Eugene, 97402-3053",
-      "extracted_at": "2026-03-31 00:00",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 2,
       "term_months": 6
     },
@@ -7325,7 +7325,7 @@
       "total_amount": 5950.0,
       "payment_date": "4/7/2026",
       "address": "1401 N.E. Mcwilliams, Bremerton, 98311",
-      "extracted_at": "2026-04-07 00:00",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12
     },
@@ -7344,7 +7344,7 @@
       "total_amount": 695.0,
       "payment_date": "4/7/2026",
       "address": "5921 WA-303 Bremerton, WA 98311",
-      "extracted_at": "2026-04-07 00:00",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12,
       "product_type": "digital"
@@ -7364,7 +7364,7 @@
       "total_amount": 3275.0,
       "payment_date": "4/8/2026",
       "address": "3505 SE 192nd Ave, Vancouver, 98683",
-      "extracted_at": "2026-04-08 00:00",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12
     },
@@ -7383,7 +7383,7 @@
       "total_amount": 3300.0,
       "payment_date": "4/20/2026",
       "address": "2249 Cascade Avenue, Hood River, 97031",
-      "extracted_at": "2026-04-20 00:00",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12
     },
@@ -7402,7 +7402,7 @@
       "total_amount": 4500.0,
       "payment_date": "4/7/2026",
       "address": "1140 North Springbrook Road, Newberg, 97132",
-      "extracted_at": "2026-04-07 00:00",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12
     },
@@ -7421,7 +7421,7 @@
       "total_amount": 4092.0,
       "payment_date": "4/8/2026",
       "address": "6615 NE Glisan St, Portland, 97213-5068",
-      "extracted_at": "2026-04-08 00:00",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12
     },
@@ -7440,7 +7440,7 @@
       "total_amount": 3996.0,
       "payment_date": "4/8/2026",
       "address": "2615 NE 112th Ave, Vancouver, 98684",
-      "extracted_at": "2026-04-08 00:00",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12
     },
@@ -7459,7 +7459,7 @@
       "total_amount": 5202.0,
       "payment_date": "4/24/2026",
       "address": "101 S. 47th Avenue, Ridgefield, 98642",
-      "extracted_at": "2026-04-24 00:00",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12
     },
@@ -7478,7 +7478,7 @@
       "total_amount": 5184.0,
       "payment_date": "4/9/2026",
       "address": "2890 Nw Bucklin Hill Road, Silverdale, 98383",
-      "extracted_at": "2026-04-09 00:00",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12
     },
@@ -7497,7 +7497,7 @@
       "total_amount": 3475.0,
       "payment_date": "4/13/2026",
       "address": "20685 SW Roy Rogers Road, Sherwood, 97140",
-      "extracted_at": "2026-04-13 00:00",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12
     },
@@ -7516,7 +7516,7 @@
       "total_amount": 6845.0,
       "payment_date": "4/15/2026",
       "address": "1243 Marvin Road Ne, Olympia, 98516",
-      "extracted_at": "2026-04-15 00:00",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12
     },
@@ -7535,7 +7535,7 @@
       "total_amount": 2673.0,
       "payment_date": "4/27/2026",
       "address": "1410 W. Foothill Boulevard, Rialto, 92376",
-      "extracted_at": "2026-04-27 00:00",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12
     },
@@ -7554,7 +7554,7 @@
       "total_amount": 3542.0,
       "payment_date": "5/5/2026",
       "address": "1455 NE Division St, Gresham, 97030",
-      "extracted_at": "2026-05-05 00:00",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12
     },
@@ -7573,7 +7573,7 @@
       "total_amount": 3923.75,
       "payment_date": "4/21/2026",
       "address": "1434 Olney Ave SE, Port Orchard, 98366",
-      "extracted_at": "2026-04-21 00:00",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12
     },
@@ -7592,7 +7592,7 @@
       "total_amount": 3725.0,
       "payment_date": "4/25/2026",
       "address": "14840 SE Webster Rd, Milwaukie, 97267",
-      "extracted_at": "2026-04-25 00:00",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12
     },
@@ -7611,7 +7611,7 @@
       "total_amount": 695.0,
       "payment_date": "4/25/2026",
       "address": "P.O. Box 1641 Oregon City, Or 97045",
-      "extracted_at": "2026-04-25 00:00",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12,
       "product_type": "digital"
@@ -7631,7 +7631,7 @@
       "total_amount": 3207.5,
       "payment_date": "4/25/2026",
       "address": "101 S. 47th Avenue, Ridgefield, 98642",
-      "extracted_at": "2026-04-25 00:00",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12
     },
@@ -7650,7 +7650,7 @@
       "total_amount": 3600.0,
       "payment_date": "4/29/2026",
       "address": "1647 W Redlands Blvd STE F",
-      "extracted_at": "2026-04-29 00:00",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12
     },
@@ -7669,7 +7669,7 @@
       "total_amount": 6575.0,
       "payment_date": "4/29/2026",
       "address": "5050 State Highway 303 Northeast, Bremerton, 983113687",
-      "extracted_at": "2026-04-29 00:00",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12
     },
@@ -7688,7 +7688,7 @@
       "total_amount": 4283.0,
       "payment_date": "5/1/2026",
       "address": "8196 NE STATE HIGHWAY 104, Kingston, 98346",
-      "extracted_at": "2026-05-01 00:00",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12
     },
@@ -7707,7 +7707,7 @@
       "total_amount": 1540.66,
       "payment_date": "5/1/2026",
       "address": "8196 NE STATE HIGHWAY 104, Kingston, 98346",
-      "extracted_at": "2026-05-01 00:00",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 2,
       "term_months": 6
     },
@@ -7726,7 +7726,7 @@
       "total_amount": 3995.0,
       "payment_date": "5/2/2026",
       "address": "19245 10Th Ave NE, Poulsbo, 98370",
-      "extracted_at": "2026-05-02 00:00",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12
     },
@@ -7745,7 +7745,7 @@
       "total_amount": 3657.5,
       "payment_date": "5/2/2026",
       "address": "253 High School Rd Ne, Bainbridge Island, 98110",
-      "extracted_at": "2026-05-02 00:00",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12
     },
@@ -7764,7 +7764,7 @@
       "total_amount": 4498.25,
       "payment_date": "5/11/2026",
       "address": "1455 NE Division St, Gresham, 97030",
-      "extracted_at": "2026-05-11 00:00",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12
     },
@@ -7783,7 +7783,7 @@
       "total_amount": 5750.0,
       "payment_date": "5/7/2026",
       "address": "2890 Nw Bucklin Hill Road, Silverdale, 98383",
-      "extracted_at": "2026-05-07 00:00",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12
     },
@@ -7802,7 +7802,7 @@
       "total_amount": 5864.35,
       "payment_date": "5/12/2026",
       "address": "3450 Commercial St SE, Salem, 97302-4682",
-      "extracted_at": "2026-05-12 00:00",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12
     },
@@ -7821,7 +7821,7 @@
       "total_amount": 5115.0,
       "payment_date": "5/12/2026",
       "address": "1265 Center Street Northeast, Salem, 97301",
-      "extracted_at": "2026-05-12 00:00",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12
     },
@@ -7840,7 +7840,7 @@
       "total_amount": 2149.98,
       "payment_date": "5/14/2026",
       "address": "1455 Edgewater St NW, Salem, 97304",
-      "extracted_at": "2026-05-14 00:00",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 2,
       "term_months": 6
     },
@@ -7859,7 +7859,7 @@
       "total_amount": 4285.0,
       "payment_date": "5/19/2026",
       "address": "24040 Bothell Everett Hwy, Bothell, 98021",
-      "extracted_at": "2026-05-19 00:00",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12
     },
@@ -7878,7 +7878,7 @@
       "total_amount": 6793.0,
       "payment_date": "5/22/2026",
       "address": "7411 NE 117th Ave, Vancouver, 98662",
-      "extracted_at": "2026-05-22 00:00",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12
     },
@@ -7897,10 +7897,10 @@
       "total_amount": 3038.13,
       "payment_date": "5/22/2026",
       "address": "11218 ne 66th st ste B1",
-      "extracted_at": "2026-05-22 00:00",
+      "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12
     }
   ],
-  "last_scan": "2026-05-25T20:34:03.830101"
+  "last_scan": "2026-05-25T20:35:00"
 }
