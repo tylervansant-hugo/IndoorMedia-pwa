@@ -7900,6 +7900,526 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12
+    },
+    {
+      "contract_number": "J430504E",
+      "date": "05/05/2026",
+      "business_name": "Children\u00e2\u20ac\u2122s cottage",
+      "contact_name": "Dave",
+      "contact_email": "Childrenscottagellc@yahoo.com",
+      "sales_rep": "Cameron Gould",
+      "total_amount": 0,
+      "extracted_at": "2026-05-26T12:50:00"
+    },
+    {
+      "contract_number": "J430438E",
+      "date": "05/01/2026",
+      "business_name": "Bottom line book keeping",
+      "contact_name": "Randy",
+      "contact_email": "Randy015@gmail.com",
+      "sales_rep": "Cameron Gould",
+      "total_amount": 0,
+      "extracted_at": "2026-05-26T12:50:00"
+    },
+    {
+      "contract_number": "J429769E",
+      "date": "05/01/2026",
+      "business_name": "Bottom Line Bookkeeping and Tax",
+      "contact_name": "Randy",
+      "contact_email": "randy015@gmail.com",
+      "sales_rep": "Cameron Gould",
+      "total_amount": 0,
+      "extracted_at": "2026-05-26T12:50:00"
+    },
+    {
+      "contract_number": "J429051E",
+      "date": "04/14/2026",
+      "business_name": "Angel Gutierrez",
+      "contact_name": "Tortilla",
+      "contact_email": "Totillerialafuentebakery@gmail.com",
+      "sales_rep": "Cameron Gould",
+      "total_amount": 0,
+      "extracted_at": "2026-05-26T12:50:00"
+    },
+    {
+      "contract_number": "J428942E",
+      "date": "04/13/2026",
+      "business_name": "Bubba b\u00e2\u20ac\u2122s barbershop",
+      "contact_name": "Jordan",
+      "contact_email": "Bateman@bubbasbarber.com",
+      "sales_rep": "Cameron Gould",
+      "total_amount": 0,
+      "extracted_at": "2026-05-26T12:50:00"
+    },
+    {
+      "contract_number": "N428905E",
+      "date": "04/12/2026",
+      "business_name": "Morgan valley music",
+      "contact_name": "Rudy",
+      "contact_email": "Contact@morganvalleymusic.com",
+      "sales_rep": "Cameron Gould",
+      "total_amount": 0,
+      "extracted_at": "2026-05-26T12:50:00"
+    },
+    {
+      "contract_number": "J428896E",
+      "date": "04/08/2026",
+      "business_name": "Sideline thrift",
+      "contact_name": "Carly",
+      "contact_email": "Sidelinemorgan@gmail.com",
+      "sales_rep": "Cameron Gould",
+      "total_amount": 0,
+      "extracted_at": "2026-05-26T12:50:00"
+    },
+    {
+      "contract_number": "N428590E",
+      "date": "04/07/2026",
+      "business_name": "Corner cover wellness",
+      "contact_name": "Nicole",
+      "contact_email": "Nicolescasey@gmail.com",
+      "sales_rep": "Cameron Gould",
+      "total_amount": 0,
+      "extracted_at": "2026-05-26T12:50:00"
+    },
+    {
+      "contract_number": "J428474E",
+      "date": "04/02/2026",
+      "business_name": "Taco rico",
+      "contact_name": "Veronica",
+      "contact_email": "tacoricomarriottslaterville@gmail.com",
+      "sales_rep": "Cameron Gould",
+      "total_amount": 0,
+      "extracted_at": "2026-05-26T12:50:00"
+    },
+    {
+      "contract_number": "J428176E",
+      "date": "03/30/2026",
+      "business_name": "Peak healthspan",
+      "contact_name": "Blake",
+      "contact_email": "Blake@peakhealthspan.com",
+      "sales_rep": "Cameron Gould",
+      "total_amount": 0,
+      "extracted_at": "2026-05-26T12:50:00"
+    },
+    {
+      "contract_number": "J427400E",
+      "date": "03/25/2026",
+      "business_name": "Tropical smoothie cafe",
+      "contact_name": "Bryce",
+      "contact_email": "Bryce@mortenson-group.com",
+      "sales_rep": "Cameron Gould",
+      "total_amount": 0,
+      "extracted_at": "2026-05-26T12:50:00"
+    },
+    {
+      "contract_number": "J426968E",
+      "date": "03/06/2026",
+      "business_name": "Masterclass roofing",
+      "contact_name": "Parker",
+      "contact_email": "Parker@masterclassroofing.com",
+      "sales_rep": "Cameron Gould",
+      "total_amount": 0,
+      "extracted_at": "2026-05-26T12:50:00"
+    },
+    {
+      "contract_number": "J426887E",
+      "date": "03/06/2026",
+      "business_name": "Masterclass",
+      "contact_name": "Parker",
+      "contact_email": "parker@masterclassroofing.com",
+      "sales_rep": "Cameron Gould",
+      "total_amount": 0,
+      "extracted_at": "2026-05-26T12:50:00"
+    },
+    {
+      "contract_number": "J425415E",
+      "date": "02/12/2026",
+      "business_name": "Pizza pie cafe Layton",
+      "contact_name": "Janet",
+      "contact_email": "Jclark@pizzapiecafe.co",
+      "sales_rep": "Cameron Gould",
+      "total_amount": 0,
+      "extracted_at": "2026-05-26T12:50:00"
+    },
+    {
+      "contract_number": "J425261E",
+      "date": "02/10/2026",
+      "business_name": "Bob Harvey Roofing Inc",
+      "contact_name": "Bob",
+      "contact_email": "office@bobharveyroofing.com",
+      "sales_rep": "Cameron Gould",
+      "total_amount": 0,
+      "extracted_at": "2026-05-26T12:50:00"
+    },
+    {
+      "contract_number": "J421132E",
+      "date": "11/17/2025",
+      "business_name": "Russell\u00e2\u20ac\u2122s Main Street garage",
+      "contact_name": "Russell",
+      "contact_email": "Russellsmainstreet@gmail.com",
+      "sales_rep": "Cameron Gould",
+      "total_amount": 0,
+      "extracted_at": "2026-05-26T12:50:00"
+    },
+    {
+      "contract_number": "J420976E",
+      "date": "11/17/2025",
+      "business_name": "Centervillemeats",
+      "contact_name": "Jeremy",
+      "contact_email": "Centervillemeats@gmail.com",
+      "sales_rep": "Cameron Gould",
+      "total_amount": 0,
+      "extracted_at": "2026-05-26T12:50:00"
+    },
+    {
+      "contract_number": "J420269E",
+      "date": "11/06/2025",
+      "business_name": "Cedar village",
+      "contact_name": "Jami",
+      "contact_email": "Cedarvillagefloral@yahoo.com",
+      "sales_rep": "Cameron Gould",
+      "total_amount": 0,
+      "extracted_at": "2026-05-26T12:50:00"
+    },
+    {
+      "contract_number": "J419755E",
+      "date": "11/03/2025",
+      "business_name": "Thiago Alves Brazilian jujitsu",
+      "contact_name": "Thiago",
+      "contact_email": "Thiagoalvesbjjutah@gmail.com",
+      "sales_rep": "Cameron Gould",
+      "total_amount": 0,
+      "extracted_at": "2026-05-26T12:50:00"
+    },
+    {
+      "contract_number": "J419494E",
+      "date": "10/22/2025",
+      "business_name": "Geraldine\u00e2\u20ac\u2122s bake shoppe and deli",
+      "contact_name": "Danielle",
+      "contact_email": "Whatisvacation@hotmail.com",
+      "sales_rep": "Cameron Gould",
+      "total_amount": 0,
+      "extracted_at": "2026-05-26T12:50:00"
+    },
+    {
+      "contract_number": "J419429E",
+      "date": "10/21/2025",
+      "business_name": "Los gavilanes Mexican grill",
+      "contact_name": "Juan",
+      "contact_email": "Jhuizar2011@gmail.com",
+      "sales_rep": "Cameron Gould",
+      "total_amount": 0,
+      "extracted_at": "2026-05-26T12:50:00"
+    },
+    {
+      "contract_number": "D418122E",
+      "date": "10/02/2025",
+      "business_name": "Duncan\u00e2\u20ac\u2122s farm llc",
+      "contact_name": "Mike",
+      "contact_email": "Duncanzutah@gmail.com",
+      "sales_rep": "Cameron Gould",
+      "total_amount": 0,
+      "extracted_at": "2026-05-26T12:50:00"
+    },
+    {
+      "contract_number": "J417897E",
+      "date": "10/01/2025",
+      "business_name": "Jensen motor",
+      "contact_name": "Chris",
+      "contact_email": "Jensenmotorofhyrum@gmail.com",
+      "sales_rep": "Cameron Gould",
+      "total_amount": 0,
+      "extracted_at": "2026-05-26T12:50:00"
+    },
+    {
+      "contract_number": "J417567E",
+      "date": "10/01/2025",
+      "business_name": "elite medical solutions",
+      "contact_name": "sarina",
+      "contact_email": "sarinahoward@yahoo.com",
+      "sales_rep": "Cameron Gould",
+      "total_amount": 0,
+      "extracted_at": "2026-05-26T12:50:00"
+    },
+    {
+      "contract_number": "J417901E",
+      "date": "09/30/2025",
+      "business_name": "Northern glass pros",
+      "contact_name": "Neil",
+      "contact_email": "Northernglasspros@gmail.com",
+      "sales_rep": "Cameron Gould",
+      "total_amount": 0,
+      "extracted_at": "2026-05-26T12:50:00"
+    },
+    {
+      "contract_number": "J417777E",
+      "date": "09/30/2025",
+      "business_name": "Northern glass pros",
+      "contact_name": "Neil",
+      "contact_email": "Northernglasspro@gmail.com",
+      "sales_rep": "Cameron Gould",
+      "total_amount": 0,
+      "extracted_at": "2026-05-26T12:50:00"
+    },
+    {
+      "contract_number": "J417088E",
+      "date": "09/24/2025",
+      "business_name": "habibi mediterranean",
+      "contact_name": "adam",
+      "contact_email": "habibi.a.mediterranean@gmail.com",
+      "sales_rep": "Cameron Gould",
+      "total_amount": 0,
+      "extracted_at": "2026-05-26T12:50:00"
+    },
+    {
+      "contract_number": "J416893E",
+      "date": "09/16/2025",
+      "business_name": "Life matters counseling",
+      "contact_name": "Emma",
+      "contact_email": "Emmamansour@me.com",
+      "sales_rep": "Cameron Gould",
+      "total_amount": 0,
+      "extracted_at": "2026-05-26T12:50:00"
+    },
+    {
+      "contract_number": "J416831E",
+      "date": "09/12/2025",
+      "business_name": "Elite medical solutions",
+      "contact_name": "Sarina",
+      "contact_email": "Sarina.howard@yahoo.com",
+      "sales_rep": "Cameron Gould",
+      "total_amount": 0,
+      "extracted_at": "2026-05-26T12:50:00"
+    },
+    {
+      "contract_number": "J416627E",
+      "date": "09/11/2025",
+      "business_name": "Pet passages dignified pet cremation",
+      "contact_name": "Andy",
+      "contact_email": "Andy@petpassages.com",
+      "sales_rep": "Cameron Gould",
+      "total_amount": 0,
+      "extracted_at": "2026-05-26T12:50:00"
+    },
+    {
+      "contract_number": "J414806E",
+      "date": "08/25/2025",
+      "business_name": "Ultimate express car wash",
+      "contact_name": "Josh",
+      "contact_email": "Ultimateexpressogden@gmail.com",
+      "sales_rep": "Cameron Gould",
+      "total_amount": 0,
+      "extracted_at": "2026-05-26T12:50:00"
+    },
+    {
+      "contract_number": "J414365E",
+      "date": "08/05/2025",
+      "business_name": "fish window cleaning",
+      "contact_name": "adam",
+      "contact_email": "award@fishwindowcleaning.com",
+      "sales_rep": "Cameron Gould",
+      "total_amount": 0,
+      "extracted_at": "2026-05-26T12:50:00"
+    },
+    {
+      "contract_number": "J414211E",
+      "date": "08/04/2025",
+      "business_name": "free wheeler pizza",
+      "contact_name": "don",
+      "contact_email": "freewheelerpizza@gmail.com",
+      "sales_rep": "Cameron Gould",
+      "total_amount": 0,
+      "extracted_at": "2026-05-26T12:50:00"
+    },
+    {
+      "contract_number": "D413319E",
+      "date": "07/17/2025",
+      "business_name": "Before n after weight loss",
+      "contact_name": "Andrew",
+      "contact_email": "Andrew.johnson@beforenafter.com",
+      "sales_rep": "Cameron Gould",
+      "total_amount": 0,
+      "extracted_at": "2026-05-26T12:50:00"
+    },
+    {
+      "contract_number": "J413311E",
+      "date": "07/17/2025",
+      "business_name": "Before n after weight loss",
+      "contact_name": "Andrew",
+      "contact_email": "Andrew.johnson@beforenafter.com",
+      "sales_rep": "Cameron Gould",
+      "total_amount": 0,
+      "extracted_at": "2026-05-26T12:50:00"
+    },
+    {
+      "contract_number": "J413010E",
+      "date": "07/17/2025",
+      "business_name": "Before n after weight loss",
+      "contact_name": "Andrew",
+      "contact_email": "Andrew.johnson@beforenafter.com",
+      "sales_rep": "Cameron Gould",
+      "total_amount": 0,
+      "extracted_at": "2026-05-26T12:50:00"
+    },
+    {
+      "contract_number": "J412995E",
+      "date": "07/12/2025",
+      "business_name": "One stop auto service",
+      "contact_name": "Juan",
+      "contact_email": "Juanbarajas2nd@gmail.com",
+      "sales_rep": "Cameron Gould",
+      "total_amount": 0,
+      "extracted_at": "2026-05-26T12:50:00"
+    },
+    {
+      "contract_number": "J412975E",
+      "date": "07/11/2025",
+      "business_name": "Pupuseria villanueva",
+      "contact_name": "Santana",
+      "contact_email": "Pupuseriavillanueva5@gmail.com",
+      "sales_rep": "Cameron Gould",
+      "total_amount": 0,
+      "extracted_at": "2026-05-26T12:50:00"
+    },
+    {
+      "contract_number": "J412618E",
+      "date": "07/08/2025",
+      "business_name": "To be determined (coffee shop)",
+      "contact_name": "Elvia",
+      "contact_email": "Massielgregory4313@gmail.com",
+      "sales_rep": "Cameron Gould",
+      "total_amount": 0,
+      "extracted_at": "2026-05-26T12:50:00"
+    },
+    {
+      "contract_number": "J412433E",
+      "date": "07/01/2025",
+      "business_name": "Ambitious Salon",
+      "contact_name": "Tacia",
+      "contact_email": "Taciajefferson@yahoo.com",
+      "sales_rep": "Cameron Gould",
+      "total_amount": 0,
+      "extracted_at": "2026-05-26T12:50:00"
+    },
+    {
+      "contract_number": "J412420E",
+      "date": "07/01/2025",
+      "business_name": "Arizona suspension specialist",
+      "contact_name": "Alex",
+      "contact_email": "Azsusp.spec@gmail.com",
+      "sales_rep": "Cameron Gould",
+      "total_amount": 0,
+      "extracted_at": "2026-05-26T12:50:00"
+    },
+    {
+      "contract_number": "J411562E",
+      "date": "06/20/2025",
+      "business_name": "Royal plumbing heating and air",
+      "contact_name": "Jaryn",
+      "contact_email": "Jaryn@royalserviceut.com",
+      "sales_rep": "Cameron Gould",
+      "total_amount": 0,
+      "extracted_at": "2026-05-26T12:50:00"
+    },
+    {
+      "contract_number": "J409949E",
+      "date": "06/12/2025",
+      "business_name": "The Donut Run & The Soda Run",
+      "contact_name": "Aaron",
+      "contact_email": "Thedonutrun.og@gmail.com",
+      "sales_rep": "Cameron Gould",
+      "total_amount": 0,
+      "extracted_at": "2026-05-26T12:50:00"
+    },
+    {
+      "contract_number": "J409890E",
+      "date": "05/14/2025",
+      "business_name": "Selina\u00e2\u20ac\u2122s beauty spa",
+      "contact_name": "Jessica",
+      "contact_email": "Selinasbeautyspa1@gmail.com",
+      "sales_rep": "Cameron Gould",
+      "total_amount": 0,
+      "extracted_at": "2026-05-26T12:50:00"
+    },
+    {
+      "contract_number": "J409835E",
+      "date": "05/14/2025",
+      "business_name": "Sun tan city",
+      "contact_name": "Heidi",
+      "contact_email": "Heidi.bluemel@suntancity.com",
+      "sales_rep": "Cameron Gould",
+      "total_amount": 0,
+      "extracted_at": "2026-05-26T12:50:00"
+    },
+    {
+      "contract_number": "J409436E",
+      "date": "05/09/2025",
+      "business_name": "Uptown cheapskate",
+      "contact_name": "Amy",
+      "contact_email": "Logan@uptowncheapskate.com",
+      "sales_rep": "Cameron Gould",
+      "total_amount": 0,
+      "extracted_at": "2026-05-26T12:50:00"
+    },
+    {
+      "contract_number": "J409326E",
+      "date": "05/07/2025",
+      "business_name": "Corrie Bingham agency",
+      "contact_name": "Corrie",
+      "contact_email": "Cbingham@farmersagent.com",
+      "sales_rep": "Cameron Gould",
+      "total_amount": 0,
+      "extracted_at": "2026-05-26T12:50:00"
+    },
+    {
+      "contract_number": "J408501E",
+      "date": "05/06/2025",
+      "business_name": "Seeholzer vision",
+      "contact_name": "Cole",
+      "contact_email": "Seeholzervision@gmail.com",
+      "sales_rep": "Cameron Gould",
+      "total_amount": 0,
+      "extracted_at": "2026-05-26T12:50:00"
+    },
+    {
+      "contract_number": "J407589E",
+      "date": "04/10/2025",
+      "business_name": "The smokin boxcar",
+      "contact_name": "Jack",
+      "contact_email": "thesmokinboxcar@yahoo.com",
+      "sales_rep": "Cameron Gould",
+      "total_amount": 0,
+      "extracted_at": "2026-05-26T12:50:00"
+    },
+    {
+      "contract_number": "J406824E",
+      "date": "03/26/2025",
+      "business_name": "Mod line design",
+      "contact_name": "Skyler",
+      "contact_email": "Sorgill@modlinedesign.com",
+      "sales_rep": "Cameron Gould",
+      "total_amount": 0,
+      "extracted_at": "2026-05-26T12:50:00"
+    },
+    {
+      "contract_number": "J406203E",
+      "date": "03/25/2025",
+      "business_name": "Haldon Johnson insurance",
+      "contact_name": "Haldon",
+      "contact_email": "Haldonj@archesinsurance.com",
+      "sales_rep": "Cameron Gould",
+      "total_amount": 0,
+      "extracted_at": "2026-05-26T12:50:00"
+    },
+    {
+      "contract_number": "J406115E",
+      "date": "03/14/2025",
+      "business_name": "Taqueria mi ranchito",
+      "contact_name": "Eduardo",
+      "contact_email": "Benitezcecii11@icloud.com",
+      "sales_rep": "Cameron Gould",
+      "total_amount": 0,
+      "extracted_at": "2026-05-26T12:50:00"
     }
   ],
   "last_scan": "2026-05-25T20:35:00"
