@@ -149,3 +149,93 @@ export async function getRepActivity(repId, days = 30) {
 export function saveFirebaseConfig(config) {
   localStorage.setItem('impro_firebase_config', JSON.stringify(config));
 }
+
+// ── Store Claims ("Dibs") ──────────────────────────────────────────
+
+/**
+ * Calculate next Saturday 23:59:59 local time.
+ * If today IS Saturday, expires end of today.
+ */
+function getNextSaturdayEnd() {
+  const now = new Date();
+  const day = now.getDay(); // 0=Sun … 6=Sat
+  const daysUntilSat = day === 6 ? 0 : (6 - day);
+  const sat = new Date(now);
+  sat.setDate(sat.getDate() + daysUntilSat);
+  sat.setHours(23, 59, 59, 999);
+  return sat;
+}
+
+/**
+ * Claim a store for a rep. One claim per store (doc id = storeName).
+ */
+export async function claimStore(repName, repId, storeName, zone) {
+  if (!db) return false;
+  try {
+    const now = new Date();
+    const expiresAt = getNextSaturdayEnd();
+    await setDoc(doc(db, 'store_claims', storeName), {
+      repName,
+      repId,
+      storeName,
+      zone: zone || '',
+      claimedAt: now.toISOString(),
+      expiresAt: expiresAt.toISOString(),
+    });
+    return true;
+  } catch (e) {
+    console.warn('claimStore error:', e);
+    return false;
+  }
+}
+
+/**
+ * Release a store claim.
+ */
+export async function releaseStore(storeName) {
+  if (!db) return false;
+  try {
+    const { deleteDoc } = await import('firebase/firestore');
+    await deleteDoc(doc(db, 'store_claims', storeName));
+    return true;
+  } catch (e) {
+    console.warn('releaseStore error:', e);
+    return false;
+  }
+}
+
+/**
+ * Get all active (non-expired) claims, optionally filtered by zone.
+ * Expired claims are deleted on read.
+ */
+export async function getZoneClaims(zone) {
+  if (!db) return [];
+  try {
+    const { deleteDoc } = await import('firebase/firestore');
+    const now = new Date();
+    let q;
+    if (zone) {
+      q = query(collection(db, 'store_claims'), where('zone', '==', zone));
+    } else {
+      q = query(collection(db, 'store_claims'));
+    }
+    const snapshot = await getDocs(q);
+    const active = [];
+    const deletePromises = [];
+    snapshot.docs.forEach(d => {
+      const data = d.data();
+      if (new Date(data.expiresAt) < now) {
+        // Expired — clean up
+        deletePromises.push(deleteDoc(d.ref));
+      } else {
+        active.push(data);
+      }
+    });
+    // Fire-and-forget cleanup
+    if (deletePromises.length) Promise.all(deletePromises).catch(() => {});
+    return active;
+  } catch (e) {
+    console.warn('getZoneClaims error:', e);
+    return [];
+  }
+}

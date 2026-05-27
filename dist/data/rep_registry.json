@@ -43,7 +43,9 @@
     "display_name": "Cameron Gould",
     "role": "rep",
     "registered_at": "2026-03-17",
-    "assigned_stores": []
+    "assigned_stores": [],
+    "zone": "24X",
+    "base_location": "Utah"
   },
   "7711642836": {
     "contract_name": "Matthew Boozer",

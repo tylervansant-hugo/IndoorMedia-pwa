@@ -1,7 +1,8 @@
 <script>
-  import { searchResults, loading, error, setLoading, setError, addToCart, padAmount } from '../lib/stores.js';
+  import { searchResults, loading, error, setLoading, setError, addToCart, padAmount, currentUser } from '../lib/stores.js';
   import { onMount } from 'svelte';
   import { calculateROI as sharedCalculateROI } from '../lib/roi.js';
+  import { isFirebaseReady, claimStore, releaseStore, getZoneClaims } from '../lib/firebase.js';
 
   let searchTerm = '';
   let geoDebounce = null;
@@ -588,6 +589,75 @@ Store: ${store.StoreName}
 
   let addedToCartMsg = '';
 
+  // ── Store Claims (Dibs) ──────────────────────────────────────
+  let storeClaims = {}; // { storeName: { repName, repId, expiresAt, ... } }
+  let claimLoading = {};
+
+  const MANAGERS = ['tyler van sant', 'rick']; // lowercase for matching
+
+  function isManager(user) {
+    if (!user) return false;
+    if (user.role === 'manager') return true;
+    const name = (user.name || user.display_name || '').toLowerCase();
+    return MANAGERS.some(m => name.includes(m));
+  }
+
+  function getShortName(fullName) {
+    if (!fullName) return '?';
+    const parts = fullName.trim().split(/\s+/);
+    if (parts.length <= 1) return parts[0];
+    return `${parts[0]} ${parts[parts.length - 1][0]}.`;
+  }
+
+  async function loadClaims() {
+    if (!isFirebaseReady()) return;
+    const user = $currentUser;
+    const zone = user?.zone || '';
+    // Managers see all claims (pass empty zone), reps see their zone
+    const claims = await getZoneClaims(isManager(user) ? '' : zone);
+    const map = {};
+    claims.forEach(c => { map[c.storeName] = c; });
+    storeClaims = map;
+  }
+
+  async function handleClaim(store) {
+    const user = $currentUser;
+    if (!user) return;
+    claimLoading[store.StoreName] = true;
+    claimLoading = claimLoading;
+    const ok = await claimStore(
+      user.name || user.display_name || 'Unknown',
+      user.id || user.rep_id || 'unknown',
+      store.StoreName,
+      user.zone || ''
+    );
+    if (ok) {
+      await loadClaims();
+    }
+    claimLoading[store.StoreName] = false;
+    claimLoading = claimLoading;
+  }
+
+  async function handleRelease(storeName) {
+    claimLoading[storeName] = true;
+    claimLoading = claimLoading;
+    const ok = await releaseStore(storeName);
+    if (ok) {
+      delete storeClaims[storeName];
+      storeClaims = storeClaims;
+    }
+    claimLoading[storeName] = false;
+    claimLoading = claimLoading;
+  }
+
+  function canRelease(claim) {
+    const user = $currentUser;
+    if (!user) return false;
+    if (isManager(user)) return true;
+    const uid = user.id || user.rep_id || '';
+    return claim.repId === uid;
+  }
+
   function handleAddToCart(store, selectedAdType, plan) {
     const isCoop = coopUnlocked[store.StoreName] || false;
     const base = selectedAdType === 'double' ? store.DoubleAd : store.SingleAd;
@@ -632,7 +702,10 @@ Store: ${store.StoreName}
     }
   }
 
-  onMount(loadStores);
+  onMount(() => {
+    loadStores();
+    loadClaims();
+  });
 </script>
 
 <div class="search-container">
@@ -687,7 +760,9 @@ Store: ${store.StoreName}
           {@const coopPricing = calcPricing(basePrice, true)}
           {@const pricing = isCoop ? coopPricing : stdPricing}
           {@const isExpanded = expandedStore === store.StoreName}
-          <div class="store-card" class:expanded={isExpanded} class:coop-active={isCoop}>
+          {@const claim = storeClaims[store.StoreName]}
+          {@const isClaimed = !!claim}
+          <div class="store-card" class:expanded={isExpanded} class:coop-active={isCoop} class:claimed={isClaimed}>
             <div class="store-header" on:click={() => toggleExpand(store.StoreName)}>
               <div>
                 <h3>{store.GroceryChain}</h3>
@@ -710,6 +785,22 @@ Store: ${store.StoreName}
                 </p>
               {/if}
             </div>
+
+            <!-- Store Claim (Dibs) -->
+            {#if isClaimed}
+              <div class="claim-badge">
+                <span class="claim-info">🔒 {getShortName(claim.repName)} — dibs through Sat</span>
+                {#if canRelease(claim)}
+                  <button class="claim-release-btn" on:click|stopPropagation={() => handleRelease(store.StoreName)} disabled={claimLoading[store.StoreName]}>
+                    {claimLoading[store.StoreName] ? '...' : '✕ Release'}
+                  </button>
+                {/if}
+              </div>
+            {:else}
+              <button class="claim-btn" on:click|stopPropagation={() => handleClaim(store)} disabled={claimLoading[store.StoreName]}>
+                {claimLoading[store.StoreName] ? '⏳ Claiming...' : '🎯 Claim Store'}
+              </button>
+            {/if}
 
             <!-- Ad Type Toggle -->
             <div class="ad-toggle">
@@ -1658,6 +1749,79 @@ Store: ${store.StoreName}
   @keyframes slideUp {
     from { transform: translateX(-50%) translateY(20px); opacity: 0; }
     to { transform: translateX(-50%) translateY(0); opacity: 1; }
+  }
+
+  /* Store Claims (Dibs) */
+  .store-card.claimed {
+    border-left: 4px solid #FF9800;
+  }
+  .claim-badge {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: #FFF3E0;
+    border: 1px solid #FFB74D;
+    border-radius: 8px;
+    padding: 8px 12px;
+    margin-bottom: 10px;
+    font-size: 13px;
+  }
+  :global([data-theme='dark']) .claim-badge {
+    background: #3E2723;
+    border-color: #6D4C41;
+  }
+  .claim-info {
+    font-weight: 600;
+    color: #E65100;
+  }
+  :global([data-theme='dark']) .claim-info {
+    color: #FFB74D;
+  }
+  .claim-release-btn {
+    padding: 4px 10px;
+    background: none;
+    border: 1px solid #E65100;
+    color: #E65100;
+    border-radius: 6px;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    white-space: nowrap;
+  }
+  .claim-release-btn:hover {
+    background: #E65100;
+    color: white;
+  }
+  .claim-release-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+  .claim-btn {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 10px;
+    background: #FFF8E1;
+    border: 1px dashed #FFA000;
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 600;
+    color: #F57F17;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .claim-btn:hover {
+    background: #FFF3E0;
+    border-style: solid;
+    border-color: #FF8F00;
+  }
+  .claim-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+  :global([data-theme='dark']) .claim-btn {
+    background: #3E2723;
+    border-color: #6D4C41;
+    color: #FFB74D;
   }
 
   @media (max-width: 640px) {
