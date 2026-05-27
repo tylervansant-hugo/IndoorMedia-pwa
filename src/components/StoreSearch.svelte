@@ -611,10 +611,8 @@ Store: ${store.StoreName}
 
   async function loadClaims() {
     if (!isFirebaseReady()) return;
-    const user = $currentUser;
-    const zone = user?.zone || '';
-    // Managers see all claims (pass empty zone), reps see their zone
-    const claims = await getZoneClaims(isManager(user) ? '' : zone);
+    // Load ALL active claims — filtering by zone is too restrictive since reps see stores across zones
+    const claims = await getZoneClaims('');
     const map = {};
     claims.forEach(c => { map[c.storeName] = c; });
     storeClaims = map;
@@ -625,17 +623,37 @@ Store: ${store.StoreName}
     if (!user) return;
     claimLoading[store.StoreName] = true;
     claimLoading = claimLoading;
+    const storeZone = store.ZoneName || user.zone || '';
     const ok = await claimStore(
       user.name || user.display_name || 'Unknown',
       user.id || user.rep_id || 'unknown',
       store.StoreName,
-      user.zone || ''
+      storeZone
     );
     if (ok) {
-      await loadClaims();
+      // Immediately update local state so it sticks without waiting for reload
+      storeClaims[store.StoreName] = {
+        repName: user.name || user.display_name || 'Unknown',
+        repId: user.id || user.rep_id || 'unknown',
+        storeName: store.StoreName,
+        zone: storeZone,
+        claimedAt: new Date().toISOString(),
+        expiresAt: getNextSaturdayEndLocal().toISOString(),
+      };
+      storeClaims = storeClaims;
     }
     claimLoading[store.StoreName] = false;
     claimLoading = claimLoading;
+  }
+
+  function getNextSaturdayEndLocal() {
+    const now = new Date();
+    const day = now.getDay(); // 0=Sun, 6=Sat
+    const daysUntilSat = (6 - day) % 7 || 7;
+    const sat = new Date(now);
+    sat.setDate(now.getDate() + (day === 6 ? 0 : daysUntilSat));
+    sat.setHours(23, 59, 59, 999);
+    return sat;
   }
 
   async function handleRelease(storeName) {
