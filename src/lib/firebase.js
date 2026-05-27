@@ -174,7 +174,9 @@ export async function claimStore(repName, repId, storeName, zone) {
   try {
     const now = new Date();
     const expiresAt = getNextSaturdayEnd();
-    await setDoc(doc(db, 'store_claims', storeName), {
+    // Use activity_daily collection (already has write permissions) with a dibs_ prefix
+    await setDoc(doc(db, 'activity_daily', `dibs_${storeName}`), {
+      type: 'store_claim',
       repName,
       repId,
       storeName,
@@ -196,7 +198,7 @@ export async function releaseStore(storeName) {
   if (!db) return false;
   try {
     const { deleteDoc } = await import('firebase/firestore');
-    await deleteDoc(doc(db, 'store_claims', storeName));
+    await deleteDoc(doc(db, 'activity_daily', `dibs_${storeName}`));
     return true;
   } catch (e) {
     console.warn('releaseStore error:', e);
@@ -213,12 +215,8 @@ export async function getZoneClaims(zone) {
   try {
     const { deleteDoc } = await import('firebase/firestore');
     const now = new Date();
-    let q;
-    if (zone) {
-      q = query(collection(db, 'store_claims'), where('zone', '==', zone));
-    } else {
-      q = query(collection(db, 'store_claims'));
-    }
+    // Query all dibs docs from activity_daily (type == 'store_claim')
+    const q = query(collection(db, 'activity_daily'), where('type', '==', 'store_claim'));
     const snapshot = await getDocs(q);
     const active = [];
     const deletePromises = [];
@@ -227,7 +225,7 @@ export async function getZoneClaims(zone) {
       if (new Date(data.expiresAt) < now) {
         // Expired — clean up
         deletePromises.push(deleteDoc(d.ref));
-      } else {
+      } else if (!zone || data.zone === zone || zone === '') {
         active.push(data);
       }
     });
