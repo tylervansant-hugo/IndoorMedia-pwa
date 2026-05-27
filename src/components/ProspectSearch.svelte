@@ -3367,13 +3367,14 @@
   .calendar-btn { background: #1a73e8 !important; color: white !important; }
   .calendar-btn:hover { background: #1557b0 !important; }
   /* Dibs / Store Claims */
-  .store-item-wrap { position: relative; }
-  .store-item-wrap.store-claimed { border-left: 4px solid #FF9800; border-radius: 12px; overflow: hidden; }
+  .store-item-wrap { position: relative; width: 100%; border-radius: 12px; overflow: hidden; background: var(--card-bg); border: 2px solid var(--border-color); }
+  .store-item-wrap .store-item { border: none; border-radius: 0; width: 100%; }
+  .store-item-wrap.store-claimed { border-color: #FF9800; border-left: 4px solid #FF9800; }
   .dibs-badge { display: flex; align-items: center; justify-content: space-between; padding: 6px 12px; background: #FFF3E0; font-size: 12px; font-weight: 600; color: #E65100; }
   .dibs-release { background: none; border: none; color: #E65100; font-size: 14px; cursor: pointer; padding: 2px 6px; font-weight: 700; }
-  .dibs-claim-btn { width: 100%; padding: 6px; background: none; border: 1px dashed #FF9800; border-radius: 0 0 12px 12px; color: #E65100; font-size: 12px; font-weight: 600; cursor: pointer; }
+  .dibs-claim-btn { width: 100%; padding: 8px; background: none; border: none; border-top: 1px dashed #FF9800; color: #E65100; font-size: 12px; font-weight: 600; cursor: pointer; }
   .dibs-claim-btn:hover { background: #FFF3E0; }
   :global([data-theme='dark']) .dibs-badge { background: #3e2c00; color: #FFB74D; }
-  :global([data-theme='dark']) .dibs-claim-btn { border-color: #FF9800; color: #FFB74D; }
+  :global([data-theme='dark']) .dibs-claim-btn { border-top-color: #FF9800; color: #FFB74D; }
   :global([data-theme='dark']) .dibs-claim-btn:hover { background: #3e2c00; }
 </style>
