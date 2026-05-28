@@ -37,24 +37,24 @@
 
   const products = [
     { id: 'register-tape', name: 'Register Tape', icon: '🧾',
-      desc: 'Ads printed on grocery store register tape — reaches every customer at checkout',
+      desc: 'Ads printed on grocery store register tape -- reaches every customer at checkout',
       features: ['Prints on every receipt', 'Targeted by store location', 'Coupon-style offers', '3-month cycles (A/B/C)'] },
     { id: 'cartvertising', name: 'Cartvertising', icon: '🛒',
-      desc: 'Full-color ads displayed on shopping carts — seen throughout the entire shopping trip',
+      desc: 'Full-color ads displayed on shopping carts -- seen throughout the entire shopping trip',
       features: ['Eye-level visibility', 'Full-color printing', 'High impression count', 'Cart-mounted displays'] },
     { id: 'digital', name: 'Digital', icon: '📱',
       desc: 'Digital marketing solutions for local businesses',
-      features: ['DigitalBoost — Geofence Ads', 'FindLocal — Directory Listings', 'ReviewBoost — Reputation', 'LoyaltyBoost — Retention'] }
+      features: ['DigitalBoost -- Geofence Ads', 'FindLocal -- Directory Listings', 'ReviewBoost -- Reputation', 'LoyaltyBoost -- Retention'] }
   ];
 
   // Register Tape tiers
   const tapeTiers = {
     coop: { name: 'Manager Approved Co-Op', emoji: '🎯', desc: 'Pre-approved by store management',
-      pricing: { 'Monthly': 'Base + $125', '3-Month': 'Base × 0.90 + $125 (10% off)', '6-Month': 'Base × 0.925 + $125 (7.5% off)', 'Paid-in-Full': 'Base × 0.85 + $125 (15% off)' } },
+      pricing: { 'Monthly': 'Base + $125', '3-Month': 'Base x 0.90 + $125 (10% off)', '6-Month': 'Base x 0.925 + $125 (7.5% off)', 'Paid-in-Full': 'Base x 0.85 + $125 (15% off)' } },
     exclusive: { name: 'Exclusive Category', emoji: '🏆', desc: 'Sole advertising category protection',
-      pricing: { 'Monthly': 'Base + $125', '3-Month': 'Base + $125', '6-Month': 'Base + $125', 'Paid-in-Full': 'Base × 0.95 (5% off, no production)' } },
+      pricing: { 'Monthly': 'Base + $125', '3-Month': 'Base + $125', '6-Month': 'Base + $125', 'Paid-in-Full': 'Base x 0.95 (5% off, no production)' } },
     contractor: { name: 'Contractors', emoji: '🔧', desc: 'Special contractor pricing',
-      pricing: { '3-Month': 'Base + $125', 'Paid-in-Full': 'Base × 0.95 (5% off, no production)' } }
+      pricing: { '3-Month': 'Base + $125', 'Paid-in-Full': 'Base x 0.95 (5% off, no production)' } }
   };
 
   // Cartvertising packages
@@ -73,8 +73,8 @@
   const digitalProducts = {
     digitalboost: { name: 'DigitalBoost', emoji: '🚀', desc: 'Geofence pin delivering digital banner ad impressions',
       details: [
-        { label: 'Standalone', value: '240,000 impressions (20K/mo × 12)' },
-        { label: 'Bundled w/ Tape or Cart', value: '360,000 impressions (30K/mo × 12)' },
+        { label: 'Standalone', value: '240,000 impressions (20K/mo x 12)' },
+        { label: 'Bundled w/ Tape or Cart', value: '360,000 impressions (30K/mo x 12)' },
         { label: 'Standard Pricing', value: '$3,600/pin + $395 production (up to 5 pins)' },
         { label: 'Co-Op Pricing', value: '$2,400/pin + $395 production (up to 5 pins)' },
       ],
@@ -93,7 +93,7 @@
       price: '$695 (4-month campaign)', note: '+$495 per additional 4-month campaign',
       features: ['ReviewKit included', 'Automated 4-month campaign', 'Email & SMS review requests', 'Up to 4,000 contacts per campaign'] },
     loyaltyboost: { name: 'LoyaltyBoost', emoji: '💎', desc: 'Annual loyalty/rewards campaign per location',
-      price: '$3,600/year', note: '$495 production fee (−$125 if renewal w/ testimonial)',
+      price: '$3,600/year', note: '$495 production fee (-$125 if renewal w/ testimonial)',
       features: ['Annual loyalty campaign', 'Rewards program setup', 'Paid-in-Full: 5% discount', '6-Month or 12-Month payment options'] },
   };
 
@@ -127,17 +127,17 @@
 
   async function shareProduct(productId) {
     const texts = {
-      'register-tape': `🧾 Register Tape Advertising — IndoorMedia\nYour ad printed on grocery store receipts — seen by every single customer!\n\n✅ 100% reach — every shopper gets a receipt\n✅ Hyper-local targeting at stores near your business\n✅ Affordable — fraction of direct mail or digital\n✅ Trackable with coupon codes\n\n📐 Single Ad (2.75" x 1.75") or Double Ad (2.75" x 3.6")\n\n🎥 See how it works: ${VIDEO_LINKS['register-tape'].explainer}\n\n— ${repName()}, IndoorMedia`,
+      'register-tape': `🧾 Register Tape Advertising -- IndoorMedia\nYour ad printed on grocery store receipts -- seen by every single customer!\n\n✅ 100% reach -- every shopper gets a receipt\n✅ Hyper-local targeting at stores near your business\n✅ Affordable -- fraction of direct mail or digital\n✅ Trackable with coupon codes\n\n📐 Single Ad (2.75" x 1.75") or Double Ad (2.75" x 3.6")\n\n🎥 See how it works: ${VIDEO_LINKS['register-tape'].explainer}\n\n-- ${repName()}, IndoorMedia`,
       
-      'cartvertising': `🛒 Cartvertising — IndoorMedia\nFull-color ads mounted at eye level on shopping carts!\n\n✅ Eye-level visibility — impossible to miss\n✅ 40+ minutes per shopping trip with your ad\n✅ Full-color, high-quality printing\n✅ Massive reach — thousands of shoppers per cart\n\n🎥 See how it works: ${VIDEO_LINKS['cartvertising'].explainer}\n\n— ${repName()}, IndoorMedia`,
+      'cartvertising': `🛒 Cartvertising -- IndoorMedia\nFull-color ads mounted at eye level on shopping carts!\n\n✅ Eye-level visibility -- impossible to miss\n✅ 40+ minutes per shopping trip with your ad\n✅ Full-color, high-quality printing\n✅ Massive reach -- thousands of shoppers per cart\n\n🎥 See how it works: ${VIDEO_LINKS['cartvertising'].explainer}\n\n-- ${repName()}, IndoorMedia`,
       
-      'digitalboost': `🚀 DigitalBoost — Digital Geofencing\nYour ad delivered to phones within a targeted radius of your business!\n\n✅ 240,000 - 360,000 ad impressions per pin\n✅ Geofence pin at your location\n✅ Digital banner ads on mobile apps & websites\n✅ Monthly performance reports\n\n🎥 See how it works: ${VIDEO_LINKS.digitalboost.explainer}\n\n— ${repName()}, IndoorMedia`,
+      'digitalboost': `🚀 DigitalBoost -- Digital Geofencing\nYour ad delivered to phones within a targeted radius of your business!\n\n✅ 240,000 - 360,000 ad impressions per pin\n✅ Geofence pin at your location\n✅ Digital banner ads on mobile apps & websites\n✅ Monthly performance reports\n\n🎥 See how it works: ${VIDEO_LINKS.digitalboost.explainer}\n\n-- ${repName()}, IndoorMedia`,
       
-      'findlocal': `📍 FindLocal — Local SEO & Listings\nGet your business found everywhere customers are searching!\n\n✅ 50+ directory submissions\n✅ NAP optimization (name, address, phone)\n✅ Google Business Profile sync\n✅ Automated monthly progress reports\n\n🎥 See how it works: ${VIDEO_LINKS.findlocal.explainer}\n\n— ${repName()}, IndoorMedia`,
+      'findlocal': `📍 FindLocal -- Local SEO & Listings\nGet your business found everywhere customers are searching!\n\n✅ 50+ directory submissions\n✅ NAP optimization (name, address, phone)\n✅ Google Business Profile sync\n✅ Automated monthly progress reports\n\n🎥 See how it works: ${VIDEO_LINKS.findlocal.explainer}\n\n-- ${repName()}, IndoorMedia`,
       
-      'reviewboost': `⭐ ReviewBoost — Reputation Management\nAutomated review request campaigns via Email & SMS!\n\n✅ ReviewKit included\n✅ 4-month automated campaign\n✅ Email & SMS review requests\n✅ Up to 4,000 contacts per campaign\n\n🎥 See how it works: ${VIDEO_LINKS.reviewboost.explainer}\n\n— ${repName()}, IndoorMedia`,
+      'reviewboost': `⭐ ReviewBoost -- Reputation Management\nAutomated review request campaigns via Email & SMS!\n\n✅ ReviewKit included\n✅ 4-month automated campaign\n✅ Email & SMS review requests\n✅ Up to 4,000 contacts per campaign\n\n🎥 See how it works: ${VIDEO_LINKS.reviewboost.explainer}\n\n-- ${repName()}, IndoorMedia`,
       
-      'loyaltyboost': `💎 LoyaltyBoost — Customer Retention\nAnnual loyalty & rewards program for your business!\n\n✅ Full loyalty program setup\n✅ Customer retention campaigns\n✅ Rewards program management\n✅ Annual program\n\n🎥 See how it works: ${VIDEO_LINKS.loyaltyboost.explainer}\n\n— ${repName()}, IndoorMedia`,
+      'loyaltyboost': `💎 LoyaltyBoost -- Customer Retention\nAnnual loyalty & rewards program for your business!\n\n✅ Full loyalty program setup\n✅ Customer retention campaigns\n✅ Rewards program management\n✅ Annual program\n\n🎥 See how it works: ${VIDEO_LINKS.loyaltyboost.explainer}\n\n-- ${repName()}, IndoorMedia`,
     };
 
     const text = texts[productId];
@@ -185,12 +185,12 @@
     // Header bar
     page.drawRectangle({ x:0, y:y-80, width:612, height:80, color:red });
     const configs = {
-      'register-tape': { title:'Register Tape Advertising', subtitle:'IndoorMedia — Grocery Receipt Ads' },
-      'cartvertising': { title:'Cartvertising', subtitle:'IndoorMedia — Shopping Cart Ads' },
-      'digitalboost': { title:'DigitalBoost — Digital Geofencing', subtitle:'IndoorMedia — Targeted Digital Ads' },
-      'findlocal': { title:'FindLocal', subtitle:'IndoorMedia — Local SEO & Listings' },
-      'reviewboost': { title:'ReviewBoost', subtitle:'IndoorMedia — Reputation Management' },
-      'loyaltyboost': { title:'LoyaltyBoost', subtitle:'IndoorMedia — Customer Retention' },
+      'register-tape': { title:'Register Tape Advertising', subtitle:'IndoorMedia -- Grocery Receipt Ads' },
+      'cartvertising': { title:'Cartvertising', subtitle:'IndoorMedia -- Shopping Cart Ads' },
+      'digitalboost': { title:'DigitalBoost -- Digital Geofencing', subtitle:'IndoorMedia -- Targeted Digital Ads' },
+      'findlocal': { title:'FindLocal', subtitle:'IndoorMedia -- Local SEO & Listings' },
+      'reviewboost': { title:'ReviewBoost', subtitle:'IndoorMedia -- Reputation Management' },
+      'loyaltyboost': { title:'LoyaltyBoost', subtitle:'IndoorMedia -- Customer Retention' },
     };
     const cfg = configs[productId] || { title: productId, subtitle: 'IndoorMedia' };
     page.drawText(cfg.title, { x:30, y:y-40, size:22, font:bold, color:white });
@@ -381,7 +381,7 @@
       </div>
 
       <div class="value-props">
-        <div class="value-card"><span class="vi">🎯</span><h4>100% Reach</h4><p>Every customer gets a receipt — your ad is seen by every single shopper</p></div>
+        <div class="value-card"><span class="vi">🎯</span><h4>100% Reach</h4><p>Every customer gets a receipt -- your ad is seen by every single shopper</p></div>
         <div class="value-card"><span class="vi">📍</span><h4>Hyper-Local</h4><p>Target customers shopping at stores near your business</p></div>
         <div class="value-card"><span class="vi">💰</span><h4>Affordable</h4><p>Fraction of the cost of direct mail, billboards, or digital ads</p></div>
         <div class="value-card"><span class="vi">📊</span><h4>Trackable</h4><p>Coupon codes let you measure exactly how many customers respond</p></div>
@@ -409,7 +409,7 @@
           <div class="pricing-row"><span class="plan">{plan}</span><span class="formula">{formula}</span></div>
         {/each}
       </div>
-      <button class="cart-btn" on:click={() => addToCart('Register Tape — ' + tapeTiers[selectedTier].name, 'Store-based', selectedTier)}>🛒 Add to Cart</button>
+      <button class="cart-btn" on:click={() => addToCart('Register Tape -- ' + tapeTiers[selectedTier].name, 'Store-based', selectedTier)}>🛒 Add to Cart</button>
     {/if}
     <div class="btn-row">
       <button class="share-btn" on:click={() => shareProduct('register-tape')}>📩 Send to Customer</button>
@@ -429,10 +429,10 @@
     </div>
 
     <div class="value-props">
-      <div class="value-card"><span class="vi">👁️</span><h4>Eye-Level</h4><p>Ads mounted at eye level on shopping carts — impossible to miss</p></div>
+      <div class="value-card"><span class="vi">👁️</span><h4>Eye-Level</h4><p>Ads mounted at eye level on shopping carts -- impossible to miss</p></div>
       <div class="value-card"><span class="vi">⏱️</span><h4>40+ Minutes</h4><p>Average shopping trip keeps your ad with them the whole time</p></div>
       <div class="value-card"><span class="vi">🎨</span><h4>Full Color</h4><p>High-quality, full-color printing for maximum brand impact</p></div>
-      <div class="value-card"><span class="vi">🔄</span><h4>Massive Reach</h4><p>Thousands of shoppers use each cart — huge impression volume</p></div>
+      <div class="value-card"><span class="vi">🔄</span><h4>Massive Reach</h4><p>Thousands of shoppers use each cart -- huge impression volume</p></div>
     </div>
 
     <div class="section-divider"><h3>📦 Packages (6-Month Campaigns)</h3></div>
@@ -440,7 +440,7 @@
       <div class="package-row">
         <div><h4>{pkg.name}</h4></div>
         <div class="pkg-right"><span class="pkg-price">{pkg.price}</span>
-          <button class="cart-sm" on:click={() => addToCart('Cartvertising — ' + pkg.name, pkg.price, '6-month')}>🛒</button>
+          <button class="cart-sm" on:click={() => addToCart('Cartvertising -- ' + pkg.name, pkg.price, '6-month')}>🛒</button>
         </div>
       </div>
     {/each}
