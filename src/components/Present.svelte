@@ -315,12 +315,31 @@
     const bytes = await pdfDoc.save();
     const blob = new Blob([bytes], { type:'application/pdf' });
     const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
     const names = { 'register-tape':'RegisterTape', 'cartvertising':'Cartvertising', 'digitalboost':'DigitalBoost', 'findlocal':'FindLocal', 'reviewboost':'ReviewBoost', 'loyaltyboost':'LoyaltyBoost' };
+    const filename = `IndoorMedia_${names[productId] || productId}.pdf`;
+    
+    // iOS Safari doesn't support programmatic download via a.click()
+    // Use navigator.share for mobile if available, otherwise open in new tab
+    if (navigator.share && /iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {
+      try {
+        const file = new File([bytes], filename, { type: 'application/pdf' });
+        await navigator.share({ files: [file], title: filename });
+        URL.revokeObjectURL(url);
+        return;
+      } catch (e) {
+        // Fallback below
+      }
+    }
+    
+    // Desktop or fallback: open in new tab (works on all browsers)
+    const a = document.createElement('a');
     a.href = url;
-    a.download = `IndoorMedia_${names[productId] || productId}.pdf`;
+    a.download = filename;
+    a.target = '_blank';
+    document.body.appendChild(a);
     a.click();
-    URL.revokeObjectURL(url);
+    document.body.removeChild(a);
+    setTimeout(() => URL.revokeObjectURL(url), 5000);
   }
 </script>
 
