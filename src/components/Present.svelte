@@ -2,6 +2,7 @@
   import { onMount, onDestroy } from 'svelte';
   import { user, padAmount, digitalPadAmount } from '../lib/stores.js';
   import MeetingPrep from './MeetingPrep.svelte';
+  import { PDFDocument, rgb, StandardFonts } from 'pdf-lib';
 
   let view = 'menu'; 
 
@@ -160,6 +161,167 @@
     }
     setTimeout(() => shareFeedback = '', 3000);
   }
+
+  async function downloadProductPdf(productId) {
+    const pdfDoc = await PDFDocument.create();
+    const page = pdfDoc.addPage([612, 792]);
+    const bold = await pdfDoc.embedFont(StandardFonts.HelveticaBold);
+    const regular = await pdfDoc.embedFont(StandardFonts.Helvetica);
+    const red = rgb(0.8, 0, 0);
+    const white = rgb(1, 1, 1);
+    const black = rgb(0, 0, 0);
+    const gray = rgb(0.3, 0.3, 0.3);
+    const dateStr = new Date().toLocaleDateString('en-US', { year:'numeric', month:'long', day:'numeric' });
+    const rep = repName();
+    const repEmail = 'tyler.vansant@indoormedia.com';
+    let y = 792;
+
+    // Header bar
+    page.drawRectangle({ x:0, y:y-80, width:612, height:80, color:red });
+    const configs = {
+      'register-tape': { title:'Register Tape Advertising', subtitle:'IndoorMedia — Grocery Receipt Ads' },
+      'cartvertising': { title:'Cartvertising', subtitle:'IndoorMedia — Shopping Cart Ads' },
+      'digitalboost': { title:'DigitalBoost — Digital Geofencing', subtitle:'IndoorMedia — Targeted Digital Ads' },
+      'findlocal': { title:'FindLocal', subtitle:'IndoorMedia — Local SEO & Listings' },
+      'reviewboost': { title:'ReviewBoost', subtitle:'IndoorMedia — Reputation Management' },
+      'loyaltyboost': { title:'LoyaltyBoost', subtitle:'IndoorMedia — Customer Retention' },
+    };
+    const cfg = configs[productId] || { title: productId, subtitle: 'IndoorMedia' };
+    page.drawText(cfg.title, { x:30, y:y-40, size:22, font:bold, color:white });
+    page.drawText(cfg.subtitle, { x:30, y:y-60, size:11, font:regular, color:white });
+    page.drawText(dateStr, { x:612 - bold.widthOfTextAtSize(dateStr,10) - 30, y:y-40, size:10, font:bold, color:white });
+    y -= 100;
+
+    function drawSection(title, items, startY) {
+      page.drawText(title, { x:30, y:startY, size:14, font:bold, color:red });
+      startY -= 22;
+      for (const item of items) {
+        page.drawText('✓  ' + item, { x:40, y:startY, size:11, font:regular, color:black });
+        startY -= 18;
+      }
+      return startY - 8;
+    }
+
+    function drawPricing(rows, startY) {
+      page.drawText('Pricing', { x:30, y:startY, size:14, font:bold, color:red });
+      startY -= 22;
+      for (const [label, value] of rows) {
+        page.drawText(label, { x:40, y:startY, size:11, font:bold, color:black });
+        page.drawText(value, { x:280, y:startY, size:11, font:regular, color:gray });
+        startY -= 18;
+      }
+      return startY - 8;
+    }
+
+    if (productId === 'register-tape') {
+      y = drawSection('Why Register Tape?', [
+        '100% Reach — every customer gets a receipt with your ad',
+        'Hyper-Local — target stores near your business',
+        'Affordable — fraction of direct mail or digital costs',
+        'Trackable — coupon codes measure real response',
+      ], y);
+      page.drawText('Ad Sizes', { x:30, y, size:14, font:bold, color:red }); y -= 22;
+      page.drawText('Single Ad: 2.75" × 1.75"    |    Double Ad: 2.75" × 3.6"', { x:40, y, size:11, font:regular, color:black }); y -= 26;
+      y = drawPricing([
+        ['Manager Co-Op Monthly', 'Base + $125 production'],
+        ['Co-Op 3-Month', 'Base × 0.90 + $125 (10% off)'],
+        ['Co-Op Paid-in-Full', 'Base × 0.85 + $125 (15% off)'],
+        ['Exclusive Monthly', 'Base + $125 production'],
+        ['Exclusive Paid-in-Full', 'Base × 0.95 (5% off, no production)'],
+        ['Contractor 3-Month', 'Base + $125 production'],
+        ['Contractor Paid-in-Full', 'Base × 0.95 (5% off, no production)'],
+      ], y);
+    } else if (productId === 'cartvertising') {
+      y = drawSection('Why Cartvertising?', [
+        'Eye-Level — ads mounted right where shoppers look',
+        '40+ Minutes — your ad stays with them the entire trip',
+        'Full Color — high-quality printing for maximum impact',
+        'Massive Reach — thousands of shoppers per cart',
+      ], y);
+      y = drawPricing([
+        ['20% Front OR Directory', '$2,995'],
+        ['40% (20% Front + 20% Dir)', '$4,795'],
+        ['60% (40% Front + 20% Dir)', '$5,995'],
+        ['80% (40% Front + 40% Dir)', '$7,395'],
+        ['100% (60% Front + 40% Dir)', '$8,795'],
+        ['200% (100% Both Sides)', '$12,995'],
+        ['Header 50%', '$2,995'],
+        ['Header 100%', '$4,795'],
+      ], y);
+      page.drawText('All packages are 6-month campaigns.', { x:40, y, size:10, font:regular, color:gray }); y -= 18;
+    } else if (productId === 'digitalboost') {
+      y = drawSection('Why DigitalBoost?', [
+        'Geofence pin targets customers near your business',
+        'Digital banner ads on mobile apps & websites',
+        '240,000 – 360,000 ad impressions per pin',
+        'Monthly performance reports included',
+      ], y);
+      y = drawPricing([
+        ['Standard (per pin)', '$' + dbStandard.toLocaleString()],
+        ['Co-Op (per pin)', '$' + dbCoop.toLocaleString()],
+        ['Production', '$395 (covers up to 5 pins)'],
+      ], y);
+      page.drawText('Pricing Examples (includes production)', { x:30, y, size:14, font:bold, color:red }); y -= 22;
+      page.drawText('Pins          Standard             Co-Op', { x:40, y, size:11, font:bold, color:black }); y -= 18;
+      for (const ex of dbExamples) {
+        page.drawText(`${ex.pins}               ${ex.standard}              ${ex.coop}`, { x:40, y, size:11, font:regular, color:black }); y -= 18;
+      }
+      y -= 8;
+    } else if (productId === 'findlocal') {
+      y = drawSection('Why FindLocal?', [
+        '50+ business directory submissions',
+        'NAP optimization (name, address, phone)',
+        'Google Business Profile sync',
+        'Automated monthly progress reports',
+        'Hours, photos, and categories management',
+      ], y);
+      y = drawPricing([
+        ['Per Location', '$695'],
+        ['Google Profile Assist', '+$195 if needed'],
+      ], y);
+    } else if (productId === 'reviewboost') {
+      y = drawSection('Why ReviewBoost?', [
+        'ReviewKit included — everything you need',
+        'Automated 4-month Email & SMS campaign',
+        'Up to 4,000 contacts per campaign',
+        'Build your online reputation fast',
+      ], y);
+      y = drawPricing([
+        ['4-Month Campaign', '$695'],
+        ['Additional Campaign', '+$495 per 4-month campaign'],
+      ], y);
+    } else if (productId === 'loyaltyboost') {
+      y = drawSection('Why LoyaltyBoost?', [
+        'Annual loyalty & rewards program',
+        'Full rewards program setup',
+        'Customer retention campaigns',
+        'Paid-in-Full: 5% discount available',
+      ], y);
+      y = drawPricing([
+        ['Annual Program', '$' + lbPrice.toLocaleString() + '/year'],
+        ['Production', '$495 (−$125 if renewal w/ testimonial)'],
+      ], y);
+    }
+
+    // CTA
+    y = Math.max(y, 100);
+    page.drawRectangle({ x:30, y:y-10, width:552, height:50, color:rgb(0.95, 0.95, 0.95) });
+    page.drawText('Ready to get started? Contact your rep:', { x:40, y:y+20, size:12, font:bold, color:red });
+    page.drawText(`${rep}  |  ${repEmail}`, { x:40, y:y+2, size:11, font:regular, color:black });
+    
+    // Footer
+    page.drawText('IndoorMedia  |  indoormedia.com', { x:612/2 - bold.widthOfTextAtSize('IndoorMedia  |  indoormedia.com',9)/2, y:30, size:9, font:regular, color:gray });
+
+    const bytes = await pdfDoc.save();
+    const blob = new Blob([bytes], { type:'application/pdf' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    const names = { 'register-tape':'RegisterTape', 'cartvertising':'Cartvertising', 'digitalboost':'DigitalBoost', 'findlocal':'FindLocal', 'reviewboost':'ReviewBoost', 'loyaltyboost':'LoyaltyBoost' };
+    a.href = url;
+    a.download = `IndoorMedia_${names[productId] || productId}.pdf`;
+    a.click();
+    URL.revokeObjectURL(url);
+  }
 </script>
 
 <div class="present">
@@ -232,7 +394,10 @@
       </div>
       <button class="cart-btn" on:click={() => addToCart('Register Tape — ' + tapeTiers[selectedTier].name, 'Store-based', selectedTier)}>🛒 Add to Cart</button>
     {/if}
-    <button class="share-btn" on:click={() => shareProduct('register-tape')}>📩 Send to Customer</button>
+    <div class="btn-row">
+      <button class="share-btn" on:click={() => shareProduct('register-tape')}>📩 Send to Customer</button>
+      <button class="pdf-btn" on:click={() => downloadProductPdf('register-tape')}>📄 Download PDF</button>
+    </div>
     {#if shareFeedback}<p class="share-feedback">{shareFeedback}</p>{/if}
     <div style="height:80px;"></div>
 
@@ -262,7 +427,10 @@
         </div>
       </div>
     {/each}
-    <button class="share-btn" on:click={() => shareProduct('cartvertising')}>📩 Send to Customer</button>
+    <div class="btn-row">
+      <button class="share-btn" on:click={() => shareProduct('cartvertising')}>📩 Send to Customer</button>
+      <button class="pdf-btn" on:click={() => downloadProductPdf('cartvertising')}>📄 Download PDF</button>
+    </div>
     {#if shareFeedback}<p class="share-feedback">{shareFeedback}</p>{/if}
     <div style="height:80px;"></div>
 
@@ -306,7 +474,10 @@
         <tbody>{#each dbExamples as ex}<tr><td>{ex.pins}</td><td>{ex.standard}</td><td>{ex.coop}</td></tr>{/each}</tbody>
       </table></div>
       <button class="cart-btn" on:click={() => addToCart('DigitalBoost', '$' + dbStandard.toLocaleString() + '/pin', '240K impressions')}>🛒 Add to Cart</button>
-      <button class="share-btn" on:click={() => shareProduct('digitalboost')}>📩 Send to Customer</button>
+      <div class="btn-row">
+        <button class="share-btn" on:click={() => shareProduct('digitalboost')}>📩 Send to Customer</button>
+        <button class="pdf-btn" on:click={() => downloadProductPdf('digitalboost')}>📄 Download PDF</button>
+      </div>
       {#if shareFeedback}<p class="share-feedback">{shareFeedback}</p>{/if}
 
     {:else}
@@ -330,7 +501,10 @@
         <ul class="feat-list">{#each dp.features as f}<li>✓ {f}</li>{/each}</ul>
       {/if}
       <button class="cart-btn" on:click={() => addToCart(dp.name, dp.price, dp.desc)}>🛒 Add to Cart</button>
-      <button class="share-btn" on:click={() => shareProduct(selectedDigital)}>📩 Send to Customer</button>
+      <div class="btn-row">
+        <button class="share-btn" on:click={() => shareProduct(selectedDigital)}>📩 Send to Customer</button>
+        <button class="pdf-btn" on:click={() => downloadProductPdf(selectedDigital)}>📄 Download PDF</button>
+      </div>
       {#if shareFeedback}<p class="share-feedback">{shareFeedback}</p>{/if}
     {/if}
     <div style="height:80px;"></div>
@@ -437,7 +611,11 @@
   .feat-list li:last-child { border-bottom:none; }
   .analysis-btn { display:block; width:100%; padding:14px; background:#1565C0; color:#fff; border:none; border-radius:10px; font-size:15px; font-weight:700; text-align:center; text-decoration:none; margin:12px 0; box-sizing:border-box; }
   .analysis-btn:hover { background:#0D47A1; }
+  .btn-row { display:flex; gap:8px; margin-top:10px; }
+  .btn-row .share-btn { flex:1; margin-top:0; }
   .share-btn { width: 100%; padding: 14px; background: #1565C0; color: white; border: none; border-radius: 12px; font-size: 16px; font-weight: 700; cursor: pointer; margin-top: 10px; }
   .share-btn:hover { background: #0D47A1; }
+  .pdf-btn { flex:0 0 auto; padding:14px 18px; background:#2e7d32; color:white; border:none; border-radius:12px; font-size:16px; font-weight:700; cursor:pointer; white-space:nowrap; }
+  .pdf-btn:hover { background:#1b5e20; }
   .share-feedback { text-align: center; font-size: 14px; color: #2e7d32; font-weight: 600; margin-top: 8px; }
 </style>
