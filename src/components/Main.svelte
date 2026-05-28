@@ -531,17 +531,23 @@
       });
       streakDays = Object.values(byDay).sort((a, b) => b.date.localeCompare(a.date)).slice(0, 14);
       
-      const unique = Object.keys(byDay).sort().reverse();
+      const unique = new Set(Object.keys(byDay));
       let s = 0;
       const today = new Date().toISOString().slice(0, 10);
       let checkDate = today;
       for (let i = 0; i < 365; i++) {
-        if (unique.includes(checkDate)) {
+        const d = new Date(checkDate + 'T12:00:00');
+        const dayOfWeek = d.getDay(); // 0=Sun, 6=Sat
+        const isWeekend = dayOfWeek === 0 || dayOfWeek === 6;
+        
+        if (unique.has(checkDate)) {
           s++;
+        } else if (isWeekend) {
+          // Skip weekends — don't break the streak and don't count them
         } else if (checkDate !== today) {
+          // Missed a weekday (not today) — streak broken
           break;
         }
-        const d = new Date(checkDate);
         d.setDate(d.getDate() - 1);
         checkDate = d.toISOString().slice(0, 10);
       }
