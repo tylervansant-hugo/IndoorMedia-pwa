@@ -131,13 +131,13 @@
       
       'cartvertising': `🛒 Cartvertising — IndoorMedia\nFull-color ads mounted at eye level on shopping carts!\n\n✅ Eye-level visibility — impossible to miss\n✅ 40+ minutes per shopping trip with your ad\n✅ Full-color, high-quality printing\n✅ Massive reach — thousands of shoppers per cart\n\n🎥 See how it works: ${VIDEO_LINKS['cartvertising'].explainer}\n\n— ${repName()}, IndoorMedia`,
       
-      'digitalboost': `🚀 DigitalBoost — Digital Geofencing\nYour ad delivered to phones within a targeted radius of your business!\n\n✅ 240,000+ ad impressions\n✅ Geofence pin at your location\n✅ Digital banner ads on mobile apps & websites\n✅ Monthly performance reports\n\n💰 Starting at $${dbStandard.toLocaleString()} per pin\n\n🎥 See how it works: ${VIDEO_LINKS.digitalboost.explainer}\n\n— ${repName()}, IndoorMedia`,
+      'digitalboost': `🚀 DigitalBoost — Digital Geofencing\nYour ad delivered to phones within a targeted radius of your business!\n\n✅ 240,000 - 360,000 ad impressions per pin\n✅ Geofence pin at your location\n✅ Digital banner ads on mobile apps & websites\n✅ Monthly performance reports\n\n🎥 See how it works: ${VIDEO_LINKS.digitalboost.explainer}\n\n— ${repName()}, IndoorMedia`,
       
-      'findlocal': `📍 FindLocal — Local SEO & Listings\nGet your business found everywhere customers are searching!\n\n✅ 50+ directory submissions\n✅ NAP optimization (name, address, phone)\n✅ Google Business Profile sync\n✅ Automated monthly progress reports\n\n💰 $695/location\n\n🎥 See how it works: ${VIDEO_LINKS.findlocal.explainer}\n\n— ${repName()}, IndoorMedia`,
+      'findlocal': `📍 FindLocal — Local SEO & Listings\nGet your business found everywhere customers are searching!\n\n✅ 50+ directory submissions\n✅ NAP optimization (name, address, phone)\n✅ Google Business Profile sync\n✅ Automated monthly progress reports\n\n🎥 See how it works: ${VIDEO_LINKS.findlocal.explainer}\n\n— ${repName()}, IndoorMedia`,
       
-      'reviewboost': `⭐ ReviewBoost — Reputation Management\nAutomated review request campaigns via Email & SMS!\n\n✅ ReviewKit included\n✅ 4-month automated campaign\n✅ Email & SMS review requests\n✅ Up to 4,000 contacts per campaign\n\n💰 $695 for 4-month campaign\n\n🎥 See how it works: ${VIDEO_LINKS.reviewboost.explainer}\n\n— ${repName()}, IndoorMedia`,
+      'reviewboost': `⭐ ReviewBoost — Reputation Management\nAutomated review request campaigns via Email & SMS!\n\n✅ ReviewKit included\n✅ 4-month automated campaign\n✅ Email & SMS review requests\n✅ Up to 4,000 contacts per campaign\n\n🎥 See how it works: ${VIDEO_LINKS.reviewboost.explainer}\n\n— ${repName()}, IndoorMedia`,
       
-      'loyaltyboost': `💎 LoyaltyBoost — Customer Retention\nAnnual loyalty & rewards program for your business!\n\n✅ Full loyalty program setup\n✅ Customer retention campaigns\n✅ Rewards program management\n✅ Annual program\n\n💰 $${lbPrice.toLocaleString()}/year + $495 production\n\n🎥 See how it works: ${VIDEO_LINKS.loyaltyboost.explainer}\n\n— ${repName()}, IndoorMedia`,
+      'loyaltyboost': `💎 LoyaltyBoost — Customer Retention\nAnnual loyalty & rewards program for your business!\n\n✅ Full loyalty program setup\n✅ Customer retention campaigns\n✅ Rewards program management\n✅ Annual program\n\n🎥 See how it works: ${VIDEO_LINKS.loyaltyboost.explainer}\n\n— ${repName()}, IndoorMedia`,
     };
 
     const text = texts[productId];
@@ -222,58 +222,56 @@
 
     if (productId === 'register-tape') {
       y = drawSection('Why Register Tape?', [
-        '100% Reach — every customer gets a receipt with your ad',
-        'Hyper-Local — target stores near your business',
-        'Affordable — fraction of direct mail or digital costs',
-        'Trackable — coupon codes measure real response',
+        '100% Reach -- every customer gets a receipt with your ad',
+        'Hyper-Local -- target stores near your business',
+        'Affordable -- fraction of direct mail or digital costs',
+        'Trackable -- coupon codes measure real response',
       ], y);
-      page.drawText('Ad Sizes', { x:30, y, size:14, font:bold, color:red }); y -= 22;
-      page.drawText('Single Ad: 2.75" x 1.75"    |    Double Ad: 2.75" x 3.6"', { x:40, y, size:11, font:regular, color:black }); y -= 26;
-      y = drawPricing([
-        ['Manager Co-Op Monthly', 'Base + $125 production'],
-        ['Co-Op 3-Month', 'Base × 0.90 + $125 (10% off)'],
-        ['Co-Op Paid-in-Full', 'Base × 0.85 + $125 (15% off)'],
-        ['Exclusive Monthly', 'Base + $125 production'],
-        ['Exclusive Paid-in-Full', 'Base × 0.95 (5% off, no production)'],
-        ['Contractor 3-Month', 'Base + $125 production'],
-        ['Contractor Paid-in-Full', 'Base × 0.95 (5% off, no production)'],
-      ], y);
+      
+      // Ad Size Graphics -- true-to-scale representations
+      page.drawText('Ad Sizes (actual proportions)', { x:30, y, size:14, font:bold, color:red }); y -= 28;
+      
+      const scale = 50;
+      const singleW = 2.75 * scale;
+      const singleH = 1.75 * scale;
+      const doubleW = 2.75 * scale;
+      const doubleH = 3.6 * scale;
+      
+      // Single ad box
+      const singleX = 60;
+      page.drawRectangle({ x:singleX, y:y-singleH, width:singleW, height:singleH, borderColor:red, borderWidth:2, color:rgb(1, 0.95, 0.95) });
+      page.drawText('SINGLE AD', { x:singleX + singleW/2 - bold.widthOfTextAtSize('SINGLE AD',12)/2, y:y-singleH/2-4, size:12, font:bold, color:red });
+      page.drawText('2.75" x 1.75"', { x:singleX + singleW/2 - regular.widthOfTextAtSize('2.75" x 1.75"',9)/2, y:y-singleH/2-20, size:9, font:regular, color:gray });
+      
+      // Double ad box
+      const doubleX = singleX + singleW + 40;
+      page.drawRectangle({ x:doubleX, y:y-doubleH, width:doubleW, height:doubleH, borderColor:red, borderWidth:2, color:rgb(1, 0.95, 0.95) });
+      page.drawText('DOUBLE AD', { x:doubleX + doubleW/2 - bold.widthOfTextAtSize('DOUBLE AD',12)/2, y:y-doubleH/2-4, size:12, font:bold, color:red });
+      page.drawText('2.75" x 3.6"', { x:doubleX + doubleW/2 - regular.widthOfTextAtSize('2.75" x 3.6"',9)/2, y:y-doubleH/2-20, size:9, font:regular, color:gray });
+      
+      y -= doubleH + 20;
+      page.drawText('Your full-color ad is printed directly on grocery store receipts,', { x:40, y, size:11, font:regular, color:black }); y -= 16;
+      page.drawText('reaching every customer at checkout.', { x:40, y, size:11, font:regular, color:black }); y -= 26;
+      page.drawText('Ask your rep about pricing for stores near your business.', { x:40, y, size:11, font:bold, color:gray }); y -= 18;
+      
     } else if (productId === 'cartvertising') {
       y = drawSection('Why Cartvertising?', [
-        'Eye-Level — ads mounted right where shoppers look',
-        '40+ Minutes — your ad stays with them the entire trip',
-        'Full Color — high-quality printing for maximum impact',
-        'Massive Reach — thousands of shoppers per cart',
+        'Eye-Level -- ads mounted right where shoppers look',
+        '40+ Minutes -- your ad stays with them the entire trip',
+        'Full Color -- high-quality printing for maximum impact',
+        'Massive Reach -- thousands of shoppers per cart',
+        '6-month campaigns available',
       ], y);
-      y = drawPricing([
-        ['20% Front OR Directory', '$2,995'],
-        ['40% (20% Front + 20% Dir)', '$4,795'],
-        ['60% (40% Front + 20% Dir)', '$5,995'],
-        ['80% (40% Front + 40% Dir)', '$7,395'],
-        ['100% (60% Front + 40% Dir)', '$8,795'],
-        ['200% (100% Both Sides)', '$12,995'],
-        ['Header 50%', '$2,995'],
-        ['Header 100%', '$4,795'],
-      ], y);
-      page.drawText('All packages are 6-month campaigns.', { x:40, y, size:10, font:regular, color:gray }); y -= 18;
+      page.drawText('Ask your rep about package options and pricing.', { x:40, y, size:11, font:bold, color:gray }); y -= 18;
     } else if (productId === 'digitalboost') {
       y = drawSection('Why DigitalBoost?', [
         'Geofence pin targets customers near your business',
         'Digital banner ads on mobile apps & websites',
-        '240,000 – 360,000 ad impressions per pin',
+        '240,000 - 360,000 ad impressions per pin',
         'Monthly performance reports included',
+        'Multiple pin options available',
       ], y);
-      y = drawPricing([
-        ['Standard (per pin)', '$' + dbStandard.toLocaleString()],
-        ['Co-Op (per pin)', '$' + dbCoop.toLocaleString()],
-        ['Production', '$395 (covers up to 5 pins)'],
-      ], y);
-      page.drawText('Pricing Examples (includes production)', { x:30, y, size:14, font:bold, color:red }); y -= 22;
-      page.drawText('Pins          Standard             Co-Op', { x:40, y, size:11, font:bold, color:black }); y -= 18;
-      for (const ex of dbExamples) {
-        page.drawText(`${ex.pins}               ${ex.standard}              ${ex.coop}`, { x:40, y, size:11, font:regular, color:black }); y -= 18;
-      }
-      y -= 8;
+      page.drawText('Ask your rep about pricing and pin options.', { x:40, y, size:11, font:bold, color:gray }); y -= 18;
     } else if (productId === 'findlocal') {
       y = drawSection('Why FindLocal?', [
         '50+ business directory submissions',
@@ -282,32 +280,23 @@
         'Automated monthly progress reports',
         'Hours, photos, and categories management',
       ], y);
-      y = drawPricing([
-        ['Per Location', '$695'],
-        ['Google Profile Assist', '+$195 if needed'],
-      ], y);
+      page.drawText('Ask your rep about pricing for your location.', { x:40, y, size:11, font:bold, color:gray }); y -= 18;
     } else if (productId === 'reviewboost') {
       y = drawSection('Why ReviewBoost?', [
-        'ReviewKit included — everything you need',
+        'ReviewKit included -- everything you need',
         'Automated 4-month Email & SMS campaign',
         'Up to 4,000 contacts per campaign',
         'Build your online reputation fast',
       ], y);
-      y = drawPricing([
-        ['4-Month Campaign', '$695'],
-        ['Additional Campaign', '+$495 per 4-month campaign'],
-      ], y);
+      page.drawText('Ask your rep about campaign options.', { x:40, y, size:11, font:bold, color:gray }); y -= 18;
     } else if (productId === 'loyaltyboost') {
       y = drawSection('Why LoyaltyBoost?', [
         'Annual loyalty & rewards program',
         'Full rewards program setup',
         'Customer retention campaigns',
-        'Paid-in-Full: 5% discount available',
+        'Multiple payment options available',
       ], y);
-      y = drawPricing([
-        ['Annual Program', '$' + lbPrice.toLocaleString() + '/year'],
-        ['Production', '$495 (−$125 if renewal w/ testimonial)'],
-      ], y);
+      page.drawText('Ask your rep about annual program pricing.', { x:40, y, size:11, font:bold, color:gray }); y -= 18;
     }
 
     // CTA
