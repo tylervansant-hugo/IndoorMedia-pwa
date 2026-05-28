@@ -162,7 +162,13 @@
     setTimeout(() => shareFeedback = '', 3000);
   }
 
+  let pdfGenerating = false;
+
   async function downloadProductPdf(productId) {
+    if (pdfGenerating) return;
+    pdfGenerating = true;
+    shareFeedback = '⏳ Generating PDF...';
+    try {
     const pdfDoc = await PDFDocument.create();
     const page = pdfDoc.addPage([612, 792]);
     const bold = await pdfDoc.embedFont(StandardFonts.HelveticaBold);
@@ -331,15 +337,17 @@
       }
     }
     
-    // Desktop or fallback: open in new tab (works on all browsers)
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = filename;
-    a.target = '_blank';
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-    setTimeout(() => URL.revokeObjectURL(url), 5000);
+    // Fallback: open PDF in new window
+    window.open(url, '_blank');
+    shareFeedback = '✅ PDF opened!';
+    setTimeout(() => { URL.revokeObjectURL(url); shareFeedback = ''; }, 5000);
+    } catch (err) {
+      console.error('PDF generation error:', err);
+      shareFeedback = '❌ Error: ' + (err.message || 'PDF failed');
+      setTimeout(() => shareFeedback = '', 5000);
+    } finally {
+      pdfGenerating = false;
+    }
   }
 </script>
 
@@ -415,7 +423,7 @@
     {/if}
     <div class="btn-row">
       <button class="share-btn" on:click={() => shareProduct('register-tape')}>📩 Send to Customer</button>
-      <button class="pdf-btn" on:click={() => downloadProductPdf('register-tape')}>📄 Download PDF</button>
+      <button class="pdf-btn" disabled={pdfGenerating} on:click={() => downloadProductPdf('register-tape')}>{ pdfGenerating ? "⏳ Generating..." : "📄 Download PDF" }</button>
     </div>
     {#if shareFeedback}<p class="share-feedback">{shareFeedback}</p>{/if}
     <div style="height:80px;"></div>
@@ -448,7 +456,7 @@
     {/each}
     <div class="btn-row">
       <button class="share-btn" on:click={() => shareProduct('cartvertising')}>📩 Send to Customer</button>
-      <button class="pdf-btn" on:click={() => downloadProductPdf('cartvertising')}>📄 Download PDF</button>
+      <button class="pdf-btn" disabled={pdfGenerating} on:click={() => downloadProductPdf('cartvertising')}>{ pdfGenerating ? "⏳ Generating..." : "📄 Download PDF" }</button>
     </div>
     {#if shareFeedback}<p class="share-feedback">{shareFeedback}</p>{/if}
     <div style="height:80px;"></div>
@@ -495,7 +503,7 @@
       <button class="cart-btn" on:click={() => addToCart('DigitalBoost', '$' + dbStandard.toLocaleString() + '/pin', '240K impressions')}>🛒 Add to Cart</button>
       <div class="btn-row">
         <button class="share-btn" on:click={() => shareProduct('digitalboost')}>📩 Send to Customer</button>
-        <button class="pdf-btn" on:click={() => downloadProductPdf('digitalboost')}>📄 Download PDF</button>
+        <button class="pdf-btn" disabled={pdfGenerating} on:click={() => downloadProductPdf('digitalboost')}>{ pdfGenerating ? "⏳ Generating..." : "📄 Download PDF" }</button>
       </div>
       {#if shareFeedback}<p class="share-feedback">{shareFeedback}</p>{/if}
 
@@ -522,7 +530,7 @@
       <button class="cart-btn" on:click={() => addToCart(dp.name, dp.price, dp.desc)}>🛒 Add to Cart</button>
       <div class="btn-row">
         <button class="share-btn" on:click={() => shareProduct(selectedDigital)}>📩 Send to Customer</button>
-        <button class="pdf-btn" on:click={() => downloadProductPdf(selectedDigital)}>📄 Download PDF</button>
+        <button class="pdf-btn" disabled={pdfGenerating} on:click={() => downloadProductPdf(selectedDigital)}>{ pdfGenerating ? "⏳ Generating..." : "📄 Download PDF" }</button>
       </div>
       {#if shareFeedback}<p class="share-feedback">{shareFeedback}</p>{/if}
     {/if}
