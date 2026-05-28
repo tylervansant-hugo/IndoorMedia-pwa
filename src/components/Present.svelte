@@ -1,6 +1,6 @@
 <script>
   import { onMount, onDestroy } from 'svelte';
-  import { user } from '../lib/stores.js';
+  import { user, padAmount, digitalPadAmount } from '../lib/stores.js';
   import MeetingPrep from './MeetingPrep.svelte';
 
   let view = 'menu'; 
@@ -106,6 +106,60 @@
     localStorage.setItem('indoormedia_cart', JSON.stringify(cart));
     alert('Added to cart: ' + name);
   }
+
+  let shareFeedback = '';
+
+  // Dynamic digital pricing
+  $: dbStandard = 2400 + ($digitalPadAmount || 0);
+  $: dbCoop = 1200 + ($digitalPadAmount || 0);
+  $: lbPrice = 2400 + ($digitalPadAmount || 0);
+  $: dbExamples = [
+    { pins: 1, standard: '$' + (dbStandard + 395).toLocaleString(), coop: '$' + (dbCoop + 395).toLocaleString() },
+    { pins: 2, standard: '$' + (dbStandard * 2 + 395).toLocaleString(), coop: '$' + (dbCoop * 2 + 395).toLocaleString() },
+    { pins: 3, standard: '$' + (dbStandard * 3 + 395).toLocaleString(), coop: '$' + (dbCoop * 3 + 395).toLocaleString() },
+    { pins: 5, standard: '$' + (dbStandard * 5 + 395).toLocaleString(), coop: '$' + (dbCoop * 5 + 395).toLocaleString() },
+  ];
+
+  function repName() {
+    return $user?.name || $user?.first_name || localStorage.getItem('impro_rep_name') || 'Your IndoorMedia Rep';
+  }
+
+  async function shareProduct(productId) {
+    const texts = {
+      'register-tape': `🧾 Register Tape Advertising — IndoorMedia\nYour ad printed on grocery store receipts — seen by every single customer!\n\n✅ 100% reach — every shopper gets a receipt\n✅ Hyper-local targeting at stores near your business\n✅ Affordable — fraction of direct mail or digital\n✅ Trackable with coupon codes\n\n📐 Single Ad (2.75" × 1.75") or Double Ad (2.75" × 3.6")\n\n🎥 See how it works: ${VIDEO_LINKS['register-tape'].explainer}\n\n— ${repName()}, IndoorMedia`,
+      
+      'cartvertising': `🛒 Cartvertising — IndoorMedia\nFull-color ads mounted at eye level on shopping carts!\n\n✅ Eye-level visibility — impossible to miss\n✅ 40+ minutes per shopping trip with your ad\n✅ Full-color, high-quality printing\n✅ Massive reach — thousands of shoppers per cart\n\n🎥 See how it works: ${VIDEO_LINKS['cartvertising'].explainer}\n\n— ${repName()}, IndoorMedia`,
+      
+      'digitalboost': `🚀 DigitalBoost — Digital Geofencing\nYour ad delivered to phones within a targeted radius of your business!\n\n✅ 240,000+ ad impressions\n✅ Geofence pin at your location\n✅ Digital banner ads on mobile apps & websites\n✅ Monthly performance reports\n\n💰 Starting at $${dbStandard.toLocaleString()} per pin\n\n🎥 See how it works: ${VIDEO_LINKS.digitalboost.explainer}\n\n— ${repName()}, IndoorMedia`,
+      
+      'findlocal': `📍 FindLocal — Local SEO & Listings\nGet your business found everywhere customers are searching!\n\n✅ 50+ directory submissions\n✅ NAP optimization (name, address, phone)\n✅ Google Business Profile sync\n✅ Automated monthly progress reports\n\n💰 $695/location\n\n🎥 See how it works: ${VIDEO_LINKS.findlocal.explainer}\n\n— ${repName()}, IndoorMedia`,
+      
+      'reviewboost': `⭐ ReviewBoost — Reputation Management\nAutomated review request campaigns via Email & SMS!\n\n✅ ReviewKit included\n✅ 4-month automated campaign\n✅ Email & SMS review requests\n✅ Up to 4,000 contacts per campaign\n\n💰 $695 for 4-month campaign\n\n🎥 See how it works: ${VIDEO_LINKS.reviewboost.explainer}\n\n— ${repName()}, IndoorMedia`,
+      
+      'loyaltyboost': `💎 LoyaltyBoost — Customer Retention\nAnnual loyalty & rewards program for your business!\n\n✅ Full loyalty program setup\n✅ Customer retention campaigns\n✅ Rewards program management\n✅ Annual program\n\n💰 $${lbPrice.toLocaleString()}/year + $495 production\n\n🎥 See how it works: ${VIDEO_LINKS.loyaltyboost.explainer}\n\n— ${repName()}, IndoorMedia`,
+    };
+
+    const text = texts[productId];
+    if (!text) return;
+
+    try {
+      if (navigator.share) {
+        await navigator.share({ text });
+        shareFeedback = '✅ Shared!';
+      } else {
+        await navigator.clipboard.writeText(text);
+        shareFeedback = '✅ Copied to clipboard!';
+      }
+    } catch {
+      try {
+        await navigator.clipboard.writeText(text);
+        shareFeedback = '✅ Copied!';
+      } catch {
+        shareFeedback = '❌ Could not share';
+      }
+    }
+    setTimeout(() => shareFeedback = '', 3000);
+  }
 </script>
 
 <div class="present">
@@ -178,6 +232,8 @@
       </div>
       <button class="cart-btn" on:click={() => addToCart('Register Tape — ' + tapeTiers[selectedTier].name, 'Store-based', selectedTier)}>🛒 Add to Cart</button>
     {/if}
+    <button class="share-btn" on:click={() => shareProduct('register-tape')}>📩 Send to Customer</button>
+    {#if shareFeedback}<p class="share-feedback">{shareFeedback}</p>{/if}
     <div style="height:80px;"></div>
 
   <!-- ========== CARTVERTISING ========== -->
@@ -206,6 +262,8 @@
         </div>
       </div>
     {/each}
+    <button class="share-btn" on:click={() => shareProduct('cartvertising')}>📩 Send to Customer</button>
+    {#if shareFeedback}<p class="share-feedback">{shareFeedback}</p>{/if}
     <div style="height:80px;"></div>
 
   <!-- ========== DIGITAL ========== -->
@@ -236,16 +294,20 @@
         <a href={VIDEO_LINKS.digitalboost.connectionHub} target="_blank" class="video-btn">🔗 Hub</a>
       </div>
       <div class="pricing-card">
-        {#each digitalProducts.digitalboost.details as d}
-          <div class="pricing-row"><span class="plan">{d.label}</span><span class="formula">{d.value}</span></div>
-        {/each}
+        <div class="pricing-row"><span class="plan">Standard (per pin)</span><span class="formula">${dbStandard.toLocaleString()}</span></div>
+        <div class="pricing-row"><span class="plan">Co-Op (per pin)</span><span class="formula">${dbCoop.toLocaleString()}</span></div>
+        <div class="pricing-row"><span class="plan">Production</span><span class="formula">$395 (covers 5 pins)</span></div>
+        <div class="pricing-row"><span class="plan">Impressions (standalone)</span><span class="formula">240,000</span></div>
+        <div class="pricing-row"><span class="plan">Impressions (bundled)</span><span class="formula">360,000</span></div>
       </div>
       <div class="section-divider"><h3>💰 Pricing Examples</h3></div>
       <div class="table-wrap"><table>
         <thead><tr><th>Pins</th><th>Standard</th><th>Co-Op</th></tr></thead>
-        <tbody>{#each digitalProducts.digitalboost.examples as ex}<tr><td>{ex.pins}</td><td>{ex.standard}</td><td>{ex.coop}</td></tr>{/each}</tbody>
+        <tbody>{#each dbExamples as ex}<tr><td>{ex.pins}</td><td>{ex.standard}</td><td>{ex.coop}</td></tr>{/each}</tbody>
       </table></div>
-      <button class="cart-btn" on:click={() => addToCart('DigitalBoost', '$3,600/pin', '240K impressions')}>🛒 Add to Cart</button>
+      <button class="cart-btn" on:click={() => addToCart('DigitalBoost', '$' + dbStandard.toLocaleString() + '/pin', '240K impressions')}>🛒 Add to Cart</button>
+      <button class="share-btn" on:click={() => shareProduct('digitalboost')}>📩 Send to Customer</button>
+      {#if shareFeedback}<p class="share-feedback">{shareFeedback}</p>{/if}
 
     {:else}
       {@const dp = digitalProducts[selectedDigital]}
@@ -268,6 +330,8 @@
         <ul class="feat-list">{#each dp.features as f}<li>✓ {f}</li>{/each}</ul>
       {/if}
       <button class="cart-btn" on:click={() => addToCart(dp.name, dp.price, dp.desc)}>🛒 Add to Cart</button>
+      <button class="share-btn" on:click={() => shareProduct(selectedDigital)}>📩 Send to Customer</button>
+      {#if shareFeedback}<p class="share-feedback">{shareFeedback}</p>{/if}
     {/if}
     <div style="height:80px;"></div>
 
@@ -373,4 +437,7 @@
   .feat-list li:last-child { border-bottom:none; }
   .analysis-btn { display:block; width:100%; padding:14px; background:#1565C0; color:#fff; border:none; border-radius:10px; font-size:15px; font-weight:700; text-align:center; text-decoration:none; margin:12px 0; box-sizing:border-box; }
   .analysis-btn:hover { background:#0D47A1; }
+  .share-btn { width: 100%; padding: 14px; background: #1565C0; color: white; border: none; border-radius: 12px; font-size: 16px; font-weight: 700; cursor: pointer; margin-top: 10px; }
+  .share-btn:hover { background: #0D47A1; }
+  .share-feedback { text-align: center; font-size: 14px; color: #2e7d32; font-weight: 600; margin-top: 8px; }
 </style>
