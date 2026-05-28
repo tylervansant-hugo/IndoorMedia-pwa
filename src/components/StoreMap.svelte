@@ -1,5 +1,6 @@
 <script>
   import { onMount, onDestroy } from 'svelte';
+  import { sharedUserLocation } from '../lib/stores.js';
   import L from 'leaflet';
   import 'leaflet/dist/leaflet.css';
   import 'leaflet.markercluster';
@@ -461,7 +462,13 @@
       updateMap();
       updateBeacons();
 
-      // Init geolocation
+      // Use shared location from Rates/Prospects if available, otherwise init geolocation
+      const sharedLoc = $sharedUserLocation;
+      if (sharedLoc && sharedLoc.lat && sharedLoc.lng) {
+        userLatLng = [sharedLoc.lat, sharedLoc.lng];
+        map.setView(userLatLng, 12);
+        showUserLocation();
+      }
       initGeolocation();
     } catch (err) {
       console.error('StoreMap init error:', err);

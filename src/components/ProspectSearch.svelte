@@ -1,6 +1,6 @@
 <script>
   import { onMount, onDestroy, tick } from 'svelte';
-  import { user, currentUser } from '../lib/stores.js';
+  import { user, currentUser, sharedNearbyStores, sharedSelectedStore, sharedUserLocation } from '../lib/stores.js';
   import { logActivity } from '../lib/activity.js';
   import { isFirebaseReady, claimStore, releaseStore, getZoneClaims } from '../lib/firebase.js';
   import HotLeadsSubmit from './HotLeadsSubmit.svelte';
@@ -138,6 +138,20 @@
     document.addEventListener('select-store-from-map', handleStoreSelectFromMap);
     document.addEventListener('edge-swipe-back', handleEdgeSwipeBack);
     loadStoreClaims();
+    
+    // If stores were already loaded from Rates tab, use them
+    const sharedStores = $sharedNearbyStores;
+    const sharedLoc = $sharedUserLocation;
+    const sharedStore = $sharedSelectedStore;
+    if (sharedStores && sharedStores.length > 0) {
+      nearbyStores = sharedStores;
+      if (sharedStore) {
+        selectedStore = sharedStore;
+        view = 'categories';
+      } else {
+        view = 'nearby-stores';
+      }
+    }
     try {
       const response = await fetch(import.meta.env.BASE_URL + 'data/video_library.json?t=' + Date.now());
       videoLibrary = await response.json();
@@ -648,6 +662,9 @@
         if (withDistances.length > 0) {
           nearbyStores = withDistances;
           view = 'nearby-stores';
+          // Share with other tabs (Rates, Map)
+          sharedNearbyStores.set(withDistances);
+          sharedUserLocation.set(userLocation);
         } else {
           error = 'No stores found within 25 miles';
         }
@@ -683,6 +700,7 @@
 
   function selectStore(store) {
     selectedStore = store;
+    sharedSelectedStore.set(store);
     lookupStorePhone(store);
     view = 'categories';
   }

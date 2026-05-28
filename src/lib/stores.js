@@ -76,3 +76,9 @@ export function setError(message) {
 export function setLoading(isLoading) {
   loading.set(isLoading);
 }
+
+// Shared store context — persists across Rates/Prospects/Map tab switches
+export const sharedNearbyStores = writable([]);
+export const sharedSelectedStore = writable(null);
+export const sharedUserLocation = writable(null); // { lat, lng }
+export const sharedStoreSearch = writable(''); // search query text

@@ -1,5 +1,5 @@
 <script>
-  import { searchResults, loading, error, setLoading, setError, addToCart, padAmount, currentUser } from '../lib/stores.js';
+  import { searchResults, loading, error, setLoading, setError, addToCart, padAmount, currentUser, sharedNearbyStores, sharedUserLocation, sharedStoreSearch } from '../lib/stores.js';
   import { onMount } from 'svelte';
   import { calculateROI as sharedCalculateROI } from '../lib/roi.js';
   import { isFirebaseReady, claimStore, releaseStore, getZoneClaims } from '../lib/firebase.js';
@@ -442,6 +442,9 @@ Store: ${store.StoreName}
         filtered = smartSortByDistance(latitude, longitude);
         searchTerm = '';
         searchResults.set(filtered);
+        // Share with other tabs (Prospects, Map)
+        sharedNearbyStores.set(filtered.slice(0, 20));
+        sharedUserLocation.set(userLocation);
         setLoading(false);
       },
       (err) => {
@@ -478,6 +481,9 @@ Store: ${store.StoreName}
 
       filtered = smartSortByDistance(lat, lng, term);
       searchResults.set(filtered);
+      // Share with other tabs
+      sharedNearbyStores.set(filtered.slice(0, 20));
+      sharedUserLocation.set(userLocation);
     } catch (err) {
       // Silently fail — text search results are still showing
     } finally {
