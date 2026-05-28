@@ -127,7 +127,7 @@
 
   async function shareProduct(productId) {
     const texts = {
-      'register-tape': `🧾 Register Tape Advertising — IndoorMedia\nYour ad printed on grocery store receipts — seen by every single customer!\n\n✅ 100% reach — every shopper gets a receipt\n✅ Hyper-local targeting at stores near your business\n✅ Affordable — fraction of direct mail or digital\n✅ Trackable with coupon codes\n\n📐 Single Ad (2.75" × 1.75") or Double Ad (2.75" × 3.6")\n\n🎥 See how it works: ${VIDEO_LINKS['register-tape'].explainer}\n\n— ${repName()}, IndoorMedia`,
+      'register-tape': `🧾 Register Tape Advertising — IndoorMedia\nYour ad printed on grocery store receipts — seen by every single customer!\n\n✅ 100% reach — every shopper gets a receipt\n✅ Hyper-local targeting at stores near your business\n✅ Affordable — fraction of direct mail or digital\n✅ Trackable with coupon codes\n\n📐 Single Ad (2.75" x 1.75") or Double Ad (2.75" x 3.6")\n\n🎥 See how it works: ${VIDEO_LINKS['register-tape'].explainer}\n\n— ${repName()}, IndoorMedia`,
       
       'cartvertising': `🛒 Cartvertising — IndoorMedia\nFull-color ads mounted at eye level on shopping carts!\n\n✅ Eye-level visibility — impossible to miss\n✅ 40+ minutes per shopping trip with your ad\n✅ Full-color, high-quality printing\n✅ Massive reach — thousands of shoppers per cart\n\n🎥 See how it works: ${VIDEO_LINKS['cartvertising'].explainer}\n\n— ${repName()}, IndoorMedia`,
       
@@ -202,7 +202,8 @@
       page.drawText(title, { x:30, y:startY, size:14, font:bold, color:red });
       startY -= 22;
       for (const item of items) {
-        page.drawText('✓  ' + item, { x:40, y:startY, size:11, font:regular, color:black });
+        page.drawRectangle({ x:40, y:startY+2, width:6, height:6, color:rgb(0.18, 0.49, 0.2) });
+        page.drawText('  ' + item, { x:50, y:startY, size:11, font:regular, color:black });
         startY -= 18;
       }
       return startY - 8;
@@ -227,7 +228,7 @@
         'Trackable — coupon codes measure real response',
       ], y);
       page.drawText('Ad Sizes', { x:30, y, size:14, font:bold, color:red }); y -= 22;
-      page.drawText('Single Ad: 2.75" × 1.75"    |    Double Ad: 2.75" × 3.6"', { x:40, y, size:11, font:regular, color:black }); y -= 26;
+      page.drawText('Single Ad: 2.75" x 1.75"    |    Double Ad: 2.75" x 3.6"', { x:40, y, size:11, font:regular, color:black }); y -= 26;
       y = drawPricing([
         ['Manager Co-Op Monthly', 'Base + $125 production'],
         ['Co-Op 3-Month', 'Base × 0.90 + $125 (10% off)'],
@@ -399,8 +400,8 @@
 
       <div class="section-divider"><h3>📐 Ad Sizes</h3></div>
       <div class="size-comparison">
-        <div class="size-box"><div class="size-preview single-sz"><span>SINGLE</span></div><p><strong>Single Ad</strong></p><p class="dims">2.75" × 1.75"</p></div>
-        <div class="size-box"><div class="size-preview double-sz"><span>DOUBLE</span></div><p><strong>Double Ad</strong></p><p class="dims">2.75" × 3.6"</p></div>
+        <div class="size-box"><div class="size-preview single-sz"><span>SINGLE</span></div><p><strong>Single Ad</strong></p><p class="dims">2.75" x 1.75"</p></div>
+        <div class="size-box"><div class="size-preview double-sz"><span>DOUBLE</span></div><p><strong>Double Ad</strong></p><p class="dims">2.75" x 3.6"</p></div>
       </div>
 
       <div class="section-divider"><h3>💳 Pricing Tiers</h3></div>
