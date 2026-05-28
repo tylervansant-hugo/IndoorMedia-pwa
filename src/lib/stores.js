@@ -23,6 +23,15 @@ padAmount.subscribe(val => {
   }
 });
 
+// Digital pricing pad amount (reactive, syncs to localStorage)
+const savedDigitalPad = typeof localStorage !== 'undefined' ? parseFloat(localStorage.getItem('impro_digital_pad_amount')) || 1200 : 1200;
+export const digitalPadAmount = writable(savedDigitalPad);
+digitalPadAmount.subscribe(val => {
+  if (typeof localStorage !== 'undefined') {
+    localStorage.setItem('impro_digital_pad_amount', val.toString());
+  }
+});
+
 // Search results
 export const searchResults = writable([]);
 

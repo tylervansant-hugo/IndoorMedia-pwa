@@ -1,8 +1,46 @@
 <script>
+  import { digitalPadAmount } from '../lib/stores.js';
+
   let view = 'main'; // main, product-detail, tier-detail, digital-menu, digital-detail
   let selectedProduct = null;
   let selectedTier = null;
   let selectedDigitalProduct = null;
+  let localDigitalPad = 1200;
+  
+  // Sync store to local
+  digitalPadAmount.subscribe(v => { localDigitalPad = v; });
+
+  // Reactive pricing
+  $: dbStandardPerPin = 2400 + localDigitalPad;
+  $: dbCoopPerPin = 1200 + localDigitalPad;
+  $: lbAnnual = 2400 + localDigitalPad;
+
+  function fmt(n) { return '$' + n.toLocaleString(); }
+
+  // DigitalBoost examples with dynamic padding
+  $: dbExamples = [
+    { pins: 1, standard: fmt(dbStandardPerPin + 395), coop: fmt(dbCoopPerPin + 395) },
+    { pins: 2, standard: fmt(dbStandardPerPin * 2 + 395), coop: fmt(dbCoopPerPin * 2 + 395) },
+    { pins: 3, standard: fmt(dbStandardPerPin * 3 + 395), coop: fmt(dbCoopPerPin * 3 + 395) },
+    { pins: 5, standard: fmt(dbStandardPerPin * 5 + 395), coop: fmt(dbCoopPerPin * 5 + 395) },
+  ];
+
+  function updateDigitalPad(e) {
+    const val = parseInt(e.target.value) || 0;
+    localDigitalPad = val;
+    digitalPadAmount.set(val);
+  }
+
+  let repName = '';
+  // Load rep name from localStorage
+  if (typeof localStorage !== 'undefined') {
+    repName = localStorage.getItem('impro_rep_name') || '';
+  }
+  function saveRepName() {
+    if (typeof localStorage !== 'undefined') {
+      localStorage.setItem('impro_rep_name', repName);
+    }
+  }
 
   // Product links synced from ProspectBot
   const PRODUCT_LINKS = {
@@ -41,76 +79,74 @@
 
   function copyProductPackage(productKey, subKey = null, tierKey = null) {
     let text = '';
+    const sig = repName ? `\n— ${repName}, IndoorMedia` : '\n— IndoorMedia';
 
     if (productKey === 'register_tape' && tierKey) {
       const tier = PRODUCTS.register_tape.tiers[tierKey];
       const links = PRODUCT_LINKS.register_tape;
-      text = `🧾 Register Tape — ${tier.name}\n`;
-      text += `${tier.desc}\n\n`;
+      text = `🧾 Register Tape — ${tier.name}\n${tier.desc}\n\n`;
       text += `💰 Payment Plans:\n`;
       for (const [plan, formula] of Object.entries(tier.pricing)) {
-        text += `• ${plan.charAt(0).toUpperCase() + plan.slice(1)}: ${formula}\n`;
+        text += `✅ ${plan.charAt(0).toUpperCase() + plan.slice(1)}: ${formula}\n`;
       }
-      text += `\n🎬 Presentation: ${links.presentation}\n`;
-      text += `📹 Explainer: ${links.explainer}`;
+      text += `\n🎥 See how it works: ${links.explainer}\n📊 Presentation: ${links.presentation}`;
+      text += sig;
     } else if (productKey === 'register_tape') {
       const links = PRODUCT_LINKS.register_tape;
-      text = `🧾 Register Tape\nHigh-visibility promotional strips at checkout\n\n`;
-      text += `Tiers:\n`;
+      text = `🧾 Register Tape — Checkout Advertising\nHigh-visibility promotional strips seen by every customer at checkout!\n\n`;
+      text += `Available Tiers:\n`;
       for (const [k, tier] of Object.entries(PRODUCTS.register_tape.tiers)) {
-        text += `• ${tier.emoji} ${tier.name} — ${tier.desc}\n`;
+        text += `✅ ${tier.emoji} ${tier.name} — ${tier.desc}\n`;
       }
-      text += `\n🎬 Presentation: ${links.presentation}\n`;
-      text += `📹 Explainer: ${links.explainer}`;
+      text += `\n🎥 See how it works: ${links.explainer}\n📊 Presentation: ${links.presentation}`;
+      text += sig;
     } else if (productKey === 'cartvertising') {
       const links = PRODUCT_LINKS.cartvertising;
-      text = `🛒 Cartvertising\nShopping cart advertising — 6-month campaigns\n\n💰 Packages:\n`;
+      text = `🛒 Cartvertising — Shopping Cart Advertising\nYour brand on every cart, seen by every shopper — 6-month campaigns!\n\n`;
       for (const [k, pkg] of Object.entries(PRODUCTS.cartvertising.packages)) {
-        text += `• ${pkg.name} — ${pkg.price}\n`;
+        text += `✅ ${pkg.name} — ${pkg.price}\n`;
       }
-      text += `\n🎬 Presentation: ${links.presentation}\n`;
-      text += `📹 Explainer: ${links.explainer}`;
+      text += `\n🎥 See how it works: ${links.explainer}\n📊 Presentation: ${links.presentation}`;
+      text += sig;
     } else if (productKey === 'digitalboost') {
-      const db = PRODUCTS.digital.subproducts.digitalboost;
       const links = PRODUCT_LINKS.digitalboost;
-      text = `🚀 DigitalBoost\n${db.desc}\n\n`;
-      text += `📊 Impressions:\n• Standalone: 240,000\n• Bundled w/ Tape or Cart: 360,000\n\n`;
-      text += `💰 Standard: $3,600/pin (+$395 production)\n`;
-      text += `💰 Co-Op: $2,400/pin (+$395 production)\n\n`;
-      text += `Pricing Examples:\n`;
-      for (const ex of db.examples) {
+      text = `🚀 DigitalBoost — Digital Geofencing\nYour ad delivered to phones within a targeted radius of your business!\n\n`;
+      text += `✅ 240,000+ ad impressions\n✅ Geofence pin at your location\n✅ Digital banner ads on mobile apps & websites\n✅ Monthly performance reports\n\n`;
+      text += `💰 Starting at ${fmt(dbStandardPerPin)} per pin (standard)\n`;
+      text += `💰 Co-Op pricing: ${fmt(dbCoopPerPin)} per pin\n`;
+      text += `💰 Production: $395 (covers up to 5 pins)\n\n`;
+      text += `📊 Pricing Examples:\n`;
+      for (const ex of dbExamples) {
         text += `• ${ex.pins} pin${ex.pins > 1 ? 's' : ''}: ${ex.standard} (standard) / ${ex.coop} (co-op)\n`;
       }
-      text += `\n🎬 Presentation: ${links.presentation}\n`;
-      text += `📹 Explainer: ${links.explainer}`;
+      text += `\n🎥 See how it works: ${links.explainer}\n📊 Presentation: ${links.presentation}`;
+      text += sig;
     } else if (productKey === 'findlocal') {
       const fl = PRODUCTS.digital.subproducts.findlocal;
       const links = PRODUCT_LINKS.findlocal;
-      text = `📍 FindLocal\n${fl.desc}\n\n`;
-      text += `💰 ${fl.pricing}\n${fl.googleProfileAssistance}\n\n`;
-      text += `Features:\n`;
-      for (const f of fl.features) { text += `• ${f}\n`; }
-      text += `\n🎬 Presentation: ${links.presentation}\n`;
-      text += `📹 Explainer: ${links.explainer}`;
+      text = `📍 FindLocal — Local SEO & Listings\nGet found online across 50+ directories!\n\n`;
+      for (const f of fl.features) { text += `✅ ${f}\n`; }
+      text += `\n💰 ${fl.pricing}\n💰 ${fl.googleProfileAssistance}\n`;
+      text += `\n🎥 See how it works: ${links.explainer}\n📊 Presentation: ${links.presentation}`;
+      text += sig;
     } else if (productKey === 'reviewboost') {
       const rb = PRODUCTS.digital.subproducts.reviewboost;
       const links = PRODUCT_LINKS.reviewboost;
-      text = `⭐ ReviewBoost\n${rb.desc}\n\n`;
-      text += `💰 ${rb.pricing} (${rb.contacts})\n`;
-      text += `Additional: ${rb.additional}\n\n`;
-      text += `Includes:\n`;
-      for (const f of rb.features) { text += `• ${f}\n`; }
-      text += `\n🎬 Presentation: ${links.presentation}\n`;
-      text += `📹 Explainer: ${links.explainer}`;
+      text = `⭐ ReviewBoost — Automated Review Requests\nBoost your online reputation with automated Email & SMS review campaigns!\n\n`;
+      for (const f of rb.features) { text += `✅ ${f}\n`; }
+      text += `\n💰 ${rb.pricing} (${rb.contacts})\n💰 Additional campaigns: ${rb.additional}\n`;
+      text += `\n🎥 See how it works: ${links.explainer}\n📊 Presentation: ${links.presentation}`;
+      text += sig;
     } else if (productKey === 'loyaltyboost') {
-      const lb = PRODUCTS.digital.subproducts.loyaltyboost;
       const links = PRODUCT_LINKS.loyaltyboost;
-      text = `💎 LoyaltyBoost\n${lb.desc}\n\n`;
-      text += `💰 ${lb.pricing}\nProduction: ${lb.production}\n\n`;
+      text = `💎 LoyaltyBoost — Customer Loyalty Program\nKeep customers coming back with an annual loyalty/rewards campaign!\n\n`;
+      text += `✅ Annual loyalty campaign per location\n✅ Rewards program setup\n✅ Customer retention focus\n\n`;
+      text += `💰 ${fmt(lbAnnual)}/year\n💰 Production: $495\n\n`;
       text += `Payment Options:\n`;
+      const lb = PRODUCTS.digital.subproducts.loyaltyboost;
       for (const o of lb.paymentOptions) { text += `• ${o}\n`; }
-      text += `\n🎬 Presentation: ${links.presentation}\n`;
-      text += `📹 Explainer: ${links.explainer}`;
+      text += `\n🎥 See how it works: ${links.explainer}\n📊 Presentation: ${links.presentation}`;
+      text += sig;
     }
 
     if (!text) return;
@@ -371,7 +407,7 @@
     </div>
 
     <button class="share-btn" on:click={() => copyProductPackage('register_tape')}>
-      {copyFeedback === 'register_tape' ? '✅ Copied!' : '📋 Copy & Send'}
+      {copyFeedback === 'register_tape' ? '✅ Sent!' : '📩 Send to Customer'}
     </button>
 
     <div class="tiers-list">
@@ -411,7 +447,7 @@
       </div>
 
       <button class="share-btn" on:click={() => copyProductPackage('register_tape', null, selectedTier)}>
-        {copyFeedback === 'register_tape' + selectedTier ? '✅ Copied!' : '📋 Copy & Send'}
+        {copyFeedback === 'register_tape' + selectedTier ? '✅ Sent!' : '📩 Send to Customer'}
       </button>
       <button class="action-btn" on:click={() => addToCart('Register Tape - ' + PRODUCTS.register_tape.tiers[selectedTier].name, 'Store-based', selectedTier)}>🛒 Add to Cart</button>
     </div>
@@ -433,7 +469,7 @@
     </div>
 
     <button class="share-btn" on:click={() => copyProductPackage('cartvertising')}>
-      {copyFeedback === 'cartvertising' ? '✅ Copied!' : '📋 Copy & Send'}
+      {copyFeedback === 'cartvertising' ? '✅ Sent!' : '📩 Send to Customer'}
     </button>
 
     <div class="packages-list">
@@ -454,6 +490,20 @@
     <button class="back-btn" on:click={goBack}>← Back</button>
     <h2>📱 Digital Products</h2>
     <p class="detail-subtitle">Online advertising & customer engagement solutions</p>
+
+    <div class="settings-bar">
+      <div class="setting-item">
+        <label>💰 Digital Padding</label>
+        <div class="input-row">
+          <span>$</span>
+          <input type="number" value={localDigitalPad} on:change={updateDigitalPad} min="0" step="100" class="pad-input" />
+        </div>
+      </div>
+      <div class="setting-item">
+        <label>👤 Rep Name</label>
+        <input type="text" bind:value={repName} on:blur={saveRepName} placeholder="Your name" class="rep-input" />
+      </div>
+    </div>
 
     <div class="digital-grid">
       {#each Object.entries(PRODUCTS.digital.subproducts) as [key, product]}
@@ -494,13 +544,13 @@
 
       <div class="detail-section">
         <h4>Standard Pricing</h4>
-        <p class="pricing-item">$3,600 per pin</p>
+        <p class="pricing-item">{fmt(dbStandardPerPin)} per pin</p>
         <p class="pricing-item">$395 production (covers up to 5 pins)</p>
       </div>
 
       <div class="detail-section">
         <h4>Manager-Approved Co-Op Pricing</h4>
-        <p class="pricing-item">$2,400 per pin</p>
+        <p class="pricing-item">{fmt(dbCoopPerPin)} per pin</p>
         <p class="pricing-item">$395 production (covers up to 5 pins)</p>
       </div>
 
@@ -515,7 +565,7 @@
             </tr>
           </thead>
           <tbody>
-            {#each PRODUCTS.digital.subproducts.digitalboost.examples as ex}
+            {#each dbExamples as ex}
               <tr>
                 <td>{ex.pins}</td>
                 <td>{ex.standard}</td>
@@ -528,9 +578,9 @@
 
       
       <button class="share-btn" on:click={() => copyProductPackage('digitalboost')}>
-        {copyFeedback === 'digitalboost' ? '✅ Copied!' : '📋 Copy & Send'}
+        {copyFeedback === 'digitalboost' ? '✅ Sent!' : '📩 Send to Customer'}
       </button>
-      <button class="action-btn" on:click={() => addToCart("DigitalBoost", "$3,600/pin", "240K standalone / 360K bundled impressions")}>🛒 Add to Cart</button>
+      <button class="action-btn" on:click={() => addToCart("DigitalBoost", fmt(dbStandardPerPin) + "/pin", "240K standalone / 360K bundled impressions")}>🛒 Add to Cart</button>
     </div>
   {/if}
 
@@ -563,7 +613,7 @@
 
       
       <button class="share-btn" on:click={() => copyProductPackage('findlocal')}>
-        {copyFeedback === 'findlocal' ? '✅ Copied!' : '📋 Copy & Send'}
+        {copyFeedback === 'findlocal' ? '✅ Sent!' : '📩 Send to Customer'}
       </button>
       <button class="action-btn" on:click={() => addToCart("FindLocal", "$695/location", "50+ directory listings")}>🛒 Add to Cart</button>
     </div>
@@ -603,7 +653,7 @@
       </div>
 
       <button class="share-btn" on:click={() => copyProductPackage('reviewboost')}>
-        {copyFeedback === 'reviewboost' ? '✅ Copied!' : '📋 Copy & Send'}
+        {copyFeedback === 'reviewboost' ? '✅ Sent!' : '📩 Send to Customer'}
       </button>
       <button class="action-btn" on:click={() => addToCart("ReviewBoost", "$695", "4-month campaign, 4000 contacts")}>🛒 Add to Cart</button>
     </div>
@@ -623,7 +673,7 @@
     <div class="detail-card">
       <div class="detail-section">
         <h4>Annual Campaign</h4>
-        <p class="detail-value">$3,600</p>
+        <p class="detail-value">{fmt(lbAnnual)}</p>
       </div>
 
       <div class="detail-section">
@@ -642,9 +692,9 @@
       </div>
 
       <button class="share-btn" on:click={() => copyProductPackage('loyaltyboost')}>
-        {copyFeedback === 'loyaltyboost' ? '✅ Copied!' : '📋 Copy & Send'}
+        {copyFeedback === 'loyaltyboost' ? '✅ Sent!' : '📩 Send to Customer'}
       </button>
-      <button class="action-btn" on:click={() => addToCart("LoyaltyBoost", "$3,600/year", "Annual loyalty campaign")}>🛒 Add to Cart</button>
+      <button class="action-btn" on:click={() => addToCart("LoyaltyBoost", fmt(lbAnnual) + "/year", "Annual loyalty campaign")}>🛒 Add to Cart</button>
     </div>
   {/if}
 </div>
@@ -1085,5 +1135,53 @@
     color: #CC0000;
     font-weight: 600;
   }
+
+  .settings-bar {
+    display: flex;
+    gap: 16px;
+    margin-bottom: 20px;
+    padding: 14px;
+    background: var(--card-bg, #ffffff);
+    border: 1px solid #e8e8e8;
+    border-radius: 12px;
+    flex-wrap: wrap;
+  }
+  :global([data-theme='dark']) .settings-bar { background: #1e1e1e; border-color: #333; }
+
+  .setting-item {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    flex: 1;
+    min-width: 120px;
+  }
+
+  .setting-item label {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--text-secondary, #666);
+  }
+
+  .input-row {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    color: var(--text-primary, #333);
+    font-weight: 600;
+  }
+
+  .pad-input, .rep-input {
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    padding: 6px 10px;
+    font-size: 14px;
+    width: 100%;
+    background: var(--card-bg, #fff);
+    color: var(--text-primary, #333);
+  }
+  :global([data-theme='dark']) .pad-input,
+  :global([data-theme='dark']) .rep-input { background: #2a2a2a; border-color: #444; color: #eee; }
+
+  .pad-input { max-width: 100px; }
 </style>
 
