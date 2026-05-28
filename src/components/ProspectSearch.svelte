@@ -139,18 +139,10 @@
     document.addEventListener('edge-swipe-back', handleEdgeSwipeBack);
     loadStoreClaims();
     
-    // If stores were already loaded from Rates tab, use them
-    const sharedStores = $sharedNearbyStores;
+    // If user location was already set from Rates tab, auto-trigger Near Me search
     const sharedLoc = $sharedUserLocation;
-    const sharedStore = $sharedSelectedStore;
-    if (sharedStores && sharedStores.length > 0) {
-      nearbyStores = sharedStores;
-      if (sharedStore) {
-        selectedStore = sharedStore;
-        view = 'categories';
-      } else {
-        view = 'nearby-stores';
-      }
+    if (sharedLoc && sharedLoc.lat && sharedLoc.lng && allStores.length === 0) {
+      // Will auto-search once allStores loads (handled below after fetch)
     }
     try {
       const response = await fetch(import.meta.env.BASE_URL + 'data/video_library.json?t=' + Date.now());
@@ -453,6 +445,24 @@
       ]);
       allStores = await storesRes.json();
       repRegistry = await repRes.json().catch(() => ({}));
+      
+      // If user location was shared from Rates tab, auto-populate nearby stores
+      const sharedLoc2 = $sharedUserLocation;
+      if (sharedLoc2 && sharedLoc2.lat && sharedLoc2.lng && nearbyStores.length === 0 && view === 'main') {
+        userLocation = sharedLoc2;
+        const withDistances = allStores
+          .map(store => ({
+            ...store,
+            distance: calculateDistance(sharedLoc2.lat, sharedLoc2.lng, store.latitude, store.longitude)
+          }))
+          .filter(s => s.distance <= 25)
+          .sort((a, b) => a.distance - b.distance)
+          .slice(0, 10);
+        if (withDistances.length > 0) {
+          nearbyStores = withDistances;
+          view = 'nearby-stores';
+        }
+      }
       
       // Load hot leads - scoped to stores rep has sold at, filtered by current cycle
       let allLeadsData = await leadsRes.json();
