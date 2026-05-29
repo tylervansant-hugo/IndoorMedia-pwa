@@ -712,6 +712,7 @@ Store: ${store.StoreName}
       plan: `${selectedAdType === 'double' ? 'Double' : 'Single'} Ad — ${planNames[plan]}`,
       price: priceDisplay[plan],
       addedAt: new Date().toISOString(),
+      storeCases: parseInt(store['Case Count']) || 0,
     };
 
     // Save to localStorage (same format as Cart.svelte)

@@ -1,6 +1,7 @@
 <script>
   import { onMount } from 'svelte';
-  import { padAmount } from '../lib/stores.js';
+  import { padAmount, user } from '../lib/stores.js';
+  import { PDFDocument, rgb, StandardFonts } from 'pdf-lib';
   import StoreSearchInput from '../lib/StoreSearchInput.svelte';
 
   let cartItems = [];
@@ -10,6 +11,7 @@
   let newItem = { type: '', store: null, plan: '', pins: 1, price: '' };
   let storeSearch = '';
   let cartAdType = 'single'; // single or double
+  let businessName = '';
 
   // Drag-and-drop reorder state
   let dragIndex = null;
@@ -308,23 +310,236 @@
     addStep = 'type';
   }
 
-  function exportCSV() {
-    if (cartItems.length === 0) return;
-    const rows = [
-      ['Product', 'Store', 'Store #', 'Address', 'Cycle', 'Plan', 'Price', 'Date'].join(','),
-      ...cartItems.map(item =>
-        [item.name, item.store || '', item.storeNum || '', item.storeAddress || '', item.storeCycle || '', item.plan || '', item.price, item.addedAt?.split('T')[0] || '']
-          .map(c => `"${c}"`).join(',')
-      )
-    ].join('\n');
+  function parseAnnualPrice(item) {
+    // Extract annual total from price strings
+    const price = item.price || '';
+    const plan = item.plan || '';
+    // Look for "= $X,XXX" pattern (the total after =)
+    const eqMatch = price.match(/=\s*\$([0-9,]+)/);
+    if (eqMatch) return parseFloat(eqMatch[1].replace(/,/g, ''));
+    // Plain "$X,XXX" (PIF)
+    const plainMatch = price.match(/\$([0-9,]+)/);
+    if (!plainMatch) return 0;
+    const val = parseFloat(plainMatch[1].replace(/,/g, ''));
+    // Determine multiplier from plan
+    if (plan.toLowerCase().includes('monthly') || plan.toLowerCase().includes('12 payment')) return val * 12;
+    if (plan.toLowerCase().includes('3-month')) return val * 4;
+    if (plan.toLowerCase().includes('6-month')) return val * 2;
+    return val;
+  }
 
-    const blob = new Blob([rows], { type: 'text/csv' });
+  function getImpressions(item) {
+    const name = (item.name || '').toLowerCase();
+    if (name.includes('register tape')) {
+      const cases = item.storeCases || 0;
+      const daily = cases * 150;
+      return { daily, monthly: Math.round(daily * 30.4), annual: daily * 365 };
+    }
+    if (name.includes('cartvertising')) {
+      return { daily: 500, monthly: 15000, annual: 180000 };
+    }
+    if (name.includes('digitalboost') || name.includes('digital boost')) {
+      const pins = 1; // default
+      return { daily: 660 * pins, monthly: 20000 * pins, annual: 240000 * pins };
+    }
+    return null; // other digital products - skip
+  }
+
+  async function exportQuotePdf() {
+    if (cartItems.length === 0) return;
+
+    const pdfDoc = await PDFDocument.create();
+    const bold = await pdfDoc.embedFont(StandardFonts.HelveticaBold);
+    const regular = await pdfDoc.embedFont(StandardFonts.Helvetica);
+    const red = rgb(0.8, 0, 0);
+    const white = rgb(1, 1, 1);
+    const black = rgb(0, 0, 0);
+    const gray = rgb(0.3, 0.3, 0.3);
+    const green = rgb(0.18, 0.49, 0.2);
+    const lightGray = rgb(0.95, 0.95, 0.95);
+    const dateStr = new Date().toLocaleDateString('en-US', { year:'numeric', month:'long', day:'numeric' });
+    const rep = $user?.name || $user?.first_name || localStorage.getItem('impro_rep_name') || 'Your IndoorMedia Rep';
+
+    let page = pdfDoc.addPage([612, 792]);
+    let y = 792;
+    let pageNum = 1;
+
+    function checkPage(needed) {
+      if (y - needed < 60) {
+        // Footer on current page
+        page.drawText('IndoorMedia  |  indoormedia.com', { x: 612/2 - regular.widthOfTextAtSize('IndoorMedia  |  indoormedia.com', 9)/2, y: 30, size: 9, font: regular, color: gray });
+        page = pdfDoc.addPage([612, 792]);
+        y = 770;
+        pageNum++;
+      }
+    }
+
+    // Header bar
+    page.drawRectangle({ x: 0, y: y - 80, width: 612, height: 80, color: red });
+    page.drawText('QUOTE', { x: 30, y: y - 45, size: 30, font: bold, color: white });
+    page.drawText('IndoorMedia', { x: 30, y: y - 65, size: 12, font: regular, color: white });
+    page.drawText(dateStr, { x: 612 - bold.widthOfTextAtSize(dateStr, 10) - 30, y: y - 45, size: 10, font: bold, color: white });
+    y -= 100;
+
+    // Customer section
+    if (businessName.trim()) {
+      page.drawText('Prepared for: ' + businessName.trim(), { x: 30, y, size: 13, font: bold, color: black });
+      y -= 20;
+    }
+    page.drawText('Prepared by: ' + rep, { x: 30, y, size: 11, font: regular, color: gray });
+    y -= 30;
+
+    // Line items
+    page.drawText('Line Items', { x: 30, y, size: 14, font: bold, color: red });
+    y -= 6;
+    // Separator
+    page.drawRectangle({ x: 30, y: y - 2, width: 552, height: 1, color: rgb(0.8, 0.8, 0.8) });
+    y -= 14;
+
+    let totalDaily = 0, totalMonthly = 0, totalAnnual = 0, totalPrice = 0;
+
+    for (let i = 0; i < cartItems.length; i++) {
+      const item = cartItems[i];
+      const imp = getImpressions(item);
+      const annualPrice = parseAnnualPrice(item);
+      totalPrice += annualPrice;
+
+      if (imp) {
+        totalDaily += imp.daily;
+        totalMonthly += imp.monthly;
+        totalAnnual += imp.annual;
+      }
+
+      checkPage(90);
+
+      // Item number + product
+      page.drawText((i + 1) + '.', { x: 30, y, size: 11, font: bold, color: black });
+      page.drawText((item.name || '').replace(/[^\x20-\x7E]/g, ''), { x: 46, y, size: 11, font: bold, color: black });
+      if (item.plan) {
+        const planText = ' -- ' + item.plan;
+        const nameW = bold.widthOfTextAtSize((item.name || '').replace(/[^\x20-\x7E]/g, ''), 11);
+        page.drawText(planText, { x: 46 + nameW, y, size: 10, font: regular, color: gray });
+      }
+      y -= 16;
+
+      // Store info
+      if (item.store) {
+        page.drawText('Store: ' + item.store + (item.storeNum ? ' (#' + item.storeNum + ')' : ''), { x: 46, y, size: 10, font: regular, color: gray });
+        y -= 14;
+      }
+      if (item.storeAddress) {
+        page.drawText(item.storeAddress + (item.storeCycle ? '  |  Cycle ' + item.storeCycle : ''), { x: 46, y, size: 10, font: regular, color: gray });
+        y -= 14;
+      }
+
+      // Impressions
+      if (imp) {
+        page.drawText('Impressions:  Daily ' + imp.daily.toLocaleString() + '  |  Monthly ' + imp.monthly.toLocaleString() + '  |  Annual ' + imp.annual.toLocaleString(), { x: 46, y, size: 10, font: regular, color: rgb(0.18, 0.49, 0.2) });
+        y -= 14;
+      }
+
+      // Price
+      if (item.price) {
+        page.drawText('Price: ' + item.price, { x: 46, y, size: 10, font: bold, color: black });
+        y -= 14;
+      }
+
+      y -= 8;
+    }
+
+    // Grand totals
+    checkPage(100);
+    page.drawRectangle({ x: 30, y: y - 2, width: 552, height: 1, color: rgb(0.8, 0.8, 0.8) });
+    y -= 16;
+    page.drawText('TOTALS', { x: 30, y, size: 13, font: bold, color: red });
+    y -= 20;
+
+    if (totalDaily > 0) {
+      page.drawText('Total Daily Impressions:', { x: 40, y, size: 11, font: bold, color: black });
+      page.drawText(totalDaily.toLocaleString(), { x: 250, y, size: 11, font: regular, color: black });
+      y -= 16;
+      page.drawText('Total Monthly Impressions:', { x: 40, y, size: 11, font: bold, color: black });
+      page.drawText(totalMonthly.toLocaleString(), { x: 250, y, size: 11, font: regular, color: black });
+      y -= 16;
+      page.drawText('Total Annual Impressions:', { x: 40, y, size: 11, font: bold, color: black });
+      page.drawText(totalAnnual.toLocaleString(), { x: 250, y, size: 11, font: regular, color: black });
+      y -= 22;
+    }
+
+    const dailyInv = totalPrice / 365;
+    const monthlyInv = totalPrice / 12;
+    page.drawText('Daily Investment:', { x: 40, y, size: 11, font: bold, color: black });
+    page.drawText('$' + dailyInv.toFixed(2), { x: 250, y, size: 11, font: regular, color: black });
+    y -= 16;
+    page.drawText('Monthly Investment:', { x: 40, y, size: 11, font: bold, color: black });
+    page.drawText('$' + monthlyInv.toFixed(2), { x: 250, y, size: 11, font: regular, color: black });
+    y -= 16;
+    page.drawText('Annual Investment:', { x: 40, y, size: 11, font: bold, color: black });
+    page.drawText('$' + totalPrice.toLocaleString(), { x: 250, y, size: 11, font: bold, color: red });
+    y -= 30;
+
+    // Product highlights
+    const hasRT = cartItems.some(i => (i.name || '').toLowerCase().includes('register tape'));
+    const hasCart = cartItems.some(i => (i.name || '').toLowerCase().includes('cartvertising'));
+    const hasDigi = cartItems.some(i => {
+      const n = (i.name || '').toLowerCase();
+      return n.includes('digitalboost') || n.includes('digital boost') || n.includes('findlocal') || n.includes('reviewboost') || n.includes('loyaltyboost');
+    });
+
+    function drawHighlights(title, items) {
+      checkPage(30 + items.length * 18);
+      page.drawText(title, { x: 30, y, size: 13, font: bold, color: red });
+      y -= 20;
+      for (const txt of items) {
+        page.drawRectangle({ x: 40, y: y + 2, width: 6, height: 6, color: green });
+        page.drawText('  ' + txt, { x: 50, y, size: 11, font: regular, color: black });
+        y -= 18;
+      }
+      y -= 8;
+    }
+
+    if (hasRT) {
+      drawHighlights('Register Tape Highlights', [
+        '100% Reach -- every customer gets a receipt with your ad',
+        'Hyper-Local -- target shoppers at stores near your business',
+        'Affordable -- fraction of the cost of direct mail or digital',
+        'Trackable -- coupon codes measure real customer response',
+      ]);
+    }
+    if (hasCart) {
+      drawHighlights('Cartvertising Highlights', [
+        'Eye-Level -- ads mounted right where shoppers look',
+        '40+ Minutes -- your ad stays the entire shopping trip',
+        'Full Color -- high-quality printing for maximum impact',
+        'Massive Reach -- thousands of shoppers per cart',
+      ]);
+    }
+    if (hasDigi) {
+      drawHighlights('Digital Product Highlights', [
+        'Geofencing -- target customers near your business',
+        'Digital Ads -- banner ads on mobile apps and websites',
+        'Monthly Reports -- track performance and ROI',
+      ]);
+    }
+
+    // Footer
+    page.drawText('IndoorMedia  |  indoormedia.com', { x: 612/2 - regular.widthOfTextAtSize('IndoorMedia  |  indoormedia.com', 9)/2, y: 30, size: 9, font: regular, color: gray });
+
+    // Save and share/download
+    const bytes = await pdfDoc.save();
+    const filename = 'IndoorMedia_Quote_' + new Date().toISOString().split('T')[0] + '.pdf';
+
+    if (navigator.share && /iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {
+      try {
+        const file = new File([bytes], filename, { type: 'application/pdf' });
+        await navigator.share({ files: [file], title: filename });
+        return;
+      } catch (e) { /* fallback below */ }
+    }
+
+    const blob = new Blob([bytes], { type: 'application/pdf' });
     const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = `IndoorMedia_Quote_${new Date().toISOString().split('T')[0]}.csv`;
-    a.click();
-    URL.revokeObjectURL(url);
+    window.open(url, '_blank');
   }
 </script>
 
@@ -488,8 +703,11 @@
     </div>
 
     <div class="quote-footer">
+      <div class="business-name-row">
+        <input type="text" class="business-name-input" placeholder="Business name (for quote)" bind:value={businessName} />
+      </div>
       <div class="footer-actions">
-        <button class="export-btn" on:click={exportCSV}>📥 Export Quote</button>
+        <button class="export-btn" on:click={exportQuotePdf}>📄 Download Quote PDF</button>
         <button class="clear-btn" on:click={clearCart}>🗑️ Clear</button>
       </div>
     </div>
@@ -591,6 +809,9 @@
 
   .quote-footer { padding: 16px; background: #f5f5f5; border-radius: 12px; }
   .footer-actions { display: flex; gap: 8px; }
+  .business-name-row { margin-bottom: 10px; }
+  .business-name-input { width: 100%; padding: 10px 12px; border: 1px solid #ddd; border-radius: 8px; font-size: 14px; box-sizing: border-box; }
+  .business-name-input::placeholder { color: #999; }
   .export-btn { flex: 1; padding: 12px; background: #CC0000; color: white; border: none; border-radius: 8px; font-size: 14px; font-weight: 600; cursor: pointer; }
   .export-btn:hover { background: #990000; }
   .clear-btn { padding: 12px; background: white; border: 1px solid #e0e0e0; border-radius: 8px; color: #666; font-size: 14px; cursor: pointer; }
