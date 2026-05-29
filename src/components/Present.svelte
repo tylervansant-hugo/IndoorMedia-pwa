@@ -516,6 +516,7 @@
         <a href={VIDEO_LINKS.digitalboost.presentation} target="_blank" class="video-btn">🎬 Presentation</a>
         <a href={VIDEO_LINKS.digitalboost.explainer} target="_blank" class="video-btn">📹 Video</a>
         <a href={VIDEO_LINKS.digitalboost.connectionHub} target="_blank" class="video-btn">🔗 Hub</a>
+        <a href="https://www.indoormedia.com/digital-boost-ads/" target="_blank" class="video-btn">📱 DigitalBoost Examples</a>
       </div>
       <div class="pricing-card">
         <div class="pricing-row"><span class="plan">Standard (per pin)</span><span class="formula">${dbStandard.toLocaleString()}</span></div>
