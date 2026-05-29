@@ -998,7 +998,8 @@
         }
       }
 
-      prospects = allResults.sort((a, b) => a.reviews - b.reviews);
+      // New businesses must be within 5 miles of the selected store
+      prospects = allResults.filter(p => !p.distance || p.distance <= 5).sort((a, b) => a.reviews - b.reviews);
       trackSearch('🆕 New Businesses', 'New (Last Year)', selectedStore?.StoreName);
       view = 'results';
     } catch (err) {
