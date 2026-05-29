@@ -957,7 +957,7 @@
               headers: {
                 'Content-Type': 'application/json',
                 'X-Goog-Api-Key': PLACES_API_KEY,
-                'X-Goog-FieldMask': 'places.displayName,places.formattedAddress,places.rating,places.userRatingCount,places.location,places.businessStatus,places.nationalPhoneNumber,places.websiteUri,places.googleMapsUri'
+                'X-Goog-FieldMask': 'places.displayName,places.formattedAddress,places.rating,places.userRatingCount,places.location,places.businessStatus,places.nationalPhoneNumber,places.websiteUri,places.googleMapsUri,places.regularOpeningHours'
               },
               body: JSON.stringify(requestBody)
             });
@@ -992,6 +992,7 @@
               website: place.websiteUri || null,
               mapsUrl: place.googleMapsUri || null,
               status: place.businessStatus === 'OPERATIONAL' ? 'open' : 'check',
+              hours: place.regularOpeningHours?.weekdayDescriptions || null,
               lat: pLat, lng: pLng,
             });
           }
@@ -1071,7 +1072,7 @@
         headers: {
           'Content-Type': 'application/json',
           'X-Goog-Api-Key': PLACES_API_KEY,
-          'X-Goog-FieldMask': 'places.displayName,places.formattedAddress,places.rating,places.userRatingCount,places.location,places.businessStatus,places.nationalPhoneNumber,places.websiteUri,places.googleMapsUri'
+          'X-Goog-FieldMask': 'places.displayName,places.formattedAddress,places.rating,places.userRatingCount,places.location,places.businessStatus,places.nationalPhoneNumber,places.websiteUri,places.googleMapsUri,places.regularOpeningHours'
         },
         body: JSON.stringify(requestBody)
       });
@@ -1108,6 +1109,7 @@
           website: place.websiteUri || null,
           mapsUrl: place.googleMapsUri || null,
           status: place.businessStatus === 'OPERATIONAL' ? 'open' : 'check',
+          hours: place.regularOpeningHours?.weekdayDescriptions || null,
           lat: pLat,
           lng: pLng
         };
@@ -1717,6 +1719,20 @@
           </p>
           {#if prospect.phone}
             <p class="prospect-phone">📞 {prospect.phone}</p>
+          {/if}
+          {#if prospect.hours && prospect.hours.length > 0}
+            {@const today = new Date().toLocaleDateString('en-US', { weekday: 'long' })}
+            {@const todayHours = prospect.hours.find(h => h.startsWith(today))}
+            <p class="prospect-hours" on:click|stopPropagation={() => { prospect._showAllHours = !prospect._showAllHours; prospects = prospects; }}>
+              🕐 {todayHours || prospect.hours[0]}
+            </p>
+            {#if prospect._showAllHours}
+              <div class="hours-detail">
+                {#each prospect.hours as h}
+                  <p class="hours-line" class:today-line={h.startsWith(today)}>{h}</p>
+                {/each}
+              </div>
+            {/if}
           {/if}
           <div class="prospect-actions">
             <!-- Row 1: Contact -->
@@ -3054,6 +3070,11 @@
   .prospect-address { margin: 4px 0; font-size: 13px; color: var(--text-secondary); }
   .prospect-meta { margin: 6px 0; font-size: 12px; color: var(--text-tertiary); }
   .prospect-phone { margin: 6px 0 10px; font-size: 15px; font-weight: 600; color: var(--text-primary); }
+  .prospect-hours { margin: 2px 0 8px; font-size: 12px; color: var(--text-secondary); cursor: pointer; }
+  .hours-detail { background: var(--bg-secondary, #f5f5f5); border-radius: 8px; padding: 8px 12px; margin: 4px 0 8px; }
+  .hours-line { margin: 2px 0; font-size: 11px; color: var(--text-secondary); }
+  .hours-line.today-line { font-weight: 700; color: #CC0000; }
+  :global([data-theme='dark']) .hours-detail { background: #2a2a2a; }
 
   .prospect-actions {
     display: flex;
