@@ -111,36 +111,45 @@
     return claim.repId === (u.id || u.rep_id || '');
   }
 
-  let _pendingSaveTimeout = null;
+  let _pendingSave = {};
 
   async function handleSaveLeadData(prospect, field, value) {
     const id = getLeadHash(prospect);
+    if (!_pendingSave[id]) _pendingSave[id] = {};
+    
+    // Track the latest value for each field
+    _pendingSave[id][field] = value;
+    _pendingSave[id]._prospect = prospect;
+    
+    // Debounce: save after 800ms of no typing
+    if (_pendingSave[id]._timer) clearTimeout(_pendingSave[id]._timer);
+    _pendingSave[id]._timer = setTimeout(() => flushLeadSave(id), 800);
+  }
+
+  async function flushLeadSave(id) {
+    const pending = _pendingSave[id];
+    if (!pending || !pending._prospect) return;
+    
+    const prospect = pending._prospect;
+    const u = $user;
     const existing = leadDataCache[id] || {};
     
-    // Update the specific field in cache immediately
-    if (field === 'ownerName') existing.ownerName = value;
-    if (field === 'contactPhone') existing.contactPhone = value;
-    if (field === 'notes') existing.notes = value;
-    leadDataCache[id] = existing;
+    const data = {
+      ownerName: pending.ownerName !== undefined ? pending.ownerName : (existing.ownerName || ''),
+      contactPhone: pending.contactPhone !== undefined ? pending.contactPhone : (existing.contactPhone || ''),
+      notes: pending.notes !== undefined ? pending.notes : (existing.notes || ''),
+      updatedBy: u?.name || u?.display_name || 'Unknown',
+    };
+    
+    // Update local cache immediately
+    leadDataCache[id] = { ...existing, ...data, updatedAt: new Date().toISOString(), prospectName: prospect.name, prospectAddress: prospect.address };
     leadDataCache = leadDataCache;
     
-    // Debounce the Firebase save
-    if (_pendingSaveTimeout) clearTimeout(_pendingSaveTimeout);
-    _pendingSaveTimeout = setTimeout(async () => {
-      const u = $user;
-      const cached = leadDataCache[id] || {};
-      const data = {
-        ownerName: cached.ownerName || '',
-        contactPhone: cached.contactPhone || '',
-        notes: cached.notes || '',
-        updatedBy: u?.name || u?.display_name || 'Unknown',
-      };
-      const ok = await saveLeadData(prospect.name, prospect.address, data);
-      if (ok) {
-        leadDataCache[id] = { ...data, updatedAt: new Date().toISOString(), prospectName: prospect.name, prospectAddress: prospect.address };
-        leadDataCache = leadDataCache;
-      }
-    }, 500);
+    // Save to Firebase
+    await saveLeadData(prospect.name, prospect.address, data);
+    
+    // Clear pending
+    delete _pendingSave[id];
   }
 
   function getNextSatEnd() {
@@ -1958,23 +1967,26 @@
                 type="text" 
                 class="lead-field-input"
                 placeholder="Owner or decision maker name..."
-                value={ld.ownerName ?? ''}
+                value={ld.ownerName || ''}
                 on:input={(e) => handleSaveLeadData(prospect, 'ownerName', e.target.value)}
+                on:blur={(e) => handleSaveLeadData(prospect, 'ownerName', e.target.value)}
               />
               <label class="lead-field-label">📱 Contact Phone</label>
               <input 
                 type="tel" 
                 class="lead-field-input"
                 placeholder="Contact phone number..."
-                value={ld.contactPhone ?? ''}
+                value={ld.contactPhone || ''}
                 on:input={(e) => handleSaveLeadData(prospect, 'contactPhone', e.target.value)}
+                on:blur={(e) => handleSaveLeadData(prospect, 'contactPhone', e.target.value)}
               />
               <label class="lead-field-label">📝 Notes</label>
               <textarea 
                 placeholder="Add notes about this prospect..." 
                 rows="3"
-                value={ld.notes ?? getProspectNote(prospect.id || prospect.name)}
+                value={ld.notes || getProspectNote(prospect.id || prospect.name)}
                 on:input={(e) => { saveProspectNote(prospect.id || prospect.name, e.target.value); handleSaveLeadData(prospect, 'notes', e.target.value); }}
+                on:blur={(e) => handleSaveLeadData(prospect, 'notes', e.target.value)}
               ></textarea>
               {#if ld.updatedBy}
                 <p class="note-saved">Updated by {ld.updatedBy} on {new Date(ld.updatedAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}</p>
