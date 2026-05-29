@@ -331,7 +331,12 @@
   function getImpressions(item) {
     const name = (item.name || '').toLowerCase();
     if (name.includes('register tape')) {
-      const cases = item.storeCases || 0;
+      // Try item.storeCases first, then look up from allStores by store number
+      let cases = item.storeCases || 0;
+      if (!cases && item.storeNum) {
+        const store = allStores.find(s => s.StoreName === item.storeNum);
+        if (store) cases = parseInt(store['Case Count']) || 0;
+      }
       const daily = cases * 150;
       return { daily, monthly: Math.round(daily * 30.4), annual: daily * 365 };
     }
