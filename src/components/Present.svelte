@@ -221,14 +221,55 @@
     }
 
     if (productId === 'register-tape') {
-      y = drawSection('Why Register Tape?', [
-        '100% Reach -- every customer gets a receipt with your ad',
-        'Hyper-Local -- target stores near your business',
-        'Affordable -- fraction of direct mail or digital costs',
-        'Trackable -- coupon codes measure real response',
-      ], y);
+      // 2x2 Value Prop Cards (matching app design)
+      const cardW = 250;
+      const cardH = 110;
+      const cardGap = 16;
+      const cardStartX = 30;
+      const cardBg = rgb(0.96, 0.96, 0.96);
+      const cardBorder = rgb(0.88, 0.88, 0.88);
       
-      // Ad Size Graphics -- true-to-scale representations
+      const cards = [
+        { title: '100% Reach', desc: 'Every customer gets a receipt -- your ad is seen by every single shopper' },
+        { title: 'Hyper-Local', desc: 'Target customers shopping at stores near your business' },
+        { title: 'Affordable', desc: 'Fraction of the cost of direct mail, billboards, or digital ads' },
+        { title: 'Trackable', desc: 'Coupon codes let you measure exactly how many customers respond' },
+      ];
+      
+      for (let i = 0; i < 4; i++) {
+        const col = i % 2;
+        const row = Math.floor(i / 2);
+        const cx = cardStartX + col * (cardW + cardGap);
+        const cy = y - row * (cardH + cardGap);
+        
+        // Card background with rounded corners (simulated with rectangle)
+        page.drawRectangle({ x:cx, y:cy-cardH, width:cardW, height:cardH, color:cardBg, borderColor:cardBorder, borderWidth:1 });
+        
+        // Title
+        page.drawText(cards[i].title, { x:cx+16, y:cy-30, size:14, font:bold, color:black });
+        
+        // Description (word wrap manually)
+        const words = cards[i].desc.split(' ');
+        let line = '';
+        let lineY = cy - 48;
+        for (const word of words) {
+          const test = line ? line + ' ' + word : word;
+          if (regular.widthOfTextAtSize(test, 10) > cardW - 32) {
+            page.drawText(line, { x:cx+16, y:lineY, size:10, font:regular, color:gray });
+            lineY -= 14;
+            line = word;
+          } else {
+            line = test;
+          }
+        }
+        if (line) {
+          page.drawText(line, { x:cx+16, y:lineY, size:10, font:regular, color:gray });
+        }
+      }
+      
+      y -= 2 * (cardH + cardGap) + 20;
+      
+      // Ad Size Graphics
       page.drawText('Ad Sizes (actual proportions)', { x:30, y, size:14, font:bold, color:red }); y -= 28;
       
       const scale = 50;
@@ -249,9 +290,7 @@
       page.drawText('DOUBLE AD', { x:doubleX + doubleW/2 - bold.widthOfTextAtSize('DOUBLE AD',12)/2, y:y-doubleH/2-4, size:12, font:bold, color:red });
       page.drawText('2.75" x 3.6"', { x:doubleX + doubleW/2 - regular.widthOfTextAtSize('2.75" x 3.6"',9)/2, y:y-doubleH/2-20, size:9, font:regular, color:gray });
       
-      y -= doubleH + 20;
-      page.drawText('Your full-color ad is printed directly on grocery store receipts,', { x:40, y, size:11, font:regular, color:black }); y -= 16;
-      page.drawText('reaching every customer at checkout.', { x:40, y, size:11, font:regular, color:black }); y -= 26;
+      y -= doubleH + 24;
       page.drawText('Ask your rep about pricing for stores near your business.', { x:40, y, size:11, font:bold, color:gray }); y -= 18;
       
     } else if (productId === 'cartvertising') {
