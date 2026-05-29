@@ -150,6 +150,148 @@ export function saveFirebaseConfig(config) {
   localStorage.setItem('impro_firebase_config', JSON.stringify(config));
 }
 
+// ── Lead Claims ("Dibs on Prospects") ──────────────────────────────
+
+function hashLeadId(name, address) {
+  const raw = ((name || '') + '_' + (address || '')).toLowerCase().replace(/[^a-z0-9]/g, '');
+  // Simple string hash
+  let h = 0;
+  for (let i = 0; i < raw.length; i++) {
+    h = ((h << 5) - h + raw.charCodeAt(i)) | 0;
+  }
+  return Math.abs(h).toString(36);
+}
+
+export { hashLeadId };
+
+/**
+ * Claim a lead for a rep. Resets 30-day timer on each action.
+ */
+export async function claimLead(repName, repId, prospectName, prospectAddr, action) {
+  if (!db) return false;
+  try {
+    const id = hashLeadId(prospectName, prospectAddr);
+    const now = new Date();
+    const expiresAt = new Date(now.getTime() + 30 * 24 * 60 * 60 * 1000);
+    await setDoc(doc(db, 'activity_daily', `dibs_lead_${id}`), {
+      type: 'lead_claim',
+      repName,
+      repId,
+      prospectName: prospectName || '',
+      prospectAddress: prospectAddr || '',
+      claimedAt: now.toISOString(),
+      expiresAt: expiresAt.toISOString(),
+      lastAction: action || '',
+      lastActionAt: now.toISOString(),
+    });
+    return true;
+  } catch (e) {
+    console.warn('claimLead error:', e);
+    return false;
+  }
+}
+
+/**
+ * Release a lead claim.
+ */
+export async function releaseLead(prospectName, prospectAddr) {
+  if (!db) return false;
+  try {
+    const id = hashLeadId(prospectName, prospectAddr);
+    const { deleteDoc } = await import('firebase/firestore');
+    await deleteDoc(doc(db, 'activity_daily', `dibs_lead_${id}`));
+    return true;
+  } catch (e) {
+    console.warn('releaseLead error:', e);
+    return false;
+  }
+}
+
+/**
+ * Get all active lead claims. Expired ones are cleaned up.
+ */
+export async function getAllLeadClaims() {
+  if (!db) return [];
+  try {
+    const { deleteDoc } = await import('firebase/firestore');
+    const now = new Date();
+    const q = query(collection(db, 'activity_daily'), where('type', '==', 'lead_claim'));
+    const snapshot = await getDocs(q);
+    const active = [];
+    const deletePromises = [];
+    snapshot.docs.forEach(d => {
+      const data = d.data();
+      if (new Date(data.expiresAt) < now) {
+        deletePromises.push(deleteDoc(d.ref));
+      } else {
+        active.push({ ...data, _docId: d.id });
+      }
+    });
+    if (deletePromises.length) Promise.all(deletePromises).catch(() => {});
+    return active;
+  } catch (e) {
+    console.warn('getAllLeadClaims error:', e);
+    return [];
+  }
+}
+
+// ── Persistent Lead Data (Owner, Contact, Notes) ──────────────────
+
+/**
+ * Save lead data (owner, contact phone, notes) to Firebase.
+ */
+export async function saveLeadData(prospectName, prospectAddr, data) {
+  if (!db) return false;
+  try {
+    const id = hashLeadId(prospectName, prospectAddr);
+    await setDoc(doc(db, 'activity_daily', `lead_data_${id}`), {
+      type: 'lead_data',
+      prospectName: prospectName || '',
+      prospectAddress: prospectAddr || '',
+      ownerName: data.ownerName || '',
+      contactPhone: data.contactPhone || '',
+      notes: data.notes || '',
+      updatedBy: data.updatedBy || '',
+      updatedAt: new Date().toISOString(),
+    });
+    return true;
+  } catch (e) {
+    console.warn('saveLeadData error:', e);
+    return false;
+  }
+}
+
+/**
+ * Get lead data for a prospect.
+ */
+export async function getLeadData(prospectName, prospectAddr) {
+  if (!db) return null;
+  try {
+    const id = hashLeadId(prospectName, prospectAddr);
+    const { getDoc } = await import('firebase/firestore');
+    const snap = await getDoc(doc(db, 'activity_daily', `lead_data_${id}`));
+    return snap.exists() ? snap.data() : null;
+  } catch (e) {
+    console.warn('getLeadData error:', e);
+    return null;
+  }
+}
+
+/**
+ * Get ALL lead data docs (for pre-loading).
+ */
+export async function getAllLeadData() {
+  if (!db) return [];
+  try {
+    const q = query(collection(db, 'activity_daily'), where('type', '==', 'lead_data'));
+    const snapshot = await getDocs(q);
+    return snapshot.docs.map(d => d.data());
+  } catch (e) {
+    console.warn('getAllLeadData error:', e);
+    return [];
+  }
+}
+
 // ── Store Claims ("Dibs") ──────────────────────────────────────────
 
 /**

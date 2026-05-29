@@ -2,7 +2,7 @@
   import { onMount, onDestroy, tick } from 'svelte';
   import { user, currentUser, sharedNearbyStores, sharedSelectedStore, sharedUserLocation } from '../lib/stores.js';
   import { logActivity } from '../lib/activity.js';
-  import { isFirebaseReady, claimStore, releaseStore, getZoneClaims } from '../lib/firebase.js';
+  import { isFirebaseReady, claimStore, releaseStore, getZoneClaims, claimLead, releaseLead, getAllLeadClaims, saveLeadData, getLeadData, getAllLeadData, hashLeadId } from '../lib/firebase.js';
   import HotLeadsSubmit from './HotLeadsSubmit.svelte';
   import PendingLeads from './PendingLeads.svelte';
   import StoreSearchInput from '../lib/StoreSearchInput.svelte';
@@ -30,12 +30,102 @@
   let storeClaims = {};
   let claimLoading = {};
 
+  // ── Lead Claims (Dibs on Prospects) ──
+  let leadClaims = {}; // keyed by hash
+  let leadDataCache = {}; // keyed by hash — persistent lead data from Firebase
+
   async function loadStoreClaims() {
     if (!isFirebaseReady()) return;
     const claims = await getZoneClaims('');
     const map = {};
     claims.forEach(c => { map[c.storeName] = c; });
     storeClaims = map;
+  }
+
+  async function loadLeadClaims() {
+    if (!isFirebaseReady()) return;
+    const claims = await getAllLeadClaims();
+    const map = {};
+    claims.forEach(c => {
+      const id = hashLeadId(c.prospectName, c.prospectAddress);
+      map[id] = c;
+    });
+    leadClaims = map;
+  }
+
+  async function loadAllLeadData() {
+    if (!isFirebaseReady()) return;
+    const all = await getAllLeadData();
+    const map = {};
+    all.forEach(d => {
+      const id = hashLeadId(d.prospectName, d.prospectAddress);
+      map[id] = d;
+    });
+    leadDataCache = map;
+  }
+
+  function getLeadHash(prospect) {
+    return hashLeadId(prospect.name, prospect.address);
+  }
+
+  function getLeadClaim(prospect) {
+    return leadClaims[getLeadHash(prospect)] || null;
+  }
+
+  async function handleLeadAction(prospect, action) {
+    const u = $user;
+    if (!u) return;
+    const repName = u.name || u.display_name || 'Unknown';
+    const repId = u.id || u.rep_id || 'unknown';
+    const ok = await claimLead(repName, repId, prospect.name, prospect.address, action);
+    if (ok) {
+      const id = getLeadHash(prospect);
+      const now = new Date();
+      leadClaims[id] = {
+        repName, repId,
+        prospectName: prospect.name,
+        prospectAddress: prospect.address,
+        claimedAt: now.toISOString(),
+        expiresAt: new Date(now.getTime() + 30 * 24 * 60 * 60 * 1000).toISOString(),
+        lastAction: action,
+        lastActionAt: now.toISOString(),
+      };
+      leadClaims = leadClaims;
+    }
+  }
+
+  async function handleLeadRelease(prospect) {
+    const ok = await releaseLead(prospect.name, prospect.address);
+    if (ok) {
+      delete leadClaims[getLeadHash(prospect)];
+      leadClaims = leadClaims;
+    }
+  }
+
+  function canReleaseLeadClaim(claim) {
+    const u = $user;
+    if (!u) return false;
+    const name = (u.name || '').toLowerCase();
+    const isManager = name.includes('tyler') || name.includes('rick') || (u.role === 'manager');
+    if (isManager) return true;
+    return claim.repId === (u.id || u.rep_id || '');
+  }
+
+  async function handleSaveLeadData(prospect) {
+    const u = $user;
+    const id = getLeadHash(prospect);
+    const existing = leadDataCache[id] || {};
+    const data = {
+      ownerName: prospect._ownerName ?? existing.ownerName ?? '',
+      contactPhone: prospect._contactPhone ?? existing.contactPhone ?? '',
+      notes: prospect._fbNotes ?? existing.notes ?? '',
+      updatedBy: u?.name || u?.display_name || 'Unknown',
+    };
+    const ok = await saveLeadData(prospect.name, prospect.address, data);
+    if (ok) {
+      leadDataCache[id] = { ...data, updatedAt: new Date().toISOString(), prospectName: prospect.name, prospectAddress: prospect.address };
+      leadDataCache = leadDataCache;
+    }
   }
 
   function getNextSatEnd() {
@@ -138,6 +228,8 @@
     document.addEventListener('select-store-from-map', handleStoreSelectFromMap);
     document.addEventListener('edge-swipe-back', handleEdgeSwipeBack);
     loadStoreClaims();
+    loadLeadClaims();
+    loadAllLeadData();
     
     // If user location was already set from Rates tab, auto-trigger Near Me search
     const sharedLoc = $sharedUserLocation;
@@ -1734,14 +1826,26 @@
               </div>
             {/if}
           {/if}
+          <!-- Lead Claim Badge -->
+          {#if getLeadClaim(prospect)}
+            {@const lc = getLeadClaim(prospect)}
+            <div class="lead-claim-badge">
+              🔒 {shortName(lc.repName)} — dibs through {new Date(lc.expiresAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}
+              {#if canReleaseLeadClaim(lc)}
+                <button class="release-lead-btn" on:click|stopPropagation={() => handleLeadRelease(prospect)}>✕</button>
+              {/if}
+            </div>
+          {/if}
+
           <div class="prospect-actions">
             <!-- Row 1: Contact -->
             <div class="action-row">
               {#if prospect.phone}
-                <a href="tel:{prospect.phone}" class="action-btn btn-green" on:click={() => trackPhoneClick(prospect)}>📞 Call</a>
-                <button class="action-btn btn-blue" on:click={() => { prospect._showText = !prospect._showText; prospect._showEmail = false; prospect._showScript = false; prospect._showNotes = false; prospects = prospects; }}>💬 Text</button>
+                <a href="tel:{prospect.phone}" class="action-btn btn-green" on:click={() => { trackPhoneClick(prospect); handleLeadAction(prospect, 'call'); }}>📞 Call</a>
+                <button class="action-btn btn-blue" on:click={() => { prospect._showText = !prospect._showText; prospect._showEmail = false; prospect._showScript = false; prospect._showNotes = false; prospects = prospects; handleLeadAction(prospect, 'text'); }}>💬 Text</button>
               {/if}
-              <button class="action-btn btn-purple" on:click={() => { prospect._showEmail = !prospect._showEmail; prospect._showText = false; prospect._showScript = false; prospect._showNotes = false; prospects = prospects; }}>✉️ Email</button>
+              <button class="action-btn btn-purple" on:click={() => { prospect._showEmail = !prospect._showEmail; prospect._showText = false; prospect._showScript = false; prospect._showNotes = false; prospects = prospects; handleLeadAction(prospect, 'email'); }}>✉️ Email</button>
+              <button class="action-btn btn-orange" on:click={() => { handleLeadAction(prospect, 'walk-in'); }}>🚶 Walk-In</button>
             </div>
 
             <!-- Row 2: Research -->
@@ -1831,15 +1935,39 @@
             </div>
           {/if}
           {#if prospect._showNotes}
+            {@const ldHash = getLeadHash(prospect)}
+            {@const ld = leadDataCache[ldHash] || {}}
             <div class="notes-section">
+              <label class="lead-field-label">👤 Owner / Decision Maker</label>
+              <input 
+                type="text" 
+                class="lead-field-input"
+                placeholder="Owner or decision maker name..."
+                value={prospect._ownerName ?? ld.ownerName ?? ''}
+                on:input={(e) => { prospect._ownerName = e.target.value; prospects = prospects; }}
+                on:blur={() => handleSaveLeadData(prospect)}
+              />
+              <label class="lead-field-label">📱 Contact Phone</label>
+              <input 
+                type="tel" 
+                class="lead-field-input"
+                placeholder="Contact phone number..."
+                value={prospect._contactPhone ?? ld.contactPhone ?? ''}
+                on:input={(e) => { prospect._contactPhone = e.target.value; prospects = prospects; }}
+                on:blur={() => handleSaveLeadData(prospect)}
+              />
+              <label class="lead-field-label">📝 Notes</label>
               <textarea 
                 placeholder="Add notes about this prospect..." 
                 rows="3"
-                value={getProspectNote(prospect.id || prospect.name)}
-                on:input={(e) => saveProspectNote(prospect.id || prospect.name, e.target.value)}
+                value={prospect._fbNotes ?? ld.notes ?? getProspectNote(prospect.id || prospect.name)}
+                on:input={(e) => { prospect._fbNotes = e.target.value; saveProspectNote(prospect.id || prospect.name, e.target.value); prospects = prospects; }}
+                on:blur={() => handleSaveLeadData(prospect)}
               ></textarea>
-              {#if getProspectNote(prospect.id || prospect.name)}
-                <p class="note-saved">Saved</p>
+              {#if ld.updatedBy}
+                <p class="note-saved">Updated by {ld.updatedBy} on {new Date(ld.updatedAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}</p>
+              {:else if getProspectNote(prospect.id || prospect.name)}
+                <p class="note-saved">Saved locally</p>
               {/if}
             </div>
           {/if}
@@ -3131,6 +3259,28 @@
 
   .btn-purple { background: #6A1B9A !important; color: white !important; border-color: #6A1B9A !important; }
   .btn-purple:hover { background: #4A148C !important; }
+
+  .btn-orange { background: #E65100 !important; color: white !important; border-color: #E65100 !important; }
+  .btn-orange:hover { background: #BF360C !important; }
+
+  .lead-claim-badge {
+    display: flex; align-items: center; gap: 6px;
+    background: #FFF3E0; border: 1px solid #FFB74D; border-radius: 8px;
+    padding: 4px 10px; font-size: 12px; color: #E65100; font-weight: 600;
+    margin-bottom: 6px;
+  }
+  :global([data-theme='dark']) .lead-claim-badge { background: #3e2723; border-color: #8d6e63; color: #ffcc80; }
+  .release-lead-btn {
+    background: none; border: none; color: #E65100; font-size: 14px; cursor: pointer; margin-left: auto; padding: 0 4px;
+  }
+
+  .lead-field-label { display: block; font-size: 11px; font-weight: 700; color: #666; margin: 6px 0 2px; text-transform: uppercase; letter-spacing: 0.5px; }
+  :global([data-theme='dark']) .lead-field-label { color: #aaa; }
+  .lead-field-input {
+    width: 100%; padding: 8px 10px; border: 1px solid #ddd; border-radius: 6px; font-size: 14px;
+    background: white; color: #333; box-sizing: border-box;
+  }
+  :global([data-theme='dark']) .lead-field-input { background: #1a1a1a; color: #eee; border-color: #444; }
 
   .btn-gray { background: #f5f5f5 !important; color: #333 !important; border-color: #ddd !important; }
   :global([data-theme='dark']) .btn-gray { background: #2a2a2a !important; color: #ddd !important; border-color: #444 !important; }
