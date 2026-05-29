@@ -111,21 +111,36 @@
     return claim.repId === (u.id || u.rep_id || '');
   }
 
-  async function handleSaveLeadData(prospect) {
-    const u = $user;
+  let _pendingSaveTimeout = null;
+
+  async function handleSaveLeadData(prospect, field, value) {
     const id = getLeadHash(prospect);
     const existing = leadDataCache[id] || {};
-    const data = {
-      ownerName: prospect._ownerName ?? existing.ownerName ?? '',
-      contactPhone: prospect._contactPhone ?? existing.contactPhone ?? '',
-      notes: prospect._fbNotes ?? existing.notes ?? '',
-      updatedBy: u?.name || u?.display_name || 'Unknown',
-    };
-    const ok = await saveLeadData(prospect.name, prospect.address, data);
-    if (ok) {
-      leadDataCache[id] = { ...data, updatedAt: new Date().toISOString(), prospectName: prospect.name, prospectAddress: prospect.address };
-      leadDataCache = leadDataCache;
-    }
+    
+    // Update the specific field in cache immediately
+    if (field === 'ownerName') existing.ownerName = value;
+    if (field === 'contactPhone') existing.contactPhone = value;
+    if (field === 'notes') existing.notes = value;
+    leadDataCache[id] = existing;
+    leadDataCache = leadDataCache;
+    
+    // Debounce the Firebase save
+    if (_pendingSaveTimeout) clearTimeout(_pendingSaveTimeout);
+    _pendingSaveTimeout = setTimeout(async () => {
+      const u = $user;
+      const cached = leadDataCache[id] || {};
+      const data = {
+        ownerName: cached.ownerName || '',
+        contactPhone: cached.contactPhone || '',
+        notes: cached.notes || '',
+        updatedBy: u?.name || u?.display_name || 'Unknown',
+      };
+      const ok = await saveLeadData(prospect.name, prospect.address, data);
+      if (ok) {
+        leadDataCache[id] = { ...data, updatedAt: new Date().toISOString(), prospectName: prospect.name, prospectAddress: prospect.address };
+        leadDataCache = leadDataCache;
+      }
+    }, 500);
   }
 
   function getNextSatEnd() {
@@ -1943,26 +1958,23 @@
                 type="text" 
                 class="lead-field-input"
                 placeholder="Owner or decision maker name..."
-                value={prospect._ownerName ?? ld.ownerName ?? ''}
-                on:input={(e) => { prospect._ownerName = e.target.value; prospects = prospects; }}
-                on:blur={() => handleSaveLeadData(prospect)}
+                value={ld.ownerName ?? ''}
+                on:input={(e) => handleSaveLeadData(prospect, 'ownerName', e.target.value)}
               />
               <label class="lead-field-label">📱 Contact Phone</label>
               <input 
                 type="tel" 
                 class="lead-field-input"
                 placeholder="Contact phone number..."
-                value={prospect._contactPhone ?? ld.contactPhone ?? ''}
-                on:input={(e) => { prospect._contactPhone = e.target.value; prospects = prospects; }}
-                on:blur={() => handleSaveLeadData(prospect)}
+                value={ld.contactPhone ?? ''}
+                on:input={(e) => handleSaveLeadData(prospect, 'contactPhone', e.target.value)}
               />
               <label class="lead-field-label">📝 Notes</label>
               <textarea 
                 placeholder="Add notes about this prospect..." 
                 rows="3"
-                value={prospect._fbNotes ?? ld.notes ?? getProspectNote(prospect.id || prospect.name)}
-                on:input={(e) => { prospect._fbNotes = e.target.value; saveProspectNote(prospect.id || prospect.name, e.target.value); prospects = prospects; }}
-                on:blur={() => handleSaveLeadData(prospect)}
+                value={ld.notes ?? getProspectNote(prospect.id || prospect.name)}
+                on:input={(e) => { saveProspectNote(prospect.id || prospect.name, e.target.value); handleSaveLeadData(prospect, 'notes', e.target.value); }}
               ></textarea>
               {#if ld.updatedBy}
                 <p class="note-saved">Updated by {ld.updatedBy} on {new Date(ld.updatedAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}</p>
