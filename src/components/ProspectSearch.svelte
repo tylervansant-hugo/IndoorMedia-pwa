@@ -2326,8 +2326,7 @@
                   </select>
                   <button class="delete-btn" on:click={() => deleteProspect(prospect.id)}>🗑️ Delete</button>
                 </div>
-                {@const savedLdHash = getLeadHash(prospect)}
-                {@const savedLd = leadDataCache[savedLdHash] || {}}
+                {#each [leadDataCache[getLeadHash(prospect)] || {}] as savedLd}
                 <label class="lead-field-label">👤 Owner / Decision Maker</label>
                 <input 
                   type="text" 
@@ -2355,6 +2354,7 @@
                 {#if savedLd.updatedBy}
                   <p class="note-saved">Updated by {savedLd.updatedBy}</p>
                 {/if}
+                {/each}
               </div>
             {/if}
           </div>
