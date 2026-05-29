@@ -2326,7 +2326,35 @@
                   </select>
                   <button class="delete-btn" on:click={() => deleteProspect(prospect.id)}>🗑️ Delete</button>
                 </div>
-                <textarea placeholder="Add notes..." class="notes-input" value={prospect.notes} on:change={(e) => updateProspectNotes(prospect.id, e.target.value)}></textarea>
+                {@const savedLdHash = getLeadHash(prospect)}
+                {@const savedLd = leadDataCache[savedLdHash] || {}}
+                <label class="lead-field-label">👤 Owner / Decision Maker</label>
+                <input 
+                  type="text" 
+                  class="lead-field-input"
+                  placeholder="Owner or decision maker name..."
+                  value={savedLd.ownerName || ''}
+                  on:input={(e) => handleSaveLeadData(prospect, 'ownerName', e.target.value)}
+                  on:blur={(e) => handleSaveLeadData(prospect, 'ownerName', e.target.value)}
+                />
+                <label class="lead-field-label">📱 Contact Phone</label>
+                <input 
+                  type="tel" 
+                  class="lead-field-input"
+                  placeholder="Contact phone number..."
+                  value={savedLd.contactPhone || ''}
+                  on:input={(e) => handleSaveLeadData(prospect, 'contactPhone', e.target.value)}
+                  on:blur={(e) => handleSaveLeadData(prospect, 'contactPhone', e.target.value)}
+                />
+                <label class="lead-field-label">📝 Notes</label>
+                <textarea placeholder="Add notes..." class="notes-input" 
+                  value={savedLd.notes || prospect.notes || ''} 
+                  on:input={(e) => { updateProspectNotes(prospect.id, e.target.value); handleSaveLeadData(prospect, 'notes', e.target.value); }}
+                  on:blur={(e) => handleSaveLeadData(prospect, 'notes', e.target.value)}
+                ></textarea>
+                {#if savedLd.updatedBy}
+                  <p class="note-saved">Updated by {savedLd.updatedBy}</p>
+                {/if}
               </div>
             {/if}
           </div>
