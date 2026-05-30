@@ -548,6 +548,29 @@ Store: ${store.StoreName}
     return R * c;
   }
 
+  // Pricing mode: 'standard' or 'summer_promo'
+  let pricingMode = 'standard';
+  try { pricingMode = localStorage.getItem('impro_pricing_mode') || 'standard'; } catch {}
+  function setPricingMode(mode) {
+    pricingMode = mode;
+    try { localStorage.setItem('impro_pricing_mode', mode); } catch {}
+    // Reset co-op when switching to promo
+    if (mode === 'summer_promo') coopUnlocked = {};
+  }
+
+  // Summer Promo pricing — full rate only, 5% PIF discount
+  function calcPromoPricing(basePrice) {
+    const prod = 125;
+    const pad = $padAmount != null ? $padAmount : 1200;
+    const total = basePrice + pad + prod;
+    return {
+      monthly: (total / 12).toFixed(2),
+      monthlyTotal: total.toFixed(2),
+      pif: (((basePrice + pad) * 0.95) + prod).toFixed(2),
+      savings: ((basePrice + pad) * 0.05).toFixed(2)
+    };
+  }
+
   // Track expanded cards, ad type, and co-op unlock
   let expandedStore = null;
   let adType = {}; // { storeName: 'single' | 'double' }
@@ -683,28 +706,45 @@ Store: ${store.StoreName}
   }
 
   function handleAddToCart(store, selectedAdType, plan) {
-    const isCoop = coopUnlocked[store.StoreName] || false;
+    const isPromo = pricingMode === 'summer_promo';
+    const isCoop = isPromo ? false : (coopUnlocked[store.StoreName] || false);
     const base = selectedAdType === 'double' ? store.DoubleAd : store.SingleAd;
-    const pricing = calcPricing(base, isCoop);
     
-    const planNames = {
-      monthly: 'Monthly (12 payments)',
-      threeMonth: '3-Month (10% off)',
-      sixMonth: '6-Month (7.5% off)',
-      pif: 'Paid-in-Full (15% off)'
-    };
+    let pricing, planNames, priceDisplay;
+    if (isPromo) {
+      pricing = calcPromoPricing(base);
+      planNames = {
+        monthly: 'Monthly (12 payments)',
+        pif: 'Paid-in-Full (5% off)'
+      };
+      priceDisplay = {
+        monthly: `$${pricing.monthly}/mo × 12 = $${pricing.monthlyTotal}`,
+        pif: `$${pricing.pif}`
+      };
+    } else {
+      pricing = calcPricing(base, isCoop);
+      planNames = {
+        monthly: 'Monthly (12 payments)',
+        threeMonth: '3-Month (10% off)',
+        sixMonth: '6-Month (7.5% off)',
+        pif: 'Paid-in-Full (15% off)'
+      };
+      priceDisplay = {
+        monthly: `$${pricing.monthly}/mo × 12 = $${pricing.monthlyTotal}`,
+        threeMonth: `$${pricing.threeMonth} × 3 = $${pricing.threeMonthTotal}`,
+        sixMonth: `$${pricing.sixMonth} × 6 = $${pricing.sixMonthTotal}`,
+        pif: `$${pricing.pif}`
+      };
+    }
 
-    const priceDisplay = {
-      monthly: `$${pricing.monthly}/mo × 12 = $${pricing.monthlyTotal}`,
-      threeMonth: `$${pricing.threeMonth} × 3 = $${pricing.threeMonthTotal}`,
-      sixMonth: `$${pricing.sixMonth} × 6 = $${pricing.sixMonthTotal}`,
-      pif: `$${pricing.pif}`
-    };
-
+    const modeLabel = isPromo ? 'Summer Promo' : (isCoop ? 'Co-Op' : 'Standard');
     const item = {
       id: Date.now(),
-      name: `Register Tape — ${isCoop ? 'Co-Op' : 'Standard'}`,
+      name: `Register Tape — ${modeLabel}`,
       emoji: '🧾',
+      promoMode: isPromo,
+      freeQuarter: isPromo,
+      pifPlan: plan === 'pif',
       store: `${store.GroceryChain} - ${store.City}`,
       storeNum: store.StoreName,
       storeAddress: store.Address || '',
@@ -759,6 +799,19 @@ Store: ${store.StoreName}
     <button class="cycle-btn" class:active={storeCycleFilter === 'C'} on:click={() => storeCycleFilter = 'C'}>Cycle C</button>
   </div>
 
+  <!-- Pricing Mode Toggle -->
+  <div class="pricing-mode-toggle">
+    <button class="mode-btn" class:active={pricingMode === 'standard'} on:click={() => setPricingMode('standard')}>
+      Standard Pricing
+    </button>
+    <button class="mode-btn promo" class:active={pricingMode === 'summer_promo'} on:click={() => setPricingMode('summer_promo')}>
+      Summer Promo 🔥
+    </button>
+  </div>
+  {#if pricingMode === 'summer_promo'}
+    <div class="promo-banner">🏆 Summer Sales Contest Active · Full Rate + Free Quarter · 5% PIF Discount Only</div>
+  {/if}
+
   {#if $error}
     <div class="error-box">{$error}</div>
   {/if}
@@ -780,10 +833,12 @@ Store: ${store.StoreName}
         {#each filtered.filter(s => storeCycleFilter === 'all' || s.Cycle === storeCycleFilter) as store (store.StoreName)}
           {@const currentAdType = adType[store.StoreName] || 'single'}
           {@const basePrice = currentAdType === 'double' ? store.DoubleAd : store.SingleAd}
-          {@const isCoop = coopUnlocked[store.StoreName] || false}
+          {@const isPromo = pricingMode === 'summer_promo'}
+          {@const isCoop = isPromo ? false : (coopUnlocked[store.StoreName] || false)}
           {@const stdPricing = calcPricing(basePrice, false)}
           {@const coopPricing = calcPricing(basePrice, true)}
-          {@const pricing = isCoop ? coopPricing : stdPricing}
+          {@const promoPricing = calcPromoPricing(basePrice)}
+          {@const pricing = isPromo ? promoPricing : (isCoop ? coopPricing : stdPricing)}
           {@const isExpanded = expandedStore === store.StoreName}
           {@const claim = storeClaims[store.StoreName]}
           {@const isClaimed = !!claim}
@@ -859,7 +914,7 @@ Store: ${store.StoreName}
             {#if isExpanded}
               <div class="expanded-pricing">
                 <!-- Pricing summary -->
-                <div class="pricing-label">{isCoop ? '🤝 Co-Op Pricing' : '💼 Standard Pricing'}</div>
+                <div class="pricing-label">{isPromo ? '🔥 Summer Promo Pricing' : (isCoop ? '🤝 Co-Op Pricing' : '💼 Standard Pricing')}</div>
                 <div class="pricing">
                   <div class="price-row">
                     <span class="price-label">Monthly</span>
@@ -867,11 +922,18 @@ Store: ${store.StoreName}
                   </div>
                   <div class="price-row highlight">
                     <span class="price-label">Paid in Full</span>
-                    <span class="price-value pif">${pricing.pif} (15% off)</span>
+                    <span class="price-value pif">${pricing.pif} ({isPromo ? '5% off' : '15% off'})</span>
                   </div>
                 </div>
+                {#if isPromo}
+                  <div class="promo-badges">
+                    <span class="promo-badge free-quarter">🎁 FREE quarter included!</span>
+                    <span class="promo-badge contest-point">🏆 Summer Contest: 1 point earned</span>
+                  </div>
+                {/if}
 
-                <!-- Co-Op Unlock Button -->
+                <!-- Co-Op Unlock Button (hidden during promo) -->
+                {#if !isPromo}
                 <button
                   class="coop-btn"
                   class:unlocked={isCoop}
@@ -879,6 +941,10 @@ Store: ${store.StoreName}
                 >
                   {isCoop ? '🔓 Showing Co-Op Pricing — Tap to Reset' : '🔒 Manager Approved Co-Op'}
                 </button>
+                {#if isCoop}
+                  <div class="coop-contest-note">⚠️ Co-op pricing disqualifies from Summer Contest</div>
+                {/if}
+                {/if}
 
                 <!-- Ad Type Toggle in Expanded View -->
                 <div class="expanded-ad-toggle">
@@ -913,7 +979,7 @@ Store: ${store.StoreName}
                 {/if}
                 {/if}
 
-                <h4>All Payment Plans — {currentAdType === 'double' ? 'Double' : 'Single'} Ad {isCoop ? '(Co-Op)' : '(Standard)'}</h4>
+                <h4>All Payment Plans — {currentAdType === 'double' ? 'Double' : 'Single'} Ad {isPromo ? '(Summer Promo)' : (isCoop ? '(Co-Op)' : '(Standard)')}</h4>
                 
                 <div class="plan-card" on:click={() => handleAddToCart(store, currentAdType, 'monthly')}>
                   <div class="plan-header">
@@ -923,9 +989,11 @@ Store: ${store.StoreName}
                   <div class="plan-price">${pricing.monthly}<span class="per">/month</span></div>
                   <div class="plan-total">Total: ${pricing.monthlyTotal}</div>
                   <div class="plan-daily">That's just <strong>${(parseFloat(pricing.monthlyTotal) / 365).toFixed(2)}/day</strong></div>
+                  {#if isPromo}<div class="plan-promo-note">🎁 Free quarter included!</div>{/if}
                   <button class="roi-btn" on:click|stopPropagation={() => showROI(pricing.monthlyTotal, store)}>📊 ROI Calculator</button>
                 </div>
 
+                {#if !isPromo}
                 <div class="plan-card" on:click={() => handleAddToCart(store, currentAdType, 'threeMonth')}>
                   <div class="plan-header">
                     <span class="plan-name">📦 3-Month</span>
@@ -947,15 +1015,17 @@ Store: ${store.StoreName}
                   <div class="plan-daily">That's just <strong>${(parseFloat(pricing.sixMonthTotal) / 365).toFixed(2)}/day</strong></div>
                   <button class="roi-btn" on:click|stopPropagation={() => showROI(pricing.sixMonthTotal, store)}>📊 ROI Calculator</button>
                 </div>
+                {/if}
 
                 <div class="plan-card best" on:click={() => handleAddToCart(store, currentAdType, 'pif')}>
                   <div class="plan-header">
                     <span class="plan-name">⭐ Paid in Full</span>
-                    <span class="plan-badge best-badge">Best Deal — 15% off</span>
+                    <span class="plan-badge best-badge">Best Deal — {isPromo ? '5%' : '15%'} off</span>
                   </div>
                   <div class="plan-price">${pricing.pif}</div>
                   <div class="plan-total">One payment — Save ${pricing.savings}</div>
                   <div class="plan-daily">That's just <strong>${(parseFloat(pricing.pif) / 365).toFixed(2)}/day</strong></div>
+                  {#if isPromo}<div class="plan-promo-note">🎁 Free quarter + 🏆 PIF bonus point!</div>{/if}
                   <button class="roi-btn" on:click|stopPropagation={() => showROI(pricing.pif, store)}>📊 ROI Calculator</button>
                 </div>
 
@@ -1854,4 +1924,23 @@ Store: ${store.StoreName}
       grid-template-columns: 1fr;
     }
   }
+
+  /* Pricing Mode Toggle */
+  .pricing-mode-toggle { display: flex; gap: 4px; margin: 12px 0 8px; background: #f0f0f0; border-radius: 10px; padding: 3px; }
+  :global([data-theme='dark']) .pricing-mode-toggle { background: #2a2a2a; }
+  .mode-btn { flex: 1; padding: 10px 12px; border: none; border-radius: 8px; font-size: 13px; font-weight: 700; cursor: pointer; background: transparent; color: #666; transition: all 0.2s; }
+  .mode-btn.active { background: white; color: #333; box-shadow: 0 1px 4px rgba(0,0,0,0.15); }
+  :global([data-theme='dark']) .mode-btn.active { background: #333; color: #fff; }
+  .mode-btn.promo.active { background: linear-gradient(135deg, #ff6b35, #cc0000); color: white; box-shadow: 0 2px 8px rgba(204,0,0,0.3); }
+  .promo-banner { background: linear-gradient(135deg, #ff6b35, #cc0000); color: white; text-align: center; padding: 8px 12px; border-radius: 8px; font-size: 12px; font-weight: 600; margin-bottom: 8px; }
+
+  /* Promo badges on store cards */
+  .promo-badges { display: flex; flex-wrap: wrap; gap: 6px; margin: 8px 0; }
+  .promo-badge { padding: 4px 10px; border-radius: 6px; font-size: 11px; font-weight: 700; }
+  .promo-badge.free-quarter { background: #e8f5e9; color: #2e7d32; }
+  .promo-badge.contest-point { background: #fff3e0; color: #e65100; }
+  :global([data-theme='dark']) .promo-badge.free-quarter { background: #1b3a1b; color: #66bb6a; }
+  :global([data-theme='dark']) .promo-badge.contest-point { background: #3e2200; color: #ffb74d; }
+  .coop-contest-note { font-size: 11px; color: #e65100; font-weight: 600; margin-top: 4px; padding: 4px 8px; background: #fff3e0; border-radius: 6px; }
+  .plan-promo-note { font-size: 11px; color: #2e7d32; font-weight: 600; margin-top: 4px; }
 </style>

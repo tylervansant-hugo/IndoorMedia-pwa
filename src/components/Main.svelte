@@ -1321,6 +1321,40 @@
           </div>
         {/if}
 
+        <!-- SUMMER SALES CONTEST DASHBOARD -->
+        <div class="contest-dashboard">
+          <div class="contest-dashboard-header">
+            <div class="contest-title">🔥 SUMMER SALES CONTEST 🔥</div>
+            <div class="contest-dates">June 1 — Sept 2, 2026</div>
+          </div>
+          <div class="contest-body">
+            <div class="contest-points-display">
+              <div class="contest-big-number">0</div>
+              <div class="contest-big-label">Points Earned</div>
+            </div>
+            <div class="contest-rules">
+              <h4 style="margin: 0 0 8px; font-size: 14px; color: #e65100;">Point System</h4>
+              <div class="contest-rule">🧾 Full Rate Card Tape Ad = <strong>1 pt</strong></div>
+              <div class="contest-rule">🚀 Tape Ad + Digital Boost = <strong>1 pt</strong></div>
+              <div class="contest-rule">💰 Paid in Full Contract = <strong>1 pt</strong></div>
+              <div class="contest-rule">🎁 Free Tape Cycle with ANY Full Rate Card Contract</div>
+            </div>
+            <div class="contest-prizes">
+              <h4 style="margin: 0 0 8px; font-size: 14px; color: #e65100;">Monthly Prizes</h4>
+              <div class="contest-prize">🥇 1st — $1,000</div>
+              <div class="contest-prize">🥈 2nd — $500</div>
+              <h4 style="margin: 12px 0 8px; font-size: 14px; color: #e65100;">Grand Prizes</h4>
+              <div class="contest-prize">🥇 Trip for 2 ($5K value)</div>
+              <div class="contest-prize">🥈 Trip for 1 ($2.5K value)</div>
+              <div class="contest-prize">🥉 iPad + $1,000</div>
+            </div>
+            <div class="contest-notes">
+              <p>CBD, dispensaries, corporate accounts not eligible for free tape</p>
+              <p>Head office leads = 50% point reduction</p>
+            </div>
+          </div>
+        </div>
+
         <!-- 5. FULL DAILY GOAL — expandable -->
         <div class="goal-section">
           <div class="goal-card">
@@ -2250,4 +2284,21 @@
     border-color: #CC0000;
     color: #CC0000;
   }
+
+  /* Summer Contest Dashboard */
+  .contest-dashboard { border-radius: 16px; overflow: hidden; margin: 16px 0; box-shadow: 0 4px 16px rgba(204,0,0,0.15); }
+  .contest-dashboard-header { background: linear-gradient(135deg, #ff6b35, #cc0000, #ff4444); padding: 20px; text-align: center; }
+  .contest-title { font-size: 20px; font-weight: 900; color: white; letter-spacing: 1px; }
+  .contest-dates { font-size: 13px; color: rgba(255,255,255,0.9); margin-top: 4px; font-weight: 600; }
+  .contest-body { background: var(--card-bg, #fff); padding: 16px; }
+  :global([data-theme='dark']) .contest-body { background: #1e1e1e; }
+  .contest-points-display { text-align: center; padding: 16px 0; }
+  .contest-big-number { font-size: 48px; font-weight: 900; color: #cc0000; }
+  .contest-big-label { font-size: 13px; font-weight: 700; color: #888; text-transform: uppercase; letter-spacing: 1px; }
+  .contest-rules, .contest-prizes { margin-top: 12px; padding-top: 12px; border-top: 1px solid #eee; }
+  :global([data-theme='dark']) .contest-rules, :global([data-theme='dark']) .contest-prizes { border-top-color: #333; }
+  .contest-rule, .contest-prize { font-size: 13px; color: var(--text-primary, #333); padding: 3px 0; }
+  .contest-notes { margin-top: 12px; padding-top: 12px; border-top: 1px solid #eee; }
+  :global([data-theme='dark']) .contest-notes { border-top-color: #333; }
+  .contest-notes p { font-size: 11px; color: #999; margin: 2px 0; }
 </style>

@@ -693,6 +693,7 @@
           </div>
           <div class="item-info">
             <h4>{item.emoji || ''} {item.name}</h4>
+            {#if item.promoMode}<p class="item-promo-badge">🎁 Free quarter included · 🏆 Summer Contest</p>{/if}
             {#if item.store}<p class="item-store">{item.store} ({item.storeNum}){#if item.storeCycle} — Cycle {item.storeCycle}{/if}</p>{/if}
             {#if item.storeAddress}<p class="item-addr">{item.storeAddress}</p>{/if}
             {#if item.storeCycle}<p class="item-launch">Next launch: {getNextLaunch(item.storeCycle)}</p>{/if}
@@ -706,6 +707,32 @@
         </div>
       {/each}
     </div>
+
+    <!-- Summer Contest Points & Free Quarters -->
+    {@const promoItems = cartItems.filter(i => i.promoMode)}
+    {@const hasDigitalBoost = cartItems.some(i => (i.name || '').toLowerCase().includes('digitalboost'))}
+    {@const pifPromoItems = promoItems.filter(i => i.pifPlan)}
+    {@const contestPoints = promoItems.length + (hasDigitalBoost && promoItems.length > 0 ? 1 : 0) + pifPromoItems.length}
+    {#if promoItems.length > 0}
+      <div class="contest-summary">
+        <div class="contest-summary-header">🏆 Summer Contest Tracker</div>
+        <div class="contest-points-row">
+          <span>Full Rate Cards</span><span>{promoItems.length} pt{promoItems.length !== 1 ? 's' : ''}</span>
+        </div>
+        {#if hasDigitalBoost}
+          <div class="contest-points-row"><span>+ DigitalBoost</span><span>1 pt</span></div>
+        {/if}
+        {#if pifPromoItems.length > 0}
+          <div class="contest-points-row"><span>PIF Contracts</span><span>{pifPromoItems.length} pt{pifPromoItems.length !== 1 ? 's' : ''}</span></div>
+        {/if}
+        <div class="contest-points-total">Total Points: {contestPoints}</div>
+        {#if promoItems.length > 1}
+          <div class="free-quarters-note">🎁 {promoItems.length} free quarters earned ({promoItems.length} stores purchased)</div>
+        {:else}
+          <div class="free-quarters-note">🎁 1 free quarter earned</div>
+        {/if}
+      </div>
+    {/if}
 
     <div class="quote-footer">
       <div class="business-name-row">
@@ -823,4 +850,15 @@
 
   .empty { text-align: center; padding: 40px 20px; color: #999; }
   .hint { font-size: 13px; color: #bbb; }
+
+  /* Promo & Contest */
+  .item-promo-badge { margin: 0 0 4px; font-size: 11px; font-weight: 700; color: #2e7d32; background: #e8f5e9; padding: 2px 8px; border-radius: 4px; display: inline-block; }
+  :global([data-theme='dark']) .item-promo-badge { background: #1b3a1b; color: #66bb6a; }
+  .contest-summary { background: linear-gradient(135deg, #fff8e1, #fff3e0); border: 1px solid #ffcc02; border-radius: 12px; padding: 14px; margin-bottom: 12px; }
+  :global([data-theme='dark']) .contest-summary { background: linear-gradient(135deg, #3e3200, #3e2200); border-color: #665500; }
+  .contest-summary-header { font-size: 15px; font-weight: 800; color: #e65100; margin-bottom: 8px; }
+  .contest-points-row { display: flex; justify-content: space-between; font-size: 13px; color: #555; padding: 2px 0; }
+  :global([data-theme='dark']) .contest-points-row { color: #ccc; }
+  .contest-points-total { font-size: 16px; font-weight: 800; color: #cc0000; margin-top: 6px; padding-top: 6px; border-top: 1px solid #ffcc02; }
+  .free-quarters-note { font-size: 12px; color: #2e7d32; font-weight: 600; margin-top: 6px; }
 </style>
