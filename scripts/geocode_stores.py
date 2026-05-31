@@ -1,120 +1,120 @@
 #!/usr/bin/env python3
-"""
-Geocode stores (add latitude/longitude) using Google Geocoding API.
-Caches results to avoid repeated API calls.
-"""
+"""Geocode stores by City+State+PostalCode using Nominatim (free, no API key).
+Caches results to avoid re-geocoding. Updates stores.json in-place."""
 
 import json
+import time
+import urllib.request
+import urllib.parse
 import os
 import sys
 from pathlib import Path
-import time
-import logging
 
-logging.basicConfig(level=logging.INFO, format='%(message)s')
-logger = logging.getLogger(__name__)
+STORES_FILE = Path(__file__).parent.parent / "pwa" / "public" / "data" / "stores.json"
+CACHE_FILE = Path(__file__).parent.parent / "data" / "geocode_cache.json"
+GOOD_ZONES = {'05X', '07X', '07Y', '07Z'}
 
-WORKSPACE = Path(__file__).parent.parent
-DATA_DIR = WORKSPACE / "data" / "store-rates"
-STORES_FILE = DATA_DIR / "stores.json"
-GEOCODE_CACHE = DATA_DIR / "geocode_cache.json"
-
-
-def load_geocache() -> dict:
-    """Load cached geocoding results."""
-    if GEOCODE_CACHE.exists():
-        with open(GEOCODE_CACHE) as f:
-            return json.load(f)
-    return {}
-
-
-def save_geocache(cache: dict):
-    """Save geocoding cache."""
-    with open(GEOCODE_CACHE, 'w') as f:
-        json.dump(cache, f, indent=2)
-
-
-def geocode_address(address: str, city: str, state: str, api_key: str, cache: dict) -> dict:
-    """Geocode an address using Google Geocoding API."""
-    try:
-        import googlemaps
-    except ImportError:
-        logger.error("❌ googlemaps library not installed. Run: pip install googlemaps")
-        return {}
-    
-    # Cache key
-    cache_key = f"{address}, {city}, {state}"
-    if cache_key in cache:
-        return cache[cache_key]
+def geocode(address, city, state, postal_code):
+    """Geocode using Nominatim structured search."""
+    params = urllib.parse.urlencode({
+        'street': address,
+        'city': city,
+        'state': state,
+        'postalcode': postal_code,
+        'country': 'US',
+        'format': 'json',
+        'limit': 1,
+    })
+    url = f"https://nominatim.openstreetmap.org/search?{params}"
+    req = urllib.request.Request(url, headers={'User-Agent': 'imPro-Sales-Portal/1.0'})
     
     try:
-        gmaps = googlemaps.Client(key=api_key)
-        result = gmaps.geocode(cache_key)
-        
-        if result:
-            location = result[0]['geometry']['location']
-            cached_result = {
-                'latitude': location['lat'],
-                'longitude': location['lng'],
-                'formatted_address': result[0].get('formatted_address')
-            }
-            cache[cache_key] = cached_result
-            time.sleep(0.1)  # Rate limiting
-            return cached_result
-        else:
-            logger.warning(f"⚠️ Could not geocode: {cache_key}")
-            return {}
+        with urllib.request.urlopen(req, timeout=10) as resp:
+            data = json.loads(resp.read())
+            if data:
+                return float(data[0]['lat']), float(data[0]['lon'])
     except Exception as e:
-        logger.error(f"❌ Geocoding error for {cache_key}: {e}")
-        return {}
-
+        pass
+    
+    # Fallback: city + state only
+    params = urllib.parse.urlencode({
+        'city': city,
+        'state': state,
+        'country': 'US',
+        'format': 'json',
+        'limit': 1,
+    })
+    url = f"https://nominatim.openstreetmap.org/search?{params}"
+    req = urllib.request.Request(url, headers={'User-Agent': 'imPro-Sales-Portal/1.0'})
+    
+    try:
+        with urllib.request.urlopen(req, timeout=10) as resp:
+            data = json.loads(resp.read())
+            if data:
+                return float(data[0]['lat']), float(data[0]['lon'])
+    except Exception as e:
+        pass
+    
+    return None, None
 
 def main():
-    api_key = os.getenv("GOOGLE_PLACES_API_KEY")
-    if not api_key:
-        logger.error("❌ GOOGLE_PLACES_API_KEY not set in .env")
-        sys.exit(1)
+    stores = json.load(open(STORES_FILE))
     
-    logger.info("📍 Loading stores for geocoding...")
-    with open(STORES_FILE) as f:
-        stores = json.load(f)
+    # Load cache
+    cache = {}
+    if CACHE_FILE.exists():
+        cache = json.load(open(CACHE_FILE))
     
-    cache = load_geocache()
-    logger.info(f"📦 Loaded {len(cache)} cached geocoding results")
+    # Find stores needing geocoding
+    to_geocode = [s for s in stores if s.get('ZoneName') not in GOOD_ZONES]
+    print(f"Stores needing geocoding: {len(to_geocode)}")
     
-    logger.info(f"🌍 Geocoding {len(stores)} stores...")
+    # Group by address key for deduplication
+    updated = 0
+    errors = 0
+    cached_hits = 0
     
-    for i, store in enumerate(stores):
-        if store.get('latitude') and store.get('longitude'):
-            continue  # Already geocoded
+    for i, store in enumerate(to_geocode):
+        addr = store.get('Address', '')
+        city = store.get('City', '')
+        state = store.get('State', '')
+        postal = store.get('PostalCode', '')
         
-        result = geocode_address(
-            store['Address'],
-            store['City'],
-            store['State'],
-            api_key,
-            cache
-        )
+        cache_key = f"{addr}|{city}|{state}|{postal}"
         
-        if result:
-            store['latitude'] = result['latitude']
-            store['longitude'] = result['longitude']
-            logger.info(f"✅ [{i+1}/{len(stores)}] {store['StoreName']}: {result['latitude']:.4f}, {result['longitude']:.4f}")
+        if cache_key in cache:
+            lat, lng = cache[cache_key]
+            cached_hits += 1
         else:
-            logger.warning(f"⚠️ [{i+1}/{len(stores)}] {store['StoreName']}: FAILED")
+            lat, lng = geocode(addr, city, state, postal)
+            time.sleep(1.1)  # Nominatim rate limit: 1 req/sec
+            cache[cache_key] = [lat, lng]
+            
+            # Save cache every 50 lookups
+            if (i - cached_hits) % 50 == 0:
+                with open(CACHE_FILE, 'w') as f:
+                    json.dump(cache, f)
         
-        # Save every 50 stores
-        if (i + 1) % 50 == 0:
-            save_geocache(cache)
+        if lat and lng:
+            store['latitude'] = lat
+            store['longitude'] = lng
+            updated += 1
+        else:
+            errors += 1
+        
+        if (i + 1) % 100 == 0:
+            print(f"  Progress: {i+1}/{len(to_geocode)} | Updated: {updated} | Cache hits: {cached_hits} | Errors: {errors}")
     
-    # Save final results
-    logger.info("💾 Saving geocoded stores...")
+    # Save cache
+    with open(CACHE_FILE, 'w') as f:
+        json.dump(cache, f, indent=2)
+    
+    # Save stores
     with open(STORES_FILE, 'w') as f:
         json.dump(stores, f, indent=2)
     
-    save_geocache(cache)
-    logger.info("✅ Geocoding complete!")
-
+    print(f"\nDone! Updated: {updated} | Cache hits: {cached_hits} | Errors: {errors}")
+    print(f"Saved to {STORES_FILE}")
 
 if __name__ == "__main__":
     main()

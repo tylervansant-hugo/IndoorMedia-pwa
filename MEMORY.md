@@ -191,6 +191,21 @@ When you click "Appointments" on the dashboard, shows:
   - **Marty** — Location TBD
   - **Tyler Blair** — Joining PWA (registering soon)
 
+## Store Geocoding (May 20, 2026)
+**Issue:** Only 4 zones (05X, 07X, 07Y, 07Z) had real coordinates. Other ~7,200 stores had zone-level placeholders (all sharing 1-4 coords per zone).
+
+**Fix:**
+- Geocoded **zone 07W (Tony's territory)** using Google Geocoding API — all 160 stores now have accurate addresses
+- Deploy: 1deba43 (May 20, 2026)
+- Now "Near Me" shows correct distance for stores in Eastern WA/MT/ID
+- Remaining zones (7,050 stores) queued for background geocoding
+
+**How it works:**
+- "Near Me" button → browser geolocation → finds 10 nearest stores
+- Prospect searches → distances calculated FROM selectedStore's coordinates, NOT from your location
+- So if store had bad coords (e.g., zone placeholder 155mi away), all prospects would show that distance
+- Now fixed for 07W; deploying rest will fix other reps' territories
+
 ## Me
 - Name: Shelldon 🐚
 - Born: 2026-02-16
