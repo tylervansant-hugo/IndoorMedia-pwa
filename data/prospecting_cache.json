@@ -16213,7 +16213,75 @@
       ],
       "createdAt": "2026-05-15T14:35:13.291401",
       "count": 3
+    },
+    "70202f1f0f530b5d": {
+      "storeNumber": "FME07Y-0375",
+      "category": "pizza",
+      "prospects": [
+        {
+          "name": "Pizza Caboose",
+          "type": "meal_delivery, restaurant, food, point_of_interest, establishment",
+          "address": "11670 SW Pacific Hwy, Tigard",
+          "lat": 45.436734,
+          "lon": -122.755409,
+          "distance_miles": 0.34,
+          "likelihood_score": 93,
+          "rating": 4.5,
+          "user_ratings_total": 1176,
+          "phone": "+1 503-620-1400",
+          "website": "http://pizzacaboose.com/",
+          "place_id": "ChIJwdn-4sIMlVQRh2slUAZm6rE",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 2,
+          "source": "Google Places"
+        },
+        {
+          "name": "Leonardi's Pizza",
+          "type": "meal_takeaway, restaurant, food, point_of_interest, establishment",
+          "address": "7501 SW Dartmouth St, Portland",
+          "lat": 45.4352044,
+          "lon": -122.7534528,
+          "distance_miles": 0.41,
+          "likelihood_score": 90,
+          "rating": 4,
+          "user_ratings_total": 15,
+          "phone": "+1 503-684-9388",
+          "website": null,
+          "place_id": "ChIJbx3VYcMMlVQRwgvy7yPWSGw",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 2,
+          "source": "Google Places"
+        },
+        {
+          "name": "Papa Murphy's | Take 'N' Bake Pizza",
+          "type": "meal_takeaway, restaurant, food, point_of_interest, establishment",
+          "address": "11705 SW Pacific Hwy Suite Z, Tigard",
+          "lat": 45.4377332,
+          "lon": -122.7576097,
+          "distance_miles": 0.35,
+          "likelihood_score": 93,
+          "rating": 4.5,
+          "user_ratings_total": 253,
+          "phone": "+1 503-746-7391",
+          "website": "https://locations.papamurphys.com/or/tigard/11705-sw-pacific-hwy?utm_source=organic&utm_medium=gmb&utm_campaign=yext&y_source=1_MTU0MzA4OTItNzE1LWxvY2F0aW9uLndlYnNpdGU%3D",
+          "place_id": "ChIJDd-at8IMlVQRcJpY-RGMWHc",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": 1,
+          "source": "Google Places"
+        }
+      ],
+      "createdAt": "2026-05-31T11:14:45.587413",
+      "count": 3
     }
   },
-  "lastUpdated": "2026-05-15T14:35:13.291412"
+  "lastUpdated": "2026-05-31T11:14:45.587432"
 }

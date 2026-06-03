@@ -120,6 +120,11 @@ for pdf_path in pdfs:
             except:
                 pass
 
+    # Detect New Customer vs Renewal Customer
+    is_renewal = False
+    if re.search(r'Renewal\s+Customer:', text, re.IGNORECASE):
+        is_renewal = True
+
     # Extract zone from text (e.g. "(07Z)" or "(05X)" etc.)
     zone_match = re.search(r'\((\d{2}[A-Z])\)', text)
     contract_zone = zone_match.group(1) if zone_match else ""
@@ -163,6 +168,7 @@ for pdf_path in pdfs:
             "extracted_at": datetime.now().isoformat(),  # default for new contracts
             "quarters": overall_quarters,
             "term_months": overall_quarters * 3,
+            "is_renewal": is_renewal,
         }
         entry.update(overrides)
         # Preserve existing extracted_at if this contract was already in the system
