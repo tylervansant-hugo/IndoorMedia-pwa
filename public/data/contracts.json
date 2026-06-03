@@ -18,7 +18,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12,
-      "is_renewal": false
+      "is_renewal": false,
+      "paid_in_full": false
     },
     {
       "contract_number": "D403451E",
@@ -38,7 +39,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12,
-      "is_renewal": false
+      "is_renewal": false,
+      "paid_in_full": true
     },
     {
       "contract_number": "D403451E",
@@ -59,6 +61,7 @@
       "quarters": 4,
       "term_months": 12,
       "is_renewal": false,
+      "paid_in_full": true,
       "product_type": "digital"
     },
     {
@@ -79,7 +82,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12,
-      "is_renewal": false
+      "is_renewal": false,
+      "paid_in_full": true
     },
     {
       "contract_number": "D406825E",
@@ -99,7 +103,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12,
-      "is_renewal": false
+      "is_renewal": false,
+      "paid_in_full": true
     },
     {
       "contract_number": "D406825E",
@@ -120,6 +125,7 @@
       "quarters": 4,
       "term_months": 12,
       "is_renewal": false,
+      "paid_in_full": true,
       "product_type": "digital"
     },
     {
@@ -140,7 +146,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12,
-      "is_renewal": false
+      "is_renewal": false,
+      "paid_in_full": true
     },
     {
       "contract_number": "D410025E",
@@ -161,6 +168,7 @@
       "quarters": 4,
       "term_months": 12,
       "is_renewal": false,
+      "paid_in_full": true,
       "product_type": "digital"
     },
     {
@@ -181,7 +189,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12,
-      "is_renewal": true
+      "is_renewal": true,
+      "paid_in_full": false
     },
     {
       "contract_number": "D428883E",
@@ -201,7 +210,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12,
-      "is_renewal": false
+      "is_renewal": false,
+      "paid_in_full": false
     },
     {
       "contract_number": "D429186E",
@@ -221,7 +231,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12,
-      "is_renewal": false
+      "is_renewal": false,
+      "paid_in_full": true
     },
     {
       "contract_number": "D430119E",
@@ -241,7 +252,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12,
-      "is_renewal": false
+      "is_renewal": false,
+      "paid_in_full": true
     },
     {
       "contract_number": "D430557E",
@@ -261,7 +273,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12,
-      "is_renewal": false
+      "is_renewal": false,
+      "paid_in_full": false
     },
     {
       "contract_number": "D430557E",
@@ -282,6 +295,7 @@
       "quarters": 4,
       "term_months": 12,
       "is_renewal": false,
+      "paid_in_full": false,
       "product_type": "digital"
     },
     {
@@ -302,7 +316,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12,
-      "is_renewal": false
+      "is_renewal": false,
+      "paid_in_full": true
     },
     {
       "contract_number": "D430828E",
@@ -323,6 +338,7 @@
       "quarters": 4,
       "term_months": 12,
       "is_renewal": false,
+      "paid_in_full": true,
       "product_type": "digital"
     },
     {
@@ -343,7 +359,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12,
-      "is_renewal": false
+      "is_renewal": false,
+      "paid_in_full": false
     },
     {
       "contract_number": "J401808E",
@@ -363,7 +380,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12,
-      "is_renewal": false
+      "is_renewal": false,
+      "paid_in_full": false
     },
     {
       "contract_number": "J401839E",
@@ -383,7 +401,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 1,
       "term_months": 3,
-      "is_renewal": false
+      "is_renewal": false,
+      "paid_in_full": true
     },
     {
       "contract_number": "J402883E",
@@ -403,7 +422,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12,
-      "is_renewal": false
+      "is_renewal": false,
+      "paid_in_full": false
     },
     {
       "contract_number": "J402890E",
@@ -423,7 +443,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12,
-      "is_renewal": false
+      "is_renewal": false,
+      "paid_in_full": false
     },
     {
       "contract_number": "J403369E",
@@ -443,7 +464,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12,
-      "is_renewal": false
+      "is_renewal": false,
+      "paid_in_full": false
     },
     {
       "contract_number": "J403372E",
@@ -463,7 +485,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 8,
       "term_months": 24,
-      "is_renewal": false
+      "is_renewal": false,
+      "paid_in_full": true
     },
     {
       "contract_number": "J403489E",
@@ -483,7 +506,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 12,
       "term_months": 36,
-      "is_renewal": false
+      "is_renewal": false,
+      "paid_in_full": false
     },
     {
       "contract_number": "J403669E",
@@ -503,7 +527,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12,
-      "is_renewal": true
+      "is_renewal": true,
+      "paid_in_full": true
     },
     {
       "contract_number": "J403695E",
@@ -523,7 +548,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12,
-      "is_renewal": false
+      "is_renewal": false,
+      "paid_in_full": false
     },
     {
       "contract_number": "J403697E",
@@ -543,7 +569,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12,
-      "is_renewal": false
+      "is_renewal": false,
+      "paid_in_full": false
     },
     {
       "contract_number": "J403733E",
@@ -563,7 +590,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12,
-      "is_renewal": false
+      "is_renewal": false,
+      "paid_in_full": false
     },
     {
       "contract_number": "J403789E",
@@ -583,7 +611,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12,
-      "is_renewal": true
+      "is_renewal": true,
+      "paid_in_full": false
     },
     {
       "contract_number": "J404142E",
@@ -603,7 +632,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12,
-      "is_renewal": false
+      "is_renewal": false,
+      "paid_in_full": false
     },
     {
       "contract_number": "J404465E",
@@ -623,7 +653,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12,
-      "is_renewal": false
+      "is_renewal": false,
+      "paid_in_full": false
     },
     {
       "contract_number": "J404581E",
@@ -643,7 +674,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12,
-      "is_renewal": false
+      "is_renewal": false,
+      "paid_in_full": false
     },
     {
       "contract_number": "J404830E",
@@ -663,7 +695,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12,
-      "is_renewal": false
+      "is_renewal": false,
+      "paid_in_full": false
     },
     {
       "contract_number": "J405000E",
@@ -683,7 +716,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12,
-      "is_renewal": false
+      "is_renewal": false,
+      "paid_in_full": false
     },
     {
       "contract_number": "J405138E",
@@ -703,7 +737,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12,
-      "is_renewal": false
+      "is_renewal": false,
+      "paid_in_full": false
     },
     {
       "contract_number": "J405151E",
@@ -723,7 +758,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12,
-      "is_renewal": false
+      "is_renewal": false,
+      "paid_in_full": false
     },
     {
       "contract_number": "J405171E",
@@ -743,7 +779,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12,
-      "is_renewal": false
+      "is_renewal": false,
+      "paid_in_full": false
     },
     {
       "contract_number": "J405246E",
@@ -763,7 +800,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12,
-      "is_renewal": false
+      "is_renewal": false,
+      "paid_in_full": false
     },
     {
       "contract_number": "J405648E",
@@ -783,7 +821,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 2,
       "term_months": 6,
-      "is_renewal": false
+      "is_renewal": false,
+      "paid_in_full": false
     },
     {
       "contract_number": "J405658E",
@@ -803,7 +842,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12,
-      "is_renewal": false
+      "is_renewal": false,
+      "paid_in_full": false
     },
     {
       "contract_number": "J405664E",
@@ -823,7 +863,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12,
-      "is_renewal": false
+      "is_renewal": false,
+      "paid_in_full": false
     },
     {
       "contract_number": "J405667E",
@@ -843,7 +884,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12,
-      "is_renewal": false
+      "is_renewal": false,
+      "paid_in_full": false
     },
     {
       "contract_number": "J405722E",
@@ -863,7 +905,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12,
-      "is_renewal": false
+      "is_renewal": false,
+      "paid_in_full": false
     },
     {
       "contract_number": "J405739E",
@@ -883,7 +926,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 12,
       "term_months": 36,
-      "is_renewal": false
+      "is_renewal": false,
+      "paid_in_full": false
     },
     {
       "contract_number": "J405901E",
@@ -903,7 +947,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12,
-      "is_renewal": false
+      "is_renewal": false,
+      "paid_in_full": false
     },
     {
       "contract_number": "J405912E",
@@ -923,7 +968,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 2,
       "term_months": 6,
-      "is_renewal": false
+      "is_renewal": false,
+      "paid_in_full": false
     },
     {
       "contract_number": "J405914E",
@@ -943,7 +989,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12,
-      "is_renewal": true
+      "is_renewal": true,
+      "paid_in_full": false
     },
     {
       "contract_number": "J405914E",
@@ -963,7 +1010,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12,
-      "is_renewal": true
+      "is_renewal": true,
+      "paid_in_full": false
     },
     {
       "contract_number": "J405924E",
@@ -983,7 +1031,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12,
-      "is_renewal": false
+      "is_renewal": false,
+      "paid_in_full": true
     },
     {
       "contract_number": "J406158E",
@@ -1003,7 +1052,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12,
-      "is_renewal": false
+      "is_renewal": false,
+      "paid_in_full": false
     },
     {
       "contract_number": "J406188E",
@@ -1023,7 +1073,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12,
-      "is_renewal": false
+      "is_renewal": false,
+      "paid_in_full": false
     },
     {
       "contract_number": "J406443E",
@@ -1043,7 +1094,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12,
-      "is_renewal": false
+      "is_renewal": false,
+      "paid_in_full": false
     },
     {
       "contract_number": "J406519E",
@@ -1063,7 +1115,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12,
-      "is_renewal": true
+      "is_renewal": true,
+      "paid_in_full": false
     },
     {
       "contract_number": "J406535E",
@@ -1083,7 +1136,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12,
-      "is_renewal": false
+      "is_renewal": false,
+      "paid_in_full": false
     },
     {
       "contract_number": "J406675E",
@@ -1103,7 +1157,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12,
-      "is_renewal": false
+      "is_renewal": false,
+      "paid_in_full": false
     },
     {
       "contract_number": "J406839E",
@@ -1123,7 +1178,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12,
-      "is_renewal": false
+      "is_renewal": false,
+      "paid_in_full": false
     },
     {
       "contract_number": "J406889E",
@@ -1143,7 +1199,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12,
-      "is_renewal": true
+      "is_renewal": true,
+      "paid_in_full": true
     },
     {
       "contract_number": "J406958E",
@@ -1163,7 +1220,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12,
-      "is_renewal": false
+      "is_renewal": false,
+      "paid_in_full": false
     },
     {
       "contract_number": "J407143E",
@@ -1183,7 +1241,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12,
-      "is_renewal": true
+      "is_renewal": true,
+      "paid_in_full": false
     },
     {
       "contract_number": "J407194E",
@@ -1203,7 +1262,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12,
-      "is_renewal": false
+      "is_renewal": false,
+      "paid_in_full": false
     },
     {
       "contract_number": "J407328E",
@@ -1223,7 +1283,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12,
-      "is_renewal": false
+      "is_renewal": false,
+      "paid_in_full": false
     },
     {
       "contract_number": "J407414E",
@@ -1243,7 +1304,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12,
-      "is_renewal": false
+      "is_renewal": false,
+      "paid_in_full": false
     },
     {
       "contract_number": "J407631E",
@@ -1263,7 +1325,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 8,
       "term_months": 24,
-      "is_renewal": false
+      "is_renewal": false,
+      "paid_in_full": false
     },
     {
       "contract_number": "J407689E",
@@ -1283,7 +1346,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12,
-      "is_renewal": false
+      "is_renewal": false,
+      "paid_in_full": false
     },
     {
       "contract_number": "J407898E",
@@ -1303,7 +1367,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12,
-      "is_renewal": false
+      "is_renewal": false,
+      "paid_in_full": false
     },
     {
       "contract_number": "J408204E",
@@ -1323,7 +1388,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12,
-      "is_renewal": false
+      "is_renewal": false,
+      "paid_in_full": false
     },
     {
       "contract_number": "J408208E",
@@ -1343,7 +1409,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12,
-      "is_renewal": false
+      "is_renewal": false,
+      "paid_in_full": false
     },
     {
       "contract_number": "J408208E",
@@ -1363,7 +1430,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12,
-      "is_renewal": false
+      "is_renewal": false,
+      "paid_in_full": false
     },
     {
       "contract_number": "J408208E",
@@ -1383,7 +1451,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12,
-      "is_renewal": false
+      "is_renewal": false,
+      "paid_in_full": false
     },
     {
       "contract_number": "J408237E",
@@ -1403,7 +1472,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12,
-      "is_renewal": false
+      "is_renewal": false,
+      "paid_in_full": false
     },
     {
       "contract_number": "J408422E",
@@ -1423,7 +1493,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12,
-      "is_renewal": true
+      "is_renewal": true,
+      "paid_in_full": false
     },
     {
       "contract_number": "J408525E",
@@ -1443,7 +1514,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12,
-      "is_renewal": false
+      "is_renewal": false,
+      "paid_in_full": false
     },
     {
       "contract_number": "J408663E",
@@ -1463,7 +1535,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12,
-      "is_renewal": false
+      "is_renewal": false,
+      "paid_in_full": false
     },
     {
       "contract_number": "J408686E",
@@ -1483,7 +1556,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12,
-      "is_renewal": false
+      "is_renewal": false,
+      "paid_in_full": false
     },
     {
       "contract_number": "J408818E",
@@ -1503,7 +1577,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12,
-      "is_renewal": false
+      "is_renewal": false,
+      "paid_in_full": false
     },
     {
       "contract_number": "J408916E",
@@ -1523,7 +1598,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12,
-      "is_renewal": false
+      "is_renewal": false,
+      "paid_in_full": true
     },
     {
       "contract_number": "J409018E",
@@ -1543,7 +1619,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12,
-      "is_renewal": false
+      "is_renewal": false,
+      "paid_in_full": false
     },
     {
       "contract_number": "J409102E",
@@ -1563,7 +1640,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12,
-      "is_renewal": false
+      "is_renewal": false,
+      "paid_in_full": false
     },
     {
       "contract_number": "J409162E",
@@ -1583,7 +1661,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12,
-      "is_renewal": false
+      "is_renewal": false,
+      "paid_in_full": true
     },
     {
       "contract_number": "J409244E",
@@ -1603,7 +1682,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12,
-      "is_renewal": false
+      "is_renewal": false,
+      "paid_in_full": false
     },
     {
       "contract_number": "J409424E",
@@ -1623,7 +1703,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12,
-      "is_renewal": false
+      "is_renewal": false,
+      "paid_in_full": false
     },
     {
       "contract_number": "J409474E",
@@ -1643,7 +1724,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12,
-      "is_renewal": false
+      "is_renewal": false,
+      "paid_in_full": false
     },
     {
       "contract_number": "J409944E",
@@ -1663,7 +1745,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12,
-      "is_renewal": false
+      "is_renewal": false,
+      "paid_in_full": false
     },
     {
       "contract_number": "J409946E",
@@ -1683,7 +1766,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12,
-      "is_renewal": false
+      "is_renewal": false,
+      "paid_in_full": false
     },
     {
       "contract_number": "J409959E",
@@ -1703,7 +1787,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12,
-      "is_renewal": false
+      "is_renewal": false,
+      "paid_in_full": false
     },
     {
       "contract_number": "J410048E",
@@ -1723,7 +1808,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12,
-      "is_renewal": false
+      "is_renewal": false,
+      "paid_in_full": false
     },
     {
       "contract_number": "J410050E",
@@ -1743,7 +1829,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12,
-      "is_renewal": false
+      "is_renewal": false,
+      "paid_in_full": false
     },
     {
       "contract_number": "J410188E",
@@ -1763,7 +1850,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12,
-      "is_renewal": false
+      "is_renewal": false,
+      "paid_in_full": true
     },
     {
       "contract_number": "J410207E",
@@ -1783,7 +1871,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12,
-      "is_renewal": false
+      "is_renewal": false,
+      "paid_in_full": false
     },
     {
       "contract_number": "J410332E",
@@ -1803,7 +1892,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 2,
       "term_months": 6,
-      "is_renewal": false
+      "is_renewal": false,
+      "paid_in_full": false
     },
     {
       "contract_number": "J410332E",
@@ -1823,7 +1913,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 2,
       "term_months": 6,
-      "is_renewal": false
+      "is_renewal": false,
+      "paid_in_full": false
     },
     {
       "contract_number": "J410332E",
@@ -1843,7 +1934,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 1,
       "term_months": 3,
-      "is_renewal": false
+      "is_renewal": false,
+      "paid_in_full": false
     },
     {
       "contract_number": "J410412E",
@@ -1863,7 +1955,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12,
-      "is_renewal": true
+      "is_renewal": true,
+      "paid_in_full": false
     },
     {
       "contract_number": "J410538E",
@@ -1883,7 +1976,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12,
-      "is_renewal": false
+      "is_renewal": false,
+      "paid_in_full": true
     },
     {
       "contract_number": "J410538E",
@@ -1903,7 +1997,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 1,
       "term_months": 3,
-      "is_renewal": false
+      "is_renewal": false,
+      "paid_in_full": true
     },
     {
       "contract_number": "J410720E",
@@ -1923,7 +2018,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12,
-      "is_renewal": false
+      "is_renewal": false,
+      "paid_in_full": false
     },
     {
       "contract_number": "J410733E",
@@ -1943,7 +2039,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12,
-      "is_renewal": false
+      "is_renewal": false,
+      "paid_in_full": false
     },
     {
       "contract_number": "J410747E",
@@ -1963,7 +2060,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12,
-      "is_renewal": true
+      "is_renewal": true,
+      "paid_in_full": false
     },
     {
       "contract_number": "J410883E",
@@ -1983,7 +2081,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 5,
       "term_months": 15,
-      "is_renewal": false
+      "is_renewal": false,
+      "paid_in_full": false
     },
     {
       "contract_number": "J410991E",
@@ -2003,7 +2102,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12,
-      "is_renewal": false
+      "is_renewal": false,
+      "paid_in_full": false
     },
     {
       "contract_number": "J410991E",
@@ -2024,6 +2124,7 @@
       "quarters": 4,
       "term_months": 12,
       "is_renewal": false,
+      "paid_in_full": false,
       "product_type": "digital"
     },
     {
@@ -2044,7 +2145,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 2,
       "term_months": 6,
-      "is_renewal": false
+      "is_renewal": false,
+      "paid_in_full": true
     },
     {
       "contract_number": "J411143E",
@@ -2064,7 +2166,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12,
-      "is_renewal": false
+      "is_renewal": false,
+      "paid_in_full": false
     },
     {
       "contract_number": "J411204E",
@@ -2084,7 +2187,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12,
-      "is_renewal": false
+      "is_renewal": false,
+      "paid_in_full": false
     },
     {
       "contract_number": "J411232E",
@@ -2104,7 +2208,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 5,
       "term_months": 15,
-      "is_renewal": false
+      "is_renewal": false,
+      "paid_in_full": false
     },
     {
       "contract_number": "J411256E",
@@ -2124,7 +2229,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12,
-      "is_renewal": false
+      "is_renewal": false,
+      "paid_in_full": false
     },
     {
       "contract_number": "J411256E",
@@ -2144,7 +2250,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12,
-      "is_renewal": false
+      "is_renewal": false,
+      "paid_in_full": false
     },
     {
       "contract_number": "J411288E",
@@ -2164,7 +2271,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 5,
       "term_months": 15,
-      "is_renewal": false
+      "is_renewal": false,
+      "paid_in_full": false
     },
     {
       "contract_number": "J411373E",
@@ -2184,7 +2292,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 5,
       "term_months": 15,
-      "is_renewal": false
+      "is_renewal": false,
+      "paid_in_full": false
     },
     {
       "contract_number": "J411380E",
@@ -2204,7 +2313,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 5,
       "term_months": 15,
-      "is_renewal": false
+      "is_renewal": false,
+      "paid_in_full": false
     },
     {
       "contract_number": "J411491E",
@@ -2224,7 +2334,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12,
-      "is_renewal": false
+      "is_renewal": false,
+      "paid_in_full": false
     },
     {
       "contract_number": "J411492E",
@@ -2244,7 +2355,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12,
-      "is_renewal": false
+      "is_renewal": false,
+      "paid_in_full": false
     },
     {
       "contract_number": "J411513E",
@@ -2264,7 +2376,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12,
-      "is_renewal": false
+      "is_renewal": false,
+      "paid_in_full": false
     },
     {
       "contract_number": "J411548E",
@@ -2284,7 +2397,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12,
-      "is_renewal": false
+      "is_renewal": false,
+      "paid_in_full": false
     },
     {
       "contract_number": "J411548E",
@@ -2304,7 +2418,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12,
-      "is_renewal": false
+      "is_renewal": false,
+      "paid_in_full": false
     },
     {
       "contract_number": "J411666E",
@@ -2324,7 +2439,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 2,
       "term_months": 6,
-      "is_renewal": false
+      "is_renewal": false,
+      "paid_in_full": false
     },
     {
       "contract_number": "J411666E",
@@ -2344,7 +2460,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 2,
       "term_months": 6,
-      "is_renewal": false
+      "is_renewal": false,
+      "paid_in_full": false
     },
     {
       "contract_number": "J411687E",
@@ -2364,7 +2481,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12,
-      "is_renewal": false
+      "is_renewal": false,
+      "paid_in_full": false
     },
     {
       "contract_number": "J411687E",
@@ -2384,7 +2502,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 1,
       "term_months": 3,
-      "is_renewal": false
+      "is_renewal": false,
+      "paid_in_full": false
     },
     {
       "contract_number": "J411719E",
@@ -2404,7 +2523,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 5,
       "term_months": 15,
-      "is_renewal": false
+      "is_renewal": false,
+      "paid_in_full": false
     },
     {
       "contract_number": "J411739E",
@@ -2424,7 +2544,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12,
-      "is_renewal": false
+      "is_renewal": false,
+      "paid_in_full": false
     },
     {
       "contract_number": "J411739E",
@@ -2444,7 +2565,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12,
-      "is_renewal": false
+      "is_renewal": false,
+      "paid_in_full": false
     },
     {
       "contract_number": "J411762E",
@@ -2464,7 +2586,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12,
-      "is_renewal": false
+      "is_renewal": false,
+      "paid_in_full": false
     },
     {
       "contract_number": "J411762E",
@@ -2484,7 +2607,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 1,
       "term_months": 3,
-      "is_renewal": false
+      "is_renewal": false,
+      "paid_in_full": false
     },
     {
       "contract_number": "J411853E",
@@ -2504,7 +2628,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 5,
       "term_months": 15,
-      "is_renewal": false
+      "is_renewal": false,
+      "paid_in_full": false
     },
     {
       "contract_number": "J412027E",
@@ -2524,7 +2649,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 5,
       "term_months": 15,
-      "is_renewal": false
+      "is_renewal": false,
+      "paid_in_full": false
     },
     {
       "contract_number": "J412076E",
@@ -2544,7 +2670,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 5,
       "term_months": 15,
-      "is_renewal": false
+      "is_renewal": false,
+      "paid_in_full": false
     },
     {
       "contract_number": "J412174E",
@@ -2564,7 +2691,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 5,
       "term_months": 15,
-      "is_renewal": false
+      "is_renewal": false,
+      "paid_in_full": false
     },
     {
       "contract_number": "J412217E",
@@ -2584,7 +2712,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12,
-      "is_renewal": false
+      "is_renewal": false,
+      "paid_in_full": true
     },
     {
       "contract_number": "J412217E",
@@ -2604,7 +2733,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12,
-      "is_renewal": false
+      "is_renewal": false,
+      "paid_in_full": true
     },
     {
       "contract_number": "J412217E",
@@ -2624,7 +2754,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12,
-      "is_renewal": false
+      "is_renewal": false,
+      "paid_in_full": true
     },
     {
       "contract_number": "J412217E",
@@ -2644,7 +2775,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12,
-      "is_renewal": false
+      "is_renewal": false,
+      "paid_in_full": true
     },
     {
       "contract_number": "J412243E",
@@ -2664,7 +2796,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 5,
       "term_months": 15,
-      "is_renewal": false
+      "is_renewal": false,
+      "paid_in_full": false
     },
     {
       "contract_number": "J412245E",
@@ -2684,7 +2817,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 5,
       "term_months": 15,
-      "is_renewal": false
+      "is_renewal": false,
+      "paid_in_full": false
     },
     {
       "contract_number": "J412410E",
@@ -2704,7 +2838,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12,
-      "is_renewal": false
+      "is_renewal": false,
+      "paid_in_full": false
     },
     {
       "contract_number": "J412439E",
@@ -2724,7 +2859,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12,
-      "is_renewal": false
+      "is_renewal": false,
+      "paid_in_full": false
     },
     {
       "contract_number": "J412486E",
@@ -2744,7 +2880,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12,
-      "is_renewal": false
+      "is_renewal": false,
+      "paid_in_full": false
     },
     {
       "contract_number": "J412486E",
@@ -2764,7 +2901,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 1,
       "term_months": 3,
-      "is_renewal": false
+      "is_renewal": false,
+      "paid_in_full": false
     },
     {
       "contract_number": "J412496E",
@@ -2784,7 +2922,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 5,
       "term_months": 15,
-      "is_renewal": false
+      "is_renewal": false,
+      "paid_in_full": false
     },
     {
       "contract_number": "J412501E",
@@ -2804,7 +2943,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 2,
       "term_months": 6,
-      "is_renewal": false
+      "is_renewal": false,
+      "paid_in_full": false
     },
     {
       "contract_number": "J412523E",
@@ -2824,7 +2964,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12,
-      "is_renewal": false
+      "is_renewal": false,
+      "paid_in_full": false
     },
     {
       "contract_number": "J412523E",
@@ -2844,7 +2985,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 1,
       "term_months": 3,
-      "is_renewal": false
+      "is_renewal": false,
+      "paid_in_full": false
     },
     {
       "contract_number": "J412586E",
@@ -2864,7 +3006,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 2,
       "term_months": 6,
-      "is_renewal": false
+      "is_renewal": false,
+      "paid_in_full": false
     },
     {
       "contract_number": "J412681E",
@@ -2884,7 +3027,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 5,
       "term_months": 15,
-      "is_renewal": false
+      "is_renewal": false,
+      "paid_in_full": false
     },
     {
       "contract_number": "J412830E",
@@ -2904,7 +3048,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12,
-      "is_renewal": false
+      "is_renewal": false,
+      "paid_in_full": false
     },
     {
       "contract_number": "J412830E",
@@ -2924,7 +3069,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 1,
       "term_months": 3,
-      "is_renewal": false
+      "is_renewal": false,
+      "paid_in_full": false
     },
     {
       "contract_number": "J412833E",
@@ -2944,7 +3090,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 5,
       "term_months": 15,
-      "is_renewal": false
+      "is_renewal": false,
+      "paid_in_full": false
     },
     {
       "contract_number": "J412869E",
@@ -2964,7 +3111,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 5,
       "term_months": 15,
-      "is_renewal": false
+      "is_renewal": false,
+      "paid_in_full": false
     },
     {
       "contract_number": "J412917E",
@@ -2984,7 +3132,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 5,
       "term_months": 15,
-      "is_renewal": false
+      "is_renewal": false,
+      "paid_in_full": false
     },
     {
       "contract_number": "J412923E",
@@ -3004,7 +3153,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12,
-      "is_renewal": false
+      "is_renewal": false,
+      "paid_in_full": false
     },
     {
       "contract_number": "J413038E",
@@ -3024,7 +3174,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 5,
       "term_months": 15,
-      "is_renewal": false
+      "is_renewal": false,
+      "paid_in_full": false
     },
     {
       "contract_number": "J413038E",
@@ -3044,7 +3195,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 5,
       "term_months": 15,
-      "is_renewal": false
+      "is_renewal": false,
+      "paid_in_full": false
     },
     {
       "contract_number": "J413038E",
@@ -3064,7 +3216,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 5,
       "term_months": 15,
-      "is_renewal": false
+      "is_renewal": false,
+      "paid_in_full": false
     },
     {
       "contract_number": "J413060E",
@@ -3084,7 +3237,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 5,
       "term_months": 15,
-      "is_renewal": false
+      "is_renewal": false,
+      "paid_in_full": false
     },
     {
       "contract_number": "J413060E",
@@ -3104,7 +3258,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 5,
       "term_months": 15,
-      "is_renewal": false
+      "is_renewal": false,
+      "paid_in_full": false
     },
     {
       "contract_number": "J413101E",
@@ -3124,7 +3279,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12,
-      "is_renewal": false
+      "is_renewal": false,
+      "paid_in_full": false
     },
     {
       "contract_number": "J413143E",
@@ -3144,7 +3300,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 1,
       "term_months": 3,
-      "is_renewal": false
+      "is_renewal": false,
+      "paid_in_full": false
     },
     {
       "contract_number": "J413143E",
@@ -3164,7 +3321,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12,
-      "is_renewal": false
+      "is_renewal": false,
+      "paid_in_full": false
     },
     {
       "contract_number": "J413213E",
@@ -3184,7 +3342,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 2,
       "term_months": 6,
-      "is_renewal": false
+      "is_renewal": false,
+      "paid_in_full": false
     },
     {
       "contract_number": "J413213E",
@@ -3204,7 +3363,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12,
-      "is_renewal": false
+      "is_renewal": false,
+      "paid_in_full": false
     },
     {
       "contract_number": "J413256E",
@@ -3224,7 +3384,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 5,
       "term_months": 15,
-      "is_renewal": false
+      "is_renewal": false,
+      "paid_in_full": false
     },
     {
       "contract_number": "J413256E",
@@ -3244,7 +3405,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 5,
       "term_months": 15,
-      "is_renewal": false
+      "is_renewal": false,
+      "paid_in_full": false
     },
     {
       "contract_number": "J413416E",
@@ -3264,7 +3426,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12,
-      "is_renewal": false
+      "is_renewal": false,
+      "paid_in_full": false
     },
     {
       "contract_number": "J413416E",
@@ -3284,7 +3447,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12,
-      "is_renewal": false
+      "is_renewal": false,
+      "paid_in_full": false
     },
     {
       "contract_number": "J413507E",
@@ -3304,7 +3468,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 5,
       "term_months": 15,
-      "is_renewal": false
+      "is_renewal": false,
+      "paid_in_full": false
     },
     {
       "contract_number": "J413507E",
@@ -3324,7 +3489,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 5,
       "term_months": 15,
-      "is_renewal": false
+      "is_renewal": false,
+      "paid_in_full": false
     },
     {
       "contract_number": "J413507E",
@@ -3344,7 +3510,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12,
-      "is_renewal": false
+      "is_renewal": false,
+      "paid_in_full": false
     },
     {
       "contract_number": "J413549E",
@@ -3364,7 +3531,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 5,
       "term_months": 15,
-      "is_renewal": false
+      "is_renewal": false,
+      "paid_in_full": false
     },
     {
       "contract_number": "J413561E",
@@ -3384,7 +3552,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 2,
       "term_months": 6,
-      "is_renewal": false
+      "is_renewal": false,
+      "paid_in_full": false
     },
     {
       "contract_number": "J413618E",
@@ -3404,7 +3573,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 5,
       "term_months": 15,
-      "is_renewal": false
+      "is_renewal": false,
+      "paid_in_full": false
     },
     {
       "contract_number": "J413771E",
@@ -3424,7 +3594,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12,
-      "is_renewal": false
+      "is_renewal": false,
+      "paid_in_full": true
     },
     {
       "contract_number": "J413771E",
@@ -3445,6 +3616,7 @@
       "quarters": 4,
       "term_months": 12,
       "is_renewal": false,
+      "paid_in_full": true,
       "product_type": "digital"
     },
     {
@@ -3465,7 +3637,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 2,
       "term_months": 6,
-      "is_renewal": false
+      "is_renewal": false,
+      "paid_in_full": false
     },
     {
       "contract_number": "J414216E",
@@ -3485,7 +3658,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 5,
       "term_months": 15,
-      "is_renewal": false
+      "is_renewal": false,
+      "paid_in_full": false
     },
     {
       "contract_number": "J414216E",
@@ -3506,6 +3680,7 @@
       "quarters": 5,
       "term_months": 15,
       "is_renewal": false,
+      "paid_in_full": false,
       "product_type": "digital"
     },
     {
@@ -3526,7 +3701,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12,
-      "is_renewal": false
+      "is_renewal": false,
+      "paid_in_full": false
     },
     {
       "contract_number": "J414361E",
@@ -3546,7 +3722,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 5,
       "term_months": 15,
-      "is_renewal": false
+      "is_renewal": false,
+      "paid_in_full": false
     },
     {
       "contract_number": "J414552E",
@@ -3566,7 +3743,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12,
-      "is_renewal": false
+      "is_renewal": false,
+      "paid_in_full": false
     },
     {
       "contract_number": "J414560E",
@@ -3586,7 +3764,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 2,
       "term_months": 6,
-      "is_renewal": false
+      "is_renewal": false,
+      "paid_in_full": false
     },
     {
       "contract_number": "J414665E",
@@ -3606,7 +3785,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 13,
       "term_months": 39,
-      "is_renewal": false
+      "is_renewal": false,
+      "paid_in_full": false
     },
     {
       "contract_number": "J414665E",
@@ -3626,7 +3806,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 13,
       "term_months": 39,
-      "is_renewal": false
+      "is_renewal": false,
+      "paid_in_full": false
     },
     {
       "contract_number": "J414665E",
@@ -3646,7 +3827,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 13,
       "term_months": 39,
-      "is_renewal": false
+      "is_renewal": false,
+      "paid_in_full": false
     },
     {
       "contract_number": "J414665E",
@@ -3666,7 +3848,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 13,
       "term_months": 39,
-      "is_renewal": false
+      "is_renewal": false,
+      "paid_in_full": false
     },
     {
       "contract_number": "J414665E",
@@ -3686,7 +3869,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 13,
       "term_months": 39,
-      "is_renewal": false
+      "is_renewal": false,
+      "paid_in_full": false
     },
     {
       "contract_number": "J414665E",
@@ -3706,7 +3890,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 13,
       "term_months": 39,
-      "is_renewal": false
+      "is_renewal": false,
+      "paid_in_full": false
     },
     {
       "contract_number": "J414666E",
@@ -3726,7 +3911,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12,
-      "is_renewal": true
+      "is_renewal": true,
+      "paid_in_full": true
     },
     {
       "contract_number": "J414666E",
@@ -3746,7 +3932,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12,
-      "is_renewal": true
+      "is_renewal": true,
+      "paid_in_full": true
     },
     {
       "contract_number": "J414747E",
@@ -3766,7 +3953,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 5,
       "term_months": 15,
-      "is_renewal": false
+      "is_renewal": false,
+      "paid_in_full": false
     },
     {
       "contract_number": "J414794E",
@@ -3786,7 +3974,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12,
-      "is_renewal": true
+      "is_renewal": true,
+      "paid_in_full": false
     },
     {
       "contract_number": "J414836E",
@@ -3806,7 +3995,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12,
-      "is_renewal": true
+      "is_renewal": true,
+      "paid_in_full": false
     },
     {
       "contract_number": "J414859E",
@@ -3826,7 +4016,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12,
-      "is_renewal": true
+      "is_renewal": true,
+      "paid_in_full": true
     },
     {
       "contract_number": "J414859E",
@@ -3846,7 +4037,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12,
-      "is_renewal": true
+      "is_renewal": true,
+      "paid_in_full": true
     },
     {
       "contract_number": "J414920E",
@@ -3866,7 +4058,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 2,
       "term_months": 6,
-      "is_renewal": false
+      "is_renewal": false,
+      "paid_in_full": false
     },
     {
       "contract_number": "J415104E",
@@ -3886,7 +4079,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12,
-      "is_renewal": false
+      "is_renewal": false,
+      "paid_in_full": false
     },
     {
       "contract_number": "J415151E",
@@ -3906,7 +4100,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12,
-      "is_renewal": false
+      "is_renewal": false,
+      "paid_in_full": false
     },
     {
       "contract_number": "J415232E",
@@ -3926,7 +4121,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12,
-      "is_renewal": false
+      "is_renewal": false,
+      "paid_in_full": false
     },
     {
       "contract_number": "J415252E",
@@ -3946,7 +4142,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12,
-      "is_renewal": false
+      "is_renewal": false,
+      "paid_in_full": false
     },
     {
       "contract_number": "J415317E",
@@ -3966,7 +4163,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12,
-      "is_renewal": true
+      "is_renewal": true,
+      "paid_in_full": false
     },
     {
       "contract_number": "J415351E",
@@ -3986,7 +4184,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12,
-      "is_renewal": false
+      "is_renewal": false,
+      "paid_in_full": false
     },
     {
       "contract_number": "J415420E",
@@ -4006,7 +4205,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12,
-      "is_renewal": false
+      "is_renewal": false,
+      "paid_in_full": false
     },
     {
       "contract_number": "J415577E",
@@ -4026,7 +4226,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12,
-      "is_renewal": false
+      "is_renewal": false,
+      "paid_in_full": true
     },
     {
       "contract_number": "J415664E",
@@ -4046,7 +4247,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 5,
       "term_months": 15,
-      "is_renewal": true
+      "is_renewal": true,
+      "paid_in_full": false
     },
     {
       "contract_number": "J415713E",
@@ -4066,7 +4268,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12,
-      "is_renewal": false
+      "is_renewal": false,
+      "paid_in_full": true
     },
     {
       "contract_number": "J415758E",
@@ -4086,7 +4289,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12,
-      "is_renewal": false
+      "is_renewal": false,
+      "paid_in_full": true
     },
     {
       "contract_number": "J415758E",
@@ -4107,6 +4311,7 @@
       "quarters": 4,
       "term_months": 12,
       "is_renewal": false,
+      "paid_in_full": true,
       "product_type": "digital"
     },
     {
@@ -4127,7 +4332,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 2,
       "term_months": 6,
-      "is_renewal": false
+      "is_renewal": false,
+      "paid_in_full": false
     },
     {
       "contract_number": "J415972E",
@@ -4147,7 +4353,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12,
-      "is_renewal": false
+      "is_renewal": false,
+      "paid_in_full": false
     },
     {
       "contract_number": "J415972E",
@@ -4167,7 +4374,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12,
-      "is_renewal": false
+      "is_renewal": false,
+      "paid_in_full": false
     },
     {
       "contract_number": "J416166E",
@@ -4187,7 +4395,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12,
-      "is_renewal": true
+      "is_renewal": true,
+      "paid_in_full": false
     },
     {
       "contract_number": "J416166E",
@@ -4207,7 +4416,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12,
-      "is_renewal": true
+      "is_renewal": true,
+      "paid_in_full": false
     },
     {
       "contract_number": "J416166E",
@@ -4227,7 +4437,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12,
-      "is_renewal": true
+      "is_renewal": true,
+      "paid_in_full": false
     },
     {
       "contract_number": "J416322E",
@@ -4247,7 +4458,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12,
-      "is_renewal": false
+      "is_renewal": false,
+      "paid_in_full": false
     },
     {
       "contract_number": "J416511E",
@@ -4267,7 +4479,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12,
-      "is_renewal": false
+      "is_renewal": false,
+      "paid_in_full": true
     },
     {
       "contract_number": "J416772E",
@@ -4287,7 +4500,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12,
-      "is_renewal": false
+      "is_renewal": false,
+      "paid_in_full": false
     },
     {
       "contract_number": "J416774E",
@@ -4307,7 +4521,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12,
-      "is_renewal": false
+      "is_renewal": false,
+      "paid_in_full": false
     },
     {
       "contract_number": "J416838E",
@@ -4327,7 +4542,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12,
-      "is_renewal": false
+      "is_renewal": false,
+      "paid_in_full": false
     },
     {
       "contract_number": "J416881E",
@@ -4347,7 +4563,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12,
-      "is_renewal": false
+      "is_renewal": false,
+      "paid_in_full": true
     },
     {
       "contract_number": "J416887E",
@@ -4367,7 +4584,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12,
-      "is_renewal": false
+      "is_renewal": false,
+      "paid_in_full": false
     },
     {
       "contract_number": "J416955E",
@@ -4387,7 +4605,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12,
-      "is_renewal": false
+      "is_renewal": false,
+      "paid_in_full": false
     },
     {
       "contract_number": "J417098E",
@@ -4407,7 +4626,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12,
-      "is_renewal": false
+      "is_renewal": false,
+      "paid_in_full": false
     },
     {
       "contract_number": "J417134E",
@@ -4427,7 +4647,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12,
-      "is_renewal": false
+      "is_renewal": false,
+      "paid_in_full": true
     },
     {
       "contract_number": "J417181E",
@@ -4447,7 +4668,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12,
-      "is_renewal": false
+      "is_renewal": false,
+      "paid_in_full": false
     },
     {
       "contract_number": "J417265E",
@@ -4467,7 +4689,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12,
-      "is_renewal": false
+      "is_renewal": false,
+      "paid_in_full": false
     },
     {
       "contract_number": "J417265E",
@@ -4488,6 +4711,7 @@
       "quarters": 4,
       "term_months": 12,
       "is_renewal": false,
+      "paid_in_full": false,
       "product_type": "digital"
     },
     {
@@ -4508,7 +4732,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 1,
       "term_months": 3,
-      "is_renewal": true
+      "is_renewal": true,
+      "paid_in_full": true
     },
     {
       "contract_number": "J417290E",
@@ -4528,7 +4753,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12,
-      "is_renewal": false
+      "is_renewal": false,
+      "paid_in_full": false
     },
     {
       "contract_number": "J417461E",
@@ -4548,7 +4774,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12,
-      "is_renewal": false
+      "is_renewal": false,
+      "paid_in_full": false
     },
     {
       "contract_number": "J417487E",
@@ -4568,7 +4795,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12,
-      "is_renewal": false
+      "is_renewal": false,
+      "paid_in_full": false
     },
     {
       "contract_number": "J417685E",
@@ -4588,7 +4816,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12,
-      "is_renewal": false
+      "is_renewal": false,
+      "paid_in_full": true
     },
     {
       "contract_number": "J417702E",
@@ -4608,7 +4837,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12,
-      "is_renewal": false
+      "is_renewal": false,
+      "paid_in_full": false
     },
     {
       "contract_number": "J417763E",
@@ -4628,7 +4858,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 3,
       "term_months": 9,
-      "is_renewal": false
+      "is_renewal": false,
+      "paid_in_full": true
     },
     {
       "contract_number": "J417763E",
@@ -4648,7 +4879,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 1,
       "term_months": 3,
-      "is_renewal": false
+      "is_renewal": false,
+      "paid_in_full": true
     },
     {
       "contract_number": "J418201E",
@@ -4668,7 +4900,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12,
-      "is_renewal": false
+      "is_renewal": false,
+      "paid_in_full": false
     },
     {
       "contract_number": "J418249E",
@@ -4688,7 +4921,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12,
-      "is_renewal": false
+      "is_renewal": false,
+      "paid_in_full": false
     },
     {
       "contract_number": "J418507E",
@@ -4708,7 +4942,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12,
-      "is_renewal": true
+      "is_renewal": true,
+      "paid_in_full": true
     },
     {
       "contract_number": "J418507E",
@@ -4728,7 +4963,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12,
-      "is_renewal": true
+      "is_renewal": true,
+      "paid_in_full": true
     },
     {
       "contract_number": "J418525E",
@@ -4748,7 +4984,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12,
-      "is_renewal": false
+      "is_renewal": false,
+      "paid_in_full": false
     },
     {
       "contract_number": "J418525E",
@@ -4768,7 +5005,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12,
-      "is_renewal": false
+      "is_renewal": false,
+      "paid_in_full": false
     },
     {
       "contract_number": "J418567E",
@@ -4788,7 +5026,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 8,
       "term_months": 24,
-      "is_renewal": false
+      "is_renewal": false,
+      "paid_in_full": false
     },
     {
       "contract_number": "J418705E",
@@ -4808,7 +5047,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 12,
       "term_months": 36,
-      "is_renewal": false
+      "is_renewal": false,
+      "paid_in_full": false
     },
     {
       "contract_number": "J418799E",
@@ -4828,7 +5068,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12,
-      "is_renewal": true
+      "is_renewal": true,
+      "paid_in_full": false
     },
     {
       "contract_number": "J418864E",
@@ -4848,7 +5089,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12,
-      "is_renewal": false
+      "is_renewal": false,
+      "paid_in_full": false
     },
     {
       "contract_number": "J418951E",
@@ -4868,7 +5110,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12,
-      "is_renewal": false
+      "is_renewal": false,
+      "paid_in_full": false
     },
     {
       "contract_number": "J419010E",
@@ -4888,7 +5131,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12,
-      "is_renewal": false
+      "is_renewal": false,
+      "paid_in_full": true
     },
     {
       "contract_number": "J419010E",
@@ -4909,6 +5153,7 @@
       "quarters": 4,
       "term_months": 12,
       "is_renewal": false,
+      "paid_in_full": true,
       "product_type": "digital"
     },
     {
@@ -4929,7 +5174,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12,
-      "is_renewal": false
+      "is_renewal": false,
+      "paid_in_full": false
     },
     {
       "contract_number": "J419128E",
@@ -4949,7 +5195,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12,
-      "is_renewal": false
+      "is_renewal": false,
+      "paid_in_full": false
     },
     {
       "contract_number": "J419149E",
@@ -4969,7 +5216,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12,
-      "is_renewal": false
+      "is_renewal": false,
+      "paid_in_full": false
     },
     {
       "contract_number": "J419437E",
@@ -4989,7 +5237,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12,
-      "is_renewal": false
+      "is_renewal": false,
+      "paid_in_full": true
     },
     {
       "contract_number": "J419443E",
@@ -5009,7 +5258,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 2,
       "term_months": 6,
-      "is_renewal": true
+      "is_renewal": true,
+      "paid_in_full": false
     },
     {
       "contract_number": "J419443E",
@@ -5029,7 +5279,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 2,
       "term_months": 6,
-      "is_renewal": true
+      "is_renewal": true,
+      "paid_in_full": false
     },
     {
       "contract_number": "J419697E",
@@ -5049,7 +5300,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12,
-      "is_renewal": true
+      "is_renewal": true,
+      "paid_in_full": false
     },
     {
       "contract_number": "J419761E",
@@ -5069,7 +5321,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12,
-      "is_renewal": false
+      "is_renewal": false,
+      "paid_in_full": false
     },
     {
       "contract_number": "J419895E",
@@ -5089,7 +5342,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12,
-      "is_renewal": false
+      "is_renewal": false,
+      "paid_in_full": true
     },
     {
       "contract_number": "J420118E",
@@ -5109,7 +5363,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12,
-      "is_renewal": false
+      "is_renewal": false,
+      "paid_in_full": false
     },
     {
       "contract_number": "J420119E",
@@ -5129,7 +5384,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12,
-      "is_renewal": false
+      "is_renewal": false,
+      "paid_in_full": false
     },
     {
       "contract_number": "J420176E",
@@ -5149,7 +5405,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12,
-      "is_renewal": false
+      "is_renewal": false,
+      "paid_in_full": false
     },
     {
       "contract_number": "J420176E",
@@ -5170,6 +5427,7 @@
       "quarters": 4,
       "term_months": 12,
       "is_renewal": false,
+      "paid_in_full": false,
       "product_type": "digital"
     },
     {
@@ -5190,7 +5448,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12,
-      "is_renewal": false
+      "is_renewal": false,
+      "paid_in_full": true
     },
     {
       "contract_number": "J420475E",
@@ -5210,7 +5469,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12,
-      "is_renewal": false
+      "is_renewal": false,
+      "paid_in_full": false
     },
     {
       "contract_number": "J420570E",
@@ -5230,7 +5490,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 2,
       "term_months": 6,
-      "is_renewal": false
+      "is_renewal": false,
+      "paid_in_full": false
     },
     {
       "contract_number": "J420570E",
@@ -5250,7 +5511,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 2,
       "term_months": 6,
-      "is_renewal": false
+      "is_renewal": false,
+      "paid_in_full": false
     },
     {
       "contract_number": "J420664E",
@@ -5270,7 +5532,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12,
-      "is_renewal": false
+      "is_renewal": false,
+      "paid_in_full": false
     },
     {
       "contract_number": "J420666E",
@@ -5290,7 +5553,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12,
-      "is_renewal": false
+      "is_renewal": false,
+      "paid_in_full": false
     },
     {
       "contract_number": "J420666E",
@@ -5311,6 +5575,7 @@
       "quarters": 4,
       "term_months": 12,
       "is_renewal": false,
+      "paid_in_full": false,
       "product_type": "digital"
     },
     {
@@ -5331,7 +5596,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12,
-      "is_renewal": false
+      "is_renewal": false,
+      "paid_in_full": true
     },
     {
       "contract_number": "J420860E",
@@ -5351,7 +5617,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12,
-      "is_renewal": true
+      "is_renewal": true,
+      "paid_in_full": false
     },
     {
       "contract_number": "J420870E",
@@ -5371,7 +5638,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12,
-      "is_renewal": false
+      "is_renewal": false,
+      "paid_in_full": false
     },
     {
       "contract_number": "J420870E",
@@ -5391,7 +5659,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12,
-      "is_renewal": false
+      "is_renewal": false,
+      "paid_in_full": false
     },
     {
       "contract_number": "J420879E",
@@ -5411,7 +5680,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12,
-      "is_renewal": false
+      "is_renewal": false,
+      "paid_in_full": false
     },
     {
       "contract_number": "J421063E",
@@ -5431,7 +5701,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12,
-      "is_renewal": false
+      "is_renewal": false,
+      "paid_in_full": false
     },
     {
       "contract_number": "J421064E",
@@ -5451,7 +5722,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12,
-      "is_renewal": false
+      "is_renewal": false,
+      "paid_in_full": false
     },
     {
       "contract_number": "J421067E",
@@ -5471,7 +5743,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12,
-      "is_renewal": false
+      "is_renewal": false,
+      "paid_in_full": false
     },
     {
       "contract_number": "J421148E",
@@ -5491,7 +5764,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12,
-      "is_renewal": false
+      "is_renewal": false,
+      "paid_in_full": true
     },
     {
       "contract_number": "J421152E",
@@ -5511,7 +5785,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12,
-      "is_renewal": false
+      "is_renewal": false,
+      "paid_in_full": false
     },
     {
       "contract_number": "J421275E",
@@ -5531,7 +5806,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12,
-      "is_renewal": false
+      "is_renewal": false,
+      "paid_in_full": false
     },
     {
       "contract_number": "J421280E",
@@ -5551,7 +5827,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12,
-      "is_renewal": false
+      "is_renewal": false,
+      "paid_in_full": true
     },
     {
       "contract_number": "J421285E",
@@ -5571,7 +5848,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12,
-      "is_renewal": false
+      "is_renewal": false,
+      "paid_in_full": false
     },
     {
       "contract_number": "J421310E",
@@ -5591,7 +5869,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12,
-      "is_renewal": false
+      "is_renewal": false,
+      "paid_in_full": false
     },
     {
       "contract_number": "J421325E",
@@ -5611,7 +5890,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12,
-      "is_renewal": false
+      "is_renewal": false,
+      "paid_in_full": false
     },
     {
       "contract_number": "J421408E",
@@ -5631,7 +5911,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12,
-      "is_renewal": true
+      "is_renewal": true,
+      "paid_in_full": false
     },
     {
       "contract_number": "J421408E",
@@ -5651,7 +5932,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12,
-      "is_renewal": true
+      "is_renewal": true,
+      "paid_in_full": false
     },
     {
       "contract_number": "J421408E",
@@ -5671,7 +5953,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12,
-      "is_renewal": true
+      "is_renewal": true,
+      "paid_in_full": false
     },
     {
       "contract_number": "J421408E",
@@ -5691,7 +5974,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12,
-      "is_renewal": true
+      "is_renewal": true,
+      "paid_in_full": false
     },
     {
       "contract_number": "J421430E",
@@ -5711,7 +5995,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12,
-      "is_renewal": false
+      "is_renewal": false,
+      "paid_in_full": false
     },
     {
       "contract_number": "J421482E",
@@ -5731,7 +6016,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12,
-      "is_renewal": false
+      "is_renewal": false,
+      "paid_in_full": false
     },
     {
       "contract_number": "J421483E",
@@ -5751,7 +6037,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12,
-      "is_renewal": false
+      "is_renewal": false,
+      "paid_in_full": false
     },
     {
       "contract_number": "J421536E",
@@ -5771,7 +6058,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12,
-      "is_renewal": true
+      "is_renewal": true,
+      "paid_in_full": true
     },
     {
       "contract_number": "J421536E",
@@ -5791,7 +6079,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12,
-      "is_renewal": true
+      "is_renewal": true,
+      "paid_in_full": true
     },
     {
       "contract_number": "J421811E",
@@ -5811,7 +6100,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12,
-      "is_renewal": false
+      "is_renewal": false,
+      "paid_in_full": false
     },
     {
       "contract_number": "J421812E",
@@ -5831,7 +6121,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12,
-      "is_renewal": false
+      "is_renewal": false,
+      "paid_in_full": false
     },
     {
       "contract_number": "J421886E",
@@ -5851,7 +6142,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12,
-      "is_renewal": false
+      "is_renewal": false,
+      "paid_in_full": true
     },
     {
       "contract_number": "J422016E",
@@ -5871,7 +6163,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 2,
       "term_months": 6,
-      "is_renewal": false
+      "is_renewal": false,
+      "paid_in_full": true
     },
     {
       "contract_number": "J422089E",
@@ -5891,7 +6184,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12,
-      "is_renewal": false
+      "is_renewal": false,
+      "paid_in_full": false
     },
     {
       "contract_number": "J422098E",
@@ -5911,7 +6205,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 2,
       "term_months": 6,
-      "is_renewal": true
+      "is_renewal": true,
+      "paid_in_full": true
     },
     {
       "contract_number": "J422117E",
@@ -5931,7 +6226,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12,
-      "is_renewal": false
+      "is_renewal": false,
+      "paid_in_full": false
     },
     {
       "contract_number": "J422137E",
@@ -5951,7 +6247,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12,
-      "is_renewal": false
+      "is_renewal": false,
+      "paid_in_full": false
     },
     {
       "contract_number": "J422159E",
@@ -5971,7 +6268,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12,
-      "is_renewal": false
+      "is_renewal": false,
+      "paid_in_full": false
     },
     {
       "contract_number": "J422212E",
@@ -5991,7 +6289,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 2,
       "term_months": 6,
-      "is_renewal": false
+      "is_renewal": false,
+      "paid_in_full": false
     },
     {
       "contract_number": "J422216E",
@@ -6011,7 +6310,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 2,
       "term_months": 6,
-      "is_renewal": false
+      "is_renewal": false,
+      "paid_in_full": false
     },
     {
       "contract_number": "J422227E",
@@ -6031,7 +6331,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12,
-      "is_renewal": false
+      "is_renewal": false,
+      "paid_in_full": false
     },
     {
       "contract_number": "J422311E",
@@ -6051,7 +6352,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12,
-      "is_renewal": false
+      "is_renewal": false,
+      "paid_in_full": false
     },
     {
       "contract_number": "J422417E",
@@ -6071,7 +6373,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12,
-      "is_renewal": false
+      "is_renewal": false,
+      "paid_in_full": true
     },
     {
       "contract_number": "J422420E",
@@ -6091,7 +6394,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12,
-      "is_renewal": false
+      "is_renewal": false,
+      "paid_in_full": true
     },
     {
       "contract_number": "J422420E",
@@ -6111,7 +6415,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 1,
       "term_months": 3,
-      "is_renewal": false
+      "is_renewal": false,
+      "paid_in_full": true
     },
     {
       "contract_number": "J422420E",
@@ -6131,7 +6436,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 2,
       "term_months": 6,
-      "is_renewal": false
+      "is_renewal": false,
+      "paid_in_full": true
     },
     {
       "contract_number": "J422458E",
@@ -6151,7 +6457,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12,
-      "is_renewal": false
+      "is_renewal": false,
+      "paid_in_full": false
     },
     {
       "contract_number": "J422512E",
@@ -6171,7 +6478,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12,
-      "is_renewal": false
+      "is_renewal": false,
+      "paid_in_full": false
     },
     {
       "contract_number": "J422768E",
@@ -6191,7 +6499,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12,
-      "is_renewal": false
+      "is_renewal": false,
+      "paid_in_full": false
     },
     {
       "contract_number": "J422772E",
@@ -6211,7 +6520,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12,
-      "is_renewal": false
+      "is_renewal": false,
+      "paid_in_full": false
     },
     {
       "contract_number": "J422954E",
@@ -6231,7 +6541,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 2,
       "term_months": 6,
-      "is_renewal": false
+      "is_renewal": false,
+      "paid_in_full": true
     },
     {
       "contract_number": "J422973E",
@@ -6251,7 +6562,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 2,
       "term_months": 6,
-      "is_renewal": false
+      "is_renewal": false,
+      "paid_in_full": false
     },
     {
       "contract_number": "J423103E",
@@ -6271,7 +6583,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12,
-      "is_renewal": false
+      "is_renewal": false,
+      "paid_in_full": false
     },
     {
       "contract_number": "J423187E",
@@ -6291,7 +6604,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12,
-      "is_renewal": false
+      "is_renewal": false,
+      "paid_in_full": false
     },
     {
       "contract_number": "J423199E",
@@ -6311,7 +6625,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 12,
       "term_months": 36,
-      "is_renewal": true
+      "is_renewal": true,
+      "paid_in_full": true
     },
     {
       "contract_number": "J423202E",
@@ -6331,7 +6646,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12,
-      "is_renewal": true
+      "is_renewal": true,
+      "paid_in_full": true
     },
     {
       "contract_number": "J423204E",
@@ -6351,7 +6667,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12,
-      "is_renewal": false
+      "is_renewal": false,
+      "paid_in_full": false
     },
     {
       "contract_number": "J423227E",
@@ -6371,7 +6688,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12,
-      "is_renewal": true
+      "is_renewal": true,
+      "paid_in_full": false
     },
     {
       "contract_number": "J423227E",
@@ -6391,7 +6709,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12,
-      "is_renewal": true
+      "is_renewal": true,
+      "paid_in_full": false
     },
     {
       "contract_number": "J423227E",
@@ -6411,7 +6730,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12,
-      "is_renewal": true
+      "is_renewal": true,
+      "paid_in_full": false
     },
     {
       "contract_number": "J423229E",
@@ -6431,7 +6751,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12,
-      "is_renewal": true
+      "is_renewal": true,
+      "paid_in_full": false
     },
     {
       "contract_number": "J423232E",
@@ -6451,7 +6772,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 2,
       "term_months": 6,
-      "is_renewal": false
+      "is_renewal": false,
+      "paid_in_full": false
     },
     {
       "contract_number": "J423582E",
@@ -6471,7 +6793,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12,
-      "is_renewal": false
+      "is_renewal": false,
+      "paid_in_full": false
     },
     {
       "contract_number": "J423602E",
@@ -6491,7 +6814,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 2,
       "term_months": 6,
-      "is_renewal": false
+      "is_renewal": false,
+      "paid_in_full": true
     },
     {
       "contract_number": "J423658E",
@@ -6511,7 +6835,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12,
-      "is_renewal": false
+      "is_renewal": false,
+      "paid_in_full": false
     },
     {
       "contract_number": "J423673E",
@@ -6531,7 +6856,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12,
-      "is_renewal": false
+      "is_renewal": false,
+      "paid_in_full": false
     },
     {
       "contract_number": "J423676E",
@@ -6551,7 +6877,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12,
-      "is_renewal": false
+      "is_renewal": false,
+      "paid_in_full": false
     },
     {
       "contract_number": "J423680E",
@@ -6571,7 +6898,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12,
-      "is_renewal": false
+      "is_renewal": false,
+      "paid_in_full": false
     },
     {
       "contract_number": "J423689E",
@@ -6591,7 +6919,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 2,
       "term_months": 6,
-      "is_renewal": false
+      "is_renewal": false,
+      "paid_in_full": false
     },
     {
       "contract_number": "J423693E",
@@ -6611,7 +6940,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12,
-      "is_renewal": false
+      "is_renewal": false,
+      "paid_in_full": true
     },
     {
       "contract_number": "J423774E",
@@ -6631,7 +6961,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12,
-      "is_renewal": true
+      "is_renewal": true,
+      "paid_in_full": false
     },
     {
       "contract_number": "J423845E",
@@ -6651,7 +6982,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12,
-      "is_renewal": true
+      "is_renewal": true,
+      "paid_in_full": false
     },
     {
       "contract_number": "J423907E",
@@ -6671,7 +7003,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12,
-      "is_renewal": false
+      "is_renewal": false,
+      "paid_in_full": false
     },
     {
       "contract_number": "J423954E",
@@ -6691,7 +7024,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12,
-      "is_renewal": false
+      "is_renewal": false,
+      "paid_in_full": false
     },
     {
       "contract_number": "J423954E",
@@ -6711,7 +7045,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12,
-      "is_renewal": false
+      "is_renewal": false,
+      "paid_in_full": false
     },
     {
       "contract_number": "J423954E",
@@ -6731,7 +7066,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12,
-      "is_renewal": false
+      "is_renewal": false,
+      "paid_in_full": false
     },
     {
       "contract_number": "J423971E",
@@ -6751,7 +7087,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12,
-      "is_renewal": true
+      "is_renewal": true,
+      "paid_in_full": true
     },
     {
       "contract_number": "J424027E",
@@ -6771,7 +7108,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12,
-      "is_renewal": false
+      "is_renewal": false,
+      "paid_in_full": false
     },
     {
       "contract_number": "J424067E",
@@ -6791,7 +7129,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12,
-      "is_renewal": false
+      "is_renewal": false,
+      "paid_in_full": false
     },
     {
       "contract_number": "J424077E",
@@ -6811,7 +7150,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12,
-      "is_renewal": false
+      "is_renewal": false,
+      "paid_in_full": true
     },
     {
       "contract_number": "J424079E",
@@ -6831,7 +7171,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 1,
       "term_months": 3,
-      "is_renewal": true
+      "is_renewal": true,
+      "paid_in_full": true
     },
     {
       "contract_number": "J424117E",
@@ -6851,7 +7192,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12,
-      "is_renewal": false
+      "is_renewal": false,
+      "paid_in_full": true
     },
     {
       "contract_number": "J424505E",
@@ -6871,7 +7213,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12,
-      "is_renewal": false
+      "is_renewal": false,
+      "paid_in_full": true
     },
     {
       "contract_number": "J424505E",
@@ -6892,6 +7235,7 @@
       "quarters": 4,
       "term_months": 12,
       "is_renewal": false,
+      "paid_in_full": true,
       "product_type": "digital"
     },
     {
@@ -6912,7 +7256,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12,
-      "is_renewal": false
+      "is_renewal": false,
+      "paid_in_full": true
     },
     {
       "contract_number": "J424801E",
@@ -6932,7 +7277,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12,
-      "is_renewal": false
+      "is_renewal": false,
+      "paid_in_full": false
     },
     {
       "contract_number": "J425278E",
@@ -6952,7 +7298,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12,
-      "is_renewal": false
+      "is_renewal": false,
+      "paid_in_full": false
     },
     {
       "contract_number": "J425353E",
@@ -6972,7 +7319,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12,
-      "is_renewal": false
+      "is_renewal": false,
+      "paid_in_full": false
     },
     {
       "contract_number": "J425353E",
@@ -6992,7 +7340,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12,
-      "is_renewal": false
+      "is_renewal": false,
+      "paid_in_full": false
     },
     {
       "contract_number": "J425443E",
@@ -7012,7 +7361,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12,
-      "is_renewal": false
+      "is_renewal": false,
+      "paid_in_full": false
     },
     {
       "contract_number": "J425484E",
@@ -7032,7 +7382,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12,
-      "is_renewal": false
+      "is_renewal": false,
+      "paid_in_full": false
     },
     {
       "contract_number": "J425900E",
@@ -7052,7 +7403,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12,
-      "is_renewal": true
+      "is_renewal": true,
+      "paid_in_full": false
     },
     {
       "contract_number": "J426022E",
@@ -7072,7 +7424,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12,
-      "is_renewal": false
+      "is_renewal": false,
+      "paid_in_full": false
     },
     {
       "contract_number": "J426077E",
@@ -7092,7 +7445,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12,
-      "is_renewal": false
+      "is_renewal": false,
+      "paid_in_full": false
     },
     {
       "contract_number": "J426153E",
@@ -7112,7 +7466,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12,
-      "is_renewal": false
+      "is_renewal": false,
+      "paid_in_full": false
     },
     {
       "contract_number": "J426204E",
@@ -7132,7 +7487,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12,
-      "is_renewal": false
+      "is_renewal": false,
+      "paid_in_full": false
     },
     {
       "contract_number": "J426212E",
@@ -7152,7 +7508,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12,
-      "is_renewal": false
+      "is_renewal": false,
+      "paid_in_full": false
     },
     {
       "contract_number": "J426238E",
@@ -7172,7 +7529,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12,
-      "is_renewal": false
+      "is_renewal": false,
+      "paid_in_full": false
     },
     {
       "contract_number": "J426489E",
@@ -7192,7 +7550,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12,
-      "is_renewal": false
+      "is_renewal": false,
+      "paid_in_full": false
     },
     {
       "contract_number": "J426608E",
@@ -7212,7 +7571,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12,
-      "is_renewal": false
+      "is_renewal": false,
+      "paid_in_full": true
     },
     {
       "contract_number": "J426625E",
@@ -7232,7 +7592,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12,
-      "is_renewal": false
+      "is_renewal": false,
+      "paid_in_full": true
     },
     {
       "contract_number": "J426699E",
@@ -7252,7 +7613,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12,
-      "is_renewal": false
+      "is_renewal": false,
+      "paid_in_full": false
     },
     {
       "contract_number": "J426746E",
@@ -7272,7 +7634,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 2,
       "term_months": 6,
-      "is_renewal": false
+      "is_renewal": false,
+      "paid_in_full": false
     },
     {
       "contract_number": "J426746E",
@@ -7292,7 +7655,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 2,
       "term_months": 6,
-      "is_renewal": false
+      "is_renewal": false,
+      "paid_in_full": false
     },
     {
       "contract_number": "J426747E",
@@ -7312,7 +7676,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12,
-      "is_renewal": false
+      "is_renewal": false,
+      "paid_in_full": true
     },
     {
       "contract_number": "J426906E",
@@ -7332,7 +7697,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12,
-      "is_renewal": false
+      "is_renewal": false,
+      "paid_in_full": false
     },
     {
       "contract_number": "J426906E",
@@ -7352,7 +7718,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12,
-      "is_renewal": false
+      "is_renewal": false,
+      "paid_in_full": false
     },
     {
       "contract_number": "J426965E",
@@ -7372,7 +7739,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12,
-      "is_renewal": false
+      "is_renewal": false,
+      "paid_in_full": false
     },
     {
       "contract_number": "J427093E",
@@ -7392,7 +7760,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12,
-      "is_renewal": false
+      "is_renewal": false,
+      "paid_in_full": false
     },
     {
       "contract_number": "J427203E",
@@ -7412,7 +7781,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12,
-      "is_renewal": false
+      "is_renewal": false,
+      "paid_in_full": false
     },
     {
       "contract_number": "J427207E",
@@ -7432,7 +7802,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12,
-      "is_renewal": false
+      "is_renewal": false,
+      "paid_in_full": false
     },
     {
       "contract_number": "J427209E",
@@ -7452,7 +7823,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12,
-      "is_renewal": true
+      "is_renewal": true,
+      "paid_in_full": false
     },
     {
       "contract_number": "J427523E",
@@ -7472,7 +7844,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12,
-      "is_renewal": true
+      "is_renewal": true,
+      "paid_in_full": false
     },
     {
       "contract_number": "J427617E",
@@ -7492,7 +7865,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12,
-      "is_renewal": false
+      "is_renewal": false,
+      "paid_in_full": false
     },
     {
       "contract_number": "J427808E",
@@ -7512,7 +7886,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12,
-      "is_renewal": false
+      "is_renewal": false,
+      "paid_in_full": false
     },
     {
       "contract_number": "J427893E",
@@ -7532,7 +7907,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 2,
       "term_months": 6,
-      "is_renewal": false
+      "is_renewal": false,
+      "paid_in_full": false
     },
     {
       "contract_number": "J427893E",
@@ -7552,7 +7928,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 2,
       "term_months": 6,
-      "is_renewal": false
+      "is_renewal": false,
+      "paid_in_full": false
     },
     {
       "contract_number": "J428093E",
@@ -7572,7 +7949,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12,
-      "is_renewal": true
+      "is_renewal": true,
+      "paid_in_full": false
     },
     {
       "contract_number": "J428187E",
@@ -7592,7 +7970,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12,
-      "is_renewal": false
+      "is_renewal": false,
+      "paid_in_full": true
     },
     {
       "contract_number": "J428189E",
@@ -7612,7 +7991,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12,
-      "is_renewal": false
+      "is_renewal": false,
+      "paid_in_full": true
     },
     {
       "contract_number": "J428190E",
@@ -7632,7 +8012,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12,
-      "is_renewal": false
+      "is_renewal": false,
+      "paid_in_full": false
     },
     {
       "contract_number": "J428357E",
@@ -7652,7 +8033,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12,
-      "is_renewal": false
+      "is_renewal": false,
+      "paid_in_full": false
     },
     {
       "contract_number": "J428428E",
@@ -7672,7 +8054,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12,
-      "is_renewal": false
+      "is_renewal": false,
+      "paid_in_full": false
     },
     {
       "contract_number": "J428479E",
@@ -7692,7 +8075,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 2,
       "term_months": 6,
-      "is_renewal": false
+      "is_renewal": false,
+      "paid_in_full": false
     },
     {
       "contract_number": "J428501E",
@@ -7712,7 +8096,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12,
-      "is_renewal": false
+      "is_renewal": false,
+      "paid_in_full": false
     },
     {
       "contract_number": "J428501E",
@@ -7733,6 +8118,7 @@
       "quarters": 4,
       "term_months": 12,
       "is_renewal": false,
+      "paid_in_full": false,
       "product_type": "digital"
     },
     {
@@ -7753,7 +8139,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12,
-      "is_renewal": false
+      "is_renewal": false,
+      "paid_in_full": false
     },
     {
       "contract_number": "J428795E",
@@ -7773,7 +8160,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12,
-      "is_renewal": false
+      "is_renewal": false,
+      "paid_in_full": false
     },
     {
       "contract_number": "J428880E",
@@ -7793,7 +8181,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12,
-      "is_renewal": false
+      "is_renewal": false,
+      "paid_in_full": false
     },
     {
       "contract_number": "J428939E",
@@ -7813,7 +8202,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12,
-      "is_renewal": false
+      "is_renewal": false,
+      "paid_in_full": false
     },
     {
       "contract_number": "J428957E",
@@ -7833,7 +8223,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12,
-      "is_renewal": false
+      "is_renewal": false,
+      "paid_in_full": false
     },
     {
       "contract_number": "J428973E",
@@ -7853,7 +8244,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12,
-      "is_renewal": false
+      "is_renewal": false,
+      "paid_in_full": true
     },
     {
       "contract_number": "J429002E",
@@ -7873,7 +8265,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12,
-      "is_renewal": false
+      "is_renewal": false,
+      "paid_in_full": false
     },
     {
       "contract_number": "J429244E",
@@ -7893,7 +8286,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12,
-      "is_renewal": false
+      "is_renewal": false,
+      "paid_in_full": false
     },
     {
       "contract_number": "J429344E",
@@ -7913,7 +8307,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12,
-      "is_renewal": false
+      "is_renewal": false,
+      "paid_in_full": false
     },
     {
       "contract_number": "J429424E",
@@ -7933,7 +8328,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12,
-      "is_renewal": false
+      "is_renewal": false,
+      "paid_in_full": false
     },
     {
       "contract_number": "J429649E",
@@ -7953,7 +8349,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12,
-      "is_renewal": false
+      "is_renewal": false,
+      "paid_in_full": false
     },
     {
       "contract_number": "J429707E",
@@ -7973,7 +8370,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12,
-      "is_renewal": false
+      "is_renewal": false,
+      "paid_in_full": false
     },
     {
       "contract_number": "J429914E",
@@ -7993,7 +8391,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12,
-      "is_renewal": false
+      "is_renewal": false,
+      "paid_in_full": false
     },
     {
       "contract_number": "J429914E",
@@ -8014,6 +8413,7 @@
       "quarters": 4,
       "term_months": 12,
       "is_renewal": false,
+      "paid_in_full": false,
       "product_type": "digital"
     },
     {
@@ -8034,7 +8434,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12,
-      "is_renewal": false
+      "is_renewal": false,
+      "paid_in_full": false
     },
     {
       "contract_number": "J430068E",
@@ -8054,7 +8455,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12,
-      "is_renewal": false
+      "is_renewal": false,
+      "paid_in_full": false
     },
     {
       "contract_number": "J430273E",
@@ -8074,7 +8476,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12,
-      "is_renewal": false
+      "is_renewal": false,
+      "paid_in_full": false
     },
     {
       "contract_number": "J430393E",
@@ -8094,7 +8497,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12,
-      "is_renewal": false
+      "is_renewal": false,
+      "paid_in_full": false
     },
     {
       "contract_number": "J430429E",
@@ -8114,7 +8518,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 2,
       "term_months": 6,
-      "is_renewal": false
+      "is_renewal": false,
+      "paid_in_full": false
     },
     {
       "contract_number": "J430441E",
@@ -8134,7 +8539,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12,
-      "is_renewal": false
+      "is_renewal": false,
+      "paid_in_full": false
     },
     {
       "contract_number": "J430441E",
@@ -8154,7 +8560,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12,
-      "is_renewal": false
+      "is_renewal": false,
+      "paid_in_full": false
     },
     {
       "contract_number": "J430533E",
@@ -8174,7 +8581,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12,
-      "is_renewal": false
+      "is_renewal": false,
+      "paid_in_full": true
     },
     {
       "contract_number": "J430678E",
@@ -8194,7 +8602,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12,
-      "is_renewal": true
+      "is_renewal": true,
+      "paid_in_full": false
     },
     {
       "contract_number": "J430883E",
@@ -8214,7 +8623,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12,
-      "is_renewal": false
+      "is_renewal": false,
+      "paid_in_full": true
     },
     {
       "contract_number": "J430883E",
@@ -8234,7 +8644,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12,
-      "is_renewal": false
+      "is_renewal": false,
+      "paid_in_full": true
     },
     {
       "contract_number": "J430966E",
@@ -8254,7 +8665,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 2,
       "term_months": 6,
-      "is_renewal": false
+      "is_renewal": false,
+      "paid_in_full": false
     },
     {
       "contract_number": "J431130E",
@@ -8274,7 +8686,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12,
-      "is_renewal": false
+      "is_renewal": false,
+      "paid_in_full": false
     },
     {
       "contract_number": "J431323E",
@@ -8294,7 +8707,8 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12,
-      "is_renewal": false
+      "is_renewal": false,
+      "paid_in_full": false
     },
     {
       "contract_number": "J431565E",
@@ -8314,8 +8728,9 @@
       "extracted_at": "2026-05-01T00:00:00",
       "quarters": 4,
       "term_months": 12,
-      "is_renewal": false
+      "is_renewal": false,
+      "paid_in_full": false
     }
   ],
-  "last_scan": "2026-06-03T14:25:47.032705"
+  "last_scan": "2026-06-03T15:09:44.702610"
 }

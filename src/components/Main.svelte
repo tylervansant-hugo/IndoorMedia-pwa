@@ -83,6 +83,11 @@
   let weeklyBreakdown = []; // { weekLabel, contracts, revenue }
   let pendingRenewalsData = [];
 
+  // Summer Sales Contest
+  let summerSalesData = [];
+  let showSummerSalesDetail = false;
+  let companyLeads = [];
+
   // Motivational quotes
   const QUOTES = [
     { text: "Success is not final, failure is not fatal: it is the courage to continue that counts.", author: "Winston Churchill" },
@@ -559,6 +564,77 @@
     try { cartCount = JSON.parse(localStorage.getItem('indoormedia_cart') || '[]').length; } catch { cartCount = 0; }
   }
 
+  function computeSummerSales() {
+    const startDate = new Date(2026, 4, 27); // May 27
+    const endDate = new Date(2026, 8, 1);    // Sep 1
+    companyLeads = JSON.parse(localStorage.getItem('summer_sales_company_leads') || '[]');
+
+    const summerContracts = contracts.filter(c => {
+      const d = parseContractDate(c.date);
+      return d >= startDate && d < endDate;
+    });
+
+    const repPoints = {};
+    summerContracts.forEach(c => {
+      const rep = c.sales_rep || 'Unknown';
+      if (!repPoints[rep]) repPoints[rep] = { points: 0, deals: 0, details: [] };
+
+      const isDigital = (c.product_type === 'digital') ||
+        /FindLocal|ReviewBoost|LoyaltyBoost|DigitalBoost/i.test(c.product_description || '');
+      const isRenewal = c.is_renewal === true;
+      const isCompanyLead = companyLeads.includes(c.contract_number);
+      const isPaidInFull = c.paid_in_full === true;
+
+      let points = 1;
+      let note = '';
+
+      // Renewal tape = 0 points
+      if (isRenewal && !isDigital) {
+        points = 0;
+        note = 'Renewal (tape)';
+      } else if (isCompanyLead) {
+        points = 0.5;
+        note = 'Company lead';
+      } else if (isRenewal && isDigital) {
+        note = 'Renewal (digital)';
+      }
+
+      // Paid in Full bonus: +1 point (only if not excluded by renewal tape)
+      if (isPaidInFull && !(isRenewal && !isDigital)) {
+        points += 1;
+        note = note ? note + ' + PIF' : 'Paid in Full';
+      }
+
+      repPoints[rep].points += points;
+      repPoints[rep].deals += 1;
+      repPoints[rep].details.push({
+        business: c.business_name,
+        product: c.product_description || c.product_type || '',
+        amount: c.total_amount || 0,
+        points,
+        note,
+        contract_number: c.contract_number,
+        isCompanyLead,
+        date: c.date,
+      });
+    });
+
+    summerSalesData = Object.entries(repPoints)
+      .map(([rep, data]) => ({ rep, ...data, expanded: false }))
+      .sort((a, b) => b.points - a.points);
+  }
+
+  function toggleCompanyLead(contractNumber) {
+    let leads = JSON.parse(localStorage.getItem('summer_sales_company_leads') || '[]');
+    if (leads.includes(contractNumber)) {
+      leads = leads.filter(n => n !== contractNumber);
+    } else {
+      leads.push(contractNumber);
+    }
+    localStorage.setItem('summer_sales_company_leads', JSON.stringify(leads));
+    computeSummerSales();
+  }
+
   function computeDashboardStats() {
     const repName = ($user?.name || $user?.first_name || '').toLowerCase();
     const isManager = repName.includes('tyler') || $user?.role === 'manager' || $user?.role === 'admin';
@@ -792,6 +868,7 @@
     calcStreak();
     loadRepSync();
     initFirebase();
+    computeSummerSales();
   }
 
   onMount(async () => {
@@ -1321,39 +1398,74 @@
           </div>
         {/if}
 
-        <!-- SUMMER SALES CONTEST DASHBOARD -->
-        <div class="contest-dashboard">
-          <div class="contest-dashboard-header">
-            <div class="contest-title">🔥 SUMMER SALES CONTEST 🔥</div>
-            <div class="contest-dates">June 1 — Sept 2, 2026</div>
+        <!-- SUMMER SALES CONTEST 🏆 -->
+        <button class="summer-sales-hero clickable" on:click={() => showSummerSalesDetail = !showSummerSalesDetail}>
+          <div class="summer-sales-header">
+            <span class="summer-sales-icon">☀️🏆</span>
+            <h3>Summer Sales Contest</h3>
+            <span class="summer-sales-dates">May 27 – Sep 1</span>
           </div>
-          <div class="contest-body">
-            <div class="contest-points-display">
-              <div class="contest-big-number">0</div>
-              <div class="contest-big-label">Points Earned</div>
-            </div>
-            <div class="contest-rules">
-              <h4 style="margin: 0 0 8px; font-size: 14px; color: #e65100;">Point System</h4>
-              <div class="contest-rule">🧾 Full Rate Card Tape Ad = <strong>1 pt</strong></div>
-              <div class="contest-rule">🚀 Tape Ad + Digital Boost = <strong>1 pt</strong></div>
-              <div class="contest-rule">💰 Paid in Full Contract = <strong>1 pt</strong></div>
-              <div class="contest-rule">🎁 Free Tape Cycle with ANY Full Rate Card Contract</div>
-            </div>
-            <div class="contest-prizes">
-              <h4 style="margin: 0 0 8px; font-size: 14px; color: #e65100;">Monthly Prizes</h4>
-              <div class="contest-prize">🥇 1st — $1,000</div>
-              <div class="contest-prize">🥈 2nd — $500</div>
-              <h4 style="margin: 12px 0 8px; font-size: 14px; color: #e65100;">Grand Prizes</h4>
-              <div class="contest-prize">🥇 Trip for 2 ($5K value)</div>
-              <div class="contest-prize">🥈 Trip for 1 ($2.5K value)</div>
-              <div class="contest-prize">🥉 iPad + $1,000</div>
-            </div>
-            <div class="contest-notes">
-              <p>CBD, dispensaries, corporate accounts not eligible for free tape</p>
-              <p>Head office leads = 50% point reduction</p>
-            </div>
+          <div class="summer-sales-leaderboard">
+            {#each summerSalesData as entry, i}
+              <div class="summer-sales-row" class:gold={i === 0} class:silver={i === 1} class:bronze={i === 2}>
+                <span class="summer-rank">{i === 0 ? '🥇' : i === 1 ? '🥈' : i === 2 ? '🥉' : `#${i+1}`}</span>
+                <span class="summer-rep">{entry.rep}</span>
+                <span class="summer-points">{entry.points % 1 === 0 ? entry.points : entry.points.toFixed(1)} pts</span>
+              </div>
+            {/each}
+            {#if summerSalesData.length === 0}
+              <p class="summer-empty">No contracts in contest period yet</p>
+            {/if}
           </div>
-        </div>
+        </button>
+
+        {#if showSummerSalesDetail}
+          <div class="drill-down summer-detail">
+            <h4>☀️ Summer Sales Details</h4>
+            <p class="summer-rules">1 pt/deal • Paid in Full = +1 pt • Renewal tape = 0 pts • Company lead = ½ pt</p>
+            {#each summerSalesData as entry, idx}
+              <div class="summer-rep-section">
+                <button class="summer-rep-header" on:click={() => { summerSalesData[idx].expanded = !summerSalesData[idx].expanded; summerSalesData = summerSalesData; }}>
+                  <strong>{entry.rep}</strong>
+                  <span>{entry.points % 1 === 0 ? entry.points : entry.points.toFixed(1)} pts ({entry.deals} deal{entry.deals !== 1 ? 's' : ''})</span>
+                </button>
+                {#if entry.expanded}
+                  <div class="summer-rep-deals">
+                    {#each entry.details as deal}
+                      <div class="summer-deal-row">
+                        <div class="summer-deal-info">
+                          <span class="summer-deal-name">{deal.business || 'Unknown'}</span>
+                          <span class="summer-deal-meta">{deal.product} {deal.note ? `• ${deal.note}` : ''}</span>
+                        </div>
+                        <div class="summer-deal-right">
+                          <span class="summer-deal-pts" class:zero={deal.points === 0} class:half={deal.points === 0.5}>{deal.points} pt{deal.points !== 1 ? 's' : ''}</span>
+                        </div>
+                      </div>
+                    {/each}
+                  </div>
+                {/if}
+              </div>
+            {/each}
+
+            <!-- Manager: Tag Company Leads -->
+            {#if ($user?.name || '').toLowerCase().includes('tyler') || $user?.role === 'manager' || $user?.role === 'admin'}
+              <div class="company-lead-tagger">
+                <h4>🏢 Tag Company Leads (half points)</h4>
+                <p class="tagger-hint">Toggle contracts that were call-in/TM leads</p>
+                {#each summerSalesData as entry}
+                  {#each entry.details as deal}
+                    {#if deal.points > 0}
+                      <label class="company-lead-toggle">
+                        <input type="checkbox" checked={deal.isCompanyLead} on:change={() => toggleCompanyLead(deal.contract_number)} />
+                        <span>{deal.business} — {deal.rep || entry.rep} ({deal.contract_number})</span>
+                      </label>
+                    {/if}
+                  {/each}
+                {/each}
+              </div>
+            {/if}
+          </div>
+        {/if}
 
         <!-- 5. FULL DAILY GOAL — expandable -->
         <div class="goal-section">
@@ -2285,20 +2397,117 @@
     color: #CC0000;
   }
 
-  /* Summer Contest Dashboard */
-  .contest-dashboard { border-radius: 16px; overflow: hidden; margin: 16px 0; box-shadow: 0 4px 16px rgba(204,0,0,0.15); }
-  .contest-dashboard-header { background: linear-gradient(135deg, #ff6b35, #cc0000, #ff4444); padding: 20px; text-align: center; }
-  .contest-title { font-size: 20px; font-weight: 900; color: white; letter-spacing: 1px; }
-  .contest-dates { font-size: 13px; color: rgba(255,255,255,0.9); margin-top: 4px; font-weight: 600; }
-  .contest-body { background: var(--card-bg, #fff); padding: 16px; }
-  :global([data-theme='dark']) .contest-body { background: #1e1e1e; }
-  .contest-points-display { text-align: center; padding: 16px 0; }
-  .contest-big-number { font-size: 48px; font-weight: 900; color: #cc0000; }
-  .contest-big-label { font-size: 13px; font-weight: 700; color: #888; text-transform: uppercase; letter-spacing: 1px; }
-  .contest-rules, .contest-prizes { margin-top: 12px; padding-top: 12px; border-top: 1px solid #eee; }
-  :global([data-theme='dark']) .contest-rules, :global([data-theme='dark']) .contest-prizes { border-top-color: #333; }
-  .contest-rule, .contest-prize { font-size: 13px; color: var(--text-primary, #333); padding: 3px 0; }
-  .contest-notes { margin-top: 12px; padding-top: 12px; border-top: 1px solid #eee; }
-  :global([data-theme='dark']) .contest-notes { border-top-color: #333; }
-  .contest-notes p { font-size: 11px; color: #999; margin: 2px 0; }
+  /* Summer Sales Contest */
+  .summer-sales-hero {
+    background: linear-gradient(135deg, #ff6b35, #f7c948);
+    border-radius: 20px;
+    padding: 20px;
+    margin: 16px 0;
+    color: #fff;
+    text-align: left;
+    width: 100%;
+    border: none;
+    font-family: inherit;
+    cursor: pointer;
+  }
+  :global([data-theme='dark']) .summer-sales-hero {
+    background: linear-gradient(135deg, #c44d1a, #b8941f);
+  }
+  .summer-sales-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 16px;
+  }
+  .summer-sales-header h3 {
+    margin: 0;
+    font-size: 20px;
+    font-weight: 800;
+    flex: 1;
+  }
+  .summer-sales-icon { font-size: 28px; }
+  .summer-sales-dates {
+    font-size: 12px;
+    opacity: 0.8;
+    background: rgba(255,255,255,0.2);
+    padding: 4px 10px;
+    border-radius: 12px;
+  }
+  .summer-sales-leaderboard {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+  .summer-sales-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 6px 10px;
+    border-radius: 10px;
+    background: rgba(255,255,255,0.1);
+  }
+  .summer-sales-row.gold { background: rgba(255,255,255,0.25); font-weight: 700; }
+  .summer-sales-row.silver { background: rgba(255,255,255,0.18); }
+  .summer-sales-row.bronze { background: rgba(255,255,255,0.13); }
+  .summer-rank { font-size: 18px; min-width: 30px; text-align: center; }
+  .summer-rep { flex: 1; font-size: 15px; }
+  .summer-points { font-weight: 700; font-size: 16px; }
+  .summer-empty { text-align: center; opacity: 0.7; font-style: italic; }
+
+  .summer-detail .summer-rules {
+    font-size: 12px;
+    color: var(--text-secondary);
+    margin: -8px 0 16px;
+    font-style: italic;
+  }
+  .summer-rep-section {
+    margin-bottom: 12px;
+    border: 1px solid var(--border-color, #eee);
+    border-radius: 12px;
+    overflow: hidden;
+  }
+  .summer-rep-header {
+    display: flex;
+    justify-content: space-between;
+    padding: 12px 16px;
+    cursor: pointer;
+    background: var(--bg-secondary, #f5f5f5);
+    border: none;
+    width: 100%;
+    font-family: inherit;
+    font-size: inherit;
+    color: var(--text-primary);
+  }
+  .summer-rep-header:hover { opacity: 0.8; }
+  .summer-rep-deals { padding: 8px 16px; }
+  .summer-deal-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 6px 0;
+    border-bottom: 1px solid var(--border-color, #eee);
+  }
+  .summer-deal-row:last-child { border-bottom: none; }
+  .summer-deal-name { font-size: 14px; font-weight: 500; }
+  .summer-deal-meta { font-size: 12px; color: var(--text-secondary); display: block; }
+  .summer-deal-pts { font-weight: 700; font-size: 14px; }
+  .summer-deal-pts.zero { color: #999; }
+  .summer-deal-pts.half { color: #e67e22; }
+
+  .company-lead-tagger {
+    margin-top: 20px;
+    padding-top: 16px;
+    border-top: 2px solid var(--border-color, #eee);
+  }
+  .company-lead-tagger h4 { margin: 0 0 4px; }
+  .tagger-hint { font-size: 12px; color: var(--text-secondary); margin-bottom: 12px; }
+  .company-lead-toggle {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 6px 0;
+    font-size: 14px;
+    cursor: pointer;
+  }
+  .company-lead-toggle input { width: 18px; height: 18px; }
 </style>

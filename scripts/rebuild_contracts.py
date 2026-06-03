@@ -125,6 +125,9 @@ for pdf_path in pdfs:
     if re.search(r'Renewal\s+Customer:', text, re.IGNORECASE):
         is_renewal = True
 
+    # Detect Paid in Full billing type
+    paid_in_full = bool(re.search(r'Billing Type:\s*Paid in Full', text, re.IGNORECASE))
+
     # Extract zone from text (e.g. "(07Z)" or "(05X)" etc.)
     zone_match = re.search(r'\((\d{2}[A-Z])\)', text)
     contract_zone = zone_match.group(1) if zone_match else ""
@@ -169,6 +172,7 @@ for pdf_path in pdfs:
             "quarters": overall_quarters,
             "term_months": overall_quarters * 3,
             "is_renewal": is_renewal,
+            "paid_in_full": paid_in_full,
         }
         entry.update(overrides)
         # Preserve existing extracted_at if this contract was already in the system
