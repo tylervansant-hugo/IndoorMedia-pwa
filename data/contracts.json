@@ -6964,6 +6964,40 @@
       "address": "11218 NE 66th St Suite B1",
       "customer_city_state": "Vancouver, WA 98662",
       "extracted_at": "2026-05-22T20:00:08.778867"
+    },
+    {
+      "contract_number": "J432009E",
+      "date": "6/2/2026",
+      "business_name": "Muchas Gracias Mexican Food",
+      "contact_name": "Ricardo Sanchez",
+      "contact_email": "ricardo.sanchezj00@gmail.com",
+      "contact_phone": "(360) 896-8775",
+      "sales_rep": "Dave Boring",
+      "store_name": "",
+      "store_number": "Fred Meyer-0236",
+      "product_description": "Single",
+      "total_amount": 8618.13,
+      "payment_date": "6/2/2026",
+      "address": "11500 NE 76th St.",
+      "customer_city_state": "Vancouver, WA 98662",
+      "extracted_at": "2026-06-03T15:42:22.549533"
+    },
+    {
+      "contract_number": "J431619E",
+      "date": "6/1/2026",
+      "business_name": "Snowmoon",
+      "contact_name": "Ann Marie Mossman",
+      "contact_email": "Contact@snowmoon.cafe",
+      "contact_phone": "(971) 441-7072",
+      "sales_rep": "Megan Wink",
+      "store_name": "",
+      "store_number": "Fred Meyer-0285",
+      "product_description": "Single",
+      "total_amount": 5522.5,
+      "payment_date": "6/1/2026",
+      "address": "9955 SW Beaverton Hillsdale",
+      "customer_city_state": "Beaverton, OR 97005",
+      "extracted_at": "2026-06-03T15:42:44.866136"
     }
   ],
   "last_scan": "2026-04-19T20:00:11.243578"

@@ -592,17 +592,20 @@
       if (isRenewal && !isDigital) {
         points = 0;
         note = 'Renewal (tape)';
-      } else if (isCompanyLead) {
-        points = 0.5;
-        note = 'Company lead';
       } else if (isRenewal && isDigital) {
         note = 'Renewal (digital)';
       }
 
       // Paid in Full bonus: +1 point (only if not excluded by renewal tape)
-      if (isPaidInFull && !(isRenewal && !isDigital)) {
+      if (isPaidInFull && points > 0) {
         points += 1;
         note = note ? note + ' + PIF' : 'Paid in Full';
+      }
+
+      // Company lead = half of total points for this deal
+      if (isCompanyLead && points > 0) {
+        points = points / 2;
+        note = note ? note + ' (company lead ½)' : 'Company lead (½)';
       }
 
       repPoints[rep].points += points;
@@ -1422,7 +1425,7 @@
         {#if showSummerSalesDetail}
           <div class="drill-down summer-detail">
             <h4>☀️ Summer Sales Details</h4>
-            <p class="summer-rules">1 pt/deal • Paid in Full = +1 pt • Renewal tape = 0 pts • Company lead = ½ pt</p>
+            <p class="summer-rules">1 pt/deal • Paid in Full = +1 bonus pt • Renewal tape = 0 pts • Company lead = half total pts</p>
             {#each summerSalesData as entry, idx}
               <div class="summer-rep-section">
                 <button class="summer-rep-header" on:click={() => { summerSalesData[idx].expanded = !summerSalesData[idx].expanded; summerSalesData = summerSalesData; }}>

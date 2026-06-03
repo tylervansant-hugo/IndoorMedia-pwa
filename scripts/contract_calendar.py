@@ -25,6 +25,7 @@ WORKSPACE = Path(__file__).parent.parent
 CONTRACTS_DIR = WORKSPACE / "data" / "contracts"
 PROCESSED_FILE = WORKSPACE / "data" / "contracts" / "processed.json"
 TYLER_EMAIL = "tyler.vansant@indoormedia.com"
+GOG_ACCOUNT = TYLER_EMAIL  # gog --account flag (multiple tokens registered)
 CALENDAR_ID = TYLER_EMAIL  # Use Tyler's calendar
 CONTRACTS_JSON = WORKSPACE / "data" / "contracts.json"
 
@@ -101,7 +102,8 @@ def search_contract_emails(max_results=10, newer_than="7d"):
         "gog", "gmail", "messages", "search",
         f"subject:'IndoorMedia Contract Signed' newer_than:{newer_than}",
         "--max", str(max_results),
-        "--json"
+        "--json",
+        "--account", GOG_ACCOUNT
     ]
     result = subprocess.run(cmd, capture_output=True, text=True)
     if result.returncode != 0:
@@ -114,7 +116,7 @@ def search_contract_emails(max_results=10, newer_than="7d"):
 
 def get_email_body(message_id):
     """Get the full email body."""
-    cmd = ["gog", "gmail", "show", message_id, "--json"]
+    cmd = ["gog", "gmail", "show", message_id, "--json", "--account", GOG_ACCOUNT]
     result = subprocess.run(cmd, capture_output=True, text=True)
     if result.returncode != 0:
         print(f"❌ Failed to get email: {result.stderr}")
@@ -136,7 +138,7 @@ def download_pdf(drive_file_id, contract_num):
     if pdf_path.exists():
         return pdf_path
     
-    cmd = ["gog", "drive", "download", drive_file_id, "--out", str(pdf_path)]
+    cmd = ["gog", "drive", "download", drive_file_id, "--out", str(pdf_path), "--account", GOG_ACCOUNT]
     result = subprocess.run(cmd, capture_output=True, text=True)
     if result.returncode != 0:
         print(f"❌ Failed to download PDF: {result.stderr}")
@@ -373,7 +375,7 @@ def event_exists(summary, date):
     """Check if an event with this summary and date already exists."""
     try:
         # List all calendar events
-        cmd = ["/opt/homebrew/bin/gog", "calendar", "list", "--json", "--max", "300"]
+        cmd = ["/opt/homebrew/bin/gog", "calendar", "list", "--json", "--max", "300", "--account", GOG_ACCOUNT]
         result = subprocess.run(cmd, capture_output=True, text=True, timeout=30)
         if result.returncode != 0:
             return False
@@ -419,6 +421,7 @@ def create_calendar_event(summary, date, attendees, description="", color=None):
         "--from", date_str,
         "--to", end_str,
         "--description", description,
+        "--account", GOG_ACCOUNT,
     ]
     
     if color:
