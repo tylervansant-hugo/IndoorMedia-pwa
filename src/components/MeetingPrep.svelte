@@ -10,6 +10,7 @@
   let businessPhone = '';
   let businessCategory = '';
   let businessWebsite = '';
+  let businessTypes = []; // Google Places types for smarter matching
   let additionalInfo = '';
   let storeSearch = '';
   let selectedStore = null;
@@ -83,6 +84,7 @@
   function selectBusiness(biz) {
     businessName = biz.name; businessAddress = biz.address; businessPhone = biz.phone;
     businessCategory = biz.category; businessWebsite = biz.website;
+    businessTypes = biz.types || [];
     searchResults = [];
   }
 
@@ -117,7 +119,7 @@
     loadingStatus = '📝 Finding matching testimonials...';
     await new Promise(r => setTimeout(r, 100)); // brief yield for UI update
     
-    const { keywords: categoryKeywords, exclude: excludeWords } = extractCategoryKeywords(businessCategory, businessName);
+    const { keywords: categoryKeywords, exclude: excludeWords } = extractCategoryKeywords(businessCategory, businessName, businessTypes);
     matchedTestimonials = findMatchingTestimonials(categoryKeywords, excludeWords, businessName, additionalInfo);
 
     // Find local testimonial
@@ -128,67 +130,79 @@
     step = 'results';
   }
 
-  function extractCategoryKeywords(category, name) {
-    const combined = (category + ' ' + name).toLowerCase();
+  // Use Google Places types + category + name to find the BEST category keywords
+  // This is intentionally broad — "J Squared Barrel Room" should match bar, wine, pizza, etc.
+  function extractCategoryKeywords(category, name, placeTypes = []) {
+    const combined = (category + ' ' + name + ' ' + placeTypes.join(' ')).toLowerCase();
     
-    // Specific categories — order matters (more specific first)
+    // Category definitions — a business can match MULTIPLE categories
     const categoryMap = [
-      { match: ['sports bar', 'bar & grill', 'bar and grill', 'tavern', 'pub', 'taproom', 'brewery', 'playmaker', 'sports'], 
-        keywords: ['bar', 'grill', 'pub', 'tavern', 'sports', 'wing', 'brew', 'taproom', 'pizza & wing', 'alehouse'],
-        exclude: ['mexican', 'taco', 'taqueria', 'burrito', 'enchilada', 'asian', 'chinese', 'thai', 'sushi', 'indian'], weight: 5 },
-      { match: ['pizza', 'pizzeria'], keywords: ['pizza', 'pizzeria'], exclude: ['mexican', 'taco'], weight: 5 },
-      { match: ['taco', 'mexican', 'taqueria', 'burrito', 'enchilada'], keywords: ['mexican', 'taco', 'taqueria', 'burrito'], exclude: ['pizza', 'sushi', 'chinese'], weight: 5 },
-      { match: ['sushi', 'japanese', 'ramen', 'teriyaki'], keywords: ['sushi', 'japanese', 'ramen', 'teriyaki'], weight: 5 },
-      { match: ['chinese', 'wok', 'noodle'], keywords: ['chinese', 'asian', 'wok', 'noodle'], weight: 5 },
-      { match: ['thai'], keywords: ['thai', 'curry', 'pad thai'], weight: 5 },
-      { match: ['indian', 'tandoori', 'masala'], keywords: ['indian', 'curry', 'tandoori'], weight: 5 },
-      { match: ['burger', 'bbq', 'barbecue', 'wing'], keywords: ['burger', 'bbq', 'wing', 'grill'], weight: 5 },
-      { match: ['seafood', 'fish', 'crab', 'lobster'], keywords: ['seafood', 'fish', 'shrimp', 'crab'], weight: 5 },
-      { match: ['coffee', 'espresso', 'cafe'], keywords: ['coffee', 'cafe', 'espresso'], weight: 5 },
-      { match: ['bakery', 'donut', 'pastry', 'cookie'], keywords: ['bakery', 'donut', 'cookie', 'pastry'], weight: 5 },
-      { match: ['ice cream', 'frozen yogurt', 'gelato'], keywords: ['ice cream', 'frozen', 'yogurt', 'gelato'], weight: 5 },
-      { match: ['salon', 'hair', 'beauty', 'nail'], keywords: ['salon', 'hair', 'beauty', 'nail'], weight: 5 },
-      { match: ['barber'], keywords: ['barber', 'barbershop', 'haircut'], weight: 5 },
-      { match: ['auto', 'mechanic', 'oil change', 'tire', 'brake', 'transmission'], keywords: ['auto', 'mechanic', 'oil change', 'tire', 'brake', 'repair'], weight: 5 },
-      { match: ['dental', 'dentist'], keywords: ['dental', 'dentist', 'teeth'], weight: 5 },
-      { match: ['gym', 'fitness', 'crossfit'], keywords: ['gym', 'fitness', 'training'], weight: 5 },
-      { match: ['vet', 'veterinar', 'pet', 'animal'], keywords: ['vet', 'pet', 'animal', 'dog'], weight: 5 },
-      { match: ['chiropractic', 'chiropractor'], keywords: ['chiropractic', 'chiropractor'], weight: 5 },
-      { match: ['massage', 'spa'], keywords: ['massage', 'spa', 'wellness'], weight: 5 },
-      { match: ['dry clean', 'laundry'], keywords: ['dry clean', 'laundry'], weight: 5 },
-      { match: ['insurance'], keywords: ['insurance', 'allstate', 'state farm'], weight: 5 },
-      { match: ['real estate', 'realtor'], keywords: ['real estate', 'realtor', 'realty'], weight: 5 },
-      { match: ['cleaning', 'maid', 'janitorial'], keywords: ['cleaning', 'maid', 'janitorial'], weight: 5 },
-      { match: ['plumb'], keywords: ['plumb', 'drain', 'pipe'], weight: 5 },
+      { match: ['bar', 'pub', 'tavern', 'taproom', 'brewery', 'brew', 'barrel', 'wine_bar', 'wine bar', 'lounge', 'nightclub', 'alehouse', 'saloon', 'cocktail', 'spirits'], 
+        keywords: ['bar', 'grill', 'pub', 'tavern', 'brew', 'taproom', 'wine', 'alehouse', 'lounge', 'cocktail', 'pizza', 'sandwich', 'beer', 'wing'] },
+      { match: ['pizza', 'pizzeria'], keywords: ['pizza', 'pizzeria', 'pie', 'slice'] },
+      { match: ['restaurant', 'food', 'dining', 'eatery', 'bistro', 'kitchen', 'diner', 'grill', 'cafe', 'meal_delivery', 'meal_takeaway'],
+        keywords: ['restaurant', 'grill', 'kitchen', 'diner', 'bistro', 'cafe', 'food'] },
+      { match: ['taco', 'mexican', 'taqueria', 'burrito', 'enchilada', 'cantina'], keywords: ['mexican', 'taco', 'taqueria', 'burrito', 'cantina'] },
+      { match: ['sushi', 'japanese', 'ramen', 'teriyaki'], keywords: ['sushi', 'japanese', 'ramen', 'teriyaki'] },
+      { match: ['chinese', 'wok', 'noodle', 'dim sum'], keywords: ['chinese', 'asian', 'wok', 'noodle'] },
+      { match: ['thai'], keywords: ['thai', 'curry', 'pad thai'] },
+      { match: ['indian', 'tandoori', 'masala', 'naan'], keywords: ['indian', 'curry', 'tandoori'] },
+      { match: ['burger', 'bbq', 'barbecue', 'wing', 'smokehouse'], keywords: ['burger', 'bbq', 'wing', 'grill', 'smokehouse'] },
+      { match: ['seafood', 'fish', 'crab', 'lobster', 'oyster'], keywords: ['seafood', 'fish', 'shrimp', 'crab'] },
+      { match: ['coffee', 'espresso', 'cafe', 'tea house'], keywords: ['coffee', 'cafe', 'espresso', 'tea'] },
+      { match: ['bakery', 'donut', 'pastry', 'cookie', 'cake'], keywords: ['bakery', 'donut', 'cookie', 'pastry', 'cake'] },
+      { match: ['ice cream', 'frozen yogurt', 'gelato', 'smoothie'], keywords: ['ice cream', 'frozen', 'yogurt', 'gelato', 'smoothie'] },
+      { match: ['sandwich', 'sub', 'deli'], keywords: ['sandwich', 'sub', 'deli'] },
+      { match: ['salon', 'hair', 'beauty', 'nail', 'lash', 'brow'], keywords: ['salon', 'hair', 'beauty', 'nail'] },
+      { match: ['barber'], keywords: ['barber', 'barbershop', 'haircut'] },
+      { match: ['auto', 'mechanic', 'oil change', 'tire', 'brake', 'transmission', 'car_repair'], keywords: ['auto', 'mechanic', 'oil change', 'tire', 'brake', 'repair'] },
+      { match: ['dental', 'dentist'], keywords: ['dental', 'dentist', 'teeth'] },
+      { match: ['gym', 'fitness', 'crossfit', 'training'], keywords: ['gym', 'fitness', 'training'] },
+      { match: ['vet', 'veterinar', 'pet', 'animal', 'pet_store'], keywords: ['vet', 'pet', 'animal', 'dog'] },
+      { match: ['chiropractic', 'chiropractor'], keywords: ['chiropractic', 'chiropractor'] },
+      { match: ['massage', 'spa', 'wellness'], keywords: ['massage', 'spa', 'wellness'] },
+      { match: ['dry clean', 'laundry'], keywords: ['dry clean', 'laundry'] },
+      { match: ['insurance'], keywords: ['insurance', 'allstate', 'state farm'] },
+      { match: ['real estate', 'realtor', 'realty'], keywords: ['real estate', 'realtor', 'realty'] },
+      { match: ['cleaning', 'maid', 'janitorial'], keywords: ['cleaning', 'maid', 'janitorial'] },
+      { match: ['plumb'], keywords: ['plumb', 'drain', 'pipe'] },
+      { match: ['hvac', 'heating', 'air condition', 'furnace'], keywords: ['hvac', 'heating', 'air', 'furnace'] },
+      { match: ['electric', 'electrician'], keywords: ['electric', 'electrician', 'wiring'] },
+      { match: ['roofing', 'roof'], keywords: ['roof', 'roofing'] },
+      { match: ['landscap', 'lawn', 'tree service', 'yard'], keywords: ['landscap', 'lawn', 'tree', 'yard', 'mowing'] },
+      { match: ['tax', 'accounting', 'cpa', 'bookkeep'], keywords: ['tax', 'accounting', 'cpa', 'bookkeep'] },
+      { match: ['flower', 'florist', 'floral'], keywords: ['flower', 'florist', 'floral', 'bouquet'] },
     ];
 
     let matchedKeywords = [];
-    let excludeWords = [];
-    let matched = false;
+    let matchCount = 0;
     
+    // Match ALL applicable categories (not just the first one)
     for (const cat of categoryMap) {
       if (cat.match.some(m => combined.includes(m))) {
         matchedKeywords.push(...cat.keywords);
-        if (cat.exclude) excludeWords.push(...cat.exclude);
-        matched = true;
-        break;
+        matchCount++;
       }
     }
     
-    if (!matched) {
+    // If nothing matched, try to extract useful words from name + category
+    if (matchCount === 0) {
+      const stopWords = ['the', 'and', 'bar', 'restaurant', 'inc', 'llc', 'cafe', 'room', 'house', 'shop', 'store', 'place', 'squared'];
       name.toLowerCase().split(/\s+/).forEach(w => {
-        if (w.length > 3 && !['the', 'and', 'bar', 'restaurant', 'inc', 'llc', 'cafe'].includes(w)) {
-          matchedKeywords.push(w);
-        }
+        if (w.length > 3 && !stopWords.includes(w)) matchedKeywords.push(w);
       });
       if (category) {
         category.toLowerCase().split(/\s+/).forEach(w => {
           if (w.length > 3) matchedKeywords.push(w);
         });
       }
+      // For generic restaurants/bars, add broad food keywords
+      if (combined.includes('restaurant') || combined.includes('bar') || combined.includes('food')) {
+        matchedKeywords.push('restaurant', 'grill', 'kitchen', 'diner', 'food');
+      }
     }
 
-    return { keywords: [...new Set(matchedKeywords)], exclude: [...new Set(excludeWords)] };
+    return { keywords: [...new Set(matchedKeywords)], exclude: [] };
   }
 
   function findMatchingTestimonials(keywords, exclude = [], name, info = '') {
@@ -268,17 +282,57 @@
     const state = (selectedStore.State || '').toLowerCase();
     const chain = (selectedStore.GroceryChain || '').toLowerCase();
     
-    // Find testimonials mentioning the same city, state, or chain
-    const local = allTestimonials.map(t => ({
-      business: t.b || t.business || '', comment: t.c || t.comment || '', url: t.u || t.url || '', id: t.id
-    })).filter(t => {
-      const search = (t.business + ' ' + t.comment).toLowerCase();
-      return search.includes(city) || search.includes(chain);
-    }).sort((a, b) => b.comment.length - a.comment.length);
-
-    // Pick one that isn't already in matched testimonials
+    // Build list of nearby cities from the stores database (within ~50 mi based on lat/lng)
+    const nearbyCities = new Set([city]);
+    if (selectedStore.latitude && selectedStore.longitude) {
+      const lat = parseFloat(selectedStore.latitude);
+      const lng = parseFloat(selectedStore.longitude);
+      allStores.forEach(s => {
+        if (s.latitude && s.longitude && s.City) {
+          const dlat = parseFloat(s.latitude) - lat;
+          const dlng = parseFloat(s.longitude) - lng;
+          const distMiles = Math.sqrt(dlat * dlat + dlng * dlng) * 69; // rough miles
+          if (distMiles < 50) {
+            nearbyCities.add(s.City.toLowerCase());
+          }
+        }
+      });
+    } else {
+      // Fallback: same state stores
+      allStores.forEach(s => {
+        if ((s.State || '').toLowerCase() === state && s.City) {
+          nearbyCities.add(s.City.toLowerCase());
+        }
+      });
+    }
+    
+    // Score testimonials by locality — exact city > nearby city > same chain
     const matchedIds = new Set(matchedTestimonials.map(t => t.id));
-    return local.find(t => !matchedIds.has(t.id)) || local[0] || null;
+    const scored = allTestimonials.map(t => {
+      const biz = t.b || t.business || '';
+      const comment = t.c || t.comment || '';
+      const search = (biz + ' ' + comment).toLowerCase();
+      let score = 0;
+      
+      // Exact city match = highest priority
+      if (search.includes(city)) score += 10;
+      // Nearby city match
+      for (const nc of nearbyCities) {
+        if (nc !== city && search.includes(nc)) { score += 5; break; }
+      }
+      // Same chain/store match
+      if (search.includes(chain)) score += 3;
+      // Same state match
+      if (search.includes(state)) score += 1;
+      // Quality bonus
+      if (comment.length > 150) score += 1;
+      
+      if (score === 0) return null;
+      return { business: biz, comment, url: t.u || t.url || '', id: t.id, score };
+    }).filter(t => t && !matchedIds.has(t.id))
+      .sort((a, b) => b.score - a.score);
+    
+    return scored[0] || null;
   }
 
   function cleanBizName(name) {
