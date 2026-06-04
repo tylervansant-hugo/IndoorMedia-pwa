@@ -8269,6 +8269,27 @@
       "paid_in_full": false
     },
     {
+      "contract_number": "J429187E",
+      "date": "2026-06-03 00:00",
+      "business_name": "Las Mesitas Restaurant",
+      "contact_name": "Lupe Ramos",
+      "contact_email": "bgmesitas@gmail.com",
+      "contact_phone": "(360) 687-7221",
+      "sales_rep": "Dave Boring",
+      "store_name": "Fred Meyer",
+      "store_number": "0614",
+      "zone": "07Z",
+      "product_description": "Single Ad",
+      "total_amount": 4925.0,
+      "payment_date": "6/3/2026",
+      "address": "401 Northwest 12Th Avenue, Battle Ground, 98604",
+      "extracted_at": "2026-06-03T20:00:36.529093",
+      "quarters": 5,
+      "term_months": 15,
+      "is_renewal": false,
+      "paid_in_full": false
+    },
+    {
       "contract_number": "J429244E",
       "date": "2026-04-13 00:00",
       "business_name": "Bolt on Motors",
@@ -8774,5 +8795,5 @@
       "paid_in_full": false
     }
   ],
-  "last_scan": "2026-06-03T15:43:39.111334"
+  "last_scan": "2026-06-03T20:00:37.151036"
 }
