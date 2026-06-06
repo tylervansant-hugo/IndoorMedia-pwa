@@ -8515,7 +8515,7 @@
       "total_amount": 4425.0,
       "payment_date": "6/5/2026",
       "address": "19245 10Th Ave NE, Poulsbo, 98370",
-      "extracted_at": "2026-06-05T20:00:34.964775",
+      "extracted_at": "2026-06-05T20:00:35.667789",
       "quarters": 5,
       "term_months": 15,
       "is_renewal": false,
@@ -8816,5 +8816,5 @@
       "paid_in_full": false
     }
   ],
-  "last_scan": "2026-06-05T20:00:35.158086"
+  "last_scan": "2026-06-05T20:00:35.849358"
 }
