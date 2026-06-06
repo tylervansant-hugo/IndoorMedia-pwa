@@ -8501,6 +8501,27 @@
       "paid_in_full": false
     },
     {
+      "contract_number": "J430283E",
+      "date": "2026-06-05 00:00",
+      "business_name": "Casa Luna",
+      "contact_name": "Juanita Gonzales",
+      "contact_email": "juanitagonzales1979@gmail.com",
+      "contact_phone": "(360) 779-7676",
+      "sales_rep": "Ryan Rohner-talton",
+      "store_name": "Safeway",
+      "store_number": "3148",
+      "zone": "07X",
+      "product_description": "Single Ad",
+      "total_amount": 4425.0,
+      "payment_date": "6/5/2026",
+      "address": "19245 10Th Ave NE, Poulsbo, 98370",
+      "extracted_at": "2026-06-05T20:00:34.964775",
+      "quarters": 5,
+      "term_months": 15,
+      "is_renewal": false,
+      "paid_in_full": false
+    },
+    {
       "contract_number": "J430393E",
       "date": "2026-05-01 00:00",
       "business_name": "Toni\u2019s Ponies",
@@ -8795,5 +8816,5 @@
       "paid_in_full": false
     }
   ],
-  "last_scan": "2026-06-04T20:00:43.910512"
+  "last_scan": "2026-06-05T20:00:35.158086"
 }
