@@ -420,7 +420,7 @@ Store: ${store}
   const isDev = window.location.hostname === 'localhost';
   let COUNTER_SIGN_API = isDev 
     ? 'http://localhost:3333'
-    : 'https://lamp-seasons-angels-south.trycloudflare.com';
+    : 'https://set-vendor-synthesis-plug.trycloudflare.com';
   
   // On production, try to fetch the latest tunnel URL
   if (!isDev) {
