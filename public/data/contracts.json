@@ -11021,6 +11021,27 @@
       "paid_in_full": true
     },
     {
+      "contract_number": "J431896E",
+      "date": "2026-06-08 00:00",
+      "business_name": "Portland's Best Auto Repair & Towing",
+      "contact_name": "Harley and Tiffany Smith",
+      "contact_email": "portlandbestautorepair@outlook.com",
+      "contact_phone": "(503) 208-2803",
+      "sales_rep": "Megan Wink",
+      "store_name": "Safeway",
+      "store_number": "1523",
+      "zone": "07Z",
+      "product_description": "Single Ad",
+      "total_amount": 4825.0,
+      "payment_date": "6/8/2026",
+      "address": "4515 SE Woodstock Blvd, Portland, 97206",
+      "extracted_at": "2026-06-08T20:00:38.243493",
+      "quarters": 5,
+      "term_months": 15,
+      "is_renewal": false,
+      "paid_in_full": false
+    },
+    {
       "contract_number": "J431958E",
       "date": "2026-06-02 00:00",
       "business_name": "Trove of collectibles",
@@ -11294,5 +11315,5 @@
       "paid_in_full": false
     }
   ],
-  "last_scan": "2026-06-07T20:00:12.753014"
+  "last_scan": "2026-06-08T20:00:38.406651"
 }
