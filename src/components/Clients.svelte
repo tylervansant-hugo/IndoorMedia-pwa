@@ -1160,7 +1160,7 @@ IndoorMedia`;
             <div style="flex:1; min-width:0;">
             <div class="renewal-header">
               <div class="renewal-biz">
-                <h4>{renewal.business}</h4>
+                <h4>{renewal.business || renewal.businessName || renewal.category || 'Unknown'}</h4>
                 <span class="renewal-cat">{renewal.category || 'N/A'}</span>
               </div>
               <div class="renewal-meta">
