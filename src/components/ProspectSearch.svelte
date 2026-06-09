@@ -1073,7 +1073,7 @@
               headers: {
                 'Content-Type': 'application/json',
                 'X-Goog-Api-Key': PLACES_API_KEY,
-                'X-Goog-FieldMask': 'places.displayName,places.formattedAddress,places.rating,places.userRatingCount,places.location,places.businessStatus,places.nationalPhoneNumber,places.websiteUri,places.googleMapsUri,places.regularOpeningHours'
+                'X-Goog-FieldMask': 'places.displayName,places.formattedAddress,places.rating,places.userRatingCount,places.location,places.businessStatus,places.nationalPhoneNumber,places.websiteUri,places.googleMapsUri,places.regularOpeningHours,places.emailAddress'
               },
               body: JSON.stringify(requestBody)
             });
@@ -1105,6 +1105,7 @@
               distance: Math.round(dist * 10) / 10,
               score: reviews <= 10 ? 98 : reviews <= 20 ? 90 : reviews <= 30 ? 80 : 70,
               phone: place.nationalPhoneNumber || null,
+              email: place.emailAddress || null,
               website: place.websiteUri || null,
               mapsUrl: place.googleMapsUri || null,
               status: place.businessStatus === 'OPERATIONAL' ? 'open' : 'check',
@@ -1188,7 +1189,7 @@
         headers: {
           'Content-Type': 'application/json',
           'X-Goog-Api-Key': PLACES_API_KEY,
-          'X-Goog-FieldMask': 'places.displayName,places.formattedAddress,places.rating,places.userRatingCount,places.location,places.businessStatus,places.nationalPhoneNumber,places.websiteUri,places.googleMapsUri,places.regularOpeningHours'
+          'X-Goog-FieldMask': 'places.displayName,places.formattedAddress,places.rating,places.userRatingCount,places.location,places.businessStatus,places.nationalPhoneNumber,places.websiteUri,places.googleMapsUri,places.regularOpeningHours,places.emailAddress'
         },
         body: JSON.stringify(requestBody)
       });
@@ -1222,6 +1223,7 @@
           distance: Math.round(dist * 10) / 10,
           score: Math.min(100, score),
           phone: place.nationalPhoneNumber || null,
+          email: place.emailAddress || null,
           website: place.websiteUri || null,
           mapsUrl: place.googleMapsUri || null,
           status: place.businessStatus === 'OPERATIONAL' ? 'open' : 'check',
@@ -1834,7 +1836,10 @@
             ⭐ {prospect.rating.toFixed(1)} ({prospect.reviews} reviews) • {prospect.distance} mi • Score: {prospect.score}%
           </p>
           {#if prospect.phone}
-            <p class="prospect-phone">📞 {prospect.phone}</p>
+            <p class="prospect-phone">📞 <a href="tel:{prospect.phone}" style="color:inherit;text-decoration:none;">{prospect.phone}</a></p>
+          {/if}
+          {#if prospect.email}
+            <p class="prospect-email">📧 <a href="mailto:{prospect.email}" style="color:inherit;text-decoration:none;">{prospect.email}</a></p>
           {/if}
           {#if prospect.hours && prospect.hours.length > 0}
             {@const today = new Date().toLocaleDateString('en-US', { weekday: 'long' })}
@@ -2050,7 +2055,7 @@
                     const subject = encodeURIComponent(fillTemplate(tpl.subject, prospect.name));
                     const rawBody = fillTemplate(tpl.body, prospect.name);
                     const body = encodeURIComponent(rawBody.replace(/\n\n/g, '\r\n\r\n').replace(/(?<!\r)\n/g, '\r\n'));
-                    window.open('mailto:?subject=' + subject + '&body=' + body);
+                    window.open('mailto:' + (prospect.email || '') + '?subject=' + subject + '&body=' + body);
                   }}>📧 Open in Email App</button>
                 </div>
               {/if}
@@ -3249,7 +3254,8 @@
   .prospect-card h4 { margin: 0; color: var(--text-primary); font-weight: 600; font-size: 15px; }
   .prospect-address { margin: 4px 0; font-size: 13px; color: var(--text-secondary); }
   .prospect-meta { margin: 6px 0; font-size: 12px; color: var(--text-tertiary); }
-  .prospect-phone { margin: 6px 0 10px; font-size: 15px; font-weight: 600; color: var(--text-primary); }
+  .prospect-phone { margin: 6px 0 4px; font-size: 15px; font-weight: 600; color: var(--text-primary); }
+  .prospect-email { margin: 2px 0 10px; font-size: 14px; font-weight: 500; color: var(--text-secondary, #555); }
   .prospect-hours { margin: 2px 0 8px; font-size: 12px; color: var(--text-secondary); cursor: pointer; }
   .hours-detail { background: var(--bg-secondary, #f5f5f5); border-radius: 8px; padding: 8px 12px; margin: 4px 0 8px; }
   .hours-line { margin: 2px 0; font-size: 11px; color: var(--text-secondary); }
