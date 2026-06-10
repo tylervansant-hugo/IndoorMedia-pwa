@@ -1144,7 +1144,7 @@
 
   <!-- Content -->
   <div class="content">
-    {#if currentTab === 'dashboard'}
+    <div style:display={currentTab === 'dashboard' ? 'block' : 'none'}>
       <div class="dashboard">
         <!-- 1. MOTIVATIONAL QUOTE — start the day right -->
         {#if true}
@@ -1507,38 +1507,48 @@
 
 
       </div>
-    {:else if currentTab === 'stores'}
+    </div>
+    <!-- Keep components mounted (display:none) so tab state is preserved -->
+    <div style:display={currentTab === 'stores' ? 'block' : 'none'}>
       <div class="stores-view-toggle">
         <button class="view-toggle-btn" class:active={storesView === 'rates'} on:click={() => storesView = 'rates'}>📊 Rates</button>
         <button class="view-toggle-btn" class:active={storesView === 'prospects'} on:click={() => storesView = 'prospects'}>🎯 Prospects</button>
         <button class="view-toggle-btn" class:active={storesView === 'map'} on:click={() => storesView = 'map'}>🗺️ Map</button>
       </div>
-      {#if storesView === 'rates'}
+      <div style:display={storesView === 'rates' ? 'block' : 'none'}>
         <StoreSearch />
-      {:else if storesView === 'prospects'}
+      </div>
+      <div style:display={storesView === 'prospects' ? 'block' : 'none'}>
         <ProspectSearch />
-      {:else}
+      </div>
+      <div style:display={storesView === 'map' ? 'block' : 'none'}>
         <StoreMap />
-      {/if}
-    {:else if currentTab === 'tools'}
+      </div>
+    </div>
+    <div style:display={currentTab === 'tools' ? 'block' : 'none'}>
       <Tools {contracts} />
-    {:else if currentTab === 'cart'}
+    </div>
+    <div style:display={currentTab === 'cart' ? 'block' : 'none'}>
       <Cart />
-    {:else if currentTab === 'products'}
+    </div>
+    <div style:display={currentTab === 'products' ? 'block' : 'none'}>
       <Products />
-    {:else if currentTab === 'present'}
+    </div>
+    <div style:display={currentTab === 'present' ? 'block' : 'none'}>
       <Present />
-    {:else if currentTab === 'clients'}
+    </div>
+    <div style:display={currentTab === 'clients' ? 'block' : 'none'}>
       <Clients />
-    {:else if currentTab === 'addlead'}
+    </div>
+    {#if currentTab === 'addlead'}
       <HotLeadsSubmit
         user={$user}
         onLeadSubmitted={() => {
-          // Optional: show confirmation or navigate back to prospects
           storesView = 'prospects'; currentTab = 'stores';
         }}
       />
-    {:else if currentTab === 'manage'}
+    {/if}
+    {#if currentTab === 'manage'}
       <ManageReps />
     {/if}
   </div>
