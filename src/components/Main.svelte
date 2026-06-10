@@ -573,7 +573,6 @@
     companyLeads = JSON.parse(localStorage.getItem('summer_sales_company_leads') || '[]');
 
     const summerContracts = contracts.filter(c => {
-      if (!MANAGER_ZONES.includes(c.zone || '')) return false;
       const d = parseContractDate(c.date);
       return d >= startDate && d < endDate;
     });
@@ -943,11 +942,8 @@
   });
 
   // Reactive filtered contracts — triggers re-render when analyticsZone changes
-  // Manager sees only their territory zones; "all" means all territory zones, not company-wide
-  $: territoryContracts = ($user?.role === 'manager' || $user?.role === 'admin' || ($user?.name || '').toLowerCase().includes('tyler'))
-    ? contracts.filter(c => MANAGER_ZONES.includes(c.zone || ''))
-    : contracts;
-  $: filteredContracts = analyticsZone === 'all' ? territoryContracts : territoryContracts.filter(c => (c.zone || '') === analyticsZone);
+  // Analytics always shows ALL zones so manager can see every rep's numbers
+  $: filteredContracts = analyticsZone === 'all' ? contracts : contracts.filter(c => (c.zone || '') === analyticsZone);
   $: yearlyStats = calcYearlyStats(filteredContracts);
   $: monthlyStats = calcMonthlyStats(filteredContracts);
   $: repStats = calcRepStats(filteredContracts);
@@ -958,7 +954,7 @@
 
   function getAvailableZones() {
     const zones = new Set();
-    territoryContracts.forEach(c => { if (c.zone) zones.add(c.zone); });
+    contracts.forEach(c => { if (c.zone) zones.add(c.zone); });
     return Array.from(zones).sort();
   }
 
