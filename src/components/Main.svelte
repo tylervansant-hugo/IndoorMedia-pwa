@@ -88,6 +88,9 @@
   let showSummerSalesDetail = false;
   let companyLeads = [];
 
+  // Manager territory zones — only these zones show on Tyler's dashboard
+  const MANAGER_ZONES = ['07X', '07Y', '07Z'];
+
   // Motivational quotes
   const QUOTES = [
     { text: "Success is not final, failure is not fatal: it is the courage to continue that counts.", author: "Winston Churchill" },
@@ -570,6 +573,7 @@
     companyLeads = JSON.parse(localStorage.getItem('summer_sales_company_leads') || '[]');
 
     const summerContracts = contracts.filter(c => {
+      if (!MANAGER_ZONES.includes(c.zone || '')) return false;
       const d = parseContractDate(c.date);
       return d >= startDate && d < endDate;
     });
@@ -689,10 +693,12 @@
     const lastMonth = thisMonth === 0 ? 11 : thisMonth - 1;
     const lastMonthYear = thisMonth === 0 ? thisYear - 1 : thisYear;
     
-    const myContracts = isManager ? contracts : contracts.filter(c => {
-      const rep = (c.sales_rep || '').toLowerCase();
-      return rep.includes(repName.split(' ')[0]);
-    });
+    const myContracts = isManager
+      ? contracts.filter(c => MANAGER_ZONES.includes(c.zone || ''))
+      : contracts.filter(c => {
+          const rep = (c.sales_rep || '').toLowerCase();
+          return rep.includes(repName.split(' ')[0]);
+        });
     
     thisMonthContracts = myContracts.filter(c => {
       const d = parseContractDate(c.date);
@@ -764,7 +770,7 @@
     const userLocation = $user?.base_location || '';
     const userState = userLocation.split(',').pop()?.trim().toUpperCase() || '';
     if (isManager) {
-      storesInTerritory = allStores.filter(s => s.State === 'OR' || s.State === 'WA').length;
+      storesInTerritory = allStores.filter(s => MANAGER_ZONES.includes(s.ZoneName || '')).length;
     } else if (userState) {
       storesInTerritory = allStores.filter(s => s.State === userState).length;
     } else {
@@ -778,6 +784,7 @@
     const repTotals = {};
     contracts.filter(c => {
       const d = parseContractDate(c.date);
+      if (isManager && !MANAGER_ZONES.includes(c.zone || '')) return false;
       return d.getMonth() === thisMonth && d.getFullYear() === thisYear;
     }).forEach(c => {
       const rep = c.sales_rep || 'Unknown';
@@ -795,8 +802,8 @@
       .then(r => r.json())
       .then(renewals => {
         if (isManager) {
-          pendingRenewalsData = renewals;
-          pendingRenewalsCount = renewals.length;
+          pendingRenewalsData = renewals.filter(r => MANAGER_ZONES.includes(r.zone || ''));
+          pendingRenewalsCount = pendingRenewalsData.length;
         } else {
           pendingRenewalsData = renewals.filter(r => (r.rep || '').toLowerCase().includes(repName.split(' ')[0]));
           pendingRenewalsCount = pendingRenewalsData.length;
@@ -936,7 +943,11 @@
   });
 
   // Reactive filtered contracts — triggers re-render when analyticsZone changes
-  $: filteredContracts = analyticsZone === 'all' ? contracts : contracts.filter(c => (c.zone || '') === analyticsZone);
+  // Manager sees only their territory zones; "all" means all territory zones, not company-wide
+  $: territoryContracts = ($user?.role === 'manager' || $user?.role === 'admin' || ($user?.name || '').toLowerCase().includes('tyler'))
+    ? contracts.filter(c => MANAGER_ZONES.includes(c.zone || ''))
+    : contracts;
+  $: filteredContracts = analyticsZone === 'all' ? territoryContracts : territoryContracts.filter(c => (c.zone || '') === analyticsZone);
   $: yearlyStats = calcYearlyStats(filteredContracts);
   $: monthlyStats = calcMonthlyStats(filteredContracts);
   $: repStats = calcRepStats(filteredContracts);
@@ -947,7 +958,7 @@
 
   function getAvailableZones() {
     const zones = new Set();
-    contracts.forEach(c => { if (c.zone) zones.add(c.zone); });
+    territoryContracts.forEach(c => { if (c.zone) zones.add(c.zone); });
     return Array.from(zones).sort();
   }
 
