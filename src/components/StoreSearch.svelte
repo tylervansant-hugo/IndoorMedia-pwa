@@ -573,25 +573,24 @@ Store: ${store.StoreName}
   }
 
   // Summer Promo pricing — NO padding, NO discounts except 5% PIF
+  // "Paid in 3" = 3 installments, "Paid in 6" = 6 installments (fixed, not calculated)
   function calcPromoPricing(basePrice, quarters = 4, noPad = false) {
     const prod = 125;
     // Summer promo: no padding ever
     const qFactor = quarters / 4;
     const scaledBase = basePrice * qFactor;
     const total = scaledBase + prod * qFactor;
-    const threePayments = Math.ceil(quarters * 3 / 3);
-    const sixPayments = Math.ceil(quarters * 3 / 6);
     return {
       quarters,
       monthly: (total / (quarters * 3)).toFixed(2),
       monthlyTotal: total.toFixed(2),
       monthlyPayments: quarters * 3,
-      threeMonth: (total / threePayments).toFixed(2),
+      threeMonth: (total / 3).toFixed(2),
       threeMonthTotal: total.toFixed(2),
-      threeMonthPayments: threePayments,
-      sixMonth: (total / sixPayments).toFixed(2),
+      threeMonthPayments: 3,
+      sixMonth: (total / 6).toFixed(2),
       sixMonthTotal: total.toFixed(2),
-      sixMonthPayments: sixPayments,
+      sixMonthPayments: 6,
       pif: ((scaledBase * 0.95) + prod * qFactor).toFixed(2),
       savings: (scaledBase * 0.05).toFixed(2),
       unpaddedTotal: total.toFixed(2),
