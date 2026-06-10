@@ -11140,7 +11140,7 @@
       "total_amount": 2000.0,
       "payment_date": "6/9/2026",
       "address": "7700 SW Beaverton Hillsdale Hwy, Portland, 97225-2101",
-      "extracted_at": "2026-06-09T20:00:26.338014",
+      "extracted_at": "2026-06-09T20:00:29.865576",
       "quarters": 2,
       "term_months": 6,
       "is_renewal": true,
@@ -11336,5 +11336,5 @@
       "paid_in_full": false
     }
   ],
-  "last_scan": "2026-06-09T20:00:26.428179"
+  "last_scan": "2026-06-09T20:00:29.955846"
 }
