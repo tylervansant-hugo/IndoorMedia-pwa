@@ -681,7 +681,7 @@
     return matching.length > 10; // More than 10 stores at same spot = dummy coords
   }
 
-  // Svelte action: renders a mini Leaflet map showing prospect + store + distance
+  // Svelte action: renders a mini Leaflet map showing prospect + selected store + nearby stores
   function initMiniMap(node, params) {
     const { prospect, store } = params;
     const pLat = prospect.lat;
@@ -707,11 +707,13 @@
       radius: 10, fillColor: '#CC0000', color: '#fff', weight: 2, fillOpacity: 0.9,
     }).addTo(map).bindPopup(`<strong>${prospect.name}</strong><br><span style="font-size:12px;">${prospect.address || ''}</span>`).openPopup();
 
-    // Store marker (blue) + distance line
+    const bounds = [[pLat, pLng]];
+
+    // Selected store marker (blue) + distance line
     if (sLat && sLng) {
       L.circleMarker([sLat, sLng], {
         radius: 12, fillColor: '#1a73e8', color: '#fff', weight: 3, fillOpacity: 0.9,
-      }).addTo(map).bindPopup(`<strong>🏪 ${store.GroceryChain || ''}</strong><br><span style="font-size:12px;">${store.Address || ''}, ${store.City || ''}</span>`);
+      }).addTo(map).bindPopup(`<strong>🏪 ${store.GroceryChain || ''}</strong><br><span style="font-size:12px;">${store.StoreName || ''}<br>${store.Address || ''}, ${store.City || ''}</span><br><span style="font-size:11px;color:#666;">Cycle ${store.Cycle || '?'} · ${store['Case Count'] || '?'} cases</span>`);
 
       // Dashed line between store and prospect
       L.polyline([[sLat, sLng], [pLat, pLng]], {
@@ -731,8 +733,37 @@
         }),
       }).addTo(map);
 
-      // Fit both markers in view
-      map.fitBounds([[pLat, pLng], [sLat, sLng]], { padding: [40, 40] });
+      bounds.push([sLat, sLng]);
+    }
+
+    // Nearby stores (green, smaller) — within 10mi of the prospect
+    const selectedName = store?.StoreName || '';
+    const nearby = allStores.filter(s => {
+      if (s.StoreName === selectedName) return false;
+      const lat = s.latitude || s.Latitude;
+      const lng = s.longitude || s.Longitude;
+      if (!lat || !lng) return false;
+      const d = calculateDistance(pLat, pLng, lat, lng);
+      return d <= 10;
+    }).sort((a, b) => {
+      const dA = calculateDistance(pLat, pLng, a.latitude || a.Latitude, a.longitude || a.Longitude);
+      const dB = calculateDistance(pLat, pLng, b.latitude || b.Latitude, b.longitude || b.Longitude);
+      return dA - dB;
+    }).slice(0, 15);
+
+    nearby.forEach(s => {
+      const lat = s.latitude || s.Latitude;
+      const lng = s.longitude || s.Longitude;
+      const d = calculateDistance(pLat, pLng, lat, lng);
+      L.circleMarker([lat, lng], {
+        radius: 7, fillColor: '#2e7d32', color: '#fff', weight: 1.5, fillOpacity: 0.75,
+      }).addTo(map).bindPopup(`<strong>🏪 ${s.GroceryChain || ''}</strong><br><span style="font-size:12px;">${s.StoreName || ''}<br>${s.Address || ''}, ${s.City || ''}</span><br><span style="font-size:11px;color:#666;">Cycle ${s.Cycle || '?'} · ${s['Case Count'] || '?'} cases · ${d.toFixed(1)} mi</span>`);
+      bounds.push([lat, lng]);
+    });
+
+    // Fit all markers in view
+    if (bounds.length > 1) {
+      map.fitBounds(bounds, { padding: [40, 40], maxZoom: 14 });
     }
 
     return {
