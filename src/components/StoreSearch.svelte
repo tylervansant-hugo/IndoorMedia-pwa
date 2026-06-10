@@ -572,13 +572,14 @@ Store: ${store.StoreName}
     coopUnlocked = {};
   }
 
-  // Summer Promo pricing — NO padding, NO discounts except 5% PIF
-  // "Paid in 3" = 3 installments, "Paid in 6" = 6 installments (fixed, not calculated)
+  // Summer Promo pricing — NO discounts except 5% PIF
+  // Padding included by default; Co-Op button removes it
+  // "Paid in 3" = 3 installments, "Paid in 6" = 6 installments (fixed)
   function calcPromoPricing(basePrice, quarters = 4, noPad = false) {
     const prod = 125;
-    // Summer promo: no padding ever
+    const pad = noPad ? 0 : ($padAmount != null ? $padAmount : 1200);
     const qFactor = quarters / 4;
-    const scaledBase = basePrice * qFactor;
+    const scaledBase = (basePrice + pad) * qFactor;
     const total = scaledBase + prod * qFactor;
     return {
       quarters,
@@ -593,7 +594,7 @@ Store: ${store.StoreName}
       sixMonthPayments: 6,
       pif: ((scaledBase * 0.95) + prod * qFactor).toFixed(2),
       savings: (scaledBase * 0.05).toFixed(2),
-      unpaddedTotal: total.toFixed(2),
+      unpaddedTotal: ((basePrice + prod) * qFactor).toFixed(2),
     };
   }
 
@@ -988,7 +989,13 @@ Store: ${store.StoreName}
 
                 <!-- Co-Op Unlock / Remove Padding -->
                 {#if isPromo}
-                <!-- No padding toggle needed — summer promo is always no padding -->
+                <button
+                  class="coop-btn"
+                  class:unlocked={coopUnlocked[store.StoreName]}
+                  on:click={() => unlockCoop(store.StoreName)}
+                >
+                  {coopUnlocked[store.StoreName] ? '🔓 Padding Removed — Tap to Reset' : '🔒 Manager Approved Co-Op'}
+                </button>
                 {:else}
                 <button
                   class="coop-btn"
