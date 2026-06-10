@@ -100,9 +100,9 @@
     const numPayments = pricing.monthlyPayments || 12;
     const plans = isPromoPdf ? [
       { name: `Monthly (${numPayments} ${t.payments})`, payment: `$${pricing.monthly}/mo`, total: pricing.monthlyTotal, daily: (parseFloat(pricing.monthlyTotal) / 365).toFixed(2) },
-      { name: `3-Month (${pricing.threeMonthPayments || 3} ${t.payments}) - 10% off`, payment: `$${pricing.threeMonth} x ${pricing.threeMonthPayments || 3}`, total: pricing.threeMonthTotal, daily: (parseFloat(pricing.threeMonthTotal) / 365).toFixed(2) },
-      { name: `6-Month (${pricing.sixMonthPayments || 6} ${t.payments}) - 7.5% off`, payment: `$${pricing.sixMonth} x ${pricing.sixMonthPayments || 6}`, total: pricing.sixMonthTotal, daily: (parseFloat(pricing.sixMonthTotal) / 365).toFixed(2) },
-      { name: `Paid in Full - 15% off`, payment: `$${pricing.pif}`, total: pricing.pif, daily: (parseFloat(pricing.pif) / 365).toFixed(2) },
+      { name: `Paid in 3 (${pricing.threeMonthPayments || 3} installments)`, payment: `$${pricing.threeMonth} x ${pricing.threeMonthPayments || 3}`, total: pricing.threeMonthTotal, daily: (parseFloat(pricing.threeMonthTotal) / 365).toFixed(2) },
+      { name: `Paid in 6 (${pricing.sixMonthPayments || 6} installments)`, payment: `$${pricing.sixMonth} x ${pricing.sixMonthPayments || 6}`, total: pricing.sixMonthTotal, daily: (parseFloat(pricing.sixMonthTotal) / 365).toFixed(2) },
+      { name: `Paid in Full - 5% off`, payment: `$${pricing.pif}`, total: pricing.pif, daily: (parseFloat(pricing.pif) / 365).toFixed(2) },
     ] : [
       { name: `Monthly (${numPayments} ${t.payments})`, payment: `$${pricing.monthly}/mo`, total: pricing.monthlyTotal, daily: (parseFloat(pricing.monthlyTotal) / 365).toFixed(2) },
       { name: `3-Month (${pricing.threeMonthPayments || 3} ${t.payments}) - 10% off`, payment: `$${pricing.threeMonth} x ${pricing.threeMonthPayments || 3}`, total: pricing.threeMonthTotal, daily: (parseFloat(pricing.threeMonthTotal) / 365).toFixed(2) },
@@ -167,9 +167,9 @@
     const nPay = pricing.monthlyPayments || 12;
     const plans = isPromoHTML ? [
       { name: `${t.monthly} (${nPay} ${t.payments})`, payment: `$${pricing.monthly}/${t.monthly.toLowerCase().slice(0,2)}`, total: pricing.monthlyTotal, daily: (parseFloat(pricing.monthlyTotal) / 365).toFixed(2) },
-      { name: `3-${t.monthly} (${pricing.threeMonthPayments||3} ${t.payments}) — ${t.save} 10%`, payment: `$${pricing.threeMonth} x ${pricing.threeMonthPayments||3}`, total: pricing.threeMonthTotal, daily: (parseFloat(pricing.threeMonthTotal) / 365).toFixed(2) },
-      { name: `6-${t.monthly} (${pricing.sixMonthPayments||6} ${t.payments}) — ${t.save} 7.5%`, payment: `$${pricing.sixMonth} x ${pricing.sixMonthPayments||6}`, total: pricing.sixMonthTotal, daily: (parseFloat(pricing.sixMonthTotal) / 365).toFixed(2) },
-      { name: `⭐ ${t.onePayment} — ${t.save} 15%`, payment: `$${pricing.pif}`, total: pricing.pif, daily: (parseFloat(pricing.pif) / 365).toFixed(2) },
+      { name: `Paid in 3 (${pricing.threeMonthPayments||3} installments)`, payment: `$${pricing.threeMonth} x ${pricing.threeMonthPayments||3}`, total: pricing.threeMonthTotal, daily: (parseFloat(pricing.threeMonthTotal) / 365).toFixed(2) },
+      { name: `Paid in 6 (${pricing.sixMonthPayments||6} installments)`, payment: `$${pricing.sixMonth} x ${pricing.sixMonthPayments||6}`, total: pricing.sixMonthTotal, daily: (parseFloat(pricing.sixMonthTotal) / 365).toFixed(2) },
+      { name: `⭐ ${t.onePayment} — ${t.save} 5%`, payment: `$${pricing.pif}`, total: pricing.pif, daily: (parseFloat(pricing.pif) / 365).toFixed(2) },
     ] : [
       { name: `${t.monthly} (${nPay} ${t.payments})`, payment: `$${pricing.monthly}/${t.monthly.toLowerCase().slice(0,2)}`, total: pricing.monthlyTotal, daily: (parseFloat(pricing.monthlyTotal) / 365).toFixed(2) },
       { name: `3-${t.monthly} (${pricing.threeMonthPayments||3} ${t.payments}) — ${t.save} 10%`, payment: `$${pricing.threeMonth} x ${pricing.threeMonthPayments||3}`, total: pricing.threeMonthTotal, daily: (parseFloat(pricing.threeMonthTotal) / 365).toFixed(2) },
@@ -572,27 +572,29 @@ Store: ${store.StoreName}
     coopUnlocked = {};
   }
 
-  // Summer Promo pricing — same discount structure as standard
+  // Summer Promo pricing — NO padding, NO discounts except 5% PIF
   function calcPromoPricing(basePrice, quarters = 4, noPad = false) {
     const prod = 125;
-    const pad = noPad ? 0 : ($padAmount != null ? $padAmount : 1200);
-    const paddedBase = basePrice + pad;
+    // Summer promo: no padding ever
     const qFactor = quarters / 4;
-    const scaledBase = paddedBase * qFactor;
+    const scaledBase = basePrice * qFactor;
+    const total = scaledBase + prod * qFactor;
+    const threePayments = Math.ceil(quarters * 3 / 3);
+    const sixPayments = Math.ceil(quarters * 3 / 6);
     return {
       quarters,
-      monthly: ((scaledBase + prod * qFactor) / (quarters * 3)).toFixed(2),
-      monthlyTotal: (scaledBase + prod * qFactor).toFixed(2),
+      monthly: (total / (quarters * 3)).toFixed(2),
+      monthlyTotal: total.toFixed(2),
       monthlyPayments: quarters * 3,
-      threeMonth: (((scaledBase * 0.90) + prod * qFactor) / Math.ceil(quarters * 3 / 3)).toFixed(2),
-      threeMonthTotal: ((scaledBase * 0.90) + prod * qFactor).toFixed(2),
-      threeMonthPayments: Math.ceil(quarters * 3 / 3),
-      sixMonth: (((scaledBase * 0.925) + prod * qFactor) / Math.ceil(quarters * 3 / 6)).toFixed(2),
-      sixMonthTotal: ((scaledBase * 0.925) + prod * qFactor).toFixed(2),
-      sixMonthPayments: Math.ceil(quarters * 3 / 6),
-      pif: ((scaledBase * 0.85) + prod * qFactor).toFixed(2),
-      savings: (scaledBase * 0.15).toFixed(2),
-      unpaddedTotal: ((basePrice + prod) * qFactor).toFixed(2),
+      threeMonth: (total / threePayments).toFixed(2),
+      threeMonthTotal: total.toFixed(2),
+      threeMonthPayments: threePayments,
+      sixMonth: (total / sixPayments).toFixed(2),
+      sixMonthTotal: total.toFixed(2),
+      sixMonthPayments: sixPayments,
+      pif: ((scaledBase * 0.95) + prod * qFactor).toFixed(2),
+      savings: (scaledBase * 0.05).toFixed(2),
+      unpaddedTotal: total.toFixed(2),
     };
   }
 
@@ -849,7 +851,7 @@ Store: ${store.StoreName}
     </button>
   </div>
   {#if pricingMode === 'summer_promo'}
-    <div class="promo-banner">🏆 Summer Sales Contest Active · Full Rate + Free Quarter · 5% PIF Discount Only</div>
+    <div class="promo-banner">🏆 Summer Sales Contest Active · No Padding · 5% PIF Discount Only</div>
   {/if}
 
   {#if $error}
@@ -965,7 +967,7 @@ Store: ${store.StoreName}
                   </div>
                   <div class="price-row highlight">
                     <span class="price-label">Paid in Full</span>
-                    <span class="price-value pif">${pricing.pif} (15% off)</span>
+                    <span class="price-value pif">${pricing.pif} ({isPromo ? '5' : '15'}% off)</span>
                   </div>
                 </div>
                 {#if isPromo && currentQuarters >= 4}
@@ -987,13 +989,7 @@ Store: ${store.StoreName}
 
                 <!-- Co-Op Unlock / Remove Padding -->
                 {#if isPromo}
-                <button
-                  class="coop-btn"
-                  class:unlocked={coopUnlocked[store.StoreName]}
-                  on:click={() => unlockCoop(store.StoreName)}
-                >
-                  {coopUnlocked[store.StoreName] ? '🔓 Padding Removed — Tap to Reset' : '🔒 Remove Padding (Manager)'}
-                </button>
+                <!-- No padding toggle needed — summer promo is always no padding -->
                 {:else}
                 <button
                   class="coop-btn"
@@ -1056,8 +1052,8 @@ Store: ${store.StoreName}
 
                 <div class="plan-card" on:click={() => handleAddToCart(store, currentAdType, 'threeMonth')}>
                   <div class="plan-header">
-                    <span class="plan-name">📦 3-Month</span>
-                    <span class="plan-badge save">Save 10%</span>
+                    <span class="plan-name">📦 {isPromo ? 'Paid in 3' : '3-Month'}</span>
+                    <span class="plan-badge{isPromo ? '' : ' save'}">{isPromo ? `${pricing.threeMonthPayments} installments` : 'Save 10%'}</span>
                   </div>
                   <div class="plan-price">${pricing.threeMonth}<span class="per"> × {pricing.threeMonthPayments}</span></div>
                   <div class="plan-total">Total: ${pricing.threeMonthTotal}</div>
@@ -1068,8 +1064,8 @@ Store: ${store.StoreName}
 
                 <div class="plan-card" on:click={() => handleAddToCart(store, currentAdType, 'sixMonth')}>
                   <div class="plan-header">
-                    <span class="plan-name">📦 6-Month</span>
-                    <span class="plan-badge save">Save 7.5%</span>
+                    <span class="plan-name">📦 {isPromo ? 'Paid in 6' : '6-Month'}</span>
+                    <span class="plan-badge{isPromo ? '' : ' save'}">{isPromo ? `${pricing.sixMonthPayments} installments` : 'Save 7.5%'}</span>
                   </div>
                   <div class="plan-price">${pricing.sixMonth}<span class="per"> × {pricing.sixMonthPayments}</span></div>
                   <div class="plan-total">Total: ${pricing.sixMonthTotal}</div>
@@ -1081,7 +1077,7 @@ Store: ${store.StoreName}
                 <div class="plan-card best" on:click={() => handleAddToCart(store, currentAdType, 'pif')}>
                   <div class="plan-header">
                     <span class="plan-name">⭐ Paid in Full</span>
-                    <span class="plan-badge best-badge">Best Deal — 15% off</span>
+                    <span class="plan-badge best-badge">Best Deal — {isPromo ? '5' : '15'}% off</span>
                   </div>
                   <div class="plan-price">${pricing.pif}</div>
                   <div class="plan-total">One payment — Save ${pricing.savings}</div>
