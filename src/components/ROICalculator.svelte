@@ -4,10 +4,14 @@
   let investment = 3500;
   let avgSpend = 50;
   let newCustomers = 25;
+  let couponRedemptions = 15;
   let cogsPercent = 35;
   
   // Compounding factor: 12 * 13 / 2 = 78
-  $: grossRevenue = newCustomers * avgSpend * 78;
+  $: customerRevenue = newCustomers * avgSpend * 78;
+  // Coupon redemptions: steady recurring monthly stream over 12 months
+  $: couponRevenue = couponRedemptions * avgSpend * 12;
+  $: grossRevenue = customerRevenue + couponRevenue;
   $: cogs = grossRevenue * (cogsPercent / 100);
   $: netRevenue = grossRevenue - cogs;
   $: netProfit = netRevenue - investment;
@@ -38,6 +42,12 @@
     </div>
     
     <div class="input-group">
+      <label>Coupon Redemptions / Month</label>
+      <input type="range" min="0" max="200" step="1" bind:value={couponRedemptions}>
+      <span class="value">{couponRedemptions}</span>
+    </div>
+    
+    <div class="input-group">
       <label>COGS %</label>
       <input type="range" min="0" max="70" step="5" bind:value={cogsPercent}>
       <span class="value">{cogsPercent}%</span>
@@ -45,6 +55,16 @@
   </div>
   
   <div class="results">
+    <div class="result-card">
+      <div class="result-label">New Customer Revenue</div>
+      <div class="result-value">${customerRevenue.toLocaleString()}</div>
+    </div>
+    
+    <div class="result-card">
+      <div class="result-label">Coupon Redemption Revenue</div>
+      <div class="result-value">${couponRevenue.toLocaleString()}</div>
+    </div>
+    
     <div class="result-card">
       <div class="result-label">Gross Annual Revenue</div>
       <div class="result-value">${grossRevenue.toLocaleString()}</div>
@@ -76,7 +96,7 @@
     </div>
   </div>
   
-  <p class="formula-note">Formula: {newCustomers} customers × ${avgSpend} spend × 78 (compounding monthly). Each month adds {newCustomers} new customers who keep returning.</p>
+  <p class="formula-note">New customers: {newCustomers} × ${avgSpend} × 78 (compounding monthly — each month adds {newCustomers} new repeat customers). Coupons: {couponRedemptions} redemptions × ${avgSpend} × 12 months (steady recurring stream).</p>
 </div>
 
 <style>
