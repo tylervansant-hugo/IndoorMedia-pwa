@@ -1,0 +1,1452 @@
+[
+  {
+    "event_id": "2kvke9veu3sksm9jpqavnv1das@google.com",
+    "title": "Visit: Taqueria El Huarache Poulsbo",
+    "start": "2026-06-04T21:00:00.000Z",
+    "end": "2026-06-04T22:00:00.000Z",
+    "location": "19494 7th Ave NE, Poulsbo, WA 98370, USA",
+    "description": "Prospect: Taqueria El Huarache Poulsbo\nAddress: 19494 7th Ave NE, Poulsbo, WA 98370, USA\nPhone: (360) 930-8983\nWebsite: https://taqueriaelhuarachepoulsbo.com/\nStore: Safeway SAF07X-3148\nRep: Tyler Van Sant",
+    "attendees": [
+      {
+        "email": "ryan.rohner-talton@indoormedia.com",
+        "name": ""
+      }
+    ],
+    "creator": "tyler.vansant@indoormedia.com",
+    "is_prospect_visit": true
+  },
+  {
+    "event_id": "cphmcc1gccs62b9icgqm6b9kc5ij2bb2c5i3ibb56ks30e9o6oo6ap1p74@google.com",
+    "title": "Visit: Healthy bite",
+    "start": "2026-06-04T21:15:00.000Z",
+    "end": "2026-06-04T22:15:00.000Z",
+    "location": "3553 SE Hawthorne Blvd, Portland, OR 97214, USA",
+    "description": "Prospect: Healthy bite\nAddress: 3553 SE Hawthorne Blvd, Portland, OR 97214, USA\nPhone: (503) 449-8012\nWebsite: https://healthybite9.godaddysites.com/\nStore: Fred Meyer FME07Z-0135\nRep: Megan Wink",
+    "attendees": [
+      {
+        "email": "tyler.vansant@indoormedia.com",
+        "name": ""
+      }
+    ],
+    "creator": "megan.wink@indoormedia.com",
+    "is_prospect_visit": true
+  },
+  {
+    "event_id": "6sq62dhgcgpm8bb471ijgb9k6dim4b9p6hij2bb66dj3cd3174sjec1n6o@google.com",
+    "title": "Visit: Tomo Ramen and Izakaya W/Mungie",
+    "start": "2026-06-04T22:45:00.000Z",
+    "end": "2026-06-04T23:45:00.000Z",
+    "location": "4807 SE Woodstock Blvd, Portland, OR 97206, USA",
+    "description": "Prospect: Tomo Ramen and Izakaya\nAddress: 4807 SE Woodstock Blvd, Portland, OR 97206, USA\nPhone: (503) 595-3500\nWebsite: http://tomoramenpdx.com/\nStore: Safeway SAF07Z-1523\nRep: Megan Wink",
+    "attendees": [
+      {
+        "email": "tyler.vansant@indoormedia.com",
+        "name": ""
+      }
+    ],
+    "creator": "megan.wink@indoormedia.com",
+    "is_prospect_visit": true
+  },
+  {
+    "event_id": "CB9F4EF3-1924-4F3A-B9FE-48BA35558E38",
+    "title": "Take out garbage - STOP what I\u2019m doing or I will forget",
+    "start": "2026-06-05T03:00:00.000Z",
+    "end": "2026-06-05T04:00:00.000Z",
+    "location": "",
+    "description": "",
+    "attendees": [],
+    "creator": "tyler.vansant@indoormedia.com",
+    "is_prospect_visit": false
+  },
+  {
+    "event_id": "3p2qcov113eb3n56sjv1hsh9e8@google.com",
+    "title": "Send out Delivery/renewal reports to reps",
+    "start": "2026-06-05T16:00:00.000Z",
+    "end": "2026-06-05T17:00:00.000Z",
+    "location": "",
+    "description": "",
+    "attendees": [],
+    "creator": "tyler.vansant@indoormedia.com",
+    "is_prospect_visit": false
+  },
+  {
+    "event_id": "3ikgv783itldma3rp0qcv6pv3o@google.com",
+    "title": "\ud83d\udce6 Install Q2: Childs Play Learning Center at Fred Meyer, Houston, Fred Meyer-0093",
+    "start": "2026-06-05T17:00:00.000Z",
+    "end": "2026-06-05T18:00:00.000Z",
+    "location": "",
+    "description": "INSTALL QUARTER 2 (90 days in)\nContract: J426022E\nBusiness: Childs Play Learning Center\nCustomer: Jeanene Dunham\nRep: Megan Wink\nStore: Fred Meyer Fred Meyer-0093, Houston\nEst. Start: 03/17/2026\n\nInstall tape at Childs Play Learning Center.",
+    "attendees": [
+      {
+        "email": "megan.wink@indoormedia.com",
+        "name": ""
+      }
+    ],
+    "creator": "tyler.vansant@indoormedia.com",
+    "is_prospect_visit": false
+  },
+  {
+    "event_id": "ec3mrqbnieg303oo6sis6amn1g@google.com",
+    "title": "\ud83d\udce6 Install Q2: Los Bros Taco Shop at Fred Meyer, Portland, Fred Meyer-0360",
+    "start": "2026-06-05T17:00:00.000Z",
+    "end": "2026-06-05T18:00:00.000Z",
+    "location": "",
+    "description": "INSTALL QUARTER 2 (90 days in)\nContract: J426204E\nBusiness: Los Bros Taco Shop\nCustomer: Eleazar Gonzalez\nRep: Dave Boring\nStore: Fred Meyer Fred Meyer-0360, Portland\nEst. Start: 03/17/2026\n\nInstall tape at Los Bros Taco Shop.",
+    "attendees": [
+      {
+        "email": "dave.boring@indoormedia.com",
+        "name": ""
+      }
+    ],
+    "creator": "tyler.vansant@indoormedia.com",
+    "is_prospect_visit": false
+  },
+  {
+    "event_id": "67j5vkavcvbves0noa02pb6e9s@google.com",
+    "title": "\ud83d\udce6 Install Q1: Sergio's General Construction at Safeway, Bothell, Safeway-1864",
+    "start": "2026-06-07T17:00:00.000Z",
+    "end": "2026-06-07T18:00:00.000Z",
+    "location": "",
+    "description": "INSTALL QUARTER 1 (0 days in)\nContract: J431130E\nBusiness: Sergio's General Construction\nCustomer: Sergio Dominguez\nRep: Richard Diamond\nStore: Safeway Safeway-1864, Bothell\nEst. Start: 06/17/2026\nTerm: 4Q (12 months)\n\nInstall tape at Sergio's General Construction.",
+    "attendees": [
+      {
+        "email": "richard.diamond@indoormedia.com",
+        "name": ""
+      }
+    ],
+    "creator": "tyler.vansant@indoormedia.com",
+    "is_prospect_visit": false
+  },
+  {
+    "event_id": "g560l8csoqntmv99hoouhofb2g@google.com",
+    "title": "\ud83d\udce6 Install Q1: Sergio's General Construction at Safeway, Bothell, Safeway-1864",
+    "start": "2026-06-07T17:00:00.000Z",
+    "end": "2026-06-07T18:00:00.000Z",
+    "location": "",
+    "description": "INSTALL QUARTER 1 (0 days in)\nContract: J431130E\nBusiness: Sergio's General Construction\nCustomer: Sergio Dominguez\nRep: Richard Diamond\nStore: Safeway Safeway-1864, Bothell\nEst. Start: 06/17/2026\nTerm: 4Q (12 months)\n\nInstall tape at Sergio's General Construction.",
+    "attendees": [
+      {
+        "email": "richard.diamond@indoormedia.com",
+        "name": ""
+      }
+    ],
+    "creator": "tyler.vansant@indoormedia.com",
+    "is_prospect_visit": false
+  },
+  {
+    "event_id": "n2414vfl42i99bfgm7k8bp1cms@google.com",
+    "title": "\ud83d\udce6 Install Q1: Penny's pizza at Safeway, Salem, Safeway-0412",
+    "start": "2026-06-07T17:00:00.000Z",
+    "end": "2026-06-07T18:00:00.000Z",
+    "location": "",
+    "description": "INSTALL QUARTER 1 (0 days in)\nContract: J430966E\nBusiness: Penny's pizza\nCustomer: Brian Ott\nRep: Megan Wink\nStore: Safeway Safeway-0412, Salem\nEst. Start: 06/17/2026\n\nInstall tape at Penny's pizza.",
+    "attendees": [
+      {
+        "email": "megan.wink@indoormedia.com",
+        "name": ""
+      }
+    ],
+    "creator": "tyler.vansant@indoormedia.com",
+    "is_prospect_visit": false
+  },
+  {
+    "event_id": "229r9l9s2him5dttvv3mcefn6k@google.com",
+    "title": "\ud83d\udce6 Install Q1: Penny's pizza at Safeway, Salem, Safeway-0412",
+    "start": "2026-06-07T17:00:00.000Z",
+    "end": "2026-06-07T18:00:00.000Z",
+    "location": "",
+    "description": "INSTALL QUARTER 1 (0 days in)\nContract: J430966E\nBusiness: Penny's pizza\nCustomer: Brian Ott\nRep: Megan Wink\nStore: Safeway Safeway-0412, Salem\nEst. Start: 06/17/2026\n\nInstall tape at Penny's pizza.",
+    "attendees": [
+      {
+        "email": "megan.wink@indoormedia.com",
+        "name": ""
+      }
+    ],
+    "creator": "tyler.vansant@indoormedia.com",
+    "is_prospect_visit": false
+  },
+  {
+    "event_id": "j5aj1f3gv1piqgfk190daqldc4@google.com",
+    "title": "\ud83d\udce6 Install Q1: Ink & Drink at Safeway, Gresham, Safeway-0430",
+    "start": "2026-06-07T17:00:00.000Z",
+    "end": "2026-06-07T18:00:00.000Z",
+    "location": "",
+    "description": "INSTALL QUARTER 1 (0 days in)\nContract: J430533E\nBusiness: Ink & Drink\nCustomer: Ben Berry\nRep: Megan Wink\nStore: Safeway Safeway-0430, Gresham\nEst. Start: 06/17/2026\n\nInstall tape at Ink & Drink.",
+    "attendees": [
+      {
+        "email": "megan.wink@indoormedia.com",
+        "name": ""
+      }
+    ],
+    "creator": "tyler.vansant@indoormedia.com",
+    "is_prospect_visit": false
+  },
+  {
+    "event_id": "ncu384bnnj4c07hten2sqpqbk8@google.com",
+    "title": "\ud83d\udce6 Install Q1: Ink & Drink at Safeway, Gresham, Safeway-0430",
+    "start": "2026-06-07T17:00:00.000Z",
+    "end": "2026-06-07T18:00:00.000Z",
+    "location": "",
+    "description": "INSTALL QUARTER 1 (0 days in)\nContract: J430533E\nBusiness: Ink & Drink\nCustomer: Ben Berry\nRep: Megan Wink\nStore: Safeway Safeway-0430, Gresham\nEst. Start: 06/17/2026\n\nInstall tape at Ink & Drink.",
+    "attendees": [
+      {
+        "email": "megan.wink@indoormedia.com",
+        "name": ""
+      }
+    ],
+    "creator": "tyler.vansant@indoormedia.com",
+    "is_prospect_visit": false
+  },
+  {
+    "event_id": "dqrs1bc8ddu77508b66om4ui7s@google.com",
+    "title": "\ud83d\udce6 Install Q1: Cal's Moving & Storage at Safeway, West Linn, Safeway-1713",
+    "start": "2026-06-07T17:00:00.000Z",
+    "end": "2026-06-07T18:00:00.000Z",
+    "location": "",
+    "description": "INSTALL QUARTER 1 (0 days in)\nContract: D430557E\nBusiness: Cal's Moving & Storage\nCustomer: Calvin Krech\nRep: Jan Banks\nStore: Safeway Safeway-1713, West Linn\nEst. Start: 06/17/2026\n\nInstall tape at Cal's Moving & Storage.",
+    "attendees": [
+      {
+        "email": "jan.banks@indoormedia.com",
+        "name": ""
+      }
+    ],
+    "creator": "tyler.vansant@indoormedia.com",
+    "is_prospect_visit": false
+  },
+  {
+    "event_id": "jmbr79bk1di7cu51367ucajfdc@google.com",
+    "title": "\ud83d\udce6 Install Q1: La Cocina Oaxaca at Safeway, Gresham, Safeway-0430",
+    "start": "2026-06-07T17:00:00.000Z",
+    "end": "2026-06-07T18:00:00.000Z",
+    "location": "",
+    "description": "INSTALL QUARTER 1 (0 days in)\nContract: J429649E\nBusiness: La Cocina Oaxaca\nCustomer: Lucila Alvarado-Cruz\nRep: Megan Wink\nStore: Safeway Safeway-0430, Gresham\nEst. Start: 06/17/2026\n\nInstall tape at La Cocina Oaxaca.",
+    "attendees": [
+      {
+        "email": "megan.wink@indoormedia.com",
+        "name": ""
+      }
+    ],
+    "creator": "tyler.vansant@indoormedia.com",
+    "is_prospect_visit": false
+  },
+  {
+    "event_id": "16uk4ci0tpsvap7p4toc93rv1g@google.com",
+    "title": "\ud83d\udce6 Install Q1: La Cocina Oaxaca at Safeway, Gresham, Safeway-0430",
+    "start": "2026-06-07T17:00:00.000Z",
+    "end": "2026-06-07T18:00:00.000Z",
+    "location": "",
+    "description": "INSTALL QUARTER 1 (0 days in)\nContract: J429649E\nBusiness: La Cocina Oaxaca\nCustomer: Lucila Alvarado-Cruz\nRep: Megan Wink\nStore: Safeway Safeway-0430, Gresham\nEst. Start: 06/17/2026\n\nInstall tape at La Cocina Oaxaca.",
+    "attendees": [
+      {
+        "email": "megan.wink@indoormedia.com",
+        "name": ""
+      }
+    ],
+    "creator": "tyler.vansant@indoormedia.com",
+    "is_prospect_visit": false
+  },
+  {
+    "event_id": "svcgahvmrv15itotq6t8pjj90g@google.com",
+    "title": "\ud83d\udce6 Install Q1: Toni\u2019s Ponies at Safeway, Kingston, Safeway-0186",
+    "start": "2026-06-07T17:00:00.000Z",
+    "end": "2026-06-07T18:00:00.000Z",
+    "location": "",
+    "description": "INSTALL QUARTER 1 (0 days in)\nContract: J430393E\nBusiness: Toni\u2019s Ponies\nCustomer: Toni Houck\nRep: Tyler VanSant\nStore: Safeway Safeway-0186, Kingston\nEst. Start: 06/17/2026\n\nInstall tape at Toni\u2019s Ponies.",
+    "attendees": [],
+    "creator": "tyler.vansant@indoormedia.com",
+    "is_prospect_visit": false
+  },
+  {
+    "event_id": "6ktj4ectuonuv7bh8614juupf4@google.com",
+    "title": "\ud83d\udce6 Install Q1: Tres Compadres Taqueria at Safeway, Kingston, Safeway-0186",
+    "start": "2026-06-07T17:00:00.000Z",
+    "end": "2026-06-07T18:00:00.000Z",
+    "location": "",
+    "description": "INSTALL QUARTER 1 (0 days in)\nContract: J430429E\nBusiness: Tres Compadres Taqueria\nCustomer: Roberto Garcia\nRep: Tyler VanSant\nStore: Safeway Safeway-0186, Kingston\nEst. Start: 06/17/2026\n\nInstall tape at Tres Compadres Taqueria.",
+    "attendees": [],
+    "creator": "tyler.vansant@indoormedia.com",
+    "is_prospect_visit": false
+  },
+  {
+    "event_id": "fq8aa3ifv1e4f7nps97v5d7gdc@google.com",
+    "title": "\ud83d\udce6 Install Q1: Green Bee's Landscaping at Safeway, Milwaukie, Safeway-2696",
+    "start": "2026-06-07T17:00:00.000Z",
+    "end": "2026-06-07T18:00:00.000Z",
+    "location": "",
+    "description": "INSTALL QUARTER 1 (0 days in)\nContract: J429914E\nBusiness: Green Bee's Landscaping\nCustomer: Hector Sanchez\nRep: Jan Banks\nStore: Safeway Safeway-2696, Milwaukie\nEst. Start: 06/17/2026\n\nInstall tape at Green Bee's Landscaping.",
+    "attendees": [
+      {
+        "email": "jan.banks@indoormedia.com",
+        "name": ""
+      }
+    ],
+    "creator": "tyler.vansant@indoormedia.com",
+    "is_prospect_visit": false
+  },
+  {
+    "event_id": "nnbf6mi0bkt4oc9qs2o95falpc@google.com",
+    "title": "\ud83d\udce6 Install Q1: Ridgefield Travel Center at Rosauers, Ridgefield, Rosauers-0042",
+    "start": "2026-06-07T17:00:00.000Z",
+    "end": "2026-06-07T18:00:00.000Z",
+    "location": "",
+    "description": "INSTALL QUARTER 1 (0 days in)\nContract: J428973E\nBusiness: Ridgefield Travel Center\nCustomer: Jaswander Singh\nRep: Adan Ramos\nStore: Rosauers Rosauers-0042, Ridgefield\nEst. Start: 06/17/2026\n\nInstall tape at Ridgefield Travel Center.",
+    "attendees": [
+      {
+        "email": "adan.ramos@indoormedia.com",
+        "name": ""
+      }
+    ],
+    "creator": "tyler.vansant@indoormedia.com",
+    "is_prospect_visit": false
+  },
+  {
+    "event_id": "tb9s2meh0gddgtaof51hlmsa2k@google.com",
+    "title": "\ud83d\udce6 Install Q1: Men\u2019s Barber at Rosauers, Ridgefield, Rosauers-0042",
+    "start": "2026-06-07T17:00:00.000Z",
+    "end": "2026-06-07T18:00:00.000Z",
+    "location": "",
+    "description": "INSTALL QUARTER 1 (0 days in)\nContract: J430003E\nBusiness: Men\u2019s Barber\nCustomer: Hung Truong\nRep: Adan Ramos\nStore: Rosauers Rosauers-0042, Ridgefield\nEst. Start: 06/17/2026\n\nInstall tape at Men\u2019s Barber.",
+    "attendees": [
+      {
+        "email": "adan.ramos@indoormedia.com",
+        "name": ""
+      }
+    ],
+    "creator": "tyler.vansant@indoormedia.com",
+    "is_prospect_visit": false
+  },
+  {
+    "event_id": "qk2nr8d0veorrqd8q0cuqp3ka8@google.com",
+    "title": "\ud83d\udce6 Install Q1: Men\u2019s Barber at Rosauers, Ridgefield, Rosauers-0042",
+    "start": "2026-06-07T17:00:00.000Z",
+    "end": "2026-06-07T18:00:00.000Z",
+    "location": "",
+    "description": "INSTALL QUARTER 1 (0 days in)\nContract: J430003E\nBusiness: Men\u2019s Barber\nCustomer: Hung Truong\nRep: Adan Ramos\nStore: Rosauers Rosauers-0042, Ridgefield\nEst. Start: 06/17/2026\n\nInstall tape at Men\u2019s Barber.",
+    "attendees": [
+      {
+        "email": "adan.ramos@indoormedia.com",
+        "name": ""
+      }
+    ],
+    "creator": "tyler.vansant@indoormedia.com",
+    "is_prospect_visit": false
+  },
+  {
+    "event_id": "mqmkf50gbrn4bfedgu5uh309bo@google.com",
+    "title": "\ud83d\udce6 Install Q1: El Ricon Taqueria at Safeway, Hood River, Safeway-1123",
+    "start": "2026-06-07T17:00:00.000Z",
+    "end": "2026-06-07T18:00:00.000Z",
+    "location": "",
+    "description": "INSTALL QUARTER 1 (0 days in)\nContract: J428795E\nBusiness: El Ricon Taqueria\nCustomer: Mario Bobadilla\nRep: Megan Wink\nStore: Safeway Safeway-1123, Hood River\nEst. Start: 06/17/2026\n\nInstall tape at El Ricon Taqueria.",
+    "attendees": [
+      {
+        "email": "megan.wink@indoormedia.com",
+        "name": ""
+      }
+    ],
+    "creator": "tyler.vansant@indoormedia.com",
+    "is_prospect_visit": false
+  },
+  {
+    "event_id": "gv319skpcv75hshbqak4q79uss@google.com",
+    "title": "\ud83d\udce6 Install Q1: El Ricon Taqueria at Safeway, Hood River, Safeway-1123",
+    "start": "2026-06-07T17:00:00.000Z",
+    "end": "2026-06-07T18:00:00.000Z",
+    "location": "",
+    "description": "INSTALL QUARTER 1 (0 days in)\nContract: J428795E\nBusiness: El Ricon Taqueria\nCustomer: Mario Bobadilla\nRep: Megan Wink\nStore: Safeway Safeway-1123, Hood River\nEst. Start: 06/17/2026\n\nInstall tape at El Ricon Taqueria.",
+    "attendees": [
+      {
+        "email": "megan.wink@indoormedia.com",
+        "name": ""
+      }
+    ],
+    "creator": "tyler.vansant@indoormedia.com",
+    "is_prospect_visit": false
+  },
+  {
+    "event_id": "tf6det55q0l4jrgu5u423gb10k@google.com",
+    "title": "\ud83d\udce6 Install Q1: Muchas Gracias - 28th St. at Safeway, Vancouver, Safeway-1653",
+    "start": "2026-06-07T17:00:00.000Z",
+    "end": "2026-06-07T18:00:00.000Z",
+    "location": "",
+    "description": "INSTALL QUARTER 1 (0 days in)\nContract: J428957E\nBusiness: Muchas Gracias - 28th St.\nCustomer: Rodolfo Sanchez, Jr.\nRep: Dave Boring\nStore: Safeway Safeway-1653, Vancouver\nEst. Start: 06/17/2026\n\nInstall tape at Muchas Gracias - 28th St..",
+    "attendees": [
+      {
+        "email": "dave.boring@indoormedia.com",
+        "name": ""
+      }
+    ],
+    "creator": "tyler.vansant@indoormedia.com",
+    "is_prospect_visit": false
+  },
+  {
+    "event_id": "07l3kgg7mrs6o2tfj3crh0c7u4@google.com",
+    "title": "\ud83d\udce6 Install Q1: Mami\u2019s Mexican Grill at Fred Meyer, Eugene, Fred Meyer-0325",
+    "start": "2026-06-07T17:00:00.000Z",
+    "end": "2026-06-07T18:00:00.000Z",
+    "location": "",
+    "description": "INSTALL QUARTER 1 (0 days in)\nContract: J427203E\nBusiness: Mami\u2019s Mexican Grill\nCustomer: Benjamin and Rossy Magana\nRep: Matthew Boozer\nStore: Fred Meyer Fred Meyer-0325, Eugene\nEst. Start: 06/17/2026\n\nInstall tape at Mami\u2019s Mexican Grill.",
+    "attendees": [
+      {
+        "email": "matthew.boozer@indoormedia.com",
+        "name": ""
+      }
+    ],
+    "creator": "tyler.vansant@indoormedia.com",
+    "is_prospect_visit": false
+  },
+  {
+    "event_id": "6g0pavju8psu3t5b83gju30vas@google.com",
+    "title": "\ud83d\udce6 Install Q1: Mami\u2019s Mexican Grill at Fred Meyer, Eugene, Fred Meyer-0325",
+    "start": "2026-06-07T17:00:00.000Z",
+    "end": "2026-06-07T18:00:00.000Z",
+    "location": "",
+    "description": "INSTALL QUARTER 1 (0 days in)\nContract: J427203E\nBusiness: Mami\u2019s Mexican Grill\nCustomer: Benjamin and Rossy Magana\nRep: Matthew Boozer\nStore: Fred Meyer Fred Meyer-0325, Eugene\nEst. Start: 06/17/2026\n\nInstall tape at Mami\u2019s Mexican Grill.",
+    "attendees": [
+      {
+        "email": "matthew.boozer@indoormedia.com",
+        "name": ""
+      }
+    ],
+    "creator": "tyler.vansant@indoormedia.com",
+    "is_prospect_visit": false
+  },
+  {
+    "event_id": "joi121ofi4jta7fujhpsp0gedc@google.com",
+    "title": "\ud83d\udce6 Install Q1: Kim\u2019s Asian Cuisine at Fred Meyer, Eugene, Fred Meyer-0325",
+    "start": "2026-06-07T17:00:00.000Z",
+    "end": "2026-06-07T18:00:00.000Z",
+    "location": "",
+    "description": "INSTALL QUARTER 1 (0 days in)\nContract: J427617E\nBusiness: Kim\u2019s Asian Cuisine\nCustomer: Huan Truong\nRep: Matthew Boozer\nStore: Fred Meyer Fred Meyer-0325, Eugene\nEst. Start: 06/17/2026\n\nInstall tape at Kim\u2019s Asian Cuisine.",
+    "attendees": [
+      {
+        "email": "matthew.boozer@indoormedia.com",
+        "name": ""
+      }
+    ],
+    "creator": "tyler.vansant@indoormedia.com",
+    "is_prospect_visit": false
+  },
+  {
+    "event_id": "ecj6mnovpeg3aaql5hjedcqqqs@google.com",
+    "title": "\ud83d\udce6 Install Q1: Restaurant Taqueria Don Jose at Safeway, Vancouver, Safeway-0400",
+    "start": "2026-06-07T17:00:00.000Z",
+    "end": "2026-06-07T18:00:00.000Z",
+    "location": "",
+    "description": "INSTALL QUARTER 1 (0 days in)\nContract: J426608E\nBusiness: Restaurant Taqueria Don Jose\nCustomer: Jose Vazquez\nRep: Dave Boring\nStore: Safeway Safeway-0400, Vancouver\nEst. Start: 06/17/2026\n\nInstall tape at Restaurant Taqueria Don Jose.",
+    "attendees": [
+      {
+        "email": "dave.boring@indoormedia.com",
+        "name": ""
+      }
+    ],
+    "creator": "tyler.vansant@indoormedia.com",
+    "is_prospect_visit": false
+  },
+  {
+    "event_id": "n1hc5lt46vdamicknpalpiv5uc@google.com",
+    "title": "\ud83d\udce6 Install Q1: Clean Juice Eugene at Safeway, Eugene, Safeway-0420",
+    "start": "2026-06-07T17:00:00.000Z",
+    "end": "2026-06-07T18:00:00.000Z",
+    "location": "",
+    "description": "INSTALL QUARTER 1 (0 days in)\nContract: J427207E\nBusiness: Clean Juice Eugene\nCustomer: Mike Morgan\nRep: Matthew Boozer\nStore: Safeway Safeway-0420, Eugene\nEst. Start: 06/17/2026\n\nInstall tape at Clean Juice Eugene.",
+    "attendees": [
+      {
+        "email": "matthew.boozer@indoormedia.com",
+        "name": ""
+      }
+    ],
+    "creator": "tyler.vansant@indoormedia.com",
+    "is_prospect_visit": false
+  },
+  {
+    "event_id": "n2gmpf655c763tenqhgkcj3umo@google.com",
+    "title": "\ud83d\udce6 Install Q1: Clean Juice Eugene at Albertsons, Eugene, Albertsons-0572",
+    "start": "2026-06-07T17:00:00.000Z",
+    "end": "2026-06-07T18:00:00.000Z",
+    "location": "",
+    "description": "INSTALL QUARTER 1 (0 days in)\nContract: J424801E\nBusiness: Clean Juice Eugene\nCustomer: Mike Morgan\nRep: Matthew Boozer\nStore: Albertsons Albertsons-0572, Eugene\nEst. Start: 06/17/2026\n\nInstall tape at Clean Juice Eugene.",
+    "attendees": [
+      {
+        "email": "matthew.boozer@indoormedia.com",
+        "name": ""
+      }
+    ],
+    "creator": "tyler.vansant@indoormedia.com",
+    "is_prospect_visit": false
+  },
+  {
+    "event_id": "uo50v7f7t5u3i6r245e91a7u3k@google.com",
+    "title": "\ud83d\udce6 Install Q1: Kim\u2019s Asian Cuisine at Fred Meyer, Eugene, Fred Meyer-0325",
+    "start": "2026-06-07T17:00:00.000Z",
+    "end": "2026-06-07T18:00:00.000Z",
+    "location": "",
+    "description": "INSTALL QUARTER 1 (0 days in)\nContract: J427617E\nBusiness: Kim\u2019s Asian Cuisine\nCustomer: Huan Truong\nRep: Matthew Boozer\nStore: Fred Meyer Fred Meyer-0325, Eugene\nEst. Start: 06/17/2026\n\nInstall tape at Kim\u2019s Asian Cuisine.",
+    "attendees": [
+      {
+        "email": "matthew.boozer@indoormedia.com",
+        "name": ""
+      }
+    ],
+    "creator": "tyler.vansant@indoormedia.com",
+    "is_prospect_visit": false
+  },
+  {
+    "event_id": "u9r2bito8dittnollq92g76fnc@google.com",
+    "title": "\ud83d\udce6 Install Q1: St.Vincent de Paul Society of at Safeway, Junction City, Safeway-0386",
+    "start": "2026-06-07T17:00:00.000Z",
+    "end": "2026-06-07T18:00:00.000Z",
+    "location": "",
+    "description": "INSTALL QUARTER 1 (0 days in)\nContract: J428357E\nBusiness: St.Vincent de Paul Society of\nCustomer: Lane County Inc.\nRep: Matthew Boozer\nStore: Safeway Safeway-0386, Junction City\nEst. Start: 06/17/2026\n\nInstall tape at St.Vincent de Paul Society of.",
+    "attendees": [
+      {
+        "email": "matthew.boozer@indoormedia.com",
+        "name": ""
+      }
+    ],
+    "creator": "tyler.vansant@indoormedia.com",
+    "is_prospect_visit": false
+  },
+  {
+    "event_id": "1albt9cioni4ti00apq746428o@google.com",
+    "title": "\ud83d\udce6 Install Q1: La Belle Nails at Safeway, Eugene, Safeway-0420",
+    "start": "2026-06-07T17:00:00.000Z",
+    "end": "2026-06-07T18:00:00.000Z",
+    "location": "",
+    "description": "INSTALL QUARTER 1 (0 days in)\nContract: J427808E\nBusiness: La Belle Nails\nCustomer: Huan Truong\nRep: Matthew Boozer\nStore: Safeway Safeway-0420, Eugene\nEst. Start: 06/17/2026\n\nInstall tape at La Belle Nails.",
+    "attendees": [
+      {
+        "email": "matthew.boozer@indoormedia.com",
+        "name": ""
+      }
+    ],
+    "creator": "tyler.vansant@indoormedia.com",
+    "is_prospect_visit": false
+  },
+  {
+    "event_id": "6ggkbfqk2osor75lh1dd11iidc@google.com",
+    "title": "\ud83d\udce6 Install Q1: La Belle Nails at Safeway, Eugene, Safeway-0420",
+    "start": "2026-06-07T17:00:00.000Z",
+    "end": "2026-06-07T18:00:00.000Z",
+    "location": "",
+    "description": "INSTALL QUARTER 1 (0 days in)\nContract: J427808E\nBusiness: La Belle Nails\nCustomer: Huan Truong\nRep: Matthew Boozer\nStore: Safeway Safeway-0420, Eugene\nEst. Start: 06/17/2026\n\nInstall tape at La Belle Nails.",
+    "attendees": [
+      {
+        "email": "matthew.boozer@indoormedia.com",
+        "name": ""
+      }
+    ],
+    "creator": "tyler.vansant@indoormedia.com",
+    "is_prospect_visit": false
+  },
+  {
+    "event_id": "k2bgier4hsnflaof6estn9al60@google.com",
+    "title": "\ud83d\udce6 Install Q1: Bark Avenue Luxury Dog Care at Safeway, King City, Safeway-1478",
+    "start": "2026-06-07T17:00:00.000Z",
+    "end": "2026-06-07T18:00:00.000Z",
+    "location": "",
+    "description": "INSTALL QUARTER 1 (0 days in)\nContract: J428187E\nBusiness: Bark Avenue Luxury Dog Care\nCustomer: Beth Drake\nRep: Megan Wink\nStore: Safeway Safeway-1478, King City\nEst. Start: 06/17/2026\n\nInstall tape at Bark Avenue Luxury Dog Care.",
+    "attendees": [
+      {
+        "email": "megan.wink@indoormedia.com",
+        "name": ""
+      }
+    ],
+    "creator": "tyler.vansant@indoormedia.com",
+    "is_prospect_visit": false
+  },
+  {
+    "event_id": "q11kqlaso5mtsgi395edvn184o@google.com",
+    "title": "\ud83d\udce6 Install Q1: Bark Avenue Luxury Dog Care at Safeway, King City, Safeway-1478",
+    "start": "2026-06-07T17:00:00.000Z",
+    "end": "2026-06-07T18:00:00.000Z",
+    "location": "",
+    "description": "INSTALL QUARTER 1 (0 days in)\nContract: J428187E\nBusiness: Bark Avenue Luxury Dog Care\nCustomer: Beth Drake\nRep: Megan Wink\nStore: Safeway Safeway-1478, King City\nEst. Start: 06/17/2026\n\nInstall tape at Bark Avenue Luxury Dog Care.",
+    "attendees": [
+      {
+        "email": "megan.wink@indoormedia.com",
+        "name": ""
+      }
+    ],
+    "creator": "tyler.vansant@indoormedia.com",
+    "is_prospect_visit": false
+  },
+  {
+    "event_id": "2dr7esmd97pooga6t697idnpok@google.com",
+    "title": "\ud83d\udce6 Install Q1: Bark Avenue Luxury Dog Care at Safeway, King City, Safeway-1478",
+    "start": "2026-06-07T17:00:00.000Z",
+    "end": "2026-06-07T18:00:00.000Z",
+    "location": "",
+    "description": "INSTALL QUARTER 1 (0 days in)\nContract: J428189E\nBusiness: Bark Avenue Luxury Dog Care\nCustomer: Beth Drake\nRep: Megan Wink\nStore: Safeway Safeway-1478, King City\nEst. Start: 06/17/2026\n\nInstall tape at Bark Avenue Luxury Dog Care.",
+    "attendees": [
+      {
+        "email": "megan.wink@indoormedia.com",
+        "name": ""
+      }
+    ],
+    "creator": "tyler.vansant@indoormedia.com",
+    "is_prospect_visit": false
+  },
+  {
+    "event_id": "iunnut0eb3sca1vi6n4tn9uqv4@google.com",
+    "title": "\ud83d\udce6 Install Q1: Bark Avenue Luxury Dog Care at Safeway, King City, Safeway-1478",
+    "start": "2026-06-07T17:00:00.000Z",
+    "end": "2026-06-07T18:00:00.000Z",
+    "location": "",
+    "description": "INSTALL QUARTER 1 (0 days in)\nContract: J428189E\nBusiness: Bark Avenue Luxury Dog Care\nCustomer: Beth Drake\nRep: Megan Wink\nStore: Safeway Safeway-1478, King City\nEst. Start: 06/17/2026\n\nInstall tape at Bark Avenue Luxury Dog Care.",
+    "attendees": [
+      {
+        "email": "megan.wink@indoormedia.com",
+        "name": ""
+      }
+    ],
+    "creator": "tyler.vansant@indoormedia.com",
+    "is_prospect_visit": false
+  },
+  {
+    "event_id": "gur5e6k8ksmkpo6ibf2vg476pg@google.com",
+    "title": "Remind Reps to do Installs",
+    "start": "2026-06-07T17:00:00.000Z",
+    "end": "2026-06-07T18:00:00.000Z",
+    "location": "",
+    "description": "",
+    "attendees": [],
+    "creator": "tyler.vansant@indoormedia.com",
+    "is_prospect_visit": false
+  },
+  {
+    "event_id": "4a2735ne6kjo5pbiaigsim6cok@google.com",
+    "title": "Check Aging Report",
+    "start": "2026-06-08T16:00:00.000Z",
+    "end": "2026-06-08T17:00:00.000Z",
+    "location": "",
+    "description": "",
+    "attendees": [
+      {
+        "email": "richard.leibowitz@rtui.com",
+        "name": ""
+      }
+    ],
+    "creator": "tyler.vansant@indoormedia.com",
+    "is_prospect_visit": false
+  },
+  {
+    "event_id": "n17hi1rs1e3rsi09kfsr3pafe2_R20260106T170000@google.com",
+    "title": "Weekly 7Y & 7Z Oregon/Washington Team Kick-Off",
+    "start": "2026-06-09T16:00:00.000Z",
+    "end": "2026-06-09T16:30:00.000Z",
+    "location": "",
+    "description": "This will be our once a week opportunity to meet as a team to sharpen our skills, discuss what we are working on, and collaborate with each other",
+    "attendees": [
+      {
+        "email": "jan.banks@indoormedia.com",
+        "name": ""
+      },
+      {
+        "email": "adan.ramos@indoormedia.com",
+        "name": ""
+      },
+      {
+        "email": "anthony.eng@indoormedia.com",
+        "name": ""
+      },
+      {
+        "email": "tony.ortega@rtui.com",
+        "name": ""
+      },
+      {
+        "email": "christian.johnson@indoormedia.com",
+        "name": ""
+      },
+      {
+        "email": "dave.boring@indoormedia.com",
+        "name": ""
+      },
+      {
+        "email": "amy.dixon@rtui.com",
+        "name": ""
+      },
+      {
+        "email": "david.mordvinov@indoormedia.com",
+        "name": ""
+      },
+      {
+        "email": "richard.diamond@indoormedia.com",
+        "name": ""
+      },
+      {
+        "email": "kale.lundberg@indoormedia.com",
+        "name": ""
+      },
+      {
+        "email": "matthew.boozer@indoormedia.com",
+        "name": ""
+      },
+      {
+        "email": "ben.patacsil@indoormedia.com",
+        "name": ""
+      },
+      {
+        "email": "william.flerry@indoormedia.com",
+        "name": ""
+      },
+      {
+        "email": "megan.wink@indoormedia.com",
+        "name": ""
+      },
+      {
+        "email": "austin.dewitt@indoormedia.com",
+        "name": ""
+      }
+    ],
+    "creator": "tyler.vansant@indoormedia.com",
+    "is_prospect_visit": false
+  },
+  {
+    "event_id": "CB9F4EF3-1924-4F3A-B9FE-48BA35558E38",
+    "title": "Take out garbage - STOP what I\u2019m doing or I will forget",
+    "start": "2026-06-12T03:00:00.000Z",
+    "end": "2026-06-12T04:00:00.000Z",
+    "location": "",
+    "description": "",
+    "attendees": [],
+    "creator": "tyler.vansant@indoormedia.com",
+    "is_prospect_visit": false
+  },
+  {
+    "event_id": "4a2735ne6kjo5pbiaigsim6cok@google.com",
+    "title": "Check Aging Report",
+    "start": "2026-06-15T16:00:00.000Z",
+    "end": "2026-06-15T17:00:00.000Z",
+    "location": "",
+    "description": "",
+    "attendees": [
+      {
+        "email": "richard.leibowitz@rtui.com",
+        "name": ""
+      }
+    ],
+    "creator": "tyler.vansant@indoormedia.com",
+    "is_prospect_visit": false
+  },
+  {
+    "event_id": "n17hi1rs1e3rsi09kfsr3pafe2_R20260106T170000@google.com",
+    "title": "Weekly 7Y & 7Z Oregon/Washington Team Kick-Off",
+    "start": "2026-06-16T16:00:00.000Z",
+    "end": "2026-06-16T16:30:00.000Z",
+    "location": "",
+    "description": "This will be our once a week opportunity to meet as a team to sharpen our skills, discuss what we are working on, and collaborate with each other",
+    "attendees": [
+      {
+        "email": "jan.banks@indoormedia.com",
+        "name": ""
+      },
+      {
+        "email": "adan.ramos@indoormedia.com",
+        "name": ""
+      },
+      {
+        "email": "anthony.eng@indoormedia.com",
+        "name": ""
+      },
+      {
+        "email": "tony.ortega@rtui.com",
+        "name": ""
+      },
+      {
+        "email": "christian.johnson@indoormedia.com",
+        "name": ""
+      },
+      {
+        "email": "dave.boring@indoormedia.com",
+        "name": ""
+      },
+      {
+        "email": "amy.dixon@rtui.com",
+        "name": ""
+      },
+      {
+        "email": "david.mordvinov@indoormedia.com",
+        "name": ""
+      },
+      {
+        "email": "richard.diamond@indoormedia.com",
+        "name": ""
+      },
+      {
+        "email": "kale.lundberg@indoormedia.com",
+        "name": ""
+      },
+      {
+        "email": "matthew.boozer@indoormedia.com",
+        "name": ""
+      },
+      {
+        "email": "ben.patacsil@indoormedia.com",
+        "name": ""
+      },
+      {
+        "email": "william.flerry@indoormedia.com",
+        "name": ""
+      },
+      {
+        "email": "megan.wink@indoormedia.com",
+        "name": ""
+      },
+      {
+        "email": "austin.dewitt@indoormedia.com",
+        "name": ""
+      }
+    ],
+    "creator": "tyler.vansant@indoormedia.com",
+    "is_prospect_visit": false
+  },
+  {
+    "event_id": "CB9F4EF3-1924-4F3A-B9FE-48BA35558E38",
+    "title": "Take out garbage - STOP what I\u2019m doing or I will forget",
+    "start": "2026-06-19T03:00:00.000Z",
+    "end": "2026-06-19T04:00:00.000Z",
+    "location": "",
+    "description": "",
+    "attendees": [],
+    "creator": "tyler.vansant@indoormedia.com",
+    "is_prospect_visit": false
+  },
+  {
+    "event_id": "v70pp9i8dtsm4tt4h5o1fj4vps@google.com",
+    "title": "Audit B Cycles Stores-Focal Point Accounts",
+    "start": "2026-06-21T16:00:00.000Z",
+    "end": "2026-06-21T17:30:00.000Z",
+    "location": "",
+    "description": "",
+    "attendees": [],
+    "creator": "tyler.vansant@indoormedia.com",
+    "is_prospect_visit": false
+  },
+  {
+    "event_id": "1dubfrh15p9p1ogj8inq7nvqhg@google.com",
+    "title": "\ud83d\udd0d Audit #1: Safeway, Newberg, Safeway-2623 \u2014 check in w/ Rigo Lopez/La Sierra Mexican Restaurant &",
+    "start": "2026-06-21T17:00:00.000Z",
+    "end": "2026-06-21T18:00:00.000Z",
+    "location": "",
+    "description": "AUDIT & CHECK-IN #1 (45 days in)\nContract: J428880E\nBusiness: La Sierra Mexican Restaurant &\nCustomer: Rigo Lopez\nRep: Anthony Marty Eng\nStore: Safeway Safeway-2623, Newberg\nEst. Start: 05/17/2026\n\nVerify tape display. Check in with Rigo Lopez at La Sierra Mexican Restaurant &.",
+    "attendees": [
+      {
+        "email": "anthony.eng@indoormedia.com",
+        "name": ""
+      }
+    ],
+    "creator": "tyler.vansant@indoormedia.com",
+    "is_prospect_visit": false
+  },
+  {
+    "event_id": "3fr5t146v7ipa0kiol3bi6pj88@google.com",
+    "title": "\ud83d\udd0d Audit #1: Fred Meyer, Bremerton, Fred Meyer-0171 \u2014 check in w/ David Comeau/Better Vape",
+    "start": "2026-06-21T17:00:00.000Z",
+    "end": "2026-06-21T18:00:00.000Z",
+    "location": "",
+    "description": "AUDIT & CHECK-IN #1 (45 days in)\nContract: J430273E\nBusiness: Better Vape\nCustomer: David Comeau\nRep: Ryan Rohner-talton\nStore: Fred Meyer Fred Meyer-0171, Bremerton\nEst. Start: 05/17/2026\n\nVerify tape display. Check in with David Comeau at Better Vape.",
+    "attendees": [
+      {
+        "email": "ryan.rohner-talton@indoormedia.com",
+        "name": ""
+      }
+    ],
+    "creator": "tyler.vansant@indoormedia.com",
+    "is_prospect_visit": false
+  },
+  {
+    "event_id": "6kfdcc9n02gfbj86t3djrc004s@google.com",
+    "title": "\ud83d\udd0d Audit #1: Fred Meyer, Bremerton, Fred Meyer-0171 \u2014 check in w/ David Comeau/Better Vape",
+    "start": "2026-06-21T17:00:00.000Z",
+    "end": "2026-06-21T18:00:00.000Z",
+    "location": "",
+    "description": "AUDIT & CHECK-IN #1 (45 days in)\nContract: J430273E\nBusiness: Better Vape\nCustomer: David Comeau\nRep: Ryan Rohner-talton\nStore: Fred Meyer Fred Meyer-0171, Bremerton\nEst. Start: 05/17/2026\n\nVerify tape display. Check in with David Comeau at Better Vape.",
+    "attendees": [
+      {
+        "email": "ryan.rohner-talton@indoormedia.com",
+        "name": ""
+      }
+    ],
+    "creator": "tyler.vansant@indoormedia.com",
+    "is_prospect_visit": false
+  },
+  {
+    "event_id": "vtkbg8e9rtkg1ihm59q1jot3mo@google.com",
+    "title": "\ud83d\udd0d Audit #1: Safeway, Bremerton, Safeway-1524 \u2014 check in w/ Moe Tariq/Complete Auto Repair",
+    "start": "2026-06-21T17:00:00.000Z",
+    "end": "2026-06-21T18:00:00.000Z",
+    "location": "",
+    "description": "AUDIT & CHECK-IN #1 (45 days in)\nContract: J428501E\nBusiness: Complete Auto Repair\nCustomer: Moe Tariq\nRep: Ryan Rohner-talton\nStore: Safeway Safeway-1524, Bremerton\nEst. Start: 05/17/2026\n\nVerify tape display. Check in with Moe Tariq at Complete Auto Repair.",
+    "attendees": [
+      {
+        "email": "ryan.rohner-talton@indoormedia.com",
+        "name": ""
+      }
+    ],
+    "creator": "tyler.vansant@indoormedia.com",
+    "is_prospect_visit": false
+  },
+  {
+    "event_id": "1ivnsc8vtiletea8s7guq57ti8@google.com",
+    "title": "\ud83d\udd0d Audit #1: Safeway, Bremerton, Safeway-1524 \u2014 check in w/ Moe Tariq/Complete Auto Repair",
+    "start": "2026-06-21T17:00:00.000Z",
+    "end": "2026-06-21T18:00:00.000Z",
+    "location": "",
+    "description": "AUDIT & CHECK-IN #1 (45 days in)\nContract: J428501E\nBusiness: Complete Auto Repair\nCustomer: Moe Tariq\nRep: Ryan Rohner-talton\nStore: Safeway Safeway-1524, Bremerton\nEst. Start: 05/17/2026\n\nVerify tape display. Check in with Moe Tariq at Complete Auto Repair.",
+    "attendees": [
+      {
+        "email": "ryan.rohner-talton@indoormedia.com",
+        "name": ""
+      }
+    ],
+    "creator": "tyler.vansant@indoormedia.com",
+    "is_prospect_visit": false
+  },
+  {
+    "event_id": "gndq9m3huv068dvf6mbcfo4280@google.com",
+    "title": "\ud83d\udd0d Audit #1: Albertsons, Port Orchard, Albertsons-0475 \u2014 check in w/ cheryl sonneman/Novus glass repair &",
+    "start": "2026-06-21T17:00:00.000Z",
+    "end": "2026-06-21T18:00:00.000Z",
+    "location": "",
+    "description": "AUDIT & CHECK-IN #1 (45 days in)\nContract: J429707E\nBusiness: Novus glass repair &\nCustomer: cheryl sonneman\nRep: Ryan Rohner-talton\nStore: Albertsons Albertsons-0475, Port Orchard\nEst. Start: 05/17/2026\n\nVerify tape display. Check in with cheryl sonneman at Novus glass repair &.",
+    "attendees": [
+      {
+        "email": "ryan.rohner-talton@indoormedia.com",
+        "name": ""
+      }
+    ],
+    "creator": "tyler.vansant@indoormedia.com",
+    "is_prospect_visit": false
+  },
+  {
+    "event_id": "1prh9hngdb5htiamrcv3oqisbo@google.com",
+    "title": "\ud83d\udd0d Audit #1: Albertsons, Port Orchard, Albertsons-0475 \u2014 check in w/ cheryl sonneman/Novus glass repair &",
+    "start": "2026-06-21T17:00:00.000Z",
+    "end": "2026-06-21T18:00:00.000Z",
+    "location": "",
+    "description": "AUDIT & CHECK-IN #1 (45 days in)\nContract: J429707E\nBusiness: Novus glass repair &\nCustomer: cheryl sonneman\nRep: Ryan Rohner-talton\nStore: Albertsons Albertsons-0475, Port Orchard\nEst. Start: 05/17/2026\n\nVerify tape display. Check in with cheryl sonneman at Novus glass repair &.",
+    "attendees": [
+      {
+        "email": "ryan.rohner-talton@indoormedia.com",
+        "name": ""
+      }
+    ],
+    "creator": "tyler.vansant@indoormedia.com",
+    "is_prospect_visit": false
+  },
+  {
+    "event_id": "u543q050cn4k21kirsofrkal3k@google.com",
+    "title": "\ud83d\udd0d Audit #1: Safeway, Olympia, Safeway-1173 \u2014 check in w/ Ana Maria Meza Andrade //The Port Taco Truck & Bar",
+    "start": "2026-06-21T17:00:00.000Z",
+    "end": "2026-06-21T18:00:00.000Z",
+    "location": "",
+    "description": "AUDIT & CHECK-IN #1 (45 days in)\nContract: J429344E\nBusiness: The Port Taco Truck & Bar\nCustomer: Ana Maria Meza Andrade /\nRep: Justin Rich\nStore: Safeway Safeway-1173, Olympia\nEst. Start: 05/17/2026\n\nVerify tape display. Check in with Ana Maria Meza Andrade / at The Port Taco Truck & Bar.",
+    "attendees": [
+      {
+        "email": "justin.rich@indoormedia.com",
+        "name": ""
+      }
+    ],
+    "creator": "tyler.vansant@indoormedia.com",
+    "is_prospect_visit": false
+  },
+  {
+    "event_id": "ubbmm3bsdv8e3qfvadsukfvf7s@google.com",
+    "title": "\ud83d\udd0d Audit #1: Safeway, Olympia, Safeway-1173 \u2014 check in w/ Ana Maria Meza Andrade //The Port Taco Truck & Bar",
+    "start": "2026-06-21T17:00:00.000Z",
+    "end": "2026-06-21T18:00:00.000Z",
+    "location": "",
+    "description": "AUDIT & CHECK-IN #1 (45 days in)\nContract: J429344E\nBusiness: The Port Taco Truck & Bar\nCustomer: Ana Maria Meza Andrade /\nRep: Justin Rich\nStore: Safeway Safeway-1173, Olympia\nEst. Start: 05/17/2026\n\nVerify tape display. Check in with Ana Maria Meza Andrade / at The Port Taco Truck & Bar.",
+    "attendees": [
+      {
+        "email": "justin.rich@indoormedia.com",
+        "name": ""
+      }
+    ],
+    "creator": "tyler.vansant@indoormedia.com",
+    "is_prospect_visit": false
+  },
+  {
+    "event_id": "d8ms5tt1rshecqu0ia6btjiuf0@google.com",
+    "title": "\ud83d\udd0d Audit #1: Safeway, Sherwood, Safeway-1800 \u2014 check in w/ Mary Vega/Bolt on Motors",
+    "start": "2026-06-21T17:00:00.000Z",
+    "end": "2026-06-21T18:00:00.000Z",
+    "location": "",
+    "description": "AUDIT & CHECK-IN #1 (45 days in)\nContract: J429244E\nBusiness: Bolt on Motors\nCustomer: Mary Vega\nRep: Jan Banks\nStore: Safeway Safeway-1800, Sherwood\nEst. Start: 05/17/2026\n\nVerify tape display. Check in with Mary Vega at Bolt on Motors.",
+    "attendees": [
+      {
+        "email": "jan.banks@indoormedia.com",
+        "name": ""
+      }
+    ],
+    "creator": "tyler.vansant@indoormedia.com",
+    "is_prospect_visit": false
+  },
+  {
+    "event_id": "1mvhap9cpgjf6pel92qrfsuvps@google.com",
+    "title": "\ud83d\udd0d Audit #1: Safeway, Sherwood, Safeway-1800 \u2014 check in w/ Mary Vega/Bolt on Motors",
+    "start": "2026-06-21T17:00:00.000Z",
+    "end": "2026-06-21T18:00:00.000Z",
+    "location": "",
+    "description": "AUDIT & CHECK-IN #1 (45 days in)\nContract: J429244E\nBusiness: Bolt on Motors\nCustomer: Mary Vega\nRep: Jan Banks\nStore: Safeway Safeway-1800, Sherwood\nEst. Start: 05/17/2026\n\nVerify tape display. Check in with Mary Vega at Bolt on Motors.",
+    "attendees": [
+      {
+        "email": "jan.banks@indoormedia.com",
+        "name": ""
+      }
+    ],
+    "creator": "tyler.vansant@indoormedia.com",
+    "is_prospect_visit": false
+  },
+  {
+    "event_id": "misc6um79b0cskhb4r8ccg7k2c@google.com",
+    "title": "\ud83d\udd0d Audit #1: Safeway, La Grande, Safeway-1827 \u2014 check in w/ Armando Robles/La Fiesta Mexican restaurant",
+    "start": "2026-06-21T17:00:00.000Z",
+    "end": "2026-06-21T18:00:00.000Z",
+    "location": "",
+    "description": "AUDIT & CHECK-IN #1 (45 days in)\nContract: J427093E\nBusiness: La Fiesta Mexican restaurant\nCustomer: Armando Robles\nRep: Tyler VanSant\nStore: Safeway Safeway-1827, La Grande\nEst. Start: 05/17/2026\n\nVerify tape display. Check in with Armando Robles at La Fiesta Mexican restaurant.",
+    "attendees": [],
+    "creator": "tyler.vansant@indoormedia.com",
+    "is_prospect_visit": false
+  },
+  {
+    "event_id": "20opm8m57soo2ulr4r2mr2k3t8@google.com",
+    "title": "\ud83d\udd0d Audit #1: Fred Meyer, Portland, Fred Meyer-0125 \u2014 check in w/ Fernando Garcia/Muchas Gracias Mexican Food",
+    "start": "2026-06-21T17:00:00.000Z",
+    "end": "2026-06-21T18:00:00.000Z",
+    "location": "",
+    "description": "AUDIT & CHECK-IN #1 (45 days in)\nContract: J428939E\nBusiness: Muchas Gracias Mexican Food\nCustomer: Fernando Garcia\nRep: Dave Boring\nStore: Fred Meyer Fred Meyer-0125, Portland\nEst. Start: 05/17/2026\n\nVerify tape display. Check in with Fernando Garcia at Muchas Gracias Mexican Food.",
+    "attendees": [
+      {
+        "email": "dave.boring@indoormedia.com",
+        "name": ""
+      }
+    ],
+    "creator": "tyler.vansant@indoormedia.com",
+    "is_prospect_visit": false
+  },
+  {
+    "event_id": "oidj535v0mtqjn9uh6e4i1m7co@google.com",
+    "title": "\ud83d\udd0d Audit #1: Quality Food Center, Vancouver, Quality Food Center-0212 \u2014 check in w/ Cheri Craig/Grapes \u2018n Hops",
+    "start": "2026-06-21T17:00:00.000Z",
+    "end": "2026-06-21T18:00:00.000Z",
+    "location": "",
+    "description": "AUDIT & CHECK-IN #1 (45 days in)\nContract: J428509E\nBusiness: Grapes \u2018n Hops\nCustomer: Cheri Craig\nRep: Adan Ramos\nStore: Quality Food Center Quality Food Center-0212, Vancouver\nEst. Start: 05/17/2026\n\nVerify tape display. Check in with Cheri Craig at Grapes \u2018n Hops.",
+    "attendees": [
+      {
+        "email": "adan.ramos@indoormedia.com",
+        "name": ""
+      }
+    ],
+    "creator": "tyler.vansant@indoormedia.com",
+    "is_prospect_visit": false
+  },
+  {
+    "event_id": "8ru8ph9464ebo4jqu7fs3ljb9g@google.com",
+    "title": "\ud83d\udd0d Audit #1: Safeway, Bremerton, Safeway-1524 \u2014 check in w/ Moe Tariq/Complete Auto Repair",
+    "start": "2026-06-21T17:00:00.000Z",
+    "end": "2026-06-21T18:00:00.000Z",
+    "location": "",
+    "description": "AUDIT & CHECK-IN #1 (45 days in)\nContract: J428501E\nBusiness: Complete Auto Repair\nCustomer: Moe Tariq\nRep: Ryan Rohner-talton\nStore: Safeway Safeway-1524, Bremerton\nEst. Start: 05/17/2026\n\nVerify tape display. Check in with Moe Tariq at Complete Auto Repair.",
+    "attendees": [
+      {
+        "email": "ryan.rohner-talton@indoormedia.com",
+        "name": ""
+      }
+    ],
+    "creator": "tyler.vansant@indoormedia.com",
+    "is_prospect_visit": false
+  },
+  {
+    "event_id": "hpguluh2tlq5bi3guc5eqf8tto@google.com",
+    "title": "\ud83d\udd0d Audit #1: Fred Meyer, Portland, Fred Meyer-0040 \u2014 check in w/ Nayeli Sanchez/La Real",
+    "start": "2026-06-21T17:00:00.000Z",
+    "end": "2026-06-21T18:00:00.000Z",
+    "location": "",
+    "description": "AUDIT & CHECK-IN #1 (45 days in)\nContract: J428190E\nBusiness: La Real\nCustomer: Nayeli Sanchez\nRep: Megan Wink\nStore: Fred Meyer Fred Meyer-0040, Portland\nEst. Start: 05/17/2026\n\nVerify tape display. Check in with Nayeli Sanchez at La Real.",
+    "attendees": [
+      {
+        "email": "megan.wink@indoormedia.com",
+        "name": ""
+      }
+    ],
+    "creator": "tyler.vansant@indoormedia.com",
+    "is_prospect_visit": false
+  },
+  {
+    "event_id": "fpk1pduir9na7thgbmjv5bb2ak@google.com",
+    "title": "\ud83d\udd0d Audit #1: Fred Meyer, Portland, Fred Meyer-0040 \u2014 check in w/ Nayeli Sanchez/La Real",
+    "start": "2026-06-21T17:00:00.000Z",
+    "end": "2026-06-21T18:00:00.000Z",
+    "location": "",
+    "description": "AUDIT & CHECK-IN #1 (45 days in)\nContract: J428190E\nBusiness: La Real\nCustomer: Nayeli Sanchez\nRep: Megan Wink\nStore: Fred Meyer Fred Meyer-0040, Portland\nEst. Start: 05/17/2026\n\nVerify tape display. Check in with Nayeli Sanchez at La Real.",
+    "attendees": [
+      {
+        "email": "megan.wink@indoormedia.com",
+        "name": ""
+      }
+    ],
+    "creator": "tyler.vansant@indoormedia.com",
+    "is_prospect_visit": false
+  },
+  {
+    "event_id": "lns3fb2am5l669v85o4jiggr6k@google.com",
+    "title": "\ud83d\udd0d Audit #1: Quality Food Center, Portland, Quality Food Center-0205 \u2014 check in w/ Ali Alshujery/K&H Auto Shop",
+    "start": "2026-06-21T17:00:00.000Z",
+    "end": "2026-06-21T18:00:00.000Z",
+    "location": "",
+    "description": "AUDIT & CHECK-IN #1 (45 days in)\nContract: J426965E\nBusiness: K&H Auto Shop\nCustomer: Ali Alshujery\nRep: Adan Ramos\nStore: Quality Food Center Quality Food Center-0205, Portland\nEst. Start: 05/17/2026\n\nVerify tape display. Check in with Ali Alshujery at K&H Auto Shop.",
+    "attendees": [
+      {
+        "email": "adan.ramos@indoormedia.com",
+        "name": ""
+      }
+    ],
+    "creator": "tyler.vansant@indoormedia.com",
+    "is_prospect_visit": false
+  },
+  {
+    "event_id": "54cbtmolssasi8sc78dfkkp0rs@google.com",
+    "title": "\ud83d\udd0d Audit #1: Fred Meyer, Beaverton, Fred Meyer-0035 \u2014 check in w/ Lazaro Villasenor/Si Senor",
+    "start": "2026-06-21T17:00:00.000Z",
+    "end": "2026-06-21T18:00:00.000Z",
+    "location": "",
+    "description": "AUDIT & CHECK-IN #1 (45 days in)\nContract: J425353E\nBusiness: Si Senor\nCustomer: Lazaro Villasenor\nRep: Amy Dixon\nStore: Fred Meyer Fred Meyer-0035, Beaverton\nEst. Start: 05/17/2026\n\nVerify tape display. Check in with Lazaro Villasenor at Si Senor.",
+    "attendees": [
+      {
+        "email": "amy.dixon@indoormedia.com",
+        "name": ""
+      }
+    ],
+    "creator": "tyler.vansant@indoormedia.com",
+    "is_prospect_visit": false
+  },
+  {
+    "event_id": "jt0d5s9e2b6sf96dur029vucjo@google.com",
+    "title": "\ud83d\udd0d Audit #1: Quality Food Center, Portland, Quality Food Center-0205 \u2014 check in w/ Ali Alshujery/K&H Auto Shop",
+    "start": "2026-06-21T17:00:00.000Z",
+    "end": "2026-06-21T18:00:00.000Z",
+    "location": "",
+    "description": "AUDIT & CHECK-IN #1 (45 days in)\nContract: J426965E\nBusiness: K&H Auto Shop\nCustomer: Ali Alshujery\nRep: Adan Ramos\nStore: Quality Food Center Quality Food Center-0205, Portland\nEst. Start: 05/17/2026\n\nVerify tape display. Check in with Ali Alshujery at K&H Auto Shop.",
+    "attendees": [
+      {
+        "email": "adan.ramos@indoormedia.com",
+        "name": ""
+      }
+    ],
+    "creator": "tyler.vansant@indoormedia.com",
+    "is_prospect_visit": false
+  },
+  {
+    "event_id": "vav99vi1l67nf6clip0r4s7180@google.com",
+    "title": "\ud83d\udd0d Audit #1: Fred Meyer, Portland, Fred Meyer-0150 \u2014 check in w/ Aaron Ballenger/Papa Zuzu\u2019s Pizza",
+    "start": "2026-06-21T17:00:00.000Z",
+    "end": "2026-06-21T18:00:00.000Z",
+    "location": "",
+    "description": "AUDIT & CHECK-IN #1 (45 days in)\nContract: J426746E\nBusiness: Papa Zuzu\u2019s Pizza\nCustomer: Aaron Ballenger\nRep: Tyler VanSant\nStore: Fred Meyer Fred Meyer-0150, Portland\nEst. Start: 05/17/2026\n\nVerify tape display. Check in with Aaron Ballenger at Papa Zuzu\u2019s Pizza.",
+    "attendees": [],
+    "creator": "tyler.vansant@indoormedia.com",
+    "is_prospect_visit": false
+  },
+  {
+    "event_id": "jilqjsict1vql7vnbfq6q19ipo@google.com",
+    "title": "\ud83d\udd0d Audit #1: Safeway, Belfair, Safeway-1571 \u2014 check in w/ Noel Martinez/Taqueria El Guero 2",
+    "start": "2026-06-21T17:00:00.000Z",
+    "end": "2026-06-21T18:00:00.000Z",
+    "location": "",
+    "description": "AUDIT & CHECK-IN #1 (45 days in)\nContract: J428428E\nBusiness: Taqueria El Guero 2\nCustomer: Noel Martinez\nRep: Ryan Rohner-talton\nStore: Safeway Safeway-1571, Belfair\nEst. Start: 05/17/2026\n\nVerify tape display. Check in with Noel Martinez at Taqueria El Guero 2.",
+    "attendees": [
+      {
+        "email": "ryan.rohner-talton@indoormedia.com",
+        "name": ""
+      }
+    ],
+    "creator": "tyler.vansant@indoormedia.com",
+    "is_prospect_visit": false
+  },
+  {
+    "event_id": "ern6skvuhgon257pjovt0o1hb0@google.com",
+    "title": "\ud83d\udd0d Audit #1: Safeway, Belfair, Safeway-1571 \u2014 check in w/ Noel Martinez/Taqueria El Guero 2",
+    "start": "2026-06-21T17:00:00.000Z",
+    "end": "2026-06-21T18:00:00.000Z",
+    "location": "",
+    "description": "AUDIT & CHECK-IN #1 (45 days in)\nContract: J428428E\nBusiness: Taqueria El Guero 2\nCustomer: Noel Martinez\nRep: Ryan Rohner-talton\nStore: Safeway Safeway-1571, Belfair\nEst. Start: 05/17/2026\n\nVerify tape display. Check in with Noel Martinez at Taqueria El Guero 2.",
+    "attendees": [
+      {
+        "email": "ryan.rohner-talton@indoormedia.com",
+        "name": ""
+      }
+    ],
+    "creator": "tyler.vansant@indoormedia.com",
+    "is_prospect_visit": false
+  },
+  {
+    "event_id": "mifbp11dcct862jnsckqapi7t4@google.com",
+    "title": "\ud83d\udd0d Audit #1: Albertsons, Billings, Albertsons-4041 \u2014 check in w/ Frozen Yogurt/Banano Smoothies/Spinners",
+    "start": "2026-06-21T17:00:00.000Z",
+    "end": "2026-06-21T18:00:00.000Z",
+    "location": "",
+    "description": "AUDIT & CHECK-IN #1 (45 days in)\nContract: J428093E\nBusiness: Banano Smoothies/Spinners\nCustomer: Frozen Yogurt\nRep: Tyler VanSant\nStore: Albertsons Albertsons-4041, Billings\nEst. Start: 05/17/2026\n\nVerify tape display. Check in with Frozen Yogurt at Banano Smoothies/Spinners.",
+    "attendees": [],
+    "creator": "tyler.vansant@indoormedia.com",
+    "is_prospect_visit": false
+  },
+  {
+    "event_id": "fcout0v61cagvtrr6f6n5o06g4@google.com",
+    "title": "\ud83d\udd0d Audit #1: Albertsons, Billings, Albertsons-4041 \u2014 check in w/ Frozen Yogurt/Banano Smoothies/Spinners",
+    "start": "2026-06-21T17:00:00.000Z",
+    "end": "2026-06-21T18:00:00.000Z",
+    "location": "",
+    "description": "AUDIT & CHECK-IN #1 (45 days in)\nContract: J428093E\nBusiness: Banano Smoothies/Spinners\nCustomer: Frozen Yogurt\nRep: Tyler VanSant\nStore: Albertsons Albertsons-4041, Billings\nEst. Start: 05/17/2026\n\nVerify tape display. Check in with Frozen Yogurt at Banano Smoothies/Spinners.",
+    "attendees": [],
+    "creator": "tyler.vansant@indoormedia.com",
+    "is_prospect_visit": false
+  },
+  {
+    "event_id": "4a2735ne6kjo5pbiaigsim6cok@google.com",
+    "title": "Check Aging Report",
+    "start": "2026-06-22T16:00:00.000Z",
+    "end": "2026-06-22T17:00:00.000Z",
+    "location": "",
+    "description": "",
+    "attendees": [
+      {
+        "email": "richard.leibowitz@rtui.com",
+        "name": ""
+      }
+    ],
+    "creator": "tyler.vansant@indoormedia.com",
+    "is_prospect_visit": false
+  },
+  {
+    "event_id": "n17hi1rs1e3rsi09kfsr3pafe2_R20260106T170000@google.com",
+    "title": "Weekly 7Y & 7Z Oregon/Washington Team Kick-Off",
+    "start": "2026-06-23T16:00:00.000Z",
+    "end": "2026-06-23T16:30:00.000Z",
+    "location": "",
+    "description": "This will be our once a week opportunity to meet as a team to sharpen our skills, discuss what we are working on, and collaborate with each other",
+    "attendees": [
+      {
+        "email": "jan.banks@indoormedia.com",
+        "name": ""
+      },
+      {
+        "email": "adan.ramos@indoormedia.com",
+        "name": ""
+      },
+      {
+        "email": "anthony.eng@indoormedia.com",
+        "name": ""
+      },
+      {
+        "email": "tony.ortega@rtui.com",
+        "name": ""
+      },
+      {
+        "email": "christian.johnson@indoormedia.com",
+        "name": ""
+      },
+      {
+        "email": "dave.boring@indoormedia.com",
+        "name": ""
+      },
+      {
+        "email": "amy.dixon@rtui.com",
+        "name": ""
+      },
+      {
+        "email": "david.mordvinov@indoormedia.com",
+        "name": ""
+      },
+      {
+        "email": "richard.diamond@indoormedia.com",
+        "name": ""
+      },
+      {
+        "email": "kale.lundberg@indoormedia.com",
+        "name": ""
+      },
+      {
+        "email": "matthew.boozer@indoormedia.com",
+        "name": ""
+      },
+      {
+        "email": "ben.patacsil@indoormedia.com",
+        "name": ""
+      },
+      {
+        "email": "william.flerry@indoormedia.com",
+        "name": ""
+      },
+      {
+        "email": "megan.wink@indoormedia.com",
+        "name": ""
+      },
+      {
+        "email": "austin.dewitt@indoormedia.com",
+        "name": ""
+      }
+    ],
+    "creator": "tyler.vansant@indoormedia.com",
+    "is_prospect_visit": false
+  },
+  {
+    "event_id": "tbpeqgm1iqa6mco3arfe7ojcno@google.com",
+    "title": "Visit: Jackson Furniture",
+    "start": "2026-06-24T21:00:00.000Z",
+    "end": "2026-06-24T22:00:00.000Z",
+    "location": "717 W Main St UNIT 126, Battle Ground, WA 98604, USA",
+    "description": "Terri, owner\nDigital Boost interest\nKnows James Thurber @ Banner\n\nProspect: Jackson Furniture\nAddress: 717 W Main St UNIT 126, Battle Ground, WA 98604, USA\nRoad Phone: (360) 298-7948\nWebsite: https://www.facebook.com/HomeTownFurnitureCamasWashougal/\nStore: Fred Meyer FME07Z-0614\nRep: Dave Boring",
+    "attendees": [
+      {
+        "email": "tyler.vansant@indoormedia.com",
+        "name": ""
+      }
+    ],
+    "creator": "dave.boring@indoormedia.com",
+    "is_prospect_visit": true
+  },
+  {
+    "event_id": "b23kqu0edtddo33klh0l822ick@google.com",
+    "title": "Check with Reps on Last Minute Renewals and email Jordan Encarguez",
+    "start": "2026-06-25T16:00:00.000Z",
+    "end": "2026-06-25T17:00:00.000Z",
+    "location": "",
+    "description": "",
+    "attendees": [
+      {
+        "email": "richard.leibowitz@indoormedia.com",
+        "name": ""
+      }
+    ],
+    "creator": "tyler.vansant@indoormedia.com",
+    "is_prospect_visit": false
+  },
+  {
+    "event_id": "CB9F4EF3-1924-4F3A-B9FE-48BA35558E38",
+    "title": "Take out garbage - STOP what I\u2019m doing or I will forget",
+    "start": "2026-06-26T03:00:00.000Z",
+    "end": "2026-06-26T04:00:00.000Z",
+    "location": "",
+    "description": "",
+    "attendees": [],
+    "creator": "tyler.vansant@indoormedia.com",
+    "is_prospect_visit": false
+  },
+  {
+    "event_id": "qucsthjlmb64rcdh9hjnirq3gc@google.com",
+    "title": "Send Out Next C Cycle Renewal Report to Reps",
+    "start": "2026-06-27T16:00:00.000Z",
+    "end": "2026-06-27T17:00:00.000Z",
+    "location": "",
+    "description": "",
+    "attendees": [
+      {
+        "email": "richard.leibowitz@rtui.com",
+        "name": ""
+      }
+    ],
+    "creator": "tyler.vansant@indoormedia.com",
+    "is_prospect_visit": false
+  },
+  {
+    "event_id": "4a2735ne6kjo5pbiaigsim6cok@google.com",
+    "title": "Check Aging Report",
+    "start": "2026-06-29T16:00:00.000Z",
+    "end": "2026-06-29T17:00:00.000Z",
+    "location": "",
+    "description": "",
+    "attendees": [
+      {
+        "email": "richard.leibowitz@rtui.com",
+        "name": ""
+      }
+    ],
+    "creator": "tyler.vansant@indoormedia.com",
+    "is_prospect_visit": false
+  },
+  {
+    "event_id": "n17hi1rs1e3rsi09kfsr3pafe2_R20260106T170000@google.com",
+    "title": "Weekly 7Y & 7Z Oregon/Washington Team Kick-Off",
+    "start": "2026-06-30T16:00:00.000Z",
+    "end": "2026-06-30T16:30:00.000Z",
+    "location": "",
+    "description": "This will be our once a week opportunity to meet as a team to sharpen our skills, discuss what we are working on, and collaborate with each other",
+    "attendees": [
+      {
+        "email": "jan.banks@indoormedia.com",
+        "name": ""
+      },
+      {
+        "email": "adan.ramos@indoormedia.com",
+        "name": ""
+      },
+      {
+        "email": "anthony.eng@indoormedia.com",
+        "name": ""
+      },
+      {
+        "email": "tony.ortega@rtui.com",
+        "name": ""
+      },
+      {
+        "email": "christian.johnson@indoormedia.com",
+        "name": ""
+      },
+      {
+        "email": "dave.boring@indoormedia.com",
+        "name": ""
+      },
+      {
+        "email": "amy.dixon@rtui.com",
+        "name": ""
+      },
+      {
+        "email": "david.mordvinov@indoormedia.com",
+        "name": ""
+      },
+      {
+        "email": "richard.diamond@indoormedia.com",
+        "name": ""
+      },
+      {
+        "email": "kale.lundberg@indoormedia.com",
+        "name": ""
+      },
+      {
+        "email": "matthew.boozer@indoormedia.com",
+        "name": ""
+      },
+      {
+        "email": "ben.patacsil@indoormedia.com",
+        "name": ""
+      },
+      {
+        "email": "william.flerry@indoormedia.com",
+        "name": ""
+      },
+      {
+        "email": "megan.wink@indoormedia.com",
+        "name": ""
+      },
+      {
+        "email": "austin.dewitt@indoormedia.com",
+        "name": ""
+      }
+    ],
+    "creator": "tyler.vansant@indoormedia.com",
+    "is_prospect_visit": false
+  },
+  {
+    "event_id": "CB9F4EF3-1924-4F3A-B9FE-48BA35558E38",
+    "title": "Take out garbage - STOP what I\u2019m doing or I will forget",
+    "start": "2026-07-03T03:00:00.000Z",
+    "end": "2026-07-03T04:00:00.000Z",
+    "location": "",
+    "description": "",
+    "attendees": [],
+    "creator": "tyler.vansant@indoormedia.com",
+    "is_prospect_visit": false
+  }
+]
