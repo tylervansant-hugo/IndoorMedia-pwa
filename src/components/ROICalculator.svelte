@@ -3,15 +3,18 @@
   
   let investment = 3500;
   let avgSpend = 50;
-  let newCustomers = 25;
-  let couponRedemptions = 15;
+  let couponRedemptions = 40;
+  let newCustomers = 10;
   let cogsPercent = 35;
-  
-  // Compounding factor: 12 * 13 / 2 = 78
-  $: customerRevenue = newCustomers * avgSpend * 78;
-  // Coupon redemptions: steady recurring monthly stream over 12 months
-  $: couponRevenue = couponRedemptions * avgSpend * 12;
-  $: grossRevenue = customerRevenue + couponRevenue;
+
+  // New customers can't exceed total redemptions.
+  $: newCustomers = Math.min(newCustomers, couponRedemptions);
+  $: returningCustomers = Math.max(0, couponRedemptions - newCustomers);
+  // New customers compound month over month: 12 * 13 / 2 = 78
+  $: newCustomerRevenue = newCustomers * avgSpend * 78;
+  // Returning/existing loyal redeemers: steady recurring monthly stream over 12 months
+  $: returningRevenue = returningCustomers * avgSpend * 12;
+  $: grossRevenue = newCustomerRevenue + returningRevenue;
   $: cogs = grossRevenue * (cogsPercent / 100);
   $: netRevenue = grossRevenue - cogs;
   $: netProfit = netRevenue - investment;
@@ -35,18 +38,27 @@
       <span class="value">${avgSpend}</span>
     </div>
     
-    <div class="input-group">
-      <label>New Customers / Month</label>
-      <input type="range" min="1" max="100" step="1" bind:value={newCustomers}>
-      <span class="value">{newCustomers}</span>
+    <div class="coupon-section">
+      <div class="coupon-header">🎟️ Coupon Redemptions</div>
+
+      <div class="input-group">
+        <label>Total Redemptions / Month</label>
+        <input type="range" min="0" max="300" step="1" bind:value={couponRedemptions}>
+        <span class="value">{couponRedemptions}</span>
+      </div>
+
+      <div class="input-group sub">
+        <label>…of those, New Customers / Month</label>
+        <input type="range" min="0" max={couponRedemptions} step="1" bind:value={newCustomers}>
+        <span class="value">{newCustomers}</span>
+      </div>
+
+      <div class="coupon-split">
+        <span><strong>{newCustomers}</strong> new</span>
+        <span><strong>{returningCustomers}</strong> returning / loyal</span>
+      </div>
     </div>
-    
-    <div class="input-group">
-      <label>Coupon Redemptions / Month</label>
-      <input type="range" min="0" max="200" step="1" bind:value={couponRedemptions}>
-      <span class="value">{couponRedemptions}</span>
-    </div>
-    
+
     <div class="input-group">
       <label>COGS %</label>
       <input type="range" min="0" max="70" step="5" bind:value={cogsPercent}>
@@ -57,12 +69,12 @@
   <div class="results">
     <div class="result-card">
       <div class="result-label">New Customer Revenue</div>
-      <div class="result-value">${customerRevenue.toLocaleString()}</div>
+      <div class="result-value">${newCustomerRevenue.toLocaleString()}</div>
     </div>
     
     <div class="result-card">
-      <div class="result-label">Coupon Redemption Revenue</div>
-      <div class="result-value">${couponRevenue.toLocaleString()}</div>
+      <div class="result-label">Returning / Loyal Revenue</div>
+      <div class="result-value">${returningRevenue.toLocaleString()}</div>
     </div>
     
     <div class="result-card">
@@ -96,7 +108,7 @@
     </div>
   </div>
   
-  <p class="formula-note">New customers: {newCustomers} × ${avgSpend} × 78 (compounding monthly — each month adds {newCustomers} new repeat customers). Coupons: {couponRedemptions} redemptions × ${avgSpend} × 12 months (steady recurring stream).</p>
+  <p class="formula-note">Of {couponRedemptions} redemptions/mo, {newCustomers} are new (compounding: {newCustomers} × ${avgSpend} × 78 — each month adds repeat customers) and {returningCustomers} are returning loyal customers ({returningCustomers} × ${avgSpend} × 12 — steady recurring stream). Keeps your existing audience AND introduces new customers.</p>
 </div>
 
 <style>
@@ -121,6 +133,30 @@
   }
   
   .input-group:last-child { margin-bottom: 0; }
+
+  .coupon-section {
+    background: #fff7f7;
+    border: 1px solid #f3d4d4;
+    border-radius: 10px;
+    padding: 14px 16px;
+    margin-bottom: 16px;
+  }
+  .coupon-header {
+    font-size: 14px;
+    font-weight: 700;
+    color: #CC0000;
+    margin-bottom: 12px;
+  }
+  .input-group.sub label { color: #555; font-weight: 500; }
+  .input-group.sub input[type="range"] { accent-color: #2e7d32; }
+  .coupon-split {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 4px;
+    font-size: 12px;
+    color: #555;
+  }
+  .coupon-split strong { color: #1a1a1a; }
   
   .input-group label {
     width: 100%;
