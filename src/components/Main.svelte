@@ -584,6 +584,10 @@
 
       const isDigital = (c.product_type === 'digital') ||
         /FindLocal|ReviewBoost|LoyaltyBoost|DigitalBoost/i.test(c.product_description || '');
+      // DigitalBoost can ride along as a line item inside a register tape contract.
+      // It counts for 1 point whether standalone OR bundled with tape.
+      const hasDigitalBoost = c.has_digitalboost === true ||
+        /digital\s*boost/i.test(c.product_description || '');
       const isRenewal = c.is_renewal === true;
       const isCompanyLead = companyLeads.includes(c.contract_number);
       const isPaidInFull = c.paid_in_full === true;
@@ -597,6 +601,16 @@
         note = 'Renewal (tape)';
       } else if (isRenewal && isDigital) {
         note = 'Renewal (digital)';
+      }
+
+      // DigitalBoost line item = +1 point, even when bundled on a tape contract.
+      // (When the contract IS the DigitalBoost itself, the base point already
+      //  covers it — only add the extra point when it's an add-on to tape.)
+      const digitalBoostIsStandalone = hasDigitalBoost &&
+        !/single ad|double ad|register tape/i.test(c.product_description || '');
+      if (hasDigitalBoost && !digitalBoostIsStandalone) {
+        points += 1;
+        note = note ? note + ' + DigitalBoost' : 'DigitalBoost add-on';
       }
 
       // Paid in Full bonus: +1 point (only if not excluded by renewal tape)

@@ -165,6 +165,7 @@ def parse_contract_pdf_details(pdf_url):
         "store_number": None,
         "total_amount": None,
         "product_description": None,
+        "has_digitalboost": False,
     }
     
     try:
@@ -216,6 +217,17 @@ def parse_contract_pdf_details(pdf_url):
                         match = re.search(r'Register Tape.*?(Single|Double).*?Ad', full_text)
                         if match:
                             details["product_description"] = f"Register Tape {match.group(1)} Ad"
+
+                    # Detect DigitalBoost as a LINE ITEM, even when bundled inside a
+                    # register tape contract. Summer Contest: DigitalBoost = +1 point
+                    # whether standalone or attached to a tape contract.
+                    if re.search(r'digital\s*boost', full_text, re.I):
+                        details["has_digitalboost"] = True
+                        existing = details["product_description"]
+                        if existing and "digitalboost" not in existing.lower():
+                            details["product_description"] = existing + " + DigitalBoost"
+                        elif not existing:
+                            details["product_description"] = "DigitalBoost"
                     
                     # Extract Amount
                     match = re.search(r'Contract Total\s*\$?([\d,]+\.?\d*)', full_text)
@@ -249,8 +261,13 @@ def parse_contract_email(email_body, subject, date):
             "total_amount": None,
             "payment_date": None,
             "address": None,
+            "has_digitalboost": False,
             "extracted_at": datetime.now().isoformat(),
         }
+
+        # Detect DigitalBoost mentioned in the email body itself (backup signal).
+        if re.search(r'digital\s*boost', email_body or '', re.I):
+            contract_data["has_digitalboost"] = True
         
         # Extract Contract Number from subject
         match = re.search(r'([A-Z]\d{6}[A-Z])', subject)
@@ -307,6 +324,11 @@ def parse_contract_email(email_body, subject, date):
             for key in pdf_details:
                 if pdf_details[key] is not None:
                     contract_data[key] = pdf_details[key]
+            # DigitalBoost: OR the signals so an email-body hit isn't lost when the
+            # PDF parse comes back False.
+            contract_data["has_digitalboost"] = bool(
+                contract_data.get("has_digitalboost") or pdf_details.get("has_digitalboost")
+            )
         
         logger.info(f"✅ Parsed: {contract_data['contract_number']} - {contract_data['business_name']} / {contract_data['contact_name']} (${contract_data['total_amount']})")
         return contract_data
