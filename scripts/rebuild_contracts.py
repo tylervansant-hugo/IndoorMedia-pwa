@@ -5,8 +5,12 @@ import subprocess, re, json, os
 from datetime import datetime
 from pathlib import Path
 
-contracts_dir = Path(__file__).parent.parent / "data" / "contracts"
-pwa_contracts = Path(__file__).parent.parent / "pwa" / "public" / "data" / "contracts.json"
+ROOT = Path(__file__).parent.parent
+contracts_dir = ROOT / "data" / "contracts"
+# Live, deployed data the PWA actually fetches (Vite copies public/ -> dist/).
+pwa_contracts = ROOT / "public" / "data" / "contracts.json"
+# Legacy mirror kept in sync for any older tooling that still reads it.
+legacy_contracts = ROOT / "data" / "contracts.json"
 pdfs = sorted(contracts_dir.glob("*.pdf"))
 print(f"Found {len(pdfs)} PDFs")
 
@@ -261,7 +265,49 @@ for c in all_contracts:
 all_contracts = deduped
 print(f"Total line items (after dedup): {len(all_contracts)}")
 
-# Save
+# --- MERGE with existing live data (non-destructive) ---------------------
+# The rebuild only re-parses PDFs currently present in data/contracts/.
+# Historical contracts whose PDFs are no longer on disk must NOT be dropped.
+# Strategy: any contract_number the rebuild produced REPLACES the live rows
+# for that contract (fresh parse wins); contract_numbers not touched by this
+# rebuild are preserved from the live file as-is.
+fresh_nums = {c.get("contract_number") for c in all_contracts if c.get("contract_number")}
+preserved = []
+if pwa_contracts.exists():
+    try:
+        existing_live = json.load(open(pwa_contracts)).get("contracts", [])
+    except Exception:
+        existing_live = []
+    for c in existing_live:
+        cn = c.get("contract_number")
+        # Keep rows whose contract wasn't re-parsed this run (historical).
+        if cn not in fresh_nums:
+            preserved.append(c)
+    print(f"Preserved {len(preserved)} historical rows not re-parsed this run")
+
+merged = all_contracts + preserved
+
+# Final safety: never write fewer UNIQUE contracts than the live file already had.
+def unique_count(rows):
+    return len({r.get("contract_number") for r in rows if r.get("contract_number")})
+prev_unique = unique_count(existing_live) if pwa_contracts.exists() else 0
+new_unique = unique_count(merged)
+if pwa_contracts.exists() and new_unique < prev_unique:
+    print(f"⚠️  ABORT: merge would reduce unique contracts {prev_unique} -> {new_unique}. "
+          f"Not overwriting live data.")
+    raise SystemExit(1)
+
+payload = {"contracts": merged, "last_scan": datetime.now().isoformat()}
+
+# Save to the live path the PWA reads.
 with open(pwa_contracts, "w") as f:
-    json.dump({"contracts": all_contracts, "last_scan": datetime.now().isoformat()}, f, indent=2, default=str)
-print(f"Saved to {pwa_contracts}")
+    json.dump(payload, f, indent=2, default=str)
+print(f"Saved {len(merged)} rows ({new_unique} unique) to {pwa_contracts}")
+
+# Keep the legacy mirror in sync too (best-effort).
+try:
+    with open(legacy_contracts, "w") as f:
+        json.dump(payload, f, indent=2, default=str)
+    print(f"Mirrored to {legacy_contracts}")
+except Exception as e:
+    print(f"(legacy mirror skipped: {e})")

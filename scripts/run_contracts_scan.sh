@@ -16,13 +16,21 @@ python3 scripts/report_new_contracts.py > /tmp/contracts_report.txt 2>&1
 # Extract just the top section (new contracts, not all re-extractions)
 head -50 /tmp/contracts_report.txt
 
-# Step 4: Push updated contracts to GitHub (Vercel auto-deploys)
-cd pwa
-if ! git diff --quiet public/data/contracts.json; then
-    git add public/data/contracts.json
-    git commit -m "auto: Nightly contracts sync $(date +%Y-%m-%d)"
-    git push origin main
-    echo "✅ Contracts updated and pushed" >> /tmp/contracts_scan.log
+# Step 4: Commit, build, and DEPLOY to GitHub Pages (gh-pages branch).
+# The workspace root IS the git repo; rebuild writes public/data/contracts.json
+# and mirrors data/contracts.json. Deploy requires building dist/ then gh-pages.
+cd /Users/tylervansant/.openclaw/workspace
+
+if ! git diff --quiet public/data/contracts.json data/contracts.json; then
+    git add public/data/contracts.json data/contracts.json
+    git commit -m "auto: Nightly contracts sync $(date +%Y-%m-%d)" >> /tmp/contracts_scan.log 2>&1
+    git push origin main >> /tmp/contracts_scan.log 2>&1
+
+    # Build static site and publish to gh-pages (this is what the live site serves).
+    npm run build >> /tmp/contracts_scan.log 2>&1 && \
+    npx gh-pages -d dist >> /tmp/contracts_scan.log 2>&1 && \
+    echo "✅ Contracts updated, pushed, and deployed to gh-pages" >> /tmp/contracts_scan.log || \
+    echo "⚠️ Contracts committed but build/deploy step failed — check log" >> /tmp/contracts_scan.log
 else
     echo "✅ No changes to contracts" >> /tmp/contracts_scan.log
 fi
