@@ -11418,7 +11418,49 @@
       "term_months": 12,
       "is_renewal": false,
       "paid_in_full": false
+    },
+    {
+      "contract_number": "J432295E",
+      "date": "2026-06-11 00:00",
+      "business_name": "Oregon Tires Auto Care",
+      "contact_name": "Damian Enrique Zeledon",
+      "contact_email": "oregontirespdx@gmail.com",
+      "contact_phone": "(503) 367-9714",
+      "sales_rep": "Megan Wink",
+      "store_name": "Fred Meyer",
+      "store_number": "0153",
+      "zone": "07Z",
+      "product_description": "Single Ad",
+      "total_amount": 5225.0,
+      "payment_date": "6/11/2026",
+      "address": "8955 SE 82nd Ave, Happy Valley, 97266-6605",
+      "extracted_at": "2026-06-12T16:52:33.584327",
+      "quarters": 5,
+      "term_months": 15,
+      "is_renewal": false,
+      "paid_in_full": false
+    },
+    {
+      "contract_number": "J432380E",
+      "date": "2026-06-09 00:00",
+      "business_name": "The Chicken Shanty",
+      "contact_name": "Jaymes Clark",
+      "contact_email": "Chickenshantyalbany@gmail.com",
+      "contact_phone": "(760) 521-4305",
+      "sales_rep": "Anthony Marty Eng",
+      "store_name": "Fred Meyer",
+      "store_number": "0005",
+      "zone": "07Y",
+      "product_description": "Single Ad",
+      "total_amount": 5300.0,
+      "payment_date": "6/9/2026",
+      "address": "2500 Santiam Highway Southeast, Albany, 97322",
+      "extracted_at": "2026-06-11T20:01:56.364252",
+      "quarters": 4,
+      "term_months": 12,
+      "is_renewal": false,
+      "paid_in_full": false
     }
   ],
-  "last_scan": "2026-06-10T20:01:34.002018"
+  "last_scan": "2026-06-12T16:53:31.183940"
 }
