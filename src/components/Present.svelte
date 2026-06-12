@@ -105,6 +105,7 @@
     try { cart = JSON.parse(localStorage.getItem('indoormedia_cart') || '[]'); } catch {}
     cart.push({ id: Date.now(), name, price, details, addedAt: new Date().toISOString() });
     localStorage.setItem('indoormedia_cart', JSON.stringify(cart));
+    try { window.dispatchEvent(new Event('cart-updated')); } catch {}
     alert('Added to cart: ' + name);
   }
 

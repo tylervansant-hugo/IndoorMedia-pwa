@@ -814,6 +814,7 @@ Store: ${store.StoreName}
       const cart = JSON.parse(localStorage.getItem('indoormedia_cart') || '[]');
       cart.push(item);
       localStorage.setItem('indoormedia_cart', JSON.stringify(cart));
+      try { window.dispatchEvent(new Event('cart-updated')); } catch {}
       addedToCartMsg = `✅ Added ${store.GroceryChain} - ${store.City}`;
       setTimeout(() => { addedToCartMsg = ''; }, 2500);
     } catch (err) {

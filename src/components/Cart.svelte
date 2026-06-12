@@ -1,6 +1,10 @@
 <script>
-  import { onMount } from 'svelte';
+  import { onMount, onDestroy } from 'svelte';
   import { padAmount, user } from '../lib/stores.js';
+
+  // When true, this tab is the active/visible one. Reload from storage on show
+  // so items added from other tabs (which stay mounted) appear immediately.
+  export let active = false;
   import { PDFDocument, rgb, StandardFonts } from 'pdf-lib';
   import StoreSearchInput from '../lib/StoreSearchInput.svelte';
 
@@ -169,12 +173,28 @@
     };
   })();
 
+  let _lastActive = false;
+  // Reload whenever this tab transitions from hidden -> visible.
+  $: if (active && !_lastActive) { loadCart(); _lastActive = true; }
+  $: if (!active) { _lastActive = false; }
+
+  function onCartUpdated() { loadCart(); }
+
   onMount(async () => {
     loadCart();
+    // Live refresh: other components dispatch this after writing the cart.
+    window.addEventListener('cart-updated', onCartUpdated);
+    // Cross-document changes (rare, multi-tab) still work via storage event.
+    window.addEventListener('storage', onCartUpdated);
     try {
       const res = await fetch(import.meta.env.BASE_URL + 'data/stores.json?t=' + Date.now());
       allStores = await res.json();
     } catch {}
+  });
+
+  onDestroy(() => {
+    window.removeEventListener('cart-updated', onCartUpdated);
+    window.removeEventListener('storage', onCartUpdated);
   });
 
   function loadCart() {
@@ -183,6 +203,7 @@
 
   function saveCart() {
     localStorage.setItem('indoormedia_cart', JSON.stringify(cartItems));
+    try { window.dispatchEvent(new Event('cart-updated')); } catch {}
   }
 
   function removeItem(index) {

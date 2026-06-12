@@ -884,6 +884,9 @@
     theme.subscribe(t => currentTheme = t);
     updateCartCount();
     const interval = setInterval(updateCartCount, 2000);
+    // Instant badge update when any component changes the cart.
+    window.addEventListener('cart-updated', updateCartCount);
+    window.addEventListener('storage', updateCartCount);
 
     try {
       const [contractsRes, storesRes] = await Promise.all([
@@ -1529,7 +1532,7 @@
       <Tools {contracts} />
     </div>
     <div style:display={currentTab === 'cart' ? 'block' : 'none'}>
-      <Cart />
+      <Cart active={currentTab === 'cart'} />
     </div>
     <div style:display={currentTab === 'products' ? 'block' : 'none'}>
       <Products />
