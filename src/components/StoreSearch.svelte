@@ -291,6 +291,8 @@ ${plans.map((p, i) => `<tr class="${i === plans.length - 1 ? 'best' : ''}"><td>$
       visitsPerYear: roiVisitsPerYear || 12,
     });
     const grossRevenue = roiCalc.grossRevenue;
+    const newCustomerRevenue = roiCalc.newCustomerRevenue;
+    const returningRevenue = roiCalc.returningRevenue;
     const cogsAmount = roiCalc.cogs;
     const netRevenue = roiCalc.netRevenue;
     const roiPercent = roiCalc.roiPercent;
@@ -337,6 +339,8 @@ ${plans.map((p, i) => `<tr class="${i === plans.length - 1 ? 'best' : ''}"><td>$
 
 <div class="section">
   <h3>${r.revenue}</h3>
+  <div class="row"><span class="label">New Customer Revenue (compounding)</span><span class="value green">$${newCustomerRevenue.toLocaleString()}</span></div>
+  <div class="row"><span class="label">Returning / Loyal Revenue</span><span class="value green">$${returningRevenue.toLocaleString()}</span></div>
   <div class="row"><span class="label">${r.grossAnnual}</span><span class="value green">$${grossRevenue.toLocaleString()}</span></div>
   ${roiCOGS ? `<div class="row"><span class="label">${r.cogsLabel} (${roiCOGS}%)</span><span class="value red">-$${cogsAmount.toLocaleString()}</span></div>
   <div class="row"><span class="label">${r.netAnnual}</span><span class="value green">$${netRevenue.toLocaleString()}</span></div>` : ''}
@@ -1152,45 +1156,36 @@ Store: ${store.StoreName}
                     </div>
 
                     {#if roiAvgSpend && roiCouponRedemptions}
-                      {@const inv = parseFloat(roiInvestment.replace(/,/g, ''))}
-                      {@const newCust = Math.min(roiNewCustomers || 0, roiCouponRedemptions || 0)}
-                      {@const returningCust = Math.max(0, (roiCouponRedemptions || 0) - newCust)}
-                      {@const newCustomerRevenue = newCust * roiAvgSpend * 78}
-                      {@const returningRevenue = returningCust * roiAvgSpend * 12}
-                      {@const grossRevenue = newCustomerRevenue + returningRevenue}
-                      {@const cogsAmount = grossRevenue * ((roiCOGS || 0) / 100)}
-                      {@const netRevenue = grossRevenue - cogsAmount}
-                      {@const profit = netRevenue - inv}
-                      {@const roiPct = inv > 0 ? ((profit / inv) * 100).toFixed(0) : 0}
+                      {@const roiCalc = sharedCalculateROI({ investment: parseFloat(roiInvestment.replace(/,/g, '')) || 0, avgSpend: roiAvgSpend || 0, couponRedemptions: roiCouponRedemptions || 0, newCustomers: roiNewCustomers || 0, cogsPercent: roiCOGS || 0, visitsPerYear: roiVisitsPerYear || 12 })}
                       
                       <div class="roi-results">
                         <div class="roi-result-card">
                           <span class="roi-label">New Customer Revenue</span>
-                          <span class="roi-value green">${Math.round(newCustomerRevenue).toLocaleString()}</span>
+                          <span class="roi-value green">${roiCalc.newCustomerRevenue.toLocaleString()}</span>
                         </div>
                         <div class="roi-result-card">
                           <span class="roi-label">Returning / Loyal Revenue</span>
-                          <span class="roi-value green">${Math.round(returningRevenue).toLocaleString()}</span>
+                          <span class="roi-value green">${roiCalc.returningRevenue.toLocaleString()}</span>
                         </div>
                         <div class="roi-result-card">
                           <span class="roi-label">Gross Annual Revenue</span>
-                          <span class="roi-value green">${Math.round(grossRevenue).toLocaleString()}</span>
+                          <span class="roi-value green">${roiCalc.grossRevenue.toLocaleString()}</span>
                         </div>
                         <div class="roi-result-card">
                           <span class="roi-label">COGS ({roiCOGS || 0}%)</span>
-                          <span class="roi-value">-${Math.round(cogsAmount).toLocaleString()}</span>
+                          <span class="roi-value">-${roiCalc.cogs.toLocaleString()}</span>
                         </div>
                         <div class="roi-result-card">
                           <span class="roi-label">Net Annual Revenue</span>
-                          <span class="roi-value green">${Math.round(netRevenue).toLocaleString()}</span>
+                          <span class="roi-value green">${roiCalc.netRevenue.toLocaleString()}</span>
                         </div>
                         <div class="roi-result-card">
                           <span class="roi-label">Net Profit</span>
-                          <span class="roi-value green">${Math.round(profit).toLocaleString()}</span>
+                          <span class="roi-value green">${roiCalc.netProfit.toLocaleString()}</span>
                         </div>
                         <div class="roi-result-card highlight">
                           <span class="roi-label">Return on Investment</span>
-                          <span class="roi-value big">{roiPct}% ROI</span>
+                          <span class="roi-value big">{roiCalc.roiPercent}% ROI</span>
                         </div>
                       </div>
                     {/if}

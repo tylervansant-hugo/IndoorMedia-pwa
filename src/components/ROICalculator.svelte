@@ -1,5 +1,6 @@
 <script>
   import { padAmount } from '../lib/stores.js';
+  import { calculateROI } from '../lib/roi.js';
   
   let investment = 3500;
   let avgSpend = 50;
@@ -10,15 +11,15 @@
   // New customers can't exceed total redemptions.
   $: newCustomers = Math.min(newCustomers, couponRedemptions);
   $: returningCustomers = Math.max(0, couponRedemptions - newCustomers);
-  // New customers compound month over month: 12 * 13 / 2 = 78
-  $: newCustomerRevenue = newCustomers * avgSpend * 78;
-  // Returning/existing loyal redeemers: steady recurring monthly stream over 12 months
-  $: returningRevenue = returningCustomers * avgSpend * 12;
-  $: grossRevenue = newCustomerRevenue + returningRevenue;
-  $: cogs = grossRevenue * (cogsPercent / 100);
-  $: netRevenue = grossRevenue - cogs;
-  $: netProfit = netRevenue - investment;
-  $: roi = investment > 0 ? ((netProfit / investment) * 100).toFixed(0) : 0;
+  // Single source of truth: shared ROI module (same as Stores tab + export PDF).
+  $: roiCalc = calculateROI({ investment, avgSpend, couponRedemptions, newCustomers, cogsPercent });
+  $: newCustomerRevenue = roiCalc.newCustomerRevenue;
+  $: returningRevenue = roiCalc.returningRevenue;
+  $: grossRevenue = roiCalc.grossRevenue;
+  $: cogs = roiCalc.cogs;
+  $: netRevenue = roiCalc.netRevenue;
+  $: netProfit = roiCalc.netProfit;
+  $: roi = roiCalc.roiPercent;
 </script>
 
 <div class="roi-container">
