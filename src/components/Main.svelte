@@ -582,44 +582,63 @@
       const rep = c.sales_rep || 'Unknown';
       if (!repPoints[rep]) repPoints[rep] = { points: 0, deals: 0, details: [] };
 
-      const isDigital = (c.product_type === 'digital') ||
-        /FindLocal|ReviewBoost|LoyaltyBoost|DigitalBoost/i.test(c.product_description || '');
-      // DigitalBoost can ride along as a line item inside a register tape contract.
-      // It counts for 1 point whether standalone OR bundled with tape.
+      const pd = c.product_description || '';
+      // DigitalBoost can be its own contract OR a line item inside a tape contract.
+      // Either way the DigitalBoost portion is worth 1 point.
       const hasDigitalBoost = c.has_digitalboost === true ||
-        /digital\s*boost/i.test(c.product_description || '');
+        /digital\s*boost/i.test(pd);
+      // Register tape component (new business tape sale, not a renewal).
+      const hasTape = /single ad|double ad|register tape/i.test(pd);
+      // Other digital-only products (FindLocal/ReviewBoost/LoyaltyBoost) or a
+      // contract flagged as digital — still a 1-point product line.
+      const isOtherDigital = (c.product_type === 'digital') ||
+        /FindLocal|ReviewBoost|LoyaltyBoost/i.test(pd);
       const isRenewal = c.is_renewal === true;
       const isCompanyLead = companyLeads.includes(c.contract_number);
       const isPaidInFull = c.paid_in_full === true;
 
-      let points = 1;
-      let note = '';
+      // Additive scoring — each qualifying component is worth 1 point.
+      let points = 0;
+      const parts = [];
 
-      // Renewal tape = 0 points
-      if (isRenewal && !isDigital) {
-        points = 0;
-        note = 'Renewal (tape)';
-      } else if (isRenewal && isDigital) {
-        note = 'Renewal (digital)';
+      // Register tape (new business) = 1 pt. Renewal tape = 0 pts.
+      if (hasTape) {
+        if (isRenewal) {
+          parts.push('Renewal tape (0)');
+        } else {
+          points += 1;
+          parts.push('Register Tape');
+        }
       }
 
-      // DigitalBoost line item = +1 point, even when bundled on a tape contract.
-      // (When the contract IS the DigitalBoost itself, the base point already
-      //  covers it — only add the extra point when it's an add-on to tape.)
-      const digitalBoostIsStandalone = hasDigitalBoost &&
-        !/single ad|double ad|register tape/i.test(c.product_description || '');
-      if (hasDigitalBoost && !digitalBoostIsStandalone) {
+      // DigitalBoost line item = 1 pt (standalone or bundled with tape).
+      if (hasDigitalBoost) {
         points += 1;
-        note = note ? note + ' + DigitalBoost' : 'DigitalBoost add-on';
+        parts.push('DigitalBoost');
       }
 
-      // Paid in Full bonus: +1 point (only if not excluded by renewal tape)
+      // Other digital product as its own line (and not already counted as DB) = 1 pt.
+      if (isOtherDigital && !hasDigitalBoost && !hasTape) {
+        points += 1;
+        parts.push(isRenewal ? 'Digital (renewal)' : 'Digital');
+      }
+
+      // Fallback: a contract we can't classify still counts as a 1-pt sale
+      // (unless it's a renewal tape, handled above).
+      if (points === 0 && parts.length === 0 && !isRenewal) {
+        points += 1;
+        parts.push('Contract');
+      }
+
+      // Paid in Full = +1 pt (only when the contract scored at least 1 pt).
       if (isPaidInFull && points > 0) {
         points += 1;
-        note = note ? note + ' + PIF' : 'Paid in Full';
+        parts.push('PIF');
       }
 
-      // Company lead = half of total points for this deal
+      let note = parts.join(' + ');
+
+      // Company-provided lead = half of the total points for this deal.
       if (isCompanyLead && points > 0) {
         points = points / 2;
         note = note ? note + ' (company lead ½)' : 'Company lead (½)';
