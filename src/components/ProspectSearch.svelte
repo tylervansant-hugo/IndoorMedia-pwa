@@ -137,6 +137,7 @@
     const data = {
       ownerName: pending.ownerName !== undefined ? pending.ownerName : (existing.ownerName || ''),
       contactPhone: pending.contactPhone !== undefined ? pending.contactPhone : (existing.contactPhone || ''),
+      contactEmail: pending.contactEmail !== undefined ? pending.contactEmail : (existing.contactEmail || ''),
       notes: pending.notes !== undefined ? pending.notes : (existing.notes || ''),
       updatedBy: u?.name || u?.display_name || 'Unknown',
     };
@@ -2015,6 +2016,16 @@
                 value={ld.contactPhone || ''}
                 on:input={(e) => handleSaveLeadData(prospect, 'contactPhone', e.target.value)}
                 on:blur={(e) => handleSaveLeadData(prospect, 'contactPhone', e.target.value)}
+              />
+              <label class="lead-field-label">📧 Contact Email</label>
+              <input 
+                type="email" 
+                class="lead-field-input"
+                placeholder="Contact email address..."
+                autocomplete="email"
+                value={ld.contactEmail || ''}
+                on:input={(e) => handleSaveLeadData(prospect, 'contactEmail', e.target.value)}
+                on:blur={(e) => handleSaveLeadData(prospect, 'contactEmail', e.target.value)}
               />
               <label class="lead-field-label">📝 Notes</label>
               <textarea 
