@@ -55,18 +55,17 @@
   }
 
   async function downloadSign() {
-    if (!selectedChain || !businessCardImage || !adProofImage || !landingPageUrl) {
-      alert('Please fill in all fields:');
+    if (!selectedChain || !businessCardImage || !adProofImage) {
+      alert('Please fill in all required fields:');
       if (!selectedChain) alert('- Select store chain');
       if (!businessCardImage) alert('- Upload business card');
       if (!adProofImage) alert('- Upload ad proof');
-      if (!landingPageUrl) alert('- Enter landing page URL');
       return;
     }
 
-    // Validate URL
-    if (!landingPageUrl.startsWith('http')) {
-      alert('Please enter a valid URL (starting with http:// or https://)');
+    // Validate URL only if one was provided (landing page / QR is optional)
+    if (landingPageUrl && !landingPageUrl.startsWith('http')) {
+      alert('Please enter a valid URL (starting with http:// or https://) or leave it blank');
       return;
     }
 
@@ -140,6 +139,16 @@
       const bcSize = Math.min(footerHeight - 10, adWidth * 0.2);
       ctx.drawImage(bcImg, adMargin + 5, footerY + (footerHeight - bcSize) / 2, bcSize, bcSize);
 
+      // No landing page URL -> skip QR code entirely
+      if (!landingPageUrl) {
+        ctx.fillStyle = '#333';
+        ctx.font = `bold ${Math.round(canvasWidth * 0.04)}px Arial`;
+        ctx.textAlign = 'center';
+        ctx.fillText(`Now Available at ${selectedChain}`, canvasWidth / 2, canvasHeight - 8);
+        downloadCanvas(canvas);
+        return;
+      }
+
       // QR Code (right side)
       try {
         const qrCanvas = document.createElement('canvas');
@@ -194,7 +203,7 @@
     }
   }
 
-  $: isReady = selectedChain && businessCardImage && adProofImage && landingPageUrl;
+  $: isReady = selectedChain && businessCardImage && adProofImage;
 </script>
 
 <div class="counter-sign-container">
@@ -242,10 +251,10 @@
   </div>
 
   <div class="form-section">
-    <label>Landing Page URL (for QR code)</label>
+    <label>Landing Page URL (optional — for QR code)</label>
     <input 
       type="url" 
-      placeholder="https://your-landing-page.com" 
+      placeholder="https://your-landing-page.com (leave blank to skip QR)" 
       bind:value={landingPageUrl}
     />
   </div>
@@ -270,7 +279,7 @@
       <div class="preview-info">
         <span>📍 {selectedChain}</span>
         <span>📏 {getSize().label}</span>
-        <span>🔗 QR Code Enabled</span>
+        <span>{landingPageUrl ? '🔗 QR Code Enabled' : '🚫 No QR Code'}</span>
       </div>
     </div>
   {/if}

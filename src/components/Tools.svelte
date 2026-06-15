@@ -1406,7 +1406,7 @@ Store: ${store}
     {/if}
 
     {#if counterSignStep === 3}
-      <h2>2. Your Landing Page</h2>
+      <h2>2. Your Landing Page <span class="optional-tag">(optional)</span></h2>
       <p class="subtitle">{selectedChainCode}</p>
 
       <div class="form-card">
@@ -1439,10 +1439,10 @@ Store: ${store}
           {/if}
         </div>
 
-        <p class="info-text">💡 Type your name and we'll auto-generate your landing page URL</p>
+        <p class="info-text">💡 Type your name to auto-generate a landing page URL / QR code — or skip this step to create a sign without a QR code.</p>
 
-        <button class="next-btn" on:click={() => counterSignStep = 4} disabled={!counterData.landing_page_url}>
-          Next →
+        <button class="next-btn" on:click={() => counterSignStep = 4}>
+          {counterData.landing_page_url ? 'Next →' : 'Skip — No QR Code →'}
         </button>
       </div>
     {/if}
@@ -1705,6 +1705,12 @@ Store: ${store}
     margin: 0 0 20px;
     color: var(--text-secondary);
     font-size: 14px;
+  }
+
+  .optional-tag {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--text-secondary);
   }
 
   .back-btn {
