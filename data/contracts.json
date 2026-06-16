@@ -8921,6 +8921,27 @@
       "paid_in_full": false
     },
     {
+      "contract_number": "J432459E",
+      "date": "2026-06-11 00:00",
+      "business_name": "A & W All American Food",
+      "contact_name": "Brenda Kederer",
+      "contact_email": "staytonaw@wvi.com",
+      "contact_phone": "(503) 769-5654",
+      "sales_rep": "Amy Dixon",
+      "store_name": "Safeway",
+      "store_number": "1527",
+      "zone": "07Y",
+      "product_description": "Single Ad",
+      "total_amount": 4175.0,
+      "payment_date": "6/11/2026",
+      "address": "1535 North 1St Street, Stayton, 97383",
+      "extracted_at": "2026-06-15T20:00:56.782494",
+      "quarters": 4,
+      "term_months": 12,
+      "is_renewal": true,
+      "paid_in_full": false
+    },
+    {
       "contract_number": "J432460E",
       "date": "2026-06-11 00:00",
       "business_name": "Ginza Sushi & Ramen",
@@ -8938,6 +8959,48 @@
       "extracted_at": "2026-06-10T20:01:33.945825",
       "quarters": 5,
       "term_months": 15,
+      "is_renewal": false,
+      "paid_in_full": false
+    },
+    {
+      "contract_number": "J432703E",
+      "date": "2026-06-15 00:00",
+      "business_name": "Sub Shop",
+      "contact_name": "Terrance Kimble -Amandeep",
+      "contact_email": "Terrancekimble72@gmail.com",
+      "contact_phone": "(208) 230-4547",
+      "sales_rep": "Matthew Boozer",
+      "store_name": "Fred Meyer",
+      "store_number": "0417",
+      "zone": "07Y",
+      "product_description": "Single Ad",
+      "total_amount": 4725.0,
+      "payment_date": "6/15/2026",
+      "address": "3333 W 11th Ave, Eugene, 97402-3053",
+      "extracted_at": "2026-06-15T20:00:56.810371",
+      "quarters": 4,
+      "term_months": 12,
+      "is_renewal": false,
+      "paid_in_full": false
+    },
+    {
+      "contract_number": "J432703E",
+      "date": "2026-06-15 00:00",
+      "business_name": "Sub Shop",
+      "contact_name": "Terrance Kimble -Amandeep",
+      "contact_email": "Terrancekimble72@gmail.com",
+      "contact_phone": "(208) 230-4547",
+      "sales_rep": "Matthew Boozer",
+      "store_name": "Fred Meyer",
+      "store_number": "0325",
+      "zone": "07Y",
+      "product_description": "Single Ad",
+      "total_amount": 0.0,
+      "payment_date": "6/15/2026",
+      "address": "60 Division Ave, Eugene, 97404-5127",
+      "extracted_at": "2026-06-15T20:00:56.810378",
+      "quarters": 1,
+      "term_months": 3,
       "is_renewal": false,
       "paid_in_full": false
     },
@@ -11483,5 +11546,5 @@
       "paid_in_full": false
     }
   ],
-  "last_scan": "2026-06-14T20:00:11.218066"
+  "last_scan": "2026-06-15T20:00:56.811703"
 }
