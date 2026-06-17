@@ -8963,6 +8963,27 @@
       "paid_in_full": false
     },
     {
+      "contract_number": "J432535E",
+      "date": "2026-06-16 00:00",
+      "business_name": "Slabtown Coffee",
+      "contact_name": "Erika Peterson & Urban Moore",
+      "contact_email": "info@slabtowncoffee.shop",
+      "contact_phone": "(541) 658-9278",
+      "sales_rep": "Matthew Boozer",
+      "store_name": "Safeway",
+      "store_number": "1458",
+      "zone": "07Y",
+      "product_description": "Single Ad",
+      "total_amount": 1896.0,
+      "payment_date": "6/16/2026",
+      "address": "1500 E Main St, Cottage Grove, 97424",
+      "extracted_at": "2026-06-16T20:00:50.534796",
+      "quarters": 2,
+      "term_months": 6,
+      "is_renewal": false,
+      "paid_in_full": false
+    },
+    {
       "contract_number": "J432703E",
       "date": "2026-06-15 00:00",
       "business_name": "Sub Shop",
@@ -9002,6 +9023,27 @@
       "quarters": 1,
       "term_months": 3,
       "is_renewal": false,
+      "paid_in_full": false
+    },
+    {
+      "contract_number": "J432773E",
+      "date": "2026-06-16 00:00",
+      "business_name": "El Tapatio",
+      "contact_name": "Margarita Craven",
+      "contact_email": "eltapatio97424@gmail.com",
+      "contact_phone": "(541) 767-0457",
+      "sales_rep": "Matthew Boozer",
+      "store_name": "Safeway",
+      "store_number": "1458",
+      "zone": "07Y",
+      "product_description": "Single Ad",
+      "total_amount": 3792.0,
+      "payment_date": "6/16/2026",
+      "address": "1500 E Main St, Cottage Grove, 97424",
+      "extracted_at": "2026-06-16T20:00:50.570166",
+      "quarters": 4,
+      "term_months": 12,
+      "is_renewal": true,
       "paid_in_full": false
     },
     {
@@ -11546,5 +11588,5 @@
       "paid_in_full": false
     }
   ],
-  "last_scan": "2026-06-15T20:00:56.811703"
+  "last_scan": "2026-06-16T20:00:50.571494"
 }
