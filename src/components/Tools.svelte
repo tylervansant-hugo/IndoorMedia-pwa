@@ -8,7 +8,40 @@
   
   export let contracts = [];
 
-  let view = 'main'; // main, roi, rates, testimonials, audit, counter-sign, submit-testimonial, analytics
+  let view = 'main'; // main, roi, rates, testimonials, audit, counter-sign, submit-testimonial, analytics, scripts
+
+  // Sales Scripts state
+  let scriptsData = [];
+  let scriptsLoading = false;
+  let scriptsError = '';
+  let selectedScript = null;
+  let copiedScriptId = null;
+
+  async function loadScripts() {
+    if (scriptsData.length > 0) return;
+    scriptsLoading = true;
+    scriptsError = '';
+    try {
+      const res = await fetch(import.meta.env.BASE_URL + 'data/sales_scripts.json?t=' + Date.now());
+      if (!res.ok) throw new Error('Failed to load scripts');
+      scriptsData = await res.json();
+    } catch (err) {
+      scriptsError = 'Could not load sales scripts.';
+      scriptsData = [];
+    } finally {
+      scriptsLoading = false;
+    }
+  }
+
+  function copyScript(script) {
+    const text = script.sections
+      .map(s => `${s.heading}\n` + s.lines.map(l => `  ${l}`).join('\n'))
+      .join('\n\n');
+    const full = `${script.title}\n\n${text}`;
+    navigator.clipboard.writeText(full)
+      .then(() => { copiedScriptId = script.id; setTimeout(() => { copiedScriptId = null; }, 2000); })
+      .catch(() => {});
+  }
   // Per-rep pricing pad amounts (manager configurable)
   let repPadAmounts = {};
   try { repPadAmounts = JSON.parse(localStorage.getItem('impro_rep_pads') || '{}'); } catch {}
@@ -420,7 +453,7 @@ Store: ${store}
   const isDev = window.location.hostname === 'localhost';
   let COUNTER_SIGN_API = isDev 
     ? 'http://localhost:3333'
-    : 'https://monte-rare-persons-nsw.trycloudflare.com';
+    : 'https://jefferson-pas-gas-comfortable.trycloudflare.com';
   
   // On production, try to fetch the latest tunnel URL
   if (!isDev) {
@@ -864,6 +897,12 @@ Store: ${store}
         <div class="btn-desc">Find relevant case studies</div>
       </button>
 
+      <button class="main-btn" on:click={() => { view = 'scripts'; loadScripts(); }}>
+        <div class="btn-icon">🎤</div>
+        <div class="btn-text">Sales Scripts</div>
+        <div class="btn-desc">Cold walk-in & appointment scripts</div>
+      </button>
+
       <button class="main-btn" on:click={() => view = 'audit'}>
         <div class="btn-icon">🏪</div>
         <div class="btn-text">Audit Store</div>
@@ -1181,6 +1220,54 @@ Store: ${store}
       </div>
     {:else if testimonialQuery && !testimonialLoading}
       <p class="hint">Press Enter or click Search to find testimonials</p>
+    {/if}
+  {/if}
+
+  <!-- Sales Scripts -->
+  {#if view === 'scripts'}
+    <button class="back-btn" on:click={() => { if (selectedScript) { selectedScript = null; } else { goBack(); } }}>← Back</button>
+    <h2>🎤 Sales Scripts</h2>
+    <p class="subtitle">Proven scripts for cold walk-ins & appointment setting</p>
+
+    {#if scriptsLoading}
+      <p class="hint">Loading scripts…</p>
+    {:else if scriptsError}
+      <div class="error-card">{scriptsError}</div>
+    {:else if selectedScript}
+      <div class="script-detail">
+        <div class="script-detail-head">
+          <h3>{selectedScript.title}</h3>
+          <button class="copy-script-btn" on:click={() => copyScript(selectedScript)}>
+            {copiedScriptId === selectedScript.id ? '✅ Copied' : '📋 Copy'}
+          </button>
+        </div>
+        {#if selectedScript.author}<p class="script-author">by {selectedScript.author}</p>{/if}
+        {#each selectedScript.sections as section}
+          <div class="script-section">
+            <h4>{section.heading}</h4>
+            {#each section.lines as line}
+              <p class="script-line">{line}</p>
+            {/each}
+          </div>
+        {/each}
+      </div>
+    {:else}
+      <div class="script-list">
+        {#each scriptsData as script}
+          <button class="script-card" on:click={() => selectedScript = script}>
+            <div class="script-card-title">{script.title}</div>
+            {#if script.summary}<div class="script-card-summary">{script.summary}</div>{/if}
+            {#if script.tags}
+              <div class="script-tags">
+                {#each script.tags as tag}<span class="script-tag">{tag}</span>{/each}
+              </div>
+            {/if}
+          </button>
+        {/each}
+        {#if scriptsData.length === 0 && !scriptsLoading}
+          <p class="hint">No scripts available yet.</p>
+        {/if}
+      </div>
     {/if}
   {/if}
 
@@ -2219,6 +2306,54 @@ Store: ${store}
     margin: 15px 0;
     font-size: 14px;
   }
+
+  /* Sales Scripts */
+  .script-list { display: flex; flex-direction: column; gap: 12px; margin-top: 16px; }
+  .script-card {
+    text-align: left;
+    background: var(--card-bg, #fff);
+    border: 1px solid var(--border-color, #e0e0e0);
+    border-radius: 12px;
+    padding: 16px;
+    cursor: pointer;
+    transition: border-color 0.15s, transform 0.1s;
+  }
+  .script-card:hover { border-color: #CC0000; }
+  .script-card:active { transform: scale(0.99); }
+  .script-card-title { font-size: 16px; font-weight: 700; color: var(--text-primary, #222); margin-bottom: 4px; }
+  .script-card-summary { font-size: 13px; color: var(--text-secondary, #666); line-height: 1.4; margin-bottom: 8px; }
+  .script-tags { display: flex; flex-wrap: wrap; gap: 6px; }
+  .script-tag {
+    font-size: 11px; font-weight: 600; color: #CC0000;
+    background: rgba(204,0,0,0.08); border-radius: 12px; padding: 3px 10px;
+  }
+
+  .script-detail { margin-top: 16px; }
+  .script-detail-head {
+    display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 4px;
+  }
+  .script-detail-head h3 { font-size: 18px; color: var(--text-primary, #222); margin: 0; }
+  .copy-script-btn {
+    flex-shrink: 0;
+    background: #CC0000; color: #fff; border: none; border-radius: 8px;
+    padding: 8px 14px; font-size: 13px; font-weight: 600; cursor: pointer;
+  }
+  .copy-script-btn:active { transform: scale(0.97); }
+  .script-author { font-size: 12px; color: #888; margin-bottom: 16px; }
+  .script-section {
+    background: var(--card-bg, #fafafa);
+    border: 1px solid var(--border-color, #eee);
+    border-radius: 10px;
+    padding: 14px 16px;
+    margin-bottom: 12px;
+  }
+  .script-section h4 {
+    font-size: 14px; font-weight: 700; color: #CC0000; margin: 0 0 8px 0;
+  }
+  .script-line {
+    font-size: 15px; line-height: 1.5; color: var(--text-primary, #333); margin: 0 0 8px 0;
+  }
+  .script-line:last-child { margin-bottom: 0; }
 
   .success-card {
     background: #e8f5e9;
