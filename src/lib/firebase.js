@@ -44,6 +44,29 @@ export function isFirebaseReady() {
 }
 
 /**
+ * Resolve once Firebase is initialized (or after timeout).
+ * Lets claim/dibs loaders wait instead of silently bailing on cold start.
+ */
+export function whenFirebaseReady(timeoutMs = 8000) {
+  if (db !== null) return Promise.resolve(true);
+  // Make sure an init attempt is in flight.
+  initFirebase();
+  return new Promise((resolve) => {
+    const start = Date.now();
+    const tick = () => {
+      if (db !== null) return resolve(true);
+      if (Date.now() - start >= timeoutMs) return resolve(false);
+      setTimeout(tick, 150);
+    };
+    tick();
+  });
+}
+
+// Eagerly initialize on module load so dibs/claims are ready before
+// any component mounts (prevents claims being lost on cold start/refresh).
+try { initFirebase(); } catch {}
+
+/**
  * Log activity to Firestore
  */
 export async function syncActivity(repName, repId, action, details = {}) {

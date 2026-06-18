@@ -2,7 +2,7 @@
   import { onMount, onDestroy, tick } from 'svelte';
   import { user, currentUser, sharedNearbyStores, sharedSelectedStore, sharedUserLocation } from '../lib/stores.js';
   import { logActivity } from '../lib/activity.js';
-  import { isFirebaseReady, claimStore, releaseStore, getZoneClaims, claimLead, releaseLead, getAllLeadClaims, saveLeadData, getLeadData, getAllLeadData, hashLeadId } from '../lib/firebase.js';
+  import { isFirebaseReady, whenFirebaseReady, claimStore, releaseStore, getZoneClaims, claimLead, releaseLead, getAllLeadClaims, saveLeadData, getLeadData, getAllLeadData, hashLeadId } from '../lib/firebase.js';
   import HotLeadsSubmit from './HotLeadsSubmit.svelte';
   import PendingLeads from './PendingLeads.svelte';
   import StoreSearchInput from '../lib/StoreSearchInput.svelte';
@@ -35,15 +35,28 @@
   let leadDataCache = {}; // keyed by hash — persistent lead data from Firebase
 
   async function loadStoreClaims() {
-    if (!isFirebaseReady()) return;
+    // Show cached dibs instantly (survives offline / cold start)
+    try {
+      const cache = JSON.parse(localStorage.getItem('impro_store_claims') || '{}');
+      const now = new Date();
+      const fresh = {};
+      Object.values(cache).forEach(c => {
+        if (c && c.expiresAt && new Date(c.expiresAt) > now) fresh[c.storeName] = c;
+      });
+      if (Object.keys(fresh).length) storeClaims = fresh;
+    } catch {}
+
+    if (!(await whenFirebaseReady())) return;
     const claims = await getZoneClaims('');
     const map = {};
     claims.forEach(c => { map[c.storeName] = c; });
+    // Firestore is source of truth — replace and refresh the local cache
     storeClaims = map;
+    try { localStorage.setItem('impro_store_claims', JSON.stringify(map)); } catch {}
   }
 
   async function loadLeadClaims() {
-    if (!isFirebaseReady()) return;
+    if (!(await whenFirebaseReady())) return;
     const claims = await getAllLeadClaims();
     const map = {};
     claims.forEach(c => {
@@ -54,7 +67,7 @@
   }
 
   async function loadAllLeadData() {
-    if (!isFirebaseReady()) return;
+    if (!(await whenFirebaseReady())) return;
     const all = await getAllLeadData();
     const map = {};
     all.forEach(d => {
@@ -77,6 +90,7 @@
     if (!u) return;
     const repName = u.name || u.display_name || 'Unknown';
     const repId = u.id || u.rep_id || 'unknown';
+    await whenFirebaseReady();
     const ok = await claimLead(repName, repId, prospect.name, prospect.address, action);
     if (ok) {
       const id = getLeadHash(prospect);
@@ -167,12 +181,27 @@
     const u = $user;
     if (!u) return;
     claimLoading[store.StoreName] = true; claimLoading = claimLoading;
+    await whenFirebaseReady();
     const ok = await claimStore(
       u.name || u.display_name || 'Unknown',
       u.id || u.rep_id || 'unknown',
       store.StoreName,
       store.ZoneName || u.zone || ''
     );
+    if (ok) {
+      // Cache locally too so the dibs survives an offline refresh
+      try {
+        const cache = JSON.parse(localStorage.getItem('impro_store_claims') || '{}');
+        cache[store.StoreName] = {
+          repName: u.name || u.display_name || 'Unknown',
+          repId: u.id || u.rep_id || 'unknown',
+          storeName: store.StoreName,
+          zone: store.ZoneName || '',
+          expiresAt: getNextSatEnd().toISOString(),
+        };
+        localStorage.setItem('impro_store_claims', JSON.stringify(cache));
+      } catch {}
+    }
     if (ok) {
       storeClaims[store.StoreName] = {
         repName: u.name || u.display_name || 'Unknown',
@@ -188,10 +217,16 @@
 
   async function handleStoreRelease(storeName) {
     claimLoading[storeName] = true; claimLoading = claimLoading;
+    await whenFirebaseReady();
     const ok = await releaseStore(storeName);
     if (ok) {
       delete storeClaims[storeName];
       storeClaims = storeClaims;
+      try {
+        const cache = JSON.parse(localStorage.getItem('impro_store_claims') || '{}');
+        delete cache[storeName];
+        localStorage.setItem('impro_store_claims', JSON.stringify(cache));
+      } catch {}
     }
     claimLoading[storeName] = false; claimLoading = claimLoading;
   }
