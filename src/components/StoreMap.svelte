@@ -76,6 +76,88 @@
     }
   }
 
+  // --- Map location search (address / city / ZIP / POI / store number) ---
+  let mapSearchTerm = '';
+  let mapSearchLoading = false;
+  let mapSearchError = '';
+  let searchMarker = null;
+
+  function clearSearchMarker() {
+    if (searchMarker && map) {
+      map.removeLayer(searchMarker);
+      searchMarker = null;
+    }
+  }
+
+  function flyToLocation(lat, lng, label, zoom = 14) {
+    if (!map) return;
+    clearSearchMarker();
+    searchMarker = L.marker([lat, lng], {
+      icon: L.divIcon({
+        className: 'map-search-pin',
+        html: '<div class="search-pin-inner">📍</div>',
+        iconSize: [32, 32],
+        iconAnchor: [16, 32],
+      }),
+    }).addTo(map);
+    if (label) {
+      searchMarker.bindPopup(`<div class="store-map-popup"><strong>${label}</strong></div>`).openPopup();
+    }
+    map.setView([lat, lng], zoom, { animate: true });
+  }
+
+  async function runMapSearch() {
+    const term = (mapSearchTerm || '').trim();
+    if (!term) return;
+    mapSearchError = '';
+
+    // 1) Try matching a store number / store name directly (instant, local)
+    const upper = term.toUpperCase();
+    const matchStore = allStores.find(s =>
+      (s.StoreName || '').toUpperCase() === upper ||
+      (s.StoreName || '').toUpperCase().replace(/\s+/g, '') === upper.replace(/\s+/g, '')
+    ) || allStores.find(s => (s.StoreName || '').toUpperCase().includes(upper) && upper.length >= 4);
+    if (matchStore && matchStore.Latitude && matchStore.Longitude) {
+      flyToLocation(
+        parseFloat(matchStore.Latitude),
+        parseFloat(matchStore.Longitude),
+        `${matchStore.StoreName} — ${matchStore.GroceryChain || ''}`,
+        15
+      );
+      return;
+    }
+
+    // 2) Geocode anything else (address, city, ZIP, point of interest)
+    mapSearchLoading = true;
+    try {
+      const q = encodeURIComponent(term);
+      const res = await fetch(`https://nominatim.openstreetmap.org/search?q=${q}&format=json&limit=1&countrycodes=us`, {
+        headers: { 'Accept': 'application/json' },
+      });
+      const data = await res.json();
+      if (!data || data.length === 0) {
+        mapSearchError = `No location found for “${term}”`;
+        return;
+      }
+      const lat = parseFloat(data[0].lat);
+      const lng = parseFloat(data[0].lon);
+      const label = data[0].display_name ? data[0].display_name.split(',').slice(0, 3).join(', ') : term;
+      // ZIP/city get a wider zoom; specific addresses zoom in tighter
+      const isBroad = /^\d{5}$/.test(term) || data[0].type === 'city' || data[0].type === 'administrative';
+      flyToLocation(lat, lng, label, isBroad ? 12 : 15);
+    } catch (err) {
+      mapSearchError = 'Search failed — check connection and try again.';
+    } finally {
+      mapSearchLoading = false;
+    }
+  }
+
+  function clearMapSearch() {
+    mapSearchTerm = '';
+    mapSearchError = '';
+    clearSearchMarker();
+  }
+
   function updateUserLocationMarker() {
     if (!map) return;
     // Remove old location layers
@@ -499,6 +581,23 @@
   {#if !isFullscreen}
     <!-- Normal mode: full filter bar -->
     <div class="filter-bar no-print">
+      <div class="map-search-row">
+        <span class="map-search-icon">🔍</span>
+        <input
+          type="text"
+          class="map-search-input"
+          bind:value={mapSearchTerm}
+          on:keydown={(e) => e.key === 'Enter' && runMapSearch()}
+          placeholder="Search address, city, ZIP, place, or store #…"
+        />
+        {#if mapSearchTerm}
+          <button class="map-search-clear" on:click={clearMapSearch} title="Clear">✕</button>
+        {/if}
+        <button class="map-search-go" on:click={runMapSearch} disabled={mapSearchLoading || !mapSearchTerm.trim()}>
+          {mapSearchLoading ? '⏳' : 'Go'}
+        </button>
+      </div>
+      {#if mapSearchError}<div class="map-search-error">{mapSearchError}</div>{/if}
       <div class="filter-grid">
         <select bind:value={selectedRep} class="filter-select">
           <option value="">All Reps</option>
@@ -546,6 +645,14 @@
     <!-- Fullscreen mode: compact toolbar -->
     <div class="fs-toolbar">
       <button class="fs-btn fs-exit" on:click={toggleFullscreen}>✕</button>
+      <input
+        type="text"
+        class="fs-search-input"
+        bind:value={mapSearchTerm}
+        on:keydown={(e) => e.key === 'Enter' && runMapSearch()}
+        placeholder="Search address, city, ZIP, store #…"
+      />
+      <button class="fs-btn" on:click={runMapSearch} disabled={mapSearchLoading || !mapSearchTerm.trim()}>{mapSearchLoading ? '⏳' : '🔍'}</button>
       <button class="fs-btn" on:click={centerOnUserLocation} disabled={!userLatLng}>📍</button>
       <select bind:value={selectedZone} class="fs-select">
         <option value="">Zone</option>
@@ -573,6 +680,69 @@
     height: calc(100vh - 180px);
     min-height: 400px;
     position: relative;
+  }
+
+  /* Map location search */
+  .map-search-row {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-bottom: 8px;
+    background: var(--input-bg, #fff);
+    border: 1px solid var(--border-color, #ddd);
+    border-radius: 10px;
+    padding: 4px 8px;
+  }
+  .map-search-icon { font-size: 14px; opacity: 0.7; }
+  .map-search-input {
+    flex: 1;
+    border: none;
+    outline: none;
+    background: transparent;
+    font-size: 15px;
+    padding: 8px 2px;
+    color: var(--text-primary, #222);
+    min-width: 0;
+  }
+  .map-search-clear {
+    border: none;
+    background: transparent;
+    color: #999;
+    font-size: 16px;
+    cursor: pointer;
+    padding: 2px 6px;
+  }
+  .map-search-go {
+    border: none;
+    background: #CC0000;
+    color: #fff;
+    font-weight: 700;
+    font-size: 14px;
+    border-radius: 8px;
+    padding: 8px 16px;
+    cursor: pointer;
+  }
+  .map-search-go:disabled { opacity: 0.5; cursor: default; }
+  .map-search-error {
+    color: #c33;
+    font-size: 13px;
+    margin: -4px 0 8px;
+    padding-left: 4px;
+  }
+  .fs-search-input {
+    flex: 1;
+    min-width: 0;
+    border: 1px solid rgba(255,255,255,0.4);
+    border-radius: 8px;
+    padding: 8px 10px;
+    font-size: 14px;
+    background: rgba(255,255,255,0.95);
+    color: #222;
+  }
+  :global(.map-search-pin .search-pin-inner) {
+    font-size: 28px;
+    line-height: 1;
+    filter: drop-shadow(0 2px 3px rgba(0,0,0,0.4));
   }
 
   .store-map-wrapper.fullscreen {
