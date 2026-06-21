@@ -203,5 +203,14 @@
     "registered_at": "2026-03-31",
     "base_location": "National",
     "assigned_stores": []
+  },
+  "giana_horvath": {
+    "contract_name": "Giana Horvath",
+    "display_name": "Giana Horvath",
+    "role": "rep",
+    "registered_at": "2026-06-18",
+    "email": "Gianahorvath570@gmail.com",
+    "base_location": "",
+    "assigned_stores": []
   }
 }
