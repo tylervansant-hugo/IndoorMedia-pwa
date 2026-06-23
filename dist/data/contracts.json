@@ -9258,6 +9258,27 @@
       "paid_in_full": false
     },
     {
+      "contract_number": "J432811E",
+      "date": "2026-06-22 00:00",
+      "business_name": "Wild Willy\u2019s Car Wash",
+      "contact_name": "Will Minihan",
+      "contact_email": "Wminihan@yahoo.com",
+      "contact_phone": "(541) 221-0748",
+      "sales_rep": "Matthew Boozer",
+      "store_name": "Fred Meyer",
+      "store_number": "0417",
+      "zone": "07Y",
+      "product_description": "Single Ad",
+      "total_amount": 0.0,
+      "payment_date": "6/22/2026",
+      "address": "3333 W 11th Ave, Eugene, 97402-3053",
+      "extracted_at": "2026-06-22T20:00:17.600723",
+      "quarters": 1,
+      "term_months": 3,
+      "is_renewal": false,
+      "paid_in_full": true
+    },
+    {
       "contract_number": "J432859E",
       "date": "2026-06-18 00:00",
       "business_name": "Blue Star Gas",
@@ -11841,5 +11862,5 @@
       "paid_in_full": false
     }
   ],
-  "last_scan": "2026-06-20T20:00:11.769628"
+  "last_scan": "2026-06-22T20:00:17.630872"
 }

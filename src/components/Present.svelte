@@ -100,6 +100,72 @@
   let selectedTier = null;
   let selectedDigital = null;
 
+  // Shareable marketing graphics
+  const BASE = import.meta.env.BASE_URL || '/';
+  const graphics = [
+    { id: 'household-name', file: 'marketing/household-name.jpg', title: 'Become a Household Name',
+      caption: 'Become a household name in your area. Reach every shopper, every trip -- with IndoorMedia.' },
+    { id: 'grow-your-business', file: 'marketing/grow-your-business.jpg', title: 'Grow Your Business',
+      caption: 'Grow your business with IndoorMedia -- register tape, cart ads & digital working together to reach local customers.' },
+    { id: 'hype-fades-habits', file: 'marketing/hype-fades-habits.jpg', title: "Hype Fades. Habits Don't.",
+      caption: "Hype fades. Habits don't. Unique & exclusive marketing that has worked for over three decades -- IndoorMedia." },
+    { id: 'neighbors-customers', file: 'marketing/neighbors-customers.jpg', title: 'Turn Neighbors Into Customers',
+      caption: 'Turn your neighbors into customers -- as low as $10/day with IndoorMedia.' },
+  ];
+
+  async function shareGraphic(g) {
+    const url = BASE + g.file;
+    const msg = `${g.caption}\n\n-- ${repName()}, IndoorMedia`;
+    try {
+      // Try sharing the actual image file (mobile)
+      const res = await fetch(url);
+      const blob = await res.blob();
+      const file = new File([blob], g.id + '.jpg', { type: 'image/jpeg' });
+      if (navigator.canShare && navigator.canShare({ files: [file] })) {
+        await navigator.share({ files: [file], text: msg });
+        shareFeedback = '\u2705 Shared!';
+        setTimeout(() => shareFeedback = '', 3000);
+        return;
+      }
+      if (navigator.share) {
+        await navigator.share({ text: msg, url: window.location.origin + url });
+        shareFeedback = '\u2705 Shared!';
+        setTimeout(() => shareFeedback = '', 3000);
+        return;
+      }
+      // Desktop fallback: copy caption + open image
+      await navigator.clipboard.writeText(msg);
+      window.open(url, '_blank');
+      shareFeedback = '\u2705 Caption copied -- image opened in new tab';
+    } catch (e) {
+      try { window.open(url, '_blank'); shareFeedback = '\u2705 Image opened'; }
+      catch { shareFeedback = '\u274c Could not share'; }
+    }
+    setTimeout(() => shareFeedback = '', 4000);
+  }
+
+  async function downloadGraphic(g) {
+    const url = BASE + g.file;
+    try {
+      const res = await fetch(url);
+      const blob = await res.blob();
+      if (navigator.share && /iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {
+        const file = new File([blob], g.id + '.jpg', { type: 'image/jpeg' });
+        try { await navigator.share({ files: [file], title: g.title }); return; } catch {}
+      }
+      const blobUrl = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = blobUrl; a.download = g.id + '.jpg';
+      document.body.appendChild(a); a.click(); a.remove();
+      setTimeout(() => URL.revokeObjectURL(blobUrl), 5000);
+      shareFeedback = '\u2705 Downloaded!';
+    } catch {
+      window.open(url, '_blank');
+      shareFeedback = '\u2705 Image opened';
+    }
+    setTimeout(() => shareFeedback = '', 3000);
+  }
+
   function addToCart(name, price, details) {
     let cart = [];
     try { cart = JSON.parse(localStorage.getItem('indoormedia_cart') || '[]'); } catch {}
@@ -132,7 +198,7 @@
       
       'cartvertising': `🛒 Cartvertising -- IndoorMedia\nFull-color ads mounted at eye level on shopping carts!\n\n✅ Eye-level visibility -- impossible to miss\n✅ 40+ minutes per shopping trip with your ad\n✅ Full-color, high-quality printing\n✅ Massive reach -- thousands of shoppers per cart\n\n🎥 See how it works: ${VIDEO_LINKS['cartvertising'].explainer}\n\n-- ${repName()}, IndoorMedia`,
       
-      'digitalboost': `🚀 𝗗𝗶𝗴𝗶𝘁𝗮𝗹𝗕𝗼𝗼𝘀𝘁 — Targeted Digital Advertising\n━━━━━━━━━━━━━━━━━━━━\n✨ Eye-catching ANIMATED banner ads that follow your ideal customers across the web.\n\n🌐 Running on 𝟮,𝟬𝟬𝟬,𝟬𝟬𝟬+ 𝘄𝗲𝗯𝘀𝗶𝘁𝗲𝘀 & apps\n🎯 Targeting YOUR ideal customers — not just anyone\n📊 Dial it in by 𝗱𝗲𝗺𝗼𝗴𝗿𝗮𝗽𝗵𝗶𝗰𝘀 (age, gender, income, location) AND 𝗶𝗻𝘁𝗲𝗿𝗲𝘀𝘁𝘀\n📍 Geofence pins drop your ad right where customers are\n📈 240,000 – 360,000 impressions per pin\n📑 Monthly performance reports\n\n👀 See animated examples in action:\nhttps://www.indoormedia.com/digital-boost-ads/\n\n🎥 How it works: ${VIDEO_LINKS.digitalboost.explainer}\n\n— ${repName()}, IndoorMedia`,
+      'digitalboost': `🚀 𝗗𝗶𝗴𝗶𝘁𝗮𝗹𝗕𝗼𝗼𝘀𝘁 — Targeted Digital Advertising\n━━━━━━━━━━━━━━━━━━━━\n✨ Eye-catching 𝗔𝗡𝗜𝗠𝗔𝗧𝗘𝗗 300×250 banner ads that follow your ideal customers across the web.\n\n🌐 Running on 𝟮,𝟬𝟬𝟬,𝟬𝟬𝟬+ 𝘄𝗲𝗯𝘀𝗶𝘁𝗲𝘀 & apps\n🎯 Targeting YOUR ideal customers — not just anyone\n📊 Dial it in by 𝗱𝗲𝗺𝗼𝗴𝗿𝗮𝗽𝗵𝗶𝗰𝘀 (age, gender, income, location) AND 𝗶𝗻𝘁𝗲𝗿𝗲𝘀𝘁𝘀\n📍 Geofence-targeted to a 1-mile radius of the store, your address, or chosen ZIP codes\n📈 240,000 – 360,000 impressions per pin\n📑 Monthly performance reports\n\n👀 See animated examples in action:\nhttps://www.indoormedia.com/digital-boost-ads/\n\n🎥 How it works: ${VIDEO_LINKS.digitalboost.explainer}\n\n— ${repName()}, IndoorMedia`,
       
       'findlocal': `📍 FindLocal -- Local SEO & Listings\nGet your business found everywhere customers are searching!\n\n✅ 50+ directory submissions\n✅ NAP optimization (name, address, phone)\n✅ Google Business Profile sync\n✅ Automated monthly progress reports\n\n🎥 See how it works: ${VIDEO_LINKS.findlocal.explainer}\n\n-- ${repName()}, IndoorMedia`,
       
@@ -396,6 +462,17 @@
       <span class="arrow">→</span>
     </button>
 
+    <button class="prep-card graphics-card" on:click={() => view = 'graphics'}>
+      <div class="prep-left">
+        <div class="prep-icon">🖼️</div>
+        <div>
+          <h3>Shareable Graphics</h3>
+          <p>Send ready-made marketing images to prospects via text or email</p>
+        </div>
+      </div>
+      <span class="arrow">→</span>
+    </button>
+
     <div class="product-grid">
       {#each products as p}
         <button class="product-card" on:click={() => view = p.id}>
@@ -567,6 +644,27 @@
     {/if}
     <div style="height:80px;"></div>
 
+  <!-- ========== SHAREABLE GRAPHICS ========== -->
+  {:else if view === 'graphics'}
+    <button class="back-btn" on:click={() => view = 'menu'}>← Back</button>
+    <h2>🖼️ Shareable Graphics</h2>
+    <p class="subtitle">Tap Send to text/email the image, or Download to save it</p>
+
+    <div class="graphics-grid">
+      {#each graphics as g}
+        <div class="graphic-item">
+          <img class="graphic-img" src={BASE + g.file} alt={g.title} loading="lazy" />
+          <h4>{g.title}</h4>
+          <div class="btn-row">
+            <button class="share-btn" on:click={() => shareGraphic(g)}>📩 Send</button>
+            <button class="pdf-btn" on:click={() => downloadGraphic(g)}>⬇️ Save</button>
+          </div>
+        </div>
+      {/each}
+    </div>
+    {#if shareFeedback}<p class="share-feedback">{shareFeedback}</p>{/if}
+    <div style="height:80px;"></div>
+
   {:else if view === 'meeting-prep'}
     <MeetingPrep onBack={() => view = 'menu'} />
   {/if}
@@ -676,4 +774,16 @@
   .pdf-btn { flex:0 0 auto; padding:14px 18px; background:#2e7d32; color:white; border:none; border-radius:12px; font-size:16px; font-weight:700; cursor:pointer; white-space:nowrap; }
   .pdf-btn:hover { background:#1b5e20; }
   .share-feedback { text-align: center; font-size: 14px; color: #2e7d32; font-weight: 600; margin-top: 8px; }
+
+  /* Shareable graphics */
+  .graphics-card { border-color:#1565C0; }
+  .graphics-card h3 { color:#1565C0; }
+  .graphics-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:14px; }
+  .graphic-item { background:var(--card-bg); border:2px solid var(--border-color); border-radius:14px; padding:10px; }
+  .graphic-img { width:100%; aspect-ratio:1/1; object-fit:cover; border-radius:10px; display:block; }
+  .graphic-item h4 { margin:8px 0 8px; font-size:13px; font-weight:700; color:var(--text-primary); line-height:1.3; text-align:center; }
+  .graphic-item .btn-row { gap:6px; }
+  .graphic-item .share-btn { flex:1; margin-top:0; padding:10px 6px; font-size:13px; }
+  .graphic-item .pdf-btn { flex:1; padding:10px 6px; font-size:13px; }
+  @media (max-width:380px){ .graphics-grid { grid-template-columns:1fr; } }
 </style>
