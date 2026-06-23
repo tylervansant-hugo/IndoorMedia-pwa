@@ -111,6 +111,12 @@
       caption: "Hype fades. Habits don't. Unique & exclusive marketing that has worked for over three decades -- IndoorMedia." },
     { id: 'neighbors-customers', file: 'marketing/neighbors-customers.jpg', title: 'Turn Neighbors Into Customers',
       caption: 'Turn your neighbors into customers -- as low as $10/day with IndoorMedia.' },
+    { id: 'billboard-vs-cart-5sec', file: 'marketing/billboard-vs-cart-5sec.jpg', title: 'Billboard 5 Sec vs Cart 30 Min',
+      caption: 'A billboard gets 5 seconds. A cart ad gets 30 minutes. Put your business in front of shoppers the entire trip -- with IndoorMedia.' },
+    { id: 'reach-local-families', file: 'marketing/reach-local-families.jpg', title: 'Reach Local Families Daily',
+      caption: 'Reach thousands of local families every day. Get your business in front of the customers who matter most -- with IndoorMedia.' },
+    { id: 'billboard-vs-cart-cost', file: 'marketing/billboard-vs-cart-cost.jpg', title: 'Billboard vs Grocery Cart',
+      caption: 'Billboard vs. grocery cart advertising: 30+ minutes of attention, thousands of local homeowners, and just $10/day average. The smarter local buy -- IndoorMedia.' },
   ];
 
   async function shareGraphic(g) {
