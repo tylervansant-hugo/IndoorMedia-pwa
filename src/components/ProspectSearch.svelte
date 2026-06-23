@@ -2089,12 +2089,33 @@
               </button>
               {#if prospect._selectedScript === 'tvs-appt'}
                 <div class="script-preview-box">
-                  <p class="script-text">Hey there, I was hoping you could point me in the right direction on something…?</p>
-                  <p class="script-text">My name is <strong>{$user?.name || $user?.first_name || '[Your Name]'}</strong> and I was calling because I'm working with the <strong>{selectedStore?.GroceryChain || '[Store Chain]'}</strong> over on <strong>{selectedStore?.Address?.split(',')[0] || '[Street Name]'}</strong> and was getting in touch because we are kicking off a huge promotion and support of local business.</p>
-                  <p class="script-text">We are going to be featuring and recommending just a few great local businesses, and right now I am looking to recommend just one <strong>{selectedSubcategory || selectedCategory || '[Business Type]'}</strong> to all of their shoppers.</p>
-                  <p class="script-text">We already work with a ton of <strong>{selectedSubcategory || selectedCategory || '[Business Type]'}s</strong> with huge success in driving customers, and I was curious, <em>who should I talk to about doing the same for you?</em></p>
+                  <p class="script-label">🚪 Opener</p>
+                  <p class="script-text">Hey there, I was hoping you could point me in the right direction…</p>
+                  <p class="script-text">My name is <strong>{$user?.name || $user?.first_name || '[Your Name]'}</strong> and I am working with the <strong>{selectedStore?.GroceryChain || '[Store]'}</strong> store down the road{#if selectedStore?.Address} on <strong>{selectedStore.Address.split(',')[0]}</strong>{/if}.</p>
+                  <p class="script-text">Reason for the visit is we're kicking off a big promotion over at the store and will be featuring and recommending just a few local businesses to all their customers.</p>
+                  <p class="script-text">We see huge success for other businesses like yours and some of your neighbors as well <em>(give examples if you have them)</em>.</p>
+                  <p class="script-text"><em>Who should I talk to about doing the same for your business?</em></p>
+
+                  <p class="script-label">✅ If it's the decision-maker</p>
+                  <p class="script-text">Oh perfect — what I'd like to do is schedule a brief meeting to learn more about your business, share what we do for similar local businesses, and most importantly what we could do for you.</p>
+                  <p class="script-text">I can be back in about 15 minutes or at ____. Which works best for you?</p>
+                  <p class="script-text">Great! And I'm sure you're going to love it. If for some reason you don't, you have no problem just telling me no, right?</p>
+                  <p class="script-text">But on the other hand, when you love it like I predict — <em>is there anyone else who needs to see my program in order to say yes?</em></p>
+
+                  <p class="script-reminder">⚠️ <strong>Reminder:</strong> Schedule for a time that fits all parties (including any other decision-makers).</p>
+
+                  <p class="script-label">💡 Coaching Notes</p>
+                  <ul class="script-notes">
+                    <li>Pattern interrupt + social proof opens the door without a hard pitch.</li>
+                    <li>"Be back in 15 minutes or at ____" is an assumptive close — keep it confident.</li>
+                    <li>"You have no problem telling me no, right?" lowers resistance (tie-down).</li>
+                    <li>The decision-maker question is the money line. Don't skip it — it prevents wasted closes where the buyer says "I need to check with my partner."</li>
+                  </ul>
+
                   <button class="action-btn full-width" on:click={() => {
-                    const script = `Hey there, I was hoping you could point me in the right direction on something…?\n\nMy name is ${$user?.name || $user?.first_name || '[Your Name]'} and I was calling because I'm working with the ${selectedStore?.GroceryChain || '[Store Chain]'} over on ${selectedStore?.Address?.split(',')[0] || '[Street Name]'} and was getting in touch because we are kicking off a huge promotion and support of local business.\n\nWe are going to be featuring and recommending just a few great local businesses, and right now I am looking to recommend just one ${selectedSubcategory || selectedCategory || '[Business Type]'} to all of their shoppers.\n\nWe already work with a ton of ${selectedSubcategory || selectedCategory || '[Business Type]'}s with huge success in driving customers, and I was curious, who should I talk to about doing the same for you?`;
+                    const rep = $user?.name || $user?.first_name || '[Your Name]';
+                    const store = selectedStore?.GroceryChain || '[Store]';
+                    const script = `TVS COLD WALK-IN / APPOINTMENT SETTING\n\n— OPENER —\nHey there, I was hoping you could point me in the right direction…\n\nMy name is ${rep} and I am working with the ${store} store down the road.\n\nReason for the visit is we're kicking off a big promotion over at the store and will be featuring and recommending just a few local businesses to all their customers.\n\nWe see huge success for other businesses like yours and some of your neighbors as well (give examples if you have them).\n\nWho should I talk to about doing the same for your business?\n\n— IF IT'S THE DECISION-MAKER —\nOh perfect — what I'd like to do is schedule a brief meeting to learn more about your business, share what we do for similar local businesses, and most importantly what we could do for you.\n\nI can be back in about 15 minutes or at ____. Which works best for you?\n\nGreat! And I'm sure you're going to love it. If for some reason you don't, you have no problem just telling me no, right?\n\nBut on the other hand, when you love it like I predict — is there anyone else who needs to see my program in order to say yes?\n\n⚠️ REMINDER: Schedule for a time that fits all parties (including any other decision-makers).`;
                     navigator.clipboard.writeText(script);
                     alert('✅ Script copied!');
                   }}>📋 Copy Script</button>
@@ -3543,6 +3564,36 @@
   .script-text:last-of-type { margin-bottom: 14px; }
   .script-text strong { color: #1565c0; }
   .script-text em { font-style: italic; color: #c62828; font-weight: 600; }
+
+  .script-label {
+    margin: 14px 0 8px;
+    font-size: 13px;
+    font-weight: 800;
+    color: #1565c0;
+    text-transform: uppercase;
+    letter-spacing: .3px;
+    border-bottom: 2px solid var(--border-color);
+    padding-bottom: 4px;
+  }
+  .script-label:first-child { margin-top: 0; }
+  .script-reminder {
+    margin: 14px 0;
+    padding: 10px 12px;
+    background: rgba(255, 193, 7, .12);
+    border-left: 4px solid #ffb300;
+    border-radius: 6px;
+    font-size: 13px;
+    line-height: 1.5;
+    color: var(--text-primary);
+  }
+  .script-notes {
+    margin: 8px 0 14px;
+    padding-left: 18px;
+    font-size: 13px;
+    line-height: 1.6;
+    color: var(--text-secondary);
+  }
+  .script-notes li { margin-bottom: 6px; }
 
   .note-saved { margin: 4px 0 0; font-size: 11px; color: #2e7d32; font-weight: 600; text-align: right; }
 
