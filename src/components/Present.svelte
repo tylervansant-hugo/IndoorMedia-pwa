@@ -117,6 +117,18 @@
       caption: 'Reach thousands of local families every day. Get your business in front of the customers who matter most -- with IndoorMedia.' },
     { id: 'billboard-vs-cart-cost', file: 'marketing/billboard-vs-cart-cost.jpg', title: 'Billboard vs Grocery Cart',
       caption: 'Billboard vs. grocery cart advertising: 30+ minutes of attention, thousands of local homeowners, and just $10/day average. The smarter local buy -- IndoorMedia.' },
+    { id: 'easy-choice', file: 'marketing/easy-choice.jpg', title: 'Be the Easy Choice',
+      caption: 'Be the easy choice. Put your business in front of local customers right when they\'re deciding where to go -- with IndoorMedia.' },
+    { id: 'fill-slow-hours', file: 'marketing/fill-slow-hours.jpg', title: 'Fill Your Slow Hours',
+      caption: 'Fill your slow hours. Drive local customers in during the times you need them most -- with IndoorMedia.' },
+    { id: 'drive-traffic-not-fees', file: 'marketing/drive-traffic-not-fees.jpg', title: 'Drive Traffic, Not 30% Fees',
+      caption: 'Drive in-store traffic, not 30% delivery fees. Bring customers straight to your door and keep your margins -- with IndoorMedia.' },
+    { id: 'win-your-neighborhood', file: 'marketing/win-your-neighborhood.jpg', title: 'Win Your Neighborhood',
+      caption: 'Win your neighborhood -- as low as $10 per day. Become the go-to local spot with IndoorMedia.' },
+    { id: 'every-customers-hand', file: 'marketing/every-customers-hand.jpg', title: 'In Every Customer\'s Hand',
+      caption: 'Your business placed in every customer\'s hand. Register tape ads put your offer directly into the hands of every shopper -- with IndoorMedia.' },
+    { id: 'register-tape-testimonial', file: 'marketing/register-tape-testimonial.jpg', title: 'Register Tape Testimonial',
+      caption: '"I definitely recommend all businesses like ours to use register tape as their local advertising. It\'s the best way to reach the community." -- IndoorMedia client' },
   ];
 
   async function shareGraphic(g) {
