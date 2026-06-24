@@ -156,5 +156,12 @@
     "display_name": "Amy Dixon",
     "role": "rep",
     "registered_at": "2026-04-07"
+  },
+  "jim_bouret": {
+    "contract_name": "Jim Bouret",
+    "display_name": "Jim Bouret",
+    "email": "Jimmilesbouret@gmail.com",
+    "role": "rep",
+    "registered_at": "2026-06-24"
   }
 }
