@@ -9321,6 +9321,27 @@
       "paid_in_full": false
     },
     {
+      "contract_number": "J433014E",
+      "date": "2026-06-23 00:00",
+      "business_name": "More Boba",
+      "contact_name": "Trang Le",
+      "contact_email": "Letrang133@gmail.com",
+      "contact_phone": "(541) 206-5158",
+      "sales_rep": "Matthew Boozer",
+      "store_name": "Albertsons",
+      "store_number": "0574",
+      "zone": "07Y",
+      "product_description": "Single Ad",
+      "total_amount": 0.0,
+      "payment_date": "6/23/2026",
+      "address": "5755 Main St, Springfield, 97478",
+      "extracted_at": "2026-06-23T20:00:17.735069",
+      "quarters": 1,
+      "term_months": 3,
+      "is_renewal": false,
+      "paid_in_full": true
+    },
+    {
       "contract_number": "D413319E",
       "date": "",
       "business_name": "Before n after weight loss",
@@ -11862,5 +11883,5 @@
       "paid_in_full": false
     }
   ],
-  "last_scan": "2026-06-22T20:00:17.630872"
+  "last_scan": "2026-06-23T20:00:17.736423"
 }
