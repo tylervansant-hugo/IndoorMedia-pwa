@@ -921,6 +921,9 @@ Store: ${store.StoreName}
                   📍 {(calcDistance(userLocation.lat, userLocation.lng, store.latitude, store.longitude)).toFixed(1)} mi away
                 </p>
               {/if}
+              <button class="prospect-store-btn" on:click|stopPropagation={() => document.dispatchEvent(new CustomEvent('map-action', { detail: { action: 'prospect', store } }))}>
+                🎯 Prospect Store
+              </button>
             </div>
 
             <!-- Store Claim (Dibs) -->
@@ -2007,6 +2010,26 @@ Store: ${store.StoreName}
   .claim-release-btn:disabled {
     opacity: 0.5;
     cursor: not-allowed;
+  }
+  .prospect-store-btn {
+    width: 100%;
+    margin-top: 10px;
+    padding: 10px;
+    background: #CC0000;
+    border: none;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 700;
+    color: #fff;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .prospect-store-btn:hover {
+    background: #A30000;
+    transform: translateY(-1px);
+  }
+  .prospect-store-btn:active {
+    transform: translateY(0);
   }
   .claim-btn {
     width: 100%;

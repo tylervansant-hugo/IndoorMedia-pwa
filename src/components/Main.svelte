@@ -1547,10 +1547,12 @@
     <!-- Keep components mounted (display:none) so tab state is preserved -->
     <div style:display={currentTab === 'stores' ? 'block' : 'none'}>
       <div class="stores-view-toggle">
-        <button class="view-toggle-btn" class:active={storesView === 'rates'} on:click={() => storesView = 'rates'}>📊 Rates</button>
-        <button class="view-toggle-btn" class:active={storesView === 'prospects'} on:click={() => storesView = 'prospects'}>🎯 Prospects</button>
+        <button class="view-toggle-btn" class:active={storesView === 'rates' || storesView === 'prospects'} on:click={() => storesView = 'rates'}>🏪 Stores</button>
         <button class="view-toggle-btn" class:active={storesView === 'map'} on:click={() => storesView = 'map'}>🗺️ Map</button>
       </div>
+      {#if storesView === 'prospects'}
+        <button class="prospect-back-btn" on:click={() => storesView = 'rates'}>← Back to Stores</button>
+      {/if}
       <div style:display={storesView === 'rates' ? 'block' : 'none'}>
         <StoreSearch />
       </div>
@@ -2449,6 +2451,25 @@
     border-color: #CC0000;
   }
   .view-toggle-btn:hover:not(.active) {
+    border-color: #CC0000;
+    color: #CC0000;
+  }
+  .prospect-back-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    margin-bottom: 12px;
+    padding: 8px 16px;
+    border: 1px solid var(--border-color, #ddd);
+    border-radius: 20px;
+    background: var(--card-bg, #fff);
+    color: var(--text-primary, #333);
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .prospect-back-btn:hover {
     border-color: #CC0000;
     color: #CC0000;
   }
