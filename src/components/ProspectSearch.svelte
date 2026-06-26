@@ -260,7 +260,13 @@
 
   // Load video library on mount
   function handleStoreSelectFromMap(e) {
-    const storeName = e.detail;
+    const payload = e.detail;
+    // If a full store object was passed, select it directly (skip lookup/intermediate screens)
+    if (payload && typeof payload === 'object' && payload.StoreName) {
+      selectStore(payload);
+      return;
+    }
+    const storeName = payload;
     // Try immediately, then retry if allStores hasn't loaded yet
     function trySelect() {
       const store = nearbyStores.find(s => s.StoreName === storeName) || allStores.find(s => s.StoreName === storeName);
