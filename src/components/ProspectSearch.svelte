@@ -1333,6 +1333,85 @@
       body: 'Hi {contact},\n\nI wanted to give you a heads up — we have limited ad placement availability at {store}.\n\nWith {customers} shoppers per week, this is one of the highest-traffic locations in the area. Our partnership program is filling up fast, and I\'d hate for {business} to miss out.\n\nCan we schedule a quick call this week?\n\nBest,\n{rep}\nIndoorMedia' },
   ];
 
+  // Category-specific email templates. Keyed by a matcher run against the
+  // selected category + subcategory (lowercased). The first matching group's
+  // templates are surfaced ABOVE the generic ones with a category badge.
+  const categoryEmailTemplates = [
+    {
+      match: ['real estate', 'realtor', 'realty', 'mortgage', 'broker'],
+      label: 'Realtor',
+      templates: [
+        { id: 'realtor-listings', icon: '🏡', name: 'Realtor — Own Your Market',
+          subject: 'Be the agent {business}\'s neighbors think of first',
+          body: 'Hi {contact},\n\nIn real estate, the agent who stays top-of-mind wins the listing. {store_cap} puts your name, photo, and number directly into the hands of {customers} local homeowners every week — the exact people deciding to buy or sell.\n\nWhile other agents pay for clicks that disappear, your register tape ad rides home in every shopper\'s bag. It\'s how you become the name people call before they ever Google one.\n\nCould I show you how a few of our agents are turning this into listings? 10 minutes this week?\n\nBest,\n{rep}\nIndoorMedia' },
+        { id: 'realtor-farm', icon: '📍', name: 'Realtor — Farm a Neighborhood',
+          subject: 'Own the {store_short} neighborhood, {business}',
+          body: 'Hi {contact},\n\nThe best way to dominate a farm area is repetition where people already are — and everyone shops. {store_cap} reaches {customers} households a week, right in your target neighborhood.\n\nOne agent per category, so your competition can\'t take the spot once it\'s yours. Want me to check if your area is still open?\n\nBest,\n{rep}\nIndoorMedia' },
+      ],
+    },
+    {
+      match: ['dentist', 'dental', 'orthodont'],
+      label: 'Dental',
+      templates: [
+        { id: 'dental-newpatients', icon: '🦷', name: 'Dental — New Patients',
+          subject: 'Fill your chairs with local patients, {business}',
+          body: 'Hi {contact},\n\nNew patients are the lifeblood of a practice — and they\'re all shopping at {store_short}. Our register tape ads put {business} (with your new-patient or whitening offer) into the hands of {customers} local families every week.\n\nDental practices in the area are seeing steady new-patient flow from this. Could we grab 10 minutes so I can show you the numbers?\n\nBest,\n{rep}\nIndoorMedia' },
+      ],
+    },
+    {
+      match: ['auto repair', 'oil change', 'tires', 'body shop', 'transmission', 'car wash', 'detailing', 'automotive'],
+      label: 'Automotive',
+      templates: [
+        { id: 'auto-trust', icon: '🚗', name: 'Auto — Be the Trusted Shop',
+          subject: 'Be the shop {business}\'s neighbors trust',
+          body: 'Hi {contact},\n\nWhen someone\'s check-engine light comes on, they go with the name they recognize. {store_cap} puts {business} in front of {customers} local drivers every week — with your coupon right in their hand.\n\nShops in the area are filling bays with this. Worth a quick 10-minute look?\n\nBest,\n{rep}\nIndoorMedia' },
+      ],
+    },
+    {
+      match: ['hair salon', 'barber', 'nails', 'spa', 'gym', 'yoga', 'med spa', 'lash', 'massage', 'beauty', 'wellness', 'tanning'],
+      label: 'Beauty & Wellness',
+      templates: [
+        { id: 'beauty-book', icon: '💅', name: 'Beauty — Fill the Books',
+          subject: 'Keep {business} booked solid',
+          body: 'Hi {contact},\n\nNew clients keep a salon thriving — and they\'re all walking through {store_short}. Our register tape ads put {business} and a first-visit offer into {customers} local hands every week.\n\nSalons and spas nearby are filling slow days this way. Could I show you how it works in 10 minutes?\n\nBest,\n{rep}\nIndoorMedia' },
+      ],
+    },
+    {
+      match: ['restaurant', 'pizza', 'mexican', 'coffee', 'cafe', 'bakery', 'sushi', 'bbq', 'deli', 'food', 'bar', 'pub', 'brewery', 'taco', 'wings'],
+      label: 'Restaurant',
+      templates: [
+        { id: 'rest-tables', icon: '🍽️', name: 'Restaurant — Fill Tables',
+          subject: 'Fill more tables at {business}',
+          body: 'Hi {contact},\n\nHungry people are deciding where to eat the second they leave {store_short}. Our register tape ads put {business} — and a tempting offer — right in the hands of {customers} local shoppers every week.\n\nNo 30% delivery fees, no fleeting social posts — just your name in front of customers on their way home. Restaurants nearby are filling slow shifts with this.\n\nGot 10 minutes this week?\n\nBest,\n{rep}\nIndoorMedia' },
+      ],
+    },
+    {
+      match: ['plumber', 'electrician', 'hvac', 'roofing', 'landscaping', 'cleaning', 'contractor', 'pest', 'painting', 'garage door', 'fencing', 'moving', 'home services'],
+      label: 'Home Services',
+      templates: [
+        { id: 'home-firstcall', icon: '🔧', name: 'Home Services — Be the First Call',
+          subject: 'Be the first call when something breaks, {business}',
+          body: 'Hi {contact},\n\nHome-service jobs go to whoever\'s name is on the fridge. {store_cap} puts {business} into the hands of {customers} local homeowners every week — so when the pipe bursts or the AC quits, they call you first.\n\nContractors in the area are booking jobs off this. Worth a 10-minute look?\n\nBest,\n{rep}\nIndoorMedia' },
+      ],
+    },
+  ];
+
+  // Returns category-specific templates that match the current category/subcat
+  function getCategoryTemplates() {
+    const hay = `${selectedCategory || ''} ${selectedSubcategory || ''}`.toLowerCase();
+    for (const group of categoryEmailTemplates) {
+      if (group.match.some(m => hay.includes(m))) {
+        return group.templates.map(t => ({ ...t, _categoryLabel: group.label }));
+      }
+    }
+    return [];
+  }
+
+  // Combined list: category-specific first (if any), then the generic five
+  function getEmailTemplatesFor() {
+    return [...getCategoryTemplates(), ...emailTemplates];
+  }
+
   // Build a natural store reference like "the Safeway on Center Street in Salem"
   function getStoreRef() {
     if (!selectedStore) return 'a nearby grocery store';
@@ -1371,6 +1450,158 @@
       .replace(/\{store_short\}/g, getStoreShort())
       .replace(/\{store\}/g, getStoreRef())
       .replace(/\{customers\}/g, getStoreCustomers());
+  }
+
+  // ── Email scrubbing ──────────────────────────────────────────────
+  // Google Places almost never returns an email, so we (1) try the saved
+  // Notes email, then (2) scrape the prospect's website for a public address.
+  // Scrape goes through a CORS-friendly read proxy since GitHub Pages is static.
+
+  const GENERIC_EMAIL_PREFIXES = ['info', 'contact', 'hello', 'office', 'admin', 'sales', 'frontdesk', 'reception', 'support', 'team', 'service', 'booking', 'appointments', 'mail'];
+
+  function getSavedEmail(prospect) {
+    try {
+      const ld = leadDataCache[getLeadHash(prospect)];
+      if (ld && ld.contactEmail && ld.contactEmail.includes('@')) return ld.contactEmail.trim();
+    } catch {}
+    // Also sniff a saved free-text note for an email pattern
+    try {
+      const ld = leadDataCache[getLeadHash(prospect)];
+      const note = (ld?.notes || getProspectNote(prospect.id || prospect.name) || '');
+      const m = note.match(/[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}/);
+      if (m) return m[0];
+    } catch {}
+    return '';
+  }
+
+  // Resolve best-known email WITHOUT network: explicit field > saved/notes
+  function resolveProspectEmail(prospect) {
+    if (prospect.email && prospect.email.includes('@')) return prospect.email;
+    const saved = getSavedEmail(prospect);
+    if (saved) return saved;
+    return '';
+  }
+
+  function rankEmail(email) {
+    const e = email.toLowerCase();
+    // Penalize file-ish / image-ish false positives
+    if (/\.(png|jpg|jpeg|gif|webp|svg)$/i.test(e)) return -100;
+    if (/(example|sentry|wixpress|\.png|godaddy|\.wpengine|@2x)/.test(e)) return -50;
+    const prefix = e.split('@')[0];
+    let score = 0;
+    if (GENERIC_EMAIL_PREFIXES.some(p => prefix === p)) score += 5;       // info@, contact@ etc are ideal cold targets
+    else if (GENERIC_EMAIL_PREFIXES.some(p => prefix.startsWith(p))) score += 3;
+    if (/(owner|manager|gm|frontoffice)/.test(prefix)) score += 4;
+    if (e.endsWith('.com')) score += 1;
+    return score;
+  }
+
+  // Scrape the prospect's website (and a couple likely contact pages) for an email.
+  async function scrapeWebsiteEmail(prospect) {
+    if (!prospect.website) return '';
+    const base = prospect.website.replace(/\/$/, '');
+    const candidates = [base, base + '/contact', base + '/contact-us', base + '/about'];
+    const found = new Set();
+
+    for (const target of candidates) {
+      try {
+        const proxied = 'https://api.allorigins.win/raw?url=' + encodeURIComponent(target);
+        const res = await Promise.race([
+          fetch(proxied),
+          new Promise((_, rej) => setTimeout(() => rej(new Error('timeout')), 7000)),
+        ]);
+        if (!res.ok) continue;
+        const html = await res.text();
+        // mailto: links first (highest confidence)
+        for (const m of html.matchAll(/mailto:([^"'?>\s]+@[^"'?>\s]+)/gi)) {
+          found.add(m[1].toLowerCase());
+        }
+        // bare email patterns in the page text
+        for (const m of html.matchAll(/[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}/g)) {
+          found.add(m[0].toLowerCase());
+        }
+        if (found.size) break; // got something on this page; stop crawling
+      } catch { /* try next candidate */ }
+    }
+
+    const ranked = [...found].filter(e => rankEmail(e) > -10).sort((a, b) => rankEmail(b) - rankEmail(a));
+    return ranked[0] || '';
+  }
+
+  // Called when the email panel opens: fill prospect.email from saved/notes,
+  // and kick off a website scrape if we still don't have one.
+  async function ensureProspectEmail(prospect) {
+    const known = resolveProspectEmail(prospect);
+    if (known && !prospect.email) { prospect.email = known; prospects = prospects; }
+    if (prospect.email && prospect.email.includes('@')) return;
+    if (!prospect.website || prospect._emailScrapeTried) return;
+    prospect._emailScrapeTried = true;
+    prospect._emailScraping = true; prospects = prospects;
+    const scraped = await scrapeWebsiteEmail(prospect);
+    prospect._emailScraping = false;
+    if (scraped) {
+      prospect.email = scraped;
+      prospect._emailScraped = true;
+    } else {
+      prospect._emailScrapeFailed = true;
+    }
+    prospects = prospects;
+  }
+
+  // ── Shareable marketing graphics (mirrors Present.svelte) ─────────
+  const SHARE_GRAPHICS = [
+    { id: 'household-name', file: 'marketing/household-name.jpg', title: 'Become a Household Name' },
+    { id: 'grow-your-business', file: 'marketing/grow-your-business.jpg', title: 'Grow Your Business' },
+    { id: 'neighbors-customers', file: 'marketing/neighbors-customers.jpg', title: 'Turn Neighbors Into Customers' },
+    { id: 'reach-local-families', file: 'marketing/reach-local-families.jpg', title: 'Reach Local Families Daily' },
+    { id: 'billboard-vs-cart-cost', file: 'marketing/billboard-vs-cart-cost.jpg', title: 'Billboard vs Grocery Cart' },
+    { id: 'easy-choice', file: 'marketing/easy-choice.jpg', title: 'Be the Easy Choice' },
+    { id: 'fill-slow-hours', file: 'marketing/fill-slow-hours.jpg', title: 'Fill Your Slow Hours' },
+    { id: 'drive-traffic-not-fees', file: 'marketing/drive-traffic-not-fees.jpg', title: 'Drive Traffic, Not 30% Fees' },
+    { id: 'win-your-neighborhood', file: 'marketing/win-your-neighborhood.jpg', title: 'Win Your Neighborhood' },
+    { id: 'every-customers-hand', file: 'marketing/every-customers-hand.jpg', title: "In Every Customer's Hand" },
+    { id: 'register-tape-testimonial', file: 'marketing/register-tape-testimonial.jpg', title: 'Register Tape Testimonial' },
+  ];
+  function graphicUrl(g) {
+    const origin = (typeof window !== 'undefined') ? window.location.origin : '';
+    return origin + (import.meta.env.BASE_URL || '/') + g.file;
+  }
+
+  // Build the email body with optional graphic + testimonial appended.
+  function composeEmailBody(tpl, prospect) {
+    let body = fillTemplate(tpl.body, prospect.name);
+    const extras = [];
+    if (prospect._emailGraphic) {
+      const g = SHARE_GRAPHICS.find(x => x.id === prospect._emailGraphic);
+      if (g) extras.push(`Here's a quick look at how it works:\n${graphicUrl(g)}`);
+    }
+    if (prospect._emailTestimonial && prospect._emailTestimonialData) {
+      const t = prospect._emailTestimonialData;
+      const biz = (t.business_name || 'A local business').replace(/&#x27;/g, "'").replace(/&amp;/g, '&');
+      const quote = (t.comments || 'Great results with IndoorMedia!').replace(/&#x27;/g, "'").replace(/&amp;/g, '&');
+      let block = `What other businesses are saying:\n"${quote}"\n— ${biz}`;
+      if (t.url) block += `\n${t.url}`;
+      extras.push(block);
+    }
+    if (extras.length) {
+      // Insert extras before the sign-off (last two lines: rep + IndoorMedia)
+      const lines = body.split('\n');
+      const signoffIdx = lines.lastIndexOf('Best,');
+      const insertAt = signoffIdx > 0 ? signoffIdx : lines.length;
+      const block = '\n' + extras.join('\n\n') + '\n';
+      lines.splice(insertAt, 0, block);
+      body = lines.join('\n');
+    }
+    return body;
+  }
+
+  async function toggleEmailTestimonial(prospect) {
+    prospect._emailTestimonial = !prospect._emailTestimonial;
+    if (prospect._emailTestimonial && !prospect._emailTestimonialData) {
+      const list = await getTestimonialsForCategory();
+      prospect._emailTestimonialData = list && list.length ? list[0] : null;
+    }
+    prospects = prospects;
   }
 
   function loadSavedProspects() {
@@ -2002,7 +2233,7 @@
                 <a href="tel:{prospect.phone}" class="action-btn btn-green" on:click={() => { trackPhoneClick(prospect); handleLeadAction(prospect, 'call'); }}>📞 Call</a>
                 <button class="action-btn btn-blue" on:click={() => { prospect._showText = !prospect._showText; prospect._showEmail = false; prospect._showScript = false; prospect._showNotes = false; prospects = prospects; handleLeadAction(prospect, 'text'); }}>💬 Text</button>
               {/if}
-              <button class="action-btn btn-purple" on:click={() => { prospect._showEmail = !prospect._showEmail; prospect._showText = false; prospect._showScript = false; prospect._showNotes = false; prospects = prospects; handleLeadAction(prospect, 'email'); }}>✉️ Email</button>
+              <button class="action-btn btn-purple" on:click={() => { prospect._showEmail = !prospect._showEmail; prospect._showText = false; prospect._showScript = false; prospect._showNotes = false; prospects = prospects; if (prospect._showEmail) { ensureProspectEmail(prospect); handleLeadAction(prospect, 'email'); } }}>✉️ Email</button>
               <button class="action-btn btn-orange" on:click={() => { handleLeadAction(prospect, 'walk-in'); }}>🚶 Walk-In</button>
             </div>
 
@@ -2199,24 +2430,66 @@
             </div>
           {/if}
           {#if prospect._showEmail}
+            {@const tplList = getEmailTemplatesFor()}
             <div class="email-section">
+              <!-- Email-address status / scrub -->
+              <div class="email-to-row">
+                {#if prospect._emailScraping}
+                  <span class="email-to-status scraping">🔍 Scanning {prospect.name}'s website for an email…</span>
+                {:else if prospect.email && prospect.email.includes('@')}
+                  <span class="email-to-status found">✉️ To: <strong>{prospect.email}</strong>{#if prospect._emailScraped} <em>(found on website)</em>{/if}</span>
+                {:else}
+                  <span class="email-to-status missing">⚠️ No email on file{#if prospect._emailScrapeFailed} (couldn't find one on their site){/if} — add one in 📝 Notes, or send to yourself to forward.</span>
+                {/if}
+                {#if prospect.website && !prospect._emailScraping && !(prospect.email && prospect.email.includes('@'))}
+                  <button class="email-scrub-btn" on:click={() => { prospect._emailScrapeTried = false; prospect._emailScrapeFailed = false; ensureProspectEmail(prospect); }}>🔍 Find Email</button>
+                {/if}
+              </div>
+
               <h4 class="email-title">Choose a template:</h4>
-              {#each emailTemplates as tpl}
-                <button class="email-tpl-btn" on:click={() => { prospect._selectedTpl = tpl.id; prospects = prospects; }}>
-                  {tpl.icon} {tpl.name}
+              {#each tplList as tpl}
+                <button class="email-tpl-btn" class:cat-tpl={tpl._categoryLabel} on:click={() => { prospect._selectedTpl = tpl.id; prospects = prospects; }}>
+                  {tpl.icon} {tpl.name}{#if tpl._categoryLabel} <span class="cat-badge">{tpl._categoryLabel}</span>{/if}
                 </button>
               {/each}
               {#if prospect._selectedTpl}
-                {@const tpl = emailTemplates.find(t => t.id === prospect._selectedTpl)}
+                {@const tpl = tplList.find(t => t.id === prospect._selectedTpl) || tplList[0]}
+
+                <!-- Add-ons: graphic + testimonial -->
+                <div class="email-addons">
+                  <label class="email-addon-toggle">
+                    <input type="checkbox" bind:checked={prospect._emailTestimonial} on:change={() => toggleEmailTestimonial(prospect)} />
+                    ⭐ Include a testimonial
+                  </label>
+                  <div class="email-graphic-picker">
+                    <span class="email-addon-label">🖼️ Attach a graphic (link):</span>
+                    <select bind:value={prospect._emailGraphic} on:change={() => prospects = prospects} class="email-graphic-select">
+                      <option value={undefined}>None</option>
+                      {#each SHARE_GRAPHICS as g}
+                        <option value={g.id}>{g.title}</option>
+                      {/each}
+                    </select>
+                  </div>
+                  {#if prospect._emailGraphic}
+                    {@const g = SHARE_GRAPHICS.find(x => x.id === prospect._emailGraphic)}
+                    {#if g}<img class="email-graphic-thumb" src={graphicUrl(g)} alt={g.title} loading="lazy" />{/if}
+                  {/if}
+                </div>
+
                 <div class="email-preview-box">
                   <p class="email-subject">Subject: {fillTemplate(tpl.subject, prospect.name)}</p>
-                  <p class="email-body-text">{fillTemplate(tpl.body, prospect.name)}</p>
+                  <p class="email-body-text">{composeEmailBody(tpl, prospect)}</p>
                   <button class="action-btn full-width email-btn" on:click={() => {
                     const subject = encodeURIComponent(fillTemplate(tpl.subject, prospect.name));
-                    const rawBody = fillTemplate(tpl.body, prospect.name);
+                    const rawBody = composeEmailBody(tpl, prospect);
                     const body = encodeURIComponent(rawBody.replace(/\n\n/g, '\r\n\r\n').replace(/(?<!\r)\n/g, '\r\n'));
                     window.open('mailto:' + (prospect.email || '') + '?subject=' + subject + '&body=' + body);
                   }}>📧 Open in Email App</button>
+                  <button class="action-btn full-width email-btn-secondary" on:click={() => {
+                    navigator.clipboard.writeText(composeEmailBody(tpl, prospect));
+                    prospect._emailCopied = true; prospects = prospects;
+                    setTimeout(() => { prospect._emailCopied = false; prospects = prospects; }, 2000);
+                  }}>{prospect._emailCopied ? '✅ Copied!' : '📋 Copy Email'}</button>
                 </div>
               {/if}
             </div>
@@ -3705,6 +3978,102 @@
     border-color: #CC0000;
     background: #fff5f5;
   }
+
+  .email-tpl-btn.cat-tpl {
+    border-color: #CC0000;
+    background: #fff8f8;
+  }
+  .cat-badge {
+    display: inline-block;
+    font-size: 10px;
+    font-weight: 700;
+    color: #fff;
+    background: #CC0000;
+    border-radius: 6px;
+    padding: 1px 6px;
+    margin-left: 6px;
+    vertical-align: middle;
+  }
+  :global([data-theme='dark']) .email-tpl-btn.cat-tpl { background: #2a1414; }
+
+  .email-to-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-bottom: 12px;
+    padding: 8px 10px;
+    border-radius: 8px;
+    background: var(--card-bg, #f7f7f7);
+    border: 1px solid var(--border-color, #e0e0e0);
+  }
+  .email-to-status { font-size: 12px; line-height: 1.4; flex: 1; min-width: 0; }
+  .email-to-status.found { color: #1565c0; }
+  .email-to-status.found em { color: #2e7d32; font-style: normal; font-weight: 600; }
+  .email-to-status.scraping { color: #b26a00; }
+  .email-to-status.missing { color: #999; }
+  .email-scrub-btn {
+    flex-shrink: 0;
+    font-size: 12px;
+    font-weight: 600;
+    padding: 6px 10px;
+    border: 1px solid #1565c0;
+    color: #1565c0;
+    background: transparent;
+    border-radius: 8px;
+    cursor: pointer;
+  }
+  .email-scrub-btn:hover { background: #1565c0; color: #fff; }
+
+  .email-addons {
+    margin-top: 10px;
+    padding: 10px;
+    border: 1px dashed var(--border-color, #ddd);
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .email-addon-toggle {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text-primary);
+    cursor: pointer;
+  }
+  .email-graphic-picker {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+  .email-addon-label { font-size: 13px; font-weight: 600; color: var(--text-primary); }
+  .email-graphic-select {
+    flex: 1;
+    min-width: 140px;
+    padding: 6px 8px;
+    border-radius: 8px;
+    border: 1px solid var(--border-color, #ddd);
+    font-size: 13px;
+    background: var(--card-bg, #fff);
+    color: var(--text-primary);
+  }
+  .email-graphic-thumb {
+    width: 100%;
+    max-width: 260px;
+    border-radius: 8px;
+    border: 1px solid var(--border-color, #ddd);
+    align-self: center;
+  }
+  .email-btn-secondary {
+    background: transparent !important;
+    color: #1565c0 !important;
+    border: 1px solid #1565c0 !important;
+    margin-top: 8px;
+  }
+  .email-btn-secondary:hover { background: #e3f0fc !important; }
 
   .email-preview-box {
     margin-top: 12px;

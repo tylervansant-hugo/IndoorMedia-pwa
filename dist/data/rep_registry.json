@@ -4,48 +4,49 @@
     "display_name": "Tyler Van Sant",
     "role": "manager",
     "registered_at": "2026-02-16",
-    "base_location": "Ridgefield, WA",
-    "assigned_stores": [
-      "SAF07X-0186",
-      "SAF07Z-1952",
-      "ALB07Z-3417",
-      "FME07Z-0150",
-      "ALB07Z-3106",
-      "SAF07Z-0424",
-      "FME07Z-0659"
-    ],
-    "email": "tyler.vansant@indoormedia.com"
+    "base_location": "Ridgefield, WA"
+  },
+  "8003974335": {
+    "contract_name": "Marty",
+    "display_name": "Marty",
+    "role": "rep",
+    "registered_at": "2026-03-12",
+    "base_location": "Newberg, OR"
   },
   "8703124669": {
     "contract_name": "Megan Wink",
-    "display_name": "Megan Wink",
+    "display_name": "Meghan Wink",
     "role": "rep",
     "registered_at": "2026-03-12",
-    "email": "Megan.Wink@indoormedia.com",
-    "base_location": "Vancouver, WA",
-    "assigned_stores": [
-      "FME07X-0171",
-      "ROS07Z-0016",
-      "SAF07Z-0424",
-      "FME07Z-0140",
-      "FME07Z-0460"
-    ]
+    "base_location": "Vancouver, WA"
   },
   "7334094238": {
     "contract_name": "Rick Diamond",
     "display_name": "Rick Diamond",
     "role": "rep",
-    "registered_at": "2026-03-12",
-    "assigned_stores": []
+    "registered_at": "2026-03-12"
+  },
+  "999999999": {
+    "telegram_name": "Test User",
+    "contract_name": "Test User",
+    "email": "testuser@example.com",
+    "role": "rep",
+    "registered_at": "2026-03-17T15:49:25.906710",
+    "base_location": "Ridgefield, WA"
   },
   "2126715079": {
-    "contract_name": "Cameron Gould",
-    "display_name": "Cameron Gould",
+    "contract_name": "Cameron gould",
+    "display_name": "Cameron gould",
     "role": "rep",
-    "registered_at": "2026-03-17",
-    "assigned_stores": [],
-    "zone": "24X",
-    "base_location": "Utah"
+    "registered_at": "2026-03-17"
+  },
+  "8331690053": {
+    "telegram_name": "Lanea Van Sant",
+    "contract_name": "Lanea Van Sant",
+    "display_name": "Maxine Van Sant",
+    "email": "Mvansant032319@gmail.com",
+    "role": "admin",
+    "registered_at": "2026-03-17T16:28:03.349755"
   },
   "7711642836": {
     "contract_name": "Matthew Boozer",
@@ -55,12 +56,7 @@
     "registered_at": "2026-03-18",
     "telegram_id": "7711642836",
     "telegram_username": "MattBoozer",
-    "base_location": "Cottage Grove, OR",
-    "assigned_stores": [
-      "SAF07Y-4288",
-      "FME07Y-0464",
-      "FME07Y-0328"
-    ]
+    "base_location": "Cottage Grove, OR"
   },
   "amy_dixon": {
     "contract_name": "Amy Dixon",
@@ -68,28 +64,15 @@
     "email": "Amy.Dixon@indoormedia.com",
     "role": "rep",
     "registered_at": "2026-03-17",
-    "base_location": "Tualatin, OR",
-    "assigned_stores": [
-      "FME07Y-0035",
-      "SAF07Y-1690",
-      "SAF07Y-1765",
-      "SAF07Y-0363",
-      "FME07Y-0464",
-      "SAF07Y-0508",
-      "SAF07Y-1601",
-      "SAF07Y-3136",
-      "FME07Y-0355",
-      "FME07Y-0516"
-    ]
+    "base_location": "Tualatin, OR"
   },
-  "8003974335": {
-    "contract_name": "Marty Eng",
-    "display_name": "Marty Eng",
-    "email": "Anthony.Eng@indoormedia.com",
+  "anthony_eng": {
+    "contract_name": "Anthony Eng",
+    "display_name": "Anthony Eng",
+    "email": "Anthony.eng@indoormedia.com",
     "role": "rep",
-    "registered_at": "2026-03-12",
-    "base_location": "Newberg, OR",
-    "assigned_stores": []
+    "registered_at": "2026-03-17",
+    "base_location": "Newberg, OR"
   },
   "adan_ramos": {
     "contract_name": "Adan Ramos",
@@ -97,12 +80,7 @@
     "email": "Adan.ramos@indoormedia.com",
     "role": "rep",
     "registered_at": "2026-03-17",
-    "base_location": "Vancouver, WA",
-    "assigned_stores": [
-      "QFC07Z-0205",
-      "QFC07Z-0212",
-      "SAF07Z-1687"
-    ]
+    "base_location": "Vancouver, WA"
   },
   "christian_johnson": {
     "contract_name": "Christian Johnson",
@@ -110,8 +88,14 @@
     "email": "Christian.johnson@indoormedia.com",
     "role": "rep",
     "registered_at": "2026-03-17",
-    "base_location": "Unknown",
-    "assigned_stores": []
+    "base_location": "Unknown"
+  },
+  "megan_wink": {
+    "contract_name": "Megan Wink",
+    "display_name": "Megan Wink",
+    "email": "Megan.Wink@indoormedia.com",
+    "role": "rep",
+    "registered_at": "2026-03-17"
   },
   "jan_banks": {
     "contract_name": "Jan Banks",
@@ -119,16 +103,14 @@
     "email": "Jan.Banks@indoormedia.com",
     "role": "rep",
     "registered_at": "2026-03-17",
-    "base_location": "Tualatin, OR",
-    "assigned_stores": []
+    "base_location": "Tualatin, OR"
   },
   "ben_patacsil": {
     "contract_name": "Ben Patacsil",
     "display_name": "Ben Patacsil",
     "email": "Ben.patacsil@indoormedia.com",
     "role": "rep",
-    "registered_at": "2026-03-17",
-    "assigned_stores": []
+    "registered_at": "2026-03-17"
   },
   "dave_boring": {
     "contract_name": "Dave Boring",
@@ -136,81 +118,50 @@
     "email": "Dave.boring@indoormedia.com",
     "role": "rep",
     "registered_at": "2026-03-17",
-    "base_location": "Battle Ground, WA",
-    "assigned_stores": [
-      "FME07Y-0651",
-      "SAF07Z-1231",
-      "SAF07Y-1827",
-      "FME07Z-0125",
-      "SAF07Y-1800",
-      "FME07Y-0328",
-      "QFC07Z-0212",
-      "SAF07Z-1842",
-      "ALB07Z-0580",
-      "FME07Z-0140",
-      "FME07Z-0460",
-      "FME07Y-0516"
-    ]
+    "base_location": "Battle Ground, WA"
+  },
+  "legacy_empire": {
+    "contract_name": "Legacy Empire",
+    "display_name": "Legacy Empire",
+    "email": "englegacyempire@gmail.com",
+    "role": "rep",
+    "registered_at": "2026-03-17"
   },
   "8746943550": {
     "contract_name": "Sandee Deppiesse",
     "display_name": "Sandee Deppiesse",
     "role": "rep",
-    "registered_at": "2026-03-20",
-    "assigned_stores": []
+    "registered_at": "2026-03-20"
   },
-  "carl_worthy": {
-    "contract_name": "Carl Worthy",
-    "display_name": "Carl Worthy",
-    "email": "carl.worthy@indoormedia.com",
+  "8714414544": {
+    "contract_name": "Dave Boring",
+    "display_name": "Dave Boring",
     "role": "rep",
-    "registered_at": "2026-03-24",
-    "base_location": "Fresno, CA",
-    "assigned_stores": []
+    "registered_at": "2026-03-24"
   },
-  "jason_hinds": {
-    "contract_name": "Jason Hinds",
-    "display_name": "Jason Hinds",
-    "email": "jason.hinds@indoormedia.com",
+  "8647728045": {
+    "contract_name": "Adan Ramos",
+    "display_name": "Adan Ramos",
     "role": "rep",
-    "registered_at": "2026-03-24",
-    "base_location": "Utah",
-    "assigned_stores": []
+    "registered_at": "2026-03-24"
   },
-  "tony_ortega": {
-    "contract_name": "Tony Ortega",
-    "display_name": "Tony Ortega",
-    "email": "jose.ortega@indoormedia.com",
+  "8309437895": {
+    "contract_name": "Jan",
+    "display_name": "Jan",
     "role": "rep",
-    "registered_at": "2026-03-25",
-    "base_location": "Eastern Washington (7W)",
-    "assigned_stores": []
+    "registered_at": "2026-03-26"
   },
-  "ryan_rohner_talton": {
-    "contract_name": "Ryan Rohner-Talton",
-    "display_name": "Ryan Rohner-Talton",
-    "email": "ryan.rohner-talton@indoormedia.com",
+  "8767251377": {
+    "contract_name": "Amy Dixon",
+    "display_name": "Amy Dixon",
     "role": "rep",
-    "registered_at": "2026-03-26",
-    "base_location": "Washington (07X)",
-    "assigned_stores": []
+    "registered_at": "2026-04-07"
   },
-  "rick_leibowitz": {
-    "contract_name": "Richard Leibowitz",
-    "display_name": "Rick Leibowitz",
-    "email": "Richard.Leibowitz@indoormedia.com",
-    "role": "manager",
-    "registered_at": "2026-03-31",
-    "base_location": "National",
-    "assigned_stores": []
-  },
-  "giana_horvath": {
-    "contract_name": "Giana Horvath",
-    "display_name": "Giana Horvath",
+  "jim_bouret": {
+    "contract_name": "Jim Bouret",
+    "display_name": "Jim Bouret",
+    "email": "Jimmilesbouret@gmail.com",
     "role": "rep",
-    "registered_at": "2026-06-18",
-    "email": "Gianahorvath570@gmail.com",
-    "base_location": "",
-    "assigned_stores": []
+    "registered_at": "2026-06-24"
   }
 }
