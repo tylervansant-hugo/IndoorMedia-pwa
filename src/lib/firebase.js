@@ -315,6 +315,47 @@ export async function getAllLeadData() {
   }
 }
 
+// ── Saved Prospects (cross-device per rep) ─────────────────────────
+
+/**
+ * Save a rep's full saved-prospects array to Firestore (doc id = repId).
+ * One doc per rep so the list is identical across all their devices.
+ */
+export async function saveRepProspects(repId, prospects) {
+  if (!db || !repId) return false;
+  try {
+    // Stored inside the proven 'activity_daily' collection (same one used by
+    // store claims / lead data) to inherit its working write permissions.
+    await setDoc(doc(db, 'activity_daily', `rep_prospects_${repId}`), {
+      type: 'rep_prospects',
+      repId: String(repId),
+      prospects: Array.isArray(prospects) ? prospects : [],
+      updatedAt: new Date().toISOString(),
+    });
+    return true;
+  } catch (e) {
+    console.warn('saveRepProspects error:', e);
+    return false;
+  }
+}
+
+/**
+ * Get a rep's saved-prospects array from Firestore. Returns [] if none.
+ */
+export async function getRepProspects(repId) {
+  if (!db || !repId) return [];
+  try {
+    const { getDoc } = await import('firebase/firestore');
+    const snap = await getDoc(doc(db, 'activity_daily', `rep_prospects_${repId}`));
+    if (!snap.exists()) return [];
+    const data = snap.data();
+    return Array.isArray(data.prospects) ? data.prospects : [];
+  } catch (e) {
+    console.warn('getRepProspects error:', e);
+    return [];
+  }
+}
+
 // ── Store Claims ("Dibs") ──────────────────────────────────────────
 
 /**

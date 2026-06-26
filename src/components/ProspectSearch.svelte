@@ -2,7 +2,7 @@
   import { onMount, onDestroy, tick } from 'svelte';
   import { user, currentUser, sharedNearbyStores, sharedSelectedStore, sharedUserLocation } from '../lib/stores.js';
   import { logActivity } from '../lib/activity.js';
-  import { isFirebaseReady, whenFirebaseReady, claimStore, releaseStore, getZoneClaims, claimLead, releaseLead, getAllLeadClaims, saveLeadData, getLeadData, getAllLeadData, hashLeadId } from '../lib/firebase.js';
+  import { isFirebaseReady, whenFirebaseReady, claimStore, releaseStore, getZoneClaims, claimLead, releaseLead, getAllLeadClaims, saveLeadData, getLeadData, getAllLeadData, hashLeadId, saveRepProspects, getRepProspects } from '../lib/firebase.js';
   import HotLeadsSubmit from './HotLeadsSubmit.svelte';
   import PendingLeads from './PendingLeads.svelte';
   import StoreSearchInput from '../lib/StoreSearchInput.svelte';
@@ -1045,6 +1045,7 @@
       
       savedProspects = [...savedProspects];
       prospects = [...prospects];
+      persistProspects();
       
       // Store loaded customers for display
       loadedCustomers = {
@@ -1384,6 +1385,61 @@
       }
     });
     if (updated) localStorage.setItem('savedProspects', JSON.stringify(savedProspects));
+    // Pull cloud copy and merge so every device shows the full list
+    syncProspectsFromCloud();
+  }
+
+  // Stable key for de-duping prospects across devices
+  function prospectKey(p) {
+    return p.id || p.placeId || (p.name && p.address ? `${p.name}|${p.address}` : p.name) || JSON.stringify(p);
+  }
+
+  // Write the current saved list to both localStorage AND Firestore (per rep)
+  function persistProspects() {
+    localStorage.setItem('savedProspects', JSON.stringify(savedProspects));
+    const repId = $user?.id;
+    if (repId) {
+      // Fire-and-forget cloud write; localStorage already updated for instant UX
+      whenFirebaseReady(4000).then((ready) => {
+        if (ready) saveRepProspects(repId, savedProspects);
+      });
+    }
+  }
+
+  // Merge cloud-saved prospects into the local list (union by stable key).
+  // Cloud is treated as source of truth for shared fields; newer wins by savedAt.
+  async function syncProspectsFromCloud() {
+    const repId = $user?.id;
+    if (!repId) return;
+    const ready = await whenFirebaseReady(6000);
+    if (!ready) return;
+    let cloud = [];
+    try { cloud = await getRepProspects(repId); } catch { return; }
+    if (!Array.isArray(cloud)) return;
+
+    const byKey = new Map();
+    // Seed with local first
+    for (const p of savedProspects) byKey.set(prospectKey(p), p);
+    // Merge cloud, preferring the more recently-updated record
+    for (const c of cloud) {
+      const k = prospectKey(c);
+      const existing = byKey.get(k);
+      if (!existing) {
+        byKey.set(k, c);
+      } else {
+        const cT = Date.parse(c.savedAt || c.updatedAt || 0) || 0;
+        const eT = Date.parse(existing.savedAt || existing.updatedAt || 0) || 0;
+        byKey.set(k, cT >= eT ? { ...existing, ...c } : { ...c, ...existing });
+      }
+    }
+    const merged = Array.from(byKey.values());
+    // Only update if something actually changed (avoid loops)
+    if (merged.length !== savedProspects.length || JSON.stringify(merged) !== JSON.stringify(savedProspects)) {
+      savedProspects = merged;
+      localStorage.setItem('savedProspects', JSON.stringify(savedProspects));
+      // Push the merged superset back up so all devices converge
+      saveRepProspects(repId, savedProspects);
+    }
   }
 
   function getProspectNote(id) {
@@ -1403,7 +1459,7 @@
     const idx = savedProspects.findIndex(p => (p.id || p.name) === id);
     if (idx >= 0) {
       savedProspects[idx].notes = text;
-      localStorage.setItem('savedProspects', JSON.stringify(savedProspects));
+      persistProspects();
     }
   }
 
@@ -1493,21 +1549,21 @@
       // Carry over notes from prospectNotes if they exist
       const existingNote = getProspectNote(prospect.id || prospect.name);
       savedProspects = [...savedProspects, { ...prospect, savedAt: new Date().toISOString(), status: 'new', notes: existingNote || '' }];
-      localStorage.setItem('savedProspects', JSON.stringify(savedProspects));
+      persistProspects();
       alert(`✅ Saved: ${prospect.name}`);
     }
   }
 
   function deleteProspect(id) {
     savedProspects = savedProspects.filter(p => p.id !== id);
-    localStorage.setItem('savedProspects', JSON.stringify(savedProspects));
+    persistProspects();
   }
 
   function updateProspectNotes(id, notes) {
     const idx = savedProspects.findIndex(p => p.id === id);
     if (idx >= 0) {
       savedProspects[idx].notes = notes;
-      localStorage.setItem('savedProspects', JSON.stringify(savedProspects));
+      persistProspects();
     }
     // Also sync to prospectNotes store
     try {
@@ -2427,7 +2483,7 @@
 
                 <!-- Status + Notes -->
                 <div class="saved-status-row">
-                  <select class="status-select" value={prospect.status} on:change={(e) => { prospect.status = e.target.value; updateProspectNotes(prospect.id, prospect.notes); savedProspects = savedProspects; localStorage.setItem('savedProspects', JSON.stringify(savedProspects)); }}>
+                  <select class="status-select" value={prospect.status} on:change={(e) => { prospect.status = e.target.value; updateProspectNotes(prospect.id, prospect.notes); savedProspects = savedProspects; persistProspects(); }}>
                     <option value="new">🆕 New</option>
                     <option value="contacted">⏳ Contacted</option>
                     <option value="proposal">📋 Proposal</option>
