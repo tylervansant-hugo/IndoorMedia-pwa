@@ -1542,10 +1542,34 @@
     if (scraped) {
       prospect.email = scraped;
       prospect._emailScraped = true;
+      // Persist into Notes so it syncs across devices (don't clobber a manual entry)
+      persistScrapedEmail(prospect, scraped);
     } else {
       prospect._emailScrapeFailed = true;
     }
     prospects = prospects;
+  }
+
+  // Auto-save a scraped email into the prospect's Notes (lead data) so it
+  // syncs across devices. Never overwrites a manually-entered Notes email.
+  async function persistScrapedEmail(prospect, email) {
+    const id = getLeadHash(prospect);
+    const existing = leadDataCache[id] || {};
+    if (existing.contactEmail && existing.contactEmail.includes('@')) return; // keep manual entry
+    const u = $user;
+    const data = {
+      ownerName: existing.ownerName || '',
+      contactPhone: existing.contactPhone || '',
+      contactEmail: email,
+      notes: existing.notes || '',
+      updatedBy: u?.name || u?.display_name || 'auto-scrub',
+      emailSource: 'website',
+    };
+    leadDataCache[id] = { ...existing, ...data, updatedAt: new Date().toISOString(), prospectName: prospect.name, prospectAddress: prospect.address };
+    leadDataCache = leadDataCache;
+    try {
+      if (await whenFirebaseReady(4000)) await saveLeadData(prospect.name, prospect.address, data);
+    } catch {}
   }
 
   // ── Shareable marketing graphics (mirrors Present.svelte) ─────────
@@ -2437,7 +2461,7 @@
                 {#if prospect._emailScraping}
                   <span class="email-to-status scraping">🔍 Scanning {prospect.name}'s website for an email…</span>
                 {:else if prospect.email && prospect.email.includes('@')}
-                  <span class="email-to-status found">✉️ To: <strong>{prospect.email}</strong>{#if prospect._emailScraped} <em>(found on website)</em>{/if}</span>
+                  <span class="email-to-status found">✉️ To: <strong>{prospect.email}</strong>{#if prospect._emailScraped} <em>(found on website — saved to Notes)</em>{/if}</span>
                 {:else}
                   <span class="email-to-status missing">⚠️ No email on file{#if prospect._emailScrapeFailed} (couldn't find one on their site){/if} — add one in 📝 Notes, or send to yourself to forward.</span>
                 {/if}
