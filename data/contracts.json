@@ -9342,6 +9342,49 @@
       "paid_in_full": true
     },
     {
+      "contract_number": "J433280E",
+      "date": "2026-06-25 00:00",
+      "business_name": "Glow Collective Aesthetics &",
+      "contact_name": "Bethany Downs",
+      "contact_email": "kdowns777@yahoo.com",
+      "contact_phone": "(971) 206-8654",
+      "sales_rep": "Jan Banks",
+      "store_name": "",
+      "store_number": "",
+      "zone": "",
+      "product_description": "",
+      "total_amount": 695.0,
+      "payment_date": "6/25/2026",
+      "address": "21400 Salamo Road",
+      "extracted_at": "2026-06-25T20:00:15.985651",
+      "quarters": 4,
+      "term_months": 12,
+      "is_renewal": false,
+      "paid_in_full": true
+    },
+    {
+      "contract_number": "J433280E",
+      "date": "2026-06-25 00:00",
+      "business_name": "Glow Collective Aesthetics &",
+      "contact_name": "Bethany Downs",
+      "contact_email": "kdowns777@yahoo.com",
+      "contact_phone": "(971) 206-8654",
+      "sales_rep": "Jan Banks",
+      "store_name": "",
+      "store_number": "",
+      "zone": "",
+      "product_description": "FindLocal",
+      "total_amount": 695.0,
+      "payment_date": "6/25/2026",
+      "address": "21400 Salamo Road West Linn, OR 97068",
+      "extracted_at": "2026-06-25T20:00:15.985683",
+      "quarters": 4,
+      "term_months": 12,
+      "is_renewal": false,
+      "paid_in_full": true,
+      "product_type": "digital"
+    },
+    {
       "contract_number": "D413319E",
       "date": "",
       "business_name": "Before n after weight loss",
@@ -11883,5 +11926,5 @@
       "paid_in_full": false
     }
   ],
-  "last_scan": "2026-06-24T20:00:12.586992"
+  "last_scan": "2026-06-25T20:00:15.986965"
 }
