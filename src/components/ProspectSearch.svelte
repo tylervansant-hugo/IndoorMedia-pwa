@@ -1619,13 +1619,14 @@
     return body;
   }
 
-  async function toggleEmailTestimonial(prospect) {
-    prospect._emailTestimonial = !prospect._emailTestimonial;
-    if (prospect._emailTestimonial && !prospect._emailTestimonialData) {
+  async function toggleEmailTestimonial(prospect, checked) {
+    prospect._emailTestimonial = checked;
+    prospects = prospects;
+    if (checked && !prospect._emailTestimonialData) {
       const list = await getTestimonialsForCategory();
       prospect._emailTestimonialData = list && list.length ? list[0] : null;
+      prospects = prospects;
     }
-    prospects = prospects;
   }
 
   function loadSavedProspects() {
@@ -2482,7 +2483,7 @@
                 <!-- Add-ons: graphic + testimonial -->
                 <div class="email-addons">
                   <label class="email-addon-toggle">
-                    <input type="checkbox" bind:checked={prospect._emailTestimonial} on:change={() => toggleEmailTestimonial(prospect)} />
+                    <input type="checkbox" checked={prospect._emailTestimonial} on:change={(e) => toggleEmailTestimonial(prospect, e.target.checked)} />
                     ⭐ Include a testimonial
                   </label>
                   <div class="email-graphic-picker">
