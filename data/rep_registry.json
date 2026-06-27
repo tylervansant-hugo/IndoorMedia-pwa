@@ -163,5 +163,13 @@
     "email": "Jimmilesbouret@gmail.com",
     "role": "rep",
     "registered_at": "2026-06-24"
+  },
+  "kenneth_abbay": {
+    "contract_name": "Kenneth Abbay",
+    "display_name": "Kenneth Abbay",
+    "email": "Kenneth.Abbay@indoormedia.com",
+    "role": "rep",
+    "registered_at": "2026-06-26",
+    "base_location": "Territory TBD"
   }
 }
