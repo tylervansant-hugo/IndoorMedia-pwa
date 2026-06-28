@@ -1,7 +1,7 @@
 {
   "lastAudit": {
-    "date": "2026-06-14",
-    "timestamp": 1781452800,
+    "date": "2026-06-21",
+    "timestamp": 1782406800,
     "summary": { "critical": 0, "warn": 3, "info": 1 },
     "warnings": [
       "gateway.trusted_proxies_missing",

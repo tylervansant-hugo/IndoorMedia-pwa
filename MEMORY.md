@@ -1,7 +1,23 @@
 # MEMORY.md - Shelldon's Long-Term Memory
 
+## Prospect Email Upgrades (Jun 26, 2026)
+**Status:** ✅ LIVE (bundle index-DQa2iknj.js) — ProspectSearch.svelte email panel
+
+Three upgrades to the per-prospect ✉️ Email flow:
+1. **Email scrubbing** — Google Places never returns an email. On opening the Email panel, `ensureProspectEmail()` now (a) pulls a saved email from Notes (`contactEmail` field or any email pattern in notes via `getSavedEmail`), then (b) scrapes the prospect's website (home + /contact + /contact-us + /about) through the `api.allorigins.win/raw` CORS proxy, regexing mailto: + bare emails and ranking them (info@/contact@/owner@ preferred; junk like sentry.wixpress/.png filtered). Shows live "To:" status + a manual 🔍 Find Email button.
+2. **Category-specific templates** — `categoryEmailTemplates` array matched against category/subcategory. Realtor (2 templates), Dental, Automotive, Beauty & Wellness, Restaurant, Home Services. Surfaced ABOVE the 5 generic templates with a red category badge.
+3. **Graphics + testimonial add-ons** — In the email preview: dropdown to attach a shareable marketing graphic (links to public/marketing/*.jpg, mirrors Present.svelte set) + checkbox to include a category testimonial. Both injected into body before sign-off via `composeEmailBody()`. Added 📋 Copy Email button alongside 📧 Open in Email App.
+
+**Auto-save (Jun 26):** Scraped emails now persist into the prospect's Notes via `persistScrapedEmail()` → Firebase `saveLeadData` (field `contactEmail`, `emailSource: 'website'`), so they sync across devices. Never overwrites a manually-entered Notes email. Status line reads "found on website — saved to Notes".
+
+Note: standalone EmailTemplates.svelte (Tools) is NOT wired into the live flow — all live email is in ProspectSearch.svelte.
+
 ## PWA (imPro Sales Portal) - Apr 27, 2026
 **Status:** ✅ LIVE on GitHub Pages — Service worker fixed for real-time updates
+
+**🔗 LIVE URL:** https://tylervansant-hugo.github.io/IndoorMedia-pwa/
+**Repo:** github.com/tylervansant-hugo/IndoorMedia-pwa (vite base `/IndoorMedia-pwa/`, deploys via gh-pages branch)
+(NOTE: old `tvansant.github.io/impro-sales-portal` URL is DEAD — 404)
 
 **April 2026 Sales:** 
 - **Total Revenue:** $82,349.61 (17 contracts)

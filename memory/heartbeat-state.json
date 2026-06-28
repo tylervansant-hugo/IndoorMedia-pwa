@@ -2,8 +2,8 @@
   "lastChecks": {
     "email": 1781578800,
     "calendar": 1781578800,
-    "weather": null
+    "weather": 1782225540
   },
-  "lastHeartbeat": 1782363600,
-  "notes": "gog CLI still not configured (config_exists=false, no default Google account). Email+calendar checks blocked until Tyler runs 'gog auth' setup. Already surfaced once previously; don't re-chase on routine heartbeats. Mention when Tyler is active and it's convenient."
+  "lastHeartbeat": 1782615600,
+  "notes": "gog CLI still not configured (config_exists=false, no default Google account). Email+calendar checks blocked until Tyler runs 'gog auth' setup. Already surfaced once previously; don't re-chase on routine heartbeats. Mention when Tyler is active and it's convenient. 2026-06-26 20:00 PDT heartbeat: Friday evening, nothing pending/urgent. Family time for a dad of 4 — staying quiet."
 }

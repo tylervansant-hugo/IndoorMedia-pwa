@@ -1,0 +1,358 @@
+IndoorMedia 07Y/07Z Contracts — 2023/01/01 to 2027/01/01
+Generated 2026-06-23 06:37
+Total contracts: 305
+Total revenue: $1,590,727.32
+============================================================
+
+Anthony Marty Eng — 40 contracts — $258,509.15
+--------------------------------------------------
+  None | 07Y  | Uncle Sammy’s | J414552E | $3,774.00
+  None | 07Y  | Casa de Reyes | J413618E | $3,732.00
+  None | 07Y  | Taqueria Las Camadres | J413561E | $1,660.00
+  None | 07Y  | Tg skyles inc | J413416E | $9,170.00
+  None | 07Z  | Whack-A-Mole | J412833E | $4,325.00
+  None | 07Y  | La Michoacana NW | J412681E | $3,481.20
+  None | 07Y  | Pho Alley 11 | J412245E | $3,483.60
+  None | 07Y  | Don Geyman Communications Limited | J412027E | $6,145.00
+  None | 07Y  | Papa Murphys | J411719E | $3,925.00
+  None | 07Y  | Lemon & Olive | J411380E | $3,125.00
+  None | 07Y  | Casa De Caldos | J411373E | $4,299.96
+  None | 07Y  | El Moreno Chicken &Grill | J411288E | $4,300.00
+  None | 07Y  | Bobablastic | J410883E | $4,299.00
+  None | 07Y  | Dairy queen | J410538E | $3,751.56
+  None | 07Y  | Personal Touch Car Wash | J410207E | $6,665.00
+  None | 07Y  | El Charro Negro | J410048E | $3,882.49
+  None | 07Y  | Los Tequilas Mexican Restaurant | J409959E | $4,531.12
+  None | 07Y  | Chevron Car Wash | J409946E | $3,533.00
+  None | 07Y  | Manny’s Wings & More | J408818E | $4,085.00
+  2025-08-08 | 07Y  | Papa Murphys | J414665E | $74,955.00
+  2025-08-08 | 07Y  | Burn fitness | J414560E | $2,004.00
+  2025-08-12 | 07Y  | John’s Car Wash | J414859E | $8,572.75
+  2025-08-12 | 07Y  | John’s Car Wash | J414666E | $10,972.50
+  2025-08-26 | 07Z  | Splash N dash car wash | J415713E | $3,276.24
+  2025-08-28 | 07Y  | Spray N shine Car Wash | J415758E | $6,490.46
+  2025-09-04 | 07Z  | Masters Of Business | J415956E | $2,807.00
+  2025-10-03 | 07Y  | Sparkys brewing company | J416511E | $6,000.00
+  2025-10-31 | 07Z  | Habaneros Mexican Food | J420177E | $4,932.00
+  2025-10-31 | 07Z  | Habaneros Mexican Food | J419011E | $4,932.00
+  2025-11-05 | 07Y  | A Pederson’s Plumbing | J420176E | $4,690.00
+  2025-11-08 | 07Y  | Raw Blendz | J420570E | $3,927.51
+  2025-12-04 | 07Y  | Rustic Melt | J420664E | $5,302.00
+  2025-12-09 | 07Y  | People's Taphouse and Woodfired | J422016E | $1,800.00
+  2026-01-09 | 07Y  | Bobablastic Lebanon | J422137E | $3,249.00
+  2026-01-22 | 07Y  | Local Grindz llc | J423658E | $3,180.00
+  2026-04-07 | 07Y  | La Sierra Mexican Restaurant & Cantina | J428880E | $4,500.00
+  2026-05-06 | 07Z  | Hiddenbrook Dental | J424505E | $6,948.76
+  2026-06-09 | 07Y  | The Chicken Shanty | J432380E | $5,300.00
+  2026-06-11 | 07Y  | Ginza Sushi & Ramen | J432460E | $6,845.00
+  2026-06-18 | 07Y  | In his name Automotive | J430551E | $5,657.00
+
+Matthew Boozer — 48 contracts — $233,052.63
+--------------------------------------------------
+  None | 07Y  | Wild Willy’s Car Wash | J413256E | $11,400.00
+  None | 07Y  | Summit Structures & Creative Cabins | J413143E | $4,824.00
+  None | 07Y  | Stone Creek Granite and Marble Inc. | J413101E | $4,200.00
+  None | 07Y  | Blue Rose Auto | J412923E | $5,616.00
+  None | 07Y  | Papi’sCustom Carpentry | J412830E | $5,997.00
+  None | 07Y  | Kick City | J412439E | $4,020.00
+  None | 07Y  | Sonny’s Tavern | J412410E | $4,056.00
+  None | 07Y  | THE LAUNDROMUTT Self-Service Dog | J411548E | $7,870.62
+  None | 07Y  | St. Vincent de Paul Society of Lane | J411491E | $4,680.00
+  None | 07Y  | The Haffly Home Group | J411143E | $4,932.00
+  None | 07Y  | Urban Kitchen | J411492E | $3,432.00
+  None | 07Y  | Tomcat Diesel Workz | J411204E | $4,932.00
+  None | 07Y  | Brad’s Autobody/ Brad’s Cottage Grove | J410991E | $4,932.00
+  None | 07Y  | El Tapatio | J410733E | $4,937.00
+  2025-08-08 | 07Y  | Emerald Performance Inc. | J414361E | $4,596.00
+  2025-08-14 | 07Y  | Black Bag Pest Control llc | J414747E | $2,388.00
+  2025-08-15 | 07Y  | Spacebuds The Outpost | J415104E | $5,892.00
+  2025-08-20 | 07Y  | Premier Salons of Oregon | J415151E | $5,125.00
+  2025-08-26 | 07Y  | Spacebuds The Dispensary | J415420E | $5,436.00
+  2025-09-11 | 07Y  | Cone Heads | J416774E | $3,660.00
+  2025-09-11 | 07Y  | Smokin’Bros.BBQ | J416772E | $3,996.00
+  2025-09-25 | 07Y  | State Farm Insurance | J417685E | $3,370.00
+  2025-09-25 | 07Y  | Prohibition Studio / Little Luxuries lash | J416838E | $5,088.00
+  2025-10-03 | 07Y  | State Farm | J417702E | $3,800.00
+  2025-10-13 | 07Y  | Cascade Home Center | J418201E | $6,744.00
+  2025-10-30 | 07Y  | St. Vincent De Paul Society of Lane | J418864E | $6,276.00
+  2025-11-17 | 07Y  | Bellizzi’s Pizza Joint | J420860E | $3,324.00
+  2025-12-03 | 07Y  | M&M Family Enterprise Inc. | J421275E | $2,525.00
+  2025-12-11 | 07Y  | The UPS Store | J422417E | $2,525.00
+  2025-12-11 | 07Y  | The UPS Store | J421886E | $2,975.00
+  2026-01-14 | 07Y  | Oregon Army National Guard | J422420E | $9,993.01
+  2026-01-14 | 07Y  | Bellizzi's Pizza Joint | J423907E | $4,525.00
+  2026-02-02 | 07Y  | Nails Uncorked | J423954E | $13,300.00
+  2026-03-11 | 07Y  | Clean Juice Eugene | J427207E | $4,525.00
+  2026-03-11 | 07Y  | Clean Juice Eugene | J424801E | $3,550.00
+  2026-03-17 | 07Y  | Mami’s Mexican Grill | J427203E | $5,592.00
+  2026-03-18 | 07Y  | Kim’s Asian Cuisine | J427617E | $5,600.00
+  2026-03-27 | 07Y  | La Belle Nails | J427808E | $4,525.00
+  2026-03-31 | 07Y  | Dizzy Dean’s Donuts | J428479E | $2,363.00
+  2026-04-01 | 07Y  | St.Vincent de Paul Society of Lane | J428357E | $5,215.00
+  2026-06-15 | 07Y  | Sub Shop | J432703E | $4,725.00
+  2026-06-16 | 07Y  | Slabtown Coffee | J432535E | $1,896.00
+  2026-06-16 | 07Y  | El Tapatio | J432773E | $3,792.00
+  2026-06-17 | 07Y  | St. Vincent De Paul Society of Lane | J432790E | $7,370.00
+  2026-06-17 | 07Y  | St Vincent de Paul Society of Lane | J432808E | $4,743.00
+  2026-06-18 | 07Y  | Blue Star Gas | J432859E | $5,270.00
+  2026-06-19 | 07Y  | More Boba | J432953E | $2,520.00
+  2026-06-22 | 07Y  | Wild Willy’s Car Wash | J432811E | $0.00
+
+Dave Boring — 41 contracts — $223,295.06
+--------------------------------------------------
+  None | 07Z  | Budget Blinds | J413060E | $9,642.50
+  None | 07Y  | Langer’s Entertainment Center | J413038E | $12,625.00
+  None | 07Z  | Dean’s Homestyle Cafe | J412496E | $4,825.00
+  None | 07Y  | Church of Smoke BBQ | J412174E | $4,425.00
+  None | 07Z  | Muchas Gracias - Hazel Dell | J412076E | $4,050.00
+  None | 07Z  | Encore Salon | J411739E | $6,060.00
+  None | 07Y  | Big Town Hero - Springfield, OR | J411256E | $5,250.00
+  None | 07Y  | Big Town Hero, Springfield, OR | J411232E | $2,525.00
+  None | 07Y  | El Charrito | J410747E | $4,440.00
+  None | 07Z  | Big Town Hero | J410050E | $4,780.00
+  None | 07Z  | Triangle Bowl | J410412E | $5,270.40
+  None | 07Z  | Muchas Gracias - 28th St. | J409244E | $3,972.50
+  None | 07Y  | Rose City Pasta | J409102E | $5,025.00
+  None | 07Y  | Your Side Chicks | J409018E | $5,025.00
+  None | 07Z  | Unity Solar | J408237E | $7,355.25
+  None | 07Z  | Super Torta Authentic Mexican Food | J408916E | $4,355.04
+  None | 07Z  | Muchas Gracias, Salmon Creek, WA | J408208E | $10,926.00
+  None | 07Z  | Muchas Gracias Mexican Food | J406958E | $4,086.00
+  None | 07Z  | Muchas Gracias Mexican Food | J406158E | $5,460.00
+  None | 07Z  | Wayback Burgers | J404830E | $5,304.00
+  None | 07Z  | Teriyaki Spice | J405658E | $4,548.00
+  None | 07Z  | Woodland True Value | J405151E | $4,788.00
+  None | 07Z  | Teriyaki Spice | J405138E | $6,504.00
+  None | 07Z  | Crow Moon Coffee & Bistro | J404581E | $4,783.00
+  None | 07Z  | Pig Patas Express | J404465E | $4,590.00
+  None | 07Z  | EZProperties | J403489E | $7,245.00
+  None | 07Y  | Chepita’s Restaurant | J402890E | $7,356.00
+  2025-08-27 | 07Z  | Paws Cascadia | J415664E | $3,425.00
+  2025-09-12 | 07Z  | All Natural Pet Supply | J415972E | $14,109.24
+  2025-09-22 | 07Z  | Teriyaki Spice | J417267E | $0.00
+  2025-09-26 | 07Y  | Cinco de Mayo | J417265E | $5,000.00
+  2025-10-10 | 07Z  | Los Bros Taco Shop | J418799E | $4,625.00
+  2025-10-10 | 07Y  | Beach Bums Tanning & Wellness Salon | J418249E | $3,564.00
+  2026-01-16 | 07Z  | All Natural Pet Supply | J424077E | $2,916.00
+  2026-02-24 | 07Y  | Los Bros Taco Shop | J426204E | $4,800.00
+  2026-03-02 | 07Z  | Laurel Market | J426489E | $4,884.00
+  2026-03-06 | 07Z  | Restaurant Taqueria Don Jose | J426608E | $3,125.00
+  2026-04-08 | 07Z  | Muchas Gracias - 28th St. | J428957E | $3,996.00
+  2026-04-08 | 07Z  | Muchas Gracias Mexican Food | J428939E | $4,092.00
+  2026-06-02 | 07Z  | Muchas Gracias Mexican Food | J432009E | $8,618.13
+  2026-06-03 | 07Z  | Las Mesitas Restaurant | J429187E | $4,925.00
+
+Amy Dixon — 25 contracts — $188,982.20
+--------------------------------------------------
+  None | 07Z  | Papa Murphy's | J413507E | $15,075.00
+  None | 07Z  | Qdoba | J13843E | $5,250.00
+  None | 07Y  | Oscar's Tacos and Cantina | J411762E | $3,275.00
+  None | 07Y  | The Green Room | J412217E | $23,500.00
+  None | 07Y  | Verdaze | J411513E | $5,335.00
+  None | 07Y  | Danh Thach | J410720E | $7,950.00
+  None | 07Y  | A & W All American Food | J406889E | $4,175.00
+  None | 07Y  | Top Shelf | J405914E | $12,993.00
+  None | 07Y  | Lunaitas | J405901E | $4,725.00
+  None | 07Y  | USO’s Pizza | J405739E | $14,175.00
+  None | 07Y  | Galaxy Won | J405667E | $4,265.00
+  None | 07Y  | Two Wolves Taproom | J405664E | $4,265.00
+  None | 07Y  | Mama Gorditas Kitchen | J405648E | $2,328.00
+  None | 07Y  | CLRM V | J402883E | $8,496.20
+  2025-08-15 | 07Y  | Qdoba Oregon | J413549E | $6,275.00
+  2025-11-25 | 07Y  | A&W Restaurant | J421536E | $7,850.00
+  2026-01-02 | 07Y  | Muchas Gracias | J423229E | $3,275.00
+  2026-01-14 | 07Y  | Qdoba Oregon | J423232E | $1,075.00
+  2026-01-27 | 07Y  | Qdoba Oregon | J423227E | $14,203.00
+  2026-02-10 | 07Y  | Lee’s Kitchen | J423602E | $2,375.00
+  2026-03-06 | 07Y  | Si Senor | J426906E | $10,645.00
+  2026-03-06 | 07Y  | Si Senor | J425353E | $14,152.00
+  2026-03-11 | 07Y  | Two Wolves Taproom | J427209E | $4,425.00
+  2026-03-16 | 07Y  | Lunaitas | J427523E | $4,725.00
+  2026-06-11 | 07Y  | A & W All American Food | J432459E | $4,175.00
+
+Tyler VanSant — 37 contracts — $185,206.54
+--------------------------------------------------
+  None | 07Y  | El Gallo Mexican Food | J413978E | $1,947.50
+  None | 07Z  | Shawarma Refuge | J412917E | $3,755.92
+  None | 07Z  | Clean Finish Car Wash Oly Petroleum | J412523E | $3,925.00
+  None | 07Z  | Insert Coin WA LLC | J412243E | $3,925.00
+  None | 07Z  | Martin Way Shell | J412501E | $1,967.75
+  None | 07Z  | Los Mariachis Mexican Food | J411687E | $3,425.00
+  None | 07Z  | Pho Ever & Wok | J411666E | $3,445.00
+  None | 07Z  | James Schmeling Insurance Agency | J409474E | $4,750.00
+  None | 07Z  | Le Bistro Montage | J409162E | $5,302.98
+  None | 07Y  | Mixtlan Grill Mexican Restaurant | J408422E | $7,065.00
+  None | 07Y  | Diamond Cannabis | J407328E | $5,165.00
+  None | 07Z  | Felony Pizza | J406519E | $3,545.04
+  None | 07Y  | Bob’s OK Tires | J405912E | $2,132.50
+  None | 07Y  | Red Apple Chinese Restaurant and | J405171E | $4,090.56
+  None | 07Z  | Interstate Honda | J401839E | $4,900.06
+  None | 07Y  | A&W Drive In | J403669E | $3,433.00
+  None | 07Y  | The Grove Restuarant & Bar | J403789E | $4,993.74
+  None | 07Z  | La Herradura | J403697E | $3,432.50
+  2025-08-11 | 07Z  | Insert Coin WA LLC | J414794E | $5,877.39
+  2025-08-18 | 07Z  | Flores Taqueria | J414295E | $3,871.25
+  2025-08-19 | 07Z  | Meso Gyro | J415252E | $5,795.00
+  2025-08-27 | 07Z  | Modern Nails | J415577E | $3,724.02
+  2025-10-09 | 07Z  | Interstate Honda | J418507E | $14,540.00
+  2025-10-21 | 07Z  | Shelley Jones & Carrie Hammond | J419443E | $8,021.77
+  2025-10-24 | 07Z  | Insert Coin | J419697E | $5,400.00
+  2025-11-19 | 07Z  | El Rancho Viejo | J421285E | $3,550.00
+  2025-11-20 | 07Z  | Victorico’s | J421408E | $19,174.20
+  2025-11-21 | 07Z  | Fresh PNW Image | J421063E | $3,770.00
+  2025-11-22 | 07Y  | Sumo Sushi & Grill AYCE | J421430E | $3,770.00
+  2025-12-05 | 07Y  | Raul’s Family Mexican Restaurant | J422098E | $2,000.00
+  2026-01-10 | 07Z  | Compass Alyssa Curran Realty Group | J423199E | $12,135.96
+  2026-01-10 | 07Y  | A&W Drive In | J423202E | $3,433.00
+  2026-01-12 | 07Y  | Victorico's Mexican Restaurant | J423774E | $3,572.40
+  2026-01-20 | 07Z  | Victorico's Mexican Food | J423845E | $3,925.00
+  2026-03-04 | 07Z  | Autotek International LLC | J426747E | $2,165.00
+  2026-03-10 | 07Z  | Papa Zuzu’s Pizza | J426746E | $4,525.00
+  2026-04-08 | 07Y  | La Fiesta Mexican restaurant | J427093E | $4,755.00
+
+Megan Wink — 39 contracts — $180,535.46
+--------------------------------------------------
+  2025-09-12 | 07Z  | Old Tblisi Georgian Cuisine | J416322E | $6,350.00
+  2025-09-15 | 07Z  | Kobe Hibachi Grill & Sushi | J416881E | $3,462.25
+  2025-09-16 | 07Z  | Fiesta Bonita Mexican Grill & Cantina | J416955E | $4,175.00
+  2025-10-30 | 07Z  | El Puerto De Angeles | J417763E | $2,930.00
+  2025-11-03 | 07Z  | Egg River Cafe | J420118E | $3,095.00
+  2025-11-11 | 07Z  | Mountain Mike’s Pizza | J420666E | $6,725.00
+  2025-11-12 | 07Y  | Papa Murphy's Pizza | J420812E | $4,200.00
+  2025-11-19 | 07Z  | China Buffet | J421280E | $4,651.25
+  2025-11-19 | 07Z  | Hoody’s Oil Change | J421064E | $3,095.00
+  2025-11-20 | 07Z  | Pueblito Lindo | J421310E | $4,080.00
+  2025-11-22 | 07Z  | Sumo Sushi & Grill AYCE | J421482E | $2,825.00
+  2025-12-02 | 07Z  | Car Angel Auto Repair | J421483E | $3,770.00
+  2025-12-17 | 07Z  | Lightning Treats & Sweets | J421812E | $5,250.00
+  2025-12-31 | 07Z  | Crooked Creek Brewery | J422768E | $5,172.00
+  2026-01-02 | 07Z  | Sip N Flip | J423204E | $3,597.48
+  2026-01-09 | 07Z  | Eatons Tire & Auto | J423673E | $3,577.68
+  2026-01-10 | 07Z  | Kyoto Steakhouse | J423676E | $6,103.76
+  2026-01-20 | 07Z  | The Mesquitery | J423693E | $2,930.00
+  2026-02-17 | 07Z  | Taqueria Palayo | J425484E | $3,432.50
+  2026-02-20 | 07Z  | Childs Play Learning Center | J426022E | $5,124.96
+  2026-02-20 | 07Z  | The Brake Shop | J425814E | $5,725.00
+  2026-02-23 | 07Z  | Grandma's Corner | J426077E | $3,432.00
+  2026-02-24 | 07Z  | Dadash Grill Turkish Cuisine | J426153E | $6,299.00
+  2026-02-25 | 07Z  | N.Y.C Pizzeria | J426212E | $4,625.00
+  2026-03-13 | 07Z  | Enza Cafe + Wood Fired Pizza | J426699E | $4,085.00
+  2026-03-20 | 07Z  | Sumo Sushi & Grill AYCE | J427893E | $4,367.50
+  2026-03-25 | 07Y  | Bark Avenue Luxury Dog Care | J428189E | $3,950.00
+  2026-03-25 | 07Y  | Bark Avenue Luxury Dog Care | J428187E | $4,625.00
+  2026-04-06 | 07Y  | La Real | J428190E | $5,450.00
+  2026-04-20 | 07Z  | El Ricon Taqueria | J428795E | $3,300.00
+  2026-05-05 | 07Z  | La Cocina Oaxaca | J429649E | $3,542.00
+  2026-05-11 | 07Z  | Ink & Drink | J430533E | $4,498.25
+  2026-05-12 | 07Y  | Habaneros | J430883E | $10,979.35
+  2026-05-14 | 07Y  | Penny's pizza | J430966E | $2,149.98
+  2026-05-22 | 07Z  | B & G Tire & Auto | J431323E | $6,793.00
+  2026-06-01 | 07Y  | Snowmoon | J431619E | $5,522.50
+  2026-06-08 | 07Z  | Portland's Best Auto Repair & Towing | J431896E | $7,620.00
+  2026-06-11 | 07Z  | Oregon Tires Auto Care | J432295E | $5,225.00
+  2026-06-18 | 07Y  | El Rinconcito Los Flores | J432617E | $3,800.00
+
+Jan Banks — 13 contracts — $71,544.00
+--------------------------------------------------
+  None | 07Y  | Tokyroll Sushi & Poke | J413771E | $3,495.00
+  None | 07Y  | Raul’s Family Mexican Restaurant | J411057E | $2,000.00
+  None | 07Z  | El Tapatio Mexican Restaurant | J410332E | $10,062.50
+  None | 07Z  | El Tapatio Mexican Restaurant | A409697E | $3,200.00
+  2025-08-18 | 07Y  | Case Automotive | J415232E | $4,175.00
+  2025-08-20 | 07Y  | J' Sons Electrical | J415351E | $4,300.00
+  2025-08-28 | 07Y  | Banner Furniture & Mattress | J415317E | $10,891.50
+  2026-01-16 | 07Z  | Apollo Plumbing, Heating & Air | J424079E | $0.00
+  2026-04-13 | 07Y  | Bolt on Motors | J429244E | $3,475.00
+  2026-04-25 | 07Y  | Green Bee's Landscaping | J429914E | $10,310.00
+  2026-05-06 | 07Y  | Cal's Moving & Storage | D430557E | $7,790.00
+  2026-06-09 | 07Y  | Raul's Family Mexican Restaurant | J432091E | $2,000.00
+  2026-06-10 | 07Y  | Peak Exteriors | J432389E | $9,845.00
+
+Anthony Eng — 10 contracts — $52,210.24
+--------------------------------------------------
+  None | 07Y  | Willie’s Barbershop | J408686E | $5,000.00
+  None | 07Y  | The chicken Shanty | J408663E | $5,172.00
+  None | 07Y  | Osaka sushi & ramen | J408525E | $6,500.00
+  None | 07Y  | Uptown coffeehouse | J407689E | $3,195.00
+  None | 07Y  | La Sierra | J407631E | $10,890.00
+  None | 07Y  | Isse Salon | J407414E | $4,498.44
+  None | 07Y  | La Sierra Mexican Restaurant & Cantina | J406675E | $6,699.80
+  None | 07Y  | Tacos El Oso Loco | J406535E | $3,924.00
+  None | 07Y  | Momiji sushi & Bento | J406443E | $2,844.00
+  None | 07Y  | Just pho you | J405924E | $3,487.00
+
+Adan Ramos — 15 contracts — $48,671.29
+--------------------------------------------------
+  2025-12-08 | 07Z  | Hurricane Ron’s | J422159E | $3,875.00
+  2025-12-09 | 07Z  | Frite & Scoop | J422227E | $2,675.00
+  2025-12-09 | 07Z  | El Tapatio | J422212E | $1,731.50
+  2025-12-11 | 07Z  | Soon Yi Sushi | J422216E | $1,210.00
+  2025-12-11 | 07Z  | El Catrin Mexican Restaurant | J422311E | $3,768.00
+  2025-12-22 | 07Z  | Little Otters Play Cafe | J422458E | $3,312.00
+  2026-01-08 | 07Z  | NW Premier Investments - Papa | J422954E | $1,632.00
+  2026-01-14 | 07Y  | La Flor de Mexico | J423187E | $4,000.00
+  2026-02-19 | 07Z  | El Burrito Mojado | J425443E | $4,438.25
+  2026-02-25 | 07Z  | Felony Pizza | J425900E | $3,545.04
+  2026-03-18 | 07Z  | K&H Auto Shop | J426965E | $3,125.00
+  2026-04-08 | 07Z  | Grapes ‘n Hops | J428509E | $3,275.00
+  2026-04-24 | 07Z  | Ridgefield Travel Center | J428973E | $5,202.00
+  2026-04-25 | 07Z  | Men’s Barber | J430003E | $3,207.50
+  2026-06-10 | 07Y  | Hamji Bak | J431517E | $3,675.00
+
+Ben Patacsil — 13 contracts — $47,926.59
+--------------------------------------------------
+  2025-09-17 | 07Y  | Mad Greek Deli | J416887E | $3,678.00
+  2025-09-18 | 07Y  | McBee’s Shakes Crêpes & Cones | J417134E | $2,364.00
+  2025-09-18 | 07Y  | Play & Ponder | J417098E | $2,525.00
+  2025-09-19 | 07Y  | ButterCoop Bakery | J417181E | $3,275.04
+  2025-09-23 | 07Y  | Wow The Crab | J417461E | $2,947.50
+  2025-09-23 | 07Y  | Massage and Spa at Bethany | J417290E | $3,274.80
+  2025-09-29 | 07Y  | Meet Fresh | J417487E | $5,125.00
+  2025-10-22 | 07Z  | Grind Wit Tryz | J418951E | $5,499.13
+  2025-11-17 | 07Y  | Pho Nam | J420119E | $2,700.00
+  2025-11-19 | 07Y  | Fultano’s Pizza | J421148E | $2,067.12
+  2025-12-18 | 07Z  | Pawsific Northwest Cat Cafe | J422117E | $5,052.00
+  2026-02-25 | 07Y  | Bento’s Teriyaki 3 | J426238E | $4,704.00
+  2026-02-25 | 07Y  | Crazy Sushi Shoten | J422772E | $4,715.00
+
+Christian Johnson — 8 contracts — $33,794.52
+--------------------------------------------------
+  2025-10-09 | 07Z  | Sakura Yakitori and Sushi House | J418567E | $9,336.00
+  2025-10-15 | 07Y  | Pour Choices Taphouse | J418705E | $3,432.48
+  2025-10-16 | 07Y  | Gladstone’s Pizza | J419128E | $4,325.00
+  2025-10-24 | 07Y  | Oh Teriyaki | J419149E | $3,125.04
+  2025-10-28 | 07Z  | Chadwick’s Mill Plain Shell | J419761E | $2,844.00
+  2025-10-30 | 07Z  | Anoush Deli | J419895E | $4,052.00
+  2025-11-14 | 07Y  | Three Mermaids Pubic House | J420879E | $3,432.00
+  2026-01-09 | 07Y  | Amazing Thai Cuisine | J423582E | $3,248.00
+
+Catalina Zinzu Garcia — 6 contracts — $26,759.50
+--------------------------------------------------
+  None | 07Z  | Lomeli Auto | J407898E | $4,130.00
+  None | 07Z  | Magic touch Beauty salon | J406839E | $4,656.00
+  None | 07Z  | La Michoacana Dulce | J405246E | $3,036.50
+  None | 07Z  | Naan n Curry | J404142E | $6,025.00
+  None | 07Z  | Theresa’s Country Feed & Pet | J405000E | $4,644.00
+  None | 07Z  | Agave Azul | J403733E | $4,268.00
+
+Austin Dewitt — 6 contracts — $23,086.14
+--------------------------------------------------
+  None | 07Z  | Fondi Pizzeria | J412486E | $3,550.00
+  None | 07Z  | The Man BBQ | J413213E | $3,725.00
+  None | 07Z  | J2H | J412586E | $1,380.00
+  None | 07Z  | Unique Beauty Salon | J411853E | $5,320.00
+  2025-08-12 | 07Z  | Evergreen Tires | J414216E | $7,148.64
+  2025-10-02 | 07Z  | Twister Donuts | J414920E | $1,962.50
+
+Justin Rich — 1 contracts — $6,845.00
+--------------------------------------------------
+  2026-04-15 | 07Z  | The Port Taco Truck & Bar | J429344E | $6,845.00
+
+David Mordvinov — 2 contracts — $5,770.00
+--------------------------------------------------
+  2025-10-28 | 07Y  | Arlington Taphouse | J419437E | $2,675.00
+  2025-11-25 | 07Z  | Odins Halls Brazilian Jiu Jitsu Oregon | J421152E | $3,095.00
+
+James Keller — 1 contracts — $4,539.00
+--------------------------------------------------
+  None | 07Z  | Blessed Tree and Landscape Service | J400727E | $4,539.00
