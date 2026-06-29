@@ -24,7 +24,8 @@
   let allContracts = []; // For attribution matching
   let phoneClicks = []; // Track call history
   let hotLeads = [];
-  let view = 'main'; // main, nearby-stores, categories, subcategories, results, saved, hot-leads, pending, submit-lead
+  let callInLeads = []; // Inbound 'New Call In Lead' emails — always shown, NOT cycle-filtered
+  let view = 'main'; // main, nearby-stores, categories, subcategories, results, saved, hot-leads, call-in, pending, submit-lead
 
   // ── Store Claims (Dibs) ──
   let storeClaims = {};
@@ -290,9 +291,27 @@
     if (view !== 'main') goBack();
   }
 
+  // Jump straight to the Call-In Leads view (fired from the homepage)
+  function handleShowCallIn() {
+    view = 'call-in';
+  }
+
+  // Call-In Leads filters/search (separate from Hot Leads)
+  let callInSearch = '';
+  $: filteredCallInLeads = callInLeads.filter(l => {
+    if (!callInSearch) return true;
+    const q = callInSearch.toLowerCase();
+    return (l.business_name || '').toLowerCase().includes(q) ||
+      (l.contact_name || '').toLowerCase().includes(q) ||
+      (l.store_city || '').toLowerCase().includes(q) ||
+      (l.subcategory || '').toLowerCase().includes(q) ||
+      (l.lead_zip || '').includes(q);
+  });
+
   onMount(async () => {
     document.addEventListener('select-store-from-map', handleStoreSelectFromMap);
     document.addEventListener('edge-swipe-back', handleEdgeSwipeBack);
+    document.addEventListener('show-callin-leads', handleShowCallIn);
     loadStoreClaims();
     loadLeadClaims();
     loadAllLeadData();
@@ -344,6 +363,7 @@
   onDestroy(() => {
     document.removeEventListener('select-store-from-map', handleStoreSelectFromMap);
     document.removeEventListener('edge-swipe-back', handleEdgeSwipeBack);
+    document.removeEventListener('show-callin-leads', handleShowCallIn);
 
   });
 
@@ -690,19 +710,35 @@
         allStores.filter(s => s.Cycle === currentSellingCycle).map(s => s.StoreName)
       );
       
+      // Hot Leads exclude Call-In Leads (those get their own always-on section)
+      const hotLeadPool = allLeadsData.filter(l => l.category !== 'Call-In Lead');
       // Filter hot leads: rep's stores + current cycle
       if (repStoreIds === null) {
         // Manager: show all leads for current cycle stores
-        hotLeads = allLeadsData.filter(l => !l.store_id || cycleStores.has(l.store_id));
+        hotLeads = hotLeadPool.filter(l => !l.store_id || cycleStores.has(l.store_id));
       } else if (repStoreIds.size > 0) {
         // Rep: show leads for their stores that are in current cycle
         const repCycleStores = new Set([...repStoreIds].filter(id => cycleStores.has(id)));
-        hotLeads = allLeadsData.filter(l => !l.store_id || repCycleStores.has(l.store_id));
+        hotLeads = hotLeadPool.filter(l => !l.store_id || repCycleStores.has(l.store_id));
       } else {
         hotLeads = []; // No stores found for this rep
       }
       
       console.log(`Hot Leads: ${hotLeads.length} leads, Selling Cycle: ${currentSellingCycle}, Rep stores: ${repStoreIds === null ? 'all (manager)' : repStoreIds.size}`);
+
+      // Call-In Leads: inbound, time-sensitive — ALWAYS shown regardless of cycle.
+      // Managers see all; reps see call-ins whose nearest store is one of theirs.
+      const allCallIn = allLeadsData.filter(l => l.category === 'Call-In Lead');
+      if (repStoreIds === null) {
+        callInLeads = allCallIn;
+      } else if (repStoreIds.size > 0) {
+        callInLeads = allCallIn.filter(l => !l.store_id || repStoreIds.has(l.store_id));
+      } else {
+        callInLeads = allCallIn; // no contracts yet — still surface inbound leads rather than hide them
+      }
+      // Newest first
+      callInLeads = [...callInLeads].sort((a, b) => (b.generated_at || '').localeCompare(a.generated_at || ''));
+      console.log(`Call-In Leads: ${callInLeads.length}`);
       
       loadSavedProspects();
     } catch (err) {
@@ -1941,6 +1977,7 @@
   <div class="prospect-tabs">
     <button class="tab-btn" class:active={view === 'main' || view === 'browse-stores'} on:click={() => view = 'main'}>🎯 Find Prospects</button>
     <button class="tab-btn" class:active={view === 'hot-leads'} on:click={() => view = 'hot-leads'}>🔥 Hot Leads {#if hotLeads.length > 0}({hotLeads.length}){/if}</button>
+    <button class="tab-btn tab-callin" class:active={view === 'call-in'} on:click={() => view = 'call-in'}>📞 Call-In Leads {#if callInLeads.length > 0}({callInLeads.length}){/if}</button>
     <button class="tab-btn" class:active={view === 'saved'} on:click={() => view = 'saved'}>💾 Saved ({savedProspects.length})</button>
     {#if $user?.role === 'manager' || $user?.name?.toLowerCase().includes('tyler')}
       <button class="tab-btn" class:active={view === 'team'} on:click={() => view = 'team'}>👥 Team ({teamProspects.length})</button>
@@ -2958,6 +2995,63 @@
     </div>
   {/if}
 
+  <!-- Call-In Leads (inbound, always shown, not cycle-filtered) -->
+  {#if view === 'call-in'}
+    <div class="hot-leads-section callin-section">
+      <button class="back-btn" on:click={() => view = 'main'}>← Back</button>
+      <h2>📞 Call-In Leads ({filteredCallInLeads.length})</h2>
+      <p class="callin-subtitle">Inbound leads — these people called us. Reach out fast! 🔥</p>
+
+      <div class="filter-bar">
+        <input type="text" placeholder="Search business, caller, city, zip..." bind:value={callInSearch} class="filter-input" />
+      </div>
+
+      {#if filteredCallInLeads.length === 0}
+        <div class="empty-state">
+          <p>{callInLeads.length === 0 ? 'No call-in leads yet. New ones import automatically each morning.' : 'No call-in leads match your search.'}</p>
+        </div>
+      {:else}
+        <div class="hot-leads-grid">
+          {#each filteredCallInLeads as lead}
+            <div class="hot-lead-card callin-card">
+              <div class="lead-header">
+                <h4>{lead.business_name}</h4>
+                {#if lead.rating}
+                  <span class="rating">⭐{lead.rating}</span>
+                {/if}
+              </div>
+              <div class="callin-badge-row">
+                <span class="callin-badge">📞 CALLED IN</span>
+                <span class="lead-category callin-cat">{lead.subcategory || 'Lead'}</span>
+              </div>
+              {#if lead.contact_name}
+                <div class="callin-contact-name">👤 {lead.contact_name}</div>
+              {/if}
+              {#if lead.lead_comments}
+                <div class="lead-hook callin-comments">“{lead.lead_comments}”</div>
+              {/if}
+              <div class="lead-contact">
+                {#if lead.phone}
+                  <a href="tel:{lead.phone}" class="phone">📞 {lead.phone}</a>
+                {/if}
+                {#if lead._email}
+                  <a href="mailto:{lead._email}" class="email">📧 {lead._email}</a>
+                {/if}
+              </div>
+              {#if lead.address}
+                <div class="lead-address" style="cursor:pointer;" on:click={() => { navigator.clipboard.writeText(lead.address); copiedAddress = lead.address; setTimeout(() => copiedAddress = '', 2000); }}>📍 {copiedAddress === lead.address ? '✅ Copied!' : lead.address}</div>
+              {/if}
+              <div class="callin-store">
+                🏪 Target store: <strong>{lead.store_chain} {lead.store_city}</strong> ({lead.store_id}){#if lead.distance_mi != null} · {lead.distance_mi} mi{/if}
+              </div>
+              <div class="callin-meta">Zip {lead.lead_zip}{#if lead.website} · <a href={lead.website} target="_blank" rel="noopener">website</a>{/if}{#if lead._research_note} · <em>{lead._research_note}</em>{/if}</div>
+            </div>
+          {/each}
+        </div>
+      {/if}
+    </div>
+  {/if}
+
   <!-- Pending Leads (Manager only) -->
   {#if view === 'pending' && ($user?.role === 'manager' || $user?.name?.toLowerCase().includes('tyler'))}
     <div class="pending-section">
@@ -3439,6 +3533,67 @@
     transition: all 0.2s;
     color: var(--text-primary, #222);
   }
+
+  /* ── Call-In Leads styling ── */
+  .tab-btn.tab-callin.active {
+    background: #0a7d2c;
+    border-color: #0a7d2c;
+  }
+  .callin-subtitle {
+    margin: 2px 0 12px;
+    font-size: 13px;
+    color: var(--text-secondary, #666);
+  }
+  .callin-card {
+    border-left: 5px solid #0a7d2c;
+  }
+  .callin-card:hover {
+    border-color: #0a7d2c;
+    box-shadow: 0 2px 8px rgba(10, 125, 44, 0.15);
+  }
+  .callin-badge-row {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-bottom: 8px;
+    flex-wrap: wrap;
+  }
+  .callin-badge {
+    display: inline-block;
+    background: #0a7d2c;
+    color: #fff;
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: 0.3px;
+    padding: 2px 7px;
+    border-radius: 4px;
+  }
+  .lead-category.callin-cat {
+    margin-bottom: 0;
+  }
+  .callin-contact-name {
+    font-size: 13px;
+    font-weight: 600;
+    margin-bottom: 6px;
+    color: var(--text-primary, #222);
+  }
+  .callin-comments {
+    font-style: italic;
+  }
+  .callin-store {
+    margin-top: 8px;
+    font-size: 12px;
+    color: var(--text-primary, #222);
+    background: rgba(10, 125, 44, 0.08);
+    padding: 6px 8px;
+    border-radius: 6px;
+  }
+  .callin-meta {
+    margin-top: 6px;
+    font-size: 11px;
+    color: var(--text-secondary, #777);
+  }
+  .callin-meta a { color: #0a7d2c; }
 
   .hot-lead-card:hover {
     border-color: #CC0000;

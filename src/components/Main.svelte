@@ -52,6 +52,8 @@
   let contracts = [];
   let allStores = [];
   let savedProspects = [];
+  let callInLeadsCount = 0;
+  let recentCallInLeads = [];
   let analyticsView = 'year';
   let analyticsZone = 'all';
 
@@ -931,6 +933,18 @@
       console.log('[Dashboard] Loaded contracts:', contracts.length);
       allStores = await storesRes.json().catch(() => []);
       console.log('[Dashboard] Loaded stores:', allStores.length);
+      // Load call-in leads count for the homepage card
+      try {
+        const clRes = await fetch(import.meta.env.BASE_URL + 'data/hot_leads.json?t=' + Date.now());
+        const allLeads = await clRes.json();
+        const callIns = (allLeads || []).filter(l => l.category === 'Call-In Lead');
+        callInLeadsCount = callIns.length;
+        recentCallInLeads = [...callIns]
+          .sort((a, b) => (b.generated_at || '').localeCompare(a.generated_at || ''))
+          .slice(0, 3);
+      } catch (clErr) {
+        console.warn('[Dashboard] call-in leads load failed:', clErr);
+      }
       try {
         computeDashboardStats();
       } catch (statsErr) {
@@ -1241,6 +1255,20 @@
             <span class="qa-label">Drive Mode</span>
           </button>
         </div>
+
+        <!-- CALL-IN LEADS — inbound, high-priority, surfaced front-and-center -->
+        <button class="callin-home-card" on:click={() => { storesView = 'prospects'; currentTab = 'stores'; setTimeout(() => document.dispatchEvent(new CustomEvent('show-callin-leads')), 250); }}>
+          <div class="callin-home-icon">📞</div>
+          <div class="callin-home-info">
+            <span class="callin-home-title">Call-In Leads{#if callInLeadsCount > 0} <span class="callin-home-count">{callInLeadsCount}</span>{/if}</span>
+            {#if recentCallInLeads.length > 0}
+              <span class="callin-home-sub">{recentCallInLeads.map(l => l.business_name).join(' · ')}</span>
+            {:else}
+              <span class="callin-home-sub">People who called us — reach out fast</span>
+            {/if}
+          </div>
+          <div class="callin-home-arrow">→</div>
+        </button>
 
         <!-- 2. TODAY AT A GLANCE — next appointment -->
         <button class="today-card-full" on:click={() => { showAppointmentsDetail = !showAppointmentsDetail; showStreakDetail = false; }}>
@@ -1911,6 +1939,26 @@
   .qa-btn.qa-driving .qa-label { color: #ccc; }
 
   /* Today at a Glance */
+  /* Call-In Leads homepage card */
+  .callin-home-card {
+    background: linear-gradient(135deg, #0a7d2c 0%, #0c9434 100%);
+    border: none; border-radius: 12px; padding: 14px 16px;
+    display: flex; align-items: center; gap: 12px; width: 100%;
+    cursor: pointer; transition: all 0.2s; margin-bottom: 16px;
+    box-sizing: border-box; font-family: inherit; color: #fff;
+    box-shadow: 0 2px 10px rgba(10, 125, 44, 0.25);
+  }
+  .callin-home-card:active { transform: scale(0.98); }
+  .callin-home-icon { font-size: 26px; flex-shrink: 0; }
+  .callin-home-info { display: flex; flex-direction: column; gap: 3px; min-width: 0; flex: 1; text-align: left; }
+  .callin-home-title { font-size: 15px; font-weight: 800; display: flex; align-items: center; gap: 8px; }
+  .callin-home-count {
+    background: #fff; color: #0a7d2c; font-size: 13px; font-weight: 800;
+    border-radius: 999px; padding: 1px 9px; line-height: 1.5;
+  }
+  .callin-home-sub { font-size: 12px; opacity: 0.92; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .callin-home-arrow { font-size: 20px; font-weight: 700; flex-shrink: 0; opacity: 0.9; }
+
   .today-card-full {
     background: var(--card-bg, #fff); border-radius: 12px; padding: 12px 14px;
     border: 1px solid var(--border-color, #e0e0e0); display: flex; align-items: center; gap: 10px;
