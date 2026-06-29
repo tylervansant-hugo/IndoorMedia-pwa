@@ -304,6 +304,58 @@
     return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
   }
 
+  // Map a Hot Lead / Call-In Lead record into the full prospect-card shape so
+  // it renders with the exact same look, data, and action buttons as prospects.
+  function leadToProspect(lead) {
+    const phone = (lead.phone || '').toString();
+    const email = lead._email || lead.email || '';
+    return {
+      id: `lead-${lead.crm_id || lead.place_id || lead.business_name}-${lead.store_id || ''}`,
+      name: lead.business_name || 'Business',
+      address: lead.address || `${lead.store_city || ''}${lead.store_state ? ', ' + lead.store_state : ''}`,
+      category: lead.subcategory || lead.category || 'Lead',
+      phone,
+      email,
+      website: lead.website || '',
+      rating: lead.rating || 0,
+      reviews: lead.reviews || 0,
+      distance: lead.distance_mi != null ? lead.distance_mi : null,
+      score: lead.category === 'Call-In Lead' ? 90 : (lead.score || 75),
+      lat: lead.lat || null,
+      lng: lead.lon || null,
+      hours: null,
+      _sourceLead: lead,
+      _callInDate: lead.call_in_date || null,
+      _leadComments: lead.lead_comments || '',
+      _contactName: lead.contact_name || '',
+      _showNotes: false, _showEmail: false, _showScript: false, _showText: false,
+    };
+  }
+
+  // Open a lead as a full prospect card (same view used for search results).
+  function openLeadAsProspect(lead) {
+    // Point selectedStore at the lead's targeted store so Book Appt / context work
+    const st = allStores.find(s => s.StoreName === lead.store_id);
+    if (st) selectedStore = st;
+    selectedCategory = lead.subcategory || lead.category || '';
+    selectedSubcategory = lead.subcategory || '';
+    const p = leadToProspect(lead);
+    prospects = [p];
+    // Pre-fill the saved contact name into lead data so emails greet them
+    if (p._contactName) {
+      try {
+        const h = getLeadHash(p);
+        leadDataCache[h] = { ...(leadDataCache[h] || {}), ownerName: p._contactName,
+          contactPhone: p.phone || '', contactEmail: p.email || '' };
+        leadDataCache = leadDataCache;
+      } catch {}
+    }
+    leadReturnView = view; // remember where we came from
+    view = 'results';
+  }
+
+  let leadReturnView = 'hot-leads';
+
   // Call-In Leads filters/search (separate from Hot Leads)
   let callInSearch = '';
   $: filteredCallInLeads = callInLeads.filter(l => {
@@ -1946,6 +1998,12 @@
 
   function goBack() {
     if (view === 'results') {
+      // If we opened a lead as a full card, return to its lead list
+      if (prospects.length === 1 && prospects[0]?._sourceLead) {
+        prospects = [];
+        view = leadReturnView || 'hot-leads';
+        return;
+      }
       view = 'subcategories';
       selectedSubcategory = null;
     } else if (view === 'subcategories') {
@@ -2973,7 +3031,7 @@
       {:else}
         <div class="hot-leads-grid">
           {#each filteredHotLeads as lead}
-            <div class="hot-lead-card">
+            <div class="hot-lead-card clickable-card" on:click={() => openLeadAsProspect(lead)}>
               <div class="lead-header">
                 <h4>{lead.business_name}</h4>
                 {#if lead.rating}
@@ -2991,16 +3049,17 @@
               {/if}
               <div class="lead-contact">
                 {#if lead.phone}
-                  <a href="tel:{lead.phone}" class="phone">📞 {lead.phone}</a>
+                  <a href="tel:{lead.phone}" class="phone" on:click|stopPropagation>📞 {lead.phone}</a>
                 {/if}
                 {#if lead._email || lead.website}
-                  <a href="mailto:{lead._email || ''}" class="email">📧 Email</a>
+                  <a href="mailto:{lead._email || ''}" class="email" on:click|stopPropagation>📧 Email</a>
                 {/if}
               </div>
               {#if lead.address}
-                <div class="lead-address" style="cursor:pointer;" on:click={() => { navigator.clipboard.writeText(lead.address); copiedAddress = lead.address; setTimeout(() => copiedAddress = '', 2000); }}>📍 {copiedAddress === lead.address ? '✅ Copied!' : lead.address}</div>
+                <div class="lead-address" style="cursor:pointer;" on:click|stopPropagation={() => { navigator.clipboard.writeText(lead.address); copiedAddress = lead.address; setTimeout(() => copiedAddress = '', 2000); }}>📍 {copiedAddress === lead.address ? '✅ Copied!' : lead.address}</div>
               {/if}
               <div class="lead-store">{lead.store_chain} {lead.store_city} ({lead.store_id})</div>
+              <button class="open-full-btn" on:click|stopPropagation={() => openLeadAsProspect(lead)}>Open full card →</button>
             </div>
           {/each}
         </div>
@@ -3026,7 +3085,7 @@
       {:else}
         <div class="hot-leads-grid">
           {#each filteredCallInLeads as lead}
-            <div class="hot-lead-card callin-card">
+            <div class="hot-lead-card callin-card clickable-card" on:click={() => openLeadAsProspect(lead)}>
               <div class="lead-header">
                 <h4>{lead.business_name}</h4>
                 {#if lead.rating}
@@ -3048,19 +3107,20 @@
               {/if}
               <div class="lead-contact">
                 {#if lead.phone}
-                  <a href="tel:{lead.phone}" class="phone">📞 {lead.phone}</a>
+                  <a href="tel:{lead.phone}" class="phone" on:click|stopPropagation>📞 {lead.phone}</a>
                 {/if}
                 {#if lead._email}
-                  <a href="mailto:{lead._email}" class="email">📧 {lead._email}</a>
+                  <a href="mailto:{lead._email}" class="email" on:click|stopPropagation>📧 {lead._email}</a>
                 {/if}
               </div>
               {#if lead.address}
-                <div class="lead-address" style="cursor:pointer;" on:click={() => { navigator.clipboard.writeText(lead.address); copiedAddress = lead.address; setTimeout(() => copiedAddress = '', 2000); }}>📍 {copiedAddress === lead.address ? '✅ Copied!' : lead.address}</div>
+                <div class="lead-address" style="cursor:pointer;" on:click|stopPropagation={() => { navigator.clipboard.writeText(lead.address); copiedAddress = lead.address; setTimeout(() => copiedAddress = '', 2000); }}>📍 {copiedAddress === lead.address ? '✅ Copied!' : lead.address}</div>
               {/if}
               <div class="callin-store">
                 🏪 Target store: <strong>{lead.store_chain} {lead.store_city}</strong> ({lead.store_id}){#if lead.distance_mi != null} · {lead.distance_mi} mi{/if}
               </div>
-              <div class="callin-meta">Zip {lead.lead_zip}{#if lead.website} · <a href={lead.website} target="_blank" rel="noopener">website</a>{/if}{#if lead._research_note} · <em>{lead._research_note}</em>{/if}</div>
+              <div class="callin-meta">Zip {lead.lead_zip}{#if lead.website} · <a href={lead.website} target="_blank" rel="noopener" on:click|stopPropagation>website</a>{/if}{#if lead._research_note} · <em>{lead._research_note}</em>{/if}</div>
+              <button class="open-full-btn callin-open" on:click|stopPropagation={() => openLeadAsProspect(lead)}>Open full card →</button>
             </div>
           {/each}
         </div>
@@ -3608,6 +3668,23 @@
     color: var(--text-secondary, #888);
     white-space: nowrap;
   }
+  .clickable-card { cursor: pointer; }
+  .open-full-btn {
+    margin-top: 10px;
+    width: 100%;
+    padding: 8px 10px;
+    border: none;
+    border-radius: 8px;
+    background: #CC0000;
+    color: #fff;
+    font-size: 13px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background 0.15s;
+  }
+  .open-full-btn:hover { background: #a30000; }
+  .open-full-btn.callin-open { background: #0a7d2c; }
+  .open-full-btn.callin-open:hover { background: #086523; }
   .callin-contact-name {
     font-size: 13px;
     font-weight: 600;
