@@ -296,6 +296,14 @@
     view = 'call-in';
   }
 
+  // Friendly date formatter for lead cards (e.g. "Jun 29, 2026")
+  function fmtLeadDate(s) {
+    if (!s) return '';
+    const d = new Date(s);
+    if (isNaN(d)) return '';
+    return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+  }
+
   // Call-In Leads filters/search (separate from Hot Leads)
   let callInSearch = '';
   $: filteredCallInLeads = callInLeads.filter(l => {
@@ -2972,7 +2980,12 @@
                   <span class="rating">⭐{lead.rating}</span>
                 {/if}
               </div>
-              <div class="lead-category">{lead.category}</div>
+              <div class="lead-cat-row">
+                <span class="lead-category">{lead.category}</span>
+                {#if lead.generated_at}
+                  <span class="lead-date">📅 {fmtLeadDate(lead.generated_at)}</span>
+                {/if}
+              </div>
               {#if lead._hook}
                 <div class="lead-hook">"{lead._hook}"</div>
               {/if}
@@ -3022,6 +3035,9 @@
               </div>
               <div class="callin-badge-row">
                 <span class="callin-badge">📞 CALLED IN</span>
+                {#if lead.call_in_date}
+                  <span class="callin-date">📅 {fmtLeadDate(lead.call_in_date)}</span>
+                {/if}
                 <span class="lead-category callin-cat">{lead.subcategory || 'Lead'}</span>
               </div>
               {#if lead.contact_name}
@@ -3570,6 +3586,27 @@
   }
   .lead-category.callin-cat {
     margin-bottom: 0;
+  }
+  .callin-date {
+    font-size: 11px;
+    font-weight: 700;
+    color: #0a7d2c;
+    background: rgba(10, 125, 44, 0.1);
+    padding: 2px 7px;
+    border-radius: 4px;
+  }
+  .lead-cat-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 6px;
+    margin-bottom: 8px;
+  }
+  .lead-date {
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--text-secondary, #888);
+    white-space: nowrap;
   }
   .callin-contact-name {
     font-size: 13px;

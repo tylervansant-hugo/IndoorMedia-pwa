@@ -74,6 +74,12 @@ def fetch_lead_emails(maxn):
         mc = re.search(r'CrmLeads/Details\?id=(\d+)', body)
         if mc:
             crm = mc.group(1)
+        # Capture the actual call-in date (inner forwarded "Date:" = CRM alert time)
+        call_date = ""
+        inner = re.search(r'Forwarded message[\s\S]{0,200}?Date:\s*(.+)', body)
+        hdr = re.search(r'(?m)^Date:\s*(.+)$', body)
+        raw_date = (inner.group(1).strip() if inner else (hdr.group(1).strip() if hdr else ""))
+        call_date = normalize_date(raw_date)
         if business and (zipc or phone):
             key = (business.lower(), phone, zipc)
             if key in seen:
@@ -81,8 +87,22 @@ def fetch_lead_emails(maxn):
             seen.add(key)
             leads.append(dict(msg_id=mid, crm_id=crm, business=business,
                               customer=cust, phone=phone, email=email,
-                              comments=comments, zip=zipc))
+                              comments=comments, zip=zipc, call_in_date=call_date))
     return leads
+
+def normalize_date(s):
+    """Parse the forwarded email date into ISO; return '' if unparseable."""
+    if not s:
+        return ""
+    s = s.replace(' at ', ', ')
+    s = re.sub(r'\s*[+-]\d{4}.*$', '', s).strip()  # drop tz offset tail
+    for fmt in ('%a, %b %d, %Y, %I:%M %p', '%a, %b %d, %Y, %H:%M',
+                '%a, %d %b %Y %H:%M:%S', '%a, %d %b %Y %H:%M'):
+        try:
+            return datetime.datetime.strptime(s, fmt).strftime('%Y-%m-%dT%H:%M:%S')
+        except Exception:
+            pass
+    return ""
 
 def haversine(a, b, c, d):
     R = 3958.8
@@ -225,6 +245,7 @@ def main():
             "website": research.get("website") or "", "distance_mi": dist,
             "place_id": research.get("place_id"), "lat": None, "lon": None,
             "lead_zip": l["zip"], "lead_comments": l["comments"], "crm_id": l["crm_id"],
+            "call_in_date": l.get("call_in_date") or now,
             "source": "Call-In Lead (email)", "status": "approved", "generated_at": now,
             "_research_match": research.get("name"),
             "_research_note": "" if research else "No Google listing found — use phone + zip; likely home/service-based",

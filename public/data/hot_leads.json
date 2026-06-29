@@ -4813,7 +4813,8 @@
     "_hook": "Inbound call-in lead \u2014 Black Widow Tattoo Studio contacted us directly. Comments: same # as caller ID please call after 10 am",
     "_email_template_type": "initial",
     "_email_subject_template": "Following up on your call, {business}",
-    "_email_body_template": "Hi {contact},\n\nThanks for reaching out to IndoorMedia about {business}! You called in interested in advertising, and I'd love to help. We can get your business in front of shoppers at the Food Maxx in North Highlands \u2014 the closest store to you.\n\nWhen's a good time for a quick 10-minute call to go over options and pricing?\n\nBest,\n{rep}\nIndoorMedia"
+    "_email_body_template": "Hi {contact},\n\nThanks for reaching out to IndoorMedia about {business}! You called in interested in advertising, and I'd love to help. We can get your business in front of shoppers at the Food Maxx in North Highlands \u2014 the closest store to you.\n\nWhen's a good time for a quick 10-minute call to go over options and pricing?\n\nBest,\n{rep}\nIndoorMedia",
+    "call_in_date": "2026-06-29T09:31:00"
   },
   {
     "store_id": "SAF07W-2954",
@@ -4849,7 +4850,8 @@
     "_hook": "Inbound call-in lead \u2014 Coldwell banker contacted us directly. Comments: What locations are available near me?",
     "_email_template_type": "initial",
     "_email_subject_template": "Following up on your call, {business}",
-    "_email_body_template": "Hi {contact},\n\nThanks for reaching out to IndoorMedia about {business}! You called in interested in advertising, and I'd love to help. We can get your business in front of shoppers at the Safeway in Bonners Ferry \u2014 the closest store to you.\n\nWhen's a good time for a quick 10-minute call to go over options and pricing?\n\nBest,\n{rep}\nIndoorMedia"
+    "_email_body_template": "Hi {contact},\n\nThanks for reaching out to IndoorMedia about {business}! You called in interested in advertising, and I'd love to help. We can get your business in front of shoppers at the Safeway in Bonners Ferry \u2014 the closest store to you.\n\nWhen's a good time for a quick 10-minute call to go over options and pricing?\n\nBest,\n{rep}\nIndoorMedia",
+    "call_in_date": "2026-06-29T10:37:00"
   },
   {
     "store_id": "SAF07X-1524",
@@ -4885,7 +4887,8 @@
     "_hook": "Inbound call-in lead \u2014 JD's Landscaping Services LLC contacted us directly. Comments: wants on SAF not sure what type of adv",
     "_email_template_type": "initial",
     "_email_subject_template": "Following up on your call, {business}",
-    "_email_body_template": "Hi {contact},\n\nThanks for reaching out to IndoorMedia about {business}! You called in interested in advertising, and I'd love to help. We can get your business in front of shoppers at the Safeway in Bremerton \u2014 the closest store to you.\n\nWhen's a good time for a quick 10-minute call to go over options and pricing?\n\nBest,\n{rep}\nIndoorMedia"
+    "_email_body_template": "Hi {contact},\n\nThanks for reaching out to IndoorMedia about {business}! You called in interested in advertising, and I'd love to help. We can get your business in front of shoppers at the Safeway in Bremerton \u2014 the closest store to you.\n\nWhen's a good time for a quick 10-minute call to go over options and pricing?\n\nBest,\n{rep}\nIndoorMedia",
+    "call_in_date": "2026-06-09T06:28:00"
   },
   {
     "store_id": "FME07Y-0035",
@@ -4921,7 +4924,8 @@
     "_hook": "Inbound call-in lead \u2014 SnowMoon contacted us directly. Comments: I\u2019d like someone to contact me",
     "_email_template_type": "initial",
     "_email_subject_template": "Following up on your call, {business}",
-    "_email_body_template": "Hi {contact},\n\nThanks for reaching out to IndoorMedia about {business}! You called in interested in advertising, and I'd love to help. We can get your business in front of shoppers at the Fred Meyer in Beaverton \u2014 the closest store to you.\n\nWhen's a good time for a quick 10-minute call to go over options and pricing?\n\nBest,\n{rep}\nIndoorMedia"
+    "_email_body_template": "Hi {contact},\n\nThanks for reaching out to IndoorMedia about {business}! You called in interested in advertising, and I'd love to help. We can get your business in front of shoppers at the Fred Meyer in Beaverton \u2014 the closest store to you.\n\nWhen's a good time for a quick 10-minute call to go over options and pricing?\n\nBest,\n{rep}\nIndoorMedia",
+    "call_in_date": "2026-06-01T07:36:00"
   },
   {
     "store_id": "ALB07Y-0571",
@@ -4957,7 +4961,8 @@
     "_hook": "Inbound call-in lead \u2014 Don Chuys Authentic Mexican Food contacted us directly. Comments: Just water to know who much",
     "_email_template_type": "initial",
     "_email_subject_template": "Following up on your call, {business}",
-    "_email_body_template": "Hi {contact},\n\nThanks for reaching out to IndoorMedia about {business}! You called in interested in advertising, and I'd love to help. We can get your business in front of shoppers at the Albertsons in Oregon City \u2014 the closest store to you.\n\nWhen's a good time for a quick 10-minute call to go over options and pricing?\n\nBest,\n{rep}\nIndoorMedia"
+    "_email_body_template": "Hi {contact},\n\nThanks for reaching out to IndoorMedia about {business}! You called in interested in advertising, and I'd love to help. We can get your business in front of shoppers at the Albertsons in Oregon City \u2014 the closest store to you.\n\nWhen's a good time for a quick 10-minute call to go over options and pricing?\n\nBest,\n{rep}\nIndoorMedia",
+    "call_in_date": "2026-05-18T12:28:00"
   },
   {
     "store_id": "SAF07Y-2623",
@@ -4993,7 +4998,8 @@
     "_hook": "Inbound call-in lead \u2014 Royalty House cleaning LLC contacted us directly. Comments: Address",
     "_email_template_type": "initial",
     "_email_subject_template": "Following up on your call, {business}",
-    "_email_body_template": "Hi {contact},\n\nThanks for reaching out to IndoorMedia about {business}! You called in interested in advertising, and I'd love to help. We can get your business in front of shoppers at the Safeway in Newberg \u2014 the closest store to you.\n\nWhen's a good time for a quick 10-minute call to go over options and pricing?\n\nBest,\n{rep}\nIndoorMedia"
+    "_email_body_template": "Hi {contact},\n\nThanks for reaching out to IndoorMedia about {business}! You called in interested in advertising, and I'd love to help. We can get your business in front of shoppers at the Safeway in Newberg \u2014 the closest store to you.\n\nWhen's a good time for a quick 10-minute call to go over options and pricing?\n\nBest,\n{rep}\nIndoorMedia",
+    "call_in_date": "2026-05-04T07:53:00"
   },
   {
     "store_id": "FME07X-0025",
@@ -5029,7 +5035,8 @@
     "_hook": "Inbound call-in lead \u2014 ISO NQA Systems contacted us directly. Comments: cart? not sure",
     "_email_template_type": "initial",
     "_email_subject_template": "Following up on your call, {business}",
-    "_email_body_template": "Hi {contact},\n\nThanks for reaching out to IndoorMedia about {business}! You called in interested in advertising, and I'd love to help. We can get your business in front of shoppers at the Fred Meyer in Bellingham \u2014 the closest store to you.\n\nWhen's a good time for a quick 10-minute call to go over options and pricing?\n\nBest,\n{rep}\nIndoorMedia"
+    "_email_body_template": "Hi {contact},\n\nThanks for reaching out to IndoorMedia about {business}! You called in interested in advertising, and I'd love to help. We can get your business in front of shoppers at the Fred Meyer in Bellingham \u2014 the closest store to you.\n\nWhen's a good time for a quick 10-minute call to go over options and pricing?\n\nBest,\n{rep}\nIndoorMedia",
+    "call_in_date": "2026-05-04T06:33:00"
   },
   {
     "store_id": "FME07Y-0090",
@@ -5065,7 +5072,8 @@
     "_hook": "Inbound call-in lead \u2014 Saints Teeth Whitening contacted us directly. Comments: It\u2019s a teeth whitening local business multiple",
     "_email_template_type": "initial",
     "_email_subject_template": "Following up on your call, {business}",
-    "_email_body_template": "Hi {contact},\n\nThanks for reaching out to IndoorMedia about {business}! You called in interested in advertising, and I'd love to help. We can get your business in front of shoppers at the Fred Meyer in Salem \u2014 the closest store to you.\n\nWhen's a good time for a quick 10-minute call to go over options and pricing?\n\nBest,\n{rep}\nIndoorMedia"
+    "_email_body_template": "Hi {contact},\n\nThanks for reaching out to IndoorMedia about {business}! You called in interested in advertising, and I'd love to help. We can get your business in front of shoppers at the Fred Meyer in Salem \u2014 the closest store to you.\n\nWhen's a good time for a quick 10-minute call to go over options and pricing?\n\nBest,\n{rep}\nIndoorMedia",
+    "call_in_date": "2026-04-08T07:10:00"
   },
   {
     "store_id": "SAF07Z-1523",
@@ -5101,7 +5109,8 @@
     "_hook": "Inbound call-in lead \u2014 Simply Cupcakes contacted us directly. Comments: unknown same # as on caller ID",
     "_email_template_type": "initial",
     "_email_subject_template": "Following up on your call, {business}",
-    "_email_body_template": "Hi {contact},\n\nThanks for reaching out to IndoorMedia about {business}! You called in interested in advertising, and I'd love to help. We can get your business in front of shoppers at the Safeway in Portland \u2014 the closest store to you.\n\nWhen's a good time for a quick 10-minute call to go over options and pricing?\n\nBest,\n{rep}\nIndoorMedia"
+    "_email_body_template": "Hi {contact},\n\nThanks for reaching out to IndoorMedia about {business}! You called in interested in advertising, and I'd love to help. We can get your business in front of shoppers at the Safeway in Portland \u2014 the closest store to you.\n\nWhen's a good time for a quick 10-minute call to go over options and pricing?\n\nBest,\n{rep}\nIndoorMedia",
+    "call_in_date": "2026-04-08T09:07:00"
   },
   {
     "store_id": "SAF07Y-1935",
@@ -5137,7 +5146,8 @@
     "_hook": "Inbound call-in lead \u2014 Creative Delight contacted us directly. Comments: Business flyers.",
     "_email_template_type": "initial",
     "_email_subject_template": "Following up on your call, {business}",
-    "_email_body_template": "Hi {contact},\n\nThanks for reaching out to IndoorMedia about {business}! You called in interested in advertising, and I'd love to help. We can get your business in front of shoppers at the Safeway in Salem \u2014 the closest store to you.\n\nWhen's a good time for a quick 10-minute call to go over options and pricing?\n\nBest,\n{rep}\nIndoorMedia"
+    "_email_body_template": "Hi {contact},\n\nThanks for reaching out to IndoorMedia about {business}! You called in interested in advertising, and I'd love to help. We can get your business in front of shoppers at the Safeway in Salem \u2014 the closest store to you.\n\nWhen's a good time for a quick 10-minute call to go over options and pricing?\n\nBest,\n{rep}\nIndoorMedia",
+    "call_in_date": "2026-04-08T09:35:00"
   },
   {
     "store_id": "ALB07Y-3593",
@@ -5173,7 +5183,8 @@
     "_hook": "Inbound call-in lead \u2014 La Fiesta contacted us directly. Comments: left VM",
     "_email_template_type": "initial",
     "_email_subject_template": "Following up on your call, {business}",
-    "_email_body_template": "Hi {contact},\n\nThanks for reaching out to IndoorMedia about {business}! You called in interested in advertising, and I'd love to help. We can get your business in front of shoppers at the Albertsons in Medford \u2014 the closest store to you.\n\nWhen's a good time for a quick 10-minute call to go over options and pricing?\n\nBest,\n{rep}\nIndoorMedia"
+    "_email_body_template": "Hi {contact},\n\nThanks for reaching out to IndoorMedia about {business}! You called in interested in advertising, and I'd love to help. We can get your business in front of shoppers at the Albertsons in Medford \u2014 the closest store to you.\n\nWhen's a good time for a quick 10-minute call to go over options and pricing?\n\nBest,\n{rep}\nIndoorMedia",
+    "call_in_date": "2026-04-03T11:59:00"
   },
   {
     "store_id": "SAF07Y-0415",
@@ -5209,7 +5220,8 @@
     "_hook": "Inbound call-in lead \u2014 Josh Hentsch contacted us directly. Comments: I would like to get information regarding sizes, location,",
     "_email_template_type": "initial",
     "_email_subject_template": "Following up on your call, {business}",
-    "_email_body_template": "Hi {contact},\n\nThanks for reaching out to IndoorMedia about {business}! You called in interested in advertising, and I'd love to help. We can get your business in front of shoppers at the Safeway in Lincoln City \u2014 the closest store to you.\n\nWhen's a good time for a quick 10-minute call to go over options and pricing?\n\nBest,\n{rep}\nIndoorMedia"
+    "_email_body_template": "Hi {contact},\n\nThanks for reaching out to IndoorMedia about {business}! You called in interested in advertising, and I'd love to help. We can get your business in front of shoppers at the Safeway in Lincoln City \u2014 the closest store to you.\n\nWhen's a good time for a quick 10-minute call to go over options and pricing?\n\nBest,\n{rep}\nIndoorMedia",
+    "call_in_date": "2026-03-24T07:01:00"
   },
   {
     "store_id": "FME07Y-0375",
@@ -5245,7 +5257,8 @@
     "_hook": "Inbound call-in lead \u2014 Noble Property Buyers contacted us directly. Comments: multiple",
     "_email_template_type": "initial",
     "_email_subject_template": "Following up on your call, {business}",
-    "_email_body_template": "Hi {contact},\n\nThanks for reaching out to IndoorMedia about {business}! You called in interested in advertising, and I'd love to help. We can get your business in front of shoppers at the Fred Meyer in Tigard \u2014 the closest store to you.\n\nWhen's a good time for a quick 10-minute call to go over options and pricing?\n\nBest,\n{rep}\nIndoorMedia"
+    "_email_body_template": "Hi {contact},\n\nThanks for reaching out to IndoorMedia about {business}! You called in interested in advertising, and I'd love to help. We can get your business in front of shoppers at the Fred Meyer in Tigard \u2014 the closest store to you.\n\nWhen's a good time for a quick 10-minute call to go over options and pricing?\n\nBest,\n{rep}\nIndoorMedia",
+    "call_in_date": "2026-03-20T07:41:00"
   },
   {
     "store_id": "SAF07Z-1231",
@@ -5281,7 +5294,8 @@
     "_hook": "Inbound call-in lead \u2014 Real Estate Broker contacted us directly. Comments: same # as caller ID",
     "_email_template_type": "initial",
     "_email_subject_template": "Following up on your call, {business}",
-    "_email_body_template": "Hi {contact},\n\nThanks for reaching out to IndoorMedia about {business}! You called in interested in advertising, and I'd love to help. We can get your business in front of shoppers at the Safeway in Clackamas \u2014 the closest store to you.\n\nWhen's a good time for a quick 10-minute call to go over options and pricing?\n\nBest,\n{rep}\nIndoorMedia"
+    "_email_body_template": "Hi {contact},\n\nThanks for reaching out to IndoorMedia about {business}! You called in interested in advertising, and I'd love to help. We can get your business in front of shoppers at the Safeway in Clackamas \u2014 the closest store to you.\n\nWhen's a good time for a quick 10-minute call to go over options and pricing?\n\nBest,\n{rep}\nIndoorMedia",
+    "call_in_date": "2026-03-13T07:17:00"
   },
   {
     "store_id": "SAF07Y-1976",
@@ -5317,7 +5331,8 @@
     "_hook": "Inbound call-in lead \u2014 First Class Construction LLC contacted us directly. Comments: Address",
     "_email_template_type": "initial",
     "_email_subject_template": "Following up on your call, {business}",
-    "_email_body_template": "Hi {contact},\n\nThanks for reaching out to IndoorMedia about {business}! You called in interested in advertising, and I'd love to help. We can get your business in front of shoppers at the Safeway in Woodburn \u2014 the closest store to you.\n\nWhen's a good time for a quick 10-minute call to go over options and pricing?\n\nBest,\n{rep}\nIndoorMedia"
+    "_email_body_template": "Hi {contact},\n\nThanks for reaching out to IndoorMedia about {business}! You called in interested in advertising, and I'd love to help. We can get your business in front of shoppers at the Safeway in Woodburn \u2014 the closest store to you.\n\nWhen's a good time for a quick 10-minute call to go over options and pricing?\n\nBest,\n{rep}\nIndoorMedia",
+    "call_in_date": "2026-03-02T14:07:00"
   },
   {
     "store_id": "FME07Z-0614",
@@ -5353,7 +5368,8 @@
     "_hook": "Inbound call-in lead \u2014 ChargeplusLLC contacted us directly. Comments: I\u2019m a owner operator technician of a sustainable, non-towing",
     "_email_template_type": "initial",
     "_email_subject_template": "Following up on your call, {business}",
-    "_email_body_template": "Hi {contact},\n\nThanks for reaching out to IndoorMedia about {business}! You called in interested in advertising, and I'd love to help. We can get your business in front of shoppers at the Fred Meyer in Battle Ground \u2014 the closest store to you.\n\nWhen's a good time for a quick 10-minute call to go over options and pricing?\n\nBest,\n{rep}\nIndoorMedia"
+    "_email_body_template": "Hi {contact},\n\nThanks for reaching out to IndoorMedia about {business}! You called in interested in advertising, and I'd love to help. We can get your business in front of shoppers at the Fred Meyer in Battle Ground \u2014 the closest store to you.\n\nWhen's a good time for a quick 10-minute call to go over options and pricing?\n\nBest,\n{rep}\nIndoorMedia",
+    "call_in_date": "2026-02-27T09:28:00"
   },
   {
     "store_id": "SAF07Y-1935",
@@ -5389,7 +5405,8 @@
     "_hook": "Inbound call-in lead \u2014 Fund Your Edge contacted us directly. Comments: same as caller ID",
     "_email_template_type": "initial",
     "_email_subject_template": "Following up on your call, {business}",
-    "_email_body_template": "Hi {contact},\n\nThanks for reaching out to IndoorMedia about {business}! You called in interested in advertising, and I'd love to help. We can get your business in front of shoppers at the Safeway in Salem \u2014 the closest store to you.\n\nWhen's a good time for a quick 10-minute call to go over options and pricing?\n\nBest,\n{rep}\nIndoorMedia"
+    "_email_body_template": "Hi {contact},\n\nThanks for reaching out to IndoorMedia about {business}! You called in interested in advertising, and I'd love to help. We can get your business in front of shoppers at the Safeway in Salem \u2014 the closest store to you.\n\nWhen's a good time for a quick 10-minute call to go over options and pricing?\n\nBest,\n{rep}\nIndoorMedia",
+    "call_in_date": "2026-01-07T10:29:00"
   },
   {
     "store_id": "SAF07Z-3525",
@@ -5425,7 +5442,8 @@
     "_hook": "Inbound call-in lead \u2014 Crafts for kids contacted us directly. Comments: Address",
     "_email_template_type": "initial",
     "_email_subject_template": "Following up on your call, {business}",
-    "_email_body_template": "Hi {contact},\n\nThanks for reaching out to IndoorMedia about {business}! You called in interested in advertising, and I'd love to help. We can get your business in front of shoppers at the Safeway in Chehalis \u2014 the closest store to you.\n\nWhen's a good time for a quick 10-minute call to go over options and pricing?\n\nBest,\n{rep}\nIndoorMedia"
+    "_email_body_template": "Hi {contact},\n\nThanks for reaching out to IndoorMedia about {business}! You called in interested in advertising, and I'd love to help. We can get your business in front of shoppers at the Safeway in Chehalis \u2014 the closest store to you.\n\nWhen's a good time for a quick 10-minute call to go over options and pricing?\n\nBest,\n{rep}\nIndoorMedia",
+    "call_in_date": "2025-12-29T09:32:00"
   },
   {
     "store_id": "SAF07W-3252",
@@ -5461,7 +5479,8 @@
     "_hook": "Inbound call-in lead \u2014 Crumbl contacted us directly. Comments: same as caller ID",
     "_email_template_type": "initial",
     "_email_subject_template": "Following up on your call, {business}",
-    "_email_body_template": "Hi {contact},\n\nThanks for reaching out to IndoorMedia about {business}! You called in interested in advertising, and I'd love to help. We can get your business in front of shoppers at the Safeway in Moses Lake \u2014 the closest store to you.\n\nWhen's a good time for a quick 10-minute call to go over options and pricing?\n\nBest,\n{rep}\nIndoorMedia"
+    "_email_body_template": "Hi {contact},\n\nThanks for reaching out to IndoorMedia about {business}! You called in interested in advertising, and I'd love to help. We can get your business in front of shoppers at the Safeway in Moses Lake \u2014 the closest store to you.\n\nWhen's a good time for a quick 10-minute call to go over options and pricing?\n\nBest,\n{rep}\nIndoorMedia",
+    "call_in_date": "2025-12-18T10:05:00"
   },
   {
     "store_id": "ALB07Z-0575",
@@ -5497,7 +5516,8 @@
     "_hook": "Inbound call-in lead \u2014 Coolers and More contacted us directly. Comments: Need customers",
     "_email_template_type": "initial",
     "_email_subject_template": "Following up on your call, {business}",
-    "_email_body_template": "Hi {contact},\n\nThanks for reaching out to IndoorMedia about {business}! You called in interested in advertising, and I'd love to help. We can get your business in front of shoppers at the Albertsons in Portland \u2014 the closest store to you.\n\nWhen's a good time for a quick 10-minute call to go over options and pricing?\n\nBest,\n{rep}\nIndoorMedia"
+    "_email_body_template": "Hi {contact},\n\nThanks for reaching out to IndoorMedia about {business}! You called in interested in advertising, and I'd love to help. We can get your business in front of shoppers at the Albertsons in Portland \u2014 the closest store to you.\n\nWhen's a good time for a quick 10-minute call to go over options and pricing?\n\nBest,\n{rep}\nIndoorMedia",
+    "call_in_date": "2025-12-08T08:16:00"
   },
   {
     "store_id": "SAF07Y-1558",
@@ -5533,7 +5553,8 @@
     "_hook": "Inbound call-in lead \u2014 Nxt Level Construction LLC contacted us directly. Comments: Interested in my local Lebanon, OR Safeway reciept coupon ad.",
     "_email_template_type": "initial",
     "_email_subject_template": "Following up on your call, {business}",
-    "_email_body_template": "Hi {contact},\n\nThanks for reaching out to IndoorMedia about {business}! You called in interested in advertising, and I'd love to help. We can get your business in front of shoppers at the Safeway in Lebanon \u2014 the closest store to you.\n\nWhen's a good time for a quick 10-minute call to go over options and pricing?\n\nBest,\n{rep}\nIndoorMedia"
+    "_email_body_template": "Hi {contact},\n\nThanks for reaching out to IndoorMedia about {business}! You called in interested in advertising, and I'd love to help. We can get your business in front of shoppers at the Safeway in Lebanon \u2014 the closest store to you.\n\nWhen's a good time for a quick 10-minute call to go over options and pricing?\n\nBest,\n{rep}\nIndoorMedia",
+    "call_in_date": "2025-12-11T10:31:00"
   },
   {
     "store_id": "ROS07Z-0042",
@@ -5569,7 +5590,8 @@
     "_hook": "Inbound call-in lead \u2014 Windermere Real Estate contacted us directly. Comments: Interested in the receipt ads",
     "_email_template_type": "initial",
     "_email_subject_template": "Following up on your call, {business}",
-    "_email_body_template": "Hi {contact},\n\nThanks for reaching out to IndoorMedia about {business}! You called in interested in advertising, and I'd love to help. We can get your business in front of shoppers at the Rosauers in Ridgefield \u2014 the closest store to you.\n\nWhen's a good time for a quick 10-minute call to go over options and pricing?\n\nBest,\n{rep}\nIndoorMedia"
+    "_email_body_template": "Hi {contact},\n\nThanks for reaching out to IndoorMedia about {business}! You called in interested in advertising, and I'd love to help. We can get your business in front of shoppers at the Rosauers in Ridgefield \u2014 the closest store to you.\n\nWhen's a good time for a quick 10-minute call to go over options and pricing?\n\nBest,\n{rep}\nIndoorMedia",
+    "call_in_date": "2025-12-15T09:41:00"
   },
   {
     "store_id": "SAF07Z-1447",
@@ -5605,7 +5627,8 @@
     "_hook": "Inbound call-in lead \u2014 Whimsies & Woes contacted us directly. Comments: Address",
     "_email_template_type": "initial",
     "_email_subject_template": "Following up on your call, {business}",
-    "_email_body_template": "Hi {contact},\n\nThanks for reaching out to IndoorMedia about {business}! You called in interested in advertising, and I'd love to help. We can get your business in front of shoppers at the Safeway in Portland \u2014 the closest store to you.\n\nWhen's a good time for a quick 10-minute call to go over options and pricing?\n\nBest,\n{rep}\nIndoorMedia"
+    "_email_body_template": "Hi {contact},\n\nThanks for reaching out to IndoorMedia about {business}! You called in interested in advertising, and I'd love to help. We can get your business in front of shoppers at the Safeway in Portland \u2014 the closest store to you.\n\nWhen's a good time for a quick 10-minute call to go over options and pricing?\n\nBest,\n{rep}\nIndoorMedia",
+    "call_in_date": "2025-11-10T06:05:00"
   },
   {
     "store_id": "SAF07Y-1558",
@@ -5641,7 +5664,8 @@
     "_hook": "Inbound call-in lead \u2014 Conti's Speed, Sound & Kustom contacted us directly. Comments: I'm just needing a brief consult or quote for ad pricing on",
     "_email_template_type": "initial",
     "_email_subject_template": "Following up on your call, {business}",
-    "_email_body_template": "Hi {contact},\n\nThanks for reaching out to IndoorMedia about {business}! You called in interested in advertising, and I'd love to help. We can get your business in front of shoppers at the Safeway in Lebanon \u2014 the closest store to you.\n\nWhen's a good time for a quick 10-minute call to go over options and pricing?\n\nBest,\n{rep}\nIndoorMedia"
+    "_email_body_template": "Hi {contact},\n\nThanks for reaching out to IndoorMedia about {business}! You called in interested in advertising, and I'd love to help. We can get your business in front of shoppers at the Safeway in Lebanon \u2014 the closest store to you.\n\nWhen's a good time for a quick 10-minute call to go over options and pricing?\n\nBest,\n{rep}\nIndoorMedia",
+    "call_in_date": "2025-11-03T06:19:00"
   },
   {
     "store_id": "SAF07Z-1762",
@@ -5677,7 +5701,8 @@
     "_hook": "Inbound call-in lead \u2014 Speelyai Creek Retreat contacted us directly. Comments: Address",
     "_email_template_type": "initial",
     "_email_subject_template": "Following up on your call, {business}",
-    "_email_body_template": "Hi {contact},\n\nThanks for reaching out to IndoorMedia about {business}! You called in interested in advertising, and I'd love to help. We can get your business in front of shoppers at the Safeway in Woodland \u2014 the closest store to you.\n\nWhen's a good time for a quick 10-minute call to go over options and pricing?\n\nBest,\n{rep}\nIndoorMedia"
+    "_email_body_template": "Hi {contact},\n\nThanks for reaching out to IndoorMedia about {business}! You called in interested in advertising, and I'd love to help. We can get your business in front of shoppers at the Safeway in Woodland \u2014 the closest store to you.\n\nWhen's a good time for a quick 10-minute call to go over options and pricing?\n\nBest,\n{rep}\nIndoorMedia",
+    "call_in_date": "2025-10-30T06:13:00"
   },
   {
     "store_id": "SAF07Y-4316",
@@ -5713,7 +5738,8 @@
     "_hook": "Inbound call-in lead \u2014 KSS, Inc. contacted us directly. Comments: Address",
     "_email_template_type": "initial",
     "_email_subject_template": "Following up on your call, {business}",
-    "_email_body_template": "Hi {contact},\n\nThanks for reaching out to IndoorMedia about {business}! You called in interested in advertising, and I'd love to help. We can get your business in front of shoppers at the Safeway in Lakeview \u2014 the closest store to you.\n\nWhen's a good time for a quick 10-minute call to go over options and pricing?\n\nBest,\n{rep}\nIndoorMedia"
+    "_email_body_template": "Hi {contact},\n\nThanks for reaching out to IndoorMedia about {business}! You called in interested in advertising, and I'd love to help. We can get your business in front of shoppers at the Safeway in Lakeview \u2014 the closest store to you.\n\nWhen's a good time for a quick 10-minute call to go over options and pricing?\n\nBest,\n{rep}\nIndoorMedia",
+    "call_in_date": "2025-09-26T17:51:00"
   },
   {
     "store_id": "SAF07W-1642",
@@ -5749,7 +5775,8 @@
     "_hook": "Inbound call-in lead \u2014 Blue Mountain Kids Preschool contacted us directly. Comments: Address",
     "_email_template_type": "initial",
     "_email_subject_template": "Following up on your call, {business}",
-    "_email_body_template": "Hi {contact},\n\nThanks for reaching out to IndoorMedia about {business}! You called in interested in advertising, and I'd love to help. We can get your business in front of shoppers at the Safeway in Pendleton \u2014 the closest store to you.\n\nWhen's a good time for a quick 10-minute call to go over options and pricing?\n\nBest,\n{rep}\nIndoorMedia"
+    "_email_body_template": "Hi {contact},\n\nThanks for reaching out to IndoorMedia about {business}! You called in interested in advertising, and I'd love to help. We can get your business in front of shoppers at the Safeway in Pendleton \u2014 the closest store to you.\n\nWhen's a good time for a quick 10-minute call to go over options and pricing?\n\nBest,\n{rep}\nIndoorMedia",
+    "call_in_date": "2025-09-22T10:17:00"
   },
   {
     "store_id": "SAF07Z-1523",
@@ -5785,7 +5812,8 @@
     "_hook": "Inbound call-in lead \u2014 TBD Cleaning contacted us directly. Comments: Caller ID same",
     "_email_template_type": "initial",
     "_email_subject_template": "Following up on your call, {business}",
-    "_email_body_template": "Hi {contact},\n\nThanks for reaching out to IndoorMedia about {business}! You called in interested in advertising, and I'd love to help. We can get your business in front of shoppers at the Safeway in Portland \u2014 the closest store to you.\n\nWhen's a good time for a quick 10-minute call to go over options and pricing?\n\nBest,\n{rep}\nIndoorMedia"
+    "_email_body_template": "Hi {contact},\n\nThanks for reaching out to IndoorMedia about {business}! You called in interested in advertising, and I'd love to help. We can get your business in front of shoppers at the Safeway in Portland \u2014 the closest store to you.\n\nWhen's a good time for a quick 10-minute call to go over options and pricing?\n\nBest,\n{rep}\nIndoorMedia",
+    "call_in_date": "2025-08-14T09:55:00"
   },
   {
     "store_id": "FME07Y-0060",
@@ -5821,7 +5849,8 @@
     "_hook": "Inbound call-in lead \u2014 TBD contacted us directly. Comments: Left Voicemail",
     "_email_template_type": "initial",
     "_email_subject_template": "Following up on your call, {business}",
-    "_email_body_template": "Hi {contact},\n\nThanks for reaching out to IndoorMedia about {business}! You called in interested in advertising, and I'd love to help. We can get your business in front of shoppers at the Fred Meyer in Cornelius \u2014 the closest store to you.\n\nWhen's a good time for a quick 10-minute call to go over options and pricing?\n\nBest,\n{rep}\nIndoorMedia"
+    "_email_body_template": "Hi {contact},\n\nThanks for reaching out to IndoorMedia about {business}! You called in interested in advertising, and I'd love to help. We can get your business in front of shoppers at the Fred Meyer in Cornelius \u2014 the closest store to you.\n\nWhen's a good time for a quick 10-minute call to go over options and pricing?\n\nBest,\n{rep}\nIndoorMedia",
+    "call_in_date": "2025-08-14T10:24:00"
   },
   {
     "store_id": "FME07Z-0650",
@@ -5857,6 +5886,7 @@
     "_hook": "Inbound call-in lead \u2014 M&R Cleaning & Organizing contacted us directly. Comments: Address",
     "_email_template_type": "initial",
     "_email_subject_template": "Following up on your call, {business}",
-    "_email_body_template": "Hi {contact},\n\nThanks for reaching out to IndoorMedia about {business}! You called in interested in advertising, and I'd love to help. We can get your business in front of shoppers at the Fred Meyer in Redmond \u2014 the closest store to you.\n\nWhen's a good time for a quick 10-minute call to go over options and pricing?\n\nBest,\n{rep}\nIndoorMedia"
+    "_email_body_template": "Hi {contact},\n\nThanks for reaching out to IndoorMedia about {business}! You called in interested in advertising, and I'd love to help. We can get your business in front of shoppers at the Fred Meyer in Redmond \u2014 the closest store to you.\n\nWhen's a good time for a quick 10-minute call to go over options and pricing?\n\nBest,\n{rep}\nIndoorMedia",
+    "call_in_date": "2025-08-08T14:35:00"
   }
 ]
