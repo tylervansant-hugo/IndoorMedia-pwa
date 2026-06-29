@@ -1317,20 +1317,48 @@
   // {store} = full store reference like "the Safeway on Center Street in Salem"
   const emailTemplates = [
     { id: 'initial', icon: '🎯', name: 'Initial Appointment',
-      subject: 'Quick question about {business}',
+      subject: '{chain} shoppers could be walking into {business}',
       body: 'Hi {contact},\n\nI noticed {business} in the area and wanted to reach out. We work with local businesses to help drive foot traffic through register tape advertising at {store}.\n\nThousands of businesses like yours have seen measurable results — would you be open to a quick 10-minute chat this week?\n\nBest,\n{rep}\nIndoorMedia' },
     { id: 'roi', icon: '📊', name: 'ROI / Value Focused',
-      subject: 'How {business} can reach {customers} local customers weekly',
+      subject: '{customers} {chain} shoppers a week — within reach of {business}',
       body: 'Hi {contact},\n\n{store_cap} sees {customers} customers per week. That\'s {customers} potential customers seeing your ad every single week.\n\nBusinesses in your category have reported strong ROI — many seeing results within the first month. Our register tape ads put your name, offer, and location directly in shoppers\' hands at {store}.\n\nI\'d love to show you how the numbers work for {business}. Can we schedule a quick call?\n\nBest,\n{rep}\nIndoorMedia' },
     { id: 'followup', icon: '⏰', name: 'Follow-up (No Response)',
-      subject: 'Following up — {business}',
+      subject: 'Still holding a {chain} spot for {business}',
       body: 'Hi {contact},\n\nI reached out a few days ago about a partnership opportunity for {business} at {store} and wanted to follow up.\n\nWith {customers} shoppers coming through each week, register tape advertising is one of the most effective ways to reach local customers. I think there\'s a great fit here.\n\nWould you have 10 minutes this week for a quick chat?\n\nBest,\n{rep}\nIndoorMedia' },
     { id: 'reengagement', icon: '🔄', name: 'Re-engagement',
-      subject: 'Things have changed — {business}',
+      subject: 'New {chain} availability — perfect for {business}',
       body: 'Hi {contact},\n\nIt\'s been a while since we last connected about {business}. A lot has changed at IndoorMedia — new store locations, better pricing, and stronger results for businesses like yours.\n\nWe have availability at {store} right now and I think it could be a great fit.\n\nWould you be open to reconnecting for a quick 10-minute call?\n\nBest,\n{rep}\nIndoorMedia' },
     { id: 'limited', icon: '⚡', name: 'Limited Time Offer',
-      subject: 'Limited availability at {store_short} near {business}',
+      subject: 'Only one {chain} spot left for {business}',
       body: 'Hi {contact},\n\nI wanted to give you a heads up — we have limited ad placement availability at {store}.\n\nWith {customers} shoppers per week, this is one of the highest-traffic locations in the area. Our partnership program is filling up fast, and I\'d hate for {business} to miss out.\n\nCan we schedule a quick call this week?\n\nBest,\n{rep}\nIndoorMedia' },
+  ];
+
+  // Program-specific email templates — one per product across Tape, Cart, and
+  // Digital. Surfaced under a "By Program" picker so reps can lead with the
+  // exact product they want to pitch. Subjects carry the {chain} name + an
+  // open-worthy hook; bodies greet the saved contact by name.
+  const programEmailTemplates = [
+    // ── TAPE ──
+    { id: 'prog-tape', icon: '🧾', name: 'Register Tape', group: 'Tape',
+      subject: 'Put {business} in every {chain} shopper\u2019s hand',
+      body: 'Hi {contact},\n\nEvery customer who checks out at {store} walks away holding their receipt — and that\'s prime real estate for {business}. Our register tape ads print your name, offer, and location right on the back, reaching {customers} local shoppers every week.\n\nIt\'s repetition where people already are, at a fraction of the cost of a billboard. Could I show you how it works in 10 minutes?\n\nBest,\n{rep}\nIndoorMedia' },
+    // ── CART ──
+    { id: 'prog-cart', icon: '🛒', name: 'Cartvertising', group: 'Cart',
+      subject: 'Your brand on every cart at {chain}, {business}',
+      body: 'Hi {contact},\n\nImagine {business} riding along on every shopping cart at {store} for six months straight. Cartvertising puts your ad in front of {customers} shoppers a week — eye-level, all day, every aisle.\n\nOne business per category, so once the spot is yours, your competition can\'t take it. Want me to check if it\'s still open?\n\nBest,\n{rep}\nIndoorMedia' },
+    // ── DIGITAL ──
+    { id: 'prog-digitalboost', icon: '🚀', name: 'DigitalBoost (Geofencing)', group: 'Digital',
+      subject: 'Reach phones near {chain} for {business}',
+      body: 'Hi {contact},\n\nWhat if {business} could send an ad straight to the phone of every shopper near {store}? DigitalBoost draws a digital fence around high-traffic spots and delivers your ad to people inside it — then follows them with it.\n\nIt pairs perfectly with our in-store advertising: they see you at the store, then see you again on their phone. Got 10 minutes to see how it targets your area?\n\nBest,\n{rep}\nIndoorMedia' },
+    { id: 'prog-findlocal', icon: '📍', name: 'FindLocal (Local SEO)', group: 'Digital',
+      subject: 'Make sure {business} actually gets found online',
+      body: 'Hi {contact},\n\nWhen someone near {chain} searches for what {business} offers, do they find you — or a competitor? FindLocal gets your business listed accurately across 50+ directories, maps, and search engines, so you show up where it counts.\n\nIt\'s the foundation that makes every other ad work harder. Worth a quick 10-minute look?\n\nBest,\n{rep}\nIndoorMedia' },
+    { id: 'prog-reviewboost', icon: '⭐', name: 'ReviewBoost (Reviews)', group: 'Digital',
+      subject: 'Turn happy {business} customers into 5-star reviews',
+      body: 'Hi {contact},\n\nReviews are the new word of mouth — and most happy customers just need a nudge. ReviewBoost automatically asks them by email and text right after their visit, sending the happy ones to leave a public review and quietly catching the unhappy ones first.\n\nMore stars means more {chain} shoppers choosing {business} over the competition. Can I show you how it runs on autopilot?\n\nBest,\n{rep}\nIndoorMedia' },
+    { id: 'prog-loyaltyboost', icon: '💎', name: 'LoyaltyBoost (Loyalty)', group: 'Digital',
+      subject: 'Keep {business} customers coming back all year',
+      body: 'Hi {contact},\n\nWinning a customer is hard; keeping them should be easy. LoyaltyBoost gives {business} a year-round rewards program that brings customers back again and again — with automated offers that drive repeat visits.\n\nCombine it with reaching new shoppers at {store}, and you\'re filling the top of the funnel and the bottom. Got 10 minutes this week?\n\nBest,\n{rep}\nIndoorMedia' },
   ];
 
   // Category-specific email templates. Keyed by a matcher run against the
@@ -1407,9 +1435,15 @@
     return [];
   }
 
-  // Combined list: category-specific first (if any), then the generic five
+  // Program templates tagged with their group label so they render with a badge.
+  function getProgramTemplates() {
+    return programEmailTemplates.map(t => ({ ...t, _programLabel: t.group }));
+  }
+
+  // Combined list: category-specific first (if any), then program templates
+  // (Tape / Cart / Digital), then the generic five.
   function getEmailTemplatesFor() {
-    return [...getCategoryTemplates(), ...emailTemplates];
+    return [...getCategoryTemplates(), ...getProgramTemplates(), ...emailTemplates];
   }
 
   // Build a natural store reference like "the Safeway on Center Street in Salem"
@@ -1439,13 +1473,38 @@
     return rounded.toLocaleString() + '+';
   }
 
-  // Replace all template placeholders including {store} and {customers} variants
-  function fillTemplate(text, prospectName) {
+  // Just the grocery chain name, e.g. "Safeway" — used in subject lines
+  function getStoreChain() {
+    if (!selectedStore) return 'your local grocery store';
+    return selectedStore.GroceryChain || 'your local grocery store';
+  }
+
+  // Read the saved contact / decision-maker name for a prospect (from lead data).
+  function getSavedContactName(prospect) {
+    if (!prospect) return '';
+    try {
+      const ld = leadDataCache[getLeadHash(prospect)];
+      const name = (ld && ld.ownerName ? String(ld.ownerName) : '').trim();
+      if (!name) return '';
+      // Greet by first name only for warmth ("Hi John,") unless it's a title/full co. name
+      const first = name.split(/\s+/)[0];
+      return first;
+    } catch { return ''; }
+  }
+
+  // Replace all template placeholders including {store} and {customers} variants.
+  // Pass the full prospect so we can read the saved contact name and address them.
+  function fillTemplate(text, prospect) {
     const rep = $user?.name || $user?.first_name || 'Your Rep';
+    const prospectName = (prospect && typeof prospect === 'object') ? prospect.name : prospect;
+    const contact = (prospect && typeof prospect === 'object') ? getSavedContactName(prospect) : '';
+    // "Hi John," when we know them, otherwise a clean "Hi there,"
+    const greetName = contact || 'there';
     return text
       .replace(/\{business\}/g, prospectName)
-      .replace(/\{contact\}/g, '')
+      .replace(/\{contact\}/g, greetName)
       .replace(/\{rep\}/g, rep)
+      .replace(/\{chain\}/g, getStoreChain())
       .replace(/\{store_cap\}/g, getStoreRef().replace(/^the /, 'The '))
       .replace(/\{store_short\}/g, getStoreShort())
       .replace(/\{store\}/g, getStoreRef())
@@ -1593,7 +1652,7 @@
 
   // Build the email body with optional graphic + testimonial appended.
   function composeEmailBody(tpl, prospect) {
-    let body = fillTemplate(tpl.body, prospect.name);
+    let body = fillTemplate(tpl.body, prospect);
     const extras = [];
     if (prospect._emailGraphic) {
       const g = SHARE_GRAPHICS.find(x => x.id === prospect._emailGraphic);
@@ -2473,8 +2532,8 @@
 
               <h4 class="email-title">Choose a template:</h4>
               {#each tplList as tpl}
-                <button class="email-tpl-btn" class:cat-tpl={tpl._categoryLabel} on:click={() => { prospect._selectedTpl = tpl.id; prospects = prospects; }}>
-                  {tpl.icon} {tpl.name}{#if tpl._categoryLabel} <span class="cat-badge">{tpl._categoryLabel}</span>{/if}
+                <button class="email-tpl-btn" class:cat-tpl={tpl._categoryLabel} class:prog-tpl={tpl._programLabel} on:click={() => { prospect._selectedTpl = tpl.id; prospects = prospects; }}>
+                  {tpl.icon} {tpl.name}{#if tpl._categoryLabel} <span class="cat-badge">{tpl._categoryLabel}</span>{/if}{#if tpl._programLabel} <span class="prog-badge">{tpl._programLabel}</span>{/if}
                 </button>
               {/each}
               {#if prospect._selectedTpl}
@@ -2502,10 +2561,10 @@
                 </div>
 
                 <div class="email-preview-box">
-                  <p class="email-subject">Subject: {fillTemplate(tpl.subject, prospect.name)}</p>
+                  <p class="email-subject">Subject: {fillTemplate(tpl.subject, prospect)}</p>
                   <p class="email-body-text">{composeEmailBody(tpl, prospect)}</p>
                   <button class="action-btn full-width email-btn" on:click={() => {
-                    const subject = encodeURIComponent(fillTemplate(tpl.subject, prospect.name));
+                    const subject = encodeURIComponent(fillTemplate(tpl.subject, prospect));
                     const rawBody = composeEmailBody(tpl, prospect);
                     const body = encodeURIComponent(rawBody.replace(/\n\n/g, '\r\n\r\n').replace(/(?<!\r)\n/g, '\r\n'));
                     window.open('mailto:' + (prospect.email || '') + '?subject=' + subject + '&body=' + body);
@@ -4020,6 +4079,23 @@
     vertical-align: middle;
   }
   :global([data-theme='dark']) .email-tpl-btn.cat-tpl { background: #2a1414; }
+
+  .email-tpl-btn.prog-tpl {
+    border-color: #1a73e8;
+    background: #f5f9ff;
+  }
+  .prog-badge {
+    display: inline-block;
+    font-size: 10px;
+    font-weight: 700;
+    color: #fff;
+    background: #1a73e8;
+    border-radius: 6px;
+    padding: 1px 6px;
+    margin-left: 6px;
+    vertical-align: middle;
+  }
+  :global([data-theme='dark']) .email-tpl-btn.prog-tpl { background: #0e1a2a; }
 
   .email-to-row {
     display: flex;
