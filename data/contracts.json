@@ -9342,6 +9342,27 @@
       "paid_in_full": true
     },
     {
+      "contract_number": "J433177E",
+      "date": "2026-06-24 00:00",
+      "business_name": "Hoody's Oil Change",
+      "contact_name": "Jacobe Krizman",
+      "contact_email": "Hoodysoilchange@gmail.com",
+      "contact_phone": "(541) 386-1158",
+      "sales_rep": "Megan Wink",
+      "store_name": "Rosauers",
+      "store_number": "0016",
+      "zone": "07Z",
+      "product_description": "Single Ad",
+      "total_amount": 3616.25,
+      "payment_date": "6/24/2026",
+      "address": "1867 12th Street, Hood River, 97031",
+      "extracted_at": "2026-06-29T20:00:40.957491",
+      "quarters": 5,
+      "term_months": 15,
+      "is_renewal": false,
+      "paid_in_full": true
+    },
+    {
       "contract_number": "J433280E",
       "date": "2026-06-25 00:00",
       "business_name": "Glow Collective Aesthetics &",
@@ -11926,5 +11947,5 @@
       "paid_in_full": false
     }
   ],
-  "last_scan": "2026-06-28T20:00:08.962197"
+  "last_scan": "2026-06-29T20:00:40.973340"
 }
