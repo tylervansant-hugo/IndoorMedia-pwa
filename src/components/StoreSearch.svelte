@@ -752,6 +752,47 @@ Store: ${store.StoreName}
     return claim.repId === uid;
   }
 
+  // ── Cartvertising quick-add (fixed package pricing, per store) ──────
+  const CART_PACKAGES = [
+    { id: '20_single', name: '20% Front OR Directory', price: '$2,995' },
+    { id: '40_both',   name: '40% (20% Front + 20% Directory)', price: '$4,795' },
+    { id: '60_both',   name: '60% (40% Front + 20% Directory)', price: '$5,995' },
+    { id: '80_both',   name: '80% (40% Front + 40% Directory)', price: '$7,395' },
+    { id: '100_both',  name: '100% (60% Front + 40% Directory)', price: '$8,795' },
+  ];
+  let cartPkgOpen = {};   // store.StoreName -> bool (package picker open)
+  function toggleCartPkg(storeName) {
+    cartPkgOpen[storeName] = !cartPkgOpen[storeName];
+    cartPkgOpen = cartPkgOpen;
+  }
+  function handleAddCartvertising(store, pkg) {
+    const item = {
+      id: Date.now(),
+      type: 'cartvertising',
+      name: 'Cartvertising',
+      emoji: '🛒',
+      store: `${store.GroceryChain} - ${store.City}`,
+      storeNum: store.StoreName,
+      storeAddress: store.Address || '',
+      storeCycle: store.Cycle || '',
+      plan: pkg.name,
+      price: pkg.price,
+      addedAt: new Date().toISOString(),
+    };
+    try {
+      const cart = JSON.parse(localStorage.getItem('indoormedia_cart') || '[]');
+      cart.push(item);
+      localStorage.setItem('indoormedia_cart', JSON.stringify(cart));
+      try { window.dispatchEvent(new Event('cart-updated')); } catch {}
+      addedToCartMsg = `🛒 Added Cartvertising — ${store.GroceryChain} ${store.City}`;
+      setTimeout(() => { addedToCartMsg = ''; }, 2500);
+    } catch (err) {
+      console.error('Failed to add Cartvertising to cart:', err);
+    }
+    cartPkgOpen[store.StoreName] = false;
+    cartPkgOpen = cartPkgOpen;
+  }
+
   function handleAddToCart(store, selectedAdType, plan) {
     const isPromo = pricingMode === 'summer_promo';
     const isCoop = !isPromo && (coopUnlocked[store.StoreName] || false);
@@ -924,6 +965,21 @@ Store: ${store.StoreName}
               <button class="prospect-store-btn" on:click|stopPropagation={() => document.dispatchEvent(new CustomEvent('map-action', { detail: { action: 'prospect', store } }))}>
                 🎯 Prospect Store
               </button>
+
+              <!-- Quick-add Cartvertising for this store -->
+              <button class="cartvert-store-btn" on:click|stopPropagation={() => toggleCartPkg(store.StoreName)}>
+                🛒 {cartPkgOpen[store.StoreName] ? 'Close packages' : 'Add Cartvertising'}
+              </button>
+              {#if cartPkgOpen[store.StoreName]}
+                <div class="cartvert-pkg-list" on:click|stopPropagation>
+                  {#each CART_PACKAGES as pkg}
+                    <button class="cartvert-pkg-btn" on:click|stopPropagation={() => handleAddCartvertising(store, pkg)}>
+                      <span class="cartvert-pkg-name">{pkg.name}</span>
+                      <span class="cartvert-pkg-price">{pkg.price}</span>
+                    </button>
+                  {/each}
+                </div>
+              {/if}
             </div>
 
             <!-- Store Claim (Dibs) -->
@@ -2031,6 +2087,43 @@ Store: ${store.StoreName}
   .prospect-store-btn:active {
     transform: translateY(0);
   }
+  .cartvert-store-btn {
+    width: 100%;
+    margin-top: 8px;
+    padding: 10px;
+    background: #0a7d2c;
+    border: none;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 700;
+    color: #fff;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .cartvert-store-btn:hover { background: #086322; transform: translateY(-1px); }
+  .cartvert-store-btn:active { transform: translateY(0); }
+  .cartvert-pkg-list {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    margin-top: 8px;
+  }
+  .cartvert-pkg-btn {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 8px;
+    padding: 9px 12px;
+    background: var(--bg-secondary, #f4faf6);
+    border: 1px solid #0a7d2c;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 13px;
+    color: var(--text-primary, #111);
+  }
+  .cartvert-pkg-btn:hover { background: #e6f5ec; }
+  .cartvert-pkg-name { font-weight: 600; text-align: left; }
+  .cartvert-pkg-price { font-weight: 800; color: #0a7d2c; white-space: nowrap; }
   .claim-btn {
     width: 100%;
     padding: 8px;

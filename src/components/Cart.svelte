@@ -532,6 +532,61 @@
         'Trackable -- coupon codes measure real customer response',
       ]);
     }
+    // Cartvertising "Front vs Directory" explainer diagram (vector, no percentages)
+    function drawCartDiagram() {
+      const boxW = 150, boxH = 92, gap = 70;
+      const leftX = 30, rightX = leftX + boxW + gap;
+      checkPage(boxH + 90);
+      // Title
+      page.drawText('Ad Placement: Front vs Directory', { x: 30, y, size: 13, font: bold, color: red });
+      y -= 42;                   // clearance so the column headers don't collide with the title
+      const topY = y;            // top edge of the two boxes
+      const boxBottom = topY - boxH;
+      // Column headers (red, centered over each box)
+      const h1a = 'Front Side', h1b = '(faces oncoming shoppers)';
+      const h2a = 'Directory Side', h2b = '(faces toward the shopper)';
+      const ch = (txt, cx, size, fnt, col) => page.drawText(txt, { x: cx - fnt.widthOfTextAtSize(txt, size) / 2, y: topY + 14, size, font: fnt, color: col });
+      // header line 1
+      page.drawText(h1a, { x: leftX + boxW/2 - bold.widthOfTextAtSize(h1a, 9)/2, y: topY + 20, size: 9, font: bold, color: red });
+      page.drawText(h1b, { x: leftX + boxW/2 - regular.widthOfTextAtSize(h1b, 7)/2, y: topY + 10, size: 7, font: regular, color: gray });
+      page.drawText(h2a, { x: rightX + boxW/2 - bold.widthOfTextAtSize(h2a, 9)/2, y: topY + 20, size: 9, font: bold, color: red });
+      page.drawText(h2b, { x: rightX + boxW/2 - regular.widthOfTextAtSize(h2b, 7)/2, y: topY + 10, size: 7, font: regular, color: gray });
+
+      // ─ Front Side box (single white panel, black border) ─
+      page.drawRectangle({ x: leftX, y: boxBottom, width: boxW, height: boxH, borderColor: black, borderWidth: 2.5, color: white });
+      page.drawRectangle({ x: leftX + 4, y: boxBottom + 4, width: boxW - 8, height: boxH - 8, borderColor: rgb(0.75,0.75,0.75), borderWidth: 0.75 });
+      page.drawText('Front Side', { x: leftX + boxW/2 - bold.widthOfTextAtSize('Front Side', 11)/2, y: topY - 20, size: 11, font: bold, color: black });
+      page.drawText('This side points out', { x: leftX + boxW/2 - regular.widthOfTextAtSize('This side points out', 8)/2, y: boxBottom + 30, size: 8, font: regular, color: gray });
+      page.drawText('the front of the cart', { x: leftX + boxW/2 - regular.widthOfTextAtSize('the front of the cart', 8)/2, y: boxBottom + 18, size: 8, font: regular, color: gray });
+
+      // ─ OR arrow between boxes ─
+      const arrY = boxBottom + boxH/2;
+      page.drawText('OR', { x: leftX + boxW + gap/2 - bold.widthOfTextAtSize('OR', 11)/2, y: arrY - 4, size: 11, font: bold, color: red });
+      page.drawLine({ start: { x: leftX + boxW + 6, y: arrY }, end: { x: leftX + boxW + gap/2 - 12, y: arrY }, thickness: 1, color: red });
+      page.drawLine({ start: { x: leftX + boxW + gap/2 + 12, y: arrY }, end: { x: rightX - 6, y: arrY }, thickness: 1, color: red });
+      // arrowhead into the right box
+      page.drawLine({ start: { x: rightX - 6, y: arrY }, end: { x: rightX - 12, y: arrY + 4 }, thickness: 1, color: red });
+      page.drawLine({ start: { x: rightX - 6, y: arrY }, end: { x: rightX - 12, y: arrY - 4 }, thickness: 1, color: red });
+
+      // ─ Directory Side box (split: narrow left label + wider Store Directory) ─
+      page.drawRectangle({ x: rightX, y: boxBottom, width: boxW, height: boxH, borderColor: black, borderWidth: 2.5, color: white });
+      page.drawRectangle({ x: rightX + 4, y: boxBottom + 4, width: boxW - 8, height: boxH - 8, borderColor: rgb(0.75,0.75,0.75), borderWidth: 0.75 });
+      const splitX = rightX + boxW * 0.42;
+      page.drawLine({ start: { x: splitX, y: boxBottom + 6 }, end: { x: splitX, y: topY - 6 }, thickness: 0.75, color: rgb(0.7,0.7,0.7) });
+      // left (narrow) label
+      page.drawText('Directory', { x: rightX + (splitX - rightX)/2 - bold.widthOfTextAtSize('Directory', 8)/2, y: topY - 20, size: 8, font: bold, color: black });
+      page.drawText('Side', { x: rightX + (splitX - rightX)/2 - bold.widthOfTextAtSize('Side', 8)/2, y: topY - 30, size: 8, font: bold, color: black });
+      // right (wide) Store Directory box, split with a horizontal line near the top
+      const sdTop = topY - 12;
+      page.drawLine({ start: { x: splitX + 6, y: sdTop - 18 }, end: { x: rightX + boxW - 8, y: sdTop - 18 }, thickness: 0.6, color: rgb(0.8,0.8,0.8) });
+      page.drawText('Store', { x: (splitX + rightX + boxW)/2 - regular.widthOfTextAtSize('Store', 8)/2, y: boxBottom + 42, size: 8, font: regular, color: rgb(0.6,0.6,0.6) });
+      page.drawText('Directory', { x: (splitX + rightX + boxW)/2 - regular.widthOfTextAtSize('Directory', 8)/2, y: boxBottom + 32, size: 8, font: regular, color: rgb(0.6,0.6,0.6) });
+      // caption under the right box
+      page.drawText('Rides next to the store directory, facing the shopper', { x: rightX + boxW/2 - regular.widthOfTextAtSize('Rides next to the store directory, facing the shopper', 7)/2, y: boxBottom - 12, size: 7, font: regular, color: gray });
+
+      y = boxBottom - 30;
+    }
+
     if (hasCart) {
       drawHighlights('Cartvertising Highlights', [
         'Eye-Level -- ads mounted right where shoppers look',
@@ -539,6 +594,7 @@
         'Full Color -- high-quality printing for maximum impact',
         'Massive Reach -- thousands of shoppers per cart',
       ]);
+      drawCartDiagram();
     }
     if (hasDigi) {
       drawHighlights('Digital Product Highlights', [
@@ -755,6 +811,35 @@
       </div>
     {/if}
 
+    {#if cartItems.some(i => (i.name || '').toLowerCase().includes('cartvertising'))}
+      <div class="cart-diagram">
+        <div class="cd-title">🛒 Ad Placement: Front vs Directory</div>
+        <div class="cd-row">
+          <div class="cd-col">
+            <div class="cd-head">Front Side</div>
+            <div class="cd-sub">faces oncoming shoppers</div>
+            <div class="cd-panel">
+              <span class="cd-panel-label">Front Side</span>
+              <span class="cd-panel-note">points out the front of the cart</span>
+            </div>
+          </div>
+          <div class="cd-or">OR</div>
+          <div class="cd-col">
+            <div class="cd-head">Directory Side</div>
+            <div class="cd-sub">faces toward the shopper</div>
+            <div class="cd-panel cd-panel-split">
+              <div class="cd-split-left">Directory<br>Side</div>
+              <div class="cd-split-right">
+                <div class="cd-split-top"></div>
+                <div class="cd-split-bottom">Store<br>Directory</div>
+              </div>
+            </div>
+            <div class="cd-caption">rides by the store directory, facing the shopper</div>
+          </div>
+        </div>
+      </div>
+    {/if}
+
     <div class="quote-footer">
       <div class="business-name-row">
         <input type="text" class="business-name-input" placeholder="Business name (for quote)" bind:value={businessName} />
@@ -774,6 +859,56 @@
 
 <style>
   .quote-container { padding: 20px 20px 140px; max-width: 100%; margin: 0 auto; }
+
+  /* Cartvertising Front vs Directory explainer */
+  .cart-diagram {
+    margin: 16px 0;
+    padding: 14px 12px;
+    background: var(--bg-secondary, #f7f7f7);
+    border: 1px solid var(--border-color, #e0e0e0);
+    border-radius: 12px;
+  }
+  .cd-title { font-size: 14px; font-weight: 800; color: #CC0000; text-align: center; margin-bottom: 12px; }
+  .cd-row { display: flex; align-items: center; justify-content: center; gap: 10px; }
+  .cd-col { flex: 1; max-width: 160px; text-align: center; }
+  .cd-head { font-size: 12px; font-weight: 800; color: #CC0000; line-height: 1.15; }
+  .cd-sub { font-size: 9px; color: var(--text-secondary, #777); margin-bottom: 6px; }
+  .cd-panel {
+    position: relative;
+    height: 78px;
+    background: #fff;
+    border: 3px solid #111;
+    border-radius: 10px;
+    box-shadow: inset 0 0 0 1px #ccc;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 4px;
+  }
+  .cd-panel-label { font-size: 12px; font-weight: 800; color: #111; }
+  .cd-panel-note { font-size: 8px; color: #888; margin-top: 4px; line-height: 1.2; }
+  .cd-panel-split { flex-direction: row; padding: 0; overflow: hidden; }
+  .cd-split-left {
+    width: 40%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 10px; font-weight: 800; color: #111;
+    border-right: 1px solid #bbb;
+    line-height: 1.1;
+  }
+  .cd-split-right { width: 60%; display: flex; flex-direction: column; }
+  .cd-split-top { height: 26%; border-bottom: 1px solid #ddd; }
+  .cd-split-bottom {
+    flex: 1;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 9px; color: #aaa; text-align: center; line-height: 1.15;
+  }
+  .cd-caption { font-size: 8px; color: var(--text-secondary, #777); margin-top: 5px; line-height: 1.2; }
+  .cd-or {
+    font-size: 13px; font-weight: 900; color: #fff;
+    background: #CC0000; border-radius: 4px;
+    padding: 3px 7px; flex-shrink: 0;
+  }
   h2 { margin: 0 0 6px; font-size: 22px; font-weight: 700; color: var(--text-primary); }
   h3 { margin: 0 0 12px; font-size: 18px; font-weight: 700; color: #333; }
   .subtitle { margin: 0 0 16px; color: var(--text-secondary); font-size: 14px; }
