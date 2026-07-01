@@ -366,7 +366,7 @@
       return null;
     }
     if (name.includes('digitalboost') || name.includes('digital boost')) {
-      const pins = 1; // default
+      const pins = parseInt(item.digitalPins) || item.pins || 1;
       return { daily: 660 * pins, monthly: 20000 * pins, annual: 240000 * pins };
     }
     return null; // other digital products - skip
