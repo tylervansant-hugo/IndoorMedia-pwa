@@ -349,6 +349,30 @@
     return val;
   }
 
+  // DigitalBoost bundle rule: 240,000 impressions/pin standalone, but 360,000/pin
+  // (a 50% uplift) when the cart ALSO contains Register Tape or Cartvertising.
+  const DB_IMP_STANDALONE = 240000;
+  const DB_IMP_BUNDLED = 360000;
+  // Is there a Register Tape or Cartvertising item in the cart? (triggers DB uplift)
+  $: dbBundleActive = cartItems.some(i => {
+    const n = (i.name || '').toLowerCase();
+    return n.includes('register tape') || n.includes('cartvertising');
+  });
+
+  // Total campaign impressions for a DigitalBoost item (over the full term, per pin).
+  function getDigitalBoostCampaign(item) {
+    const name = (item.name || '').toLowerCase();
+    if (!(name.includes('digitalboost') || name.includes('digital boost'))) return null;
+    const pins = parseInt(item.digitalPins) || item.pins || 1;
+    const perPin = dbBundleActive ? DB_IMP_BUNDLED : DB_IMP_STANDALONE;
+    return {
+      pins,
+      perPin,
+      total: perPin * pins,
+      bundled: dbBundleActive,
+    };
+  }
+
   function getImpressions(item) {
     const name = (item.name || '').toLowerCase();
     if (name.includes('register tape')) {
@@ -366,8 +390,11 @@
       return null;
     }
     if (name.includes('digitalboost') || name.includes('digital boost')) {
-      const pins = parseInt(item.digitalPins) || item.pins || 1;
-      return { daily: 660 * pins, monthly: 20000 * pins, annual: 240000 * pins };
+      // DigitalBoost is a fixed-term campaign, not a per-day product. We surface
+      // its total campaign impressions separately (getDigitalBoostCampaign) so it
+      // reflects the standalone vs bundled (240k vs 360k/pin) rule. Return null
+      // here so the generic daily/monthly/annual impressions line is skipped.
+      return null;
     }
     return null; // other digital products - skip
   }
@@ -435,10 +462,12 @@
     y -= 14;
 
     let totalDaily = 0, totalMonthly = 0, totalAnnual = 0, totalPrice = 0;
+    let totalDbCampaign = 0;
 
     for (let i = 0; i < cartItems.length; i++) {
       const item = cartItems[i];
       const imp = getImpressions(item);
+      const dbCamp = getDigitalBoostCampaign(item);
       const annualPrice = parseAnnualPrice(item);
       totalPrice += annualPrice;
 
@@ -447,6 +476,7 @@
         totalMonthly += imp.monthly;
         totalAnnual += imp.annual;
       }
+      if (dbCamp) totalDbCampaign += dbCamp.total;
 
       checkPage(90);
 
@@ -474,6 +504,18 @@
       if (imp) {
         page.drawText('Impressions:  Daily ' + imp.daily.toLocaleString() + '  |  Monthly ' + imp.monthly.toLocaleString() + '  |  Annual ' + imp.annual.toLocaleString(), { x: 46, y, size: 10, font: regular, color: rgb(0.18, 0.49, 0.2) });
         y -= 14;
+      }
+
+      // DigitalBoost campaign impressions (bundle-aware: 240k or 360k per pin)
+      if (dbCamp) {
+        const perPinTxt = dbCamp.perPin.toLocaleString() + ' impressions/pin' + (dbCamp.pins > 1 ? ' x ' + dbCamp.pins + ' pins' : '');
+        page.drawText('Campaign Impressions:  ' + dbCamp.total.toLocaleString() + ' total  (' + perPinTxt + ')', { x: 46, y, size: 10, font: bold, color: rgb(0.15, 0.33, 0.78) });
+        y -= 14;
+        const noteTxt = dbCamp.bundled
+          ? 'Bundle bonus: +50% impressions (360,000/pin) for pairing with Register Tape or Cartvertising'
+          : 'Standalone campaign: 240,000 impressions/pin. Add Register Tape or Cartvertising for +50% (360,000/pin).';
+        page.drawText(noteTxt, { x: 46, y, size: 8.5, font: regular, color: gray });
+        y -= 13;
       }
 
       // Cartvertising coverage — how many carts will display the ad
@@ -511,8 +553,15 @@
       y -= 16;
       page.drawText('Total Annual Impressions:', { x: 40, y, size: 11, font: bold, color: black });
       page.drawText(totalAnnual.toLocaleString(), { x: 250, y, size: 11, font: regular, color: black });
-      y -= 22;
+      y -= 16;
     }
+
+    if (totalDbCampaign > 0) {
+      page.drawText('DigitalBoost Campaign Impressions:', { x: 40, y, size: 11, font: bold, color: rgb(0.15, 0.33, 0.78) });
+      page.drawText(totalDbCampaign.toLocaleString(), { x: 250, y, size: 11, font: bold, color: rgb(0.15, 0.33, 0.78) });
+      y -= 16;
+    }
+    if (totalDaily > 0 || totalDbCampaign > 0) { y -= 6; }
 
     const dailyInv = totalPrice / 365;
     const monthlyInv = totalPrice / 12;
@@ -839,6 +888,15 @@
             {:else if (item.name || '').toLowerCase().includes('cartvertising') && !item.storeCartCount}
               <p class="item-cart-coverage item-cart-missing">🛒 Add this store's cart count (re-add from the store card) to show cart coverage on the quote</p>
             {/if}
+            {#if getDigitalBoostCampaign(item)}
+              {@const dbc = getDigitalBoostCampaign(item)}
+              <p class="item-db-impressions">🚀 {dbc.total.toLocaleString()} campaign impressions{#if dbc.pins > 1} ({dbc.perPin.toLocaleString()}/pin × {dbc.pins} pins){/if}</p>
+              {#if dbc.bundled}
+                <p class="item-db-bundle">✅ Bundle bonus: +50% (360,000/pin) — paired with Register Tape / Cartvertising</p>
+              {:else}
+                <p class="item-db-bundle item-db-standalone">Standalone: 240,000/pin · add Register Tape or Cartvertising for +50%</p>
+              {/if}
+            {/if}
             <div class="price-edit">
               <label>Price</label>
               <input type="text" value={item.price} on:change={(e) => updateItemPrice(i, e.target.value)} class="price-field" />
@@ -1019,6 +1077,15 @@
     margin: 2px 0 4px;
   }
   .item-cart-missing { color: #b58900; font-weight: 600; }
+  .item-db-impressions {
+    font-size: 12px; font-weight: 700; color: #2554c7;
+    margin: 2px 0 2px;
+  }
+  .item-db-bundle {
+    font-size: 11px; font-weight: 600; color: #1a7a35;
+    margin: 0 0 4px;
+  }
+  .item-db-standalone { color: var(--text-secondary, #778); font-weight: 500; }
   h2 { margin: 0 0 6px; font-size: 22px; font-weight: 700; color: var(--text-primary); }
   h3 { margin: 0 0 12px; font-size: 18px; font-weight: 700; color: #333; }
   .subtitle { margin: 0 0 16px; color: var(--text-secondary); font-size: 14px; }
