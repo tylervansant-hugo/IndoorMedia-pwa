@@ -21,7 +21,7 @@
     return new Date(dateStr);
   }
   import { logActivity, getRepActivityReport, getDailySummaries } from '../lib/activity.js';
-  import { initFirebase, isFirebaseReady, getAllRepActivity } from '../lib/firebase.js';
+  import { initFirebase, isFirebaseReady, getAllRepActivity, callInLeadKey, getAllCallInAssignments } from '../lib/firebase.js';
   import StoreSearch from './StoreSearch.svelte';
   import StoreMap from './StoreMap.svelte';
   import ProspectSearch from './ProspectSearch.svelte';
@@ -937,7 +937,19 @@
       try {
         const clRes = await fetch(import.meta.env.BASE_URL + 'data/hot_leads.json?t=' + Date.now());
         const allLeads = await clRes.json();
-        const callIns = (allLeads || []).filter(l => l.category === 'Call-In Lead');
+        let callIns = (allLeads || []).filter(l => l.category === 'Call-In Lead');
+        // Reps only count call-in leads that Tyler/Rick assigned to them.
+        const rn = ($user?.name || '').toLowerCase();
+        const isPriv = rn.includes('tyler') || rn.includes('rick') || $user?.role === 'manager';
+        if (!isPriv) {
+          let assigns = {};
+          try { assigns = await getAllCallInAssignments(); } catch { assigns = {}; }
+          const myId = String($user?.id || $user?.rep_id || '');
+          callIns = callIns.filter(l => {
+            const a = assigns[callInLeadKey(l)];
+            return a && a.repId && (String(a.repId) === myId || (a.repName || '').toLowerCase() === rn);
+          });
+        }
         callInLeadsCount = callIns.length;
         recentCallInLeads = [...callIns]
           .sort((a, b) => (b.generated_at || '').localeCompare(a.generated_at || ''))
@@ -1257,6 +1269,7 @@
         </div>
 
         <!-- CALL-IN LEADS — inbound, high-priority, surfaced front-and-center -->
+        {#if callInLeadsCount > 0 || ($user?.name || '').toLowerCase().includes('tyler') || ($user?.name || '').toLowerCase().includes('rick') || $user?.role === 'manager'}
         <button class="callin-home-card" on:click={() => { storesView = 'prospects'; currentTab = 'stores'; setTimeout(() => document.dispatchEvent(new CustomEvent('show-callin-leads')), 250); }}>
           <div class="callin-home-icon">📞</div>
           <div class="callin-home-info">
@@ -1269,6 +1282,7 @@
           </div>
           <div class="callin-home-arrow">→</div>
         </button>
+        {/if}
 
         <!-- 2. TODAY AT A GLANCE — next appointment -->
         <button class="today-card-full" on:click={() => { showAppointmentsDetail = !showAppointmentsDetail; showStreakDetail = false; }}>

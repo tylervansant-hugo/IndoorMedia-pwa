@@ -2,7 +2,7 @@
   import { onMount, onDestroy, tick } from 'svelte';
   import { user, currentUser, sharedNearbyStores, sharedSelectedStore, sharedUserLocation } from '../lib/stores.js';
   import { logActivity } from '../lib/activity.js';
-  import { isFirebaseReady, whenFirebaseReady, claimStore, releaseStore, getZoneClaims, claimLead, releaseLead, getAllLeadClaims, saveLeadData, getLeadData, getAllLeadData, hashLeadId, saveRepProspects, getRepProspects } from '../lib/firebase.js';
+  import { isFirebaseReady, whenFirebaseReady, claimStore, releaseStore, getZoneClaims, claimLead, releaseLead, getAllLeadClaims, saveLeadData, getLeadData, getAllLeadData, hashLeadId, saveRepProspects, getRepProspects, callInLeadKey, assignCallInLead, getAllCallInAssignments } from '../lib/firebase.js';
   import HotLeadsSubmit from './HotLeadsSubmit.svelte';
   import PendingLeads from './PendingLeads.svelte';
   import StoreSearchInput from '../lib/StoreSearchInput.svelte';
@@ -25,6 +25,9 @@
   let phoneClicks = []; // Track call history
   let hotLeads = [];
   let callInLeads = []; // Inbound 'New Call In Lead' emails — always shown, NOT cycle-filtered
+  let allCallInLeads = []; // full inbound pool before assignment filtering (manager assigns from here)
+  let callInAssignments = {}; // leadKey -> { repId, repName } assignment map from Firebase
+  let repRoster = []; // [{ id, name }] reps available to assign call-in leads to
   let view = 'main'; // main, nearby-stores, categories, subcategories, results, saved, hot-leads, call-in, pending, submit-lead
 
   // ── Store Claims (Dibs) ──
@@ -80,6 +83,99 @@
 
   function getLeadHash(prospect) {
     return hashLeadId(prospect.name, prospect.address);
+  }
+
+  // ── Call-In Lead assignment plumbing ──────────────────────────────
+  async function loadCallInAssignments() {
+    if (!(await whenFirebaseReady())) return;
+    try { callInAssignments = await getAllCallInAssignments(); } catch { callInAssignments = {}; }
+  }
+
+  // Reps see only leads assigned to them; Tyler + Rick see all (with an assign control).
+  function applyCallInVisibility() {
+    if (isPrivilegedViewer()) {
+      callInLeads = allCallInLeads;
+      return;
+    }
+    const myId = String($user?.id || $user?.rep_id || '');
+    const myName = repDisplayName().toLowerCase();
+    callInLeads = allCallInLeads.filter(l => {
+      const a = callInAssignments[callInLeadKey(l)];
+      if (!a || !a.repId) return false; // unassigned → hidden from reps
+      return String(a.repId) === myId || (a.repName || '').toLowerCase() === myName;
+    });
+  }
+
+  // Build the rep roster (id + display name) for the assign dropdown from
+  // rep_registry.json, falling back to reps seen in contracts / team data.
+  async function buildRepRoster() {
+    const roster = new Map();
+    try {
+      const res = await fetch(import.meta.env.BASE_URL + 'data/rep_registry.json?t=' + Date.now());
+      const reg = await res.json();
+      const entries = Array.isArray(reg)
+        ? reg.map(v => ({ _key: v.id || v.rep_id, ...v }))
+        : Object.entries(reg).map(([k, v]) => ({ ...v, _key: k }));
+      for (const r of entries) {
+        const name = r.name || r.display_name || r.full_name || '';
+        const id = r._key || r.id || r.rep_id || name;
+        // Skip placeholder / blank entries
+        if (!name || String(id) === '999999999') continue;
+        roster.set(String(id), { id: String(id), name });
+      }
+    } catch {}
+    repRoster = [...roster.values()].sort((a, b) => a.name.localeCompare(b.name));
+  }
+
+  async function handleAssignCallIn(lead, repId) {
+    const key = callInLeadKey(lead);
+    const rep = repRoster.find(r => String(r.id) === String(repId));
+    const repName = rep ? rep.name : '';
+    await whenFirebaseReady();
+    const ok = await assignCallInLead(key, repId || '', repName, repDisplayName());
+    if (ok) {
+      if (repId) callInAssignments[key] = { leadKey: key, repId: String(repId), repName, assignedBy: repDisplayName(), assignedAt: new Date().toISOString() };
+      else delete callInAssignments[key];
+      callInAssignments = callInAssignments;
+      applyCallInVisibility();
+    }
+  }
+
+  function callInAssignedName(lead) {
+    const a = callInAssignments[callInLeadKey(lead)];
+    return a && a.repId ? (a.repName || 'Assigned') : '';
+  }
+
+  // ── Role / Privacy helpers ────────────────────────────────────────
+  // Only the rep who logged the notes, Tyler, and Rick Leibowitz may see the
+  // private lead details (owner/decision-maker name, contact phone, contact
+  // email, and notes). Everyone else sees only a BOOKED/CLOSED status badge.
+  function repDisplayName() {
+    const u = $user;
+    return (u?.name || u?.display_name || '').trim();
+  }
+  // Tyler + Rick are full-visibility managers.
+  function isPrivilegedViewer() {
+    const n = repDisplayName().toLowerCase();
+    return n.includes('tyler') || n.includes('rick') || ($user?.role === 'manager');
+  }
+  // Can the current user see the private notes/contact for this lead-data doc?
+  function canSeePrivate(ld) {
+    if (isPrivilegedViewer()) return true;
+    if (!ld) return true; // nothing logged yet — the current rep may start logging
+    const owner = (ld.updatedBy || '').trim().toLowerCase();
+    if (!owner || owner === 'auto-scrub') return true; // system-scraped, not a rep's private notes
+    return owner === repDisplayName().toLowerCase();
+  }
+  // Derive a BOOKED / CLOSED status shown to reps who can't see private notes.
+  // Sources: an explicit saved status, or the last lead-claim action.
+  function getSharedStatus(prospect) {
+    const ld = leadDataCache[getLeadHash(prospect)] || {};
+    const claim = getLeadClaim(prospect) || {};
+    const raw = ((ld.status || claim.lastAction || prospect.status || '') + '').toLowerCase();
+    if (/(clos|sold|sale|won|signed|contract)/.test(raw)) return 'CLOSED';
+    if (/(book|appt|appointment|meeting|scheduled)/.test(raw)) return 'BOOKED';
+    return '';
   }
 
   function getLeadClaim(prospect) {
@@ -787,18 +883,15 @@
       console.log(`Hot Leads: ${hotLeads.length} leads, Selling Cycle: ${currentSellingCycle}, Rep stores: ${repStoreIds === null ? 'all (manager)' : repStoreIds.size}`);
 
       // Call-In Leads: inbound, time-sensitive — ALWAYS shown regardless of cycle.
-      // Managers see all; reps see call-ins whose nearest store is one of theirs.
-      const allCallIn = allLeadsData.filter(l => l.category === 'Call-In Lead');
-      if (repStoreIds === null) {
-        callInLeads = allCallIn;
-      } else if (repStoreIds.size > 0) {
-        callInLeads = allCallIn.filter(l => !l.store_id || repStoreIds.has(l.store_id));
-      } else {
-        callInLeads = allCallIn; // no contracts yet — still surface inbound leads rather than hide them
-      }
-      // Newest first
-      callInLeads = [...callInLeads].sort((a, b) => (b.generated_at || '').localeCompare(a.generated_at || ''));
-      console.log(`Call-In Leads: ${callInLeads.length}`);
+      // ASSIGNMENT MODEL: a call-in lead is hidden from a rep until Tyler/Rick
+      // assigns it to them. Tyler + Rick always see every call-in lead.
+      allCallInLeads = allLeadsData
+        .filter(l => l.category === 'Call-In Lead')
+        .sort((a, b) => (b.generated_at || '').localeCompare(a.generated_at || ''));
+      await loadCallInAssignments();
+      applyCallInVisibility();
+      buildRepRoster();
+      console.log(`Call-In Leads (visible): ${callInLeads.length} of ${allCallInLeads.length}`);
       
       loadSavedProspects();
     } catch (err) {
@@ -2045,10 +2138,10 @@
     <button class="tab-btn" class:active={view === 'hot-leads'} on:click={() => view = 'hot-leads'}>🔥 Hot Leads {#if hotLeads.length > 0}({hotLeads.length}){/if}</button>
     <button class="tab-btn tab-callin" class:active={view === 'call-in'} on:click={() => view = 'call-in'}>📞 Call-In Leads {#if callInLeads.length > 0}({callInLeads.length}){/if}</button>
     <button class="tab-btn" class:active={view === 'saved'} on:click={() => view = 'saved'}>💾 Saved ({savedProspects.length})</button>
-    {#if $user?.role === 'manager' || $user?.name?.toLowerCase().includes('tyler')}
+    {#if isPrivilegedViewer()}
       <button class="tab-btn" class:active={view === 'team'} on:click={() => view = 'team'}>👥 Team ({teamProspects.length})</button>
     {/if}
-    {#if $user?.role === 'manager' || $user?.name?.toLowerCase().includes('tyler')}
+    {#if isPrivilegedViewer()}
       <button class="tab-btn" class:active={view === 'pending'} on:click={() => view = 'pending'}>⏳ Pending</button>
       <button class="tab-btn" class:active={view === 'submit-lead'} on:click={() => view = 'submit-lead'}>➕ Add Lead</button>
     {/if}
@@ -2513,6 +2606,7 @@
           {#if prospect._showNotes}
             {@const ldHash = getLeadHash(prospect)}
             {@const ld = leadDataCache[ldHash] || {}}
+            {#if canSeePrivate(ld)}
             <div class="notes-section">
               <label class="lead-field-label">👤 Owner / Decision Maker</label>
               <input 
@@ -2556,6 +2650,15 @@
                 <p class="note-saved">Saved locally</p>
               {/if}
             </div>
+            {:else}
+            {@const sharedStatus = getSharedStatus(prospect)}
+            <div class="notes-section notes-private">
+              {#if sharedStatus}
+                <span class="status-badge status-{sharedStatus.toLowerCase()}">{sharedStatus}</span>
+              {/if}
+              <p class="note-private-msg">🔒 Contact details and notes for this prospect are private to {ld.updatedBy || 'the rep working it'}.</p>
+            </div>
+            {/if}
           {/if}
           {#if prospect._showScript}
             <!-- CALL SCRIPTS FEATURE - LIVE AS OF MAR 30 2026 -->
@@ -2952,6 +3055,7 @@
                   <button class="delete-btn" on:click={() => deleteProspect(prospect.id)}>🗑️ Delete</button>
                 </div>
                 {#each [leadDataCache[getLeadHash(prospect)] || {}] as savedLd}
+                {#if canSeePrivate(savedLd)}
                 <label class="lead-field-label">👤 Owner / Decision Maker</label>
                 <input 
                   type="text" 
@@ -2978,6 +3082,13 @@
                 ></textarea>
                 {#if savedLd.updatedBy}
                   <p class="note-saved">Updated by {savedLd.updatedBy}</p>
+                {/if}
+                {:else}
+                {@const sharedStatus = getSharedStatus(prospect)}
+                {#if sharedStatus}
+                  <span class="status-badge status-{sharedStatus.toLowerCase()}">{sharedStatus}</span>
+                {/if}
+                <p class="note-private-msg">🔒 Private to {savedLd.updatedBy || 'the rep working it'}.</p>
                 {/if}
                 {/each}
               </div>
@@ -3098,7 +3209,28 @@
                   <span class="callin-date">📅 {fmtLeadDate(lead.call_in_date)}</span>
                 {/if}
                 <span class="lead-category callin-cat">{lead.subcategory || 'Lead'}</span>
+                {#if callInAssignedName(lead)}
+                  <span class="callin-assigned-badge">🎯 {callInAssignedName(lead)}</span>
+                {:else if isPrivilegedViewer()}
+                  <span class="callin-unassigned-badge">⚪ Unassigned</span>
+                {/if}
               </div>
+              {#if isPrivilegedViewer()}
+                <div class="callin-assign-row" on:click|stopPropagation>
+                  <label class="callin-assign-label">Assign to:</label>
+                  <select
+                    class="callin-assign-select"
+                    value={(callInAssignments[callInLeadKey(lead)] || {}).repId || ''}
+                    on:change={(e) => handleAssignCallIn(lead, e.target.value)}
+                    on:click|stopPropagation
+                  >
+                    <option value="">— Unassigned —</option>
+                    {#each repRoster as r}
+                      <option value={r.id}>{r.name}</option>
+                    {/each}
+                  </select>
+                </div>
+              {/if}
               {#if lead.contact_name}
                 <div class="callin-contact-name">👤 {lead.contact_name}</div>
               {/if}
@@ -3646,6 +3778,61 @@
   }
   .lead-category.callin-cat {
     margin-bottom: 0;
+  }
+  .callin-assigned-badge {
+    font-size: 10px;
+    font-weight: 800;
+    color: #fff;
+    background: #1565c0;
+    padding: 2px 7px;
+    border-radius: 4px;
+  }
+  .callin-unassigned-badge {
+    font-size: 10px;
+    font-weight: 700;
+    color: #8a6d00;
+    background: rgba(255, 193, 7, 0.18);
+    padding: 2px 7px;
+    border-radius: 4px;
+  }
+  .callin-assign-row {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin: 6px 0 4px;
+  }
+  .callin-assign-label {
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--text-secondary, #555);
+  }
+  .callin-assign-select {
+    flex: 1;
+    font-size: 12px;
+    padding: 4px 6px;
+    border: 1px solid var(--border-color, #ccc);
+    border-radius: 6px;
+    background: var(--bg-primary, #fff);
+    color: var(--text-primary, #111);
+  }
+  .status-badge.status-booked {
+    background: #1565c0;
+    color: #fff;
+  }
+  .status-badge.status-closed {
+    background: #0a7d2c;
+    color: #fff;
+  }
+  .notes-private {
+    padding: 10px;
+    background: var(--bg-secondary, #f5f5f5);
+    border-radius: 8px;
+  }
+  .note-private-msg {
+    font-size: 12px;
+    color: var(--text-secondary, #666);
+    margin: 6px 0 0;
+    font-style: italic;
   }
   .callin-date {
     font-size: 11px;
