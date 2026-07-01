@@ -753,12 +753,17 @@ Store: ${store.StoreName}
   }
 
   // ── Cartvertising quick-add (fixed package pricing, per store) ──────
+  // Rates reflect SIX MONTHS of advertising (per IndoorMedia rate sheet).
+  // pct = total % of all carts; front/dir/header = per-placement coverage.
   const CART_PACKAGES = [
-    { id: '20_single', name: '20% Front OR Directory', price: '$2,995' },
-    { id: '40_both',   name: '40% (20% Front + 20% Directory)', price: '$4,795' },
-    { id: '60_both',   name: '60% (40% Front + 20% Directory)', price: '$5,995' },
-    { id: '80_both',   name: '80% (40% Front + 40% Directory)', price: '$7,395' },
-    { id: '100_both',  name: '100% (60% Front + 40% Directory)', price: '$8,795' },
+    { id: '20_either', name: '20% — Front OR Directory Side', price: '$2,995', pct: 20, front: 20, dir: 20, either: true, kind: 'front_dir' },
+    { id: '40_both',   name: '40% — 20% Front + 20% Directory', price: '$4,795', pct: 40, front: 20, dir: 20, kind: 'front_dir' },
+    { id: '60_both',   name: '60% — 40% Front + 20% Directory', price: '$5,995', pct: 60, front: 40, dir: 20, kind: 'front_dir' },
+    { id: '80_both',   name: '80% — 40% Front + 40% Directory', price: '$7,395', pct: 80, front: 40, dir: 40, kind: 'front_dir' },
+    { id: '100_both',  name: '100% — 60% Front + 40% Directory', price: '$8,795', pct: 100, front: 60, dir: 40, kind: 'front_dir' },
+    { id: '200_both',  name: '200% — 100% Both Sides', price: '$12,995', pct: 200, front: 100, dir: 100, kind: 'front_dir' },
+    { id: 'header_50', name: 'Header 50% — Every Other Cart', price: '$2,995', pct: 50, header: 50, kind: 'header' },
+    { id: 'header_100', name: 'Header 100% — Every Cart (Header + Footer)', price: '$4,795', pct: 100, header: 100, footer: true, kind: 'header' },
   ];
   let cartPkgOpen = {};   // store.StoreName -> bool (package picker open)
   function toggleCartPkg(storeName) {
@@ -766,6 +771,19 @@ Store: ${store.StoreName}
     cartPkgOpen = cartPkgOpen;
   }
   function handleAddCartvertising(store, pkg) {
+    // Ask for the store's total shopping-cart count so the quote can show
+    // exactly how many carts will display the customer's ad.
+    const prior = store._cartCount || '';
+    const entered = window.prompt(
+      `How many shopping carts does ${store.GroceryChain} ${store.City} have?\n\n` +
+      `We'll use this to show the customer how many carts will display their ad ` +
+      `(${pkg.pct}% of all carts).`,
+      prior ? String(prior) : ''
+    );
+    if (entered === null) return; // cancelled
+    const cartCount = parseInt(String(entered).replace(/[^0-9]/g, ''), 10) || 0;
+    store._cartCount = cartCount;
+    const cartsShowing = Math.round(cartCount * (pkg.pct / 100));
     const item = {
       id: Date.now(),
       type: 'cartvertising',
@@ -777,6 +795,14 @@ Store: ${store.StoreName}
       storeCycle: store.Cycle || '',
       plan: pkg.name,
       price: pkg.price,
+      cartPct: pkg.pct,
+      cartKind: pkg.kind,
+      frontPct: pkg.front || 0,
+      dirPct: pkg.dir || 0,
+      headerPct: pkg.header || 0,
+      hasFooter: !!pkg.footer,
+      storeCartCount: cartCount,
+      cartsShowingAd: cartsShowing,
       addedAt: new Date().toISOString(),
     };
     try {
@@ -784,8 +810,10 @@ Store: ${store.StoreName}
       cart.push(item);
       localStorage.setItem('indoormedia_cart', JSON.stringify(cart));
       try { window.dispatchEvent(new Event('cart-updated')); } catch {}
-      addedToCartMsg = `🛒 Added Cartvertising — ${store.GroceryChain} ${store.City}`;
-      setTimeout(() => { addedToCartMsg = ''; }, 2500);
+      addedToCartMsg = cartCount > 0
+        ? `🛒 Added Cartvertising — ${cartsShowing.toLocaleString()} of ${cartCount.toLocaleString()} carts`
+        : `🛒 Added Cartvertising — ${store.GroceryChain} ${store.City}`;
+      setTimeout(() => { addedToCartMsg = ''; }, 3000);
     } catch (err) {
       console.error('Failed to add Cartvertising to cart:', err);
     }
@@ -972,7 +1000,15 @@ Store: ${store.StoreName}
               </button>
               {#if cartPkgOpen[store.StoreName]}
                 <div class="cartvert-pkg-list" on:click|stopPropagation>
-                  {#each CART_PACKAGES as pkg}
+                  <div class="cartvert-pkg-group">Front &amp; Directory Ads <span class="cartvert-pkg-group-note">(6 mo.)</span></div>
+                  {#each CART_PACKAGES.filter(p => p.kind === 'front_dir') as pkg}
+                    <button class="cartvert-pkg-btn" on:click|stopPropagation={() => handleAddCartvertising(store, pkg)}>
+                      <span class="cartvert-pkg-name">{pkg.name}</span>
+                      <span class="cartvert-pkg-price">{pkg.price}</span>
+                    </button>
+                  {/each}
+                  <div class="cartvert-pkg-group">Header Ads <span class="cartvert-pkg-group-note">(6 mo.)</span></div>
+                  {#each CART_PACKAGES.filter(p => p.kind === 'header') as pkg}
                     <button class="cartvert-pkg-btn" on:click|stopPropagation={() => handleAddCartvertising(store, pkg)}>
                       <span class="cartvert-pkg-name">{pkg.name}</span>
                       <span class="cartvert-pkg-price">{pkg.price}</span>
@@ -2124,6 +2160,8 @@ Store: ${store.StoreName}
   .cartvert-pkg-btn:hover { background: #e6f5ec; }
   .cartvert-pkg-name { font-weight: 600; text-align: left; }
   .cartvert-pkg-price { font-weight: 800; color: #0a7d2c; white-space: nowrap; }
+  .cartvert-pkg-group { font-size: 11px; font-weight: 800; color: var(--text-secondary, #666); text-transform: uppercase; letter-spacing: 0.3px; margin-top: 4px; }
+  .cartvert-pkg-group-note { font-weight: 600; text-transform: none; color: var(--text-secondary, #999); }
   .claim-btn {
     width: 100%;
     padding: 8px;
