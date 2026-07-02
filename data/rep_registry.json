@@ -187,5 +187,13 @@
     "role": "rep",
     "registered_at": "2026-06-29",
     "base_location": "Territory TBD"
+  },
+  "brent_wall": {
+    "contract_name": "Brent Wall",
+    "display_name": "Brent Wall",
+    "email": "Brent.Wall@indoormedia.com",
+    "role": "rep",
+    "registered_at": "2026-07-02",
+    "base_location": "Territory TBD"
   }
 }
