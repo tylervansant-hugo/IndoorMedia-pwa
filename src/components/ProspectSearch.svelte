@@ -1730,72 +1730,190 @@
     return '';
   }
 
-  function rankEmail(email) {
+  function rankEmail(email, prospect) {
     const e = email.toLowerCase();
     // Penalize file-ish / image-ish false positives
-    if (/\.(png|jpg|jpeg|gif|webp|svg)$/i.test(e)) return -100;
-    if (/(example|sentry|wixpress|\.png|godaddy|\.wpengine|@2x)/.test(e)) return -50;
+    if (/\.(png|jpg|jpeg|gif|webp|svg|css|js)$/i.test(e)) return -100;
+    if (/(example|sentry|wixpress|godaddy|\.wpengine|@2x|\.wixpress|placeholder|yourdomain|domain\.com|email\.com|sample|test@|noreply|no-reply|donotreply|do-not-reply)/.test(e)) return -50;
     const prefix = e.split('@')[0];
+    const domain = (e.split('@')[1] || '');
     let score = 0;
     if (GENERIC_EMAIL_PREFIXES.some(p => prefix === p)) score += 5;       // info@, contact@ etc are ideal cold targets
     else if (GENERIC_EMAIL_PREFIXES.some(p => prefix.startsWith(p))) score += 3;
-    if (/(owner|manager|gm|frontoffice)/.test(prefix)) score += 4;
+    if (/(owner|manager|gm|frontoffice|principal|director|president|ceo)/.test(prefix)) score += 6;
+    // Prefer an email whose domain matches the prospect's own website (avoids grabbing a
+    // web-designer / vendor / social-widget address embedded in the page).
+    if (prospect && prospect.website) {
+      try {
+        const host = new URL(prospect.website.startsWith('http') ? prospect.website : 'https://' + prospect.website).hostname.replace(/^www\./, '');
+        const root = host.split('.').slice(-2).join('.');
+        if (domain === host || domain.endsWith('.' + root) || domain === root) score += 8;
+      } catch {}
+    }
+    // Free-mail providers are still useful for small businesses, but rank below own-domain
+    if (/(gmail|yahoo|hotmail|outlook|aol|icloud|comcast|live|msn)\./.test(domain)) score += 2;
     if (e.endsWith('.com')) score += 1;
     return score;
   }
 
-  // Scrape the prospect's website (and a couple likely contact pages) for an email.
-  async function scrapeWebsiteEmail(prospect) {
-    if (!prospect.website) return '';
-    const base = prospect.website.replace(/\/$/, '');
-    const candidates = [base, base + '/contact', base + '/contact-us', base + '/about'];
-    const found = new Set();
+  // Decode common email obfuscations so "info [at] shop [dot] com", HTML-entity, and
+  // simple JS-concatenated addresses are recoverable.
+  function deobfuscateEmails(rawHtml) {
+    let html = rawHtml;
+    // HTML entity decode (numeric + named) via a detached element
+    try {
+      const ta = document.createElement('textarea');
+      // decode in chunks to avoid pathological huge strings
+      ta.innerHTML = html.replace(/&#(\d+);/g, (_, n) => '&#' + n + ';');
+      html = html + '\n' + ta.value;
+    } catch {}
+    // Normalize [at]/(at)/ AT  and [dot]/(dot)/ DOT  spacing tricks
+    let normalized = html
+      .replace(/\s*[\[(<{]\s*(?:at|@)\s*[\])>}]\s*/gi, '@')
+      .replace(/\s+(?:at)\s+/gi, '@')
+      .replace(/\s*[\[(<{]\s*(?:dot|\.)\s*[\])>}]\s*/gi, '.')
+      .replace(/\s+(?:dot)\s+/gi, '.');
+    return html + '\n' + normalized;
+  }
 
-    for (const target of candidates) {
+  function harvestEmails(html, found) {
+    const decoded = deobfuscateEmails(html);
+    // mailto: links first (highest confidence)
+    for (const m of decoded.matchAll(/mailto:([^"'?>\s]+@[^"'?>\s]+)/gi)) {
+      found.add(m[1].toLowerCase().replace(/[.,;:]+$/, ''));
+    }
+    // bare email patterns in the page text
+    for (const m of decoded.matchAll(/[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}/g)) {
+      found.add(m[0].toLowerCase().replace(/[.,;:]+$/, ''));
+    }
+  }
+
+  // Fetch a URL through whichever CORS read-proxy responds first; falls back across proxies.
+  async function fetchViaProxy(target, timeoutMs = 8000) {
+    const proxies = [
+      (u) => 'https://api.allorigins.win/raw?url=' + encodeURIComponent(u),
+      (u) => 'https://corsproxy.io/?url=' + encodeURIComponent(u),
+      (u) => 'https://thingproxy.freeboard.io/fetch/' + u,
+      (u) => 'https://r.jina.ai/' + (u.startsWith('http') ? u : 'https://' + u),
+    ];
+    for (const build of proxies) {
       try {
-        const proxied = 'https://api.allorigins.win/raw?url=' + encodeURIComponent(target);
         const res = await Promise.race([
-          fetch(proxied),
-          new Promise((_, rej) => setTimeout(() => rej(new Error('timeout')), 7000)),
+          fetch(build(target)),
+          new Promise((_, rej) => setTimeout(() => rej(new Error('timeout')), timeoutMs)),
         ]);
-        if (!res.ok) continue;
-        const html = await res.text();
-        // mailto: links first (highest confidence)
-        for (const m of html.matchAll(/mailto:([^"'?>\s]+@[^"'?>\s]+)/gi)) {
-          found.add(m[1].toLowerCase());
+        if (res.ok) {
+          const text = await res.text();
+          if (text && text.length > 50) return text;
         }
-        // bare email patterns in the page text
-        for (const m of html.matchAll(/[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}/g)) {
-          found.add(m[0].toLowerCase());
+      } catch { /* next proxy */ }
+    }
+    return '';
+  }
+
+  // Deep-comb the prospect's website for a contact email: crawls the homepage +
+  // common contact pages, follows contact/about links found on the homepage,
+  // de-obfuscates addresses, tries multiple proxies, and ranks by own-domain match.
+  async function scrapeWebsiteEmail(prospect, opts = {}) {
+    if (!prospect.website) return '';
+    let base;
+    try {
+      base = new URL(prospect.website.startsWith('http') ? prospect.website : 'https://' + prospect.website).origin;
+    } catch {
+      base = prospect.website.replace(/\/$/, '');
+    }
+    const commonPaths = [
+      '', '/contact', '/contact-us', '/contactus', '/contact.html', '/about', '/about-us',
+      '/get-in-touch', '/reach-us', '/connect', '/support', '/team', '/staff', '/our-team',
+      '/location', '/locations', '/hours', '/book', '/appointments', '/schedule', '/quote',
+    ];
+    const visited = new Set();
+    const found = new Set();
+    const queue = commonPaths.map(p => base + p);
+
+    // 1) Grab the homepage first so we can discover real contact-page links.
+    try {
+      const home = await fetchViaProxy(base, 8000);
+      if (home) {
+        harvestEmails(home, found);
+        // discover internal links whose text/href hints at contact/about/team pages
+        for (const m of home.matchAll(/href=["']([^"'#]+)["'][^>]*>([^<]{0,60})/gi)) {
+          const href = m[1];
+          const label = (m[2] || '').toLowerCase();
+          if (/(contact|about|team|staff|reach|connect|get.?in.?touch|location|book|appoint)/i.test(href + ' ' + label)) {
+            try {
+              const abs = new URL(href, base).href;
+              if (abs.startsWith(base) && !queue.includes(abs)) queue.push(abs);
+            } catch {}
+          }
         }
-        if (found.size) break; // got something on this page; stop crawling
-      } catch { /* try next candidate */ }
+      }
+    } catch {}
+
+    // 2) Crawl the queue (cap total pages to stay fast/polite).
+    const MAX_PAGES = opts.deep ? 14 : 8;
+    let count = 0;
+    for (const target of queue) {
+      if (count >= MAX_PAGES) break;
+      const key = target.replace(/\/$/, '');
+      if (visited.has(key)) continue;
+      visited.add(key);
+      count++;
+      try {
+        const html = await fetchViaProxy(target, 7000);
+        if (html) harvestEmails(html, found);
+      } catch { /* keep going */ }
+      // Early exit only once we already have a strong own-domain hit
+      const best = [...found].map(e => rankEmail(e, prospect)).sort((a, b) => b - a)[0] || 0;
+      if (best >= 8 && !opts.deep) break;
     }
 
-    const ranked = [...found].filter(e => rankEmail(e) > -10).sort((a, b) => rankEmail(b) - rankEmail(a));
+    const ranked = [...found]
+      .filter(e => rankEmail(e, prospect) > -10)
+      .sort((a, b) => rankEmail(b, prospect) - rankEmail(a, prospect));
+    // stash the full ranked list so the UI can offer alternates
+    prospect._emailCandidates = ranked.slice(0, 8);
     return ranked[0] || '';
   }
 
   // Called when the email panel opens: fill prospect.email from saved/notes,
   // and kick off a website scrape if we still don't have one.
-  async function ensureProspectEmail(prospect) {
+  async function ensureProspectEmail(prospect, opts = {}) {
     const known = resolveProspectEmail(prospect);
     if (known && !prospect.email) { prospect.email = known; prospects = prospects; }
-    if (prospect.email && prospect.email.includes('@')) return;
-    if (!prospect.website || prospect._emailScrapeTried) return;
+    // On a normal open, don't re-scrape if we already have an address. A forced
+    // deep comb (opts.deep / opts.force) always runs, even to find alternates.
+    if (prospect.email && prospect.email.includes('@') && !opts.force && !opts.deep) return;
+    if (!prospect.website) return;
+    if (prospect._emailScrapeTried && !opts.force && !opts.deep) return;
     prospect._emailScrapeTried = true;
-    prospect._emailScraping = true; prospects = prospects;
-    const scraped = await scrapeWebsiteEmail(prospect);
+    prospect._emailScrapeFailed = false;
+    prospect._emailScraping = true;
+    prospect._emailDeep = !!opts.deep;
+    prospects = prospects;
+    const scraped = await scrapeWebsiteEmail(prospect, opts);
     prospect._emailScraping = false;
+    prospect._emailDeep = false;
     if (scraped) {
-      prospect.email = scraped;
-      prospect._emailScraped = true;
-      // Persist into Notes so it syncs across devices (don't clobber a manual entry)
-      persistScrapedEmail(prospect, scraped);
-    } else {
+      // Deep comb should not silently overwrite a manually-chosen address.
+      if (!prospect.email || !prospect._emailManual) {
+        prospect.email = scraped;
+        prospect._emailScraped = true;
+        persistScrapedEmail(prospect, scraped);
+      }
+    } else if (!prospect.email) {
       prospect._emailScrapeFailed = true;
     }
     prospects = prospects;
+  }
+
+  // User picks an alternate candidate from the deep-comb results.
+  function chooseProspectEmail(prospect, email) {
+    prospect.email = email;
+    prospect._emailManual = true;
+    prospect._emailScraped = true;
+    prospects = prospects;
+    persistScrapedEmail(prospect, email);
   }
 
   // Auto-save a scraped email into the prospect's Notes (lead data) so it
@@ -2725,16 +2843,29 @@
               <!-- Email-address status / scrub -->
               <div class="email-to-row">
                 {#if prospect._emailScraping}
-                  <span class="email-to-status scraping">🔍 Scanning {prospect.name}'s website for an email…</span>
+                  <span class="email-to-status scraping">🔍 {prospect._emailDeep ? 'Deep-combing' : 'Scanning'} {prospect.name}'s website for an email…</span>
                 {:else if prospect.email && prospect.email.includes('@')}
                   <span class="email-to-status found">✉️ To: <strong>{prospect.email}</strong>{#if prospect._emailScraped} <em>(found on website — saved to Notes)</em>{/if}</span>
                 {:else}
                   <span class="email-to-status missing">⚠️ No email on file{#if prospect._emailScrapeFailed} (couldn't find one on their site){/if} — add one in 📝 Notes, or send to yourself to forward.</span>
                 {/if}
-                {#if prospect.website && !prospect._emailScraping && !(prospect.email && prospect.email.includes('@'))}
-                  <button class="email-scrub-btn" on:click={() => { prospect._emailScrapeTried = false; prospect._emailScrapeFailed = false; ensureProspectEmail(prospect); }}>🔍 Find Email</button>
+                {#if prospect.website && !prospect._emailScraping}
+                  {#if !(prospect.email && prospect.email.includes('@'))}
+                    <button class="email-scrub-btn" on:click={() => { prospect._emailScrapeTried = false; prospect._emailScrapeFailed = false; ensureProspectEmail(prospect); }}>🔍 Find Email</button>
+                  {/if}
+                  <button class="email-scrub-btn deep" on:click={() => ensureProspectEmail(prospect, { deep: true, force: true })}>🕵️ Deep comb</button>
                 {/if}
               </div>
+              {#if prospect._emailCandidates && prospect._emailCandidates.length > 1 && !prospect._emailScraping}
+                <div class="email-alt-row">
+                  <span class="email-alt-label">Other addresses found:</span>
+                  {#each prospect._emailCandidates as cand}
+                    {#if cand !== prospect.email}
+                      <button class="email-alt-btn" on:click={() => chooseProspectEmail(prospect, cand)}>{cand}</button>
+                    {/if}
+                  {/each}
+                </div>
+              {/if}
 
               <h4 class="email-title">Choose a template:</h4>
               {#each tplList as tpl}
@@ -4581,6 +4712,27 @@
     cursor: pointer;
   }
   .email-scrub-btn:hover { background: #1565c0; color: #fff; }
+  .email-scrub-btn.deep { border-color: #6a1b9a; color: #6a1b9a; }
+  .email-scrub-btn.deep:hover { background: #6a1b9a; color: #fff; }
+
+  .email-alt-row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 6px;
+    margin: 4px 0 10px;
+  }
+  .email-alt-label { font-size: 11px; color: #888; margin-right: 2px; }
+  .email-alt-btn {
+    font-size: 11px;
+    padding: 3px 8px;
+    border: 1px solid #cfd8dc;
+    background: #f5f7f9;
+    color: #37474f;
+    border-radius: 12px;
+    cursor: pointer;
+  }
+  .email-alt-btn:hover { background: #1565c0; color: #fff; border-color: #1565c0; }
 
   .email-addons {
     margin-top: 10px;
