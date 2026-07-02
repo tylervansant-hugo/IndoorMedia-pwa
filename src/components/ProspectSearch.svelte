@@ -1788,6 +1788,47 @@
     }
   }
 
+  // Strip tags to readable text for name scanning.
+  function htmlToText(html) {
+    return html
+      .replace(/<script[\s\S]*?<\/script>/gi, ' ')
+      .replace(/<style[\s\S]*?<\/style>/gi, ' ')
+      .replace(/<[^>]+>/g, ' ')
+      .replace(/&nbsp;/gi, ' ')
+      .replace(/&amp;/gi, '&')
+      .replace(/\s+/g, ' ')
+      .trim();
+  }
+
+  const NAME = '[A-Z][a-z]+(?:\\.?)?(?:\\s+[A-Z]\\.?)?\\s+[A-Z][a-z]+(?:-[A-Z][a-z]+)?';
+  const NON_NAME_WORDS = /^(The|Our|Your|About|Contact|Home|Welcome|Services|Team|Staff|Menu|Hours|Location|Reviews|Gallery|Book|Call|Email|Privacy|Terms|Copyright|All|New|Best|Free|Read|View|Learn|More|Get|Meet|We|Us|My|This)$/;
+
+  // Look for an owner / proprietor / decision-maker name on the page.
+  function harvestOwnerNames(html, names) {
+    const text = htmlToText(html);
+    const patterns = [
+      // "Owner: John Smith"  /  "Owner - John Smith"  /  "Owner, John Smith"
+      new RegExp('(?:owner|proprietor|founder|co-?founder|president|principal|managing partner|general manager|gm|ceo)\\s*[:\\-,\\u2013]?\\s+(' + NAME + ')', 'gi'),
+      // "John Smith, Owner"  /  "John Smith - Owner"  /  "John Smith, Founder & CEO"
+      new RegExp('(' + NAME + ')\\s*[,\\-\\u2013]\\s*(?:the\\s+)?(?:owner|proprietor|founder|co-?founder|president|principal|managing partner|general manager|gm|ceo)', 'gi'),
+      // "Meet John Smith" / "Owned by John Smith" / "Founded by John Smith"
+      new RegExp('(?:meet|owned by|founded by|established by|run by|led by)\\s+(' + NAME + ')', 'gi'),
+      // "Dr. John Smith" (common for dental/medical prospects)
+      new RegExp('(Dr\\.?\\s+' + NAME + ')', 'g'),
+    ];
+    for (let i = 0; i < patterns.length; i++) {
+      for (const m of text.matchAll(patterns[i])) {
+        let nm = (m[1] || '').trim().replace(/\s+/g, ' ');
+        if (!nm) continue;
+        const first = nm.split(/\s+/)[0].replace(/\.$/, '');
+        if (NON_NAME_WORDS.test(first)) continue;
+        // weight: title-adjacent patterns (0,1) are strongest; "meet/owned by" (2) next; Dr. (3)
+        const weight = i === 0 || i === 1 ? 5 : i === 2 ? 3 : 2;
+        names.set(nm, Math.max(names.get(nm) || 0, weight));
+      }
+    }
+  }
+
   // Fetch a URL through whichever CORS read-proxy responds first; falls back across proxies.
   async function fetchViaProxy(target, timeoutMs = 8000) {
     const proxies = [
@@ -1829,6 +1870,7 @@
     ];
     const visited = new Set();
     const found = new Set();
+    const names = new Map();
     const queue = commonPaths.map(p => base + p);
 
     // 1) Grab the homepage first so we can discover real contact-page links.
@@ -1836,6 +1878,7 @@
       const home = await fetchViaProxy(base, 8000);
       if (home) {
         harvestEmails(home, found);
+        harvestOwnerNames(home, names);
         // discover internal links whose text/href hints at contact/about/team pages
         for (const m of home.matchAll(/href=["']([^"'#]+)["'][^>]*>([^<]{0,60})/gi)) {
           const href = m[1];
@@ -1861,11 +1904,11 @@
       count++;
       try {
         const html = await fetchViaProxy(target, 7000);
-        if (html) harvestEmails(html, found);
+        if (html) { harvestEmails(html, found); harvestOwnerNames(html, names); }
       } catch { /* keep going */ }
-      // Early exit only once we already have a strong own-domain hit
+      // Early exit only once we already have a strong own-domain hit AND an owner name
       const best = [...found].map(e => rankEmail(e, prospect)).sort((a, b) => b - a)[0] || 0;
-      if (best >= 8 && !opts.deep) break;
+      if (best >= 8 && names.size && !opts.deep) break;
     }
 
     const ranked = [...found]
@@ -1873,6 +1916,13 @@
       .sort((a, b) => rankEmail(b, prospect) - rankEmail(a, prospect));
     // stash the full ranked list so the UI can offer alternates
     prospect._emailCandidates = ranked.slice(0, 8);
+
+    // Rank owner-name candidates and stash them for the UI / auto-fill.
+    const rankedNames = [...names.entries()]
+      .sort((a, b) => b[1] - a[1])
+      .map(([n]) => n);
+    prospect._ownerCandidates = rankedNames.slice(0, 5);
+    prospect._scrapedOwner = rankedNames[0] || '';
     return ranked[0] || '';
   }
 
@@ -1904,6 +1954,14 @@
     } else if (!prospect.email) {
       prospect._emailScrapeFailed = true;
     }
+    // Auto-fill owner name if we found one and there isn't a saved/manual name yet.
+    if (prospect._scrapedOwner) {
+      const savedName = (leadDataCache[getLeadHash(prospect)]?.ownerName || '').trim();
+      if (!savedName && !prospect._ownerManual) {
+        prospect._ownerScraped = true;
+        persistScrapedOwner(prospect, prospect._scrapedOwner);
+      }
+    }
     prospects = prospects;
   }
 
@@ -1914,6 +1972,14 @@
     prospect._emailScraped = true;
     prospects = prospects;
     persistScrapedEmail(prospect, email);
+  }
+
+  // User picks (or confirms) an owner-name candidate from the deep comb.
+  function chooseProspectOwner(prospect, name) {
+    prospect._ownerManual = true;
+    prospect._ownerScraped = true;
+    prospects = prospects;
+    persistScrapedOwner(prospect, name);
   }
 
   // Auto-save a scraped email into the prospect's Notes (lead data) so it
@@ -1930,6 +1996,28 @@
       notes: existing.notes || '',
       updatedBy: u?.name || u?.display_name || 'auto-scrub',
       emailSource: 'website',
+    };
+    leadDataCache[id] = { ...existing, ...data, updatedAt: new Date().toISOString(), prospectName: prospect.name, prospectAddress: prospect.address };
+    leadDataCache = leadDataCache;
+    try {
+      if (await whenFirebaseReady(4000)) await saveLeadData(prospect.name, prospect.address, data);
+    } catch {}
+  }
+
+  // Auto-save a scraped/selected owner name into the prospect's Notes (lead data)
+  // so it syncs across devices and greets emails by name. Never clobbers a manual entry.
+  async function persistScrapedOwner(prospect, name) {
+    const id = getLeadHash(prospect);
+    const existing = leadDataCache[id] || {};
+    if (existing.ownerName && existing.ownerName.trim() && !prospect._ownerManual) return; // keep existing
+    const u = $user;
+    const data = {
+      ownerName: name,
+      contactPhone: existing.contactPhone || '',
+      contactEmail: existing.contactEmail || (prospect.email && prospect.email.includes('@') ? prospect.email : ''),
+      notes: existing.notes || '',
+      updatedBy: u?.name || u?.display_name || 'auto-scrub',
+      ownerSource: prospect._ownerManual ? 'website-confirmed' : 'website',
     };
     leadDataCache[id] = { ...existing, ...data, updatedAt: new Date().toISOString(), prospectName: prospect.name, prospectAddress: prospect.address };
     leadDataCache = leadDataCache;
@@ -2865,6 +2953,22 @@
                     {/if}
                   {/each}
                 </div>
+              {/if}
+              {#if !prospect._emailScraping && (prospect._scrapedOwner || (leadDataCache[getLeadHash(prospect)]?.ownerName))}
+                {@const savedOwner = leadDataCache[getLeadHash(prospect)]?.ownerName}
+                <div class="owner-found-row">
+                  <span class="owner-found-status">👤 Owner: <strong>{savedOwner || prospect._scrapedOwner}</strong>{#if prospect._ownerScraped && !prospect._ownerManual} <em>(found on website — saved to Notes)</em>{/if}</span>
+                </div>
+                {#if prospect._ownerCandidates && prospect._ownerCandidates.length > 1}
+                  <div class="email-alt-row">
+                    <span class="email-alt-label">Other names found:</span>
+                    {#each prospect._ownerCandidates as nm}
+                      {#if nm !== (savedOwner || prospect._scrapedOwner)}
+                        <button class="email-alt-btn" on:click={() => chooseProspectOwner(prospect, nm)}>{nm}</button>
+                      {/if}
+                    {/each}
+                  </div>
+                {/if}
               {/if}
 
               <h4 class="email-title">Choose a template:</h4>
@@ -4733,6 +4837,10 @@
     cursor: pointer;
   }
   .email-alt-btn:hover { background: #1565c0; color: #fff; border-color: #1565c0; }
+
+  .owner-found-row { margin: 2px 0 6px; }
+  .owner-found-status { font-size: 12px; line-height: 1.4; color: #2e7d32; }
+  .owner-found-status em { color: #2e7d32; font-style: normal; font-weight: 600; }
 
   .email-addons {
     margin-top: 10px;
