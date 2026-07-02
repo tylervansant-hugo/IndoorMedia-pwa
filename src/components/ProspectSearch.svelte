@@ -1829,6 +1829,40 @@
     }
   }
 
+  // Normalize a phone string to just its digits (drop +1 country code).
+  function phoneDigits(s) {
+    let d = (s || '').replace(/[^0-9]/g, '');
+    if (d.length === 11 && d.startsWith('1')) d = d.slice(1);
+    return d;
+  }
+  function formatPhone(d) {
+    if (d.length === 10) return `(${d.slice(0,3)}) ${d.slice(3,6)}-${d.slice(6)}`;
+    return d;
+  }
+
+  // Look for phone numbers on the page (tel: links + text patterns), excluding
+  // the business's already-listed number. Returns normalized 10-digit strings.
+  function harvestPhones(html, phones, listedDigits) {
+    const decoded = deobfuscateEmails(html); // reuse entity-decode pass
+    const add = (raw, weight) => {
+      const d = phoneDigits(raw);
+      if (d.length !== 10) return;                 // US 10-digit only
+      if (/^(0|1)/.test(d)) return;                // invalid area code start
+      if (/^(\d)\1{9}$/.test(d)) return;           // 0000000000 etc
+      if (listedDigits && d === listedDigits) return; // skip the business listing #
+      phones.set(d, Math.max(phones.get(d) || 0, weight));
+    };
+    // tel: links are highest confidence
+    for (const m of decoded.matchAll(/tel:\+?([0-9().\-\s]{7,20})/gi)) add(m[1], 5);
+    // labeled numbers: "Cell: 555-...", "Mobile", "Direct", "Owner", "Text"
+    for (const m of decoded.matchAll(/(cell|mobile|direct|owner|text|fax|call|phone|tel|reach)[^0-9]{0,15}(\+?1?[\s.\-]?\(?\d{3}\)?[\s.\-]?\d{3}[\s.\-]?\d{4})/gi)) {
+      const isFax = /fax/i.test(m[1]);
+      add(m[2], isFax ? 2 : 4);
+    }
+    // bare US phone patterns in the text
+    for (const m of decoded.matchAll(/\(?\d{3}\)?[\s.\-]\d{3}[\s.\-]\d{4}/g)) add(m[0], 3);
+  }
+
   // Fetch a URL through whichever CORS read-proxy responds first; falls back across proxies.
   async function fetchViaProxy(target, timeoutMs = 8000) {
     const proxies = [
@@ -1871,6 +1905,8 @@
     const visited = new Set();
     const found = new Set();
     const names = new Map();
+    const phones = new Map();
+    const listedDigits = phoneDigits(prospect.phone || prospect.formatted_phone_number || '');
     const queue = commonPaths.map(p => base + p);
 
     // 1) Grab the homepage first so we can discover real contact-page links.
@@ -1879,6 +1915,7 @@
       if (home) {
         harvestEmails(home, found);
         harvestOwnerNames(home, names);
+        harvestPhones(home, phones, listedDigits);
         // discover internal links whose text/href hints at contact/about/team pages
         for (const m of home.matchAll(/href=["']([^"'#]+)["'][^>]*>([^<]{0,60})/gi)) {
           const href = m[1];
@@ -1904,7 +1941,7 @@
       count++;
       try {
         const html = await fetchViaProxy(target, 7000);
-        if (html) { harvestEmails(html, found); harvestOwnerNames(html, names); }
+        if (html) { harvestEmails(html, found); harvestOwnerNames(html, names); harvestPhones(html, phones, listedDigits); }
       } catch { /* keep going */ }
       // Early exit only once we already have a strong own-domain hit AND an owner name
       const best = [...found].map(e => rankEmail(e, prospect)).sort((a, b) => b - a)[0] || 0;
@@ -1923,6 +1960,13 @@
       .map(([n]) => n);
     prospect._ownerCandidates = rankedNames.slice(0, 5);
     prospect._scrapedOwner = rankedNames[0] || '';
+
+    // Rank phone candidates (excluding the listed business number) for the UI.
+    const rankedPhones = [...phones.entries()]
+      .sort((a, b) => b[1] - a[1])
+      .map(([d]) => formatPhone(d));
+    prospect._phoneCandidates = rankedPhones.slice(0, 5);
+    prospect._scrapedPhone = rankedPhones[0] || '';
     return ranked[0] || '';
   }
 
@@ -1962,6 +2006,14 @@
         persistScrapedOwner(prospect, prospect._scrapedOwner);
       }
     }
+    // Auto-fill a scraped direct/cell phone if there isn't a saved/manual one yet.
+    if (prospect._scrapedPhone) {
+      const savedPhone = (leadDataCache[getLeadHash(prospect)]?.contactPhone || '').trim();
+      if (!savedPhone && !prospect._phoneManual) {
+        prospect._phoneScraped = true;
+        persistScrapedPhone(prospect, prospect._scrapedPhone);
+      }
+    }
     prospects = prospects;
   }
 
@@ -1980,6 +2032,14 @@
     prospect._ownerScraped = true;
     prospects = prospects;
     persistScrapedOwner(prospect, name);
+  }
+
+  // User picks (or confirms) a phone candidate from the deep comb.
+  function chooseProspectPhone(prospect, phone) {
+    prospect._phoneManual = true;
+    prospect._phoneScraped = true;
+    prospects = prospects;
+    persistScrapedPhone(prospect, phone);
   }
 
   // Auto-save a scraped email into the prospect's Notes (lead data) so it
@@ -2018,6 +2078,28 @@
       notes: existing.notes || '',
       updatedBy: u?.name || u?.display_name || 'auto-scrub',
       ownerSource: prospect._ownerManual ? 'website-confirmed' : 'website',
+    };
+    leadDataCache[id] = { ...existing, ...data, updatedAt: new Date().toISOString(), prospectName: prospect.name, prospectAddress: prospect.address };
+    leadDataCache = leadDataCache;
+    try {
+      if (await whenFirebaseReady(4000)) await saveLeadData(prospect.name, prospect.address, data);
+    } catch {}
+  }
+
+  // Auto-save a scraped/selected contact phone into the prospect's Notes (lead data).
+  // Never clobbers a manual entry.
+  async function persistScrapedPhone(prospect, phone) {
+    const id = getLeadHash(prospect);
+    const existing = leadDataCache[id] || {};
+    if (existing.contactPhone && existing.contactPhone.trim() && !prospect._phoneManual) return;
+    const u = $user;
+    const data = {
+      ownerName: existing.ownerName || '',
+      contactPhone: phone,
+      contactEmail: existing.contactEmail || (prospect.email && prospect.email.includes('@') ? prospect.email : ''),
+      notes: existing.notes || '',
+      updatedBy: u?.name || u?.display_name || 'auto-scrub',
+      phoneSource: prospect._phoneManual ? 'website-confirmed' : 'website',
     };
     leadDataCache[id] = { ...existing, ...data, updatedAt: new Date().toISOString(), prospectName: prospect.name, prospectAddress: prospect.address };
     leadDataCache = leadDataCache;
@@ -2965,6 +3047,22 @@
                     {#each prospect._ownerCandidates as nm}
                       {#if nm !== (savedOwner || prospect._scrapedOwner)}
                         <button class="email-alt-btn" on:click={() => chooseProspectOwner(prospect, nm)}>{nm}</button>
+                      {/if}
+                    {/each}
+                  </div>
+                {/if}
+              {/if}
+              {#if !prospect._emailScraping && (prospect._scrapedPhone || (leadDataCache[getLeadHash(prospect)]?.contactPhone))}
+                {@const savedPhone = leadDataCache[getLeadHash(prospect)]?.contactPhone}
+                <div class="owner-found-row">
+                  <span class="owner-found-status">📞 Direct/other #: <strong><a href="tel:{savedPhone || prospect._scrapedPhone}" style="color:inherit;">{savedPhone || prospect._scrapedPhone}</a></strong>{#if prospect._phoneScraped && !prospect._phoneManual} <em>(found on website — saved to Notes)</em>{/if}</span>
+                </div>
+                {#if prospect._phoneCandidates && prospect._phoneCandidates.length > 1}
+                  <div class="email-alt-row">
+                    <span class="email-alt-label">Other numbers found:</span>
+                    {#each prospect._phoneCandidates as ph}
+                      {#if ph !== (savedPhone || prospect._scrapedPhone)}
+                        <button class="email-alt-btn" on:click={() => chooseProspectPhone(prospect, ph)}>{ph}</button>
                       {/if}
                     {/each}
                   </div>
