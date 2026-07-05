@@ -171,5 +171,21 @@
     "role": "rep",
     "registered_at": "2026-06-26",
     "base_location": "Territory TBD"
+  },
+  "ryan_rohner_talton": {
+    "contract_name": "Ryan Rohner-talton",
+    "display_name": "Ryan Rohner Talton",
+    "email": "Ryan.Rohner-Talton@indoormedia.com",
+    "role": "rep",
+    "registered_at": "2026-06-29",
+    "base_location": "Kitsap Peninsula, WA (Zone 07X)"
+  },
+  "carl_worthy": {
+    "contract_name": "Carl Worthy",
+    "display_name": "Carl Worthy",
+    "email": "Carl.Worthy@indoormedia.com",
+    "role": "rep",
+    "registered_at": "2026-06-29",
+    "base_location": "Territory TBD"
   }
 }
