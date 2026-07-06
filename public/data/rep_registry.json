@@ -195,5 +195,13 @@
     "role": "rep",
     "registered_at": "2026-07-02",
     "base_location": "Territory TBD"
+  },
+  "jahim_phillips": {
+    "contract_name": "Jahim Phillips",
+    "display_name": "Jahim Phillips",
+    "email": "Jahim.Phillips@indoormedia.com",
+    "role": "rep",
+    "registered_at": "2026-07-06",
+    "base_location": "Territory TBD"
   }
 }
