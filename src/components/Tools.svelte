@@ -1181,6 +1181,19 @@ Store: ${store}
     <h2>📋 Testimonials</h2>
     <p class="subtitle">Find relevant case studies and social proof</p>
 
+    <a
+      class="video-testimonials-banner"
+      href="https://youtube.com/playlist?list=PLjTXw9VlAiGP7cKVD_F1rPWERnmjeDCB1&si=oXd6wcbA6uUTCkSs"
+      target="_blank"
+      rel="noopener"
+    >
+      <span class="vt-icon">▶️</span>
+      <span class="vt-text">
+        <strong>Video Testimonials</strong>
+        <small>Watch the full YouTube playlist →</small>
+      </span>
+    </a>
+
     <div class="search-box">
       <input
         type="text"
@@ -2483,6 +2496,24 @@ Store: ${store}
     font-size: 16px;
     color: #333;
   }
+
+  .video-testimonials-banner {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: linear-gradient(135deg, #dc2626, #b91c1c);
+    color: #fff;
+    text-decoration: none;
+    padding: 14px 16px;
+    border-radius: 12px;
+    margin: 0 0 14px;
+    box-shadow: 0 4px 14px rgba(220, 38, 38, 0.3);
+  }
+  .video-testimonials-banner:active { transform: scale(0.98); }
+  .video-testimonials-banner .vt-icon { font-size: 26px; line-height: 1; }
+  .video-testimonials-banner .vt-text { display: flex; flex-direction: column; }
+  .video-testimonials-banner .vt-text strong { font-size: 16px; font-weight: 800; }
+  .video-testimonials-banner .vt-text small { font-size: 12px; opacity: 0.9; }
 
   .testimonial-item {
     padding: 12px 0;

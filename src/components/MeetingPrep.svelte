@@ -4,6 +4,9 @@
   import StoreSearchInput from '../lib/StoreSearchInput.svelte';
 
   export let onBack = () => {};
+  // Optional: prefill from a prospect card and auto-run the prep.
+  // Shape: { name, address, phone, category, website, types, store }
+  export let prefill = null;
 
   let businessName = '';
   let businessAddress = '';
@@ -46,6 +49,19 @@
         const testRes2 = await fetch(import.meta.env.BASE_URL + 'data/testimonials_cache.json?t=' + Date.now());
         allTestimonials = await testRes2.json();
       } catch {}
+    }
+
+    // If launched from a prospect card, prefill fields and run prep automatically.
+    if (prefill && prefill.name) {
+      businessName = prefill.name || '';
+      businessAddress = prefill.address || '';
+      businessPhone = prefill.phone || '';
+      businessCategory = prefill.category || '';
+      businessWebsite = prefill.website || '';
+      businessTypes = prefill.types || [];
+      if (prefill.store) selectStore(prefill.store);
+      searchResults = [];
+      await runPrep();
     }
   });
 

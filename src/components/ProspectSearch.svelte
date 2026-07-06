@@ -5,6 +5,7 @@
   import { isFirebaseReady, whenFirebaseReady, claimStore, releaseStore, getZoneClaims, claimLead, releaseLead, getAllLeadClaims, saveLeadData, getLeadData, getAllLeadData, hashLeadId, saveRepProspects, getRepProspects, callInLeadKey, assignCallInLead, getAllCallInAssignments } from '../lib/firebase.js';
   import HotLeadsSubmit from './HotLeadsSubmit.svelte';
   import PendingLeads from './PendingLeads.svelte';
+  import MeetingPrep from './MeetingPrep.svelte';
   import StoreSearchInput from '../lib/StoreSearchInput.svelte';
   import L from 'leaflet';
   import 'leaflet/dist/leaflet.css';
@@ -12,6 +13,19 @@
   let allStores = [];
   let nearbyStores = [];
   let prospects = [];
+  let meetingPrepProspect = null; // when set, MeetingPrep overlay runs prefilled
+
+  function runMeetingPrep(prospect) {
+    meetingPrepProspect = {
+      name: prospect.name || '',
+      address: prospect.address || '',
+      phone: prospect.phone || '',
+      category: prospect.category || prospect.subcategory || '',
+      website: prospect.website || '',
+      types: prospect.types || [],
+      store: selectedStore || null
+    };
+  }
   let savedProspects = [];
   let savedSearch = '';
   let savedStatusFilter = 'all';
@@ -2844,6 +2858,7 @@
                 {prospect._showMap ? '✕ Close Map' : '📍 Show on Map'}
               </button>
             {/if}
+            <button class="action-btn btn-meeting-prep" on:click={() => runMeetingPrep(prospect)}>🎯 Run Meeting Prep</button>
           </div>
 
           {#if prospect._showMap && prospect.lat && prospect.lng}
@@ -2873,6 +2888,7 @@
           {#if prospect._showTestimonials}
             <div class="testimonials-section">
               <h4 class="testimonials-title">📋 Testimonials for {selectedSubcategory || selectedCategory || 'this category'}</h4>
+              <a class="video-testimonials-link" href="https://youtube.com/playlist?list=PLjTXw9VlAiGP7cKVD_F1rPWERnmjeDCB1&si=oXd6wcbA6uUTCkSs" target="_blank" rel="noopener" on:click|stopPropagation>▶️ Video Testimonials (YouTube playlist)</a>
               {#if prospect._testimonialData && prospect._testimonialData.length > 0}
                 {#each prospect._testimonialData as testimonial}
                   <div class="testimonial-card" class:local-testimonial={testimonial._isLocal} class:clickable-testimonial={testimonial.url} on:click|stopPropagation={() => { if (testimonial.url) window.open(testimonial.url, '_blank'); }} role={testimonial.url ? 'link' : undefined}>
@@ -3608,9 +3624,71 @@
       <HotLeadsSubmit user={$user} onLeadSubmitted={() => view = 'main'} />
     </div>
   {/if}
+
+  <!-- Meeting Prep overlay (launched from a prospect card) -->
+  {#if meetingPrepProspect}
+    <div class="meeting-prep-overlay" on:click|self={() => meetingPrepProspect = null}>
+      <div class="meeting-prep-modal">
+        <button class="mp-close" on:click={() => meetingPrepProspect = null}>✕ Close</button>
+        <MeetingPrep prefill={meetingPrepProspect} onBack={() => meetingPrepProspect = null} />
+      </div>
+    </div>
+  {/if}
 </div>
 
 <style>
+  .meeting-prep-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.6);
+    z-index: 2000;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    padding: 12px;
+    overflow-y: auto;
+  }
+  .meeting-prep-modal {
+    background: #fff;
+    border-radius: 14px;
+    width: 100%;
+    max-width: 640px;
+    margin: 20px auto 40px;
+    padding: 12px;
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.35);
+    position: relative;
+  }
+  .mp-close {
+    position: sticky;
+    top: 0;
+    margin-left: auto;
+    display: block;
+    background: #ef4444;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    padding: 8px 14px;
+    font-weight: 700;
+    cursor: pointer;
+    z-index: 5;
+  }
+  .btn-meeting-prep {
+    background: #6366f1;
+    color: #fff;
+    border: none;
+  }
+  .video-testimonials-link {
+    display: block;
+    background: linear-gradient(135deg, #dc2626, #b91c1c);
+    color: #fff;
+    text-decoration: none;
+    font-weight: 700;
+    text-align: center;
+    padding: 10px 12px;
+    border-radius: 10px;
+    margin: 4px 0 12px;
+    font-size: 14px;
+  }
   .prospect-tabs {
     display: flex;
     gap: 8px;
