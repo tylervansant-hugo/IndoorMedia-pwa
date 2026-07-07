@@ -1,6 +1,7 @@
 <script>
   import { onMount, onDestroy } from 'svelte';
   import { PDFDocument, rgb, StandardFonts } from 'pdf-lib';
+  import { generateCounterSignPdf } from '../lib/counterSign.js';
   import { user, padAmount } from '../lib/stores.js';
   import { calculateROI as sharedCalculateROI } from '../lib/roi.js';
   import StoreSearchInput from '../lib/StoreSearchInput.svelte';
@@ -449,19 +450,7 @@ Store: ${store}
   onMount(() => {
     loadRepNames();
   });
-  // Counter Sign API endpoint
-  const isDev = window.location.hostname === 'localhost';
-  let COUNTER_SIGN_API = isDev 
-    ? 'http://localhost:3333'
-    : 'https://jefferson-pas-gas-comfortable.trycloudflare.com';
-  
-  // On production, try to fetch the latest tunnel URL
-  if (!isDev) {
-    fetch('/api/counter-sign-url')
-      .then(r => r.json())
-      .then(d => { if (d.url) COUNTER_SIGN_API = d.url; })
-      .catch(() => {}); // Fall back to hardcoded URL
-  }
+  // Counter Sign is now fully client-side (pdf-lib). No backend/tunnel required.
 
   onMount(async () => {
     try {
@@ -676,44 +665,35 @@ Store: ${store}
 
   async function submitCounterSign() {
     if (generating) return;
-    
+
     try {
       generating = true;
-      
-      const repName = $user?.name || $user?.first_name || 'Tyler Van Sant';
-      
-      const formData = new FormData();
-      formData.append('chain_code', selectedChainCode);
-      formData.append('rep_name', repName);
-      formData.append('style', counterSignStyle);
-      
-      // Append all ad proof images
-      for (const adImg of counterData.ad_proof_images) {
-        formData.append('ad_proof', adImg);
-      }
-      
-      if (counterData.business_card_image) {
-        formData.append('business_card', counterData.business_card_image);
-      }
-      if (counterData.landing_page_url) {
-        formData.append('landing_page_url', counterData.landing_page_url);
-      }
 
-      const response = await fetch(`${COUNTER_SIGN_API}/generate`, {
-        method: 'POST',
-        body: formData
+      // Derive rep cell if available in registry (fallback to '').
+      let repCell = '';
+      try {
+        if (selectedRepName && allReps) {
+          for (const key in allReps) {
+            const r = allReps[key];
+            if (r && r.display_name === selectedRepName) {
+              repCell = r.cell || r.phone || r.cell_phone || '';
+              break;
+            }
+          }
+        }
+      } catch {}
+
+      const blob = await generateCounterSignPdf({
+        chainCode: selectedChainCode,
+        adImageFiles: counterData.ad_proof_images,
+        businessCardFile: counterData.business_card_image || null,
+        landingPageUrl: counterData.landing_page_url,
+        style: counterSignStyle,
+        repCell,
       });
 
-      if (!response.ok) {
-        let msg = response.statusText;
-        try { const e = await response.json(); msg = e.error; } catch {}
-        alert(`❌ Error: ${msg}`);
-        return;
-      }
-
-      const blob = await response.blob();
       downloadBlob(blob, `${selectedChainCode}_CounterSign.pdf`);
-      
+
       counterSignStep = 1;
       selectedChainCode = null;
       counterData = { business_card_image: null, landing_page_url: '', ad_proof_images: [] };
