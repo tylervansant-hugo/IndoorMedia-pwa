@@ -1542,13 +1542,25 @@
   // open-worthy hook; bodies greet the saved contact by name.
   const programEmailTemplates = [
     // ── TAPE ──
-    { id: 'prog-tape', icon: '🧾', name: 'Register Tape', group: 'Tape',
+    { id: 'prog-tape', icon: '🧾', name: 'Register Tape — In Every Hand', group: 'Tape',
       subject: 'Put {business} in every {chain} shopper\u2019s hand',
       body: 'Hi {contact},\n\nEvery customer who checks out at {store} walks away holding their receipt — and that\'s prime real estate for {business}. Our register tape ads print your name, offer, and location right on the back, reaching {customers} local shoppers every week.\n\nIt\'s repetition where people already are, at a fraction of the cost of a billboard. Could I show you how it works in 10 minutes?\n\nBest,\n{rep}\nIndoorMedia' },
+    { id: 'prog-tape-coupon', icon: '🧾', name: 'Register Tape — Coupon in Hand', group: 'Tape',
+      subject: 'A {business} coupon in {customers} hands a week at {chain}',
+      body: 'Hi {contact},\n\nCoupons work best when they\'re already in someone\'s hand — not buried in a mailer they tossed. Every shopper at {store} walks out holding their receipt, and we print your offer right on the back. That\'s {customers} local customers a week with a reason to choose {business} today.\n\nRedemptions are easy to track, so you\'ll see exactly what it\'s doing. Got 10 minutes for me to run the numbers for you?\n\nBest,\n{rep}\nIndoorMedia' },
+    { id: 'prog-tape-cost', icon: '🧾', name: 'Register Tape — Cheaper Than a Billboard', group: 'Tape',
+      subject: 'Reach {customers} {chain} shoppers for pennies each',
+      body: 'Hi {contact},\n\nA billboard costs a fortune and people blow past it at 60 mph. Register tape puts {business} directly in the hands of {customers} shoppers a week at {store} — for a fraction of the price, with your name, offer, and address right where they\'ll actually read it.\n\nIt\'s the lowest cost-per-impression local advertising I know of. Want me to break down what it\'d run for you?\n\nBest,\n{rep}\nIndoorMedia' },
     // ── CART ──
-    { id: 'prog-cart', icon: '🛒', name: 'Cartvertising', group: 'Cart',
+    { id: 'prog-cart', icon: '🛒', name: 'Cartvertising — Own Every Cart', group: 'Cart',
       subject: 'Your brand on every cart at {chain}, {business}',
       body: 'Hi {contact},\n\nImagine {business} riding along on every shopping cart at {store} for six months straight. Cartvertising puts your ad in front of {customers} shoppers a week — eye-level, all day, every aisle.\n\nOne business per category, so once the spot is yours, your competition can\'t take it. Want me to check if it\'s still open?\n\nBest,\n{rep}\nIndoorMedia' },
+    { id: 'prog-cart-exclusive', icon: '🛒', name: 'Cartvertising — Lock Out Competitors', group: 'Cart',
+      subject: 'Claim the {chain} cart spot before your competitor does',
+      body: 'Hi {contact},\n\nHere\'s the part most people like: Cartvertising is one business per category, per store. Once {business} takes the spot at {store}, your competition literally can\'t buy their way in front of those {customers} weekly shoppers — you own it.\n\nThose spots don\'t open often. Want me to check whether yours is still available?\n\nBest,\n{rep}\nIndoorMedia' },
+    { id: 'prog-cart-repetition', icon: '🛒', name: 'Cartvertising — Seen All Trip Long', group: 'Cart',
+      subject: '{customers} {chain} shoppers, staring at your ad for 30 minutes',
+      body: 'Hi {contact},\n\nMost ads get a half-second glance. A cart ad rides with the shopper for their entire trip at {store} — 20, 30 minutes of your name in front of them, aisle after aisle. Multiply that by {customers} shoppers a week and {business} becomes the name they can\'t stop seeing.\n\nThat kind of repetition is what turns strangers into customers. Got 10 minutes so I can show you how it works?\n\nBest,\n{rep}\nIndoorMedia' },
     // ── DIGITAL ──
     { id: 'prog-digitalboost', icon: '🚀', name: 'DigitalBoost (Geofencing)', group: 'Digital',
       subject: 'Reach phones near {chain} for {business}',
