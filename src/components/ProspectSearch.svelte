@@ -2,9 +2,10 @@
   import { onMount, onDestroy, tick } from 'svelte';
   import { user, currentUser, sharedNearbyStores, sharedSelectedStore, sharedUserLocation } from '../lib/stores.js';
   import { logActivity } from '../lib/activity.js';
-  import { isFirebaseReady, whenFirebaseReady, claimStore, releaseStore, getZoneClaims, claimLead, releaseLead, getAllLeadClaims, saveLeadData, getLeadData, getAllLeadData, hashLeadId, saveRepProspects, getRepProspects } from '../lib/firebase.js';
+  import { isFirebaseReady, whenFirebaseReady, claimStore, releaseStore, getZoneClaims, claimLead, releaseLead, getAllLeadClaims, saveLeadData, getLeadData, getAllLeadData, hashLeadId, saveRepProspects, getRepProspects, callInLeadKey, assignCallInLead, getAllCallInAssignments } from '../lib/firebase.js';
   import HotLeadsSubmit from './HotLeadsSubmit.svelte';
   import PendingLeads from './PendingLeads.svelte';
+  import MeetingPrep from './MeetingPrep.svelte';
   import StoreSearchInput from '../lib/StoreSearchInput.svelte';
   import L from 'leaflet';
   import 'leaflet/dist/leaflet.css';
@@ -12,6 +13,19 @@
   let allStores = [];
   let nearbyStores = [];
   let prospects = [];
+  let meetingPrepProspect = null; // when set, MeetingPrep overlay runs prefilled
+
+  function runMeetingPrep(prospect) {
+    meetingPrepProspect = {
+      name: prospect.name || '',
+      address: prospect.address || '',
+      phone: prospect.phone || '',
+      category: prospect.category || prospect.subcategory || '',
+      website: prospect.website || '',
+      types: prospect.types || [],
+      store: selectedStore || null
+    };
+  }
   let savedProspects = [];
   let savedSearch = '';
   let savedStatusFilter = 'all';
@@ -25,6 +39,9 @@
   let phoneClicks = []; // Track call history
   let hotLeads = [];
   let callInLeads = []; // Inbound 'New Call In Lead' emails — always shown, NOT cycle-filtered
+  let allCallInLeads = []; // full inbound pool before assignment filtering (manager assigns from here)
+  let callInAssignments = {}; // leadKey -> { repId, repName } assignment map from Firebase
+  let repRoster = []; // [{ id, name }] reps available to assign call-in leads to
   let view = 'main'; // main, nearby-stores, categories, subcategories, results, saved, hot-leads, call-in, pending, submit-lead
 
   // ── Store Claims (Dibs) ──
@@ -80,6 +97,99 @@
 
   function getLeadHash(prospect) {
     return hashLeadId(prospect.name, prospect.address);
+  }
+
+  // ── Call-In Lead assignment plumbing ──────────────────────────────
+  async function loadCallInAssignments() {
+    if (!(await whenFirebaseReady())) return;
+    try { callInAssignments = await getAllCallInAssignments(); } catch { callInAssignments = {}; }
+  }
+
+  // Reps see only leads assigned to them; Tyler + Rick see all (with an assign control).
+  function applyCallInVisibility() {
+    if (isPrivilegedViewer()) {
+      callInLeads = allCallInLeads;
+      return;
+    }
+    const myId = String($user?.id || $user?.rep_id || '');
+    const myName = repDisplayName().toLowerCase();
+    callInLeads = allCallInLeads.filter(l => {
+      const a = callInAssignments[callInLeadKey(l)];
+      if (!a || !a.repId) return false; // unassigned → hidden from reps
+      return String(a.repId) === myId || (a.repName || '').toLowerCase() === myName;
+    });
+  }
+
+  // Build the rep roster (id + display name) for the assign dropdown from
+  // rep_registry.json, falling back to reps seen in contracts / team data.
+  async function buildRepRoster() {
+    const roster = new Map();
+    try {
+      const res = await fetch(import.meta.env.BASE_URL + 'data/rep_registry.json?t=' + Date.now());
+      const reg = await res.json();
+      const entries = Array.isArray(reg)
+        ? reg.map(v => ({ _key: v.id || v.rep_id, ...v }))
+        : Object.entries(reg).map(([k, v]) => ({ ...v, _key: k }));
+      for (const r of entries) {
+        const name = r.name || r.display_name || r.full_name || '';
+        const id = r._key || r.id || r.rep_id || name;
+        // Skip placeholder / blank entries
+        if (!name || String(id) === '999999999') continue;
+        roster.set(String(id), { id: String(id), name });
+      }
+    } catch {}
+    repRoster = [...roster.values()].sort((a, b) => a.name.localeCompare(b.name));
+  }
+
+  async function handleAssignCallIn(lead, repId) {
+    const key = callInLeadKey(lead);
+    const rep = repRoster.find(r => String(r.id) === String(repId));
+    const repName = rep ? rep.name : '';
+    await whenFirebaseReady();
+    const ok = await assignCallInLead(key, repId || '', repName, repDisplayName());
+    if (ok) {
+      if (repId) callInAssignments[key] = { leadKey: key, repId: String(repId), repName, assignedBy: repDisplayName(), assignedAt: new Date().toISOString() };
+      else delete callInAssignments[key];
+      callInAssignments = callInAssignments;
+      applyCallInVisibility();
+    }
+  }
+
+  function callInAssignedName(lead) {
+    const a = callInAssignments[callInLeadKey(lead)];
+    return a && a.repId ? (a.repName || 'Assigned') : '';
+  }
+
+  // ── Role / Privacy helpers ────────────────────────────────────────
+  // Only the rep who logged the notes, Tyler, and Rick Leibowitz may see the
+  // private lead details (owner/decision-maker name, contact phone, contact
+  // email, and notes). Everyone else sees only a BOOKED/CLOSED status badge.
+  function repDisplayName() {
+    const u = $user;
+    return (u?.name || u?.display_name || '').trim();
+  }
+  // Tyler + Rick are full-visibility managers.
+  function isPrivilegedViewer() {
+    const n = repDisplayName().toLowerCase();
+    return n.includes('tyler') || n.includes('rick') || ($user?.role === 'manager');
+  }
+  // Can the current user see the private notes/contact for this lead-data doc?
+  function canSeePrivate(ld) {
+    if (isPrivilegedViewer()) return true;
+    if (!ld) return true; // nothing logged yet — the current rep may start logging
+    const owner = (ld.updatedBy || '').trim().toLowerCase();
+    if (!owner || owner === 'auto-scrub') return true; // system-scraped, not a rep's private notes
+    return owner === repDisplayName().toLowerCase();
+  }
+  // Derive a BOOKED / CLOSED status shown to reps who can't see private notes.
+  // Sources: an explicit saved status, or the last lead-claim action.
+  function getSharedStatus(prospect) {
+    const ld = leadDataCache[getLeadHash(prospect)] || {};
+    const claim = getLeadClaim(prospect) || {};
+    const raw = ((ld.status || claim.lastAction || prospect.status || '') + '').toLowerCase();
+    if (/(clos|sold|sale|won|signed|contract)/.test(raw)) return 'CLOSED';
+    if (/(book|appt|appointment|meeting|scheduled)/.test(raw)) return 'BOOKED';
+    return '';
   }
 
   function getLeadClaim(prospect) {
@@ -787,18 +897,15 @@
       console.log(`Hot Leads: ${hotLeads.length} leads, Selling Cycle: ${currentSellingCycle}, Rep stores: ${repStoreIds === null ? 'all (manager)' : repStoreIds.size}`);
 
       // Call-In Leads: inbound, time-sensitive — ALWAYS shown regardless of cycle.
-      // Managers see all; reps see call-ins whose nearest store is one of theirs.
-      const allCallIn = allLeadsData.filter(l => l.category === 'Call-In Lead');
-      if (repStoreIds === null) {
-        callInLeads = allCallIn;
-      } else if (repStoreIds.size > 0) {
-        callInLeads = allCallIn.filter(l => !l.store_id || repStoreIds.has(l.store_id));
-      } else {
-        callInLeads = allCallIn; // no contracts yet — still surface inbound leads rather than hide them
-      }
-      // Newest first
-      callInLeads = [...callInLeads].sort((a, b) => (b.generated_at || '').localeCompare(a.generated_at || ''));
-      console.log(`Call-In Leads: ${callInLeads.length}`);
+      // ASSIGNMENT MODEL: a call-in lead is hidden from a rep until Tyler/Rick
+      // assigns it to them. Tyler + Rick always see every call-in lead.
+      allCallInLeads = allLeadsData
+        .filter(l => l.category === 'Call-In Lead')
+        .sort((a, b) => (b.generated_at || '').localeCompare(a.generated_at || ''));
+      await loadCallInAssignments();
+      applyCallInVisibility();
+      buildRepRoster();
+      console.log(`Call-In Leads (visible): ${callInLeads.length} of ${allCallInLeads.length}`);
       
       loadSavedProspects();
     } catch (err) {
@@ -1536,10 +1643,86 @@
     return programEmailTemplates.map(t => ({ ...t, _programLabel: t.group }));
   }
 
-  // Combined list: category-specific first (if any), then program templates
-  // (Tape / Cart / Digital), then the generic five.
+  // ── Smart Multi-Pronged template ──────────────────────────────────
+  // A category-aware, business-researched email that sells the in-person +
+  // digital one-two punch and the outsized results it drives — written to sound
+  // like Tyler, not a template. Body is generated per-prospect at render time.
+
+  // Per-category framing: {noun}=who they serve, {win}=the outcome they want,
+  // {moment}=the buying moment we intercept.
+  const CATEGORY_ANGLE = [
+    { m: ['real estate','realtor','realty','mortgage','broker'], noun: 'homeowners', win: 'listings and closings', moment: 'the moment someone starts thinking about buying or selling' },
+    { m: ['dentist','dental','orthodont'], noun: 'families', win: 'new patients in the chair', moment: 'when a family is picking a dentist' },
+    { m: ['auto repair','oil change','tires','body shop','transmission','car wash','detailing','automotive'], noun: 'drivers', win: 'booked bays', moment: 'the second a check-engine light comes on' },
+    { m: ['hair salon','barber','nails','spa','gym','yoga','med spa','lash','massage','beauty','wellness','tanning'], noun: 'locals', win: 'a booked-solid calendar', moment: 'when someone finally books that appointment they keep putting off' },
+    { m: ['restaurant','pizza','mexican','coffee','cafe','bakery','sushi','bbq','deli','food','bar','pub','brewery','taco','wings'], noun: 'hungry shoppers', win: 'full tables and bigger tickets', moment: 'the second they leave the store deciding where to eat' },
+    { m: ['plumber','electrician','hvac','roofing','landscaping','cleaning','contractor','pest','painting','garage door','fencing','moving','home services'], noun: 'homeowners', win: 'a full job calendar', moment: 'the day something breaks and they need someone fast' },
+  ];
+  function getCategoryAngle() {
+    const hay = `${selectedCategory || ''} ${selectedSubcategory || ''}`.toLowerCase();
+    for (const a of CATEGORY_ANGLE) if (a.m.some(x => hay.includes(x))) return a;
+    return { noun: 'local customers', win: 'more customers through the door', moment: 'the moment they’re deciding who to go with' };
+  }
+
+  // Turn scraped research into one natural, specific sentence about the business.
+  function researchLine(prospect) {
+    const r = prospect && prospect._research;
+    if (!r || r.empty) return '';
+    const name = prospect.name;
+    const flags = r.flags || [];
+    if (r.services && r.services.length) {
+      const svc = r.services.slice(0, 2).join(' and ');
+      if (r.yearsCount) return `I did a little homework before reaching out — ${r.yearsCount} years doing ${svc} is no accident, and it tells me ${name} already does the hard part right.`;
+      if (flags.includes('family-owned') || flags.includes('locally-owned')) return `I did a little homework first — a ${flags.includes('family-owned') ? 'family-owned' : 'locally-owned'} shop known for ${svc} is exactly the kind of business this works best for.`;
+      return `I did a little homework before reaching out — the ${svc} side of what you do at ${name} really stood out.`;
+    }
+    if (r.yearsCount) return `I did a little homework first — ${r.yearsCount} years in business tells me ${name} is doing something right, and I think we can put a lot more eyes on it.`;
+    if (flags.includes('award-winning')) return `I did a little homework first — an award-winning reputation like ${name}’s deserves to be in front of a lot more people.`;
+    if (r.tagline) return `I did a little homework before reaching out — “${r.tagline}” is a great line, and it’s exactly the kind of story that lands when the right people see it.`;
+    return '';
+  }
+
+  // Build the full multi-pronged body for a specific prospect (Tyler's voice).
+  function buildMultiProngedBody(prospect) {
+    const a = getCategoryAngle();
+    const research = researchLine(prospect);
+    const openerResearch = research ? research + '\n\n' : '';
+    return (
+`Hi {contact},
+
+${openerResearch}Here’s the thing most advertising gets wrong: it picks a lane. You’re either in front of people out in the community, or you’re chasing them online — rarely both. So the message never really sticks.
+
+We do both, on purpose. Picture ${a.noun} near {store_short}: first they see ${prospect.name} in their hands at the checkout — your name, your offer, ${getStoreCustomers()} of them every week. Then, that same day, they see you again on their phone as they scroll, because we’ve drawn a digital fence around the neighborhoods that actually matter to you.
+
+Same customer. Two touchpoints. ${a.moment.charAt(0).toUpperCase() + a.moment.slice(1)} — and there you are, twice. That’s when a name goes from “never heard of them” to “oh yeah, those guys,” and that shift is where the real money is.
+
+The businesses running both together aren’t seeing little bumps. They’re seeing the kind of ${a.win} that changes how a month looks. In-person builds the trust; digital keeps you top of mind until they’re ready — and they always get ready.
+
+I’d love 10 minutes to map out exactly what this looks like for ${prospect.name}. No pitch marathon, just the plan. What does later this week look like for you?
+
+Best,
+{rep}
+IndoorMedia`
+    );
+  }
+
+  // The special dynamic template descriptor. body is a function(prospect).
+  function getMultiProngedTemplate() {
+    return {
+      id: 'multi-pronged',
+      icon: '🚀',
+      name: 'Multi-Pronged (In-Person + Digital)',
+      _featured: true,
+      _dynamic: true,
+      subject: 'Two ways {business} shows up for {chain} shoppers — same day',
+      body: (p) => buildMultiProngedBody(p),
+    };
+  }
+
+  // Combined list: featured Multi-Pronged first, then category-specific,
+  // then program templates (Tape / Cart / Digital), then the generic five.
   function getEmailTemplatesFor() {
-    return [...getCategoryTemplates(), ...getProgramTemplates(), ...emailTemplates];
+    return [getMultiProngedTemplate(), ...getCategoryTemplates(), ...getProgramTemplates(), ...emailTemplates];
   }
 
   // Build a natural store reference like "the Safeway on Center Street in Salem"
@@ -1591,6 +1774,8 @@
   // Replace all template placeholders including {store} and {customers} variants.
   // Pass the full prospect so we can read the saved contact name and address them.
   function fillTemplate(text, prospect) {
+    // Dynamic templates supply a function body(prospect); resolve it first.
+    if (typeof text === 'function') text = text(prospect);
     const rep = $user?.name || $user?.first_name || 'Your Rep';
     const prospectName = (prospect && typeof prospect === 'object') ? prospect.name : prospect;
     const contact = (prospect && typeof prospect === 'object') ? getSavedContactName(prospect) : '';
@@ -1637,72 +1822,388 @@
     return '';
   }
 
-  function rankEmail(email) {
+  function rankEmail(email, prospect) {
     const e = email.toLowerCase();
     // Penalize file-ish / image-ish false positives
-    if (/\.(png|jpg|jpeg|gif|webp|svg)$/i.test(e)) return -100;
-    if (/(example|sentry|wixpress|\.png|godaddy|\.wpengine|@2x)/.test(e)) return -50;
+    if (/\.(png|jpg|jpeg|gif|webp|svg|css|js)$/i.test(e)) return -100;
+    if (/(example|sentry|wixpress|godaddy|\.wpengine|@2x|\.wixpress|placeholder|yourdomain|domain\.com|email\.com|sample|test@|noreply|no-reply|donotreply|do-not-reply)/.test(e)) return -50;
     const prefix = e.split('@')[0];
+    const domain = (e.split('@')[1] || '');
     let score = 0;
     if (GENERIC_EMAIL_PREFIXES.some(p => prefix === p)) score += 5;       // info@, contact@ etc are ideal cold targets
     else if (GENERIC_EMAIL_PREFIXES.some(p => prefix.startsWith(p))) score += 3;
-    if (/(owner|manager|gm|frontoffice)/.test(prefix)) score += 4;
+    if (/(owner|manager|gm|frontoffice|principal|director|president|ceo)/.test(prefix)) score += 6;
+    // Prefer an email whose domain matches the prospect's own website (avoids grabbing a
+    // web-designer / vendor / social-widget address embedded in the page).
+    if (prospect && prospect.website) {
+      try {
+        const host = new URL(prospect.website.startsWith('http') ? prospect.website : 'https://' + prospect.website).hostname.replace(/^www\./, '');
+        const root = host.split('.').slice(-2).join('.');
+        if (domain === host || domain.endsWith('.' + root) || domain === root) score += 8;
+      } catch {}
+    }
+    // Free-mail providers are still useful for small businesses, but rank below own-domain
+    if (/(gmail|yahoo|hotmail|outlook|aol|icloud|comcast|live|msn)\./.test(domain)) score += 2;
     if (e.endsWith('.com')) score += 1;
     return score;
   }
 
-  // Scrape the prospect's website (and a couple likely contact pages) for an email.
-  async function scrapeWebsiteEmail(prospect) {
-    if (!prospect.website) return '';
-    const base = prospect.website.replace(/\/$/, '');
-    const candidates = [base, base + '/contact', base + '/contact-us', base + '/about'];
-    const found = new Set();
+  // Decode common email obfuscations so "info [at] shop [dot] com", HTML-entity, and
+  // simple JS-concatenated addresses are recoverable.
+  function deobfuscateEmails(rawHtml) {
+    let html = rawHtml;
+    // HTML entity decode (numeric + named) via a detached element
+    try {
+      const ta = document.createElement('textarea');
+      // decode in chunks to avoid pathological huge strings
+      ta.innerHTML = html.replace(/&#(\d+);/g, (_, n) => '&#' + n + ';');
+      html = html + '\n' + ta.value;
+    } catch {}
+    // Normalize [at]/(at)/ AT  and [dot]/(dot)/ DOT  spacing tricks
+    let normalized = html
+      .replace(/\s*[\[(<{]\s*(?:at|@)\s*[\])>}]\s*/gi, '@')
+      .replace(/\s+(?:at)\s+/gi, '@')
+      .replace(/\s*[\[(<{]\s*(?:dot|\.)\s*[\])>}]\s*/gi, '.')
+      .replace(/\s+(?:dot)\s+/gi, '.');
+    return html + '\n' + normalized;
+  }
 
-    for (const target of candidates) {
+  function harvestEmails(html, found) {
+    const decoded = deobfuscateEmails(html);
+    // mailto: links first (highest confidence)
+    for (const m of decoded.matchAll(/mailto:([^"'?>\s]+@[^"'?>\s]+)/gi)) {
+      found.add(m[1].toLowerCase().replace(/[.,;:]+$/, ''));
+    }
+    // bare email patterns in the page text
+    for (const m of decoded.matchAll(/[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}/g)) {
+      found.add(m[0].toLowerCase().replace(/[.,;:]+$/, ''));
+    }
+  }
+
+  // Strip tags to readable text for name scanning.
+  function htmlToText(html) {
+    return html
+      .replace(/<script[\s\S]*?<\/script>/gi, ' ')
+      .replace(/<style[\s\S]*?<\/style>/gi, ' ')
+      .replace(/<[^>]+>/g, ' ')
+      .replace(/&nbsp;/gi, ' ')
+      .replace(/&amp;/gi, '&')
+      .replace(/\s+/g, ' ')
+      .trim();
+  }
+
+  const NAME = '[A-Z][a-z]+(?:\\.?)?(?:\\s+[A-Z]\\.?)?\\s+[A-Z][a-z]+(?:-[A-Z][a-z]+)?';
+  const NON_NAME_WORDS = /^(The|Our|Your|About|Contact|Home|Welcome|Services|Team|Staff|Menu|Hours|Location|Reviews|Gallery|Book|Call|Email|Privacy|Terms|Copyright|All|New|Best|Free|Read|View|Learn|More|Get|Meet|We|Us|My|This)$/;
+
+  // Look for an owner / proprietor / decision-maker name on the page.
+  function harvestOwnerNames(html, names) {
+    const text = htmlToText(html);
+    const patterns = [
+      // "Owner: John Smith"  /  "Owner - John Smith"  /  "Owner, John Smith"
+      new RegExp('(?:owner|proprietor|founder|co-?founder|president|principal|managing partner|general manager|gm|ceo)\\s*[:\\-,\\u2013]?\\s+(' + NAME + ')', 'gi'),
+      // "John Smith, Owner"  /  "John Smith - Owner"  /  "John Smith, Founder & CEO"
+      new RegExp('(' + NAME + ')\\s*[,\\-\\u2013]\\s*(?:the\\s+)?(?:owner|proprietor|founder|co-?founder|president|principal|managing partner|general manager|gm|ceo)', 'gi'),
+      // "Meet John Smith" / "Owned by John Smith" / "Founded by John Smith"
+      new RegExp('(?:meet|owned by|founded by|established by|run by|led by)\\s+(' + NAME + ')', 'gi'),
+      // "Dr. John Smith" (common for dental/medical prospects)
+      new RegExp('(Dr\\.?\\s+' + NAME + ')', 'g'),
+    ];
+    for (let i = 0; i < patterns.length; i++) {
+      for (const m of text.matchAll(patterns[i])) {
+        let nm = (m[1] || '').trim().replace(/\s+/g, ' ');
+        if (!nm) continue;
+        const first = nm.split(/\s+/)[0].replace(/\.$/, '');
+        if (NON_NAME_WORDS.test(first)) continue;
+        // weight: title-adjacent patterns (0,1) are strongest; "meet/owned by" (2) next; Dr. (3)
+        const weight = i === 0 || i === 1 ? 5 : i === 2 ? 3 : 2;
+        names.set(nm, Math.max(names.get(nm) || 0, weight));
+      }
+    }
+  }
+
+  // Normalize a phone string to just its digits (drop +1 country code).
+  function phoneDigits(s) {
+    let d = (s || '').replace(/[^0-9]/g, '');
+    if (d.length === 11 && d.startsWith('1')) d = d.slice(1);
+    return d;
+  }
+  function formatPhone(d) {
+    if (d.length === 10) return `(${d.slice(0,3)}) ${d.slice(3,6)}-${d.slice(6)}`;
+    return d;
+  }
+
+  // Look for phone numbers on the page (tel: links + text patterns), excluding
+  // the business's already-listed number. Returns normalized 10-digit strings.
+  function harvestPhones(html, phones, listedDigits) {
+    const decoded = deobfuscateEmails(html); // reuse entity-decode pass
+    const add = (raw, weight) => {
+      const d = phoneDigits(raw);
+      if (d.length !== 10) return;                 // US 10-digit only
+      if (/^(0|1)/.test(d)) return;                // invalid area code start
+      if (/^(\d)\1{9}$/.test(d)) return;           // 0000000000 etc
+      if (listedDigits && d === listedDigits) return; // skip the business listing #
+      phones.set(d, Math.max(phones.get(d) || 0, weight));
+    };
+    // tel: links are highest confidence
+    for (const m of decoded.matchAll(/tel:\+?([0-9().\-\s]{7,20})/gi)) add(m[1], 5);
+    // labeled numbers: "Cell: 555-...", "Mobile", "Direct", "Owner", "Text"
+    for (const m of decoded.matchAll(/(cell|mobile|direct|owner|text|fax|call|phone|tel|reach)[^0-9]{0,15}(\+?1?[\s.\-]?\(?\d{3}\)?[\s.\-]?\d{3}[\s.\-]?\d{4})/gi)) {
+      const isFax = /fax/i.test(m[1]);
+      add(m[2], isFax ? 2 : 4);
+    }
+    // bare US phone patterns in the text
+    for (const m of decoded.matchAll(/\(?\d{3}\)?[\s.\-]\d{3}[\s.\-]\d{4}/g)) add(m[0], 3);
+  }
+
+  // Fetch a URL through whichever CORS read-proxy responds first; falls back across proxies.
+  async function fetchViaProxy(target, timeoutMs = 8000) {
+    const proxies = [
+      (u) => 'https://api.allorigins.win/raw?url=' + encodeURIComponent(u),
+      (u) => 'https://corsproxy.io/?url=' + encodeURIComponent(u),
+      (u) => 'https://thingproxy.freeboard.io/fetch/' + u,
+      (u) => 'https://r.jina.ai/' + (u.startsWith('http') ? u : 'https://' + u),
+    ];
+    for (const build of proxies) {
       try {
-        const proxied = 'https://api.allorigins.win/raw?url=' + encodeURIComponent(target);
         const res = await Promise.race([
-          fetch(proxied),
-          new Promise((_, rej) => setTimeout(() => rej(new Error('timeout')), 7000)),
+          fetch(build(target)),
+          new Promise((_, rej) => setTimeout(() => rej(new Error('timeout')), timeoutMs)),
         ]);
-        if (!res.ok) continue;
-        const html = await res.text();
-        // mailto: links first (highest confidence)
-        for (const m of html.matchAll(/mailto:([^"'?>\s]+@[^"'?>\s]+)/gi)) {
-          found.add(m[1].toLowerCase());
+        if (res.ok) {
+          const text = await res.text();
+          if (text && text.length > 50) return text;
         }
-        // bare email patterns in the page text
-        for (const m of html.matchAll(/[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}/g)) {
-          found.add(m[0].toLowerCase());
-        }
-        if (found.size) break; // got something on this page; stop crawling
-      } catch { /* try next candidate */ }
+      } catch { /* next proxy */ }
+    }
+    return '';
+  }
+
+  // ── Business research (for the smart multi-pronged email) ────────────
+  // Pulls real, specific signals off the prospect's own website so the email
+  // can reference what THIS business actually does — not generic filler.
+  // Stashes { services:[], specialty, years, tagline } on prospect._research.
+  const RESEARCH_STOP = /^(and|the|for|with|your|our|you|all|new|our|get|book|call|now|home|about|contact|menu|hours|more|read|view|learn|free|best|shop|team|staff|us|we|to|of|in|on|at|a|an|is|are|we're|welcome)$/i;
+
+  function harvestBusinessResearch(html, acc) {
+    const text = htmlToText(html);
+    const low = text.toLowerCase();
+
+    // Services / offerings: look for common list phrasing.
+    const svcPatterns = [
+      /(?:we (?:offer|provide|specialize in|do)|our services include|services[:\-]|specializing in|specialties[:\-])\s+([^.!?]{6,140})/gi,
+    ];
+    for (const re of svcPatterns) {
+      for (const m of low.matchAll(re)) {
+        const chunk = (m[1] || '').replace(/&amp;/g, '&');
+        chunk.split(/,|\band\b|\/|\u2022|\|/).forEach(s => {
+          const t = s.trim().replace(/[^a-z0-9 &'-]/gi, '').trim();
+          const words = t.split(/\s+/).filter(Boolean);
+          if (t.length >= 4 && t.length <= 34 && words.length <= 4 && !RESEARCH_STOP.test(words[0])) {
+            acc.services.set(t, (acc.services.get(t) || 0) + 1);
+          }
+        });
+      }
     }
 
-    const ranked = [...found].filter(e => rankEmail(e) > -10).sort((a, b) => rankEmail(b) - rankEmail(a));
+    // "Since 1998" / "est. 2004" / "family-owned since" / "X years"
+    const yr = low.match(/(?:since|established|est\.?|serving[^.]*since)\s*(19\d\d|20[0-2]\d)/);
+    if (yr && !acc.years) acc.years = yr[1];
+    const yrs = low.match(/(\d{1,3})\+?\s*years/);
+    if (yrs && !acc.yearsCount) acc.yearsCount = yrs[1];
+
+    // Trust signals worth name-dropping.
+    if (/family[\s-]owned/.test(low)) acc.flags.add('family-owned');
+    if (/locally[\s-]owned|local(?:ly)?\s+owned/.test(low)) acc.flags.add('locally-owned');
+    if (/award[\s-]winning|voted best|best of/.test(low)) acc.flags.add('award-winning');
+    if (/licensed (?:and|&) insured|licensed[\s,]+insured/.test(low)) acc.flags.add('licensed & insured');
+    if (/free (?:estimate|consultation|quote)/.test(low)) acc.flags.add('free estimates');
+
+    // Meta description often has a crisp one-liner about the business.
+    const meta = html.match(/<meta[^>]+name=["']description["'][^>]+content=["']([^"']{20,180})["']/i);
+    if (meta && !acc.tagline) acc.tagline = meta[1].replace(/&amp;/g, '&').replace(/\s+/g, ' ').trim();
+  }
+
+  // Crawl a few pages of the prospect's site and return a compact research object.
+  async function researchProspect(prospect, opts = {}) {
+    if (!prospect.website) { prospect._research = { empty: true }; return prospect._research; }
+    let base;
+    try { base = new URL(prospect.website.startsWith('http') ? prospect.website : 'https://' + prospect.website).origin; }
+    catch { base = prospect.website.replace(/\/$/, ''); }
+    const acc = { services: new Map(), years: '', yearsCount: '', flags: new Set(), tagline: '' };
+    const paths = ['', '/about', '/about-us', '/services', '/what-we-do'];
+    let count = 0;
+    for (const p of paths) {
+      if (count >= (opts.deep ? 5 : 4)) break;
+      count++;
+      try { const html = await fetchViaProxy(base + p, 7000); if (html) harvestBusinessResearch(html, acc); }
+      catch { /* keep going */ }
+    }
+    const services = [...acc.services.entries()].sort((a, b) => b[1] - a[1]).map(([s]) => s).slice(0, 3);
+    prospect._research = {
+      services,
+      years: acc.years || '',
+      yearsCount: acc.yearsCount || '',
+      flags: [...acc.flags],
+      tagline: acc.tagline || '',
+      empty: services.length === 0 && !acc.years && !acc.yearsCount && acc.flags.size === 0 && !acc.tagline,
+    };
+    return prospect._research;
+  }
+
+  // Deep-comb the prospect's website for a contact email: crawls the homepage +
+  // common contact pages, follows contact/about links found on the homepage,
+  // de-obfuscates addresses, tries multiple proxies, and ranks by own-domain match.
+  async function scrapeWebsiteEmail(prospect, opts = {}) {
+    if (!prospect.website) return '';
+    let base;
+    try {
+      base = new URL(prospect.website.startsWith('http') ? prospect.website : 'https://' + prospect.website).origin;
+    } catch {
+      base = prospect.website.replace(/\/$/, '');
+    }
+    const commonPaths = [
+      '', '/contact', '/contact-us', '/contactus', '/contact.html', '/about', '/about-us',
+      '/get-in-touch', '/reach-us', '/connect', '/support', '/team', '/staff', '/our-team',
+      '/location', '/locations', '/hours', '/book', '/appointments', '/schedule', '/quote',
+    ];
+    const visited = new Set();
+    const found = new Set();
+    const names = new Map();
+    const phones = new Map();
+    const listedDigits = phoneDigits(prospect.phone || prospect.formatted_phone_number || '');
+    const queue = commonPaths.map(p => base + p);
+
+    // 1) Grab the homepage first so we can discover real contact-page links.
+    try {
+      const home = await fetchViaProxy(base, 8000);
+      if (home) {
+        harvestEmails(home, found);
+        harvestOwnerNames(home, names);
+        harvestPhones(home, phones, listedDigits);
+        // discover internal links whose text/href hints at contact/about/team pages
+        for (const m of home.matchAll(/href=["']([^"'#]+)["'][^>]*>([^<]{0,60})/gi)) {
+          const href = m[1];
+          const label = (m[2] || '').toLowerCase();
+          if (/(contact|about|team|staff|reach|connect|get.?in.?touch|location|book|appoint)/i.test(href + ' ' + label)) {
+            try {
+              const abs = new URL(href, base).href;
+              if (abs.startsWith(base) && !queue.includes(abs)) queue.push(abs);
+            } catch {}
+          }
+        }
+      }
+    } catch {}
+
+    // 2) Crawl the queue (cap total pages to stay fast/polite).
+    const MAX_PAGES = opts.deep ? 14 : 8;
+    let count = 0;
+    for (const target of queue) {
+      if (count >= MAX_PAGES) break;
+      const key = target.replace(/\/$/, '');
+      if (visited.has(key)) continue;
+      visited.add(key);
+      count++;
+      try {
+        const html = await fetchViaProxy(target, 7000);
+        if (html) { harvestEmails(html, found); harvestOwnerNames(html, names); harvestPhones(html, phones, listedDigits); }
+      } catch { /* keep going */ }
+      // Early exit only once we already have a strong own-domain hit AND an owner name
+      const best = [...found].map(e => rankEmail(e, prospect)).sort((a, b) => b - a)[0] || 0;
+      if (best >= 8 && names.size && !opts.deep) break;
+    }
+
+    const ranked = [...found]
+      .filter(e => rankEmail(e, prospect) > -10)
+      .sort((a, b) => rankEmail(b, prospect) - rankEmail(a, prospect));
+    // stash the full ranked list so the UI can offer alternates
+    prospect._emailCandidates = ranked.slice(0, 8);
+
+    // Rank owner-name candidates and stash them for the UI / auto-fill.
+    const rankedNames = [...names.entries()]
+      .sort((a, b) => b[1] - a[1])
+      .map(([n]) => n);
+    prospect._ownerCandidates = rankedNames.slice(0, 5);
+    prospect._scrapedOwner = rankedNames[0] || '';
+
+    // Rank phone candidates (excluding the listed business number) for the UI.
+    const rankedPhones = [...phones.entries()]
+      .sort((a, b) => b[1] - a[1])
+      .map(([d]) => formatPhone(d));
+    prospect._phoneCandidates = rankedPhones.slice(0, 5);
+    prospect._scrapedPhone = rankedPhones[0] || '';
     return ranked[0] || '';
   }
 
   // Called when the email panel opens: fill prospect.email from saved/notes,
   // and kick off a website scrape if we still don't have one.
-  async function ensureProspectEmail(prospect) {
+  async function ensureProspectEmail(prospect, opts = {}) {
     const known = resolveProspectEmail(prospect);
     if (known && !prospect.email) { prospect.email = known; prospects = prospects; }
-    if (prospect.email && prospect.email.includes('@')) return;
-    if (!prospect.website || prospect._emailScrapeTried) return;
+    // On a normal open, don't re-scrape if we already have an address. A forced
+    // deep comb (opts.deep / opts.force) always runs, even to find alternates.
+    if (prospect.email && prospect.email.includes('@') && !opts.force && !opts.deep) return;
+    if (!prospect.website) return;
+    if (prospect._emailScrapeTried && !opts.force && !opts.deep) return;
     prospect._emailScrapeTried = true;
-    prospect._emailScraping = true; prospects = prospects;
-    const scraped = await scrapeWebsiteEmail(prospect);
+    prospect._emailScrapeFailed = false;
+    prospect._emailScraping = true;
+    prospect._emailDeep = !!opts.deep;
+    prospects = prospects;
+    const scraped = await scrapeWebsiteEmail(prospect, opts);
     prospect._emailScraping = false;
+    prospect._emailDeep = false;
     if (scraped) {
-      prospect.email = scraped;
-      prospect._emailScraped = true;
-      // Persist into Notes so it syncs across devices (don't clobber a manual entry)
-      persistScrapedEmail(prospect, scraped);
-    } else {
+      // Deep comb should not silently overwrite a manually-chosen address.
+      if (!prospect.email || !prospect._emailManual) {
+        prospect.email = scraped;
+        prospect._emailScraped = true;
+        persistScrapedEmail(prospect, scraped);
+      }
+    } else if (!prospect.email) {
       prospect._emailScrapeFailed = true;
     }
+    // Auto-fill owner name if we found one and there isn't a saved/manual name yet.
+    if (prospect._scrapedOwner) {
+      const savedName = (leadDataCache[getLeadHash(prospect)]?.ownerName || '').trim();
+      if (!savedName && !prospect._ownerManual) {
+        prospect._ownerScraped = true;
+        persistScrapedOwner(prospect, prospect._scrapedOwner);
+      }
+    }
+    // Auto-fill a scraped direct/cell phone if there isn't a saved/manual one yet.
+    if (prospect._scrapedPhone) {
+      const savedPhone = (leadDataCache[getLeadHash(prospect)]?.contactPhone || '').trim();
+      if (!savedPhone && !prospect._phoneManual) {
+        prospect._phoneScraped = true;
+        persistScrapedPhone(prospect, prospect._scrapedPhone);
+      }
+    }
     prospects = prospects;
+  }
+
+  // User picks an alternate candidate from the deep-comb results.
+  function chooseProspectEmail(prospect, email) {
+    prospect.email = email;
+    prospect._emailManual = true;
+    prospect._emailScraped = true;
+    prospects = prospects;
+    persistScrapedEmail(prospect, email);
+  }
+
+  // User picks (or confirms) an owner-name candidate from the deep comb.
+  function chooseProspectOwner(prospect, name) {
+    prospect._ownerManual = true;
+    prospect._ownerScraped = true;
+    prospects = prospects;
+    persistScrapedOwner(prospect, name);
+  }
+
+  // User picks (or confirms) a phone candidate from the deep comb.
+  function chooseProspectPhone(prospect, phone) {
+    prospect._phoneManual = true;
+    prospect._phoneScraped = true;
+    prospects = prospects;
+    persistScrapedPhone(prospect, phone);
   }
 
   // Auto-save a scraped email into the prospect's Notes (lead data) so it
@@ -1719,6 +2220,50 @@
       notes: existing.notes || '',
       updatedBy: u?.name || u?.display_name || 'auto-scrub',
       emailSource: 'website',
+    };
+    leadDataCache[id] = { ...existing, ...data, updatedAt: new Date().toISOString(), prospectName: prospect.name, prospectAddress: prospect.address };
+    leadDataCache = leadDataCache;
+    try {
+      if (await whenFirebaseReady(4000)) await saveLeadData(prospect.name, prospect.address, data);
+    } catch {}
+  }
+
+  // Auto-save a scraped/selected owner name into the prospect's Notes (lead data)
+  // so it syncs across devices and greets emails by name. Never clobbers a manual entry.
+  async function persistScrapedOwner(prospect, name) {
+    const id = getLeadHash(prospect);
+    const existing = leadDataCache[id] || {};
+    if (existing.ownerName && existing.ownerName.trim() && !prospect._ownerManual) return; // keep existing
+    const u = $user;
+    const data = {
+      ownerName: name,
+      contactPhone: existing.contactPhone || '',
+      contactEmail: existing.contactEmail || (prospect.email && prospect.email.includes('@') ? prospect.email : ''),
+      notes: existing.notes || '',
+      updatedBy: u?.name || u?.display_name || 'auto-scrub',
+      ownerSource: prospect._ownerManual ? 'website-confirmed' : 'website',
+    };
+    leadDataCache[id] = { ...existing, ...data, updatedAt: new Date().toISOString(), prospectName: prospect.name, prospectAddress: prospect.address };
+    leadDataCache = leadDataCache;
+    try {
+      if (await whenFirebaseReady(4000)) await saveLeadData(prospect.name, prospect.address, data);
+    } catch {}
+  }
+
+  // Auto-save a scraped/selected contact phone into the prospect's Notes (lead data).
+  // Never clobbers a manual entry.
+  async function persistScrapedPhone(prospect, phone) {
+    const id = getLeadHash(prospect);
+    const existing = leadDataCache[id] || {};
+    if (existing.contactPhone && existing.contactPhone.trim() && !prospect._phoneManual) return;
+    const u = $user;
+    const data = {
+      ownerName: existing.ownerName || '',
+      contactPhone: phone,
+      contactEmail: existing.contactEmail || (prospect.email && prospect.email.includes('@') ? prospect.email : ''),
+      notes: existing.notes || '',
+      updatedBy: u?.name || u?.display_name || 'auto-scrub',
+      phoneSource: prospect._phoneManual ? 'website-confirmed' : 'website',
     };
     leadDataCache[id] = { ...existing, ...data, updatedAt: new Date().toISOString(), prospectName: prospect.name, prospectAddress: prospect.address };
     leadDataCache = leadDataCache;
@@ -1748,7 +2293,8 @@
 
   // Build the email body with optional graphic + testimonial appended.
   function composeEmailBody(tpl, prospect) {
-    let body = fillTemplate(tpl.body, prospect);
+    const rawBody = tpl._dynamic && typeof tpl.body === 'function' ? tpl.body(prospect) : tpl.body;
+    let body = fillTemplate(rawBody, prospect);
     const extras = [];
     if (prospect._emailGraphic) {
       const g = SHARE_GRAPHICS.find(x => x.id === prospect._emailGraphic);
@@ -2045,10 +2591,10 @@
     <button class="tab-btn" class:active={view === 'hot-leads'} on:click={() => view = 'hot-leads'}>🔥 Hot Leads {#if hotLeads.length > 0}({hotLeads.length}){/if}</button>
     <button class="tab-btn tab-callin" class:active={view === 'call-in'} on:click={() => view = 'call-in'}>📞 Call-In Leads {#if callInLeads.length > 0}({callInLeads.length}){/if}</button>
     <button class="tab-btn" class:active={view === 'saved'} on:click={() => view = 'saved'}>💾 Saved ({savedProspects.length})</button>
-    {#if $user?.role === 'manager' || $user?.name?.toLowerCase().includes('tyler')}
+    {#if isPrivilegedViewer()}
       <button class="tab-btn" class:active={view === 'team'} on:click={() => view = 'team'}>👥 Team ({teamProspects.length})</button>
     {/if}
-    {#if $user?.role === 'manager' || $user?.name?.toLowerCase().includes('tyler')}
+    {#if isPrivilegedViewer()}
       <button class="tab-btn" class:active={view === 'pending'} on:click={() => view = 'pending'}>⏳ Pending</button>
       <button class="tab-btn" class:active={view === 'submit-lead'} on:click={() => view = 'submit-lead'}>➕ Add Lead</button>
     {/if}
@@ -2321,59 +2867,7 @@
         if (prospectSort === 'reviews') return (b.reviews || 0) - (a.reviews || 0);
         return (b.score || 0) - (a.score || 0);
       }) as prospect, i (prospect.id + '-' + i)}
-        <div class="prospect-card swipeable"
-          style="transform: translateX({prospect._dismissing ? '-120vw' : (prospect._swipeX || 0) + 'px'}) rotate({prospect._dismissing ? '-30deg' : ((prospect._swipeX || 0) * 0.05) + 'deg'}); {prospect._dismissing ? 'transition: transform 0.4s ease, opacity 0.4s ease; opacity: 0;' : prospect._swiping ? '' : 'transition: transform 0.3s ease;'}"
-          on:touchstart|passive={(e) => { prospect._swipeStartX = e.touches[0].clientX; prospect._swipeStartY = e.touches[0].clientY; prospect._swiping = false; prospect._swipeX = 0; prospects = prospects; }}
-          on:touchmove|passive={(e) => {
-            const dx = e.touches[0].clientX - prospect._swipeStartX;
-            const dy = e.touches[0].clientY - prospect._swipeStartY;
-            if (!prospect._swiping && Math.abs(dx) > 10 && Math.abs(dx) > Math.abs(dy)) prospect._swiping = true;
-            if (prospect._swiping) { prospect._swipeX = dx; prospects = prospects; }
-          }}
-          on:touchend={() => {
-            if (prospect._swipeX > 80) {
-              // Swipe right → Book appointment
-              const calUrl = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent('Visit: ' + prospect.name)}&details=${encodeURIComponent('Prospect: ' + prospect.name + '\nAddress: ' + prospect.address + (prospect.phone ? '\nPhone: ' + prospect.phone : '') + (prospect.website ? '\nWebsite: ' + prospect.website : '') + '\nStore: ' + (selectedStore?.GroceryChain || '') + ' ' + (selectedStore?.StoreName || '') + '\nRep: ' + ($user?.name || ''))}&location=${encodeURIComponent(prospect.address)}&add=${encodeURIComponent('tyler.vansant@indoormedia.com')}${inviteRepEmail ? ',' + encodeURIComponent(inviteRepEmail) : ''}`;
-              window.open(calUrl, '_blank');
-              prospect._swipeX = 0; prospect._swiping = false; prospects = prospects;
-            } else if (prospect._swipeX < -80) {
-              // Swipe left → Dismiss
-              prospect._dismissing = true; prospect._dismissDir = -1; prospects = prospects;
-              setTimeout(() => { prospects = prospects.filter(p => p !== prospect); }, 400);
-            } else {
-              prospect._swipeX = 0; prospect._swiping = false; prospects = prospects;
-            }
-          }}
-          on:mousedown={(e) => { prospect._mouseDown = true; prospect._swipeStartX = e.clientX; prospect._swiping = false; prospect._swipeX = 0; prospects = prospects; }}
-          on:mousemove={(e) => {
-            if (!prospect._mouseDown) return;
-            const dx = e.clientX - prospect._swipeStartX;
-            if (!prospect._swiping && Math.abs(dx) > 10) prospect._swiping = true;
-            if (prospect._swiping) { e.preventDefault(); prospect._swipeX = dx; prospects = prospects; }
-          }}
-          on:mouseup={() => {
-            if (!prospect._mouseDown) return;
-            prospect._mouseDown = false;
-            if (prospect._swipeX > 80) {
-              const calUrl = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent('Visit: ' + prospect.name)}&details=${encodeURIComponent('Prospect: ' + prospect.name + '\nAddress: ' + prospect.address + (prospect.phone ? '\nPhone: ' + prospect.phone : '') + (prospect.website ? '\nWebsite: ' + prospect.website : '') + '\nStore: ' + (selectedStore?.GroceryChain || '') + ' ' + (selectedStore?.StoreName || '') + '\nRep: ' + ($user?.name || ''))}&location=${encodeURIComponent(prospect.address)}&add=${encodeURIComponent('tyler.vansant@indoormedia.com')}${inviteRepEmail ? ',' + encodeURIComponent(inviteRepEmail) : ''}`;
-              window.open(calUrl, '_blank');
-              prospect._swipeX = 0; prospect._swiping = false; prospects = prospects;
-            } else if (prospect._swipeX < -80) {
-              prospect._dismissing = true; prospect._dismissDir = -1; prospects = prospects;
-              setTimeout(() => { prospects = prospects.filter(p => p !== prospect); }, 400);
-            } else {
-              prospect._swipeX = 0; prospect._swiping = false; prospects = prospects;
-            }
-          }}
-          on:mouseleave={() => { if (prospect._mouseDown) { prospect._mouseDown = false; prospect._swipeX = 0; prospect._swiping = false; prospects = prospects; } }}
-        >
-          <!-- Swipe indicators -->
-          {#if prospect._swipeX > 30}
-            <div class="swipe-indicator swipe-book" style="opacity: {Math.min((prospect._swipeX - 30) / 50, 1)}">📅 BOOK</div>
-          {/if}
-          {#if prospect._swipeX < -30}
-            <div class="swipe-indicator swipe-skip" style="opacity: {Math.min((-prospect._swipeX - 30) / 50, 1)}">♻️ SKIP</div>
-          {/if}
+        <div class="prospect-card">
           <div class="prospect-header">
             <span class="score-emoji">{prospect.score >= 80 ? '🔥' : prospect.score >= 70 ? '⭐' : '👀'}</span>
             <h4>{prospect.name}</h4>
@@ -2420,7 +2914,7 @@
                 <a href="tel:{prospect.phone}" class="action-btn btn-green" on:click={() => { trackPhoneClick(prospect); handleLeadAction(prospect, 'call'); }}>📞 Call</a>
                 <button class="action-btn btn-blue" on:click={() => { prospect._showText = !prospect._showText; prospect._showEmail = false; prospect._showScript = false; prospect._showNotes = false; prospects = prospects; handleLeadAction(prospect, 'text'); }}>💬 Text</button>
               {/if}
-              <button class="action-btn btn-purple" on:click={() => { prospect._showEmail = !prospect._showEmail; prospect._showText = false; prospect._showScript = false; prospect._showNotes = false; prospects = prospects; if (prospect._showEmail) { ensureProspectEmail(prospect); handleLeadAction(prospect, 'email'); } }}>✉️ Email</button>
+              <button class="action-btn btn-purple" on:click={() => { prospect._showEmail = !prospect._showEmail; prospect._showText = false; prospect._showScript = false; prospect._showNotes = false; prospects = prospects; if (prospect._showEmail) { ensureProspectEmail(prospect); if (!prospect._research && !prospect._researching) { prospect._researching = true; researchProspect(prospect).finally(() => { prospect._researching = false; prospects = prospects; }); } handleLeadAction(prospect, 'email'); } }}>✉️ Email</button>
               <button class="action-btn btn-orange" on:click={() => { handleLeadAction(prospect, 'walk-in'); }}>🚶 Walk-In</button>
             </div>
 
@@ -2463,6 +2957,7 @@
                 {prospect._showMap ? '✕ Close Map' : '📍 Show on Map'}
               </button>
             {/if}
+            <button class="action-btn btn-meeting-prep" on:click={() => runMeetingPrep(prospect)}>🎯 Run Meeting Prep</button>
           </div>
 
           {#if prospect._showMap && prospect.lat && prospect.lng}
@@ -2492,6 +2987,7 @@
           {#if prospect._showTestimonials}
             <div class="testimonials-section">
               <h4 class="testimonials-title">📋 Testimonials for {selectedSubcategory || selectedCategory || 'this category'}</h4>
+              <a class="video-testimonials-link" href="https://youtube.com/playlist?list=PLjTXw9VlAiGP7cKVD_F1rPWERnmjeDCB1&si=oXd6wcbA6uUTCkSs" target="_blank" rel="noopener" on:click|stopPropagation>▶️ Video Testimonials (YouTube playlist)</a>
               {#if prospect._testimonialData && prospect._testimonialData.length > 0}
                 {#each prospect._testimonialData as testimonial}
                   <div class="testimonial-card" class:local-testimonial={testimonial._isLocal} class:clickable-testimonial={testimonial.url} on:click|stopPropagation={() => { if (testimonial.url) window.open(testimonial.url, '_blank'); }} role={testimonial.url ? 'link' : undefined}>
@@ -2513,6 +3009,7 @@
           {#if prospect._showNotes}
             {@const ldHash = getLeadHash(prospect)}
             {@const ld = leadDataCache[ldHash] || {}}
+            {#if canSeePrivate(ld)}
             <div class="notes-section">
               <label class="lead-field-label">👤 Owner / Decision Maker</label>
               <input 
@@ -2556,6 +3053,15 @@
                 <p class="note-saved">Saved locally</p>
               {/if}
             </div>
+            {:else}
+            {@const sharedStatus = getSharedStatus(prospect)}
+            <div class="notes-section notes-private">
+              {#if sharedStatus}
+                <span class="status-badge status-{sharedStatus.toLowerCase()}">{sharedStatus}</span>
+              {/if}
+              <p class="note-private-msg">🔒 Contact details and notes for this prospect are private to {ld.updatedBy || 'the rep working it'}.</p>
+            </div>
+            {/if}
           {/if}
           {#if prospect._showScript}
             <!-- CALL SCRIPTS FEATURE - LIVE AS OF MAR 30 2026 -->
@@ -2622,21 +3128,66 @@
               <!-- Email-address status / scrub -->
               <div class="email-to-row">
                 {#if prospect._emailScraping}
-                  <span class="email-to-status scraping">🔍 Scanning {prospect.name}'s website for an email…</span>
+                  <span class="email-to-status scraping">🔍 {prospect._emailDeep ? 'Deep-combing' : 'Scanning'} {prospect.name}'s website for an email…</span>
                 {:else if prospect.email && prospect.email.includes('@')}
                   <span class="email-to-status found">✉️ To: <strong>{prospect.email}</strong>{#if prospect._emailScraped} <em>(found on website — saved to Notes)</em>{/if}</span>
                 {:else}
                   <span class="email-to-status missing">⚠️ No email on file{#if prospect._emailScrapeFailed} (couldn't find one on their site){/if} — add one in 📝 Notes, or send to yourself to forward.</span>
                 {/if}
-                {#if prospect.website && !prospect._emailScraping && !(prospect.email && prospect.email.includes('@'))}
-                  <button class="email-scrub-btn" on:click={() => { prospect._emailScrapeTried = false; prospect._emailScrapeFailed = false; ensureProspectEmail(prospect); }}>🔍 Find Email</button>
+                {#if prospect.website && !prospect._emailScraping}
+                  {#if !(prospect.email && prospect.email.includes('@'))}
+                    <button class="email-scrub-btn" on:click={() => { prospect._emailScrapeTried = false; prospect._emailScrapeFailed = false; ensureProspectEmail(prospect); }}>🔍 Find Email</button>
+                  {/if}
+                  <button class="email-scrub-btn deep" on:click={() => ensureProspectEmail(prospect, { deep: true, force: true })}>🕵️ Deep comb</button>
                 {/if}
               </div>
+              {#if prospect._emailCandidates && prospect._emailCandidates.length > 1 && !prospect._emailScraping}
+                <div class="email-alt-row">
+                  <span class="email-alt-label">Other addresses found:</span>
+                  {#each prospect._emailCandidates as cand}
+                    {#if cand !== prospect.email}
+                      <button class="email-alt-btn" on:click={() => chooseProspectEmail(prospect, cand)}>{cand}</button>
+                    {/if}
+                  {/each}
+                </div>
+              {/if}
+              {#if !prospect._emailScraping && (prospect._scrapedOwner || (leadDataCache[getLeadHash(prospect)]?.ownerName))}
+                {@const savedOwner = leadDataCache[getLeadHash(prospect)]?.ownerName}
+                <div class="owner-found-row">
+                  <span class="owner-found-status">👤 Owner: <strong>{savedOwner || prospect._scrapedOwner}</strong>{#if prospect._ownerScraped && !prospect._ownerManual} <em>(found on website — saved to Notes)</em>{/if}</span>
+                </div>
+                {#if prospect._ownerCandidates && prospect._ownerCandidates.length > 1}
+                  <div class="email-alt-row">
+                    <span class="email-alt-label">Other names found:</span>
+                    {#each prospect._ownerCandidates as nm}
+                      {#if nm !== (savedOwner || prospect._scrapedOwner)}
+                        <button class="email-alt-btn" on:click={() => chooseProspectOwner(prospect, nm)}>{nm}</button>
+                      {/if}
+                    {/each}
+                  </div>
+                {/if}
+              {/if}
+              {#if !prospect._emailScraping && (prospect._scrapedPhone || (leadDataCache[getLeadHash(prospect)]?.contactPhone))}
+                {@const savedPhone = leadDataCache[getLeadHash(prospect)]?.contactPhone}
+                <div class="owner-found-row">
+                  <span class="owner-found-status">📞 Direct/other #: <strong><a href="tel:{savedPhone || prospect._scrapedPhone}" style="color:inherit;">{savedPhone || prospect._scrapedPhone}</a></strong>{#if prospect._phoneScraped && !prospect._phoneManual} <em>(found on website — saved to Notes)</em>{/if}</span>
+                </div>
+                {#if prospect._phoneCandidates && prospect._phoneCandidates.length > 1}
+                  <div class="email-alt-row">
+                    <span class="email-alt-label">Other numbers found:</span>
+                    {#each prospect._phoneCandidates as ph}
+                      {#if ph !== (savedPhone || prospect._scrapedPhone)}
+                        <button class="email-alt-btn" on:click={() => chooseProspectPhone(prospect, ph)}>{ph}</button>
+                      {/if}
+                    {/each}
+                  </div>
+                {/if}
+              {/if}
 
               <h4 class="email-title">Choose a template:</h4>
               {#each tplList as tpl}
-                <button class="email-tpl-btn" class:cat-tpl={tpl._categoryLabel} class:prog-tpl={tpl._programLabel} on:click={() => { prospect._selectedTpl = tpl.id; prospects = prospects; }}>
-                  {tpl.icon} {tpl.name}{#if tpl._categoryLabel} <span class="cat-badge">{tpl._categoryLabel}</span>{/if}{#if tpl._programLabel} <span class="prog-badge">{tpl._programLabel}</span>{/if}
+                <button class="email-tpl-btn" class:featured-tpl={tpl._featured} class:cat-tpl={tpl._categoryLabel} class:prog-tpl={tpl._programLabel} on:click={() => { prospect._selectedTpl = tpl.id; if (tpl._dynamic && !prospect._research && !prospect._researching) { prospect._researching = true; researchProspect(prospect).finally(() => { prospect._researching = false; prospects = prospects; }); } prospects = prospects; }}>
+                  {tpl.icon} {tpl.name}{#if tpl._featured} <span class="featured-badge">⭐ Best</span>{/if}{#if tpl._categoryLabel} <span class="cat-badge">{tpl._categoryLabel}</span>{/if}{#if tpl._programLabel} <span class="prog-badge">{tpl._programLabel}</span>{/if}
                 </button>
               {/each}
               {#if prospect._selectedTpl}
@@ -2664,6 +3215,11 @@
                 </div>
 
                 <div class="email-preview-box">
+                  {#if tpl._dynamic && prospect._researching}
+                    <p class="email-research-hint">🔍 Researching {prospect.name}’s website to personalize this email… (you can send now; it’ll sharpen once done)</p>
+                  {:else if tpl._dynamic && prospect._research && !prospect._research.empty}
+                    <p class="email-research-hint done">✅ Personalized using details from {prospect.name}’s website</p>
+                  {/if}
                   <p class="email-subject">Subject: {fillTemplate(tpl.subject, prospect)}</p>
                   <p class="email-body-text">{composeEmailBody(tpl, prospect)}</p>
                   <button class="action-btn full-width email-btn" on:click={() => {
@@ -2952,6 +3508,7 @@
                   <button class="delete-btn" on:click={() => deleteProspect(prospect.id)}>🗑️ Delete</button>
                 </div>
                 {#each [leadDataCache[getLeadHash(prospect)] || {}] as savedLd}
+                {#if canSeePrivate(savedLd)}
                 <label class="lead-field-label">👤 Owner / Decision Maker</label>
                 <input 
                   type="text" 
@@ -2978,6 +3535,13 @@
                 ></textarea>
                 {#if savedLd.updatedBy}
                   <p class="note-saved">Updated by {savedLd.updatedBy}</p>
+                {/if}
+                {:else}
+                {@const sharedStatus = getSharedStatus(prospect)}
+                {#if sharedStatus}
+                  <span class="status-badge status-{sharedStatus.toLowerCase()}">{sharedStatus}</span>
+                {/if}
+                <p class="note-private-msg">🔒 Private to {savedLd.updatedBy || 'the rep working it'}.</p>
                 {/if}
                 {/each}
               </div>
@@ -3098,7 +3662,28 @@
                   <span class="callin-date">📅 {fmtLeadDate(lead.call_in_date)}</span>
                 {/if}
                 <span class="lead-category callin-cat">{lead.subcategory || 'Lead'}</span>
+                {#if callInAssignedName(lead)}
+                  <span class="callin-assigned-badge">🎯 {callInAssignedName(lead)}</span>
+                {:else if isPrivilegedViewer()}
+                  <span class="callin-unassigned-badge">⚪ Unassigned</span>
+                {/if}
               </div>
+              {#if isPrivilegedViewer()}
+                <div class="callin-assign-row" on:click|stopPropagation>
+                  <label class="callin-assign-label">Assign to:</label>
+                  <select
+                    class="callin-assign-select"
+                    value={(callInAssignments[callInLeadKey(lead)] || {}).repId || ''}
+                    on:change={(e) => handleAssignCallIn(lead, e.target.value)}
+                    on:click|stopPropagation
+                  >
+                    <option value="">— Unassigned —</option>
+                    {#each repRoster as r}
+                      <option value={r.id}>{r.name}</option>
+                    {/each}
+                  </select>
+                </div>
+              {/if}
               {#if lead.contact_name}
                 <div class="callin-contact-name">👤 {lead.contact_name}</div>
               {/if}
@@ -3143,9 +3728,71 @@
       <HotLeadsSubmit user={$user} onLeadSubmitted={() => view = 'main'} />
     </div>
   {/if}
+
+  <!-- Meeting Prep overlay (launched from a prospect card) -->
+  {#if meetingPrepProspect}
+    <div class="meeting-prep-overlay" on:click|self={() => meetingPrepProspect = null}>
+      <div class="meeting-prep-modal">
+        <button class="mp-close" on:click={() => meetingPrepProspect = null}>✕ Close</button>
+        <MeetingPrep prefill={meetingPrepProspect} onBack={() => meetingPrepProspect = null} />
+      </div>
+    </div>
+  {/if}
 </div>
 
 <style>
+  .meeting-prep-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.6);
+    z-index: 2000;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    padding: 12px;
+    overflow-y: auto;
+  }
+  .meeting-prep-modal {
+    background: #fff;
+    border-radius: 14px;
+    width: 100%;
+    max-width: 640px;
+    margin: 20px auto 40px;
+    padding: 12px;
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.35);
+    position: relative;
+  }
+  .mp-close {
+    position: sticky;
+    top: 0;
+    margin-left: auto;
+    display: block;
+    background: #ef4444;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    padding: 8px 14px;
+    font-weight: 700;
+    cursor: pointer;
+    z-index: 5;
+  }
+  .btn-meeting-prep {
+    background: #6366f1;
+    color: #fff;
+    border: none;
+  }
+  .video-testimonials-link {
+    display: block;
+    background: linear-gradient(135deg, #dc2626, #b91c1c);
+    color: #fff;
+    text-decoration: none;
+    font-weight: 700;
+    text-align: center;
+    padding: 10px 12px;
+    border-radius: 10px;
+    margin: 4px 0 12px;
+    font-size: 14px;
+  }
   .prospect-tabs {
     display: flex;
     gap: 8px;
@@ -3647,6 +4294,61 @@
   .lead-category.callin-cat {
     margin-bottom: 0;
   }
+  .callin-assigned-badge {
+    font-size: 10px;
+    font-weight: 800;
+    color: #fff;
+    background: #1565c0;
+    padding: 2px 7px;
+    border-radius: 4px;
+  }
+  .callin-unassigned-badge {
+    font-size: 10px;
+    font-weight: 700;
+    color: #8a6d00;
+    background: rgba(255, 193, 7, 0.18);
+    padding: 2px 7px;
+    border-radius: 4px;
+  }
+  .callin-assign-row {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin: 6px 0 4px;
+  }
+  .callin-assign-label {
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--text-secondary, #555);
+  }
+  .callin-assign-select {
+    flex: 1;
+    font-size: 12px;
+    padding: 4px 6px;
+    border: 1px solid var(--border-color, #ccc);
+    border-radius: 6px;
+    background: var(--bg-primary, #fff);
+    color: var(--text-primary, #111);
+  }
+  .status-badge.status-booked {
+    background: #1565c0;
+    color: #fff;
+  }
+  .status-badge.status-closed {
+    background: #0a7d2c;
+    color: #fff;
+  }
+  .notes-private {
+    padding: 10px;
+    background: var(--bg-secondary, #f5f5f5);
+    border-radius: 8px;
+  }
+  .note-private-msg {
+    font-size: 12px;
+    color: var(--text-secondary, #666);
+    margin: 6px 0 0;
+    font-style: italic;
+  }
   .callin-date {
     font-size: 11px;
     font-weight: 700;
@@ -4013,20 +4715,6 @@
     box-sizing: border-box;
     max-width: 100%;
   }
-  .prospect-card.swipeable { cursor: grab; touch-action: pan-y; }
-  .swipe-indicator {
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    font-size: 22px;
-    font-weight: 800;
-    padding: 8px 16px;
-    border-radius: 10px;
-    z-index: 10;
-    pointer-events: none;
-  }
-  .swipe-book { right: 16px; color: #fff; background: rgba(34,139,34,0.85); }
-  .swipe-skip { left: 16px; color: #fff; background: rgba(204,0,0,0.85); }
   .prospect-card:hover {
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
   }
@@ -4366,6 +5054,34 @@
   }
   :global([data-theme='dark']) .email-tpl-btn.prog-tpl { background: #0e1a2a; }
 
+  .email-tpl-btn.featured-tpl {
+    border: 2px solid #7c3aed;
+    background: linear-gradient(135deg, #f5f3ff, #ede9fe);
+    font-weight: 700;
+  }
+  :global([data-theme='dark']) .email-tpl-btn.featured-tpl { background: #1e1633; }
+  .featured-badge {
+    display: inline-block;
+    font-size: 10px;
+    font-weight: 800;
+    color: #fff;
+    background: linear-gradient(135deg, #7c3aed, #6d28d9);
+    border-radius: 6px;
+    padding: 1px 7px;
+    margin-left: 6px;
+    vertical-align: middle;
+  }
+  .email-research-hint {
+    font-size: 12px;
+    color: #6d28d9;
+    background: #f5f3ff;
+    border-radius: 8px;
+    padding: 7px 10px;
+    margin: 0 0 8px;
+    font-style: italic;
+  }
+  .email-research-hint.done { color: #15803d; background: #f0fdf4; font-style: normal; }
+
   .email-to-row {
     display: flex;
     align-items: center;
@@ -4394,6 +5110,31 @@
     cursor: pointer;
   }
   .email-scrub-btn:hover { background: #1565c0; color: #fff; }
+  .email-scrub-btn.deep { border-color: #6a1b9a; color: #6a1b9a; }
+  .email-scrub-btn.deep:hover { background: #6a1b9a; color: #fff; }
+
+  .email-alt-row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 6px;
+    margin: 4px 0 10px;
+  }
+  .email-alt-label { font-size: 11px; color: #888; margin-right: 2px; }
+  .email-alt-btn {
+    font-size: 11px;
+    padding: 3px 8px;
+    border: 1px solid #cfd8dc;
+    background: #f5f7f9;
+    color: #37474f;
+    border-radius: 12px;
+    cursor: pointer;
+  }
+  .email-alt-btn:hover { background: #1565c0; color: #fff; border-color: #1565c0; }
+
+  .owner-found-row { margin: 2px 0 6px; }
+  .owner-found-status { font-size: 12px; line-height: 1.4; color: #2e7d32; }
+  .owner-found-status em { color: #2e7d32; font-style: normal; font-weight: 600; }
 
   .email-addons {
     margin-top: 10px;

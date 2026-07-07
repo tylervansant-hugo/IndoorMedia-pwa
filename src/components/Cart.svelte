@@ -349,6 +349,30 @@
     return val;
   }
 
+  // DigitalBoost bundle rule: 240,000 impressions/pin standalone, but 360,000/pin
+  // (a 50% uplift) when the cart ALSO contains Register Tape or Cartvertising.
+  const DB_IMP_STANDALONE = 240000;
+  const DB_IMP_BUNDLED = 360000;
+  // Is there a Register Tape or Cartvertising item in the cart? (triggers DB uplift)
+  $: dbBundleActive = cartItems.some(i => {
+    const n = (i.name || '').toLowerCase();
+    return n.includes('register tape') || n.includes('cartvertising');
+  });
+
+  // Total campaign impressions for a DigitalBoost item (over the full term, per pin).
+  function getDigitalBoostCampaign(item) {
+    const name = (item.name || '').toLowerCase();
+    if (!(name.includes('digitalboost') || name.includes('digital boost'))) return null;
+    const pins = parseInt(item.digitalPins) || item.pins || 1;
+    const perPin = dbBundleActive ? DB_IMP_BUNDLED : DB_IMP_STANDALONE;
+    return {
+      pins,
+      perPin,
+      total: perPin * pins,
+      bundled: dbBundleActive,
+    };
+  }
+
   function getImpressions(item) {
     const name = (item.name || '').toLowerCase();
     if (name.includes('register tape')) {
@@ -362,13 +386,28 @@
       return { daily, monthly: Math.round(daily * 30.4), annual: daily * 365 };
     }
     if (name.includes('cartvertising')) {
-      return { daily: 500, monthly: 15000, annual: 180000 };
+      // Cartvertising is measured by carts showing the ad, not impressions.
+      return null;
     }
     if (name.includes('digitalboost') || name.includes('digital boost')) {
-      const pins = 1; // default
-      return { daily: 660 * pins, monthly: 20000 * pins, annual: 240000 * pins };
+      // DigitalBoost is a fixed-term campaign, not a per-day product. We surface
+      // its total campaign impressions separately (getDigitalBoostCampaign) so it
+      // reflects the standalone vs bundled (240k vs 360k/pin) rule. Return null
+      // here so the generic daily/monthly/annual impressions line is skipped.
+      return null;
     }
     return null; // other digital products - skip
+  }
+
+  // For a Cartvertising item, describe how many carts will show the ad.
+  function getCartCoverage(item) {
+    const name = (item.name || '').toLowerCase();
+    if (!name.includes('cartvertising')) return null;
+    const total = parseInt(item.storeCartCount) || 0;
+    const pct = parseInt(item.cartPct) || 0;
+    if (!total || !pct) return null;
+    const showing = item.cartsShowingAd != null ? item.cartsShowingAd : Math.round(total * (pct / 100));
+    return { total, pct, showing, isHeader: item.cartKind === 'header' };
   }
 
   async function exportQuotePdf() {
@@ -423,10 +462,12 @@
     y -= 14;
 
     let totalDaily = 0, totalMonthly = 0, totalAnnual = 0, totalPrice = 0;
+    let totalDbCampaign = 0;
 
     for (let i = 0; i < cartItems.length; i++) {
       const item = cartItems[i];
       const imp = getImpressions(item);
+      const dbCamp = getDigitalBoostCampaign(item);
       const annualPrice = parseAnnualPrice(item);
       totalPrice += annualPrice;
 
@@ -435,6 +476,7 @@
         totalMonthly += imp.monthly;
         totalAnnual += imp.annual;
       }
+      if (dbCamp) totalDbCampaign += dbCamp.total;
 
       checkPage(90);
 
@@ -458,9 +500,31 @@
         y -= 14;
       }
 
-      // Impressions
+      // Impressions (skip for Cartvertising — shown as cart coverage instead)
       if (imp) {
         page.drawText('Impressions:  Daily ' + imp.daily.toLocaleString() + '  |  Monthly ' + imp.monthly.toLocaleString() + '  |  Annual ' + imp.annual.toLocaleString(), { x: 46, y, size: 10, font: regular, color: rgb(0.18, 0.49, 0.2) });
+        y -= 14;
+      }
+
+      // DigitalBoost campaign impressions (bundle-aware: 240k or 360k per pin)
+      if (dbCamp) {
+        const perPinTxt = dbCamp.perPin.toLocaleString() + ' impressions/pin' + (dbCamp.pins > 1 ? ' x ' + dbCamp.pins + ' pins' : '');
+        page.drawText('Campaign Impressions:  ' + dbCamp.total.toLocaleString() + ' total  (' + perPinTxt + ')', { x: 46, y, size: 10, font: bold, color: rgb(0.15, 0.33, 0.78) });
+        y -= 14;
+        const noteTxt = dbCamp.bundled
+          ? 'Bundle bonus: +50% impressions (360,000/pin) for pairing with Register Tape or Cartvertising'
+          : 'Standalone campaign: 240,000 impressions/pin. Add Register Tape or Cartvertising for +50% (360,000/pin).';
+        page.drawText(noteTxt, { x: 46, y, size: 8.5, font: regular, color: gray });
+        y -= 13;
+      }
+
+      // Cartvertising coverage — how many carts will display the ad
+      const cov = getCartCoverage(item);
+      if (cov) {
+        const verb = cov.isHeader ? 'header ad' : 'ad';
+        const covText = cov.showing.toLocaleString() + ' of ' + cov.total.toLocaleString() +
+          ' shopping carts will display your ' + verb + ' (' + cov.pct + '% of all carts)';
+        page.drawText(covText, { x: 46, y, size: 10, font: bold, color: rgb(0.18, 0.49, 0.2) });
         y -= 14;
       }
 
@@ -489,8 +553,15 @@
       y -= 16;
       page.drawText('Total Annual Impressions:', { x: 40, y, size: 11, font: bold, color: black });
       page.drawText(totalAnnual.toLocaleString(), { x: 250, y, size: 11, font: regular, color: black });
-      y -= 22;
+      y -= 16;
     }
+
+    if (totalDbCampaign > 0) {
+      page.drawText('DigitalBoost Campaign Impressions:', { x: 40, y, size: 11, font: bold, color: rgb(0.15, 0.33, 0.78) });
+      page.drawText(totalDbCampaign.toLocaleString(), { x: 250, y, size: 11, font: bold, color: rgb(0.15, 0.33, 0.78) });
+      y -= 16;
+    }
+    if (totalDaily > 0 || totalDbCampaign > 0) { y -= 6; }
 
     const dailyInv = totalPrice / 365;
     const monthlyInv = totalPrice / 12;
@@ -532,6 +603,96 @@
         'Trackable -- coupon codes measure real customer response',
       ]);
     }
+    // Cartvertising "Front vs Directory" explainer diagram (vector, no percentages)
+    function drawCartDiagram() {
+      const boxW = 150, boxH = 92, gap = 70;
+      const leftX = 30, rightX = leftX + boxW + gap;
+      checkPage(boxH + 90);
+      // Title
+      page.drawText('Ad Placement: Front vs Directory', { x: 30, y, size: 13, font: bold, color: red });
+      y -= 42;                   // clearance so the column headers don't collide with the title
+      const topY = y;            // top edge of the two boxes
+      const boxBottom = topY - boxH;
+      // Column headers (red, centered over each box)
+      const h1a = 'Front Side', h1b = '(faces oncoming shoppers)';
+      const h2a = 'Directory Side', h2b = '(faces toward the shopper)';
+      const ch = (txt, cx, size, fnt, col) => page.drawText(txt, { x: cx - fnt.widthOfTextAtSize(txt, size) / 2, y: topY + 14, size, font: fnt, color: col });
+      // header line 1
+      page.drawText(h1a, { x: leftX + boxW/2 - bold.widthOfTextAtSize(h1a, 9)/2, y: topY + 20, size: 9, font: bold, color: red });
+      page.drawText(h1b, { x: leftX + boxW/2 - regular.widthOfTextAtSize(h1b, 7)/2, y: topY + 10, size: 7, font: regular, color: gray });
+      page.drawText(h2a, { x: rightX + boxW/2 - bold.widthOfTextAtSize(h2a, 9)/2, y: topY + 20, size: 9, font: bold, color: red });
+      page.drawText(h2b, { x: rightX + boxW/2 - regular.widthOfTextAtSize(h2b, 7)/2, y: topY + 10, size: 7, font: regular, color: gray });
+
+      // ─ Front Side box (single white panel, black border) ─
+      page.drawRectangle({ x: leftX, y: boxBottom, width: boxW, height: boxH, borderColor: black, borderWidth: 2.5, color: white });
+      page.drawRectangle({ x: leftX + 4, y: boxBottom + 4, width: boxW - 8, height: boxH - 8, borderColor: rgb(0.75,0.75,0.75), borderWidth: 0.75 });
+      page.drawText('Front Side', { x: leftX + boxW/2 - bold.widthOfTextAtSize('Front Side', 11)/2, y: topY - 20, size: 11, font: bold, color: black });
+      page.drawText('This side points out', { x: leftX + boxW/2 - regular.widthOfTextAtSize('This side points out', 8)/2, y: boxBottom + 30, size: 8, font: regular, color: gray });
+      page.drawText('the front of the cart', { x: leftX + boxW/2 - regular.widthOfTextAtSize('the front of the cart', 8)/2, y: boxBottom + 18, size: 8, font: regular, color: gray });
+
+      // ─ OR arrow between boxes ─
+      const arrY = boxBottom + boxH/2;
+      page.drawText('OR', { x: leftX + boxW + gap/2 - bold.widthOfTextAtSize('OR', 11)/2, y: arrY - 4, size: 11, font: bold, color: red });
+      page.drawLine({ start: { x: leftX + boxW + 6, y: arrY }, end: { x: leftX + boxW + gap/2 - 12, y: arrY }, thickness: 1, color: red });
+      page.drawLine({ start: { x: leftX + boxW + gap/2 + 12, y: arrY }, end: { x: rightX - 6, y: arrY }, thickness: 1, color: red });
+      // arrowhead into the right box
+      page.drawLine({ start: { x: rightX - 6, y: arrY }, end: { x: rightX - 12, y: arrY + 4 }, thickness: 1, color: red });
+      page.drawLine({ start: { x: rightX - 6, y: arrY }, end: { x: rightX - 12, y: arrY - 4 }, thickness: 1, color: red });
+
+      // ─ Directory Side box (split: narrow left label + wider Store Directory) ─
+      page.drawRectangle({ x: rightX, y: boxBottom, width: boxW, height: boxH, borderColor: black, borderWidth: 2.5, color: white });
+      page.drawRectangle({ x: rightX + 4, y: boxBottom + 4, width: boxW - 8, height: boxH - 8, borderColor: rgb(0.75,0.75,0.75), borderWidth: 0.75 });
+      const splitX = rightX + boxW * 0.42;
+      page.drawLine({ start: { x: splitX, y: boxBottom + 6 }, end: { x: splitX, y: topY - 6 }, thickness: 0.75, color: rgb(0.7,0.7,0.7) });
+      // left (narrow) label
+      page.drawText('Directory', { x: rightX + (splitX - rightX)/2 - bold.widthOfTextAtSize('Directory', 8)/2, y: topY - 20, size: 8, font: bold, color: black });
+      page.drawText('Side', { x: rightX + (splitX - rightX)/2 - bold.widthOfTextAtSize('Side', 8)/2, y: topY - 30, size: 8, font: bold, color: black });
+      // right (wide) Store Directory box, split with a horizontal line near the top
+      const sdTop = topY - 12;
+      page.drawLine({ start: { x: splitX + 6, y: sdTop - 18 }, end: { x: rightX + boxW - 8, y: sdTop - 18 }, thickness: 0.6, color: rgb(0.8,0.8,0.8) });
+      page.drawText('Store', { x: (splitX + rightX + boxW)/2 - regular.widthOfTextAtSize('Store', 8)/2, y: boxBottom + 42, size: 8, font: regular, color: rgb(0.6,0.6,0.6) });
+      page.drawText('Directory', { x: (splitX + rightX + boxW)/2 - regular.widthOfTextAtSize('Directory', 8)/2, y: boxBottom + 32, size: 8, font: regular, color: rgb(0.6,0.6,0.6) });
+      // caption under the right box
+      page.drawText('Rides next to the store directory, facing the shopper', { x: rightX + boxW/2 - regular.widthOfTextAtSize('Rides next to the store directory, facing the shopper', 7)/2, y: boxBottom - 12, size: 7, font: regular, color: gray });
+
+      y = boxBottom - 30;
+    }
+
+    // Header ad explainer — ad rides in the top-right corner (and footer at 100%)
+    function drawHeaderDiagram() {
+      const boxW = 150, boxH = 92;
+      const leftX = 30, rightX = leftX + boxW + 70;
+      checkPage(boxH + 80);
+      page.drawText('Header Ads', { x: 30, y, size: 13, font: bold, color: red });
+      y -= 40;
+      const topY = y, boxBottom = topY - boxH;
+      // headers
+      page.drawText('Header 50%', { x: leftX + boxW/2 - bold.widthOfTextAtSize('Header 50%', 9)/2, y: topY + 20, size: 9, font: bold, color: red });
+      page.drawText('(every other cart)', { x: leftX + boxW/2 - regular.widthOfTextAtSize('(every other cart)', 7)/2, y: topY + 10, size: 7, font: regular, color: gray });
+      page.drawText('Header 100%', { x: rightX + boxW/2 - bold.widthOfTextAtSize('Header 100%', 9)/2, y: topY + 20, size: 9, font: bold, color: red });
+      page.drawText('(every cart — header + footer)', { x: rightX + boxW/2 - regular.widthOfTextAtSize('(every cart — header + footer)', 7)/2, y: topY + 10, size: 7, font: regular, color: gray });
+
+      // 50% panel: header block top-right
+      page.drawRectangle({ x: leftX, y: boxBottom, width: boxW, height: boxH, borderColor: black, borderWidth: 2.5, color: white });
+      page.drawRectangle({ x: leftX + boxW - 62, y: topY - 26, width: 54, height: 16, borderColor: black, borderWidth: 1, color: rgb(0.93,0.93,0.93) });
+      page.drawText('Header', { x: leftX + boxW - 60, y: topY - 22, size: 8, font: bold, color: black });
+      page.drawText('Store', { x: leftX + boxW - 58, y: boxBottom + 40, size: 7, font: regular, color: rgb(0.65,0.65,0.65) });
+      page.drawText('Directory', { x: leftX + boxW - 64, y: boxBottom + 31, size: 7, font: regular, color: rgb(0.65,0.65,0.65) });
+      page.drawText('Top-right of every other cart', { x: leftX + boxW/2 - regular.widthOfTextAtSize('Top-right of every other cart', 7)/2, y: boxBottom - 12, size: 7, font: regular, color: gray });
+
+      // 100% panel: header top-right + footer bottom
+      page.drawRectangle({ x: rightX, y: boxBottom, width: boxW, height: boxH, borderColor: black, borderWidth: 2.5, color: white });
+      page.drawRectangle({ x: rightX + boxW - 62, y: topY - 26, width: 54, height: 16, borderColor: black, borderWidth: 1, color: rgb(0.93,0.93,0.93) });
+      page.drawText('Header', { x: rightX + boxW - 60, y: topY - 22, size: 8, font: bold, color: black });
+      page.drawRectangle({ x: rightX + boxW - 62, y: boxBottom + 8, width: 54, height: 16, borderColor: black, borderWidth: 1, color: rgb(0.93,0.93,0.93) });
+      page.drawText('Footer', { x: rightX + boxW - 60, y: boxBottom + 12, size: 8, font: bold, color: black });
+      page.drawText('Header + footer on every cart', { x: rightX + boxW/2 - regular.widthOfTextAtSize('Header + footer on every cart', 7)/2, y: boxBottom - 12, size: 7, font: regular, color: gray });
+
+      y = boxBottom - 30;
+    }
+
+    const hasHeaderAd = cartItems.some(i => (i.cartKind === 'header') || /header/i.test(i.plan || ''));
+
     if (hasCart) {
       drawHighlights('Cartvertising Highlights', [
         'Eye-Level -- ads mounted right where shoppers look',
@@ -539,6 +700,8 @@
         'Full Color -- high-quality printing for maximum impact',
         'Massive Reach -- thousands of shoppers per cart',
       ]);
+      drawCartDiagram();
+      if (hasHeaderAd) drawHeaderDiagram();
     }
     if (hasDigi) {
       drawHighlights('Digital Product Highlights', [
@@ -719,6 +882,21 @@
             {#if item.storeAddress}<p class="item-addr">{item.storeAddress}</p>{/if}
             {#if item.storeCycle}<p class="item-launch">Next launch: {getNextLaunch(item.storeCycle)}</p>{/if}
             {#if item.plan}<p class="item-plan">{item.plan}</p>{/if}
+            {#if getCartCoverage(item)}
+              {@const cov = getCartCoverage(item)}
+              <p class="item-cart-coverage">🛒 {cov.showing.toLocaleString()} of {cov.total.toLocaleString()} carts show your {cov.isHeader ? 'header ad' : 'ad'} ({cov.pct}% of all carts)</p>
+            {:else if (item.name || '').toLowerCase().includes('cartvertising') && !item.storeCartCount}
+              <p class="item-cart-coverage item-cart-missing">🛒 Add this store's cart count (re-add from the store card) to show cart coverage on the quote</p>
+            {/if}
+            {#if getDigitalBoostCampaign(item)}
+              {@const dbc = getDigitalBoostCampaign(item)}
+              <p class="item-db-impressions">🚀 {dbc.total.toLocaleString()} campaign impressions{#if dbc.pins > 1} ({dbc.perPin.toLocaleString()}/pin × {dbc.pins} pins){/if}</p>
+              {#if dbc.bundled}
+                <p class="item-db-bundle">✅ Bundle bonus: +50% (360,000/pin) — paired with Register Tape / Cartvertising</p>
+              {:else}
+                <p class="item-db-bundle item-db-standalone">Standalone: 240,000/pin · add Register Tape or Cartvertising for +50%</p>
+              {/if}
+            {/if}
             <div class="price-edit">
               <label>Price</label>
               <input type="text" value={item.price} on:change={(e) => updateItemPrice(i, e.target.value)} class="price-field" />
@@ -755,6 +933,58 @@
       </div>
     {/if}
 
+    {#if cartItems.some(i => (i.name || '').toLowerCase().includes('cartvertising'))}
+      <div class="cart-diagram">
+        <div class="cd-title">🛒 Ad Placement: Front vs Directory</div>
+        <div class="cd-row">
+          <div class="cd-col">
+            <div class="cd-head">Front Side</div>
+            <div class="cd-sub">faces oncoming shoppers</div>
+            <div class="cd-panel">
+              <span class="cd-panel-label">Front Side</span>
+              <span class="cd-panel-note">points out the front of the cart</span>
+            </div>
+          </div>
+          <div class="cd-or">OR</div>
+          <div class="cd-col">
+            <div class="cd-head">Directory Side</div>
+            <div class="cd-sub">faces toward the shopper</div>
+            <div class="cd-panel cd-panel-split">
+              <div class="cd-split-left">Directory<br>Side</div>
+              <div class="cd-split-right">
+                <div class="cd-split-top"></div>
+                <div class="cd-split-bottom">Store<br>Directory</div>
+              </div>
+            </div>
+            <div class="cd-caption">rides by the store directory, facing the shopper</div>
+          </div>
+        </div>
+        {#if cartItems.some(i => (i.cartKind === 'header') || /header/i.test(i.plan || ''))}
+          <div class="cd-title cd-title-header">🧾 Header Ads</div>
+          <div class="cd-row">
+            <div class="cd-col">
+              <div class="cd-head">Header 50%</div>
+              <div class="cd-sub">every other cart</div>
+              <div class="cd-panel cd-panel-header">
+                <div class="cd-header-tag">Header</div>
+                <div class="cd-header-dir">Store<br>Directory</div>
+              </div>
+              <div class="cd-caption">top-right corner of every other cart</div>
+            </div>
+            <div class="cd-col">
+              <div class="cd-head">Header 100%</div>
+              <div class="cd-sub">every cart — header + footer</div>
+              <div class="cd-panel cd-panel-header">
+                <div class="cd-header-tag">Header</div>
+                <div class="cd-footer-tag">Footer</div>
+              </div>
+              <div class="cd-caption">header + footer on every cart</div>
+            </div>
+          </div>
+        {/if}
+      </div>
+    {/if}
+
     <div class="quote-footer">
       <div class="business-name-row">
         <input type="text" class="business-name-input" placeholder="Business name (for quote)" bind:value={businessName} />
@@ -774,6 +1004,88 @@
 
 <style>
   .quote-container { padding: 20px 20px 140px; max-width: 100%; margin: 0 auto; }
+
+  /* Cartvertising Front vs Directory explainer */
+  .cart-diagram {
+    margin: 16px 0;
+    padding: 14px 12px;
+    background: var(--bg-secondary, #f7f7f7);
+    border: 1px solid var(--border-color, #e0e0e0);
+    border-radius: 12px;
+  }
+  .cd-title { font-size: 14px; font-weight: 800; color: #CC0000; text-align: center; margin-bottom: 12px; }
+  .cd-row { display: flex; align-items: center; justify-content: center; gap: 10px; }
+  .cd-col { flex: 1; max-width: 160px; text-align: center; }
+  .cd-head { font-size: 12px; font-weight: 800; color: #CC0000; line-height: 1.15; }
+  .cd-sub { font-size: 9px; color: var(--text-secondary, #777); margin-bottom: 6px; }
+  .cd-panel {
+    position: relative;
+    height: 78px;
+    background: #fff;
+    border: 3px solid #111;
+    border-radius: 10px;
+    box-shadow: inset 0 0 0 1px #ccc;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 4px;
+  }
+  .cd-panel-label { font-size: 12px; font-weight: 800; color: #111; }
+  .cd-panel-note { font-size: 8px; color: #888; margin-top: 4px; line-height: 1.2; }
+  .cd-panel-split { flex-direction: row; padding: 0; overflow: hidden; }
+  .cd-split-left {
+    width: 40%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 10px; font-weight: 800; color: #111;
+    border-right: 1px solid #bbb;
+    line-height: 1.1;
+  }
+  .cd-split-right { width: 60%; display: flex; flex-direction: column; }
+  .cd-split-top { height: 26%; border-bottom: 1px solid #ddd; }
+  .cd-split-bottom {
+    flex: 1;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 9px; color: #aaa; text-align: center; line-height: 1.15;
+  }
+  .cd-caption { font-size: 8px; color: var(--text-secondary, #777); margin-top: 5px; line-height: 1.2; }
+  .cd-or {
+    font-size: 13px; font-weight: 900; color: #fff;
+    background: #CC0000; border-radius: 4px;
+    padding: 3px 7px; flex-shrink: 0;
+  }
+  .cd-title-header { margin-top: 16px; }
+  .cd-panel-header { position: relative; }
+  .cd-header-tag {
+    position: absolute; top: 6px; right: 6px;
+    background: #eee; border: 1px solid #111;
+    font-size: 8px; font-weight: 800; color: #111;
+    padding: 2px 6px; border-radius: 2px;
+  }
+  .cd-footer-tag {
+    position: absolute; bottom: 6px; right: 6px;
+    background: #eee; border: 1px solid #111;
+    font-size: 8px; font-weight: 800; color: #111;
+    padding: 2px 6px; border-radius: 2px;
+  }
+  .cd-header-dir {
+    position: absolute; bottom: 8px; left: 8px;
+    font-size: 8px; color: #aaa; line-height: 1.1; text-align: left;
+  }
+  .item-cart-coverage {
+    font-size: 12px; font-weight: 700; color: #0a7d2c;
+    margin: 2px 0 4px;
+  }
+  .item-cart-missing { color: #b58900; font-weight: 600; }
+  .item-db-impressions {
+    font-size: 12px; font-weight: 700; color: #2554c7;
+    margin: 2px 0 2px;
+  }
+  .item-db-bundle {
+    font-size: 11px; font-weight: 600; color: #1a7a35;
+    margin: 0 0 4px;
+  }
+  .item-db-standalone { color: var(--text-secondary, #778); font-weight: 500; }
   h2 { margin: 0 0 6px; font-size: 22px; font-weight: 700; color: var(--text-primary); }
   h3 { margin: 0 0 12px; font-size: 18px; font-weight: 700; color: #333; }
   .subtitle { margin: 0 0 16px; color: var(--text-secondary); font-size: 14px; }

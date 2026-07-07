@@ -315,6 +315,53 @@ export async function getAllLeadData() {
   }
 }
 
+// ── Call-In Lead Assignments (manager assigns inbound leads to reps) ──
+// A call-in lead is hidden from reps until Tyler/Rick assigns it to a rep.
+// Stored one doc per lead, keyed by a stable lead key (crm_id or hash).
+
+export function callInLeadKey(lead) {
+  const raw = (lead.crm_id || ((lead.business_name || lead.name || '') + '_' + (lead.lead_zip || lead.zip || ''))) + '';
+  return raw.toLowerCase().replace(/[^a-z0-9]/g, '') || 'lead';
+}
+
+/**
+ * Assign (or reassign) a call-in lead to a rep. Pass repId='' to unassign.
+ */
+export async function assignCallInLead(leadKey, repId, repName, assignedBy) {
+  if (!db || !leadKey) return false;
+  try {
+    await setDoc(doc(db, 'activity_daily', `callin_assign_${leadKey}`), {
+      type: 'callin_assignment',
+      leadKey: String(leadKey),
+      repId: repId ? String(repId) : '',
+      repName: repName || '',
+      assignedBy: assignedBy || '',
+      assignedAt: new Date().toISOString(),
+    });
+    return true;
+  } catch (e) {
+    console.warn('assignCallInLead error:', e);
+    return false;
+  }
+}
+
+/**
+ * Get all call-in lead assignments as a map: leadKey -> assignment.
+ */
+export async function getAllCallInAssignments() {
+  if (!db) return {};
+  try {
+    const q = query(collection(db, 'activity_daily'), where('type', '==', 'callin_assignment'));
+    const snapshot = await getDocs(q);
+    const map = {};
+    snapshot.docs.forEach(d => { const v = d.data(); map[v.leadKey] = v; });
+    return map;
+  } catch (e) {
+    console.warn('getAllCallInAssignments error:', e);
+    return {};
+  }
+}
+
 // ── Saved Prospects (cross-device per rep) ─────────────────────────
 
 /**

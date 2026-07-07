@@ -42,6 +42,19 @@
 </script>
 
 <div class="search-container">
+  <a
+    class="video-testimonials-banner"
+    href="https://youtube.com/playlist?list=PLjTXw9VlAiGP7cKVD_F1rPWERnmjeDCB1&si=oXd6wcbA6uUTCkSs"
+    target="_blank"
+    rel="noopener"
+  >
+    <span class="vt-icon">▶️</span>
+    <span class="vt-text">
+      <strong>Video Testimonials</strong>
+      <small>Watch the full YouTube playlist →</small>
+    </span>
+  </a>
+
   <div class="search-box">
     <input
       type="text"
@@ -85,6 +98,38 @@
 </div>
 
 <style>
+  .video-testimonials-banner {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: linear-gradient(135deg, #dc2626, #b91c1c);
+    color: #fff;
+    text-decoration: none;
+    padding: 14px 16px;
+    border-radius: 12px;
+    margin-bottom: 14px;
+    box-shadow: 0 4px 14px rgba(220, 38, 38, 0.3);
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+  }
+  .video-testimonials-banner:active {
+    transform: scale(0.98);
+  }
+  .vt-icon {
+    font-size: 26px;
+    line-height: 1;
+  }
+  .vt-text {
+    display: flex;
+    flex-direction: column;
+  }
+  .vt-text strong {
+    font-size: 16px;
+    font-weight: 800;
+  }
+  .vt-text small {
+    font-size: 12px;
+    opacity: 0.9;
+  }
   .search-container {
     max-width: 900px;
     margin: 0 auto;

@@ -1,4 +1,18 @@
 {
+  "999999999": {
+    "telegram_name": "Test User",
+    "contract_name": "Test User",
+    "email": "testuser@example.com",
+    "role": "rep",
+    "registered_at": "2026-03-17T15:49:25.906710",
+    "base_location": "Ridgefield, WA"
+  },
+  "2126715079": {
+    "contract_name": "Cameron gould",
+    "display_name": "Cameron gould",
+    "role": "rep",
+    "registered_at": "2026-03-17"
+  },
   "8548368719": {
     "contract_name": "Tyler VanSant",
     "display_name": "Tyler Van Sant",
@@ -25,20 +39,6 @@
     "display_name": "Rick Diamond",
     "role": "rep",
     "registered_at": "2026-03-12"
-  },
-  "999999999": {
-    "telegram_name": "Test User",
-    "contract_name": "Test User",
-    "email": "testuser@example.com",
-    "role": "rep",
-    "registered_at": "2026-03-17T15:49:25.906710",
-    "base_location": "Ridgefield, WA"
-  },
-  "2126715079": {
-    "contract_name": "Cameron gould",
-    "display_name": "Cameron gould",
-    "role": "rep",
-    "registered_at": "2026-03-17"
   },
   "8331690053": {
     "telegram_name": "Lanea Van Sant",
@@ -187,5 +187,21 @@
     "role": "rep",
     "registered_at": "2026-06-29",
     "base_location": "Territory TBD"
+  },
+  "brent_wall": {
+    "contract_name": "Brent Wall",
+    "display_name": "Brent Wall",
+    "email": "Brent.Wall@indoormedia.com",
+    "role": "rep",
+    "registered_at": "2026-07-02",
+    "base_location": "Territory TBD"
+  },
+  "jahim_phillips": {
+    "contract_name": "Jahim Phillips",
+    "display_name": "Jahim Phillips",
+    "email": "Jahim.Phillips@indoormedia.com",
+    "role": "rep",
+    "registered_at": "2026-07-06",
+    "base_location": "Zone 7X"
   }
 }

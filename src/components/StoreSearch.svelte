@@ -752,6 +752,176 @@ Store: ${store.StoreName}
     return claim.repId === uid;
   }
 
+  // ── Cartvertising quick-add (fixed package pricing, per store) ──────
+  // Rates reflect SIX MONTHS of advertising (per IndoorMedia rate sheet).
+  // pct = total % of all carts; front/dir/header = per-placement coverage.
+  const CART_PACKAGES = [
+    { id: '20_either', name: '20% — Front OR Directory Side', price: '$2,995', pct: 20, front: 20, dir: 20, either: true, kind: 'front_dir' },
+    { id: '40_both',   name: '40% — 20% Front + 20% Directory', price: '$4,795', pct: 40, front: 20, dir: 20, kind: 'front_dir' },
+    { id: '60_both',   name: '60% — 40% Front + 20% Directory', price: '$5,995', pct: 60, front: 40, dir: 20, kind: 'front_dir' },
+    { id: '80_both',   name: '80% — 40% Front + 40% Directory', price: '$7,395', pct: 80, front: 40, dir: 40, kind: 'front_dir' },
+    { id: '100_both',  name: '100% — 60% Front + 40% Directory', price: '$8,795', pct: 100, front: 60, dir: 40, kind: 'front_dir' },
+    { id: '200_both',  name: '200% — 100% Both Sides', price: '$12,995', pct: 200, front: 100, dir: 100, kind: 'front_dir' },
+    { id: 'header_50', name: 'Header 50% — Every Other Cart', price: '$2,995', pct: 50, header: 50, kind: 'header' },
+    { id: 'header_100', name: 'Header 100% — Every Cart (Header + Footer)', price: '$4,795', pct: 100, header: 100, footer: true, kind: 'header' },
+  ];
+  let cartPkgOpen = {};   // store.StoreName -> bool (package picker open)
+  function toggleCartPkg(storeName) {
+    cartPkgOpen[storeName] = !cartPkgOpen[storeName];
+    cartPkgOpen = cartPkgOpen;
+  }
+  function handleAddCartvertising(store, pkg) {
+    // Ask for the store's total shopping-cart count so the quote can show
+    // exactly how many carts will display the customer's ad.
+    const prior = store._cartCount || '';
+    const entered = window.prompt(
+      `How many shopping carts does ${store.GroceryChain} ${store.City} have?\n\n` +
+      `We'll use this to show the customer how many carts will display their ad ` +
+      `(${pkg.pct}% of all carts).`,
+      prior ? String(prior) : ''
+    );
+    if (entered === null) return; // cancelled
+    const cartCount = parseInt(String(entered).replace(/[^0-9]/g, ''), 10) || 0;
+    store._cartCount = cartCount;
+    const cartsShowing = Math.round(cartCount * (pkg.pct / 100));
+    const item = {
+      id: Date.now(),
+      type: 'cartvertising',
+      name: 'Cartvertising',
+      emoji: '🛒',
+      store: `${store.GroceryChain} - ${store.City}`,
+      storeNum: store.StoreName,
+      storeAddress: store.Address || '',
+      storeCycle: store.Cycle || '',
+      plan: pkg.name,
+      price: pkg.price,
+      cartPct: pkg.pct,
+      cartKind: pkg.kind,
+      frontPct: pkg.front || 0,
+      dirPct: pkg.dir || 0,
+      headerPct: pkg.header || 0,
+      hasFooter: !!pkg.footer,
+      storeCartCount: cartCount,
+      cartsShowingAd: cartsShowing,
+      addedAt: new Date().toISOString(),
+    };
+    try {
+      const cart = JSON.parse(localStorage.getItem('indoormedia_cart') || '[]');
+      cart.push(item);
+      localStorage.setItem('indoormedia_cart', JSON.stringify(cart));
+      try { window.dispatchEvent(new Event('cart-updated')); } catch {}
+      addedToCartMsg = cartCount > 0
+        ? `🛒 Added Cartvertising — ${cartsShowing.toLocaleString()} of ${cartCount.toLocaleString()} carts`
+        : `🛒 Added Cartvertising — ${store.GroceryChain} ${store.City}`;
+      setTimeout(() => { addedToCartMsg = ''; }, 3000);
+    } catch (err) {
+      console.error('Failed to add Cartvertising to cart:', err);
+    }
+    cartPkgOpen[store.StoreName] = false;
+    cartPkgOpen = cartPkgOpen;
+  }
+
+  // ── Digital quick-add (DigitalBoost / FindLocal / ReviewBoost / LoyaltyBoost) ──
+  // DigitalBoost is priced per geofence pin ($3,600/pin + $395 production covering
+  // up to 5 pins). FindLocal is per location. ReviewBoost & LoyaltyBoost are flat.
+  const DIGITAL_PACKAGES = [
+    {
+      id: 'digitalboost', name: 'DigitalBoost', emoji: '🚀',
+      desc: 'Geofence pin — 240,000 digital banner impressions per pin',
+      priceLabel: '$3,600/pin + $395 prod.', perPin: 3600, production: 395,
+      needsPins: true, impressionsPerPin: 240000,
+    },
+    {
+      id: 'findlocal', name: 'FindLocal', emoji: '📍',
+      desc: 'Local SEO & listings across 50+ directories',
+      priceLabel: '$695/location', flat: 695,
+    },
+    {
+      id: 'reviewboost', name: 'ReviewBoost', emoji: '⭐',
+      desc: 'Automated review campaign (Email + SMS), up to 4,000 contacts',
+      priceLabel: '$695 / 4-mo campaign', flat: 695,
+    },
+    {
+      id: 'loyaltyboost', name: 'LoyaltyBoost', emoji: '💎',
+      desc: 'Annual loyalty / rewards program per location',
+      priceLabel: '$3,600/yr + $495 prod.', flat: 3600, production: 495,
+    },
+  ];
+  let digitalPkgOpen = {};   // store.StoreName -> bool (digital picker open)
+  function toggleDigitalPkg(storeName) {
+    digitalPkgOpen[storeName] = !digitalPkgOpen[storeName];
+    digitalPkgOpen = digitalPkgOpen;
+  }
+  function handleAddDigital(store, pkg) {
+    let pins = 1;
+    let priceNum = 0;
+    let priceStr = pkg.priceLabel;
+    let impressions = 0;
+
+    if (pkg.needsPins) {
+      // DigitalBoost — ask how many geofence pins the customer wants.
+      const prior = store._digitalPins || '';
+      const entered = window.prompt(
+        `How many DigitalBoost geofence pins for ${store.GroceryChain} ${store.City}?\n\n` +
+        `Each pin delivers ~240,000 digital banner ad impressions. ` +
+        `$3,600 per pin, plus a one-time $395 production fee (covers up to 5 pins).`,
+        prior ? String(prior) : '1'
+      );
+      if (entered === null) return; // cancelled
+      pins = Math.max(1, parseInt(String(entered).replace(/[^0-9]/g, ''), 10) || 1);
+      store._digitalPins = pins;
+      priceNum = pkg.perPin * pins + pkg.production;
+      impressions = pkg.impressionsPerPin * pins;
+      priceStr = '$' + priceNum.toLocaleString();
+    } else {
+      priceNum = pkg.flat + (pkg.production || 0);
+      priceStr = '$' + priceNum.toLocaleString();
+    }
+
+    const item = {
+      id: Date.now(),
+      type: pkg.id,
+      name: pkg.name,
+      emoji: pkg.emoji,
+      store: `${store.GroceryChain} - ${store.City}`,
+      storeNum: store.StoreName,
+      storeAddress: store.Address || '',
+      storeCycle: store.Cycle || '',
+      plan: pkg.needsPins ? `${pins} pin${pins === 1 ? '' : 's'}` : pkg.desc,
+      price: priceStr,
+      digitalPins: pkg.needsPins ? pins : undefined,
+      digitalImpressions: impressions || undefined,
+      productionFee: pkg.production || 0,
+      addedAt: new Date().toISOString(),
+    };
+    try {
+      const cart = JSON.parse(localStorage.getItem('indoormedia_cart') || '[]');
+      cart.push(item);
+      localStorage.setItem('indoormedia_cart', JSON.stringify(cart));
+      try { window.dispatchEvent(new Event('cart-updated')); } catch {}
+      addedToCartMsg = pkg.needsPins
+        ? `${pkg.emoji} Added ${pkg.name} — ${pins} pin${pins === 1 ? '' : 's'} (${priceStr})`
+        : `${pkg.emoji} Added ${pkg.name} — ${priceStr}`;
+      setTimeout(() => { addedToCartMsg = ''; }, 3000);
+    } catch (err) {
+      console.error('Failed to add Digital product to cart:', err);
+    }
+    digitalPkgOpen[store.StoreName] = false;
+    digitalPkgOpen = digitalPkgOpen;
+  }
+
+  // Register Tape quick button — just expands the store card (existing flow).
+  function handleAddRegisterTape(storeName) {
+    if (expandedStore !== storeName) toggleExpand(storeName);
+    // scroll expanded pricing into view on next tick
+    setTimeout(() => {
+      try {
+        const el = document.getElementById('store-card-' + storeName);
+        if (el) el.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      } catch {}
+    }, 60);
+  }
+
   function handleAddToCart(store, selectedAdType, plan) {
     const isPromo = pricingMode === 'summer_promo';
     const isCoop = !isPromo && (coopUnlocked[store.StoreName] || false);
@@ -899,7 +1069,7 @@ Store: ${store.StoreName}
           {@const isExpanded = expandedStore === store.StoreName}
           {@const claim = storeClaims[store.StoreName]}
           {@const isClaimed = !!claim}
-          <div class="store-card" class:expanded={isExpanded} class:coop-active={isCoop} class:claimed={isClaimed}>
+          <div class="store-card" id="store-card-{store.StoreName}" class:expanded={isExpanded} class:coop-active={isCoop} class:claimed={isClaimed}>
             <div class="store-header" on:click={() => toggleExpand(store.StoreName)}>
               <div>
                 <h3>{store.GroceryChain}</h3>
@@ -924,6 +1094,53 @@ Store: ${store.StoreName}
               <button class="prospect-store-btn" on:click|stopPropagation={() => document.dispatchEvent(new CustomEvent('map-action', { detail: { action: 'prospect', store } }))}>
                 🎯 Prospect Store
               </button>
+
+              <!-- Quick-add product buttons: Register Tape → Cartvertising → Digital -->
+              <!-- 1. Register Tape — opens the expanded card (single/double, promo, impressions, pricing) -->
+              <button class="addtape-store-btn" on:click|stopPropagation={() => handleAddRegisterTape(store.StoreName)}>
+                🧾 {isExpanded ? 'Register Tape options below' : 'Add Register Tape'}
+              </button>
+
+              <!-- 2. Cartvertising -->
+              <button class="cartvert-store-btn" on:click|stopPropagation={() => toggleCartPkg(store.StoreName)}>
+                🛒 {cartPkgOpen[store.StoreName] ? 'Close packages' : 'Add Cartvertising'}
+              </button>
+              {#if cartPkgOpen[store.StoreName]}
+                <div class="cartvert-pkg-list" on:click|stopPropagation>
+                  <div class="cartvert-pkg-group">Front &amp; Directory Ads <span class="cartvert-pkg-group-note">(6 mo.)</span></div>
+                  {#each CART_PACKAGES.filter(p => p.kind === 'front_dir') as pkg}
+                    <button class="cartvert-pkg-btn" on:click|stopPropagation={() => handleAddCartvertising(store, pkg)}>
+                      <span class="cartvert-pkg-name">{pkg.name}</span>
+                      <span class="cartvert-pkg-price">{pkg.price}</span>
+                    </button>
+                  {/each}
+                  <div class="cartvert-pkg-group">Header Ads <span class="cartvert-pkg-group-note">(6 mo.)</span></div>
+                  {#each CART_PACKAGES.filter(p => p.kind === 'header') as pkg}
+                    <button class="cartvert-pkg-btn" on:click|stopPropagation={() => handleAddCartvertising(store, pkg)}>
+                      <span class="cartvert-pkg-name">{pkg.name}</span>
+                      <span class="cartvert-pkg-price">{pkg.price}</span>
+                    </button>
+                  {/each}
+                </div>
+              {/if}
+
+              <!-- 3. Digital -->
+              <button class="digital-store-btn" on:click|stopPropagation={() => toggleDigitalPkg(store.StoreName)}>
+                📱 {digitalPkgOpen[store.StoreName] ? 'Close digital' : 'Add Digital'}
+              </button>
+              {#if digitalPkgOpen[store.StoreName]}
+                <div class="digital-pkg-list" on:click|stopPropagation>
+                  {#each DIGITAL_PACKAGES as pkg}
+                    <button class="digital-pkg-btn" on:click|stopPropagation={() => handleAddDigital(store, pkg)}>
+                      <span class="digital-pkg-head">
+                        <span class="digital-pkg-name">{pkg.emoji} {pkg.name}</span>
+                        <span class="digital-pkg-price">{pkg.priceLabel}</span>
+                      </span>
+                      <span class="digital-pkg-desc">{pkg.desc}</span>
+                    </button>
+                  {/each}
+                </div>
+              {/if}
             </div>
 
             <!-- Store Claim (Dibs) -->
@@ -2031,6 +2248,102 @@ Store: ${store.StoreName}
   .prospect-store-btn:active {
     transform: translateY(0);
   }
+  .cartvert-store-btn {
+    width: 100%;
+    margin-top: 8px;
+    padding: 10px;
+    background: #0a7d2c;
+    border: none;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 700;
+    color: #fff;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .cartvert-store-btn:hover { background: #086322; transform: translateY(-1px); }
+  .cartvert-store-btn:active { transform: translateY(0); }
+  .cartvert-pkg-list {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    margin-top: 8px;
+  }
+  .cartvert-pkg-btn {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 8px;
+    padding: 9px 12px;
+    background: var(--bg-secondary, #f4faf6);
+    border: 1px solid #0a7d2c;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 13px;
+    color: var(--text-primary, #111);
+  }
+  .cartvert-pkg-btn:hover { background: #e6f5ec; }
+  .cartvert-pkg-name { font-weight: 600; text-align: left; }
+  .cartvert-pkg-price { font-weight: 800; color: #0a7d2c; white-space: nowrap; }
+  .cartvert-pkg-group { font-size: 11px; font-weight: 800; color: var(--text-secondary, #666); text-transform: uppercase; letter-spacing: 0.3px; margin-top: 4px; }
+  .cartvert-pkg-group-note { font-weight: 600; text-transform: none; color: var(--text-secondary, #999); }
+
+  /* Add Register Tape quick button (orange/amber to match tape emoji) */
+  .addtape-store-btn {
+    width: 100%;
+    margin-top: 8px;
+    padding: 10px;
+    background: #b8651a;
+    border: none;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 700;
+    color: #fff;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .addtape-store-btn:hover { background: #9c5414; transform: translateY(-1px); }
+  .addtape-store-btn:active { transform: translateY(0); }
+
+  /* Add Digital quick button (blue/indigo) */
+  .digital-store-btn {
+    width: 100%;
+    margin-top: 8px;
+    padding: 10px;
+    background: #2554c7;
+    border: none;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 700;
+    color: #fff;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .digital-store-btn:hover { background: #1e45a5; transform: translateY(-1px); }
+  .digital-store-btn:active { transform: translateY(0); }
+  .digital-pkg-list {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    margin-top: 8px;
+  }
+  .digital-pkg-btn {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    padding: 9px 12px;
+    background: var(--bg-secondary, #f2f5fc);
+    border: 1px solid #2554c7;
+    border-radius: 8px;
+    cursor: pointer;
+    color: var(--text-primary, #111);
+    text-align: left;
+  }
+  .digital-pkg-btn:hover { background: #e6ecfb; }
+  .digital-pkg-head { display: flex; justify-content: space-between; align-items: center; gap: 8px; }
+  .digital-pkg-name { font-weight: 700; font-size: 13px; }
+  .digital-pkg-price { font-weight: 800; color: #2554c7; white-space: nowrap; font-size: 12px; }
+  .digital-pkg-desc { font-size: 11px; color: var(--text-secondary, #667); }
   .claim-btn {
     width: 100%;
     padding: 8px;
