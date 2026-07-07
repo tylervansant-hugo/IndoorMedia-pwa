@@ -1643,10 +1643,86 @@
     return programEmailTemplates.map(t => ({ ...t, _programLabel: t.group }));
   }
 
-  // Combined list: category-specific first (if any), then program templates
-  // (Tape / Cart / Digital), then the generic five.
+  // ── Smart Multi-Pronged template ──────────────────────────────────
+  // A category-aware, business-researched email that sells the in-person +
+  // digital one-two punch and the outsized results it drives — written to sound
+  // like Tyler, not a template. Body is generated per-prospect at render time.
+
+  // Per-category framing: {noun}=who they serve, {win}=the outcome they want,
+  // {moment}=the buying moment we intercept.
+  const CATEGORY_ANGLE = [
+    { m: ['real estate','realtor','realty','mortgage','broker'], noun: 'homeowners', win: 'listings and closings', moment: 'the moment someone starts thinking about buying or selling' },
+    { m: ['dentist','dental','orthodont'], noun: 'families', win: 'new patients in the chair', moment: 'when a family is picking a dentist' },
+    { m: ['auto repair','oil change','tires','body shop','transmission','car wash','detailing','automotive'], noun: 'drivers', win: 'booked bays', moment: 'the second a check-engine light comes on' },
+    { m: ['hair salon','barber','nails','spa','gym','yoga','med spa','lash','massage','beauty','wellness','tanning'], noun: 'locals', win: 'a booked-solid calendar', moment: 'when someone finally books that appointment they keep putting off' },
+    { m: ['restaurant','pizza','mexican','coffee','cafe','bakery','sushi','bbq','deli','food','bar','pub','brewery','taco','wings'], noun: 'hungry shoppers', win: 'full tables and bigger tickets', moment: 'the second they leave the store deciding where to eat' },
+    { m: ['plumber','electrician','hvac','roofing','landscaping','cleaning','contractor','pest','painting','garage door','fencing','moving','home services'], noun: 'homeowners', win: 'a full job calendar', moment: 'the day something breaks and they need someone fast' },
+  ];
+  function getCategoryAngle() {
+    const hay = `${selectedCategory || ''} ${selectedSubcategory || ''}`.toLowerCase();
+    for (const a of CATEGORY_ANGLE) if (a.m.some(x => hay.includes(x))) return a;
+    return { noun: 'local customers', win: 'more customers through the door', moment: 'the moment they’re deciding who to go with' };
+  }
+
+  // Turn scraped research into one natural, specific sentence about the business.
+  function researchLine(prospect) {
+    const r = prospect && prospect._research;
+    if (!r || r.empty) return '';
+    const name = prospect.name;
+    const flags = r.flags || [];
+    if (r.services && r.services.length) {
+      const svc = r.services.slice(0, 2).join(' and ');
+      if (r.yearsCount) return `I did a little homework before reaching out — ${r.yearsCount} years doing ${svc} is no accident, and it tells me ${name} already does the hard part right.`;
+      if (flags.includes('family-owned') || flags.includes('locally-owned')) return `I did a little homework first — a ${flags.includes('family-owned') ? 'family-owned' : 'locally-owned'} shop known for ${svc} is exactly the kind of business this works best for.`;
+      return `I did a little homework before reaching out — the ${svc} side of what you do at ${name} really stood out.`;
+    }
+    if (r.yearsCount) return `I did a little homework first — ${r.yearsCount} years in business tells me ${name} is doing something right, and I think we can put a lot more eyes on it.`;
+    if (flags.includes('award-winning')) return `I did a little homework first — an award-winning reputation like ${name}’s deserves to be in front of a lot more people.`;
+    if (r.tagline) return `I did a little homework before reaching out — “${r.tagline}” is a great line, and it’s exactly the kind of story that lands when the right people see it.`;
+    return '';
+  }
+
+  // Build the full multi-pronged body for a specific prospect (Tyler's voice).
+  function buildMultiProngedBody(prospect) {
+    const a = getCategoryAngle();
+    const research = researchLine(prospect);
+    const openerResearch = research ? research + '\n\n' : '';
+    return (
+`Hi {contact},
+
+${openerResearch}Here’s the thing most advertising gets wrong: it picks a lane. You’re either in front of people out in the community, or you’re chasing them online — rarely both. So the message never really sticks.
+
+We do both, on purpose. Picture ${a.noun} near {store_short}: first they see ${prospect.name} in their hands at the checkout — your name, your offer, ${getStoreCustomers()} of them every week. Then, that same day, they see you again on their phone as they scroll, because we’ve drawn a digital fence around the neighborhoods that actually matter to you.
+
+Same customer. Two touchpoints. ${a.moment.charAt(0).toUpperCase() + a.moment.slice(1)} — and there you are, twice. That’s when a name goes from “never heard of them” to “oh yeah, those guys,” and that shift is where the real money is.
+
+The businesses running both together aren’t seeing little bumps. They’re seeing the kind of ${a.win} that changes how a month looks. In-person builds the trust; digital keeps you top of mind until they’re ready — and they always get ready.
+
+I’d love 10 minutes to map out exactly what this looks like for ${prospect.name}. No pitch marathon, just the plan. What does later this week look like for you?
+
+Best,
+{rep}
+IndoorMedia`
+    );
+  }
+
+  // The special dynamic template descriptor. body is a function(prospect).
+  function getMultiProngedTemplate() {
+    return {
+      id: 'multi-pronged',
+      icon: '🚀',
+      name: 'Multi-Pronged (In-Person + Digital)',
+      _featured: true,
+      _dynamic: true,
+      subject: 'Two ways {business} shows up for {chain} shoppers — same day',
+      body: (p) => buildMultiProngedBody(p),
+    };
+  }
+
+  // Combined list: featured Multi-Pronged first, then category-specific,
+  // then program templates (Tape / Cart / Digital), then the generic five.
   function getEmailTemplatesFor() {
-    return [...getCategoryTemplates(), ...getProgramTemplates(), ...emailTemplates];
+    return [getMultiProngedTemplate(), ...getCategoryTemplates(), ...getProgramTemplates(), ...emailTemplates];
   }
 
   // Build a natural store reference like "the Safeway on Center Street in Salem"
@@ -1698,6 +1774,8 @@
   // Replace all template placeholders including {store} and {customers} variants.
   // Pass the full prospect so we can read the saved contact name and address them.
   function fillTemplate(text, prospect) {
+    // Dynamic templates supply a function body(prospect); resolve it first.
+    if (typeof text === 'function') text = text(prospect);
     const rep = $user?.name || $user?.first_name || 'Your Rep';
     const prospectName = (prospect && typeof prospect === 'object') ? prospect.name : prospect;
     const contact = (prospect && typeof prospect === 'object') ? getSavedContactName(prospect) : '';
@@ -1898,6 +1976,78 @@
       } catch { /* next proxy */ }
     }
     return '';
+  }
+
+  // ── Business research (for the smart multi-pronged email) ────────────
+  // Pulls real, specific signals off the prospect's own website so the email
+  // can reference what THIS business actually does — not generic filler.
+  // Stashes { services:[], specialty, years, tagline } on prospect._research.
+  const RESEARCH_STOP = /^(and|the|for|with|your|our|you|all|new|our|get|book|call|now|home|about|contact|menu|hours|more|read|view|learn|free|best|shop|team|staff|us|we|to|of|in|on|at|a|an|is|are|we're|welcome)$/i;
+
+  function harvestBusinessResearch(html, acc) {
+    const text = htmlToText(html);
+    const low = text.toLowerCase();
+
+    // Services / offerings: look for common list phrasing.
+    const svcPatterns = [
+      /(?:we (?:offer|provide|specialize in|do)|our services include|services[:\-]|specializing in|specialties[:\-])\s+([^.!?]{6,140})/gi,
+    ];
+    for (const re of svcPatterns) {
+      for (const m of low.matchAll(re)) {
+        const chunk = (m[1] || '').replace(/&amp;/g, '&');
+        chunk.split(/,|\band\b|\/|\u2022|\|/).forEach(s => {
+          const t = s.trim().replace(/[^a-z0-9 &'-]/gi, '').trim();
+          const words = t.split(/\s+/).filter(Boolean);
+          if (t.length >= 4 && t.length <= 34 && words.length <= 4 && !RESEARCH_STOP.test(words[0])) {
+            acc.services.set(t, (acc.services.get(t) || 0) + 1);
+          }
+        });
+      }
+    }
+
+    // "Since 1998" / "est. 2004" / "family-owned since" / "X years"
+    const yr = low.match(/(?:since|established|est\.?|serving[^.]*since)\s*(19\d\d|20[0-2]\d)/);
+    if (yr && !acc.years) acc.years = yr[1];
+    const yrs = low.match(/(\d{1,3})\+?\s*years/);
+    if (yrs && !acc.yearsCount) acc.yearsCount = yrs[1];
+
+    // Trust signals worth name-dropping.
+    if (/family[\s-]owned/.test(low)) acc.flags.add('family-owned');
+    if (/locally[\s-]owned|local(?:ly)?\s+owned/.test(low)) acc.flags.add('locally-owned');
+    if (/award[\s-]winning|voted best|best of/.test(low)) acc.flags.add('award-winning');
+    if (/licensed (?:and|&) insured|licensed[\s,]+insured/.test(low)) acc.flags.add('licensed & insured');
+    if (/free (?:estimate|consultation|quote)/.test(low)) acc.flags.add('free estimates');
+
+    // Meta description often has a crisp one-liner about the business.
+    const meta = html.match(/<meta[^>]+name=["']description["'][^>]+content=["']([^"']{20,180})["']/i);
+    if (meta && !acc.tagline) acc.tagline = meta[1].replace(/&amp;/g, '&').replace(/\s+/g, ' ').trim();
+  }
+
+  // Crawl a few pages of the prospect's site and return a compact research object.
+  async function researchProspect(prospect, opts = {}) {
+    if (!prospect.website) { prospect._research = { empty: true }; return prospect._research; }
+    let base;
+    try { base = new URL(prospect.website.startsWith('http') ? prospect.website : 'https://' + prospect.website).origin; }
+    catch { base = prospect.website.replace(/\/$/, ''); }
+    const acc = { services: new Map(), years: '', yearsCount: '', flags: new Set(), tagline: '' };
+    const paths = ['', '/about', '/about-us', '/services', '/what-we-do'];
+    let count = 0;
+    for (const p of paths) {
+      if (count >= (opts.deep ? 5 : 4)) break;
+      count++;
+      try { const html = await fetchViaProxy(base + p, 7000); if (html) harvestBusinessResearch(html, acc); }
+      catch { /* keep going */ }
+    }
+    const services = [...acc.services.entries()].sort((a, b) => b[1] - a[1]).map(([s]) => s).slice(0, 3);
+    prospect._research = {
+      services,
+      years: acc.years || '',
+      yearsCount: acc.yearsCount || '',
+      flags: [...acc.flags],
+      tagline: acc.tagline || '',
+      empty: services.length === 0 && !acc.years && !acc.yearsCount && acc.flags.size === 0 && !acc.tagline,
+    };
+    return prospect._research;
   }
 
   // Deep-comb the prospect's website for a contact email: crawls the homepage +
@@ -2143,7 +2293,8 @@
 
   // Build the email body with optional graphic + testimonial appended.
   function composeEmailBody(tpl, prospect) {
-    let body = fillTemplate(tpl.body, prospect);
+    const rawBody = tpl._dynamic && typeof tpl.body === 'function' ? tpl.body(prospect) : tpl.body;
+    let body = fillTemplate(rawBody, prospect);
     const extras = [];
     if (prospect._emailGraphic) {
       const g = SHARE_GRAPHICS.find(x => x.id === prospect._emailGraphic);
@@ -2763,7 +2914,7 @@
                 <a href="tel:{prospect.phone}" class="action-btn btn-green" on:click={() => { trackPhoneClick(prospect); handleLeadAction(prospect, 'call'); }}>📞 Call</a>
                 <button class="action-btn btn-blue" on:click={() => { prospect._showText = !prospect._showText; prospect._showEmail = false; prospect._showScript = false; prospect._showNotes = false; prospects = prospects; handleLeadAction(prospect, 'text'); }}>💬 Text</button>
               {/if}
-              <button class="action-btn btn-purple" on:click={() => { prospect._showEmail = !prospect._showEmail; prospect._showText = false; prospect._showScript = false; prospect._showNotes = false; prospects = prospects; if (prospect._showEmail) { ensureProspectEmail(prospect); handleLeadAction(prospect, 'email'); } }}>✉️ Email</button>
+              <button class="action-btn btn-purple" on:click={() => { prospect._showEmail = !prospect._showEmail; prospect._showText = false; prospect._showScript = false; prospect._showNotes = false; prospects = prospects; if (prospect._showEmail) { ensureProspectEmail(prospect); if (!prospect._research && !prospect._researching) { prospect._researching = true; researchProspect(prospect).finally(() => { prospect._researching = false; prospects = prospects; }); } handleLeadAction(prospect, 'email'); } }}>✉️ Email</button>
               <button class="action-btn btn-orange" on:click={() => { handleLeadAction(prospect, 'walk-in'); }}>🚶 Walk-In</button>
             </div>
 
@@ -3035,8 +3186,8 @@
 
               <h4 class="email-title">Choose a template:</h4>
               {#each tplList as tpl}
-                <button class="email-tpl-btn" class:cat-tpl={tpl._categoryLabel} class:prog-tpl={tpl._programLabel} on:click={() => { prospect._selectedTpl = tpl.id; prospects = prospects; }}>
-                  {tpl.icon} {tpl.name}{#if tpl._categoryLabel} <span class="cat-badge">{tpl._categoryLabel}</span>{/if}{#if tpl._programLabel} <span class="prog-badge">{tpl._programLabel}</span>{/if}
+                <button class="email-tpl-btn" class:featured-tpl={tpl._featured} class:cat-tpl={tpl._categoryLabel} class:prog-tpl={tpl._programLabel} on:click={() => { prospect._selectedTpl = tpl.id; if (tpl._dynamic && !prospect._research && !prospect._researching) { prospect._researching = true; researchProspect(prospect).finally(() => { prospect._researching = false; prospects = prospects; }); } prospects = prospects; }}>
+                  {tpl.icon} {tpl.name}{#if tpl._featured} <span class="featured-badge">⭐ Best</span>{/if}{#if tpl._categoryLabel} <span class="cat-badge">{tpl._categoryLabel}</span>{/if}{#if tpl._programLabel} <span class="prog-badge">{tpl._programLabel}</span>{/if}
                 </button>
               {/each}
               {#if prospect._selectedTpl}
@@ -3064,6 +3215,11 @@
                 </div>
 
                 <div class="email-preview-box">
+                  {#if tpl._dynamic && prospect._researching}
+                    <p class="email-research-hint">🔍 Researching {prospect.name}’s website to personalize this email… (you can send now; it’ll sharpen once done)</p>
+                  {:else if tpl._dynamic && prospect._research && !prospect._research.empty}
+                    <p class="email-research-hint done">✅ Personalized using details from {prospect.name}’s website</p>
+                  {/if}
                   <p class="email-subject">Subject: {fillTemplate(tpl.subject, prospect)}</p>
                   <p class="email-body-text">{composeEmailBody(tpl, prospect)}</p>
                   <button class="action-btn full-width email-btn" on:click={() => {
@@ -4897,6 +5053,34 @@
     vertical-align: middle;
   }
   :global([data-theme='dark']) .email-tpl-btn.prog-tpl { background: #0e1a2a; }
+
+  .email-tpl-btn.featured-tpl {
+    border: 2px solid #7c3aed;
+    background: linear-gradient(135deg, #f5f3ff, #ede9fe);
+    font-weight: 700;
+  }
+  :global([data-theme='dark']) .email-tpl-btn.featured-tpl { background: #1e1633; }
+  .featured-badge {
+    display: inline-block;
+    font-size: 10px;
+    font-weight: 800;
+    color: #fff;
+    background: linear-gradient(135deg, #7c3aed, #6d28d9);
+    border-radius: 6px;
+    padding: 1px 7px;
+    margin-left: 6px;
+    vertical-align: middle;
+  }
+  .email-research-hint {
+    font-size: 12px;
+    color: #6d28d9;
+    background: #f5f3ff;
+    border-radius: 8px;
+    padding: 7px 10px;
+    margin: 0 0 8px;
+    font-style: italic;
+  }
+  .email-research-hint.done { color: #15803d; background: #f0fdf4; font-style: normal; }
 
   .email-to-row {
     display: flex;
