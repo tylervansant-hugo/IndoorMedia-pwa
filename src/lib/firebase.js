@@ -315,6 +315,58 @@ export async function getAllLeadData() {
   }
 }
 
+// ── Per-prospect contact activity log ────────────────────────────────
+// A running log of who contacted a prospect, how (call/text/email/walk-in/
+// note/status), and when. Stored one doc per prospect keyed by lead hash,
+// with the events appended to an `entries` array (capped at 50).
+export async function appendLeadActivity(prospectName, prospectAddr, entry) {
+  if (!db) return false;
+  try {
+    const id = hashLeadId(prospectName, prospectAddr);
+    const ref = doc(db, 'activity_daily', `lead_activity_${id}`);
+    const { getDoc } = await import('firebase/firestore');
+    const snap = await getDoc(ref);
+    const existing = (snap.exists() && Array.isArray(snap.data().entries)) ? snap.data().entries : [];
+    const clean = {
+      action: entry.action || 'contact',
+      rep: entry.rep || '',
+      repId: entry.repId != null ? String(entry.repId) : '',
+      detail: entry.detail || '',
+      at: entry.at || new Date().toISOString(),
+    };
+    const entries = [...existing, clean];
+    // Keep last 50 events per prospect
+    if (entries.length > 50) entries.splice(0, entries.length - 50);
+    await setDoc(ref, {
+      type: 'lead_activity',
+      prospectName: prospectName || '',
+      prospectAddress: prospectAddr || '',
+      entries,
+      lastAction: clean.action,
+      lastRep: clean.rep,
+      lastAt: clean.at,
+      updatedAt: new Date().toISOString(),
+    });
+    return true;
+  } catch (e) {
+    console.warn('appendLeadActivity error:', e);
+    return false;
+  }
+}
+
+// Get ALL lead-activity docs (for pre-loading into a cache).
+export async function getAllLeadActivity() {
+  if (!db) return [];
+  try {
+    const q = query(collection(db, 'activity_daily'), where('type', '==', 'lead_activity'));
+    const snapshot = await getDocs(q);
+    return snapshot.docs.map(d => d.data());
+  } catch (e) {
+    console.warn('getAllLeadActivity error:', e);
+    return [];
+  }
+}
+
 // ── Call-In Lead Assignments (manager assigns inbound leads to reps) ──
 // A call-in lead is hidden from reps until Tyler/Rick assigns it to a rep.
 // Stored one doc per lead, keyed by a stable lead key (crm_id or hash).

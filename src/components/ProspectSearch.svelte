@@ -2,7 +2,7 @@
   import { onMount, onDestroy, tick } from 'svelte';
   import { user, currentUser, sharedNearbyStores, sharedSelectedStore, sharedUserLocation } from '../lib/stores.js';
   import { logActivity } from '../lib/activity.js';
-  import { isFirebaseReady, whenFirebaseReady, claimStore, releaseStore, getZoneClaims, claimLead, releaseLead, getAllLeadClaims, saveLeadData, getLeadData, getAllLeadData, hashLeadId, saveRepProspects, getRepProspects, callInLeadKey, assignCallInLead, getAllCallInAssignments } from '../lib/firebase.js';
+  import { isFirebaseReady, whenFirebaseReady, claimStore, releaseStore, getZoneClaims, claimLead, releaseLead, getAllLeadClaims, saveLeadData, getLeadData, getAllLeadData, hashLeadId, saveRepProspects, getRepProspects, callInLeadKey, assignCallInLead, getAllCallInAssignments, appendLeadActivity, getAllLeadActivity } from '../lib/firebase.js';
   import HotLeadsSubmit from './HotLeadsSubmit.svelte';
   import PendingLeads from './PendingLeads.svelte';
   import MeetingPrep from './MeetingPrep.svelte';
@@ -51,6 +51,8 @@
   // ── Lead Claims (Dibs on Prospects) ──
   let leadClaims = {}; // keyed by hash
   let leadDataCache = {}; // keyed by hash — persistent lead data from Firebase
+  let leadActivityCache = {}; // keyed by hash — per-prospect contact activity log
+  let activityLogProspect = null; // prospect whose full activity log modal is open
 
   async function loadStoreClaims() {
     // Show cached dibs instantly (survives offline / cold start)
@@ -93,6 +95,75 @@
       map[id] = d;
     });
     leadDataCache = map;
+    loadAllLeadActivity();
+  }
+
+  async function loadAllLeadActivity() {
+    if (!(await whenFirebaseReady())) return;
+    try {
+      const all = await getAllLeadActivity();
+      const map = {};
+      all.forEach(d => {
+        const id = hashLeadId(d.prospectName, d.prospectAddress);
+        map[id] = d;
+      });
+      leadActivityCache = map;
+    } catch {}
+  }
+
+  // Human-friendly action label + emoji for an activity entry.
+  const ACTIVITY_META = {
+    call:   { icon: '📞', label: 'Called' },
+    text:   { icon: '💬', label: 'Texted' },
+    email:  { icon: '✉️', label: 'Emailed' },
+    'walk-in': { icon: '🚶', label: 'Walk-In' },
+    note:   { icon: '📝', label: 'Note' },
+    status: { icon: '🏷️', label: 'Status' },
+  };
+  function activityMeta(action) {
+    return ACTIVITY_META[action] || { icon: '•', label: (action || 'Contact') };
+  }
+
+  // Relative time like "2h ago", "3d ago", falling back to a date.
+  function timeAgo(iso) {
+    if (!iso) return '';
+    const then = new Date(iso).getTime();
+    if (isNaN(then)) return '';
+    const diff = Date.now() - then;
+    const min = Math.floor(diff / 60000);
+    if (min < 1) return 'just now';
+    if (min < 60) return min + 'm ago';
+    const hr = Math.floor(min / 60);
+    if (hr < 24) return hr + 'h ago';
+    const d = Math.floor(hr / 24);
+    if (d < 7) return d + 'd ago';
+    return new Date(iso).toLocaleDateString();
+  }
+
+  // Most-recent activity entry for a prospect (or null).
+  function getLastActivity(prospect) {
+    const doc = leadActivityCache[getLeadHash(prospect)];
+    if (doc && Array.isArray(doc.entries) && doc.entries.length) {
+      return doc.entries[doc.entries.length - 1];
+    }
+    // Fall back to a lead-claim's lastAction if no activity log yet.
+    const claim = leadClaims[getLeadHash(prospect)];
+    if (claim && claim.lastAction) {
+      return { action: claim.lastAction, rep: claim.repName || '', at: claim.lastActionAt || claim.claimedAt };
+    }
+    return null;
+  }
+
+  function getActivityEntries(prospect) {
+    const doc = leadActivityCache[getLeadHash(prospect)];
+    return (doc && Array.isArray(doc.entries)) ? [...doc.entries].reverse() : [];
+  }
+
+  function openActivityLog(prospect) {
+    activityLogProspect = prospect;
+  }
+  function closeActivityLog() {
+    activityLogProspect = null;
   }
 
   function getLeadHash(prospect) {
@@ -217,6 +288,30 @@
       };
       leadClaims = leadClaims;
     }
+    // Record a per-prospect activity-log entry (who / what / when).
+    recordProspectActivity(prospect, action, repName, repId);
+  }
+
+  // Append a contact event to the prospect's activity log (local cache +
+  // Firebase) so the card can show "who did it and when" and the full log.
+  async function recordProspectActivity(prospect, action, repName, repId, detail = '') {
+    const id = getLeadHash(prospect);
+    const entry = {
+      action,
+      rep: repName || repDisplayName() || 'Unknown',
+      repId: repId != null ? String(repId) : String($user?.id || $user?.rep_id || ''),
+      detail: detail || '',
+      at: new Date().toISOString(),
+    };
+    // Update local cache immediately for instant UI feedback.
+    const existing = leadActivityCache[id] || { prospectName: prospect.name, prospectAddress: prospect.address, entries: [] };
+    const entries = [...(existing.entries || []), entry];
+    if (entries.length > 50) entries.splice(0, entries.length - 50);
+    leadActivityCache[id] = { ...existing, prospectName: prospect.name, prospectAddress: prospect.address, entries, lastAction: action, lastRep: entry.rep, lastAt: entry.at };
+    leadActivityCache = leadActivityCache;
+    try {
+      if (await whenFirebaseReady(4000)) await appendLeadActivity(prospect.name, prospect.address, entry);
+    } catch {}
   }
 
   async function handleLeadRelease(prospect) {
@@ -2918,6 +3013,23 @@ IndoorMedia`
               <button class="action-btn btn-orange" on:click={() => { handleLeadAction(prospect, 'walk-in'); }}>🚶 Walk-In</button>
             </div>
 
+            <!-- Last contact activity -->
+            {#if getLastActivity(prospect)}
+              {@const la = getLastActivity(prospect)}
+              {@const lm = activityMeta(la.action)}
+              <button class="last-activity" on:click|stopPropagation={() => openActivityLog(prospect)} title="View full activity log">
+                <span class="la-icon">{lm.icon}</span>
+                <span class="la-text">{lm.label}{#if la.rep} by {shortName(la.rep)}{/if} · {timeAgo(la.at)}</span>
+                <span class="la-more">Log ›</span>
+              </button>
+            {:else}
+              <button class="last-activity la-empty" on:click|stopPropagation={() => openActivityLog(prospect)} title="View activity log">
+                <span class="la-icon">🕒</span>
+                <span class="la-text">No contact logged yet</span>
+                <span class="la-more">Log ›</span>
+              </button>
+            {/if}
+
             <!-- Row 2: Research -->
             <div class="action-row">
               {#if prospect.website}
@@ -3738,9 +3850,99 @@ IndoorMedia`
       </div>
     </div>
   {/if}
+
+  <!-- Full activity-log modal -->
+  {#if activityLogProspect}
+    {@const entries = getActivityEntries(activityLogProspect)}
+    <div class="activity-log-overlay" on:click|self={closeActivityLog}>
+      <div class="activity-log-modal">
+        <button class="al-close" on:click={closeActivityLog}>✕</button>
+        <h3 class="al-title">📋 Activity Log</h3>
+        <p class="al-sub">{activityLogProspect.name}</p>
+        {#if entries.length}
+          <div class="al-list">
+            {#each entries as e}
+              {@const m = activityMeta(e.action)}
+              <div class="al-item">
+                <span class="al-item-icon">{m.icon}</span>
+                <div class="al-item-body">
+                  <div class="al-item-line">
+                    <strong>{m.label}</strong>{#if e.rep} by {shortName(e.rep)}{/if}
+                    {#if e.detail}<span class="al-detail"> — {e.detail}</span>{/if}
+                  </div>
+                  <div class="al-item-time">{new Date(e.at).toLocaleString('en-US', { month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit' })} · {timeAgo(e.at)}</div>
+                </div>
+              </div>
+            {/each}
+          </div>
+        {:else}
+          <p class="al-empty-msg">No contact activity logged yet. Tapping Call, Text, Email, or Walk-In will start the log.</p>
+        {/if}
+      </div>
+    </div>
+  {/if}
 </div>
 
 <style>
+  /* Last-contact activity line under the action buttons */
+  .last-activity {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    width: 100%;
+    margin: 6px 0 2px;
+    padding: 7px 10px;
+    background: #f1f8f4;
+    border: 1px solid #cde9d6;
+    border-radius: 8px;
+    font-size: 0.82rem;
+    color: #256b43;
+    cursor: pointer;
+    text-align: left;
+  }
+  .last-activity:active { transform: scale(0.99); }
+  .last-activity.la-empty { background: #f5f5f5; border-color: #e0e0e0; color: #888; }
+  .la-icon { font-size: 0.95rem; }
+  .la-text { flex: 1; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .la-more { font-weight: 700; opacity: 0.7; font-size: 0.78rem; }
+  :global([data-theme='dark']) .last-activity { background: #1b3a2a; border-color: #2e6b47; color: #a5e3bd; }
+  :global([data-theme='dark']) .last-activity.la-empty { background: #2a2a2a; border-color: #444; color: #999; }
+
+  /* Full activity-log modal */
+  .activity-log-overlay {
+    position: fixed; inset: 0; z-index: 1000;
+    background: rgba(0,0,0,0.5);
+    display: flex; align-items: center; justify-content: center;
+    padding: 16px;
+  }
+  .activity-log-modal {
+    position: relative;
+    background: #fff;
+    border-radius: 14px;
+    width: 100%; max-width: 440px;
+    max-height: 80vh; overflow-y: auto;
+    padding: 20px 18px 18px;
+    box-shadow: 0 12px 40px rgba(0,0,0,0.3);
+  }
+  :global([data-theme='dark']) .activity-log-modal { background: #1e1e1e; color: #eee; }
+  .al-close {
+    position: absolute; top: 12px; right: 12px;
+    background: none; border: none; font-size: 1.2rem; cursor: pointer; color: #999;
+  }
+  .al-title { margin: 0 0 2px; font-size: 1.1rem; }
+  .al-sub { margin: 0 0 14px; color: #777; font-size: 0.9rem; }
+  :global([data-theme='dark']) .al-sub { color: #aaa; }
+  .al-list { display: flex; flex-direction: column; gap: 10px; }
+  .al-item { display: flex; gap: 10px; padding: 8px 0; border-bottom: 1px solid #eee; }
+  :global([data-theme='dark']) .al-item { border-color: #333; }
+  .al-item-icon { font-size: 1.1rem; line-height: 1.4; }
+  .al-item-body { flex: 1; }
+  .al-item-line { font-size: 0.9rem; }
+  .al-detail { color: #666; }
+  :global([data-theme='dark']) .al-detail { color: #bbb; }
+  .al-item-time { font-size: 0.78rem; color: #999; margin-top: 2px; }
+  .al-empty-msg { color: #888; font-size: 0.9rem; text-align: center; padding: 20px 8px; }
+
   .meeting-prep-overlay {
     position: fixed;
     inset: 0;
