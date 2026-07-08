@@ -2,7 +2,7 @@
   import { onMount, onDestroy, tick } from 'svelte';
   import { user, currentUser, sharedNearbyStores, sharedSelectedStore, sharedUserLocation } from '../lib/stores.js';
   import { logActivity } from '../lib/activity.js';
-  import { isFirebaseReady, whenFirebaseReady, claimStore, releaseStore, getZoneClaims, claimLead, releaseLead, getAllLeadClaims, saveLeadData, getLeadData, getAllLeadData, hashLeadId, saveRepProspects, getRepProspects, callInLeadKey, assignCallInLead, getAllCallInAssignments, appendLeadActivity, getAllLeadActivity } from '../lib/firebase.js';
+  import { isFirebaseReady, whenFirebaseReady, claimStore, releaseStore, getZoneClaims, claimLead, releaseLead, getAllLeadClaims, saveLeadData, getLeadData, getAllLeadData, hashLeadId, saveRepProspects, getRepProspects, callInLeadKey, assignCallInLead, getAllCallInAssignments, appendLeadActivity, getAllLeadActivity, uploadEmailAttachment } from '../lib/firebase.js';
   import HotLeadsSubmit from './HotLeadsSubmit.svelte';
   import PendingLeads from './PendingLeads.svelte';
   import MeetingPrep from './MeetingPrep.svelte';
@@ -2386,11 +2386,105 @@ IndoorMedia`
     return origin + (import.meta.env.BASE_URL || '/') + g.file;
   }
 
+  // ── Email video / image attachment (Google Drive link or phone gallery) ──
+  // mailto: cannot carry real binary attachments, so we embed a clickable
+  // link. Drive links are used as-is (normalized to a viewable URL); gallery
+  // files are uploaded to Firebase Storage and the download URL is embedded.
+  // When the device supports the Web Share API with files, the "Share" button
+  // can also hand the real file to the native mail app.
+
+  // Normalize a Google Drive share URL to a clean, openable link.
+  function normalizeDriveLink(url) {
+    if (!url) return '';
+    const u = url.trim();
+    // Pull the file id from common Drive URL shapes.
+    const m = u.match(/\/file\/d\/([a-zA-Z0-9_-]+)/) || u.match(/[?&]id=([a-zA-Z0-9_-]+)/);
+    if (m) return `https://drive.google.com/file/d/${m[1]}/view?usp=sharing`;
+    return u;
+  }
+
+  function setEmailDriveLink(prospect, url) {
+    const link = normalizeDriveLink(url);
+    prospect._emailAttachUrl = link;
+    prospect._emailAttachName = 'Video (Google Drive)';
+    prospect._emailAttachType = 'drive';
+    prospect._emailAttachFile = null;
+    prospects = prospects;
+  }
+
+  function clearEmailAttachment(prospect) {
+    prospect._emailAttachUrl = '';
+    prospect._emailAttachName = '';
+    prospect._emailAttachType = '';
+    prospect._emailAttachFile = null;
+    prospect._emailAttachUploading = false;
+    prospect._emailAttachProgress = 0;
+    prospect._emailDriveInput = '';
+    prospects = prospects;
+  }
+
+  // Handle a file chosen from the phone gallery / camera.
+  async function handleEmailFilePick(prospect, ev) {
+    const file = ev.target.files && ev.target.files[0];
+    if (!file) return;
+    prospect._emailAttachFile = file;
+    prospect._emailAttachName = file.name || (file.type.startsWith('video') ? 'Video' : 'Image');
+    prospect._emailAttachType = file.type.startsWith('video') ? 'video' : 'image';
+    prospect._emailAttachUrl = '';
+    prospect._emailAttachUploading = true;
+    prospect._emailAttachProgress = 0;
+    prospects = prospects;
+    if (!(await whenFirebaseReady(4000))) {
+      prospect._emailAttachUploading = false;
+      prospect._emailAttachError = 'Cloud upload unavailable — you can still Share the file directly.';
+      prospects = prospects;
+      return;
+    }
+    const url = await uploadEmailAttachment(file, (p) => {
+      prospect._emailAttachProgress = Math.round(p * 100);
+      prospects = prospects;
+    });
+    prospect._emailAttachUploading = false;
+    if (url) {
+      prospect._emailAttachUrl = url;
+      prospect._emailAttachError = '';
+    } else {
+      prospect._emailAttachError = 'Upload failed — you can still Share the file directly to your mail app.';
+    }
+    prospects = prospects;
+  }
+
+  // True when this device can attach the real file to a native share/mail sheet.
+  function canShareFile(prospect) {
+    try {
+      return !!(prospect._emailAttachFile && navigator.canShare && navigator.canShare({ files: [prospect._emailAttachFile] }));
+    } catch { return false; }
+  }
+
+  // Share the email (with the real file attached) via the native share sheet.
+  async function shareEmailWithFile(tpl, prospect) {
+    try {
+      const subject = fillTemplate(tpl.subject, prospect);
+      const text = composeEmailBody(tpl, prospect);
+      const data = { title: subject, text };
+      if (prospect._emailAttachFile && navigator.canShare && navigator.canShare({ files: [prospect._emailAttachFile] })) {
+        data.files = [prospect._emailAttachFile];
+      }
+      await navigator.share(data);
+      handleLeadAction(prospect, 'email');
+    } catch (e) { /* user cancelled or unsupported */ }
+  }
+
   // Build the email body with optional graphic + testimonial appended.
   function composeEmailBody(tpl, prospect) {
     const rawBody = tpl._dynamic && typeof tpl.body === 'function' ? tpl.body(prospect) : tpl.body;
     let body = fillTemplate(rawBody, prospect);
     const extras = [];
+    if (prospect._emailAttachUrl) {
+      const isVideo = prospect._emailAttachType === 'drive' || prospect._emailAttachType === 'video';
+      const label = isVideo ? '🎥 Watch a quick video' : '🖼️ See the details';
+      extras.push(`${label}:\n${prospect._emailAttachUrl}`);
+    }
     if (prospect._emailGraphic) {
       const g = SHARE_GRAPHICS.find(x => x.id === prospect._emailGraphic);
       if (g) extras.push(`Here's a quick look at how it works:\n${graphicUrl(g)}`);
@@ -3324,6 +3418,43 @@ IndoorMedia`
                     {@const g = SHARE_GRAPHICS.find(x => x.id === prospect._emailGraphic)}
                     {#if g}<img class="email-graphic-thumb" src={graphicUrl(g)} alt={g.title} loading="lazy" />{/if}
                   {/if}
+
+                  <!-- Attach a video / image (Google Drive link or phone gallery) -->
+                  <div class="email-attach">
+                    <span class="email-addon-label">🎥 Attach a video or image:</span>
+                    {#if !prospect._emailAttachUrl && !prospect._emailAttachFile}
+                      <div class="email-attach-row">
+                        <input class="email-drive-input" type="url" inputmode="url"
+                          placeholder="Paste Google Drive link…"
+                          bind:value={prospect._emailDriveInput}
+                          on:keydown={(e) => { if (e.key === 'Enter' && prospect._emailDriveInput) setEmailDriveLink(prospect, prospect._emailDriveInput); }} />
+                        <button class="email-attach-add" disabled={!prospect._emailDriveInput}
+                          on:click={() => setEmailDriveLink(prospect, prospect._emailDriveInput)}>Add link</button>
+                      </div>
+                      <label class="email-gallery-btn">
+                        📱 Choose from gallery
+                        <input type="file" accept="video/*,image/*" capture
+                          on:change={(e) => handleEmailFilePick(prospect, e)} hidden />
+                      </label>
+                      <p class="email-attach-hint">Drive links & uploaded files embed as a tap-to-watch link. On phones, use “Share” to attach the real file.</p>
+                    {:else}
+                      <div class="email-attach-chip">
+                        <span class="eac-icon">{prospect._emailAttachType === 'image' ? '🖼️' : '🎥'}</span>
+                        <span class="eac-name">{prospect._emailAttachName || 'Attachment'}</span>
+                        {#if prospect._emailAttachUploading}
+                          <span class="eac-status">Uploading {prospect._emailAttachProgress || 0}%…</span>
+                        {:else if prospect._emailAttachUrl}
+                          <span class="eac-status ok">✓ Linked</span>
+                        {:else if prospect._emailAttachError}
+                          <span class="eac-status warn">{prospect._emailAttachError}</span>
+                        {/if}
+                        <button class="eac-remove" on:click={() => clearEmailAttachment(prospect)}>✕</button>
+                      </div>
+                      {#if canShareFile(prospect)}
+                        <button class="email-share-btn" on:click={() => shareEmailWithFile(tpl, prospect)}>📤 Share email with file attached</button>
+                      {/if}
+                    {/if}
+                  </div>
                 </div>
 
                 <div class="email-preview-box">
@@ -5380,6 +5511,82 @@ IndoorMedia`
     border: 1px solid var(--border-color, #ddd);
     align-self: center;
   }
+
+  /* Video / image attachment */
+  .email-attach {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    padding-top: 8px;
+    border-top: 1px dashed var(--border-color, #ddd);
+  }
+  .email-attach-row { display: flex; gap: 6px; }
+  .email-drive-input {
+    flex: 1;
+    min-width: 0;
+    padding: 6px 8px;
+    border-radius: 8px;
+    border: 1px solid var(--border-color, #ddd);
+    font-size: 13px;
+    background: var(--card-bg, #fff);
+    color: var(--text-primary);
+  }
+  .email-attach-add {
+    padding: 6px 10px;
+    border-radius: 8px;
+    border: none;
+    background: #1565c0;
+    color: #fff;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    white-space: nowrap;
+  }
+  .email-attach-add:disabled { opacity: 0.5; cursor: default; }
+  .email-gallery-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    padding: 8px 10px;
+    border-radius: 8px;
+    border: 1px solid #1565c0;
+    color: #1565c0;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    background: transparent;
+  }
+  .email-gallery-btn:active { background: #e3f0fc; }
+  .email-attach-hint { font-size: 11px; color: #888; margin: 0; line-height: 1.4; }
+  .email-attach-chip {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 10px;
+    background: #f1f8f4;
+    border: 1px solid #cde9d6;
+    border-radius: 8px;
+    font-size: 13px;
+  }
+  :global([data-theme='dark']) .email-attach-chip { background: #1b3a2a; border-color: #2e6b47; }
+  .eac-icon { font-size: 1rem; }
+  .eac-name { flex: 1; font-weight: 600; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; color: var(--text-primary); }
+  .eac-status { font-size: 11px; color: #888; white-space: nowrap; }
+  .eac-status.ok { color: #2e7d32; font-weight: 600; }
+  .eac-status.warn { color: #c0392b; white-space: normal; }
+  .eac-remove { background: none; border: none; font-size: 1rem; color: #999; cursor: pointer; padding: 0 2px; }
+  .email-share-btn {
+    padding: 8px 10px;
+    border-radius: 8px;
+    border: none;
+    background: #2e7d32;
+    color: #fff;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+  }
+  .email-share-btn:active { opacity: 0.85; }
   .email-btn-secondary {
     background: transparent !important;
     color: #1565c0 !important;

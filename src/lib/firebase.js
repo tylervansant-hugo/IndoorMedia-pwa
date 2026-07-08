@@ -39,6 +39,34 @@ export function initFirebase(config = null) {
   }
 }
 
+// Upload a file (video/image picked from the phone gallery) to Firebase
+// Storage and return a public download URL for embedding in an email.
+// onProgress(0..1) is called as bytes upload. Returns null on failure.
+export async function uploadEmailAttachment(file, onProgress) {
+  if (!firebaseApp) return null;
+  try {
+    const { getStorage, ref, uploadBytesResumable, getDownloadURL } = await import('firebase/storage');
+    const storage = getStorage(firebaseApp);
+    const safeName = (file.name || 'attachment').replace(/[^a-zA-Z0-9._-]/g, '_');
+    const path = `email_attachments/${Date.now()}_${Math.random().toString(36).slice(2, 8)}_${safeName}`;
+    const storageRef = ref(storage, path);
+    const task = uploadBytesResumable(storageRef, file, { contentType: file.type || 'application/octet-stream' });
+    return await new Promise((resolve) => {
+      task.on('state_changed',
+        (snap) => { if (onProgress && snap.totalBytes) onProgress(snap.bytesTransferred / snap.totalBytes); },
+        (err) => { console.warn('uploadEmailAttachment error:', err); resolve(null); },
+        async () => {
+          try { resolve(await getDownloadURL(task.snapshot.ref)); }
+          catch (e) { console.warn('getDownloadURL error:', e); resolve(null); }
+        }
+      );
+    });
+  } catch (e) {
+    console.warn('uploadEmailAttachment error:', e);
+    return null;
+  }
+}
+
 export function isFirebaseReady() {
   return db !== null;
 }
