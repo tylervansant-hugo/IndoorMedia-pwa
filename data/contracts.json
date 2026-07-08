@@ -9406,6 +9406,27 @@
       "product_type": "digital"
     },
     {
+      "contract_number": "J433820E",
+      "date": "2026-07-07 00:00",
+      "business_name": "RE/MAX Coast & Country - Jude",
+      "contact_name": "Jude Hodge",
+      "contact_email": "judehodge@gmail.com",
+      "contact_phone": "(541) 813-9261",
+      "sales_rep": "Tyler VanSant",
+      "store_name": "Fred Meyer",
+      "store_number": "0030",
+      "zone": "07Y",
+      "product_description": "Single Ad",
+      "total_amount": 9788.0,
+      "payment_date": "7/7/2026",
+      "address": "325 5th St, Brookings, 97415",
+      "extracted_at": "2026-07-07T20:00:55.184981",
+      "quarters": 8,
+      "term_months": 24,
+      "is_renewal": true,
+      "paid_in_full": true
+    },
+    {
       "contract_number": "D413319E",
       "date": "",
       "business_name": "Before n after weight loss",
@@ -11947,5 +11968,5 @@
       "paid_in_full": false
     }
   ],
-  "last_scan": "2026-07-06T20:00:11.888867"
+  "last_scan": "2026-07-07T20:00:55.186339"
 }
