@@ -256,6 +256,9 @@ ${plans.map((p, i) => `<tr class="${i === plans.length - 1 ? 'best' : ''}"><td>$
   let roiNewCustomers = 10;
   let roiVisitsPerYear = 12;
   let roiCOGS = 0;
+  let roiDiscountAmount = 0;   // flat $ off per redemption
+  let roiDiscountPercent = 0;  // % off per redemption
+  let roiGiveawayCost = 0;     // cost of free/giveaway item per redemption
 
   // New customers can't exceed total redemptions.
   $: if (roiNewCustomers > roiCouponRedemptions) roiNewCustomers = roiCouponRedemptions;
@@ -268,6 +271,9 @@ ${plans.map((p, i) => `<tr class="${i === plans.length - 1 ? 'best' : ''}"><td>$
     roiNewCustomers = 10;
     roiVisitsPerYear = 12;
     roiCOGS = 0;
+    roiDiscountAmount = 0;
+    roiDiscountPercent = 0;
+    roiGiveawayCost = 0;
   }
 
   const ROI_TRANSLATIONS = {
@@ -289,8 +295,13 @@ ${plans.map((p, i) => `<tr class="${i === plans.length - 1 ? 'best' : ''}"><td>$
       newCustomers: roiNewCustomers || 0,
       cogsPercent: roiCOGS || 0,
       visitsPerYear: roiVisitsPerYear || 12,
+      discountAmount: roiDiscountAmount || 0,
+      discountPercent: roiDiscountPercent || 0,
+      giveawayCost: roiGiveawayCost || 0,
     });
     const grossRevenue = roiCalc.grossRevenue;
+    const giveawayTotal = roiCalc.giveawayTotal;
+    const effectiveSpend = roiCalc.effectiveSpend;
     const newCustomerRevenue = roiCalc.newCustomerRevenue;
     const returningRevenue = roiCalc.returningRevenue;
     const cogsAmount = roiCalc.cogs;
@@ -334,6 +345,10 @@ ${plans.map((p, i) => `<tr class="${i === plans.length - 1 ? 'best' : ''}"><td>$
   <div class="row"><span class="label">Coupon Redemptions / Month</span><span class="value">${roiCouponRedemptions}</span></div>
   <div class="row"><span class="label">${r.newCust} (of redemptions)</span><span class="value">${roiNewCustomers}</span></div>
   <div class="row"><span class="label">Returning / Loyal / Month</span><span class="value">${Math.max(0, (roiCouponRedemptions||0) - (roiNewCustomers||0))}</span></div>
+  ${roiDiscountPercent ? `<div class="row"><span class="label">Coupon Discount (% off)</span><span class="value">${roiDiscountPercent}%</span></div>` : ''}
+  ${roiDiscountAmount ? `<div class="row"><span class="label">Coupon Discount ($ off)</span><span class="value">$${roiDiscountAmount}</span></div>` : ''}
+  ${(roiDiscountPercent || roiDiscountAmount) ? `<div class="row"><span class="label">Effective Spend / Visit</span><span class="value">$${effectiveSpend.toLocaleString()}</span></div>` : ''}
+  ${roiGiveawayCost ? `<div class="row"><span class="label">Giveaway Cost / Redemption</span><span class="value">$${roiGiveawayCost}</span></div>` : ''}
   ${roiCOGS ? `<div class="row"><span class="label">${r.cogs}</span><span class="value">${roiCOGS}%</span></div>` : ''}
 </div>
 
@@ -342,8 +357,9 @@ ${plans.map((p, i) => `<tr class="${i === plans.length - 1 ? 'best' : ''}"><td>$
   <div class="row"><span class="label">New Customer Revenue (compounding)</span><span class="value green">$${newCustomerRevenue.toLocaleString()}</span></div>
   <div class="row"><span class="label">Returning / Loyal Revenue</span><span class="value green">$${returningRevenue.toLocaleString()}</span></div>
   <div class="row"><span class="label">${r.grossAnnual}</span><span class="value green">$${grossRevenue.toLocaleString()}</span></div>
-  ${roiCOGS ? `<div class="row"><span class="label">${r.cogsLabel} (${roiCOGS}%)</span><span class="value red">-$${cogsAmount.toLocaleString()}</span></div>
-  <div class="row"><span class="label">${r.netAnnual}</span><span class="value green">$${netRevenue.toLocaleString()}</span></div>` : ''}
+  ${roiCOGS ? `<div class="row"><span class="label">${r.cogsLabel} (${roiCOGS}%)</span><span class="value red">-$${cogsAmount.toLocaleString()}</span></div>` : ''}
+  ${giveawayTotal ? `<div class="row"><span class="label">Giveaway Cost (Year)</span><span class="value red">-$${giveawayTotal.toLocaleString()}</span></div>` : ''}
+  ${(roiCOGS || giveawayTotal) ? `<div class="row"><span class="label">${r.netAnnual}</span><span class="value green">$${netRevenue.toLocaleString()}</span></div>` : ''}
 </div>
 
 <div class="section">
@@ -384,6 +400,9 @@ ${plans.map((p, i) => `<tr class="${i === plans.length - 1 ? 'best' : ''}"><td>$
       newCustomers: roiNewCustomers || 0,
       cogsPercent: roiCOGS || 0,
       visitsPerYear: roiVisitsPerYear || 12,
+      discountAmount: roiDiscountAmount || 0,
+      discountPercent: roiDiscountPercent || 0,
+      giveawayCost: roiGiveawayCost || 0,
     });
 
     const text = `📊 ROI Report — ${store.GroceryChain} ${store.City}, ${store.State}
@@ -391,7 +410,7 @@ Store: ${store.StoreName}
 
 💰 Investment: $${inv.toLocaleString()}
 📈 Gross Annual Revenue: $${roiCalc.grossRevenue.toLocaleString()}
-📉 COGS (${roiCOGS || 0}%): -$${roiCalc.cogs.toLocaleString()}
+📉 COGS (${roiCOGS || 0}%): -$${roiCalc.cogs.toLocaleString()}${roiCalc.giveawayTotal ? `\n🎁 Giveaway Cost: -$${roiCalc.giveawayTotal.toLocaleString()}` : ''}
 💵 Net Annual Revenue: $${roiCalc.netRevenue.toLocaleString()}
 
 ✅ ROI: ${roiCalc.roiPercent}%
@@ -1376,8 +1395,24 @@ Store: ${store.StoreName}
                       <input type="number" bind:value={roiCOGS} placeholder="0" min="0" max="100" />
                     </div>
 
+                    <div class="roi-coupon-box roi-offer-box">
+                      <div class="roi-coupon-header roi-offer-header">🏷️ Coupon Offer Cost</div>
+                      <div class="roi-field">
+                        <label>Discount — $ Off</label>
+                        <input type="number" bind:value={roiDiscountAmount} placeholder="0" min="0" />
+                      </div>
+                      <div class="roi-field">
+                        <label>Discount — % Off</label>
+                        <input type="number" bind:value={roiDiscountPercent} placeholder="0" min="0" max="100" />
+                      </div>
+                      <div class="roi-field">
+                        <label>Giveaway Cost — free item ($)</label>
+                        <input type="number" bind:value={roiGiveawayCost} placeholder="0" min="0" />
+                      </div>
+                    </div>
+
                     {#if roiAvgSpend && roiCouponRedemptions}
-                      {@const roiCalc = sharedCalculateROI({ investment: parseFloat(roiInvestment.replace(/,/g, '')) || 0, avgSpend: roiAvgSpend || 0, couponRedemptions: roiCouponRedemptions || 0, newCustomers: roiNewCustomers || 0, cogsPercent: roiCOGS || 0, visitsPerYear: roiVisitsPerYear || 12 })}
+                      {@const roiCalc = sharedCalculateROI({ investment: parseFloat(roiInvestment.replace(/,/g, '')) || 0, avgSpend: roiAvgSpend || 0, couponRedemptions: roiCouponRedemptions || 0, newCustomers: roiNewCustomers || 0, cogsPercent: roiCOGS || 0, visitsPerYear: roiVisitsPerYear || 12, discountAmount: roiDiscountAmount || 0, discountPercent: roiDiscountPercent || 0, giveawayCost: roiGiveawayCost || 0 })}
                       
                       <div class="roi-results">
                         <div class="roi-result-card">
@@ -1396,6 +1431,18 @@ Store: ${store.StoreName}
                           <span class="roi-label">COGS ({roiCOGS || 0}%)</span>
                           <span class="roi-value">-${roiCalc.cogs.toLocaleString()}</span>
                         </div>
+                        {#if roiCalc.giveawayTotal > 0}
+                        <div class="roi-result-card">
+                          <span class="roi-label">Giveaway Cost (Year)</span>
+                          <span class="roi-value">-${roiCalc.giveawayTotal.toLocaleString()}</span>
+                        </div>
+                        {/if}
+                        {#if (roiDiscountAmount > 0 || roiDiscountPercent > 0)}
+                        <div class="roi-result-card">
+                          <span class="roi-label">Effective Spend / Visit</span>
+                          <span class="roi-value">${roiCalc.effectiveSpend.toLocaleString()}</span>
+                        </div>
+                        {/if}
                         <div class="roi-result-card">
                           <span class="roi-label">Net Annual Revenue</span>
                           <span class="roi-value green">${roiCalc.netRevenue.toLocaleString()}</span>

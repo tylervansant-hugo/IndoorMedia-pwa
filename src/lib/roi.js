@@ -55,9 +55,13 @@ export function calculateROI({
   // Compounding factor: sum of 1..12 = 78
   const COMPOUNDING_FACTOR = 78; // 12 * 13 / 2
 
+  // If a caller supplies newCustomers without an explicit couponRedemptions
+  // (e.g. the Tools ROI calculator has no "redemptions" field), treat total
+  // redemptions as at least the new-customer count so they aren't clamped away.
+  const effectiveRedemptions = Math.max(couponRedemptions, newCustomers);
   // Clamp: new customers can't exceed total redemptions.
-  const newCust = Math.max(0, Math.min(newCustomers, couponRedemptions));
-  const returningCust = Math.max(0, couponRedemptions - newCust);
+  const newCust = Math.max(0, Math.min(newCustomers, effectiveRedemptions));
+  const returningCust = Math.max(0, effectiveRedemptions - newCust);
 
   // Effective spend after the coupon offer (% off first, then $ off). Never below 0.
   const pctOff = Math.max(0, Math.min(discountPercent, 100)) / 100;
