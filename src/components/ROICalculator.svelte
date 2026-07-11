@@ -8,18 +8,26 @@
   let newCustomers = 10;
   let cogsPercent = 35;
 
+  // Coupon offer cost inputs
+  let discountAmount = 0;    // flat $ off per redemption
+  let discountPercent = 0;   // % off per redemption
+  let giveawayCost = 0;      // cost of a free/giveaway item per redemption
+
   // New customers can't exceed total redemptions.
   $: newCustomers = Math.min(newCustomers, couponRedemptions);
   $: returningCustomers = Math.max(0, couponRedemptions - newCustomers);
   // Single source of truth: shared ROI module (same as Stores tab + export PDF).
-  $: roiCalc = calculateROI({ investment, avgSpend, couponRedemptions, newCustomers, cogsPercent });
+  $: roiCalc = calculateROI({ investment, avgSpend, couponRedemptions, newCustomers, cogsPercent, discountAmount, discountPercent, giveawayCost });
   $: newCustomerRevenue = roiCalc.newCustomerRevenue;
   $: returningRevenue = roiCalc.returningRevenue;
   $: grossRevenue = roiCalc.grossRevenue;
   $: cogs = roiCalc.cogs;
+  $: giveawayTotal = roiCalc.giveawayTotal;
+  $: effectiveSpend = roiCalc.effectiveSpend;
   $: netRevenue = roiCalc.netRevenue;
   $: netProfit = roiCalc.netProfit;
   $: roi = roiCalc.roiPercent;
+  $: hasOffer = discountAmount > 0 || discountPercent > 0 || giveawayCost > 0;
 </script>
 
 <div class="roi-container">
@@ -65,6 +73,36 @@
       <input type="range" min="0" max="70" step="5" bind:value={cogsPercent}>
       <span class="value">{cogsPercent}%</span>
     </div>
+
+    <div class="offer-section">
+      <div class="offer-header">🏷️ Coupon Offer Cost</div>
+      <p class="offer-sub">What the business gives up per redemption</p>
+
+      <div class="input-group">
+        <label>Discount — $ Off</label>
+        <input type="range" min="0" max={avgSpend} step="1" bind:value={discountAmount}>
+        <span class="value">${discountAmount}</span>
+      </div>
+
+      <div class="input-group">
+        <label>Discount — % Off</label>
+        <input type="range" min="0" max="100" step="5" bind:value={discountPercent}>
+        <span class="value">{discountPercent}%</span>
+      </div>
+
+      <div class="input-group">
+        <label>Giveaway Cost (free item)</label>
+        <input type="range" min="0" max="50" step="1" bind:value={giveawayCost}>
+        <span class="value">${giveawayCost}</span>
+      </div>
+
+      {#if hasOffer}
+        <div class="offer-effective">
+          Effective spend after offer: <strong>${effectiveSpend.toLocaleString()}</strong>
+          <span class="was">(was ${avgSpend})</span>
+        </div>
+      {/if}
+    </div>
   </div>
   
   <div class="results">
@@ -87,6 +125,13 @@
       <div class="result-label">COGS ({cogsPercent}%)</div>
       <div class="result-value">-${cogs.toLocaleString()}</div>
     </div>
+
+    {#if giveawayTotal > 0}
+    <div class="result-card cost">
+      <div class="result-label">Giveaway Cost (Year)</div>
+      <div class="result-value">-${giveawayTotal.toLocaleString()}</div>
+    </div>
+    {/if}
     
     <div class="result-card">
       <div class="result-label">Net Annual Revenue</div>
@@ -158,6 +203,40 @@
     color: #555;
   }
   .coupon-split strong { color: #1a1a1a; }
+
+  .offer-section {
+    background: #f4f9f4;
+    border: 1px solid #cfe6cf;
+    border-radius: 10px;
+    padding: 14px 16px;
+    margin-bottom: 16px;
+  }
+  .offer-header {
+    font-size: 14px;
+    font-weight: 700;
+    color: #2e7d32;
+    margin-bottom: 2px;
+  }
+  .offer-sub {
+    font-size: 12px;
+    color: #777;
+    margin: 0 0 12px 0;
+  }
+  .offer-section .input-group input[type="range"] { accent-color: #2e7d32; }
+  .offer-effective {
+    margin-top: 4px;
+    font-size: 13px;
+    color: #2e7d32;
+    background: #e8f5e9;
+    border-radius: 6px;
+    padding: 8px 10px;
+  }
+  .offer-effective .was {
+    color: #999;
+    text-decoration: line-through;
+    margin-left: 4px;
+    font-size: 12px;
+  }
   
   .input-group label {
     width: 100%;
