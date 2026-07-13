@@ -713,7 +713,7 @@
   {#if submitMode === 'card'}
     <div class="card-upload">
       <div class="upload-area">
-        <input id="card-file" type="file" accept="image/*" capture="environment"
+        <input id="card-file" type="file" accept="image/*"
           on:change={handleCardImageSelect} class="file-input" />
         <label for="card-file" class="upload-label">
           📸 {cardImagePreview ? 'Choose a different photo' : 'Take / upload business card'}
