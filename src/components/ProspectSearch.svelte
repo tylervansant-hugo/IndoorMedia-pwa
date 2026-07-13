@@ -2301,6 +2301,32 @@ IndoorMedia`
     persistScrapedPhone(prospect, phone);
   }
 
+  // Build the list of callable numbers for a prospect: the saved Notes contact
+  // phone (with the saved owner/contact name) first, then the listed Google
+  // number, then any website-scraped candidates - all de-duped by digits.
+  // Used by the Call / Text buttons so a rep-entered number becomes selectable.
+  function getCallablePhones(prospect) {
+    const ld = leadDataCache[getLeadHash(prospect)] || {};
+    const out = [];
+    const seen = new Set();
+    const push = (raw, label, saved = false) => {
+      const d = phoneDigits(raw);
+      if (d.length !== 10 || seen.has(d)) return;
+      seen.add(d);
+      out.push({ number: formatPhone(d), raw: d, label, saved });
+    };
+    // Saved Notes contact phone comes first (rep-entered = most trusted)
+    if (ld.contactPhone) {
+      const who = (ld.ownerName || '').trim();
+      push(ld.contactPhone, who ? `${who} (from Notes)` : 'Contact (from Notes)', true);
+    }
+    // The business's listed number
+    if (prospect.phone) push(prospect.phone, 'Listed number');
+    // Website-scraped extras
+    (prospect._phoneCandidates || []).forEach(ph => push(ph, 'Found on website'));
+    return out;
+  }
+
   // Auto-save a scraped email into the prospect's Notes (lead data) so it
   // syncs across devices. Never overwrites a manually-entered Notes email.
   async function persistScrapedEmail(prospect, email) {
@@ -3056,6 +3082,8 @@ IndoorMedia`
         if (prospectSort === 'reviews') return (b.reviews || 0) - (a.reviews || 0);
         return (b.score || 0) - (a.score || 0);
       }) as prospect, i (prospect.id + '-' + i)}
+        {@const callable = getCallablePhones(prospect)}
+        {@const primaryNum = (callable[0] && callable[0].number) || prospect.phone}
         <div class="prospect-card">
           <div class="prospect-header">
             <span class="score-emoji">{prospect.score >= 80 ? '🔥' : prospect.score >= 70 ? '⭐' : '👀'}</span>
@@ -3099,13 +3127,27 @@ IndoorMedia`
           <div class="prospect-actions">
             <!-- Row 1: Contact -->
             <div class="action-row">
-              {#if prospect.phone}
-                <a href="tel:{prospect.phone}" class="action-btn btn-green" on:click={() => { trackPhoneClick(prospect); handleLeadAction(prospect, 'call'); }}>📞 Call</a>
+              {#if primaryNum}
+                <a href="tel:{primaryNum}" class="action-btn btn-green" on:click={() => { trackPhoneClick(prospect); handleLeadAction(prospect, 'call'); }}>📞 Call</a>
                 <button class="action-btn btn-blue" on:click={() => { prospect._showText = !prospect._showText; prospect._showEmail = false; prospect._showScript = false; prospect._showNotes = false; prospects = prospects; handleLeadAction(prospect, 'text'); }}>💬 Text</button>
               {/if}
               <button class="action-btn btn-purple" on:click={() => { prospect._showEmail = !prospect._showEmail; prospect._showText = false; prospect._showScript = false; prospect._showNotes = false; prospects = prospects; if (prospect._showEmail) { ensureProspectEmail(prospect); if (!prospect._research && !prospect._researching) { prospect._researching = true; researchProspect(prospect).finally(() => { prospect._researching = false; prospects = prospects; }); } handleLeadAction(prospect, 'email'); } }}>✉️ Email</button>
               <button class="action-btn btn-orange" on:click={() => { handleLeadAction(prospect, 'walk-in'); }}>🚶 Walk-In</button>
             </div>
+
+            <!-- Multiple numbers: let the rep pick which one to call/text (incl. Notes contact) -->
+            {#if callable.length > 1}
+              <div class="phone-picker">
+                <span class="phone-picker-label">📞 Numbers on file:</span>
+                {#each callable as ph}
+                  <span class="phone-opt" class:saved={ph.saved}>
+                    <span class="phone-opt-meta">{ph.number}<small>{ph.label}</small></span>
+                    <a href="tel:{ph.number}" class="phone-opt-btn" on:click={() => { trackPhoneClick(prospect); handleLeadAction(prospect, 'call'); }}>📞</a>
+                    <a href="sms:{ph.number}" class="phone-opt-btn" on:click={() => handleLeadAction(prospect, 'text')}>💬</a>
+                  </span>
+                {/each}
+              </div>
+            {/if}
 
             <!-- Last contact activity -->
             {#if getLastActivity(prospect)}
@@ -3182,8 +3224,9 @@ IndoorMedia`
                     <button class="text-copy-btn" on:click|stopPropagation={() => { navigator.clipboard.writeText(template.msg); prospect._copiedText = template.label; prospects = prospects; setTimeout(() => { prospect._copiedText = ''; prospects = prospects; }, 2000); }}>
                       {prospect._copiedText === template.label ? '✅ Copied!' : '📋 Copy'}
                     </button>
-                    {#if prospect.phone}
-                      <a href="sms:{prospect.phone}?body={encodeURIComponent(template.msg)}" class="text-send-btn">📱 Send</a>
+                    {#if getCallablePhones(prospect).length}
+                      {@const smsNum = getCallablePhones(prospect)[0].number}
+                      <a href="sms:{smsNum}?body={encodeURIComponent(template.msg)}" class="text-send-btn">📱 Send</a>
                     {/if}
                   </div>
                 </div>
@@ -5464,6 +5507,40 @@ IndoorMedia`
     cursor: pointer;
   }
   .email-alt-btn:hover { background: #1565c0; color: #fff; border-color: #1565c0; }
+
+  .phone-picker {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px;
+    margin: 6px 0 2px;
+    padding: 8px 10px;
+    background: #f5f9f5;
+    border: 1px solid #cfe3cf;
+    border-radius: 10px;
+  }
+  .phone-picker-label { font-size: 12px; font-weight: 700; color: #2e7d32; width: 100%; }
+  .phone-opt {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: #fff;
+    border: 1px solid #dcdcdc;
+    border-radius: 20px;
+    padding: 3px 6px 3px 12px;
+  }
+  .phone-opt.saved { border-color: #2e7d32; background: #e8f5e9; }
+  .phone-opt-meta { display: flex; flex-direction: column; line-height: 1.15; font-size: 13px; font-weight: 600; color: #222; }
+  .phone-opt-meta small { font-size: 10px; font-weight: 500; color: #888; }
+  .phone-opt.saved .phone-opt-meta small { color: #2e7d32; }
+  .phone-opt-btn {
+    text-decoration: none;
+    font-size: 15px;
+    padding: 4px 6px;
+    border-radius: 50%;
+    background: #f0f0f0;
+  }
+  .phone-opt-btn:active { background: #d7d7d7; }
 
   .owner-found-row { margin: 2px 0 6px; }
   .owner-found-status { font-size: 12px; line-height: 1.4; color: #2e7d32; }
