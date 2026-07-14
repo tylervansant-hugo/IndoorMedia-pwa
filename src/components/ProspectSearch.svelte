@@ -561,6 +561,44 @@
 
   let leadReturnView = 'hot-leads';
 
+  // ── Saved Leads for the currently-selected store ──────────────────
+  // Surfaces previously-saved prospects that relate to the store the rep
+  // just searched. Matches by: (1) explicit store stamp saved at save-time,
+  // else (2) proximity to the store's coordinates (within ~3 mi), else
+  // (3) same city name as a fallback for older records with no coords.
+  function savedLeadMatchesStore(p, store) {
+    if (!store) return false;
+    const sName = store.StoreName || '';
+    // 1) Explicit stamp from when it was saved
+    if (p._savedStoreName && sName && p._savedStoreName === sName) return true;
+    // 2) Proximity match using coordinates
+    const sLat = store.latitude || store.Latitude || null;
+    const sLng = store.longitude || store.Longitude || null;
+    const pLat = p.lat || p._savedStoreLat || null;
+    const pLng = p.lng || p._savedStoreLng || null;
+    if (sLat && sLng && pLat && pLng && !isBadCoords(sLat, sLng) && !isBadCoords(pLat, pLng)) {
+      if (calculateDistance(sLat, sLng, pLat, pLng) <= 3) return true;
+    }
+    // 3) City-name fallback for older records
+    const sCity = (store.City || '').toLowerCase().trim();
+    const pCity = (p._savedStoreCity || '').toLowerCase().trim();
+    if (sCity && pCity && sCity === pCity) return true;
+    return false;
+  }
+
+  $: savedLeadsForStore = selectedStore
+    ? savedProspects.filter(p => savedLeadMatchesStore(p, selectedStore))
+    : [];
+
+  // Jump to the Saved Leads list pre-filtered to the current store
+  function showSavedForStore() {
+    savedSearch = '';
+    savedStatusFilter = 'all';
+    savedStoreFilter = selectedStore ? (selectedStore.StoreName || '') : '';
+    view = 'saved';
+  }
+  let savedStoreFilter = ''; // StoreName to scope the Saved view to a single store
+
   // Call-In Leads filters/search/sort (separate from Hot Leads)
   let callInSearch = '';
   let callInSort = 'recent'; // recent | oldest | distance | city | category | name
@@ -2802,7 +2840,16 @@ IndoorMedia`
     if (!savedProspects.find(p => p.id === prospect.id)) {
       // Carry over notes from prospectNotes if they exist
       const existingNote = getProspectNote(prospect.id || prospect.name);
-      savedProspects = [...savedProspects, { ...prospect, savedAt: new Date().toISOString(), status: 'new', notes: existingNote || '' }];
+      // Stamp the store this lead was searched/saved under so it can be
+      // surfaced back on that store's page later (Saved Leads button).
+      const storeStamp = selectedStore ? {
+        _savedStoreName: selectedStore.StoreName || '',
+        _savedStoreCity: selectedStore.City || '',
+        _savedStoreChain: selectedStore.GroceryChain || '',
+        _savedStoreLat: selectedStore.latitude || selectedStore.Latitude || null,
+        _savedStoreLng: selectedStore.longitude || selectedStore.Longitude || null
+      } : {};
+      savedProspects = [...savedProspects, { ...prospect, ...storeStamp, savedAt: new Date().toISOString(), status: 'new', notes: existingNote || '' }];
       persistProspects();
       alert(`✅ Saved: ${prospect.name}`);
     }
@@ -3111,6 +3158,13 @@ IndoorMedia`
     {/if}
 
     <p class="or-divider">— or pick a category —</p>
+
+    {#if savedLeadsForStore.length > 0}
+      <button class="saved-leads-banner" on:click={showSavedForStore}>
+        💾 Saved Leads ({savedLeadsForStore.length})
+        <span class="saved-leads-hint">Leads you’ve saved for this store</span>
+      </button>
+    {/if}
 
     <button class="new-biz-banner" on:click={searchNewBusinesses}>
       🆕 New Businesses
@@ -3728,6 +3782,13 @@ IndoorMedia`
     <button class="back-btn" on:click={() => view = 'main'}>← Back</button>
     <h2>💾 Saved Prospects ({savedProspects.length})</h2>
 
+    {#if savedStoreFilter}
+      <div class="saved-store-scope">
+        <span>🏪 Showing leads for <strong>{savedStoreFilter}</strong></span>
+        <button class="saved-scope-clear" on:click={() => savedStoreFilter = ''}>✕ Show all</button>
+      </div>
+    {/if}
+
     {@const totalCalls = phoneClicks.length}
     {@const conversions = savedProspects.filter(p => getAttribution(p)).length}
     {#if totalCalls > 0 || conversions > 0}
@@ -3766,6 +3827,10 @@ IndoorMedia`
       </div>
       <div class="prospect-list">
         {#each savedProspects.filter(p => {
+          if (savedStoreFilter) {
+            const st = allStores.find(s => s.StoreName === savedStoreFilter);
+            if (st && !savedLeadMatchesStore(p, st)) return false;
+          }
           if (savedStatusFilter !== 'all' && p.status !== savedStatusFilter) return false;
           if (savedSearch) {
             const q = savedSearch.toLowerCase();
@@ -5201,6 +5266,28 @@ IndoorMedia`
   }
   .new-biz-banner:active { transform: scale(0.97); }
   .new-biz-hint { font-size: 11px; font-weight: 400; opacity: 0.8; }
+
+  .saved-leads-banner {
+    width: 100%; padding: 14px 16px; border-radius: 12px; font-size: 16px; font-weight: 700;
+    background: linear-gradient(135deg, #0a7d2c, #05561d); color: white;
+    border: none; cursor: pointer; text-align: center; margin-bottom: 12px;
+    display: flex; flex-direction: column; align-items: center; gap: 2px;
+    transition: transform 0.1s;
+  }
+  .saved-leads-banner:active { transform: scale(0.97); }
+  .saved-leads-hint { font-size: 11px; font-weight: 400; opacity: 0.85; }
+
+  .saved-store-scope {
+    display: flex; align-items: center; justify-content: space-between; gap: 8px;
+    background: rgba(10,125,44,0.1); border: 1px solid #0a7d2c;
+    border-radius: 8px; padding: 8px 12px; margin-bottom: 12px;
+    font-size: 13px; color: var(--text-primary, #222); flex-wrap: wrap;
+  }
+  .saved-scope-clear {
+    background: #0a7d2c; color: white; border: none; border-radius: 6px;
+    padding: 5px 10px; font-size: 12px; font-weight: 600; cursor: pointer;
+  }
+  .saved-scope-clear:active { transform: scale(0.96); }
 
   .category-grid, .subcat-grid {
     display: grid;
