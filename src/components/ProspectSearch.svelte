@@ -561,17 +561,53 @@
 
   let leadReturnView = 'hot-leads';
 
-  // Call-In Leads filters/search (separate from Hot Leads)
+  // Call-In Leads filters/search/sort (separate from Hot Leads)
   let callInSearch = '';
-  $: filteredCallInLeads = callInLeads.filter(l => {
-    if (!callInSearch) return true;
-    const q = callInSearch.toLowerCase();
-    return (l.business_name || '').toLowerCase().includes(q) ||
-      (l.contact_name || '').toLowerCase().includes(q) ||
-      (l.store_city || '').toLowerCase().includes(q) ||
-      (l.subcategory || '').toLowerCase().includes(q) ||
-      (l.lead_zip || '').includes(q);
-  });
+  let callInSort = 'recent'; // recent | oldest | distance | city | category | name
+  let callInCategoryFilter = ''; // '' = all subcategories
+
+  // Distinct subcategories present in the visible call-in leads (for the filter dropdown)
+  $: callInCategories = [...new Set(callInLeads.map(l => l.subcategory).filter(Boolean))].sort();
+
+  function callInDateMs(l) {
+    const d = new Date(l.call_in_date || 0);
+    return isNaN(d) ? 0 : d.getTime();
+  }
+
+  $: filteredCallInLeads = callInLeads
+    .filter(l => {
+      if (callInCategoryFilter && l.subcategory !== callInCategoryFilter) return false;
+      if (!callInSearch) return true;
+      const q = callInSearch.toLowerCase();
+      return (l.business_name || '').toLowerCase().includes(q) ||
+        (l.contact_name || '').toLowerCase().includes(q) ||
+        (l.store_city || '').toLowerCase().includes(q) ||
+        (l.subcategory || '').toLowerCase().includes(q) ||
+        (l.lead_zip || '').includes(q);
+    })
+    .slice()
+    .sort((a, b) => {
+      switch (callInSort) {
+        case 'oldest':
+          return callInDateMs(a) - callInDateMs(b);
+        case 'distance': {
+          const da = a.distance_mi == null ? Infinity : a.distance_mi;
+          const db = b.distance_mi == null ? Infinity : b.distance_mi;
+          return da - db;
+        }
+        case 'city':
+          return (a.store_city || '~').localeCompare(b.store_city || '~') ||
+            callInDateMs(b) - callInDateMs(a);
+        case 'category':
+          return (a.subcategory || '~').localeCompare(b.subcategory || '~') ||
+            callInDateMs(b) - callInDateMs(a);
+        case 'name':
+          return (a.business_name || '~').localeCompare(b.business_name || '~');
+        case 'recent':
+        default:
+          return callInDateMs(b) - callInDateMs(a);
+      }
+    });
 
   onMount(async () => {
     document.addEventListener('select-store-from-map', handleStoreSelectFromMap);
@@ -3924,8 +3960,30 @@ IndoorMedia`
       <h2>📞 Call-In Leads ({filteredCallInLeads.length})</h2>
       <p class="callin-subtitle">Inbound leads — these people called us. Reach out fast! 🔥</p>
 
-      <div class="filter-bar">
+      <div class="filter-bar callin-filter-bar">
         <input type="text" placeholder="Search business, caller, city, zip..." bind:value={callInSearch} class="filter-input" />
+        <div class="callin-sort-row">
+          <label class="callin-sort-label">
+            <span>Sort</span>
+            <select bind:value={callInSort} class="callin-sort-select">
+              <option value="recent">📅 Newest first</option>
+              <option value="oldest">📅 Oldest first</option>
+              <option value="distance">📍 Closest to store</option>
+              <option value="city">🏙️ City (A–Z)</option>
+              <option value="category">🏷️ Category (A–Z)</option>
+              <option value="name">🔤 Business name (A–Z)</option>
+            </select>
+          </label>
+          <label class="callin-sort-label">
+            <span>Category</span>
+            <select bind:value={callInCategoryFilter} class="callin-sort-select">
+              <option value="">All ({callInLeads.length})</option>
+              {#each callInCategories as c}
+                <option value={c}>{c}</option>
+              {/each}
+            </select>
+          </label>
+        </div>
       </div>
 
       {#if filteredCallInLeads.length === 0}
@@ -4642,6 +4700,40 @@ IndoorMedia`
     margin: 2px 0 12px;
     font-size: 13px;
     color: var(--text-secondary, #666);
+  }
+  .callin-filter-bar {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .callin-sort-row {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+  .callin-sort-label {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    flex: 1 1 140px;
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--text-secondary, #666);
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+  }
+  .callin-sort-select {
+    padding: 8px 10px;
+    border: 2px solid var(--border-color, #e0e0e0);
+    border-radius: 8px;
+    background: var(--bg-primary, white);
+    color: var(--text-primary, #222);
+    font-size: 14px;
+    font-weight: 500;
+  }
+  .callin-sort-select:focus {
+    outline: none;
+    border-color: #0a7d2c;
   }
   .callin-card {
     border-left: 5px solid #0a7d2c;
