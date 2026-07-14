@@ -135,15 +135,116 @@
     loadingStatus = '📝 Finding matching testimonials...';
     await new Promise(r => setTimeout(r, 100)); // brief yield for UI update
     
+    const detectedCats = detectProspectCategories(businessCategory, businessName, businessTypes);
     const { keywords: categoryKeywords, exclude: excludeWords } = extractCategoryKeywords(businessCategory, businessName, businessTypes);
-    matchedTestimonials = findMatchingTestimonials(categoryKeywords, excludeWords, businessName, additionalInfo);
+    matchedTestimonials = findMatchingTestimonials(detectedCats, categoryKeywords, excludeWords, businessName, additionalInfo);
 
     // Find local testimonial
     loadingStep = 4;
     loadingStatus = '📍 Finding local testimonials...';
-    localTestimonial = findLocalTestimonial();
+    localTestimonial = findLocalTestimonial(detectedCats);
 
     step = 'results';
+  }
+
+  // ===== Category taxonomy — MUST match tags produced by scripts/enrich_testimonials.py =====
+  // Maps Google Places category text / types / business name -> enrichment category tags.
+  function detectProspectCategories(category, name, placeTypes = []) {
+    const combined = (String(category || '') + ' ' + String(name || '') + ' ' + (placeTypes || []).join(' ')).toLowerCase();
+    // tag -> substrings that imply it (checked against Google category/name/types)
+    const map = {
+      pizza:            ['pizza', 'pizzeria'],
+      mexican:          ['mexican', 'taco', 'taqueria', 'burrito', 'cantina', 'enchilada'],
+      sushi_japanese:   ['sushi', 'japanese', 'ramen', 'teriyaki', 'hibachi', 'poke'],
+      chinese:          ['chinese', 'wok', 'dim sum', 'szechuan', 'hunan'],
+      thai:             ['thai'],
+      indian:           ['indian', 'tandoori', 'masala', 'biryani', 'curry'],
+      bbq_burger:       ['burger', 'bbq', 'barbecue', 'barbeque', 'smokehouse', 'wings', 'ribs', 'brisket'],
+      seafood:          ['seafood', 'fish', 'crab', 'lobster', 'oyster', 'shrimp'],
+      coffee:           ['coffee', 'espresso', 'cafe', 'café', 'tea house', 'roaster'],
+      bakery:           ['bakery', 'donut', 'doughnut', 'pastry', 'cake', 'bagel', 'patisserie'],
+      dessert:          ['ice cream', 'frozen yogurt', 'gelato', 'creamery', 'custard', 'smoothie', 'dessert', 'candy', 'chocolate'],
+      sandwich_deli:    ['sandwich', 'sub ', 'subs', 'deli', 'hoagie', 'cheesesteak'],
+      bar_brewery:      ['bar', 'pub', 'tavern', 'taproom', 'brewery', 'brewing', 'alehouse', 'saloon', 'lounge', 'nightclub', 'cocktail', 'wine bar', 'barrel'],
+      restaurant:       ['restaurant', 'diner', 'bistro', 'eatery', 'kitchen', 'grill', 'cuisine', 'steakhouse', 'buffet', 'food', 'meal_'],
+      salon_beauty:     ['salon', 'hair', 'beauty', 'lash', 'brow', 'stylist', 'waxing', 'skincare', 'esthetic'],
+      barber:           ['barber', 'barbershop'],
+      nails:            ['nail', 'manicure', 'pedicure'],
+      spa_massage:      ['massage', 'spa', 'reflexology', 'facial', 'wellness'],
+      auto_repair:      ['auto', 'automotive', 'mechanic', 'oil change', 'brake', 'transmission', 'car_repair', 'muffler', 'smog', 'collision', 'body shop', 'lube'],
+      tires:            ['tire', 'wheel'],
+      car_wash:         ['car wash', 'carwash', 'detailing', 'auto detail'],
+      dental:           ['dental', 'dentist', 'orthodont', 'endodont'],
+      medical:          ['medical', 'clinic', 'urgent care', 'physician', 'doctor', 'health', 'pediatric', 'dermatolog', 'optometry', 'eye care', 'pharmacy'],
+      chiropractic:     ['chiropract', 'spine'],
+      gym_fitness:      ['gym', 'fitness', 'crossfit', 'yoga', 'pilates', 'martial arts', 'jiu jitsu', 'boxing'],
+      vet_pet:          ['vet', 'veterinar', 'pet', 'animal', 'grooming', 'kennel'],
+      insurance:        ['insurance', 'allstate', 'state farm', 'geico', 'agency'],
+      real_estate:      ['real estate', 'realtor', 'realty', 'properties', 'brokerage'],
+      mortgage:         ['mortgage', 'lending', 'loan', 'escrow'],
+      cleaning:         ['cleaning', 'maid', 'janitorial', 'housekeeping'],
+      plumbing:         ['plumb', 'drain', 'rooter', 'sewer'],
+      hvac:             ['hvac', 'heating', 'air condition', 'furnace', 'cooling', 'refrigeration'],
+      electrical:       ['electric', 'electrician', 'wiring'],
+      roofing:          ['roof', 'gutter'],
+      landscaping:      ['landscap', 'lawn', 'tree service', 'nursery', 'garden center', 'sprinkler', 'irrigation'],
+      pest_control:     ['pest', 'exterminat', 'termite'],
+      tax_accounting:   ['tax', 'accounting', 'cpa', 'bookkeep', 'payroll'],
+      florist:          ['florist', 'floral', 'flower', 'bouquet'],
+      jewelry:          ['jewelry', 'jeweler', 'diamond', 'watch'],
+      retail:           ['boutique', 'furniture', 'mattress', 'apparel', 'clothing', 'store', 'shop', 'hardware'],
+      dry_cleaning:     ['dry clean', 'cleaners', 'laundry', 'laundromat'],
+      daycare_education:['daycare', 'preschool', 'learning center', 'academy', 'tutoring', 'child care', 'childcare', 'montessori', 'school'],
+      legal:            ['law', 'lawyer', 'attorney', 'legal'],
+      tattoo:           ['tattoo', 'piercing'],
+      smoke_vape:       ['smoke shop', 'vape', 'vapor', 'cigar', 'tobacco', 'hookah'],
+      cannabis:         ['cannabis', 'dispensary', 'marijuana', 'cbd'],
+      liquor_store:     ['liquor', 'wine and spirits', 'wine & spirits', 'spirits', 'bottle shop', 'wine shop'],
+      phone_repair:     ['phone repair', 'cell phone', 'iphone repair', 'screen repair', 'computer repair'],
+      home_services:    ['handyman', 'remodel', 'contractor', 'construction', 'flooring', 'painting', 'fence', 'garage door', 'concrete', 'paving', 'pool service'],
+    };
+    const tags = [];
+    for (const [tag, subs] of Object.entries(map)) {
+      if (subs.some(s => combined.includes(s))) tags.push(tag);
+    }
+    // If any specific cuisine matched, ensure generic restaurant is present too
+    const cuisine = ['pizza','mexican','sushi_japanese','chinese','thai','indian','bbq_burger','seafood','sandwich_deli'];
+    if (tags.some(t => cuisine.includes(t)) && !tags.includes('restaurant')) tags.push('restaurant');
+    return [...new Set(tags)];
+  }
+
+  // ===== Grocery chain family normalization =====
+  // Reconciles store GroceryChain values with testimonial chain tokens (t.ch),
+  // and groups banners into parent companies for softer matches.
+  function normalizeChain(raw) {
+    let t = String(raw || '').toLowerCase().replace(/&amp;/g, '&').replace(/[.,]+$/, '').trim();
+    const alias = {
+      "fry's": 'fry', 'frys': 'fry', 'fry': 'fry', 'frys food': 'fry',
+      'food 4 less': 'food4less', 'food4less': 'food4less',
+      'stater bros.': 'stater bros', 'stater bros': 'stater bros',
+      'dillon stores': 'dillon', 'dillion stores': 'dillon', 'dillons': 'dillon', 'dillon': 'dillon', 'gerbes-dillon': 'dillon',
+      'quality food center': 'qfc', 'qfc': 'qfc',
+      "ralph's": 'ralphs', 'ralphs': 'ralphs',
+      'jewel-osco': 'jewel', 'jewel osco': 'jewel', 'jewel': 'jewel',
+      "von's": 'vons', 'vons': 'vons',
+      "shaw's": 'shaws', 'shaws': 'shaws',
+      "baker's": 'bakers', 'bakers': 'bakers',
+      "smith's": 'smiths', 'smiths': 'smiths',
+    };
+    return alias[t] || t;
+  }
+  const CHAIN_FAMILY = {
+    kroger:        'kroger', 'fred meyer': 'kroger', qfc: 'kroger', ralphs: 'kroger',
+    fry: 'kroger', food4less: 'kroger', 'king soopers': 'kroger', smiths: 'kroger',
+    dillon: 'kroger', bakers: 'kroger', 'city market': 'kroger', 'jay c': 'kroger',
+    'quality food center': 'kroger', gerbes: 'kroger', mariano: 'kroger', 'pick n save': 'kroger',
+    'metro market': 'kroger', 'harris teeter': 'kroger',
+    albertsons: 'albertsons', safeway: 'albertsons', vons: 'albertsons', jewel: 'albertsons',
+    acme: 'albertsons', shaws: 'albertsons', pavilions: 'albertsons', randalls: 'albertsons',
+    carrs: 'albertsons', 'tom thumb': 'albertsons', 'star market': 'albertsons', andronicos: 'albertsons',
+  };
+  function chainFamily(normChain) {
+    return CHAIN_FAMILY[normChain] || null;
   }
 
   // Use Google Places types + category + name to find the BEST category keywords
@@ -221,8 +322,9 @@
     return { keywords: [...new Set(matchedKeywords)], exclude: [] };
   }
 
-  function findMatchingTestimonials(keywords, exclude = [], name, info = '') {
+  function findMatchingTestimonials(detectedCats = [], keywords, exclude = [], name, info = '') {
     if (!allTestimonials.length) return [];
+    const catSet = new Set(detectedCats);
 
     const infoLower = (info || '').toLowerCase();
     // Extract bonus keywords from additional info
@@ -256,7 +358,23 @@
       });
       if (excluded) return { business: biz, comment, url: t.u || t.url || '', id: t.id, score };
 
-      // Business name keyword match is worth more
+      // ===== Precomputed category-tag matching (primary signal) =====
+      const tCat = Array.isArray(t.cat) ? t.cat : [];
+      const tCatName = Array.isArray(t.catn) ? t.catn : [];
+      if (catSet.size && tCat.length) {
+        let tagHits = 0;
+        for (const tag of tCat) {
+          if (catSet.has(tag)) {
+            // name-matched tag on the testimonial is a stronger signal
+            score += tCatName.includes(tag) ? 12 : 8;
+            tagHits++;
+            if (tagHits >= 3) break; // cap tag contribution
+          }
+        }
+      }
+
+      // Business name / comment keyword fallback (still useful, lower weight,
+      // and the main path for records lacking cat tags).
       keywords.forEach(kw => {
         if (bizLower.includes(kw)) score += 5;
         else if (commentLower.includes(kw)) score += 1;
@@ -291,15 +409,18 @@
     return results;
   }
 
-  function findLocalTestimonial() {
+  function findLocalTestimonial(detectedCats = []) {
     if (!selectedStore || !allTestimonials.length) return null;
-    
-    const city = (selectedStore.City || '').toLowerCase();
-    const state = (selectedStore.State || '').toLowerCase();
-    const chain = (selectedStore.GroceryChain || '').toLowerCase();
-    
-    // Build list of nearby cities from the stores database (within ~50 mi based on lat/lng)
-    const nearbyCities = new Set([city]);
+
+    const city = (selectedStore.City || '').toLowerCase().trim();
+    const state = (selectedStore.State || '').toLowerCase().trim();
+    const rawChain = selectedStore.GroceryChain || '';
+    const chainNorm = normalizeChain(rawChain);
+    const family = chainFamily(chainNorm);
+    const catSet = new Set(detectedCats);
+
+    // Build list of nearby cities from the stores database (within ~50 mi via lat/lng)
+    const nearbyCities = new Set();
     if (selectedStore.latitude && selectedStore.longitude) {
       const lat = parseFloat(selectedStore.latitude);
       const lng = parseFloat(selectedStore.longitude);
@@ -308,46 +429,61 @@
           const dlat = parseFloat(s.latitude) - lat;
           const dlng = parseFloat(s.longitude) - lng;
           const distMiles = Math.sqrt(dlat * dlat + dlng * dlng) * 69; // rough miles
-          if (distMiles < 50) {
-            nearbyCities.add(s.City.toLowerCase());
-          }
+          if (distMiles < 50) nearbyCities.add(s.City.toLowerCase().trim());
         }
       });
     } else {
-      // Fallback: same state stores
       allStores.forEach(s => {
         if ((s.State || '').toLowerCase() === state && s.City) {
-          nearbyCities.add(s.City.toLowerCase());
+          nearbyCities.add(s.City.toLowerCase().trim());
         }
       });
     }
-    
-    // Score testimonials by locality — exact city > nearby city > same chain
+    nearbyCities.delete(city); // keep exact-city separate
+
     const matchedIds = new Set(matchedTestimonials.map(t => t.id));
     const scored = allTestimonials.map(t => {
+      if (matchedIds.has(t.id)) return null;
       const biz = t.b || t.business || '';
       const comment = t.c || t.comment || '';
+      // Prefer precomputed cities; fall back to substring scan for old records.
+      const tCities = Array.isArray(t.cities) ? t.cities : null;
       const search = (biz + ' ' + comment).toLowerCase();
       let score = 0;
-      
-      // Exact city match = highest priority
-      if (search.includes(city)) score += 10;
-      // Nearby city match
-      for (const nc of nearbyCities) {
-        if (nc !== city && search.includes(nc)) { score += 5; break; }
+
+      // ---- Locality (city in comment) ----
+      if (city) {
+        if (tCities ? tCities.includes(city) : search.includes(city)) score += 20;
+        else {
+          for (const nc of nearbyCities) {
+            if (!nc) continue;
+            if (tCities ? tCities.includes(nc) : search.includes(nc)) { score += 10; break; }
+          }
+        }
       }
-      // Same chain/store match
-      if (search.includes(chain)) score += 3;
-      // Same state match
-      if (search.includes(state)) score += 1;
-      // Quality bonus
+
+      // ---- Chain match (from parsed t.ch tokens) ----
+      const tCh = Array.isArray(t.ch) ? t.ch : [];
+      if (tCh.length) {
+        const tNorm = tCh.map(normalizeChain);
+        if (tNorm.includes(chainNorm)) score += 8;               // exact banner
+        else if (family && tNorm.some(c => chainFamily(c) === family)) score += 4; // same parent co.
+      } else if (chainNorm && search.includes(chainNorm)) {
+        score += 6; // legacy fallback
+      }
+
+      // ---- Same state mention ----
+      if (state && search.includes(state)) score += 2;
+
+      // ---- Relevance + quality tiebreakers ----
+      if (catSet.size && Array.isArray(t.cat) && t.cat.some(tag => catSet.has(tag))) score += 3;
       if (comment.length > 150) score += 1;
-      
-      if (score === 0) return null;
+      if (comment.length > 300) score += 1;
+
+      if (score <= 0) return null;
       return { business: biz, comment, url: t.u || t.url || '', id: t.id, score };
-    }).filter(t => t && !matchedIds.has(t.id))
-      .sort((a, b) => b.score - a.score);
-    
+    }).filter(Boolean).sort((a, b) => b.score - a.score);
+
     return scored[0] || null;
   }
 

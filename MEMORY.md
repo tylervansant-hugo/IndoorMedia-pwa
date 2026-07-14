@@ -1,5 +1,70 @@
 # MEMORY.md - Shelldon's Long-Term Memory
 
+## Prospect Email Deep Comb + Owner-Name Detection (Jul 2, 2026)
+**Status:** ✅ LIVE (bundle index-DzwqNUcq.js, commit 6b1597d)
+
+Upgraded the per-prospect email search in ProspectSearch.svelte from a shallow 4-page single-proxy scraper into a real deep comb, PLUS owner-name harvesting.
+**Email comb (`scrapeWebsiteEmail`):** crawls ~20 common paths (contact/about/team/staff/locations/book/schedule/quote/etc.), reads the homepage first and FOLLOWS internal links whose href/label hints at contact/about/team pages, de-obfuscates `info [at] shop [dot] com`, `(at)`/`(dot)`, and HTML-entity emails (`deobfuscateEmails`/`harvestEmails`), rotates across 4 CORS proxies (allorigins → corsproxy.io → thingproxy → r.jina.ai via `fetchViaProxy`), ranks by OWN-DOMAIN match first (+8) then owner/manager prefixes (+6) then generic info@/contact@ (+5), filters junk (noreply/example/images/css). Caps 8 pages normal / 14 deep. Stashes `prospect._emailCandidates` (top 8) for alternate chips.
+**Owner-name comb (`harvestOwnerNames`):** scans page text for `Owner: John Smith`, `Jane Doe, Founder`, `Meet/owned by/founded by X`, `Dr. X` patterns; NON_NAME_WORDS filter drops nav noise. Ranks title-adjacent highest. Stashes `prospect._ownerCandidates` + `_scrapedOwner`. NOTE: About/About-us pages ARE in the crawl list, so owner/email found in the About section is covered.
+**Phone comb (`harvestPhones`, added Jul 2 bundle index-C3dNBZ8F.js commit c917b7b):** extracts US 10-digit numbers from tel: links (weight 5), labeled numbers (cell/mobile/direct/owner/text/call = 4, fax = 2), and bare patterns (3). Normalizes via `phoneDigits`/`formatPhone`, drops invalid area codes + repeated-digit junk, and EXCLUDES the business's already-listed number (prospect.phone/formatted_phone_number). Stashes `_phoneCandidates` + `_scrapedPhone`; auto-fills Notes.contactPhone via `persistScrapedPhone` (phoneSource:'website'), never clobbering manual. UI: 📞 "Direct/other #" line (tap-to-call) + "Other numbers found" chips (`chooseProspectPhone`).
+**Auto-fill + persist:** scraped email → `persistScrapedEmail` (Notes.contactEmail, emailSource:'website'); scraped owner → `persistScrapedOwner` (Notes.ownerName, ownerSource:'website'). Neither clobbers a manual entry. Owner name flows into email greetings via existing getSavedContactName/fillTemplate ("Hi John,"). Syncs across devices via Firebase saveLeadData.
+**UI:** 🕵️ "Deep comb" button (purple, always shown when website exists, force-runs even if email on file) next to 🔍 Find Email; "Other addresses found" + "Other names found" one-tap chips (`chooseProspectEmail`/`chooseProspectOwner` set `_emailManual`/`_ownerManual`); green 👤 Owner: line.
+**LIMITATION:** client-side scraper on static GH Pages — only reads PUBLIC emails/names; can't crack Cloudflare email-protection JS or contact-form-only sites. Two-word surnames (Van Buren) may truncate. For WHOIS/Hunter.io-grade enrichment we'd need a backend (offered, not built).
+
+## Brent Wall Missing on Other Devices — Rep Registry (Jul 2, 2026)
+**Status:** ✅ LIVE (commit 6f2cb70, deployed) — 27 reps total
+
+Same root cause as Ryan/Carl/Kenneth. Tyler: "Brent Wall is logged in on one device but his name doesn't appear on any other device." Reason: Login.svelte only saves self-registered new reps to `localStorage.local_reps` on THAT device (Login.svelte ~line 206-214) — no write-back to the shared bundled `rep_registry.json`. Other devices only read the static bundled JSON, so they never see him. Brent had 0 contracts and was absent from the registry.
+Fix: added `brent_wall` key to BOTH `public/data/rep_registry.json` and `data/rep_registry.json` (contract_name/display_name "Brent Wall", email GUESSED Brent.Wall@indoormedia.com, base_location "Territory TBD"). Built + deployed + committed.
+**OPEN ITEM:** key is a slug, NOT his numeric Telegram `$user.id`, so call-in ASSIGNMENT to him won't match until we get his real device id (confirm email + territory + Telegram id with Tyler). Name/dropdown/filter/beacon visibility works now regardless.
+
+## Missing Reps Fix — Rep Registry (Jun 29, 2026)
+**Status:** ✅ LIVE (commit 3cba373) — 26 reps total
+
+Tyler reported Ryan Rohner Talton + Carl Worthy "no longer appear." Root cause: rep dropdowns/filters (rep-invite selector, Hot Leads "All Reps" filter, store→rep mapping) are driven by `rep_registry.json`, NOT contracts. Ryan had 15 contracts under `sales_rep: "Ryan Rohner-talton"` (grew from 5) and works zone 07X (Kitsap: Poulsbo/Bremerton/Silverdale). Carl Worthy had NO data anywhere. Neither was in the registry, so they vanished from registry-driven UI.
+Fix: added both to BOTH `public/data/rep_registry.json` and `data/rep_registry.json` (keys `ryan_rohner_talton`, `carl_worthy`), mirroring the Kenneth Abbay pattern. Ryan got base_location "Kitsap Peninsula, WA (Zone 07X)"; Carl got "Territory TBD". Emails are GUESSED (firstname.lastname@indoormedia.com) — confirm + correct Carl's email/territory with Tyler. Analytics leaderboard derives from contracts so Ryan already showed there; this fixes the registry-driven lists.
+
+## Hot Leads + Call-In Leads → Full Prospect Cards (Jun 29, 2026)
+**Status:** ✅ LIVE (bundle index-Bl2gz-Fj.js) — commit 3881e00
+
+Tyler wanted Hot Leads cards to have the same data, look, and buttons as the rich prospect cards. Implemented via `openLeadAsProspect(lead)` in ProspectSearch.svelte: maps a lead record into the prospect shape (`leadToProspect()`), sets `selectedStore` to the lead's matched store (`allStores.find(StoreName===store_id)`), sets selectedCategory/subcategory, loads `prospects=[p]`, pre-fills `leadDataCache[hash].ownerName` with the call-in contact name (so emails greet them), and switches to `view='results'` — reusing the exact full prospect card (Call/Text/Email/Walk-In, Website/Save/Notes, Scripts/Testimonials, rep-invite + Book Appointment, Navigate, Map). Both the compact Hot Lead and Call-In cards are now `.clickable-card` and have an `Open full card →` button (`.open-full-btn`, green `.callin-open` variant). `goBack()` detects `prospects[0]._sourceLead` and returns to `leadReturnView` (the originating hot-leads/call-in list). Verified live for both a call-in lead (Black Widow Tattoo) and a hot lead (Ranch Pizza).
+
+## Call-In Leads UI — Dedicated Section + Homepage Card (Jun 29, 2026)
+**Status:** ✅ LIVE (bundle index-C0GDDXrx.js) — commit b1e7299
+
+Call-in leads were only buried as a category filter inside Hot Leads (and were being hidden by cycle filtering). Now they have a clear home:
+1. **Homepage card** (Main.svelte) — prominent green 📞 "Call-In Leads (N)" card under the quick-actions row, shows count + preview of 3 newest business names. Loads count from hot_leads.json on dashboard mount (`callInLeadsCount`, `recentCallInLeads`). Tapping it sets storesView='prospects'+currentTab='stores' then dispatches `show-callin-leads` CustomEvent.
+2. **Dedicated view** (ProspectSearch.svelte) — new green `call-in` tab + view, listens for `show-callin-leads`. Call-in leads loaded into separate `callInLeads` array that is **NOT cycle-filtered** (inbound = always show; managers see all, reps see their nearest-store ones). Excluded `category==='Call-In Lead'` from the cycle-filtered `hotLeads` pool so no duplication. Cards show green "CALLED IN" badge, caller name, quoted lead_comments, tap-to-call, email, address, and 🏪 target store + distance. Search box filters by business/caller/city/zip.
+
+Key gotcha fixed: call-in leads must bypass the B/C/A cycle store filter or they vanish depending on the month.
+
+**Dates added (Jun 29, 2026, bundle index-DlXZln5B.js, commit 3f52596):** Call-in cards show a green date badge = the REAL call-in date (`call_in_date`), parsed from each email's inner forwarded "Date:" line and backfilled for the existing 30 (range Aug 2025-Jun 2026). Hot Leads cards show `generated_at`. `fmtLeadDate()` helper formats both. Importer now captures `call_in_date` via `normalize_date()` for future imports. NOTE: PWA service worker caches hard - had to unregister SW + clear caches to see the update; tell Tyler to fully close/reopen the app or hard-refresh if he sees stale UI.
+
+## Call-In Leads Pipeline (Jun 29, 2026)
+**Status:** ✅ LIVE — 30 leads added to Hot Leads under new `category: "Call-In Lead"`
+
+Processed all Gmail emails titled "New Call In Lead" (Rick Leibowitz forwards of donotreply@indoormedia.com CRM alerts). Each email has a structured block: Business / Customer Name / Phone / Email / Comments / Zip / CRM id (sales.indoormedia.com/CrmLeads/Details?id=).
+
+**Workflow built (repeatable):**
+1. `gog gmail messages search 'subject:"New Call In Lead"'` (account tyler.vansant@indoormedia.com) → pull bodies via `gog gmail get <id>`.
+2. Regex-parse the lead block; de-dupe by (business,phone,zip)+crm_id. (Watch: empty Email line makes naive regex grab the next 'Comments' line — filter to require '@'.)
+3. Zip → lat/lng via `pgeocode` (offline, `pip3 install pgeocode --break-system-packages`). Nearest store = haversine vs `public/data/stores.json` (7,829 stores w/ coords).
+4. Research each business via Google Places searchText API (key in `.env` GOOGLE_PLACES_API_KEY) → category/address/website/rating. ~20/30 found; home/service businesses often have no listing (keep phone+zip).
+5. Append to `public/data/hot_leads.json` as records with `category:"Call-In Lead"`, `subcategory` (mapped bucket), contact_name, phone, email, nearest store_id/chain/city, lead_zip, lead_comments, crm_id. HotLeads.svelte auto-derives category filters, so "Call-In Lead" shows up automatically; managers (Tyler) see all.
+6. Build (`npm run build`) → deploy (`npx gh-pages -d dist`) → commit main (e3c84e7).
+
+Backup of pre-change file: `public/data/hot_leads.backup-*.json`. Reference copy of the 30 parsed leads: `data/callin_leads_20260629.json`. Live count verified: 30/269.
+
+## Email Template Upgrades v2 (Jun 29, 2026)
+**Status:** ✅ LIVE (bundle index-CfUiwwuK.js) — ProspectSearch.svelte email flow
+
+Three upgrades to per-prospect ✉️ Email:
+1. **Address saved contact by name** — `fillTemplate(text, prospect)` now takes the whole prospect (was just name). New `getSavedContactName()` reads the saved `ownerName` (Owner/Decision Maker field) from lead data and greets by FIRST name ("Hi John,"). Falls back to "Hi there," when unknown — so `{contact}` never renders "Hi ," again. Updated all 3 call sites (body + 2 subject spots).
+2. **Store-chain + open-worthy subjects** — added `{chain}` placeholder (`getStoreChain()` = bare chain like "Safeway"). Rewrote all 5 generic subjects to include the chain name + an exciting hook (e.g. "Only one {chain} spot left for {business}").
+3. **Per-program templates (Tape/Cart/Digital)** — new `programEmailTemplates` array: Register Tape, Cartvertising, DigitalBoost (geofencing), FindLocal (local SEO), ReviewBoost (reviews), LoyaltyBoost (loyalty). Surfaced via `getProgramTemplates()` between category templates and the generic five, each tagged with a blue `.prog-badge` (Tape/Cart/Digital). Order in picker: category-specific → program → generic.
+
+Deployed: `npx gh-pages -d dist` + committed to main (2d1745f).
+
 ## Prospect Email Upgrades (Jun 26, 2026)
 **Status:** ✅ LIVE (bundle index-DQa2iknj.js) — ProspectSearch.svelte email panel
 
@@ -770,3 +835,57 @@ ROI: 164%
 - Try/except wrapper — complete error handling
 - Logging — tracks missing/incomplete records
 - User feedback — helpful error messages instead of silent failures
+
+## Matthew Boozer Ad Proofs Backfill (Jun 30, 2026)
+**Status:** ✅ LIVE (commit 3fe5019) — Boozer proofs 21 → 109
+
+Tyler asked to load ALL Matthew Boozer ad proofs "from when he started until current." Existing ad_proofs.json only had 21 Boozer proofs (Mar 23–May 21, 2026) because the daily scanner (`scripts/scan_ad_proofs.py`) uses `DAYS_BACK=90`. Boozer's first contract was Aug 8, 2025; Gmail had 299 Boozer ad-proof emails (Aug 12, 2025 → Jun 29, 2026, where matthew.boozer@indoormedia.com is a recipient).
+
+Built one-time `scripts/backfill_boozer_proofs.py` (reuses scan_ad_proofs parsing). Searches `subject:"Ad Proof from IndoorMedia" matthew.boozer@indoormedia.com after:2025/08/01`, merges into existing proofs (other reps untouched), runs same dedup (newest per contract+store). Result: 278 new, 179 dupes removed → 405 total, 109 Boozer (Aug 19 2025 → Jun 29 2026). 2 proofs missing image_url (odd Drive link format).
+
+**KEY REPO FACTS (re-confirmed):**
+- Live PWA repo is `~/.openclaw/workspace/pwa/` (remote github.com/tylervansant-hugo/IndoorMedia-pwa). The scanner writes to `pwa/public/data/ad_proofs.json`, builds + deploys from `pwa/`. Also keep `~/.openclaw/workspace/public/data/ad_proofs.json` in sync (older mirror).
+- Daily cron: crontab `0 22 * * *` → `scripts/run_ad_proofs_scan.sh` (scan + build + `npx gh-pages -d dist --no-history` + push). Default daily window is 3 days.
+- **Git gotcha:** local `pwa` main had diverged badly (6 ahead / 57 behind, stale counter-sign/nightly commits causing rebase conflicts on contracts.json). Fix: `git reset --hard origin/main`, re-apply ad_proofs.json, commit, push (fast-forward). Don't try to replay the old local commits.
+- GitHub Pages CDN takes a few min to propagate; live JSON at https://tylervansant-hugo.github.io/IndoorMedia-pwa/data/ad_proofs.json lags right after deploy.
+
+## Prospect Privacy + Call-In Lead Assignment (Jun 30, 2026)
+**Status:** ✅ LIVE (commit 3273b4e, bundle index-DacOysGW.js)
+
+Tyler's 3 asks, all in `pwa/`:
+
+1. **Private prospect notes/contacts** — Owner/Decision-Maker name, contact phone, contact email, and Notes are now visible ONLY to: the rep who logged them (`ld.updatedBy`), Tyler, and Rick Leibowitz. Central helpers in ProspectSearch.svelte: `repDisplayName()`, `isPrivilegedViewer()` (tyler/rick/role==manager), `canSeePrivate(ld)`. Web-scraped emails (`updatedBy==='auto-scrub'`) and unlogged leads are NOT treated as private (public data / current rep may start logging). Both lead-data display blocks (results card ~2560 + saved-prospect card ~2990) are gated. Team tab now uses `isPrivilegedViewer()` so Rick gets it too (was tyler-only).
+
+2. **BOOKED / CLOSED to others** — When a non-privileged viewer can't see private notes, they see a status badge instead via `getSharedStatus(prospect)` which reads `ld.status || leadClaim.lastAction || prospect.status` and maps book/appt→BOOKED, clos/sold/sale/won/signed→CLOSED. CSS `.status-booked` (blue) / `.status-closed` (green), `.notes-private`, `.note-private-msg`.
+
+3. **Manager-assigned call-in leads** — Call-in leads are HIDDEN from reps until Tyler/Rick assigns them. Firebase (`src/lib/firebase.js`): `callInLeadKey(lead)` (crm_id or business+zip hash), `assignCallInLead(leadKey, repId, repName, assignedBy)`, `getAllCallInAssignments()` → stored as `activity_daily/callin_assign_<key>` docs type `callin_assignment`. ProspectSearch: `allCallInLeads` (full pool), `callInAssignments` map, `applyCallInVisibility()` (privileged=all, reps=only assigned by repId or name match), `buildRepRoster()` from rep_registry.json (dict keyed by rep id; skip 999999999/blank), `handleAssignCallIn()`. UI: assign dropdown + 🎯 assigned / ⚪ Unassigned badge on each call-in card, managers only. Main.svelte homepage call-in count also filtered by assignment for reps, and the whole homepage call-in card is hidden for reps with 0 assigned.
+
+**IMPORTANT:** Assignment matching relies on rep `$user.id` matching the rep_registry.json key (Telegram/phone id). rep_registry keys ARE the ids (inner `id` field is null). If a rep's assigned leads don't show, check that their $user.id equals their registry key. Firebase must be ready for assignments to load/persist. Service worker caches hard — tell Tyler to fully close/reopen or hard-refresh to see the new bundle.
+
+## Cartvertising Quick-Add + Front/Directory Explainer (Jun 30, 2026)
+**Status:** ✅ LIVE (commit a8f1783, bundle index-3hYgpCta.js)
+
+Two asks in `pwa/`:
+
+1. **Quick-add Cartvertising on store cards** — StoreSearch.svelte store card now has a green "🛒 Add Cartvertising" button (in the store-info block, under 🎯 Prospect Store). Tapping opens a package picker (`CART_PACKAGES`: 20% Front OR Directory $2,995 / 40% $4,795 / 60% $5,995 / 80% $7,395 / 100% $8,795). `handleAddCartvertising(store,pkg)` pushes an item to `localStorage.indoormedia_cart` (same shape Cart.svelte reads: {type:'cartvertising', name:'Cartvertising', emoji:🛒, store, storeNum, storeAddress, storeCycle, plan:pkg.name, price:pkg.price}) and fires `cart-updated`. Register-tape add-to-cart is unchanged.
+
+2. **Front vs Directory explainer graphic** — Cart.svelte. Added an HTML/CSS version (`.cart-diagram`) shown in the quote tool UI whenever a Cartvertising item is in the cart, AND a native vector version drawn in the Quote PDF (`drawCartDiagram()` inside `exportQuotePdf`, called right after Cartvertising Highlights). Recreates Tyler's reference layout (ignores percentages): left = single "Front Side" panel (thick black rounded border), red "OR" arrow, right = "Directory Side" panel split into narrow label + wider "Store Directory" box. Meaning captions per Tyler: Front = faces the front of the cart / oncoming shoppers; Directory = faces toward the shopper, next to the store directory. Verified PDF render via headless pdf-lib + pdftoppm (looks correct, headers clear the title with y-=42 gap).
+
+Reminder to Tyler: hard-refresh / reopen app to clear service-worker cache for the new bundle.
+
+## Cartvertising Cart-Count Quote + Full Rate Sheet + Header Graphic (Jun 30, 2026)
+**Status:** ✅ LIVE (commit 53bcecf, bundle rebuilt)
+
+Tyler: stop showing impression counts for Cartvertising; instead ASK the store's shopping-cart count when adding, then show how many carts display the ad based on the chosen %. Also load all rate-sheet packages (incl 200% + Header ads) and add a Header explainer graphic.
+
+**StoreSearch.svelte:**
+- `CART_PACKAGES` now the FULL rate sheet (6-mo rates), each with metadata {pct, front, dir, header, footer, kind:'front_dir'|'header'}: 20% Front OR Directory $2,995 · 40% (20+20) $4,795 · 60% (40+20) $5,995 · 80% (40+40) $7,395 · 100% (60+40) $8,795 · 200% (100 both) $12,995 · Header 50% every other cart $2,995 · Header 100% every cart (header+footer) $4,795.
+- `handleAddCartvertising(store,pkg)` now `window.prompt`s for the store's total shopping-cart count (remembers per-store via `store._cartCount`), computes `cartsShowingAd = round(count × pct/100)`, and writes cart item fields: cartPct, cartKind, frontPct, dirPct, headerPct, hasFooter, storeCartCount, cartsShowingAd. Package picker grouped into "Front & Directory Ads" and "Header Ads".
+
+**Cart.svelte:**
+- `getImpressions()` returns null for Cartvertising (no more fake 500/day impressions).
+- New `getCartCoverage(item)` → {total, pct, showing, isHeader}. Quote PDF line item and the in-app cart item now show "N of M shopping carts will display your ad (X% of all carts)" instead of impressions. If a Cartvertising item has no storeCartCount (added before this change), UI shows an amber hint to re-add from the store card.
+- PDF: `drawCartDiagram()` (Front vs Directory) unchanged; added `drawHeaderDiagram()` (Header 50% = top-right tag / Header 100% = header + footer tags) drawn only when a header item is in cart. HTML UI diagram got a matching `#if header` section (.cd-panel-header, .cd-header-tag, .cd-footer-tag).
+- Verified full PDF render headless (pdf-lib + pdftoppm): coverage line + both diagrams look correct.
+
+NOTE: cart count is entered via a browser prompt() at add-time. Old Cartvertising items added before today won't have counts — re-add them. Service worker caches hard: hard-refresh/reopen to get new bundle.

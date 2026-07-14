@@ -1673,13 +1673,25 @@
   // open-worthy hook; bodies greet the saved contact by name.
   const programEmailTemplates = [
     // ── TAPE ──
-    { id: 'prog-tape', icon: '🧾', name: 'Register Tape', group: 'Tape',
+    { id: 'prog-tape', icon: '🧾', name: 'Register Tape — In Every Hand', group: 'Tape',
       subject: 'Put {business} in every {chain} shopper\u2019s hand',
       body: 'Hi {contact},\n\nEvery customer who checks out at {store} walks away holding their receipt — and that\'s prime real estate for {business}. Our register tape ads print your name, offer, and location right on the back, reaching {customers} local shoppers every week.\n\nIt\'s repetition where people already are, at a fraction of the cost of a billboard. Could I show you how it works in 10 minutes?\n\nBest,\n{rep}\nIndoorMedia' },
+    { id: 'prog-tape-coupon', icon: '🧾', name: 'Register Tape — Coupon in Hand', group: 'Tape',
+      subject: 'A {business} coupon in {customers} hands a week at {chain}',
+      body: 'Hi {contact},\n\nCoupons work best when they\'re already in someone\'s hand — not buried in a mailer they tossed. Every shopper at {store} walks out holding their receipt, and we print your offer right on the back. That\'s {customers} local customers a week with a reason to choose {business} today.\n\nRedemptions are easy to track, so you\'ll see exactly what it\'s doing. Got 10 minutes for me to run the numbers for you?\n\nBest,\n{rep}\nIndoorMedia' },
+    { id: 'prog-tape-cost', icon: '🧾', name: 'Register Tape — Cheaper Than a Billboard', group: 'Tape',
+      subject: 'Reach {customers} {chain} shoppers for pennies each',
+      body: 'Hi {contact},\n\nA billboard costs a fortune and people blow past it at 60 mph. Register tape puts {business} directly in the hands of {customers} shoppers a week at {store} — for a fraction of the price, with your name, offer, and address right where they\'ll actually read it.\n\nIt\'s the lowest cost-per-impression local advertising I know of. Want me to break down what it\'d run for you?\n\nBest,\n{rep}\nIndoorMedia' },
     // ── CART ──
-    { id: 'prog-cart', icon: '🛒', name: 'Cartvertising', group: 'Cart',
+    { id: 'prog-cart', icon: '🛒', name: 'Cartvertising — Own Every Cart', group: 'Cart',
       subject: 'Your brand on every cart at {chain}, {business}',
       body: 'Hi {contact},\n\nImagine {business} riding along on every shopping cart at {store} for six months straight. Cartvertising puts your ad in front of {customers} shoppers a week — eye-level, all day, every aisle.\n\nOne business per category, so once the spot is yours, your competition can\'t take it. Want me to check if it\'s still open?\n\nBest,\n{rep}\nIndoorMedia' },
+    { id: 'prog-cart-exclusive', icon: '🛒', name: 'Cartvertising — Lock Out Competitors', group: 'Cart',
+      subject: 'Claim the {chain} cart spot before your competitor does',
+      body: 'Hi {contact},\n\nHere\'s the part most people like: Cartvertising is one business per category, per store. Once {business} takes the spot at {store}, your competition literally can\'t buy their way in front of those {customers} weekly shoppers — you own it.\n\nThose spots don\'t open often. Want me to check whether yours is still available?\n\nBest,\n{rep}\nIndoorMedia' },
+    { id: 'prog-cart-repetition', icon: '🛒', name: 'Cartvertising — Seen All Trip Long', group: 'Cart',
+      subject: '{customers} {chain} shoppers, staring at your ad for 30 minutes',
+      body: 'Hi {contact},\n\nMost ads get a half-second glance. A cart ad rides with the shopper for their entire trip at {store} — 20, 30 minutes of your name in front of them, aisle after aisle. Multiply that by {customers} shoppers a week and {business} becomes the name they can\'t stop seeing.\n\nThat kind of repetition is what turns strangers into customers. Got 10 minutes so I can show you how it works?\n\nBest,\n{rep}\nIndoorMedia' },
     // ── DIGITAL ──
     { id: 'prog-digitalboost', icon: '🚀', name: 'DigitalBoost (Geofencing)', group: 'Digital',
       subject: 'Reach phones near {chain} for {business}',
@@ -1854,6 +1866,40 @@ IndoorMedia`
   // then program templates (Tape / Cart / Digital), then the generic five.
   function getEmailTemplatesFor() {
     return [getMultiProngedTemplate(), ...getCategoryTemplates(), ...getProgramTemplates(), ...emailTemplates];
+  }
+
+  // ── Categorized template picker ───────────────────────────────────
+  // Organizes the flat template list into a "top" band (bundled Multi-Pronged
+  // + category-specific, always shown) plus collapsible groups by program:
+  // Register Tape, Cartvertising, Digital, and General/Approach.
+  // Clicking a group header expands it to reveal all templates in that group.
+  function getGroupedTemplatesFor() {
+    const all = getEmailTemplatesFor();
+
+    // Top band: bundled/multi-pronged + category-specific (e.g. Automotive).
+    const top = all.filter(t => t._featured || t._categoryLabel);
+
+    // Collapsible groups. Match by program label first, then by id for the
+    // generic "approach" templates that carry no badge.
+    const byProgram = (label) => all.filter(t => t._programLabel === label);
+    const generic = all.filter(t => !t._featured && !t._categoryLabel && !t._programLabel);
+
+    const groups = [
+      { key: 'tape',    icon: '🧾', label: 'Register Tape',        badge: 'Tape',    templates: byProgram('Tape') },
+      { key: 'cart',    icon: '🛒', label: 'Cartvertising',        badge: 'Cart',    templates: byProgram('Cart') },
+      { key: 'digital', icon: '📱', label: 'Digital Marketing',    badge: 'Digital', templates: byProgram('Digital') },
+      { key: 'general', icon: '✉️', label: 'General / By Approach', badge: '',        templates: generic },
+    ].filter(g => g.templates.length > 0);
+
+    return { top, groups };
+  }
+
+  // Which template groups are currently expanded (per-prospect via _openTplGroups).
+  function toggleTplGroup(prospect, key) {
+    const open = { ...(prospect._openTplGroups || {}) };
+    open[key] = !open[key];
+    prospect._openTplGroups = open;
+    prospects = prospects;
   }
 
   // Build a natural store reference like "the Safeway on Center Street in Salem"
@@ -3409,6 +3455,7 @@ IndoorMedia`
           {/if}
           {#if prospect._showEmail}
             {@const tplList = getEmailTemplatesFor()}
+            {@const tplGroups = getGroupedTemplatesFor()}
             <div class="email-section">
               <!-- Email-address status / scrub -->
               <div class="email-to-row">
@@ -3470,10 +3517,30 @@ IndoorMedia`
               {/if}
 
               <h4 class="email-title">Choose a template:</h4>
-              {#each tplList as tpl}
-                <button class="email-tpl-btn" class:featured-tpl={tpl._featured} class:cat-tpl={tpl._categoryLabel} class:prog-tpl={tpl._programLabel} on:click={() => { prospect._selectedTpl = tpl.id; if (tpl._dynamic && !prospect._research && !prospect._researching) { prospect._researching = true; researchProspect(prospect).finally(() => { prospect._researching = false; prospects = prospects; }); } prospects = prospects; }}>
-                  {tpl.icon} {tpl.name}{#if tpl._featured} <span class="featured-badge">⭐ Best</span>{/if}{#if tpl._categoryLabel} <span class="cat-badge">{tpl._categoryLabel}</span>{/if}{#if tpl._programLabel} <span class="prog-badge">{tpl._programLabel}</span>{/if}
+
+              <!-- Top band: bundled Multi-Pronged + category-specific (always shown) -->
+              {#each tplGroups.top as tpl}
+                <button class="email-tpl-btn" class:featured-tpl={tpl._featured} class:cat-tpl={tpl._categoryLabel} class:active-tpl={prospect._selectedTpl === tpl.id} on:click={() => { prospect._selectedTpl = tpl.id; if (tpl._dynamic && !prospect._research && !prospect._researching) { prospect._researching = true; researchProspect(prospect).finally(() => { prospect._researching = false; prospects = prospects; }); } prospects = prospects; }}>
+                  {tpl.icon} {tpl.name}{#if tpl._featured} <span class="featured-badge">⭐ Best</span>{/if}{#if tpl._categoryLabel} <span class="cat-badge">{tpl._categoryLabel}</span>{/if}
                 </button>
+              {/each}
+
+              <!-- Collapsible groups by program -->
+              {#each tplGroups.groups as grp}
+                {@const isOpen = !!(prospect._openTplGroups && prospect._openTplGroups[grp.key])}
+                <button class="tpl-group-header" class:open={isOpen} on:click={() => toggleTplGroup(prospect, grp.key)}>
+                  <span class="tpl-group-title">{grp.icon} {grp.label}</span>
+                  <span class="tpl-group-meta">{#if grp.badge}<span class="prog-badge">{grp.badge}</span>{/if}<span class="tpl-group-count">{grp.templates.length}</span><span class="tpl-group-chevron">{isOpen ? '▾' : '▸'}</span></span>
+                </button>
+                {#if isOpen}
+                  <div class="tpl-group-body">
+                    {#each grp.templates as tpl}
+                      <button class="email-tpl-btn tpl-group-item" class:prog-tpl={tpl._programLabel} class:active-tpl={prospect._selectedTpl === tpl.id} on:click={() => { prospect._selectedTpl = tpl.id; if (tpl._dynamic && !prospect._research && !prospect._researching) { prospect._researching = true; researchProspect(prospect).finally(() => { prospect._researching = false; prospects = prospects; }); } prospects = prospects; }}>
+                        {tpl.icon} {tpl.name}{#if tpl._programLabel} <span class="prog-badge">{tpl._programLabel}</span>{/if}
+                      </button>
+                    {/each}
+                  </div>
+                {/if}
               {/each}
               {#if prospect._selectedTpl}
                 {@const tpl = tplList.find(t => t.id === prospect._selectedTpl) || tplList[0]}
@@ -5539,6 +5606,62 @@ IndoorMedia`
     margin-left: 6px;
     vertical-align: middle;
   }
+  /* Selected/active template highlight */
+  .email-tpl-btn.active-tpl {
+    box-shadow: 0 0 0 2px #CC0000 inset;
+    background: #fff5f5;
+  }
+  :global([data-theme='dark']) .email-tpl-btn.active-tpl { background: #2a1414; }
+
+  /* Collapsible template group headers */
+  .tpl-group-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    padding: 11px 12px;
+    margin-bottom: 6px;
+    background: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--text-primary);
+  }
+  .tpl-group-header:hover { border-color: #1a73e8; }
+  .tpl-group-header.open {
+    border-color: #1a73e8;
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+    margin-bottom: 0;
+    background: #f5f9ff;
+  }
+  :global([data-theme='dark']) .tpl-group-header.open { background: #0e1a2a; }
+  .tpl-group-title { display: flex; align-items: center; gap: 6px; }
+  .tpl-group-meta { display: flex; align-items: center; gap: 8px; }
+  .tpl-group-count {
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--text-secondary, #888);
+    background: rgba(0,0,0,0.06);
+    border-radius: 10px;
+    padding: 1px 8px;
+  }
+  :global([data-theme='dark']) .tpl-group-count { background: rgba(255,255,255,0.08); }
+  .tpl-group-chevron { font-size: 12px; color: var(--text-secondary, #888); width: 12px; text-align: center; }
+  .tpl-group-body {
+    border: 1px solid #1a73e8;
+    border-top: none;
+    border-bottom-left-radius: 8px;
+    border-bottom-right-radius: 8px;
+    padding: 8px 8px 4px;
+    margin-bottom: 8px;
+    background: #fafcff;
+  }
+  :global([data-theme='dark']) .tpl-group-body { background: #0a1420; }
+  .tpl-group-item.email-tpl-btn { margin-bottom: 6px; }
+
   .email-research-hint {
     font-size: 12px;
     color: #6d28d9;

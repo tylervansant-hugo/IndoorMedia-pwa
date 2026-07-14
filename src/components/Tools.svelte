@@ -1,6 +1,7 @@
 <script>
   import { onMount, onDestroy } from 'svelte';
   import { PDFDocument, rgb, StandardFonts } from 'pdf-lib';
+  import { generateCounterSignPdf } from '../lib/counterSign.js';
   import { user, padAmount } from '../lib/stores.js';
   import { calculateROI as sharedCalculateROI } from '../lib/roi.js';
   import StoreSearchInput from '../lib/StoreSearchInput.svelte';
@@ -99,6 +100,9 @@
   let roiAvgSpend = '';
   let roiCogs = '';
   let roiVisitsPerYear = 12;
+  let roiDiscountAmount = '';   // flat $ off per redemption
+  let roiDiscountPercent = '';  // % off per redemption
+  let roiGiveawayCost = '';     // cost of free/giveaway item per redemption
   let roiResult = null;
 
   // ROI store search now handled by StoreSearchInput component
@@ -127,6 +131,9 @@
     const avgSpend = parseFloat(roiAvgSpend) || 0;
     const cogsPercent = parseFloat(roiCogs) || 0;
     const visitsPerYear = parseInt(roiVisitsPerYear) || 12;
+    const discountAmount = parseFloat(roiDiscountAmount) || 0;
+    const discountPercent = parseFloat(roiDiscountPercent) || 0;
+    const giveawayCost = parseFloat(roiGiveawayCost) || 0;
     
     const result = sharedCalculateROI({
       investment: totalAdCost,
@@ -134,6 +141,9 @@
       newCustomers,
       cogsPercent,
       visitsPerYear,
+      discountAmount,
+      discountPercent,
+      giveawayCost,
     });
     
     roiResult = {
@@ -194,6 +204,10 @@
     section('ASSUMPTIONS');
     if (r.newCustomersPerMonth > 0) line('New Customers / Month:', String(r.newCustomersPerMonth));
     line('Average Customer Spend:', `$${parseFloat(roiAvgSpend || 0).toLocaleString()}`);
+    if (r.discountPercent > 0) line('Coupon Discount (% off):', `${r.discountPercent}%`);
+    if (r.discountAmount > 0) line('Coupon Discount ($ off):', `$${r.discountAmount.toLocaleString()}`);
+    if ((r.discountPercent > 0 || r.discountAmount > 0)) line('Effective Spend / Visit:', `$${r.effectiveSpend.toLocaleString()}`);
+    if (r.giveawayCost > 0) line('Giveaway Cost / Redemption:', `$${r.giveawayCost.toLocaleString()}`);
     line('Visits per Year (informational):', `${r.visitsPerYear}`);
     line('COGS:', `${r.cogsPercent}%`);
 
@@ -341,7 +355,7 @@
 Store: ${store}
 
 💰 Investment: $${r.totalAdCost.toLocaleString()} (${r.quarters}Q)
-📈 Gross Annual Revenue: $${r.grossRevenue.toLocaleString()}${r.cogs ? `\n📉 COGS (${r.cogsPercent}%): -$${r.cogs.toLocaleString()}` : ''}
+📈 Gross Annual Revenue: $${r.grossRevenue.toLocaleString()}${r.cogs ? `\n📉 COGS (${r.cogsPercent}%): -$${r.cogs.toLocaleString()}` : ''}${r.giveawayTotal ? `\n🎁 Giveaway Cost: -$${r.giveawayTotal.toLocaleString()}` : ''}
 💵 Net Annual Revenue: $${r.netRevenue.toLocaleString()}
 
 ✅ ROI: ${r.roiPercent}%
@@ -449,19 +463,7 @@ Store: ${store}
   onMount(() => {
     loadRepNames();
   });
-  // Counter Sign API endpoint
-  const isDev = window.location.hostname === 'localhost';
-  let COUNTER_SIGN_API = isDev 
-    ? 'http://localhost:3333'
-    : 'https://jefferson-pas-gas-comfortable.trycloudflare.com';
-  
-  // On production, try to fetch the latest tunnel URL
-  if (!isDev) {
-    fetch('/api/counter-sign-url')
-      .then(r => r.json())
-      .then(d => { if (d.url) COUNTER_SIGN_API = d.url; })
-      .catch(() => {}); // Fall back to hardcoded URL
-  }
+  // Counter Sign is now fully client-side (pdf-lib). No backend/tunnel required.
 
   onMount(async () => {
     try {
@@ -676,44 +678,35 @@ Store: ${store}
 
   async function submitCounterSign() {
     if (generating) return;
-    
+
     try {
       generating = true;
-      
-      const repName = $user?.name || $user?.first_name || 'Tyler Van Sant';
-      
-      const formData = new FormData();
-      formData.append('chain_code', selectedChainCode);
-      formData.append('rep_name', repName);
-      formData.append('style', counterSignStyle);
-      
-      // Append all ad proof images
-      for (const adImg of counterData.ad_proof_images) {
-        formData.append('ad_proof', adImg);
-      }
-      
-      if (counterData.business_card_image) {
-        formData.append('business_card', counterData.business_card_image);
-      }
-      if (counterData.landing_page_url) {
-        formData.append('landing_page_url', counterData.landing_page_url);
-      }
 
-      const response = await fetch(`${COUNTER_SIGN_API}/generate`, {
-        method: 'POST',
-        body: formData
+      // Derive rep cell if available in registry (fallback to '').
+      let repCell = '';
+      try {
+        if (selectedRepName && allReps) {
+          for (const key in allReps) {
+            const r = allReps[key];
+            if (r && r.display_name === selectedRepName) {
+              repCell = r.cell || r.phone || r.cell_phone || '';
+              break;
+            }
+          }
+        }
+      } catch {}
+
+      const blob = await generateCounterSignPdf({
+        chainCode: selectedChainCode,
+        adImageFiles: counterData.ad_proof_images,
+        businessCardFile: counterData.business_card_image || null,
+        landingPageUrl: counterData.landing_page_url,
+        style: counterSignStyle,
+        repCell,
       });
 
-      if (!response.ok) {
-        let msg = response.statusText;
-        try { const e = await response.json(); msg = e.error; } catch {}
-        alert(`❌ Error: ${msg}`);
-        return;
-      }
-
-      const blob = await response.blob();
       downloadBlob(blob, `${selectedChainCode}_CounterSign.pdf`);
-      
+
       counterSignStep = 1;
       selectedChainCode = null;
       counterData = { business_card_image: null, landing_page_url: '', ad_proof_images: [] };
@@ -1060,6 +1053,23 @@ Store: ${store}
         <p class="hint">Cost of goods sold (typical: 25-40%)</p>
       </div>
 
+      <div class="roi-offer-box">
+        <div class="roi-offer-header">🏷️ Coupon Offer Cost</div>
+        <p class="hint">What the business gives up per redemption (optional)</p>
+        <div class="form-group">
+          <label>Discount — $ Off</label>
+          <input type="number" bind:value={roiDiscountAmount} placeholder="e.g., 5" min="0" />
+        </div>
+        <div class="form-group">
+          <label>Discount — % Off</label>
+          <input type="number" bind:value={roiDiscountPercent} placeholder="e.g., 20" min="0" max="100" />
+        </div>
+        <div class="form-group">
+          <label>Giveaway Cost — free item ($)</label>
+          <input type="number" bind:value={roiGiveawayCost} placeholder="e.g., 3" min="0" />
+        </div>
+      </div>
+
       <button class="action-btn" on:click={calculateROI} disabled={!roiAdCost || !roiNewCustomers || !roiAvgSpend}>
         Calculate ROI
       </button>
@@ -1078,6 +1088,12 @@ Store: ${store}
             <span class="roi-value">-${roiResult.cogs.toLocaleString()}</span>
             <span class="roi-label">COGS ({roiResult.cogsPercent}%)</span>
           </div>
+          {#if roiResult.giveawayTotal > 0}
+          <div class="roi-stat">
+            <span class="roi-value">-${roiResult.giveawayTotal.toLocaleString()}</span>
+            <span class="roi-label">Giveaway Cost (Year)</span>
+          </div>
+          {/if}
           <div class="roi-stat">
             <span class="roi-value">${roiResult.netRevenue.toLocaleString()}</span>
             <span class="roi-label">Net Annual Revenue</span>
@@ -1105,6 +1121,18 @@ Store: ${store}
             <span>Less COGS ({roiResult.cogsPercent}%)</span>
             <span class="cost">-${roiResult.cogs.toLocaleString()}</span>
           </div>
+          {#if roiResult.giveawayTotal > 0}
+          <div class="roi-row">
+            <span>Less Giveaway Cost</span>
+            <span class="cost">-${roiResult.giveawayTotal.toLocaleString()}</span>
+          </div>
+          {/if}
+          {#if roiResult.effectiveSpend !== undefined && (roiResult.discountAmount > 0 || roiResult.discountPercent > 0)}
+          <div class="roi-row">
+            <span>Effective Spend / Visit (after offer)</span>
+            <span>${roiResult.effectiveSpend.toLocaleString()}</span>
+          </div>
+          {/if}
           <div class="roi-row">
             <span>Net Annual Revenue</span>
             <span>${roiResult.netRevenue.toLocaleString()}</span>
@@ -2018,6 +2046,20 @@ Store: ${store}
     font-size: 12px;
     color: var(--text-secondary);
     font-style: italic;
+  }
+
+  .roi-offer-box {
+    background: #f4f9f4;
+    border: 1px solid #cfe6cf;
+    border-radius: 10px;
+    padding: 12px 14px;
+    margin-bottom: 16px;
+  }
+  .roi-offer-header {
+    font-size: 14px;
+    font-weight: 700;
+    color: #2e7d32;
+    margin-bottom: 2px;
   }
 
   .form-group input,
