@@ -783,6 +783,10 @@ Store: ${store.StoreName}
     { id: '200_both',  name: '200% — 100% Both Sides', price: '$12,995', pct: 200, front: 100, dir: 100, kind: 'front_dir' },
     { id: 'header_50', name: 'Header 50% — Every Other Cart', price: '$2,995', pct: 50, header: 50, kind: 'header' },
     { id: 'header_100', name: 'Header 100% — Every Cart (Header + Footer)', price: '$4,795', pct: 100, header: 100, footer: true, kind: 'header' },
+    // Nose of Cart — priced per slot (not % of carts). 1 or 2 slots per store.
+    { id: 'nose_base_annual', name: 'Nose of Cart — Base Annual (per slot)', price: '$2,500', kind: 'nose', nose: true },
+    { id: 'nose_base_6mo', name: 'Nose of Cart — Base 6-Month (per slot)', price: '$2,000', kind: 'nose', nose: true },
+    { id: 'nose_exclusivity', name: 'Nose of Cart — Exclusivity (per 60 inserts)', price: '$3,995 + prod.', kind: 'nose', nose: true },
   ];
   let cartPkgOpen = {};   // store.StoreName -> bool (package picker open)
   function toggleCartPkg(storeName) {
@@ -790,6 +794,37 @@ Store: ${store.StoreName}
     cartPkgOpen = cartPkgOpen;
   }
   function handleAddCartvertising(store, pkg) {
+    // Nose of Cart is priced per slot (not % of all carts) -- skip the cart-count
+    // prompt and add it straight to the cart.
+    if (pkg.nose) {
+      const noseItem = {
+        id: Date.now(),
+        type: 'cartvertising',
+        name: 'Nose of Cart',
+        emoji: '👃',
+        store: `${store.GroceryChain} - ${store.City}`,
+        storeNum: store.StoreName,
+        storeAddress: store.Address || '',
+        storeCycle: store.Cycle || '',
+        plan: pkg.name,
+        price: pkg.price,
+        noseOfCart: true,
+        addedAt: new Date().toISOString(),
+      };
+      try {
+        const cart = JSON.parse(localStorage.getItem('indoormedia_cart') || '[]');
+        cart.push(noseItem);
+        localStorage.setItem('indoormedia_cart', JSON.stringify(cart));
+        try { window.dispatchEvent(new Event('cart-updated')); } catch {}
+        addedToCartMsg = `👃 Added Nose of Cart — ${store.GroceryChain} ${store.City}`;
+        setTimeout(() => { addedToCartMsg = ''; }, 3000);
+      } catch (err) {
+        console.error('Failed to add Nose of Cart to cart:', err);
+      }
+      cartPkgOpen[store.StoreName] = false;
+      cartPkgOpen = cartPkgOpen;
+      return;
+    }
     // Ask for the store's total shopping-cart count so the quote can show
     // exactly how many carts will display the customer's ad.
     const prior = store._cartCount || '';
@@ -1135,6 +1170,13 @@ Store: ${store.StoreName}
                   {/each}
                   <div class="cartvert-pkg-group">Header Ads <span class="cartvert-pkg-group-note">(6 mo.)</span></div>
                   {#each CART_PACKAGES.filter(p => p.kind === 'header') as pkg}
+                    <button class="cartvert-pkg-btn" on:click|stopPropagation={() => handleAddCartvertising(store, pkg)}>
+                      <span class="cartvert-pkg-name">{pkg.name}</span>
+                      <span class="cartvert-pkg-price">{pkg.price}</span>
+                    </button>
+                  {/each}
+                  <div class="cartvert-pkg-group">👃 Nose of Cart <span class="cartvert-pkg-group-note">(per slot)</span></div>
+                  {#each CART_PACKAGES.filter(p => p.kind === 'nose') as pkg}
                     <button class="cartvert-pkg-btn" on:click|stopPropagation={() => handleAddCartvertising(store, pkg)}>
                       <span class="cartvert-pkg-name">{pkg.name}</span>
                       <span class="cartvert-pkg-price">{pkg.price}</span>
