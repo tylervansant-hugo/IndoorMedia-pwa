@@ -19,6 +19,11 @@
       presentation: 'https://docs.google.com/presentation/d/1xwIF4CaTp07AKunGaJysCSIGqN7VCdbL4fgOH3XEpl4/edit?usp=sharing',
       explainer: 'https://www.youtube.com/watch?v=PduxHWy8sMc'
     },
+    'nose-of-cart': {
+      presentation: (import.meta.env.BASE_URL || '/') + 'products/nose-of-cart-presentation.pdf',
+      specs: (import.meta.env.BASE_URL || '/') + 'products/nose-of-cart-specs.pdf',
+      explainer: 'https://youtu.be/PduxHWy8sMc?is=wN3757Wj6EVlgFN9'
+    },
     'digitalboost': {
       presentation: 'https://www.youtube.com/watch?v=PduxHWy8sMc',
       explainer: 'https://drive.google.com/file/d/1_QyAlgZRy1bKJSKC1058260d0jPccVTM/view?usp=share_link',
@@ -68,6 +73,41 @@
     { name: 'Header 50% (Every Other Cart)', price: '$2,995' },
     { name: 'Header 100% (Every Cart)', price: '$4,795' },
   ];
+
+  // Nose of Cart -- premium front-of-cart ad slot (a Cartvertising product)
+  const noseOfCart = {
+    name: 'Nose of Cart',
+    emoji: '👃',
+    desc: 'Premium full-color ad mounted on the front (nose) of the shopping cart -- the first thing oncoming shoppers see.',
+    valueProps: [
+      { icon: '👀', title: 'Front-Facing', text: 'Faces oncoming shoppers -- maximum first-impression exposure' },
+      { icon: '🖼️', title: 'Large Format', text: 'Big 9.94" x 7.72" full-color canvas for your brand' },
+      { icon: '🏆', title: 'Exclusivity Available', text: 'Lock out competitors with category exclusivity' },
+      { icon: '🔁', title: 'All-Trip Exposure', text: 'Seen the entire shopping trip, every visit' },
+    ],
+    // Slots & exclusivity (from IC commission plan)
+    slots: '1 or 2 slots per store (60 or 120 inserts). Check availability report for slots + current sales.',
+    exclusivity: 'Nose exclusivity: $3,995 + production per 60 inserts (separate from Baby Seat exclusivity).',
+    production: '$495 single store; $395 each on multiples sold at once (yearly, non-commissionable).',
+    packages: [
+      { name: 'Base -- Annual (per slot)', price: '$2,500' },
+      { name: 'Base -- 6-Month (per slot)', price: '$2,000' },
+      { name: 'Exclusivity (per 60 inserts)', price: '$3,995 + production' },
+    ],
+    // Artwork specs (from NOSE specs / fillable ad copy sheet)
+    specs: [
+      { label: 'Ad Size', value: '9.94" x 7.72" (W x H)' },
+      { label: 'Safe Area', value: 'Keep all text/logos in the center safe area' },
+      { label: 'Margin / Bleed', value: 'Extend background color to all 4 edges (margin may be covered by frame)' },
+      { label: 'Resolution', value: '300 dpi (photos high-res; avoid 72 dpi web images)' },
+      { label: 'Color Mode', value: 'CMYK -- color not guaranteed' },
+      { label: 'Photo/Logo', value: '4x6 or larger high-res. Accepts: JPG, EPS, AI, PSD, TIF, PNG, PDF' },
+      { label: 'Design Files', value: 'AI (preferred), EPS, PDF (fonts outlined), PSD/TIFF @300dpi; DOC/PPT for copy' },
+      { label: 'Stock Images', value: 'www.AdobeStock.com' },
+      { label: 'Not Accepted', value: 'Publisher, Corel Draw, AutoCad, PrintShop Pro, Word Perfect, Pagemaker, low-res web graphics' },
+      { label: 'Submission', value: 'Dropbox or email to Zone____@cartvertising.com. Templates available on request.' },
+    ],
+  };
 
   // Digital products
   const digitalProducts = {
@@ -215,6 +255,8 @@
       'register-tape': `🧾 Register Tape Advertising -- IndoorMedia\nYour ad printed on grocery store receipts -- seen by every single customer!\n\n✅ 100% reach -- every shopper gets a receipt\n✅ Hyper-local targeting at stores near your business\n✅ Affordable -- fraction of direct mail or digital\n✅ Trackable with coupon codes\n\n📐 Single Ad (2.75" x 1.75") or Double Ad (2.75" x 3.6")\n\n🎥 See how it works: ${VIDEO_LINKS['register-tape'].explainer}\n\n-- ${repName()}, IndoorMedia`,
       
       'cartvertising': `🛒 Cartvertising -- IndoorMedia\nFull-color ads mounted at eye level on shopping carts!\n\n✅ Eye-level visibility -- impossible to miss\n✅ 40+ minutes per shopping trip with your ad\n✅ Full-color, high-quality printing\n✅ Massive reach -- thousands of shoppers per cart\n\n🎥 See how it works: ${VIDEO_LINKS['cartvertising'].explainer}\n\n-- ${repName()}, IndoorMedia`,
+
+      'nose-of-cart': `👃 Nose of Cart -- Cartvertising by IndoorMedia\nPremium full-color ad on the FRONT of the shopping cart -- the first thing every oncoming shopper sees!\n\n✅ Front-facing -- maximum first-impression exposure\n✅ Large 9.94" x 7.72" full-color canvas\n✅ Category exclusivity available\n✅ Seen the entire shopping trip, every visit\n\n📐 ART SPECS\n• Ad size: 9.94" x 7.72" (W x H)\n• Keep text/logos in the center safe area; extend background color to all edges\n• 300 dpi, CMYK (color not guaranteed)\n• Photo/logo 4x6+ high-res -- JPG, EPS, AI, PSD, TIF, PNG, PDF\n• Design files: AI (preferred), EPS, PDF (fonts outlined), PSD/TIFF @300dpi\n• Submit via Dropbox or Zone____@cartvertising.com (templates on request)\n\n🎥 See how it works: ${VIDEO_LINKS['nose-of-cart'].explainer}\n\n-- ${repName()}, IndoorMedia`,
       
       'digitalboost': `🚀 𝗗𝗶𝗴𝗶𝘁𝗮𝗹𝗕𝗼𝗼𝘀𝘁 — Targeted Digital Advertising\n━━━━━━━━━━━━━━━━━━━━\n✨ Eye-catching 𝗔𝗡𝗜𝗠𝗔𝗧𝗘𝗗 300×250 banner ads that follow your ideal customers across the web.\n\n🌐 Running on 𝟮,𝟬𝟬𝟬,𝟬𝟬𝟬+ 𝘄𝗲𝗯𝘀𝗶𝘁𝗲𝘀 & apps\n🎯 Targeting YOUR ideal customers — not just anyone\n📊 Dial it in by 𝗱𝗲𝗺𝗼𝗴𝗿𝗮𝗽𝗵𝗶𝗰𝘀 (age, gender, income, location) AND 𝗶𝗻𝘁𝗲𝗿𝗲𝘀𝘁𝘀\n📍 Geofence-targeted to a 1-mile radius of the store, your address, or chosen ZIP codes\n📈 240,000 – 360,000 impressions per pin\n📑 Monthly performance reports\n\n👀 See animated examples in action:\nhttps://www.indoormedia.com/digital-boost-ads/\n\n🎥 How it works: ${VIDEO_LINKS.digitalboost.explainer}\n\n— ${repName()}, IndoorMedia`,
       
@@ -579,6 +621,50 @@
         </div>
       </div>
     {/each}
+
+    <!-- ===== Nose of Cart (a Cartvertising product) ===== -->
+    <div class="section-divider nose-divider"><h3>{noseOfCart.emoji} {noseOfCart.name}</h3></div>
+    <p class="nose-desc">{noseOfCart.desc}</p>
+
+    <div class="video-links">
+      <a href={VIDEO_LINKS['nose-of-cart'].explainer} target="_blank" class="video-btn">📹 Explainer Video</a>
+      <a href={VIDEO_LINKS['nose-of-cart'].presentation} target="_blank" class="video-btn">🎬 Presentation</a>
+      <a href={VIDEO_LINKS['nose-of-cart'].specs} target="_blank" class="video-btn">📋 Art Specs</a>
+    </div>
+
+    <div class="value-props">
+      {#each noseOfCart.valueProps as vp}
+        <div class="value-card"><span class="vi">{vp.icon}</span><h4>{vp.title}</h4><p>{vp.text}</p></div>
+      {/each}
+    </div>
+
+    <div class="nose-info">
+      <div class="nose-info-row"><strong>Slots</strong><span>{noseOfCart.slots}</span></div>
+      <div class="nose-info-row"><strong>Exclusivity</strong><span>{noseOfCart.exclusivity}</span></div>
+      <div class="nose-info-row"><strong>Production</strong><span>{noseOfCart.production}</span></div>
+    </div>
+
+    <div class="section-divider"><h3>💵 Nose Pricing</h3></div>
+    {#each noseOfCart.packages as pkg}
+      <div class="package-row">
+        <div><h4>{pkg.name}</h4></div>
+        <div class="pkg-right"><span class="pkg-price">{pkg.price}</span>
+          <button class="cart-sm" on:click={() => addToCart('Nose of Cart -- ' + pkg.name, pkg.price, '6-month')}>🛒</button>
+        </div>
+      </div>
+    {/each}
+
+    <div class="section-divider"><h3>📏 Art Specs</h3></div>
+    <div class="nose-specs">
+      {#each noseOfCart.specs as s}
+        <div class="nose-spec-row"><strong>{s.label}</strong><span>{s.value}</span></div>
+      {/each}
+    </div>
+    <div class="btn-row">
+      <button class="share-btn" on:click={() => shareProduct('nose-of-cart')}>📩 Send Nose Info</button>
+    </div>
+
+    <div class="section-divider"></div>
     <div class="btn-row">
       <button class="share-btn" on:click={() => shareProduct('cartvertising')}>📩 Send to Customer</button>
       <button class="pdf-btn" disabled={pdfGenerating} on:click={() => downloadProductPdf('cartvertising')}>{ pdfGenerating ? "⏳ Generating..." : "📄 Download PDF" }</button>
@@ -763,6 +849,18 @@
   .pkg-right { display:flex; align-items:center; gap:10px; }
   .pkg-price { font-size:15px; font-weight:800; color:#CC0000; }
   .cart-sm { background:#CC0000; color:#fff; border:none; border-radius:6px; padding:6px 10px; cursor:pointer; font-size:14px; }
+
+  /* Nose of Cart */
+  .nose-divider h3 { color:#CC0000; }
+  .nose-desc { font-size:13px; color:var(--text-secondary); line-height:1.5; margin:0 0 14px; }
+  .nose-info { display:flex; flex-direction:column; gap:8px; margin:8px 0 4px; }
+  .nose-info-row { background:var(--card-bg); border:2px solid var(--border-color); border-radius:10px; padding:10px 12px; }
+  .nose-info-row strong { display:block; font-size:12px; color:#CC0000; text-transform:uppercase; letter-spacing:0.03em; margin-bottom:3px; }
+  .nose-info-row span { font-size:13px; color:var(--text-primary); line-height:1.4; }
+  .nose-specs { display:flex; flex-direction:column; gap:6px; }
+  .nose-spec-row { display:flex; gap:10px; background:var(--card-bg); border:1px solid var(--border-color); border-radius:8px; padding:9px 12px; }
+  .nose-spec-row strong { flex:0 0 34%; font-size:12px; color:#CC0000; }
+  .nose-spec-row span { flex:1; font-size:12px; color:var(--text-primary); line-height:1.4; }
 
   /* Digital */
   .digital-grid { display:flex; flex-direction:column; gap:12px; }
