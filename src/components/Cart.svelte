@@ -356,7 +356,7 @@
   // Is there a Register Tape or Cartvertising item in the cart? (triggers DB uplift)
   $: dbBundleActive = cartItems.some(i => {
     const n = (i.name || '').toLowerCase();
-    return n.includes('register tape') || n.includes('cartvertising');
+    return n.includes('register tape') || n.includes('cartvertising') || n.includes('nose of cart') || i.noseOfCart;
   });
 
   // Total campaign impressions for a DigitalBoost item (over the full term, per pin).
@@ -578,6 +578,7 @@
     // Product highlights
     const hasRT = cartItems.some(i => (i.name || '').toLowerCase().includes('register tape'));
     const hasCart = cartItems.some(i => (i.name || '').toLowerCase().includes('cartvertising'));
+    const hasNose = cartItems.some(i => i.noseOfCart || (i.name || '').toLowerCase().includes('nose of cart'));
     const hasDigi = cartItems.some(i => {
       const n = (i.name || '').toLowerCase();
       return n.includes('digitalboost') || n.includes('digital boost') || n.includes('findlocal') || n.includes('reviewboost') || n.includes('loyaltyboost');
@@ -702,6 +703,53 @@
       ]);
       drawCartDiagram();
       if (hasHeaderAd) drawHeaderDiagram();
+    }
+
+    // Nose of Cart specs table (art specs, drawn like a mini spec sheet)
+    function drawNoseSpecs() {
+      const specs = [
+        ['Ad Size', '9.94" x 7.72" (W x H)'],
+        ['Safe Area', 'Keep all text/logos in the center safe area'],
+        ['Margin / Bleed', 'Extend background color to all 4 edges (frame may cover margins)'],
+        ['Resolution', '300 dpi (photos high-res; avoid 72 dpi web images)'],
+        ['Color Mode', 'CMYK -- color not guaranteed'],
+        ['Photo / Logo', '4x6 or larger high-res. Accepts JPG, EPS, AI, PSD, TIF, PNG, PDF'],
+        ['Design Files', 'AI (preferred), EPS, PDF (fonts outlined), PSD/TIFF @300dpi'],
+        ['Stock Images', 'www.AdobeStock.com'],
+        ['Submission', 'Dropbox or email to Zone____@cartvertising.com'],
+      ];
+      checkPage(34 + specs.length * 16);
+      page.drawText('Nose of Cart -- Art Specs', { x: 30, y, size: 13, font: bold, color: red });
+      y -= 20;
+      for (const [label, val] of specs) {
+        checkPage(16);
+        page.drawText(label + ':', { x: 40, y, size: 9, font: bold, color: black });
+        // wrap the value if too long for the column
+        const maxW = 372, valX = 175;
+        const words = String(val).split(' ');
+        let line = '';
+        let first = true;
+        for (const w of words) {
+          const test = line ? line + ' ' + w : w;
+          if (regular.widthOfTextAtSize(test, 9) > maxW && line) {
+            page.drawText(line, { x: valX, y, size: 9, font: regular, color: gray });
+            y -= 12; line = w; first = false;
+          } else { line = test; }
+        }
+        if (line) page.drawText(line, { x: valX, y, size: 9, font: regular, color: gray });
+        y -= 16;
+      }
+      y -= 8;
+    }
+
+    if (hasNose) {
+      drawHighlights('Nose of Cart Highlights', [
+        'Front-Facing -- first thing oncoming shoppers see',
+        'Large Format -- big 9.94" x 7.72" full-color canvas',
+        'Exclusivity Available -- lock out competitors in your category',
+        'All-Trip Exposure -- seen the entire shopping trip, every visit',
+      ]);
+      drawNoseSpecs();
     }
     if (hasDigi) {
       drawHighlights('Digital Product Highlights', [
