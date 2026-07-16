@@ -671,12 +671,12 @@ Store: ${store.StoreName}
       monthly: (scaledTotal / (quarters * 3)).toFixed(2),
       monthlyTotal: scaledTotal.toFixed(2),
       monthlyPayments: quarters * 3,
-      threeMonth: (((scaledBase * 0.90) + prod * qFactor) / Math.ceil(quarters * 3 / 3)).toFixed(2),
+      threeMonth: (((scaledBase * 0.90) + prod * qFactor) / 3).toFixed(2),
       threeMonthTotal: ((scaledBase * 0.90) + prod * qFactor).toFixed(2),
-      threeMonthPayments: Math.ceil(quarters * 3 / 3),
-      sixMonth: (((scaledBase * 0.925) + prod * qFactor) / Math.ceil(quarters * 3 / 6)).toFixed(2),
+      threeMonthPayments: 3,
+      sixMonth: (((scaledBase * 0.925) + prod * qFactor) / 6).toFixed(2),
       sixMonthTotal: ((scaledBase * 0.925) + prod * qFactor).toFixed(2),
-      sixMonthPayments: Math.ceil(quarters * 3 / 6),
+      sixMonthPayments: 6,
       pif: ((scaledBase * 0.85) + prod * qFactor).toFixed(2),
       savings: (scaledBase * 0.15).toFixed(2)
     };
