@@ -1,5 +1,128 @@
 # MEMORY.md - Shelldon's Long-Term Memory
 
+## Counter Sign SMI (Smith's) template 90° rotation FIX (Jul 15, 2026)
+**Status:** ✅ LIVE (pwa commit af36775, gh-pages deployed & verified; data-only fix, bundle unchanged)
+
+Tyler: "Counter sign tool is turning the template 90°." Screenshot showed a Provo/UT MOOYAH counter sign with the ATTENTION! banner running vertically. Root cause: of the 156 counter-sign templates in `pwa/public/data/store_templates/`, exactly ONE was defective — **SMI (Smith's Food & Drug)** = `SMI_CounterSign_8X11---0d493e1d-...pdf` was authored **745x576 landscape with the artwork rotated 90°** (meant to be viewed portrait), while the other 155 are clean **612x792 portrait, rotation 0**. The `generateCounterSignPdf()` overlay in `pwa/src/lib/counterSign.js` uses HARDCODED portrait constants (LETTER 612x792, ad grid Y 150–430, QR bottom-right x=484/y=22, full-width footer), so on the landscape SMI page everything landed wrong and the whole sheet looked turned.
+
+**Fix (data-only, no code change):** normalized the SMI template to a fresh 612x792 portrait page via pdf-lib — `out.embedPage(srcPage)` then `page.drawPage(embedded, { x:offX, y:offY+drawH, xScale, yScale, rotate: degrees(270) })` (270° = rotate the vertical-text landscape art to upright; 90° came out upside-down, so 270° is correct). Scaled to fit letter (scale=min(612/576,792/745)). Backed up original to `pwa/.template-backups/*.landscape-bak` (gitignored, NOT deployed). Verified headlessly (pdftoppm): ATTENTION banner top, coupon/ad zone middle, Smith's logo, RTUI+QR bottom banner — matches ACM/other portrait templates; overlay test showed ad box in middle zone, QR bottom-right, business card bottom-left all aligned, upright, no cutoff. Live gh-pages SMI now 612x792.
+
+**If more templates ever render rotated:** scan all templates for `page.getSize().width > height || getRotation().angle !== 0` (only SMI failed this on Jul 15). Fix = re-embed into a 612x792 portrait page with the right `degrees()` rotation. Reminder: hard-refresh/reopen for SW cache.
+
+## Nose of Cart specs + highlights in Quote PDF (Jul 15, 2026)
+**Status:** ✅ LIVE (bundle index-DBteinj7.js, pwa commit bf5fb51, gh-pages deployed & verified; PDF render eyeballed OK)
+
+Tyler: "Make sure specs and highlights are included for this in the quote like they are for other Cartvertising products." The quote PDF is `exportQuotePdf()` in `pwa/src/components/Cart.svelte`. Cartvertising highlights/diagram only fire on `name.includes('cartvertising')`, but Nose items are named "Nose of Cart" so they were excluded. Added:
+- `hasNose` flag: `cartItems.some(i => i.noseOfCart || name.includes('nose of cart'))`.
+- `drawNoseSpecs()` helper: mini spec sheet (9 rows: Ad Size 9.94x7.72, Safe Area, Margin/Bleed, Resolution 300dpi, CMYK, Photo/Logo formats, Design Files, AdobeStock, Submission Zone__@cartvertising.com) with word-wrap on the value column (valX=175, maxW=372).
+- `if (hasNose)` block draws `drawHighlights('Nose of Cart Highlights', [...4 props...])` + `drawNoseSpecs()`, placed right after the `hasCart` Cartvertising block.
+- Also updated `dbBundleActive` (DigitalBoost +50% impressions uplift) to count Nose items (`nose of cart` / `i.noseOfCart`) since Nose is a Cartvertising product.
+- Verified headlessly with pdf-lib + pdftoppm: highlights + 9-row spec table render clean, no overlap, wrapping OK. Reminder: hard-refresh/reopen for SW cache.
+
+## Nose of Cart in Add-Cartvertising picker (Prospect/Store tab) (Jul 15, 2026)
+**Status:** ✅ LIVE (bundle index-DmX5H0vY.js, pwa commit 779ffa6, gh-pages deployed & verified)
+
+Tyler: "It should also be able to add in the prospect tab under add Cartvertising. Include the pricing as discussed before." The "Add Cartvertising" flow is in `pwa/src/components/StoreSearch.svelte` (toggleCartPkg / CART_PACKAGES / handleAddCartvertising). Added a 👃 Nose of Cart group to the package picker:
+- 3 new `CART_PACKAGES` entries `kind:'nose', nose:true`: Base Annual (per slot) $2,500 / Base 6-Month (per slot) $2,000 / Exclusivity (per 60 inserts) $3,995 + prod. (pricing from the IC commission plan memory).
+- `handleAddCartvertising` now branches early when `pkg.nose`: SKIPS the shopping-cart-count prompt (Nose is priced per slot, not % of carts), pushes a cart item `{type:'cartvertising', name:'Nose of Cart', emoji:👃, noseOfCart:true, plan, price, store...}` to `localStorage.indoormedia_cart`, fires `cart-updated`, shows "👃 Added Nose of Cart…".
+- UI: new `.cartvert-pkg-group` "👃 Nose of Cart (per slot)" rendered after Header Ads, iterating `CART_PACKAGES.filter(p=>p.kind==='nose')`.
+- Cart.svelte handles it cleanly: `getCartCoverage()` returns null (name isn't 'cartvertising' literally so no coverage line), and the "add cart count" warning only fires for names containing 'cartvertising' — Nose is "Nose of Cart" so no false warning. Price `$3,995 + prod.` is free-text in the editable price field. Reminder: hard-refresh/reopen to clear SW cache.
+
+## Nose of Cart added to Cartvertising (Present tab) + Memory Search FIXED (Jul 15, 2026)
+**Status:** ✅ LIVE (bundle index-DLH8Mt_R.js, pwa commit a4831b5, gh-pages deployed & verified)
+
+**Memory search fix:** OpenAI embeddings key was out of quota (429) AND the stored Google/Gemini key is invalid (400 on embedContent). Switched `agents.defaults.memorySearch` in `~/.openclaw/openclaw.json` to `provider:"local", fallback:"none"` with `local.modelPath: ~/.node-llama-cpp/models/embeddinggemma-300m-qat-Q8_0.gguf`. Installed `node-llama-cpp@3` into the global openclaw node_modules (--no-save) and downloaded the 318MB GGUF from `https://huggingface.co/ggml-org/embeddinggemma-300M-GGUF/resolve/main/embeddinggemma-300M-Q8_0.gguf`. Restarted gateway, ran `openclaw memory index --force`. Now fully on-device — no API key/quota can break memory search again. `provider` + `fallback` are gateway-protected config paths (can't config.patch); had to edit openclaw.json directly + restart. Backup at ~/.openclaw/openclaw.json.pre-memfix.
+
+**Nose of Cart product** (Tyler: "Add in Nose of cart as a product within Cartvertising in present tab"). Added inside the Cartvertising view in `pwa/src/components/Present.svelte` (NOT a new top-level product):
+- New `VIDEO_LINKS['nose-of-cart']`: explainer = `https://youtu.be/PduxHWy8sMc?is=wN3757Wj6EVlgFN9` (Tyler-provided), presentation + specs point at local PDFs under `pwa/public/products/`.
+- Copied Tyler's 2 attachments to `pwa/public/products/nose-of-cart-presentation.pdf` (6.2MB) and `nose-of-cart-specs.pdf` (625KB).
+- New `noseOfCart` config obj: desc, 4 valueProps, slots/exclusivity/production lines (from IC commission plan memory), packages (Base annual $2,500 / 6-mo $2,000 / Exclusivity $3,995+prod), and full art `specs` array (9.94"x7.72", safe area, CMYK 300dpi, accepted formats, AdobeStock, submission to Zone__@cartvertising.com).
+- UI section rendered after the cartPackages loop: video-links (Explainer/Presentation/Art Specs buttons), value-props grid, nose-info rows, Nose Pricing rows w/ add-to-cart (`addToCart('Nose of Cart -- '+pkg.name,...)`), Art Specs rows, and a "📩 Send Nose Info" share button.
+- Integrated specs into shareable info: added `'nose-of-cart'` entry to `shareProduct()` texts map (includes the art specs inline). CSS added for .nose-* classes.
+
+## Nose of Cart — IC Commission Plan (Ref for Baby Seat) (Jul 15, 2026)
+**Source:** Tyler sent "Nose_Comp_plan_Current" PDF (dated 9-24-24), said "Remember this for nose of cart. This is referent from baby seat." So Nose of Cart follows the same structure/reference as the Baby Seat comp plan.
+
+**General:**
+- Stores with Nose Ads have 1 slot OR 2 slots (60 or 120 inserts). Check availability report for slots allowed + current sales.
+- Advertiser can buy 1 or both slots (if 2 available).
+- **Nose exclusivity:** customer pays **$3,995 + production per 60 inserts**, regardless of number of slots. Nose exclusivity is SEPARATE from Baby Seat exclusivity.
+- Artwork limited to one version per slot.
+- **Production fees:** $495 single store; on multiples, each store $395 when all sold at once. Charged each year, NOT commissionable.
+- Bulk buys (25+ stores) require management discussion before presenting.
+- Second ads can be added anytime with regular production fee if available.
+- Any rep can sell any available store; contract receive date determines precedence.
+- Verbal agreements NOT honored (price, start dates, exclusivity).
+
+**Commissions (PER SLOT PER CUSTOMER):**
+| Annual Price/Slot | 6-Month Price/Slot | Commission |
+|---|---|---|
+| Under $2,500 | Under $2,000 | 0% |
+| $2,500 (Base) | $2,000 (Base) | 20% |
+| Over $2,500 | Over $2,000 | $2,500 @ 20% + Overage @ 40% |
+- 2 customers on a store = each must be over base.
+- 1 customer buying 2 slots = base amount is DOUBLED.
+- **Paid in Full = +2% bonus** of commissionable contract price. No other option bonuses.
+
+**Payout:**
+- **Upfront:** yearly commissions paid once customer has paid for production. Max 4 additional monthly, consecutive, equal payments. First payment (not deposit) must be 30 days from contract signing.
+- **As Earned:** any non-Upfront contract. Earned Commissions = (Current Customer Payments / Total Contract Price) × Total Commissions.
+
+## Saved Leads Button on Store Page (Jul 14, 2026)
+**Status:** ✅ LIVE (bundle index-Cm38WLJd.js, pwa commit 7544d1d, deployed)
+
+Tyler: "Above the NEW businesses button, make a Saved Leads button that shows saved leads relating to the store I've searched." The 🆕 New Businesses banner lives in the `categories` view of `ProspectSearch.svelte` (right after the `— or pick a category —` divider). Added a green `.saved-leads-banner` ABOVE it, shown only when there are matches.
+- `saveProspect()` now stamps the searched store onto each saved lead: `_savedStoreName/_savedStoreCity/_savedStoreChain/_savedStoreLat/_savedStoreLng` from `selectedStore`. (Older saved leads lack the stamp — handled by fallbacks below.)
+- `savedLeadMatchesStore(p, store)`: matches by (1) explicit `_savedStoreName === store.StoreName`, else (2) proximity — `calculateDistance` between store coords and the lead's `lat/lng` (or stamped store coords) <= 3 mi, else (3) same city name fallback for legacy records.
+- Reactive `savedLeadsForStore` = savedProspects filtered by selectedStore. Button shows count: "💾 Saved Leads (N)". Tapping calls `showSavedForStore()` which sets `savedStoreFilter = selectedStore.StoreName`, resets search/status filters, and switches to `view='saved'`.
+- Saved view: added a `.saved-store-scope` pill ("🏪 Showing leads for <StoreName>" + "✕ Show all" button that clears `savedStoreFilter`). The Saved list `{#each}` filter now also excludes leads that don't match the scoped store (via `savedLeadMatchesStore` resolving the store from `allStores`).
+- Reminder to Tyler: hard-refresh/reopen to clear service-worker cache. NOTE: leads saved BEFORE this change only match by proximity/city (no explicit stamp); newly-saved leads get the exact store stamp.
+
+## Call-In Leads Sorting + Category Filter (Jul 14, 2026)
+**Status:** ✅ LIVE (bundle index-Cg3u0Gxa.js, pwa commit fa84c77, deployed)
+
+Tyler: "Sort call-in leads by recency, area, and any other relevant ways." Added sort + category filter to the Call-In Leads view in `ProspectSearch.svelte`.
+- New state: `callInSort` (default 'recent') + `callInCategoryFilter` ('' = all). `filteredCallInLeads` reactive now filters by category + search THEN `.slice().sort()`.
+- Sort options: 📅 Newest first (recent, default) / 📅 Oldest first / 📍 Closest to store (distance_mi asc, nulls last) / 🏙️ City A–Z (store_city, tiebreak newest) / 🏷️ Category A–Z (subcategory, tiebreak newest) / 🔤 Business name A–Z. Helper `callInDateMs()` parses `call_in_date`.
+- Category filter dropdown built from distinct `subcategory` values present (`callInCategories`), shows "All (N)".
+- UI: `.callin-filter-bar` (search + `.callin-sort-row` with two labeled selects, green focus). All 37 call-in leads have call_in_date/distance_mi/store_city/subcategory populated.
+- Deploy note: had to merge origin/main (which had a new activity-log commit b5cc3ff/d9627ce not in local) before pushing; resolved dist conflict by rebuilding. Combined build = both features. Reminder: hard-refresh/reopen to clear service-worker cache.
+
+## Revenue Stale + Nightly Sync Clobber Fix (Jul 13, 2026)
+**Status:** ✅ FIXED (contracts synced live; nightly script corrected, root commit 7462e30)
+
+Tyler: "Revenue needs updating." Root cause = the PWA's contracts data was stale AND the nightly job was deploying the WRONG app.
+- `pwa/public/data/contracts.json` was dated Jun 29 (568 contracts, $2,211,017.68). The freshly-scanned `data/contracts.json` (workspace root) was Jul 12 (574 contracts, $2,233,923.18). ~6 new contracts / ~$22,905 missing from the live app. Analytics/Dashboard/leaderboard revenue all derive from contracts.json.
+- **Immediate fix:** `cp data/contracts.json pwa/public/data/contracts.json`, rebuilt, `gh-pages -d dist -f`. Live gh-pages now serves 574 / $2,233,923.18 (verified `git show origin/gh-pages:data/contracts.json`). Bundle stays index-BX3spEww.js (data file change only). pwa commit 5b0001b.
+- **Root cause fix (`scripts/run_contracts_scan.sh`, runs nightly 8PM via launchd `com.indoormedia.contracts-scanner.plist`):** the script built + `gh-pages` deployed from the WORKSPACE ROOT repo (the OLD `src/` app), and BOTH the root repo and `pwa/` push to the SAME GitHub repo (github.com/tylervansant-hugo/IndoorMedia-pwa) + SAME gh-pages branch. So every night it was overwriting the real pwa build (business-card tool, phone picker, etc.) with the old root app. Rewrote Step 4 to: (1) `cp` fresh contracts.json into `pwa/public/data`, (2) commit in both repos, (3) `cd pwa && npm run build && npx gh-pages -d dist -f` so gh-pages stays the REAL app.
+- rebuild_contracts.py still writes root `public/data/contracts.json` + `data/contracts.json`; the shell `cp` bridges to pwa. (Its comment calling root public/data "what the PWA fetches" is now outdated — the LIVE app is pwa/.)
+**KEY LESSON:** live site = `pwa/` build on gh-pages. Never `gh-pages` deploy from workspace root — it clobbers the real app. Always deploy with `-f` from `pwa/` and verify `git show origin/gh-pages:index.html | grep index-*.js`.
+
+## Prospect Notes Phone → Selectable Call/Text Number (Jul 13, 2026)
+**Status:** ✅ LIVE (bundle index-BX3spEww.js, pwa commit 441ae2d, deployed)
+
+Tyler: when a rep adds a name + phone in a prospect's Notes, the prospect card's Call/Text should offer that new number as a selectable option. Implemented in `ProspectSearch.svelte`:
+- New `getCallablePhones(prospect)`: builds a de-duped (by 10-digit) list = saved Notes `contactPhone` FIRST (labeled with saved `ownerName`, e.g. "John Smith (from Notes)", flagged `saved:true`), then the listed Google `prospect.phone` ("Listed number"), then any `_phoneCandidates` ("Found on website"). Uses existing `phoneDigits`/`formatPhone`/`getLeadHash`/`leadDataCache`.
+- Prospect card: added `{@const callable}` + `{@const primaryNum}` as immediate children of the `{#each prospects as prospect}` loop (Svelte requires @const be a direct child of #each/#if, NOT a plain <div>). Call button now hrefs `primaryNum` (= the saved Notes number when present, else listed). When `callable.length > 1`, a green `.phone-picker` chip row renders under the action row: each number shows its label + a 📞 and 💬 quick-action; the saved one gets a green highlight.
+- Text Templates "Send" link + primary Text now use `getCallablePhones(prospect)[0].number` too.
+- Reactive: `handleSaveLeadData` already does `leadDataCache = leadDataCache`, so editing the Notes phone re-renders the picker instantly.
+Reminder: hard-refresh/reopen to clear service-worker cache. NOTE: `npx gh-pages` had been silently serving a STALE deploy earlier this session — always deploy with `gh-pages -d dist -f` and verify `git show origin/gh-pages:index.html | grep index-*.js` matches the new bundle.
+
+## Business Card Lead Tool — Full Rebuild (Jul 13, 2026)
+**Status:** ✅ LIVE (bundle index-Dphtw5wB.js, pwa commit 92c6e28, deployed via gh-pages)
+
+Rebuilt `pwa/src/components/HotLeadsSubmit.svelte` (the 📷 Business Card lead-submit tool) end to end. Old version was weak: single naive Tesseract pass, first-line=name guessing, rigid address regex, and a BROKEN store matcher (`findNearestStores` filtered on `s.State` but the mapped array used lowercase `.state`, so it never matched).
+
+**New capabilities:**
+1. **Image preprocessing before OCR** (`preprocessImage`): upscales to ~1600px long edge (canvas, up to 3x), grayscale + contrast stretch (1.35). Big accuracy win on phone photos.
+2. **Reusable Tesseract worker** (`createWorker` v5) with live progress % + staged status (Loading/Sharpening/Reading). Warms up on mount.
+3. **Human-like parser** (`parseBusinessCard`): collects ALL phones and ranks labeled (office/main=5, cell/mobile=4, bare=3, fax=1); email + website (won't confuse email domain); flexible multi-line address join (street# + STREET_SUFFIX regex, appends city/state/zip lines); business name via BIZ_SUFFIX (Inc/LLC/Restaurant/etc.) → ALL-CAPS top line → first non-info line; contact name via title-case 2-4 word scoring boosted by ROLE_WORDS (owner/manager/etc.) on-line or adjacent, splits name vs title.
+4. **Business matching against Google Places** (`matchAgainstProspects`): text search `name, address` (or `name near city`), FieldMask incl primaryTypeDisplayName/types. Returns up to 5 candidate cards; auto-confirms if top result nameSimilarity>0.6 (token Jaccard, strips the/inc/llc). `confirmMatch` enriches address/phone/website + maps Places type→our category (`mapCategory` rules table).
+5. **Real store matching** (`findNearestStoresByCoords`): proper haversine (miles) over stores.json using REAL fields (latitude/longitude), returns nearest 3 within 60mi with live distances, auto-selects closest. Fixes the old bug.
+6. **Firebase sync on submit**: saves to localStorage `submitted_leads` (offline-safe) AND `saveLeadData(business, address, {...})` when Firebase ready, so leads appear across devices (old version was localStorage-only).
+
+Uses shared Places key AIzaSyBoslNJj8aO6wkQOfkH9e4qTVJZ-G9nOuA (same as ProspectSearch). Card mode is now default tab. Submit requires business_name + (phone OR email). Reminder: hard-refresh/reopen app to clear service-worker cache.
+
 ## Prospect Email Deep Comb + Owner-Name Detection (Jul 2, 2026)
 **Status:** ✅ LIVE (bundle index-DzwqNUcq.js, commit 6b1597d)
 
