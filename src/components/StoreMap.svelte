@@ -49,6 +49,7 @@
   let userAccuracy = null;
   let userLocationLayers = [];
   let geoWatchId = null;
+  let mapResizeObserver = null;
 
   // Popup timing for mobile fix
   let lastPopupOpenTime = 0;
@@ -114,33 +115,55 @@
     const lat = store && (store.latitude ?? store.Latitude);
     const lng = store && (store.longitude ?? store.Longitude);
     if (store && lat && lng) {
-      // The map was hidden (display:none) until now, so Leaflet has a stale
-      // container size and only paints a tiny corner. Recalc before flying.
-      map.invalidateSize();
-      flyToLocation(
-        parseFloat(lat),
-        parseFloat(lng),
-        `${store.StoreName} — ${store.GroceryChain || ''}`,
-        16
-      );
+      // Non-animated setView so tiles load at the final position immediately
+      // (animation can start painting before invalidateSize settles).
+      clearSearchMarker();
+      searchMarker = L.marker([parseFloat(lat), parseFloat(lng)], {
+        icon: L.divIcon({
+          className: 'map-search-pin',
+          html: '<div class="search-pin-inner">📍</div>',
+          iconSize: [32, 32],
+          iconAnchor: [16, 32],
+        }),
+      }).addTo(map);
+      searchMarker.bindPopup(`<div class="store-map-popup"><strong>${store.StoreName} — ${store.GroceryChain || ''}</strong></div>`).openPopup();
+      map.setView([parseFloat(lat), parseFloat(lng)], 16, { animate: false });
       return true;
     }
     return false;
   }
 
-  // When Main switches to the Map view, auto-focus the store the user last
-  // expanded on the Stores tab (if any).
+  // Force Leaflet to recalc its container size. The map is initialized while
+  // its wrapper is display:none, so it reports a tiny/zero size and only paints
+  // a corner. Run several passes over a wider window to catch the layout after
+  // the view becomes visible, then re-apply the target view.
+  let _mapFixTimers = [];
+  function fixMapSizeAndFocus(name) {
+    _mapFixTimers.forEach(clearTimeout);
+    _mapFixTimers = [];
+    const pass = () => {
+      if (!map) return;
+      map.invalidateSize({ animate: false, pan: false });
+      if (name) focusStoreByName(name);
+    };
+    [0, 80, 200, 400, 700].forEach(d => {
+      _mapFixTimers.push(setTimeout(pass, d));
+    });
+  }
+
+  // When Main switches to the Map view, fix the map size and auto-focus the
+  // store the user last expanded on the Stores tab (if any).
   function handleMapFocusStore() {
-    // Always fix the map size when the view becomes visible, even if no store
-    // is selected (prevents the tiles-only-in-corner rendering bug).
-    if (map) setTimeout(() => { if (map) map.invalidateSize(); }, 60);
     let name = '';
     try { name = localStorage.getItem('impro_focus_store') || ''; } catch {}
-    if (!name) return;
-    // Map/stores may still be loading — retry briefly until ready.
+    // Map/stores may still be loading — retry briefly until ready, then run the
+    // multi-pass size fix (+ focus if a store is selected).
     let tries = 0;
     const attempt = () => {
-      if (focusStoreByName(name)) return;
+      if (map && allStores.length) {
+        fixMapSizeAndFocus(name);
+        return;
+      }
       if (tries++ < 20) setTimeout(attempt, 150);
     };
     attempt();
@@ -565,6 +588,25 @@
         maxZoom: 19,
       }).addTo(map);
 
+      // Belt-and-suspenders: the map is created while its wrapper is
+      // display:none (zero size) and only shown when the Map tab is picked.
+      // A ResizeObserver recalcs Leaflet the instant the container gets real
+      // dimensions, fixing the tiles-only-in-a-corner render.
+      if (typeof ResizeObserver !== 'undefined' && mapContainer) {
+        let lastW = 0, lastH = 0;
+        mapResizeObserver = new ResizeObserver((entries) => {
+          const r = entries[0]?.contentRect;
+          if (!r || !map) return;
+          if (Math.abs(r.width - lastW) > 2 || Math.abs(r.height - lastH) > 2) {
+            lastW = r.width; lastH = r.height;
+            if (r.width > 0 && r.height > 0) {
+              map.invalidateSize({ animate: false, pan: false });
+            }
+          }
+        });
+        mapResizeObserver.observe(mapContainer);
+      }
+
       markerClusterGroup = L.markerClusterGroup({
         chunkedLoading: true,
         maxClusterRadius: 50,
@@ -604,6 +646,7 @@
   onDestroy(() => {
     window.removeEventListener('keydown', handleEscKey);
     document.removeEventListener('map-focus-store', handleMapFocusStore);
+    if (mapResizeObserver) { try { mapResizeObserver.disconnect(); } catch {} mapResizeObserver = null; }
     if (geoWatchId !== null) {
       navigator.geolocation.clearWatch(geoWatchId);
       geoWatchId = null;
