@@ -106,6 +106,40 @@
     map.setView([lat, lng], zoom, { animate: true });
   }
 
+  // Focus a specific store on the map by its StoreName (used when a store is
+  // selected/expanded on the Stores tab and the user taps Map).
+  function focusStoreByName(name) {
+    if (!name || !map || !allStores.length) return false;
+    const store = allStores.find(s => s.StoreName === name);
+    const lat = store && (store.latitude ?? store.Latitude);
+    const lng = store && (store.longitude ?? store.Longitude);
+    if (store && lat && lng) {
+      flyToLocation(
+        parseFloat(lat),
+        parseFloat(lng),
+        `${store.StoreName} — ${store.GroceryChain || ''}`,
+        16
+      );
+      return true;
+    }
+    return false;
+  }
+
+  // When Main switches to the Map view, auto-focus the store the user last
+  // expanded on the Stores tab (if any).
+  function handleMapFocusStore() {
+    let name = '';
+    try { name = localStorage.getItem('impro_focus_store') || ''; } catch {}
+    if (!name) return;
+    // Map/stores may still be loading — retry briefly until ready.
+    let tries = 0;
+    const attempt = () => {
+      if (focusStoreByName(name)) return;
+      if (tries++ < 20) setTimeout(attempt, 150);
+    };
+    attempt();
+  }
+
   async function runMapSearch() {
     const term = (mapSearchTerm || '').trim();
     if (!term) return;
@@ -117,10 +151,12 @@
       (s.StoreName || '').toUpperCase() === upper ||
       (s.StoreName || '').toUpperCase().replace(/\s+/g, '') === upper.replace(/\s+/g, '')
     ) || allStores.find(s => (s.StoreName || '').toUpperCase().includes(upper) && upper.length >= 4);
-    if (matchStore && matchStore.Latitude && matchStore.Longitude) {
+    const matchLat = matchStore && (matchStore.latitude ?? matchStore.Latitude);
+    const matchLng = matchStore && (matchStore.longitude ?? matchStore.Longitude);
+    if (matchStore && matchLat && matchLng) {
       flyToLocation(
-        parseFloat(matchStore.Latitude),
-        parseFloat(matchStore.Longitude),
+        parseFloat(matchLat),
+        parseFloat(matchLng),
         `${matchStore.StoreName} — ${matchStore.GroceryChain || ''}`,
         15
       );
@@ -483,6 +519,8 @@
   onMount(async () => {
     // Listen for ESC key to exit fullscreen
     window.addEventListener('keydown', handleEscKey);
+    // Auto-focus a store selected on the Stores tab when switching to Map
+    document.addEventListener('map-focus-store', handleMapFocusStore);
 
     try {
       const [storesRes, contractsRes] = await Promise.all([
@@ -559,6 +597,7 @@
 
   onDestroy(() => {
     window.removeEventListener('keydown', handleEscKey);
+    document.removeEventListener('map-focus-store', handleMapFocusStore);
     if (geoWatchId !== null) {
       navigator.geolocation.clearWatch(geoWatchId);
       geoWatchId = null;
@@ -690,21 +729,26 @@
     margin-bottom: 8px;
     background: var(--input-bg, #fff);
     border: 1px solid var(--border-color, #ddd);
-    border-radius: 10px;
-    padding: 4px 8px;
+    border-radius: 12px;
+    padding: 4px 10px;
+    width: 100%;
+    box-sizing: border-box;
   }
-  .map-search-icon { font-size: 14px; opacity: 0.7; }
+  .map-search-icon { font-size: 16px; opacity: 0.7; flex: 0 0 auto; }
   .map-search-input {
-    flex: 1;
+    flex: 1 1 auto;
+    width: 100%;
     border: none;
     outline: none;
     background: transparent;
-    font-size: 15px;
-    padding: 8px 2px;
+    font-size: 16px;
+    padding: 12px 4px;
     color: var(--text-primary, #222);
     min-width: 0;
+    text-overflow: ellipsis;
   }
   .map-search-clear {
+    flex: 0 0 auto;
     border: none;
     background: transparent;
     color: #999;
@@ -713,13 +757,14 @@
     padding: 2px 6px;
   }
   .map-search-go {
+    flex: 0 0 auto;
     border: none;
     background: #CC0000;
     color: #fff;
     font-weight: 700;
     font-size: 14px;
     border-radius: 8px;
-    padding: 8px 16px;
+    padding: 10px 16px;
     cursor: pointer;
   }
   .map-search-go:disabled { opacity: 0.5; cursor: default; }

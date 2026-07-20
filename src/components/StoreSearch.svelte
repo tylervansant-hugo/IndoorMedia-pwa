@@ -638,10 +638,14 @@ Store: ${store.StoreName}
   function toggleExpand(storeName) {
     expandedStore = expandedStore === storeName ? null : storeName;
     if (!adType[storeName]) adType[storeName] = 'single';
-    // Lookup phone number when expanding
+    // Lookup phone number when expanding + remember the selected store so the
+    // Map view can auto-focus it when the user switches to the map.
     if (expandedStore === storeName) {
       const store = filtered.find(s => s.StoreName === storeName) || allStores.find(s => s.StoreName === storeName);
       if (store) lookupStorePhone(store);
+      try { localStorage.setItem('impro_focus_store', storeName); } catch {}
+    } else {
+      try { localStorage.removeItem('impro_focus_store'); } catch {}
     }
   }
 
