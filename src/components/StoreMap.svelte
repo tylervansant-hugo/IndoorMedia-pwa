@@ -114,6 +114,9 @@
     const lat = store && (store.latitude ?? store.Latitude);
     const lng = store && (store.longitude ?? store.Longitude);
     if (store && lat && lng) {
+      // The map was hidden (display:none) until now, so Leaflet has a stale
+      // container size and only paints a tiny corner. Recalc before flying.
+      map.invalidateSize();
       flyToLocation(
         parseFloat(lat),
         parseFloat(lng),
@@ -128,6 +131,9 @@
   // When Main switches to the Map view, auto-focus the store the user last
   // expanded on the Stores tab (if any).
   function handleMapFocusStore() {
+    // Always fix the map size when the view becomes visible, even if no store
+    // is selected (prevents the tiles-only-in-corner rendering bug).
+    if (map) setTimeout(() => { if (map) map.invalidateSize(); }, 60);
     let name = '';
     try { name = localStorage.getItem('impro_focus_store') || ''; } catch {}
     if (!name) return;
