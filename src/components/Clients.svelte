@@ -276,7 +276,14 @@
       });
 
   $: renewalReps = [...new Set(myRenewals.map(r => r.rep))].sort();
-  $: renewalCycles = [...new Set(myRenewals.map(r => r.cycle))].sort();
+  // Always show the full canonical cycle set (A1-A4, B1-B4, C1-C4) so every
+  // cycle — including ones with 0 current renewals, e.g. C3 — is selectable.
+  // Merge in any non-standard cycles that appear in the data.
+  const STANDARD_CYCLES = ['A1','A2','A3','A4','B1','B2','B3','B4','C1','C2','C3','C4'];
+  $: renewalCycles = [
+    ...STANDARD_CYCLES,
+    ...[...new Set(myRenewals.map(r => r.cycle).filter(Boolean))].filter(c => !STANDARD_CYCLES.includes(c)).sort()
+  ];
   $: renewalZones = [...new Set(myRenewals.map(r => r.zone).filter(Boolean))].sort();
 
   // Zone install day lookup from RTUI Zone Chart
