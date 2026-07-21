@@ -203,5 +203,13 @@
     "role": "rep",
     "registered_at": "2026-07-06",
     "base_location": "Zone 7X"
+  },
+  "dawna_henehan": {
+    "contract_name": "Dawna Henehan",
+    "display_name": "Dawna Henehan",
+    "email": "Dawna.Henehan@indoormedia.com",
+    "role": "rep",
+    "registered_at": "2026-07-21",
+    "base_location": "Territory TBD"
   }
 }
