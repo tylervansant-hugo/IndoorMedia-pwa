@@ -9721,6 +9721,27 @@
       "paid_in_full": false
     },
     {
+      "contract_number": "J434350E",
+      "date": "2026-07-20 00:00",
+      "business_name": "Juliano\u2019s Pizzeria",
+      "contact_name": "Rodney Terry",
+      "contact_email": "pizzaguy@juliannospizzeria.com",
+      "contact_phone": "(360) 254-1286",
+      "sales_rep": "Megan Wink",
+      "store_name": "",
+      "store_number": "",
+      "zone": "07Z",
+      "product_description": "",
+      "total_amount": 5125.0,
+      "payment_date": "7/20/2026",
+      "address": "15606 SE Millplain Blvd",
+      "extracted_at": "2026-07-20T20:00:44.352602",
+      "quarters": 5,
+      "term_months": 15,
+      "is_renewal": false,
+      "paid_in_full": true
+    },
+    {
       "contract_number": "D413319E",
       "date": "",
       "business_name": "Before n after weight loss",
@@ -12262,5 +12283,5 @@
       "paid_in_full": false
     }
   ],
-  "last_scan": "2026-07-19T20:00:10.649818"
+  "last_scan": "2026-07-20T20:00:44.353972"
 }
