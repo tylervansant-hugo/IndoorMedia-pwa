@@ -406,6 +406,27 @@
       "paid_in_full": true
     },
     {
+      "contract_number": "D434731E",
+      "date": "2026-07-23 00:00",
+      "business_name": "Peak Exteriors",
+      "contact_name": "Ted Robinson",
+      "contact_email": "ted@peakexteriors.pro",
+      "contact_phone": "(971) 295-4072",
+      "sales_rep": "Jan Banks",
+      "store_name": "",
+      "store_number": "",
+      "zone": "",
+      "product_description": "",
+      "total_amount": 2795.0,
+      "payment_date": "7/23/2026",
+      "address": "18435 SW Pacific Hwy",
+      "extracted_at": "2026-07-23T20:01:10.278964",
+      "quarters": 4,
+      "term_months": 12,
+      "is_renewal": false,
+      "paid_in_full": false
+    },
+    {
       "contract_number": "J400727E",
       "date": "",
       "business_name": "Blessed Tree and Landscape Service",
@@ -9595,6 +9616,48 @@
       "paid_in_full": true
     },
     {
+      "contract_number": "J433870E",
+      "date": "2026-07-23 00:00",
+      "business_name": "Galaxy Car Wash LLC",
+      "contact_name": "Jonathan Allen",
+      "contact_email": "Icwsnw@comcast.net",
+      "contact_phone": "(503) 806-1241",
+      "sales_rep": "Anthony Marty Eng",
+      "store_name": "Safeway",
+      "store_number": "1230",
+      "zone": "07Y",
+      "product_description": "Single Ad",
+      "total_amount": 5125.0,
+      "payment_date": "7/23/2026",
+      "address": "2177 NW 185th Avenue, Hillsboro, 97124",
+      "extracted_at": "2026-07-23T20:01:15.499474",
+      "quarters": 4,
+      "term_months": 12,
+      "is_renewal": false,
+      "paid_in_full": false
+    },
+    {
+      "contract_number": "J433870E",
+      "date": "2026-07-23 00:00",
+      "business_name": "Galaxy Car Wash LLC",
+      "contact_name": "Jonathan Allen",
+      "contact_email": "Icwsnw@comcast.net",
+      "contact_phone": "(503) 806-1241",
+      "sales_rep": "Anthony Marty Eng",
+      "store_name": "Fred Meyer",
+      "store_number": "0482",
+      "zone": "07Y",
+      "product_description": "Single Ad",
+      "total_amount": 0.0,
+      "payment_date": "7/23/2026",
+      "address": "15995 Southwest Walker Road, Beaverton, 97006-4944",
+      "extracted_at": "2026-07-23T20:01:15.499480",
+      "quarters": 1,
+      "term_months": 3,
+      "is_renewal": false,
+      "paid_in_full": false
+    },
+    {
       "contract_number": "J433884E",
       "date": "2026-07-09 00:00",
       "business_name": "Jiffy Lube Multicare",
@@ -9761,6 +9824,27 @@
       "term_months": 15,
       "is_renewal": false,
       "paid_in_full": true
+    },
+    {
+      "contract_number": "J434543E",
+      "date": "2026-07-23 00:00",
+      "business_name": "Cafe Zamora",
+      "contact_name": "Hector Mejia Zamora",
+      "contact_email": "Cafezamorapdx@gmail.com",
+      "contact_phone": "(541) 905-8236",
+      "sales_rep": "Megan Wink",
+      "store_name": "Safeway",
+      "store_number": "1627",
+      "zone": "07Z",
+      "product_description": "Single Ad",
+      "total_amount": 3925.0,
+      "payment_date": "7/23/2026",
+      "address": "3930 Southeast Powell Boulevard, Portland, 97202",
+      "extracted_at": "2026-07-23T20:01:15.599771",
+      "quarters": 5,
+      "term_months": 15,
+      "is_renewal": false,
+      "paid_in_full": false
     },
     {
       "contract_number": "D413319E",
@@ -12304,5 +12388,5 @@
       "paid_in_full": false
     }
   ],
-  "last_scan": "2026-07-22T20:00:12.403503"
+  "last_scan": "2026-07-23T20:01:15.601179"
 }
