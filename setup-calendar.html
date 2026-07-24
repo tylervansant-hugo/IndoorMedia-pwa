@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Calendar API Setup</title>
+<style>
+body { font-family: -apple-system, sans-serif; max-width: 600px; margin: 20px auto; padding: 16px; background: #111; color: #eee; }
+pre { background: #1a1a2e; padding: 16px; border-radius: 10px; overflow-x: auto; font-size: 12px; line-height: 1.5; white-space: pre-wrap; word-wrap: break-word; }
+button { display: block; width: 100%; padding: 16px; margin: 16px 0; background: #CC0000; color: white; border: none; border-radius: 10px; font-size: 18px; font-weight: 700; cursor: pointer; }
+button:active { background: #aa0000; }
+.success { background: #2e7d32 !important; }
+h1 { font-size: 22px; }
+ol { line-height: 2; }
+</style>
+</head>
+<body>
+<h1>📅 Calendar API Setup</h1>
+<p>Tap the button to copy the code, then paste it into Google Apps Script.</p>
+<button id="copyBtn" onclick="copyCode()">📋 TAP TO COPY CODE</button>
+<ol>
+<li>Go to <a href="https://script.google.com/home" target="_blank" style="color:#4fc3f7">script.google.com</a></li>
+<li>Tap <strong>New project</strong></li>
+<li>Select all existing code → delete it</li>
+<li>Tap and hold → <strong>Paste</strong></li>
+<li>Tap <strong>Deploy → New deployment</strong></li>
+<li>Gear icon → <strong>Web app</strong></li>
+<li>Execute as: <strong>Me</strong> / Access: <strong>Anyone</strong></li>
+<li>Tap <strong>Deploy</strong> → Authorize</li>
+<li>Copy the URL and send it to Shelldon!</li>
+</ol>
+<pre id="code">function doGet(e) {
+  try {
+    var days = parseInt(e && e.parameter && e.parameter.days ? e.parameter.days : 30);
+    var now = new Date();
+    var end = new Date(now.getTime() + days * 24 * 60 * 60 * 1000);
+    var calendar = CalendarApp.getDefaultCalendar();
+    var events = calendar.getEvents(now, end);
+    var result = events.map(function(event) {
+      return {
+        event_id: event.getId(),
+        title: event.getTitle(),
+        start: event.getStartTime().toISOString(),
+        end: event.getEndTime().toISOString(),
+        location: event.getLocation() || '',
+        description: event.getDescription() || '',
+        attendees: event.getGuestList().map(function(g) {
+          return { email: g.getEmail(), name: g.getName() };
+        }),
+        creator: event.getCreators().join(', '),
+        is_prospect_visit: /visit|indoor|prospect|meeting/i.test(event.getTitle())
+      };
+    });
+    return ContentService.createTextOutput(JSON.stringify(result)).setMimeType(ContentService.MimeType.JSON);
+  } catch (err) {
+    return ContentService.createTextOutput(JSON.stringify({ error: err.message })).setMimeType(ContentService.MimeType.JSON);
+  }
+}</pre>
+<script>
+function copyCode() {
+  var code = document.getElementById('code').textContent;
+  navigator.clipboard.writeText(code).then(function() {
+    var btn = document.getElementById('copyBtn');
+    btn.textContent = '✅ COPIED!';
+    btn.classList.add('success');
+    setTimeout(function() { btn.textContent = '📋 TAP TO COPY CODE'; btn.classList.remove('success'); }, 3000);
+  });
+}
+</script>
+</body>
+</html>
