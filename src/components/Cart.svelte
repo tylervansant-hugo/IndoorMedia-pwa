@@ -510,6 +510,7 @@
 
   async function exportQuotePdf() {
     if (cartItems.length === 0) return;
+    loadSearchLocation(); // ensure distance summary + embedded map use the latest origin
 
     const pdfDoc = await PDFDocument.create();
     const bold = await pdfDoc.embedFont(StandardFonts.HelveticaBold);
@@ -685,7 +686,24 @@
     y -= 16;
     page.drawText('Annual Investment:', { x: 40, y, size: 11, font: bold, color: black });
     page.drawText('$' + totalPrice.toLocaleString(), { x: 250, y, size: 11, font: bold, color: red });
-    y -= 30;
+    y -= 16;
+
+    // Distance-from-searched-location summary (min / max / avg across all mapped stores)
+    const distList = cartItems.map(i => getDistanceFromSearch(i)).filter(d => d != null);
+    if (distList.length > 0 && searchLocationLabel) {
+      const minD = Math.min(...distList), maxD = Math.max(...distList);
+      const avgD = distList.reduce((a, b) => a + b, 0) / distList.length;
+      const uniqueStores = new Set(cartItems.map(i => i.storeNum).filter(Boolean)).size || distList.length;
+      const originTxt = ('Locations vs. ' + searchLocationLabel + ':').replace(/[^\x20-\x7E]/g, '');
+      page.drawText(originTxt, { x: 40, y, size: 11, font: bold, color: rgb(0.15, 0.33, 0.78) });
+      y -= 15;
+      const rangeTxt = uniqueStores + ' location' + (uniqueStores === 1 ? '' : 's') + '  |  ' +
+        (minD === maxD ? minD.toFixed(1) + ' mi' : minD.toFixed(1) + '\u2013' + maxD.toFixed(1) + ' mi range')
+        + '  |  avg ' + avgD.toFixed(1) + ' mi';
+      page.drawText(rangeTxt, { x: 40, y, size: 10, font: regular, color: black });
+      y -= 16;
+    }
+    y -= 14;
 
     // Product highlights
     const hasRT = cartItems.some(i => (i.name || '').toLowerCase().includes('register tape'));
@@ -869,6 +887,37 @@
         'Digital Ads -- banner ads on mobile apps and websites',
         'Monthly Reports -- track performance and ROI',
       ]);
+    }
+
+    // Location map — embed the same OSM quote map on its own page so the customer
+    // can see every location relative to the searched origin at a glance.
+    try {
+      const mapCanvas = await buildQuoteMap(false);
+      if (mapCanvas) {
+        const mapDataUrl = mapCanvas.toDataURL('image/png');
+        const mapBytes = await fetch(mapDataUrl).then(r => r.arrayBuffer());
+        const mapImg = await pdfDoc.embedPng(mapBytes);
+        // Fresh page, letter, with a title band.
+        page.drawText('IndoorMedia  |  indoormedia.com', { x: 612/2 - regular.widthOfTextAtSize('IndoorMedia  |  indoormedia.com', 9)/2, y: 30, size: 9, font: regular, color: gray });
+        page = pdfDoc.addPage([612, 792]);
+        let my = 792;
+        page.drawRectangle({ x: 0, y: my - 60, width: 612, height: 60, color: red });
+        page.drawText('Location Map', { x: 30, y: my - 38, size: 22, font: bold, color: white });
+        my -= 80;
+        if (searchLocationLabel) {
+          page.drawText(('Distances measured from: ' + searchLocationLabel).replace(/[^\x20-\x7E]/g, ''), { x: 30, y: my, size: 10, font: regular, color: rgb(0.15, 0.33, 0.78) });
+          my -= 20;
+        }
+        // Scale the 900x640 map to fit the 552pt content width.
+        const drawW = 552;
+        const drawH = drawW * (mapImg.height / mapImg.width);
+        page.drawImage(mapImg, { x: 30, y: my - drawH, width: drawW, height: drawH });
+        my -= drawH + 16;
+        page.drawText('\u2605 = searched location    \u25cf = quote location (numbered by line item)', { x: 30, y: my, size: 9, font: regular, color: gray });
+      }
+    } catch (mapErr) {
+      // Map is a nice-to-have — never block the PDF if tiles fail to load.
+      console.warn('[Quote PDF] map embed skipped:', mapErr);
     }
 
     // Footer
