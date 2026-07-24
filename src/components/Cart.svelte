@@ -89,6 +89,7 @@
     const [moved] = items.splice(fromIndex, 1);
     items.splice(toIndex, 0, moved);
     cartItems = items;
+    sortBy = 'manual'; // manual drag overrides any active auto-sort
     saveCart();
   }
 
@@ -199,6 +200,7 @@
 
   function loadCart() {
     try { cartItems = JSON.parse(localStorage.getItem('indoormedia_cart') || '[]'); } catch { cartItems = []; }
+    loadSearchLocation();
   }
 
   function saveCart() {
@@ -410,6 +412,102 @@
     return { total, pct, showing, isHeader: item.cartKind === 'header' };
   }
 
+  // ── Searched-location distance ────────────────────────────────────
+  // When a rep searches an address / point of interest (e.g. a customer's HQ)
+  // and then adds products from nearby stores, each item is stamped with that
+  // searched location + the store's coords (see StoreSearch.stampLocation).
+  // The quote can then show how far each store is from that location.
+  let searchLocation = null; // { lat, lng, label }
+  function loadSearchLocation() {
+    try {
+      const raw = localStorage.getItem('impro_search_location');
+      searchLocation = raw ? JSON.parse(raw) : null;
+    } catch { searchLocation = null; }
+  }
+
+  function haversineMi(lat1, lon1, lat2, lon2) {
+    const R = 3958.8;
+    const toRad = (d) => (d * Math.PI) / 180;
+    const dLat = toRad(lat2 - lat1);
+    const dLon = toRad(lon2 - lon1);
+    const a = Math.sin(dLat / 2) ** 2 +
+      Math.cos(toRad(lat1)) * Math.cos(toRad(lat2)) * Math.sin(dLon / 2) ** 2;
+    return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+  }
+
+  // Resolve a store's coords for an item: prefer the stamped coords, else look
+  // up stores.json by store number.
+  function getStoreCoords(item) {
+    if (item.storeLat != null && item.storeLng != null) {
+      return { lat: Number(item.storeLat), lng: Number(item.storeLng) };
+    }
+    if (item.storeNum) {
+      const s = allStores.find(st => st.StoreName === item.storeNum);
+      if (s) {
+        const lat = s.latitude ?? s.Latitude;
+        const lng = s.longitude ?? s.Longitude;
+        if (lat != null && lng != null) return { lat: Number(lat), lng: Number(lng) };
+      }
+    }
+    return null;
+  }
+
+  // Distance (mi) from the searched location to this item's store, or null.
+  function getDistanceFromSearch(item) {
+    if (item.distanceFromSearch != null) return item.distanceFromSearch;
+    const origin = searchLocation && searchLocation.lat != null
+      ? searchLocation
+      : (item.searchLat != null ? { lat: item.searchLat, lng: item.searchLng } : null);
+    if (!origin) return null;
+    const c = getStoreCoords(item);
+    if (!c) return null;
+    return Number(haversineMi(origin.lat, origin.lng, c.lat, c.lng).toFixed(1));
+  }
+
+  $: searchLocationLabel = (searchLocation && searchLocation.label)
+    || (cartItems.find(i => i.searchLabel)?.searchLabel)
+    || '';
+  // Show the distance column only when we actually have a searched origin.
+  $: hasSearchDistance = cartItems.some(i => getDistanceFromSearch(i) != null);
+
+  // ── Quote sorting ─────────────────────────────────────────────────
+  let sortBy = 'manual'; // manual | distance | price | impressions | cycle | name
+
+  // Annual impressions used for the "impressions" sort (register tape annual, or
+  // DigitalBoost total campaign, or cartvertising carts-showing as a proxy).
+  function getSortImpressions(item) {
+    const imp = getImpressions(item);
+    if (imp) return imp.annual || 0;
+    const db = getDigitalBoostCampaign(item);
+    if (db) return db.total || 0;
+    const cov = getCartCoverage(item);
+    if (cov) return cov.showing || 0;
+    return 0;
+  }
+
+  function applySortOrder() {
+    if (sortBy === 'manual') return;
+    const arr = [...cartItems];
+    const cmp = {
+      distance: (a, b) => {
+        const da = getDistanceFromSearch(a); const db = getDistanceFromSearch(b);
+        if (da == null && db == null) return 0;
+        if (da == null) return 1; if (db == null) return -1;
+        return da - db;
+      },
+      price: (a, b) => parseAnnualPrice(b) - parseAnnualPrice(a),
+      impressions: (a, b) => getSortImpressions(b) - getSortImpressions(a),
+      cycle: (a, b) => (a.storeCycle || '~').localeCompare(b.storeCycle || '~') || (a.store || '').localeCompare(b.store || ''),
+      name: (a, b) => (a.store || a.name || '').localeCompare(b.store || b.name || ''),
+    }[sortBy];
+    if (cmp) { arr.sort(cmp); cartItems = arr; saveCart(); }
+  }
+
+  function onSortChange() {
+    // sortBy is already updated via bind:value before this fires.
+    applySortOrder();
+  }
+
   async function exportQuotePdf() {
     if (cartItems.length === 0) return;
 
@@ -452,7 +550,13 @@
       y -= 20;
     }
     page.drawText('Prepared by: ' + rep, { x: 30, y, size: 11, font: regular, color: gray });
-    y -= 30;
+    y -= 18;
+    if (hasSearchDistance && searchLocationLabel) {
+      const originTxt = ('Distances measured from: ' + searchLocationLabel).replace(/[^\x20-\x7E]/g, '');
+      page.drawText(originTxt, { x: 30, y, size: 10, font: regular, color: rgb(0.15, 0.33, 0.78) });
+      y -= 18;
+    }
+    y -= 12;
 
     // Line items
     page.drawText('Line Items', { x: 30, y, size: 14, font: bold, color: red });
@@ -497,6 +601,14 @@
       }
       if (item.storeAddress) {
         page.drawText(item.storeAddress + (item.storeCycle ? '  |  Cycle ' + item.storeCycle : ''), { x: 46, y, size: 10, font: regular, color: gray });
+        y -= 14;
+      }
+
+      // Distance from the searched location (address / point of interest)
+      const distMi = getDistanceFromSearch(item);
+      if (distMi != null) {
+        const locLbl = (searchLocationLabel || 'searched location').replace(/[^\x20-\x7E]/g, '');
+        page.drawText('Distance:  ' + distMi.toFixed(1) + ' mi from ' + locLbl, { x: 46, y, size: 10, font: bold, color: rgb(0.15, 0.33, 0.78) });
         y -= 14;
       }
 
@@ -778,6 +890,192 @@
     const url = URL.createObjectURL(blob);
     window.open(url, '_blank');
   }
+
+  // ── Shareable quote map ───────────────────────────────────────────
+  // Builds a static PNG map (OSM tiles → canvas) showing the searched location
+  // (red star) and every quote store as a numbered pin. OSM tiles send
+  // Access-Control-Allow-Origin:* so the canvas stays untainted and exportable.
+  let mapBuilding = false;
+  let mapError = '';
+
+  function lngToTileX(lng, z) { return ((lng + 180) / 360) * Math.pow(2, z); }
+  function latToTileY(lat, z) {
+    const r = (lat * Math.PI) / 180;
+    return ((1 - Math.log(Math.tan(r) + 1 / Math.cos(r)) / Math.PI) / 2) * Math.pow(2, z);
+  }
+
+  function loadTile(src) {
+    return new Promise((resolve) => {
+      const img = new Image();
+      img.crossOrigin = 'anonymous';
+      img.onload = () => resolve(img);
+      img.onerror = () => resolve(null);
+      img.src = src;
+    });
+  }
+
+  // Gather map points: [{lat,lng,label,n,isOrigin}]
+  function collectMapPoints() {
+    const pts = [];
+    const origin = searchLocation && searchLocation.lat != null ? searchLocation : null;
+    if (origin) pts.push({ lat: Number(origin.lat), lng: Number(origin.lng), label: origin.label || 'Searched location', isOrigin: true });
+    let n = 0;
+    const seen = new Set();
+    for (const item of cartItems) {
+      const c = getStoreCoords(item);
+      if (!c) continue;
+      const key = c.lat.toFixed(5) + ',' + c.lng.toFixed(5);
+      if (seen.has(key)) continue; // one pin per physical store
+      seen.add(key);
+      n++;
+      pts.push({ lat: c.lat, lng: c.lng, label: item.store || item.name, n, isOrigin: false });
+    }
+    return pts;
+  }
+
+  async function buildQuoteMap(forShare) {
+    mapError = '';
+    const pts = collectMapPoints();
+    if (pts.length === 0) { mapError = 'No mapped stores in this quote yet.'; return null; }
+
+    // Bounding box (+ padding)
+    let minLat = Infinity, maxLat = -Infinity, minLng = Infinity, maxLng = -Infinity;
+    for (const p of pts) {
+      minLat = Math.min(minLat, p.lat); maxLat = Math.max(maxLat, p.lat);
+      minLng = Math.min(minLng, p.lng); maxLng = Math.max(maxLng, p.lng);
+    }
+    const padLat = Math.max((maxLat - minLat) * 0.18, 0.01);
+    const padLng = Math.max((maxLng - minLng) * 0.18, 0.01);
+    minLat -= padLat; maxLat += padLat; minLng -= padLng; maxLng += padLng;
+
+    const TILE = 256;
+    const W = 900, H = 640;
+    // Pick the largest zoom where the bbox fits in W×H.
+    let zoom = 12;
+    for (let z = 16; z >= 2; z--) {
+      const xSpan = (lngToTileX(maxLng, z) - lngToTileX(minLng, z)) * TILE;
+      const ySpan = (latToTileY(minLat, z) - latToTileY(maxLat, z)) * TILE;
+      if (xSpan <= W && ySpan <= H) { zoom = z; break; }
+      if (z === 2) zoom = 2;
+    }
+
+    const centerLat = (minLat + maxLat) / 2;
+    const centerLng = (minLng + maxLng) / 2;
+    const centerTileX = lngToTileX(centerLng, zoom);
+    const centerTileY = latToTileY(centerLat, zoom);
+
+    const canvas = document.createElement('canvas');
+    canvas.width = W; canvas.height = H;
+    const ctx = canvas.getContext('2d');
+    ctx.fillStyle = '#e8eef3'; ctx.fillRect(0, 0, W, H);
+
+    // World-pixel of the canvas center; map world-px → canvas-px.
+    const centerPxX = centerTileX * TILE;
+    const centerPxY = centerTileY * TILE;
+    const toCanvas = (lat, lng) => ({
+      x: lngToTileX(lng, zoom) * TILE - centerPxX + W / 2,
+      y: latToTileY(lat, zoom) * TILE - centerPxY + H / 2,
+    });
+
+    // Which tiles cover the canvas?
+    const leftPx = centerPxX - W / 2, topPx = centerPxY - H / 2;
+    const minTileX = Math.floor(leftPx / TILE), maxTileX = Math.floor((leftPx + W) / TILE);
+    const minTileY = Math.floor(topPx / TILE), maxTileY = Math.floor((topPx + H) / TILE);
+    const nTiles = Math.pow(2, zoom);
+
+    const jobs = [];
+    for (let tx = minTileX; tx <= maxTileX; tx++) {
+      for (let ty = minTileY; ty <= maxTileY; ty++) {
+        const wrapX = ((tx % nTiles) + nTiles) % nTiles;
+        if (ty < 0 || ty >= nTiles) continue;
+        // NOTE: use the subdomain-less host — a/b/c.tile.openstreetmap.org is
+        // deprecated and fails CORS image loads (would taint/blank the canvas).
+        const src = `https://tile.openstreetmap.org/${zoom}/${wrapX}/${ty}.png`;
+        const dx = tx * TILE - centerPxX + W / 2;
+        const dy = ty * TILE - centerPxY + H / 2;
+        jobs.push(loadTile(src).then(img => { if (img) ctx.drawImage(img, dx, dy, TILE, TILE); }));
+      }
+    }
+    await Promise.all(jobs);
+
+    // Draw connecting lines from origin to each store
+    const origin = pts.find(p => p.isOrigin);
+    if (origin) {
+      const o = toCanvas(origin.lat, origin.lng);
+      ctx.strokeStyle = 'rgba(204,0,0,0.35)'; ctx.lineWidth = 2; ctx.setLineDash([6, 5]);
+      for (const p of pts) {
+        if (p.isOrigin) continue;
+        const c = toCanvas(p.lat, p.lng);
+        ctx.beginPath(); ctx.moveTo(o.x, o.y); ctx.lineTo(c.x, c.y); ctx.stroke();
+      }
+      ctx.setLineDash([]);
+    }
+
+    // Draw store pins (numbered) then origin star, so origin is on top.
+    for (const p of pts) {
+      if (p.isOrigin) continue;
+      const c = toCanvas(p.lat, p.lng);
+      ctx.beginPath(); ctx.arc(c.x, c.y, 13, 0, Math.PI * 2);
+      ctx.fillStyle = '#CC0000'; ctx.fill();
+      ctx.lineWidth = 2.5; ctx.strokeStyle = '#fff'; ctx.stroke();
+      ctx.fillStyle = '#fff'; ctx.font = 'bold 14px Arial';
+      ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+      ctx.fillText(String(p.n), c.x, c.y + 0.5);
+    }
+    if (origin) {
+      const o = toCanvas(origin.lat, origin.lng);
+      ctx.beginPath();
+      const R = 15, r = 6;
+      for (let i = 0; i < 10; i++) {
+        const ang = (Math.PI / 5) * i - Math.PI / 2;
+        const rad = i % 2 === 0 ? R : r;
+        const px = o.x + Math.cos(ang) * rad, py = o.y + Math.sin(ang) * rad;
+        i === 0 ? ctx.moveTo(px, py) : ctx.lineTo(px, py);
+      }
+      ctx.closePath();
+      ctx.fillStyle = '#1a56db'; ctx.fill();
+      ctx.lineWidth = 2.5; ctx.strokeStyle = '#fff'; ctx.stroke();
+    }
+
+    // Title banner + attribution
+    ctx.fillStyle = 'rgba(255,255,255,0.92)'; ctx.fillRect(0, 0, W, 34);
+    ctx.fillStyle = '#CC0000'; ctx.font = 'bold 16px Arial'; ctx.textAlign = 'left'; ctx.textBaseline = 'middle';
+    const ttl = (businessName.trim() ? businessName.trim() + ' — ' : '') + 'IndoorMedia Quote Map';
+    ctx.fillText(ttl, 12, 17);
+    if (searchLocationLabel) {
+      ctx.fillStyle = '#333'; ctx.font = '12px Arial'; ctx.textAlign = 'right';
+      ctx.fillText('★ = ' + searchLocationLabel.slice(0, 60), W - 12, 17);
+    }
+    ctx.fillStyle = 'rgba(255,255,255,0.8)'; ctx.fillRect(W - 150, H - 18, 150, 18);
+    ctx.fillStyle = '#555'; ctx.font = '10px Arial'; ctx.textAlign = 'right'; ctx.textBaseline = 'middle';
+    ctx.fillText('© OpenStreetMap contributors', W - 4, H - 9);
+
+    return canvas;
+  }
+
+  async function shareQuoteMap() {
+    if (mapBuilding) return;
+    mapBuilding = true; mapError = '';
+    try {
+      loadSearchLocation();
+      const canvas = await buildQuoteMap(true);
+      if (!canvas) { mapBuilding = false; return; }
+      const blob = await new Promise(res => canvas.toBlob(res, 'image/png'));
+      if (!blob) { mapError = 'Could not render the map image.'; mapBuilding = false; return; }
+      const filename = 'IndoorMedia_Quote_Map_' + new Date().toISOString().split('T')[0] + '.png';
+      const file = new File([blob], filename, { type: 'image/png' });
+      if (navigator.share && navigator.canShare && navigator.canShare({ files: [file] })) {
+        try { await navigator.share({ files: [file], title: filename }); mapBuilding = false; return; } catch (e) { /* fall through */ }
+      }
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a'); a.href = url; a.download = filename; a.click();
+      setTimeout(() => URL.revokeObjectURL(url), 4000);
+    } catch (e) {
+      mapError = 'Map build failed: ' + (e?.message || e);
+    } finally {
+      mapBuilding = false;
+    }
+  }
 </script>
 
 <div class="quote-container">
@@ -902,6 +1200,20 @@
   {/if}
 
   {#if cartItems.length > 0}
+    <div class="quote-sort-bar">
+      <label for="quote-sort">Arrange by</label>
+      <select id="quote-sort" class="quote-sort-select" bind:value={sortBy} on:change={onSortChange}>
+        <option value="manual">↕️ Manual (drag to reorder)</option>
+        <option value="price">💰 Price (high → low)</option>
+        <option value="impressions">👁️ Impressions (high → low)</option>
+        <option value="cycle">🗓️ Print cycle (A → C)</option>
+        {#if hasSearchDistance}<option value="distance">📍 Distance (near → far)</option>{/if}
+        <option value="name">🔤 Store name (A → Z)</option>
+      </select>
+      {#if hasSearchDistance && searchLocationLabel}
+        <span class="quote-sort-origin">from {searchLocationLabel}</span>
+      {/if}
+    </div>
     <div class="quote-items">
       {#each cartItems as item, i}
         <div 
@@ -928,6 +1240,7 @@
             {#if item.promoMode}<p class="item-promo-badge">🎁 Free quarter included · 🏆 Summer Contest</p>{/if}
             {#if item.store}<p class="item-store">{item.store} ({item.storeNum}){#if item.storeCycle} — Cycle {item.storeCycle}{/if}</p>{/if}
             {#if item.storeAddress}<p class="item-addr">{item.storeAddress}</p>{/if}
+            {#if getDistanceFromSearch(item) != null}<p class="item-distance">📍 {getDistanceFromSearch(item).toFixed(1)} mi from {searchLocationLabel || 'searched location'}</p>{/if}
             {#if item.storeCycle}<p class="item-launch">Next launch: {getNextLaunch(item.storeCycle)}</p>{/if}
             {#if item.plan}<p class="item-plan">{item.plan}</p>{/if}
             {#if getCartCoverage(item)}
@@ -1039,8 +1352,10 @@
       </div>
       <div class="footer-actions">
         <button class="export-btn" on:click={exportQuotePdf}>📄 Download Quote PDF</button>
+        <button class="map-btn" on:click={shareQuoteMap} disabled={mapBuilding}>{mapBuilding ? '🗺️ Building…' : '🗺️ Share Map'}</button>
         <button class="clear-btn" on:click={clearCart}>🗑️ Clear</button>
       </div>
+      {#if mapError}<p class="map-error">{mapError}</p>{/if}
     </div>
   {:else if !showAddProduct}
     <div class="empty">
@@ -1167,7 +1482,15 @@
   .map-btn:hover { background: #0d47a1; }
 
   .item-addr { margin: 0 0 2px; font-size: 11px; color: #999; }
+  .item-distance { margin: 0 0 2px; font-size: 11px; color: #1a56db; font-weight: 700; }
   .item-launch { margin: 0 0 2px; font-size: 11px; color: #2e7d32; font-weight: 600; }
+
+  .quote-sort-bar { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin-bottom: 12px; }
+  .quote-sort-bar label { font-size: 13px; font-weight: 700; color: var(--text-primary, #333); }
+  .quote-sort-select { padding: 8px 10px; border: 1px solid #ddd; border-radius: 8px; background: #fff; font-size: 13px; font-weight: 600; color: #333; cursor: pointer; }
+  .quote-sort-select:focus { outline: none; border-color: #CC0000; }
+  :global([data-theme='dark']) .quote-sort-select { background: #1e1e1e; color: #eee; border-color: #444; }
+  .quote-sort-origin { font-size: 12px; color: #1a56db; font-weight: 600; }
   .store-launch { font-size: 11px; color: #2e7d32; font-weight: 600; margin-top: 4px; }
 
   .plan-store { margin: 0 0 12px; font-size: 13px; color: #666; }
@@ -1227,6 +1550,10 @@
   .business-name-input::placeholder { color: #999; }
   .export-btn { flex: 1; padding: 12px; background: #CC0000; color: white; border: none; border-radius: 8px; font-size: 14px; font-weight: 600; cursor: pointer; }
   .export-btn:hover { background: #990000; }
+  .map-btn { padding: 12px; background: #1a56db; color: white; border: none; border-radius: 8px; font-size: 14px; font-weight: 600; cursor: pointer; white-space: nowrap; }
+  .map-btn:hover:not(:disabled) { background: #14449e; }
+  .map-btn:disabled { opacity: 0.6; cursor: wait; }
+  .map-error { margin: 8px 0 0; font-size: 12px; color: #CC0000; font-weight: 600; }
   .clear-btn { padding: 12px; background: white; border: 1px solid #e0e0e0; border-radius: 8px; color: #666; font-size: 14px; cursor: pointer; }
 
   .empty { text-align: center; padding: 40px 20px; color: #999; }

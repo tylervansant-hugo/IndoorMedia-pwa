@@ -10,6 +10,53 @@
   let filtered = [];
   let useGeolocation = false;
   let userLocation = null;
+  // Label describing what userLocation points at (an address / POI the rep typed,
+  // or "My Location"). Persisted so the Cart/Quote can show distance from it.
+  let searchLocationLabel = '';
+
+  // Persist the active searched location (label + coords) so cart items added
+  // from any store card can be stamped with distance-from-this-point. Read back
+  // in Cart.svelte for the quote + shareable map.
+  function persistSearchLocation(lat, lng, label) {
+    try {
+      if (lat == null || lng == null) {
+        localStorage.removeItem('impro_search_location');
+        return;
+      }
+      localStorage.setItem('impro_search_location', JSON.stringify({
+        lat, lng, label: label || '', savedAt: new Date().toISOString(),
+      }));
+    } catch {}
+  }
+
+  // Stamp a cart item with the store's own coords AND the currently-searched
+  // location (label + coords + straight-line distance). Lets the Quote show
+  // "X mi from <the address you searched>" and plot every store on a map.
+  function stampLocation(item, store) {
+    const sLat = store && (store.latitude ?? store.Latitude);
+    const sLng = store && (store.longitude ?? store.Longitude);
+    if (sLat != null && sLng != null && !isNaN(sLat) && !isNaN(sLng)) {
+      item.storeLat = Number(sLat);
+      item.storeLng = Number(sLng);
+    }
+    // Pull the active searched location from state (or localStorage as a fallback).
+    let loc = userLocation ? { lat: userLocation.lat, lng: userLocation.lng, label: searchLocationLabel } : null;
+    if (!loc) {
+      try {
+        const raw = localStorage.getItem('impro_search_location');
+        if (raw) loc = JSON.parse(raw);
+      } catch {}
+    }
+    if (loc && loc.lat != null && loc.lng != null) {
+      item.searchLat = Number(loc.lat);
+      item.searchLng = Number(loc.lng);
+      item.searchLabel = loc.label || '';
+      if (item.storeLat != null && item.storeLng != null) {
+        item.distanceFromSearch = Number(calcDistance(loc.lat, loc.lng, item.storeLat, item.storeLng).toFixed(1));
+      }
+    }
+    return item;
+  }
   let storeCycleFilter = 'all';
 
   // Multilingual pricing sheet export
@@ -482,6 +529,8 @@ Store: ${store.StoreName}
         const { latitude, longitude } = position.coords;
         userLocation = { lat: latitude, lng: longitude };
         useGeolocation = true;
+        searchLocationLabel = 'My Location';
+        persistSearchLocation(latitude, longitude, searchLocationLabel);
         
         // Sort stores by distance, filtering out bad coords
         filtered = smartSortByDistance(latitude, longitude);
@@ -523,6 +572,9 @@ Store: ${store.StoreName}
 
       userLocation = { lat, lng };
       useGeolocation = true;
+      // Prefer the geocoder's display name, fall back to what the rep typed.
+      searchLocationLabel = (data[0].display_name || term).split(',').slice(0, 3).join(',').trim() || term;
+      persistSearchLocation(lat, lng, searchLocationLabel);
 
       filtered = smartSortByDistance(lat, lng, term);
       searchResults.set(filtered);
@@ -815,6 +867,7 @@ Store: ${store.StoreName}
         noseOfCart: true,
         addedAt: new Date().toISOString(),
       };
+      stampLocation(noseItem, store);
       try {
         const cart = JSON.parse(localStorage.getItem('indoormedia_cart') || '[]');
         cart.push(noseItem);
@@ -863,6 +916,7 @@ Store: ${store.StoreName}
       cartsShowingAd: cartsShowing,
       addedAt: new Date().toISOString(),
     };
+    stampLocation(item, store);
     try {
       const cart = JSON.parse(localStorage.getItem('indoormedia_cart') || '[]');
       cart.push(item);
@@ -952,6 +1006,7 @@ Store: ${store.StoreName}
       productionFee: pkg.production || 0,
       addedAt: new Date().toISOString(),
     };
+    stampLocation(item, store);
     try {
       const cart = JSON.parse(localStorage.getItem('indoormedia_cart') || '[]');
       cart.push(item);
@@ -1036,6 +1091,7 @@ Store: ${store.StoreName}
       storeCases: parseInt(store['Case Count']) || 0,
       quarters: currentQuarters,
     };
+    stampLocation(item, store);
 
     // Save to localStorage (same format as Cart.svelte)
     try {
