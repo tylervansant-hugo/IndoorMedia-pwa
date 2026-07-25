@@ -1590,7 +1590,7 @@
     <div style:display={currentTab === 'stores' ? 'block' : 'none'}>
       <div class="stores-view-toggle">
         <button class="view-toggle-btn" class:active={storesView === 'rates' || storesView === 'prospects'} on:click={() => storesView = 'rates'}>🏪 Stores</button>
-        <button class="view-toggle-btn" class:active={storesView === 'map'} on:click={() => storesView = 'map'}>🗺️ Map</button>
+        <button class="view-toggle-btn" class:active={storesView === 'map'} on:click={() => { storesView = 'map'; setTimeout(() => document.dispatchEvent(new CustomEvent('map-focus-store')), 200); }}>🗺️ Map</button>
       </div>
       {#if storesView === 'prospects'}
         <button class="prospect-back-btn" on:click={() => storesView = 'rates'}>← Back to Stores</button>

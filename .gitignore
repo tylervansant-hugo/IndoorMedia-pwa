@@ -59,3 +59,4 @@ docker-compose.yml
 # Local development servers (not needed with Vercel)
 server.js
 api-server.js
+.template-backups/

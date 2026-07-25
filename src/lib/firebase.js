@@ -39,6 +39,34 @@ export function initFirebase(config = null) {
   }
 }
 
+// Upload a file (video/image picked from the phone gallery) to Firebase
+// Storage and return a public download URL for embedding in an email.
+// onProgress(0..1) is called as bytes upload. Returns null on failure.
+export async function uploadEmailAttachment(file, onProgress) {
+  if (!firebaseApp) return null;
+  try {
+    const { getStorage, ref, uploadBytesResumable, getDownloadURL } = await import('firebase/storage');
+    const storage = getStorage(firebaseApp);
+    const safeName = (file.name || 'attachment').replace(/[^a-zA-Z0-9._-]/g, '_');
+    const path = `email_attachments/${Date.now()}_${Math.random().toString(36).slice(2, 8)}_${safeName}`;
+    const storageRef = ref(storage, path);
+    const task = uploadBytesResumable(storageRef, file, { contentType: file.type || 'application/octet-stream' });
+    return await new Promise((resolve) => {
+      task.on('state_changed',
+        (snap) => { if (onProgress && snap.totalBytes) onProgress(snap.bytesTransferred / snap.totalBytes); },
+        (err) => { console.warn('uploadEmailAttachment error:', err); resolve(null); },
+        async () => {
+          try { resolve(await getDownloadURL(task.snapshot.ref)); }
+          catch (e) { console.warn('getDownloadURL error:', e); resolve(null); }
+        }
+      );
+    });
+  } catch (e) {
+    console.warn('uploadEmailAttachment error:', e);
+    return null;
+  }
+}
+
 export function isFirebaseReady() {
   return db !== null;
 }
@@ -311,6 +339,58 @@ export async function getAllLeadData() {
     return snapshot.docs.map(d => d.data());
   } catch (e) {
     console.warn('getAllLeadData error:', e);
+    return [];
+  }
+}
+
+// ── Per-prospect contact activity log ────────────────────────────────
+// A running log of who contacted a prospect, how (call/text/email/walk-in/
+// note/status), and when. Stored one doc per prospect keyed by lead hash,
+// with the events appended to an `entries` array (capped at 50).
+export async function appendLeadActivity(prospectName, prospectAddr, entry) {
+  if (!db) return false;
+  try {
+    const id = hashLeadId(prospectName, prospectAddr);
+    const ref = doc(db, 'activity_daily', `lead_activity_${id}`);
+    const { getDoc } = await import('firebase/firestore');
+    const snap = await getDoc(ref);
+    const existing = (snap.exists() && Array.isArray(snap.data().entries)) ? snap.data().entries : [];
+    const clean = {
+      action: entry.action || 'contact',
+      rep: entry.rep || '',
+      repId: entry.repId != null ? String(entry.repId) : '',
+      detail: entry.detail || '',
+      at: entry.at || new Date().toISOString(),
+    };
+    const entries = [...existing, clean];
+    // Keep last 50 events per prospect
+    if (entries.length > 50) entries.splice(0, entries.length - 50);
+    await setDoc(ref, {
+      type: 'lead_activity',
+      prospectName: prospectName || '',
+      prospectAddress: prospectAddr || '',
+      entries,
+      lastAction: clean.action,
+      lastRep: clean.rep,
+      lastAt: clean.at,
+      updatedAt: new Date().toISOString(),
+    });
+    return true;
+  } catch (e) {
+    console.warn('appendLeadActivity error:', e);
+    return false;
+  }
+}
+
+// Get ALL lead-activity docs (for pre-loading into a cache).
+export async function getAllLeadActivity() {
+  if (!db) return [];
+  try {
+    const q = query(collection(db, 'activity_daily'), where('type', '==', 'lead_activity'));
+    const snapshot = await getDocs(q);
+    return snapshot.docs.map(d => d.data());
+  } catch (e) {
+    console.warn('getAllLeadActivity error:', e);
     return [];
   }
 }

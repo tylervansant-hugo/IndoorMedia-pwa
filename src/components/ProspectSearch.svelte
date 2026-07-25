@@ -2,7 +2,7 @@
   import { onMount, onDestroy, tick } from 'svelte';
   import { user, currentUser, sharedNearbyStores, sharedSelectedStore, sharedUserLocation } from '../lib/stores.js';
   import { logActivity } from '../lib/activity.js';
-  import { isFirebaseReady, whenFirebaseReady, claimStore, releaseStore, getZoneClaims, claimLead, releaseLead, getAllLeadClaims, saveLeadData, getLeadData, getAllLeadData, hashLeadId, saveRepProspects, getRepProspects, callInLeadKey, assignCallInLead, getAllCallInAssignments } from '../lib/firebase.js';
+  import { isFirebaseReady, whenFirebaseReady, claimStore, releaseStore, getZoneClaims, claimLead, releaseLead, getAllLeadClaims, saveLeadData, getLeadData, getAllLeadData, hashLeadId, saveRepProspects, getRepProspects, callInLeadKey, assignCallInLead, getAllCallInAssignments, appendLeadActivity, getAllLeadActivity, uploadEmailAttachment } from '../lib/firebase.js';
   import HotLeadsSubmit from './HotLeadsSubmit.svelte';
   import PendingLeads from './PendingLeads.svelte';
   import MeetingPrep from './MeetingPrep.svelte';
@@ -51,6 +51,8 @@
   // ── Lead Claims (Dibs on Prospects) ──
   let leadClaims = {}; // keyed by hash
   let leadDataCache = {}; // keyed by hash — persistent lead data from Firebase
+  let leadActivityCache = {}; // keyed by hash — per-prospect contact activity log
+  let activityLogProspect = null; // prospect whose full activity log modal is open
 
   async function loadStoreClaims() {
     // Show cached dibs instantly (survives offline / cold start)
@@ -93,6 +95,75 @@
       map[id] = d;
     });
     leadDataCache = map;
+    loadAllLeadActivity();
+  }
+
+  async function loadAllLeadActivity() {
+    if (!(await whenFirebaseReady())) return;
+    try {
+      const all = await getAllLeadActivity();
+      const map = {};
+      all.forEach(d => {
+        const id = hashLeadId(d.prospectName, d.prospectAddress);
+        map[id] = d;
+      });
+      leadActivityCache = map;
+    } catch {}
+  }
+
+  // Human-friendly action label + emoji for an activity entry.
+  const ACTIVITY_META = {
+    call:   { icon: '📞', label: 'Called' },
+    text:   { icon: '💬', label: 'Texted' },
+    email:  { icon: '✉️', label: 'Emailed' },
+    'walk-in': { icon: '🚶', label: 'Walk-In' },
+    note:   { icon: '📝', label: 'Note' },
+    status: { icon: '🏷️', label: 'Status' },
+  };
+  function activityMeta(action) {
+    return ACTIVITY_META[action] || { icon: '•', label: (action || 'Contact') };
+  }
+
+  // Relative time like "2h ago", "3d ago", falling back to a date.
+  function timeAgo(iso) {
+    if (!iso) return '';
+    const then = new Date(iso).getTime();
+    if (isNaN(then)) return '';
+    const diff = Date.now() - then;
+    const min = Math.floor(diff / 60000);
+    if (min < 1) return 'just now';
+    if (min < 60) return min + 'm ago';
+    const hr = Math.floor(min / 60);
+    if (hr < 24) return hr + 'h ago';
+    const d = Math.floor(hr / 24);
+    if (d < 7) return d + 'd ago';
+    return new Date(iso).toLocaleDateString();
+  }
+
+  // Most-recent activity entry for a prospect (or null).
+  function getLastActivity(prospect) {
+    const doc = leadActivityCache[getLeadHash(prospect)];
+    if (doc && Array.isArray(doc.entries) && doc.entries.length) {
+      return doc.entries[doc.entries.length - 1];
+    }
+    // Fall back to a lead-claim's lastAction if no activity log yet.
+    const claim = leadClaims[getLeadHash(prospect)];
+    if (claim && claim.lastAction) {
+      return { action: claim.lastAction, rep: claim.repName || '', at: claim.lastActionAt || claim.claimedAt };
+    }
+    return null;
+  }
+
+  function getActivityEntries(prospect) {
+    const doc = leadActivityCache[getLeadHash(prospect)];
+    return (doc && Array.isArray(doc.entries)) ? [...doc.entries].reverse() : [];
+  }
+
+  function openActivityLog(prospect) {
+    activityLogProspect = prospect;
+  }
+  function closeActivityLog() {
+    activityLogProspect = null;
   }
 
   function getLeadHash(prospect) {
@@ -217,6 +288,30 @@
       };
       leadClaims = leadClaims;
     }
+    // Record a per-prospect activity-log entry (who / what / when).
+    recordProspectActivity(prospect, action, repName, repId);
+  }
+
+  // Append a contact event to the prospect's activity log (local cache +
+  // Firebase) so the card can show "who did it and when" and the full log.
+  async function recordProspectActivity(prospect, action, repName, repId, detail = '') {
+    const id = getLeadHash(prospect);
+    const entry = {
+      action,
+      rep: repName || repDisplayName() || 'Unknown',
+      repId: repId != null ? String(repId) : String($user?.id || $user?.rep_id || ''),
+      detail: detail || '',
+      at: new Date().toISOString(),
+    };
+    // Update local cache immediately for instant UI feedback.
+    const existing = leadActivityCache[id] || { prospectName: prospect.name, prospectAddress: prospect.address, entries: [] };
+    const entries = [...(existing.entries || []), entry];
+    if (entries.length > 50) entries.splice(0, entries.length - 50);
+    leadActivityCache[id] = { ...existing, prospectName: prospect.name, prospectAddress: prospect.address, entries, lastAction: action, lastRep: entry.rep, lastAt: entry.at };
+    leadActivityCache = leadActivityCache;
+    try {
+      if (await whenFirebaseReady(4000)) await appendLeadActivity(prospect.name, prospect.address, entry);
+    } catch {}
   }
 
   async function handleLeadRelease(prospect) {
@@ -466,17 +561,91 @@
 
   let leadReturnView = 'hot-leads';
 
-  // Call-In Leads filters/search (separate from Hot Leads)
+  // ── Saved Leads for the currently-selected store ──────────────────
+  // Surfaces previously-saved prospects that relate to the store the rep
+  // just searched. Matches by: (1) explicit store stamp saved at save-time,
+  // else (2) proximity to the store's coordinates (within ~3 mi), else
+  // (3) same city name as a fallback for older records with no coords.
+  function savedLeadMatchesStore(p, store) {
+    if (!store) return false;
+    const sName = store.StoreName || '';
+    // 1) Explicit stamp from when it was saved
+    if (p._savedStoreName && sName && p._savedStoreName === sName) return true;
+    // 2) Proximity match using coordinates
+    const sLat = store.latitude || store.Latitude || null;
+    const sLng = store.longitude || store.Longitude || null;
+    const pLat = p.lat || p._savedStoreLat || null;
+    const pLng = p.lng || p._savedStoreLng || null;
+    if (sLat && sLng && pLat && pLng && !isBadCoords(sLat, sLng) && !isBadCoords(pLat, pLng)) {
+      if (calculateDistance(sLat, sLng, pLat, pLng) <= 3) return true;
+    }
+    // 3) City-name fallback for older records
+    const sCity = (store.City || '').toLowerCase().trim();
+    const pCity = (p._savedStoreCity || '').toLowerCase().trim();
+    if (sCity && pCity && sCity === pCity) return true;
+    return false;
+  }
+
+  $: savedLeadsForStore = selectedStore
+    ? savedProspects.filter(p => savedLeadMatchesStore(p, selectedStore))
+    : [];
+
+  // Jump to the Saved Leads list pre-filtered to the current store
+  function showSavedForStore() {
+    savedSearch = '';
+    savedStatusFilter = 'all';
+    savedStoreFilter = selectedStore ? (selectedStore.StoreName || '') : '';
+    view = 'saved';
+  }
+  let savedStoreFilter = ''; // StoreName to scope the Saved view to a single store
+
+  // Call-In Leads filters/search/sort (separate from Hot Leads)
   let callInSearch = '';
-  $: filteredCallInLeads = callInLeads.filter(l => {
-    if (!callInSearch) return true;
-    const q = callInSearch.toLowerCase();
-    return (l.business_name || '').toLowerCase().includes(q) ||
-      (l.contact_name || '').toLowerCase().includes(q) ||
-      (l.store_city || '').toLowerCase().includes(q) ||
-      (l.subcategory || '').toLowerCase().includes(q) ||
-      (l.lead_zip || '').includes(q);
-  });
+  let callInSort = 'recent'; // recent | oldest | distance | city | category | name
+  let callInCategoryFilter = ''; // '' = all subcategories
+
+  // Distinct subcategories present in the visible call-in leads (for the filter dropdown)
+  $: callInCategories = [...new Set(callInLeads.map(l => l.subcategory).filter(Boolean))].sort();
+
+  function callInDateMs(l) {
+    const d = new Date(l.call_in_date || 0);
+    return isNaN(d) ? 0 : d.getTime();
+  }
+
+  $: filteredCallInLeads = callInLeads
+    .filter(l => {
+      if (callInCategoryFilter && l.subcategory !== callInCategoryFilter) return false;
+      if (!callInSearch) return true;
+      const q = callInSearch.toLowerCase();
+      return (l.business_name || '').toLowerCase().includes(q) ||
+        (l.contact_name || '').toLowerCase().includes(q) ||
+        (l.store_city || '').toLowerCase().includes(q) ||
+        (l.subcategory || '').toLowerCase().includes(q) ||
+        (l.lead_zip || '').includes(q);
+    })
+    .slice()
+    .sort((a, b) => {
+      switch (callInSort) {
+        case 'oldest':
+          return callInDateMs(a) - callInDateMs(b);
+        case 'distance': {
+          const da = a.distance_mi == null ? Infinity : a.distance_mi;
+          const db = b.distance_mi == null ? Infinity : b.distance_mi;
+          return da - db;
+        }
+        case 'city':
+          return (a.store_city || '~').localeCompare(b.store_city || '~') ||
+            callInDateMs(b) - callInDateMs(a);
+        case 'category':
+          return (a.subcategory || '~').localeCompare(b.subcategory || '~') ||
+            callInDateMs(b) - callInDateMs(a);
+        case 'name':
+          return (a.business_name || '~').localeCompare(b.business_name || '~');
+        case 'recent':
+        default:
+          return callInDateMs(b) - callInDateMs(a);
+      }
+    });
 
   onMount(async () => {
     document.addEventListener('select-store-from-map', handleStoreSelectFromMap);
@@ -2252,6 +2421,32 @@ IndoorMedia`
     persistScrapedPhone(prospect, phone);
   }
 
+  // Build the list of callable numbers for a prospect: the saved Notes contact
+  // phone (with the saved owner/contact name) first, then the listed Google
+  // number, then any website-scraped candidates - all de-duped by digits.
+  // Used by the Call / Text buttons so a rep-entered number becomes selectable.
+  function getCallablePhones(prospect) {
+    const ld = leadDataCache[getLeadHash(prospect)] || {};
+    const out = [];
+    const seen = new Set();
+    const push = (raw, label, saved = false) => {
+      const d = phoneDigits(raw);
+      if (d.length !== 10 || seen.has(d)) return;
+      seen.add(d);
+      out.push({ number: formatPhone(d), raw: d, label, saved });
+    };
+    // Saved Notes contact phone comes first (rep-entered = most trusted)
+    if (ld.contactPhone) {
+      const who = (ld.ownerName || '').trim();
+      push(ld.contactPhone, who ? `${who} (from Notes)` : 'Contact (from Notes)', true);
+    }
+    // The business's listed number
+    if (prospect.phone) push(prospect.phone, 'Listed number');
+    // Website-scraped extras
+    (prospect._phoneCandidates || []).forEach(ph => push(ph, 'Found on website'));
+    return out;
+  }
+
   // Auto-save a scraped email into the prospect's Notes (lead data) so it
   // syncs across devices. Never overwrites a manually-entered Notes email.
   async function persistScrapedEmail(prospect, email) {
@@ -2337,11 +2532,105 @@ IndoorMedia`
     return origin + (import.meta.env.BASE_URL || '/') + g.file;
   }
 
+  // ── Email video / image attachment (Google Drive link or phone gallery) ──
+  // mailto: cannot carry real binary attachments, so we embed a clickable
+  // link. Drive links are used as-is (normalized to a viewable URL); gallery
+  // files are uploaded to Firebase Storage and the download URL is embedded.
+  // When the device supports the Web Share API with files, the "Share" button
+  // can also hand the real file to the native mail app.
+
+  // Normalize a Google Drive share URL to a clean, openable link.
+  function normalizeDriveLink(url) {
+    if (!url) return '';
+    const u = url.trim();
+    // Pull the file id from common Drive URL shapes.
+    const m = u.match(/\/file\/d\/([a-zA-Z0-9_-]+)/) || u.match(/[?&]id=([a-zA-Z0-9_-]+)/);
+    if (m) return `https://drive.google.com/file/d/${m[1]}/view?usp=sharing`;
+    return u;
+  }
+
+  function setEmailDriveLink(prospect, url) {
+    const link = normalizeDriveLink(url);
+    prospect._emailAttachUrl = link;
+    prospect._emailAttachName = 'Video (Google Drive)';
+    prospect._emailAttachType = 'drive';
+    prospect._emailAttachFile = null;
+    prospects = prospects;
+  }
+
+  function clearEmailAttachment(prospect) {
+    prospect._emailAttachUrl = '';
+    prospect._emailAttachName = '';
+    prospect._emailAttachType = '';
+    prospect._emailAttachFile = null;
+    prospect._emailAttachUploading = false;
+    prospect._emailAttachProgress = 0;
+    prospect._emailDriveInput = '';
+    prospects = prospects;
+  }
+
+  // Handle a file chosen from the phone gallery / camera.
+  async function handleEmailFilePick(prospect, ev) {
+    const file = ev.target.files && ev.target.files[0];
+    if (!file) return;
+    prospect._emailAttachFile = file;
+    prospect._emailAttachName = file.name || (file.type.startsWith('video') ? 'Video' : 'Image');
+    prospect._emailAttachType = file.type.startsWith('video') ? 'video' : 'image';
+    prospect._emailAttachUrl = '';
+    prospect._emailAttachUploading = true;
+    prospect._emailAttachProgress = 0;
+    prospects = prospects;
+    if (!(await whenFirebaseReady(4000))) {
+      prospect._emailAttachUploading = false;
+      prospect._emailAttachError = 'Cloud upload unavailable — you can still Share the file directly.';
+      prospects = prospects;
+      return;
+    }
+    const url = await uploadEmailAttachment(file, (p) => {
+      prospect._emailAttachProgress = Math.round(p * 100);
+      prospects = prospects;
+    });
+    prospect._emailAttachUploading = false;
+    if (url) {
+      prospect._emailAttachUrl = url;
+      prospect._emailAttachError = '';
+    } else {
+      prospect._emailAttachError = 'Upload failed — you can still Share the file directly to your mail app.';
+    }
+    prospects = prospects;
+  }
+
+  // True when this device can attach the real file to a native share/mail sheet.
+  function canShareFile(prospect) {
+    try {
+      return !!(prospect._emailAttachFile && navigator.canShare && navigator.canShare({ files: [prospect._emailAttachFile] }));
+    } catch { return false; }
+  }
+
+  // Share the email (with the real file attached) via the native share sheet.
+  async function shareEmailWithFile(tpl, prospect) {
+    try {
+      const subject = fillTemplate(tpl.subject, prospect);
+      const text = composeEmailBody(tpl, prospect);
+      const data = { title: subject, text };
+      if (prospect._emailAttachFile && navigator.canShare && navigator.canShare({ files: [prospect._emailAttachFile] })) {
+        data.files = [prospect._emailAttachFile];
+      }
+      await navigator.share(data);
+      handleLeadAction(prospect, 'email');
+    } catch (e) { /* user cancelled or unsupported */ }
+  }
+
   // Build the email body with optional graphic + testimonial appended.
   function composeEmailBody(tpl, prospect) {
     const rawBody = tpl._dynamic && typeof tpl.body === 'function' ? tpl.body(prospect) : tpl.body;
     let body = fillTemplate(rawBody, prospect);
     const extras = [];
+    if (prospect._emailAttachUrl) {
+      const isVideo = prospect._emailAttachType === 'drive' || prospect._emailAttachType === 'video';
+      const label = isVideo ? '🎥 Watch a quick video' : '🖼️ See the details';
+      extras.push(`${label}:\n${prospect._emailAttachUrl}`);
+    }
     if (prospect._emailGraphic) {
       const g = SHARE_GRAPHICS.find(x => x.id === prospect._emailGraphic);
       if (g) extras.push(`Here's a quick look at how it works:\n${graphicUrl(g)}`);
@@ -2551,7 +2840,16 @@ IndoorMedia`
     if (!savedProspects.find(p => p.id === prospect.id)) {
       // Carry over notes from prospectNotes if they exist
       const existingNote = getProspectNote(prospect.id || prospect.name);
-      savedProspects = [...savedProspects, { ...prospect, savedAt: new Date().toISOString(), status: 'new', notes: existingNote || '' }];
+      // Stamp the store this lead was searched/saved under so it can be
+      // surfaced back on that store's page later (Saved Leads button).
+      const storeStamp = selectedStore ? {
+        _savedStoreName: selectedStore.StoreName || '',
+        _savedStoreCity: selectedStore.City || '',
+        _savedStoreChain: selectedStore.GroceryChain || '',
+        _savedStoreLat: selectedStore.latitude || selectedStore.Latitude || null,
+        _savedStoreLng: selectedStore.longitude || selectedStore.Longitude || null
+      } : {};
+      savedProspects = [...savedProspects, { ...prospect, ...storeStamp, savedAt: new Date().toISOString(), status: 'new', notes: existingNote || '' }];
       persistProspects();
       alert(`✅ Saved: ${prospect.name}`);
     }
@@ -2861,6 +3159,13 @@ IndoorMedia`
 
     <p class="or-divider">— or pick a category —</p>
 
+    {#if savedLeadsForStore.length > 0}
+      <button class="saved-leads-banner" on:click={showSavedForStore}>
+        💾 Saved Leads ({savedLeadsForStore.length})
+        <span class="saved-leads-hint">Leads you’ve saved for this store</span>
+      </button>
+    {/if}
+
     <button class="new-biz-banner" on:click={searchNewBusinesses}>
       🆕 New Businesses
       <span class="new-biz-hint">Opened in the last year near this store</span>
@@ -2913,6 +3218,8 @@ IndoorMedia`
         if (prospectSort === 'reviews') return (b.reviews || 0) - (a.reviews || 0);
         return (b.score || 0) - (a.score || 0);
       }) as prospect, i (prospect.id + '-' + i)}
+        {@const callable = getCallablePhones(prospect)}
+        {@const primaryNum = (callable[0] && callable[0].number) || prospect.phone}
         <div class="prospect-card">
           <div class="prospect-header">
             <span class="score-emoji">{prospect.score >= 80 ? '🔥' : prospect.score >= 70 ? '⭐' : '👀'}</span>
@@ -2956,13 +3263,44 @@ IndoorMedia`
           <div class="prospect-actions">
             <!-- Row 1: Contact -->
             <div class="action-row">
-              {#if prospect.phone}
-                <a href="tel:{prospect.phone}" class="action-btn btn-green" on:click={() => { trackPhoneClick(prospect); handleLeadAction(prospect, 'call'); }}>📞 Call</a>
+              {#if primaryNum}
+                <a href="tel:{primaryNum}" class="action-btn btn-green" on:click={() => { trackPhoneClick(prospect); handleLeadAction(prospect, 'call'); }}>📞 Call</a>
                 <button class="action-btn btn-blue" on:click={() => { prospect._showText = !prospect._showText; prospect._showEmail = false; prospect._showScript = false; prospect._showNotes = false; prospects = prospects; handleLeadAction(prospect, 'text'); }}>💬 Text</button>
               {/if}
               <button class="action-btn btn-purple" on:click={() => { prospect._showEmail = !prospect._showEmail; prospect._showText = false; prospect._showScript = false; prospect._showNotes = false; prospects = prospects; if (prospect._showEmail) { ensureProspectEmail(prospect); if (!prospect._research && !prospect._researching) { prospect._researching = true; researchProspect(prospect).finally(() => { prospect._researching = false; prospects = prospects; }); } handleLeadAction(prospect, 'email'); } }}>✉️ Email</button>
               <button class="action-btn btn-orange" on:click={() => { handleLeadAction(prospect, 'walk-in'); }}>🚶 Walk-In</button>
             </div>
+
+            <!-- Multiple numbers: let the rep pick which one to call/text (incl. Notes contact) -->
+            {#if callable.length > 1}
+              <div class="phone-picker">
+                <span class="phone-picker-label">📞 Numbers on file:</span>
+                {#each callable as ph}
+                  <span class="phone-opt" class:saved={ph.saved}>
+                    <span class="phone-opt-meta">{ph.number}<small>{ph.label}</small></span>
+                    <a href="tel:{ph.number}" class="phone-opt-btn" on:click={() => { trackPhoneClick(prospect); handleLeadAction(prospect, 'call'); }}>📞</a>
+                    <a href="sms:{ph.number}" class="phone-opt-btn" on:click={() => handleLeadAction(prospect, 'text')}>💬</a>
+                  </span>
+                {/each}
+              </div>
+            {/if}
+
+            <!-- Last contact activity -->
+            {#if getLastActivity(prospect)}
+              {@const la = getLastActivity(prospect)}
+              {@const lm = activityMeta(la.action)}
+              <button class="last-activity" on:click|stopPropagation={() => openActivityLog(prospect)} title="View full activity log">
+                <span class="la-icon">{lm.icon}</span>
+                <span class="la-text">{lm.label}{#if la.rep} by {shortName(la.rep)}{/if} · {timeAgo(la.at)}</span>
+                <span class="la-more">Log ›</span>
+              </button>
+            {:else}
+              <button class="last-activity la-empty" on:click|stopPropagation={() => openActivityLog(prospect)} title="View activity log">
+                <span class="la-icon">🕒</span>
+                <span class="la-text">No contact logged yet</span>
+                <span class="la-more">Log ›</span>
+              </button>
+            {/if}
 
             <!-- Row 2: Research -->
             <div class="action-row">
@@ -3022,8 +3360,9 @@ IndoorMedia`
                     <button class="text-copy-btn" on:click|stopPropagation={() => { navigator.clipboard.writeText(template.msg); prospect._copiedText = template.label; prospects = prospects; setTimeout(() => { prospect._copiedText = ''; prospects = prospects; }, 2000); }}>
                       {prospect._copiedText === template.label ? '✅ Copied!' : '📋 Copy'}
                     </button>
-                    {#if prospect.phone}
-                      <a href="sms:{prospect.phone}?body={encodeURIComponent(template.msg)}" class="text-send-btn">📱 Send</a>
+                    {#if getCallablePhones(prospect).length}
+                      {@const smsNum = getCallablePhones(prospect)[0].number}
+                      <a href="sms:{smsNum}?body={encodeURIComponent(template.msg)}" class="text-send-btn">📱 Send</a>
                     {/if}
                   </div>
                 </div>
@@ -3279,6 +3618,43 @@ IndoorMedia`
                     {@const g = SHARE_GRAPHICS.find(x => x.id === prospect._emailGraphic)}
                     {#if g}<img class="email-graphic-thumb" src={graphicUrl(g)} alt={g.title} loading="lazy" />{/if}
                   {/if}
+
+                  <!-- Attach a video / image (Google Drive link or phone gallery) -->
+                  <div class="email-attach">
+                    <span class="email-addon-label">🎥 Attach a video or image:</span>
+                    {#if !prospect._emailAttachUrl && !prospect._emailAttachFile}
+                      <div class="email-attach-row">
+                        <input class="email-drive-input" type="url" inputmode="url"
+                          placeholder="Paste Google Drive link…"
+                          bind:value={prospect._emailDriveInput}
+                          on:keydown={(e) => { if (e.key === 'Enter' && prospect._emailDriveInput) setEmailDriveLink(prospect, prospect._emailDriveInput); }} />
+                        <button class="email-attach-add" disabled={!prospect._emailDriveInput}
+                          on:click={() => setEmailDriveLink(prospect, prospect._emailDriveInput)}>Add link</button>
+                      </div>
+                      <label class="email-gallery-btn">
+                        📱 Choose from gallery
+                        <input type="file" accept="video/*,image/*" capture
+                          on:change={(e) => handleEmailFilePick(prospect, e)} hidden />
+                      </label>
+                      <p class="email-attach-hint">Drive links & uploaded files embed as a tap-to-watch link. On phones, use “Share” to attach the real file.</p>
+                    {:else}
+                      <div class="email-attach-chip">
+                        <span class="eac-icon">{prospect._emailAttachType === 'image' ? '🖼️' : '🎥'}</span>
+                        <span class="eac-name">{prospect._emailAttachName || 'Attachment'}</span>
+                        {#if prospect._emailAttachUploading}
+                          <span class="eac-status">Uploading {prospect._emailAttachProgress || 0}%…</span>
+                        {:else if prospect._emailAttachUrl}
+                          <span class="eac-status ok">✓ Linked</span>
+                        {:else if prospect._emailAttachError}
+                          <span class="eac-status warn">{prospect._emailAttachError}</span>
+                        {/if}
+                        <button class="eac-remove" on:click={() => clearEmailAttachment(prospect)}>✕</button>
+                      </div>
+                      {#if canShareFile(prospect)}
+                        <button class="email-share-btn" on:click={() => shareEmailWithFile(tpl, prospect)}>📤 Share email with file attached</button>
+                      {/if}
+                    {/if}
+                  </div>
                 </div>
 
                 <div class="email-preview-box">
@@ -3406,6 +3782,13 @@ IndoorMedia`
     <button class="back-btn" on:click={() => view = 'main'}>← Back</button>
     <h2>💾 Saved Prospects ({savedProspects.length})</h2>
 
+    {#if savedStoreFilter}
+      <div class="saved-store-scope">
+        <span>🏪 Showing leads for <strong>{savedStoreFilter}</strong></span>
+        <button class="saved-scope-clear" on:click={() => savedStoreFilter = ''}>✕ Show all</button>
+      </div>
+    {/if}
+
     {@const totalCalls = phoneClicks.length}
     {@const conversions = savedProspects.filter(p => getAttribution(p)).length}
     {#if totalCalls > 0 || conversions > 0}
@@ -3444,6 +3827,10 @@ IndoorMedia`
       </div>
       <div class="prospect-list">
         {#each savedProspects.filter(p => {
+          if (savedStoreFilter) {
+            const st = allStores.find(s => s.StoreName === savedStoreFilter);
+            if (st && !savedLeadMatchesStore(p, st)) return false;
+          }
           if (savedStatusFilter !== 'all' && p.status !== savedStatusFilter) return false;
           if (savedSearch) {
             const q = savedSearch.toLowerCase();
@@ -3705,8 +4092,30 @@ IndoorMedia`
       <h2>📞 Call-In Leads ({filteredCallInLeads.length})</h2>
       <p class="callin-subtitle">Inbound leads — these people called us. Reach out fast! 🔥</p>
 
-      <div class="filter-bar">
+      <div class="filter-bar callin-filter-bar">
         <input type="text" placeholder="Search business, caller, city, zip..." bind:value={callInSearch} class="filter-input" />
+        <div class="callin-sort-row">
+          <label class="callin-sort-label">
+            <span>Sort</span>
+            <select bind:value={callInSort} class="callin-sort-select">
+              <option value="recent">📅 Newest first</option>
+              <option value="oldest">📅 Oldest first</option>
+              <option value="distance">📍 Closest to store</option>
+              <option value="city">🏙️ City (A–Z)</option>
+              <option value="category">🏷️ Category (A–Z)</option>
+              <option value="name">🔤 Business name (A–Z)</option>
+            </select>
+          </label>
+          <label class="callin-sort-label">
+            <span>Category</span>
+            <select bind:value={callInCategoryFilter} class="callin-sort-select">
+              <option value="">All ({callInLeads.length})</option>
+              {#each callInCategories as c}
+                <option value={c}>{c}</option>
+              {/each}
+            </select>
+          </label>
+        </div>
       </div>
 
       {#if filteredCallInLeads.length === 0}
@@ -3805,9 +4214,99 @@ IndoorMedia`
       </div>
     </div>
   {/if}
+
+  <!-- Full activity-log modal -->
+  {#if activityLogProspect}
+    {@const entries = getActivityEntries(activityLogProspect)}
+    <div class="activity-log-overlay" on:click|self={closeActivityLog}>
+      <div class="activity-log-modal">
+        <button class="al-close" on:click={closeActivityLog}>✕</button>
+        <h3 class="al-title">📋 Activity Log</h3>
+        <p class="al-sub">{activityLogProspect.name}</p>
+        {#if entries.length}
+          <div class="al-list">
+            {#each entries as e}
+              {@const m = activityMeta(e.action)}
+              <div class="al-item">
+                <span class="al-item-icon">{m.icon}</span>
+                <div class="al-item-body">
+                  <div class="al-item-line">
+                    <strong>{m.label}</strong>{#if e.rep} by {shortName(e.rep)}{/if}
+                    {#if e.detail}<span class="al-detail"> — {e.detail}</span>{/if}
+                  </div>
+                  <div class="al-item-time">{new Date(e.at).toLocaleString('en-US', { month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit' })} · {timeAgo(e.at)}</div>
+                </div>
+              </div>
+            {/each}
+          </div>
+        {:else}
+          <p class="al-empty-msg">No contact activity logged yet. Tapping Call, Text, Email, or Walk-In will start the log.</p>
+        {/if}
+      </div>
+    </div>
+  {/if}
 </div>
 
 <style>
+  /* Last-contact activity line under the action buttons */
+  .last-activity {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    width: 100%;
+    margin: 6px 0 2px;
+    padding: 7px 10px;
+    background: #f1f8f4;
+    border: 1px solid #cde9d6;
+    border-radius: 8px;
+    font-size: 0.82rem;
+    color: #256b43;
+    cursor: pointer;
+    text-align: left;
+  }
+  .last-activity:active { transform: scale(0.99); }
+  .last-activity.la-empty { background: #f5f5f5; border-color: #e0e0e0; color: #888; }
+  .la-icon { font-size: 0.95rem; }
+  .la-text { flex: 1; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .la-more { font-weight: 700; opacity: 0.7; font-size: 0.78rem; }
+  :global([data-theme='dark']) .last-activity { background: #1b3a2a; border-color: #2e6b47; color: #a5e3bd; }
+  :global([data-theme='dark']) .last-activity.la-empty { background: #2a2a2a; border-color: #444; color: #999; }
+
+  /* Full activity-log modal */
+  .activity-log-overlay {
+    position: fixed; inset: 0; z-index: 1000;
+    background: rgba(0,0,0,0.5);
+    display: flex; align-items: center; justify-content: center;
+    padding: 16px;
+  }
+  .activity-log-modal {
+    position: relative;
+    background: #fff;
+    border-radius: 14px;
+    width: 100%; max-width: 440px;
+    max-height: 80vh; overflow-y: auto;
+    padding: 20px 18px 18px;
+    box-shadow: 0 12px 40px rgba(0,0,0,0.3);
+  }
+  :global([data-theme='dark']) .activity-log-modal { background: #1e1e1e; color: #eee; }
+  .al-close {
+    position: absolute; top: 12px; right: 12px;
+    background: none; border: none; font-size: 1.2rem; cursor: pointer; color: #999;
+  }
+  .al-title { margin: 0 0 2px; font-size: 1.1rem; }
+  .al-sub { margin: 0 0 14px; color: #777; font-size: 0.9rem; }
+  :global([data-theme='dark']) .al-sub { color: #aaa; }
+  .al-list { display: flex; flex-direction: column; gap: 10px; }
+  .al-item { display: flex; gap: 10px; padding: 8px 0; border-bottom: 1px solid #eee; }
+  :global([data-theme='dark']) .al-item { border-color: #333; }
+  .al-item-icon { font-size: 1.1rem; line-height: 1.4; }
+  .al-item-body { flex: 1; }
+  .al-item-line { font-size: 0.9rem; }
+  .al-detail { color: #666; }
+  :global([data-theme='dark']) .al-detail { color: #bbb; }
+  .al-item-time { font-size: 0.78rem; color: #999; margin-top: 2px; }
+  .al-empty-msg { color: #888; font-size: 0.9rem; text-align: center; padding: 20px 8px; }
+
   .meeting-prep-overlay {
     position: fixed;
     inset: 0;
@@ -4334,6 +4833,40 @@ IndoorMedia`
     font-size: 13px;
     color: var(--text-secondary, #666);
   }
+  .callin-filter-bar {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .callin-sort-row {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+  .callin-sort-label {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    flex: 1 1 140px;
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--text-secondary, #666);
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+  }
+  .callin-sort-select {
+    padding: 8px 10px;
+    border: 2px solid var(--border-color, #e0e0e0);
+    border-radius: 8px;
+    background: var(--bg-primary, white);
+    color: var(--text-primary, #222);
+    font-size: 14px;
+    font-weight: 500;
+  }
+  .callin-sort-select:focus {
+    outline: none;
+    border-color: #0a7d2c;
+  }
   .callin-card {
     border-left: 5px solid #0a7d2c;
   }
@@ -4733,6 +5266,28 @@ IndoorMedia`
   }
   .new-biz-banner:active { transform: scale(0.97); }
   .new-biz-hint { font-size: 11px; font-weight: 400; opacity: 0.8; }
+
+  .saved-leads-banner {
+    width: 100%; padding: 14px 16px; border-radius: 12px; font-size: 16px; font-weight: 700;
+    background: linear-gradient(135deg, #0a7d2c, #05561d); color: white;
+    border: none; cursor: pointer; text-align: center; margin-bottom: 12px;
+    display: flex; flex-direction: column; align-items: center; gap: 2px;
+    transition: transform 0.1s;
+  }
+  .saved-leads-banner:active { transform: scale(0.97); }
+  .saved-leads-hint { font-size: 11px; font-weight: 400; opacity: 0.85; }
+
+  .saved-store-scope {
+    display: flex; align-items: center; justify-content: space-between; gap: 8px;
+    background: rgba(10,125,44,0.1); border: 1px solid #0a7d2c;
+    border-radius: 8px; padding: 8px 12px; margin-bottom: 12px;
+    font-size: 13px; color: var(--text-primary, #222); flex-wrap: wrap;
+  }
+  .saved-scope-clear {
+    background: #0a7d2c; color: white; border: none; border-radius: 6px;
+    padding: 5px 10px; font-size: 12px; font-weight: 600; cursor: pointer;
+  }
+  .saved-scope-clear:active { transform: scale(0.96); }
 
   .category-grid, .subcat-grid {
     display: grid;
@@ -5255,6 +5810,40 @@ IndoorMedia`
   }
   .email-alt-btn:hover { background: #1565c0; color: #fff; border-color: #1565c0; }
 
+  .phone-picker {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px;
+    margin: 6px 0 2px;
+    padding: 8px 10px;
+    background: #f5f9f5;
+    border: 1px solid #cfe3cf;
+    border-radius: 10px;
+  }
+  .phone-picker-label { font-size: 12px; font-weight: 700; color: #2e7d32; width: 100%; }
+  .phone-opt {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: #fff;
+    border: 1px solid #dcdcdc;
+    border-radius: 20px;
+    padding: 3px 6px 3px 12px;
+  }
+  .phone-opt.saved { border-color: #2e7d32; background: #e8f5e9; }
+  .phone-opt-meta { display: flex; flex-direction: column; line-height: 1.15; font-size: 13px; font-weight: 600; color: #222; }
+  .phone-opt-meta small { font-size: 10px; font-weight: 500; color: #888; }
+  .phone-opt.saved .phone-opt-meta small { color: #2e7d32; }
+  .phone-opt-btn {
+    text-decoration: none;
+    font-size: 15px;
+    padding: 4px 6px;
+    border-radius: 50%;
+    background: #f0f0f0;
+  }
+  .phone-opt-btn:active { background: #d7d7d7; }
+
   .owner-found-row { margin: 2px 0 6px; }
   .owner-found-status { font-size: 12px; line-height: 1.4; color: #2e7d32; }
   .owner-found-status em { color: #2e7d32; font-style: normal; font-weight: 600; }
@@ -5301,6 +5890,82 @@ IndoorMedia`
     border: 1px solid var(--border-color, #ddd);
     align-self: center;
   }
+
+  /* Video / image attachment */
+  .email-attach {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    padding-top: 8px;
+    border-top: 1px dashed var(--border-color, #ddd);
+  }
+  .email-attach-row { display: flex; gap: 6px; }
+  .email-drive-input {
+    flex: 1;
+    min-width: 0;
+    padding: 6px 8px;
+    border-radius: 8px;
+    border: 1px solid var(--border-color, #ddd);
+    font-size: 13px;
+    background: var(--card-bg, #fff);
+    color: var(--text-primary);
+  }
+  .email-attach-add {
+    padding: 6px 10px;
+    border-radius: 8px;
+    border: none;
+    background: #1565c0;
+    color: #fff;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    white-space: nowrap;
+  }
+  .email-attach-add:disabled { opacity: 0.5; cursor: default; }
+  .email-gallery-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    padding: 8px 10px;
+    border-radius: 8px;
+    border: 1px solid #1565c0;
+    color: #1565c0;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    background: transparent;
+  }
+  .email-gallery-btn:active { background: #e3f0fc; }
+  .email-attach-hint { font-size: 11px; color: #888; margin: 0; line-height: 1.4; }
+  .email-attach-chip {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 10px;
+    background: #f1f8f4;
+    border: 1px solid #cde9d6;
+    border-radius: 8px;
+    font-size: 13px;
+  }
+  :global([data-theme='dark']) .email-attach-chip { background: #1b3a2a; border-color: #2e6b47; }
+  .eac-icon { font-size: 1rem; }
+  .eac-name { flex: 1; font-weight: 600; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; color: var(--text-primary); }
+  .eac-status { font-size: 11px; color: #888; white-space: nowrap; }
+  .eac-status.ok { color: #2e7d32; font-weight: 600; }
+  .eac-status.warn { color: #c0392b; white-space: normal; }
+  .eac-remove { background: none; border: none; font-size: 1rem; color: #999; cursor: pointer; padding: 0 2px; }
+  .email-share-btn {
+    padding: 8px 10px;
+    border-radius: 8px;
+    border: none;
+    background: #2e7d32;
+    color: #fff;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+  }
+  .email-share-btn:active { opacity: 0.85; }
   .email-btn-secondary {
     background: transparent !important;
     color: #1565c0 !important;

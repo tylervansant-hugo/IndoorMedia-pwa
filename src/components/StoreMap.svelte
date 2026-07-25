@@ -49,6 +49,7 @@
   let userAccuracy = null;
   let userLocationLayers = [];
   let geoWatchId = null;
+  let mapResizeObserver = null;
 
   // Popup timing for mobile fix
   let lastPopupOpenTime = 0;
@@ -106,6 +107,68 @@
     map.setView([lat, lng], zoom, { animate: true });
   }
 
+  // Focus a specific store on the map by its StoreName (used when a store is
+  // selected/expanded on the Stores tab and the user taps Map).
+  function focusStoreByName(name) {
+    if (!name || !map || !allStores.length) return false;
+    const store = allStores.find(s => s.StoreName === name);
+    const lat = store && (store.latitude ?? store.Latitude);
+    const lng = store && (store.longitude ?? store.Longitude);
+    if (store && lat && lng) {
+      // Non-animated setView so tiles load at the final position immediately
+      // (animation can start painting before invalidateSize settles).
+      clearSearchMarker();
+      searchMarker = L.marker([parseFloat(lat), parseFloat(lng)], {
+        icon: L.divIcon({
+          className: 'map-search-pin',
+          html: '<div class="search-pin-inner">📍</div>',
+          iconSize: [32, 32],
+          iconAnchor: [16, 32],
+        }),
+      }).addTo(map);
+      searchMarker.bindPopup(`<div class="store-map-popup"><strong>${store.StoreName} — ${store.GroceryChain || ''}</strong></div>`).openPopup();
+      map.setView([parseFloat(lat), parseFloat(lng)], 16, { animate: false });
+      return true;
+    }
+    return false;
+  }
+
+  // Force Leaflet to recalc its container size. The map is initialized while
+  // its wrapper is display:none, so it reports a tiny/zero size and only paints
+  // a corner. Run several passes over a wider window to catch the layout after
+  // the view becomes visible, then re-apply the target view.
+  let _mapFixTimers = [];
+  function fixMapSizeAndFocus(name) {
+    _mapFixTimers.forEach(clearTimeout);
+    _mapFixTimers = [];
+    const pass = () => {
+      if (!map) return;
+      map.invalidateSize({ animate: false, pan: false });
+      if (name) focusStoreByName(name);
+    };
+    [0, 80, 200, 400, 700].forEach(d => {
+      _mapFixTimers.push(setTimeout(pass, d));
+    });
+  }
+
+  // When Main switches to the Map view, fix the map size and auto-focus the
+  // store the user last expanded on the Stores tab (if any).
+  function handleMapFocusStore() {
+    let name = '';
+    try { name = localStorage.getItem('impro_focus_store') || ''; } catch {}
+    // Map/stores may still be loading — retry briefly until ready, then run the
+    // multi-pass size fix (+ focus if a store is selected).
+    let tries = 0;
+    const attempt = () => {
+      if (map && allStores.length) {
+        fixMapSizeAndFocus(name);
+        return;
+      }
+      if (tries++ < 20) setTimeout(attempt, 150);
+    };
+    attempt();
+  }
+
   async function runMapSearch() {
     const term = (mapSearchTerm || '').trim();
     if (!term) return;
@@ -117,10 +180,12 @@
       (s.StoreName || '').toUpperCase() === upper ||
       (s.StoreName || '').toUpperCase().replace(/\s+/g, '') === upper.replace(/\s+/g, '')
     ) || allStores.find(s => (s.StoreName || '').toUpperCase().includes(upper) && upper.length >= 4);
-    if (matchStore && matchStore.Latitude && matchStore.Longitude) {
+    const matchLat = matchStore && (matchStore.latitude ?? matchStore.Latitude);
+    const matchLng = matchStore && (matchStore.longitude ?? matchStore.Longitude);
+    if (matchStore && matchLat && matchLng) {
       flyToLocation(
-        parseFloat(matchStore.Latitude),
-        parseFloat(matchStore.Longitude),
+        parseFloat(matchLat),
+        parseFloat(matchLng),
         `${matchStore.StoreName} — ${matchStore.GroceryChain || ''}`,
         15
       );
@@ -483,6 +548,8 @@
   onMount(async () => {
     // Listen for ESC key to exit fullscreen
     window.addEventListener('keydown', handleEscKey);
+    // Auto-focus a store selected on the Stores tab when switching to Map
+    document.addEventListener('map-focus-store', handleMapFocusStore);
 
     try {
       const [storesRes, contractsRes] = await Promise.all([
@@ -520,6 +587,25 @@
         attribution: '© OpenStreetMap contributors',
         maxZoom: 19,
       }).addTo(map);
+
+      // Belt-and-suspenders: the map is created while its wrapper is
+      // display:none (zero size) and only shown when the Map tab is picked.
+      // A ResizeObserver recalcs Leaflet the instant the container gets real
+      // dimensions, fixing the tiles-only-in-a-corner render.
+      if (typeof ResizeObserver !== 'undefined' && mapContainer) {
+        let lastW = 0, lastH = 0;
+        mapResizeObserver = new ResizeObserver((entries) => {
+          const r = entries[0]?.contentRect;
+          if (!r || !map) return;
+          if (Math.abs(r.width - lastW) > 2 || Math.abs(r.height - lastH) > 2) {
+            lastW = r.width; lastH = r.height;
+            if (r.width > 0 && r.height > 0) {
+              map.invalidateSize({ animate: false, pan: false });
+            }
+          }
+        });
+        mapResizeObserver.observe(mapContainer);
+      }
 
       markerClusterGroup = L.markerClusterGroup({
         chunkedLoading: true,
@@ -559,6 +645,8 @@
 
   onDestroy(() => {
     window.removeEventListener('keydown', handleEscKey);
+    document.removeEventListener('map-focus-store', handleMapFocusStore);
+    if (mapResizeObserver) { try { mapResizeObserver.disconnect(); } catch {} mapResizeObserver = null; }
     if (geoWatchId !== null) {
       navigator.geolocation.clearWatch(geoWatchId);
       geoWatchId = null;
@@ -690,21 +778,26 @@
     margin-bottom: 8px;
     background: var(--input-bg, #fff);
     border: 1px solid var(--border-color, #ddd);
-    border-radius: 10px;
-    padding: 4px 8px;
+    border-radius: 12px;
+    padding: 4px 10px;
+    width: 100%;
+    box-sizing: border-box;
   }
-  .map-search-icon { font-size: 14px; opacity: 0.7; }
+  .map-search-icon { font-size: 16px; opacity: 0.7; flex: 0 0 auto; }
   .map-search-input {
-    flex: 1;
+    flex: 1 1 auto;
+    width: 100%;
     border: none;
     outline: none;
     background: transparent;
-    font-size: 15px;
-    padding: 8px 2px;
+    font-size: 16px;
+    padding: 12px 4px;
     color: var(--text-primary, #222);
     min-width: 0;
+    text-overflow: ellipsis;
   }
   .map-search-clear {
+    flex: 0 0 auto;
     border: none;
     background: transparent;
     color: #999;
@@ -713,13 +806,14 @@
     padding: 2px 6px;
   }
   .map-search-go {
+    flex: 0 0 auto;
     border: none;
     background: #CC0000;
     color: #fff;
     font-weight: 700;
     font-size: 14px;
     border-radius: 8px;
-    padding: 8px 16px;
+    padding: 10px 16px;
     cursor: pointer;
   }
   .map-search-go:disabled { opacity: 0.5; cursor: default; }

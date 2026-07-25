@@ -10,6 +10,53 @@
   let filtered = [];
   let useGeolocation = false;
   let userLocation = null;
+  // Label describing what userLocation points at (an address / POI the rep typed,
+  // or "My Location"). Persisted so the Cart/Quote can show distance from it.
+  let searchLocationLabel = '';
+
+  // Persist the active searched location (label + coords) so cart items added
+  // from any store card can be stamped with distance-from-this-point. Read back
+  // in Cart.svelte for the quote + shareable map.
+  function persistSearchLocation(lat, lng, label) {
+    try {
+      if (lat == null || lng == null) {
+        localStorage.removeItem('impro_search_location');
+        return;
+      }
+      localStorage.setItem('impro_search_location', JSON.stringify({
+        lat, lng, label: label || '', savedAt: new Date().toISOString(),
+      }));
+    } catch {}
+  }
+
+  // Stamp a cart item with the store's own coords AND the currently-searched
+  // location (label + coords + straight-line distance). Lets the Quote show
+  // "X mi from <the address you searched>" and plot every store on a map.
+  function stampLocation(item, store) {
+    const sLat = store && (store.latitude ?? store.Latitude);
+    const sLng = store && (store.longitude ?? store.Longitude);
+    if (sLat != null && sLng != null && !isNaN(sLat) && !isNaN(sLng)) {
+      item.storeLat = Number(sLat);
+      item.storeLng = Number(sLng);
+    }
+    // Pull the active searched location from state (or localStorage as a fallback).
+    let loc = userLocation ? { lat: userLocation.lat, lng: userLocation.lng, label: searchLocationLabel } : null;
+    if (!loc) {
+      try {
+        const raw = localStorage.getItem('impro_search_location');
+        if (raw) loc = JSON.parse(raw);
+      } catch {}
+    }
+    if (loc && loc.lat != null && loc.lng != null) {
+      item.searchLat = Number(loc.lat);
+      item.searchLng = Number(loc.lng);
+      item.searchLabel = loc.label || '';
+      if (item.storeLat != null && item.storeLng != null) {
+        item.distanceFromSearch = Number(calcDistance(loc.lat, loc.lng, item.storeLat, item.storeLng).toFixed(1));
+      }
+    }
+    return item;
+  }
   let storeCycleFilter = 'all';
 
   // Multilingual pricing sheet export
@@ -482,6 +529,8 @@ Store: ${store.StoreName}
         const { latitude, longitude } = position.coords;
         userLocation = { lat: latitude, lng: longitude };
         useGeolocation = true;
+        searchLocationLabel = 'My Location';
+        persistSearchLocation(latitude, longitude, searchLocationLabel);
         
         // Sort stores by distance, filtering out bad coords
         filtered = smartSortByDistance(latitude, longitude);
@@ -523,6 +572,9 @@ Store: ${store.StoreName}
 
       userLocation = { lat, lng };
       useGeolocation = true;
+      // Prefer the geocoder's display name, fall back to what the rep typed.
+      searchLocationLabel = (data[0].display_name || term).split(',').slice(0, 3).join(',').trim() || term;
+      persistSearchLocation(lat, lng, searchLocationLabel);
 
       filtered = smartSortByDistance(lat, lng, term);
       searchResults.set(filtered);
@@ -638,10 +690,14 @@ Store: ${store.StoreName}
   function toggleExpand(storeName) {
     expandedStore = expandedStore === storeName ? null : storeName;
     if (!adType[storeName]) adType[storeName] = 'single';
-    // Lookup phone number when expanding
+    // Lookup phone number when expanding + remember the selected store so the
+    // Map view can auto-focus it when the user switches to the map.
     if (expandedStore === storeName) {
       const store = filtered.find(s => s.StoreName === storeName) || allStores.find(s => s.StoreName === storeName);
       if (store) lookupStorePhone(store);
+      try { localStorage.setItem('impro_focus_store', storeName); } catch {}
+    } else {
+      try { localStorage.removeItem('impro_focus_store'); } catch {}
     }
   }
 
@@ -671,12 +727,12 @@ Store: ${store.StoreName}
       monthly: (scaledTotal / (quarters * 3)).toFixed(2),
       monthlyTotal: scaledTotal.toFixed(2),
       monthlyPayments: quarters * 3,
-      threeMonth: (((scaledBase * 0.90) + prod * qFactor) / Math.ceil(quarters * 3 / 3)).toFixed(2),
+      threeMonth: (((scaledBase * 0.90) + prod * qFactor) / 3).toFixed(2),
       threeMonthTotal: ((scaledBase * 0.90) + prod * qFactor).toFixed(2),
-      threeMonthPayments: Math.ceil(quarters * 3 / 3),
-      sixMonth: (((scaledBase * 0.925) + prod * qFactor) / Math.ceil(quarters * 3 / 6)).toFixed(2),
+      threeMonthPayments: 3,
+      sixMonth: (((scaledBase * 0.925) + prod * qFactor) / 6).toFixed(2),
       sixMonthTotal: ((scaledBase * 0.925) + prod * qFactor).toFixed(2),
-      sixMonthPayments: Math.ceil(quarters * 3 / 6),
+      sixMonthPayments: 6,
       pif: ((scaledBase * 0.85) + prod * qFactor).toFixed(2),
       savings: (scaledBase * 0.15).toFixed(2)
     };
@@ -783,6 +839,10 @@ Store: ${store.StoreName}
     { id: '200_both',  name: '200% — 100% Both Sides', price: '$12,995', pct: 200, front: 100, dir: 100, kind: 'front_dir' },
     { id: 'header_50', name: 'Header 50% — Every Other Cart', price: '$2,995', pct: 50, header: 50, kind: 'header' },
     { id: 'header_100', name: 'Header 100% — Every Cart (Header + Footer)', price: '$4,795', pct: 100, header: 100, footer: true, kind: 'header' },
+    // Nose of Cart — priced per slot (not % of carts). 1 or 2 slots per store.
+    { id: 'nose_base_annual', name: 'Nose of Cart — Base Annual (per slot)', price: '$2,500', kind: 'nose', nose: true },
+    { id: 'nose_base_6mo', name: 'Nose of Cart — Base 6-Month (per slot)', price: '$2,000', kind: 'nose', nose: true },
+    { id: 'nose_exclusivity', name: 'Nose of Cart — Exclusivity (per 60 inserts)', price: '$3,995 + prod.', kind: 'nose', nose: true },
   ];
   let cartPkgOpen = {};   // store.StoreName -> bool (package picker open)
   function toggleCartPkg(storeName) {
@@ -790,6 +850,38 @@ Store: ${store.StoreName}
     cartPkgOpen = cartPkgOpen;
   }
   function handleAddCartvertising(store, pkg) {
+    // Nose of Cart is priced per slot (not % of all carts) -- skip the cart-count
+    // prompt and add it straight to the cart.
+    if (pkg.nose) {
+      const noseItem = {
+        id: Date.now(),
+        type: 'cartvertising',
+        name: 'Nose of Cart',
+        emoji: '👃',
+        store: `${store.GroceryChain} - ${store.City}`,
+        storeNum: store.StoreName,
+        storeAddress: store.Address || '',
+        storeCycle: store.Cycle || '',
+        plan: pkg.name,
+        price: pkg.price,
+        noseOfCart: true,
+        addedAt: new Date().toISOString(),
+      };
+      stampLocation(noseItem, store);
+      try {
+        const cart = JSON.parse(localStorage.getItem('indoormedia_cart') || '[]');
+        cart.push(noseItem);
+        localStorage.setItem('indoormedia_cart', JSON.stringify(cart));
+        try { window.dispatchEvent(new Event('cart-updated')); } catch {}
+        addedToCartMsg = `👃 Added Nose of Cart — ${store.GroceryChain} ${store.City}`;
+        setTimeout(() => { addedToCartMsg = ''; }, 3000);
+      } catch (err) {
+        console.error('Failed to add Nose of Cart to cart:', err);
+      }
+      cartPkgOpen[store.StoreName] = false;
+      cartPkgOpen = cartPkgOpen;
+      return;
+    }
     // Ask for the store's total shopping-cart count so the quote can show
     // exactly how many carts will display the customer's ad.
     const prior = store._cartCount || '';
@@ -824,6 +916,7 @@ Store: ${store.StoreName}
       cartsShowingAd: cartsShowing,
       addedAt: new Date().toISOString(),
     };
+    stampLocation(item, store);
     try {
       const cart = JSON.parse(localStorage.getItem('indoormedia_cart') || '[]');
       cart.push(item);
@@ -913,6 +1006,7 @@ Store: ${store.StoreName}
       productionFee: pkg.production || 0,
       addedAt: new Date().toISOString(),
     };
+    stampLocation(item, store);
     try {
       const cart = JSON.parse(localStorage.getItem('indoormedia_cart') || '[]');
       cart.push(item);
@@ -997,6 +1091,7 @@ Store: ${store.StoreName}
       storeCases: parseInt(store['Case Count']) || 0,
       quarters: currentQuarters,
     };
+    stampLocation(item, store);
 
     // Save to localStorage (same format as Cart.svelte)
     try {
@@ -1135,6 +1230,13 @@ Store: ${store.StoreName}
                   {/each}
                   <div class="cartvert-pkg-group">Header Ads <span class="cartvert-pkg-group-note">(6 mo.)</span></div>
                   {#each CART_PACKAGES.filter(p => p.kind === 'header') as pkg}
+                    <button class="cartvert-pkg-btn" on:click|stopPropagation={() => handleAddCartvertising(store, pkg)}>
+                      <span class="cartvert-pkg-name">{pkg.name}</span>
+                      <span class="cartvert-pkg-price">{pkg.price}</span>
+                    </button>
+                  {/each}
+                  <div class="cartvert-pkg-group">👃 Nose of Cart <span class="cartvert-pkg-group-note">(per slot)</span></div>
+                  {#each CART_PACKAGES.filter(p => p.kind === 'nose') as pkg}
                     <button class="cartvert-pkg-btn" on:click|stopPropagation={() => handleAddCartvertising(store, pkg)}>
                       <span class="cartvert-pkg-name">{pkg.name}</span>
                       <span class="cartvert-pkg-price">{pkg.price}</span>
