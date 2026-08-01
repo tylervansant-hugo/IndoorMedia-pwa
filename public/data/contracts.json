@@ -9847,6 +9847,27 @@
       "paid_in_full": false
     },
     {
+      "contract_number": "J434323E",
+      "date": "2026-08-01 00:00",
+      "business_name": "Welcome Restaurant & Bar",
+      "contact_name": "Sandra Pinedo",
+      "contact_email": "Welcomerestaurantt@gmail.com",
+      "contact_phone": "(253) 375-4049",
+      "sales_rep": "Tyler VanSant",
+      "store_name": "Safeway",
+      "store_number": "1978",
+      "zone": "07X",
+      "product_description": "Single Ad",
+      "total_amount": 4985.0,
+      "payment_date": "8/1/2026",
+      "address": "2637 North Pearl Street, Tacoma, 98407",
+      "extracted_at": "2026-07-31T20:00:52.952598",
+      "quarters": 4,
+      "term_months": 12,
+      "is_renewal": false,
+      "paid_in_full": false
+    },
+    {
       "contract_number": "J434350E",
       "date": "2026-07-20 00:00",
       "business_name": "Juliano\u2019s Pizzeria",
@@ -9866,6 +9887,48 @@
       "term_months": 15,
       "is_renewal": false,
       "paid_in_full": true
+    },
+    {
+      "contract_number": "J434361E",
+      "date": "2026-07-31 00:00",
+      "business_name": "Mazama Sporting Goods",
+      "contact_name": "Adam Braatz",
+      "contact_email": "Adam@teammazama.com",
+      "contact_phone": "(541) 913-0911",
+      "sales_rep": "Matthew Boozer",
+      "store_name": "Fred Meyer",
+      "store_number": "0417",
+      "zone": "07Y",
+      "product_description": "Single Ad",
+      "total_amount": 4725.0,
+      "payment_date": "7/31/2026",
+      "address": "3333 W 11th Ave, Eugene, 97402-3053",
+      "extracted_at": "2026-07-31T20:00:52.980415",
+      "quarters": 4,
+      "term_months": 12,
+      "is_renewal": false,
+      "paid_in_full": false
+    },
+    {
+      "contract_number": "J434361E",
+      "date": "2026-07-31 00:00",
+      "business_name": "Mazama Sporting Goods",
+      "contact_name": "Adam Braatz",
+      "contact_email": "Adam@teammazama.com",
+      "contact_phone": "(541) 913-0911",
+      "sales_rep": "Matthew Boozer",
+      "store_name": "Albertsons",
+      "store_number": "3529",
+      "zone": "07Y",
+      "product_description": "Single Ad",
+      "total_amount": 0.0,
+      "payment_date": "7/31/2026",
+      "address": "1675 W 18th Ave, Eugene, 97402",
+      "extracted_at": "2026-07-31T20:00:52.980422",
+      "quarters": 1,
+      "term_months": 3,
+      "is_renewal": false,
+      "paid_in_full": false
     },
     {
       "contract_number": "J434543E",
@@ -12430,5 +12493,5 @@
       "paid_in_full": false
     }
   ],
-  "last_scan": "2026-07-30T20:00:11.274438"
+  "last_scan": "2026-07-31T20:00:52.996813"
 }
