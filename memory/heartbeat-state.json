@@ -4,6 +4,6 @@
     "calendar": 1781578800,
     "weather": 1782225540
   },
-  "lastHeartbeat": 1785034800,
-  "notes": "gog CLI still not configured (config_exists=false, no default Google account). Email+calendar checks blocked until Tyler runs 'gog auth' setup. Already surfaced once previously; don't re-chase on routine heartbeats. Mention when Tyler is active and it's convenient. 2026-07-25 20:00 Sat heartbeat: weekend evening, nothing pending/urgent, no new daily notes. Staying quiet."
+  "lastHeartbeat": 1785639600,
+  "notes": "gog CLI still not configured (config_exists=false, no default Google account). Email+calendar checks blocked until Tyler runs 'gog auth' setup. Already surfaced; don't re-chase on routine heartbeats. Mention when Tyler is active and it's convenient. 2026-07-31 ~23:40 Thu heartbeat: late-night quiet hours, nothing pending/urgent. Staying quiet."
 }
