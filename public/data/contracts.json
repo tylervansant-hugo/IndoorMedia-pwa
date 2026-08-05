@@ -9952,6 +9952,27 @@
       "paid_in_full": false
     },
     {
+      "contract_number": "J434774E",
+      "date": "2026-08-04 00:00",
+      "business_name": "Pro Tek",
+      "contact_name": "Michael Christopherson",
+      "contact_email": "Mike@pro-tekautomotive.com",
+      "contact_phone": "(503) 653-9315",
+      "sales_rep": "Megan Wink",
+      "store_name": "Fred Meyer",
+      "store_number": "0600",
+      "zone": "07Z",
+      "product_description": "Double Ad",
+      "total_amount": 7370.0,
+      "payment_date": "8/4/2026",
+      "address": "3030 NE Weidler St, Portland, 97232-1857",
+      "extracted_at": "2026-08-04T20:00:38.436721",
+      "quarters": 5,
+      "term_months": 15,
+      "is_renewal": false,
+      "paid_in_full": false
+    },
+    {
       "contract_number": "J435258E",
       "date": "2026-08-03 00:00",
       "business_name": "Track Town Pizza",
@@ -12535,5 +12556,5 @@
       "paid_in_full": false
     }
   ],
-  "last_scan": "2026-08-03T20:00:36.139909"
+  "last_scan": "2026-08-04T20:00:38.452714"
 }
