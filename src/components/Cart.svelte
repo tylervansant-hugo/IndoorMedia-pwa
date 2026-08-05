@@ -5,7 +5,7 @@
   // When true, this tab is the active/visible one. Reload from storage on show
   // so items added from other tabs (which stay mounted) appear immediately.
   export let active = false;
-  import { PDFDocument, rgb, StandardFonts } from 'pdf-lib';
+  import { PDFDocument, rgb, StandardFonts, PDFString, PDFName } from 'pdf-lib';
   import StoreSearchInput from '../lib/StoreSearchInput.svelte';
 
   let cartItems = [];
@@ -16,6 +16,160 @@
   let storeSearch = '';
   let cartAdType = 'single'; // single or double
   let businessName = '';
+
+  // ── Testimonial attachment (embedded as an image on the Quote PDF) ──
+  // Rep searches for a SPECIFIC testimonial to attach (never auto-picked),
+  // then optionally attaches a video-testimonial link (Google Drive or the
+  // IndoorMedia YouTube channel).
+  let allTestimonials = [];
+  let testimonialsLoaded = false;
+  let showTestimonialPicker = false;
+  let testimonialSearch = '';
+  let testimonialResults = [];
+  let selectedTestimonial = null; // { business, comment, url, id }
+  let videoTestimonialUrl = '';   // optional link, validated to Drive / IM YouTube
+
+  // Decode HTML entities (testimonials carry things like &#x9; and &amp;).
+  function decodeEntities(str) {
+    if (!str) return '';
+    const el = document.createElement('textarea');
+    el.innerHTML = String(str);
+    return el.value.replace(/\s+/g, ' ').trim();
+  }
+
+  async function loadTestimonials() {
+    if (testimonialsLoaded) return;
+    try {
+      const res = await fetch(import.meta.env.BASE_URL + 'data/testimonials_slim.json?t=' + Date.now());
+      if (!res.ok) throw new Error('load failed');
+      const data = await res.json();
+      const arr = Array.isArray(data) ? data : (data.testimonials || data.data || []);
+      // Normalize slim schema {b,c,id,u,biz} → {business, comment, url, id}
+      allTestimonials = arr.map(t => ({
+        id: t.id,
+        business: decodeEntities(t.biz || t.b || t.business || ''),
+        rawBusiness: decodeEntities(t.b || t.business || ''),
+        comment: decodeEntities(t.c || t.comment || t.comments || ''),
+        url: t.u || t.url || '',
+      })).filter(t => t.comment);
+      testimonialsLoaded = true;
+    } catch (e) {
+      // Fallback to the smaller cache file used by TestimonialSearch.
+      try {
+        const res2 = await fetch(import.meta.env.BASE_URL + 'data/testimonials_cache.json?t=' + Date.now());
+        const data2 = await res2.json();
+        const arr2 = Array.isArray(data2) ? data2 : (data2.testimonials || []);
+        allTestimonials = arr2.map((t, i) => ({
+          id: t.id || i,
+          business: decodeEntities(t.business_name || ''),
+          rawBusiness: decodeEntities(t.business_name || ''),
+          comment: decodeEntities(t.comments || ''),
+          url: t.url || '',
+        })).filter(t => t.comment);
+        testimonialsLoaded = true;
+      } catch (e2) {
+        console.warn('[Quote] testimonials load failed:', e2);
+      }
+    }
+  }
+
+  function openTestimonialPicker() {
+    showTestimonialPicker = true;
+    loadTestimonials();
+  }
+
+  function filterTestimonials() {
+    const term = testimonialSearch.trim().toLowerCase();
+    if (!term) { testimonialResults = []; return; }
+    testimonialResults = allTestimonials.filter(t =>
+      t.comment.toLowerCase().includes(term) ||
+      t.business.toLowerCase().includes(term) ||
+      t.rawBusiness.toLowerCase().includes(term)
+    ).slice(0, 25);
+  }
+
+  function selectTestimonial(t) {
+    selectedTestimonial = t;
+    showTestimonialPicker = false;
+    testimonialSearch = '';
+    testimonialResults = [];
+  }
+
+  function clearTestimonial() {
+    selectedTestimonial = null;
+    videoTestimonialUrl = '';
+  }
+
+  // Accept only Google Drive links or IndoorMedia's YouTube channel/videos.
+  function isValidVideoTestimonialUrl(u) {
+    if (!u) return false;
+    const s = u.trim().toLowerCase();
+    return (
+      s.includes('drive.google.com') ||
+      s.includes('docs.google.com') ||
+      s.includes('youtube.com') ||
+      s.includes('youtu.be')
+    );
+  }
+  $: videoUrlValid = !videoTestimonialUrl.trim() || isValidVideoTestimonialUrl(videoTestimonialUrl);
+
+  // Render the selected testimonial to a canvas so it embeds as a crisp image
+  // (a mini "testimonial card") on its own PDF page. Returns a PNG data URL.
+  function renderTestimonialImage(t) {
+    const scale = 2; // hi-DPI for crisp text in the PDF
+    const W = 900, H = 380;
+    const canvas = document.createElement('canvas');
+    canvas.width = W * scale; canvas.height = H * scale;
+    const ctx = canvas.getContext('2d');
+    ctx.scale(scale, scale);
+
+    // Card background + border
+    ctx.fillStyle = '#ffffff';
+    ctx.fillRect(0, 0, W, H);
+    ctx.strokeStyle = '#e2e2e2';
+    ctx.lineWidth = 2;
+    ctx.strokeRect(1, 1, W - 2, H - 2);
+    // Left accent bar (IndoorMedia red)
+    ctx.fillStyle = '#CC0000';
+    ctx.fillRect(0, 0, 10, H);
+
+    // Big quotation mark
+    ctx.fillStyle = '#f0c9c9';
+    ctx.font = '900 110px Georgia, serif';
+    ctx.fillText('\u201C', 34, 120);
+
+    // Wrapped comment text
+    ctx.fillStyle = '#222222';
+    ctx.font = '500 26px Georgia, serif';
+    const maxW = W - 130;
+    const words = ('\u201C' + t.comment + '\u201D').split(' ');
+    let line = '', yy = 90; const lh = 38; const startX = 60;
+    const lines = [];
+    for (const w of words) {
+      const test = line ? line + ' ' + w : w;
+      if (ctx.measureText(test).width > maxW && line) { lines.push(line); line = w; }
+      else line = test;
+    }
+    if (line) lines.push(line);
+    // Cap the number of lines so the card never overflows.
+    const maxLines = 6;
+    let shown = lines.slice(0, maxLines);
+    if (lines.length > maxLines) shown[maxLines - 1] = shown[maxLines - 1].replace(/[\s\S]{0,3}$/, '') + '\u2026';
+    for (const ln of shown) { ctx.fillText(ln, startX, yy); yy += lh; }
+
+    // Attribution
+    yy += 10;
+    ctx.fillStyle = '#CC0000';
+    ctx.font = '800 24px Arial, sans-serif';
+    ctx.fillText('\u2014 ' + (t.business || 'Verified IndoorMedia Advertiser'), startX, Math.min(yy, H - 40));
+
+    // Footer brand line
+    ctx.fillStyle = '#888888';
+    ctx.font = '600 15px Arial, sans-serif';
+    ctx.fillText('Verified customer testimonial  |  IndoorMedia', startX, H - 20);
+
+    return canvas.toDataURL('image/png');
+  }
 
   // Drag-and-drop reorder state
   let dragIndex = null;
@@ -889,6 +1043,52 @@
       ]);
     }
 
+    // Testimonial — embed the rep-selected testimonial as an image on its own
+    // page, followed by an optional video-testimonial link (Drive / YouTube).
+    if (selectedTestimonial) {
+      try {
+        const tImgUrl = renderTestimonialImage(selectedTestimonial);
+        const tBytes = await fetch(tImgUrl).then(r => r.arrayBuffer());
+        const tImg = await pdfDoc.embedPng(tBytes);
+        page.drawText('IndoorMedia  |  indoormedia.com', { x: 612/2 - regular.widthOfTextAtSize('IndoorMedia  |  indoormedia.com', 9)/2, y: 30, size: 9, font: regular, color: gray });
+        page = pdfDoc.addPage([612, 792]);
+        let ty = 792;
+        page.drawRectangle({ x: 0, y: ty - 60, width: 612, height: 60, color: red });
+        page.drawText('What Our Advertisers Say', { x: 30, y: ty - 38, size: 22, font: bold, color: white });
+        ty -= 90;
+        // Scale the 900x380 testimonial card to the 552pt content width.
+        const tW = 552;
+        const tH = tW * (tImg.height / tImg.width);
+        page.drawImage(tImg, { x: 30, y: ty - tH, width: tW, height: tH });
+        ty -= tH + 26;
+
+        // Optional video-testimonial link (clickable).
+        if (videoTestimonialUrl.trim() && isValidVideoTestimonialUrl(videoTestimonialUrl)) {
+          const vurl = videoTestimonialUrl.trim();
+          const src = /youtu/.test(vurl.toLowerCase()) ? 'IndoorMedia YouTube' : 'Google Drive';
+          page.drawRectangle({ x: 30, y: ty - 44, width: 552, height: 44, color: rgb(0.97, 0.93, 0.93), borderColor: red, borderWidth: 1 });
+          page.drawText('\u25B6  Watch a video testimonial (' + src + ')', { x: 46, y: ty - 20, size: 12, font: bold, color: red });
+          const linkTxt = vurl.replace(/[^\x20-\x7E]/g, '');
+          const shortLink = linkTxt.length > 90 ? linkTxt.slice(0, 87) + '...' : linkTxt;
+          page.drawText(shortLink, { x: 46, y: ty - 36, size: 8.5, font: regular, color: rgb(0.15, 0.33, 0.78) });
+          // Clickable link annotation over the whole box.
+          try {
+            const linkAnnot = pdfDoc.context.obj({
+              Type: 'Annot', Subtype: 'Link',
+              Rect: [30, ty - 44, 582, ty],
+              Border: [0, 0, 0],
+              A: { Type: 'Action', S: 'URI', URI: PDFString.of(vurl) },
+            });
+            const annots = page.node.lookup(PDFName.of('Annots'));
+            if (annots) annots.push(linkAnnot);
+            else page.node.set(PDFName.of('Annots'), pdfDoc.context.obj([linkAnnot]));
+          } catch (linkErr) { console.warn('[Quote PDF] testimonial link annot skipped:', linkErr); }
+        }
+      } catch (tErr) {
+        console.warn('[Quote PDF] testimonial embed skipped:', tErr);
+      }
+    }
+
     // Location map — embed the same OSM quote map on its own page so the customer
     // can see every location relative to the searched origin at a glance.
     try {
@@ -1396,6 +1596,72 @@
     {/if}
 
     <div class="quote-footer">
+      <!-- Testimonial attachment: rep searches for a SPECIFIC testimonial to embed -->
+      <div class="testimonial-attach">
+        {#if !selectedTestimonial}
+          {#if !showTestimonialPicker}
+            <button class="testi-add-btn" on:click={openTestimonialPicker}>➕ Add Testimonial to Quote</button>
+          {:else}
+            <div class="testi-picker">
+              <div class="testi-picker-head">
+                <strong>💬 Search testimonials to attach</strong>
+                <button class="testi-close" on:click={() => { showTestimonialPicker = false; }}>✕</button>
+              </div>
+              <input
+                type="text"
+                class="testi-search"
+                placeholder="Search by keyword, business, or comment…"
+                bind:value={testimonialSearch}
+                on:input={filterTestimonials}
+              />
+              {#if !testimonialsLoaded}
+                <p class="testi-hint">Loading testimonials…</p>
+              {:else if testimonialSearch.trim() && testimonialResults.length === 0}
+                <p class="testi-hint">No testimonials match “{testimonialSearch}”</p>
+              {:else if !testimonialSearch.trim()}
+                <p class="testi-hint">Type to find a specific testimonial to embed as an image in the quote.</p>
+              {:else}
+                <div class="testi-results">
+                  {#each testimonialResults as t (t.id)}
+                    <button class="testi-result" on:click={() => selectTestimonial(t)}>
+                      <span class="testi-result-biz">{t.business || 'IndoorMedia Advertiser'}</span>
+                      <span class="testi-result-comment">“{t.comment}”</span>
+                    </button>
+                  {/each}
+                </div>
+              {/if}
+            </div>
+          {/if}
+        {:else}
+          <div class="testi-selected">
+            <div class="testi-selected-head">
+              <span>✅ Testimonial attached</span>
+              <button class="testi-change" on:click={openTestimonialPicker}>Change</button>
+              <button class="testi-remove" on:click={clearTestimonial}>Remove</button>
+            </div>
+            <div class="testi-selected-biz">{selectedTestimonial.business || 'IndoorMedia Advertiser'}</div>
+            <div class="testi-selected-comment">“{selectedTestimonial.comment}”</div>
+
+            <!-- After picking a testimonial: optional video-testimonial link -->
+            <div class="video-testi-row">
+              <label class="video-testi-label">🎥 Video testimonial link (optional — Google Drive or IndoorMedia YouTube)</label>
+              <input
+                type="url"
+                class="video-testi-input"
+                class:invalid={!videoUrlValid}
+                placeholder="Paste a Google Drive or YouTube link…"
+                bind:value={videoTestimonialUrl}
+              />
+              {#if !videoUrlValid}
+                <p class="video-testi-warn">Link must be a Google Drive or YouTube (IndoorMedia channel) URL.</p>
+              {:else if videoTestimonialUrl.trim()}
+                <p class="video-testi-ok">✓ Will be added as a clickable link on the testimonial page.</p>
+              {/if}
+            </div>
+          </div>
+        {/if}
+      </div>
+
       <div class="business-name-row">
         <input type="text" class="business-name-input" placeholder="Business name (for quote)" bind:value={businessName} />
       </div>
@@ -1593,6 +1859,36 @@
   .remove-btn:hover { color: #CC0000; }
 
   .quote-footer { padding: 16px; background: #f5f5f5; border-radius: 12px; }
+
+  /* Testimonial attachment */
+  .testimonial-attach { margin-bottom: 12px; }
+  .testi-add-btn { width: 100%; padding: 11px; background: #fff; color: #CC0000; border: 1.5px dashed #CC0000; border-radius: 8px; font-size: 14px; font-weight: 700; cursor: pointer; }
+  .testi-add-btn:hover { background: #fff5f5; }
+  .testi-picker { background: #fff; border: 1px solid #e0e0e0; border-radius: 10px; padding: 12px; }
+  .testi-picker-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; font-size: 13px; }
+  .testi-close { background: none; border: none; font-size: 16px; cursor: pointer; color: #888; }
+  .testi-search { width: 100%; padding: 9px 11px; border: 1px solid #ccc; border-radius: 8px; font-size: 14px; box-sizing: border-box; }
+  .testi-search:focus { outline: none; border-color: #CC0000; }
+  .testi-hint { font-size: 12px; color: #888; margin: 8px 2px 0; }
+  .testi-results { max-height: 260px; overflow-y: auto; margin-top: 8px; display: flex; flex-direction: column; gap: 6px; }
+  .testi-result { text-align: left; background: #fafafa; border: 1px solid #ececec; border-radius: 8px; padding: 9px 11px; cursor: pointer; display: flex; flex-direction: column; gap: 3px; }
+  .testi-result:hover { background: #fff5f5; border-color: #CC0000; }
+  .testi-result-biz { font-weight: 700; font-size: 12.5px; color: #CC0000; }
+  .testi-result-comment { font-size: 12px; color: #444; line-height: 1.35; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
+  .testi-selected { background: #fff; border: 1px solid #d6ecd8; border-radius: 10px; padding: 12px; }
+  .testi-selected-head { display: flex; align-items: center; gap: 10px; font-size: 13px; font-weight: 700; color: #2e7d32; margin-bottom: 6px; }
+  .testi-change, .testi-remove { margin-left: auto; background: none; border: none; font-size: 12px; cursor: pointer; text-decoration: underline; }
+  .testi-change { color: #1565c0; margin-left: auto; }
+  .testi-remove { color: #CC0000; margin-left: 4px; }
+  .testi-selected-biz { font-weight: 700; font-size: 12.5px; color: #CC0000; }
+  .testi-selected-comment { font-size: 12px; color: #444; line-height: 1.4; margin-top: 2px; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
+  .video-testi-row { margin-top: 12px; padding-top: 10px; border-top: 1px dashed #e0e0e0; }
+  .video-testi-label { display: block; font-size: 11.5px; font-weight: 600; color: #555; margin-bottom: 5px; }
+  .video-testi-input { width: 100%; padding: 9px 11px; border: 1px solid #ccc; border-radius: 8px; font-size: 13px; box-sizing: border-box; }
+  .video-testi-input:focus { outline: none; border-color: #CC0000; }
+  .video-testi-input.invalid { border-color: #CC0000; background: #fff5f5; }
+  .video-testi-warn { font-size: 11px; color: #CC0000; margin: 5px 2px 0; }
+  .video-testi-ok { font-size: 11px; color: #2e7d32; margin: 5px 2px 0; }
   .footer-actions { display: flex; gap: 8px; }
   .business-name-row { margin-bottom: 10px; }
   .business-name-input { width: 100%; padding: 10px 12px; border: 1px solid #ddd; border-radius: 8px; font-size: 14px; box-sizing: border-box; }
