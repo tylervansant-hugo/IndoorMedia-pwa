@@ -51,6 +51,11 @@
         rawBusiness: decodeEntities(t.b || t.business || ''),
         comment: decodeEntities(t.c || t.comment || t.comments || ''),
         url: t.u || t.url || '',
+        img: t.img || '',                         // local ad image path (CORS-safe)
+        phone: decodeEntities(t.phone || ''),
+        addr: decodeEntities(t.addr || ''),
+        grocery: decodeEntities(t.grocery || ''),
+        custname: decodeEntities(t.custname || ''),
       })).filter(t => t.comment);
       testimonialsLoaded = true;
     } catch (e) {
@@ -98,9 +103,11 @@
   function clearTestimonial() {
     selectedTestimonial = null;
     videoTestimonialUrl = '';
+    clearVideoGallery();
   }
 
-  // Accept only Google Drive links or IndoorMedia's YouTube channel/videos.
+  // Accept Google Drive links, IndoorMedia's YouTube channel/videos, or
+  // Tyler's TikTok (tyhasreceipts).
   function isValidVideoTestimonialUrl(u) {
     if (!u) return false;
     const s = u.trim().toLowerCase();
@@ -108,16 +115,49 @@
       s.includes('drive.google.com') ||
       s.includes('docs.google.com') ||
       s.includes('youtube.com') ||
-      s.includes('youtu.be')
+      s.includes('youtu.be') ||
+      s.includes('tiktok.com')
     );
   }
   $: videoUrlValid = !videoTestimonialUrl.trim() || isValidVideoTestimonialUrl(videoTestimonialUrl);
 
-  // Render the selected testimonial to a canvas so it embeds as a crisp image
-  // (a mini "testimonial card") on its own PDF page. Returns a PNG data URL.
+  // Human-readable source label for a given video link.
+  function videoSourceLabel(u) {
+    const s = (u || '').toLowerCase();
+    if (s.includes('tiktok')) return 'TikTok @tyhasreceipts';
+    if (s.includes('youtu')) return 'IndoorMedia YouTube';
+    if (s.includes('google')) return 'Google Drive';
+    return 'Video';
+  }
+
+  // Device gallery attachment (rep records/picks a video on their phone). Stored
+  // as an object URL + File so it can be shared alongside the PDF; the PDF notes
+  // that a video is attached separately (a raw video can't embed in a PDF).
+  let videoGalleryFile = null;
+  let videoGalleryName = '';
+  function handleVideoGalleryPick(e) {
+    const f = e.target.files && e.target.files[0];
+    if (!f) return;
+    videoGalleryFile = f;
+    videoGalleryName = f.name;
+  }
+  function clearVideoGallery() {
+    videoGalleryFile = null;
+    videoGalleryName = '';
+  }
+
+  // TikTok quick-fill helper (Tyler's account).
+  function fillTikTok() {
+    videoTestimonialUrl = 'https://www.tiktok.com/@tyhasreceipts';
+  }
+
+  // Render the selected testimonial's TEXT card (quote + attribution + contact
+  // info) to a canvas so it embeds as a crisp image in the PDF. The actual ad
+  // artwork is embedded separately (see exportQuotePdf) from the local
+  // testimonial_ads/<id>.jpg asset. Returns a PNG data URL.
   function renderTestimonialImage(t) {
     const scale = 2; // hi-DPI for crisp text in the PDF
-    const W = 900, H = 380;
+    const W = 900, H = 420;
     const canvas = document.createElement('canvas');
     canvas.width = W * scale; canvas.height = H * scale;
     const ctx = canvas.getContext('2d');
@@ -152,23 +192,61 @@
     }
     if (line) lines.push(line);
     // Cap the number of lines so the card never overflows.
-    const maxLines = 6;
+    const maxLines = 5;
     let shown = lines.slice(0, maxLines);
     if (lines.length > maxLines) shown[maxLines - 1] = shown[maxLines - 1].replace(/[\s\S]{0,3}$/, '') + '\u2026';
     for (const ln of shown) { ctx.fillText(ln, startX, yy); yy += lh; }
 
     // Attribution
-    yy += 10;
+    yy += 12;
     ctx.fillStyle = '#CC0000';
     ctx.font = '800 24px Arial, sans-serif';
-    ctx.fillText('\u2014 ' + (t.business || 'Verified IndoorMedia Advertiser'), startX, Math.min(yy, H - 40));
+    const bizLine = (t.business || t.custname || 'Verified IndoorMedia Advertiser');
+    ctx.fillText('\u2014 ' + bizLine, startX, yy);
+    yy += 34;
+
+    // Contact info block (from the source testimonial page)
+    ctx.font = '600 18px Arial, sans-serif';
+    ctx.fillStyle = '#333333';
+    const contactBits = [];
+    if (t.custname && t.custname !== t.business) contactBits.push(t.custname);
+    if (t.addr) contactBits.push(t.addr);
+    if (t.phone) contactBits.push('Phone: ' + t.phone);
+    if (t.grocery) contactBits.push('Advertising at: ' + t.grocery);
+    for (const bit of contactBits) {
+      if (yy > H - 46) break;
+      // truncate long address lines to card width
+      let s = bit;
+      while (ctx.measureText(s).width > maxW && s.length > 4) s = s.slice(0, -2);
+      if (s !== bit) s = s.replace(/\s+\S*$/, '') + '\u2026';
+      ctx.fillText(s, startX, yy);
+      yy += 26;
+    }
 
     // Footer brand line
     ctx.fillStyle = '#888888';
     ctx.font = '600 15px Arial, sans-serif';
-    ctx.fillText('Verified customer testimonial  |  IndoorMedia', startX, H - 20);
+    ctx.fillText('Verified customer testimonial  |  IndoorMedia', startX, H - 18);
 
     return canvas.toDataURL('image/png');
+  }
+
+  // Load an image URL into a PNG data URL via canvas (so pdf-lib can embed it
+  // regardless of source format). Local same-origin asset => no CORS taint.
+  function loadLocalImageAsPng(src) {
+    return new Promise((resolve) => {
+      const img = new Image();
+      img.onload = () => {
+        try {
+          const c = document.createElement('canvas');
+          c.width = img.naturalWidth; c.height = img.naturalHeight;
+          c.getContext('2d').drawImage(img, 0, 0);
+          resolve({ dataUrl: c.toDataURL('image/png'), w: img.naturalWidth, h: img.naturalHeight });
+        } catch (e) { resolve(null); }
+      };
+      img.onerror = () => resolve(null);
+      img.src = src;
+    });
   }
 
   // Drag-and-drop reorder state
@@ -1055,8 +1133,32 @@
         let ty = 792;
         page.drawRectangle({ x: 0, y: ty - 60, width: 612, height: 60, color: red });
         page.drawText('What Our Advertisers Say', { x: 30, y: ty - 38, size: 22, font: bold, color: white });
-        ty -= 90;
-        // Scale the 900x380 testimonial card to the 552pt content width.
+        ty -= 84;
+
+        // Embed the actual ad artwork (local, CORS-safe) above the quote card.
+        if (selectedTestimonial.img) {
+          try {
+            const adSrc = import.meta.env.BASE_URL + selectedTestimonial.img;
+            const ad = await loadLocalImageAsPng(adSrc);
+            if (ad) {
+              const adEmbed = await pdfDoc.embedPng(ad.dataUrl);
+              // Fit the ad within a 300pt-wide box, centered, cap height ~300pt.
+              const boxW = 300;
+              let adW = boxW;
+              let adH = adW * (adEmbed.height / adEmbed.width);
+              if (adH > 300) { adH = 300; adW = adH * (adEmbed.width / adEmbed.height); }
+              const adX = (612 - adW) / 2;
+              page.drawText('Their Ad', { x: 30, y: ty, size: 12, font: bold, color: red });
+              ty -= 12;
+              // subtle frame
+              page.drawRectangle({ x: adX - 4, y: ty - adH - 4, width: adW + 8, height: adH + 8, borderColor: rgb(0.8,0.8,0.8), borderWidth: 1 });
+              page.drawImage(adEmbed, { x: adX, y: ty - adH, width: adW, height: adH });
+              ty -= adH + 22;
+            }
+          } catch (adErr) { console.warn('[Quote PDF] ad image embed skipped:', adErr); }
+        }
+
+        // Scale the testimonial text/contact card to the 552pt content width.
         const tW = 552;
         const tH = tW * (tImg.height / tImg.width);
         page.drawImage(tImg, { x: 30, y: ty - tH, width: tW, height: tH });
@@ -1065,7 +1167,7 @@
         // Optional video-testimonial link (clickable).
         if (videoTestimonialUrl.trim() && isValidVideoTestimonialUrl(videoTestimonialUrl)) {
           const vurl = videoTestimonialUrl.trim();
-          const src = /youtu/.test(vurl.toLowerCase()) ? 'IndoorMedia YouTube' : 'Google Drive';
+          const src = videoSourceLabel(vurl);
           page.drawRectangle({ x: 30, y: ty - 44, width: 552, height: 44, color: rgb(0.97, 0.93, 0.93), borderColor: red, borderWidth: 1 });
           page.drawText('\u25B6  Watch a video testimonial (' + src + ')', { x: 46, y: ty - 20, size: 12, font: bold, color: red });
           const linkTxt = vurl.replace(/[^\x20-\x7E]/g, '');
@@ -1083,6 +1185,16 @@
             if (annots) annots.push(linkAnnot);
             else page.node.set(PDFName.of('Annots'), pdfDoc.context.obj([linkAnnot]));
           } catch (linkErr) { console.warn('[Quote PDF] testimonial link annot skipped:', linkErr); }
+          ty -= 54;
+        }
+
+        // Device-gallery video: can't embed a raw video in a PDF, so note that
+        // it's shared as a separate file with the quote.
+        if (videoGalleryFile) {
+          page.drawRectangle({ x: 30, y: ty - 34, width: 552, height: 34, color: rgb(0.96, 0.96, 0.96), borderColor: rgb(0.75,0.75,0.75), borderWidth: 1 });
+          const vname = (videoGalleryName || 'video').replace(/[^\x20-\x7E]/g, '');
+          page.drawText('\uD83C\uDFA5  Video testimonial attached separately: ' + (vname.length > 60 ? vname.slice(0,57)+'...' : vname), { x: 46, y: ty - 21, size: 10.5, font: bold, color: gray });
+          ty -= 44;
         }
       } catch (tErr) {
         console.warn('[Quote PDF] testimonial embed skipped:', tErr);
@@ -1129,8 +1241,12 @@
 
     if (navigator.share && /iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {
       try {
-        const file = new File([bytes], filename, { type: 'application/pdf' });
-        await navigator.share({ files: [file], title: filename });
+        const files = [new File([bytes], filename, { type: 'application/pdf' })];
+        // Attach the device-gallery video alongside the PDF when present.
+        if (videoGalleryFile && navigator.canShare && navigator.canShare({ files: [videoGalleryFile] })) {
+          files.push(videoGalleryFile);
+        }
+        await navigator.share({ files, title: filename });
         return;
       } catch (e) { /* fallback below */ }
     }
@@ -1642,21 +1758,40 @@
             <div class="testi-selected-biz">{selectedTestimonial.business || 'IndoorMedia Advertiser'}</div>
             <div class="testi-selected-comment">“{selectedTestimonial.comment}”</div>
 
-            <!-- After picking a testimonial: optional video-testimonial link -->
+            <!-- After picking a testimonial: optional video testimonial -->
             <div class="video-testi-row">
-              <label class="video-testi-label">🎥 Video testimonial link (optional — Google Drive or IndoorMedia YouTube)</label>
+              <label class="video-testi-label">🎥 Video testimonial (optional)</label>
+              <div class="video-src-btns">
+                <button type="button" class="video-src-btn tiktok" on:click={fillTikTok}>🎵 TikTok @tyhasreceipts</button>
+              </div>
               <input
                 type="url"
                 class="video-testi-input"
                 class:invalid={!videoUrlValid}
-                placeholder="Paste a Google Drive or YouTube link…"
+                placeholder="Paste a Google Drive, YouTube, or TikTok link…"
                 bind:value={videoTestimonialUrl}
               />
               {#if !videoUrlValid}
-                <p class="video-testi-warn">Link must be a Google Drive or YouTube (IndoorMedia channel) URL.</p>
+                <p class="video-testi-warn">Link must be Google Drive, IndoorMedia YouTube, or TikTok (@tyhasreceipts).</p>
               {:else if videoTestimonialUrl.trim()}
-                <p class="video-testi-ok">✓ Will be added as a clickable link on the testimonial page.</p>
+                <p class="video-testi-ok">✓ {videoSourceLabel(videoTestimonialUrl)} link — added as a clickable button on the testimonial page.</p>
               {/if}
+
+              <div class="video-gallery-row">
+                <label class="video-gallery-label">— or attach a video from this device —</label>
+                {#if !videoGalleryFile}
+                  <label class="video-gallery-btn">
+                    📱 Choose / record video
+                    <input type="file" accept="video/*" capture="environment" on:change={handleVideoGalleryPick} hidden />
+                  </label>
+                {:else}
+                  <div class="video-gallery-picked">
+                    <span>🎥 {videoGalleryName}</span>
+                    <button type="button" class="video-gallery-remove" on:click={clearVideoGallery}>Remove</button>
+                  </div>
+                  <p class="video-testi-ok">✓ Will be shared as a separate file alongside the PDF.</p>
+                {/if}
+              </div>
             </div>
           </div>
         {/if}
@@ -1889,6 +2024,17 @@
   .video-testi-input.invalid { border-color: #CC0000; background: #fff5f5; }
   .video-testi-warn { font-size: 11px; color: #CC0000; margin: 5px 2px 0; }
   .video-testi-ok { font-size: 11px; color: #2e7d32; margin: 5px 2px 0; }
+  .video-src-btns { display: flex; gap: 8px; margin-bottom: 7px; flex-wrap: wrap; }
+  .video-src-btn { padding: 7px 12px; border-radius: 8px; border: 1px solid #ddd; background: #fff; font-size: 12px; font-weight: 700; cursor: pointer; }
+  .video-src-btn.tiktok { background: #111; color: #fff; border-color: #111; }
+  .video-src-btn.tiktok:hover { background: #000; }
+  .video-gallery-row { margin-top: 10px; }
+  .video-gallery-label { display: block; text-align: center; font-size: 10.5px; color: #999; margin-bottom: 6px; }
+  .video-gallery-btn { display: inline-block; width: 100%; text-align: center; padding: 9px; border: 1px dashed #bbb; border-radius: 8px; font-size: 13px; font-weight: 600; color: #444; cursor: pointer; box-sizing: border-box; }
+  .video-gallery-btn:hover { background: #f5f5f5; }
+  .video-gallery-picked { display: flex; align-items: center; gap: 10px; background: #f0f7f0; border: 1px solid #d6ecd8; border-radius: 8px; padding: 8px 11px; font-size: 12.5px; }
+  .video-gallery-picked span { flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .video-gallery-remove { background: none; border: none; color: #CC0000; font-size: 12px; cursor: pointer; text-decoration: underline; }
   .footer-actions { display: flex; gap: 8px; }
   .business-name-row { margin-bottom: 10px; }
   .business-name-input { width: 100%; padding: 10px 12px; border: 1px solid #ddd; border-radius: 8px; font-size: 14px; box-sizing: border-box; }
