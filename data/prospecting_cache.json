@@ -16281,7 +16281,215 @@
       ],
       "createdAt": "2026-05-31T11:14:45.587413",
       "count": 3
+    },
+    "8709d9810cad3ae3": {
+      "storeNumber": "FME07Y-0393",
+      "category": "all restaurants",
+      "prospects": [
+        {
+          "name": "All Blue Teriyaki",
+          "type": "restaurant, food, point_of_interest, establishment",
+          "address": "19352 SW Boones Ferry Rd, Tualatin",
+          "lat": 45.3799023,
+          "lon": -122.7635466,
+          "distance_miles": 0.33,
+          "likelihood_score": 96,
+          "rating": 5,
+          "user_ratings_total": 19,
+          "phone": "+1 503-927-0873",
+          "website": null,
+          "place_id": "ChIJixs2rjNzlVQRuOSxM29NRJQ",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        },
+        {
+          "name": "Dave's Hot Chicken",
+          "type": "restaurant, food, point_of_interest, establishment",
+          "address": "7715 SW Nyberg St Ste D, Tualatin",
+          "lat": 45.383002,
+          "lon": -122.7570445,
+          "distance_miles": 0.11,
+          "likelihood_score": 96,
+          "rating": 4.7,
+          "user_ratings_total": 1837,
+          "phone": "+1 503-427-1775",
+          "website": "https://restaurants.daveshotchicken.com/or/tualatin/7715-sw-nyberg-st-1023?utm_campaign=google_maps&utm_medium=organic&utm_source=google&utm_content=website&utm_term=1023",
+          "place_id": "ChIJ-WRO5sJzlVQRUBhZvdf6o_w",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        },
+        {
+          "name": "Hen House",
+          "type": "restaurant, food, point_of_interest, establishment",
+          "address": "7403 SW Bridgeport Rd, Tigard",
+          "lat": 45.3962528,
+          "lon": -122.7521366,
+          "distance_miles": 1.05,
+          "likelihood_score": 85,
+          "rating": 4.2,
+          "user_ratings_total": 47,
+          "phone": "+1 971-371-4134",
+          "website": "https://www.henhousepdx.com/",
+          "place_id": "ChIJ-y2xs3hzlVQRO0GVqU2XWpQ",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        },
+        {
+          "name": "Super Chix - Chicken & Custard",
+          "type": "restaurant, meal_takeaway, food, point_of_interest, establishment",
+          "address": "7126 SW Hazel Fern Rd, Tigard",
+          "lat": 45.3949022,
+          "lon": -122.7510557,
+          "distance_miles": 0.98,
+          "likelihood_score": 87,
+          "rating": 4.4,
+          "user_ratings_total": 154,
+          "phone": "+1 971-441-6159",
+          "website": "https://www.superchix.com/locations#!/or/tualatin/7126-sw-hazel-fern-road",
+          "place_id": "ChIJw_l7lPtzlVQRxkyia7PcL-Q",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        },
+        {
+          "name": "Elmer's Restaurant",
+          "type": "restaurant, food, point_of_interest, establishment",
+          "address": "19365 SW Martinazzi Ave, Tualatin",
+          "lat": 45.3799067,
+          "lon": -122.7595679,
+          "distance_miles": 0.16,
+          "likelihood_score": 96,
+          "rating": 4.6,
+          "user_ratings_total": 96,
+          "phone": "+1 503-885-3436",
+          "website": "http://www.eatatelmers.com/",
+          "place_id": "ChIJTUldVgBzlVQRp6UHXUBgjds",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        },
+        {
+          "name": "Baguette Bros",
+          "type": "restaurant, food, point_of_interest, establishment",
+          "address": "7028 SW Nyberg St, Tualatin",
+          "lat": 45.3821539,
+          "lon": -122.7480709,
+          "distance_miles": 0.44,
+          "likelihood_score": 94,
+          "rating": 4.9,
+          "user_ratings_total": 131,
+          "phone": "+1 503-885-3861",
+          "website": "https://baguette-bros.squarespace.com/menu",
+          "place_id": "ChIJoXDLoYRzlVQRTz_5y6DxdYM",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        },
+        {
+          "name": "Brix Tavern - Tualatin",
+          "type": "restaurant, food, point_of_interest, establishment",
+          "address": "8187 SW Tualatin-Sherwood Rd, Tualatin",
+          "lat": 45.3819397,
+          "lon": -122.761212,
+          "distance_miles": 0.21,
+          "likelihood_score": 92,
+          "rating": 4,
+          "user_ratings_total": 644,
+          "phone": "+1 503-410-7553",
+          "website": "https://brixtavern.com/",
+          "place_id": "ChIJd0V4UeVzlVQRMvDdj7tZIvY",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        },
+        {
+          "name": "60's Cafe & Diner",
+          "type": "restaurant, food, point_of_interest, establishment",
+          "address": "19358 SW Boones Ferry Rd, Tualatin",
+          "lat": 45.3798338,
+          "lon": -122.7639321,
+          "distance_miles": 0.35,
+          "likelihood_score": 94,
+          "rating": 4.7,
+          "user_ratings_total": 1508,
+          "phone": "+1 503-427-2227",
+          "website": "https://60scafeanddiner.com/",
+          "place_id": "ChIJiV7bcpJzlVQRulmhUs3kKcI",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        },
+        {
+          "name": "Aloha Grill Hawaiian Bbq",
+          "type": "restaurant, food, point_of_interest, establishment",
+          "address": "19267 SW Martinazzi Ave, Tualatin",
+          "lat": 45.3804873,
+          "lon": -122.7603766,
+          "distance_miles": 0.17,
+          "likelihood_score": 93,
+          "rating": 4.1,
+          "user_ratings_total": 481,
+          "phone": "+1 503-612-9091",
+          "website": "https://alohagrillor.com/",
+          "place_id": "ChIJq7-WBYZylVQRJlO-S_NgEEA",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        },
+        {
+          "name": "Sunny's Diner | Tualatin - Nyberg Woods",
+          "type": "restaurant, food, point_of_interest, establishment",
+          "address": "7107 SW Nyberg St, Tualatin",
+          "lat": 45.383413,
+          "lon": -122.7505794,
+          "distance_miles": 0.34,
+          "likelihood_score": 94,
+          "rating": 4.6,
+          "user_ratings_total": 622,
+          "phone": "+1 503-658-9988",
+          "website": "http://www.sunnysdiner.com/",
+          "place_id": "ChIJB0BIOZFzlVQR0KBqTHFpYq0",
+          "opening_hours": {
+            "open_now": true
+          },
+          "business_status": "OPERATIONAL",
+          "price_level": null,
+          "source": "Google Places"
+        }
+      ],
+      "createdAt": "2026-07-26T11:46:12.400915",
+      "count": 10
     }
   },
-  "lastUpdated": "2026-05-31T11:14:45.587432"
+  "lastUpdated": "2026-07-26T11:46:12.400930"
 }
