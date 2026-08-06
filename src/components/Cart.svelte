@@ -243,6 +243,9 @@
   function loadLocalImageAsPng(src) {
     return new Promise((resolve) => {
       const img = new Image();
+      // CDN-hosted testimonial ads (jsDelivr) send CORS headers; request them
+      // anonymously so the canvas stays untainted and exportable to PNG.
+      if (/^https?:\/\//i.test(src)) img.crossOrigin = 'anonymous';
       img.onload = () => {
         try {
           const c = document.createElement('canvas');
@@ -254,6 +257,15 @@
       img.onerror = () => resolve(null);
       img.src = src;
     });
+  }
+
+  // Testimonial ad images live in the repo (public/testimonial_ads/<id>.jpg) but
+  // are NOT deployed to GitHub Pages (they'd blow the 1GB site limit). Serve them
+  // from jsDelivr, which mirrors the repo's main branch with CORS headers.
+  const TESTIMONIAL_AD_CDN = 'https://cdn.jsdelivr.net/gh/tylervansant-hugo/IndoorMedia-pwa@main/public/';
+  function testimonialAdUrl(imgPath) {
+    const p = String(imgPath || '').replace(/^\/+/, '');
+    return TESTIMONIAL_AD_CDN + p; // e.g. .../public/testimonial_ads/54592.jpg
   }
 
   // Drag-and-drop reorder state
@@ -1201,10 +1213,12 @@
             ty -= 84;
           }
 
-          // Embed the actual ad artwork (local, CORS-safe) above the quote card.
+          // Embed the actual ad artwork above the quote card. The ~10k ad images
+          // are too large to ship on GitHub Pages (1GB limit), so they're served
+          // from jsDelivr (CDN mirror of the repo's main branch, CORS-enabled).
           if (testi.img) {
             try {
-              const adSrc = import.meta.env.BASE_URL + testi.img;
+              const adSrc = testimonialAdUrl(testi.img);
               const ad = await loadLocalImageAsPng(adSrc);
               if (ad) {
                 const adEmbed = await pdfDoc.embedPng(ad.dataUrl);
