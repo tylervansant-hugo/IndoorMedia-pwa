@@ -1109,6 +1109,16 @@ Store: ${store.StoreName}
   onMount(() => {
     loadStores();
     loadClaims();
+    // Universal search (homepage) can drive this view: prefill + filter, then
+    // optionally expand a specific store.
+    const onUniversalStore = (e) => {
+      const d = e.detail || {};
+      if (d.term != null) { searchTerm = d.term; filterStores(); }
+      if (d.storeName) {
+        setTimeout(() => { try { toggleExpand(d.storeName); } catch (_) {} }, 200);
+      }
+    };
+    document.addEventListener('universal-store-search', onUniversalStore);
   });
 </script>
 

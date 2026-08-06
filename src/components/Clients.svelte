@@ -910,8 +910,18 @@ IndoorMedia`;
   }
 
   function _handleEdgeBack() { if (view !== 'main') goBack(); }
-  onMount(() => { document.addEventListener('edge-swipe-back', _handleEdgeBack); });
-  onDestroy(() => { document.removeEventListener('edge-swipe-back', _handleEdgeBack); });
+  function _handleUniversalClientSearch(e) {
+    const d = e.detail || {};
+    if (d.term != null) { searchQuery = d.term; view = 'main'; }
+  }
+  onMount(() => {
+    document.addEventListener('edge-swipe-back', _handleEdgeBack);
+    document.addEventListener('universal-client-search', _handleUniversalClientSearch);
+  });
+  onDestroy(() => {
+    document.removeEventListener('edge-swipe-back', _handleEdgeBack);
+    document.removeEventListener('universal-client-search', _handleUniversalClientSearch);
+  });
 </script>
 
 <div class="clients-container">

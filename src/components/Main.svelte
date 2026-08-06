@@ -33,6 +33,14 @@
   import ManageReps from './ManageReps.svelte';
   import HotLeadsSubmit from './HotLeadsSubmit.svelte';
   import DrivingMode from './DrivingMode.svelte';
+  import UniversalSearch from './UniversalSearch.svelte';
+
+  // Universal homepage search → route to the right tab/view.
+  function handleUniversalNavigate(e) {
+    const d = e.detail || {};
+    if (d.storesView) storesView = d.storesView;
+    if (d.tab) currentTab = d.tab;
+  }
 
   let currentTab = 'dashboard';
   let previousTab = 'dashboard';
@@ -1257,6 +1265,9 @@
             <p class="cycle-pill">📦 {currentSellingCycle} Selling · {secondInstallCycle} installs {secondInstallDate} ({secondInstallDays}d)</p>
           {/if}
         </div>
+
+        <!-- Universal search: one bar to find stores, businesses, contacts, clients, testimonials -->
+        <UniversalSearch {allStores} {savedProspects} on:navigate={handleUniversalNavigate} />
 
         <div class="quick-actions-top">
           <button class="qa-btn qa-primary" on:click={() => { storesView = 'prospects'; currentTab = 'stores'; }}>

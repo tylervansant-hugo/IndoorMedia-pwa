@@ -647,10 +647,17 @@
       }
     });
 
+  function handleUniversalProspectSearch(e) {
+    const d = e.detail || {};
+    savedStoreFilter = '';
+    savedSearch = d.term != null ? d.term : '';
+    view = 'saved';
+  }
   onMount(async () => {
     document.addEventListener('select-store-from-map', handleStoreSelectFromMap);
     document.addEventListener('edge-swipe-back', handleEdgeSwipeBack);
     document.addEventListener('show-callin-leads', handleShowCallIn);
+    document.addEventListener('universal-prospect-search', handleUniversalProspectSearch);
     loadStoreClaims();
     loadLeadClaims();
     loadAllLeadData();
