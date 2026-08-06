@@ -259,13 +259,14 @@
     });
   }
 
-  // Testimonial ad images live in the repo (public/testimonial_ads/<id>.jpg) but
-  // are NOT deployed to GitHub Pages (they'd blow the 1GB site limit). Serve them
-  // from jsDelivr, which mirrors the repo's main branch with CORS headers.
-  const TESTIMONIAL_AD_CDN = 'https://cdn.jsdelivr.net/gh/tylervansant-hugo/IndoorMedia-pwa@main/public/';
+  // Testimonial ad images (~10k, ~1.1GB) live in a SEPARATE assets repo so the
+  // main app repo stays small enough for GitHub Pages to build. They're served
+  // from jsDelivr (CORS-enabled) rather than shipped with the deployed site.
+  const TESTIMONIAL_AD_CDN = 'https://cdn.jsdelivr.net/gh/tylervansant-hugo/indoormedia-ad-assets@main/';
   function testimonialAdUrl(imgPath) {
+    // imgPath is like 'testimonial_ads/54592.jpg' (strip any leading slash).
     const p = String(imgPath || '').replace(/^\/+/, '');
-    return TESTIMONIAL_AD_CDN + p; // e.g. .../public/testimonial_ads/54592.jpg
+    return TESTIMONIAL_AD_CDN + p; // e.g. .../indoormedia-ad-assets@main/testimonial_ads/54592.jpg
   }
 
   // Drag-and-drop reorder state

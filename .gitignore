@@ -60,3 +60,4 @@ docker-compose.yml
 server.js
 api-server.js
 .template-backups/
+testimonial_ads/
