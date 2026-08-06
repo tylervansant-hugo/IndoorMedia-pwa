@@ -917,6 +917,7 @@
 
   onMount(async () => {
     theme.subscribe(t => currentTheme = t);
+    applyFontScale(); // ensure saved text-size pref is applied app-wide on load
     updateCartCount();
     const interval = setInterval(updateCartCount, 2000);
     // Instant badge update when any component changes the cart.
@@ -1096,6 +1097,14 @@
 
   function applyFontScale() {
     fontScale = FONT_SIZES[fontIdx]?.scale || 1;
+    // Apply app-wide via the document root so ALL content scales,
+    // including fixed-position overlays/modals that are not DOM
+    // descendants affected by a container-scoped zoom.
+    if (typeof document !== 'undefined') {
+      try {
+        document.documentElement.style.zoom = String(fontScale);
+      } catch (e) { /* noop */ }
+    }
   }
 
   function cycleFontSize() {
@@ -1125,7 +1134,7 @@
   }
 </script>
 
-<div class="main" data-theme={currentTheme} style="zoom: {fontScale}; -moz-transform: scale({fontScale}); -moz-transform-origin: top left;"
+<div class="main" data-theme={currentTheme}
   on:touchstart|passive={(e) => {
     const x = e.touches[0].clientX;
     if (x < 30) { _appEdgeSwipe = true; _appEdgeStartX = x; _appEdgeDX = 0; }

@@ -799,6 +799,79 @@
     
     return results;
   }
+
+  // Full, searchable testimonial list (for the rep to pick a SPECIFIC one in
+  // the prospect email — same style as the quote tool; never auto-picked).
+  let allEmailTestimonials = [];
+  let emailTestimonialsLoaded = false;
+  function decodeEnt(str) {
+    if (!str) return '';
+    const el = document.createElement('textarea');
+    el.innerHTML = String(str);
+    return el.value.replace(/\s+/g, ' ').trim();
+  }
+  async function loadAllEmailTestimonials() {
+    if (emailTestimonialsLoaded) return;
+    try {
+      let response = await fetch(import.meta.env.BASE_URL + 'data/testimonials_slim.json?t=' + Date.now()).catch(() => null);
+      if (!response?.ok) response = await fetch(import.meta.env.BASE_URL + 'data/testimonials_cache.json?t=' + Date.now());
+      const data = await response.json();
+      const arr = Array.isArray(data) ? data : (data.testimonials || data.data || []);
+      allEmailTestimonials = arr.map((t, i) => ({
+        id: t.id != null ? t.id : i,
+        business: decodeEnt(t.biz || t.b || t.business || t.business_name || ''),
+        comment: decodeEnt(t.c || t.comment || t.comments || ''),
+        url: t.u || t.url || '',
+        phone: decodeEnt(t.phone || ''),
+        addr: decodeEnt(t.addr || ''),
+        grocery: decodeEnt(t.grocery || ''),
+        custname: decodeEnt(t.custname || ''),
+      })).filter(t => t.comment);
+      emailTestimonialsLoaded = true;
+    } catch (e) {
+      console.warn('[Prospect email] testimonials load failed:', e);
+    }
+  }
+  // Open/search/select handlers (state kept per-prospect so multiple cards work).
+  function openEmailTestiPicker(prospect) {
+    prospect._showTestiPicker = true;
+    prospect._testiSearch = prospect._testiSearch || '';
+    prospect._testiResults = prospect._testiResults || [];
+    prospects = prospects;
+    loadAllEmailTestimonials();
+  }
+  function filterEmailTestimonials(prospect) {
+    const term = (prospect._testiSearch || '').trim().toLowerCase();
+    if (!term) { prospect._testiResults = []; prospects = prospects; return; }
+    prospect._testiResults = allEmailTestimonials.filter(t =>
+      t.comment.toLowerCase().includes(term) ||
+      t.business.toLowerCase().includes(term)
+    ).slice(0, 25);
+    prospects = prospects;
+  }
+  function selectEmailTestimonial(prospect, t) {
+    prospect._emailTestimonial = true;
+    prospect._emailTestimonialData = {
+      business_name: t.business,
+      comments: t.comment,
+      url: t.url,
+      phone: t.phone,
+      addr: t.addr,
+      grocery: t.grocery,
+      custname: t.custname,
+    };
+    prospect._showTestiPicker = false;
+    prospect._testiSearch = '';
+    prospect._testiResults = [];
+    prospects = prospects;
+  }
+  function clearEmailTestimonial(prospect) {
+    prospect._emailTestimonial = false;
+    prospect._emailTestimonialData = null;
+    prospect._showTestiPicker = false;
+    prospects = prospects;
+  }
+
   let selectedCategory = null;
   let selectedSubcategory = null;
   let userLocation = null;
@@ -2640,7 +2713,13 @@ IndoorMedia`
       const biz = (t.business_name || 'A local business').replace(/&#x27;/g, "'").replace(/&amp;/g, '&');
       const quote = (t.comments || 'Great results with IndoorMedia!').replace(/&#x27;/g, "'").replace(/&amp;/g, '&');
       let block = `What other businesses are saying:\n"${quote}"\n— ${biz}`;
-      if (t.url) block += `\n${t.url}`;
+      // Include the business contact info shown on the source testimonial page.
+      const contactBits = [];
+      if (t.grocery) contactBits.push('Advertising at ' + t.grocery);
+      if (t.addr) contactBits.push(t.addr);
+      if (t.phone) contactBits.push(t.phone);
+      if (contactBits.length) block += `\n(${contactBits.join('  |  ')})`;
+      if (t.url) block += `\nSee their ad: ${t.url}`;
       extras.push(block);
     }
     if (extras.length) {
@@ -3601,10 +3680,47 @@ IndoorMedia`
 
                 <!-- Add-ons: graphic + testimonial -->
                 <div class="email-addons">
-                  <label class="email-addon-toggle">
-                    <input type="checkbox" checked={prospect._emailTestimonial} on:change={(e) => toggleEmailTestimonial(prospect, e.target.checked)} />
-                    ⭐ Include a testimonial
-                  </label>
+                  <!-- Searchable testimonial picker (rep selects a SPECIFIC one) -->
+                  <div class="email-testi-block">
+                    {#if prospect._emailTestimonial && prospect._emailTestimonialData}
+                      <div class="email-testi-selected">
+                        <div class="ets-head">
+                          <span>⭐ Testimonial attached</span>
+                          <button class="ets-change" on:click={() => openEmailTestiPicker(prospect)}>Change</button>
+                          <button class="ets-remove" on:click={() => clearEmailTestimonial(prospect)}>Remove</button>
+                        </div>
+                        <div class="ets-biz">{prospect._emailTestimonialData.business_name || 'IndoorMedia Advertiser'}</div>
+                        <div class="ets-comment">“{prospect._emailTestimonialData.comments}”</div>
+                      </div>
+                    {:else if prospect._showTestiPicker}
+                      <div class="email-testi-picker">
+                        <div class="etp-head">
+                          <strong>⭐ Search a testimonial to include</strong>
+                          <button class="etp-close" on:click={() => { prospect._showTestiPicker = false; prospects = prospects; }}>✕</button>
+                        </div>
+                        <input type="text" class="etp-search" placeholder="Search by keyword, business, or comment…"
+                          bind:value={prospect._testiSearch} on:input={() => filterEmailTestimonials(prospect)} />
+                        {#if !emailTestimonialsLoaded}
+                          <p class="etp-hint">Loading testimonials…</p>
+                        {:else if (prospect._testiSearch || '').trim() && (!prospect._testiResults || prospect._testiResults.length === 0)}
+                          <p class="etp-hint">No testimonials match “{prospect._testiSearch}”</p>
+                        {:else if !(prospect._testiSearch || '').trim()}
+                          <p class="etp-hint">Type to find a specific testimonial to include in this email.</p>
+                        {:else}
+                          <div class="etp-results">
+                            {#each prospect._testiResults as t (t.id)}
+                              <button class="etp-result" on:click={() => selectEmailTestimonial(prospect, t)}>
+                                <span class="etp-result-biz">{t.business || 'IndoorMedia Advertiser'}</span>
+                                <span class="etp-result-comment">“{t.comment}”</span>
+                              </button>
+                            {/each}
+                          </div>
+                        {/if}
+                      </div>
+                    {:else}
+                      <button class="email-testi-add" on:click={() => openEmailTestiPicker(prospect)}>⭐ Add a testimonial</button>
+                    {/if}
+                  </div>
                   <div class="email-graphic-picker">
                     <span class="email-addon-label">🖼️ Attach a graphic (link):</span>
                     <select bind:value={prospect._emailGraphic} on:change={() => prospects = prospects} class="email-graphic-select">
@@ -3632,8 +3748,13 @@ IndoorMedia`
                           on:click={() => setEmailDriveLink(prospect, prospect._emailDriveInput)}>Add link</button>
                       </div>
                       <label class="email-gallery-btn">
-                        📱 Choose from gallery
-                        <input type="file" accept="video/*,image/*" capture
+                        🖼️ Choose from gallery
+                        <input type="file" accept="image/*,video/*"
+                          on:change={(e) => handleEmailFilePick(prospect, e)} hidden />
+                      </label>
+                      <label class="email-gallery-btn secondary">
+                        📷 Take photo / video
+                        <input type="file" accept="image/*,video/*" capture="environment"
                           on:change={(e) => handleEmailFilePick(prospect, e)} hidden />
                       </label>
                       <p class="email-attach-hint">Drive links & uploaded files embed as a tap-to-watch link. On phones, use “Share” to attach the real file.</p>
@@ -5937,7 +6058,29 @@ IndoorMedia`
     background: transparent;
   }
   .email-gallery-btn:active { background: #e3f0fc; }
+  .email-gallery-btn.secondary { border-color: #888; color: #555; margin-left: 6px; }
   .email-attach-hint { font-size: 11px; color: #888; margin: 0; line-height: 1.4; }
+  /* Searchable testimonial picker (prospect email) */
+  .email-testi-block { margin-bottom: 6px; }
+  .email-testi-add { width: 100%; padding: 9px; background: #fff; color: #b8860b; border: 1.5px dashed #d4a017; border-radius: 8px; font-size: 13px; font-weight: 700; cursor: pointer; }
+  .email-testi-add:active { background: #fffbe6; }
+  .email-testi-picker { background: #fffdf5; border: 1px solid #ecdca0; border-radius: 8px; padding: 10px; }
+  .etp-head { display: flex; align-items: center; justify-content: space-between; font-size: 13px; margin-bottom: 6px; }
+  .etp-close { background: none; border: none; font-size: 14px; cursor: pointer; color: #999; }
+  .etp-search { width: 100%; padding: 8px 10px; border: 1px solid #ddd; border-radius: 6px; font-size: 14px; box-sizing: border-box; }
+  .etp-hint { font-size: 12px; color: #999; margin: 8px 2px 2px; }
+  .etp-results { max-height: 240px; overflow-y: auto; margin-top: 6px; display: flex; flex-direction: column; gap: 6px; }
+  .etp-result { text-align: left; background: #fff; border: 1px solid #eee; border-radius: 6px; padding: 8px; cursor: pointer; display: flex; flex-direction: column; gap: 3px; }
+  .etp-result:active { background: #f7f2df; }
+  .etp-result-biz { font-weight: 700; font-size: 12.5px; color: #b8860b; }
+  .etp-result-comment { font-size: 12px; color: #444; line-height: 1.35; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+  .email-testi-selected { background: #fffdf5; border: 1px solid #ecdca0; border-radius: 8px; padding: 10px; }
+  .ets-head { display: flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 700; color: #b8860b; margin-bottom: 4px; }
+  .ets-change, .ets-remove { background: none; border: none; font-size: 12px; cursor: pointer; text-decoration: underline; }
+  .ets-change { margin-left: auto; color: #1565c0; }
+  .ets-remove { color: #CC0000; }
+  .ets-biz { font-weight: 700; font-size: 12.5px; color: #b8860b; }
+  .ets-comment { font-size: 12px; color: #444; line-height: 1.4; margin-top: 2px; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
   .email-attach-chip {
     display: flex;
     align-items: center;

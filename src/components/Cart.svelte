@@ -26,7 +26,7 @@
   let showTestimonialPicker = false;
   let testimonialSearch = '';
   let testimonialResults = [];
-  let selectedTestimonial = null; // { business, comment, url, id }
+  let selectedTestimonials = [];  // array of { business, comment, url, id, ... } — rep can attach MULTIPLE
   let videoTestimonialUrl = '';   // optional link, validated to Drive / IM YouTube
 
   // Decode HTML entities (testimonials carry things like &#x9; and &amp;).
@@ -94,14 +94,21 @@
   }
 
   function selectTestimonial(t) {
-    selectedTestimonial = t;
+    // Add to the list (avoid duplicates by id). Never auto-picked — rep chose it.
+    if (!selectedTestimonials.some(x => x.id === t.id)) {
+      selectedTestimonials = [...selectedTestimonials, t];
+    }
     showTestimonialPicker = false;
     testimonialSearch = '';
     testimonialResults = [];
   }
 
+  function removeTestimonialAt(idx) {
+    selectedTestimonials = selectedTestimonials.filter((_, i) => i !== idx);
+  }
+
   function clearTestimonial() {
-    selectedTestimonial = null;
+    selectedTestimonials = [];
     videoTestimonialUrl = '';
     clearVideoGallery();
   }
@@ -791,6 +798,32 @@
     }
     y -= 12;
 
+    // ── Product flags (declared early so the "sell first" section can use them) ──
+    const hasRT = cartItems.some(i => (i.name || '').toLowerCase().includes('register tape'));
+    const hasCart = cartItems.some(i => (i.name || '').toLowerCase().includes('cartvertising'));
+    const hasNose = cartItems.some(i => i.noseOfCart || (i.name || '').toLowerCase().includes('nose of cart'));
+    const hasDigi = cartItems.some(i => {
+      const n = (i.name || '').toLowerCase();
+      return n.includes('digitalboost') || n.includes('digital boost') || n.includes('findlocal') || n.includes('reviewboost') || n.includes('loyaltyboost');
+    });
+    const hasHeaderAd = cartItems.some(i => (i.cartKind === 'header') || /header/i.test(i.plan || ''));
+
+    // ══════════════════════════════════════════════════════════════════
+    // SELL FIRST: lead with the "Supermarketing" hook, product highlights,
+    // and customer testimonials — THEN show the numbers. (Tyler's ask:
+    // warm them up on the value before revealing pricing.)
+    // ══════════════════════════════════════════════════════════════════
+    drawSupermarketingHeadline();
+    drawAllHighlights();
+    await drawTestimonialSection();
+
+    // ── Numbers start on a fresh page so "the ask" reads as its own moment ──
+    if (y < 680) {
+      page.drawText('IndoorMedia  |  indoormedia.com', { x: 612/2 - regular.widthOfTextAtSize('IndoorMedia  |  indoormedia.com', 9)/2, y: 30, size: 9, font: regular, color: gray });
+      page = pdfDoc.addPage([612, 792]);
+      y = 770;
+    }
+
     // Line items
     page.drawText('Line Items', { x: 30, y, size: 14, font: bold, color: red });
     y -= 6;
@@ -937,14 +970,64 @@
     }
     y -= 14;
 
-    // Product highlights
-    const hasRT = cartItems.some(i => (i.name || '').toLowerCase().includes('register tape'));
-    const hasCart = cartItems.some(i => (i.name || '').toLowerCase().includes('cartvertising'));
-    const hasNose = cartItems.some(i => i.noseOfCart || (i.name || '').toLowerCase().includes('nose of cart'));
-    const hasDigi = cartItems.some(i => {
-      const n = (i.name || '').toLowerCase();
-      return n.includes('digitalboost') || n.includes('digital boost') || n.includes('findlocal') || n.includes('reviewboost') || n.includes('loyaltyboost');
-    });
+    // ── Sell-section helpers (function declarations → hoisted, called earlier) ──
+
+    // "Supermarketing" lead headline — the supermarket/marketing pun as the
+    // hero hook at the very top of the sell section.
+    function drawSupermarketingHeadline() {
+      checkPage(120);
+      // Big pun headline
+      page.drawText('This isn\u2019t just marketing.', { x: 30, y, size: 15, font: regular, color: gray });
+      y -= 30;
+      page.drawText('It\u2019s SUPERMARKETING.', { x: 30, y, size: 30, font: bold, color: red });
+      y -= 22;
+      // Underline accent
+      const uw = bold.widthOfTextAtSize('It\u2019s SUPERMARKETING.', 30);
+      page.drawRectangle({ x: 30, y: y + 2, width: uw, height: 3, color: red });
+      y -= 18;
+      // Sub-line
+      const sub = 'Reaching real shoppers where they already spend \u2014 the supermarket.';
+      page.drawText(sub, { x: 30, y, size: 11, font: regular, color: black });
+      y -= 26;
+    }
+
+    // Run every applicable highlight block (RT / Cartvertising / Nose / Digital).
+    function drawAllHighlights() {
+      if (hasRT) {
+        drawHighlights('Register Tape Highlights', [
+          '100% Reach -- every customer gets a receipt with your ad',
+          'Hyper-Local -- target shoppers at stores near your business',
+          'Affordable -- fraction of the cost of direct mail or digital',
+          'Trackable -- coupon codes measure real customer response',
+        ]);
+      }
+      if (hasCart) {
+        drawHighlights('Cartvertising Highlights', [
+          'Eye-Level -- ads mounted right where shoppers look',
+          '40+ Minutes -- your ad stays the entire shopping trip',
+          'Full Color -- high-quality printing for maximum impact',
+          'Massive Reach -- thousands of shoppers per cart',
+        ]);
+        drawCartDiagram();
+        if (hasHeaderAd) drawHeaderDiagram();
+      }
+      if (hasNose) {
+        drawHighlights('Nose of Cart Highlights', [
+          'Front-Facing -- first thing oncoming shoppers see',
+          'Large Format -- big 9.94" x 7.72" full-color canvas',
+          'Exclusivity Available -- lock out competitors in your category',
+          'All-Trip Exposure -- seen the entire shopping trip, every visit',
+        ]);
+        drawNoseSpecs();
+      }
+      if (hasDigi) {
+        drawHighlights('Digital Product Highlights', [
+          'Geofencing -- target customers near your business',
+          'Digital Ads -- banner ads on mobile apps and websites',
+          'Monthly Reports -- track performance and ROI',
+        ]);
+      }
+    }
 
     function drawHighlights(title, items) {
       checkPage(30 + items.length * 18);
@@ -958,14 +1041,6 @@
       y -= 8;
     }
 
-    if (hasRT) {
-      drawHighlights('Register Tape Highlights', [
-        '100% Reach -- every customer gets a receipt with your ad',
-        'Hyper-Local -- target shoppers at stores near your business',
-        'Affordable -- fraction of the cost of direct mail or digital',
-        'Trackable -- coupon codes measure real customer response',
-      ]);
-    }
     // Cartvertising "Front vs Directory" explainer diagram (vector, no percentages)
     function drawCartDiagram() {
       const boxW = 150, boxH = 92, gap = 70;
@@ -1054,19 +1129,6 @@
       y = boxBottom - 30;
     }
 
-    const hasHeaderAd = cartItems.some(i => (i.cartKind === 'header') || /header/i.test(i.plan || ''));
-
-    if (hasCart) {
-      drawHighlights('Cartvertising Highlights', [
-        'Eye-Level -- ads mounted right where shoppers look',
-        '40+ Minutes -- your ad stays the entire shopping trip',
-        'Full Color -- high-quality printing for maximum impact',
-        'Massive Reach -- thousands of shoppers per cart',
-      ]);
-      drawCartDiagram();
-      if (hasHeaderAd) drawHeaderDiagram();
-    }
-
     // Nose of Cart specs table (art specs, drawn like a mini spec sheet)
     function drawNoseSpecs() {
       const specs = [
@@ -1104,30 +1166,13 @@
       y -= 8;
     }
 
-    if (hasNose) {
-      drawHighlights('Nose of Cart Highlights', [
-        'Front-Facing -- first thing oncoming shoppers see',
-        'Large Format -- big 9.94" x 7.72" full-color canvas',
-        'Exclusivity Available -- lock out competitors in your category',
-        'All-Trip Exposure -- seen the entire shopping trip, every visit',
-      ]);
-      drawNoseSpecs();
-    }
-    if (hasDigi) {
-      drawHighlights('Digital Product Highlights', [
-        'Geofencing -- target customers near your business',
-        'Digital Ads -- banner ads on mobile apps and websites',
-        'Monthly Reports -- track performance and ROI',
-      ]);
-    }
-
-    // Testimonial — embed the rep-selected testimonial as an image on its own
-    // page, followed by an optional video-testimonial link (Drive / YouTube).
-    if (selectedTestimonial) {
+    // Testimonials — embed EACH rep-selected testimonial (ad image + quote card),
+    // then an optional video-testimonial link (Drive / YouTube / TikTok). Reps can
+    // attach MULTIPLE written testimonials; they flow across pages as needed.
+    async function drawTestimonialSection() {
+      if (!selectedTestimonials.length) return;
       try {
-        const tImgUrl = renderTestimonialImage(selectedTestimonial);
-        const tBytes = await fetch(tImgUrl).then(r => r.arrayBuffer());
-        const tImg = await pdfDoc.embedPng(tBytes);
+        // Fresh "What Our Advertisers Say" page with a title band.
         page.drawText('IndoorMedia  |  indoormedia.com', { x: 612/2 - regular.widthOfTextAtSize('IndoorMedia  |  indoormedia.com', 9)/2, y: 30, size: 9, font: regular, color: gray });
         page = pdfDoc.addPage([612, 792]);
         let ty = 792;
@@ -1135,37 +1180,65 @@
         page.drawText('What Our Advertisers Say', { x: 30, y: ty - 38, size: 22, font: bold, color: white });
         ty -= 84;
 
-        // Embed the actual ad artwork (local, CORS-safe) above the quote card.
-        if (selectedTestimonial.img) {
-          try {
-            const adSrc = import.meta.env.BASE_URL + selectedTestimonial.img;
-            const ad = await loadLocalImageAsPng(adSrc);
-            if (ad) {
-              const adEmbed = await pdfDoc.embedPng(ad.dataUrl);
-              // Fit the ad within a 300pt-wide box, centered, cap height ~300pt.
-              const boxW = 300;
-              let adW = boxW;
-              let adH = adW * (adEmbed.height / adEmbed.width);
-              if (adH > 300) { adH = 300; adW = adH * (adEmbed.width / adEmbed.height); }
-              const adX = (612 - adW) / 2;
-              page.drawText('Their Ad', { x: 30, y: ty, size: 12, font: bold, color: red });
-              ty -= 12;
-              // subtle frame
-              page.drawRectangle({ x: adX - 4, y: ty - adH - 4, width: adW + 8, height: adH + 8, borderColor: rgb(0.8,0.8,0.8), borderWidth: 1 });
-              page.drawImage(adEmbed, { x: adX, y: ty - adH, width: adW, height: adH });
-              ty -= adH + 22;
-            }
-          } catch (adErr) { console.warn('[Quote PDF] ad image embed skipped:', adErr); }
+        for (let ti = 0; ti < selectedTestimonials.length; ti++) {
+          const testi = selectedTestimonials[ti];
+          const tImgUrl = renderTestimonialImage(testi);
+          const tBytes = await fetch(tImgUrl).then(r => r.arrayBuffer());
+          const tImg = await pdfDoc.embedPng(tBytes);
+          const tW = 552;
+          const tH = tW * (tImg.height / tImg.width);
+
+          // Estimate the space this testimonial needs (ad image cap ~300 + card).
+          const adNeed = testi.img ? 322 : 0;
+          const need = adNeed + tH + 30;
+          // Start a new page when there isn't room (keep a testimonial whole).
+          if (ty - need < 60) {
+            page.drawText('IndoorMedia  |  indoormedia.com', { x: 612/2 - regular.widthOfTextAtSize('IndoorMedia  |  indoormedia.com', 9)/2, y: 30, size: 9, font: regular, color: gray });
+            page = pdfDoc.addPage([612, 792]);
+            ty = 792;
+            page.drawRectangle({ x: 0, y: ty - 60, width: 612, height: 60, color: red });
+            page.drawText('What Our Advertisers Say', { x: 30, y: ty - 38, size: 22, font: bold, color: white });
+            ty -= 84;
+          }
+
+          // Embed the actual ad artwork (local, CORS-safe) above the quote card.
+          if (testi.img) {
+            try {
+              const adSrc = import.meta.env.BASE_URL + testi.img;
+              const ad = await loadLocalImageAsPng(adSrc);
+              if (ad) {
+                const adEmbed = await pdfDoc.embedPng(ad.dataUrl);
+                const boxW = 300;
+                let adW = boxW;
+                let adH = adW * (adEmbed.height / adEmbed.width);
+                if (adH > 300) { adH = 300; adW = adH * (adEmbed.width / adEmbed.height); }
+                const adX = (612 - adW) / 2;
+                page.drawText('Their Ad', { x: 30, y: ty, size: 12, font: bold, color: red });
+                ty -= 12;
+                page.drawRectangle({ x: adX - 4, y: ty - adH - 4, width: adW + 8, height: adH + 8, borderColor: rgb(0.8,0.8,0.8), borderWidth: 1 });
+                page.drawImage(adEmbed, { x: adX, y: ty - adH, width: adW, height: adH });
+                ty -= adH + 22;
+              }
+            } catch (adErr) { console.warn('[Quote PDF] ad image embed skipped:', adErr); }
+          }
+
+          // Testimonial text/contact card scaled to the 552pt content width.
+          page.drawImage(tImg, { x: 30, y: ty - tH, width: tW, height: tH });
+          ty -= tH + 26;
+
+          // Divider between multiple testimonials.
+          if (ti < selectedTestimonials.length - 1) {
+            page.drawRectangle({ x: 120, y: ty + 8, width: 372, height: 1, color: rgb(0.85,0.85,0.85) });
+            ty -= 10;
+          }
         }
 
-        // Scale the testimonial text/contact card to the 552pt content width.
-        const tW = 552;
-        const tH = tW * (tImg.height / tImg.width);
-        page.drawImage(tImg, { x: 30, y: ty - tH, width: tW, height: tH });
-        ty -= tH + 26;
-
-        // Optional video-testimonial link (clickable).
+        // Optional video-testimonial link (clickable) after the last testimonial.
         if (videoTestimonialUrl.trim() && isValidVideoTestimonialUrl(videoTestimonialUrl)) {
+          if (ty - 60 < 60) {
+            page.drawText('IndoorMedia  |  indoormedia.com', { x: 612/2 - regular.widthOfTextAtSize('IndoorMedia  |  indoormedia.com', 9)/2, y: 30, size: 9, font: regular, color: gray });
+            page = pdfDoc.addPage([612, 792]); ty = 770;
+          }
           const vurl = videoTestimonialUrl.trim();
           const src = videoSourceLabel(vurl);
           page.drawRectangle({ x: 30, y: ty - 44, width: 552, height: 44, color: rgb(0.97, 0.93, 0.93), borderColor: red, borderWidth: 1 });
@@ -1173,7 +1246,6 @@
           const linkTxt = vurl.replace(/[^\x20-\x7E]/g, '');
           const shortLink = linkTxt.length > 90 ? linkTxt.slice(0, 87) + '...' : linkTxt;
           page.drawText(shortLink, { x: 46, y: ty - 36, size: 8.5, font: regular, color: rgb(0.15, 0.33, 0.78) });
-          // Clickable link annotation over the whole box.
           try {
             const linkAnnot = pdfDoc.context.obj({
               Type: 'Annot', Subtype: 'Link',
@@ -1191,11 +1263,17 @@
         // Device-gallery video: can't embed a raw video in a PDF, so note that
         // it's shared as a separate file with the quote.
         if (videoGalleryFile) {
+          if (ty - 40 < 60) {
+            page.drawText('IndoorMedia  |  indoormedia.com', { x: 612/2 - regular.widthOfTextAtSize('IndoorMedia  |  indoormedia.com', 9)/2, y: 30, size: 9, font: regular, color: gray });
+            page = pdfDoc.addPage([612, 792]); ty = 770;
+          }
           page.drawRectangle({ x: 30, y: ty - 34, width: 552, height: 34, color: rgb(0.96, 0.96, 0.96), borderColor: rgb(0.75,0.75,0.75), borderWidth: 1 });
           const vname = (videoGalleryName || 'video').replace(/[^\x20-\x7E]/g, '');
           page.drawText('\uD83C\uDFA5  Video testimonial attached separately: ' + (vname.length > 60 ? vname.slice(0,57)+'...' : vname), { x: 46, y: ty - 21, size: 10.5, font: bold, color: gray });
           ty -= 44;
         }
+        // Continue subsequent content below the testimonials on this page.
+        y = ty;
       } catch (tErr) {
         console.warn('[Quote PDF] testimonial embed skipped:', tErr);
       }
@@ -1712,53 +1790,64 @@
     {/if}
 
     <div class="quote-footer">
-      <!-- Testimonial attachment: rep searches for a SPECIFIC testimonial to embed -->
+      <!-- Testimonial attachment: rep searches for SPECIFIC testimonials to embed (can add multiple) -->
       <div class="testimonial-attach">
-        {#if !selectedTestimonial}
-          {#if !showTestimonialPicker}
-            <button class="testi-add-btn" on:click={openTestimonialPicker}>➕ Add Testimonial to Quote</button>
-          {:else}
-            <div class="testi-picker">
-              <div class="testi-picker-head">
-                <strong>💬 Search testimonials to attach</strong>
-                <button class="testi-close" on:click={() => { showTestimonialPicker = false; }}>✕</button>
-              </div>
-              <input
-                type="text"
-                class="testi-search"
-                placeholder="Search by keyword, business, or comment…"
-                bind:value={testimonialSearch}
-                on:input={filterTestimonials}
-              />
-              {#if !testimonialsLoaded}
-                <p class="testi-hint">Loading testimonials…</p>
-              {:else if testimonialSearch.trim() && testimonialResults.length === 0}
-                <p class="testi-hint">No testimonials match “{testimonialSearch}”</p>
-              {:else if !testimonialSearch.trim()}
-                <p class="testi-hint">Type to find a specific testimonial to embed as an image in the quote.</p>
-              {:else}
-                <div class="testi-results">
-                  {#each testimonialResults as t (t.id)}
-                    <button class="testi-result" on:click={() => selectTestimonial(t)}>
-                      <span class="testi-result-biz">{t.business || 'IndoorMedia Advertiser'}</span>
-                      <span class="testi-result-comment">“{t.comment}”</span>
-                    </button>
-                  {/each}
-                </div>
-              {/if}
-            </div>
-          {/if}
-        {:else}
-          <div class="testi-selected">
+        <!-- List any already-selected testimonials (each removable individually) -->
+        {#if selectedTestimonials.length}
+          <div class="testi-selected-list">
             <div class="testi-selected-head">
-              <span>✅ Testimonial attached</span>
-              <button class="testi-change" on:click={openTestimonialPicker}>Change</button>
-              <button class="testi-remove" on:click={clearTestimonial}>Remove</button>
+              <span>✅ {selectedTestimonials.length} testimonial{selectedTestimonials.length === 1 ? '' : 's'} attached</span>
+              <button class="testi-remove" on:click={clearTestimonial}>Clear all</button>
             </div>
-            <div class="testi-selected-biz">{selectedTestimonial.business || 'IndoorMedia Advertiser'}</div>
-            <div class="testi-selected-comment">“{selectedTestimonial.comment}”</div>
+            {#each selectedTestimonials as st, si (st.id)}
+              <div class="testi-selected-item">
+                <div class="testi-selected-biz">{st.business || 'IndoorMedia Advertiser'}</div>
+                <div class="testi-selected-comment">“{st.comment}”</div>
+                <button class="testi-item-remove" on:click={() => removeTestimonialAt(si)}>✕</button>
+              </div>
+            {/each}
+          </div>
+        {/if}
 
-            <!-- After picking a testimonial: optional video testimonial -->
+        <!-- Search / add another testimonial -->
+        {#if !showTestimonialPicker}
+          <button class="testi-add-btn" on:click={openTestimonialPicker}>
+            ➕ {selectedTestimonials.length ? 'Add another testimonial' : 'Add Testimonial to Quote'}
+          </button>
+        {:else}
+          <div class="testi-picker">
+            <div class="testi-picker-head">
+              <strong>💬 Search testimonials to attach</strong>
+              <button class="testi-close" on:click={() => { showTestimonialPicker = false; }}>✕</button>
+            </div>
+            <input
+              type="text"
+              class="testi-search"
+              placeholder="Search by keyword, business, or comment…"
+              bind:value={testimonialSearch}
+              on:input={filterTestimonials}
+            />
+            {#if !testimonialsLoaded}
+              <p class="testi-hint">Loading testimonials…</p>
+            {:else if testimonialSearch.trim() && testimonialResults.length === 0}
+              <p class="testi-hint">No testimonials match “{testimonialSearch}”</p>
+            {:else if !testimonialSearch.trim()}
+              <p class="testi-hint">Type to find a specific testimonial to embed as an image in the quote.</p>
+            {:else}
+              <div class="testi-results">
+                {#each testimonialResults as t (t.id)}
+                  <button class="testi-result" on:click={() => selectTestimonial(t)} disabled={selectedTestimonials.some(x => x.id === t.id)}>
+                    <span class="testi-result-biz">{t.business || 'IndoorMedia Advertiser'}{selectedTestimonials.some(x => x.id === t.id) ? '  ✓ added' : ''}</span>
+                    <span class="testi-result-comment">“{t.comment}”</span>
+                  </button>
+                {/each}
+              </div>
+            {/if}
+          </div>
+        {/if}
+
+        <!-- Once at least one testimonial is attached: optional video testimonial -->
+        {#if selectedTestimonials.length}
             <div class="video-testi-row">
               <label class="video-testi-label">🎥 Video testimonial (optional)</label>
               <div class="video-src-btns">
@@ -1793,7 +1882,6 @@
                 {/if}
               </div>
             </div>
-          </div>
         {/if}
       </div>
 
@@ -2017,6 +2105,11 @@
   .testi-remove { color: #CC0000; margin-left: 4px; }
   .testi-selected-biz { font-weight: 700; font-size: 12.5px; color: #CC0000; }
   .testi-selected-comment { font-size: 12px; color: #444; line-height: 1.4; margin-top: 2px; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
+  .testi-selected-list { background: #fff; border: 1px solid #d6ecd8; border-radius: 10px; padding: 12px; margin-bottom: 10px; }
+  .testi-selected-item { position: relative; padding: 8px 26px 8px 0; border-top: 1px solid #eee; }
+  .testi-selected-item:first-of-type { border-top: none; }
+  .testi-item-remove { position: absolute; top: 6px; right: 0; background: none; border: none; color: #CC0000; font-size: 14px; cursor: pointer; line-height: 1; padding: 2px 4px; }
+  .testi-result:disabled { opacity: 0.5; cursor: default; }
   .video-testi-row { margin-top: 12px; padding-top: 10px; border-top: 1px dashed #e0e0e0; }
   .video-testi-label { display: block; font-size: 11.5px; font-weight: 600; color: #555; margin-bottom: 5px; }
   .video-testi-input { width: 100%; padding: 9px 11px; border: 1px solid #ccc; border-radius: 8px; font-size: 13px; box-sizing: border-box; }
