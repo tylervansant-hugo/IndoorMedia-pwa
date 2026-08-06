@@ -164,7 +164,52 @@
   // testimonial_ads/<id>.jpg asset. Returns a PNG data URL.
   function renderTestimonialImage(t) {
     const scale = 2; // hi-DPI for crisp text in the PDF
-    const W = 900, H = 420;
+    const W = 900;
+    const startX = 60;
+    const lh = 38;               // quote line height
+    const maxW = W - 130;
+
+    // ---- First pass: measure. Wrap ALL of the comment (no line cap / no
+    // ellipsis) and build the contact lines so we can size the canvas to fit
+    // the full testimonial. The card grows as tall as it needs to. ----
+    const measure = document.createElement('canvas').getContext('2d');
+    measure.font = '500 26px Georgia, serif';
+    const words = ('\u201C' + (t.comment || '') + '\u201D').split(' ');
+    const lines = [];
+    let line = '';
+    for (const w of words) {
+      const test = line ? line + ' ' + w : w;
+      if (measure.measureText(test).width > maxW && line) { lines.push(line); line = w; }
+      else line = test;
+    }
+    if (line) lines.push(line);
+
+    // Wrap long contact bits across lines too (never truncated).
+    const contactRaw = [];
+    if (t.custname && t.custname !== t.business) contactRaw.push(t.custname);
+    if (t.addr) contactRaw.push(t.addr);
+    if (t.phone) contactRaw.push('Phone: ' + t.phone);
+    if (t.grocery) contactRaw.push('Advertising at: ' + t.grocery);
+    measure.font = '600 18px Arial, sans-serif';
+    const contactLines = [];
+    for (const bit of contactRaw) {
+      let cl = '';
+      for (const w of String(bit).split(' ')) {
+        const test = cl ? cl + ' ' + w : w;
+        if (measure.measureText(test).width > maxW && cl) { contactLines.push(cl); cl = w; }
+        else cl = test;
+      }
+      if (cl) contactLines.push(cl);
+    }
+
+    // Compute dynamic height from the content.
+    const topPad = 52;                         // space above first quote line
+    const quoteBlockH = lines.length * lh;
+    const attribH = 12 + 34;                    // gap + attribution line
+    const contactH = contactLines.length * 26;
+    const footerH = 44;
+    const H = Math.max(240, topPad + quoteBlockH + attribH + (contactH ? contactH + 6 : 0) + footerH);
+
     const canvas = document.createElement('canvas');
     canvas.width = W * scale; canvas.height = H * scale;
     const ctx = canvas.getContext('2d');
@@ -185,24 +230,11 @@
     ctx.font = '900 110px Georgia, serif';
     ctx.fillText('\u201C', 34, 120);
 
-    // Wrapped comment text
+    // Full comment text (every line — nothing cut off).
     ctx.fillStyle = '#222222';
     ctx.font = '500 26px Georgia, serif';
-    const maxW = W - 130;
-    const words = ('\u201C' + t.comment + '\u201D').split(' ');
-    let line = '', yy = 90; const lh = 38; const startX = 60;
-    const lines = [];
-    for (const w of words) {
-      const test = line ? line + ' ' + w : w;
-      if (ctx.measureText(test).width > maxW && line) { lines.push(line); line = w; }
-      else line = test;
-    }
-    if (line) lines.push(line);
-    // Cap the number of lines so the card never overflows.
-    const maxLines = 5;
-    let shown = lines.slice(0, maxLines);
-    if (lines.length > maxLines) shown[maxLines - 1] = shown[maxLines - 1].replace(/[\s\S]{0,3}$/, '') + '\u2026';
-    for (const ln of shown) { ctx.fillText(ln, startX, yy); yy += lh; }
+    let yy = topPad + 30;
+    for (const ln of lines) { ctx.fillText(ln, startX, yy); yy += lh; }
 
     // Attribution
     yy += 12;
@@ -212,22 +244,12 @@
     ctx.fillText('\u2014 ' + bizLine, startX, yy);
     yy += 34;
 
-    // Contact info block (from the source testimonial page)
-    ctx.font = '600 18px Arial, sans-serif';
-    ctx.fillStyle = '#333333';
-    const contactBits = [];
-    if (t.custname && t.custname !== t.business) contactBits.push(t.custname);
-    if (t.addr) contactBits.push(t.addr);
-    if (t.phone) contactBits.push('Phone: ' + t.phone);
-    if (t.grocery) contactBits.push('Advertising at: ' + t.grocery);
-    for (const bit of contactBits) {
-      if (yy > H - 46) break;
-      // truncate long address lines to card width
-      let s = bit;
-      while (ctx.measureText(s).width > maxW && s.length > 4) s = s.slice(0, -2);
-      if (s !== bit) s = s.replace(/\s+\S*$/, '') + '\u2026';
-      ctx.fillText(s, startX, yy);
-      yy += 26;
+    // Contact info block (full, wrapped)
+    if (contactLines.length) {
+      yy += 6;
+      ctx.font = '600 18px Arial, sans-serif';
+      ctx.fillStyle = '#333333';
+      for (const cl of contactLines) { ctx.fillText(cl, startX, yy); yy += 26; }
     }
 
     // Footer brand line
@@ -1198,11 +1220,22 @@
           const tImgUrl = renderTestimonialImage(testi);
           const tBytes = await fetch(tImgUrl).then(r => r.arrayBuffer());
           const tImg = await pdfDoc.embedPng(tBytes);
-          const tW = 552;
-          const tH = tW * (tImg.height / tImg.width);
+          let tW = 552;
+          let tH = tW * (tImg.height / tImg.width);
+
+          // Full testimonials can be tall (we never truncate the quote). If the
+          // card + ad wouldn't fit even on a fresh page, scale the card down so
+          // the WHOLE quote still shows on one page (rather than clipping it).
+          const adNeed = testi.img ? 322 : 0;
+          const usable = 672; // ~ page height minus title band + footer margin
+          const maxCardH = usable - adNeed - 30;
+          if (tH > maxCardH) {
+            tH = maxCardH;
+            tW = tH * (tImg.width / tImg.height);
+            if (tW > 552) { tW = 552; tH = tW * (tImg.height / tImg.width); }
+          }
 
           // Estimate the space this testimonial needs (ad image cap ~300 + card).
-          const adNeed = testi.img ? 322 : 0;
           const need = adNeed + tH + 30;
           // Start a new page when there isn't room (keep a testimonial whole).
           if (ty - need < 60) {
@@ -1237,8 +1270,9 @@
             } catch (adErr) { console.warn('[Quote PDF] ad image embed skipped:', adErr); }
           }
 
-          // Testimonial text/contact card scaled to the 552pt content width.
-          page.drawImage(tImg, { x: 30, y: ty - tH, width: tW, height: tH });
+          // Testimonial text/contact card (centered; full quote, never clipped).
+          const tX = (612 - tW) / 2;
+          page.drawImage(tImg, { x: tX, y: ty - tH, width: tW, height: tH });
           ty -= tH + 26;
 
           // Divider between multiple testimonials.
