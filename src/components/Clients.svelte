@@ -2,11 +2,12 @@
   import { onMount, onDestroy } from 'svelte';
   import { user } from '../lib/stores.js';
   import * as pdfjsLib from 'pdfjs-dist';
+  import ARForm from './ARForm.svelte';
   
   // Set worker source for pdfjs
   pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.9.155/pdf.worker.min.mjs';
 
-  let view = 'main'; // main, customers, sales, submit-contract, renewals, ad-proofs
+  let view = 'main'; // main, customers, sales, submit-contract, renewals, ad-proofs, digital, ar-form
   let contracts = [];
   let allStores = [];
   let loading = true;
@@ -965,8 +966,20 @@ IndoorMedia`;
         <div class="btn-text">Digital Contracts</div>
         <div class="btn-desc">{digitalContracts.length} active</div>
       </button>
+
+      <button class="main-btn" on:click={() => view = 'ar-form'}>
+        <div class="btn-icon">🧾</div>
+        <div class="btn-text">A/R Adjustment</div>
+        <div class="btn-desc">Fill &amp; export request</div>
+      </button>
     </div>
 
+  {/if}
+
+  <!-- A/R Adjustment Request Form -->
+  {#if view === 'ar-form'}
+    <button class="back-btn" on:click={goBack}>&larr; Back</button>
+    <ARForm />
   {/if}
 
   <!-- My Customers -->
