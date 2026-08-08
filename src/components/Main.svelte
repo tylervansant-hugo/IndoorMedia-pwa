@@ -924,7 +924,17 @@
   }
 
   onMount(async () => {
-    theme.subscribe(t => currentTheme = t);
+    theme.subscribe(t => {
+      currentTheme = t;
+      // Also reflect the theme on the document root so html/body (which sit
+      // behind the safe-area/status-bar strip above the header) pick up the
+      // themed background instead of defaulting to white. Fixes the white bar
+      // at the top in dark mode.
+      if (typeof document !== 'undefined') {
+        document.documentElement.setAttribute('data-theme', t);
+        document.body && document.body.setAttribute('data-theme', t);
+      }
+    });
     applyFontScale(); // ensure saved text-size pref is applied app-wide on load
     updateCartCount();
     const interval = setInterval(updateCartCount, 2000);

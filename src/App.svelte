@@ -46,11 +46,17 @@
 </main>
 
 <style>
+  :global(html) {
+    /* status-bar / safe-area strip sits above the always-dark header, so keep
+       it black to match the header (was showing a white bar in dark mode) */
+    background: #000000;
+  }
   :global(body) {
     margin: 0;
     padding: 0;
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-    background: #f5f5f5;
+    /* theme-aware (was hardcoded #f5f5f5, which showed as a white bar in dark mode) */
+    background: var(--bg-primary, #ededf0);
   }
 
   :global(*) {
@@ -63,5 +69,6 @@
     overflow: hidden;
     display: flex;
     flex-direction: column;
+    background: var(--bg-primary, #ededf0);
   }
 </style>
