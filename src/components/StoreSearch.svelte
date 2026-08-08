@@ -2647,19 +2647,16 @@ Store: ${store.StoreName}
   .aads-overlay {
     position: fixed; inset: 0; z-index: 200;
     background: rgba(0,0,0,0.55);
-    display: flex; align-items: flex-end; justify-content: center;
-    padding: 0;
+    display: flex; align-items: center; justify-content: center;
+    padding: 16px;
+    box-sizing: border-box;
   }
   .aads-modal {
     background: var(--card-bg, #fff);
     width: 100%; max-width: 560px;
-    max-height: 88vh; overflow-y: auto;
-    border-radius: 16px 16px 0 0;
-    box-shadow: 0 -6px 30px rgba(0,0,0,0.3);
-  }
-  @media (min-width: 640px) {
-    .aads-overlay { align-items: center; padding: 20px; }
-    .aads-modal { border-radius: 16px; }
+    max-height: 85vh; overflow-y: auto;
+    border-radius: 16px;
+    box-shadow: 0 8px 34px rgba(0,0,0,0.35);
   }
   .aads-head {
     display: flex; align-items: flex-start; justify-content: space-between;

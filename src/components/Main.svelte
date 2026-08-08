@@ -1738,13 +1738,23 @@
     padding: 0;
     gap: 8px;
     overflow: visible;
+    flex-wrap: wrap; /* let actions drop to a 2nd line rather than clip at big fonts */
   }
 
   .header-logo-wrapper {
     display: flex;
     align-items: center;
     gap: 12px;
-    flex: 1;
+    flex: 1 1 auto;
+    min-width: 0; /* allow title to truncate instead of forcing overflow */
+  }
+
+  .header-text { min-width: 0; }
+  .portal-title, .portal-subtitle {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 100%;
   }
 
   .logo-backdrop {
