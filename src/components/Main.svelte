@@ -1714,15 +1714,15 @@
     background: var(--bg-primary, #ffffff);
   }
   :global([data-theme='light']) {
-    --bg-primary: #ffffff;
-    --bg-secondary: #f9f9f9;
+    --bg-primary: #ededf0;   /* very slightly gray app background (was pure white) */
+    --bg-secondary: #f5f5f7;
     --text-primary: #1a1a1a;
-    --text-secondary: #666666;
-    --text-tertiary: #999999;
+    --text-secondary: #4a4a4a;
+    --text-tertiary: #6b6b6b;
     --border-color: #e0e0e0;
-    --card-bg: #ffffff;
+    --card-bg: #ffffff;      /* cards stay white so they pop against the gray */
     --card-shadow: rgba(0, 0, 0, 0.08);
-    --hover-bg: #f5f5f5;
+    --hover-bg: #f0f0f2;
     --input-bg: #ffffff;
   }
 
@@ -1730,8 +1730,8 @@
     --bg-primary: #1a1a1a;
     --bg-secondary: #242424;
     --text-primary: #ffffff;
-    --text-secondary: #aaaaaa;
-    --text-tertiary: #777777;
+    --text-secondary: #dcdcdc;
+    --text-tertiary: #b5b5b5;
     --border-color: #333333;
     --card-bg: #2a2a2a;
     --card-shadow: rgba(0, 0, 0, 0.3);

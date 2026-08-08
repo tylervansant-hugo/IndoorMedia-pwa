@@ -4,9 +4,9 @@
 
 /* Theme Variables */
 :root[data-theme="light"] {
-  --bg-primary: #f5f7fa;
+  --bg-primary: #ededf0;
   --bg-secondary: #ffffff;
-  --bg-gradient: linear-gradient(135deg, #f5f7fa 0%, #e8ecf1 100%);
+  --bg-gradient: linear-gradient(135deg, #ededf0 0%, #e6e6ea 100%);
   --text-primary: #1a1a1a;
   --text-secondary: #4a4a4a;
   --text-tertiary: #6b6b6b;
