@@ -8,8 +8,8 @@
   --bg-secondary: #ffffff;
   --bg-gradient: linear-gradient(135deg, #f5f7fa 0%, #e8ecf1 100%);
   --text-primary: #1a1a1a;
-  --text-secondary: #666666;
-  --text-tertiary: #999999;
+  --text-secondary: #4a4a4a;
+  --text-tertiary: #6b6b6b;
   --border-color: #e0e0e0;
   --card-bg: #ffffff;
   --card-shadow: rgba(0, 0, 0, 0.1);
@@ -23,8 +23,8 @@
   --bg-secondary: #2d2d2d;
   --bg-gradient: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
   --text-primary: #ffffff;
-  --text-secondary: #cccccc;
-  --text-tertiary: #999999;
+  --text-secondary: #dcdcdc;
+  --text-tertiary: #b5b5b5;
   --border-color: #404040;
   --card-bg: #2d2d2d;
   --card-shadow: rgba(0, 0, 0, 0.3);

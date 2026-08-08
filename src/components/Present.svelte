@@ -795,8 +795,9 @@
   .product-card:active { transform:scale(.98); }
   .product-icon { font-size:40px; margin-bottom:8px; }
   .product-card h3 { margin:0 0 6px; font-size:20px; font-weight:800; color:var(--text-primary); }
-  .product-desc { font-size:13px; color:var(--text-secondary); margin:0 0 10px; line-height:1.4; }
-  .product-features { margin:0 0 10px; padding-left:18px; font-size:12px; color:var(--text-tertiary); line-height:1.8; }
+  .product-desc { font-size:15px; font-weight:600; color:var(--text-secondary); margin:0 0 10px; line-height:1.45; }
+  .product-features { margin:0 0 10px; padding-left:20px; font-size:15px; font-weight:600; color:var(--text-primary); line-height:1.7; }
+  .product-features li { margin-bottom:3px; }
   .tap-hint { display:block; text-align:right; font-size:12px; color:var(--text-tertiary); margin-top:8px; }
 
   /* Video links */
@@ -879,7 +880,7 @@
 
   /* Features */
   .feat-list { padding-left:0; list-style:none; }
-  .feat-list li { padding:6px 0; font-size:13px; color:var(--text-primary); border-bottom:1px solid var(--border-color); }
+  .feat-list li { padding:8px 0; font-size:15px; font-weight:600; color:var(--text-primary); border-bottom:1px solid var(--border-color); }
   .feat-list li:last-child { border-bottom:none; }
   .analysis-btn { display:block; width:100%; padding:14px; background:#1565C0; color:#fff; border:none; border-radius:10px; font-size:15px; font-weight:700; text-align:center; text-decoration:none; margin:12px 0; box-sizing:border-box; }
   .analysis-btn:hover { background:#0D47A1; }
