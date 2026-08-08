@@ -1093,25 +1093,23 @@
     localStorage.setItem('theme', newTheme);
   }
 
-  // Bumped app-wide so everything reads bigger by default. Index 1 ('M') is
-  // the default and is now larger than 1.0; 'S' still gives the old baseline
-  // for anyone who wants it more compact.
-  const FONT_SIZES = [
-    { label: 'S', scale: 1.0 },
-    { label: 'M', scale: 1.15 },
-    { label: 'L', scale: 1.3 },
-    { label: 'XL', scale: 1.45 },
-    { label: 'XXL', scale: 1.6 },
-  ];
-  let fontIdx = parseInt(localStorage.getItem('impro_font_idx') || '1');
-  let currentFontSize = FONT_SIZES[fontIdx]?.label || 'M';
-  let fontScale = FONT_SIZES[fontIdx]?.scale || 1;
+  // Continuous, user-controlled text scale via a slider (1.00–2.10). Migrates
+  // anyone on the old S/M/L/XL index to a sensible starting scale. Applied
+  // app-wide through document root zoom so EVERYTHING scales (incl. overlays).
+  const FONT_MIN = 1.0, FONT_MAX = 2.1, FONT_STEP = 0.05;
+  function initialFontScale() {
+    const saved = parseFloat(localStorage.getItem('impro_font_scale') || '');
+    if (!isNaN(saved) && saved >= FONT_MIN && saved <= FONT_MAX) return saved;
+    // Migrate old index-based pref if present.
+    const legacy = { '0': 1.0, '1': 1.15, '2': 1.3, '3': 1.45, '4': 1.6 };
+    const li = localStorage.getItem('impro_font_idx');
+    if (li != null && legacy[li] != null) return legacy[li];
+    return 1.15; // default: a touch bigger than baseline
+  }
+  let fontScale = initialFontScale();
+  let showFontSlider = false;
 
   function applyFontScale() {
-    fontScale = FONT_SIZES[fontIdx]?.scale || 1;
-    // Apply app-wide via the document root so ALL content scales,
-    // including fixed-position overlays/modals that are not DOM
-    // descendants affected by a container-scoped zoom.
     if (typeof document !== 'undefined') {
       try {
         document.documentElement.style.zoom = String(fontScale);
@@ -1119,12 +1117,17 @@
     }
   }
 
-  function cycleFontSize() {
-    fontIdx = (fontIdx + 1) % FONT_SIZES.length;
-    currentFontSize = FONT_SIZES[fontIdx].label;
-    localStorage.setItem('impro_font_idx', String(fontIdx));
+  function onFontSliderInput(e) {
+    fontScale = parseFloat(e.target.value);
+    localStorage.setItem('impro_font_scale', String(fontScale));
     applyFontScale();
   }
+  function resetFontScale() {
+    fontScale = 1.15;
+    localStorage.setItem('impro_font_scale', String(fontScale));
+    applyFontScale();
+  }
+  $: fontPct = Math.round(fontScale * 100);
 
   if (typeof document !== 'undefined') {
     applyFontScale();
@@ -1188,13 +1191,44 @@
             <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
           {/if}
         </button>
-        <button class="header-icon-btn font-size-btn" on:click={cycleFontSize} title="Font size: {currentFontSize}">
-          <span class="font-size-label">{currentFontSize}</span>
-        </button>
+        <div class="font-size-wrap">
+          <button class="header-icon-btn font-size-btn" on:click={() => showFontSlider = !showFontSlider} title="Text size">
+            <span class="font-size-label">A</span>
+          </button>
+          {#if showFontSlider}
+            <div class="font-slider-pop" on:click|stopPropagation>
+              <div class="font-slider-head">
+                <span>Text size</span>
+                <span class="font-slider-pct">{fontPct}%</span>
+              </div>
+              <div class="font-slider-row">
+                <span class="font-slider-a small">A</span>
+                <input
+                  class="font-slider"
+                  type="range"
+                  min={FONT_MIN}
+                  max={FONT_MAX}
+                  step={FONT_STEP}
+                  value={fontScale}
+                  on:input={onFontSliderInput}
+                />
+                <span class="font-slider-a big">A</span>
+              </div>
+              <div class="font-slider-actions">
+                <button class="font-slider-reset" on:click={resetFontScale}>Reset</button>
+                <button class="font-slider-done" on:click={() => showFontSlider = false}>Done</button>
+              </div>
+            </div>
+          {/if}
+        </div>
         <button class="header-logout-btn" on:click={handleLogout}>Log Out</button>
       </div>
     </div>
   </header>
+
+  {#if showFontSlider}
+    <div class="font-slider-backdrop" on:click={() => showFontSlider = false}></div>
+  {/if}
 
   <!-- Tab Bar (fixed bottom) -->
   <nav class="tab-bar">
@@ -1815,6 +1849,8 @@
     align-items: center;
     gap: 6px;
     flex-shrink: 1;
+    flex-wrap: wrap;
+    justify-content: flex-end;
     min-width: 0;
     overflow: visible;
   }
@@ -1841,7 +1877,44 @@
     transform: translateY(-1px);
   }
 
-  .font-size-label { font-size: 14px; font-weight: 700; color: white; font-family: inherit; letter-spacing: -0.5px; }
+  .font-size-label { font-size: 14px; font-weight: 800; color: white; font-family: inherit; letter-spacing: -0.5px; }
+
+  .font-size-wrap { position: relative; display: inline-flex; }
+  .font-slider-backdrop { position: fixed; inset: 0; z-index: 400; background: transparent; }
+  .font-slider-pop {
+    position: fixed; top: 64px; left: 50%; transform: translateX(-50%); z-index: 401;
+    width: 165px;
+    background: var(--card-bg, #fff); color: var(--text-primary, #1a1a1a);
+    border: 1px solid var(--border-color, #e2e2e2); border-radius: 14px;
+    box-shadow: 0 10px 34px rgba(0,0,0,0.28); padding: 14px 14px 12px;
+  }
+  .font-slider-head { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 10px; }
+  .font-slider-head span:first-child { font-size: 14px; font-weight: 800; }
+  .font-slider-pct { font-size: 13px; font-weight: 800; color: #cc0000; }
+  .font-slider-row { display: flex; align-items: center; gap: 10px; }
+  .font-slider-a { color: var(--text-secondary, #888); font-weight: 800; line-height: 1; }
+  .font-slider-a.small { font-size: 13px; }
+  .font-slider-a.big { font-size: 22px; }
+  .font-slider {
+    flex: 1; min-width: 0; -webkit-appearance: none; appearance: none;
+    height: 6px; border-radius: 999px; background: linear-gradient(90deg, #cc0000, #ff6a00);
+    outline: none;
+  }
+  .font-slider::-webkit-slider-thumb {
+    -webkit-appearance: none; appearance: none; width: 24px; height: 24px;
+    border-radius: 50%; background: #fff; border: 3px solid #cc0000; cursor: pointer;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.3);
+  }
+  .font-slider::-moz-range-thumb {
+    width: 24px; height: 24px; border-radius: 50%; background: #fff;
+    border: 3px solid #cc0000; cursor: pointer;
+  }
+  .font-slider-actions { display: flex; gap: 8px; margin-top: 12px; }
+  .font-slider-reset, .font-slider-done {
+    flex: 1; padding: 9px; border-radius: 9px; font-size: 13px; font-weight: 700; cursor: pointer; border: none;
+  }
+  .font-slider-reset { background: var(--bg-secondary, #f0f0f0); color: var(--text-secondary, #555); border: 1px solid var(--border-color, #e2e2e2); }
+  .font-slider-done { background: #cc0000; color: #fff; }
 
   .header-icon-btn.logout-text {
     width: auto;

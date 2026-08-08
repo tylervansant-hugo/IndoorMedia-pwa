@@ -54,6 +54,19 @@ body {
   transition: background 0.3s ease, color 0.3s ease;
 }
 
+/* ============================================================
+   Global font WEIGHT boost — make all text a bit thicker/bolder
+   app-wide for readability. Base is 500 (browser default is 400),
+   inherited by everything that doesn't set its own weight. Inputs
+   and buttons inherit too so form text isn't wispy.
+   ============================================================ */
+html, body {
+  font-weight: 500;
+}
+input, textarea, select, button {
+  font-weight: 500;
+}
+
 #app {
   width: 100%;
   max-width: 100%;
