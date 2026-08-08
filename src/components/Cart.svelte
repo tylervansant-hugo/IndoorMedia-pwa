@@ -784,9 +784,37 @@
 
   async function exportQuotePdf() {
     if (cartItems.length === 0) return;
+    try {
+      await _exportQuotePdf();
+    } catch (e) {
+      console.error('[Quote PDF] export failed:', e);
+      alert('Sorry — the quote PDF could not be generated.\n\n' + (e?.message || e) + '\n\nTry removing any unusual characters/emoji from names or testimonials and export again.');
+    }
+  }
+
+  async function _exportQuotePdf() {
     loadSearchLocation(); // ensure distance summary + embedded map use the latest origin
 
     const pdfDoc = await PDFDocument.create();
+    // Sanitize ALL text drawn to the PDF: pdf-lib's StandardFonts use WinAnsi
+    // and THROW on any non-Latin1 char (emoji, arrows, CJK, ✓, ₱, etc.), which
+    // silently killed the whole export. Map common smart punctuation to ASCII
+    // and strip anything else, applied automatically to every page.drawText.
+    const sanText = (s) => String(s == null ? '' : s)
+      .replace(/[\u2018\u2019\u201A\u2032]/g, "'")
+      .replace(/[\u201C\u201D\u201E\u2033]/g, '"')
+      .replace(/[\u2013\u2014\u2212]/g, '-')
+      .replace(/\u2026/g, '...')
+      .replace(/[\u2192\u2794\u27a4]/g, '->')
+      .replace(/\u2022/g, '\u2022') // bullet is WinAnsi-safe, keep it
+      .replace(/[^\x20-\x7E\u00A0-\u00FF\u2022]/g, '');
+    const _origAddPage = pdfDoc.addPage.bind(pdfDoc);
+    pdfDoc.addPage = (...args) => {
+      const pg = _origAddPage(...args);
+      const _origDraw = pg.drawText.bind(pg);
+      pg.drawText = (txt, opts) => _origDraw(sanText(txt), opts);
+      return pg;
+    };
     const bold = await pdfDoc.embedFont(StandardFonts.HelveticaBold);
     const regular = await pdfDoc.embedFont(StandardFonts.Helvetica);
     const red = rgb(0.8, 0, 0);
