@@ -17,6 +17,7 @@
   let contracts = [];          // existing clients
   let testimonials = [];       // full testimonial list (normalized)
   let prospectData = [];       // researched prospect_data.json (optional)
+  let hotLeads = [];           // hot_leads.json (real business leads by store)
   let loaded = false;
   let loading = false;
 
@@ -32,10 +33,11 @@
     loading = true;
     const base = import.meta.env.BASE_URL;
     try {
-      const [cRes, tRes, pRes] = await Promise.all([
+      const [cRes, tRes, pRes, hRes] = await Promise.all([
         fetch(base + 'data/contracts.json?t=' + Date.now()).catch(() => null),
         fetch(base + 'data/testimonials_slim.json?t=' + Date.now()).catch(() => null),
         fetch(base + 'data/prospect_data.json?t=' + Date.now()).catch(() => null),
+        fetch(base + 'data/hot_leads.json?t=' + Date.now()).catch(() => null),
       ]);
       if (cRes && cRes.ok) {
         const cd = await cRes.json();
@@ -70,6 +72,10 @@
         } else {
           prospectData = pd.prospects || pd.data || [];
         }
+      }
+      if (hRes && hRes.ok) {
+        const hd = await hRes.json();
+        hotLeads = Array.isArray(hd) ? hd : (hd.leads || hd.hot_leads || []);
       }
     } catch (e) {
       console.warn('[UniversalSearch] data load failed:', e);
@@ -126,6 +132,26 @@
           if (!seen.has(key)) { seen.add(key); prospects.push({ ...p, name, _src: 'data' }); }
         }
         if (prospects.length >= 6) break;
+      }
+    }
+    // Hot leads (real researched businesses tied to a store / category)
+    if (prospects.length < 8) {
+      for (const p of (hotLeads || [])) {
+        const name = p.business_name || p.name || '';
+        if (matchStr(name) || matchStr(p.category) || matchStr(p.store_city) ||
+            matchStr(p.store_chain) || matchStr(p.phone) || matchStr(p.address) ||
+            matchStr(p.store_id) || matchStr(p.store_state)) {
+          const key = name + (p.address || p.store_id || '');
+          if (!seen.has(key)) {
+            seen.add(key);
+            prospects.push({
+              ...p, name,
+              city: p.store_city, category: p.category,
+              _src: 'hot',
+            });
+          }
+        }
+        if (prospects.length >= 8) break;
       }
     }
 
@@ -222,6 +248,10 @@
               <button class="usearch-item" on:click={() => goStore(s)}>
                 <span class="usearch-item-title">{highlightLabel(s)}</span>
                 <span class="usearch-item-sub">{s.StoreName}{s.Address ? ' · ' + s.Address : ''}</span>
+                <span class="usearch-item-meta">
+                  {#if s.Cycle}<span class="umeta-chip">Cycle {s.Cycle}</span>{/if}
+                  {#if s['Case Count'] != null && s['Case Count'] !== ''}<span class="umeta-chip">{s['Case Count']} cases</span>{/if}
+                </span>
               </button>
             {/each}
           </div>
@@ -248,8 +278,9 @@
               <button class="usearch-item" on:click={() => goProspect(p)}>
                 <span class="usearch-item-title">{p.name || p.businessName || 'Prospect'}</span>
                 <span class="usearch-item-sub">
-                  {[p.contactName || p.contact_name, p.city, p.category || p.subcategory].filter(Boolean).join(' · ') || 'Saved lead'}
+                  {[p.contactName || p.contact_name, p.category || p.subcategory, p.city, (p.store_chain && p.store_city ? 'near ' + p.store_chain + ' ' + p.store_city : '')].filter(Boolean).join(' · ') || 'Saved lead'}
                 </span>
+                {#if p._src === 'hot'}<span class="usearch-item-meta"><span class="umeta-chip hot">🔥 Hot lead</span>{#if p.rating}<span class="umeta-chip">★ {p.rating}</span>{/if}</span>{/if}
               </button>
             {/each}
           </div>
@@ -320,5 +351,18 @@
   .usearch-item-sub {
     font-size: 12px; color: var(--text-secondary, #888); line-height: 1.35;
     display: -webkit-box; -webkit-line-clamp: 1; -webkit-box-orient: vertical; overflow: hidden;
+  }
+  .usearch-item-meta {
+    display: flex; flex-wrap: wrap; gap: 5px; margin-top: 3px;
+  }
+  .umeta-chip {
+    font-size: 10.5px; font-weight: 700; line-height: 1;
+    padding: 3px 7px; border-radius: 999px;
+    background: var(--bg-secondary, #f0f0f0);
+    color: var(--text-secondary, #666);
+    border: 1px solid var(--border-color, #e2e2e2);
+  }
+  .umeta-chip.hot {
+    background: rgba(204,0,0,0.10); color: #CC0000; border-color: rgba(204,0,0,0.25);
   }
 </style>

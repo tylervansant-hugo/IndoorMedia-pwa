@@ -807,6 +807,61 @@
     return results;
   }
 
+  // Find the single best testimonial to reference in a TEXT template for this
+  // prospect. Priority: (1) same/similar business NAME, (2) same subcategory,
+  // (3) same main category. Returns a normalized {business_name, comments, url}
+  // or null. Loads the testimonial cache if needed.
+  async function matchTestimonialForProspect(prospect) {
+    if (!testimonialCache) {
+      try {
+        let response = await fetch(import.meta.env.BASE_URL + 'data/testimonials_slim.json?t=' + Date.now()).catch(() => null);
+        if (!response?.ok) response = await fetch(import.meta.env.BASE_URL + 'data/testimonials_cache.json?t=' + Date.now());
+        testimonialCache = await response.json();
+      } catch (e) { return null; }
+    }
+    const testimonials = Array.isArray(testimonialCache) ? testimonialCache : (testimonialCache.testimonials || []);
+    const normalize = (t) => ({
+      business_name: (t.b || t.business_name || t.business || '').replace(/&#x27;/g, "'").replace(/&amp;/g, '&'),
+      comments: (t.c || t.comments || t.comment || '').replace(/&#x27;/g, "'").replace(/&amp;/g, '&'),
+      url: t.u || t.url || '',
+      searchable: t.searchable || '',
+    });
+    const stop = new Set(['the','and','inc','llc','corp','co','a','of','for','&']);
+    const pName = (prospect.name || '').toLowerCase();
+    const pWords = pName.replace(/[^a-z0-9 ]/g, ' ').split(/\s+/).filter(w => w.length > 2 && !stop.has(w));
+    const subCat = (selectedSubcategory || '').toLowerCase();
+    const mainCat = (selectedCategory || '').replace(/^[^\sa-z0-9]+\s*/i, '').toLowerCase();
+
+    let byName = null, bySub = null, byMain = null;
+    let nameMatches = 0, subMatches = 0, mainMatches = 0;
+    for (const raw of testimonials) {
+      const t = normalize(raw);
+      if (!t.comments) continue;
+      const biz = t.business_name.toLowerCase();
+      const hay = (t.searchable || (t.business_name + ' ' + t.comments)).toLowerCase();
+      // (1) business-name overlap (2+ meaningful shared words, or 1 if single-word name)
+      if (pWords.length) {
+        const bWords = biz.replace(/[^a-z0-9 ]/g, ' ').split(/\s+/).filter(w => w.length > 2 && !stop.has(w));
+        const common = pWords.filter(w => bWords.includes(w));
+        if (common.length >= 2 || (common.length === 1 && pWords.length === 1)) {
+          nameMatches++;
+          if (!byName) byName = t;
+        }
+      }
+      if (subCat && hay.includes(subCat)) { subMatches++; if (!bySub) bySub = t; }
+      if (mainCat && hay.includes(mainCat)) { mainMatches++; if (!byMain) byMain = t; }
+    }
+    const best = byName || bySub || byMain || null;
+    if (!best) return null;
+    // Which basis won, and how many similar advertisers we work with (for the
+    // vague social-proof phrasing).
+    let basis, count, label;
+    if (byName) { basis = 'name'; count = nameMatches; label = best.business_name.split(/[-–,(]/)[0].trim(); }
+    else if (bySub) { basis = 'sub'; count = subMatches; label = (selectedSubcategory || '').trim(); }
+    else { basis = 'main'; count = mainMatches; label = mainCat; }
+    return { ...best, _basis: basis, _count: count, _label: label };
+  }
+
   // Full, searchable testimonial list (for the rep to pick a SPECIFIC one in
   // the prospect email — same style as the quote tool; never auto-picked).
   let allEmailTestimonials = [];
@@ -876,6 +931,68 @@
     prospect._emailTestimonial = false;
     prospect._emailTestimonialData = null;
     prospect._showTestiPicker = false;
+    prospects = prospects;
+  }
+
+  // ── TEXT testimonial picker (same UX as email; appends the public PDF/page
+  //    link to the Social Proof text). Separate per-prospect state so text and
+  //    email pickers don't collide. ─────────────────────────────────────────
+  function openTextTestiPicker(prospect) {
+    prospect._showTextTestiPicker = true;
+    prospect._textTestiSearch = prospect._textTestiSearch || '';
+    prospect._textTestiResults = prospect._textTestiResults || [];
+    prospects = prospects;
+    loadAllEmailTestimonials();
+    // Seed results with same name/category matches so the rep sees relevant
+    // picks immediately without typing.
+    if (!(prospect._textTestiSearch || '').trim()) seedTextTestiResults(prospect);
+  }
+  function seedTextTestiResults(prospect) {
+    const stop = new Set(['the','and','inc','llc','corp','co','a','of','for','&']);
+    const pName = (prospect.name || '').toLowerCase();
+    const pWords = pName.replace(/[^a-z0-9 ]/g, ' ').split(/\s+/).filter(w => w.length > 2 && !stop.has(w));
+    const subCat = (selectedSubcategory || '').toLowerCase();
+    const mainCat = (selectedCategory || '').replace(/^[^\sa-z0-9]+\s*/i, '').toLowerCase();
+    const rank = (t) => {
+      const biz = (t.business || '').toLowerCase();
+      const bWords = biz.replace(/[^a-z0-9 ]/g, ' ').split(/\s+/).filter(w => w.length > 2 && !stop.has(w));
+      if (pWords.length && pWords.filter(w => bWords.includes(w)).length >= 1) return 3;
+      const hay = (biz + ' ' + (t.comment || '')).toLowerCase();
+      if (subCat && hay.includes(subCat)) return 2;
+      if (mainCat && hay.includes(mainCat)) return 1;
+      return 0;
+    };
+    prospect._textTestiResults = (allEmailTestimonials || [])
+      .map(t => ({ t, r: rank(t) }))
+      .filter(x => x.r > 0)
+      .sort((a, b) => b.r - a.r)
+      .slice(0, 25)
+      .map(x => x.t);
+    prospects = prospects;
+  }
+  function filterTextTestimonials(prospect) {
+    const term = (prospect._textTestiSearch || '').trim().toLowerCase();
+    if (!term) { seedTextTestiResults(prospect); return; }
+    prospect._textTestiResults = (allEmailTestimonials || []).filter(t =>
+      t.comment.toLowerCase().includes(term) ||
+      t.business.toLowerCase().includes(term)
+    ).slice(0, 25);
+    prospects = prospects;
+  }
+  function selectTextTestimonial(prospect, t) {
+    prospect._textTestimonialData = {
+      business_name: t.business,
+      comments: t.comment,
+      url: t.url,
+    };
+    prospect._showTextTestiPicker = false;
+    prospect._textTestiSearch = '';
+    prospect._textTestiResults = [];
+    prospects = prospects;
+  }
+  function clearTextTestimonial(prospect) {
+    prospect._textTestimonialData = null;
+    prospect._showTextTestiPicker = false;
     prospects = prospects;
   }
 
@@ -1650,6 +1767,146 @@
       console.error('New business search failed:', err);
       error = 'Failed to find new businesses. Try again.';
     } finally {
+      loading = false;
+    }
+  }
+
+  // 🔥 HOTLIST — curated top businesses to go after for THIS store, ranked by
+  // proximity + “ad-spend” signal (advertisers advertise): a business that
+  // already invests in visibility (website, lots of reviews, strong rating,
+  // multiple locations) is a warmer prospect. Excludes current clients.
+  const HOTLIST_QUERIES = [
+    'restaurant', 'mexican restaurant', 'pizza', 'sushi restaurant', 'bbq restaurant',
+    'car wash', 'oil change', 'auto repair', 'tire shop',
+    'dentist', 'orthodontist', 'chiropractor', 'urgent care',
+    'hair salon', 'nail salon', 'barber shop', 'day spa',
+    'coffee shop', 'bakery', 'ice cream', 'juice bar',
+    'gym fitness', 'yoga studio', 'veterinarian', 'pet grooming',
+    'jewelry store', 'furniture store', 'flooring', 'garage door',
+  ];
+  let hotlistLoading = false;
+
+  // Normalize a name for client-dedup comparison.
+  function normName(s) { return (s || '').toLowerCase().replace(/[^a-z0-9 ]/g, ' ').replace(/\s+/g, ' ').trim(); }
+  function isExistingClient(name) {
+    const n = normName(name);
+    if (!n) return false;
+    const stop = new Set(['the','and','inc','llc','corp','co']);
+    const words = n.split(' ').filter(w => w.length > 2 && !stop.has(w));
+    if (!words.length) return false;
+    return (allContracts || []).some(c => {
+      const cn = normName(c.business_name);
+      if (!cn) return false;
+      if (cn === n) return true;
+      const cw = cn.split(' ').filter(w => w.length > 2 && !stop.has(w));
+      const common = words.filter(w => cw.includes(w));
+      return common.length >= 2 || (common.length === 1 && words.length === 1 && cw.length <= 2);
+    });
+  }
+
+  // Ad-spend proxy score 0-100: reviews (invest in getting seen) + website
+  // (marketing presence) + rating (quality) + being an established chain.
+  function adSpendScore(p) {
+    const reviews = p.reviews || 0;
+    const rating = p.rating || 0;
+    // Reviews: heavy weight — lots of reviews == they push for visibility.
+    let s = Math.min(55, Math.log10(reviews + 1) * 26); // ~55 at 1000+ reviews
+    if (p.website) s += 18;                              // has a website / online presence
+    if (rating >= 4.5) s += 14; else if (rating >= 4.0) s += 9; else if (rating >= 3.5) s += 4;
+    if (reviews >= 300) s += 8;                          // clearly spends to stay visible
+    return Math.round(Math.min(100, s));
+  }
+
+  async function buildHotlist() {
+    if (!selectedStore) return;
+    selectedCategory = '🔥 Hotlist';
+    selectedSubcategory = 'Top Targets';
+    hotlistLoading = true;
+    loading = true;
+    error = '';
+    try {
+      const lat = selectedStore?.latitude || selectedStore?.Latitude || 0;
+      const lng = selectedStore?.longitude || selectedStore?.Longitude || 0;
+      const storeCity = selectedStore?.City || '';
+      const storeState = selectedStore?.State || '';
+      const storeZip = selectedStore?.PostalCode || '';
+      const hasRealCoords = selectedStore && !isBadCoords(lat, lng);
+      const seen = new Set();
+      const all = [];
+
+      const searchBatch = async (queries) => {
+        const promises = queries.map(async (q) => {
+          let textQuery = hasRealCoords ? q
+            : (storeZip ? `${q} near ${storeCity}, ${storeState} ${storeZip}` : `${q} near ${storeCity}, ${storeState}`);
+          const requestBody = { textQuery, maxResultCount: 6 };
+          if (hasRealCoords) requestBody.locationBias = { circle: { center: { latitude: lat, longitude: lng }, radius: 8000.0 } };
+          try {
+            const response = await fetch('https://places.googleapis.com/v1/places:searchText', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+                'X-Goog-Api-Key': PLACES_API_KEY,
+                'X-Goog-FieldMask': 'places.displayName,places.formattedAddress,places.rating,places.userRatingCount,places.location,places.businessStatus,places.nationalPhoneNumber,places.websiteUri,places.googleMapsUri,places.primaryTypeDisplayName'
+              },
+              body: JSON.stringify(requestBody)
+            });
+            const data = await response.json();
+            return (data.places || []).map(pl => ({ pl, q }));
+          } catch { return []; }
+        });
+        return (await Promise.all(promises)).flat();
+      };
+
+      for (let i = 0; i < HOTLIST_QUERIES.length; i += 5) {
+        const batch = HOTLIST_QUERIES.slice(i, i + 5);
+        const places = await searchBatch(batch);
+        for (const { pl, q } of places) {
+          const name = pl.displayName?.text || '';
+          if (!name || seen.has(name.toLowerCase())) continue;
+          if (pl.businessStatus && pl.businessStatus !== 'OPERATIONAL') continue;
+          if (isExistingClient(name)) continue; // already a client — skip
+          seen.add(name.toLowerCase());
+          const pLat = pl.location?.latitude || 0;
+          const pLng = pl.location?.longitude || 0;
+          const dist = hasRealCoords ? calculateDistance(lat, lng, pLat, pLng) : null;
+          const p = {
+            id: name,
+            name,
+            address: pl.formattedAddress || 'Address unavailable',
+            rating: pl.rating || 0,
+            reviews: pl.userRatingCount || 0,
+            distance: dist != null ? Math.round(dist * 10) / 10 : null,
+            phone: pl.nationalPhoneNumber || null,
+            website: pl.websiteUri || null,
+            mapsUrl: pl.googleMapsUri || null,
+            category: '🔥 Hotlist',
+            subcategory: pl.primaryTypeDisplayName?.text || q,
+            status: 'open',
+            lat: pLat, lng: pLng,
+          };
+          p._adSpend = adSpendScore(p);
+          // Proximity score: 100 at store, ~0 by 5mi (only when we have coords).
+          const prox = p.distance != null ? Math.max(0, 100 - (p.distance / 5) * 100) : 55;
+          // Curated hotlist score: blend ad-spend signal + proximity.
+          p.score = Math.round(p._adSpend * 0.6 + prox * 0.4);
+          p._proximity = Math.round(prox);
+          all.push(p);
+        }
+      }
+
+      // Keep the strongest signals: must have a real footprint (reviews) and be
+      // reasonably close when we know distance. Then take the curated top set.
+      let list = all.filter(p => (p.reviews || 0) >= 15);
+      if (hasRealCoords) list = list.filter(p => p.distance == null || p.distance <= 5);
+      list.sort((a, b) => b.score - a.score);
+      prospects = list.slice(0, 25);
+      trackSearch('🔥 Hotlist', 'Top Targets', selectedStore?.StoreName);
+      view = 'results';
+    } catch (err) {
+      console.error('Hotlist build failed:', err);
+      error = 'Failed to build the hotlist. Try again.';
+    } finally {
+      hotlistLoading = false;
       loading = false;
     }
   }
@@ -2850,7 +3107,7 @@ IndoorMedia`
     const storeName = street && city ? `${chain} on ${street} in ${city}` : chain;
     const repName = $user?.name || $user?.first_name || '[Your Name]';
     const subcat = selectedSubcategory || selectedCategory?.replace(/^[^\s]+\s/, '') || 'business';
-    return [
+    const templates = [
       { label: '🤝 Cold Intro', msg: `Hey! This is ${repName} with IndoorMedia. I work with ${storeName} — we're featuring one ${subcat.toLowerCase()} on their register tape to all their shoppers. Got 10 min this week to chat?` },
       { label: '📊 Value Drop', msg: `Hi it's ${repName} w/ IndoorMedia. We put local businesses on the register tape at ${storeName}. ${subcat}s in the area are seeing great results. Interested in hearing how it works?` },
       { label: '⏰ Follow-up', msg: `Hey just circling back — still interested in getting ${bizName} in front of all the shoppers at ${storeName}? Happy to swing by whenever works` },
@@ -2858,6 +3115,41 @@ IndoorMedia`
       { label: '🔄 Re-engage', msg: `Hey! We talked a while back about getting ${bizName} on the tape at ${storeName}. Lot of businesses have jumped on since then. Worth another look?` },
       { label: '📸 Post-Visit', msg: `Great meeting you! Here's what we talked about — featuring ${bizName} to thousands of shoppers at ${storeName}. Any questions just text me back 👍` }
     ];
+
+    // ⭐ Social-proof template: VAGUELY references how many similar advertisers
+    // we work with (by same business name/franchise or category) rather than
+    // quoting one verbatim — e.g. “we work with several Menchie's and send them
+    // hundreds of new customers.” Matched when the Text panel opens.
+    const t = prospect._textTestimonial;
+    let proofMsg;
+    const several = (n) => (n >= 8 ? 'a lot of' : n >= 4 ? 'several' : n >= 2 ? 'a couple of' : 'another');
+    const plural = (s) => /s$/i.test(s) ? s : (s + 's');
+    if (t && t._label) {
+      let who;
+      if (t._basis === 'name') {
+        // Same business / franchise name (e.g. “Menchie's”).
+        who = t._count >= 2 ? `${several(t._count)} ${plural(t._label)} locations` : `${t._label}`;
+      } else {
+        // Same sub/main category (e.g. “pizza shops”).
+        const cat = (t._label || subcat).toLowerCase();
+        who = `${several(t._count)} ${plural(cat)}`;
+      }
+      proofMsg = `Hi, it's ${repName} w/ IndoorMedia. We run register-tape ads at ${storeName}. We already work with ${who} and send them hundreds of new customers — I think we could do the same for ${bizName}. Got 10 min to chat?`;
+    } else if (prospect._textTestimonial === null) {
+      // Loaded but no match found — generic category social-proof line.
+      proofMsg = `Hi, it's ${repName} w/ IndoorMedia. We work with ${plural(subcat.toLowerCase())} advertising on the register tape at ${storeName} and send them tons of new customers — think ${bizName} could see the same. Worth a quick chat?`;
+    } else {
+      // Still loading the match.
+      proofMsg = `Hi, it's ${repName} w/ IndoorMedia. We work with lots of local businesses at ${storeName} and drive them real foot traffic — got 10 min to chat about featuring ${bizName}?`;
+    }
+    // If the rep picked a testimonial to share, append its public PDF/page link.
+    if (prospect._textTestimonialData && prospect._textTestimonialData.url) {
+      const td = prospect._textTestimonialData;
+      const bizLabel = td.business_name ? td.business_name.split(/[-–,(]/)[0].trim() : 'a happy advertiser';
+      proofMsg += `\n\nHere's a real one from ${bizLabel}: ${td.url}`;
+    }
+    templates.splice(2, 0, { label: '⭐ Social Proof', msg: proofMsg });
+    return templates;
   }
 
   function trackSearch(category, subcategory, storeName) {
@@ -3252,6 +3544,11 @@ IndoorMedia`
       </button>
     {/if}
 
+    <button class="hotlist-banner" on:click={buildHotlist} disabled={hotlistLoading}>
+      {hotlistLoading ? '⏳ Building your hotlist…' : '🔥 Hotlist — Top Targets'}
+      <span class="hotlist-hint">Curated best businesses to go after, ranked by proximity + ad spend (advertisers advertise)</span>
+    </button>
+
     <button class="new-biz-banner" on:click={searchNewBusinesses}>
       🆕 New Businesses
       <span class="new-biz-hint">Opened in the last year near this store</span>
@@ -3313,8 +3610,15 @@ IndoorMedia`
           </div>
           <p class="prospect-address" style="cursor:pointer;" on:click={() => { navigator.clipboard.writeText(prospect.address); copiedAddress = prospect.address; setTimeout(() => copiedAddress = '', 2000); }}>📍 {copiedAddress === prospect.address ? '✅ Copied!' : prospect.address}</p>
           <p class="prospect-meta">
-            ⭐ {prospect.rating.toFixed(1)} ({prospect.reviews} reviews) • {prospect.distance} mi • Score: {prospect.score}%
+            ⭐ {prospect.rating.toFixed(1)} ({prospect.reviews} reviews){prospect.distance != null ? ` • ${prospect.distance} mi` : ''} • Score: {prospect.score}%
           </p>
+          {#if prospect._adSpend != null}
+            <div class="hotlist-signals">
+              <span class="hl-chip hl-spend" title="Ad-spend signal: this business already invests in visibility (reviews, website, rating) — advertisers advertise">💰 Ad spend: {prospect._adSpend >= 70 ? 'High' : prospect._adSpend >= 45 ? 'Medium' : 'Low'}</span>
+              {#if prospect._proximity != null}<span class="hl-chip hl-prox">📍 {prospect._proximity >= 70 ? 'Very close' : prospect._proximity >= 40 ? 'Nearby' : 'In range'}</span>{/if}
+              {#if prospect.website}<a class="hl-chip hl-web" href={prospect.website} target="_blank" rel="noreferrer" on:click|stopPropagation>🌐 Website</a>{/if}
+            </div>
+          {/if}
           {#if prospect.phone}
             <p class="prospect-phone">📞 <a href="tel:{prospect.phone}" style="color:inherit;text-decoration:none;">{prospect.phone}</a></p>
           {/if}
@@ -3351,7 +3655,7 @@ IndoorMedia`
             <div class="action-row">
               {#if primaryNum}
                 <a href="tel:{primaryNum}" class="action-btn btn-green" on:click={() => { trackPhoneClick(prospect); handleLeadAction(prospect, 'call'); }}>📞 Call</a>
-                <button class="action-btn btn-blue" on:click={() => { prospect._showText = !prospect._showText; prospect._showEmail = false; prospect._showScript = false; prospect._showNotes = false; prospects = prospects; handleLeadAction(prospect, 'text'); }}>💬 Text</button>
+                <button class="action-btn btn-blue" on:click={() => { prospect._showText = !prospect._showText; prospect._showEmail = false; prospect._showScript = false; prospect._showNotes = false; prospects = prospects; if (prospect._showText && prospect._textTestimonial === undefined) { prospect._textTestimonial = null; matchTestimonialForProspect(prospect).then(t => { prospect._textTestimonial = t; prospects = prospects; }); } handleLeadAction(prospect, 'text'); }}>💬 Text</button>
               {/if}
               <button class="action-btn btn-purple" on:click={() => { prospect._showEmail = !prospect._showEmail; prospect._showText = false; prospect._showScript = false; prospect._showNotes = false; prospects = prospects; if (prospect._showEmail) { ensureProspectEmail(prospect); if (!prospect._research && !prospect._researching) { prospect._researching = true; researchProspect(prospect).finally(() => { prospect._researching = false; prospects = prospects; }); } handleLeadAction(prospect, 'email'); } }}>✉️ Email</button>
               <button class="action-btn btn-orange" on:click={() => { handleLeadAction(prospect, 'walk-in'); }}>🚶 Walk-In</button>
@@ -3438,6 +3742,49 @@ IndoorMedia`
             <div class="text-templates-section">
               <h4 class="text-templates-title">💬 Text Templates</h4>
               <p class="text-templates-hint">Tap to copy, then paste into your text. Or tap "Send" to open SMS.</p>
+
+              <!-- Optional: attach a specific testimonial link to the Social Proof text -->
+              <div class="text-testi-block">
+                {#if prospect._textTestimonialData}
+                  <div class="email-testi-selected">
+                    <div class="ets-head">
+                      <span>⭐ Testimonial link added to Social Proof</span>
+                      <button class="ets-change" on:click={() => openTextTestiPicker(prospect)}>Change</button>
+                      <button class="ets-remove" on:click={() => clearTextTestimonial(prospect)}>Remove</button>
+                    </div>
+                    <div class="ets-biz">{prospect._textTestimonialData.business_name || 'IndoorMedia Advertiser'}</div>
+                    <div class="ets-comment">“{prospect._textTestimonialData.comments}”</div>
+                  </div>
+                {:else if prospect._showTextTestiPicker}
+                  <div class="email-testi-picker">
+                    <div class="etp-head">
+                      <strong>⭐ Pick a testimonial to link</strong>
+                      <button class="etp-close" on:click={() => { prospect._showTextTestiPicker = false; prospects = prospects; }}>✕</button>
+                    </div>
+                    <input type="text" class="etp-search" placeholder="Search by keyword, business, or comment…"
+                      bind:value={prospect._textTestiSearch} on:input={() => filterTextTestimonials(prospect)} />
+                    {#if !emailTestimonialsLoaded}
+                      <p class="etp-hint">Loading testimonials…</p>
+                    {:else if prospect._textTestiResults && prospect._textTestiResults.length}
+                      <div class="etp-results">
+                        {#each prospect._textTestiResults as t (t.id)}
+                          <button class="etp-result" on:click={() => selectTextTestimonial(prospect, t)}>
+                            <span class="etp-result-biz">{t.business || 'IndoorMedia Advertiser'}</span>
+                            <span class="etp-result-comment">“{t.comment}”</span>
+                          </button>
+                        {/each}
+                      </div>
+                    {:else if (prospect._textTestiSearch || '').trim()}
+                      <p class="etp-hint">No testimonials match “{prospect._textTestiSearch}”</p>
+                    {:else}
+                      <p class="etp-hint">Showing matches for this business/category — or type to search.</p>
+                    {/if}
+                  </div>
+                {:else}
+                  <button class="email-testi-add" on:click={() => openTextTestiPicker(prospect)}>🔗 Add a testimonial link</button>
+                {/if}
+              </div>
+
               {#each getTextTemplates(prospect) as template}
                 <div class="text-template-card">
                   <div class="text-template-label">{template.label}</div>
@@ -5395,6 +5742,28 @@ IndoorMedia`
   .new-biz-banner:active { transform: scale(0.97); }
   .new-biz-hint { font-size: 11px; font-weight: 400; opacity: 0.8; }
 
+  .hotlist-banner {
+    width: 100%; padding: 14px 16px; border-radius: 12px; font-size: 16px; font-weight: 800;
+    background: linear-gradient(135deg, #ff6a00, #cc0000); color: white;
+    border: none; cursor: pointer; text-align: center; margin-bottom: 12px;
+    display: flex; flex-direction: column; align-items: center; gap: 3px;
+    transition: transform 0.1s; box-shadow: 0 3px 12px rgba(204,0,0,0.28);
+  }
+  .hotlist-banner:active { transform: scale(0.97); }
+  .hotlist-banner:disabled { opacity: 0.7; cursor: default; }
+  .hotlist-hint { font-size: 11px; font-weight: 400; opacity: 0.9; line-height: 1.3; }
+
+  .hotlist-signals { display: flex; flex-wrap: wrap; gap: 6px; margin: 4px 0 2px; }
+  .hl-chip {
+    font-size: 11px; font-weight: 700; padding: 3px 8px; border-radius: 999px;
+    text-decoration: none; line-height: 1.4;
+    background: var(--bg-secondary, #f1f1f1); color: var(--text-secondary, #555);
+    border: 1px solid var(--border-color, #e3e3e3);
+  }
+  .hl-chip.hl-spend { background: rgba(204,0,0,0.10); color: #cc0000; border-color: rgba(204,0,0,0.25); }
+  .hl-chip.hl-prox { background: rgba(10,125,44,0.10); color: #0a7d2c; border-color: rgba(10,125,44,0.25); }
+  .hl-chip.hl-web { background: rgba(26,115,232,0.10); color: #1a73e8; border-color: rgba(26,115,232,0.25); }
+
   .saved-leads-banner {
     width: 100%; padding: 14px 16px; border-radius: 12px; font-size: 16px; font-weight: 700;
     background: linear-gradient(135deg, #0a7d2c, #05561d); color: white;
@@ -6070,6 +6439,7 @@ IndoorMedia`
   /* Searchable testimonial picker (prospect email) */
   .email-testi-block { margin-bottom: 6px; }
   .email-testi-add { width: 100%; padding: 9px; background: #fff; color: #b8860b; border: 1.5px dashed #d4a017; border-radius: 8px; font-size: 13px; font-weight: 700; cursor: pointer; }
+  .text-testi-block { margin: 6px 0 12px; }
   .email-testi-add:active { background: #fffbe6; }
   .email-testi-picker { background: #fffdf5; border: 1px solid #ecdca0; border-radius: 8px; padding: 10px; }
   .etp-head { display: flex; align-items: center; justify-content: space-between; font-size: 13px; margin-bottom: 6px; }

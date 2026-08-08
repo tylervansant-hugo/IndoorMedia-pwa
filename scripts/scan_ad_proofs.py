@@ -44,10 +44,16 @@ ADMIN_EMAILS = {
 
 def search_ad_proof_emails(days_back=7):
     """Search Gmail for ad proof emails."""
-    query = f"from:zone subject:\"Ad Proof from IndoorMedia\" newer_than:{days_back}d"
+    # Subjects come as both singular "Ad Proof from IndoorMedia" and plural
+    # "Ad Proofs from IndoorMedia" — match both or we silently miss advertisers
+    # (e.g. Boom Street Burgers was a plural-subject email).
+    query = (
+        f"from:zone (subject:\"Ad Proof from IndoorMedia\" "
+        f"OR subject:\"Ad Proofs from IndoorMedia\") newer_than:{days_back}d"
+    )
     cmd = [
         "gog", "gmail", "messages", "search", query,
-        "--max", "200",
+        "--max", "1000",
         "--account", ACCOUNT,
         "--json", "--no-input"
     ]
@@ -107,7 +113,7 @@ def parse_subject(subject):
     # Extract client name and location from middle part
     # "Ad Proof from IndoorMedia , Client Name - Location [...]"
     middle = re.sub(r'\[.*?\]', '', subject)
-    middle = re.sub(r'^.*?Ad Proof from IndoorMedia\s*,?\s*', '', middle, flags=re.IGNORECASE).strip()
+    middle = re.sub(r'^.*?Ad Proofs? from IndoorMedia\s*,?\s*', '', middle, flags=re.IGNORECASE).strip()
     
     if ' - ' in middle:
         parts = middle.rsplit(' - ', 1)

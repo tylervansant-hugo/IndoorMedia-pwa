@@ -8,6 +8,141 @@
   let geoDebounce = null;
   let allStores = [];
   let filtered = [];
+
+  // Map of storeName -> array of active-ad contracts (existing clients running
+  // ads at that store). Used to show a “live ads” badge on the store card.
+  let activeAdsByStore = {};
+
+  // Build the active-ads map by matching contracts (existing clients) to stores
+  // on GroceryChain + zone + store number. StoreName encodes CHAIN-prefix, zone
+  // (e.g. 07X) and a store number (e.g. FME07X-0691 -> zone 07X, #691).
+  // Tokenize a business name into meaningful lowercase words for matching.
+  // Proof client_name values often look like "Jiaxin Li - Ginza Sushi & Ramen
+  // - Fred Meyer"; take the middle segment (the business) when hyphenated.
+  const NAME_STOP = new Set(['the','and','inc','llc','corp','co','a','of','for','&','mexican','food','restaurant','llc.','sushi','ramen','grill','cafe','shop','store','bar','market']);
+  function nameTokens(name) {
+    let s = String(name || '');
+    // If dash-delimited, prefer the middle (business) chunk over person/store.
+    const parts = s.split(/\s+[-\u2013]\s+/).map(x => x.trim()).filter(Boolean);
+    if (parts.length >= 2) s = parts[parts.length - 2] || parts[0];
+    return s.toLowerCase()
+      .replace(/&#x27;/g, "'").replace(/&amp;/g, '&')
+      .replace(/[^a-z0-9 ]/g, ' ')
+      .split(/\s+/)
+      .filter(w => w.length > 2 && !NAME_STOP.has(w));
+  }
+
+  async function loadActiveAds() {
+    try {
+      const [cRes, pRes] = await Promise.all([
+        fetch(import.meta.env.BASE_URL + 'data/contracts.json?t=' + Date.now()),
+        fetch(import.meta.env.BASE_URL + 'data/ad_proofs.json?t=' + Date.now()).catch(() => null),
+      ]);
+      if (!cRes || !cRes.ok) return;
+      const data = await cRes.json();
+      const contracts = data.contracts || data || [];
+
+      // Ad proofs (the actual artwork/“proof” for a running ad). Index the most
+      // recent proof per contract number AND per chain|zone|storenum key.
+      let proofs = [];
+      try { if (pRes && pRes.ok) proofs = await pRes.json(); } catch {}
+      const parseTs = (d) => { const t = Date.parse((d || '').replace(' ', 'T')); return isNaN(t) ? 0 : t; };
+      const parseProofStore = (s) => {
+        // e.g. "> Fred Meyer 0464, 4701 Highway 101, Florence, OR"
+        const clean = String(s || '').replace(/^[>\s]+/, '').trim();
+        const m = clean.match(/^(.+?)\s+(\d{3,5})[,\s]/);
+        return m ? { chain: m[1].trim().toLowerCase(), num: String(m[2]).replace(/^0+/, '') } : { chain: '', num: '' };
+      };
+      const proofByContract = {};   // contract# -> newest proof
+      const proofByStoreKey = {};   // chain|zone|num -> [proofs]
+      for (const p of (proofs || [])) {
+        const cn = (p.contract_number || '').trim();
+        if (cn) {
+          if (!proofByContract[cn] || parseTs(p.date) > parseTs(proofByContract[cn].date)) proofByContract[cn] = p;
+        }
+        const ps = parseProofStore(p.store);
+        const zone = (p.zone || '').trim();
+        if (ps.chain && zone && ps.num) {
+          const k = `${ps.chain}|${zone}|${ps.num}`;
+          (proofByStoreKey[k] = proofByStoreKey[k] || []).push(p);
+        }
+      }
+
+      // Index stores by chain|zone|number for fast lookup.
+      const idx = {};
+      for (const s of allStores) {
+        const m = String(s.StoreName || '').match(/(\d{2}[A-Z])-(\d+)/);
+        if (!m) continue;
+        const key = `${(s.GroceryChain || '').toLowerCase()}|${m[1]}|${String(m[2]).replace(/^0+/, '')}`;
+        idx[key] = s.StoreName;
+      }
+      const map = {};
+      for (const c of contracts) {
+        const chain = (c.store_name || '').toLowerCase();
+        const zone = (c.zone || '').trim();
+        const num = String(c.store_number || '').trim().replace(/^0+/, '');
+        if (!chain || !zone || !num) continue;
+        const storeKey = `${chain}|${zone}|${num}`;
+        const sName = idx[storeKey];
+        if (!sName) continue;
+        // Attach a proof ONLY when we're confident it belongs to THIS
+        // advertiser: (1) exact contract-number match, else (2) a strong
+        // business-name match at the same store. Never fall back to “newest
+        // proof at the store” — that mislabels unrelated advertisers.
+        let proof = c.contract_number ? proofByContract[(c.contract_number || '').trim()] : null;
+        if (!proof) {
+          const cand = proofByStoreKey[storeKey] || [];
+          const bizTokens = nameTokens(c.business_name);
+          if (bizTokens.length) {
+            const byName = cand.filter(p => {
+              const pt = nameTokens(p.client_name);
+              if (!pt.length) return false;
+              const common = bizTokens.filter(w => pt.includes(w));
+              // Require 2+ shared meaningful words, or a single distinctive word
+              // that fully matches a single-word business name.
+              return common.length >= 2 || (common.length === 1 && bizTokens.length === 1 && pt.includes(bizTokens[0]));
+            });
+            proof = byName.slice().sort((a, b) => parseTs(b.date) - parseTs(a.date))[0] || null;
+          }
+        }
+        (map[sName] = map[sName] || []).push({ ...c, _proof: proof || null });
+      }
+      activeAdsByStore = map;
+      console.log(`Active-ad stores: ${Object.keys(map).length}`);
+    } catch (e) {
+      console.warn('[StoreSearch] active ads load failed:', e);
+    }
+  }
+
+  // Modal state for the active-advertisers popup.
+  let activeAdsModal = null; // { storeName, storeLabel, advertisers: [...] }
+  function openActiveAds(store) {
+    const list = activeAdsByStore[store.StoreName];
+    if (!list || !list.length) return;
+    const label = `${store.GroceryChain || 'Store'}${store.City ? ' · ' + store.City : ''} (${store.StoreName})`;
+    activeAdsModal = { storeName: store.StoreName, storeLabel: label, advertisers: list };
+  }
+  function closeActiveAds() { activeAdsModal = null; }
+  function proofImgSrc(url) {
+    // Normalize Google Drive links to a directly-viewable thumbnail if needed.
+    return url || '';
+  }
+
+  // Summarize active ads for a store into short product labels for the badge.
+  function activeAdSummary(storeName) {
+    const list = activeAdsByStore[storeName];
+    if (!list || !list.length) return null;
+    const prods = new Set();
+    for (const c of list) {
+      const p = ((c.product_type || c.product_description || '') + '').toLowerCase();
+      if (p.includes('cart') || p.includes('nose')) prods.add('Cartvertising');
+      else if (p.includes('digital') || p.includes('boost') || p.includes('geo')) prods.add('Digital');
+      else if (p.includes('single') || p.includes('double') || p.includes('tape') || p.includes('ad')) prods.add('Register Tape');
+      else if (p.trim()) prods.add('Ads');
+    }
+    if (!prods.size) prods.add('Ads');
+    return { count: list.length, products: [...prods] };
+  }
   let useGeolocation = false;
   let userLocation = null;
   // Label describing what userLocation points at (an address / POI the rep typed,
@@ -480,6 +615,7 @@ Store: ${store.StoreName}
       const data = await response.json();
       allStores = data || [];
       console.log(`Loaded ${allStores.length} stores`);
+      loadActiveAds();
     } catch (err) {
       setError('Failed to load stores: ' + err.message);
     } finally {
@@ -643,6 +779,30 @@ Store: ${store.StoreName}
       Math.sin(dLon / 2) * Math.sin(dLon / 2);
     const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
     return R * c;
+  }
+
+  // Open device maps with directions to a store. Uses coords when available,
+  // otherwise falls back to the address. Works on iOS (Apple/Google Maps),
+  // Android, and desktop.
+  function navToStore(store) {
+    const hasCoords = store.latitude != null && store.longitude != null &&
+      store.latitude !== '' && store.longitude !== '';
+    const addr = [store.Address, store.City, store.State, store.PostalCode]
+      .filter(Boolean).join(', ');
+    const dest = hasCoords
+      ? `${store.latitude},${store.longitude}`
+      : encodeURIComponent(addr);
+    if (!dest) { alert('No address available for this store.'); return; }
+    const ua = navigator.userAgent || '';
+    let url;
+    if (/iPhone|iPad|iPod/i.test(ua)) {
+      // Apple Maps directions
+      url = `maps://?daddr=${dest}&dirflg=d`;
+    } else {
+      // Universal Google Maps directions (Android + desktop)
+      url = `https://www.google.com/maps/dir/?api=1&destination=${dest}`;
+    }
+    window.open(url, '_blank');
   }
 
   // Pricing mode: 'standard' or 'summer_promo'
@@ -1215,8 +1375,21 @@ Store: ${store.StoreName}
                   📍 {(calcDistance(userLocation.lat, userLocation.lng, store.latitude, store.longitude)).toFixed(1)} mi away
                 </p>
               {/if}
+              {#if activeAdSummary(store.StoreName)}
+                {@const ads = activeAdSummary(store.StoreName)}
+                <button class="active-ads-badge" on:click|stopPropagation={() => openActiveAds(store)} title="Tap to see the advertiser{ads.count === 1 ? '' : 's'} and their latest ad proof">
+                  <span class="live-dot"></span>
+                  <span class="active-ads-text">🟢 {ads.count} active ad{ads.count === 1 ? '' : 's'} running</span>
+                  <span class="active-ads-prods">{ads.products.join(' · ')} ›</span>
+                </button>
+              {/if}
               <button class="prospect-store-btn" on:click|stopPropagation={() => document.dispatchEvent(new CustomEvent('map-action', { detail: { action: 'prospect', store } }))}>
                 🎯 Prospect Store
+              </button>
+
+              <!-- Navigate to store (opens device maps with directions) -->
+              <button class="navigate-store-btn" on:click|stopPropagation={() => navToStore(store)}>
+                🧭 Navigate to Store
               </button>
 
               <!-- Quick-add product buttons: Register Tape → Cartvertising → Digital -->
@@ -1594,6 +1767,51 @@ Store: ${store.StoreName}
 
   {#if addedToCartMsg}
     <div class="cart-toast">{addedToCartMsg}</div>
+  {/if}
+
+  {#if activeAdsModal}
+    <div class="aads-overlay" on:click={closeActiveAds}>
+      <div class="aads-modal" on:click|stopPropagation>
+        <div class="aads-head">
+          <div>
+            <div class="aads-title"><span class="live-dot"></span> Active Advertisers</div>
+            <div class="aads-sub">{activeAdsModal.storeLabel}</div>
+          </div>
+          <button class="aads-close" on:click={closeActiveAds}>✕</button>
+        </div>
+        <div class="aads-body">
+          {#each activeAdsModal.advertisers as adv}
+            <div class="aads-card">
+              <div class="aads-card-top">
+                <span class="aads-biz">{adv.business_name || adv._proof?.client_name || 'Advertiser'}</span>
+                {#if adv.product_description || adv.product_type}<span class="aads-prod">{adv.product_description || adv.product_type}</span>{/if}
+              </div>
+              <div class="aads-meta">
+                {[adv.contact_name, adv.contact_phone, adv.sales_rep && ('Rep: ' + adv.sales_rep)].filter(Boolean).join(' · ')}
+              </div>
+              {#if adv._proof}
+                <div class="aads-proof">
+                  <div class="aads-proof-label">
+                    📄 Latest proof{adv._proof.date ? ' · ' + adv._proof.date : ''}{adv._proof.ad_size ? ' · ' + adv._proof.ad_size : ''}{adv._proof.cycle ? ' · Cycle ' + adv._proof.cycle : ''}
+                  </div>
+                  {#if adv._proof.image_url}
+                    <a href={adv._proof.image_url} target="_blank" rel="noreferrer">
+                      <img src={proofImgSrc(adv._proof.image_url)} alt="Ad proof for {adv._proof.client_name}" class="aads-proof-img" loading="lazy" referrerpolicy="no-referrer" on:error={(e) => { e.target.style.display='none'; e.target.nextElementSibling && (e.target.nextElementSibling.style.display='flex'); }} />
+                      <span class="aads-proof-fallback" style="display:none;">📷 Tap to view ad proof</span>
+                    </a>
+                    <a href={adv._proof.image_url} target="_blank" rel="noreferrer" class="aads-proof-full">View full size ↗</a>
+                  {:else}
+                    <div class="aads-proof-none">Proof on file (no image link).</div>
+                  {/if}
+                </div>
+              {:else}
+                <div class="aads-proof-none">No ad proof on file yet for this advertiser.</div>
+              {/if}
+            </div>
+          {/each}
+        </div>
+      </div>
+    </div>
   {/if}
 </div>
 
@@ -2407,6 +2625,119 @@ Store: ${store.StoreName}
   .prospect-store-btn:active {
     transform: translateY(0);
   }
+  .active-ads-badge {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 8px;
+    width: 100%;
+    margin: 8px 0 2px;
+    padding: 7px 11px;
+    border-radius: 8px;
+    background: rgba(10, 125, 44, 0.10);
+    border: 1px solid rgba(10, 125, 44, 0.30);
+    cursor: pointer;
+    text-align: left;
+    transition: background 0.15s, transform 0.15s;
+  }
+  .active-ads-badge:hover { background: rgba(10, 125, 44, 0.18); transform: translateY(-1px); }
+  .active-ads-badge:active { transform: translateY(0); }
+
+  /* Active advertisers modal */
+  .aads-overlay {
+    position: fixed; inset: 0; z-index: 200;
+    background: rgba(0,0,0,0.55);
+    display: flex; align-items: flex-end; justify-content: center;
+    padding: 0;
+  }
+  .aads-modal {
+    background: var(--card-bg, #fff);
+    width: 100%; max-width: 560px;
+    max-height: 88vh; overflow-y: auto;
+    border-radius: 16px 16px 0 0;
+    box-shadow: 0 -6px 30px rgba(0,0,0,0.3);
+  }
+  @media (min-width: 640px) {
+    .aads-overlay { align-items: center; padding: 20px; }
+    .aads-modal { border-radius: 16px; }
+  }
+  .aads-head {
+    display: flex; align-items: flex-start; justify-content: space-between;
+    gap: 12px; padding: 16px 18px 12px;
+    position: sticky; top: 0; background: var(--card-bg, #fff);
+    border-bottom: 1px solid var(--border-color, #eee); z-index: 1;
+  }
+  .aads-title { display: flex; align-items: center; gap: 8px; font-size: 17px; font-weight: 800; color: var(--text-primary, #1a1a1a); }
+  .aads-sub { font-size: 12.5px; color: var(--text-secondary, #888); margin-top: 3px; }
+  .aads-close {
+    background: var(--bg-secondary, #f0f0f0); border: none; border-radius: 50%;
+    width: 32px; height: 32px; font-size: 15px; cursor: pointer; color: var(--text-secondary, #666); flex-shrink: 0;
+  }
+  .aads-body { padding: 12px 18px 22px; display: flex; flex-direction: column; gap: 14px; }
+  .aads-card {
+    border: 1px solid var(--border-color, #e6e6e6); border-radius: 12px; padding: 12px 13px;
+    background: var(--bg-secondary, #fafafa);
+  }
+  .aads-card-top { display: flex; align-items: baseline; justify-content: space-between; gap: 8px; flex-wrap: wrap; }
+  .aads-biz { font-size: 15px; font-weight: 800; color: var(--text-primary, #1a1a1a); }
+  .aads-prod {
+    font-size: 11px; font-weight: 700; color: #0a7d2c;
+    background: rgba(10,125,44,0.12); padding: 3px 8px; border-radius: 999px;
+  }
+  .aads-meta { font-size: 12.5px; color: var(--text-secondary, #888); margin-top: 4px; }
+  .aads-proof { margin-top: 10px; }
+  .aads-proof-label { font-size: 11.5px; font-weight: 700; color: var(--text-secondary, #777); margin-bottom: 6px; }
+  .aads-proof-img {
+    width: 100%; border-radius: 8px; border: 1px solid var(--border-color, #ddd);
+    display: block; background: #fff;
+  }
+  .aads-proof-fallback {
+    align-items: center; justify-content: center; gap: 6px;
+    padding: 22px; border: 1px dashed var(--border-color, #ccc); border-radius: 8px;
+    font-size: 13px; color: var(--text-secondary, #888); text-align: center;
+  }
+  .aads-proof-full { display: inline-block; margin-top: 6px; font-size: 12.5px; font-weight: 700; color: #1a73e8; text-decoration: none; }
+  .aads-proof-none { font-size: 12.5px; color: var(--text-secondary, #999); margin-top: 8px; font-style: italic; }
+  .active-ads-text {
+    font-size: 13px;
+    font-weight: 800;
+    color: #0a7d2c;
+  }
+  .active-ads-prods {
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--text-secondary, #777);
+    margin-left: auto;
+  }
+  .live-dot {
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    background: #14b83c;
+    box-shadow: 0 0 0 0 rgba(20, 184, 60, 0.7);
+    animation: livepulse 1.8s infinite;
+    flex-shrink: 0;
+  }
+  @keyframes livepulse {
+    0%   { box-shadow: 0 0 0 0 rgba(20, 184, 60, 0.6); }
+    70%  { box-shadow: 0 0 0 7px rgba(20, 184, 60, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(20, 184, 60, 0); }
+  }
+  .navigate-store-btn {
+    width: 100%;
+    margin-top: 8px;
+    padding: 10px;
+    background: #1a73e8;
+    border: none;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 700;
+    color: #fff;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .navigate-store-btn:hover { background: #1558b0; transform: translateY(-1px); }
+  .navigate-store-btn:active { transform: translateY(0); }
   .cartvert-store-btn {
     width: 100%;
     margin-top: 8px;
