@@ -1093,11 +1093,15 @@
     localStorage.setItem('theme', newTheme);
   }
 
+  // Bumped app-wide so everything reads bigger by default. Index 1 ('M') is
+  // the default and is now larger than 1.0; 'S' still gives the old baseline
+  // for anyone who wants it more compact.
   const FONT_SIZES = [
-    { label: 'S', scale: 0.85 },
-    { label: 'M', scale: 1.0 },
-    { label: 'L', scale: 1.15 },
-    { label: 'XL', scale: 1.3 },
+    { label: 'S', scale: 1.0 },
+    { label: 'M', scale: 1.15 },
+    { label: 'L', scale: 1.3 },
+    { label: 'XL', scale: 1.45 },
+    { label: 'XXL', scale: 1.6 },
   ];
   let fontIdx = parseInt(localStorage.getItem('impro_font_idx') || '1');
   let currentFontSize = FONT_SIZES[fontIdx]?.label || 'M';
