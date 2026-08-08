@@ -2205,17 +2205,17 @@
   .video-gallery-picked { display: flex; align-items: center; gap: 10px; background: #f0f7f0; border: 1px solid #d6ecd8; border-radius: 8px; padding: 8px 11px; font-size: 12.5px; }
   .video-gallery-picked span { flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
   .video-gallery-remove { background: none; border: none; color: #CC0000; font-size: 12px; cursor: pointer; text-decoration: underline; }
-  .footer-actions { display: flex; gap: 8px; }
+  .footer-actions { display: flex; flex-wrap: wrap; gap: 8px; }
   .business-name-row { margin-bottom: 10px; }
   .business-name-input { width: 100%; padding: 10px 12px; border: 1px solid #ddd; border-radius: 8px; font-size: 14px; box-sizing: border-box; }
   .business-name-input::placeholder { color: #999; }
-  .export-btn { flex: 1; padding: 12px; background: #CC0000; color: white; border: none; border-radius: 8px; font-size: 14px; font-weight: 600; cursor: pointer; }
+  .export-btn { flex: 1 1 160px; min-width: 160px; padding: 12px; background: #CC0000; color: white; border: none; border-radius: 8px; font-size: 14px; font-weight: 600; cursor: pointer; white-space: nowrap; text-align: center; }
   .export-btn:hover { background: #990000; }
-  .map-btn { padding: 12px; background: #1a56db; color: white; border: none; border-radius: 8px; font-size: 14px; font-weight: 600; cursor: pointer; white-space: nowrap; }
+  .map-btn { flex: 1 1 140px; min-width: 140px; padding: 12px; background: #1a56db; color: white; border: none; border-radius: 8px; font-size: 14px; font-weight: 600; cursor: pointer; white-space: nowrap; text-align: center; }
   .map-btn:hover:not(:disabled) { background: #14449e; }
   .map-btn:disabled { opacity: 0.6; cursor: wait; }
   .map-error { margin: 8px 0 0; font-size: 12px; color: #CC0000; font-weight: 600; }
-  .clear-btn { padding: 12px; background: white; border: 1px solid #e0e0e0; border-radius: 8px; color: #666; font-size: 14px; cursor: pointer; }
+  .clear-btn { flex: 0 0 auto; padding: 12px 16px; background: white; border: 1px solid #e0e0e0; border-radius: 8px; color: #666; font-size: 14px; cursor: pointer; white-space: nowrap; }
 
   .empty { text-align: center; padding: 40px 20px; color: #999; }
   .hint { font-size: 13px; color: #bbb; }
