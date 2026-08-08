@@ -2,6 +2,7 @@
   import { searchResults, loading, error, setLoading, setError, addToCart, padAmount, currentUser, sharedNearbyStores, sharedUserLocation, sharedStoreSearch } from '../lib/stores.js';
   import { onMount } from 'svelte';
   import CartIcon from './CartIcon.svelte';
+  import Icon from './Icon.svelte';
   import { calculateROI as sharedCalculateROI } from '../lib/roi.js';
   import { isFirebaseReady, claimStore, releaseStore, getZoneClaims } from '../lib/firebase.js';
 
@@ -1385,18 +1386,18 @@ Store: ${store.StoreName}
                 </button>
               {/if}
               <button class="prospect-store-btn" on:click|stopPropagation={() => document.dispatchEvent(new CustomEvent('map-action', { detail: { action: 'prospect', store } }))}>
-                🎯 Prospect Store
+                <Icon name="target" size={17} color="#fff" /> Prospect Store
               </button>
 
               <!-- Navigate to store (opens device maps with directions) -->
               <button class="navigate-store-btn" on:click|stopPropagation={() => navToStore(store)}>
-                🧭 Navigate to Store
+                <Icon name="compass" size={17} color="#fff" /> Navigate to Store
               </button>
 
               <!-- Quick-add product buttons: Register Tape → Cartvertising → Digital -->
               <!-- 1. Register Tape — opens the expanded card (single/double, promo, impressions, pricing) -->
               <button class="addtape-store-btn" on:click|stopPropagation={() => handleAddRegisterTape(store.StoreName)}>
-                🧾 {isExpanded ? 'Register Tape options below' : 'Add Register Tape'}
+                <Icon name="receipt" size={17} color="#fff" /> {isExpanded ? 'Register Tape options below' : 'Add Register Tape'}
               </button>
 
               <!-- 2. Cartvertising -->
@@ -1431,7 +1432,7 @@ Store: ${store.StoreName}
 
               <!-- 3. Digital -->
               <button class="digital-store-btn" on:click|stopPropagation={() => toggleDigitalPkg(store.StoreName)}>
-                📱 {digitalPkgOpen[store.StoreName] ? 'Close digital' : 'Add Digital'}
+                <Icon name="smartphone" size={17} color="#fff" /> {digitalPkgOpen[store.StoreName] ? 'Close digital' : 'Add Digital'}
               </button>
               {#if digitalPkgOpen[store.StoreName]}
                 <div class="digital-pkg-list" on:click|stopPropagation>
@@ -1456,11 +1457,12 @@ Store: ${store.StoreName}
                   <button class="claim-release-btn" on:click|stopPropagation={() => handleRelease(store.StoreName)} disabled={claimLoading[store.StoreName]}>
                     {claimLoading[store.StoreName] ? '...' : '✕ Release'}
                   </button>
+                  <!-- release keeps its text ✕ for compactness -->
                 {/if}
               </div>
             {:else}
               <button class="claim-btn" on:click|stopPropagation={() => handleClaim(store)} disabled={claimLoading[store.StoreName]}>
-                {claimLoading[store.StoreName] ? '⏳ Claiming...' : '🎯 Claim Store'}
+                {#if claimLoading[store.StoreName]}⏳ Claiming...{:else}<Icon name="target" size={16} color="currentColor" /> Claim Store{/if}
               </button>
             {/if}
 
@@ -2618,6 +2620,10 @@ Store: ${store.StoreName}
     color: #fff;
     cursor: pointer;
     transition: all 0.2s;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
   }
   .prospect-store-btn:hover {
     background: #A30000;
@@ -2733,6 +2739,10 @@ Store: ${store.StoreName}
     color: #fff;
     cursor: pointer;
     transition: all 0.2s;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
   }
   .navigate-store-btn:hover { background: #1558b0; transform: translateY(-1px); }
   .navigate-store-btn:active { transform: translateY(0); }
@@ -2793,6 +2803,10 @@ Store: ${store.StoreName}
     color: #fff;
     cursor: pointer;
     transition: all 0.2s;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
   }
   .addtape-store-btn:hover { background: #9c5414; transform: translateY(-1px); }
   .addtape-store-btn:active { transform: translateY(0); }
@@ -2810,6 +2824,10 @@ Store: ${store.StoreName}
     color: #fff;
     cursor: pointer;
     transition: all 0.2s;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
   }
   .digital-store-btn:hover { background: #1e45a5; transform: translateY(-1px); }
   .digital-store-btn:active { transform: translateY(0); }
@@ -2848,6 +2866,10 @@ Store: ${store.StoreName}
     color: #F57F17;
     cursor: pointer;
     transition: all 0.2s;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
   }
   .claim-btn:hover {
     background: #FFF3E0;
