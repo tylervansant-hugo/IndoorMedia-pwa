@@ -1112,7 +1112,12 @@
   function applyFontScale() {
     if (typeof document !== 'undefined') {
       try {
-        document.documentElement.style.zoom = String(fontScale);
+        // IMPORTANT: only scale the CONTENT area (cards/body text), NOT the
+        // header or bottom tab bar — those must stay fixed in size/position
+        // regardless of the text-size setting. Keep the document root at 1.
+        document.documentElement.style.zoom = '';
+        const content = document.querySelector('.content');
+        if (content) content.style.zoom = String(fontScale);
       } catch (e) { /* noop */ }
     }
   }
@@ -2044,7 +2049,7 @@
   .cycle-pill { font-size: 12px; color: var(--text-secondary); margin: 0; padding: 4px 10px; background: var(--card-bg, #f5f5f5); border-radius: 20px; display: inline-block; border: 1px solid var(--border-color, #e0e0e0); }
 
   /* Quick Actions Top Row */
-  .quick-actions-top { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-bottom: 16px; }
+  .quick-actions-top { display: grid; grid-template-columns: repeat(auto-fit, minmax(72px, 1fr)); gap: 8px; margin-bottom: 16px; }
   .qa-btn {
     display: flex; flex-direction: column; align-items: center; gap: 4px;
     padding: 12px 6px; border-radius: 12px; border: 1px solid var(--border-color, #e0e0e0);

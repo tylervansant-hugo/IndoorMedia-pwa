@@ -67,6 +67,41 @@ input, textarea, select, button {
   font-weight: 500;
 }
 
+/* Extra legibility boost for the main CONTENT area only (cards/body text),
+   so it reads thicker for poor eyesight without touching header/tab chrome.
+   Set as an INHERITED default (600) — anything that doesn't specify its own
+   weight becomes thicker; explicit bold/light styles are preserved. */
+.content {
+  font-weight: 600;
+}
+
+/* Overflow safety for the scaled content area: nothing should ever be clipped
+   or pushed off the side when the text-size slider is turned up. Let flex/grid
+   children shrink and long words break instead of forcing overflow. */
+.content * {
+  min-width: 0;
+  max-width: 100%;
+}
+.content img,
+.content video,
+.content canvas,
+.content svg {
+  height: auto;
+}
+.content p,
+.content span,
+.content h1,
+.content h2,
+.content h3,
+.content h4,
+.content label,
+.content a,
+.content td,
+.content th,
+.content li {
+  overflow-wrap: break-word; /* only break genuinely long words, never normal ones */
+}
+
 #app {
   width: 100%;
   max-width: 100%;
