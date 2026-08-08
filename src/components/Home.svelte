@@ -1,5 +1,6 @@
 <script>
   import { appState, currentUser } from '../lib/stores.js';
+  import CartIcon from './CartIcon.svelte';
 </script>
 
 <div class="home-container">
@@ -24,7 +25,7 @@
       class="menu-card"
       on:click={() => appState.set('cart')}
     >
-      <div class="card-icon">🛒</div>
+      <div class="card-icon"><CartIcon size={40} /></div>
       <h3>Shopping Cart</h3>
       <p>Review and manage your orders</p>
     </button>

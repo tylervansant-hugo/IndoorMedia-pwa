@@ -2,6 +2,7 @@
   import { onMount, onDestroy } from 'svelte';
   import { user, padAmount, digitalPadAmount } from '../lib/stores.js';
   import MeetingPrep from './MeetingPrep.svelte';
+  import CartIcon from './CartIcon.svelte';
   import { PDFDocument, rgb, StandardFonts } from 'pdf-lib';
 
   let view = 'menu'; 
@@ -536,7 +537,7 @@
     <div class="product-grid">
       {#each products as p}
         <button class="product-card" on:click={() => view = p.id}>
-          <div class="product-icon">{p.icon}</div>
+          <div class="product-icon">{#if p.icon === '🛒'}<CartIcon size={40} color="#CC0000" strokeWidth={2} />{:else}{p.icon}{/if}</div>
           <h3>{p.name}</h3>
           <p class="product-desc">{p.desc}</p>
           <ul class="product-features">{#each p.features as f}<li>{f}</li>{/each}</ul>
@@ -586,7 +587,7 @@
           <div class="pricing-row"><span class="plan">{plan}</span><span class="formula">{formula}</span></div>
         {/each}
       </div>
-      <button class="cart-btn" on:click={() => addToCart('Register Tape -- ' + tapeTiers[selectedTier].name, 'Store-based', selectedTier)}>🛒 Add to Cart</button>
+      <button class="cart-btn" on:click={() => addToCart('Register Tape -- ' + tapeTiers[selectedTier].name, 'Store-based', selectedTier)}><CartIcon size={18} color="#fff" /> Add to Cart</button>
     {/if}
     <div class="btn-row">
       <button class="share-btn" on:click={() => shareProduct('register-tape')}>📩 Send to Customer</button>
@@ -598,7 +599,7 @@
   <!-- ========== CARTVERTISING ========== -->
   {:else if view === 'cartvertising'}
     <button class="back-btn" on:click={() => view = 'menu'}>← Back</button>
-    <h2>🛒 Cartvertising</h2>
+    <h2><CartIcon size={22} /> Cartvertising</h2>
 
     <div class="video-links">
       <a href={VIDEO_LINKS['cartvertising'].presentation} target="_blank" class="video-btn">🎬 Sales Presentation</a>
@@ -617,7 +618,7 @@
       <div class="package-row">
         <div><h4>{pkg.name}</h4></div>
         <div class="pkg-right"><span class="pkg-price">{pkg.price}</span>
-          <button class="cart-sm" on:click={() => addToCart('Cartvertising -- ' + pkg.name, pkg.price, '6-month')}>🛒</button>
+          <button class="cart-sm" on:click={() => addToCart('Cartvertising -- ' + pkg.name, pkg.price, '6-month')}><CartIcon size={18} color="#fff" /></button>
         </div>
       </div>
     {/each}
@@ -649,7 +650,7 @@
       <div class="package-row">
         <div><h4>{pkg.name}</h4></div>
         <div class="pkg-right"><span class="pkg-price">{pkg.price}</span>
-          <button class="cart-sm" on:click={() => addToCart('Nose of Cart -- ' + pkg.name, pkg.price, '6-month')}>🛒</button>
+          <button class="cart-sm" on:click={() => addToCart('Nose of Cart -- ' + pkg.name, pkg.price, '6-month')}><CartIcon size={18} color="#fff" /></button>
         </div>
       </div>
     {/each}
@@ -712,7 +713,7 @@
         <thead><tr><th>Pins</th><th>Standard</th><th>Co-Op</th></tr></thead>
         <tbody>{#each dbExamples as ex}<tr><td>{ex.pins}</td><td>{ex.standard}</td><td>{ex.coop}</td></tr>{/each}</tbody>
       </table></div>
-      <button class="cart-btn" on:click={() => addToCart('DigitalBoost', '$' + dbStandard.toLocaleString() + '/pin', '240K impressions')}>🛒 Add to Cart</button>
+      <button class="cart-btn" on:click={() => addToCart('DigitalBoost', '$' + dbStandard.toLocaleString() + '/pin', '240K impressions')}><CartIcon size={18} color="#fff" /> Add to Cart</button>
       <div class="btn-row">
         <button class="share-btn" on:click={() => shareProduct('digitalboost')}>📩 Send to Customer</button>
         <button class="pdf-btn" disabled={pdfGenerating} on:click={() => downloadProductPdf('digitalboost')}>{ pdfGenerating ? "⏳ Generating..." : "📄 Download PDF" }</button>
@@ -739,7 +740,7 @@
         <div class="section-divider"><h3>✅ Features</h3></div>
         <ul class="feat-list">{#each dp.features as f}<li>✓ {f}</li>{/each}</ul>
       {/if}
-      <button class="cart-btn" on:click={() => addToCart(dp.name, dp.price, dp.desc)}>🛒 Add to Cart</button>
+      <button class="cart-btn" on:click={() => addToCart(dp.name, dp.price, dp.desc)}><CartIcon size={18} color="#fff" /> Add to Cart</button>
       <div class="btn-row">
         <button class="share-btn" on:click={() => shareProduct(selectedDigital)}>📩 Send to Customer</button>
         <button class="pdf-btn" disabled={pdfGenerating} on:click={() => downloadProductPdf(selectedDigital)}>{ pdfGenerating ? "⏳ Generating..." : "📄 Download PDF" }</button>
@@ -793,7 +794,7 @@
   .product-card { background:var(--card-bg); border:2px solid var(--border-color); border-radius:16px; padding:20px; text-align:left; cursor:pointer; transition:all .2s; }
   .product-card:hover { border-color:#CC0000; transform:translateY(-2px); box-shadow:0 4px 12px rgba(0,0,0,.1); }
   .product-card:active { transform:scale(.98); }
-  .product-icon { font-size:40px; margin-bottom:8px; }
+  .product-icon { font-size:40px; margin-bottom:8px; display:flex; align-items:center; justify-content:center; }
   .product-card h3 { margin:0 0 6px; font-size:20px; font-weight:800; color:var(--text-primary); }
   .product-desc { font-size:15px; font-weight:600; color:var(--text-secondary); margin:0 0 10px; line-height:1.45; }
   .product-features { margin:0 0 10px; padding-left:20px; font-size:15px; font-weight:600; color:var(--text-primary); line-height:1.7; }
@@ -841,7 +842,7 @@
   .formula { font-size:12px; color:var(--text-secondary); text-align:right; }
 
   /* Cart buttons */
-  .cart-btn { width:100%; padding:13px; background:#CC0000; color:#fff; border:none; border-radius:10px; font-size:15px; font-weight:700; cursor:pointer; margin-top:8px; }
+  .cart-btn { width:100%; padding:13px; background:#CC0000; color:#fff; border:none; border-radius:10px; font-size:15px; font-weight:700; cursor:pointer; margin-top:8px; display:inline-flex; align-items:center; justify-content:center; gap:8px; }
   .cart-btn:hover { background:#a00; }
 
   /* Packages */
@@ -849,7 +850,7 @@
   .package-row h4 { margin:0; font-size:13px; color:var(--text-primary); }
   .pkg-right { display:flex; align-items:center; gap:10px; }
   .pkg-price { font-size:15px; font-weight:800; color:#CC0000; }
-  .cart-sm { background:#CC0000; color:#fff; border:none; border-radius:6px; padding:6px 10px; cursor:pointer; font-size:14px; }
+  .cart-sm { background:#CC0000; color:#fff; border:none; border-radius:6px; padding:6px 10px; cursor:pointer; font-size:14px; display:inline-flex; align-items:center; justify-content:center; }
 
   /* Nose of Cart */
   .nose-divider h3 { color:#CC0000; }

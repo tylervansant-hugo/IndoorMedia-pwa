@@ -1,5 +1,6 @@
 <script>
   import { digitalPadAmount } from '../lib/stores.js';
+  import CartIcon from './CartIcon.svelte';
 
   let view = 'main'; // main, product-detail, tier-detail, digital-menu, digital-detail
   let selectedProduct = null;
@@ -450,14 +451,14 @@
       <button class="share-btn" on:click={() => copyProductPackage('register_tape', null, selectedTier)}>
         {copyFeedback === 'register_tape' + selectedTier ? '✅ Sent!' : '📩 Send to Customer'}
       </button>
-      <button class="action-btn" on:click={() => addToCart('Register Tape - ' + PRODUCTS.register_tape.tiers[selectedTier].name, 'Store-based', selectedTier)}>🛒 Add to Cart</button>
+      <button class="action-btn" on:click={() => addToCart('Register Tape - ' + PRODUCTS.register_tape.tiers[selectedTier].name, 'Store-based', selectedTier)}><CartIcon size={18} color="#fff" /> Add to Cart</button>
     </div>
   {/if}
 
   <!-- Cartvertising Detail -->
   {#if view === 'product-detail' && selectedProduct === 'cartvertising'}
     <button class="back-btn" on:click={goBack}>← Back</button>
-    <h2>🛒 Cartvertising</h2>
+    <h2><CartIcon size={22} /> Cartvertising</h2>
     <p class="detail-subtitle">Shopping cart advertising - 6-month campaigns</p>
 
     <div class="links-section">
@@ -480,7 +481,7 @@
             <h4>{pkg.name}</h4>
             <p class="package-price">{pkg.price}</p>
           </div>
-          <button class="cart-add-btn" on:click={() => addToCart('Cartvertising - ' + pkg.name, pkg.price, '6-month campaign')}>🛒</button>
+          <button class="cart-add-btn" on:click={() => addToCart('Cartvertising - ' + pkg.name, pkg.price, '6-month campaign')}><CartIcon size={18} color="#fff" /></button>
         </div>
       {/each}
     </div>
@@ -581,7 +582,7 @@
       <button class="share-btn" on:click={() => copyProductPackage('digitalboost')}>
         {copyFeedback === 'digitalboost' ? '✅ Sent!' : '📩 Send to Customer'}
       </button>
-      <button class="action-btn" on:click={() => addToCart("DigitalBoost", fmt(dbStandardPerPin) + "/pin", "240K standalone / 360K bundled impressions")}>🛒 Add to Cart</button>
+      <button class="action-btn" on:click={() => addToCart("DigitalBoost", fmt(dbStandardPerPin) + "/pin", "240K standalone / 360K bundled impressions")}><CartIcon size={18} color="#fff" /> Add to Cart</button>
     </div>
   {/if}
 
@@ -616,7 +617,7 @@
       <button class="share-btn" on:click={() => copyProductPackage('findlocal')}>
         {copyFeedback === 'findlocal' ? '✅ Sent!' : '📩 Send to Customer'}
       </button>
-      <button class="action-btn" on:click={() => addToCart("FindLocal", "$695/location", "50+ directory listings")}>🛒 Add to Cart</button>
+      <button class="action-btn" on:click={() => addToCart("FindLocal", "$695/location", "50+ directory listings")}><CartIcon size={18} color="#fff" /> Add to Cart</button>
     </div>
   {/if}
 
@@ -656,7 +657,7 @@
       <button class="share-btn" on:click={() => copyProductPackage('reviewboost')}>
         {copyFeedback === 'reviewboost' ? '✅ Sent!' : '📩 Send to Customer'}
       </button>
-      <button class="action-btn" on:click={() => addToCart("ReviewBoost", "$695", "4-month campaign, 4000 contacts")}>🛒 Add to Cart</button>
+      <button class="action-btn" on:click={() => addToCart("ReviewBoost", "$695", "4-month campaign, 4000 contacts")}><CartIcon size={18} color="#fff" /> Add to Cart</button>
     </div>
   {/if}
 
@@ -695,7 +696,7 @@
       <button class="share-btn" on:click={() => copyProductPackage('loyaltyboost')}>
         {copyFeedback === 'loyaltyboost' ? '✅ Sent!' : '📩 Send to Customer'}
       </button>
-      <button class="action-btn" on:click={() => addToCart("LoyaltyBoost", fmt(lbAnnual) + "/year", "Annual loyalty campaign")}>🛒 Add to Cart</button>
+      <button class="action-btn" on:click={() => addToCart("LoyaltyBoost", fmt(lbAnnual) + "/year", "Annual loyalty campaign")}><CartIcon size={18} color="#fff" /> Add to Cart</button>
     </div>
   {/if}
 </div>
@@ -917,6 +918,9 @@
     font-size: 18px;
     cursor: pointer;
     flex-shrink: 0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
   }
 
   .cart-add-btn:hover { background: #990000; }
@@ -967,6 +971,10 @@
     font-weight: 600;
     cursor: pointer;
     margin-top: 10px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
   }
 
   .action-btn:hover {

@@ -1,6 +1,7 @@
 <script>
   import { searchResults, loading, error, setLoading, setError, addToCart, padAmount, currentUser, sharedNearbyStores, sharedUserLocation, sharedStoreSearch } from '../lib/stores.js';
   import { onMount } from 'svelte';
+  import CartIcon from './CartIcon.svelte';
   import { calculateROI as sharedCalculateROI } from '../lib/roi.js';
   import { isFirebaseReady, claimStore, releaseStore, getZoneClaims } from '../lib/firebase.js';
 
@@ -1400,7 +1401,7 @@ Store: ${store.StoreName}
 
               <!-- 2. Cartvertising -->
               <button class="cartvert-store-btn" on:click|stopPropagation={() => toggleCartPkg(store.StoreName)}>
-                🛒 {cartPkgOpen[store.StoreName] ? 'Close packages' : 'Add Cartvertising'}
+                <CartIcon size={16} color="#fff" /> {cartPkgOpen[store.StoreName] ? 'Close packages' : 'Add Cartvertising'}
               </button>
               {#if cartPkgOpen[store.StoreName]}
                 <div class="cartvert-pkg-list" on:click|stopPropagation>
@@ -2747,6 +2748,10 @@ Store: ${store.StoreName}
     color: #fff;
     cursor: pointer;
     transition: all 0.2s;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
   }
   .cartvert-store-btn:hover { background: #086322; transform: translateY(-1px); }
   .cartvert-store-btn:active { transform: translateY(0); }

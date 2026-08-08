@@ -1,6 +1,7 @@
 <script>
   import { onMount } from 'svelte';
   import CartItem from './CartItem.svelte';
+  import CartIcon from './CartIcon.svelte';
   import CartSummary from './CartSummary.svelte';
 
   let cartItems = [];
@@ -108,7 +109,7 @@
 
   {#if cartItems.length === 0}
     <div class="empty-cart">
-      <div class="empty-icon">🛒</div>
+      <div class="empty-icon"><CartIcon size={64} /></div>
       <h2>Your cart is empty</h2>
       <p>Browse our products and add items to your campaign cart.</p>
       <a href="/" class="continue-shopping">Continue Shopping</a>

@@ -2,6 +2,7 @@
   import { appState, selectedStore, addToCart } from '../lib/stores.js';
   import { calculatePricingPlans, formatPrice } from '../lib/pricing.js';
   import { onMount, onDestroy } from 'svelte';
+  import CartIcon from './CartIcon.svelte';
 
   let pricingPlans = {};
   let selectedPlan = 'annualPif';
@@ -198,7 +199,7 @@
           </div>
 
           <button class="add-to-cart-btn" on:click={handleAddToCart}>
-            🛒 Add to Cart
+            <CartIcon size={18} color="#fff" /> Add to Cart
           </button>
         </div>
       </div>
@@ -464,6 +465,10 @@
     font-weight: 700;
     cursor: pointer;
     transition: all 0.2s;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
   }
 
   .add-to-cart-btn:hover {
