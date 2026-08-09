@@ -10078,6 +10078,49 @@
       "paid_in_full": false
     },
     {
+      "contract_number": "J435794E",
+      "date": "2026-08-08 00:00",
+      "business_name": "Top Solar Nails",
+      "contact_name": "Kim Nguyen",
+      "contact_email": "kimnguyen02_11@yahoo.com",
+      "contact_phone": "(503) 692-8437",
+      "sales_rep": "Jan Banks",
+      "store_name": "Fred Meyer",
+      "store_number": "0393",
+      "zone": "07Y",
+      "product_description": "Single Ad",
+      "total_amount": 1700.0,
+      "payment_date": "8/8/2026",
+      "address": "19200 SW Martinazzi AVE, Tualatin, 97062-6357",
+      "extracted_at": "2026-08-08T20:00:22.403069",
+      "quarters": 1,
+      "term_months": 3,
+      "is_renewal": false,
+      "paid_in_full": true
+    },
+    {
+      "contract_number": "J435794E",
+      "date": "2026-08-08 00:00",
+      "business_name": "Top Solar Nails",
+      "contact_name": "Kim Nguyen",
+      "contact_email": "kimnguyen02_11@yahoo.com",
+      "contact_phone": "(503) 692-8437",
+      "sales_rep": "Jan Banks",
+      "store_name": "",
+      "store_number": "",
+      "zone": "07Y",
+      "product_description": "FindLocal",
+      "total_amount": 695.0,
+      "payment_date": "8/8/2026",
+      "address": "19289 SW Martinazzi Ave Tualatin, Or 97062",
+      "extracted_at": "2026-08-08T20:00:22.403128",
+      "quarters": 1,
+      "term_months": 3,
+      "is_renewal": false,
+      "paid_in_full": true,
+      "product_type": "digital"
+    },
+    {
       "contract_number": "D413319E",
       "date": "",
       "business_name": "Before n after weight loss",
@@ -12619,5 +12662,5 @@
       "paid_in_full": false
     }
   ],
-  "last_scan": "2026-08-07T20:00:51.478961"
+  "last_scan": "2026-08-08T20:00:22.404495"
 }
