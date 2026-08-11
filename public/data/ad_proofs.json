@@ -1,5 +1,171 @@
 [
   {
+    "message_id": "19fec10a539a686c",
+    "date": "2026-08-10 07:25",
+    "from": "Zone 07Z - Sydney Miller <zone.07z@indoormedia.com>",
+    "subject": "Re: Ad Proof from IndoorMedia , Osaka Sushi Teriyaki Fried Chicken [07Z - C3 - J380104]",
+    "client_name": "Osaka Sushi Teriyaki Fried Chicken",
+    "contact_name": "great day.*",
+    "client_email": "jileeyo@hotmail.com",
+    "location": "",
+    "zone": "07Z",
+    "cycle": "C3",
+    "contract_number": "J380104",
+    "store": "> Tape Ad at Fred Meyer 0615, 6305 Bridgeport Way West, University Place, WA",
+    "ad_size": "Single",
+    "install_month": "",
+    "run_months": "",
+    "image_url": "https://lh3.googleusercontent.com/d/1CqETojJPJC4BQAtbbn8tWeWWiRujB_iz",
+    "review_deadline": "08/06/2026",
+    "recipients": [
+      "richard.leibowitz@rtui.com",
+      "dawna.henehan@indoormedia.com",
+      "tyler.vansant@rtui.com",
+      "jileeyo@hotmail.com"
+    ],
+    "reps": [
+      {
+        "email": "tyler.vansant@rtui.com",
+        "name": "Tyler Van Sant"
+      }
+    ]
+  },
+  {
+    "message_id": "19fec0fff5a06b3c",
+    "date": "2026-08-10 07:24",
+    "from": "Zone 07Z - Sydney Miller <zone.07z@indoormedia.com>",
+    "subject": "Re: Ad Proof from IndoorMedia , Cafe Zamora [07Z - C3 - J434543E]",
+    "client_name": "Cafe Zamora",
+    "contact_name": "will see a new proof email as soon as it becomes available*",
+    "client_email": "cafezamorapdx@gmail.com",
+    "location": "",
+    "zone": "07Z",
+    "cycle": "C3",
+    "contract_number": "J434543E",
+    "store": ">> Tape Ad at Safeway 1627, 3930 Southeast Powell Boulevard, Portland, OR",
+    "ad_size": "Single",
+    "install_month": "",
+    "run_months": "",
+    "image_url": "https://lh3.googleusercontent.com/d/1d9THWfSHucpp8urvI6LZo2tgqkZGmBms",
+    "review_deadline": "08/12/2026",
+    "recipients": [
+      "cafezamorapdx@gmail.com",
+      "richard.leibowitz@rtui.com",
+      "megan.wink@indoormedia.com",
+      "tyler.vansant@rtui.com"
+    ],
+    "reps": [
+      {
+        "email": "megan.wink@indoormedia.com",
+        "name": "Megan Wink"
+      },
+      {
+        "email": "tyler.vansant@rtui.com",
+        "name": "Tyler Van Sant"
+      }
+    ]
+  },
+  {
+    "message_id": "19fec0d1c03b891a",
+    "date": "2026-08-10 07:21",
+    "from": "Zone 07Y - Sydney Miller <zone.07y@indoormedia.com>",
+    "subject": "Re: Ad Proofs from IndoorMedia , Nerdy Gnomes Tax Solutions [07Y - C3 - J433016E]",
+    "client_name": "Nerdy Gnomes Tax Solutions",
+    "contact_name": "good day!*",
+    "client_email": "darcy@nerdygnomestax.com",
+    "location": "",
+    "zone": "07Y",
+    "cycle": "C3",
+    "contract_number": "J433016E",
+    "store": "",
+    "ad_size": "Single",
+    "install_month": "",
+    "run_months": "",
+    "image_url": "",
+    "review_deadline": "08/12/2026",
+    "recipients": [
+      "darcy@nerdygnomestax.com",
+      "richard.leibowitz@rtui.com",
+      "matthew.boozer@indoormedia.com",
+      "tyler.vansant@rtui.com"
+    ],
+    "reps": [
+      {
+        "email": "matthew.boozer@indoormedia.com",
+        "name": "Matthew Boozer"
+      },
+      {
+        "email": "tyler.vansant@rtui.com",
+        "name": "Tyler Van Sant"
+      }
+    ]
+  },
+  {
+    "message_id": "19fec0045c8fdb43",
+    "date": "2026-08-10 07:07",
+    "from": "Zone 07Y - Sydney Miller <zone.07y@indoormedia.com>",
+    "subject": "Re: Ad Proof from IndoorMedia , Mazama Sporting Goods [07Y - C3 - J434361E]",
+    "client_name": "Mazama Sporting Goods",
+    "contact_name": "will see a new proof email as soon as it becomes available*",
+    "client_email": "mazamaadam@gmail.com",
+    "location": "",
+    "zone": "07Y",
+    "cycle": "C3",
+    "contract_number": "J434361E",
+    "store": ">>>>>> Tape Ad at Albertsons 3529, 1675 W 18th Ave, Eugene, OR",
+    "ad_size": "Single",
+    "install_month": "",
+    "run_months": "",
+    "image_url": "https://lh3.googleusercontent.com/d/1fF2gTfH8ioVIkXUD2emH2nAvmEZ0eBlo",
+    "review_deadline": "08/11/2026",
+    "recipients": [
+      "richard.leibowitz@rtui.com",
+      "matthew.boozer@indoormedia.com",
+      "tyler.vansant@rtui.com",
+      "mazamaadam@gmail.com"
+    ],
+    "reps": [
+      {
+        "email": "matthew.boozer@indoormedia.com",
+        "name": "Matthew Boozer"
+      },
+      {
+        "email": "tyler.vansant@rtui.com",
+        "name": "Tyler Van Sant"
+      }
+    ]
+  },
+  {
+    "message_id": "19febff805f96abe",
+    "date": "2026-08-10 07:06",
+    "from": "Zone 07X - Sydney Miller <zone.07x@indoormedia.com>",
+    "subject": "Re: Ad Proof from IndoorMedia , Welcome Restaurant & Bar [07X - C3 - J434323E]",
+    "client_name": "Welcome Restaurant & Bar",
+    "contact_name": "great day.*",
+    "client_email": "welcomerestaurantt@gmail.com",
+    "location": "",
+    "zone": "07X",
+    "cycle": "C3",
+    "contract_number": "J434323E",
+    "store": ">> Tape Ad at Safeway 1978, 2637 North Pearl Street, Tacoma, WA",
+    "ad_size": "Single",
+    "install_month": "",
+    "run_months": "",
+    "image_url": "https://lh3.googleusercontent.com/d/1YntQnkpEZsSjhPIlcVsyZ7sN1vTv7UJY",
+    "review_deadline": "08/12/2026",
+    "recipients": [
+      "richard.leibowitz@rtui.com",
+      "welcomerestaurantt@gmail.com",
+      "tyler.vansant@indoormedia.com"
+    ],
+    "reps": [
+      {
+        "email": "tyler.vansant@indoormedia.com",
+        "name": "Tyler Van Sant"
+      }
+    ]
+  },
+  {
     "message_id": "19fde060f27e3247",
     "date": "2026-08-07 13:58",
     "from": "Zone 07Y - Sydney Miller <zone.07y@indoormedia.com>",
@@ -234,41 +400,6 @@
       {
         "email": "tyler.vansant@indoormedia.com",
         "name": "Tyler Van Sant"
-      }
-    ]
-  },
-  {
-    "message_id": "19fdc76fcaa14d14",
-    "date": "2026-08-07 06:43",
-    "from": "Sydney Miller <Zone.07Y@indoormedia.com>",
-    "subject": "Ad Proofs from IndoorMedia , Nerdy Gnomes Tax Solutions [07Y - C3 - J433016E]",
-    "client_name": "Nerdy Gnomes Tax Solutions",
-    "contact_name": "Aloe Rochon",
-    "client_email": "darcy@nerdygnomestax.com",
-    "location": "",
-    "zone": "07Y",
-    "cycle": "C3",
-    "contract_number": "J433016E",
-    "store": "",
-    "ad_size": "Single",
-    "install_month": "",
-    "run_months": "",
-    "image_url": "https://lh3.googleusercontent.com/d/1xh1rEr2ZKeyS1r898JqXIYkYRm8gYkPv",
-    "review_deadline": "08/12/2026",
-    "recipients": [
-      "richard.leibowitz@rtui.com",
-      "darcy@nerdygnomestax.com",
-      "tyler.vansant@rtui.com",
-      "matthew.boozer@indoormedia.com"
-    ],
-    "reps": [
-      {
-        "email": "tyler.vansant@rtui.com",
-        "name": "Tyler Van Sant"
-      },
-      {
-        "email": "matthew.boozer@indoormedia.com",
-        "name": "Matthew Boozer"
       }
     ]
   },
@@ -610,36 +741,6 @@
       },
       {
         "email": "tyler.vansant@rtui.com",
-        "name": "Tyler Van Sant"
-      }
-    ]
-  },
-  {
-    "message_id": "19fd7271dcb5bf64",
-    "date": "2026-08-06 05:57",
-    "from": "Zone 07X - Sydney Miller <zone.07x@indoormedia.com>",
-    "subject": "Re: Ad Proof from IndoorMedia , Welcome Restaurant & Bar [07X - C3 - J434323E]",
-    "client_name": "Welcome Restaurant & Bar",
-    "contact_name": "Good morning",
-    "client_email": "welcomerestaurantt@gmail.com",
-    "location": "",
-    "zone": "07X",
-    "cycle": "C3",
-    "contract_number": "J434323E",
-    "store": ">> Tape Ad at Safeway 1978, 2637 North Pearl Street, Tacoma, WA",
-    "ad_size": "Single",
-    "install_month": "",
-    "run_months": "",
-    "image_url": "https://lh3.googleusercontent.com/d/1Lru94MH1u41XRqgNV9E-LDaGOTV-zdJ5",
-    "review_deadline": "08/10/2026",
-    "recipients": [
-      "richard.leibowitz@rtui.com",
-      "welcomerestaurantt@gmail.com",
-      "tyler.vansant@indoormedia.com"
-    ],
-    "reps": [
-      {
-        "email": "tyler.vansant@indoormedia.com",
         "name": "Tyler Van Sant"
       }
     ]
