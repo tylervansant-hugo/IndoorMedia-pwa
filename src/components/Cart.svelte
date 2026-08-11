@@ -25,7 +25,8 @@
       } : null,
       seedItems: cartItems.map(it => ({
         product: (it.name || 'Register Tape').replace(/ —.*$/, ''),
-        price: priceNum(it.price),
+        // Use the TOTAL investment (annualized), not the monthly/installment amount.
+        price: parseAnnualPrice(it) || priceNum(it.price),
         storeName: it.store || '',
         storeNumber: it.storeNum || '',
         zone: it.storeCycle || '',
