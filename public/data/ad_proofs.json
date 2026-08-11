@@ -1,5 +1,273 @@
 [
   {
+    "message_id": "19ff17c688e6e7a6",
+    "date": "2026-08-11 08:41",
+    "from": "Sydney Miller <Zone.07Z@indoormedia.com>",
+    "subject": "Ad Proof from IndoorMedia , The Port Taco Truck & Bar [07Z - B4 - J429344E]",
+    "client_name": "The Port Taco Truck & Bar",
+    "contact_name": "Ana Maria Meza Andrade",
+    "client_email": "cateringbytheport@gmail.com",
+    "location": "",
+    "zone": "07Z",
+    "cycle": "B4",
+    "contract_number": "J429344E",
+    "store": "Tape Ad at Safeway 1173, 1243 Marvin Road Ne, Olympia, WA",
+    "ad_size": "Double",
+    "install_month": "",
+    "run_months": "",
+    "image_url": "https://lh3.googleusercontent.com/d/1usxS5MNVj2Faj4kBur2CoRzk5R5xxvNK",
+    "review_deadline": "08/14/2026",
+    "recipients": [
+      "cateringbytheport@gmail.com",
+      "tyler.vansant@rtui.com",
+      "richard.leibowitz@rtui.com"
+    ],
+    "reps": [
+      {
+        "email": "tyler.vansant@rtui.com",
+        "name": "Tyler Van Sant"
+      }
+    ]
+  },
+  {
+    "message_id": "19ff17ba1d071e0d",
+    "date": "2026-08-11 08:40",
+    "from": "Sydney Miller <Zone.07Z@indoormedia.com>",
+    "subject": "Ad Proof from IndoorMedia , Cafe Zamora [07Z - C3 - J434543E]",
+    "client_name": "Cafe Zamora",
+    "contact_name": "Hector Mejia Zamora",
+    "client_email": "cafezamorapdx@gmail.com",
+    "location": "",
+    "zone": "07Z",
+    "cycle": "C3",
+    "contract_number": "J434543E",
+    "store": "Tape Ad at Safeway 1627, 3930 Southeast Powell Boulevard, Portland, OR",
+    "ad_size": "Single",
+    "install_month": "",
+    "run_months": "",
+    "image_url": "https://lh3.googleusercontent.com/d/16p8x6iyZiR8NmyIpHAFkr6c5DNlnDszT",
+    "review_deadline": "08/14/2026",
+    "recipients": [
+      "megan.wink@indoormedia.com",
+      "cafezamorapdx@gmail.com",
+      "tyler.vansant@rtui.com",
+      "richard.leibowitz@rtui.com"
+    ],
+    "reps": [
+      {
+        "email": "megan.wink@indoormedia.com",
+        "name": "Megan Wink"
+      },
+      {
+        "email": "tyler.vansant@rtui.com",
+        "name": "Tyler Van Sant"
+      }
+    ]
+  },
+  {
+    "message_id": "19ff179fa9501f26",
+    "date": "2026-08-11 08:38",
+    "from": "Sydney Miller <Zone.07Y@indoormedia.com>",
+    "subject": "Ad Proof from IndoorMedia , Bolt on Motors [07Y - B4 - J429244E]",
+    "client_name": "Bolt on Motors",
+    "contact_name": "Mary Vega",
+    "client_email": "boltonmotors@hotmail.com",
+    "location": "",
+    "zone": "07Y",
+    "cycle": "B4",
+    "contract_number": "J429244E",
+    "store": "Tape Ad at Safeway 1800, 20685 SW Roy Rogers Road, Sherwood, OR",
+    "ad_size": "Single",
+    "install_month": "",
+    "run_months": "",
+    "image_url": "https://lh3.googleusercontent.com/d/1bku-CHOvXcHDLEGmy_an-KiQxx3VPqFj",
+    "review_deadline": "08/14/2026",
+    "recipients": [
+      "richard.leibowitz@rtui.com",
+      "jan.banks@indoormedia.com",
+      "tyler.vansant@rtui.com",
+      "boltonmotors@hotmail.com"
+    ],
+    "reps": [
+      {
+        "email": "jan.banks@indoormedia.com",
+        "name": "Jan Banks"
+      },
+      {
+        "email": "tyler.vansant@rtui.com",
+        "name": "Tyler Van Sant"
+      }
+    ]
+  },
+  {
+    "message_id": "19ff17868ef690d3",
+    "date": "2026-08-11 08:37",
+    "from": "Sydney Miller <Zone.07Y@indoormedia.com>",
+    "subject": "Ad Proof from IndoorMedia , Galaxy Car Wash LLC [07Y - B4 - J433870E]",
+    "client_name": "Galaxy Car Wash LLC",
+    "contact_name": "Jonathan Allen",
+    "client_email": "icwsnw@comcast.net",
+    "location": "",
+    "zone": "07Y",
+    "cycle": "B4",
+    "contract_number": "J433870E",
+    "store": "Tape Ad at Safeway 1230, 2177 NW 185th Avenue, Hillsboro, OR",
+    "ad_size": "Single",
+    "install_month": "",
+    "run_months": "",
+    "image_url": "https://lh3.googleusercontent.com/d/1tycuKnTHorsQMhujQyD9_rd9p7zFD_-7",
+    "review_deadline": "08/14/2026",
+    "recipients": [
+      "anthony.eng@indoormedia.com",
+      "icwsnw@comcast.net",
+      "tyler.vansant@rtui.com",
+      "richard.leibowitz@rtui.com"
+    ],
+    "reps": [
+      {
+        "email": "tyler.vansant@rtui.com",
+        "name": "Tyler Van Sant"
+      }
+    ]
+  },
+  {
+    "message_id": "19ff176cc7197d99",
+    "date": "2026-08-11 08:35",
+    "from": "Sydney Miller <Zone.07Y@indoormedia.com>",
+    "subject": "Ad Proof from IndoorMedia , Wild Willy\u2019s Car Wash [07Y - A4 - J413256E]",
+    "client_name": "Wild Willy\u2019s Car Wash",
+    "contact_name": "Will Minihan",
+    "client_email": "wminihan1@yahoo.com",
+    "location": "",
+    "zone": "07Y",
+    "cycle": "A4",
+    "contract_number": "J413256E",
+    "store": "Tape Ad at Albertsons 0574, 5755 Main St, Springfield, OR",
+    "ad_size": "Single",
+    "install_month": "",
+    "run_months": "",
+    "image_url": "https://lh3.googleusercontent.com/d/1eJY7kucFL18RRaaF35AlecCgxrx62hHB",
+    "review_deadline": "08/14/2026",
+    "recipients": [
+      "richard.leibowitz@rtui.com",
+      "matthew.boozer@indoormedia.com",
+      "tyler.vansant@rtui.com",
+      "wminihan1@yahoo.com"
+    ],
+    "reps": [
+      {
+        "email": "matthew.boozer@indoormedia.com",
+        "name": "Matthew Boozer"
+      },
+      {
+        "email": "tyler.vansant@rtui.com",
+        "name": "Tyler Van Sant"
+      }
+    ]
+  },
+  {
+    "message_id": "19ff174d7a926c12",
+    "date": "2026-08-11 08:33",
+    "from": "Sydney Miller <Zone.07Y@indoormedia.com>",
+    "subject": "Ad Proofs from IndoorMedia , Papa Murphy's [07Y - B4 - J414665E]",
+    "client_name": "Papa Murphy's",
+    "contact_name": "Richard Johnson",
+    "client_email": "richardjeugene@gmail.com",
+    "location": "",
+    "zone": "07Y",
+    "cycle": "B4",
+    "contract_number": "J414665E",
+    "store": "",
+    "ad_size": "Single",
+    "install_month": "",
+    "run_months": "",
+    "image_url": "https://lh3.googleusercontent.com/d/18EIQ0FNf1m6fnXJ7qncnkLqjkpaHztdZ",
+    "review_deadline": "08/14/2026",
+    "recipients": [
+      "anthony.eng@indoormedia.com",
+      "tyler.vansant@rtui.com",
+      "richard.leibowitz@rtui.com",
+      "micki.waters@comcast.net",
+      "richardjeugene@gmail.com"
+    ],
+    "reps": [
+      {
+        "email": "tyler.vansant@rtui.com",
+        "name": "Tyler Van Sant"
+      }
+    ]
+  },
+  {
+    "message_id": "19ff174d4d6f2409",
+    "date": "2026-08-11 08:33",
+    "from": "Sydney Miller <Zone.07Y@indoormedia.com>",
+    "subject": "Ad Proof from IndoorMedia , Track Town Pizza [07Y - A4 - J435258E]",
+    "client_name": "Track Town Pizza",
+    "contact_name": "Tim Hill",
+    "client_email": "tracktownp@comcast.net",
+    "location": "",
+    "zone": "07Y",
+    "cycle": "A4",
+    "contract_number": "J435258E",
+    "store": "Tape Ad at Albertsons 0574, 5755 Main St, Springfield, OR",
+    "ad_size": "Single",
+    "install_month": "",
+    "run_months": "",
+    "image_url": "https://lh3.googleusercontent.com/d/1dmyswdpM2YHrJMekvCh6_8WEobVS33Ad",
+    "review_deadline": "08/14/2026",
+    "recipients": [
+      "matthew.boozer@indoormedia.com",
+      "tyler.vansant@rtui.com",
+      "tracktownp@comcast.net",
+      "richard.leibowitz@rtui.com"
+    ],
+    "reps": [
+      {
+        "email": "matthew.boozer@indoormedia.com",
+        "name": "Matthew Boozer"
+      },
+      {
+        "email": "tyler.vansant@rtui.com",
+        "name": "Tyler Van Sant"
+      }
+    ]
+  },
+  {
+    "message_id": "19ff170f159f834e",
+    "date": "2026-08-11 08:28",
+    "from": "Sydney Miller <Zone.07Y@indoormedia.com>",
+    "subject": "Ad Proof from IndoorMedia , Mazama Sporting Goods [07Y - C3 - J434361E]",
+    "client_name": "Mazama Sporting Goods",
+    "contact_name": "Adam Braatz",
+    "client_email": "adam@teammazama.com",
+    "location": "",
+    "zone": "07Y",
+    "cycle": "C3",
+    "contract_number": "J434361E",
+    "store": "Tape Ad at Albertsons 3529, 1675 W 18th Ave, Eugene, OR",
+    "ad_size": "Single",
+    "install_month": "",
+    "run_months": "",
+    "image_url": "https://lh3.googleusercontent.com/d/1s_Ztf76v9MJq4mjMsJutSXZdc0l4O5fo",
+    "review_deadline": "08/14/2026",
+    "recipients": [
+      "matthew.boozer@indoormedia.com",
+      "tyler.vansant@rtui.com",
+      "adam@teammazama.com",
+      "richard.leibowitz@rtui.com"
+    ],
+    "reps": [
+      {
+        "email": "matthew.boozer@indoormedia.com",
+        "name": "Matthew Boozer"
+      },
+      {
+        "email": "tyler.vansant@rtui.com",
+        "name": "Tyler Van Sant"
+      }
+    ]
+  },
+  {
     "message_id": "19fec10a539a686c",
     "date": "2026-08-10 07:25",
     "from": "Zone 07Z - Sydney Miller <zone.07z@indoormedia.com>",
@@ -404,41 +672,6 @@
     ]
   },
   {
-    "message_id": "19fdc768b43c86e6",
-    "date": "2026-08-07 06:43",
-    "from": "Sydney Miller <Zone.07Z@indoormedia.com>",
-    "subject": "Ad Proof from IndoorMedia , Cafe Zamora [07Z - C3 - J434543E]",
-    "client_name": "Cafe Zamora",
-    "contact_name": "Hector Mejia Zamora",
-    "client_email": "cafezamorapdx@gmail.com",
-    "location": "",
-    "zone": "07Z",
-    "cycle": "C3",
-    "contract_number": "J434543E",
-    "store": "Tape Ad at Safeway 1627, 3930 Southeast Powell Boulevard, Portland, OR",
-    "ad_size": "Single",
-    "install_month": "",
-    "run_months": "",
-    "image_url": "https://lh3.googleusercontent.com/d/1d9THWfSHucpp8urvI6LZo2tgqkZGmBms",
-    "review_deadline": "08/12/2026",
-    "recipients": [
-      "tyler.vansant@rtui.com",
-      "richard.leibowitz@rtui.com",
-      "cafezamorapdx@gmail.com",
-      "megan.wink@indoormedia.com"
-    ],
-    "reps": [
-      {
-        "email": "tyler.vansant@rtui.com",
-        "name": "Tyler Van Sant"
-      },
-      {
-        "email": "megan.wink@indoormedia.com",
-        "name": "Megan Wink"
-      }
-    ]
-  },
-  {
     "message_id": "19fdc75b85d0b0dc",
     "date": "2026-08-07 06:42",
     "from": "Sydney Miller <Zone.07Y@indoormedia.com>",
@@ -707,41 +940,6 @@
       {
         "email": "matthew.boozer@indoormedia.com",
         "name": "Matthew Boozer"
-      }
-    ]
-  },
-  {
-    "message_id": "19fd79655cc79102",
-    "date": "2026-08-06 07:59",
-    "from": "Sydney Miller <Zone.07Y@indoormedia.com>",
-    "subject": "Ad Proof from IndoorMedia , Mazama Sporting Goods [07Y - C3 - J434361E]",
-    "client_name": "Mazama Sporting Goods",
-    "contact_name": "Adam Braatz",
-    "client_email": "adam@teammazama.com",
-    "location": "",
-    "zone": "07Y",
-    "cycle": "C3",
-    "contract_number": "J434361E",
-    "store": "Tape Ad at Albertsons 3529, 1675 W 18th Ave, Eugene, OR",
-    "ad_size": "Single",
-    "install_month": "",
-    "run_months": "",
-    "image_url": "https://lh3.googleusercontent.com/d/1fF2gTfH8ioVIkXUD2emH2nAvmEZ0eBlo",
-    "review_deadline": "08/11/2026",
-    "recipients": [
-      "adam@teammazama.com",
-      "matthew.boozer@indoormedia.com",
-      "tyler.vansant@rtui.com",
-      "richard.leibowitz@rtui.com"
-    ],
-    "reps": [
-      {
-        "email": "matthew.boozer@indoormedia.com",
-        "name": "Matthew Boozer"
-      },
-      {
-        "email": "tyler.vansant@rtui.com",
-        "name": "Tyler Van Sant"
       }
     ]
   },
@@ -1201,37 +1399,6 @@
       "richard.leibowitz@rtui.com",
       "tyler.vansant@rtui.com",
       "kenneth.abbay@indoormedia.com"
-    ],
-    "reps": [
-      {
-        "email": "tyler.vansant@rtui.com",
-        "name": "Tyler Van Sant"
-      }
-    ]
-  },
-  {
-    "message_id": "19fb3efdc5526935",
-    "date": "2026-07-30 09:51",
-    "from": "Sydney Miller <Zone.07Y@indoormedia.com>",
-    "subject": "Ad Proof from IndoorMedia , Galaxy Car Wash LLC [07Y - B3 - J433870E]",
-    "client_name": "Galaxy Car Wash LLC",
-    "contact_name": "Jonathan Allen",
-    "client_email": "icwsnw@comcast.net",
-    "location": "",
-    "zone": "07Y",
-    "cycle": "B3",
-    "contract_number": "J433870E",
-    "store": "Tape Ad at Safeway 1230, 2177 NW 185th Avenue, Hillsboro, OR",
-    "ad_size": "Single",
-    "install_month": "",
-    "run_months": "",
-    "image_url": "https://lh3.googleusercontent.com/d/1AYZ4HUj47cnsPFdcUtBxyw1gSKvI8nrO",
-    "review_deadline": "08/04/2026",
-    "recipients": [
-      "anthony.eng@indoormedia.com",
-      "richard.leibowitz@rtui.com",
-      "tyler.vansant@rtui.com",
-      "icwsnw@comcast.net"
     ],
     "reps": [
       {
@@ -3470,38 +3637,6 @@
       {
         "email": "matthew.boozer@indoormedia.com",
         "name": "Matthew Boozer"
-      }
-    ]
-  },
-  {
-    "message_id": "19fa488ff4c5908f",
-    "date": "2026-07-27 10:04",
-    "from": "Sydney Miller <Zone.07Y@indoormedia.com>",
-    "subject": "Ad Proofs from IndoorMedia , Papa Murphy's [07Y - C3 - J414665E]",
-    "client_name": "Papa Murphy's",
-    "contact_name": "Richard Johnson",
-    "client_email": "richardjeugene@gmail.com",
-    "location": "",
-    "zone": "07Y",
-    "cycle": "C3",
-    "contract_number": "J414665E",
-    "store": "",
-    "ad_size": "Single",
-    "install_month": "",
-    "run_months": "",
-    "image_url": "https://lh3.googleusercontent.com/d/1HOXBbU6-CjGWZFKscI5Vudgk80sGRJOn",
-    "review_deadline": "07/30/2026",
-    "recipients": [
-      "richard.leibowitz@rtui.com",
-      "anthony.eng@indoormedia.com",
-      "micki.waters@comcast.net",
-      "tyler.vansant@rtui.com",
-      "richardjeugene@gmail.com"
-    ],
-    "reps": [
-      {
-        "email": "tyler.vansant@rtui.com",
-        "name": "Tyler Van Sant"
       }
     ]
   },
