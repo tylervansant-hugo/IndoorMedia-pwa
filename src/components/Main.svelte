@@ -1,7 +1,37 @@
 <script>
-  import { onMount } from 'svelte';
+  import { onMount, tick } from 'svelte';
   import { theme, user } from '../lib/stores.js';
   import { get } from 'svelte/store';
+  import { applyAppearance, setMode, resolveMode, getAppearance } from '../lib/appearance.js';
+  import { addToHome, installGlobalAddToHome, getWidgetOrder, reorderWidgets, replayShortcut } from '../lib/homeShortcuts.js';
+  import HomeShortcuts from './HomeShortcuts.svelte';
+
+  // Dashboard card reorder (“Edit Home”). Cards keep their DOM position; we only
+  // change CSS `order` on flex children, so all existing interactions/drill-
+  // downs stay intact. Only the big movable sections participate.
+  // Full reorder: every major Home block participates (the greeting header stays
+  // pinned at the very top as the "cockpit"). Order is persisted per-device.
+  const DASH_CARDS_DEFAULT = ['search', 'quickactions', 'shortcuts', 'callin', 'activity', 'today', 'revenue', 'stats', 'goal'];
+  let dashOrder = DASH_CARDS_DEFAULT;
+  let editHome = false;
+  let dashDragIdx = null;
+  function loadDashOrder() { dashOrder = getWidgetOrder(DASH_CARDS_DEFAULT); }
+  // Reactive order map so inline `order` styles update the instant dashOrder changes.
+  $: dashOrderMap = dashOrder.reduce((m, id, i) => (m[id] = i, m), {});
+  function dashOrderOf(id) { return id in dashOrderMap ? dashOrderMap[id] : 99; }
+  function onDashDragStart(id) { dashDragIdx = dashOrder.indexOf(id); }
+  function onDashDrop(id) {
+    const to = dashOrder.indexOf(id);
+    if (dashDragIdx !== null && to >= 0 && dashDragIdx !== to) {
+      dashOrder = reorderWidgets(dashOrder, dashDragIdx, to);
+    }
+    dashDragIdx = null;
+  }
+  function moveDashCard(id, dir) {
+    const from = dashOrder.indexOf(id);
+    const to = from + dir;
+    if (from >= 0 && to >= 0 && to < dashOrder.length) dashOrder = reorderWidgets(dashOrder, from, to);
+  }
 
   // Parse contract dates safely — handles "2026-04-10 00:00", "2026-04-10", "4/10/2026"
   function parseContractDate(dateStr) {
@@ -34,12 +64,39 @@
   import HotLeadsSubmit from './HotLeadsSubmit.svelte';
   import DrivingMode from './DrivingMode.svelte';
   import UniversalSearch from './UniversalSearch.svelte';
+  import LastActivity from './LastActivity.svelte';
 
   // Universal homepage search → route to the right tab/view.
   function handleUniversalNavigate(e) {
     const d = e.detail || {};
     if (d.storesView) storesView = d.storesView;
     if (d.tab) currentTab = d.tab;
+  }
+
+  // Home Screen shortcut tapped: run the ACTUAL action, not just land on the
+  // page. Known special actions fire directly; everything else navigates to the
+  // pinned button's tab/view then re-finds and clicks that real button so its
+  // own handler runs (open store, add product, audit store, etc.).
+  async function handleShortcutNavigate(e) {
+    const d = e.detail || {};
+    const sc = d.shortcut || d;
+
+    // Explicit, well-known homepage quick-actions run directly.
+    if (sc.action === 'driving') { showDrivingMode = true; return; }
+    if (sc.action === 'book-appt') { bookAppointment(); return; }
+    if (sc.action === 'prospects') { storesView = 'prospects'; currentTab = 'stores'; return; }
+
+    // Navigate to the tab/view the button lives on first.
+    if (sc.storesView) storesView = sc.storesView;
+    if (sc.tab) currentTab = sc.tab;
+
+    // Then try to click the real button by its label. If we can't (e.g. a
+    // store-specific button whose card isn't currently rendered), we've at
+    // least navigated to the right tab as a graceful fallback.
+    if (sc.matchText || sc.label) {
+      await tick();
+      replayShortcut(sc);
+    }
   }
 
   let currentTab = 'dashboard';
@@ -936,6 +993,12 @@
       }
     });
     applyFontScale(); // ensure saved text-size pref is applied app-wide on load
+    applyAppearance(); // apply saved Appearance theme (theme/mode/font) — sets data-theme
+    // Sync the light/dark store to whatever the Appearance engine resolved so
+    // the header icon + any theme-store readers match the active theme.
+    { const eff = resolveMode(getAppearance().mode); currentTheme = eff; theme.set(eff); }
+    installGlobalAddToHome(); // long-press any pinnable button → “Add to Home Screen”
+    loadDashOrder(); // restore saved dashboard card order
     updateCartCount();
     const interval = setInterval(updateCartCount, 2000);
     // Instant badge update when any component changes the cart.
@@ -1098,9 +1161,13 @@
   }
 
   function toggleTheme() {
-    const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+    // Flip day/night through the Appearance engine so themes stay coordinated.
+    // Sets an explicit mode (overrides Auto) and re-applies the active theme.
+    const eff = resolveMode(getAppearance().mode);
+    const newTheme = eff === 'light' ? 'dark' : 'light';
+    setMode(newTheme);
     theme.set(newTheme);
-    localStorage.setItem('theme', newTheme);
+    currentTheme = newTheme;
   }
 
   // Continuous, user-controlled text scale via a slider (1.00–2.10). Migrates
@@ -1321,30 +1388,72 @@
           {/if}
         </div>
 
-        <!-- Universal search: one bar to find stores, businesses, contacts, clients, testimonials -->
-        <UniversalSearch {allStores} {savedProspects} on:navigate={handleUniversalNavigate} />
+        <!-- Edit Home: toggle drag/reorder of ALL Home blocks -->
+        <div class="edit-home-bar">
+          <button class="edit-home-btn" class:active={editHome} on:click={() => editHome = !editHome}>
+            {editHome ? '✓ Done' : '⚙️ Edit Home'}
+          </button>
+          {#if editHome}<span class="edit-home-hint">Drag or use ↑↓ to rearrange</span>{/if}
+        </div>
 
+        <!-- Universal search: one bar to find stores, businesses, contacts, clients, testimonials -->
+        <div class="dash-sec" class:editing={editHome} style="order: {(dashOrderMap.search ?? 0) + 1}"
+          draggable={editHome}
+          on:dragstart={() => onDashDragStart('search')}
+          on:dragover|preventDefault={() => {}}
+          on:drop={() => onDashDrop('search')}>
+          {#if editHome}<div class="dash-move"><button on:click|stopPropagation={() => moveDashCard('search', -1)} aria-label="Move up">↑</button><button on:click|stopPropagation={() => moveDashCard('search', 1)} aria-label="Move down">↓</button></div>{/if}
+          <UniversalSearch {allStores} {savedProspects} on:navigate={handleUniversalNavigate} />
+        </div>
+
+        <div class="dash-sec" class:editing={editHome} style="order: {(dashOrderMap.quickactions ?? 1) + 1}"
+          draggable={editHome}
+          on:dragstart={() => onDashDragStart('quickactions')}
+          on:dragover|preventDefault={() => {}}
+          on:drop={() => onDashDrop('quickactions')}>
+          {#if editHome}<div class="dash-move"><button on:click|stopPropagation={() => moveDashCard('quickactions', -1)} aria-label="Move up">↑</button><button on:click|stopPropagation={() => moveDashCard('quickactions', 1)} aria-label="Move down">↓</button></div>{/if}
         <div class="quick-actions-top">
-          <button class="qa-btn qa-primary" on:click={() => { storesView = 'prospects'; currentTab = 'stores'; }}>
+          <button class="qa-btn qa-primary" on:click={() => { storesView = 'prospects'; currentTab = 'stores'; }}
+            use:addToHome={{ label: 'Find Prospects', icon: '🎯', tab: 'stores', action: 'prospects' }}>
             <span class="qa-icon">🎯</span>
             <span class="qa-label">Find Prospects</span>
           </button>
-          <button class="qa-btn" on:click={() => currentTab = 'stores'}>
+          <button class="qa-btn" on:click={() => currentTab = 'stores'}
+            use:addToHome={{ label: 'Stores', icon: '🏪', tab: 'stores' }}>
             <span class="qa-icon">🏪</span>
             <span class="qa-label">Stores</span>
           </button>
-          <button class="qa-btn" on:click={() => bookAppointment()}>
+          <button class="qa-btn" on:click={() => bookAppointment()}
+            use:addToHome={{ label: 'Book Appt', icon: '📅', tab: 'dashboard', action: 'book-appt' }}>
             <span class="qa-icon">📅</span>
             <span class="qa-label">Book Appt</span>
           </button>
-          <button class="qa-btn qa-driving" on:click={() => showDrivingMode = true}>
+          <button class="qa-btn qa-driving" on:click={() => showDrivingMode = true}
+            use:addToHome={{ label: 'Drive Mode', icon: '🚗', tab: 'dashboard', action: 'driving' }}>
             <span class="qa-icon">🚗</span>
             <span class="qa-label">Drive Mode</span>
           </button>
         </div>
+        </div><!-- /dash-sec quickactions -->
+
+        <!-- Home Screen shortcuts (user-pinned buttons, drag to reorder) -->
+        <div class="dash-sec" class:editing={editHome} style="order: {(dashOrderMap.shortcuts ?? 2) + 1}"
+          draggable={editHome}
+          on:dragstart={() => onDashDragStart('shortcuts')}
+          on:dragover|preventDefault={() => {}}
+          on:drop={() => onDashDrop('shortcuts')}>
+          {#if editHome}<div class="dash-move"><button on:click|stopPropagation={() => moveDashCard('shortcuts', -1)} aria-label="Move up">↑</button><button on:click|stopPropagation={() => moveDashCard('shortcuts', 1)} aria-label="Move down">↓</button></div>{/if}
+          <HomeShortcuts on:navigate={handleShortcutNavigate} />
+        </div>
 
         <!-- CALL-IN LEADS — inbound, high-priority, surfaced front-and-center -->
         {#if callInLeadsCount > 0 || ($user?.name || '').toLowerCase().includes('tyler') || ($user?.name || '').toLowerCase().includes('rick') || $user?.role === 'manager'}
+        <div class="dash-sec" class:editing={editHome} style="order: {(dashOrderMap.callin ?? 3) + 1}"
+          draggable={editHome}
+          on:dragstart={() => onDashDragStart('callin')}
+          on:dragover|preventDefault={() => {}}
+          on:drop={() => onDashDrop('callin')}>
+          {#if editHome}<div class="dash-move"><button on:click|stopPropagation={() => moveDashCard('callin', -1)} aria-label="Move up">↑</button><button on:click|stopPropagation={() => moveDashCard('callin', 1)} aria-label="Move down">↓</button></div>{/if}
         <button class="callin-home-card" on:click={() => { storesView = 'prospects'; currentTab = 'stores'; setTimeout(() => document.dispatchEvent(new CustomEvent('show-callin-leads')), 250); }}>
           <div class="callin-home-icon">📞</div>
           <div class="callin-home-info">
@@ -1357,9 +1466,31 @@
           </div>
           <div class="callin-home-arrow">→</div>
         </button>
+        </div><!-- /dash-sec callin -->
         {/if}
 
-        <!-- 2. TODAY AT A GLANCE — next appointment -->
+        <!-- LAST ACTIVITY / STATUS — rep can update what they're working on (movable) -->
+        <div class="dash-sec" class:editing={editHome} style="order: {(dashOrderMap.activity ?? 4) + 1}"
+          draggable={editHome}
+          on:dragstart={() => onDashDragStart('activity')}
+          on:dragover|preventDefault={() => {}}
+          on:drop={() => onDashDrop('activity')}>
+          {#if editHome}<div class="dash-move"><button on:click|stopPropagation={() => moveDashCard('activity', -1)} aria-label="Move up">↑</button><button on:click|stopPropagation={() => moveDashCard('activity', 1)} aria-label="Move down">↓</button></div>{/if}
+          <LastActivity />
+        </div>
+
+        <!-- 2. TODAY AT A GLANCE — next appointment (movable) -->
+        <div class="dash-card" class:editing={editHome} style="order: {(dashOrderMap.today ?? 5) + 1}"
+          draggable={editHome}
+          on:dragstart={() => onDashDragStart('today')}
+          on:dragover|preventDefault={() => {}}
+          on:drop={() => onDashDrop('today')}>
+        {#if editHome}
+          <div class="dash-move">
+            <button on:click|stopPropagation={() => moveDashCard('today', -1)} aria-label="Move up">↑</button>
+            <button on:click|stopPropagation={() => moveDashCard('today', 1)} aria-label="Move down">↓</button>
+          </div>
+        {/if}
         <button class="today-card-full" on:click={() => { showAppointmentsDetail = !showAppointmentsDetail; showStreakDetail = false; }}>
           <div class="today-icon">📅</div>
           {#if upcomingAppointments.length > 0}
@@ -1422,7 +1553,20 @@
           </div>
         {/if}
 
-        <!-- 3. REVENUE HERO — motivation -->
+        </div><!-- /dash-card today -->
+
+        <!-- 3. REVENUE HERO — motivation (movable) -->
+        <div class="dash-card" class:editing={editHome} style="order: {(dashOrderMap.revenue ?? 6) + 1}"
+          draggable={editHome}
+          on:dragstart={() => onDashDragStart('revenue')}
+          on:dragover|preventDefault={() => {}}
+          on:drop={() => onDashDrop('revenue')}>
+        {#if editHome}
+          <div class="dash-move">
+            <button on:click|stopPropagation={() => moveDashCard('revenue', -1)} aria-label="Move up">↑</button>
+            <button on:click|stopPropagation={() => moveDashCard('revenue', 1)} aria-label="Move down">↓</button>
+          </div>
+        {/if}
         <button class="revenue-hero clickable" on:click={() => showRevenueDetail = !showRevenueDetail}>
           <div class="revenue-amount">${repMonthlyRevenue.toLocaleString()}</div>
           <div class="revenue-label">Revenue This Month — tap for details</div>
@@ -1472,7 +1616,20 @@
           </div>
         {/if}
 
-        <!-- 4. STATS GRID — Prospects, Streak, Renewals -->
+        </div><!-- /dash-card revenue -->
+
+        <!-- 4. STATS GRID — Prospects, Streak, Renewals (movable) -->
+        <div class="dash-card" class:editing={editHome} style="order: {(dashOrderMap.stats ?? 7) + 1}"
+          draggable={editHome}
+          on:dragstart={() => onDashDragStart('stats')}
+          on:dragover|preventDefault={() => {}}
+          on:drop={() => onDashDrop('stats')}>
+        {#if editHome}
+          <div class="dash-move">
+            <button on:click|stopPropagation={() => moveDashCard('stats', -1)} aria-label="Move up">↑</button>
+            <button on:click|stopPropagation={() => moveDashCard('stats', 1)} aria-label="Move down">↓</button>
+          </div>
+        {/if}
         <div class="dashboard-grid">
           <button class="stat-card clickable" on:click={() => { showProspectDetail = !showProspectDetail; showStreakDetail = false; }}>
             <div class="stat-icon">🎯</div>
@@ -1630,7 +1787,20 @@
           </div>
         {/if}
 
-        <!-- 5. FULL DAILY GOAL — expandable -->
+        </div><!-- /dash-card stats -->
+
+        <!-- 5. FULL DAILY GOAL — expandable (movable) -->
+        <div class="dash-card" class:editing={editHome} style="order: {(dashOrderMap.goal ?? 8) + 1}"
+          draggable={editHome}
+          on:dragstart={() => onDashDragStart('goal')}
+          on:dragover|preventDefault={() => {}}
+          on:drop={() => onDashDrop('goal')}>
+        {#if editHome}
+          <div class="dash-move">
+            <button on:click|stopPropagation={() => moveDashCard('goal', -1)} aria-label="Move up">↑</button>
+            <button on:click|stopPropagation={() => moveDashCard('goal', 1)} aria-label="Move down">↓</button>
+          </div>
+        {/if}
         <div class="goal-section">
           <div class="goal-card">
             <div class="goal-header-row">
@@ -1657,6 +1827,7 @@
             </div>
           </div>
         </div>
+        </div><!-- /dash-card goal -->
 
 
       </div>
@@ -1723,30 +1894,33 @@
   :global(body) {
     background: var(--bg-primary, #ffffff);
   }
+  /* The Appearance theme engine (lib/appearance.js) drives everything through
+     override vars (--*-override). Each theme var reads its override first and
+     falls back to the built-in light/dark default when no theme is applied. */
   :global([data-theme='light']) {
-    --bg-primary: #ededf0;   /* very slightly gray app background (was pure white) */
+    --bg-primary: var(--bg-primary-override, #ededf0);
     --bg-secondary: #f5f5f7;
-    --text-primary: #1a1a1a;
-    --text-secondary: #4a4a4a;
+    --text-primary: var(--text-primary-override, #1a1a1a);
+    --text-secondary: var(--text-secondary-override, #4a4a4a);
     --text-tertiary: #6b6b6b;
-    --border-color: #e0e0e0;
-    --card-bg: #ffffff;      /* cards stay white so they pop against the gray */
+    --border-color: var(--border-override, #e0e0e0);
+    --card-bg: var(--card-bg-override, #ffffff);
     --card-shadow: rgba(0, 0, 0, 0.08);
     --hover-bg: #f0f0f2;
-    --input-bg: #ffffff;
+    --input-bg: var(--card-bg-override, #ffffff);
   }
 
   :global([data-theme='dark']) {
-    --bg-primary: #1a1a1a;
+    --bg-primary: var(--bg-primary-override, #1a1a1a);
     --bg-secondary: #242424;
-    --text-primary: #ffffff;
-    --text-secondary: #dcdcdc;
+    --text-primary: var(--text-primary-override, #ffffff);
+    --text-secondary: var(--text-secondary-override, #dcdcdc);
     --text-tertiary: #b5b5b5;
-    --border-color: #333333;
-    --card-bg: #2a2a2a;
+    --border-color: var(--border-override, #333333);
+    --card-bg: var(--card-bg-override, #2a2a2a);
     --card-shadow: rgba(0, 0, 0, 0.3);
     --hover-bg: #333333;
-    --input-bg: #2a2a2a;
+    --input-bg: var(--card-bg-override, #2a2a2a);
   }
 
   .main {
@@ -1755,6 +1929,65 @@
     height: 100%;
     background: var(--bg-primary);
     color: var(--text-primary);
+    position: relative;
+  }
+
+  /* Appearance: accent color hooks. When the user picks a non-default accent,
+     recolor the most prominent brand surfaces across the app. Uses --accent
+     (set by lib/appearance.js) with the brand red as the fallback so nothing
+     changes until a custom accent is chosen. */
+  :global(.qa-btn.qa-primary) { background: var(--accent, #CC0000) !important; border-color: var(--accent, #CC0000) !important; }
+  :global(.qa-btn.qa-primary .qa-badge) { color: var(--accent, #CC0000) !important; }
+  :global(.revenue-amount),
+  :global(.today-extra),
+  :global(.goal-count-inline) { color: var(--accent, #CC0000) !important; }
+  :global(.prospect-store-btn),
+  :global(.addtape-store-btn) { background: var(--accent, #CC0000) !important; }
+
+  /* Optional Appearance wallpaper: painted directly on .main as a layered
+     background so it sits subtly behind content. Done WITHOUT a positioned
+     pseudo-element or child re-stacking, so .content's CSS zoom (used by the
+     Text-size slider) is never affected.
+     The linear-gradient overlay fades the wallpaper into the themed bg color
+     so text stays readable; only active when a wallpaper is chosen. */
+  /* Veil color = theme bg; veil ALPHA is driven by the Appearance "Wallpaper
+     strength" slider via --wallpaper-veil-alpha (0 = no dimming, wallpaper
+     shows at full strength). Falls back to a readable default per surface type
+     when the user hasn't set a strength. */
+  /* Veil color = theme bg; veil ALPHA is driven by the Appearance "Wallpaper
+     strength" slider via a ROOT-level --wallpaper-veil-alpha (0 = no dimming).
+     When the slider is untouched, that var is unset and we fall back to a
+     per-surface default (--wallpaper-veil-default) so presets/custom read well. */
+  :global([data-wallpaper]:not([data-wallpaper='none'])) .main {
+    --wallpaper-veil-rgb: 255, 255, 255;
+    --wallpaper-veil-default: 0.86;
+    background-image:
+      linear-gradient(
+        rgba(var(--wallpaper-veil-rgb), var(--wallpaper-veil-alpha, var(--wallpaper-veil-default))),
+        rgba(var(--wallpaper-veil-rgb), var(--wallpaper-veil-alpha, var(--wallpaper-veil-default)))
+      ),
+      var(--app-wallpaper);
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+  }
+  :global([data-theme='dark'][data-wallpaper]:not([data-wallpaper='none'])) .main {
+    --wallpaper-veil-rgb: 26, 26, 26;
+  }
+  /* Lighter default veil for solid color / uploaded image so they read true
+     (only used when the strength slider is untouched). */
+  :global([data-wallpaper='custom-color']) .main { --wallpaper-veil-default: 0.35; }
+  :global([data-wallpaper='custom-image']) .main { --wallpaper-veil-default: 0.55; }
+
+  /* Custom card color / opacity: root override that beats the per-theme
+     .main-scoped --card-bg declarations (same pattern as --border-override). */
+  :global([data-custom-card='1']) .main { --card-bg: var(--card-bg-override); }
+
+  /* Custom text color: same override pattern for primary + derived secondary. */
+  :global([data-custom-text='1']) .main {
+    --text-primary: var(--text-primary-override);
+    --text-secondary: var(--text-secondary-override);
   }
 
   /* Black status bar area (above header) on iOS */
@@ -2327,7 +2560,43 @@
     margin: 0 auto;
     width: 100%;
     padding-bottom: 140px;
+    display: flex;
+    flex-direction: column;
   }
+  /* Fixed top block (quote, greeting, search, quick actions, shortcuts, edit
+     bar) always renders first; movable cards get explicit order values below. */
+  .dashboard > :global(.dash-fixed) { order: 0; }
+  .dashboard :global(.dash-card) { position: relative; }
+  /* .dash-sec wraps the formerly-fixed blocks (search, quick actions, shortcuts,
+     call-in, activity) so they join the same drag/reorder system. */
+  .dash-sec { position: relative; }
+  .dash-card.editing, .dash-sec.editing {
+    outline: 2px dashed var(--accent, #cc0000);
+    outline-offset: 3px; border-radius: 14px;
+    animation: dash-wiggle 0.45s infinite alternate ease-in-out;
+  }
+  @keyframes dash-wiggle { from { transform: rotate(-0.5deg); } to { transform: rotate(0.5deg); } }
+  .dash-move {
+    position: absolute; top: 6px; right: 6px; z-index: 5;
+    display: flex; gap: 4px;
+  }
+  .dash-move button {
+    width: 30px; height: 30px; border-radius: 8px; border: none;
+    background: var(--accent, #cc0000); color: #fff; font-size: 16px;
+    font-weight: 900; cursor: pointer; line-height: 1;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.25);
+  }
+  .edit-home-bar {
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 10px; margin: 4px 0 14px;
+  }
+  .edit-home-btn {
+    border: 1px solid var(--border-color, #ddd); background: var(--card-bg, #fff);
+    color: var(--accent, #cc0000); font-weight: 700; font-size: 13px;
+    padding: 7px 14px; border-radius: 10px; cursor: pointer;
+  }
+  .edit-home-btn.active { background: var(--accent, #cc0000); color: #fff; border-color: transparent; }
+  .edit-home-hint { font-size: 12px; color: var(--text-secondary, #888); }
 
   .dashboard h2 {
     margin: 0 0 8px;

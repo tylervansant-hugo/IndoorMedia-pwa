@@ -1,217 +1,427 @@
 <script>
-  import { onMount } from 'svelte';
-  import StoreSearchInput from '../lib/StoreSearchInput.svelte';
-  
-  let allStores = [];
-  let searchTerm = '';
-  let filteredStores = [];
-  let selectedStore = null;
-  let inventoryCount = '';
-  let lastShipment = '';
+  import { createEventDispatcher } from 'svelte';
+  import { PDFDocument, rgb } from 'pdf-lib';
+  import { user } from '../lib/stores.js';
+
+  // The store to audit is passed in from the Stores tab.
+  export let store = null;
+
+  const dispatch = createEventDispatcher();
+
+  // ── Zone install schedule (from RTUI Zone Chart) ──────────────
+  // NOTE: This const MUST be declared before the audit-state `let`s below,
+  // because those initializers call getLastInstallDate()/getNextInstallDate()
+  // which read ZONE_INSTALL_DAYS. Declaring it after would put it in the
+  // temporal-dead-zone at init time → ReferenceError → the modal never renders.
+  const ZONE_INSTALL_DAYS = {'01':1,'02':8,'03':26,'04':28,'05':25,'06':1,'07':7,'08':5,'09':14,'10':30,'11':25,'12':16,'13':20,'14':10,'15':18,'16':7,'17':20,'18':20,'19':8,'20':10,'21':16,'22':1,'23':12,'24':14,'25':23,'26':20,'27':25,'28':6,'29':6};
+
+  // ── Audit state ───────────────────────────────────────────────
+  let auditStep = 2; // 2: shipment dates, 3: enter inventory, 4: report (step 1 store-select removed — store comes in as a prop)
+  let auditStoreNum = store?.StoreName || '';
+  let auditCases = '';
+  let auditRolls = '';
+  let auditDate = getLastInstallDate(auditStoreNum);
+  let auditPerformedDate = new Date().toISOString().split('T')[0];
+  let auditStartingCases = '';
+  let auditNextShipmentDate = getNextInstallDate(auditStoreNum);
+  let auditReport = null;
+  let auditOldCasesDiscarded = '';
+  let auditBlankTapeUsage = '';
   let auditNotes = '';
-  let auditSubmitted = false;
-  
-  onMount(async () => {
-    try {
-      const res = await fetch(import.meta.env.BASE_URL + 'data/stores.json?t=' + Date.now());
-      allStores = await res.json();
-    } catch (err) {
-      console.error('Failed to load stores:', err);
-    }
-  });
-  
-  function handleStoreSelect(store) {
-    selectedStore = store;
-    filteredStores = [];
-    searchTerm = `${store.GroceryChain} - ${store.City} (${store.StoreName})`;
+
+  function getStoreInstallDay(storeId) {
+    const m = (storeId || '').match(/(\d{2})[A-Z]?-/);
+    return m ? (ZONE_INSTALL_DAYS[m[1]] || 7) : 7;
   }
-  
-  function calcRunout() {
-    if (!inventoryCount || inventoryCount <= 0) return null;
-    const casesPerWeek = (selectedStore?.['Case Count'] || 10) / 4;
-    const weeksLeft = Math.floor(inventoryCount / casesPerWeek);
-    return { weeksLeft, daysLeft: weeksLeft * 7 };
+
+  function ordinal(d) {
+    if (d == 1 || d == 21 || d == 31) return 'st';
+    if (d == 2 || d == 22) return 'nd';
+    if (d == 3 || d == 23) return 'rd';
+    return 'th';
   }
-  
-  function submitAudit() {
-    const runout = calcRunout();
-    const audit = {
-      store: selectedStore?.StoreName,
-      chain: selectedStore?.GroceryChain,
-      city: selectedStore?.City,
-      inventory: inventoryCount,
-      lastShipment,
-      notes: auditNotes,
-      runout: runout?.daysLeft,
-      timestamp: new Date().toISOString()
+
+  function getLastInstallDate(storeId) {
+    const day = getStoreInstallDay(storeId);
+    const now = new Date();
+    let d = new Date(now.getFullYear(), now.getMonth(), day);
+    if (d > now) d.setMonth(d.getMonth() - 1);
+    return d.toISOString().split('T')[0];
+  }
+
+  function getNextInstallDate(storeId) {
+    const day = getStoreInstallDay(storeId);
+    const now = new Date();
+    let d = new Date(now.getFullYear(), now.getMonth(), day);
+    if (d <= now) d.setMonth(d.getMonth() + 1);
+    return d.toISOString().split('T')[0];
+  }
+
+  function getAuditDueDate(storeId) {
+    // Audit is 45 days after the last install
+    const lastInstall = new Date(getLastInstallDate(storeId) + 'T12:00:00');
+    lastInstall.setDate(lastInstall.getDate() + 45);
+    return lastInstall.toISOString().split('T')[0];
+  }
+
+  function downloadBlob(blob, filename) {
+    const url = window.URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = filename;
+    document.body.appendChild(a);
+    a.click();
+    window.URL.revokeObjectURL(url);
+    a.remove();
+  }
+
+  function generateAuditReport() {
+    const cases = parseInt(auditCases) || 0;
+    const rolls = parseInt(auditRolls) || 0;
+    const starting = parseInt(auditStartingCases) || 20;
+    const totalRolls = (cases * 50) + rolls;
+    const startingRolls = starting * 50;
+
+    const delDate = new Date(auditDate);
+    const performedDate = new Date(auditPerformedDate + 'T12:00:00');
+    const daysSinceDelivery = Math.max(1, Math.floor((performedDate - delDate) / (1000 * 60 * 60 * 24)));
+    const rollsUsed = startingRolls - totalRolls;
+    const usagePerDay = Math.round((rollsUsed / daysSinceDelivery) * 10) / 10;
+    const daysUntilRunout = usagePerDay > 0 ? Math.round((totalRolls / usagePerDay) * 10) / 10 : 999;
+
+    const runoutDate = new Date(performedDate);
+    runoutDate.setDate(runoutDate.getDate() + Math.floor(daysUntilRunout));
+
+    const nextDelivery = new Date(auditNextShipmentDate);
+    const daysUntilDelivery = Math.ceil((nextDelivery - performedDate) / (1000 * 60 * 60 * 24));
+    const insufficient = daysUntilRunout < daysUntilDelivery;
+
+    const nextDeliveryMonth = nextDelivery.toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
+
+    auditReport = {
+      storeNum: auditStoreNum,
+      chain: store?.GroceryChain || '',
+      city: store?.City || '',
+      state: store?.State || '',
+      deliveryDate: delDate.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }),
+      startingCases: starting,
+      startingRolls: startingRolls,
+      currentCases: cases,
+      currentRolls: rolls,
+      totalRolls: totalRolls,
+      rollsUsed: rollsUsed,
+      daysSinceDelivery: daysSinceDelivery,
+      usagePerDay: usagePerDay,
+      daysUntilRunout: daysUntilRunout,
+      runoutDate: runoutDate.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }),
+      nextDelivery: nextDelivery.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }),
+      nextDeliveryMonth: nextDeliveryMonth,
+      daysUntilDelivery: daysUntilDelivery,
+      insufficient: insufficient,
+      oldCasesDiscarded: parseInt(auditOldCasesDiscarded) || 0,
+      blankTapeUsage: parseInt(auditBlankTapeUsage) || 0,
+      notes: auditNotes.trim()
     };
-    
-    // Save to localStorage
-    const audits = JSON.parse(localStorage.getItem('audits') || '[]');
-    audits.push(audit);
-    localStorage.setItem('audits', JSON.stringify(audits));
-    
-    auditSubmitted = true;
-    setTimeout(() => { auditSubmitted = false; }, 3000);
+    auditStep = 4;
   }
-  
-  $: runout = selectedStore ? calcRunout() : null;
+
+  async function downloadAuditPdf() {
+    try {
+      const r = auditReport;
+      const repName = $user?.name || $user?.first_name || 'Rep';
+
+      const pdfDoc = await PDFDocument.create();
+      const page = pdfDoc.addPage([612, 792]);
+      const bold = await pdfDoc.embedFont('Helvetica-Bold');
+      const reg = await pdfDoc.embedFont('Helvetica');
+
+      page.drawRectangle({ x: 0, y: 700, width: 612, height: 92, color: rgb(0.8, 0, 0) });
+      page.drawText('STORE AUDIT REPORT', { x: 30, y: 740, size: 22, font: bold, color: rgb(1, 1, 1) });
+      page.drawText(r.storeNum, { x: 30, y: 715, size: 14, font: reg, color: rgb(1, 1, 1) });
+
+      let y = 670;
+      const section = (title) => {
+        y -= 10;
+        page.drawText(title, { x: 40, y, size: 13, font: bold, color: rgb(0.1, 0.1, 0.1) });
+        y -= 22;
+      };
+      const line = (label, value) => {
+        page.drawText(label, { x: 50, y, size: 11, font: reg, color: rgb(0.3, 0.3, 0.3) });
+        page.drawText(String(value), { x: 220, y, size: 11, font: reg, color: rgb(0.1, 0.1, 0.1) });
+        y -= 20;
+      };
+
+      line('Store:', `${r.chain} - ${r.city}, ${r.state}`);
+      line('Rep:', repName);
+      line('Audit Date:', new Date(auditPerformedDate + 'T12:00:00').toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }));
+
+      section('DELIVERY');
+      line('Delivery Date:', r.deliveryDate);
+      line('Starting:', `${r.startingCases} cases (${r.startingRolls.toLocaleString()} rolls)`);
+
+      section('CURRENT INVENTORY');
+      line('Full Cases:', String(r.currentCases));
+      line('Loose Rolls:', String(r.currentRolls));
+      line('Total Rolls:', String(r.totalRolls));
+
+      section('PROJECTION');
+      line('Rolls Used:', `${r.rollsUsed} in ${r.daysSinceDelivery} days`);
+      line('Usage Rate:', `${r.usagePerDay} rolls/day`);
+      line('Days Until Runout:', String(r.daysUntilRunout));
+      line('Est. Runout Date:', r.runoutDate);
+      line('Next Delivery:', `${r.nextDelivery} (${r.daysUntilDelivery} days)`);
+
+      if (r.oldCasesDiscarded > 0 || r.blankTapeUsage > 0) {
+        section('ADDITIONAL');
+        if (r.oldCasesDiscarded > 0) line('Old Cases Discarded:', String(r.oldCasesDiscarded));
+        if (r.blankTapeUsage > 0) line('Blank Tape Usage:', `${r.blankTapeUsage} rolls`);
+      }
+
+      if (r.notes) {
+        section('NOTES');
+        const words = r.notes.split(' ');
+        let noteLine = '';
+        for (const word of words) {
+          if ((noteLine + ' ' + word).length > 80) {
+            page.drawText(noteLine.trim(), { x: 50, y, size: 10, font: reg, color: rgb(0.2, 0.2, 0.2) });
+            y -= 14;
+            noteLine = word;
+          } else {
+            noteLine += ' ' + word;
+          }
+        }
+        if (noteLine.trim()) {
+          page.drawText(noteLine.trim(), { x: 50, y, size: 10, font: reg, color: rgb(0.2, 0.2, 0.2) });
+          y -= 14;
+        }
+      }
+
+      y -= 15;
+      const statusText = r.insufficient
+        ? 'INSUFFICIENT: Inventory will run out BEFORE next delivery! Action needed.'
+        : 'SUFFICIENT: Inventory will last until next delivery.';
+      const statusColor = r.insufficient ? rgb(0.8, 0, 0) : rgb(0, 0.5, 0);
+      page.drawText(statusText, { x: 40, y, size: 12, font: bold, color: statusColor });
+
+      page.drawText(`Generated ${new Date().toLocaleString()} - IndoorMedia Audit Tool`, {
+        x: 150, y: 20, size: 8, font: reg, color: rgb(0.6, 0.6, 0.6)
+      });
+
+      const pdfBytes = await pdfDoc.save();
+      downloadBlob(new Blob([pdfBytes], { type: 'application/pdf' }), `Audit_${r.storeNum}.pdf`);
+    } catch (err) {
+      alert('Error: ' + err.message);
+      console.error(err);
+    }
+  }
+
+  function close() {
+    dispatch('close');
+  }
 </script>
 
-<div class="audit-container">
-  <h2>🏪 Audit Store</h2>
-  <p class="subtitle">Track inventory and delivery status</p>
-  
-  <div class="form-section">
-    <label>Select Store</label>
-    <StoreSearchInput
-      stores={allStores}
-      placeholder="Search by store name, city, address, or zip..."
-      maxResults={10}
-      showGeo={true}
-      on:select={e => handleStoreSelect(e.detail)}
-    />
-  </div>
-  
-  {#if selectedStore}
-    <div class="store-detail">
-      <h3>{selectedStore.GroceryChain} — {selectedStore.City}</h3>
-      <p>{selectedStore.Address}, {selectedStore.State} {selectedStore.PostalCode}</p>
-      <p>Store #: {selectedStore.StoreName} | Cycle: {selectedStore.Cycle} | Cases: {selectedStore['Case Count']}</p>
-    </div>
-    
-    <div class="form-section">
-      <label>Current Inventory (cases on shelf)</label>
-      <input type="number" placeholder="e.g., 12" bind:value={inventoryCount} min="0" />
-    </div>
-    
-    <div class="form-section">
-      <label>Last Shipment Date</label>
-      <input type="date" bind:value={lastShipment} />
-    </div>
-    
-    <div class="form-section">
-      <label>Notes</label>
-      <textarea placeholder="Any observations..." bind:value={auditNotes} rows="3"></textarea>
-    </div>
-    
-    {#if runout}
-      <div class="runout-card" class:critical={runout.daysLeft < 14} class:warning={runout.daysLeft >= 14 && runout.daysLeft < 30} class:ok={runout.daysLeft >= 30}>
-        <div class="runout-icon">
-          {#if runout.daysLeft < 14}🚨
-          {:else if runout.daysLeft < 30}⚠️
-          {:else}✅{/if}
+<div class="audit-overlay" on:click|self={close}>
+  <div class="audit-modal">
+    <button class="audit-close" on:click={close} aria-label="Close">✕</button>
+
+    {#if auditStep === 2}
+      <h2>📋 Audit: {auditStoreNum}</h2>
+      <p class="subtitle">{store?.GroceryChain} - {store?.City}</p>
+
+      <div class="form-card">
+        <p class="form-label">📅 Dates</p>
+        <p class="hint" style="margin-bottom:10px;">📍 Zone install day: <strong>{getStoreInstallDay(auditStoreNum)}{ordinal(getStoreInstallDay(auditStoreNum))} of each month</strong> | Audit due: <strong>{new Date(getAuditDueDate(auditStoreNum) + 'T12:00:00').toLocaleDateString('en-US', {month:'short', day:'numeric'})}</strong> (45 days post-install)</p>
+
+        <div class="form-group">
+          <label>Date Audit Performed *</label>
+          <input type="date" bind:value={auditPerformedDate} required />
         </div>
-        <div class="runout-info">
-          <strong>{runout.daysLeft} days</strong> until estimated runout
-          <br><span>({runout.weeksLeft} weeks at current pace)</span>
+
+        <div class="form-group">
+          <label>Last Delivery/Install Date *</label>
+          <input type="date" bind:value={auditDate} required />
+          <p class="hint">Auto-set from zone schedule — adjust if different</p>
         </div>
+
+        <div class="form-group">
+          <label>Next Shipment/Install Date *</label>
+          <input type="date" bind:value={auditNextShipmentDate} required />
+          <p class="hint">Auto-set from zone schedule — next {getStoreInstallDay(auditStoreNum)}{ordinal(getStoreInstallDay(auditStoreNum))}</p>
+        </div>
+
+        <button class="action-btn" on:click={() => auditStep = 3} disabled={!auditDate || !auditNextShipmentDate}>
+          Continue to Inventory
+        </button>
+      </div>
+
+    {:else if auditStep === 3}
+      <h2>📋 Audit: {auditStoreNum}</h2>
+      <p class="subtitle">{store?.GroceryChain} - {store?.City}</p>
+
+      <div class="form-card">
+        <p class="form-label">📦 Current Inventory</p>
+
+        <div class="form-group">
+          <label>Starting Cases (at delivery)</label>
+          <input type="number" bind:value={auditStartingCases} min="0" max="50" placeholder="e.g., 20" />
+        </div>
+
+        <div class="form-group">
+          <label>Full Cases Currently</label>
+          <input type="number" bind:value={auditCases} min="0" max="50" placeholder="0-50" />
+        </div>
+
+        <div class="form-group">
+          <label>Loose Rolls Currently</label>
+          <input type="number" bind:value={auditRolls} min="0" max="49" placeholder="0-49" />
+        </div>
+
+        <div class="form-group">
+          <label>🗑️ Old Cases Discarded</label>
+          <input type="number" bind:value={auditOldCasesDiscarded} min="0" max="50" placeholder="0" />
+        </div>
+
+        <div class="form-group">
+          <label>📋 Blank Tape Usage</label>
+          <input type="number" bind:value={auditBlankTapeUsage} min="0" max="50" placeholder="Rolls used for blank tape" />
+        </div>
+
+        <div class="form-group">
+          <label>📝 Notes</label>
+          <textarea bind:value={auditNotes} rows="3" placeholder="Any observations, issues, or comments..."></textarea>
+        </div>
+
+        <button class="action-btn" on:click={generateAuditReport} disabled={!auditCases && auditCases !== 0}>
+          Generate Audit Report
+        </button>
+
+        <button class="back-btn" on:click={() => auditStep = 2}>← Back to Dates</button>
+      </div>
+
+    {:else if auditStep === 4 && auditReport}
+      <h2>📋 Audit Report</h2>
+
+      <div class="report-card">
+        <div class="report-header">{auditReport.storeNum}</div>
+        <p class="report-chain">{auditReport.chain} - {auditReport.city}</p>
+
+        <div class="report-section">
+          <h4>Delivery</h4>
+          <p>Date: {auditReport.deliveryDate}</p>
+          <p>Starting: {auditReport.startingCases} cases ({auditReport.startingRolls} rolls)</p>
+        </div>
+
+        <div class="report-section">
+          <h4>Current Inventory</h4>
+          <p>{auditReport.currentCases} cases + {auditReport.currentRolls} rolls = {auditReport.totalRolls} total rolls</p>
+        </div>
+
+        <div class="report-section">
+          <h4>Projection</h4>
+          <p>Rolls used: {auditReport.rollsUsed} in {auditReport.daysSinceDelivery} days</p>
+          <p>Usage rate: {auditReport.usagePerDay} rolls/day</p>
+          <p>Days until runout: {auditReport.daysUntilRunout}</p>
+          <p>Est. runout date: {auditReport.runoutDate}</p>
+          <p class="next-delivery-highlight">📅 Next delivery: <strong>{auditReport.nextDeliveryMonth}</strong></p>
+          <p class="next-delivery-detail">({auditReport.nextDelivery}, {auditReport.daysUntilDelivery} days away)</p>
+        </div>
+
+        {#if auditReport.oldCasesDiscarded > 0 || auditReport.blankTapeUsage > 0}
+          <div class="report-section">
+            <h4>Additional</h4>
+            {#if auditReport.oldCasesDiscarded > 0}<p>🗑️ Old cases discarded: {auditReport.oldCasesDiscarded}</p>{/if}
+            {#if auditReport.blankTapeUsage > 0}<p>📋 Blank tape usage: {auditReport.blankTapeUsage} rolls</p>{/if}
+          </div>
+        {/if}
+
+        {#if auditReport.notes}
+          <div class="report-section">
+            <h4>📝 Notes</h4>
+            <p style="white-space: pre-wrap;">{auditReport.notes}</p>
+          </div>
+        {/if}
+
+        <div class="report-status" class:status-ok={!auditReport.insufficient} class:status-warn={auditReport.insufficient}>
+          {auditReport.insufficient ? 'INSUFFICIENT: Inventory may run out before next delivery!' : 'SUFFICIENT: Inventory should last until next delivery.'}
+        </div>
+
+        <button class="action-btn" on:click={downloadAuditPdf}>Download Audit PDF</button>
+        <button class="edit-btn" on:click={() => auditStep = 2}>Edit</button>
       </div>
     {/if}
-    
-    <button class="submit-btn" on:click={submitAudit} disabled={!inventoryCount}>
-      {auditSubmitted ? '✅ Audit Saved!' : '📋 Submit Audit'}
-    </button>
-  {/if}
+  </div>
 </div>
 
 <style>
-  .audit-container { max-width: 600px; margin: 0 auto; }
-  h2 { margin: 0; font-size: 20px; }
-  h3 { margin: 0 0 4px 0; font-size: 16px; }
-  .subtitle { color: #666; font-size: 14px; margin: 4px 0 20px 0; }
-  
-  .form-section { margin-bottom: 16px; position: relative; }
-  
-  label {
-    display: block;
-    font-size: 13px;
-    font-weight: 600;
-    color: #333;
-    margin-bottom: 6px;
-  }
-  
-  input, textarea {
-    width: 100%;
-    padding: 12px 14px;
-    border: 2px solid #ddd;
-    border-radius: 8px;
-    font-size: 15px;
-    font-family: inherit;
-  }
-  
-  input:focus, textarea:focus {
-    outline: none;
-    border-color: #CC0000;
-  }
-  
-  .store-dropdown {
-    position: absolute;
-    top: 100%;
-    left: 0;
-    right: 0;
-    background: white;
-    border: 2px solid #CC0000;
-    border-top: none;
-    border-radius: 0 0 8px 8px;
-    z-index: 10;
-    max-height: 200px;
+  .audit-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.55);
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    z-index: 1000;
+    padding: 20px 12px;
     overflow-y: auto;
   }
-  
-  .store-option {
-    display: block;
+  .audit-modal {
+    position: relative;
+    background: var(--card-bg, #fff);
+    color: var(--text-primary, #111);
+    border-radius: 16px;
     width: 100%;
-    padding: 10px 14px;
-    background: none;
+    max-width: 520px;
+    padding: 22px 20px 26px;
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.3);
+    margin: auto 0;
+  }
+  .audit-close {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    width: 34px;
+    height: 34px;
     border: none;
-    border-bottom: 1px solid #f0f0f0;
-    text-align: left;
-    font-size: 14px;
-    cursor: pointer;
-  }
-  
-  .store-option:hover { background: #fff5f5; }
-  
-  .store-detail {
-    background: white;
-    padding: 14px;
-    border-radius: 8px;
-    margin-bottom: 16px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
-  }
-  
-  .store-detail p { margin: 4px 0; font-size: 13px; color: #666; }
-  
-  .runout-card {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    padding: 14px;
-    border-radius: 8px;
-    margin-bottom: 16px;
-  }
-  
-  .runout-card.critical { background: #fce4ec; border: 2px solid #c62828; }
-  .runout-card.warning { background: #fff3e0; border: 2px solid #e65100; }
-  .runout-card.ok { background: #e8f5e9; border: 2px solid #2e7d32; }
-  
-  .runout-icon { font-size: 28px; }
-  .runout-info { font-size: 14px; color: #333; }
-  .runout-info span { font-size: 12px; color: #666; }
-  
-  .submit-btn {
-    width: 100%;
-    padding: 14px;
-    background: #CC0000;
-    color: white;
-    border: none;
-    border-radius: 8px;
+    border-radius: 50%;
+    background: var(--border-color, #eee);
+    color: var(--text-primary, #333);
     font-size: 16px;
-    font-weight: 700;
     cursor: pointer;
+    line-height: 1;
   }
-  
-  .submit-btn:hover { background: #990000; }
-  .submit-btn:disabled { background: #ccc; cursor: not-allowed; }
+  h2 { margin: 0 8px 4px 0; font-size: 20px; }
+  .subtitle { margin: 0 0 16px; color: var(--text-secondary, #777); font-size: 14px; }
+  .form-card { background: var(--bg-secondary, #f7f7f8); border-radius: 12px; padding: 16px; }
+  .form-label { font-weight: 700; margin: 0 0 10px; }
+  .form-group { margin-bottom: 14px; }
+  .form-group label { display: block; font-size: 13px; font-weight: 600; margin-bottom: 5px; }
+  .form-group input, .form-group textarea {
+    width: 100%; padding: 10px; border-radius: 8px;
+    border: 1px solid var(--border-color, #ddd);
+    background: var(--card-bg, #fff); color: var(--text-primary, #111);
+    font-family: inherit; font-size: 14px; box-sizing: border-box; resize: vertical;
+  }
+  .hint { font-size: 12px; color: var(--text-secondary, #888); margin: 4px 0 0; }
+  .action-btn {
+    width: 100%; padding: 13px; border: none; border-radius: 10px;
+    background: #cc0000; color: #fff; font-weight: 700; font-size: 15px;
+    cursor: pointer; margin-top: 6px;
+  }
+  .action-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+  .back-btn, .edit-btn {
+    width: 100%; padding: 11px; border: 1px solid var(--border-color, #ddd);
+    border-radius: 10px; background: transparent; color: var(--text-primary, #333);
+    font-weight: 600; font-size: 14px; cursor: pointer; margin-top: 8px;
+  }
+  .report-card { background: var(--bg-secondary, #f7f7f8); border-radius: 12px; padding: 16px; }
+  .report-header { font-size: 20px; font-weight: 800; }
+  .report-chain { margin: 2px 0 14px; color: var(--text-secondary, #777); }
+  .report-section { border-top: 1px solid var(--border-color, #e5e5e5); padding-top: 10px; margin-top: 10px; }
+  .report-section h4 { margin: 0 0 6px; font-size: 14px; }
+  .report-section p { margin: 3px 0; font-size: 14px; }
+  .next-delivery-highlight { color: #cc0000; }
+  .next-delivery-detail { font-size: 12px; color: var(--text-secondary, #888); }
+  .report-status { margin-top: 14px; padding: 12px; border-radius: 10px; font-weight: 700; text-align: center; }
+  .status-ok { background: rgba(0, 150, 0, 0.12); color: #0a7a0a; }
+  .status-warn { background: rgba(204, 0, 0, 0.12); color: #cc0000; }
 </style>

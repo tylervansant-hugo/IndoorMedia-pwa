@@ -3,33 +3,35 @@
 @tailwind utilities;
 
 /* Theme Variables */
+/* Appearance theme engine (lib/appearance.js) sets --*-override vars on :root.
+   Each token reads its override first, falling back to the built-in default. */
 :root[data-theme="light"] {
-  --bg-primary: #ededf0;
+  --bg-primary: var(--bg-primary-override, #ededf0);
   --bg-secondary: #ffffff;
   --bg-gradient: linear-gradient(135deg, #ededf0 0%, #e6e6ea 100%);
-  --text-primary: #1a1a1a;
-  --text-secondary: #4a4a4a;
+  --text-primary: var(--text-primary-override, #1a1a1a);
+  --text-secondary: var(--text-secondary-override, #4a4a4a);
   --text-tertiary: #6b6b6b;
-  --border-color: #e0e0e0;
-  --card-bg: #ffffff;
+  --border-color: var(--border-override, #e0e0e0);
+  --card-bg: var(--card-bg-override, #ffffff);
   --card-shadow: rgba(0, 0, 0, 0.1);
-  --input-bg: #ffffff;
-  --input-border: #ddd;
+  --input-bg: var(--card-bg-override, #ffffff);
+  --input-border: var(--border-override, #ddd);
   --hover-bg: #f0f0f0;
 }
 
 :root[data-theme="dark"] {
-  --bg-primary: #1a1a1a;
+  --bg-primary: var(--bg-primary-override, #1a1a1a);
   --bg-secondary: #2d2d2d;
   --bg-gradient: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
-  --text-primary: #ffffff;
-  --text-secondary: #dcdcdc;
+  --text-primary: var(--text-primary-override, #ffffff);
+  --text-secondary: var(--text-secondary-override, #dcdcdc);
   --text-tertiary: #b5b5b5;
-  --border-color: #404040;
-  --card-bg: #2d2d2d;
+  --border-color: var(--border-override, #404040);
+  --card-bg: var(--card-bg-override, #2d2d2d);
   --card-shadow: rgba(0, 0, 0, 0.3);
-  --input-bg: #2d2d2d;
-  --input-border: #404040;
+  --input-bg: var(--card-bg-override, #2d2d2d);
+  --input-border: var(--border-override, #404040);
   --hover-bg: #3d3d3d;
 }
 
@@ -45,8 +47,8 @@ body {
   max-width: 100%;
   height: 100%;
   overflow-x: hidden; /* never let bigger-font zoom push content off-screen */
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
-    'Helvetica Neue', Arial, sans-serif;
+  font-family: var(--app-font, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
+    'Helvetica Neue', Arial, sans-serif);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   background: var(--bg-gradient);

@@ -3,6 +3,8 @@
   import { onMount } from 'svelte';
   import CartIcon from './CartIcon.svelte';
   import Icon from './Icon.svelte';
+  import AuditStore from './AuditStore.svelte';
+  import ContractForm from './ContractForm.svelte';
   import { calculateROI as sharedCalculateROI } from '../lib/roi.js';
   import { isFirebaseReady, claimStore, releaseStore, getZoneClaims } from '../lib/firebase.js';
 
@@ -1007,6 +1009,8 @@ Store: ${store.StoreName}
     { id: 'nose_exclusivity', name: 'Nose of Cart — Exclusivity (per 60 inserts)', price: '$3,995 + prod.', kind: 'nose', nose: true },
   ];
   let cartPkgOpen = {};   // store.StoreName -> bool (package picker open)
+  let auditModalStore = null;  // store currently open in the Audit modal (null = closed)
+  let contractModalStore = null;  // store currently open in the Contract form (null = closed)
   function toggleCartPkg(storeName) {
     cartPkgOpen[storeName] = !cartPkgOpen[storeName];
     cartPkgOpen = cartPkgOpen;
@@ -1392,6 +1396,16 @@ Store: ${store.StoreName}
               <!-- Navigate to store (opens device maps with directions) -->
               <button class="navigate-store-btn" on:click|stopPropagation={() => navToStore(store)}>
                 <Icon name="compass" size={17} color="#fff" /> Navigate to Store
+              </button>
+
+              <!-- Audit this store (register-tape inventory / runout audit) -->
+              <button class="audit-store-btn" on:click|stopPropagation={() => auditModalStore = store}>
+                📋 Audit Store
+              </button>
+
+              <!-- Create a new customer contract seeded from this store -->
+              <button class="contract-store-btn" on:click|stopPropagation={() => contractModalStore = store}>
+                📄 New Contract
               </button>
 
               <!-- Quick-add product buttons: Register Tape → Cartvertising → Digital -->
@@ -1815,6 +1829,16 @@ Store: ${store.StoreName}
         </div>
       </div>
     </div>
+  {/if}
+
+  <!-- Store Audit modal (opened from the per-store "Audit Store" button) -->
+  {#if auditModalStore}
+    <AuditStore store={auditModalStore} on:close={() => auditModalStore = null} />
+  {/if}
+
+  <!-- New Contract modal (opened from the per-store "New Contract" button) -->
+  {#if contractModalStore}
+    <ContractForm store={contractModalStore} on:close={() => contractModalStore = null} />
   {/if}
 </div>
 
@@ -2746,6 +2770,44 @@ Store: ${store.StoreName}
   }
   .navigate-store-btn:hover { background: #1558b0; transform: translateY(-1px); }
   .navigate-store-btn:active { transform: translateY(0); }
+  .audit-store-btn {
+    width: 100%;
+    margin-top: 8px;
+    padding: 10px;
+    background: #6b21a8;
+    border: none;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 700;
+    color: #fff;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+  }
+  .audit-store-btn:hover { background: #581c87; transform: translateY(-1px); }
+  .audit-store-btn:active { transform: translateY(0); }
+  .contract-store-btn {
+    width: 100%;
+    margin-top: 8px;
+    padding: 10px;
+    background: #0a7a0a;
+    border: none;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 700;
+    color: #fff;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+  }
+  .contract-store-btn:hover { background: #086308; transform: translateY(-1px); }
+  .contract-store-btn:active { transform: translateY(0); }
   .cartvert-store-btn {
     width: 100%;
     margin-top: 8px;

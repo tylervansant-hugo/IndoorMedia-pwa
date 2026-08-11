@@ -7,6 +7,7 @@
   import PendingLeads from './PendingLeads.svelte';
   import MeetingPrep from './MeetingPrep.svelte';
   import StoreSearchInput from '../lib/StoreSearchInput.svelte';
+  import ContractForm from './ContractForm.svelte';
   import L from 'leaflet';
   import 'leaflet/dist/leaflet.css';
   
@@ -27,6 +28,22 @@
     };
   }
   let savedProspects = [];
+  let contractProspect = null;  // prospect currently open in the New Contract form
+  let contractStore = null;     // store the customer was looked up at (defaults on the contract)
+  function openContractForProspect(prospect) {
+    contractProspect = {
+      business_name: prospect.business || prospect.name || prospect.business_name || '',
+      contact_name: prospect.contactName || prospect.contact_name || prospect.contact || '',
+      email: prospect.email || prospect.contact_email || '',
+      phone: prospect.phone || prospect.contactPhone || prospect.contact_phone || '',
+      address: prospect.address || prospect.fullAddress || '',
+      city: prospect.city || '',
+      state: prospect.state || '',
+      zip: prospect.zip || prospect.postalCode || '',
+    };
+    // Default the contract's store to whatever store the prospect was found at.
+    contractStore = prospect._store || prospect.store || selectedStore || null;
+  }
   let savedSearch = '';
   let savedStatusFilter = 'all';
   let expandedSaved = null;
@@ -3307,20 +3324,7 @@ IndoorMedia`
     <div class="loading">⏳ Searching...</div>
   {/if}
 
-  <!-- Tab Navigation -->
-  <div class="prospect-tabs">
-    <button class="tab-btn" class:active={view === 'main' || view === 'browse-stores'} on:click={() => view = 'main'}>🎯 Find Prospects</button>
-    <button class="tab-btn" class:active={view === 'hot-leads'} on:click={() => view = 'hot-leads'}>🔥 Hot Leads {#if hotLeads.length > 0}({hotLeads.length}){/if}</button>
-    <button class="tab-btn tab-callin" class:active={view === 'call-in'} on:click={() => view = 'call-in'}>📞 Call-In Leads {#if callInLeads.length > 0}({callInLeads.length}){/if}</button>
-    <button class="tab-btn" class:active={view === 'saved'} on:click={() => view = 'saved'}>💾 Saved ({savedProspects.length})</button>
-    {#if isPrivilegedViewer()}
-      <button class="tab-btn" class:active={view === 'team'} on:click={() => view = 'team'}>👥 Team ({teamProspects.length})</button>
-    {/if}
-    {#if isPrivilegedViewer()}
-      <button class="tab-btn" class:active={view === 'pending'} on:click={() => view = 'pending'}>⏳ Pending</button>
-      <button class="tab-btn" class:active={view === 'submit-lead'} on:click={() => view = 'submit-lead'}>➕ Add Lead</button>
-    {/if}
-  </div>
+  <!-- Tab strip removed per request; navigation lives in the main menu grid + Back buttons -->
 
   <!-- Main Menu -->
   {#if view === 'main'}
@@ -3358,11 +3362,31 @@ IndoorMedia`
         <div class="btn-desc">{hotLeads.length > 0 ? hotLeads.length + ' ready to call' : 'Coming soon'}</div>
       </button>
 
+      <button class="main-btn" on:click={() => view = 'call-in'}>
+        <div class="btn-icon">📞</div>
+        <div class="btn-text">Call-In Leads{#if callInLeads.length > 0} ({callInLeads.length}){/if}</div>
+        <div class="btn-desc">Inbound leads to follow up</div>
+      </button>
+
       <button class="main-btn" on:click={() => view = 'submit-lead'}>
         <div class="btn-icon">➕</div>
         <div class="btn-text">Add Lead</div>
         <div class="btn-desc">Submit a new lead</div>
       </button>
+
+      {#if isPrivilegedViewer()}
+        <button class="main-btn" on:click={() => view = 'team'}>
+          <div class="btn-icon">👥</div>
+          <div class="btn-text">Team ({teamProspects.length})</div>
+          <div class="btn-desc">Team prospects</div>
+        </button>
+
+        <button class="main-btn" on:click={() => view = 'pending'}>
+          <div class="btn-icon">⏳</div>
+          <div class="btn-text">Pending</div>
+          <div class="btn-desc">Leads awaiting review</div>
+        </button>
+      {/if}
     </div>
   {/if}
 
@@ -3702,6 +3726,7 @@ IndoorMedia`
             </div>
 
             <!-- Row 3: Sales tools -->
+            <button class="action-btn btn-add-product" on:click={() => openContractForProspect(prospect)}>📄 Add Products / Contract</button>
             <div class="action-row">
               <button class="action-btn btn-outline" on:click={() => { prospect._showScript = !prospect._showScript; prospect._showEmail = false; prospect._showNotes = false; prospects = prospects; }}>📋 Scripts</button>
               <button class="action-btn btn-outline" on:click={async () => { 
@@ -4719,6 +4744,11 @@ IndoorMedia`
         {/if}
       </div>
     </div>
+  {/if}
+
+  <!-- New Contract / Add Product modal (seeded from a prospect card) -->
+  {#if contractProspect}
+    <ContractForm prospect={contractProspect} store={contractStore} on:close={() => { contractProspect = null; contractStore = null; }} />
   {/if}
 </div>
 
@@ -5938,6 +5968,7 @@ IndoorMedia`
   .btn-gray:hover { background: #e0e0e0 !important; }
 
   .btn-outline { background: transparent !important; color: #CC0000 !important; border: 2px solid #CC0000 !important; }
+  .btn-contract { background: #0a7a0a !important; color: white !important; border-color: #0a7a0a !important; }
   .btn-outline:hover { background: #CC0000 !important; color: white !important; }
 
   .btn-book-appt {
@@ -5961,6 +5992,29 @@ IndoorMedia`
     box-sizing: border-box;
   }
   .btn-book-appt:hover { background: #aa0000 !important; box-shadow: 0 4px 12px rgba(204, 0, 0, 0.4); }
+  /* Add Products button matches the Book Appointment size/prominence. */
+  .btn-add-product {
+    display: block !important;
+    width: 100% !important;
+    flex: none !important;
+    padding: 14px 16px !important;
+    margin-bottom: 8px !important;
+    background: #0a7a0a !important;
+    color: white !important;
+    border-color: #0a7a0a !important;
+    font-size: 1rem !important;
+    font-weight: 700 !important;
+    border-radius: 12px !important;
+    text-align: center;
+    text-decoration: none;
+    letter-spacing: 0.3px;
+    box-shadow: 0 2px 8px rgba(10, 122, 10, 0.3);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    box-sizing: border-box;
+  }
+  .btn-add-product:hover { background: #086808 !important; box-shadow: 0 4px 12px rgba(10, 122, 10, 0.4); }
   .btn-navigate {
     display: block !important;
     width: 100% !important;

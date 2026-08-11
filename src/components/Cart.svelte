@@ -7,6 +7,36 @@
   export let active = false;
   import { PDFDocument, rgb, StandardFonts, PDFString, PDFName } from 'pdf-lib';
   import StoreSearchInput from '../lib/StoreSearchInput.svelte';
+  import ContractForm from './ContractForm.svelte';
+
+  // ── Convert the current quote into a contract (opens ContractForm seeded
+  //    from the cart line items, with e-signature + payment capture). ──
+  let showContractForm = false;
+  let contractSeed = null;   // { store, prospect, items }
+  function priceNum(v) { return parseFloat(String(v).replace(/[^0-9.]/g, '')) || 0; }
+  function openContractFromCart() {
+    if (!cartItems.length) return;
+    const first = cartItems[0] || {};
+    contractSeed = {
+      prospect: { business_name: businessName || '', contact_name: '', email: '', phone: '', address: first.storeAddress || '' },
+      store: first.store ? {
+        GroceryChain: first.store, StoreName: first.storeNum,
+        Address: first.storeAddress, Cycle: first.storeCycle, zone: first.storeCycle,
+      } : null,
+      seedItems: cartItems.map(it => ({
+        product: (it.name || 'Register Tape').replace(/ —.*$/, ''),
+        price: priceNum(it.price),
+        storeName: it.store || '',
+        storeNumber: it.storeNum || '',
+        zone: it.storeCycle || '',
+        address: it.storeAddress || '',
+        adType: /double/i.test(it.name || '') ? 'Double Ad' : 'Single Ad',
+        startInfo: it.storeCycle ? getNextLaunch(it.storeCycle) : '',
+        quarters: 4,
+      })),
+    };
+    showContractForm = true;
+  }
 
   let cartItems = [];
   let allStores = [];
@@ -1965,6 +1995,7 @@
       <div class="business-name-row">
         <input type="text" class="business-name-input" placeholder="Business name (for quote)" bind:value={businessName} />
       </div>
+      <button class="contract-btn" on:click={openContractFromCart}>✍️ Turn Quote into Contract (e-sign)</button>
       <div class="footer-actions">
         <button class="export-btn" on:click={exportQuotePdf}>📄 Download Quote PDF</button>
         <button class="map-btn" on:click={shareQuoteMap} disabled={mapBuilding}>{mapBuilding ? '🗺️ Building…' : '🗺️ Share Map'}</button>
@@ -1977,6 +2008,14 @@
       <p>No products in quote yet</p>
       <p class="hint">Tap "+ Add Product" to start building</p>
     </div>
+  {/if}
+
+  {#if showContractForm && contractSeed}
+    <ContractForm
+      store={contractSeed.store}
+      prospect={contractSeed.prospect}
+      seedItems={contractSeed.seedItems}
+      on:close={() => { showContractForm = false; contractSeed = null; }} />
   {/if}
 </div>
 
@@ -2205,6 +2244,13 @@
   .video-gallery-picked { display: flex; align-items: center; gap: 10px; background: #f0f7f0; border: 1px solid #d6ecd8; border-radius: 8px; padding: 8px 11px; font-size: 12.5px; }
   .video-gallery-picked span { flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
   .video-gallery-remove { background: none; border: none; color: #CC0000; font-size: 12px; cursor: pointer; text-decoration: underline; }
+  .contract-btn {
+    display: block; width: 100%; padding: 15px; margin-bottom: 10px;
+    background: #0a7a0a; color: #fff; border: none; border-radius: 10px;
+    font-size: 15px; font-weight: 800; cursor: pointer; text-align: center;
+    box-shadow: 0 2px 8px rgba(10,122,10,0.3);
+  }
+  .contract-btn:hover { background: #086808; }
   .footer-actions { display: flex; flex-wrap: wrap; gap: 8px; }
   .business-name-row { margin-bottom: 10px; }
   .business-name-input { width: 100%; padding: 10px 12px; border: 1px solid #ddd; border-radius: 8px; font-size: 14px; box-sizing: border-box; }
