@@ -290,28 +290,27 @@
   // Zone install day lookup from RTUI Zone Chart
   const ZONE_DAYS = {'01':1,'02':8,'03':26,'04':28,'05':25,'06':1,'07':7,'08':5,'09':14,'10':30,'11':25,'12':16,'13':20,'14':10,'15':18,'16':7,'17':20,'18':20,'19':8,'20':10,'21':16,'22':1,'23':12,'24':14,'25':23,'26':20,'27':25,'28':6,'29':6};
 
+  const SELL_BY_LEAD_DAYS = 23; // last ad sold 23 days before the in-store date
   function getRenewalDeadline(renewal) {
-    // Deadline = (install_day + 3) in the month before the end date
-    // Zone 7 example: B2 ends 5/1/2026, install day 7, deadline = April 10 (7+3)
+    // The contract's end date = the month the next cycle goes IN-STORE.
+    // In-store date = zone install day of that month. The renewal (last ad
+    // sold) must close 23 days before in-store.
+    // Zone 7 example: ends 9/1/2026 → C in-store Sep 7 → sell by Aug 15.
     const storeId = renewal.store || '';
     const zoneMatch = storeId.match(/(\d{2})[A-Z]?-/) || (renewal.zone || '').match(/(\d{2})/);
     const zoneNum = zoneMatch ? zoneMatch[1] : '07';
     const installDay = ZONE_DAYS[zoneNum] || 7;
-    const deadlineDay = installDay + 3;
 
-    // Parse end date
+    // Parse end date (M/D/YYYY)
     const endStr = renewal.endDate || '';
     const endParts = endStr.split('/');
     if (endParts.length < 3) return null;
     const endMonth = parseInt(endParts[0]) - 1; // 0-indexed
     const endYear = parseInt(endParts[2].length === 2 ? '20' + endParts[2] : endParts[2]);
-    
-    // Deadline is in the month BEFORE the end date
-    let dlMonth = endMonth - 1;
-    let dlYear = endYear;
-    if (dlMonth < 0) { dlMonth = 11; dlYear--; }
-    
-    return new Date(dlYear, dlMonth, deadlineDay);
+
+    // In-store date = install day of the END-DATE month; sell-by = minus lead.
+    const inStore = new Date(endYear, endMonth, installDay);
+    return new Date(inStore.getTime() - SELL_BY_LEAD_DAYS * 24 * 60 * 60 * 1000);
   }
 
   function formatDeadline(renewal) {
