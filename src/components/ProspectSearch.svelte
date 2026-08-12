@@ -32,15 +32,24 @@
   // ── Manual "create a new business as a lead" ─────────────────────────────
   let showNewLead = false;
   let newLead = {
-    name: '', category: '', contactName: '', phone: '', email: '',
+    name: '', mainCategory: '', category: '', contactName: '', phone: '', email: '',
     address: '', city: '', state: '', zip: '', website: '', notes: '',
     store: '', // optional: associate with a store number
     googleUrl: ''
   };
   let newLeadFetching = false;
   let newLeadFetchMsg = '';
+  // Subcategory options for the currently-chosen main category in the new-lead form.
+  $: newLeadSubcats = (newLead.mainCategory && CATEGORIES[newLead.mainCategory])
+    ? CATEGORIES[newLead.mainCategory].filter(s => s !== 'All')
+    : [];
+  // When the main category changes, clear a subcategory that no longer fits.
+  function onNewLeadCategoryChange() {
+    if (newLead.category && !newLeadSubcats.includes(newLead.category)) newLead.category = '';
+    newLead = newLead;
+  }
   function resetNewLead() {
-    newLead = { name: '', category: '', contactName: '', phone: '', email: '',
+    newLead = { name: '', mainCategory: '', category: '', contactName: '', phone: '', email: '',
       address: '', city: '', state: '', zip: '', website: '', notes: '', store: '', googleUrl: '' };
     newLeadFetchMsg = '';
   }
@@ -103,7 +112,22 @@
       set('name', p.displayName?.text || parsed.name || '');
       set('phone', p.nationalPhoneNumber || p.internationalPhoneNumber || '');
       set('website', p.websiteUri || '');
-      set('category', p.primaryTypeDisplayName?.text || '');
+      // Try to map Google's type (e.g. "Pizza restaurant") into our taxonomy.
+      const gType = (p.primaryTypeDisplayName?.text || '').toLowerCase();
+      if (gType && !newLead.category) {
+        let matchedMain = '', matchedSub = '';
+        for (const [mc, subs] of Object.entries(CATEGORIES)) {
+          for (const sub of subs) {
+            if (sub === 'All') continue;
+            if (gType.includes(sub.toLowerCase()) || sub.toLowerCase().includes(gType.split(' ')[0])) {
+              matchedMain = mc; matchedSub = sub; break;
+            }
+          }
+          if (matchedSub) break;
+        }
+        if (matchedSub) { newLead.mainCategory = matchedMain; newLead.category = matchedSub; }
+        else if (!newLead.category) newLead.category = p.primaryTypeDisplayName?.text || '';
+      }
       // Address components -> street / city / state / zip
       const comps = p.addressComponents || [];
       const get = (type) => comps.find(c => (c.types || []).includes(type));
@@ -139,10 +163,16 @@
       _savedStoreLat: st.latitude || st.Latitude || null,
       _savedStoreLng: st.longitude || st.Longitude || null
     } : {};
+    const subcat = (newLead.category || '').trim();
+    const mainCat = (newLead.mainCategory || '').trim();
     const lead = {
       id,
       name,
-      category: (newLead.category || '').trim() || 'Uncategorized',
+      // Subcategory is the specific classification (e.g. "Pizza"); category
+      // mirrors it for list display. mainCategory keeps the top-level group.
+      category: subcat || mainCat || 'Uncategorized',
+      subcategory: subcat || '',
+      mainCategory: mainCat || '',
       contactName: (newLead.contactName || '').trim(),
       phone: (newLead.phone || '').trim(),
       email: (newLead.email || '').trim(),
@@ -4923,8 +4953,30 @@ IndoorMedia`
           <label class="nl-label">Business Name *</label>
           <input class="nl-input" bind:value={newLead.name} placeholder="e.g. Joe's Pizza" />
 
-          <label class="nl-label">Category</label>
-          <input class="nl-input" bind:value={newLead.category} placeholder="e.g. Pizza, Auto Repair, Salon" />
+          <div class="nl-row">
+            <div class="nl-col">
+              <label class="nl-label">Category</label>
+              <select class="nl-input" bind:value={newLead.mainCategory} on:change={onNewLeadCategoryChange}>
+                <option value="">Select category…</option>
+                {#each Object.keys(CATEGORIES) as cat}
+                  <option value={cat}>{cat}</option>
+                {/each}
+              </select>
+            </div>
+            <div class="nl-col">
+              <label class="nl-label">Subcategory</label>
+              {#if newLeadSubcats.length}
+                <select class="nl-input" bind:value={newLead.category}>
+                  <option value="">Select subcategory…</option>
+                  {#each newLeadSubcats as sc}
+                    <option value={sc}>{sc}</option>
+                  {/each}
+                </select>
+              {:else}
+                <input class="nl-input" bind:value={newLead.category} placeholder="e.g. Pizza, Salon" />
+              {/if}
+            </div>
+          </div>
 
           <div class="nl-row">
             <div class="nl-col">
