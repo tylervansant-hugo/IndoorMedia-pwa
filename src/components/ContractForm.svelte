@@ -22,6 +22,10 @@
 
   // Padded (full-rate) default prices per product + ad type. The lower/unlocked
   // price is revealed only after a rep types ANY unlock code.
+  // NOTE: Register Tape is priced from the STORE'S OWN rate card (case-count
+  // driven, kept in sync with the latest Zone Rate Card) PLUS a fixed pad, so
+  // every contract quotes the most up-to-date rate for that specific store.
+  // The flat values below are fallbacks only (used when no store rate is known).
   const PADDED_PRICE = {
     'Register Tape': { 'Single Ad': 4050, 'Double Ad': 5670 },
     'Cartvertising': { 'Single Ad': 2995, 'Double Ad': 4795 },
@@ -31,7 +35,29 @@
     'ReviewBoost':   { 'Single Ad': 695,  'Double Ad': 1390 },
     'LoyaltyBoost':  { 'Single Ad': 3600, 'Double Ad': 7200 },
   };
-  function paddedPrice(product, adType) { return (PADDED_PRICE[product]?.[adType]) ?? ''; }
+
+  // Register Tape pad added on top of the store's rate-card rate to get the
+  // full/padded (rack) price. e.g. SAF07Z-1123 base Single $3,800 + $1,325 pad
+  // = $5,125 padded. Unlock discount ($1,200) still comes off the padded price.
+  const RT_PAD = { 'Single Ad': 1325, 'Double Ad': 1325 };
+
+  // The store's own current rate-card rate for the given ad type, if we have
+  // the store loaded (SingleAd / DoubleAd come straight from stores.json).
+  function storeRateCard(adType) {
+    if (!store) return null;
+    const single = Number(store.SingleAd) || null;
+    const dbl = Number(store.DoubleAd) || null;
+    if (adType === 'Double Ad') return dbl;
+    return single;
+  }
+
+  function paddedPrice(product, adType) {
+    if (product === 'Register Tape') {
+      const base = storeRateCard(adType);
+      if (base != null) return base + (RT_PAD[adType] ?? 0);
+    }
+    return (PADDED_PRICE[product]?.[adType]) ?? '';
+  }
   function unlockedPrice(product, adType) {
     const p = PADDED_PRICE[product]?.[adType];
     return p != null ? Math.max(0, p - 1200) : '';
