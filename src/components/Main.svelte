@@ -1,6 +1,7 @@
 <script>
   import { onMount, tick } from 'svelte';
   import { theme, user } from '../lib/stores.js';
+  import { cycleLaunchDates, DEFAULT_SELL_BY_LEAD_DAYS } from '../lib/cycleSchedule.js';
   import { get } from 'svelte/store';
   import { applyAppearance, setMode, resolveMode, getAppearance } from '../lib/appearance.js';
   import { addToHome, installGlobalAddToHome, getWidgetOrder, reorderWidgets, replayShortcut } from '../lib/homeShortcuts.js';
@@ -239,6 +240,10 @@
   let secondInstallCycle = '';
   let secondInstallDate = '';
   let secondInstallDays = 0;
+  // Closing sell-by window note (e.g. "still selling C until Aug 15")
+  let stillSellingCycle = '';
+  let stillSellingUntil = '';
+  let stillSellingDays = 0;
 
   // Zone install day lookup — from RTUI Zone Chart
   const ZONE_INSTALL_DAYS = {
@@ -264,90 +269,65 @@
   }
 
   function getNextCycle() {
-    // Cycle schedule uses the zone-specific install day
-    // A=Jan/Apr/Jul/Oct, B=Feb/May/Aug/Nov, C=Mar/Jun/Sep/Dec
-    // Selling cycle switches 4 days after install
+    // Cycle schedule uses the zone-specific install day.
+    // A=Jan/Apr/Jul/Oct, B=Feb/May/Aug/Nov, C=Mar/Jun/Sep/Dec (per quarter).
+    // A cycle "installs" (goes in-store) on the zone install day of its month,
+    // and the last ad must be SOLD ~23 days before that in-store date.
+    // The cycle you sell installs under the SAME letter (sell A → A installs).
     const now = new Date();
     const installDay = getZoneInstallDay();
-    const installCycles = [
-      { name: 'A', months: [0, 3, 6, 9] },
-      { name: 'B', months: [1, 4, 7, 10] },
-      { name: 'C', months: [2, 5, 8, 11] },
-    ];
-    const sellingAfter = { 'A': 'C', 'B': 'A', 'C': 'B' };
+    const lead = DEFAULT_SELL_BY_LEAD_DAYS; // 23-day sell-by buffer
+    const MS = 86400000;
+    const fmt = (d) => d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
 
-    // Find next install date using zone-specific day
-    let nearestInstall = null;
-    for (const cycle of installCycles) {
-      for (const m of cycle.months) {
-        let d = new Date(now.getFullYear(), m, installDay);
-        if (d <= now) d = new Date(now.getFullYear() + 1, m, installDay);
-        if (!nearestInstall || d < nearestInstall.date) {
-          nearestInstall = { date: d, name: cycle.name };
-        }
+    // Build every upcoming install with its sell-by deadline.
+    const events = [];
+    for (const c of ['A', 'B', 'C']) {
+      for (const d of cycleLaunchDates(c, installDay, now)) {
+        events.push({ cycle: c, install: d, sellBy: new Date(d.getTime() - lead * MS) });
       }
     }
+    events.sort((a, b) => a.install - b.install);
 
-    if (nearestInstall) {
-      const diff = Math.ceil((nearestInstall.date - now) / 86400000);
-      nextInstallCycle = nearestInstall.name;
-      nextInstallDate = nearestInstall.date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
-      nextInstallDays = diff;
+    // PRIMARY selling cycle = the soonest install whose sell-by window is still
+    // OPEN and not closing within the next few days (so the main push moves to
+    // the next fresh window). We treat a window as "still the main sell" only if
+    // its sell-by is more than 3 days out.
+    const CLOSING_SOON = 3;
+    let primary = events.find((e) => Math.ceil((e.sellBy - now) / MS) > CLOSING_SOON && e.install > now);
+    // Any window whose sell-by hasn't passed yet but is closing within CLOSING_SOON
+    // days is the "still selling X until <date>" note.
+    const closing = events.find((e) => {
+      const days = Math.ceil((e.sellBy - now) / MS);
+      return days >= 0 && days <= CLOSING_SOON && e.install > now;
+    });
 
-      // Find second install (the one after next)
-      let secondInstall = null;
-      for (const cycle of installCycles) {
-        for (const m of cycle.months) {
-          let d = new Date(now.getFullYear(), m, installDay);
-          if (d <= nearestInstall.date) d = new Date(d.getFullYear() + 1, m, installDay);
-          if (!secondInstall || d < secondInstall.date) {
-            secondInstall = { date: d, name: cycle.name };
-          }
-        }
-      }
-      if (secondInstall) {
-        secondInstallCycle = secondInstall.name;
-        secondInstallDate = secondInstall.date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
-        secondInstallDays = Math.ceil((secondInstall.date - now) / 86400000);
-      }
+    if (!primary) primary = events.find((e) => e.install > now) || events[0];
 
-      // Selling cycle starts 4 days after install
-      const sellDate = new Date(nearestInstall.date);
-      sellDate.setDate(sellDate.getDate() + 4);
-      const sellDiff = Math.ceil((sellDate - now) / 86400000);
-      nextSellingCycle = sellingAfter[nearestInstall.name];
-      nextSellingDate = sellDate.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
-      nextSellingDays = sellDiff;
+    // Primary selling banner (letter is the same for selling + install).
+    currentSellingCycle = primary.cycle;
+    currentInstallCycle = primary.cycle;
+    secondInstallCycle = primary.cycle;
+    secondInstallDate = fmt(primary.install);
+    secondInstallDays = Math.ceil((primary.install - now) / MS);
+    nextInstallCycle = primary.cycle;
+    nextInstallDate = fmt(primary.install);
+    nextInstallDays = secondInstallDays;
+    // Selling window for the primary cycle = now through its sell-by.
+    nextSellingCycle = primary.cycle;
+    nextSellingDate = fmt(primary.sellBy);
+    nextSellingDays = Math.ceil((primary.sellBy - now) / MS);
+    currentSellingDates = `sell by ${fmt(primary.sellBy)}`;
 
-      // Current cycle: what we're selling NOW and what installs from it
-      // The selling cycle that's active is the one BEFORE the next selling cycle
-      const cycleOrder = ['A', 'B', 'C'];
-      const sellingInstall = { 'A': 'B', 'B': 'C', 'C': 'A' }; // selling A → installs as B
-      currentSellingCycle = sellingAfter[nearestInstall.name]; // same as nextSellingCycle label
-      // Actually: current selling = the cycle we're in right now
-      // If next install is B (May 7), we're currently selling A (which installs as A on May 7? No...)
-      // Cycle logic: selling C now → A install on Apr 7 already happened → next is B install May 7
-      // So current selling cycle is the one whose selling window we're in
-      // Selling window = from previous install+4 to next install+4
-      // If next install is B on May 7, and next selling is A on May 11
-      // Then CURRENT selling is C (Apr 11 to May 10), with A install (Apr 7)
-      const prevInstallCycleName = sellingAfter[sellingAfter[nearestInstall.name]]; // two before next
-      currentSellingCycle = prevInstallCycleName === 'A' ? 'C' : prevInstallCycleName === 'B' ? 'A' : 'B';
-      // Simpler: current selling cycle is what comes before next selling
-      // Next selling is A → current selling is C
-      // Next selling is B → current selling is A  
-      // Next selling is C → current selling is B
-      const currentSellMap = { 'A': 'C', 'B': 'A', 'C': 'B' };
-      currentSellingCycle = currentSellMap[nextSellingCycle];
-      currentInstallCycle = sellingInstall[currentSellingCycle] || currentSellingCycle;
-      
-      // Current selling dates: from last selling start to next install+3
-      const prevSellStart = new Date(nearestInstall.date);
-      prevSellStart.setMonth(prevSellStart.getMonth() - 1);
-      prevSellStart.setDate(installDay + 4);
-      const currentSellEnd = new Date(nearestInstall.date);
-      currentSellEnd.setDate(currentSellEnd.getDate() + 3);
-      currentSellingDates = `${prevSellStart.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })} – ${currentSellEnd.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}`;
+    // Closing-soon note.
+    if (closing) {
+      stillSellingCycle = closing.cycle;
+      stillSellingUntil = fmt(closing.sellBy);
+      stillSellingDays = Math.max(0, Math.ceil((closing.sellBy - now) / MS));
+    } else {
+      stillSellingCycle = '';
+      stillSellingUntil = '';
+      stillSellingDays = 0;
     }
   }
 
@@ -1385,6 +1365,9 @@
           <h2 class="greeting-text">{new Date().getHours() < 12 ? 'Good morning' : new Date().getHours() < 17 ? 'Good afternoon' : 'Good evening'}, {($user?.name || $user?.first_name || '').split(' ')[0]}!</h2>
           {#if nextInstallCycle}
             <p class="cycle-pill">📦 {currentSellingCycle} Selling · {secondInstallCycle} installs {secondInstallDate} ({secondInstallDays}d)</p>
+            {#if stillSellingCycle}
+              <p class="cycle-pill closing-pill">⏳ Still selling {stillSellingCycle} until {stillSellingUntil}{#if stillSellingDays >= 0} ({stillSellingDays}d left){/if}</p>
+            {/if}
           {/if}
         </div>
 
@@ -2290,6 +2273,7 @@
   .hero-greeting { margin-bottom: 12px; }
   .greeting-text { font-size: 22px; font-weight: 700; margin: 0 0 4px; color: var(--text-primary); }
   .cycle-pill { font-size: 12px; color: var(--text-secondary); margin: 0; padding: 4px 10px; background: var(--card-bg, #f5f5f5); border-radius: 20px; display: inline-block; border: 1px solid var(--border-color, #e0e0e0); }
+  .closing-pill { margin-top: 6px; color: #b45309; background: rgba(245, 158, 11, 0.12); border-color: rgba(245, 158, 11, 0.4); font-weight: 600; }
 
   /* Quick Actions Top Row */
   .quick-actions-top { display: grid; grid-template-columns: repeat(auto-fit, minmax(72px, 1fr)); gap: 8px; margin-bottom: 16px; }
