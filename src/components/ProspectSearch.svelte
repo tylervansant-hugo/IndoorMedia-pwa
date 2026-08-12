@@ -28,6 +28,66 @@
     };
   }
   let savedProspects = [];
+
+  // ── Manual "create a new business as a lead" ─────────────────────────────
+  let showNewLead = false;
+  let newLead = {
+    name: '', category: '', contactName: '', phone: '', email: '',
+    address: '', city: '', state: '', zip: '', website: '', notes: '',
+    store: '' // optional: associate with a store number
+  };
+  function resetNewLead() {
+    newLead = { name: '', category: '', contactName: '', phone: '', email: '',
+      address: '', city: '', state: '', zip: '', website: '', notes: '', store: '' };
+  }
+  function openNewLead() { resetNewLead(); showNewLead = true; }
+  function saveNewLead() {
+    const name = (newLead.name || '').trim();
+    if (!name) { alert('Please enter a business name.'); return; }
+    // Optionally resolve an associated store to stamp the lead with.
+    const st = newLead.store
+      ? (allStores || []).find(s => (s.StoreName || '').toLowerCase() === newLead.store.trim().toLowerCase())
+      : (selectedStore || null);
+    const addrFull = [newLead.address, [newLead.city, newLead.state].filter(Boolean).join(', '), newLead.zip]
+      .filter(Boolean).join(' ').trim();
+    const id = `manual-${Date.now()}-${name.replace(/\s+/g, '_').slice(0, 24)}`;
+    const storeStamp = st ? {
+      _savedStoreName: st.StoreName || '',
+      _savedStoreCity: st.City || '',
+      _savedStoreChain: st.GroceryChain || '',
+      _savedStoreLat: st.latitude || st.Latitude || null,
+      _savedStoreLng: st.longitude || st.Longitude || null
+    } : {};
+    const lead = {
+      id,
+      name,
+      category: (newLead.category || '').trim() || 'Uncategorized',
+      contactName: (newLead.contactName || '').trim(),
+      phone: (newLead.phone || '').trim(),
+      email: (newLead.email || '').trim(),
+      website: (newLead.website || '').trim(),
+      address: addrFull,
+      city: (newLead.city || '').trim(),
+      state: (newLead.state || '').trim(),
+      zip: (newLead.zip || '').trim(),
+      rating: 0,
+      reviews: 0,
+      status: 'new',
+      notes: (newLead.notes || '').trim(),
+      source: 'manual',
+      savedAt: new Date().toISOString(),
+      _manual: true,
+      _showNotes: false, _showEmail: false, _showScript: false,
+      ...storeStamp
+    };
+    savedProspects = [lead, ...savedProspects];
+    persistProspects();
+    showNewLead = false;
+    resetNewLead();
+    view = 'saved';
+    alert(`✅ New lead created: ${name}`);
+  }
+
   let contractProspect = null;  // prospect currently open in the New Contract form
   let contractStore = null;     // store the customer was looked up at (defaults on the contract)
   function openContractForProspect(prospect) {
@@ -3356,6 +3416,12 @@ IndoorMedia`
         <div class="btn-desc">Your prospects</div>
       </button>
 
+      <button class="main-btn" on:click={openNewLead}>
+        <div class="btn-icon">➕</div>
+        <div class="btn-text">New Business</div>
+        <div class="btn-desc">Add a lead manually</div>
+      </button>
+
       <button class="main-btn" on:click={() => view = 'hot-leads'}>
         <div class="btn-icon">🔥</div>
         <div class="btn-text">Hot Leads</div>
@@ -4280,7 +4346,10 @@ IndoorMedia`
   <!-- Saved Prospects -->
   {#if view === 'saved'}
     <button class="back-btn" on:click={() => view = 'main'}>← Back</button>
-    <h2>💾 Saved Prospects ({savedProspects.length})</h2>
+    <div class="saved-head">
+      <h2>💾 Saved Prospects ({savedProspects.length})</h2>
+      <button class="new-lead-btn" on:click={openNewLead}>➕ New Business</button>
+    </div>
 
     {#if savedStoreFilter}
       <div class="saved-store-scope">
@@ -4750,9 +4819,84 @@ IndoorMedia`
   {#if contractProspect}
     <ContractForm prospect={contractProspect} store={contractStore} on:close={() => { contractProspect = null; contractStore = null; }} />
   {/if}
+
+  <!-- Create New Business (manual lead) modal -->
+  {#if showNewLead}
+    <div class="nl-overlay" on:click|self={() => showNewLead = false}>
+      <div class="nl-modal">
+        <div class="nl-head">
+          <h3>➕ New Business Lead</h3>
+          <button class="nl-close" on:click={() => showNewLead = false} aria-label="Close">✕</button>
+        </div>
+        <div class="nl-body">
+          <label class="nl-label">Business Name *</label>
+          <input class="nl-input" bind:value={newLead.name} placeholder="e.g. Joe's Pizza" />
+
+          <label class="nl-label">Category</label>
+          <input class="nl-input" bind:value={newLead.category} placeholder="e.g. Pizza, Auto Repair, Salon" />
+
+          <div class="nl-row">
+            <div class="nl-col">
+              <label class="nl-label">Contact Name</label>
+              <input class="nl-input" bind:value={newLead.contactName} placeholder="Owner / manager" />
+            </div>
+            <div class="nl-col">
+              <label class="nl-label">Phone</label>
+              <input class="nl-input" bind:value={newLead.phone} inputmode="tel" placeholder="(555) 123-4567" />
+            </div>
+          </div>
+
+          <label class="nl-label">Email</label>
+          <input class="nl-input" bind:value={newLead.email} inputmode="email" placeholder="name@business.com" />
+
+          <label class="nl-label">Address</label>
+          <input class="nl-input" bind:value={newLead.address} placeholder="Street address" />
+          <div class="nl-row">
+            <div class="nl-col"><input class="nl-input" bind:value={newLead.city} placeholder="City" /></div>
+            <div class="nl-col nl-narrow"><input class="nl-input" bind:value={newLead.state} placeholder="State" /></div>
+            <div class="nl-col nl-narrow"><input class="nl-input" bind:value={newLead.zip} placeholder="ZIP" /></div>
+          </div>
+
+          <label class="nl-label">Website</label>
+          <input class="nl-input" bind:value={newLead.website} placeholder="https://" />
+
+          <label class="nl-label">Associate with store # (optional)</label>
+          <input class="nl-input" bind:value={newLead.store} placeholder={selectedStore ? `Default: ${selectedStore.StoreName}` : 'e.g. SAF07Z-1123'} />
+
+          <label class="nl-label">Notes</label>
+          <textarea class="nl-input nl-textarea" bind:value={newLead.notes} rows="3" placeholder="Anything worth remembering…"></textarea>
+        </div>
+        <div class="nl-actions">
+          <button class="nl-cancel" on:click={() => showNewLead = false}>Cancel</button>
+          <button class="nl-save" on:click={saveNewLead}>💾 Save Lead</button>
+        </div>
+      </div>
+    </div>
+  {/if}
 </div>
 
 <style>
+  /* Create New Business (manual lead) */
+  .saved-head { display: flex; align-items: center; justify-content: space-between; gap: 10px; flex-wrap: wrap; }
+  .new-lead-btn { background: #c81e1e; color: #fff; border: none; border-radius: 10px; padding: 8px 14px; font-weight: 700; font-size: 14px; cursor: pointer; white-space: nowrap; }
+  .new-lead-btn:active { transform: scale(0.97); }
+  .nl-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.5); display: flex; align-items: flex-start; justify-content: center; z-index: 1000; padding: 20px; overflow-y: auto; }
+  .nl-modal { background: var(--card-bg, #fff); color: var(--text-primary, #111); width: 100%; max-width: 460px; border-radius: 16px; margin: auto; box-shadow: 0 12px 40px rgba(0,0,0,0.3); }
+  .nl-head { display: flex; align-items: center; justify-content: space-between; padding: 16px 18px; border-bottom: 1px solid var(--border-color, #eee); }
+  .nl-head h3 { margin: 0; font-size: 17px; }
+  .nl-close { background: none; border: none; font-size: 20px; cursor: pointer; color: var(--text-secondary, #888); line-height: 1; }
+  .nl-body { padding: 14px 18px; }
+  .nl-label { display: block; font-size: 12px; font-weight: 600; color: var(--text-secondary, #666); margin: 10px 0 4px; }
+  .nl-input { width: 100%; box-sizing: border-box; padding: 10px 12px; border: 1px solid var(--border-color, #ddd); border-radius: 10px; font-size: 15px; background: var(--input-bg, #fff); color: var(--text-primary, #111); }
+  .nl-textarea { resize: vertical; font-family: inherit; }
+  .nl-row { display: flex; gap: 8px; }
+  .nl-col { flex: 1; }
+  .nl-narrow { max-width: 90px; }
+  .nl-actions { display: flex; gap: 10px; padding: 14px 18px 18px; }
+  .nl-cancel { flex: 1; background: var(--card-bg, #f2f2f2); color: var(--text-primary, #333); border: 1px solid var(--border-color, #ddd); border-radius: 10px; padding: 12px; font-weight: 600; cursor: pointer; }
+  .nl-save { flex: 2; background: #c81e1e; color: #fff; border: none; border-radius: 10px; padding: 12px; font-weight: 700; cursor: pointer; }
+  .nl-save:active, .nl-cancel:active { transform: scale(0.98); }
+
   /* Last-contact activity line under the action buttons */
   .last-activity {
     display: flex;
