@@ -18,7 +18,7 @@
 
 I noticed {business} in the area and wanted to reach out. We work with local businesses to help drive foot traffic through register tape advertising at nearby grocery stores.
 
-Thousands of businesses like yours have seen measurable results — would you be open to a quick 10-minute chat this week?
+Thousands of businesses like yours have seen measurable results. Would you be open to a quick 10-minute chat this week?
 
 Best,
 {rep}
@@ -33,7 +33,7 @@ IndoorMedia`
 
 Did you know the average grocery store gets 10,000+ visitors per week? That's 10,000 potential customers seeing your ad every single week.
 
-Businesses in your category have reported strong ROI — many seeing results within the first month. Our register tape ads put your name, offer, and location directly in shoppers' hands.
+Businesses in your category have reported strong ROI, many seeing results within the first month. Our register tape ads put your name, offer, and location directly in shoppers' hands.
 
 I'd love to show you how the numbers work for {business}. Can we schedule a quick call?
 
@@ -45,7 +45,7 @@ IndoorMedia`
       id: 'followup',
       icon: '⏰',
       name: 'Follow-up',
-      subject: 'Following up — {business}',
+      subject: 'Following up on {business}',
       body: `Hi {contact},
 
 Just following up on my earlier message. I know you're busy running {business}, so I'll keep this brief.
@@ -60,7 +60,7 @@ IndoorMedia`
       id: 'reengagement',
       icon: '🔄',
       name: 'Re-engagement',
-      subject: 'Things have changed at IndoorMedia — {business}',
+      subject: 'Things have changed at IndoorMedia for {business}',
       body: `Hi {contact},
 
 It's been a while since we last connected, and a lot has changed at IndoorMedia. We've expanded our store network and added new products that I think would be a great fit for {business}.
@@ -75,14 +75,14 @@ IndoorMedia`
       id: 'limited',
       icon: '⚡',
       name: 'Limited Time Offer',
-      subject: 'Limited availability — Partnership opportunity for {business}',
+      subject: 'Limited availability: Partnership opportunity for {business}',
       body: `Hi {contact},
 
 I'm reaching out because we have limited spots available in our partnership program at stores near {business}.
 
 This is a unique opportunity to get your business in front of thousands of local shoppers every week at a fraction of the cost of other advertising.
 
-Spots fill up fast — would you be interested in learning more before they're gone?
+Spots fill up fast. Would you be interested in learning more before they're gone?
 
 Best,
 {rep}

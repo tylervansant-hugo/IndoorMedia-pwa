@@ -2044,59 +2044,59 @@
   const emailTemplates = [
     { id: 'initial', icon: '🎯', name: 'Initial Appointment',
       subject: '{chain} shoppers could be walking into {business}',
-      body: 'Hi {contact},\n\nI noticed {business} in the area and wanted to reach out. We work with local businesses to help drive foot traffic through register tape advertising at {store}.\n\nThousands of businesses like yours have seen measurable results — would you be open to a quick 10-minute chat this week?\n\nBest,\n{rep}\nIndoorMedia' },
+      body: 'Hi {contact},\n\nI noticed {business} in the area and wanted to reach out. We work with local businesses to help drive foot traffic through register tape advertising at {store}.\n\nThousands of businesses like yours have seen measurable results, would you be open to a quick 10-minute chat this week?\n\nBest,\n{rep}\nIndoorMedia' },
     { id: 'roi', icon: '📊', name: 'ROI / Value Focused',
-      subject: '{customers} {chain} shoppers a week — within reach of {business}',
-      body: 'Hi {contact},\n\n{store_cap} sees {customers} customers per week. That\'s {customers} potential customers seeing your ad every single week.\n\nBusinesses in your category have reported strong ROI — many seeing results within the first month. Our register tape ads put your name, offer, and location directly in shoppers\' hands at {store}.\n\nI\'d love to show you how the numbers work for {business}. Can we schedule a quick call?\n\nBest,\n{rep}\nIndoorMedia' },
+      subject: '{customers} {chain} shoppers a week, within reach of {business}',
+      body: 'Hi {contact},\n\n{store_cap} sees {customers} customers per week. That\'s {customers} potential customers seeing your ad every single week.\n\nBusinesses in your category have reported strong ROI, many seeing results within the first month. Our register tape ads put your name, offer, and location directly in shoppers\' hands at {store}.\n\nI\'d love to show you how the numbers work for {business}. Can we schedule a quick call?\n\nBest,\n{rep}\nIndoorMedia' },
     { id: 'followup', icon: '⏰', name: 'Follow-up (No Response)',
       subject: 'Still holding a {chain} spot for {business}',
       body: 'Hi {contact},\n\nI reached out a few days ago about a partnership opportunity for {business} at {store} and wanted to follow up.\n\nWith {customers} shoppers coming through each week, register tape advertising is one of the most effective ways to reach local customers. I think there\'s a great fit here.\n\nWould you have 10 minutes this week for a quick chat?\n\nBest,\n{rep}\nIndoorMedia' },
     { id: 'reengagement', icon: '🔄', name: 'Re-engagement',
-      subject: 'New {chain} availability — perfect for {business}',
-      body: 'Hi {contact},\n\nIt\'s been a while since we last connected about {business}. A lot has changed at IndoorMedia — new store locations, better pricing, and stronger results for businesses like yours.\n\nWe have availability at {store} right now and I think it could be a great fit.\n\nWould you be open to reconnecting for a quick 10-minute call?\n\nBest,\n{rep}\nIndoorMedia' },
+      subject: 'New {chain} availability, perfect for {business}',
+      body: 'Hi {contact},\n\nIt\'s been a while since we last connected about {business}. A lot has changed at IndoorMedia, new store locations, better pricing, and stronger results for businesses like yours.\n\nWe have availability at {store} right now and I think it could be a great fit.\n\nWould you be open to reconnecting for a quick 10-minute call?\n\nBest,\n{rep}\nIndoorMedia' },
     { id: 'limited', icon: '⚡', name: 'Limited Time Offer',
       subject: 'Only one {chain} spot left for {business}',
-      body: 'Hi {contact},\n\nI wanted to give you a heads up — we have limited ad placement availability at {store}.\n\nWith {customers} shoppers per week, this is one of the highest-traffic locations in the area. Our partnership program is filling up fast, and I\'d hate for {business} to miss out.\n\nCan we schedule a quick call this week?\n\nBest,\n{rep}\nIndoorMedia' },
+      body: 'Hi {contact},\n\nI wanted to give you a heads up, we have limited ad placement availability at {store}.\n\nWith {customers} shoppers per week, this is one of the highest-traffic locations in the area. Our partnership program is filling up fast, and I\'d hate for {business} to miss out.\n\nCan we schedule a quick call this week?\n\nBest,\n{rep}\nIndoorMedia' },
   ];
 
-  // Program-specific email templates — one per product across Tape, Cart, and
+  // Program-specific email templates, one per product across Tape, Cart, and
   // Digital. Surfaced under a "By Program" picker so reps can lead with the
   // exact product they want to pitch. Subjects carry the {chain} name + an
   // open-worthy hook; bodies greet the saved contact by name.
   const programEmailTemplates = [
     // ── TAPE ──
-    { id: 'prog-tape', icon: '🧾', name: 'Register Tape — In Every Hand', group: 'Tape',
+    { id: 'prog-tape', icon: '🧾', name: 'Register Tape: In Every Hand', group: 'Tape',
       subject: 'Put {business} in every {chain} shopper\u2019s hand',
-      body: 'Hi {contact},\n\nEvery customer who checks out at {store} walks away holding their receipt — and that\'s prime real estate for {business}. Our register tape ads print your name, offer, and location right on the back, reaching {customers} local shoppers every week.\n\nIt\'s repetition where people already are, at a fraction of the cost of a billboard. Could I show you how it works in 10 minutes?\n\nBest,\n{rep}\nIndoorMedia' },
-    { id: 'prog-tape-coupon', icon: '🧾', name: 'Register Tape — Coupon in Hand', group: 'Tape',
+      body: 'Hi {contact},\n\nEvery customer who checks out at {store} walks away holding their receipt, and that\'s prime real estate for {business}. Our register tape ads print your name, offer, and location right on the back, reaching {customers} local shoppers every week.\n\nIt\'s repetition where people already are, at a fraction of the cost of a billboard. Could I show you how it works in 10 minutes?\n\nBest,\n{rep}\nIndoorMedia' },
+    { id: 'prog-tape-coupon', icon: '🧾', name: 'Register Tape: Coupon in Hand', group: 'Tape',
       subject: 'A {business} coupon in {customers} hands a week at {chain}',
-      body: 'Hi {contact},\n\nCoupons work best when they\'re already in someone\'s hand — not buried in a mailer they tossed. Every shopper at {store} walks out holding their receipt, and we print your offer right on the back. That\'s {customers} local customers a week with a reason to choose {business} today.\n\nRedemptions are easy to track, so you\'ll see exactly what it\'s doing. Got 10 minutes for me to run the numbers for you?\n\nBest,\n{rep}\nIndoorMedia' },
-    { id: 'prog-tape-cost', icon: '🧾', name: 'Register Tape — Cheaper Than a Billboard', group: 'Tape',
+      body: 'Hi {contact},\n\nCoupons work best when they\'re already in someone\'s hand, not buried in a mailer they tossed. Every shopper at {store} walks out holding their receipt, and we print your offer right on the back. That\'s {customers} local customers a week with a reason to choose {business} today.\n\nRedemptions are easy to track, so you\'ll see exactly what it\'s doing. Got 10 minutes for me to run the numbers for you?\n\nBest,\n{rep}\nIndoorMedia' },
+    { id: 'prog-tape-cost', icon: '🧾', name: 'Register Tape: Cheaper Than a Billboard', group: 'Tape',
       subject: 'Reach {customers} {chain} shoppers for pennies each',
-      body: 'Hi {contact},\n\nA billboard costs a fortune and people blow past it at 60 mph. Register tape puts {business} directly in the hands of {customers} shoppers a week at {store} — for a fraction of the price, with your name, offer, and address right where they\'ll actually read it.\n\nIt\'s the lowest cost-per-impression local advertising I know of. Want me to break down what it\'d run for you?\n\nBest,\n{rep}\nIndoorMedia' },
+      body: 'Hi {contact},\n\nA billboard costs a fortune and people blow past it at 60 mph. Register tape puts {business} directly in the hands of {customers} shoppers a week at {store}, for a fraction of the price, with your name, offer, and address right where they\'ll actually read it.\n\nIt\'s the lowest cost-per-impression local advertising I know of. Want me to break down what it\'d run for you?\n\nBest,\n{rep}\nIndoorMedia' },
     // ── CART ──
-    { id: 'prog-cart', icon: '🛒', name: 'Cartvertising — Own Every Cart', group: 'Cart',
+    { id: 'prog-cart', icon: '🛒', name: 'Cartvertising: Own Every Cart', group: 'Cart',
       subject: 'Your brand on every cart at {chain}, {business}',
-      body: 'Hi {contact},\n\nImagine {business} riding along on every shopping cart at {store} for six months straight. Cartvertising puts your ad in front of {customers} shoppers a week — eye-level, all day, every aisle.\n\nOne business per category, so once the spot is yours, your competition can\'t take it. Want me to check if it\'s still open?\n\nBest,\n{rep}\nIndoorMedia' },
-    { id: 'prog-cart-exclusive', icon: '🛒', name: 'Cartvertising — Lock Out Competitors', group: 'Cart',
+      body: 'Hi {contact},\n\nImagine {business} riding along on every shopping cart at {store} for six months straight. Cartvertising puts your ad in front of {customers} shoppers a week, eye-level, all day, every aisle.\n\nOne business per category, so once the spot is yours, your competition can\'t take it. Want me to check if it\'s still open?\n\nBest,\n{rep}\nIndoorMedia' },
+    { id: 'prog-cart-exclusive', icon: '🛒', name: 'Cartvertising: Lock Out Competitors', group: 'Cart',
       subject: 'Claim the {chain} cart spot before your competitor does',
-      body: 'Hi {contact},\n\nHere\'s the part most people like: Cartvertising is one business per category, per store. Once {business} takes the spot at {store}, your competition literally can\'t buy their way in front of those {customers} weekly shoppers — you own it.\n\nThose spots don\'t open often. Want me to check whether yours is still available?\n\nBest,\n{rep}\nIndoorMedia' },
-    { id: 'prog-cart-repetition', icon: '🛒', name: 'Cartvertising — Seen All Trip Long', group: 'Cart',
+      body: 'Hi {contact},\n\nHere\'s the part most people like: Cartvertising is one business per category, per store. Once {business} takes the spot at {store}, your competition literally can\'t buy their way in front of those {customers} weekly shoppers, you own it.\n\nThose spots don\'t open often. Want me to check whether yours is still available?\n\nBest,\n{rep}\nIndoorMedia' },
+    { id: 'prog-cart-repetition', icon: '🛒', name: 'Cartvertising: Seen All Trip Long', group: 'Cart',
       subject: '{customers} {chain} shoppers, staring at your ad for 30 minutes',
-      body: 'Hi {contact},\n\nMost ads get a half-second glance. A cart ad rides with the shopper for their entire trip at {store} — 20, 30 minutes of your name in front of them, aisle after aisle. Multiply that by {customers} shoppers a week and {business} becomes the name they can\'t stop seeing.\n\nThat kind of repetition is what turns strangers into customers. Got 10 minutes so I can show you how it works?\n\nBest,\n{rep}\nIndoorMedia' },
+      body: 'Hi {contact},\n\nMost ads get a half-second glance. A cart ad rides with the shopper for their entire trip at {store}, 20, 30 minutes of your name in front of them, aisle after aisle. Multiply that by {customers} shoppers a week and {business} becomes the name they can\'t stop seeing.\n\nThat kind of repetition is what turns strangers into customers. Got 10 minutes so I can show you how it works?\n\nBest,\n{rep}\nIndoorMedia' },
     // ── DIGITAL ──
     { id: 'prog-digitalboost', icon: '🚀', name: 'DigitalBoost (Geofencing)', group: 'Digital',
       subject: 'Reach phones near {chain} for {business}',
-      body: 'Hi {contact},\n\nWhat if {business} could send an ad straight to the phone of every shopper near {store}? DigitalBoost draws a digital fence around high-traffic spots and delivers your ad to people inside it — then follows them with it.\n\nIt pairs perfectly with our in-store advertising: they see you at the store, then see you again on their phone. Got 10 minutes to see how it targets your area?\n\nBest,\n{rep}\nIndoorMedia' },
+      body: 'Hi {contact},\n\nWhat if {business} could send an ad straight to the phone of every shopper near {store}? DigitalBoost draws a digital fence around high-traffic spots and delivers your ad to people inside it, then follows them with it.\n\nIt pairs perfectly with our in-store advertising: they see you at the store, then see you again on their phone. Got 10 minutes to see how it targets your area?\n\nBest,\n{rep}\nIndoorMedia' },
     { id: 'prog-findlocal', icon: '📍', name: 'FindLocal (Local SEO)', group: 'Digital',
       subject: 'Make sure {business} actually gets found online',
-      body: 'Hi {contact},\n\nWhen someone near {chain} searches for what {business} offers, do they find you — or a competitor? FindLocal gets your business listed accurately across 50+ directories, maps, and search engines, so you show up where it counts.\n\nIt\'s the foundation that makes every other ad work harder. Worth a quick 10-minute look?\n\nBest,\n{rep}\nIndoorMedia' },
+      body: 'Hi {contact},\n\nWhen someone near {chain} searches for what {business} offers, do they find you, or a competitor? FindLocal gets your business listed accurately across 50+ directories, maps, and search engines, so you show up where it counts.\n\nIt\'s the foundation that makes every other ad work harder. Worth a quick 10-minute look?\n\nBest,\n{rep}\nIndoorMedia' },
     { id: 'prog-reviewboost', icon: '⭐', name: 'ReviewBoost (Reviews)', group: 'Digital',
       subject: 'Turn happy {business} customers into 5-star reviews',
-      body: 'Hi {contact},\n\nReviews are the new word of mouth — and most happy customers just need a nudge. ReviewBoost automatically asks them by email and text right after their visit, sending the happy ones to leave a public review and quietly catching the unhappy ones first.\n\nMore stars means more {chain} shoppers choosing {business} over the competition. Can I show you how it runs on autopilot?\n\nBest,\n{rep}\nIndoorMedia' },
+      body: 'Hi {contact},\n\nReviews are the new word of mouth, and most happy customers just need a nudge. ReviewBoost automatically asks them by email and text right after their visit, sending the happy ones to leave a public review and quietly catching the unhappy ones first.\n\nMore stars means more {chain} shoppers choosing {business} over the competition. Can I show you how it runs on autopilot?\n\nBest,\n{rep}\nIndoorMedia' },
     { id: 'prog-loyaltyboost', icon: '💎', name: 'LoyaltyBoost (Loyalty)', group: 'Digital',
       subject: 'Keep {business} customers coming back all year',
-      body: 'Hi {contact},\n\nWinning a customer is hard; keeping them should be easy. LoyaltyBoost gives {business} a year-round rewards program that brings customers back again and again — with automated offers that drive repeat visits.\n\nCombine it with reaching new shoppers at {store}, and you\'re filling the top of the funnel and the bottom. Got 10 minutes this week?\n\nBest,\n{rep}\nIndoorMedia' },
+      body: 'Hi {contact},\n\nWinning a customer is hard; keeping them should be easy. LoyaltyBoost gives {business} a year-round rewards program that brings customers back again and again, with automated offers that drive repeat visits.\n\nCombine it with reaching new shoppers at {store}, and you\'re filling the top of the funnel and the bottom. Got 10 minutes this week?\n\nBest,\n{rep}\nIndoorMedia' },
   ];
 
   // Category-specific email templates. Keyed by a matcher run against the
@@ -2107,57 +2107,57 @@
       match: ['real estate', 'realtor', 'realty', 'mortgage', 'broker'],
       label: 'Realtor',
       templates: [
-        { id: 'realtor-listings', icon: '🏡', name: 'Realtor — Own Your Market',
+        { id: 'realtor-listings', icon: '🏡', name: 'Realtor: Own Your Market',
           subject: 'Be the agent {business}\'s neighbors think of first',
-          body: 'Hi {contact},\n\nIn real estate, the agent who stays top-of-mind wins the listing. {store_cap} puts your name, photo, and number directly into the hands of {customers} local homeowners every week — the exact people deciding to buy or sell.\n\nWhile other agents pay for clicks that disappear, your register tape ad rides home in every shopper\'s bag. It\'s how you become the name people call before they ever Google one.\n\nCould I show you how a few of our agents are turning this into listings? 10 minutes this week?\n\nBest,\n{rep}\nIndoorMedia' },
-        { id: 'realtor-farm', icon: '📍', name: 'Realtor — Farm a Neighborhood',
+          body: 'Hi {contact},\n\nIn real estate, the agent who stays top-of-mind wins the listing. {store_cap} puts your name, photo, and number directly into the hands of {customers} local homeowners every week, the exact people deciding to buy or sell.\n\nWhile other agents pay for clicks that disappear, your register tape ad rides home in every shopper\'s bag. It\'s how you become the name people call before they ever Google one.\n\nCould I show you how a few of our agents are turning this into listings? 10 minutes this week?\n\nBest,\n{rep}\nIndoorMedia' },
+        { id: 'realtor-farm', icon: '📍', name: 'Realtor: Farm a Neighborhood',
           subject: 'Own the {store_short} neighborhood, {business}',
-          body: 'Hi {contact},\n\nThe best way to dominate a farm area is repetition where people already are — and everyone shops. {store_cap} reaches {customers} households a week, right in your target neighborhood.\n\nOne agent per category, so your competition can\'t take the spot once it\'s yours. Want me to check if your area is still open?\n\nBest,\n{rep}\nIndoorMedia' },
+          body: 'Hi {contact},\n\nThe best way to dominate a farm area is repetition where people already are, and everyone shops. {store_cap} reaches {customers} households a week, right in your target neighborhood.\n\nOne agent per category, so your competition can\'t take the spot once it\'s yours. Want me to check if your area is still open?\n\nBest,\n{rep}\nIndoorMedia' },
       ],
     },
     {
       match: ['dentist', 'dental', 'orthodont'],
       label: 'Dental',
       templates: [
-        { id: 'dental-newpatients', icon: '🦷', name: 'Dental — New Patients',
+        { id: 'dental-newpatients', icon: '🦷', name: 'Dental: New Patients',
           subject: 'Fill your chairs with local patients, {business}',
-          body: 'Hi {contact},\n\nNew patients are the lifeblood of a practice — and they\'re all shopping at {store_short}. Our register tape ads put {business} (with your new-patient or whitening offer) into the hands of {customers} local families every week.\n\nDental practices in the area are seeing steady new-patient flow from this. Could we grab 10 minutes so I can show you the numbers?\n\nBest,\n{rep}\nIndoorMedia' },
+          body: 'Hi {contact},\n\nNew patients are the lifeblood of a practice, and they\'re all shopping at {store_short}. Our register tape ads put {business} (with your new-patient or whitening offer) into the hands of {customers} local families every week.\n\nDental practices in the area are seeing steady new-patient flow from this. Could we grab 10 minutes so I can show you the numbers?\n\nBest,\n{rep}\nIndoorMedia' },
       ],
     },
     {
       match: ['auto repair', 'oil change', 'tires', 'body shop', 'transmission', 'car wash', 'detailing', 'automotive'],
       label: 'Automotive',
       templates: [
-        { id: 'auto-trust', icon: '🚗', name: 'Auto — Be the Trusted Shop',
+        { id: 'auto-trust', icon: '🚗', name: 'Auto: Be the Trusted Shop',
           subject: 'Be the shop {business}\'s neighbors trust',
-          body: 'Hi {contact},\n\nWhen someone\'s check-engine light comes on, they go with the name they recognize. {store_cap} puts {business} in front of {customers} local drivers every week — with your coupon right in their hand.\n\nShops in the area are filling bays with this. Worth a quick 10-minute look?\n\nBest,\n{rep}\nIndoorMedia' },
+          body: 'Hi {contact},\n\nWhen someone\'s check-engine light comes on, they go with the name they recognize. {store_cap} puts {business} in front of {customers} local drivers every week, with your coupon right in their hand.\n\nShops in the area are filling bays with this. Worth a quick 10-minute look?\n\nBest,\n{rep}\nIndoorMedia' },
       ],
     },
     {
       match: ['hair salon', 'barber', 'nails', 'spa', 'gym', 'yoga', 'med spa', 'lash', 'massage', 'beauty', 'wellness', 'tanning'],
       label: 'Beauty & Wellness',
       templates: [
-        { id: 'beauty-book', icon: '💅', name: 'Beauty — Fill the Books',
+        { id: 'beauty-book', icon: '💅', name: 'Beauty: Fill the Books',
           subject: 'Keep {business} booked solid',
-          body: 'Hi {contact},\n\nNew clients keep a salon thriving — and they\'re all walking through {store_short}. Our register tape ads put {business} and a first-visit offer into {customers} local hands every week.\n\nSalons and spas nearby are filling slow days this way. Could I show you how it works in 10 minutes?\n\nBest,\n{rep}\nIndoorMedia' },
+          body: 'Hi {contact},\n\nNew clients keep a salon thriving, and they\'re all walking through {store_short}. Our register tape ads put {business} and a first-visit offer into {customers} local hands every week.\n\nSalons and spas nearby are filling slow days this way. Could I show you how it works in 10 minutes?\n\nBest,\n{rep}\nIndoorMedia' },
       ],
     },
     {
       match: ['restaurant', 'pizza', 'mexican', 'coffee', 'cafe', 'bakery', 'sushi', 'bbq', 'deli', 'food', 'bar', 'pub', 'brewery', 'taco', 'wings'],
       label: 'Restaurant',
       templates: [
-        { id: 'rest-tables', icon: '🍽️', name: 'Restaurant — Fill Tables',
+        { id: 'rest-tables', icon: '🍽️', name: 'Restaurant: Fill Tables',
           subject: 'Fill more tables at {business}',
-          body: 'Hi {contact},\n\nHungry people are deciding where to eat the second they leave {store_short}. Our register tape ads put {business} — and a tempting offer — right in the hands of {customers} local shoppers every week.\n\nNo 30% delivery fees, no fleeting social posts — just your name in front of customers on their way home. Restaurants nearby are filling slow shifts with this.\n\nGot 10 minutes this week?\n\nBest,\n{rep}\nIndoorMedia' },
+          body: 'Hi {contact},\n\nHungry people are deciding where to eat the second they leave {store_short}. Our register tape ads put {business}, and a tempting offer, right in the hands of {customers} local shoppers every week.\n\nNo 30% delivery fees, no fleeting social posts, just your name in front of customers on their way home. Restaurants nearby are filling slow shifts with this.\n\nGot 10 minutes this week?\n\nBest,\n{rep}\nIndoorMedia' },
       ],
     },
     {
       match: ['plumber', 'electrician', 'hvac', 'roofing', 'landscaping', 'cleaning', 'contractor', 'pest', 'painting', 'garage door', 'fencing', 'moving', 'home services'],
       label: 'Home Services',
       templates: [
-        { id: 'home-firstcall', icon: '🔧', name: 'Home Services — Be the First Call',
+        { id: 'home-firstcall', icon: '🔧', name: 'Home Services: Be the First Call',
           subject: 'Be the first call when something breaks, {business}',
-          body: 'Hi {contact},\n\nHome-service jobs go to whoever\'s name is on the fridge. {store_cap} puts {business} into the hands of {customers} local homeowners every week — so when the pipe bursts or the AC quits, they call you first.\n\nContractors in the area are booking jobs off this. Worth a 10-minute look?\n\nBest,\n{rep}\nIndoorMedia' },
+          body: 'Hi {contact},\n\nHome-service jobs go to whoever\'s name is on the fridge. {store_cap} puts {business} into the hands of {customers} local homeowners every week, so when the pipe bursts or the AC quits, they call you first.\n\nContractors in the area are booking jobs off this. Worth a 10-minute look?\n\nBest,\n{rep}\nIndoorMedia' },
       ],
     },
   ];
@@ -2180,7 +2180,7 @@
 
   // ── Smart Multi-Pronged template ──────────────────────────────────
   // A category-aware, business-researched email that sells the in-person +
-  // digital one-two punch and the outsized results it drives — written to sound
+  // digital one-two punch and the outsized results it drives, written to sound
   // like Tyler, not a template. Body is generated per-prospect at render time.
 
   // Per-category framing: {noun}=who they serve, {win}=the outcome they want,
@@ -2207,13 +2207,13 @@
     const flags = r.flags || [];
     if (r.services && r.services.length) {
       const svc = r.services.slice(0, 2).join(' and ');
-      if (r.yearsCount) return `I did a little homework before reaching out — ${r.yearsCount} years doing ${svc} is no accident, and it tells me ${name} already does the hard part right.`;
-      if (flags.includes('family-owned') || flags.includes('locally-owned')) return `I did a little homework first — a ${flags.includes('family-owned') ? 'family-owned' : 'locally-owned'} shop known for ${svc} is exactly the kind of business this works best for.`;
-      return `I did a little homework before reaching out — the ${svc} side of what you do at ${name} really stood out.`;
+      if (r.yearsCount) return `I did a little homework before reaching out. ${r.yearsCount} years doing ${svc} is no accident, and it tells me ${name} already does the hard part right.`;
+      if (flags.includes('family-owned') || flags.includes('locally-owned')) return `I did a little homework first. A ${flags.includes('family-owned') ? 'family-owned' : 'locally-owned'} shop known for ${svc} is exactly the kind of business this works best for.`;
+      return `I did a little homework before reaching out, and the ${svc} side of what you do at ${name} really stood out.`;
     }
-    if (r.yearsCount) return `I did a little homework first — ${r.yearsCount} years in business tells me ${name} is doing something right, and I think we can put a lot more eyes on it.`;
-    if (flags.includes('award-winning')) return `I did a little homework first — an award-winning reputation like ${name}’s deserves to be in front of a lot more people.`;
-    if (r.tagline) return `I did a little homework before reaching out — “${r.tagline}” is a great line, and it’s exactly the kind of story that lands when the right people see it.`;
+    if (r.yearsCount) return `I did a little homework first. ${r.yearsCount} years in business tells me ${name} is doing something right, and I think we can put a lot more eyes on it.`;
+    if (flags.includes('award-winning')) return `I did a little homework first. An award-winning reputation like ${name}’s deserves to be in front of a lot more people.`;
+    if (r.tagline) return `I did a little homework before reaching out, and “${r.tagline}” is a great line. It’s exactly the kind of story that lands when the right people see it.`;
     return '';
   }
 
@@ -2225,13 +2225,13 @@
     return (
 `Hi {contact},
 
-${openerResearch}Here’s the thing most advertising gets wrong: it picks a lane. You’re either in front of people out in the community, or you’re chasing them online — rarely both. So the message never really sticks.
+${openerResearch}Here’s the thing most advertising gets wrong: it picks a lane. You’re either in front of people out in the community, or you’re chasing them online, rarely both. So the message never really sticks.
 
-We do both, on purpose. Picture ${a.noun} near {store_short}: first they see ${prospect.name} in their hands at the checkout — your name, your offer, ${getStoreCustomers()} of them every week. Then, that same day, they see you again on their phone as they scroll, because we’ve drawn a digital fence around the neighborhoods that actually matter to you.
+We do both, on purpose. Picture ${a.noun} near {store_short}: first they see ${prospect.name} in their hands at the checkout, with your name, your offer, ${getStoreCustomers()} of them every week. Then, that same day, they see you again on their phone as they scroll, because we’ve drawn a digital fence around the neighborhoods that actually matter to you.
 
-Same customer. Two touchpoints. ${a.moment.charAt(0).toUpperCase() + a.moment.slice(1)} — and there you are, twice. That’s when a name goes from “never heard of them” to “oh yeah, those guys,” and that shift is where the real money is.
+Same customer. Two touchpoints. ${a.moment.charAt(0).toUpperCase() + a.moment.slice(1)}, and there you are, twice. That’s when a name goes from “never heard of them” to “oh yeah, those guys,” and that shift is where the real money is.
 
-The businesses running both together aren’t seeing little bumps. They’re seeing the kind of ${a.win} that changes how a month looks. In-person builds the trust; digital keeps you top of mind until they’re ready — and they always get ready.
+The businesses running both together aren’t seeing little bumps. They’re seeing the kind of ${a.win} that changes how a month looks. In-person builds the trust; digital keeps you top of mind until they’re ready, and they always get ready.
 
 I’d love 10 minutes to map out exactly what this looks like for ${prospect.name}. No pitch marathon, just the plan. What does later this week look like for you?
 
@@ -2249,7 +2249,7 @@ IndoorMedia`
       name: 'Multi-Pronged (In-Person + Digital)',
       _featured: true,
       _dynamic: true,
-      subject: 'Two ways {business} shows up for {chain} shoppers — same day',
+      subject: 'Two ways {business} shows up for {chain} shoppers, same day',
       body: (p) => buildMultiProngedBody(p),
     };
   }
@@ -4415,11 +4415,11 @@ IndoorMedia`
                     ] as tpl}
                       <button class="tmpl-btn" on:click|stopPropagation={() => {
                         const templates = {
-                          intro: { subject: `Partnership Opportunity — ${prospect.name}`, body: `Hi,\n\nI noticed ${prospect.name} near one of our grocery store partners and wanted to reach out about a great advertising opportunity.\n\nWe help local businesses reach thousands of shoppers each week through register tape advertising. It's affordable, hyper-local, and puts your name directly in customers' hands.\n\nWould you have 10 minutes this week for a quick chat?\n\nBest,\n${$user?.name || 'Your Rep'}\nIndoorMedia` },
-                          roi: { subject: `The Value of Register Tape Advertising — ${prospect.name}`, body: `Hi,\n\nDid you know the average grocery store gets 10,000+ visitors per week? That's 10,000 potential customers seeing your ad every single week.\n\nBusinesses like yours have reported strong ROI — many seeing results within the first month. Our register tape ads put your name, offer, and location directly in shoppers' hands.\n\nI'd love to show you how the numbers work for ${prospect.name}. Can we schedule a quick call?\n\nBest,\n${$user?.name || 'Your Rep'}\nIndoorMedia` },
-                          followup: { subject: `Following Up — ${prospect.name}`, body: `Hi,\n\nI reached out a few days ago about a potential partnership with ${prospect.name} and wanted to follow up.\n\nWe help local businesses reach thousands of nearby shoppers each week through register tape advertising. I think there's a great fit here.\n\nWould you have 10 minutes this week for a quick chat?\n\nBest,\n${$user?.name || 'Your Rep'}\nIndoorMedia` },
+                          intro: { subject: `Partnership Opportunity: ${prospect.name}`, body: `Hi,\n\nI noticed ${prospect.name} near one of our grocery store partners and wanted to reach out about a great advertising opportunity.\n\nWe help local businesses reach thousands of shoppers each week through register tape advertising. It's affordable, hyper-local, and puts your name directly in customers' hands.\n\nWould you have 10 minutes this week for a quick chat?\n\nBest,\n${$user?.name || 'Your Rep'}\nIndoorMedia` },
+                          roi: { subject: `The Value of Register Tape Advertising: ${prospect.name}`, body: `Hi,\n\nDid you know the average grocery store gets 10,000+ visitors per week? That's 10,000 potential customers seeing your ad every single week.\n\nBusinesses like yours have reported strong ROI, many seeing results within the first month. Our register tape ads put your name, offer, and location directly in shoppers' hands.\n\nI'd love to show you how the numbers work for ${prospect.name}. Can we schedule a quick call?\n\nBest,\n${$user?.name || 'Your Rep'}\nIndoorMedia` },
+                          followup: { subject: `Following Up: ${prospect.name}`, body: `Hi,\n\nI reached out a few days ago about a potential partnership with ${prospect.name} and wanted to follow up.\n\nWe help local businesses reach thousands of nearby shoppers each week through register tape advertising. I think there's a great fit here.\n\nWould you have 10 minutes this week for a quick chat?\n\nBest,\n${$user?.name || 'Your Rep'}\nIndoorMedia` },
                           reengagement: { subject: `New Opportunities for ${prospect.name}`, body: `Hi,\n\nIt's been a while since we last connected, and I wanted to reach out. We've been growing our grocery store network and there are some exciting new opportunities in your area.\n\nI'd love to share how ${prospect.name} could benefit from being in front of thousands of local shoppers every week.\n\nWhen would be a good time for a quick 5-minute call?\n\nBest,\n${$user?.name || 'Your Rep'}\nIndoorMedia` },
-                          limited: { subject: `Limited Availability — Ad Space Near ${prospect.name}`, body: `Hi,\n\nI wanted to reach out because we have limited ad space available at a grocery store near ${prospect.name}. These spots fill quickly and your business would be a great fit.\n\nRegister tape advertising puts your name, offer, and contact info directly in the hands of every shopper — hundreds per day.\n\nCan I send you a quick overview of the opportunity?\n\nBest,\n${$user?.name || 'Your Rep'}\nIndoorMedia` }
+                          limited: { subject: `Limited Availability, Ad Space Near ${prospect.name}`, body: `Hi,\n\nI wanted to reach out because we have limited ad space available at a grocery store near ${prospect.name}. These spots fill quickly and your business would be a great fit.\n\nRegister tape advertising puts your name, offer, and contact info directly in the hands of every shopper, hundreds per day.\n\nCan I send you a quick overview of the opportunity?\n\nBest,\n${$user?.name || 'Your Rep'}\nIndoorMedia` }
                         };
                         const t = templates[tpl.id];
                         const body = t.body.replace(/\n\n/g, '\r\n\r\n').replace(/(?<!\r)\n/g, '\r\n');
