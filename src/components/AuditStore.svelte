@@ -2,6 +2,11 @@
   import { createEventDispatcher } from 'svelte';
   import { PDFDocument, rgb } from 'pdf-lib';
   import { user } from '../lib/stores.js';
+  import { normalizeCycle, cycleStartMonths, cycleSummary } from '../lib/cycleSchedule.js';
+
+  // Cycle → start-month info for this store (A/B/C rotates every quarter).
+  $: storeCycle = normalizeCycle(store?.Cycle);
+  $: cycleInfo = storeCycle ? cycleSummary(storeCycle) : null;
 
   // The store to audit is passed in from the Stores tab.
   export let store = null;
@@ -231,6 +236,9 @@
       <div class="form-card">
         <p class="form-label">📅 Dates</p>
         <p class="hint" style="margin-bottom:10px;">📍 Zone install day: <strong>{getStoreInstallDay(auditStoreNum)}{ordinal(getStoreInstallDay(auditStoreNum))} of each month</strong> | Audit due: <strong>{new Date(getAuditDueDate(auditStoreNum) + 'T12:00:00').toLocaleDateString('en-US', {month:'short', day:'numeric'})}</strong> (45 days post-install)</p>
+        {#if cycleInfo}
+          <p class="hint" style="margin-bottom:10px;">🔄 Cycle <strong>{cycleInfo.cycle}</strong> — new ad cycle starts <strong>{cycleInfo.startMonths}</strong>{#if cycleInfo.currentStart} | current: <strong>{cycleInfo.currentStart.toLocaleDateString('en-US',{month:'short',year:'numeric'})}</strong>, next: <strong>{cycleInfo.nextStart.toLocaleDateString('en-US',{month:'short',year:'numeric'})}</strong>{/if}</p>
+        {/if}
 
         <div class="form-group">
           <label>Date Audit Performed *</label>

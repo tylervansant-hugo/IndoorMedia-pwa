@@ -3,6 +3,12 @@
   import { calculatePricingPlans, formatPrice } from '../lib/pricing.js';
   import { onMount, onDestroy } from 'svelte';
   import CartIcon from './CartIcon.svelte';
+  import { normalizeCycle, cycleStartMonths, cyclePeriod } from '../lib/cycleSchedule.js';
+
+  // Cycle → which months the ad rotation cycle starts (A/B/C per quarter).
+  $: detailCycle = normalizeCycle($selectedStore?.Cycle);
+  $: detailCycleMonths = detailCycle ? cycleStartMonths(detailCycle).join(', ') : '';
+  $: detailCyclePeriod = detailCycle ? cyclePeriod(detailCycle) : null;
 
   let pricingPlans = {};
   let selectedPlan = 'annualPif';
@@ -125,7 +131,7 @@
           </div>
           <div class="info-item">
             <span class="info-label">Cycle</span>
-            <span class="info-value">{$selectedStore.Cycle}</span>
+            <span class="info-value">{$selectedStore.Cycle}{#if detailCycleMonths} <small style="opacity:.7">(starts {detailCycleMonths})</small>{/if}</span>
           </div>
           {#if $selectedStore.InstallDay}
           <div class="info-item">
