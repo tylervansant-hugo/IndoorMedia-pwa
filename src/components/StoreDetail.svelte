@@ -3,12 +3,19 @@
   import { calculatePricingPlans, formatPrice } from '../lib/pricing.js';
   import { onMount, onDestroy } from 'svelte';
   import CartIcon from './CartIcon.svelte';
-  import { normalizeCycle, cycleStartMonths, cyclePeriod } from '../lib/cycleSchedule.js';
+  import { normalizeCycle, cycleStartMonths, cyclePeriod, sellBySummary } from '../lib/cycleSchedule.js';
 
   // Cycle → which months the ad rotation cycle starts (A/B/C per quarter).
   $: detailCycle = normalizeCycle($selectedStore?.Cycle);
   $: detailCycleMonths = detailCycle ? cycleStartMonths(detailCycle).join(', ') : '';
   $: detailCyclePeriod = detailCycle ? cyclePeriod(detailCycle) : null;
+  // Launch + sell-by deadline (needs the zone install day).
+  $: detailInstallDay = (() => {
+    const m = ($selectedStore?.StoreName || '').match(/(\d{2})[A-Z]?-/);
+    const ZONE_INSTALL_DAYS = {'01':1,'02':8,'03':26,'04':28,'05':25,'06':1,'07':7,'08':5,'09':14,'10':30,'11':25,'12':16,'13':20,'14':10,'15':18,'16':7,'17':20,'18':20,'19':8,'20':10,'21':16,'22':1,'23':12,'24':14,'25':23,'26':20,'27':25,'28':6,'29':6};
+    return $selectedStore?.InstallDay || (m ? (ZONE_INSTALL_DAYS[m[1]] || 7) : 7);
+  })();
+  $: detailSellBy = detailCycle ? sellBySummary(detailCycle, detailInstallDay) : null;
 
   let pricingPlans = {};
   let selectedPlan = 'annualPif';
@@ -133,6 +140,12 @@
             <span class="info-label">Cycle</span>
             <span class="info-value">{$selectedStore.Cycle}{#if detailCycleMonths} <small style="opacity:.7">(starts {detailCycleMonths})</small>{/if}</span>
           </div>
+          {#if detailSellBy}
+          <div class="info-item">
+            <span class="info-label">Next Launch 🚀</span>
+            <span class="info-value">{detailSellBy.effLaunch.toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'})} <small style="opacity:.7">— sell by {detailSellBy.effSellBy.toLocaleDateString('en-US',{month:'short',day:'numeric'})}</small></span>
+          </div>
+          {/if}
           {#if $selectedStore.InstallDay}
           <div class="info-item">
             <span class="info-label">In Stores</span>

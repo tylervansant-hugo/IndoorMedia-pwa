@@ -111,4 +111,114 @@ export function cycleSummary(cycle, refDate = new Date()) {
   };
 }
 
+// ── Launch (in-store) date + sell-by deadline ────────────────────────────
+//
+// A store's ad rotation "launches" (goes in-store) on the zone install day of
+// each cycle-start month. Reps must have the ad SOLD by a deadline ahead of
+// that launch — the print/production buffer.
+//
+// Tyler's reference (Zone 7): C3 launches in-store Sept 7, last ad must be
+// sold by Aug 15 → a 23-day lead time before the in-store date. We apply the
+// same lead-time buffer across all stores; because each zone has a different
+// install day (and each cycle a different month), the actual launch and
+// sell-by dates differ per store, but the buffer is consistent.
+
+export const DEFAULT_SELL_BY_LEAD_DAYS = 23;
+
+/**
+ * The full list of launch (in-store) dates for a store's cycle across a year
+ * window, given the zone install day-of-month.
+ * @param {string} cycle  A/B/C
+ * @param {number} installDay  day-of-month the zone goes in-store (1-31)
+ * @param {Date} refDate
+ * @returns {Date[]} sorted launch dates (prev year..next year)
+ */
+export function cycleLaunchDates(cycle, installDay, refDate = new Date()) {
+  const starts = cycleStartMonthIndexes(cycle);
+  if (!starts.length) return [];
+  const day = parseInt(installDay, 10) || 1;
+  const ref = refDate instanceof Date ? refDate : new Date(refDate);
+  const year = ref.getFullYear();
+  const dates = [];
+  for (const y of [year - 1, year, year + 1]) {
+    for (const mi of starts) dates.push(new Date(y, mi, day));
+  }
+  return dates.sort((a, b) => a - b);
+}
+
+/**
+ * The current/next launch (in-store) date for a store and the matching
+ * sell-by deadline (launch minus lead days).
+ * @returns {{ launch: Date, sellBy: Date, nextLaunch: Date, nextSellBy: Date,
+ *            daysUntilSellBy: number, sellByPassed: boolean }|null}
+ */
+export function launchAndSellBy(cycle, installDay, {
+  refDate = new Date(),
+  leadDays = DEFAULT_SELL_BY_LEAD_DAYS,
+} = {}) {
+  const c = normalizeCycle(cycle);
+  if (c == null || !installDay) return null;
+  const ref = refDate instanceof Date ? refDate : new Date(refDate);
+  const dates = cycleLaunchDates(c, installDay, ref);
+  if (!dates.length) return null;
+
+  const MS = 24 * 60 * 60 * 1000;
+  const sellByOf = (d) => new Date(d.getTime() - leadDays * MS);
+
+  // "Current" launch = the next launch whose SELL-BY has not yet fully passed
+  // is what a rep cares about, but we report the next upcoming launch and the
+  // one after it.
+  let launch = null;
+  let nextLaunch = null;
+  for (const d of dates) {
+    if (d >= ref) {
+      if (!launch) launch = d;
+      else if (!nextLaunch) { nextLaunch = d; break; }
+    }
+  }
+  if (!launch) { launch = dates[dates.length - 1]; }
+  if (!nextLaunch) {
+    // find first date strictly after launch
+    nextLaunch = dates.find((d) => d > launch) || launch;
+  }
+
+  const sellBy = sellByOf(launch);
+  const nextSellBy = sellByOf(nextLaunch);
+  const daysUntilSellBy = Math.round((sellBy - ref) / MS);
+
+  return {
+    cycle: c,
+    installDay: parseInt(installDay, 10) || 1,
+    leadDays,
+    launch,
+    sellBy,
+    nextLaunch,
+    nextSellBy,
+    daysUntilSellBy,
+    sellByPassed: daysUntilSellBy < 0,
+  };
+}
+
+/**
+ * Human-readable sell-by summary for a store.
+ * e.g. "Next launch: Sep 7, 2026 — sell by Aug 15, 2026 (23-day buffer)".
+ */
+export function sellBySummary(cycle, installDay, opts = {}) {
+  const info = launchAndSellBy(cycle, installDay, opts);
+  if (!info) return null;
+  const fmt = (d) => d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+  let effLaunch = info.launch;
+  let effSellBy = info.sellBy;
+  // If this launch's sell-by already passed, roll to the next window.
+  if (info.sellByPassed) { effLaunch = info.nextLaunch; effSellBy = info.nextSellBy; }
+  const days = Math.round((effSellBy - (opts.refDate || new Date())) / (24 * 60 * 60 * 1000));
+  return {
+    ...info,
+    effLaunch,
+    effSellBy,
+    daysUntilSellBy: days,
+    label: `Next launch ${fmt(effLaunch)} — sell by ${fmt(effSellBy)} (${info.leadDays}-day buffer)`,
+  };
+}
+
 export { MONTH_NAMES };
