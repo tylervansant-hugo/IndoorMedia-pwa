@@ -1,5 +1,106 @@
 [
   {
+    "message_id": "19ff295eee40e482",
+    "date": "2026-08-11 13:48",
+    "from": "Zone 07Y - Sydney Miller <zone.07y@indoormedia.com>",
+    "subject": "Re: Ad Proof from IndoorMedia , Mazama Sporting Goods [07Y - C3 - J434361E]",
+    "client_name": "Mazama Sporting Goods",
+    "contact_name": "good day!*",
+    "client_email": "adam@teammazama.com",
+    "location": "",
+    "zone": "07Y",
+    "cycle": "C3",
+    "contract_number": "J434361E",
+    "store": ">> Tape Ad at Albertsons 3529, 1675 W 18th Ave, Eugene, OR",
+    "ad_size": "Single",
+    "install_month": "",
+    "run_months": "",
+    "image_url": "https://lh3.googleusercontent.com/d/1s_Ztf76v9MJq4mjMsJutSXZdc0l4O5fo",
+    "review_deadline": "08/14/2026",
+    "recipients": [
+      "tyler.vansant@rtui.com",
+      "richard.leibowitz@rtui.com",
+      "adam@teammazama.com",
+      "matthew.boozer@indoormedia.com"
+    ],
+    "reps": [
+      {
+        "email": "tyler.vansant@rtui.com",
+        "name": "Tyler Van Sant"
+      },
+      {
+        "email": "matthew.boozer@indoormedia.com",
+        "name": "Matthew Boozer"
+      }
+    ]
+  },
+  {
+    "message_id": "19ff1fc8e8dcfb83",
+    "date": "2026-08-11 11:00",
+    "from": "Zone 07Y - Sydney Miller <zone.07y@indoormedia.com>",
+    "subject": "Re: Ad Proof from IndoorMedia , Wild Willy\u2019s Car Wash [07Y - A4 - J413256E]",
+    "client_name": "Wild Willy\u2019s Car Wash",
+    "contact_name": "good day!*",
+    "client_email": "wminihan1@yahoo.com",
+    "location": "",
+    "zone": "07Y",
+    "cycle": "A4",
+    "contract_number": "J413256E",
+    "store": "> Tape Ad at Albertsons 0574, 5755 Main St, Springfield, OR",
+    "ad_size": "Single",
+    "install_month": "",
+    "run_months": "",
+    "image_url": "https://lh3.googleusercontent.com/d/1eJY7kucFL18RRaaF35AlecCgxrx62hHB",
+    "review_deadline": "08/14/2026",
+    "recipients": [
+      "wminihan1@yahoo.com",
+      "richard.leibowitz@rtui.com",
+      "tyler.vansant@rtui.com",
+      "matthew.boozer@indoormedia.com"
+    ],
+    "reps": [
+      {
+        "email": "tyler.vansant@rtui.com",
+        "name": "Tyler Van Sant"
+      },
+      {
+        "email": "matthew.boozer@indoormedia.com",
+        "name": "Matthew Boozer"
+      }
+    ]
+  },
+  {
+    "message_id": "19ff1fc1e1aca49f",
+    "date": "2026-08-11 11:00",
+    "from": "Sydney Miller <Zone.07Y@indoormedia.com>",
+    "subject": "Ad Proof from IndoorMedia , Galaxy Car Wash LLC [07Y - A4 - J433870E]",
+    "client_name": "Galaxy Car Wash LLC",
+    "contact_name": "Jonathan Allen",
+    "client_email": "icwsnw@comcast.net",
+    "location": "",
+    "zone": "07Y",
+    "cycle": "A4",
+    "contract_number": "J433870E",
+    "store": "Tape Ad at Fred Meyer 0482, 15995 Southwest Walker Road, Beaverton, OR",
+    "ad_size": "Single",
+    "install_month": "",
+    "run_months": "",
+    "image_url": "https://lh3.googleusercontent.com/d/1-SleT0kHFu9eSRA4z7wRZM4HSjRd9loS",
+    "review_deadline": "08/14/2026",
+    "recipients": [
+      "tyler.vansant@rtui.com",
+      "richard.leibowitz@rtui.com",
+      "anthony.eng@indoormedia.com",
+      "icwsnw@comcast.net"
+    ],
+    "reps": [
+      {
+        "email": "tyler.vansant@rtui.com",
+        "name": "Tyler Van Sant"
+      }
+    ]
+  },
+  {
     "message_id": "19ff17c688e6e7a6",
     "date": "2026-08-11 08:41",
     "from": "Sydney Miller <Zone.07Z@indoormedia.com>",
@@ -905,41 +1006,6 @@
       {
         "email": "tyler.vansant@indoormedia.com",
         "name": "Tyler Van Sant"
-      }
-    ]
-  },
-  {
-    "message_id": "19fd7e939786cfe9",
-    "date": "2026-08-06 09:29",
-    "from": "Zone 07Y - Sydney Miller <zone.07y@indoormedia.com>",
-    "subject": "Re: Ad Proof from IndoorMedia , Mazama Sporting Goods [07Y - C3 - J434361E]",
-    "client_name": "Mazama Sporting Goods",
-    "contact_name": "will see a new proof email as soon as it becomes available*",
-    "client_email": "matthew.boozer@indoormedia.com",
-    "location": "",
-    "zone": "07Y",
-    "cycle": "C3",
-    "contract_number": "J434361E",
-    "store": ">> Tape Ad at Albertsons 3529, 1675 W 18th Ave, Eugene, OR",
-    "ad_size": "Single",
-    "install_month": "",
-    "run_months": "",
-    "image_url": "https://lh3.googleusercontent.com/d/1fF2gTfH8ioVIkXUD2emH2nAvmEZ0eBlo",
-    "review_deadline": "08/11/2026",
-    "recipients": [
-      "adam@teammazama.com",
-      "tyler.vansant@rtui.com",
-      "richard.leibowitz@rtui.com",
-      "matthew.boozer@indoormedia.com"
-    ],
-    "reps": [
-      {
-        "email": "tyler.vansant@rtui.com",
-        "name": "Tyler Van Sant"
-      },
-      {
-        "email": "matthew.boozer@indoormedia.com",
-        "name": "Matthew Boozer"
       }
     ]
   },
