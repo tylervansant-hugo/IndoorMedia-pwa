@@ -34,13 +34,94 @@
   let newLead = {
     name: '', category: '', contactName: '', phone: '', email: '',
     address: '', city: '', state: '', zip: '', website: '', notes: '',
-    store: '' // optional: associate with a store number
+    store: '', // optional: associate with a store number
+    googleUrl: ''
   };
+  let newLeadFetching = false;
+  let newLeadFetchMsg = '';
   function resetNewLead() {
     newLead = { name: '', category: '', contactName: '', phone: '', email: '',
-      address: '', city: '', state: '', zip: '', website: '', notes: '', store: '' };
+      address: '', city: '', state: '', zip: '', website: '', notes: '', store: '', googleUrl: '' };
+    newLeadFetchMsg = '';
   }
   function openNewLead() { resetNewLead(); showNewLead = true; }
+
+  // Parse a Google Maps URL for the business name (+ address hint) so we can
+  // seed the lead and run a Places lookup. Works with full /maps/place/... URLs
+  // (name + coords are right in the path). Short goo.gl links can't be expanded
+  // client-side (CORS), so we fall back to whatever text is in the URL.
+  function parseGoogleMapsUrl(url) {
+    const out = { name: '', addressHint: '', lat: null, lng: null };
+    try {
+      const decoded = decodeURIComponent(url.trim());
+      // /maps/place/<Name>/@lat,lng...  OR  /maps/place/<Name>/data=...
+      const placeM = decoded.match(/\/maps\/place\/([^/@]+)/);
+      if (placeM) out.name = placeM[1].replace(/\+/g, ' ').trim();
+      const atM = decoded.match(/@(-?\d+\.\d+),(-?\d+\.\d+)/);
+      if (atM) { out.lat = parseFloat(atM[1]); out.lng = parseFloat(atM[2]); }
+      // ?q=Name+Address  or  &query=Name
+      const qM = decoded.match(/[?&](?:q|query|destination)=([^&]+)/);
+      if (!out.name && qM) out.name = qM[1].replace(/\+/g, ' ').trim();
+    } catch {}
+    return out;
+  }
+
+  async function fillFromGoogle() {
+    const url = (newLead.googleUrl || '').trim();
+    if (!url) { newLeadFetchMsg = 'Paste a Google Maps link first.'; return; }
+    newLeadFetching = true;
+    newLeadFetchMsg = 'Looking up…';
+    try {
+      const parsed = parseGoogleMapsUrl(url);
+      // Build the best text query we can from the URL.
+      const textQuery = parsed.name || url;
+      const body = { textQuery, maxResultCount: 1 };
+      if (parsed.lat != null && parsed.lng != null) {
+        body.locationBias = { circle: { center: { latitude: parsed.lat, longitude: parsed.lng }, radius: 500 } };
+      }
+      const res = await fetch('https://places.googleapis.com/v1/places:searchText', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-Goog-Api-Key': PLACES_KEY_PS,
+          'X-Goog-FieldMask': 'places.displayName,places.formattedAddress,places.nationalPhoneNumber,places.internationalPhoneNumber,places.websiteUri,places.primaryTypeDisplayName,places.addressComponents'
+        },
+        body: JSON.stringify(body)
+      });
+      const data = await res.json();
+      const p = data.places?.[0];
+      if (!p) {
+        newLeadFetchMsg = parsed.name
+          ? `Couldn't match "${parsed.name}" — filled the name; add the rest manually.`
+          : "Couldn't read that link. Try the full Google Maps place URL.";
+        if (parsed.name && !newLead.name) newLead.name = parsed.name;
+        newLead = newLead;
+        return;
+      }
+      // Fill fields (don't clobber anything the rep already typed).
+      const set = (k, v) => { if (v && !String(newLead[k]).trim()) newLead[k] = v; };
+      set('name', p.displayName?.text || parsed.name || '');
+      set('phone', p.nationalPhoneNumber || p.internationalPhoneNumber || '');
+      set('website', p.websiteUri || '');
+      set('category', p.primaryTypeDisplayName?.text || '');
+      // Address components -> street / city / state / zip
+      const comps = p.addressComponents || [];
+      const get = (type) => comps.find(c => (c.types || []).includes(type));
+      const streetNo = get('street_number')?.shortText || '';
+      const route = get('route')?.shortText || '';
+      const street = [streetNo, route].filter(Boolean).join(' ');
+      set('address', street || (p.formattedAddress ? p.formattedAddress.split(',')[0] : ''));
+      set('city', get('locality')?.longText || get('postal_town')?.longText || '');
+      set('state', get('administrative_area_level_1')?.shortText || '');
+      set('zip', get('postal_code')?.longText || '');
+      newLead = newLead;
+      newLeadFetchMsg = `✅ Filled from Google: ${p.displayName?.text || parsed.name}`;
+    } catch (e) {
+      newLeadFetchMsg = 'Lookup failed. Check the link or fill in manually.';
+    } finally {
+      newLeadFetching = false;
+    }
+  }
   function saveNewLead() {
     const name = (newLead.name || '').trim();
     if (!name) { alert('Please enter a business name.'); return; }
@@ -4829,6 +4910,16 @@ IndoorMedia`
           <button class="nl-close" on:click={() => showNewLead = false} aria-label="Close">✕</button>
         </div>
         <div class="nl-body">
+          <label class="nl-label">📍 Google Maps link (auto-fill)</label>
+          <div class="nl-row">
+            <div class="nl-col">
+              <input class="nl-input" bind:value={newLead.googleUrl} inputmode="url" placeholder="Paste a Google Maps place link…" />
+            </div>
+            <button class="nl-fetch" on:click={fillFromGoogle} disabled={newLeadFetching}>{newLeadFetching ? '…' : 'Fill'}</button>
+          </div>
+          {#if newLeadFetchMsg}<p class="nl-fetch-msg">{newLeadFetchMsg}</p>{/if}
+          <div class="nl-divider"></div>
+
           <label class="nl-label">Business Name *</label>
           <input class="nl-input" bind:value={newLead.name} placeholder="e.g. Joe's Pizza" />
 
@@ -4880,19 +4971,23 @@ IndoorMedia`
   .saved-head { display: flex; align-items: center; justify-content: space-between; gap: 10px; flex-wrap: wrap; }
   .new-lead-btn { background: #c81e1e; color: #fff; border: none; border-radius: 10px; padding: 8px 14px; font-weight: 700; font-size: 14px; cursor: pointer; white-space: nowrap; }
   .new-lead-btn:active { transform: scale(0.97); }
-  .nl-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.5); display: flex; align-items: flex-start; justify-content: center; z-index: 1000; padding: 20px; overflow-y: auto; }
-  .nl-modal { background: var(--card-bg, #fff); color: var(--text-primary, #111); width: 100%; max-width: 460px; border-radius: 16px; margin: auto; box-shadow: 0 12px 40px rgba(0,0,0,0.3); }
-  .nl-head { display: flex; align-items: center; justify-content: space-between; padding: 16px 18px; border-bottom: 1px solid var(--border-color, #eee); }
+  .nl-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.5); display: flex; align-items: center; justify-content: center; z-index: 1000; padding: 16px; }
+  .nl-modal { background: var(--card-bg, #fff); color: var(--text-primary, #111); width: 100%; max-width: 460px; border-radius: 16px; box-shadow: 0 12px 40px rgba(0,0,0,0.3); display: flex; flex-direction: column; max-height: 90vh; max-height: 90dvh; overflow: hidden; }
+  .nl-head { display: flex; align-items: center; justify-content: space-between; padding: 14px 18px; border-bottom: 1px solid var(--border-color, #eee); flex: 0 0 auto; }
   .nl-head h3 { margin: 0; font-size: 17px; }
   .nl-close { background: none; border: none; font-size: 20px; cursor: pointer; color: var(--text-secondary, #888); line-height: 1; }
-  .nl-body { padding: 14px 18px; }
+  .nl-body { padding: 14px 18px; overflow-y: auto; -webkit-overflow-scrolling: touch; flex: 1 1 auto; }
   .nl-label { display: block; font-size: 12px; font-weight: 600; color: var(--text-secondary, #666); margin: 10px 0 4px; }
   .nl-input { width: 100%; box-sizing: border-box; padding: 10px 12px; border: 1px solid var(--border-color, #ddd); border-radius: 10px; font-size: 15px; background: var(--input-bg, #fff); color: var(--text-primary, #111); }
   .nl-textarea { resize: vertical; font-family: inherit; }
   .nl-row { display: flex; gap: 8px; }
   .nl-col { flex: 1; }
   .nl-narrow { max-width: 90px; }
-  .nl-actions { display: flex; gap: 10px; padding: 14px 18px 18px; }
+  .nl-fetch { flex: 0 0 auto; align-self: stretch; background: #1a73e8; color: #fff; border: none; border-radius: 10px; padding: 0 16px; font-weight: 700; font-size: 14px; cursor: pointer; }
+  .nl-fetch:disabled { opacity: 0.6; }
+  .nl-fetch-msg { font-size: 12px; color: var(--text-secondary, #666); margin: 6px 0 0; }
+  .nl-divider { height: 1px; background: var(--border-color, #eee); margin: 14px 0 2px; }
+  .nl-actions { display: flex; gap: 10px; padding: 12px 18px calc(12px + env(safe-area-inset-bottom, 0px)); border-top: 1px solid var(--border-color, #eee); background: var(--card-bg, #fff); flex: 0 0 auto; }
   .nl-cancel { flex: 1; background: var(--card-bg, #f2f2f2); color: var(--text-primary, #333); border: 1px solid var(--border-color, #ddd); border-radius: 10px; padding: 12px; font-weight: 600; cursor: pointer; }
   .nl-save { flex: 2; background: #c81e1e; color: #fff; border: none; border-radius: 10px; padding: 12px; font-weight: 700; cursor: pointer; }
   .nl-save:active, .nl-cancel:active { transform: scale(0.98); }
