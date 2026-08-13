@@ -356,5 +356,67 @@
       "keyword": "kids activities enrichment programs children classes",
       "exclude": ["university", "college"]
     }
+  },
+  "🎡 Family Entertainment": {
+    "Trampoline Park": {
+      "types": ["amusement_park"],
+      "keyword": "trampoline park jump park indoor trampoline",
+      "exclude": []
+    },
+    "Bowling": {
+      "types": ["bowling_alley"],
+      "keyword": "bowling alley bowling center",
+      "exclude": []
+    },
+    "Arcade/FEC": {
+      "types": ["amusement_center"],
+      "keyword": "arcade family entertainment center game room barcade",
+      "exclude": []
+    },
+    "Mini Golf": {
+      "types": ["amusement_park"],
+      "keyword": "mini golf miniature golf putt putt",
+      "exclude": []
+    },
+    "Laser Tag": {
+      "types": ["amusement_center"],
+      "keyword": "laser tag laser arena",
+      "exclude": []
+    },
+    "Escape Room": {
+      "types": ["amusement_center"],
+      "keyword": "escape room escape game",
+      "exclude": []
+    },
+    "Skating Rink": {
+      "types": ["amusement_center"],
+      "keyword": "roller skating ice skating rink skate",
+      "exclude": []
+    },
+    "Bounce/Play Center": {
+      "types": ["amusement_center"],
+      "keyword": "bounce house indoor playground play center kids play",
+      "exclude": []
+    },
+    "Movie Theater": {
+      "types": ["movie_theater"],
+      "keyword": "movie theater cinema",
+      "exclude": []
+    },
+    "Golf/Driving Range": {
+      "types": ["golf_course"],
+      "keyword": "golf course driving range topgolf golf simulator",
+      "exclude": ["mini golf"]
+    },
+    "Go-Karts/Fun Center": {
+      "types": ["amusement_park"],
+      "keyword": "go kart go-kart fun center family fun park",
+      "exclude": []
+    },
+    "Bar Games/Axe Throwing": {
+      "types": ["amusement_center", "bar"],
+      "keyword": "axe throwing pool hall billiards dart bar entertainment",
+      "exclude": []
+    }
   }
 }

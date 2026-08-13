@@ -375,7 +375,28 @@
   const MANAGER_EMAIL = 'tyler.vansant@indoormedia.com';
 
   let syncStatus = '';
-  
+
+  // Only show calendar events for the team's zones. Anything outside these
+  // (i.e. reps/events outside 7X/7Y/7Z) is dropped from the feed.
+  const TEAM_ZONES = ['7X', '7Y', '7Z'];
+
+  // Extract a zone code (e.g. "7Z") from an appointment's fields, matching the
+  // store-number convention used elsewhere ("FME07Z-0236" -> "07Z" -> "7Z").
+  function getEventZone(a) {
+    if (a && a.zone) {
+      const z = String(a.zone).toUpperCase();
+      const m0 = z.match(/^0?(7[XYZ])$/) || z.match(/(7[XYZ])/);
+      if (m0) return m0[1];
+    }
+    const text = [a?.title, a?.location, a?.description, a?.store]
+      .filter(Boolean).join(' ').toUpperCase();
+    const m = text.match(/\b\d{2}[A-Z]\b/);
+    if (m) return m[0].replace(/^0/, '');
+    const m2 = text.match(/\b0?7\s?([XYZ])\b/);
+    if (m2) return '7' + m2[1];
+    return null;
+  }
+
   // Google Apps Script URL for live calendar data
   // Set this after deploying the Apps Script (scripts/google_apps_script_calendar.js)
   const CALENDAR_API_URL = 'https://script.googleusercontent.com/a/macros/indoormedia.com/echo?user_content_key=AWDtjMU_lHT0xNAWQkyU5hat-v6ZCGwjFviNlJZf-5KUwna65c55MOdInmDLngcWY6OnpRvF2wh-w9gpkYQrEsTdeDIPtqgE_Vgf-EVAi1wK-UZrSt1dwwm_EL3SjUIWCq4Z1bMoGK20oFP6EU9n7LlUR4ahD_W4zgvPQejQpRsHGTKuiICLTCPNz-19KsQEploptlg4OLbVOBwk1xnsBxJ8sT-4Mgq_BkxVM7_HhUWXCjNCStMuueUe5yF8lfHfZIjyLGuGJhVWNMsk1Z970rGUMuh739WyXHpHditxf0Vd8moEH2wDY233FTBCngTVl8GPhaSgoaP-&lib=Mzz3mqyJSZ0ql-JCrrMKeASMMJ0XCjnoQ';
@@ -389,7 +410,7 @@
       if (CALENDAR_API_URL) {
         try {
           const sep = CALENDAR_API_URL.includes('?') ? '&' : '?';
-          const liveRes = await fetch(CALENDAR_API_URL + sep + 'days=30&t=' + Date.now());
+          const liveRes = await fetch(CALENDAR_API_URL + sep + 'days=30&zones=' + TEAM_ZONES.join(',') + '&t=' + Date.now());
           data = await liveRes.json();
           if (data.error) throw new Error(data.error);
           syncStatus = '🔄 Live sync...';
@@ -406,7 +427,15 @@
       const now = new Date();
       const repName = ($user?.name || $user?.first_name || '').toLowerCase();
       const isManagerUser = repName.includes('tyler') || $user?.role === 'manager';
-      
+
+      // Team-zone filter (safety net for static fallback / older Apps Script
+      // deployments that don't filter server-side). Only show events in the
+      // team's zones (7X/7Y/7Z). Events with no detectable zone are kept.
+      data = (Array.isArray(data) ? data : []).filter(a => {
+        const z = getEventZone(a);
+        return !z || TEAM_ZONES.includes(z);
+      });
+
       const upcoming = (isManagerUser ? data : data.filter(a => {
         const creator = (a.creator || '').toLowerCase();
         const attendees = (a.attendees || []).map(att => (att.email || att || '').toLowerCase());
