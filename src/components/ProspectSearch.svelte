@@ -2005,6 +2005,33 @@
     return Math.round(Math.min(100, s));
   }
 
+  // Human-readable breakdown of WHAT the ad-spend signal is based on. Google
+  // Places doesn't expose the actual ads a business runs, so we surface the
+  // real visibility signals we DO have (reviews, rating, online presence) and
+  // spell out the reasoning. Returns { level, score, signals[], note }.
+  function adSpendSignals(p) {
+    const reviews = p.reviews || 0;
+    const rating = p.rating || 0;
+    const score = p._adSpend != null ? p._adSpend : adSpendScore(p);
+    const level = score >= 70 ? 'High' : score >= 45 ? 'Medium' : 'Low';
+    const signals = [];
+    // Reviews signal
+    if (reviews >= 500) signals.push({ icon: '💬', text: `${reviews.toLocaleString()} Google reviews — heavily invests in visibility` });
+    else if (reviews >= 150) signals.push({ icon: '💬', text: `${reviews} Google reviews — actively builds its presence` });
+    else if (reviews >= 40) signals.push({ icon: '💬', text: `${reviews} Google reviews — moderate online footprint` });
+    else if (reviews > 0) signals.push({ icon: '💬', text: `${reviews} Google reviews — small online footprint` });
+    else signals.push({ icon: '💬', text: 'No Google reviews yet' });
+    // Rating signal
+    if (rating >= 4.5) signals.push({ icon: '⭐', text: `${rating.toFixed(1)}★ rating — reputation-focused` });
+    else if (rating >= 4.0) signals.push({ icon: '⭐', text: `${rating.toFixed(1)}★ rating — solid reputation` });
+    else if (rating > 0) signals.push({ icon: '⭐', text: `${rating.toFixed(1)}★ rating` });
+    // Website / online presence
+    if (p.website) signals.push({ icon: '🌐', text: 'Has a website — maintains an online presence' });
+    else signals.push({ icon: '🚫', text: 'No website found' });
+    const note = 'Inferred from public Google data (reviews, rating, web presence), not their actual ad buys. Advertisers advertise — these are the signals that they invest in getting seen.';
+    return { level, score, signals, note };
+  }
+
   async function buildHotlist() {
     if (!selectedStore) return;
     selectedCategory = '🔥 Hotlist';
@@ -2200,7 +2227,8 @@
           status: place.businessStatus === 'OPERATIONAL' ? 'open' : 'check',
           hours: place.regularOpeningHours?.weekdayDescriptions || null,
           lat: pLat,
-          lng: pLng
+          lng: pLng,
+          _adSpend: adSpendScore({ reviews, rating, website: place.websiteUri || null }),
         };
       }).filter(p => !p.distance || p.distance <= 3).sort((a, b) => b.score - a.score);
     } catch (err) {
@@ -3815,10 +3843,21 @@ IndoorMedia`
           </p>
           {#if prospect._adSpend != null}
             <div class="hotlist-signals">
-              <span class="hl-chip hl-spend" title="Ad-spend signal: this business already invests in visibility (reviews, website, rating) — advertisers advertise">💰 Ad spend: {prospect._adSpend >= 70 ? 'High' : prospect._adSpend >= 45 ? 'Medium' : 'Low'}</span>
+              <button class="hl-chip hl-spend hl-tappable" on:click|stopPropagation={() => { prospect._showAdSignals = !prospect._showAdSignals; prospects = prospects; }} title="Tap to see the advertising signals behind this">💰 Ad spend: {prospect._adSpend >= 70 ? 'High' : prospect._adSpend >= 45 ? 'Medium' : 'Low'} <span class="hl-caret">{prospect._showAdSignals ? '▲' : '▼'}</span></button>
               {#if prospect._proximity != null}<span class="hl-chip hl-prox">📍 {prospect._proximity >= 70 ? 'Very close' : prospect._proximity >= 40 ? 'Nearby' : 'In range'}</span>{/if}
               {#if prospect.website}<a class="hl-chip hl-web" href={prospect.website} target="_blank" rel="noreferrer" on:click|stopPropagation>🌐 Website</a>{/if}
             </div>
+            {#if prospect._showAdSignals}
+              {@const sig = adSpendSignals(prospect)}
+              <div class="ad-signals">
+                <p class="ad-signals-head">📣 Advertising signals — <strong>{sig.level}</strong></p>
+                <ul class="ad-signals-list">
+                  {#each sig.signals as s}<li><span class="as-ico">{s.icon}</span> {s.text}</li>{/each}
+                </ul>
+                {#if prospect.mapsUrl}<a class="ad-signals-link" href={prospect.mapsUrl} target="_blank" rel="noreferrer" on:click|stopPropagation>🗺️ View on Google →</a>{/if}
+                <p class="ad-signals-note">{sig.note}</p>
+              </div>
+            {/if}
           {/if}
           {#if prospect.phone}
             <p class="prospect-phone">📞 <a href="tel:{prospect.phone}" style="color:inherit;text-decoration:none;">{prospect.phone}</a></p>
@@ -6084,6 +6123,15 @@ IndoorMedia`
   .hl-chip.hl-spend { background: rgba(204,0,0,0.10); color: #cc0000; border-color: rgba(204,0,0,0.25); }
   .hl-chip.hl-prox { background: rgba(10,125,44,0.10); color: #0a7d2c; border-color: rgba(10,125,44,0.25); }
   .hl-chip.hl-web { background: rgba(26,115,232,0.10); color: #1a73e8; border-color: rgba(26,115,232,0.25); }
+  .hl-tappable { cursor: pointer; }
+  .hl-caret { font-size: 8px; opacity: 0.7; margin-left: 1px; }
+  .ad-signals { margin: 6px 0 4px; padding: 10px 12px; border-radius: 10px; background: var(--bg-secondary, #f7f7f7); border: 1px solid var(--border-color, #e3e3e3); }
+  .ad-signals-head { margin: 0 0 6px; font-size: 12.5px; font-weight: 700; color: var(--text-primary, #222); }
+  .ad-signals-list { margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 4px; }
+  .ad-signals-list li { font-size: 12.5px; color: var(--text-secondary, #555); line-height: 1.35; }
+  .as-ico { display: inline-block; width: 16px; }
+  .ad-signals-link { display: inline-block; margin-top: 7px; font-size: 12px; font-weight: 700; color: #1a73e8; text-decoration: none; }
+  .ad-signals-note { margin: 8px 0 0; font-size: 10.5px; color: var(--text-secondary, #888); line-height: 1.35; font-style: italic; }
 
   .saved-leads-banner {
     width: 100%; padding: 14px 16px; border-radius: 12px; font-size: 16px; font-weight: 700;
