@@ -1248,6 +1248,7 @@
     '👦 Kids & Tutoring': ['Tutoring', 'Music', 'Dance', 'Martial Arts', 'Sports', 'Camps', 'General'],
     '👶 Care Centers': ['Daycare', 'After School', 'Assisted Living', 'Adult Care'],
     '🐾 Pet Services': ['Grooming', 'Boarding/Kennel', 'Dog Training', 'Pet Sitting', 'Vet', 'Pet Store'],
+    '🎡 Family Entertainment': ['Trampoline Park', 'Bowling', 'Arcade/FEC', 'Mini Golf', 'Laser Tag', 'Escape Room', 'Skating Rink', 'Bounce/Play Center', 'Movie Theater', 'Golf/Driving Range', 'Go-Karts/Fun Center', 'Axe Throwing/Bar Games'],
 
   };
 
@@ -1335,7 +1336,19 @@
     'Winery': 'winery tasting room',
     'Donut Shop': 'donut shop',
     'Deli': 'deli delicatessen',
-    'Dry Cleaning': 'dry cleaner laundry'
+    'Dry Cleaning': 'dry cleaner laundry',
+    'Trampoline Park': 'trampoline park indoor trampoline jump park',
+    'Bowling': 'bowling alley bowling center',
+    'Arcade/FEC': 'arcade family entertainment center game room barcade',
+    'Mini Golf': 'mini golf miniature golf putt putt',
+    'Laser Tag': 'laser tag laser arena',
+    'Escape Room': 'escape room escape game',
+    'Skating Rink': 'roller skating ice skating rink skate',
+    'Bounce/Play Center': 'bounce house indoor playground play center kids play',
+    'Movie Theater': 'movie theater cinema',
+    'Golf/Driving Range': 'golf course driving range topgolf golf simulator',
+    'Go-Karts/Fun Center': 'go kart go-kart fun center family fun park',
+    'Axe Throwing/Bar Games': 'axe throwing pool hall billiards dart bar entertainment'
   };
 
   onMount(async () => {
