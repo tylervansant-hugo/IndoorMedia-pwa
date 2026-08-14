@@ -1,11 +1,151 @@
 [
   {
-    "message_id": "19ff77c26947cc01",
-    "date": "2026-08-12 12:38",
+    "message_id": "19ffcb6c78075cd5",
+    "date": "2026-08-13 13:01",
     "from": "Sydney Miller <Zone.07Y@indoormedia.com>",
-    "subject": "Ad Proofs from IndoorMedia , Mazama Sporting Goods [07Y - A4 - J434361E]",
+    "subject": "Ad Proof from IndoorMedia , Bolt on Motors [07Y - B4 - J429244E]",
+    "client_name": "Bolt on Motors",
+    "contact_name": "Mary Vega",
+    "client_email": "boltonmotors@hotmail.com",
+    "location": "",
+    "zone": "07Y",
+    "cycle": "B4",
+    "contract_number": "J429244E",
+    "store": "Tape Ad at Safeway 1800, 20685 SW Roy Rogers Road, Sherwood, OR",
+    "ad_size": "Single",
+    "install_month": "",
+    "run_months": "",
+    "image_url": "https://lh3.googleusercontent.com/d/1ieMa74Qig2o8YaK2b3gd3ryVHsEHbAPX",
+    "review_deadline": "08/18/2026",
+    "recipients": [
+      "jan.banks@indoormedia.com",
+      "boltonmotors@hotmail.com",
+      "tyler.vansant@rtui.com",
+      "richard.leibowitz@rtui.com"
+    ],
+    "reps": [
+      {
+        "email": "jan.banks@indoormedia.com",
+        "name": "Jan Banks"
+      },
+      {
+        "email": "tyler.vansant@rtui.com",
+        "name": "Tyler Van Sant"
+      }
+    ]
+  },
+  {
+    "message_id": "19ffc6409ffbd033",
+    "date": "2026-08-13 11:30",
+    "from": "Sydney Miller <Zone.07Z@indoormedia.com>",
+    "subject": "Ad Proof from IndoorMedia , Walt\u2019s Barbershop [07Z - C3 - J435450E]",
+    "client_name": "Walt\u2019s Barbershop",
+    "contact_name": "Megan E Pecoraro",
+    "client_email": "waltsbarbershoppdx@gmail.com",
+    "location": "",
+    "zone": "07Z",
+    "cycle": "C3",
+    "contract_number": "J435450E",
+    "store": "Tape Ad at Safeway 1447, 6901 NE Sandy Blvd, Portland, OR",
+    "ad_size": "Single",
+    "install_month": "",
+    "run_months": "",
+    "image_url": "https://lh3.googleusercontent.com/d/1eHhLhq4WPfvSBJTqOZ488BL5UUQWBG-I",
+    "review_deadline": "08/16/2026",
+    "recipients": [
+      "megan.wink@indoormedia.com",
+      "waltsbarbershoppdx@gmail.com",
+      "tyler.vansant@rtui.com",
+      "richard.leibowitz@rtui.com"
+    ],
+    "reps": [
+      {
+        "email": "megan.wink@indoormedia.com",
+        "name": "Megan Wink"
+      },
+      {
+        "email": "tyler.vansant@rtui.com",
+        "name": "Tyler Van Sant"
+      }
+    ]
+  },
+  {
+    "message_id": "19ffc07c5bff404d",
+    "date": "2026-08-13 09:49",
+    "from": "Zone 07Y - Sydney Miller <zone.07y@indoormedia.com>",
+    "subject": "Re: Ad Proof from IndoorMedia , Bolt on Motors [07Y - B4 - J429244E]",
+    "client_name": "Bolt on Motors",
+    "contact_name": "will see a new proof email as soon as it becomes available*",
+    "client_email": "boltonmotors@hotmail.com",
+    "location": "",
+    "zone": "07Y",
+    "cycle": "B4",
+    "contract_number": "J429244E",
+    "store": "> Tape Ad at Safeway 1800, 20685 SW Roy Rogers Road, Sherwood, OR",
+    "ad_size": "Single",
+    "install_month": "",
+    "run_months": "",
+    "image_url": "https://lh3.googleusercontent.com/d/1be8-Y4tCPNAIGZNfXunYHI4RmOuFXVnl",
+    "review_deadline": "08/18/2026",
+    "recipients": [
+      "jan.banks@indoormedia.com",
+      "boltonmotors@hotmail.com",
+      "tyler.vansant@rtui.com",
+      "richard.leibowitz@rtui.com"
+    ],
+    "reps": [
+      {
+        "email": "jan.banks@indoormedia.com",
+        "name": "Jan Banks"
+      },
+      {
+        "email": "tyler.vansant@rtui.com",
+        "name": "Tyler Van Sant"
+      }
+    ]
+  },
+  {
+    "message_id": "19ffb4a99b51f597",
+    "date": "2026-08-13 06:23",
+    "from": "Sydney Miller <Zone.07Y@indoormedia.com>",
+    "subject": "Ad Proofs from IndoorMedia , Putters\u2019s Pizza & Family Fun Center [07Y - C3 - J435742E]",
+    "client_name": "Putters\u2019s Pizza & Family Fun Center",
+    "contact_name": "Eric Gilbert",
+    "client_email": "egilbertric@hotmail.com",
+    "location": "",
+    "zone": "07Y",
+    "cycle": "C3",
+    "contract_number": "J435742E",
+    "store": "",
+    "ad_size": "Double",
+    "install_month": "",
+    "run_months": "",
+    "image_url": "https://lh3.googleusercontent.com/d/1uN-y2zwjPoRrX2eHWMm2Cr68G9KTlarj",
+    "review_deadline": "08/16/2026",
+    "recipients": [
+      "matthew.boozer@indoormedia.com",
+      "egilbertric@hotmail.com",
+      "tyler.vansant@rtui.com",
+      "richard.leibowitz@rtui.com"
+    ],
+    "reps": [
+      {
+        "email": "matthew.boozer@indoormedia.com",
+        "name": "Matthew Boozer"
+      },
+      {
+        "email": "tyler.vansant@rtui.com",
+        "name": "Tyler Van Sant"
+      }
+    ]
+  },
+  {
+    "message_id": "19ffb49606eb5563",
+    "date": "2026-08-13 06:21",
+    "from": "Zone 07Y - Sydney Miller <zone.07y@indoormedia.com>",
+    "subject": "Re: Ad Proofs from IndoorMedia , Mazama Sporting Goods [07Y - A4 - J434361E]",
     "client_name": "Mazama Sporting Goods",
-    "contact_name": "Adam Braatz",
+    "contact_name": "good day!*",
     "client_email": "adam@teammazama.com",
     "location": "",
     "zone": "07Y",
@@ -18,19 +158,59 @@
     "image_url": "https://lh3.googleusercontent.com/d/1czCcpmh1hd7t_S11CydHFPIuDdlwIrpz",
     "review_deadline": "08/15/2026",
     "recipients": [
-      "tyler.vansant@rtui.com",
       "matthew.boozer@indoormedia.com",
-      "richard.leibowitz@rtui.com",
-      "adam@teammazama.com"
+      "adam@teammazama.com",
+      "tyler.vansant@rtui.com",
+      "richard.leibowitz@rtui.com"
     ],
     "reps": [
+      {
+        "email": "matthew.boozer@indoormedia.com",
+        "name": "Matthew Boozer"
+      },
+      {
+        "email": "tyler.vansant@rtui.com",
+        "name": "Tyler Van Sant"
+      }
+    ]
+  },
+  {
+    "message_id": "19ffb3fed981ea05",
+    "date": "2026-08-13 06:11",
+    "from": "Zone 07Y - Sydney Miller <zone.07y@indoormedia.com>",
+    "subject": "Re: Ad Proof from IndoorMedia , Bolt on Motors [07Y - B4 - J429244E]",
+    "client_name": "Bolt on Motors",
+    "contact_name": "will see a new proof email as soon as it becomes available*",
+    "client_email": "boltonmotors@hotmail.com",
+    "location": "",
+    "zone": "07Y",
+    "cycle": "B4",
+    "contract_number": "J429244E",
+    "store": ">>>> Tape Ad at Safeway 1800, 20685 SW Roy Rogers Road, Sherwood, OR",
+    "ad_size": "Single",
+    "install_month": "",
+    "run_months": "",
+    "image_url": "https://lh3.googleusercontent.com/d/1bku-CHOvXcHDLEGmy_an-KiQxx3VPqFj",
+    "review_deadline": "08/14/2026",
+    "recipients": [
+      "boltonmotors@hotmail.com",
+      "tyler.vansant@indoormedia.com",
+      "tyler.vansant@rtui.com",
+      "jan.banks@indoormedia.com",
+      "richard.leibowitz@rtui.com"
+    ],
+    "reps": [
+      {
+        "email": "tyler.vansant@indoormedia.com",
+        "name": "Tyler Van Sant"
+      },
       {
         "email": "tyler.vansant@rtui.com",
         "name": "Tyler Van Sant"
       },
       {
-        "email": "matthew.boozer@indoormedia.com",
-        "name": "Matthew Boozer"
+        "email": "jan.banks@indoormedia.com",
+        "name": "Jan Banks"
       }
     ]
   },
@@ -378,41 +558,6 @@
       {
         "email": "megan.wink@indoormedia.com",
         "name": "Megan Wink"
-      },
-      {
-        "email": "tyler.vansant@rtui.com",
-        "name": "Tyler Van Sant"
-      }
-    ]
-  },
-  {
-    "message_id": "19ff179fa9501f26",
-    "date": "2026-08-11 08:38",
-    "from": "Sydney Miller <Zone.07Y@indoormedia.com>",
-    "subject": "Ad Proof from IndoorMedia , Bolt on Motors [07Y - B4 - J429244E]",
-    "client_name": "Bolt on Motors",
-    "contact_name": "Mary Vega",
-    "client_email": "boltonmotors@hotmail.com",
-    "location": "",
-    "zone": "07Y",
-    "cycle": "B4",
-    "contract_number": "J429244E",
-    "store": "Tape Ad at Safeway 1800, 20685 SW Roy Rogers Road, Sherwood, OR",
-    "ad_size": "Single",
-    "install_month": "",
-    "run_months": "",
-    "image_url": "https://lh3.googleusercontent.com/d/1bku-CHOvXcHDLEGmy_an-KiQxx3VPqFj",
-    "review_deadline": "08/14/2026",
-    "recipients": [
-      "richard.leibowitz@rtui.com",
-      "jan.banks@indoormedia.com",
-      "tyler.vansant@rtui.com",
-      "boltonmotors@hotmail.com"
-    ],
-    "reps": [
-      {
-        "email": "jan.banks@indoormedia.com",
-        "name": "Jan Banks"
       },
       {
         "email": "tyler.vansant@rtui.com",
