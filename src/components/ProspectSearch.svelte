@@ -3945,53 +3945,6 @@ IndoorMedia`
               </button>
             {/if}
 
-            <!-- Row 2: Research -->
-            <div class="action-row">
-              {#if prospect.website}
-                <a href={prospect.website} target="_blank" class="action-btn btn-gray">🌐 Website</a>
-              {/if}
-              <button class="action-btn btn-gray" on:click={() => saveProspect(prospect)}>💾 Save</button>
-              <button class="action-btn btn-gray" on:click={() => { prospect._showNotes = !prospect._showNotes; prospects = prospects; }}>📝 Notes</button>
-            </div>
-
-            <!-- Row 3: Sales tools -->
-            <button class="action-btn btn-add-product" on:click={() => openContractForProspect(prospect)}>📄 Add Products / Contract</button>
-            <div class="action-row">
-              <button class="action-btn btn-outline" on:click={() => { prospect._showScript = !prospect._showScript; prospect._showEmail = false; prospect._showNotes = false; prospects = prospects; }}>📋 Scripts</button>
-              <button class="action-btn btn-outline" on:click={async () => { 
-                prospect._showTestimonials = !prospect._showTestimonials;
-                if (prospect._showTestimonials) {
-                  prospect._testimonialData = await getTestimonialsForCategory();
-                }
-                prospects = prospects;
-              }}>⭐ Testimonials</button>
-            </div>
-
-            <!-- Big Book Appointment -->
-            <div class="invite-row">
-              <select bind:value={inviteRepEmail} class="invite-select">
-                <option value="">No invite (just me)</option>
-                {#each Object.entries(repRegistry).filter(([k, v]) => v.email) as [id, rep]}
-                  <option value={rep.email}>{rep.display_name || rep.contract_name}</option>
-                {/each}
-              </select>
-            </div>
-            <a href="https://calendar.google.com/calendar/render?action=TEMPLATE&text={encodeURIComponent('Visit: ' + prospect.name)}&details={encodeURIComponent('Prospect: ' + prospect.name + '\nAddress: ' + prospect.address + (prospect.phone ? '\nPhone: ' + prospect.phone : '') + (prospect.website ? '\nWebsite: ' + prospect.website : '') + '\nStore: ' + (selectedStore?.GroceryChain || '') + ' ' + (selectedStore?.StoreName || '') + '\nRep: ' + ($user?.name || '') + (getProspectNote(prospect.id || prospect.name) ? '\n\n📝 Notes:\n' + getProspectNote(prospect.id || prospect.name) : ''))}&location={encodeURIComponent(prospect.address)}&add={encodeURIComponent('tyler.vansant@indoormedia.com')}{inviteRepEmail ? ',' + encodeURIComponent(inviteRepEmail) : ''}" target="_blank" class="action-btn btn-book-appt">📅 Book Appointment{inviteRepEmail ? ' (+ rep)' : ''}</a>
-            {#if prospect.address}
-              <a href="https://maps.apple.com/?daddr={encodeURIComponent(prospect.address)}" target="_blank" class="action-btn btn-navigate">🗺️ Navigate</a>
-            {/if}
-            {#if prospect.lat && prospect.lng}
-              <button class="action-btn btn-showmap" on:click={() => { prospect._showMap = !prospect._showMap; prospects = prospects; }}>
-                {prospect._showMap ? '✕ Close Map' : '📍 Show on Map'}
-              </button>
-            {/if}
-            <button class="action-btn btn-meeting-prep" on:click={() => runMeetingPrep(prospect)}>🎯 Run Meeting Prep</button>
-          </div>
-
-          {#if prospect._showMap && prospect.lat && prospect.lng}
-            <div class="prospect-minimap" use:initMiniMap={{ prospect, store: selectedStore }}></div>
-          {/if}
-
           {#if prospect._showText}
             <div class="text-templates-section">
               <h4 class="text-templates-title">💬 Text Templates</h4>
@@ -4054,144 +4007,6 @@ IndoorMedia`
                   </div>
                 </div>
               {/each}
-            </div>
-          {/if}
-          {#if prospect._showTestimonials}
-            <div class="testimonials-section">
-              <h4 class="testimonials-title">📋 Testimonials for {selectedSubcategory || selectedCategory || 'this category'}</h4>
-              <a class="video-testimonials-link" href="https://youtube.com/playlist?list=PLjTXw9VlAiGP7cKVD_F1rPWERnmjeDCB1&si=oXd6wcbA6uUTCkSs" target="_blank" rel="noopener" on:click|stopPropagation>▶️ Video Testimonials (YouTube playlist)</a>
-              {#if prospect._testimonialData && prospect._testimonialData.length > 0}
-                {#each prospect._testimonialData as testimonial}
-                  <div class="testimonial-card" class:local-testimonial={testimonial._isLocal} class:clickable-testimonial={testimonial.url} on:click|stopPropagation={() => { if (testimonial.url) window.open(testimonial.url, '_blank'); }} role={testimonial.url ? 'link' : undefined}>
-                    {#if testimonial._isLocal}
-                      <p class="local-badge">📍 Nearby Business</p>
-                    {/if}
-                    <p class="testimonial-business"><strong>{(testimonial.business_name || 'Business').replace(/&#x27;/g, "'").replace(/&#x9;/g, '').replace(/&amp;/g, '&')}</strong></p>
-                    <p class="testimonial-text">"{testimonial.comments || 'Great experience with IndoorMedia!'}"</p>
-                    {#if testimonial.url}
-                      <p class="testimonial-tap-hint">Tap to view on IndoorMedia ↗</p>
-                    {/if}
-                  </div>
-                {/each}
-              {:else}
-                <p class="no-testimonials">No testimonials found for this category. Try a broader category.</p>
-              {/if}
-            </div>
-          {/if}
-          {#if prospect._showNotes}
-            {@const ldHash = getLeadHash(prospect)}
-            {@const ld = leadDataCache[ldHash] || {}}
-            {#if canSeePrivate(ld)}
-            <div class="notes-section">
-              <label class="lead-field-label">👤 Owner / Decision Maker</label>
-              <input 
-                type="text" 
-                class="lead-field-input"
-                placeholder="Owner or decision maker name..."
-                value={ld.ownerName || ''}
-                on:input={(e) => handleSaveLeadData(prospect, 'ownerName', e.target.value)}
-                on:blur={(e) => handleSaveLeadData(prospect, 'ownerName', e.target.value)}
-              />
-              <label class="lead-field-label">📱 Contact Phone</label>
-              <input 
-                type="tel" 
-                class="lead-field-input"
-                placeholder="Contact phone number..."
-                value={ld.contactPhone || ''}
-                on:input={(e) => handleSaveLeadData(prospect, 'contactPhone', e.target.value)}
-                on:blur={(e) => handleSaveLeadData(prospect, 'contactPhone', e.target.value)}
-              />
-              <label class="lead-field-label">📧 Contact Email</label>
-              <input 
-                type="email" 
-                class="lead-field-input"
-                placeholder="Contact email address..."
-                autocomplete="email"
-                value={ld.contactEmail || ''}
-                on:input={(e) => handleSaveLeadData(prospect, 'contactEmail', e.target.value)}
-                on:blur={(e) => handleSaveLeadData(prospect, 'contactEmail', e.target.value)}
-              />
-              <label class="lead-field-label">📝 Notes</label>
-              <textarea 
-                placeholder="Add notes about this prospect..." 
-                rows="3"
-                value={ld.notes || getProspectNote(prospect.id || prospect.name)}
-                on:input={(e) => { saveProspectNote(prospect.id || prospect.name, e.target.value); handleSaveLeadData(prospect, 'notes', e.target.value); }}
-                on:blur={(e) => handleSaveLeadData(prospect, 'notes', e.target.value)}
-              ></textarea>
-              {#if ld.updatedBy}
-                <p class="note-saved">Updated by {ld.updatedBy} on {new Date(ld.updatedAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}</p>
-              {:else if getProspectNote(prospect.id || prospect.name)}
-                <p class="note-saved">Saved locally</p>
-              {/if}
-            </div>
-            {:else}
-            {@const sharedStatus = getSharedStatus(prospect)}
-            <div class="notes-section notes-private">
-              {#if sharedStatus}
-                <span class="status-badge status-{sharedStatus.toLowerCase()}">{sharedStatus}</span>
-              {/if}
-              <p class="note-private-msg">🔒 Contact details and notes for this prospect are private to {ld.updatedBy || 'the rep working it'}.</p>
-            </div>
-            {/if}
-          {/if}
-          {#if prospect._showScript}
-            <!-- CALL SCRIPTS FEATURE - LIVE AS OF MAR 30 2026 -->
-            <div class="script-section">
-              <h4 class="script-title">📋 Call Scripts</h4>
-              <button class="script-select-btn" on:click={() => { prospect._selectedScript = 'tvs-appt'; prospects = prospects; }}>
-                📞 TVS Appointment Setting
-              </button>
-              <button class="script-select-btn" on:click={() => { prospect._selectedScript = 'tvs-spanish'; prospects = prospects; }}>
-                📞 Spanish Appointment Setting
-              </button>
-              {#if prospect._selectedScript === 'tvs-appt'}
-                <div class="script-preview-box">
-                  <p class="script-label">🚪 Opener</p>
-                  <p class="script-text">Hey there, I was hoping you could point me in the right direction…</p>
-                  <p class="script-text">My name is <strong>{$user?.name || $user?.first_name || '[Your Name]'}</strong> and I am working with the <strong>{selectedStore?.GroceryChain || '[Store]'}</strong> store down the road{#if selectedStore?.Address} on <strong>{selectedStore.Address.split(',')[0]}</strong>{/if}.</p>
-                  <p class="script-text">Reason for the visit is we're kicking off a big promotion over at the store and will be featuring and recommending just a few local businesses to all their customers.</p>
-                  <p class="script-text">We see huge success for other businesses like yours and some of your neighbors as well <em>(give examples if you have them)</em>.</p>
-                  <p class="script-text"><em>Who should I talk to about doing the same for your business?</em></p>
-
-                  <p class="script-label">✅ If it's the decision-maker</p>
-                  <p class="script-text">Oh perfect — what I'd like to do is schedule a brief meeting to learn more about your business, share what we do for similar local businesses, and most importantly what we could do for you.</p>
-                  <p class="script-text">I can be back in about 15 minutes or at ____. Which works best for you?</p>
-                  <p class="script-text">Great! And I'm sure you're going to love it. If for some reason you don't, you have no problem just telling me no, right?</p>
-                  <p class="script-text">But on the other hand, when you love it like I predict — <em>is there anyone else who needs to see my program in order to say yes?</em></p>
-
-                  <p class="script-reminder">⚠️ <strong>Reminder:</strong> Schedule for a time that fits all parties (including any other decision-makers).</p>
-
-                  <p class="script-label">💡 Coaching Notes</p>
-                  <ul class="script-notes">
-                    <li>Pattern interrupt + social proof opens the door without a hard pitch.</li>
-                    <li>"Be back in 15 minutes or at ____" is an assumptive close — keep it confident.</li>
-                    <li>"You have no problem telling me no, right?" lowers resistance (tie-down).</li>
-                    <li>The decision-maker question is the money line. Don't skip it — it prevents wasted closes where the buyer says "I need to check with my partner."</li>
-                  </ul>
-
-                  <button class="action-btn full-width" on:click={() => {
-                    const rep = $user?.name || $user?.first_name || '[Your Name]';
-                    const store = selectedStore?.GroceryChain || '[Store]';
-                    const script = `TVS COLD WALK-IN / APPOINTMENT SETTING\n\n— OPENER —\nHey there, I was hoping you could point me in the right direction…\n\nMy name is ${rep} and I am working with the ${store} store down the road.\n\nReason for the visit is we're kicking off a big promotion over at the store and will be featuring and recommending just a few local businesses to all their customers.\n\nWe see huge success for other businesses like yours and some of your neighbors as well (give examples if you have them).\n\nWho should I talk to about doing the same for your business?\n\n— IF IT'S THE DECISION-MAKER —\nOh perfect — what I'd like to do is schedule a brief meeting to learn more about your business, share what we do for similar local businesses, and most importantly what we could do for you.\n\nI can be back in about 15 minutes or at ____. Which works best for you?\n\nGreat! And I'm sure you're going to love it. If for some reason you don't, you have no problem just telling me no, right?\n\nBut on the other hand, when you love it like I predict — is there anyone else who needs to see my program in order to say yes?\n\n⚠️ REMINDER: Schedule for a time that fits all parties (including any other decision-makers).`;
-                    navigator.clipboard.writeText(script);
-                    alert('✅ Script copied!');
-                  }}>📋 Copy Script</button>
-                </div>
-              {/if}
-              {#if prospect._selectedScript === 'tvs-spanish'}
-                <div class="script-preview-box">
-                  <p class="script-text">Hola, ¿podría orientarme un poco con algo?</p>
-                  <p class="script-text">Me llamo <strong>{$user?.name || $user?.first_name || '[Su nombre]'}</strong> y le llamaba porque estoy trabajando con la cadena <strong>{selectedStore?.GroceryChain || '[Nombre de la cadena]'}</strong> —ubicada en <strong>{selectedStore?.Address?.split(',')[0] || '[Dirección]'}</strong>—; me ponía en contacto con usted porque estamos poniendo en marcha una gran promoción para apoyar a los negocios locales.</p>
-                  <p class="script-text">Vamos a destacar y recomendar a un grupo selecto de excelentes negocios de la zona y, en este momento, busco recomendar a un único negocio del sector <strong>{selectedSubcategory || selectedCategory || '[Tipo de negocio]'}</strong> a todos sus clientes.</p>
-                  <p class="script-text">Ya trabajamos con una gran cantidad de negocios de la categoría <strong>{selectedSubcategory || selectedCategory || '[Tipo de negocio]'}</strong>, logrando un enorme éxito a la hora de atraerles clientes; por ello, me preguntaba: <em>¿con quién debería hablar para hacer lo mismo por ustedes?</em></p>
-                  <button class="action-btn full-width" on:click={() => {
-                    const script = `Hola, ¿podría orientarme un poco con algo?\n\nMe llamo ${$user?.name || $user?.first_name || '[Su nombre]'} y le llamaba porque estoy trabajando con la cadena ${selectedStore?.GroceryChain || '[Nombre de la cadena]'} —ubicada en ${selectedStore?.Address?.split(',')[0] || '[Dirección]'}—; me ponía en contacto con usted porque estamos poniendo en marcha una gran promoción para apoyar a los negocios locales.\n\nVamos a destacar y recomendar a un grupo selecto de excelentes negocios de la zona y, en este momento, busco recomendar a un único negocio del sector ${selectedSubcategory || selectedCategory || '[Tipo de negocio]'} a todos sus clientes.\n\nYa trabajamos con una gran cantidad de negocios de la categoría ${selectedSubcategory || selectedCategory || '[Tipo de negocio]'}, logrando un enorme éxito a la hora de atraerles clientes; por ello, me preguntaba: ¿con quién debería hablar para hacer lo mismo por ustedes?`;
-                    navigator.clipboard.writeText(script);
-                    alert('✅ Script copied!');
-                  }}>📋 Copy Script</button>
-                </div>
-              {/if}
             </div>
           {/if}
           {#if prospect._showEmail}
@@ -4409,6 +4224,189 @@ IndoorMedia`
               {/if}
             </div>
           {/if}
+            <!-- Row 2: Research -->
+            <div class="action-row">
+              {#if prospect.website}
+                <a href={prospect.website} target="_blank" class="action-btn btn-gray">🌐 Website</a>
+              {/if}
+              <button class="action-btn btn-gray" on:click={() => saveProspect(prospect)}>💾 Save</button>
+              <button class="action-btn btn-gray" on:click={() => { prospect._showNotes = !prospect._showNotes; prospects = prospects; }}>📝 Notes</button>
+            </div>
+          {#if prospect._showNotes}
+            {@const ldHash = getLeadHash(prospect)}
+            {@const ld = leadDataCache[ldHash] || {}}
+            {#if canSeePrivate(ld)}
+            <div class="notes-section">
+              <label class="lead-field-label">👤 Owner / Decision Maker</label>
+              <input 
+                type="text" 
+                class="lead-field-input"
+                placeholder="Owner or decision maker name..."
+                value={ld.ownerName || ''}
+                on:input={(e) => handleSaveLeadData(prospect, 'ownerName', e.target.value)}
+                on:blur={(e) => handleSaveLeadData(prospect, 'ownerName', e.target.value)}
+              />
+              <label class="lead-field-label">📱 Contact Phone</label>
+              <input 
+                type="tel" 
+                class="lead-field-input"
+                placeholder="Contact phone number..."
+                value={ld.contactPhone || ''}
+                on:input={(e) => handleSaveLeadData(prospect, 'contactPhone', e.target.value)}
+                on:blur={(e) => handleSaveLeadData(prospect, 'contactPhone', e.target.value)}
+              />
+              <label class="lead-field-label">📧 Contact Email</label>
+              <input 
+                type="email" 
+                class="lead-field-input"
+                placeholder="Contact email address..."
+                autocomplete="email"
+                value={ld.contactEmail || ''}
+                on:input={(e) => handleSaveLeadData(prospect, 'contactEmail', e.target.value)}
+                on:blur={(e) => handleSaveLeadData(prospect, 'contactEmail', e.target.value)}
+              />
+              <label class="lead-field-label">📝 Notes</label>
+              <textarea 
+                placeholder="Add notes about this prospect..." 
+                rows="3"
+                value={ld.notes || getProspectNote(prospect.id || prospect.name)}
+                on:input={(e) => { saveProspectNote(prospect.id || prospect.name, e.target.value); handleSaveLeadData(prospect, 'notes', e.target.value); }}
+                on:blur={(e) => handleSaveLeadData(prospect, 'notes', e.target.value)}
+              ></textarea>
+              {#if ld.updatedBy}
+                <p class="note-saved">Updated by {ld.updatedBy} on {new Date(ld.updatedAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}</p>
+              {:else if getProspectNote(prospect.id || prospect.name)}
+                <p class="note-saved">Saved locally</p>
+              {/if}
+            </div>
+            {:else}
+            {@const sharedStatus = getSharedStatus(prospect)}
+            <div class="notes-section notes-private">
+              {#if sharedStatus}
+                <span class="status-badge status-{sharedStatus.toLowerCase()}">{sharedStatus}</span>
+              {/if}
+              <p class="note-private-msg">🔒 Contact details and notes for this prospect are private to {ld.updatedBy || 'the rep working it'}.</p>
+            </div>
+            {/if}
+          {/if}
+
+            <!-- Row 3: Sales tools -->
+            <button class="action-btn btn-add-product" on:click={() => openContractForProspect(prospect)}>📄 Add Products / Contract</button>
+            <div class="action-row">
+              <button class="action-btn btn-outline" on:click={() => { prospect._showScript = !prospect._showScript; prospect._showEmail = false; prospect._showNotes = false; prospects = prospects; }}>📋 Scripts</button>
+              <button class="action-btn btn-outline" on:click={async () => { 
+                prospect._showTestimonials = !prospect._showTestimonials;
+                if (prospect._showTestimonials) {
+                  prospect._testimonialData = await getTestimonialsForCategory();
+                }
+                prospects = prospects;
+              }}>⭐ Testimonials</button>
+            </div>
+          {#if prospect._showScript}
+            <!-- CALL SCRIPTS FEATURE - LIVE AS OF MAR 30 2026 -->
+            <div class="script-section">
+              <h4 class="script-title">📋 Call Scripts</h4>
+              <button class="script-select-btn" on:click={() => { prospect._selectedScript = 'tvs-appt'; prospects = prospects; }}>
+                📞 TVS Appointment Setting
+              </button>
+              <button class="script-select-btn" on:click={() => { prospect._selectedScript = 'tvs-spanish'; prospects = prospects; }}>
+                📞 Spanish Appointment Setting
+              </button>
+              {#if prospect._selectedScript === 'tvs-appt'}
+                <div class="script-preview-box">
+                  <p class="script-label">🚪 Opener</p>
+                  <p class="script-text">Hey there, I was hoping you could point me in the right direction…</p>
+                  <p class="script-text">My name is <strong>{$user?.name || $user?.first_name || '[Your Name]'}</strong> and I am working with the <strong>{selectedStore?.GroceryChain || '[Store]'}</strong> store down the road{#if selectedStore?.Address} on <strong>{selectedStore.Address.split(',')[0]}</strong>{/if}.</p>
+                  <p class="script-text">Reason for the visit is we're kicking off a big promotion over at the store and will be featuring and recommending just a few local businesses to all their customers.</p>
+                  <p class="script-text">We see huge success for other businesses like yours and some of your neighbors as well <em>(give examples if you have them)</em>.</p>
+                  <p class="script-text"><em>Who should I talk to about doing the same for your business?</em></p>
+
+                  <p class="script-label">✅ If it's the decision-maker</p>
+                  <p class="script-text">Oh perfect — what I'd like to do is schedule a brief meeting to learn more about your business, share what we do for similar local businesses, and most importantly what we could do for you.</p>
+                  <p class="script-text">I can be back in about 15 minutes or at ____. Which works best for you?</p>
+                  <p class="script-text">Great! And I'm sure you're going to love it. If for some reason you don't, you have no problem just telling me no, right?</p>
+                  <p class="script-text">But on the other hand, when you love it like I predict — <em>is there anyone else who needs to see my program in order to say yes?</em></p>
+
+                  <p class="script-reminder">⚠️ <strong>Reminder:</strong> Schedule for a time that fits all parties (including any other decision-makers).</p>
+
+                  <p class="script-label">💡 Coaching Notes</p>
+                  <ul class="script-notes">
+                    <li>Pattern interrupt + social proof opens the door without a hard pitch.</li>
+                    <li>"Be back in 15 minutes or at ____" is an assumptive close — keep it confident.</li>
+                    <li>"You have no problem telling me no, right?" lowers resistance (tie-down).</li>
+                    <li>The decision-maker question is the money line. Don't skip it — it prevents wasted closes where the buyer says "I need to check with my partner."</li>
+                  </ul>
+
+                  <button class="action-btn full-width" on:click={() => {
+                    const rep = $user?.name || $user?.first_name || '[Your Name]';
+                    const store = selectedStore?.GroceryChain || '[Store]';
+                    const script = `TVS COLD WALK-IN / APPOINTMENT SETTING\n\n— OPENER —\nHey there, I was hoping you could point me in the right direction…\n\nMy name is ${rep} and I am working with the ${store} store down the road.\n\nReason for the visit is we're kicking off a big promotion over at the store and will be featuring and recommending just a few local businesses to all their customers.\n\nWe see huge success for other businesses like yours and some of your neighbors as well (give examples if you have them).\n\nWho should I talk to about doing the same for your business?\n\n— IF IT'S THE DECISION-MAKER —\nOh perfect — what I'd like to do is schedule a brief meeting to learn more about your business, share what we do for similar local businesses, and most importantly what we could do for you.\n\nI can be back in about 15 minutes or at ____. Which works best for you?\n\nGreat! And I'm sure you're going to love it. If for some reason you don't, you have no problem just telling me no, right?\n\nBut on the other hand, when you love it like I predict — is there anyone else who needs to see my program in order to say yes?\n\n⚠️ REMINDER: Schedule for a time that fits all parties (including any other decision-makers).`;
+                    navigator.clipboard.writeText(script);
+                    alert('✅ Script copied!');
+                  }}>📋 Copy Script</button>
+                </div>
+              {/if}
+              {#if prospect._selectedScript === 'tvs-spanish'}
+                <div class="script-preview-box">
+                  <p class="script-text">Hola, ¿podría orientarme un poco con algo?</p>
+                  <p class="script-text">Me llamo <strong>{$user?.name || $user?.first_name || '[Su nombre]'}</strong> y le llamaba porque estoy trabajando con la cadena <strong>{selectedStore?.GroceryChain || '[Nombre de la cadena]'}</strong> —ubicada en <strong>{selectedStore?.Address?.split(',')[0] || '[Dirección]'}</strong>—; me ponía en contacto con usted porque estamos poniendo en marcha una gran promoción para apoyar a los negocios locales.</p>
+                  <p class="script-text">Vamos a destacar y recomendar a un grupo selecto de excelentes negocios de la zona y, en este momento, busco recomendar a un único negocio del sector <strong>{selectedSubcategory || selectedCategory || '[Tipo de negocio]'}</strong> a todos sus clientes.</p>
+                  <p class="script-text">Ya trabajamos con una gran cantidad de negocios de la categoría <strong>{selectedSubcategory || selectedCategory || '[Tipo de negocio]'}</strong>, logrando un enorme éxito a la hora de atraerles clientes; por ello, me preguntaba: <em>¿con quién debería hablar para hacer lo mismo por ustedes?</em></p>
+                  <button class="action-btn full-width" on:click={() => {
+                    const script = `Hola, ¿podría orientarme un poco con algo?\n\nMe llamo ${$user?.name || $user?.first_name || '[Su nombre]'} y le llamaba porque estoy trabajando con la cadena ${selectedStore?.GroceryChain || '[Nombre de la cadena]'} —ubicada en ${selectedStore?.Address?.split(',')[0] || '[Dirección]'}—; me ponía en contacto con usted porque estamos poniendo en marcha una gran promoción para apoyar a los negocios locales.\n\nVamos a destacar y recomendar a un grupo selecto de excelentes negocios de la zona y, en este momento, busco recomendar a un único negocio del sector ${selectedSubcategory || selectedCategory || '[Tipo de negocio]'} a todos sus clientes.\n\nYa trabajamos con una gran cantidad de negocios de la categoría ${selectedSubcategory || selectedCategory || '[Tipo de negocio]'}, logrando un enorme éxito a la hora de atraerles clientes; por ello, me preguntaba: ¿con quién debería hablar para hacer lo mismo por ustedes?`;
+                    navigator.clipboard.writeText(script);
+                    alert('✅ Script copied!');
+                  }}>📋 Copy Script</button>
+                </div>
+              {/if}
+            </div>
+          {/if}
+          {#if prospect._showTestimonials}
+            <div class="testimonials-section">
+              <h4 class="testimonials-title">📋 Testimonials for {selectedSubcategory || selectedCategory || 'this category'}</h4>
+              <a class="video-testimonials-link" href="https://youtube.com/playlist?list=PLjTXw9VlAiGP7cKVD_F1rPWERnmjeDCB1&si=oXd6wcbA6uUTCkSs" target="_blank" rel="noopener" on:click|stopPropagation>▶️ Video Testimonials (YouTube playlist)</a>
+              {#if prospect._testimonialData && prospect._testimonialData.length > 0}
+                {#each prospect._testimonialData as testimonial}
+                  <div class="testimonial-card" class:local-testimonial={testimonial._isLocal} class:clickable-testimonial={testimonial.url} on:click|stopPropagation={() => { if (testimonial.url) window.open(testimonial.url, '_blank'); }} role={testimonial.url ? 'link' : undefined}>
+                    {#if testimonial._isLocal}
+                      <p class="local-badge">📍 Nearby Business</p>
+                    {/if}
+                    <p class="testimonial-business"><strong>{(testimonial.business_name || 'Business').replace(/&#x27;/g, "'").replace(/&#x9;/g, '').replace(/&amp;/g, '&')}</strong></p>
+                    <p class="testimonial-text">"{testimonial.comments || 'Great experience with IndoorMedia!'}"</p>
+                    {#if testimonial.url}
+                      <p class="testimonial-tap-hint">Tap to view on IndoorMedia ↗</p>
+                    {/if}
+                  </div>
+                {/each}
+              {:else}
+                <p class="no-testimonials">No testimonials found for this category. Try a broader category.</p>
+              {/if}
+            </div>
+          {/if}
+
+            <!-- Big Book Appointment -->
+            <div class="invite-row">
+              <select bind:value={inviteRepEmail} class="invite-select">
+                <option value="">No invite (just me)</option>
+                {#each Object.entries(repRegistry).filter(([k, v]) => v.email) as [id, rep]}
+                  <option value={rep.email}>{rep.display_name || rep.contract_name}</option>
+                {/each}
+              </select>
+            </div>
+            <a href="https://calendar.google.com/calendar/render?action=TEMPLATE&text={encodeURIComponent('Visit: ' + prospect.name)}&details={encodeURIComponent('Prospect: ' + prospect.name + '\nAddress: ' + prospect.address + (prospect.phone ? '\nPhone: ' + prospect.phone : '') + (prospect.website ? '\nWebsite: ' + prospect.website : '') + '\nStore: ' + (selectedStore?.GroceryChain || '') + ' ' + (selectedStore?.StoreName || '') + '\nRep: ' + ($user?.name || '') + (getProspectNote(prospect.id || prospect.name) ? '\n\n📝 Notes:\n' + getProspectNote(prospect.id || prospect.name) : ''))}&location={encodeURIComponent(prospect.address)}&add={encodeURIComponent('tyler.vansant@indoormedia.com')}{inviteRepEmail ? ',' + encodeURIComponent(inviteRepEmail) : ''}" target="_blank" class="action-btn btn-book-appt">📅 Book Appointment{inviteRepEmail ? ' (+ rep)' : ''}</a>
+            {#if prospect.address}
+              <a href="https://maps.apple.com/?daddr={encodeURIComponent(prospect.address)}" target="_blank" class="action-btn btn-navigate">🗺️ Navigate</a>
+            {/if}
+            {#if prospect.lat && prospect.lng}
+              <button class="action-btn btn-showmap" on:click={() => { prospect._showMap = !prospect._showMap; prospects = prospects; }}>
+                {prospect._showMap ? '✕ Close Map' : '📍 Show on Map'}
+              </button>
+            {/if}
+          {#if prospect._showMap && prospect.lat && prospect.lng}
+            <div class="prospect-minimap" use:initMiniMap={{ prospect, store: selectedStore }}></div>
+          {/if}
+            <button class="action-btn btn-meeting-prep" on:click={() => runMeetingPrep(prospect)}>🎯 Run Meeting Prep</button>
+          </div>
         </div>
       {/each}
     </div>
