@@ -454,13 +454,11 @@
         return creator.includes(first) || attendees.some(e => e.includes(first));
       };
 
-      // Team-zone filter (safety net for static fallback / older Apps Script
-      // deployments that don't filter server-side). Only show events in the
-      // team's zones (7X/7Y/7Z). Events with no detectable zone are kept.
-      data = (Array.isArray(data) ? data : []).filter(a => {
-        const z = getEventZone(a);
-        return !z || TEAM_ZONES.includes(z);
-      });
+      // NOTE: no team-zone gate here anymore. Reps span multiple regions now
+      // (e.g. Daniel Whiteford = zone 24Z, Idaho), and visibility is enforced
+      // per-rep below. A hardcoded 7X/7Y/7Z filter would wrongly DROP other
+      // regions' events. Full-calendar viewers (Tyler, Rick) see every zone.
+      data = Array.isArray(data) ? data : [];
 
       const upcoming = (canSeeAllCalendars ? data : data.filter(isOwnEvent)).filter(a => new Date(a.start) >= now)
         .map(a => ({
