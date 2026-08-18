@@ -399,7 +399,10 @@
 
   // Google Apps Script URL for live calendar data
   // Set this after deploying the Apps Script (scripts/google_apps_script_calendar.js)
-  const CALENDAR_API_URL = 'https://script.googleusercontent.com/a/macros/indoormedia.com/echo?user_content_key=AWDtjMU_lHT0xNAWQkyU5hat-v6ZCGwjFviNlJZf-5KUwna65c55MOdInmDLngcWY6OnpRvF2wh-w9gpkYQrEsTdeDIPtqgE_Vgf-EVAi1wK-UZrSt1dwwm_EL3SjUIWCq4Z1bMoGK20oFP6EU9n7LlUR4ahD_W4zgvPQejQpRsHGTKuiICLTCPNz-19KsQEploptlg4OLbVOBwk1xnsBxJ8sT-4Mgq_BkxVM7_HhUWXCjNCStMuueUe5yF8lfHfZIjyLGuGJhVWNMsk1Z970rGUMuh739WyXHpHditxf0Vd8moEH2wDY233FTBCngTVl8GPhaSgoaP-&lib=Mzz3mqyJSZ0ql-JCrrMKeASMMJ0XCjnoQ';
+  // Dead Apps Script endpoint (returned HTML/login, not JSON) removed. The app
+  // now reads the properly per-rep-filtered static appointments.json (refreshed
+  // hourly by scripts/sync_calendar.py). Empty routes straight to it.
+  const CALENDAR_API_URL = '';
 
   async function refreshAppointments() {
     syncStatus = '🔄 Syncing...';
