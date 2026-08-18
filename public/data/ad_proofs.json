@@ -1,5 +1,70 @@
 [
   {
+    "message_id": "1a01594f39c1b39a",
+    "date": "2026-08-18 08:54",
+    "from": "Sydney Miller <Zone.07Z@indoormedia.com>",
+    "subject": "Ad Proof from IndoorMedia , Anoush Deli [07Z - C3 - J419895E]",
+    "client_name": "Anoush Deli",
+    "contact_name": "Olga Kozhevnikov",
+    "client_email": "olga.kozhevnikov@gmail.com",
+    "location": "",
+    "zone": "07Z",
+    "cycle": "C3",
+    "contract_number": "J419895E",
+    "store": "Tape Ad at Safeway 1103, 6701 E Mill Plain Blvd, Vancouver, WA",
+    "ad_size": "Single",
+    "install_month": "",
+    "run_months": "",
+    "image_url": "https://lh3.googleusercontent.com/d/1xXFrZBy5qUO8-FLsfC3xsH4XlVGWKiK7",
+    "review_deadline": "08/18/2026",
+    "recipients": [
+      "olga.kozhevnikov@gmail.com",
+      "tyler.vansant@rtui.com",
+      "richard.leibowitz@rtui.com"
+    ],
+    "reps": [
+      {
+        "email": "tyler.vansant@rtui.com",
+        "name": "Tyler Van Sant"
+      }
+    ]
+  },
+  {
+    "message_id": "1a014e3cee159107",
+    "date": "2026-08-18 05:40",
+    "from": "Zone 07Z - Sydney Miller <zone.07z@indoormedia.com>",
+    "subject": "Re: Ad Proof from IndoorMedia , Walt\u2019s Barbershop [07Z - C3 - J435450E]",
+    "client_name": "Walt\u2019s Barbershop",
+    "contact_name": "great day.*",
+    "client_email": "waltsbarbershoppdx@gmail.com",
+    "location": "",
+    "zone": "07Z",
+    "cycle": "C3",
+    "contract_number": "J435450E",
+    "store": ">> Tape Ad at Safeway 1447, 6901 NE Sandy Blvd, Portland, OR",
+    "ad_size": "Single",
+    "install_month": "",
+    "run_months": "",
+    "image_url": "https://lh3.googleusercontent.com/d/1vYbI3tof6KHlg9-PYTpgxfFela77UxaO",
+    "review_deadline": "08/18/2026",
+    "recipients": [
+      "megan.wink@indoormedia.com",
+      "tyler.vansant@rtui.com",
+      "richard.leibowitz@rtui.com",
+      "waltsbarbershoppdx@gmail.com"
+    ],
+    "reps": [
+      {
+        "email": "megan.wink@indoormedia.com",
+        "name": "Megan Wink"
+      },
+      {
+        "email": "tyler.vansant@rtui.com",
+        "name": "Tyler Van Sant"
+      }
+    ]
+  },
+  {
     "message_id": "1a0109a4125b5b2b",
     "date": "2026-08-17 09:42",
     "from": "Sydney Miller <Zone.07Z@indoormedia.com>",
@@ -3115,41 +3180,6 @@
       "anthony.eng@indoormedia.com"
     ],
     "reps": [
-      {
-        "email": "tyler.vansant@rtui.com",
-        "name": "Tyler Van Sant"
-      }
-    ]
-  },
-  {
-    "message_id": "19fa4e956624b27a",
-    "date": "2026-07-27 11:49",
-    "from": "Sydney Miller <Zone.07Z@indoormedia.com>",
-    "subject": "Ad Proof from IndoorMedia , Anoush Deli [07Z - C3 - J419895E]",
-    "client_name": "Anoush Deli",
-    "contact_name": "Olga Kozhevnikov",
-    "client_email": "olga.kozhevnikov@gmail.com",
-    "location": "",
-    "zone": "07Z",
-    "cycle": "C3",
-    "contract_number": "J419895E",
-    "store": "Tape Ad at Safeway 1103, 6701 E Mill Plain Blvd, Vancouver, WA",
-    "ad_size": "Single",
-    "install_month": "",
-    "run_months": "",
-    "image_url": "https://lh3.googleusercontent.com/d/1qi3l76Vyq1Kxf1mky9r9womHC8_ztBY1",
-    "review_deadline": "07/30/2026",
-    "recipients": [
-      "richard.leibowitz@rtui.com",
-      "christian.johnson@indoormedia.com",
-      "tyler.vansant@rtui.com",
-      "olga.kozhevnikov@gmail.com"
-    ],
-    "reps": [
-      {
-        "email": "christian.johnson@indoormedia.com",
-        "name": "Christian Johnson"
-      },
       {
         "email": "tyler.vansant@rtui.com",
         "name": "Tyler Van Sant"
