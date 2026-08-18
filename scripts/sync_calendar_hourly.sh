@@ -2,6 +2,10 @@
 # Hourly calendar sync for PWA
 # Syncs Google Calendar → appointments.json → GitHub Pages
 
+# cron runs with a minimal PATH that omits Homebrew, so `gog` (and node/npm/git)
+# were not found and every sync silently fetched 0 events. Add Homebrew to PATH.
+export PATH="/opt/homebrew/bin:$PATH"
+
 WORKSPACE="/Users/tylervansant/.openclaw/workspace"
 cd "$WORKSPACE"
 

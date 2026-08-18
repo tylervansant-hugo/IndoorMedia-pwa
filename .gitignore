@@ -62,3 +62,10 @@ api-server.js
 .template-backups/
 testimonial_ads/
 workflows/
+
+# Python bytecode
+__pycache__/
+*.pyc
+
+# Local backup snapshots
+*.backup-*.json
