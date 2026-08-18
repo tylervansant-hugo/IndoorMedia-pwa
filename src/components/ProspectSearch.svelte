@@ -689,6 +689,11 @@
     view = 'call-in';
   }
 
+  // Second tap on the Stores tab (while already on it) -> reset to main screen.
+  function handleResetTabView(e) {
+    if (e?.detail?.tab === 'stores') view = 'main';
+  }
+
   // Friendly date formatter for lead cards (e.g. "Jun 29, 2026")
   function fmtLeadDate(s) {
     if (!s) return '';
@@ -846,6 +851,7 @@
     document.addEventListener('edge-swipe-back', handleEdgeSwipeBack);
     document.addEventListener('show-callin-leads', handleShowCallIn);
     document.addEventListener('universal-prospect-search', handleUniversalProspectSearch);
+    document.addEventListener('reset-tab-view', handleResetTabView);
     loadStoreClaims();
     loadLeadClaims();
     loadAllLeadData();
@@ -898,6 +904,7 @@
     document.removeEventListener('select-store-from-map', handleStoreSelectFromMap);
     document.removeEventListener('edge-swipe-back', handleEdgeSwipeBack);
     document.removeEventListener('show-callin-leads', handleShowCallIn);
+    document.removeEventListener('reset-tab-view', handleResetTabView);
 
   });
 

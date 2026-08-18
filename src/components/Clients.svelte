@@ -914,13 +914,17 @@ IndoorMedia`;
     const d = e.detail || {};
     if (d.term != null) { searchQuery = d.term; view = 'main'; }
   }
+  // Second tap on the Clients tab (while already on it) -> reset to main screen.
+  function _handleResetTabView(e) { if (e?.detail?.tab === 'clients') goBack(); }
   onMount(() => {
     document.addEventListener('edge-swipe-back', _handleEdgeBack);
     document.addEventListener('universal-client-search', _handleUniversalClientSearch);
+    document.addEventListener('reset-tab-view', _handleResetTabView);
   });
   onDestroy(() => {
     document.removeEventListener('edge-swipe-back', _handleEdgeBack);
     document.removeEventListener('universal-client-search', _handleUniversalClientSearch);
+    document.removeEventListener('reset-tab-view', _handleResetTabView);
   });
 </script>
 

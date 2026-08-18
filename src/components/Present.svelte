@@ -8,8 +8,21 @@
   let view = 'menu'; 
 
   function _handleEdgeBack() { if (view !== 'menu') view = 'menu'; }
-  onMount(() => { document.addEventListener('edge-swipe-back', _handleEdgeBack); });
-  onDestroy(() => { document.removeEventListener('edge-swipe-back', _handleEdgeBack); });
+  // Second tap on the Present tab (while already on it) -> reset to menu.
+  function _handleResetTabView(e) {
+    if (e?.detail?.tab !== 'present') return;
+    view = 'menu';
+    selectedTier = null;
+    selectedDigital = null;
+  }
+  onMount(() => {
+    document.addEventListener('edge-swipe-back', _handleEdgeBack);
+    document.addEventListener('reset-tab-view', _handleResetTabView);
+  });
+  onDestroy(() => {
+    document.removeEventListener('edge-swipe-back', _handleEdgeBack);
+    document.removeEventListener('reset-tab-view', _handleResetTabView);
+  });
 
   const VIDEO_LINKS = {
     'register-tape': {

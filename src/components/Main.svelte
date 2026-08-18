@@ -104,6 +104,28 @@
   let previousTab = 'dashboard';
   let storesView = 'rates'; // 'rates', 'prospects', or 'map'
   let showDrivingMode = false;
+
+  // Tab-bar tap handler.
+  // First tap on a tab (from elsewhere): switch to it and keep whatever sub-view
+  // the rep last had (remembers last activity). A SECOND tap on the SAME tab,
+  // while already on it, resets that tab to its MAIN screen (clears drill-downs).
+  function handleTabClick(tab) {
+    if (currentTab === tab) {
+      // Already here -> reset to this tab's top-level/main screen.
+      if (tab === 'stores') storesView = 'rates';
+      // Home has no sub-route; just scroll back to the top.
+      if (tab === 'dashboard' && typeof window !== 'undefined') {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+      // Tell the active child component (Present/Clients/Tools/Prospects) to
+      // reset its own internal view to 'main'.
+      if (typeof document !== 'undefined') {
+        document.dispatchEvent(new CustomEvent('reset-tab-view', { detail: { tab } }));
+      }
+    } else {
+      currentTab = tab;
+    }
+  }
   let _appEdgeSwipe = false;
   let _appEdgeStartX = 0;
   let _appEdgeDX = 0;
@@ -1371,27 +1393,27 @@
 
   <!-- Tab Bar (fixed bottom) -->
   <nav class="tab-bar">
-    <button class="tab-bar-item" class:active={currentTab === 'stores'} on:click={() => currentTab = 'stores'}>
+    <button class="tab-bar-item" class:active={currentTab === 'stores'} on:click={() => handleTabClick('stores')}>
       <div class="tab-bar-indicator"></div>
       <svg class="tab-bar-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
       <span class="tab-bar-label">Stores</span>
     </button>
-    <button class="tab-bar-item" class:active={currentTab === 'present'} on:click={() => currentTab = 'present'}>
+    <button class="tab-bar-item" class:active={currentTab === 'present'} on:click={() => handleTabClick('present')}>
       <div class="tab-bar-indicator"></div>
       <svg class="tab-bar-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
       <span class="tab-bar-label">Present</span>
     </button>
-    <button class="tab-bar-item tab-home" class:active={currentTab === 'dashboard'} on:click={() => currentTab = 'dashboard'}>
+    <button class="tab-bar-item tab-home" class:active={currentTab === 'dashboard'} on:click={() => handleTabClick('dashboard')}>
       <div class="tab-bar-indicator"></div>
       <svg class="tab-bar-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
       <span class="tab-bar-label">Home</span>
     </button>
-    <button class="tab-bar-item" class:active={currentTab === 'clients'} on:click={() => currentTab = 'clients'}>
+    <button class="tab-bar-item" class:active={currentTab === 'clients'} on:click={() => handleTabClick('clients')}>
       <div class="tab-bar-indicator"></div>
       <svg class="tab-bar-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
       <span class="tab-bar-label">Clients</span>
     </button>
-    <button class="tab-bar-item" class:active={currentTab === 'tools'} on:click={() => currentTab = 'tools'}>
+    <button class="tab-bar-item" class:active={currentTab === 'tools'} on:click={() => handleTabClick('tools')}>
       <div class="tab-bar-indicator"></div>
       <svg class="tab-bar-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>
       <span class="tab-bar-label">Tools</span>

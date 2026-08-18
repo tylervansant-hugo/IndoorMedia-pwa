@@ -529,8 +529,25 @@ Store: ${store}
   }
 
   function _handleEdgeBack() { if (view !== 'main') goBack(); }
-  onMount(() => { document.addEventListener('edge-swipe-back', _handleEdgeBack); });
-  onDestroy(() => { document.removeEventListener('edge-swipe-back', _handleEdgeBack); });
+  // Second tap on the Tools tab (while already on it) -> jump straight to main
+  // (skip the counter-sign step-back; go all the way to the top-level screen).
+  function _handleResetTabView(e) {
+    if (e?.detail?.tab !== 'tools') return;
+    view = 'main';
+    counterSignStep = 1;
+    selectedStore = null;
+    filteredStores = [];
+    testimonialQuery = '';
+    testimonialResults = [];
+  }
+  onMount(() => {
+    document.addEventListener('edge-swipe-back', _handleEdgeBack);
+    document.addEventListener('reset-tab-view', _handleResetTabView);
+  });
+  onDestroy(() => {
+    document.removeEventListener('edge-swipe-back', _handleEdgeBack);
+    document.removeEventListener('reset-tab-view', _handleResetTabView);
+  });
 
   async function loadTestimonialData() {
     if (testimonialData) return testimonialData;
