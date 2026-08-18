@@ -203,5 +203,12 @@
     "role": "rep",
     "registered_at": "2026-07-06",
     "base_location": "Zone 7X"
+  },
+  "daniel_whiteford": {
+    "contract_name": "Daniel Whiteford",
+    "display_name": "Daniel Whiteford",
+    "email": "Daniel.Whiteford@indoormedia.com",
+    "role": "rep",
+    "registered_at": "2026-08-18"
   }
 }
