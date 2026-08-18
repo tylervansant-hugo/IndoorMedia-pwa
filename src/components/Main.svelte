@@ -426,7 +426,30 @@
       
       const now = new Date();
       const repName = ($user?.name || $user?.first_name || '').toLowerCase();
-      const isManagerUser = repName.includes('tyler') || $user?.role === 'manager';
+      const repContract = ($user?.contract_name || $user?.name || '').trim().toLowerCase();
+
+      // Calendar visibility: ONLY these people see the WHOLE team's calendar.
+      // Everyone else sees ONLY their own events. This is an explicit allowlist
+      // (by name), NOT a generic role check, per Tyler's requirement.
+      const FULL_CALENDAR_VIEWERS = ['tyler van sant', 'tyler vansant', 'rick leibowitz'];
+      const canSeeAllCalendars = FULL_CALENDAR_VIEWERS.includes(repName)
+        || FULL_CALENDAR_VIEWERS.includes(repContract);
+
+      // Does an appointment belong to the current rep? Primary match is the
+      // event's `rep` tag (each rep's own calendar is tagged with their name);
+      // fall back to creator/attendee email containing their name.
+      const isOwnEvent = (a) => {
+        const evRep = (a.rep || '').trim().toLowerCase();
+        if (evRep && (evRep === repContract || evRep === repName)) return true;
+        const first = (repName.split(' ')[0] || '');
+        if (!first) return false;
+        const creator = (a.creator || '').toLowerCase();
+        const attendees = (a.attendees || []).map(att => (att.email || att || '').toLowerCase());
+        // Only fall back to name-in-email when there's NO rep tag at all, to
+        // avoid leaking another rep's tagged events on a loose first-name match.
+        if (evRep) return false;
+        return creator.includes(first) || attendees.some(e => e.includes(first));
+      };
 
       // Team-zone filter (safety net for static fallback / older Apps Script
       // deployments that don't filter server-side). Only show events in the
@@ -436,11 +459,7 @@
         return !z || TEAM_ZONES.includes(z);
       });
 
-      const upcoming = (isManagerUser ? data : data.filter(a => {
-        const creator = (a.creator || '').toLowerCase();
-        const attendees = (a.attendees || []).map(att => (att.email || att || '').toLowerCase());
-        return creator.includes(repName.split(' ')[0]) || attendees.some(e => e.includes(repName.split(' ')[0]));
-      })).filter(a => new Date(a.start) >= now)
+      const upcoming = (canSeeAllCalendars ? data : data.filter(isOwnEvent)).filter(a => new Date(a.start) >= now)
         .map(a => ({
           event_id: a.event_id,
           title: a.title,
@@ -451,7 +470,8 @@
           attendees: a.attendees || [],
           type: a.is_prospect_visit ? 'prospect' : 'calendar',
           store: a.store,
-          phone: a.phone
+          phone: a.phone,
+          rep: a.rep || 'Unassigned'
         }));
       
       // Deduplicate by title + exact start time (not event_id — recurring events share IDs)
@@ -931,17 +951,25 @@
         // If live API returned an error, fall back to static
         if (appts.error) throw new Error(appts.error);
         const repEmail = ($user?.email || '').toLowerCase();
-        const rn = repName.toLowerCase();
-        const isAdmin = rn.includes('tyler') || rn.includes('rick');
-        
-        // Filter: managers see all, reps see only events they created or are invited to
+        const rn = (repName || '').toLowerCase();
+        const rc = ($user?.contract_name || $user?.name || '').trim().toLowerCase();
+
+        // ONLY Tyler + Rick Leibowitz see the whole team calendar (explicit
+        // allowlist by full name, so "Rick Diamond" the rep is NOT included).
+        const FULL = ['tyler van sant', 'tyler vansant', 'rick leibowitz'];
+        const isAdmin = FULL.includes(rn) || FULL.includes(rc);
+
+        // Reps see ONLY their own events (by rep tag; fallback to name-in-email
+        // only when the event has no rep tag).
         const myAppts = isAdmin ? appts : appts.filter(a => {
-          // Check if rep is creator
-          if ((a.creator || '').toLowerCase().includes(rn.split(' ')[0])) return true;
-          // Check if rep is in attendees
+          const evRep = (a.rep || '').trim().toLowerCase();
+          if (evRep) return evRep === rc || evRep === rn;
+          const first = rn.split(' ')[0] || '';
+          if (!first) return false;
+          if ((a.creator || '').toLowerCase().includes(first)) return true;
           return (a.attendees || []).some(att => {
             const attEmail = (att.email || '').toLowerCase();
-            return attEmail.includes(rn.split(' ')[0]) || (repEmail && attEmail === repEmail);
+            return attEmail.includes(first) || (repEmail && attEmail === repEmail);
           });
         });
         
@@ -969,11 +997,28 @@
         });
       })
       .catch(() => {
-        // Fall back to static file if live API fails
+        // Fall back to static file if live API fails — STILL enforce per-rep
+        // visibility here (never dump the whole team's calendar to a rep).
         fetch(import.meta.env.BASE_URL + 'data/appointments.json?t=' + Date.now())
           .then(r => r.json())
           .then(appts => {
-            const upcoming = appts.filter(a => new Date(a.start) >= now)
+            const rn = (repName || '').toLowerCase();
+            const rc = ($user?.contract_name || $user?.name || '').trim().toLowerCase();
+            const FULL = ['tyler van sant', 'tyler vansant', 'rick leibowitz'];
+            const isAdmin = FULL.includes(rn) || FULL.includes(rc);
+            const repEmail = ($user?.email || '').toLowerCase();
+            const visible = isAdmin ? appts : (Array.isArray(appts) ? appts : []).filter(a => {
+              const evRep = (a.rep || '').trim().toLowerCase();
+              if (evRep) return evRep === rc || evRep === rn;
+              const first = rn.split(' ')[0] || '';
+              if (!first) return false;
+              if ((a.creator || '').toLowerCase().includes(first)) return true;
+              return (a.attendees || []).some(att => {
+                const attEmail = (att.email || '').toLowerCase();
+                return attEmail.includes(first) || (repEmail && attEmail === repEmail);
+              });
+            });
+            const upcoming = visible.filter(a => new Date(a.start) >= now)
               .sort((a, b) => new Date(a.start) - new Date(b.start))
               .map(a => ({ title: a.title, date: a.start, end: a.end, location: a.location, attendees: a.attendees || [], type: a.is_prospect_visit ? 'prospect' : 'calendar' }));
             upcomingAppointments = upcoming.slice(0, 12);

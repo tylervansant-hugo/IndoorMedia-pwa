@@ -210,5 +210,12 @@
     "email": "Daniel.Whiteford@indoormedia.com",
     "role": "rep",
     "registered_at": "2026-08-18"
+  },
+  "rick_leibowitz": {
+    "contract_name": "Rick Leibowitz",
+    "display_name": "Rick Leibowitz",
+    "role": "manager",
+    "registered_at": "2026-08-18",
+    "calendar_full_view": true
   }
 }
