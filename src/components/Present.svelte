@@ -1,6 +1,7 @@
 <script>
   import { onMount, onDestroy } from 'svelte';
   import { user, padAmount, digitalPadAmount } from '../lib/stores.js';
+  import { readCart, writeCart, markCartWritten } from '../lib/cart.js';
   import MeetingPrep from './MeetingPrep.svelte';
   import CartIcon from './CartIcon.svelte';
   import { PDFDocument, rgb, StandardFonts } from 'pdf-lib';
@@ -239,11 +240,10 @@
   }
 
   function addToCart(name, price, details) {
-    let cart = [];
-    try { cart = JSON.parse(localStorage.getItem('indoormedia_cart') || '[]'); } catch {}
+    const cart = readCart();
     cart.push({ id: Date.now(), name, price, details, addedAt: new Date().toISOString() });
-    localStorage.setItem('indoormedia_cart', JSON.stringify(cart));
-    try { window.dispatchEvent(new Event('cart-updated')); } catch {}
+    markCartWritten();
+    writeCart(cart); // per-rep localStorage + Firestore + notify
     alert('Added to cart: ' + name);
   }
 

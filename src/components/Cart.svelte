@@ -1,6 +1,7 @@
 <script>
   import { onMount, onDestroy } from 'svelte';
   import { padAmount, user } from '../lib/stores.js';
+  import { readCart, writeCart, markCartWritten, syncCartFromCloud } from '../lib/cart.js';
 
   // When true, this tab is the active/visible one. Reload from storage on show
   // so items added from other tabs (which stay mounted) appear immediately.
@@ -488,6 +489,8 @@
 
   onMount(async () => {
     loadCart();
+    // Cross-device: pull this rep's cloud cart and adopt if newer.
+    syncCartFromCloud().then(() => loadCart());
     // Live refresh: other components dispatch this after writing the cart.
     window.addEventListener('cart-updated', onCartUpdated);
     // Cross-document changes (rare, multi-tab) still work via storage event.
@@ -504,13 +507,13 @@
   });
 
   function loadCart() {
-    try { cartItems = JSON.parse(localStorage.getItem('indoormedia_cart') || '[]'); } catch { cartItems = []; }
+    cartItems = readCart();
     loadSearchLocation();
   }
 
   function saveCart() {
-    localStorage.setItem('indoormedia_cart', JSON.stringify(cartItems));
-    try { window.dispatchEvent(new Event('cart-updated')); } catch {}
+    markCartWritten();
+    writeCart(cartItems); // per-rep localStorage + Firestore + notify
   }
 
   function removeItem(index) {

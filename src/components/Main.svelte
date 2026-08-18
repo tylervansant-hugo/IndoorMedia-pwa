@@ -1,6 +1,7 @@
 <script>
   import { onMount, tick } from 'svelte';
   import { theme, user } from '../lib/stores.js';
+  import { readCart, syncCartFromCloud } from '../lib/cart.js';
   import { cycleLaunchDates, DEFAULT_SELL_BY_LEAD_DAYS } from '../lib/cycleSchedule.js';
   import { get } from 'svelte/store';
   import { applyAppearance, setMode, resolveMode, getAppearance } from '../lib/appearance.js';
@@ -683,7 +684,7 @@
   }
 
   function updateCartCount() {
-    try { cartCount = JSON.parse(localStorage.getItem('indoormedia_cart') || '[]').length; } catch { cartCount = 0; }
+    try { cartCount = readCart().length; } catch { cartCount = 0; }
   }
 
   function computeSummerSales() {
@@ -798,9 +799,11 @@
     const isManager = repName.includes('tyler') || $user?.role === 'manager' || $user?.role === 'admin';
     const now = new Date();
     
-    // Saved prospects this week (check both key formats)
+    // Saved prospects this week (per-rep key so reps don't see each other's)
     try {
-      const saved1 = JSON.parse(localStorage.getItem('savedProspects') || '[]');
+      const rid = $user?.id;
+      const scoped = rid ? JSON.parse(localStorage.getItem(`savedProspects__${rid}`) || '[]') : [];
+      const saved1 = scoped.length ? scoped : JSON.parse(localStorage.getItem('savedProspects') || '[]');
       const saved2 = JSON.parse(localStorage.getItem('saved_prospects') || '[]');
       const saved = saved1.length > saved2.length ? saved1 : saved2;
       const weekAgo = new Date(now);
@@ -1081,6 +1084,9 @@
     // Instant badge update when any component changes the cart.
     window.addEventListener('cart-updated', updateCartCount);
     window.addEventListener('storage', updateCartCount);
+    // Cross-device: pull this rep's cloud cart on load so a cart started on
+    // another device (phone -> iPad) shows up here.
+    syncCartFromCloud().then(() => updateCartCount());
 
     try {
       const [contractsRes, storesRes] = await Promise.all([

@@ -1,6 +1,7 @@
 <script>
   import { searchResults, loading, error, setLoading, setError, addToCart, padAmount, currentUser, sharedNearbyStores, sharedUserLocation, sharedStoreSearch } from '../lib/stores.js';
   import { onMount } from 'svelte';
+  import { readCart, writeCart, markCartWritten } from '../lib/cart.js';
   import CartIcon from './CartIcon.svelte';
   import Icon from './Icon.svelte';
   import AuditStore from './AuditStore.svelte';
@@ -1035,10 +1036,9 @@ Store: ${store.StoreName}
       };
       stampLocation(noseItem, store);
       try {
-        const cart = JSON.parse(localStorage.getItem('indoormedia_cart') || '[]');
+        const cart = readCart();
         cart.push(noseItem);
-        localStorage.setItem('indoormedia_cart', JSON.stringify(cart));
-        try { window.dispatchEvent(new Event('cart-updated')); } catch {}
+        markCartWritten(); writeCart(cart);
         addedToCartMsg = `👃 Added Nose of Cart — ${store.GroceryChain} ${store.City}`;
         setTimeout(() => { addedToCartMsg = ''; }, 3000);
       } catch (err) {
@@ -1084,10 +1084,9 @@ Store: ${store.StoreName}
     };
     stampLocation(item, store);
     try {
-      const cart = JSON.parse(localStorage.getItem('indoormedia_cart') || '[]');
+      const cart = readCart();
       cart.push(item);
-      localStorage.setItem('indoormedia_cart', JSON.stringify(cart));
-      try { window.dispatchEvent(new Event('cart-updated')); } catch {}
+      markCartWritten(); writeCart(cart);
       addedToCartMsg = cartCount > 0
         ? `🛒 Added Cartvertising — ${cartsShowing.toLocaleString()} of ${cartCount.toLocaleString()} carts`
         : `🛒 Added Cartvertising — ${store.GroceryChain} ${store.City}`;
@@ -1174,10 +1173,9 @@ Store: ${store.StoreName}
     };
     stampLocation(item, store);
     try {
-      const cart = JSON.parse(localStorage.getItem('indoormedia_cart') || '[]');
+      const cart = readCart();
       cart.push(item);
-      localStorage.setItem('indoormedia_cart', JSON.stringify(cart));
-      try { window.dispatchEvent(new Event('cart-updated')); } catch {}
+      markCartWritten(); writeCart(cart);
       addedToCartMsg = pkg.needsPins
         ? `${pkg.emoji} Added ${pkg.name} — ${pins} pin${pins === 1 ? '' : 's'} (${priceStr})`
         : `${pkg.emoji} Added ${pkg.name} — ${priceStr}`;
@@ -1261,10 +1259,9 @@ Store: ${store.StoreName}
 
     // Save to localStorage (same format as Cart.svelte)
     try {
-      const cart = JSON.parse(localStorage.getItem('indoormedia_cart') || '[]');
+      const cart = readCart();
       cart.push(item);
-      localStorage.setItem('indoormedia_cart', JSON.stringify(cart));
-      try { window.dispatchEvent(new Event('cart-updated')); } catch {}
+      markCartWritten(); writeCart(cart);
       addedToCartMsg = `✅ Added ${store.GroceryChain} - ${store.City}`;
       setTimeout(() => { addedToCartMsg = ''; }, 2500);
     } catch (err) {

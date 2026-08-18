@@ -3244,8 +3244,29 @@ IndoorMedia`
     }
   }
 
+  // Per-rep localStorage key so two reps sharing a device never see each
+  // other's saved prospects. Cloud (Firestore) remains keyed by repId too.
+  function _prospectsLSKey() {
+    const rid = $user?.id;
+    return rid ? `savedProspects__${rid}` : 'savedProspects';
+  }
+
   function loadSavedProspects() {
-    const saved = localStorage.getItem('savedProspects');
+    const key = _prospectsLSKey();
+    let saved = localStorage.getItem(key);
+    // One-time migration: if this rep has no scoped list yet but a legacy global
+    // list exists AND it belonged to this rep, adopt it; otherwise ignore the
+    // global list (it may be another rep's) and start clean from cloud.
+    if (saved == null) {
+      const legacyOwner = localStorage.getItem('savedProspects__owner');
+      const legacy = localStorage.getItem('savedProspects');
+      if (legacy != null && legacyOwner && String(legacyOwner) === String($user?.id)) {
+        saved = legacy;
+        localStorage.setItem(key, legacy);
+      }
+      // Drop the shared global key so it can't leak to the next rep on this device.
+      try { localStorage.removeItem('savedProspects'); localStorage.removeItem('savedProspects__owner'); } catch {}
+    }
     savedProspects = saved ? JSON.parse(saved) : [];
     // Backfill notes from prospectNotes if saved prospect has empty notes
     let updated = false;
@@ -3255,7 +3276,9 @@ IndoorMedia`
         if (note) { p.notes = note; updated = true; }
       }
     });
-    if (updated) localStorage.setItem('savedProspects', JSON.stringify(savedProspects));
+    if (updated) localStorage.setItem(_prospectsLSKey(), JSON.stringify(savedProspects));
+    // Stamp who owns this device's list (for safe legacy migration next login).
+    try { if ($user?.id) localStorage.setItem('savedProspects__owner', String($user.id)); } catch {}
     // Pull cloud copy and merge so every device shows the full list
     syncProspectsFromCloud();
   }
@@ -3267,7 +3290,7 @@ IndoorMedia`
 
   // Write the current saved list to both localStorage AND Firestore (per rep)
   function persistProspects() {
-    localStorage.setItem('savedProspects', JSON.stringify(savedProspects));
+    localStorage.setItem(_prospectsLSKey(), JSON.stringify(savedProspects));
     const repId = $user?.id;
     if (repId) {
       // Fire-and-forget cloud write; localStorage already updated for instant UX
@@ -3307,7 +3330,7 @@ IndoorMedia`
     // Only update if something actually changed (avoid loops)
     if (merged.length !== savedProspects.length || JSON.stringify(merged) !== JSON.stringify(savedProspects)) {
       savedProspects = merged;
-      localStorage.setItem('savedProspects', JSON.stringify(savedProspects));
+      localStorage.setItem(_prospectsLSKey(), JSON.stringify(savedProspects));
       // Push the merged superset back up so all devices converge
       saveRepProspects(repId, savedProspects);
     }

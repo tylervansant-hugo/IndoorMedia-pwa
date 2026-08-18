@@ -483,6 +483,46 @@ export async function getRepProspects(repId) {
   }
 }
 
+// ── Rep Cart (cross-device per rep) ────────────────────────────────
+
+/**
+ * Save a rep's cart to Firestore (one doc per rep). Lets a rep start a cart
+ * on their phone and pick it up on an iPad/computer, and keeps carts separate
+ * per rep on shared devices.
+ */
+export async function saveRepCart(repId, cart) {
+  if (!db || !repId) return false;
+  try {
+    await setDoc(doc(db, 'activity_daily', `rep_cart_${repId}`), {
+      type: 'rep_cart',
+      repId: String(repId),
+      cart: Array.isArray(cart) ? cart : [],
+      updatedAt: new Date().toISOString(),
+    });
+    return true;
+  } catch (e) {
+    console.warn('saveRepCart error:', e);
+    return false;
+  }
+}
+
+/**
+ * Get a rep's cart from Firestore. Returns { cart, updatedAt } or null.
+ */
+export async function getRepCart(repId) {
+  if (!db || !repId) return null;
+  try {
+    const { getDoc } = await import('firebase/firestore');
+    const snap = await getDoc(doc(db, 'activity_daily', `rep_cart_${repId}`));
+    if (!snap.exists()) return null;
+    const data = snap.data();
+    return { cart: Array.isArray(data.cart) ? data.cart : [], updatedAt: data.updatedAt || '' };
+  } catch (e) {
+    console.warn('getRepCart error:', e);
+    return null;
+  }
+}
+
 // ── Store Claims ("Dibs") ──────────────────────────────────────────
 
 /**
