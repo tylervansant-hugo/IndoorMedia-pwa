@@ -11128,6 +11128,27 @@
       "paid_in_full": false
     },
     {
+      "contract_number": "J436232E",
+      "date": "2026-08-19 00:00",
+      "business_name": "Tan Republic",
+      "contact_name": "Jack Clevenger",
+      "contact_email": "Jack@tanrepublic.com",
+      "contact_phone": "(253) 460-3340",
+      "sales_rep": "Dawna Henehan",
+      "store_name": "Safeway",
+      "store_number": "1978",
+      "zone": "07X",
+      "product_description": "Single Ad",
+      "total_amount": 5925.0,
+      "payment_date": "8/19/2026",
+      "address": "2637 North Pearl Street, Tacoma, 98407",
+      "extracted_at": "2026-08-19T20:00:41.282136",
+      "quarters": 5,
+      "term_months": 15,
+      "is_renewal": false,
+      "paid_in_full": false
+    },
+    {
       "contract_number": "J436332E",
       "date": "2026-08-17 00:00",
       "business_name": "Pro Prick Body Piercing",
@@ -13880,5 +13901,5 @@
       "paid_in_full": false
     }
   ],
-  "last_scan": "2026-08-18T20:00:09.308243"
+  "last_scan": "2026-08-19T20:00:41.312271"
 }
