@@ -1,15 +1,7 @@
 {
-  "999999999": {
-    "telegram_name": "Test User",
-    "contract_name": "Test User",
-    "email": "testuser@example.com",
-    "role": "rep",
-    "registered_at": "2026-03-17T15:49:25.906710",
-    "base_location": "Ridgefield, WA"
-  },
   "2126715079": {
-    "contract_name": "Cameron gould",
-    "display_name": "Cameron gould",
+    "contract_name": "Cameron Gould",
+    "display_name": "Cameron Gould",
     "role": "rep",
     "registered_at": "2026-03-17"
   },
@@ -29,10 +21,11 @@
   },
   "8703124669": {
     "contract_name": "Megan Wink",
-    "display_name": "Meghan Wink",
+    "display_name": "Megan Wink",
     "role": "rep",
     "registered_at": "2026-03-12",
-    "base_location": "Vancouver, WA"
+    "base_location": "Vancouver, WA",
+    "email": "Megan.Wink@indoormedia.com"
   },
   "7334094238": {
     "contract_name": "Rick Diamond",
@@ -58,14 +51,6 @@
     "telegram_username": "MattBoozer",
     "base_location": "Cottage Grove, OR"
   },
-  "amy_dixon": {
-    "contract_name": "Amy Dixon",
-    "display_name": "Amy Dixon",
-    "email": "Amy.Dixon@indoormedia.com",
-    "role": "rep",
-    "registered_at": "2026-03-17",
-    "base_location": "Tualatin, OR"
-  },
   "anthony_eng": {
     "contract_name": "Anthony Eng",
     "display_name": "Anthony Eng",
@@ -73,14 +58,6 @@
     "role": "rep",
     "registered_at": "2026-03-17",
     "base_location": "Newberg, OR"
-  },
-  "adan_ramos": {
-    "contract_name": "Adan Ramos",
-    "display_name": "Adan Ramos",
-    "email": "Adan.ramos@indoormedia.com",
-    "role": "rep",
-    "registered_at": "2026-03-17",
-    "base_location": "Vancouver, WA"
   },
   "christian_johnson": {
     "contract_name": "Christian Johnson",
@@ -90,35 +67,12 @@
     "registered_at": "2026-03-17",
     "base_location": "Unknown"
   },
-  "megan_wink": {
-    "contract_name": "Megan Wink",
-    "display_name": "Megan Wink",
-    "email": "Megan.Wink@indoormedia.com",
-    "role": "rep",
-    "registered_at": "2026-03-17"
-  },
-  "jan_banks": {
-    "contract_name": "Jan Banks",
-    "display_name": "Jan Banks",
-    "email": "Jan.Banks@indoormedia.com",
-    "role": "rep",
-    "registered_at": "2026-03-17",
-    "base_location": "Tualatin, OR"
-  },
   "ben_patacsil": {
     "contract_name": "Ben Patacsil",
     "display_name": "Ben Patacsil",
     "email": "Ben.patacsil@indoormedia.com",
     "role": "rep",
     "registered_at": "2026-03-17"
-  },
-  "dave_boring": {
-    "contract_name": "Dave Boring",
-    "display_name": "Dave Boring",
-    "email": "Dave.boring@indoormedia.com",
-    "role": "rep",
-    "registered_at": "2026-03-17",
-    "base_location": "Battle Ground, WA"
   },
   "legacy_empire": {
     "contract_name": "Legacy Empire",
@@ -137,25 +91,33 @@
     "contract_name": "Dave Boring",
     "display_name": "Dave Boring",
     "role": "rep",
-    "registered_at": "2026-03-24"
+    "registered_at": "2026-03-24",
+    "email": "Dave.boring@indoormedia.com",
+    "base_location": "Battle Ground, WA"
   },
   "8647728045": {
     "contract_name": "Adan Ramos",
     "display_name": "Adan Ramos",
     "role": "rep",
-    "registered_at": "2026-03-24"
+    "registered_at": "2026-03-24",
+    "email": "Adan.ramos@indoormedia.com",
+    "base_location": "Vancouver, WA"
   },
   "8309437895": {
-    "contract_name": "Jan",
-    "display_name": "Jan",
+    "contract_name": "Jan Banks",
+    "display_name": "Jan Banks",
     "role": "rep",
-    "registered_at": "2026-03-26"
+    "registered_at": "2026-03-26",
+    "email": "Jan.Banks@indoormedia.com",
+    "base_location": "Tualatin, OR"
   },
   "8767251377": {
     "contract_name": "Amy Dixon",
     "display_name": "Amy Dixon",
     "role": "rep",
-    "registered_at": "2026-04-07"
+    "registered_at": "2026-04-07",
+    "email": "Amy.Dixon@indoormedia.com",
+    "base_location": "Tualatin, OR"
   },
   "jim_bouret": {
     "contract_name": "Jim Bouret",
@@ -204,6 +166,14 @@
     "registered_at": "2026-07-06",
     "base_location": "Zone 7X"
   },
+  "dawna_henehan": {
+    "contract_name": "Dawna Henehan",
+    "display_name": "Dawna Henehan",
+    "email": "Dawna.Henehan@indoormedia.com",
+    "role": "rep",
+    "registered_at": "2026-07-21",
+    "base_location": "Tacoma, WA (Zone 7Z)"
+  },
   "daniel_whiteford": {
     "contract_name": "Daniel Whiteford",
     "display_name": "Daniel Whiteford",
@@ -217,5 +187,14 @@
     "role": "manager",
     "registered_at": "2026-08-18",
     "calendar_full_view": true
+  },
+  "daniel_barchini": {
+    "contract_name": "Daniel Barchini",
+    "display_name": "Daniel Barchini",
+    "email": "Daniel.Barchini@indoormedia.com",
+    "role": "rep",
+    "registered_at": "2026-09-08",
+    "base_location": "Gresham, OR (Zones 7Z & 7Y)",
+    "zone": "7Z, 7Y"
   }
 }
