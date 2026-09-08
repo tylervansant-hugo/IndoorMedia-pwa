@@ -24,21 +24,21 @@
   let selectedStore = null;
 
   // Categories
-  const CATEGORIES = {
-    '🍽️ Restaurants': ['Mexican', 'Pizza', 'Coffee', 'Sushi', 'Fast Food', 'Chinese', 'Thai', 'BBQ', 'Italian', 'Bakery', 'Seafood', 'All'],
-    '🚗 Auto': ['Oil Change', 'Car Wash', 'Auto Repair', 'Tires', 'Body Shop', 'Detailing'],
-    '💄 Beauty': ['Hair Salon', 'Barber', 'Nails', 'Spa', 'Gym', 'Massage'],
-    '🏥 Health': ['Dentist', 'Chiropractor', 'Eye Care', 'Vet', 'Pharmacy', 'Urgent Care'],
-    '🏠 Home': ['Plumber', 'Electrician', 'HVAC', 'Roofing', 'Landscaping', 'Cleaning', 'Pest Control'],
-    '🛍️ Retail': ['Clothing', 'Pet Store', 'Florist', 'Furniture', 'Liquor'],
-    '🐾 Pets': ['Grooming', 'Boarding/Kennel', 'Dog Training', 'Vet'],
+    const CATEGORIES = {
+    '🚗 Auto': ['Auto Repair', 'Body Shop', 'Car Wash', 'Detailing', 'Oil Change', 'Tires'],
+    '💄 Beauty': ['Barber', 'Gym', 'Hair Salon', 'Massage', 'Nails', 'Spa'],
+    '🏥 Health': ['Chiropractor', 'Dentist', 'Eye Care', 'Pharmacy', 'Urgent Care', 'Vet'],
+    '🏠 Home': ['Cleaning', 'Electrician', 'HVAC', 'Landscaping', 'Pest Control', 'Plumber', 'Roofing'],
+    '🐾 Pets': ['Boarding/Kennel', 'Dog Training', 'Grooming', 'Vet'],
+    '🍽️ Restaurants': ['Bakery', 'BBQ', 'Burgers', 'Chinese', 'Coffee', 'Fast Food', 'Italian', 'Mexican', 'Pizza', 'Seafood', 'Sushi', 'Thai', 'All'],
+    '🛍️ Retail': ['Clothing', 'Florist', 'Furniture', 'Liquor', 'Pet Store'],
   };
 
   const CATEGORY_KEYWORDS = {
     'Mexican': 'mexican restaurant', 'Pizza': 'pizza restaurant', 'Coffee': 'coffee cafe',
     'Sushi': 'sushi restaurant', 'Fast Food': 'fast food restaurant', 'Chinese': 'chinese restaurant',
     'Thai': 'thai restaurant', 'BBQ': 'bbq restaurant', 'Italian': 'italian restaurant',
-    'Bakery': 'bakery', 'Seafood': 'seafood restaurant', 'All': 'restaurant',
+    'Bakery': 'bakery', 'Burgers': 'burger hamburger restaurant', 'Seafood': 'seafood restaurant', 'All': 'restaurant',
     'Oil Change': 'oil change', 'Car Wash': 'car wash', 'Auto Repair': 'auto repair',
     'Tires': 'tire shop', 'Body Shop': 'body shop', 'Detailing': 'auto detailing',
     'Hair Salon': 'hair salon', 'Barber': 'barber', 'Nails': 'nail salon',

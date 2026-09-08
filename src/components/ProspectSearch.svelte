@@ -1244,18 +1244,18 @@
     return true;
   });
 
-  const CATEGORIES = {
-    '🍽️ Restaurants': ['Mexican', 'Pizza', 'Sandwich Shop', 'Coffee', 'Sushi', 'Fast Food', 'Chinese', 'Thai', 'Indian', 'BBQ', 'Italian', 'Bakery', 'Breakfast/Brunch', 'Seafood', 'Mediterranean', 'Korean', 'Vietnamese', 'Wings', 'Ice Cream/Dessert', 'Juice/Smoothie', 'Bar/Pub', 'Catering', 'Food Truck', 'Brewery/Taproom', 'Winery', 'Donut Shop', 'Deli', 'All'],
-    '🚗 Automotive': ['Oil Change', 'Car Wash', 'Auto Repair', 'Tires', 'Car Dealer', 'Body Shop', 'Transmission', 'Detailing', 'Towing', 'Glass Repair'],
-    '💄 Beauty & Wellness': ['Hair Salon', 'Barber', 'Nails', 'Spa', 'Gym', 'Yoga', 'Tanning', 'Med Spa', 'Lashes/Brows', 'Tattoo/Piercing', 'Massage'],
-    '🏥 Health/Medical': ['Dentist', 'Chiropractor', 'Eye Care', 'Vet', 'Physical Therapy', 'Urgent Care', 'Pharmacy', 'Dermatologist', 'Pediatrician', 'Mental Health', 'Hearing Aid'],
-    '🏠 Home Services': ['Plumber', 'Electrician', 'HVAC', 'Roofing', 'Landscaping', 'Cleaning', 'Contractor', 'Pest Control', 'Painting', 'Garage Door', 'Fencing', 'Moving'],
-    '🛍️ Retail': ['Clothing', 'Pet Store', 'Jewelry', 'Furniture', 'Florist', 'Cell Phone', 'Liquor', 'Dispensary', 'Thrift/Consignment', 'Gift Shop', 'Smoke Shop', 'Hardware', 'Dry Cleaning'],
-    '👔 Professionals': ['Real Estate', 'Insurance', 'Accountant', 'Lawyer', 'Financial', 'Mortgage', 'Tax Prep', 'Notary', 'Printing/Signs'],
-    '👦 Kids & Tutoring': ['Tutoring', 'Music', 'Dance', 'Martial Arts', 'Sports', 'Camps', 'General'],
-    '👶 Care Centers': ['Daycare', 'After School', 'Assisted Living', 'Adult Care'],
-    '🐾 Pet Services': ['Grooming', 'Boarding/Kennel', 'Dog Training', 'Pet Sitting', 'Vet', 'Pet Store'],
-    '🎡 Family Entertainment': ['Trampoline Park', 'Bowling', 'Arcade/FEC', 'Mini Golf', 'Laser Tag', 'Escape Room', 'Skating Rink', 'Bounce/Play Center', 'Movie Theater', 'Golf/Driving Range', 'Go-Karts/Fun Center', 'Axe Throwing/Bar Games'],
+    const CATEGORIES = {
+    '🚗 Automotive': ['Auto Repair', 'Body Shop', 'Car Dealer', 'Car Wash', 'Detailing', 'Glass Repair', 'Oil Change', 'Tires', 'Towing', 'Transmission'],
+    '💄 Beauty & Wellness': ['Barber', 'Gym', 'Hair Salon', 'Lashes/Brows', 'Massage', 'Med Spa', 'Nails', 'Spa', 'Tanning', 'Tattoo/Piercing', 'Yoga'],
+    '👶 Care Centers': ['Adult Care', 'After School', 'Assisted Living', 'Daycare'],
+    '🎡 Family Entertainment': ['Arcade/FEC', 'Axe Throwing/Bar Games', 'Bounce/Play Center', 'Bowling', 'Escape Room', 'Go-Karts/Fun Center', 'Golf Courses', 'Golf/Driving Range', 'Laser Tag', 'Mini Golf', 'Movie Theater', 'Skating Rink', 'Trampoline Park'],
+    '🏥 Health/Medical': ['Chiropractor', 'Dentist', 'Dermatologist', 'Eye Care', 'Hearing Aid', 'Mental Health', 'Pediatrician', 'Pharmacy', 'Physical Therapy', 'Urgent Care', 'Vet'],
+    '🏠 Home Services': ['Cleaning', 'Contractor', 'Electrician', 'Fencing', 'Garage Door', 'HVAC', 'Landscaping', 'Moving', 'Painting', 'Pest Control', 'Plumber', 'Roofing'],
+    '👦 Kids & Tutoring': ['Camps', 'Dance', 'Martial Arts', 'Music', 'Sports', 'Tutoring', 'General'],
+    '🐾 Pet Services': ['Boarding/Kennel', 'Dog Training', 'Grooming', 'Pet Sitting', 'Pet Store', 'Vet'],
+    '👔 Professionals': ['Accountant', 'Financial', 'Insurance', 'Lawyer', 'Mortgage', 'Notary', 'Printing/Signs', 'Real Estate', 'Tax Prep'],
+    '🍽️ Restaurants': ['Bakery', 'Bar/Pub', 'BBQ', 'Breakfast/Brunch', 'Brewery/Taproom', 'Burgers', 'Catering', 'Chinese', 'Coffee', 'Deli', 'Donut Shop', 'Fast Food', 'Food Truck', 'Ice Cream/Dessert', 'Indian', 'Italian', 'Juice/Smoothie', 'Korean', 'Mediterranean', 'Mexican', 'Pizza', 'Sandwich Shop', 'Seafood', 'Sushi', 'Thai', 'Vietnamese', 'Winery', 'Wings', 'All'],
+    '🛍️ Retail': ['Cell Phone', 'Clothing', 'Dispensary', 'Dry Cleaning', 'Florist', 'Furniture', 'Gift Shop', 'Hardware', 'Jewelry', 'Liquor', 'Pet Store', 'Smoke Shop', 'Thrift/Consignment'],
 
   };
 
@@ -1272,6 +1272,7 @@
     'Italian': 'italian restaurant',
     'Bakery': 'bakery',
     'Bar/Pub': 'bar pub',
+    'Burgers': 'burger hamburger restaurant',
     'All': 'restaurant',
     'Oil Change': 'oil change',
     'Car Wash': 'car wash',
@@ -1354,6 +1355,7 @@
     'Bounce/Play Center': 'bounce house indoor playground play center kids play',
     'Movie Theater': 'movie theater cinema',
     'Golf/Driving Range': 'golf course driving range topgolf golf simulator',
+    'Golf Courses': 'golf course country club',
     'Go-Karts/Fun Center': 'go kart go-kart fun center family fun park',
     'Axe Throwing/Bar Games': 'axe throwing pool hall billiards dart bar entertainment'
   };
