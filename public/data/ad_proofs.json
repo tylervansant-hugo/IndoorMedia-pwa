@@ -1,5 +1,145 @@
 [
   {
+    "message_id": "1a08165bd58d3947",
+    "date": "2026-09-08 07:21",
+    "from": "Zone 07Z - Sydney Miller <zone.07z@indoormedia.com>",
+    "subject": "Re: Ad Proof from IndoorMedia , Fresh PNW Image [07Z - A4 - J421063E]",
+    "client_name": "Fresh PNW Image",
+    "contact_name": "great day.*",
+    "client_email": "freshpnwimagesalon@gmail.com",
+    "location": "",
+    "zone": "07Z",
+    "cycle": "A4",
+    "contract_number": "J421063E",
+    "store": ">> Tape Ad at Safeway 0091, 1227 15Th Ave, Longview, WA",
+    "ad_size": "Single",
+    "install_month": "",
+    "run_months": "",
+    "image_url": "https://lh3.googleusercontent.com/d/1C97Hxow-ubN7voIePu1OyFCVyMZfo_GW",
+    "review_deadline": "08/28/2026",
+    "recipients": [
+      "tyler.vansant@indoormedia.com",
+      "tyler.vansant@rtui.com",
+      "freshpnwimagesalon@gmail.com",
+      "richard.leibowitz@rtui.com"
+    ],
+    "reps": [
+      {
+        "email": "tyler.vansant@indoormedia.com",
+        "name": "Tyler Van Sant"
+      },
+      {
+        "email": "tyler.vansant@rtui.com",
+        "name": "Tyler Van Sant"
+      }
+    ]
+  },
+  {
+    "message_id": "1a08157af01e275c",
+    "date": "2026-09-08 07:06",
+    "from": "Zone 07Y - Sydney Miller <zone.07y@indoormedia.com>",
+    "subject": "Re: Ad Proofs from IndoorMedia , Amazon Creek Dental [07Y - B4 - J435441E]",
+    "client_name": "Amazon Creek Dental",
+    "contact_name": "will see a new proof email as soon as it becomes available*",
+    "client_email": "admin@amazoncreekdental.com",
+    "location": "",
+    "zone": "07Y",
+    "cycle": "B4",
+    "contract_number": "J435441E",
+    "store": "",
+    "ad_size": "Double",
+    "install_month": "",
+    "run_months": "",
+    "image_url": "https://lh3.googleusercontent.com/d/1GhilWpFnZgBT1fs_n_57nwwwY5abEQYb",
+    "review_deadline": "09/09/2026",
+    "recipients": [
+      "tyler.vansant@rtui.com",
+      "admin@amazoncreekdental.com",
+      "matthew.boozer@indoormedia.com",
+      "richard.leibowitz@rtui.com"
+    ],
+    "reps": [
+      {
+        "email": "tyler.vansant@rtui.com",
+        "name": "Tyler Van Sant"
+      },
+      {
+        "email": "matthew.boozer@indoormedia.com",
+        "name": "Matthew Boozer"
+      }
+    ]
+  },
+  {
+    "message_id": "1a08156fc38c7e73",
+    "date": "2026-09-08 07:05",
+    "from": "Zone 07Y - Sydney Miller <zone.07y@indoormedia.com>",
+    "subject": "Re: Ad Proof from IndoorMedia , Oilstop [07Y - A4 - J435300E]",
+    "client_name": "Oilstop",
+    "contact_name": "will see a new proof email as soon as it becomes available*",
+    "client_email": "jeff@oilstopinc.com",
+    "location": "",
+    "zone": "07Y",
+    "cycle": "A4",
+    "contract_number": "J435300E",
+    "store": ">>>>> Tape Ad at Fred Meyer 0417, 3333 W 11th Ave, Eugene, OR",
+    "ad_size": "Double",
+    "install_month": "",
+    "run_months": "",
+    "image_url": "https://lh3.googleusercontent.com/d/1rhQG117r2zlDcAvmU7lOsJO3IwPXp5nf",
+    "review_deadline": "09/01/2026",
+    "recipients": [
+      "jeff@oilstopinc.com",
+      "tyler.vansant@rtui.com",
+      "matthew.boozer@indoormedia.com",
+      "richard.leibowitz@rtui.com"
+    ],
+    "reps": [
+      {
+        "email": "tyler.vansant@rtui.com",
+        "name": "Tyler Van Sant"
+      },
+      {
+        "email": "matthew.boozer@indoormedia.com",
+        "name": "Matthew Boozer"
+      }
+    ]
+  },
+  {
+    "message_id": "1a081561101fdec1",
+    "date": "2026-09-08 07:04",
+    "from": "Sydney Miller <Zone.07Y@indoormedia.com>",
+    "subject": "Ad Proofs from IndoorMedia , Center Street Ridez [07Y - A4 - J435858E]",
+    "client_name": "Center Street Ridez",
+    "contact_name": "David Moore",
+    "client_email": "centerstreetridez1@gmail.com",
+    "location": "",
+    "zone": "07Y",
+    "cycle": "A4",
+    "contract_number": "J435858E",
+    "store": "",
+    "ad_size": "Double",
+    "install_month": "",
+    "run_months": "",
+    "image_url": "https://lh3.googleusercontent.com/d/1iK78g17qZXGOBEseq0RMQYxitINO2EGr",
+    "review_deadline": "09/11/2026",
+    "recipients": [
+      "centerstreetridez1@gmail.com",
+      "tyler.vansant@rtui.com",
+      "matthew.boozer@indoormedia.com",
+      "richard.leibowitz@rtui.com"
+    ],
+    "reps": [
+      {
+        "email": "tyler.vansant@rtui.com",
+        "name": "Tyler Van Sant"
+      },
+      {
+        "email": "matthew.boozer@indoormedia.com",
+        "name": "Matthew Boozer"
+      }
+    ]
+  },
+  {
     "message_id": "1a01594f39c1b39a",
     "date": "2026-08-18 08:54",
     "from": "Sydney Miller <Zone.07Z@indoormedia.com>",
