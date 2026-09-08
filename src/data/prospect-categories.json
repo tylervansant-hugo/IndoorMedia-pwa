@@ -1,422 +1,751 @@
 {
   "🍽️ Restaurants": {
     "Mexican": {
-      "types": ["restaurant"],
+      "types": [
+        "restaurant"
+      ],
       "keyword": "mexican restaurant taqueria",
-      "exclude": ["taco bell"]
+      "exclude": [
+        "taco bell"
+      ]
     },
     "Pizza": {
-      "types": ["restaurant"],
+      "types": [
+        "restaurant"
+      ],
       "keyword": "pizza pizzeria",
       "exclude": []
     },
     "Coffee/Café": {
-      "types": ["cafe"],
+      "types": [
+        "cafe"
+      ],
       "keyword": "coffee cafe espresso",
-      "exclude": ["starbucks"]
+      "exclude": [
+        "starbucks"
+      ]
     },
     "Sushi/Japanese": {
-      "types": ["restaurant"],
+      "types": [
+        "restaurant"
+      ],
       "keyword": "sushi japanese ramen",
       "exclude": []
     },
     "Fast Food": {
-      "types": ["meal_takeaway", "restaurant"],
+      "types": [
+        "meal_takeaway",
+        "restaurant"
+      ],
       "keyword": "fast food burger",
       "exclude": []
     },
     "Chinese": {
-      "types": ["restaurant"],
+      "types": [
+        "restaurant"
+      ],
       "keyword": "chinese restaurant",
       "exclude": []
     },
     "Thai": {
-      "types": ["restaurant"],
+      "types": [
+        "restaurant"
+      ],
       "keyword": "thai restaurant",
       "exclude": []
     },
     "Indian": {
-      "types": ["restaurant"],
+      "types": [
+        "restaurant"
+      ],
       "keyword": "indian restaurant curry",
       "exclude": []
     },
     "BBQ/Steakhouse": {
-      "types": ["restaurant"],
+      "types": [
+        "restaurant"
+      ],
       "keyword": "bbq steakhouse grill smokehouse",
       "exclude": []
     },
     "Italian": {
-      "types": ["restaurant"],
+      "types": [
+        "restaurant"
+      ],
       "keyword": "italian restaurant pasta",
       "exclude": []
     },
     "Bakery": {
-      "types": ["bakery"],
+      "types": [
+        "bakery"
+      ],
       "keyword": "bakery pastry",
-      "exclude": ["grocery", "walmart", "safeway"]
+      "exclude": [
+        "grocery",
+        "walmart",
+        "safeway"
+      ]
     },
     "Bar/Pub": {
-      "types": ["bar"],
+      "types": [
+        "bar"
+      ],
       "keyword": "bar pub tavern brewery taproom",
       "exclude": []
     },
+    "Burgers": {
+      "types": [
+        "restaurant",
+        "meal_takeaway"
+      ],
+      "keyword": "burger hamburger cheeseburger",
+      "exclude": [
+        "mcdonald",
+        "burger king",
+        "wendy"
+      ]
+    },
     "All Restaurants": {
-      "types": ["restaurant"],
+      "types": [
+        "restaurant"
+      ],
       "keyword": "",
-      "exclude": ["mcdonald", "burger king", "wendy", "taco bell"]
+      "exclude": [
+        "mcdonald",
+        "burger king",
+        "wendy",
+        "taco bell"
+      ]
     }
   },
   "🚗 Automotive": {
     "Oil Change/Lube": {
-      "types": ["car_repair"],
+      "types": [
+        "car_repair"
+      ],
       "keyword": "oil change lube quick lube",
-      "exclude": ["body shop", "collision", "auto parts"]
+      "exclude": [
+        "body shop",
+        "collision",
+        "auto parts"
+      ]
     },
     "Car Wash": {
-      "types": ["car_wash"],
+      "types": [
+        "car_wash"
+      ],
       "keyword": "car wash detailing",
       "exclude": []
     },
     "Auto Repair": {
-      "types": ["car_repair"],
+      "types": [
+        "car_repair"
+      ],
       "keyword": "auto repair mechanic garage",
-      "exclude": ["body shop", "collision", "car wash"]
+      "exclude": [
+        "body shop",
+        "collision",
+        "car wash"
+      ]
     },
     "Tires": {
-      "types": ["car_repair"],
+      "types": [
+        "car_repair"
+      ],
       "keyword": "tire tires wheel alignment",
       "exclude": []
     },
     "Car Dealer": {
-      "types": ["car_dealer"],
+      "types": [
+        "car_dealer"
+      ],
       "keyword": "car dealer dealership",
-      "exclude": ["rental", "rent"]
+      "exclude": [
+        "rental",
+        "rent"
+      ]
     },
     "Body Shop": {
-      "types": ["car_repair"],
+      "types": [
+        "car_repair"
+      ],
       "keyword": "body shop collision paint auto body",
       "exclude": []
     },
     "Transmission": {
-      "types": ["car_repair"],
+      "types": [
+        "car_repair"
+      ],
       "keyword": "transmission",
       "exclude": []
     }
   },
   "💄 Beauty & Wellness": {
     "Hair Salon": {
-      "types": ["hair_salon", "beauty_salon"],
+      "types": [
+        "hair_salon",
+        "beauty_salon"
+      ],
       "keyword": "hair salon haircut stylist",
-      "exclude": ["nail", "pet", "dog", "cat"]
+      "exclude": [
+        "nail",
+        "pet",
+        "dog",
+        "cat"
+      ]
     },
     "Barber": {
-      "types": ["hair_salon"],
+      "types": [
+        "hair_salon"
+      ],
       "keyword": "barber barbershop",
       "exclude": []
     },
     "Nail Salon": {
-      "types": ["beauty_salon"],
+      "types": [
+        "beauty_salon"
+      ],
       "keyword": "nail salon nails manicure pedicure",
-      "exclude": ["hair"]
+      "exclude": [
+        "hair"
+      ]
     },
     "Spa/Massage": {
-      "types": ["spa"],
+      "types": [
+        "spa"
+      ],
       "keyword": "spa massage day spa facial",
-      "exclude": ["hot tub", "pool"]
+      "exclude": [
+        "hot tub",
+        "pool"
+      ]
     },
     "Gym/Fitness": {
-      "types": ["gym"],
+      "types": [
+        "gym"
+      ],
       "keyword": "gym fitness center workout",
       "exclude": []
     },
     "Yoga/Pilates": {
-      "types": ["gym"],
+      "types": [
+        "gym"
+      ],
       "keyword": "yoga pilates studio",
       "exclude": []
     },
     "Tanning": {
-      "types": ["beauty_salon"],
+      "types": [
+        "beauty_salon"
+      ],
       "keyword": "tanning salon",
       "exclude": []
     }
   },
   "🏥 Health/Medical": {
     "Dentist": {
-      "types": ["dentist"],
+      "types": [
+        "dentist"
+      ],
       "keyword": "dentist dental",
-      "exclude": ["hospital", "emergency"]
+      "exclude": [
+        "hospital",
+        "emergency"
+      ]
     },
     "Chiropractor": {
-      "types": ["doctor"],
+      "types": [
+        "doctor"
+      ],
       "keyword": "chiropractor chiropractic",
       "exclude": []
     },
     "Eye Care": {
-      "types": ["doctor"],
+      "types": [
+        "doctor"
+      ],
       "keyword": "optometrist eye care vision glasses optician",
-      "exclude": ["hospital"]
+      "exclude": [
+        "hospital"
+      ]
     },
     "Veterinarian": {
-      "types": ["veterinary_care"],
+      "types": [
+        "veterinary_care"
+      ],
       "keyword": "veterinarian vet animal clinic",
-      "exclude": ["shelter", "rescue", "humane"]
+      "exclude": [
+        "shelter",
+        "rescue",
+        "humane"
+      ]
     },
     "Physical Therapy": {
-      "types": ["physiotherapist"],
+      "types": [
+        "physiotherapist"
+      ],
       "keyword": "physical therapy rehab",
-      "exclude": ["hospital"]
+      "exclude": [
+        "hospital"
+      ]
     },
     "Urgent Care": {
-      "types": ["doctor"],
+      "types": [
+        "doctor"
+      ],
       "keyword": "urgent care walk in clinic",
-      "exclude": ["hospital", "emergency room"]
+      "exclude": [
+        "hospital",
+        "emergency room"
+      ]
     },
     "Pharmacy": {
-      "types": ["pharmacy"],
+      "types": [
+        "pharmacy"
+      ],
       "keyword": "pharmacy",
-      "exclude": ["walmart", "costco", "safeway", "fred meyer"]
+      "exclude": [
+        "walmart",
+        "costco",
+        "safeway",
+        "fred meyer"
+      ]
     }
   },
   "🏠 Home Services": {
     "Contractor": {
-      "types": ["general_contractor"],
+      "types": [
+        "general_contractor"
+      ],
       "keyword": "general contractor remodel renovation",
-      "exclude": ["apartment", "property management"]
+      "exclude": [
+        "apartment",
+        "property management"
+      ]
     },
     "Roofing": {
-      "types": ["roofing_contractor"],
+      "types": [
+        "roofing_contractor"
+      ],
       "keyword": "roofing roof contractor",
       "exclude": []
     },
     "Plumber": {
-      "types": ["plumber"],
+      "types": [
+        "plumber"
+      ],
       "keyword": "plumber plumbing",
       "exclude": []
     },
     "Electrician": {
-      "types": ["electrician"],
+      "types": [
+        "electrician"
+      ],
       "keyword": "electrician electrical",
       "exclude": []
     },
     "HVAC": {
-      "types": ["electrician"],
+      "types": [
+        "electrician"
+      ],
       "keyword": "hvac heating cooling air conditioning furnace",
       "exclude": []
     },
     "Landscaping": {
-      "types": ["general_contractor"],
+      "types": [
+        "general_contractor"
+      ],
       "keyword": "landscaping lawn care yard maintenance",
       "exclude": []
     },
     "Pest Control": {
-      "types": ["local_government_office"],
+      "types": [
+        "local_government_office"
+      ],
       "keyword": "pest control exterminator",
       "exclude": []
     },
     "Cleaning": {
-      "types": ["laundry"],
+      "types": [
+        "laundry"
+      ],
       "keyword": "cleaning service house cleaning maid janitorial carpet",
       "exclude": []
     }
   },
   "👔 Professionals": {
     "Real Estate Agent": {
-      "types": ["real_estate_agency"],
+      "types": [
+        "real_estate_agency"
+      ],
       "keyword": "real estate agent realtor broker",
-      "exclude": ["apartment", "property management", "commercial real estate", "senior living", "assisted living", "storage", "self storage", "mortgage"]
+      "exclude": [
+        "apartment",
+        "property management",
+        "commercial real estate",
+        "senior living",
+        "assisted living",
+        "storage",
+        "self storage",
+        "mortgage"
+      ]
     },
     "Insurance Agent": {
-      "types": ["insurance_agency"],
+      "types": [
+        "insurance_agency"
+      ],
       "keyword": "insurance agent",
-      "exclude": ["hospital", "medical", "health department"]
+      "exclude": [
+        "hospital",
+        "medical",
+        "health department"
+      ]
     },
     "Accountant/CPA": {
-      "types": ["accounting"],
+      "types": [
+        "accounting"
+      ],
       "keyword": "accountant CPA tax preparation bookkeeper",
-      "exclude": ["h&r block", "liberty tax"]
+      "exclude": [
+        "h&r block",
+        "liberty tax"
+      ]
     },
     "Lawyer/Attorney": {
-      "types": ["lawyer"],
+      "types": [
+        "lawyer"
+      ],
       "keyword": "lawyer attorney law firm",
-      "exclude": ["bail bond"]
+      "exclude": [
+        "bail bond"
+      ]
     },
     "Financial Advisor": {
-      "types": ["finance"],
+      "types": [
+        "finance"
+      ],
       "keyword": "financial advisor planner wealth management",
-      "exclude": ["bank", "atm", "credit union", "payday"]
+      "exclude": [
+        "bank",
+        "atm",
+        "credit union",
+        "payday"
+      ]
     },
     "Mortgage/Lender": {
-      "types": ["finance"],
+      "types": [
+        "finance"
+      ],
       "keyword": "mortgage lender home loan",
-      "exclude": ["bank", "atm", "credit union", "payday"]
+      "exclude": [
+        "bank",
+        "atm",
+        "credit union",
+        "payday"
+      ]
     }
   },
   "🛍️ Retail": {
     "Clothing/Apparel": {
-      "types": ["clothing_store"],
+      "types": [
+        "clothing_store"
+      ],
       "keyword": "clothing store apparel boutique",
-      "exclude": ["thrift", "goodwill", "salvation army"]
+      "exclude": [
+        "thrift",
+        "goodwill",
+        "salvation army"
+      ]
     },
     "Pet Store": {
-      "types": ["pet_store"],
+      "types": [
+        "pet_store"
+      ],
       "keyword": "pet store",
-      "exclude": ["shelter", "rescue", "humane"]
+      "exclude": [
+        "shelter",
+        "rescue",
+        "humane"
+      ]
     },
     "Jewelry": {
-      "types": ["jewelry_store"],
+      "types": [
+        "jewelry_store"
+      ],
       "keyword": "jewelry jeweler",
-      "exclude": ["pawn"]
+      "exclude": [
+        "pawn"
+      ]
     },
     "Furniture": {
-      "types": ["furniture_store", "home_goods_store"],
+      "types": [
+        "furniture_store",
+        "home_goods_store"
+      ],
       "keyword": "furniture store",
-      "exclude": ["thrift", "goodwill"]
+      "exclude": [
+        "thrift",
+        "goodwill"
+      ]
     },
     "Florist": {
-      "types": ["florist"],
+      "types": [
+        "florist"
+      ],
       "keyword": "florist flowers",
-      "exclude": ["grocery"]
+      "exclude": [
+        "grocery"
+      ]
     },
     "Cell Phone": {
-      "types": ["cell_phone_store"],
+      "types": [
+        "cell_phone_store"
+      ],
       "keyword": "cell phone mobile wireless",
       "exclude": []
     },
     "Liquor/Wine": {
-      "types": ["liquor_store"],
+      "types": [
+        "liquor_store"
+      ],
       "keyword": "liquor wine beer spirits",
-      "exclude": ["grocery", "safeway", "fred meyer"]
+      "exclude": [
+        "grocery",
+        "safeway",
+        "fred meyer"
+      ]
     },
     "Dispensary": {
-      "types": ["store"],
+      "types": [
+        "store"
+      ],
       "keyword": "dispensary cannabis marijuana weed",
-      "exclude": ["pharmacy", "medical center"]
+      "exclude": [
+        "pharmacy",
+        "medical center"
+      ]
     }
   },
   "👶 Care Centers": {
     "Child Care/Day Care": {
-      "types": ["school"],
+      "types": [
+        "school"
+      ],
       "keyword": "daycare day care child care childcare preschool learning center montessori",
-      "exclude": ["high school", "middle school", "elementary school", "university", "college"]
+      "exclude": [
+        "high school",
+        "middle school",
+        "elementary school",
+        "university",
+        "college"
+      ]
     },
     "After School Program": {
-      "types": ["school"],
+      "types": [
+        "school"
+      ],
       "keyword": "after school program tutoring enrichment kids center",
-      "exclude": ["university", "college"]
+      "exclude": [
+        "university",
+        "college"
+      ]
     },
     "Adult Day Care": {
-      "types": ["health"],
+      "types": [
+        "health"
+      ],
       "keyword": "adult day care senior center adult care elderly care",
-      "exclude": ["hospital", "emergency"]
+      "exclude": [
+        "hospital",
+        "emergency"
+      ]
     },
     "Assisted Living": {
-      "types": ["health"],
+      "types": [
+        "health"
+      ],
       "keyword": "assisted living senior living retirement home nursing home memory care",
-      "exclude": ["hospital", "emergency room"]
+      "exclude": [
+        "hospital",
+        "emergency room"
+      ]
     }
   },
   "👦 Kids Activities & Tutoring": {
     "Tutoring": {
-      "types": ["education"],
+      "types": [
+        "education"
+      ],
       "keyword": "tutoring tutor academic help homework test prep sat act",
-      "exclude": ["university", "college"]
+      "exclude": [
+        "university",
+        "college"
+      ]
     },
     "After School Programs": {
-      "types": ["school"],
+      "types": [
+        "school"
+      ],
       "keyword": "after school program afterschool enrichment kids club youth center",
-      "exclude": ["university", "college", "babysitting"]
+      "exclude": [
+        "university",
+        "college",
+        "babysitting"
+      ]
     },
     "Martial Arts": {
-      "types": ["gym"],
+      "types": [
+        "gym"
+      ],
       "keyword": "martial arts karate taekwondo kung fu judo boxing mma",
       "exclude": []
     },
     "Dance Classes": {
-      "types": ["education"],
+      "types": [
+        "education"
+      ],
       "keyword": "dance classes ballet tap hip hop contemporary dance studio",
-      "exclude": ["nightclub", "bar"]
+      "exclude": [
+        "nightclub",
+        "bar"
+      ]
     },
     "Music Lessons": {
-      "types": ["education"],
+      "types": [
+        "education"
+      ],
       "keyword": "music lessons piano guitar violin drums lessons instructor",
       "exclude": []
     },
     "Youth Sports": {
-      "types": ["gym", "sports"],
+      "types": [
+        "gym",
+        "sports"
+      ],
       "keyword": "youth sports kids sports soccer baseball basketball football swimming",
-      "exclude": ["adult", "professional"]
+      "exclude": [
+        "adult",
+        "professional"
+      ]
     },
     "Summer Camps": {
-      "types": ["school"],
+      "types": [
+        "school"
+      ],
       "keyword": "summer camp day camp kids camp sports camp",
-      "exclude": ["adult", "college"]
+      "exclude": [
+        "adult",
+        "college"
+      ]
     },
     "General Kids Activities": {
-      "types": ["education"],
+      "types": [
+        "education"
+      ],
       "keyword": "kids activities enrichment programs children classes",
-      "exclude": ["university", "college"]
+      "exclude": [
+        "university",
+        "college"
+      ]
     }
   },
   "🎡 Family Entertainment": {
     "Trampoline Park": {
-      "types": ["amusement_park"],
+      "types": [
+        "amusement_park"
+      ],
       "keyword": "trampoline park jump park indoor trampoline",
       "exclude": []
     },
     "Bowling": {
-      "types": ["bowling_alley"],
+      "types": [
+        "bowling_alley"
+      ],
       "keyword": "bowling alley bowling center",
       "exclude": []
     },
     "Arcade/FEC": {
-      "types": ["amusement_center"],
+      "types": [
+        "amusement_center"
+      ],
       "keyword": "arcade family entertainment center game room barcade",
       "exclude": []
     },
     "Mini Golf": {
-      "types": ["amusement_park"],
+      "types": [
+        "amusement_park"
+      ],
       "keyword": "mini golf miniature golf putt putt",
       "exclude": []
     },
     "Laser Tag": {
-      "types": ["amusement_center"],
+      "types": [
+        "amusement_center"
+      ],
       "keyword": "laser tag laser arena",
       "exclude": []
     },
     "Escape Room": {
-      "types": ["amusement_center"],
+      "types": [
+        "amusement_center"
+      ],
       "keyword": "escape room escape game",
       "exclude": []
     },
     "Skating Rink": {
-      "types": ["amusement_center"],
+      "types": [
+        "amusement_center"
+      ],
       "keyword": "roller skating ice skating rink skate",
       "exclude": []
     },
     "Bounce/Play Center": {
-      "types": ["amusement_center"],
+      "types": [
+        "amusement_center"
+      ],
       "keyword": "bounce house indoor playground play center kids play",
       "exclude": []
     },
     "Movie Theater": {
-      "types": ["movie_theater"],
+      "types": [
+        "movie_theater"
+      ],
       "keyword": "movie theater cinema",
       "exclude": []
     },
     "Golf/Driving Range": {
-      "types": ["golf_course"],
+      "types": [
+        "golf_course"
+      ],
       "keyword": "golf course driving range topgolf golf simulator",
-      "exclude": ["mini golf"]
+      "exclude": [
+        "mini golf"
+      ]
     },
     "Go-Karts/Fun Center": {
-      "types": ["amusement_park"],
+      "types": [
+        "amusement_park"
+      ],
       "keyword": "go kart go-kart fun center family fun park",
       "exclude": []
     },
     "Bar Games/Axe Throwing": {
-      "types": ["amusement_center", "bar"],
+      "types": [
+        "amusement_center",
+        "bar"
+      ],
       "keyword": "axe throwing pool hall billiards dart bar entertainment",
       "exclude": []
+    },
+    "Golf Courses": {
+      "types": [
+        "golf_course"
+      ],
+      "keyword": "golf course country club",
+      "exclude": [
+        "mini golf",
+        "driving range"
+      ]
     }
   }
 }
