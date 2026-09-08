@@ -104,6 +104,32 @@ input, textarea, select, button {
   overflow-wrap: break-word; /* only break genuinely long words, never normal ones */
 }
 
+/* Leaflet map popup/tooltip legibility fix.
+   The global `.content * { min-width:0; max-width:100% }` overflow-safety rule
+   above also hits Leaflet's injected popup DOM, collapsing it to the narrowest
+   possible width so store info text wrapped one word per line (looked vertical).
+   Restore Leaflet's own sizing so popup text reads horizontally on every map. */
+.content .leaflet-popup-content-wrapper,
+.content .leaflet-popup-content,
+.content .leaflet-tooltip {
+  max-width: none;
+}
+.content .leaflet-popup-content {
+  min-width: 140px;   /* give text room so it wraps normally, not char-by-char */
+  width: auto !important;
+  white-space: normal;
+  line-height: 1.4;
+}
+.content .leaflet-popup-content strong {
+  white-space: normal;
+}
+/* Map marker labels (distance chip, etc.) must never wrap vertically */
+.content .leaflet-div-icon,
+.content .leaflet-marker-icon {
+  width: auto !important;
+  max-width: none;
+}
+
 #app {
   width: 100%;
   max-width: 100%;
