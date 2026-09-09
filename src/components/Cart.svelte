@@ -923,7 +923,27 @@
       }
     }
 
-    // Header bar
+    // ── Product flags (declared early so the hero cover + "sell first" section can use them) ──
+    const hasRT = cartItems.some(i => (i.name || '').toLowerCase().includes('register tape'));
+    const hasCart = cartItems.some(i => (i.name || '').toLowerCase().includes('cartvertising'));
+    const hasNose = cartItems.some(i => i.noseOfCart || (i.name || '').toLowerCase().includes('nose of cart'));
+    const hasDigi = cartItems.some(i => {
+      const n = (i.name || '').toLowerCase();
+      return n.includes('digitalboost') || n.includes('digital boost') || n.includes('findlocal') || n.includes('reviewboost') || n.includes('loyaltyboost');
+    });
+    const hasHeaderAd = cartItems.some(i => (i.cartKind === 'header') || /header/i.test(i.plan || ''));
+
+    // ═══════════════════════════════════════════════════════════
+    // HERO COVER PAGE — supporting graphics + sizzle (Tyler's ask: make
+    // page 1 a wow). All vector, so it never depends on external assets.
+    // ═══════════════════════════════════════════════════════════
+    drawHeroCover();
+
+    // After the cover, everything else starts on a fresh page.
+    page = pdfDoc.addPage([612, 792]);
+    y = 792; pageNum++;
+
+    // Header bar (page 2 onward)
     page.drawRectangle({ x: 0, y: y - 80, width: 612, height: 80, color: red });
     page.drawText('QUOTE', { x: 30, y: y - 45, size: 30, font: bold, color: white });
     page.drawText('IndoorMedia', { x: 30, y: y - 65, size: 12, font: regular, color: white });
@@ -943,16 +963,6 @@
       y -= 18;
     }
     y -= 12;
-
-    // ── Product flags (declared early so the "sell first" section can use them) ──
-    const hasRT = cartItems.some(i => (i.name || '').toLowerCase().includes('register tape'));
-    const hasCart = cartItems.some(i => (i.name || '').toLowerCase().includes('cartvertising'));
-    const hasNose = cartItems.some(i => i.noseOfCart || (i.name || '').toLowerCase().includes('nose of cart'));
-    const hasDigi = cartItems.some(i => {
-      const n = (i.name || '').toLowerCase();
-      return n.includes('digitalboost') || n.includes('digital boost') || n.includes('findlocal') || n.includes('reviewboost') || n.includes('loyaltyboost');
-    });
-    const hasHeaderAd = cartItems.some(i => (i.cartKind === 'header') || /header/i.test(i.plan || ''));
 
     // ══════════════════════════════════════════════════════════════════
     // SELL FIRST: lead with the "Supermarketing" hook, product highlights,
@@ -1120,6 +1130,169 @@
 
     // "Supermarketing" lead headline — the supermarket/marketing pun as the
     // hero hook at the very top of the sell section.
+    // ── HERO COVER PAGE ───────────────────────────────────
+    // Renders on the FIRST page. Pure vector art so it never fails on a
+    // missing asset. Shows brand, a big "Supermarketing" hero, a receipt +
+    // shopping-cart illustration, product badges for what's in the quote,
+    // and stat callouts.
+    function drawHeroCover() {
+      const W = 612, H = 792;
+      const brandRed = red;         // rgb(0.8,0,0)
+      const darkRed = rgb(0.62, 0, 0);
+      const ink = rgb(0.12, 0.12, 0.14);
+      const softGray = rgb(0.45, 0.45, 0.48);
+      const cW = (t, s, f) => f.widthOfTextAtSize(t, s);
+      const centerText = (t, cx, yy, s, f, col) => page.drawText(t, { x: cx - cW(t, s, f) / 2, y: yy, size: s, font: f, color: col });
+
+      // Full-page soft background
+      page.drawRectangle({ x: 0, y: 0, width: W, height: H, color: rgb(0.98, 0.98, 0.985) });
+
+      // ── Top brand band with layered accent ──
+      page.drawRectangle({ x: 0, y: H - 128, width: W, height: 128, color: brandRed });
+      page.drawRectangle({ x: 0, y: H - 136, width: W, height: 8, color: darkRed });
+      // thin diagonal accent stripes on the far right (clean, intentional, pulled in from edge)
+      for (let i = 0; i < 5; i++) {
+        const sxx = W - 110 + i * 12;
+        page.drawLine({ start: { x: sxx, y: H - 124 }, end: { x: sxx + 34, y: H - 4 }, thickness: 3, color: darkRed, opacity: 0.5 });
+      }
+      // Brand lockup
+      page.drawText('IndoorMedia', { x: 40, y: H - 58, size: 26, font: bold, color: white });
+      page.drawText('SUPERMARKET ADVERTISING THAT WORKS', { x: 42, y: H - 78, size: 9.5, font: regular, color: rgb(1, 0.85, 0.85) });
+      // QUOTE tag top-right
+      page.drawText('QUOTE', { x: W - cW('QUOTE', 16, bold) - 42, y: H - 52, size: 16, font: bold, color: white });
+      page.drawText(dateStr, { x: W - cW(dateStr, 9, regular) - 42, y: H - 70, size: 9, font: regular, color: rgb(1, 0.88, 0.88) });
+
+      // ── Hero statement ──
+      let hy = H - 190;
+      centerText('This isn\'t just marketing.', W / 2, hy, 16, regular, softGray);
+      hy -= 40;
+      centerText('It\'s SUPERMARKETING.', W / 2, hy, 34, bold, brandRed);
+      const uw = cW('It\'s SUPERMARKETING.', 34, bold);
+      page.drawRectangle({ x: W / 2 - uw / 2, y: hy - 8, width: uw, height: 4, color: brandRed });
+      hy -= 30;
+      centerText('Reach real shoppers where they already spend -- the supermarket.', W / 2, hy, 11.5, regular, ink);
+
+      // ── Central illustration: receipt + shopping cart ──
+      const illY = hy - 30;   // top of illustration zone
+      // Receipt card (left of center)
+      const rX = W / 2 - 150, rW = 118, rH = 132, rTop = illY, rBot = illY - rH;
+      // drop shadow
+      page.drawRectangle({ x: rX + 5, y: rBot - 5, width: rW, height: rH, color: rgb(0.85, 0.85, 0.87) });
+      // receipt body
+      page.drawRectangle({ x: rX, y: rBot, width: rW, height: rH, color: white, borderColor: rgb(0.8, 0.8, 0.82), borderWidth: 1 });
+      // zigzag bottom edge
+      const zN = 8, zW = rW / zN;
+      for (let i = 0; i < zN; i++) {
+        page.drawLine({ start: { x: rX + i * zW, y: rBot }, end: { x: rX + i * zW + zW / 2, y: rBot - 6 }, thickness: 1, color: rgb(0.8, 0.8, 0.82) });
+        page.drawLine({ start: { x: rX + i * zW + zW / 2, y: rBot - 6 }, end: { x: rX + (i + 1) * zW, y: rBot }, thickness: 1, color: rgb(0.8, 0.8, 0.82) });
+      }
+      // receipt header
+      page.drawRectangle({ x: rX, y: rTop - 24, width: rW, height: 24, color: brandRed });
+      centerText('YOUR STORE', rX + rW / 2, rTop - 17, 8, bold, white);
+      // fake line items
+      let ly = rTop - 40;
+      for (let i = 0; i < 3; i++) {
+        page.drawRectangle({ x: rX + 12, y: ly, width: 55, height: 3.5, color: rgb(0.82, 0.82, 0.84) });
+        page.drawRectangle({ x: rX + rW - 40, y: ly, width: 26, height: 3.5, color: rgb(0.82, 0.82, 0.84) });
+        ly -= 11;
+      }
+      page.drawLine({ start: { x: rX + 12, y: ly + 2 }, end: { x: rX + rW - 12, y: ly + 2 }, thickness: 0.6, color: rgb(0.8, 0.8, 0.82) });
+      ly -= 8;
+      // THE AD / COUPON block on the receipt (the star)
+      const adH = 54;
+      page.drawRectangle({ x: rX + 10, y: ly - adH, width: rW - 20, height: adH, color: rgb(1, 0.96, 0.9), borderColor: brandRed, borderWidth: 1.4 });
+      centerText('YOUR AD HERE', rX + rW / 2, ly - 16, 9, bold, brandRed);
+      centerText('Special Offer', rX + rW / 2, ly - 28, 7, regular, softGray);
+      // dashed coupon divider
+      for (let dx = rX + 14; dx < rX + rW - 14; dx += 8) {
+        page.drawLine({ start: { x: dx, y: ly - 36 }, end: { x: dx + 4, y: ly - 36 }, thickness: 0.7, color: brandRed });
+      }
+      centerText('SAVE 20%', rX + rW / 2, ly - 47, 8, bold, green);
+
+      // Shopping cart (right of center) — simple vector cart (vertically centered vs. receipt)
+      const cx0 = W / 2 + 70, cyBase = illY - 96;
+      const cartCol = brandRed;
+      // basket (trapezoid via lines)
+      const bl = cx0, br = cx0 + 90, bt = cyBase + 60, bb = cyBase + 20;
+      page.drawLine({ start: { x: bl, y: bt }, end: { x: br, y: bt }, thickness: 3, color: cartCol });
+      page.drawLine({ start: { x: bl + 8, y: bb }, end: { x: br - 8, y: bb }, thickness: 3, color: cartCol });
+      page.drawLine({ start: { x: bl, y: bt }, end: { x: bl + 8, y: bb }, thickness: 3, color: cartCol });
+      page.drawLine({ start: { x: br, y: bt }, end: { x: br - 8, y: bb }, thickness: 3, color: cartCol });
+      // internal grid lines
+      page.drawLine({ start: { x: bl + 27, y: bt }, end: { x: bl + 23, y: bb }, thickness: 1, color: cartCol });
+      page.drawLine({ start: { x: bl + 54, y: bt }, end: { x: bl + 50, y: bb }, thickness: 1, color: cartCol });
+      page.drawLine({ start: { x: bl + 5, y: bt - 12 }, end: { x: br - 5, y: bt - 12 }, thickness: 1, color: cartCol });
+      // handle
+      page.drawLine({ start: { x: bl, y: bt }, end: { x: bl - 16, y: bt + 26 }, thickness: 3, color: cartCol });
+      page.drawLine({ start: { x: bl - 16, y: bt + 26 }, end: { x: bl - 30, y: bt + 26 }, thickness: 3, color: cartCol });
+      // wheels
+      page.drawEllipse({ x: bl + 18, y: bb - 12, xScale: 7, yScale: 7, color: cartCol });
+      page.drawEllipse({ x: br - 20, y: bb - 12, xScale: 7, yScale: 7, color: cartCol });
+      // little ad tag riding on the cart
+      page.drawRectangle({ x: cx0 + 18, y: bt + 6, width: 54, height: 26, color: white, borderColor: cartCol, borderWidth: 1.4 });
+      centerText('AD', cx0 + 45, bt + 15, 10, bold, cartCol);
+      // caption clearly BELOW the wheels (no collision)
+      centerText('Your brand, seen every trip', cx0 + 20, bb - 30, 8, regular, softGray);
+
+      // ── Product badges (what's in THIS quote) ──
+      const badges = [];
+      if (hasRT) badges.push('Register Tape');
+      if (hasCart) badges.push('Cartvertising');
+      if (hasNose) badges.push('Nose of Cart');
+      if (hasDigi) badges.push('Digital Suite');
+      // ── Product badges band (fixed Y, clear of the illustration) ──
+      if (badges.length) {
+        const bs = 9, padX = 12, bh = 22, gap = 10;
+        const labelY = 330;          // "IN THIS PROPOSAL"  (below the illustration cluster)
+        const by = labelY - 30;      // pill row
+        centerText('IN THIS PROPOSAL', W / 2, labelY, 8, bold, softGray);
+        const totalW = badges.reduce((acc, b) => acc + cW(b, bs, bold) + padX * 2 + gap, 0) - gap;
+        let bx = W / 2 - totalW / 2;
+        for (const b of badges) {
+          const bw = cW(b, bs, bold) + padX * 2;
+          page.drawRectangle({ x: bx, y: by, width: bw, height: bh, color: brandRed });
+          page.drawText(b, { x: bx + padX, y: by + 7, size: bs, font: bold, color: white });
+          bx += bw + gap;
+        }
+      }
+
+      // ── Value tagline (own band, above the stats) ──
+      centerText('Where your customers already are. Every day.', W / 2, 268, 12.5, bold, ink);
+      const tlw = cW('Where your customers already are. Every day.', 12.5, bold);
+      page.drawRectangle({ x: W / 2 - tlw / 2, y: 259, width: tlw, height: 2, color: brandRed, opacity: 0.4 });
+
+      // ── Stat callout row (with soft shadow to match receipt depth) ──
+      const statY = 188;
+      const stats = [
+        ['100%', 'of shoppers reached'],
+        ['40+ min', 'in front of your ad'],
+        ['Local', 'hyper-targeted reach'],
+      ];
+      const sW = 168, sGap = 16, sH = 66;
+      const totalSW = stats.length * sW + (stats.length - 1) * sGap;
+      let sx = W / 2 - totalSW / 2;
+      for (const [big, small] of stats) {
+        page.drawRectangle({ x: sx + 3, y: statY - 3, width: sW, height: sH, color: rgb(0.9, 0.9, 0.92) });
+        page.drawRectangle({ x: sx, y: statY, width: sW, height: sH, color: white, borderColor: rgb(0.88, 0.88, 0.9), borderWidth: 1 });
+        page.drawRectangle({ x: sx, y: statY, width: 5, height: sH, color: brandRed });
+        centerText(big, sx + sW / 2, statY + 38, 20, bold, brandRed);
+        centerText(small, sx + sW / 2, statY + 16, 9, regular, softGray);
+        sx += sW + sGap;
+      }
+
+      // ── Call-to-action strip above the footer (fills the lower third) ──
+      page.drawRectangle({ x: 60, y: 132, width: W - 120, height: 34, color: rgb(1, 0.96, 0.9), borderColor: brandRed, borderWidth: 1.2 });
+      centerText('Let\'s put your business in front of every shopper.', W / 2, 143, 12, bold, brandRed);
+
+      // ── Prepared-for band at the bottom ──
+      page.drawRectangle({ x: 0, y: 0, width: W, height: 104, color: ink });
+      page.drawRectangle({ x: 0, y: 100, width: W, height: 4, color: brandRed });
+      const forTxt = businessName.trim() ? ('Prepared for ' + businessName.trim()) : 'Prepared for your business';
+      centerText(forTxt, W / 2, 68, 16, bold, white);
+      centerText('Prepared by ' + rep, W / 2, 46, 10, regular, rgb(0.8, 0.8, 0.82));
+      centerText('IndoorMedia  |  indoormedia.com', W / 2, 28, 9, regular, rgb(0.62, 0.62, 0.64));
+    }
+
     function drawSupermarketingHeadline() {
       checkPage(120);
       // Big pun headline
