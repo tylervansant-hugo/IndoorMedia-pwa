@@ -937,18 +937,21 @@
     // HERO COVER PAGE — supporting graphics + sizzle (Tyler's ask: make
     // page 1 a wow). All vector, so it never depends on external assets.
     // ═══════════════════════════════════════════════════════════
+    // The hero cover (page 1) now carries the brand, the "Supermarketing"
+    // hook, product-specific benefits + stats, and the prepared-for band —
+    // so the old page-2 headline/highlights are redundant and removed.
     drawHeroCover();
 
-    // After the cover, everything else starts on a fresh page.
+    // Page 2 goes straight to the details with a compact header.
     page = pdfDoc.addPage([612, 792]);
     y = 792; pageNum++;
 
-    // Header bar (page 2 onward)
-    page.drawRectangle({ x: 0, y: y - 80, width: 612, height: 80, color: red });
-    page.drawText('QUOTE', { x: 30, y: y - 45, size: 30, font: bold, color: white });
-    page.drawText('IndoorMedia', { x: 30, y: y - 65, size: 12, font: regular, color: white });
-    page.drawText(dateStr, { x: 612 - bold.widthOfTextAtSize(dateStr, 10) - 30, y: y - 45, size: 10, font: bold, color: white });
-    y -= 100;
+    // Compact header bar (details pages)
+    page.drawRectangle({ x: 0, y: y - 64, width: 612, height: 64, color: red });
+    page.drawText('Your Proposal', { x: 30, y: y - 40, size: 22, font: bold, color: white });
+    page.drawText('IndoorMedia', { x: 612 - regular.widthOfTextAtSize('IndoorMedia', 12) - 30, y: y - 30, size: 12, font: regular, color: white });
+    page.drawText(dateStr, { x: 612 - regular.widthOfTextAtSize(dateStr, 9) - 30, y: y - 46, size: 9, font: regular, color: rgb(1, 0.88, 0.88) });
+    y -= 84;
 
     // Customer section
     if (businessName.trim()) {
@@ -962,15 +965,13 @@
       page.drawText(originTxt, { x: 30, y, size: 10, font: regular, color: rgb(0.15, 0.33, 0.78) });
       y -= 18;
     }
-    y -= 12;
+    y -= 14;
 
-    // ══════════════════════════════════════════════════════════════════
-    // SELL FIRST: lead with the "Supermarketing" hook, product highlights,
-    // and customer testimonials — THEN show the numbers. (Tyler's ask:
-    // warm them up on the value before revealing pricing.)
-    // ══════════════════════════════════════════════════════════════════
-    drawSupermarketingHeadline();
-    drawAllHighlights();
+    // Product diagrams / spec sheets (Cartvertising placement, Nose art specs).
+    // Benefit bullets + the "Supermarketing" hook now live on the hero cover.
+    drawProductDiagrams();
+
+    // Customer testimonials (social proof) before the numbers.
     await drawTestimonialSection();
 
     // ── Numbers start on a fresh page so "the ask" reads as its own moment ──
@@ -1172,67 +1173,75 @@
       hy -= 30;
       centerText('Reach real shoppers where they already spend -- the supermarket.', W / 2, hy, 11.5, regular, ink);
 
-      // ── Central illustration: receipt + shopping cart ──
+      // ── DYNAMIC illustration ─────────────────────────────────────────
+      // Show a receipt when a receipt-style product is in the quote
+      // (Register Tape / Nose / Digital lead with the receipt hook), and show
+      // the shopping cart ONLY when Cartvertising is included. Center whatever
+      // is shown so the layout adapts to the product mix.
+      const showReceipt = hasRT || hasNose || hasDigi || !hasCart; // default to receipt if nothing flagged
+      const showCart = hasCart;
       const illY = hy - 30;   // top of illustration zone
-      // Receipt card (left of center)
-      const rX = W / 2 - 150, rW = 118, rH = 132, rTop = illY, rBot = illY - rH;
-      // drop shadow
-      page.drawRectangle({ x: rX + 5, y: rBot - 5, width: rW, height: rH, color: rgb(0.85, 0.85, 0.87) });
-      // receipt body
-      page.drawRectangle({ x: rX, y: rBot, width: rW, height: rH, color: white, borderColor: rgb(0.8, 0.8, 0.82), borderWidth: 1 });
-      // zigzag bottom edge
-      const zN = 8, zW = rW / zN;
-      for (let i = 0; i < zN; i++) {
-        page.drawLine({ start: { x: rX + i * zW, y: rBot }, end: { x: rX + i * zW + zW / 2, y: rBot - 6 }, thickness: 1, color: rgb(0.8, 0.8, 0.82) });
-        page.drawLine({ start: { x: rX + i * zW + zW / 2, y: rBot - 6 }, end: { x: rX + (i + 1) * zW, y: rBot }, thickness: 1, color: rgb(0.8, 0.8, 0.82) });
-      }
-      // receipt header
-      page.drawRectangle({ x: rX, y: rTop - 24, width: rW, height: 24, color: brandRed });
-      centerText('YOUR STORE', rX + rW / 2, rTop - 17, 8, bold, white);
-      // fake line items
-      let ly = rTop - 40;
-      for (let i = 0; i < 3; i++) {
-        page.drawRectangle({ x: rX + 12, y: ly, width: 55, height: 3.5, color: rgb(0.82, 0.82, 0.84) });
-        page.drawRectangle({ x: rX + rW - 40, y: ly, width: 26, height: 3.5, color: rgb(0.82, 0.82, 0.84) });
-        ly -= 11;
-      }
-      page.drawLine({ start: { x: rX + 12, y: ly + 2 }, end: { x: rX + rW - 12, y: ly + 2 }, thickness: 0.6, color: rgb(0.8, 0.8, 0.82) });
-      ly -= 8;
-      // THE AD / COUPON block on the receipt (the star)
-      const adH = 54;
-      page.drawRectangle({ x: rX + 10, y: ly - adH, width: rW - 20, height: adH, color: rgb(1, 0.96, 0.9), borderColor: brandRed, borderWidth: 1.4 });
-      centerText('YOUR AD HERE', rX + rW / 2, ly - 16, 9, bold, brandRed);
-      centerText('Special Offer', rX + rW / 2, ly - 28, 7, regular, softGray);
-      // dashed coupon divider
-      for (let dx = rX + 14; dx < rX + rW - 14; dx += 8) {
-        page.drawLine({ start: { x: dx, y: ly - 36 }, end: { x: dx + 4, y: ly - 36 }, thickness: 0.7, color: brandRed });
-      }
-      centerText('SAVE 20%', rX + rW / 2, ly - 47, 8, bold, green);
+      const rW = 118, rH = 132;
 
-      // Shopping cart (right of center) — simple vector cart (vertically centered vs. receipt)
-      const cx0 = W / 2 + 70, cyBase = illY - 96;
-      const cartCol = brandRed;
-      // basket (trapezoid via lines)
-      const bl = cx0, br = cx0 + 90, bt = cyBase + 60, bb = cyBase + 20;
-      page.drawLine({ start: { x: bl, y: bt }, end: { x: br, y: bt }, thickness: 3, color: cartCol });
-      page.drawLine({ start: { x: bl + 8, y: bb }, end: { x: br - 8, y: bb }, thickness: 3, color: cartCol });
-      page.drawLine({ start: { x: bl, y: bt }, end: { x: bl + 8, y: bb }, thickness: 3, color: cartCol });
-      page.drawLine({ start: { x: br, y: bt }, end: { x: br - 8, y: bb }, thickness: 3, color: cartCol });
-      // internal grid lines
-      page.drawLine({ start: { x: bl + 27, y: bt }, end: { x: bl + 23, y: bb }, thickness: 1, color: cartCol });
-      page.drawLine({ start: { x: bl + 54, y: bt }, end: { x: bl + 50, y: bb }, thickness: 1, color: cartCol });
-      page.drawLine({ start: { x: bl + 5, y: bt - 12 }, end: { x: br - 5, y: bt - 12 }, thickness: 1, color: cartCol });
-      // handle
-      page.drawLine({ start: { x: bl, y: bt }, end: { x: bl - 16, y: bt + 26 }, thickness: 3, color: cartCol });
-      page.drawLine({ start: { x: bl - 16, y: bt + 26 }, end: { x: bl - 30, y: bt + 26 }, thickness: 3, color: cartCol });
-      // wheels
-      page.drawEllipse({ x: bl + 18, y: bb - 12, xScale: 7, yScale: 7, color: cartCol });
-      page.drawEllipse({ x: br - 20, y: bb - 12, xScale: 7, yScale: 7, color: cartCol });
-      // little ad tag riding on the cart
-      page.drawRectangle({ x: cx0 + 18, y: bt + 6, width: 54, height: 26, color: white, borderColor: cartCol, borderWidth: 1.4 });
-      centerText('AD', cx0 + 45, bt + 15, 10, bold, cartCol);
-      // caption clearly BELOW the wheels (no collision)
-      centerText('Your brand, seen every trip', cx0 + 20, bb - 30, 8, regular, softGray);
+      // Reusable vector drawers so we can position them dynamically.
+      const drawReceipt = (rX) => {
+        const rTop = illY, rBot = illY - rH;
+        page.drawRectangle({ x: rX + 5, y: rBot - 5, width: rW, height: rH, color: rgb(0.85, 0.85, 0.87) });
+        page.drawRectangle({ x: rX, y: rBot, width: rW, height: rH, color: white, borderColor: rgb(0.8, 0.8, 0.82), borderWidth: 1 });
+        const zN = 8, zW = rW / zN;
+        for (let i = 0; i < zN; i++) {
+          page.drawLine({ start: { x: rX + i * zW, y: rBot }, end: { x: rX + i * zW + zW / 2, y: rBot - 6 }, thickness: 1, color: rgb(0.8, 0.8, 0.82) });
+          page.drawLine({ start: { x: rX + i * zW + zW / 2, y: rBot - 6 }, end: { x: rX + (i + 1) * zW, y: rBot }, thickness: 1, color: rgb(0.8, 0.8, 0.82) });
+        }
+        page.drawRectangle({ x: rX, y: rTop - 24, width: rW, height: 24, color: brandRed });
+        centerText('YOUR STORE', rX + rW / 2, rTop - 17, 8, bold, white);
+        let ly = rTop - 40;
+        for (let i = 0; i < 3; i++) {
+          page.drawRectangle({ x: rX + 12, y: ly, width: 55, height: 3.5, color: rgb(0.82, 0.82, 0.84) });
+          page.drawRectangle({ x: rX + rW - 40, y: ly, width: 26, height: 3.5, color: rgb(0.82, 0.82, 0.84) });
+          ly -= 11;
+        }
+        page.drawLine({ start: { x: rX + 12, y: ly + 2 }, end: { x: rX + rW - 12, y: ly + 2 }, thickness: 0.6, color: rgb(0.8, 0.8, 0.82) });
+        ly -= 8;
+        const adH = 54;
+        page.drawRectangle({ x: rX + 10, y: ly - adH, width: rW - 20, height: adH, color: rgb(1, 0.96, 0.9), borderColor: brandRed, borderWidth: 1.4 });
+        centerText('YOUR AD HERE', rX + rW / 2, ly - 16, 9, bold, brandRed);
+        centerText('Special Offer', rX + rW / 2, ly - 28, 7, regular, softGray);
+        for (let dx = rX + 14; dx < rX + rW - 14; dx += 8) {
+          page.drawLine({ start: { x: dx, y: ly - 36 }, end: { x: dx + 4, y: ly - 36 }, thickness: 0.7, color: brandRed });
+        }
+        centerText('SAVE 20%', rX + rW / 2, ly - 47, 8, bold, green);
+      };
+
+      const drawCart = (cx0) => {
+        const cyBase = illY - 96;
+        const cartCol = brandRed;
+        const bl = cx0, br = cx0 + 90, bt = cyBase + 60, bb = cyBase + 20;
+        page.drawLine({ start: { x: bl, y: bt }, end: { x: br, y: bt }, thickness: 3, color: cartCol });
+        page.drawLine({ start: { x: bl + 8, y: bb }, end: { x: br - 8, y: bb }, thickness: 3, color: cartCol });
+        page.drawLine({ start: { x: bl, y: bt }, end: { x: bl + 8, y: bb }, thickness: 3, color: cartCol });
+        page.drawLine({ start: { x: br, y: bt }, end: { x: br - 8, y: bb }, thickness: 3, color: cartCol });
+        page.drawLine({ start: { x: bl + 27, y: bt }, end: { x: bl + 23, y: bb }, thickness: 1, color: cartCol });
+        page.drawLine({ start: { x: bl + 54, y: bt }, end: { x: bl + 50, y: bb }, thickness: 1, color: cartCol });
+        page.drawLine({ start: { x: bl + 5, y: bt - 12 }, end: { x: br - 5, y: bt - 12 }, thickness: 1, color: cartCol });
+        page.drawLine({ start: { x: bl, y: bt }, end: { x: bl - 16, y: bt + 26 }, thickness: 3, color: cartCol });
+        page.drawLine({ start: { x: bl - 16, y: bt + 26 }, end: { x: bl - 30, y: bt + 26 }, thickness: 3, color: cartCol });
+        page.drawEllipse({ x: bl + 18, y: bb - 12, xScale: 7, yScale: 7, color: cartCol });
+        page.drawEllipse({ x: br - 20, y: bb - 12, xScale: 7, yScale: 7, color: cartCol });
+        page.drawRectangle({ x: cx0 + 18, y: bt + 6, width: 54, height: 26, color: white, borderColor: cartCol, borderWidth: 1.4 });
+        centerText('AD', cx0 + 45, bt + 15, 10, bold, cartCol);
+        centerText('Your brand, seen every trip', cx0 + 20, bb - 30, 8, regular, softGray);
+      };
+
+      // Position: both → side by side; one → centered.
+      if (showReceipt && showCart) {
+        drawReceipt(W / 2 - 150);
+        drawCart(W / 2 + 70);
+      } else if (showCart) {
+        drawCart(W / 2 - 45);
+      } else {
+        drawReceipt(W / 2 - rW / 2);
+      }
 
       // ── Product badges (what's in THIS quote) ──
       const badges = [];
@@ -1241,11 +1250,11 @@
       if (hasNose) badges.push('Nose of Cart');
       if (hasDigi) badges.push('Digital Suite');
       // ── Product badges band (fixed Y, clear of the illustration) ──
+      const badgeLabelY = 348;       // "IN THIS PROPOSAL"  (below the illustration cluster)
       if (badges.length) {
         const bs = 9, padX = 12, bh = 22, gap = 10;
-        const labelY = 330;          // "IN THIS PROPOSAL"  (below the illustration cluster)
-        const by = labelY - 30;      // pill row
-        centerText('IN THIS PROPOSAL', W / 2, labelY, 8, bold, softGray);
+        const by = badgeLabelY - 30;   // pill row
+        centerText('IN THIS PROPOSAL', W / 2, badgeLabelY, 8, bold, softGray);
         const totalW = badges.reduce((acc, b) => acc + cW(b, bs, bold) + padX * 2 + gap, 0) - gap;
         let bx = W / 2 - totalW / 2;
         for (const b of badges) {
@@ -1256,27 +1265,62 @@
         }
       }
 
-      // ── Value tagline (own band, above the stats) ──
-      centerText('Where your customers already are. Every day.', W / 2, 268, 12.5, bold, ink);
-      const tlw = cW('Where your customers already are. Every day.', 12.5, bold);
-      page.drawRectangle({ x: W / 2 - tlw / 2, y: 259, width: tlw, height: 2, color: brandRed, opacity: 0.4 });
+      // ── Product-specific benefits (dynamic to the quote) ──
+      // Two benefits per product when the mix is small (1-2 products), one
+      // per product when it's larger, so the block always fits above the
+      // stat cards. Single-column, flows downward from a fixed top.
+      const prodCount = [hasRT, hasCart, hasNose, hasDigi].filter(Boolean).length;
+      const two = prodCount <= 2;   // room for 2 benefits each only with a small mix
+      const benefits = [];
+      if (hasRT) {
+        benefits.push('100% reach -- every customer gets your ad on their receipt');
+        if (two) benefits.push('Coupon-driven -- track real, measurable customer response');
+      }
+      if (hasCart) {
+        benefits.push('40+ minutes of eye-level exposure every shopping trip');
+        if (two) benefits.push('Full-color cart ads thousands of shoppers see each week');
+      }
+      if (hasNose) {
+        benefits.push('Front-facing Nose ads -- first thing oncoming shoppers see');
+        if (two) benefits.push('Category exclusivity available to lock out competitors');
+      }
+      if (hasDigi) {
+        benefits.push('Geofenced digital ads reach shoppers near your business');
+        if (two) benefits.push('Monthly performance reports prove your ROI');
+      }
+      // Benefits region: starts under the badges, ends with a computed bottom.
+      const benTop = badgeLabelY - 50;   // label baseline for "WHY IT WORKS FOR YOU"
+      let benBottom = benTop - 6;
+      if (benefits.length) {
+        centerText('WHY IT WORKS FOR YOU', W / 2, benTop, 8.5, bold, softGray);
+        let byy = benTop - 17;
+        const listX = 96, rowGap = 14, bs = 9;
+        for (const bft of benefits) {
+          page.drawRectangle({ x: listX, y: byy + 2.5, width: 5, height: 5, color: green });
+          page.drawText(bft, { x: listX + 12, y: byy, size: bs, font: regular, color: ink });
+          byy -= rowGap;
+        }
+        benBottom = byy + (rowGap - 9); // bottom of last text line
+      }
 
-      // ── Stat callout row (with soft shadow to match receipt depth) ──
-      const statY = 188;
-      const stats = [
-        ['100%', 'of shoppers reached'],
-        ['40+ min', 'in front of your ad'],
-        ['Local', 'hyper-targeted reach'],
-      ];
-      const sW = 168, sGap = 16, sH = 66;
+      // ── Stat callout row (placed below benefits; floored ABOVE the CTA) ──
+      // CTA strip occupies y=132..166, so stat cards must bottom out >= 172.
+      const statH = 60;
+      const statYFinal = Math.max(174, benBottom - statH - 16);
+      const stats = [];
+      if (hasRT || hasNose || hasCart || hasDigi) stats.push(['100%', 'of shoppers reached']);
+      if (hasCart) stats.push(['40+ min', 'in front of your ad']); // cart-specific
+      stats.push(['Local', 'hyper-targeted reach']);
+      const sW = stats.length >= 3 ? 168 : 200, sGap = 16, sH = statH;
       const totalSW = stats.length * sW + (stats.length - 1) * sGap;
       let sx = W / 2 - totalSW / 2;
+      const sY = statYFinal;
       for (const [big, small] of stats) {
-        page.drawRectangle({ x: sx + 3, y: statY - 3, width: sW, height: sH, color: rgb(0.9, 0.9, 0.92) });
-        page.drawRectangle({ x: sx, y: statY, width: sW, height: sH, color: white, borderColor: rgb(0.88, 0.88, 0.9), borderWidth: 1 });
-        page.drawRectangle({ x: sx, y: statY, width: 5, height: sH, color: brandRed });
-        centerText(big, sx + sW / 2, statY + 38, 20, bold, brandRed);
-        centerText(small, sx + sW / 2, statY + 16, 9, regular, softGray);
+        page.drawRectangle({ x: sx + 3, y: sY - 3, width: sW, height: sH, color: rgb(0.9, 0.9, 0.92) });
+        page.drawRectangle({ x: sx, y: sY, width: sW, height: sH, color: white, borderColor: rgb(0.88, 0.88, 0.9), borderWidth: 1 });
+        page.drawRectangle({ x: sx, y: sY, width: 5, height: sH, color: brandRed });
+        centerText(big, sx + sW / 2, sY + 38, 20, bold, brandRed);
+        centerText(small, sx + sW / 2, sY + 16, 9, regular, softGray);
         sx += sW + sGap;
       }
 
@@ -1311,6 +1355,19 @@
     }
 
     // Run every applicable highlight block (RT / Cartvertising / Nose / Digital).
+    // Draw ONLY the unique explanatory diagrams / spec sheets (not the benefit
+    // bullets — those now live on the hero cover). Keeps Cartvertising's
+    // Front/Directory + Header diagrams and the Nose art-spec sheet.
+    function drawProductDiagrams() {
+      if (hasCart) {
+        drawCartDiagram();
+        if (hasHeaderAd) drawHeaderDiagram();
+      }
+      if (hasNose) {
+        drawNoseSpecs();
+      }
+    }
+
     function drawAllHighlights() {
       if (hasRT) {
         drawHighlights('Register Tape Highlights', [
