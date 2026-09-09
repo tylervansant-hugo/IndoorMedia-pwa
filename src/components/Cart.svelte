@@ -185,6 +185,53 @@
     videoGalleryName = '';
   }
 
+  // ── Custom quote attachments: any link + any image/file ────────────
+  // Reps can attach arbitrary reference links and files (images render inline
+  // in the PDF; other files are listed and shared alongside the PDF).
+  let attachLinks = [];   // [{ url, label }]
+  let attachFiles = [];   // [{ file, name, type, isImage, dataUrl }]
+  let attachLinkUrl = '';
+  let attachLinkLabel = '';
+
+  function normalizeUrl(u) {
+    const s = (u || '').trim();
+    if (!s) return '';
+    if (/^https?:\/\//i.test(s)) return s;
+    return 'https://' + s;
+  }
+  function addAttachLink() {
+    const url = normalizeUrl(attachLinkUrl);
+    if (!url) return;
+    attachLinks = [...attachLinks, { url, label: (attachLinkLabel || '').trim() || url }];
+    attachLinkUrl = '';
+    attachLinkLabel = '';
+  }
+  function removeAttachLink(i) {
+    attachLinks = attachLinks.filter((_, idx) => idx !== i);
+  }
+  async function handleAttachFilePick(e) {
+    const files = Array.from(e.target.files || []);
+    for (const f of files) {
+      const isImage = /^image\//i.test(f.type);
+      let dataUrl = '';
+      if (isImage) {
+        try {
+          dataUrl = await new Promise((res, rej) => {
+            const fr = new FileReader();
+            fr.onload = () => res(fr.result);
+            fr.onerror = rej;
+            fr.readAsDataURL(f);
+          });
+        } catch { /* keep as non-embed file */ }
+      }
+      attachFiles = [...attachFiles, { file: f, name: f.name, type: f.type, isImage: isImage && !!dataUrl, dataUrl }];
+    }
+    e.target.value = ''; // allow re-picking the same file
+  }
+  function removeAttachFile(i) {
+    attachFiles = attachFiles.filter((_, idx) => idx !== i);
+  }
+
   // TikTok quick-fill helper (Tyler's account).
   function fillTikTok() {
     videoTestimonialUrl = 'https://www.tiktok.com/@tyhasreceipts';
@@ -531,6 +578,8 @@
   function clearCart() {
     if (confirm('Clear entire quote?')) {
       cartItems = [];
+      attachLinks = [];
+      attachFiles = [];
       saveCart();
     }
   }
@@ -1390,6 +1439,94 @@
       }
     }
 
+    // Attachments — rep-added links + images/files. Links render as clickable
+    // buttons, images embed inline, other files are noted (shared separately).
+    if (attachLinks.length || attachFiles.length) {
+      try {
+        page.drawText('IndoorMedia  |  indoormedia.com', { x: 612/2 - regular.widthOfTextAtSize('IndoorMedia  |  indoormedia.com', 9)/2, y: 30, size: 9, font: regular, color: gray });
+        page = pdfDoc.addPage([612, 792]);
+        let ay = 792;
+        page.drawRectangle({ x: 0, y: ay - 60, width: 612, height: 60, color: red });
+        page.drawText('Attachments', { x: 30, y: ay - 38, size: 22, font: bold, color: white });
+        ay -= 82;
+
+        const ensureRoom = (need) => {
+          if (ay - need < 60) {
+            page.drawText('IndoorMedia  |  indoormedia.com', { x: 612/2 - regular.widthOfTextAtSize('IndoorMedia  |  indoormedia.com', 9)/2, y: 30, size: 9, font: regular, color: gray });
+            page = pdfDoc.addPage([612, 792]);
+            ay = 770;
+          }
+        };
+
+        // Links as clickable buttons
+        if (attachLinks.length) {
+          page.drawText('Links', { x: 30, y: ay, size: 13, font: bold, color: rgb(0.15, 0.15, 0.15) });
+          ay -= 22;
+          for (const lnk of attachLinks) {
+            ensureRoom(40);
+            const label = (lnk.label || lnk.url).replace(/[^\x20-\x7E]/g, '');
+            const shown = label.length > 78 ? label.slice(0, 75) + '...' : label;
+            page.drawRectangle({ x: 30, y: ay - 26, width: 552, height: 28, color: rgb(0.93, 0.96, 1), borderColor: rgb(0.15, 0.33, 0.78), borderWidth: 1 });
+            page.drawText('\uD83D\uDD17  ' + shown, { x: 44, y: ay - 18, size: 11, font: regular, color: rgb(0.10, 0.28, 0.70) });
+            // Clickable link annotation over the button rectangle.
+            try {
+              const linkAnnot = pdfDoc.context.obj({
+                Type: 'Annot', Subtype: 'Link',
+                Rect: [30, ay - 26, 582, ay + 2],
+                Border: [0, 0, 0],
+                A: { Type: 'Action', S: 'URI', URI: PDFString.of(lnk.url) },
+              });
+              const annots = page.node.lookup(PDFName.of('Annots'));
+              if (annots) annots.push(linkAnnot);
+              else page.node.set(PDFName.of('Annots'), pdfDoc.context.obj([linkAnnot]));
+            } catch (aErr) { console.warn('[Quote PDF] link annot skipped:', aErr); }
+            ay -= 34;
+          }
+          ay -= 8;
+        }
+
+        // Files: images embed inline; others listed as shared-separately.
+        if (attachFiles.length) {
+          ensureRoom(30);
+          page.drawText('Files', { x: 30, y: ay, size: 13, font: bold, color: rgb(0.15, 0.15, 0.15) });
+          ay -= 24;
+          for (const af of attachFiles) {
+            const fname = (af.name || 'file').replace(/[^\x20-\x7E]/g, '');
+            if (af.isImage && af.dataUrl) {
+              try {
+                const bytes = await fetch(af.dataUrl).then(r => r.arrayBuffer());
+                const img = /png/i.test(af.type) ? await pdfDoc.embedPng(bytes) : await pdfDoc.embedJpg(bytes);
+                const maxW = 552;
+                const maxH = 560;
+                let drawW = img.width;
+                let drawH = img.height;
+                const scale = Math.min(maxW / drawW, 1);
+                drawW *= scale; drawH *= scale;
+                if (drawH > maxH) { const s2 = maxH / drawH; drawW *= s2; drawH *= s2; }
+                ensureRoom(drawH + 22);
+                page.drawText((fname.length > 70 ? fname.slice(0,67)+'...' : fname), { x: 30, y: ay, size: 10, font: regular, color: gray });
+                ay -= 14;
+                page.drawImage(img, { x: 30, y: ay - drawH, width: drawW, height: drawH });
+                ay -= drawH + 16;
+              } catch (iErr) {
+                console.warn('[Quote PDF] image embed skipped:', iErr);
+                ensureRoom(30);
+                page.drawText('\uD83D\uDCCE  ' + fname + ' (attached separately)', { x: 30, y: ay, size: 11, font: regular, color: gray });
+                ay -= 22;
+              }
+            } else {
+              ensureRoom(30);
+              page.drawRectangle({ x: 30, y: ay - 26, width: 552, height: 28, color: rgb(0.96, 0.96, 0.96), borderColor: rgb(0.75,0.75,0.75), borderWidth: 1 });
+              page.drawText('\uD83D\uDCCE  ' + (fname.length > 64 ? fname.slice(0,61)+'...' : fname) + '  (shared as a separate file)', { x: 44, y: ay - 18, size: 10.5, font: bold, color: gray });
+              ay -= 34;
+            }
+          }
+        }
+      } catch (attErr) {
+        console.warn('[Quote PDF] attachments section skipped:', attErr);
+      }
+    }
+
     // Location map — embed the same OSM quote map on its own page so the customer
     // can see every location relative to the searched origin at a glance.
     try {
@@ -1434,6 +1571,12 @@
         // Attach the device-gallery video alongside the PDF when present.
         if (videoGalleryFile && navigator.canShare && navigator.canShare({ files: [videoGalleryFile] })) {
           files.push(videoGalleryFile);
+        }
+        // Attach any rep-added files (images + other docs) alongside the PDF.
+        for (const af of attachFiles) {
+          if (af.file && navigator.canShare && navigator.canShare({ files: [af.file] })) {
+            files.push(af.file);
+          }
         }
         await navigator.share({ files, title: filename });
         return;
@@ -1996,6 +2139,52 @@
         {/if}
       </div>
 
+      <!-- Custom attachments: any link + any image/file -->
+      <div class="attach-box">
+        <div class="attach-head">📎 Attach links or files to this quote</div>
+
+        {#if attachLinks.length}
+          <div class="attach-list">
+            {#each attachLinks as lnk, li}
+              <div class="attach-chip link">
+                <span class="attach-chip-ico">🔗</span>
+                <a class="attach-chip-text" href={lnk.url} target="_blank" rel="noopener">{lnk.label}</a>
+                <button type="button" class="attach-chip-x" on:click={() => removeAttachLink(li)}>✕</button>
+              </div>
+            {/each}
+          </div>
+        {/if}
+
+        <div class="attach-link-row">
+          <input type="text" class="attach-input label" placeholder="Label (optional)" bind:value={attachLinkLabel} />
+          <input type="url" class="attach-input url" placeholder="Paste a link (https://…)" bind:value={attachLinkUrl}
+            on:keydown={(e) => { if (e.key === 'Enter') { e.preventDefault(); addAttachLink(); } }} />
+          <button type="button" class="attach-add-btn" on:click={addAttachLink} disabled={!attachLinkUrl.trim()}>Add</button>
+        </div>
+
+        {#if attachFiles.length}
+          <div class="attach-files">
+            {#each attachFiles as af, fi}
+              <div class="attach-file-item">
+                {#if af.isImage && af.dataUrl}
+                  <img class="attach-thumb" src={af.dataUrl} alt={af.name} />
+                {:else}
+                  <span class="attach-file-ico">📄</span>
+                {/if}
+                <span class="attach-file-name">{af.name}</span>
+                <button type="button" class="attach-chip-x" on:click={() => removeAttachFile(fi)}>✕</button>
+              </div>
+            {/each}
+          </div>
+        {/if}
+
+        <label class="attach-file-btn">
+          📁 Add image or file
+          <input type="file" multiple on:change={handleAttachFilePick} hidden />
+        </label>
+        <p class="attach-hint">Images embed in the PDF; other files &amp; links are added as clickable/shared items.</p>
+      </div>
+
       <div class="business-name-row">
         <input type="text" class="business-name-input" placeholder="Business name (for quote)" bind:value={businessName} />
       </div>
@@ -2248,6 +2437,37 @@
   .video-gallery-picked { display: flex; align-items: center; gap: 10px; background: #f0f7f0; border: 1px solid #d6ecd8; border-radius: 8px; padding: 8px 11px; font-size: 12.5px; }
   .video-gallery-picked span { flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
   .video-gallery-remove { background: none; border: none; color: #CC0000; font-size: 12px; cursor: pointer; text-decoration: underline; }
+
+  /* Custom quote attachments */
+  .attach-box { border: 1px solid #e2e2e2; border-radius: 10px; padding: 12px; margin-bottom: 12px; background: #fafafa; }
+  .attach-head { font-size: 13px; font-weight: 700; color: #333; margin-bottom: 9px; }
+  .attach-link-row { display: flex; gap: 6px; flex-wrap: wrap; }
+  .attach-input { padding: 9px 10px; border: 1px solid #ddd; border-radius: 8px; font-size: 13px; box-sizing: border-box; }
+  .attach-input.label { flex: 1 1 120px; min-width: 100px; }
+  .attach-input.url { flex: 2 1 180px; min-width: 140px; }
+  .attach-add-btn { padding: 9px 16px; background: #CC0000; color: #fff; border: none; border-radius: 8px; font-size: 13px; font-weight: 700; cursor: pointer; }
+  .attach-add-btn:disabled { opacity: 0.4; cursor: default; }
+  .attach-list { display: flex; flex-direction: column; gap: 6px; margin-bottom: 9px; }
+  .attach-chip { display: flex; align-items: center; gap: 8px; background: #eef4ff; border: 1px solid #cfe0ff; border-radius: 8px; padding: 7px 10px; font-size: 12.5px; }
+  .attach-chip-ico { flex: none; }
+  .attach-chip-text { flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; color: #1a4bd0; text-decoration: none; }
+  .attach-chip-text:hover { text-decoration: underline; }
+  .attach-chip-x { background: none; border: none; color: #CC0000; font-size: 13px; cursor: pointer; flex: none; }
+  .attach-files { display: flex; flex-direction: column; gap: 6px; margin: 9px 0; }
+  .attach-file-item { display: flex; align-items: center; gap: 9px; background: #fff; border: 1px solid #e2e2e2; border-radius: 8px; padding: 6px 9px; font-size: 12.5px; }
+  .attach-thumb { width: 38px; height: 38px; object-fit: cover; border-radius: 6px; flex: none; border: 1px solid #ddd; }
+  .attach-file-ico { font-size: 20px; flex: none; }
+  .attach-file-name { flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .attach-file-btn { display: inline-block; width: 100%; text-align: center; padding: 9px; margin-top: 9px; border: 1px dashed #bbb; border-radius: 8px; font-size: 13px; font-weight: 600; color: #444; cursor: pointer; box-sizing: border-box; }
+  .attach-file-btn:hover { background: #f0f0f0; }
+  .attach-hint { font-size: 11px; color: #888; margin: 7px 2px 0; }
+  :global([data-theme='dark']) .attach-box { background: #1c1c1e; border-color: #333; }
+  :global([data-theme='dark']) .attach-head { color: #ddd; }
+  :global([data-theme='dark']) .attach-input { background: #2a2a2c; border-color: #444; color: #eee; }
+  :global([data-theme='dark']) .attach-chip { background: #16233d; border-color: #274574; }
+  :global([data-theme='dark']) .attach-file-item { background: #2a2a2c; border-color: #444; }
+  :global([data-theme='dark']) .attach-file-btn { color: #ccc; border-color: #555; }
+
   .contract-btn {
     display: block; width: 100%; padding: 15px; margin-bottom: 10px;
     background: #0a7a0a; color: #fff; border: none; border-radius: 10px;
