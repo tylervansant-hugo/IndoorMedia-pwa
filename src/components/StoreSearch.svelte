@@ -7,6 +7,7 @@
   import AuditStore from './AuditStore.svelte';
   import ContractForm from './ContractForm.svelte';
   import { calculateROI as sharedCalculateROI } from '../lib/roi.js';
+  import { summerPromoActive } from '../lib/promos.js';
   import { isFirebaseReady, claimStore, releaseStore, getZoneClaims } from '../lib/firebase.js';
 
   let searchTerm = '';
@@ -813,6 +814,8 @@ Store: ${store.StoreName}
   // Pricing mode: 'standard' or 'summer_promo'
   let pricingMode = 'standard';
   try { pricingMode = localStorage.getItem('impro_pricing_mode') || 'standard'; } catch {}
+  // Summer promo archived: force back to standard if the flag is off (ignores stale localStorage)
+  if (pricingMode === 'summer_promo' && !summerPromoActive()) pricingMode = 'standard';
   function setPricingMode(mode) {
     pricingMode = mode;
     try { localStorage.setItem('impro_pricing_mode', mode); } catch {}
@@ -1311,7 +1314,8 @@ Store: ${store.StoreName}
     <button class="cycle-btn" class:active={storeCycleFilter === 'C'} on:click={() => storeCycleFilter = 'C'}>Cycle C</button>
   </div>
 
-  <!-- Pricing Mode Toggle -->
+  <!-- Pricing Mode Toggle (Summer Promo archived — gated behind summerPromoActive) -->
+  {#if summerPromoActive()}
   <div class="pricing-mode-toggle">
     <button class="mode-btn" class:active={pricingMode === 'standard'} on:click={() => setPricingMode('standard')}>
       Standard Pricing
@@ -1320,7 +1324,8 @@ Store: ${store.StoreName}
       Summer Promo 🔥
     </button>
   </div>
-  {#if pricingMode === 'summer_promo'}
+  {/if}
+  {#if summerPromoActive() && pricingMode === 'summer_promo'}
     <div class="promo-banner">🏆 Summer Sales Contest Active · No Padding · 5% PIF Discount Only</div>
   {/if}
 

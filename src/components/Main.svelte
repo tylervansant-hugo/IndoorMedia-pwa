@@ -53,6 +53,7 @@
     return new Date(dateStr);
   }
   import { logActivity, getRepActivityReport, getDailySummaries } from '../lib/activity.js';
+  import { summerPromoActive } from '../lib/promos.js';
   import { initFirebase, isFirebaseReady, getAllRepActivity, callInLeadKey, getAllCallInAssignments } from '../lib/firebase.js';
   import StoreSearch from './StoreSearch.svelte';
   import StoreMap from './StoreMap.svelte';
@@ -1804,7 +1805,8 @@
           </div>
         {/if}
 
-        <!-- SUMMER SALES CONTEST 🏆 -->
+        <!-- SUMMER SALES CONTEST 🏆 (archived — gated behind summerPromoActive) -->
+        {#if summerPromoActive()}
         <button class="summer-sales-hero clickable" on:click={() => showSummerSalesDetail = !showSummerSalesDetail}>
           <div class="summer-sales-header">
             <span class="summer-sales-icon">☀️🏆</span>
@@ -1872,6 +1874,7 @@
             {/if}
           </div>
         {/if}
+        {/if}<!-- /summerPromoActive contest gate -->
 
         </div><!-- /dash-card stats -->
 
