@@ -11275,6 +11275,27 @@
       "paid_in_full": false
     },
     {
+      "contract_number": "J437836E",
+      "date": "2026-09-10 00:00",
+      "business_name": "Wishful Cleanning LLC",
+      "contact_name": "Jill Ohle",
+      "contact_email": "Jill@wishfulcleaning.com",
+      "contact_phone": "(503) 607-3811",
+      "sales_rep": "Megan Wink",
+      "store_name": "Fred Meyer",
+      "store_number": "0135",
+      "zone": "07Z",
+      "product_description": "Single Ad",
+      "total_amount": 5525.0,
+      "payment_date": "9/10/2026",
+      "address": "3805 SE Hawthorne Blvd, Portland, 97214-5239",
+      "extracted_at": "2026-09-10T20:00:36.112167",
+      "quarters": 4,
+      "term_months": 12,
+      "is_renewal": false,
+      "paid_in_full": false
+    },
+    {
       "contract_number": "N433325E",
       "date": "",
       "business_name": "Sprinkles on Top",
@@ -14027,5 +14048,5 @@
       "paid_in_full": false
     }
   ],
-  "last_scan": "2026-09-09T20:00:37.411694"
+  "last_scan": "2026-09-10T20:00:36.141689"
 }
