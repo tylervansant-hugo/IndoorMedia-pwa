@@ -5,7 +5,7 @@
   "start_url": "/IndoorMedia-pwa/",
   "scope": "/IndoorMedia-pwa/",
   "display": "browser",
-  "orientation": "portrait-primary",
+  "orientation": "any",
   "background_color": "#CC0000",
   "theme_color": "#CC0000",
   "icons": [

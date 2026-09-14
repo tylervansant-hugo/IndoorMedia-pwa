@@ -260,3 +260,116 @@ body {
     user-select: text;
   }
 }
+
+/* ============================================================
+   RESPONSIVE / MULTI-DEVICE LAYER (added Sep 2026)
+   Optimizes the portal for every screen: standard phones, small
+   phones, foldables (Samsung Z Fold cover + unfolded), tablets,
+   and landscape. Purely additive global overrides keyed on the
+   existing structural classes (.content, .tab-bar, .header, grids)
+   so no component logic changes. Uses CSS var --im-tabbar-h so
+   content bottom padding tracks the real tab-bar height everywhere.
+   ============================================================ */
+:root {
+  --im-tabbar-h: 64px;          /* approximate rendered tab-bar height */
+  --im-content-max: 1400px;     /* content column cap (wide/desktop) */
+}
+
+/* Make the fixed bottom padding on content/dashboards track the tab bar +
+   the device safe area, instead of the old hardcoded 140px, so tall foldable
+   and short landscape screens both get correct clearance. */
+.content {
+  padding-bottom: calc(var(--im-tabbar-h) + 24px + env(safe-area-inset-bottom, 0px)) !important;
+}
+.content > *:last-child {
+  padding-bottom: calc(var(--im-tabbar-h) + 24px + env(safe-area-inset-bottom, 0px)) !important;
+}
+.dashboard,
+.analytics-container {
+  padding-bottom: calc(var(--im-tabbar-h) + 30px + env(safe-area-inset-bottom, 0px)) !important;
+}
+
+/* ---------- Small phones / Z Fold COVER (folded) screen ----------
+   The Fold cover screen is very narrow (~340px CSS px, tall aspect).
+   Tighten chrome, shrink tab labels, keep everything on-screen. */
+@media (max-width: 400px) {
+  .content { padding-left: 12px !important; padding-right: 12px !important; }
+  .tab-bar-item { padding-left: 1px !important; padding-right: 1px !important; }
+  .tab-bar-icon { width: 23px !important; height: 23px !important; }
+  .tab-bar-label { font-size: 9px !important; letter-spacing: 0 !important; }
+  .portal-title { font-size: 20px !important; }
+  .logo-backdrop { width: 46px !important; height: 46px !important; }
+  /* Dashboard stat cards single-up would be too tall on narrow — keep 2-up
+     but let them shrink height so the fold cover isn't just one card tall. */
+  .dashboard-grid { gap: 10px !important; }
+  .stat-card { min-height: 150px !important; padding: 1rem 0.75rem !important; }
+}
+
+@media (max-width: 340px) {
+  .content { padding-left: 10px !important; padding-right: 10px !important; }
+  .tab-bar-label { font-size: 8px !important; }
+  .tab-bar-icon { width: 21px !important; height: 21px !important; }
+  .quick-actions-top { gap: 6px !important; }
+}
+
+/* ---------- Tablets & Z Fold UNFOLDED (near-square, wide) ----------
+   Unfolded Fold is ~884px+ CSS width and near-square. The mobile layout
+   stretches a single column edge-to-edge and wastes horizontal space, and
+   the full-width red tab bar looks oversized. Center the content column,
+   cap its width, and center + round the floating tab bar so it reads like
+   a proper large-screen app instead of a stretched phone. */
+@media (min-width: 700px) {
+  .content {
+    max-width: 900px;
+    padding-left: 28px !important;
+    padding-right: 28px !important;
+  }
+  /* Roomier dashboard grid on the wide unfolded/tablet canvas */
+  .dashboard-grid { grid-template-columns: repeat(3, 1fr) !important; gap: 18px !important; }
+  .quick-actions-top { gap: 12px !important; }
+
+  /* Floating, centered, capped-width tab bar so it doesn't span the whole
+     wide screen. Bigger touch targets for tablet use. */
+  .tab-bar {
+    left: 50% !important;
+    right: auto !important;
+    transform: translateX(-50%);
+    width: min(680px, calc(100% - 32px)) !important;
+    border-radius: 20px 20px 0 0;
+  }
+  .tab-bar-icon { width: 28px !important; height: 28px !important; }
+  .tab-bar-label { font-size: 12px !important; }
+  .tab-bar-item { padding-top: 12px !important; padding-bottom: 12px !important; }
+}
+
+/* Larger tablets / unfolded in landscape: widen the reading column a bit more
+   and allow a 4-up dashboard grid. */
+@media (min-width: 1024px) {
+  .content { max-width: 1100px; }
+  .dashboard-grid { grid-template-columns: repeat(4, 1fr) !important; }
+}
+
+/* ---------- Landscape / short viewports (phone rotated, Fold hinge-open
+   landscape) ---------- Trim vertical chrome so content isn't crushed. */
+@media (orientation: landscape) and (max-height: 500px) {
+  .header { padding-top: calc(8px + env(safe-area-inset-top)) !important; padding-bottom: 8px !important; }
+  .logo-backdrop { width: 40px !important; height: 40px !important; }
+  .portal-title { font-size: 18px !important; }
+  .portal-subtitle { display: none !important; }
+  .content { padding-top: 12px !important; }
+  .tab-bar-item { padding-top: 6px !important; padding-bottom: 6px !important; }
+  .tab-bar-icon { width: 22px !important; height: 22px !important; }
+}
+
+/* ---------- Foldable hinge awareness (dual-screen / posture) ----------
+   On foldables that expose viewport segments to the browser, keep the
+   centered content clear of the physical fold/hinge so nothing important
+   (buttons, quote text) lands under the crease. Supported browsers only;
+   silently ignored elsewhere. */
+@media (horizontal-viewport-segments: 2) {
+  .content {
+    max-width: env(viewport-segment-width 0 0, 900px);
+    margin-left: auto;
+    margin-right: auto;
+  }
+}
