@@ -230,12 +230,16 @@
 
     const pdfBytes = await pdfDoc.save();
     const blob = new Blob([pdfBytes], { type: 'application/pdf' });
+    // Delay revoke so mobile viewers/downloads finish reading the blob (an
+    // immediate revoke is why PDFs sometimes fail to open on the Z Fold).
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
     a.download = `ROI_Report_${biz.replace(/[^a-zA-Z0-9]/g, '_')}.pdf`;
+    document.body.appendChild(a);
     a.click();
-    URL.revokeObjectURL(url);
+    a.remove();
+    setTimeout(() => { try { URL.revokeObjectURL(url); } catch {} }, 60000);
   }
 
   function exportRoiHtml() {
@@ -513,6 +517,131 @@ Store: ${store}
     } catch (err) {
       console.error('Failed to submit testimonial:', err);
       testSubmitting = false;
+    }
+  }
+
+  // Robustly open a generated blob so it works on mobile (Z Fold Chrome) where
+  // window.open() during an async callback is popup-blocked. We open a tab
+  // SYNCHRONOUSLY on the user gesture first, then point it at the blob URL;
+  // if the browser blocked it, fall back to a download anchor. The blob URL is
+  // revoked on a delay so the viewer has time to load it (immediate revoke is
+  // the classic "PDF doesn't open" bug).
+  function openBlobRobustly(blob, filename, preOpenedWin) {
+    const url = URL.createObjectURL(blob);
+    let win = preOpenedWin || null;
+    try {
+      if (win && !win.closed) {
+        win.location = url;
+      } else {
+        win = window.open(url, '_blank');
+      }
+    } catch {
+      win = null;
+    }
+    // Popup blocked (mobile) -> download so the OS PDF viewer opens it.
+    if (!win || win.closed || typeof win.closed === 'undefined') {
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = filename;
+      a.rel = 'noopener';
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+    }
+    // Delay revoke so the tab/viewer/download finishes reading the blob.
+    setTimeout(() => { try { URL.revokeObjectURL(url); } catch {} }, 60000);
+  }
+
+  let testExporting = false;
+  async function exportTestimonialPdf() {
+    if (testExporting) return;
+    // Open the tab SYNCHRONOUSLY within the click gesture (before any await) so
+    // mobile browsers don't treat the later navigation as a blocked popup.
+    let preWin = null;
+    try { preWin = window.open('', '_blank'); } catch { preWin = null; }
+    testExporting = true;
+    try {
+      const f = testForm;
+      const repName = $user?.name || $user?.first_name || 'IndoorMedia Rep';
+      const pdfDoc = await PDFDocument.create();
+      const page = pdfDoc.addPage([612, 792]);
+      const bold = await pdfDoc.embedFont('Helvetica-Bold');
+      const reg = await pdfDoc.embedFont('Helvetica');
+
+      // Header
+      page.drawRectangle({ x: 0, y: 700, width: 612, height: 92, color: rgb(0.8, 0, 0) });
+      page.drawText('CUSTOMER TESTIMONIAL', { x: 30, y: 745, size: 22, font: bold, color: rgb(1, 1, 1) });
+      page.drawText('IndoorMedia Register Tape Advertising', { x: 30, y: 722, size: 12, font: reg, color: rgb(1, 0.9, 0.9) });
+      page.drawText(new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }), { x: 30, y: 705, size: 10, font: reg, color: rgb(1, 0.85, 0.85) });
+
+      let y = 670;
+      const section = (title) => {
+        y -= 14;
+        page.drawText(title, { x: 40, y, size: 13, font: bold, color: rgb(0.1, 0.1, 0.1) });
+        y -= 22;
+      };
+      const line = (label, value) => {
+        page.drawText(label, { x: 50, y, size: 11, font: reg, color: rgb(0.3, 0.3, 0.3) });
+        page.drawText(String(value ?? '' ) || '\u2014', { x: 260, y, size: 11, font: bold, color: rgb(0.1, 0.1, 0.1) });
+        y -= 20;
+      };
+      // Simple word-wrap for the comments block.
+      const wrap = (text, x, size, maxW, font) => {
+        const words = String(text || '').split(/\s+/);
+        let cur = '';
+        for (const w of words) {
+          const test = cur ? cur + ' ' + w : w;
+          if (font.widthOfTextAtSize(test, size) > maxW && cur) {
+            page.drawText(cur, { x, y, size, font, color: rgb(0.2, 0.2, 0.2) });
+            y -= size + 5; cur = w;
+          } else { cur = test; }
+        }
+        if (cur) { page.drawText(cur, { x, y, size, font, color: rgb(0.2, 0.2, 0.2) }); y -= size + 5; }
+      };
+      const roiLabel = { excellent: 'Excellent', good: 'Good', fair: 'Fair', poor: 'Poor' }[f.roi] || (f.roi || '\u2014');
+
+      section('BUSINESS');
+      line('Contact Name:', f.name);
+      line('Business:', f.business);
+      line('Address:', f.address);
+      line('Phone:', f.phone);
+
+      section('STORE');
+      line('Grocery Chain:', f.groceryChain);
+      line('Zone:', f.zone);
+      line('Store Number:', f.storeNumber);
+
+      section('PERFORMANCE');
+      line('Coupons Redeemed / Week:', f.couponsPerWeek);
+      line('Average Ticket:', f.avgTicket ? `$${f.avgTicket}` : '\u2014');
+      line('ROI Rating:', roiLabel);
+      line('Duration Advertising:', f.duration);
+      line('Would Renew:', f.wouldRenew ? (f.wouldRenew === 'yes' ? 'Yes' : 'No') : '\u2014');
+      line('Would Recommend:', f.recommend ? (f.recommend === 'yes' ? 'Yes' : 'No') : '\u2014');
+
+      if (f.comments) {
+        section('COMMENTS');
+        wrap(f.comments, 50, 11, 500, reg);
+      }
+
+      y -= 10;
+      page.drawLine({ start: { x: 40, y }, end: { x: 572, y }, thickness: 1, color: rgb(0.85, 0.85, 0.85) });
+      y -= 20;
+      page.drawText(`Submitted by: ${repName}`, { x: 40, y, size: 10, font: reg, color: rgb(0.4, 0.4, 0.4) });
+
+      // Footer
+      page.drawText('Prepared by IndoorMedia | indoormedia.com | testimonials@rtui.com', { x: 40, y: 30, size: 9, font: reg, color: rgb(0.6, 0.6, 0.6) });
+
+      const pdfBytes = await pdfDoc.save();
+      const blob = new Blob([pdfBytes], { type: 'application/pdf' });
+      const safe = (f.business || 'Testimonial').replace(/[^a-zA-Z0-9]/g, '_');
+      openBlobRobustly(blob, `Testimonial_${safe}.pdf`, preWin);
+    } catch (err) {
+      console.error('Testimonial PDF export failed:', err);
+      try { if (preWin && !preWin.closed) preWin.close(); } catch {}
+      alert(`\u274c Could not generate PDF: ${err.message}`);
+    } finally {
+      testExporting = false;
     }
   }
 
@@ -1449,6 +1578,9 @@ Store: ${store}
           <button class="action-btn" on:click={submitTestimonial} disabled={testSubmitting}>
             {testSubmitting ? '⏳ Submitting...' : '✅ Submit Testimonial'}
           </button>
+          <button class="action-btn secondary-btn" on:click={exportTestimonialPdf} disabled={testExporting}>
+            {testExporting ? '⏳ Generating PDF...' : '📄 Export PDF'}
+          </button>
         {/if}
 
       </div>
@@ -1804,6 +1936,17 @@ Store: ${store}
   .edit-btn:hover {
     background: #444;
   }
+
+  /* Export PDF button on the testimonial review step: outlined, not a second
+     solid-red CTA competing with Submit. */
+  .action-btn.secondary-btn {
+    background: transparent;
+    color: #CC0000;
+    border: 2px solid #CC0000;
+    margin-top: 8px;
+  }
+  .action-btn.secondary-btn:hover { background: rgba(204, 0, 0, 0.08); }
+  .action-btn.secondary-btn:disabled { color: #ccc; border-color: #ccc; background: transparent; }
 
   .next-btn:disabled, .action-btn:disabled {
     background: #ccc;
