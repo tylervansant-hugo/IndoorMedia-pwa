@@ -101,6 +101,28 @@ export const DEFAULT_THEME = 'classic';
 function themeById(id) { return THEMES.find(t => t.id === id) || THEMES[0]; }
 function fontStack(id) { return (FONT_OPTIONS.find(f => f.id === id) || FONT_OPTIONS[0]).stack; }
 
+// ── Robust localStorage helpers ───────────────────────────────
+// Never let a corrupt/missing value or a throwing localStorage (private mode,
+// quota, disabled) break appearance. All reads validate against known-good ids.
+function lsGet(key) {
+  try { return localStorage.getItem(key); } catch { return null; }
+}
+function lsSet(key, val) {
+  try { localStorage.setItem(key, val); return true; } catch { return false; }
+}
+const VALID_THEME_IDS = THEMES.map(t => t.id);
+const VALID_FONT_IDS = FONT_OPTIONS.map(f => f.id);
+const VALID_MODES = ['auto', 'light', 'dark'];
+// Text scale bounds (shared with the header slider / Appearance panel).
+export const TEXT_SCALE_MIN = 0.85;
+export const TEXT_SCALE_MAX = 1.5;
+export const DEFAULT_TEXT_SCALE = 1;
+function clampScale(n) {
+  const v = parseFloat(n);
+  if (!isFinite(v)) return DEFAULT_TEXT_SCALE;
+  return Math.min(TEXT_SCALE_MAX, Math.max(TEXT_SCALE_MIN, v));
+}
+
 // ── Color math (contrast + legibility) ────────────────────────
 function hexToRgb(hex) {
   if (!hex) return null;
@@ -182,14 +204,21 @@ export function resolveMode(mode) {
 }
 
 export function getAppearance() {
-  const themeId = localStorage.getItem('appearance_theme') || DEFAULT_THEME;
-  const mode = localStorage.getItem('appearance_mode') || 'auto';
-  const font = localStorage.getItem('appearance_font') || 'system';
+  // Validate every stored value; fall back to defaults if corrupt/unknown so a
+  // bad localStorage entry can never render an illegible or broken UI.
+  let themeId = lsGet('appearance_theme') || DEFAULT_THEME;
+  if (!VALID_THEME_IDS.includes(themeId)) themeId = DEFAULT_THEME;
+  let mode = lsGet('appearance_mode') || 'auto';
+  if (!VALID_MODES.includes(mode)) mode = 'auto';
+  let font = lsGet('appearance_font') || 'system';
+  if (!VALID_FONT_IDS.includes(font)) font = 'system';
+  const textScale = clampScale(lsGet('appearance_text_scale') ?? lsGet('impro_font_scale') ?? DEFAULT_TEXT_SCALE);
   const t = themeById(themeId);
   return {
     theme: themeId,
     mode,
     font,
+    textScale,
     // Legacy fields some callers still read:
     accent: t.accent,
     icons: 'emoji',
@@ -214,6 +243,11 @@ export function applyAppearance(prefs) {
 
   // Font.
   root.style.setProperty('--app-font', fontStack(p.font));
+
+  // Global text scale (accessibility). Exposed as a CSS var AND applied to the
+  // root font-size so rem-based sizing scales app-wide.
+  const scale = clampScale(p.textScale ?? DEFAULT_TEXT_SCALE);
+  root.style.setProperty('--app-text-scale', String(scale));
 
   // Accent (legibility-guarded for white button text).
   const accent = safeAccent(t.accent);
@@ -254,13 +288,19 @@ export function applyAppearance(prefs) {
 export function setAppearance(patch) {
   const cur = getAppearance();
   const next = { ...cur, ...patch };
-  if (patch.theme !== undefined) localStorage.setItem('appearance_theme', next.theme);
-  if (patch.mode !== undefined) localStorage.setItem('appearance_mode', next.mode);
-  if (patch.font !== undefined) localStorage.setItem('appearance_font', next.font);
+  if (patch.theme !== undefined) lsSet('appearance_theme', next.theme);
+  if (patch.mode !== undefined) lsSet('appearance_mode', next.mode);
+  if (patch.font !== undefined) lsSet('appearance_font', next.font);
+  if (patch.textScale !== undefined) {
+    next.textScale = clampScale(next.textScale);
+    lsSet('appearance_text_scale', String(next.textScale));
+    // Keep the legacy header-slider key in sync.
+    lsSet('impro_font_scale', String(next.textScale));
+  }
   // Keep the legacy `theme` store (light/dark) in sync so other code paths that
   // read localStorage 'theme' stay correct.
   if (patch.theme !== undefined || patch.mode !== undefined) {
-    try { localStorage.setItem('theme', resolveMode(next.mode)); } catch {}
+    lsSet('theme', resolveMode(next.mode));
   }
   applyAppearance(next);
   try { window.dispatchEvent(new CustomEvent('appearance-changed', { detail: next })); } catch {}
@@ -271,9 +311,12 @@ export function setAppearance(patch) {
 // simply flip when called with an explicit mode.
 export function setMode(mode) { return setAppearance({ mode }); }
 
+// Convenience for a text-size control.
+export function setTextScale(scale) { return setAppearance({ textScale: clampScale(scale) }); }
+
 export function resetAppearance() {
   // Clear new keys.
-  ['appearance_theme', 'appearance_mode', 'appearance_font'].forEach(k => localStorage.removeItem(k));
+  ['appearance_theme', 'appearance_mode', 'appearance_font', 'appearance_text_scale', 'impro_font_scale'].forEach(k => { try { localStorage.removeItem(k); } catch {} });
   // Clear all legacy à-la-carte keys so nothing stale lingers.
   [
     'appearance_accent', 'appearance_wallpaper', 'appearance_bg_color', 'appearance_bg_image',

@@ -2,9 +2,13 @@
   import {
     THEMES, MODE_OPTIONS, FONT_OPTIONS,
     getAppearance, setAppearance, resetAppearance, resolveMode,
+    setTextScale, TEXT_SCALE_MIN, TEXT_SCALE_MAX,
   } from '../lib/appearance.js';
 
   let prefs = getAppearance();
+  $: textPct = Math.round((prefs.textScale ?? 1) * 100);
+  function changeScale(e) { prefs = setTextScale(parseFloat(e.target.value)); }
+  function bumpScale(delta) { prefs = setTextScale((prefs.textScale ?? 1) + delta); }
   // Effective light/dark for the previews (follows Auto → system).
   $: effMode = resolveMode(prefs.mode);
 
@@ -104,6 +108,19 @@
     </div>
   </section>
 
+  <!-- Text size -->
+  <section>
+    <h3>Text Size</h3>
+    <div class="scale-row">
+      <button class="scale-step" on:click={() => bumpScale(-0.05)} aria-label="Smaller text">A−</button>
+      <input class="scale-slider" type="range" min={TEXT_SCALE_MIN} max={TEXT_SCALE_MAX} step="0.05"
+        value={prefs.textScale ?? 1} on:input={changeScale} />
+      <button class="scale-step scale-step-lg" on:click={() => bumpScale(0.05)} aria-label="Larger text">A+</button>
+      <span class="scale-pct">{textPct}%</span>
+    </div>
+    <p class="hint">Scales text across the whole app. Great for reading at a glance in the field.</p>
+  </section>
+
   <button class="reset-btn" on:click={reset}>↺ Reset to defaults</button>
 </div>
 
@@ -169,6 +186,21 @@
   .font-btn.active { border-color: var(--accent, #cc0000); }
   .font-sample { font-size: 24px; font-weight: 700; line-height: 1; }
   .font-label { font-size: 11px; color: var(--text-secondary, #777); }
+
+  /* Text size */
+  .scale-row { display: flex; align-items: center; gap: 12px; }
+  .scale-step {
+    flex: 0 0 auto; min-width: 46px; padding: 10px 12px; border-radius: 12px;
+    border: 2px solid var(--border-color, #e2e2e2); background: var(--card-bg, #fff);
+    color: var(--text-primary, #222); font-weight: 800; cursor: pointer; line-height: 1;
+  }
+  .scale-step:active { transform: scale(0.96); }
+  .scale-step-lg { font-size: 18px; }
+  .scale-slider { flex: 1; accent-color: var(--accent, #cc0000); height: 28px; }
+  .scale-pct {
+    flex: 0 0 auto; min-width: 46px; text-align: right; font-weight: 800;
+    font-size: 14px; color: var(--accent, #cc0000);
+  }
 
   .reset-btn {
     margin-top: 28px; width: 100%; padding: 12px; border-radius: 10px;

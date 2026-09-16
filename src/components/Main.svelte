@@ -5,7 +5,7 @@
   import { cycleLaunchDates, DEFAULT_SELL_BY_LEAD_DAYS } from '../lib/cycleSchedule.js';
   import { get } from 'svelte/store';
   import { applyAppearance, setMode, resolveMode, getAppearance } from '../lib/appearance.js';
-  import { addToHome, installGlobalAddToHome, getWidgetOrder, reorderWidgets, replayShortcut } from '../lib/homeShortcuts.js';
+  import { addToHome, installGlobalAddToHome, getWidgetOrder, reorderWidgets, replayShortcut, getHiddenWidgets, toggleWidgetHidden } from '../lib/homeShortcuts.js';
   import HomeShortcuts from './HomeShortcuts.svelte';
 
   // Dashboard card reorder (“Edit Home”). Cards keep their DOM position; we only
@@ -17,7 +17,19 @@
   let dashOrder = DASH_CARDS_DEFAULT;
   let editHome = false;
   let dashDragIdx = null;
-  function loadDashOrder() { dashOrder = getWidgetOrder(DASH_CARDS_DEFAULT); }
+  // Hidden (deleted) dashboard cards — user can remove cards in Edit Home and
+  // restore them from the "Hidden" chip. Persisted per-device via homeShortcuts.
+  let dashHidden = [];
+  // Friendly labels for the restore chips.
+  const DASH_CARD_LABELS = {
+    search: '🔎 Search', quickactions: '⚡ Quick Actions', shortcuts: '⭐ Shortcuts',
+    callin: '📞 Call-In Leads', activity: '📝 Last Activity', today: '📅 Today',
+    revenue: '💰 Revenue', stats: '📊 Stats', goal: '🎯 Goal',
+  };
+  function loadDashOrder() { dashOrder = getWidgetOrder(DASH_CARDS_DEFAULT); dashHidden = getHiddenWidgets(); }
+  function isDashHidden(id) { return dashHidden.includes(id); }
+  function hideDashCard(id) { dashHidden = toggleWidgetHidden(id); }
+  function restoreDashCard(id) { dashHidden = toggleWidgetHidden(id); }
   // Reactive order map so inline `order` styles update the instant dashOrder changes.
   $: dashOrderMap = dashOrder.reduce((m, id, i) => (m[id] = i, m), {});
   function dashOrderOf(id) { return id in dashOrderMap ? dashOrderMap[id] : 99; }
@@ -1075,6 +1087,15 @@
     });
     applyFontScale(); // ensure saved text-size pref is applied app-wide on load
     applyAppearance(); // apply saved Appearance theme (theme/mode/font) — sets data-theme
+    // When the Appearance panel changes the text size, re-read + re-apply the
+    // content zoom so the header slider and the panel stay perfectly in sync.
+    window.addEventListener('appearance-changed', (ev) => {
+      const ts = ev?.detail?.textScale;
+      if (typeof ts === 'number' && !isNaN(ts)) {
+        fontScale = ts;
+        applyFontScale();
+      }
+    });
     // Sync the light/dark store to whatever the Appearance engine resolved so
     // the header icon + any theme-store readers match the active theme.
     { const eff = resolveMode(getAppearance().mode); currentTheme = eff; theme.set(eff); }
@@ -1286,6 +1307,8 @@
   function onFontSliderInput(e) {
     fontScale = parseFloat(e.target.value);
     localStorage.setItem('impro_font_scale', String(fontScale));
+    // Keep the Appearance panel's text-scale in sync too.
+    try { localStorage.setItem('appearance_text_scale', String(fontScale)); } catch {}
     applyFontScale();
   }
   function resetFontScale() {
@@ -1480,25 +1503,35 @@
           <button class="edit-home-btn" class:active={editHome} on:click={() => editHome = !editHome}>
             {editHome ? '✓ Done' : '⚙️ Edit Home'}
           </button>
-          {#if editHome}<span class="edit-home-hint">Drag or use ↑↓ to rearrange</span>{/if}
+          {#if editHome}<span class="edit-home-hint">Drag or ↑↓ to rearrange · ✕ to remove</span>{/if}
         </div>
+        {#if editHome && dashHidden.length}
+          <div class="dash-hidden-bar">
+            <span class="dash-hidden-label">Hidden:</span>
+            {#each dashHidden as hid (hid)}
+              <button class="dash-hidden-chip" on:click={() => restoreDashCard(hid)}>
+                {DASH_CARD_LABELS[hid] || hid} <span class="dash-hidden-plus">+ Add back</span>
+              </button>
+            {/each}
+          </div>
+        {/if}
 
         <!-- Universal search: one bar to find stores, businesses, contacts, clients, testimonials -->
-        <div class="dash-sec" class:editing={editHome} style="order: {(dashOrderMap.search ?? 0) + 1}"
+        <div class="dash-sec" class:editing={editHome} class:dash-hidden-card={isDashHidden('search')} style="order: {(dashOrderMap.search ?? 0) + 1}"
           draggable={editHome}
           on:dragstart={() => onDashDragStart('search')}
           on:dragover|preventDefault={() => {}}
           on:drop={() => onDashDrop('search')}>
-          {#if editHome}<div class="dash-move"><button on:click|stopPropagation={() => moveDashCard('search', -1)} aria-label="Move up">↑</button><button on:click|stopPropagation={() => moveDashCard('search', 1)} aria-label="Move down">↓</button></div>{/if}
+          {#if editHome}<div class="dash-move"><button on:click|stopPropagation={() => moveDashCard('search', -1)} aria-label="Move up">↑</button><button on:click|stopPropagation={() => moveDashCard('search', 1)} aria-label="Move down">↓</button><button class="dash-del" on:click|stopPropagation={() => hideDashCard('search')} aria-label="Remove card">✕</button></div>{/if}
           <UniversalSearch {allStores} {savedProspects} on:navigate={handleUniversalNavigate} />
         </div>
 
-        <div class="dash-sec" class:editing={editHome} style="order: {(dashOrderMap.quickactions ?? 1) + 1}"
+        <div class="dash-sec" class:editing={editHome} class:dash-hidden-card={isDashHidden('quickactions')} style="order: {(dashOrderMap.quickactions ?? 1) + 1}"
           draggable={editHome}
           on:dragstart={() => onDashDragStart('quickactions')}
           on:dragover|preventDefault={() => {}}
           on:drop={() => onDashDrop('quickactions')}>
-          {#if editHome}<div class="dash-move"><button on:click|stopPropagation={() => moveDashCard('quickactions', -1)} aria-label="Move up">↑</button><button on:click|stopPropagation={() => moveDashCard('quickactions', 1)} aria-label="Move down">↓</button></div>{/if}
+          {#if editHome}<div class="dash-move"><button on:click|stopPropagation={() => moveDashCard('quickactions', -1)} aria-label="Move up">↑</button><button on:click|stopPropagation={() => moveDashCard('quickactions', 1)} aria-label="Move down">↓</button><button class="dash-del" on:click|stopPropagation={() => hideDashCard('quickactions')} aria-label="Remove card">✕</button></div>{/if}
         <div class="quick-actions-top">
           <button class="qa-btn qa-primary" on:click={() => { storesView = 'prospects'; currentTab = 'stores'; }}
             use:addToHome={{ label: 'Find Prospects', icon: '🎯', tab: 'stores', action: 'prospects' }}>
@@ -1524,23 +1557,23 @@
         </div><!-- /dash-sec quickactions -->
 
         <!-- Home Screen shortcuts (user-pinned buttons, drag to reorder) -->
-        <div class="dash-sec" class:editing={editHome} style="order: {(dashOrderMap.shortcuts ?? 2) + 1}"
+        <div class="dash-sec" class:editing={editHome} class:dash-hidden-card={isDashHidden('shortcuts')} style="order: {(dashOrderMap.shortcuts ?? 2) + 1}"
           draggable={editHome}
           on:dragstart={() => onDashDragStart('shortcuts')}
           on:dragover|preventDefault={() => {}}
           on:drop={() => onDashDrop('shortcuts')}>
-          {#if editHome}<div class="dash-move"><button on:click|stopPropagation={() => moveDashCard('shortcuts', -1)} aria-label="Move up">↑</button><button on:click|stopPropagation={() => moveDashCard('shortcuts', 1)} aria-label="Move down">↓</button></div>{/if}
+          {#if editHome}<div class="dash-move"><button on:click|stopPropagation={() => moveDashCard('shortcuts', -1)} aria-label="Move up">↑</button><button on:click|stopPropagation={() => moveDashCard('shortcuts', 1)} aria-label="Move down">↓</button><button class="dash-del" on:click|stopPropagation={() => hideDashCard('shortcuts')} aria-label="Remove card">✕</button></div>{/if}
           <HomeShortcuts on:navigate={handleShortcutNavigate} />
         </div>
 
         <!-- CALL-IN LEADS — inbound, high-priority, surfaced front-and-center -->
         {#if callInLeadsCount > 0 || ($user?.name || '').toLowerCase().includes('tyler') || ($user?.name || '').toLowerCase().includes('rick') || $user?.role === 'manager'}
-        <div class="dash-sec" class:editing={editHome} style="order: {(dashOrderMap.callin ?? 3) + 1}"
+        <div class="dash-sec" class:editing={editHome} class:dash-hidden-card={isDashHidden('callin')} style="order: {(dashOrderMap.callin ?? 3) + 1}"
           draggable={editHome}
           on:dragstart={() => onDashDragStart('callin')}
           on:dragover|preventDefault={() => {}}
           on:drop={() => onDashDrop('callin')}>
-          {#if editHome}<div class="dash-move"><button on:click|stopPropagation={() => moveDashCard('callin', -1)} aria-label="Move up">↑</button><button on:click|stopPropagation={() => moveDashCard('callin', 1)} aria-label="Move down">↓</button></div>{/if}
+          {#if editHome}<div class="dash-move"><button on:click|stopPropagation={() => moveDashCard('callin', -1)} aria-label="Move up">↑</button><button on:click|stopPropagation={() => moveDashCard('callin', 1)} aria-label="Move down">↓</button><button class="dash-del" on:click|stopPropagation={() => hideDashCard('callin')} aria-label="Remove card">✕</button></div>{/if}
         <button class="callin-home-card" on:click={() => { storesView = 'prospects'; currentTab = 'stores'; setTimeout(() => document.dispatchEvent(new CustomEvent('show-callin-leads')), 250); }}>
           <div class="callin-home-icon">📞</div>
           <div class="callin-home-info">
@@ -1557,17 +1590,17 @@
         {/if}
 
         <!-- LAST ACTIVITY / STATUS — rep can update what they're working on (movable) -->
-        <div class="dash-sec" class:editing={editHome} style="order: {(dashOrderMap.activity ?? 4) + 1}"
+        <div class="dash-sec" class:editing={editHome} class:dash-hidden-card={isDashHidden('activity')} style="order: {(dashOrderMap.activity ?? 4) + 1}"
           draggable={editHome}
           on:dragstart={() => onDashDragStart('activity')}
           on:dragover|preventDefault={() => {}}
           on:drop={() => onDashDrop('activity')}>
-          {#if editHome}<div class="dash-move"><button on:click|stopPropagation={() => moveDashCard('activity', -1)} aria-label="Move up">↑</button><button on:click|stopPropagation={() => moveDashCard('activity', 1)} aria-label="Move down">↓</button></div>{/if}
+          {#if editHome}<div class="dash-move"><button on:click|stopPropagation={() => moveDashCard('activity', -1)} aria-label="Move up">↑</button><button on:click|stopPropagation={() => moveDashCard('activity', 1)} aria-label="Move down">↓</button><button class="dash-del" on:click|stopPropagation={() => hideDashCard('activity')} aria-label="Remove card">✕</button></div>{/if}
           <LastActivity />
         </div>
 
         <!-- 2. TODAY AT A GLANCE — next appointment (movable) -->
-        <div class="dash-card" class:editing={editHome} style="order: {(dashOrderMap.today ?? 5) + 1}"
+        <div class="dash-card" class:editing={editHome} class:dash-hidden-card={isDashHidden('today')} style="order: {(dashOrderMap.today ?? 5) + 1}"
           draggable={editHome}
           on:dragstart={() => onDashDragStart('today')}
           on:dragover|preventDefault={() => {}}
@@ -1576,6 +1609,7 @@
           <div class="dash-move">
             <button on:click|stopPropagation={() => moveDashCard('today', -1)} aria-label="Move up">↑</button>
             <button on:click|stopPropagation={() => moveDashCard('today', 1)} aria-label="Move down">↓</button>
+            <button class="dash-del" on:click|stopPropagation={() => hideDashCard('today')} aria-label="Remove card">✕</button>
           </div>
         {/if}
         <button class="today-card-full" on:click={() => { showAppointmentsDetail = !showAppointmentsDetail; showStreakDetail = false; }}>
@@ -1643,7 +1677,7 @@
         </div><!-- /dash-card today -->
 
         <!-- 3. REVENUE HERO — motivation (movable) -->
-        <div class="dash-card" class:editing={editHome} style="order: {(dashOrderMap.revenue ?? 6) + 1}"
+        <div class="dash-card" class:editing={editHome} class:dash-hidden-card={isDashHidden('revenue')} style="order: {(dashOrderMap.revenue ?? 6) + 1}"
           draggable={editHome}
           on:dragstart={() => onDashDragStart('revenue')}
           on:dragover|preventDefault={() => {}}
@@ -1652,6 +1686,7 @@
           <div class="dash-move">
             <button on:click|stopPropagation={() => moveDashCard('revenue', -1)} aria-label="Move up">↑</button>
             <button on:click|stopPropagation={() => moveDashCard('revenue', 1)} aria-label="Move down">↓</button>
+            <button class="dash-del" on:click|stopPropagation={() => hideDashCard('revenue')} aria-label="Remove card">✕</button>
           </div>
         {/if}
         <button class="revenue-hero clickable" on:click={() => showRevenueDetail = !showRevenueDetail}>
@@ -1706,7 +1741,7 @@
         </div><!-- /dash-card revenue -->
 
         <!-- 4. STATS GRID — Prospects, Streak, Renewals (movable) -->
-        <div class="dash-card" class:editing={editHome} style="order: {(dashOrderMap.stats ?? 7) + 1}"
+        <div class="dash-card" class:editing={editHome} class:dash-hidden-card={isDashHidden('stats')} style="order: {(dashOrderMap.stats ?? 7) + 1}"
           draggable={editHome}
           on:dragstart={() => onDashDragStart('stats')}
           on:dragover|preventDefault={() => {}}
@@ -1715,6 +1750,7 @@
           <div class="dash-move">
             <button on:click|stopPropagation={() => moveDashCard('stats', -1)} aria-label="Move up">↑</button>
             <button on:click|stopPropagation={() => moveDashCard('stats', 1)} aria-label="Move down">↓</button>
+            <button class="dash-del" on:click|stopPropagation={() => hideDashCard('stats')} aria-label="Remove card">✕</button>
           </div>
         {/if}
         <div class="dashboard-grid">
@@ -1879,7 +1915,7 @@
         </div><!-- /dash-card stats -->
 
         <!-- 5. FULL DAILY GOAL — expandable (movable) -->
-        <div class="dash-card" class:editing={editHome} style="order: {(dashOrderMap.goal ?? 8) + 1}"
+        <div class="dash-card" class:editing={editHome} class:dash-hidden-card={isDashHidden('goal')} style="order: {(dashOrderMap.goal ?? 8) + 1}"
           draggable={editHome}
           on:dragstart={() => onDashDragStart('goal')}
           on:dragover|preventDefault={() => {}}
@@ -1888,6 +1924,7 @@
           <div class="dash-move">
             <button on:click|stopPropagation={() => moveDashCard('goal', -1)} aria-label="Move up">↑</button>
             <button on:click|stopPropagation={() => moveDashCard('goal', 1)} aria-label="Move down">↓</button>
+            <button class="dash-del" on:click|stopPropagation={() => hideDashCard('goal')} aria-label="Remove card">✕</button>
           </div>
         {/if}
         <div class="goal-section">
@@ -2687,6 +2724,29 @@
   }
   .edit-home-btn.active { background: var(--accent, #cc0000); color: #fff; border-color: transparent; }
   .edit-home-hint { font-size: 12px; color: var(--text-secondary, #888); }
+
+  /* Delete/remove button in the per-card edit controls */
+  .dash-move button.dash-del {
+    background: #444;
+  }
+  /* A card the user removed in Edit Home: fully hidden from the dashboard */
+  .dash-hidden-card { display: none !important; }
+
+  /* Restore-hidden chips bar shown under Edit Home when cards are hidden */
+  .dash-hidden-bar {
+    display: flex; flex-wrap: wrap; align-items: center; gap: 8px;
+    margin: -6px 0 14px; padding: 8px 10px;
+    background: var(--card-bg, #fff); border: 1px dashed var(--border-color, #ddd);
+    border-radius: 10px;
+  }
+  .dash-hidden-label { font-size: 12px; font-weight: 700; color: var(--text-secondary, #888); }
+  .dash-hidden-chip {
+    display: inline-flex; align-items: center; gap: 6px;
+    border: 1px solid var(--border-color, #ddd); background: var(--bg-primary, #f5f5f5);
+    color: var(--text-primary, #222); font-size: 12px; font-weight: 600;
+    padding: 6px 10px; border-radius: 999px; cursor: pointer;
+  }
+  .dash-hidden-plus { color: var(--accent, #cc0000); font-weight: 800; }
 
   .dashboard h2 {
     margin: 0 0 8px;

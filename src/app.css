@@ -373,3 +373,98 @@ body {
     margin-right: auto;
   }
 }
+
+/* ============================================================
+   MODERN POLISH LAYER (Sep 2026) — purely additive.
+   Refines shadows, radii, transitions, focus + tap feedback app-wide
+   by leveraging existing shared classes. No component markup/logic
+   changes. Keyed on classes the app already renders, and respects
+   prefers-reduced-motion.
+   ============================================================ */
+:root {
+  /* Modern elevation ramp (soft, layered, low-alpha) */
+  --im-shadow-sm: 0 1px 2px rgba(16,24,40,0.06), 0 1px 3px rgba(16,24,40,0.10);
+  --im-shadow-md: 0 4px 12px rgba(16,24,40,0.08), 0 2px 4px rgba(16,24,40,0.06);
+  --im-shadow-lg: 0 12px 28px rgba(16,24,40,0.12), 0 4px 10px rgba(16,24,40,0.08);
+  --im-radius: 16px;
+  --im-radius-sm: 12px;
+  --im-ease: cubic-bezier(0.22, 1, 0.36, 1); /* gentle spring-out */
+  --im-dur: 180ms;
+}
+:root[data-theme="dark"] {
+  --im-shadow-sm: 0 1px 2px rgba(0,0,0,0.40), 0 1px 3px rgba(0,0,0,0.30);
+  --im-shadow-md: 0 4px 14px rgba(0,0,0,0.45), 0 2px 5px rgba(0,0,0,0.35);
+  --im-shadow-lg: 0 14px 32px rgba(0,0,0,0.55), 0 4px 12px rgba(0,0,0,0.40);
+}
+
+/* Smooth, modern elevation on the app's card surfaces. */
+.dash-card, .dash-sec, .im-card, .stat-card,
+.callin-home-card, .today-card-full, .theme-card, .font-btn {
+  box-shadow: var(--im-shadow-md);
+  transition:
+    box-shadow var(--im-dur) var(--im-ease),
+    transform var(--im-dur) var(--im-ease),
+    border-color var(--im-dur) var(--im-ease),
+    background var(--im-dur) var(--im-ease);
+}
+/* Subtle lift on hover for pointer devices only (no sticky states on touch). */
+@media (hover: hover) and (pointer: fine) {
+  .dash-card:hover, .im-card:hover, .stat-card:hover,
+  .callin-home-card:hover, .today-card-full:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--im-shadow-lg);
+  }
+}
+
+/* Crisp, modern tactile feedback on the primary action buttons. */
+.main-btn, .action-btn, .qa-btn, .book-appt-btn, .cartvert-store-btn,
+.prospect-store-btn, .navigate-store-btn, .audit-store-btn, .addtape-store-btn {
+  transition:
+    transform var(--im-dur) var(--im-ease),
+    box-shadow var(--im-dur) var(--im-ease),
+    filter var(--im-dur) var(--im-ease);
+}
+.main-btn:active, .action-btn:active, .qa-btn:active, .book-appt-btn:active,
+.cartvert-store-btn:active, .prospect-store-btn:active, .navigate-store-btn:active,
+.audit-store-btn:active, .addtape-store-btn:active {
+  transform: scale(0.97);
+  filter: brightness(0.97);
+}
+
+/* Accessible, on-brand focus ring for keyboard users (doesn't affect mouse/touch). */
+button:focus-visible, a:focus-visible, input:focus-visible,
+select:focus-visible, textarea:focus-visible, [role="button"]:focus-visible {
+  outline: 2px solid var(--accent, #cc0000);
+  outline-offset: 2px;
+  border-radius: 8px;
+}
+/* Remove the old sticky mouse-focus outline in favor of focus-visible above. */
+button:focus:not(:focus-visible) { outline: none; }
+
+/* Modern inputs: rounder, softer, smooth focus. */
+input[type="text"], input[type="search"], input[type="tel"],
+input[type="email"], input[type="number"], select, textarea {
+  border-radius: var(--im-radius-sm);
+  transition: border-color var(--im-dur) var(--im-ease),
+              box-shadow var(--im-dur) var(--im-ease);
+}
+input[type="text"]:focus, input[type="search"]:focus, input[type="tel"]:focus,
+input[type="email"]:focus, input[type="number"]:focus, select:focus, textarea:focus {
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent, #cc0000) 18%, transparent);
+}
+
+/* Slightly tighter, more modern header elevation. */
+.header { box-shadow: var(--im-shadow-sm); }
+
+/* Honor reduced-motion: kill lifts/scales/transitions for those who ask. */
+@media (prefers-reduced-motion: reduce) {
+  .dash-card, .dash-sec, .im-card, .stat-card, .callin-home-card,
+  .today-card-full, .theme-card, .font-btn, .main-btn, .action-btn, .qa-btn,
+  .book-appt-btn, .cartvert-store-btn, .prospect-store-btn, .navigate-store-btn,
+  .audit-store-btn, .addtape-store-btn {
+    transition: none !important;
+  }
+  .dash-card:hover, .im-card:hover, .stat-card:hover,
+  .callin-home-card:hover, .today-card-full:hover { transform: none !important; }
+  .main-btn:active, .action-btn:active, .qa-btn:active { transform: none !important; }
+}
