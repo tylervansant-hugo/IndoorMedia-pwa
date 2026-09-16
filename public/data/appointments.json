@@ -1,1 +1,4124 @@
-[]
+[
+  {
+    "event_id": "ffdrfi61rhv1i51mpnqioeu90s",
+    "title": "Visit: Robs Auto Repair LLC",
+    "start": "2026-09-16T12:00:00-07:00",
+    "end": "2026-09-16T13:00:00-07:00",
+    "location": "3775 W Powell Loop, Gresham, OR 97030, USA",
+    "description": "Prospect: Robs Auto Repair LLC\nAddress: 3775 W Powell Loop, Gresham, OR 97030, USA\nPhone: (503) 756-3529\nWebsite: https://robsautorepairllc.com/\nStore: Safeway SAF07Z-1070\nRep: Tyler Van Sant",
+    "prospect_name": "Robs Auto Repair LLC",
+    "phone": "(503) 756-3529",
+    "address": "3775 W Powell Loop, Gresham, OR 97030, USA",
+    "store": "Safeway SAF07Z-1070",
+    "rep": "Tyler Van Sant",
+    "attendees": [
+      {
+        "email": "daniel.barchini@indoormedia.com",
+        "name": "",
+        "status": "needsAction"
+      },
+      {
+        "email": "tyler.vansant@indoormedia.com",
+        "name": "",
+        "status": "accepted"
+      },
+      {
+        "email": "richard.leibowitz@indoormedia.com",
+        "name": "",
+        "status": "needsAction"
+      }
+    ],
+    "is_prospect_visit": true,
+    "creator": "tyler.vansant@indoormedia.com"
+  },
+  {
+    "event_id": "_8d13ihhk8l336b9h74p38b9k8opk2ba27534ab9k71142cpl6kqjgh9j70_20260918T030000Z",
+    "title": "Take out garbage - STOP what I\u2019m doing or I will forget",
+    "start": "2026-09-17T20:00:00-07:00",
+    "end": "2026-09-17T21:00:00-07:00",
+    "location": "",
+    "description": "",
+    "prospect_name": "",
+    "phone": "",
+    "address": "",
+    "store": "",
+    "rep": "Tyler VanSant",
+    "attendees": [],
+    "is_prospect_visit": false,
+    "creator": "tyler.vansant@indoormedia.com"
+  },
+  {
+    "event_id": "0ht3imnfsvvcodq3tautkub63k",
+    "title": "\ud83d\udd0d Audit #2: Albertsons, Billings, Albertsons-4041 \u2014 check in w/ Frozen Yogurt/Banano Smoothies/Spinners",
+    "start": "2026-09-19T10:00:00-07:00",
+    "end": "2026-09-19T11:00:00-07:00",
+    "location": "",
+    "description": "AUDIT & CHECK-IN #2 (135 days in)\nContract: J428093E\nBusiness: Banano Smoothies/Spinners\nCustomer: Frozen Yogurt\nRep: Tyler VanSant\nStore: Albertsons Albertsons-4041, Billings\nEst. Start: 05/17/2026\n\nVerify tape display. Check in with Frozen Yogurt at Banano Smoothies/Spinners.",
+    "prospect_name": "",
+    "phone": "",
+    "address": "",
+    "store": "Albertsons Albertsons-4041, Billings",
+    "rep": "Tyler VanSant",
+    "attendees": [
+      {
+        "email": "tyler.vansant@indoormedia.com",
+        "name": "",
+        "status": "needsAction"
+      }
+    ],
+    "is_prospect_visit": false,
+    "creator": "tyler.vansant@indoormedia.com"
+  },
+  {
+    "event_id": "15b7n2g73fs52rdgu1ll8d8b48",
+    "title": "\ud83d\udd0d Audit #5: Safeway, Show Low, Safeway-1733 \u2014 check in w/ Alex Gibbs/Arizona suspension specialist",
+    "start": "2026-09-19T10:00:00-07:00",
+    "end": "2026-09-19T11:00:00-07:00",
+    "location": "",
+    "description": "AUDIT & CHECK-IN #5 (405 days in)\nContract: J412420E\nBusiness: Arizona suspension specialist\nCustomer: Alex Gibbs\nRep: Cameron Gould\nStore: Safeway Safeway-1733, Show Low\nEst. Start: 08/20/2025\nTerm: 5Q (15 months)\n\nVerify tape display. Check in with Alex Gibbs at Arizona suspension specialist.",
+    "prospect_name": "",
+    "phone": "",
+    "address": "",
+    "store": "Safeway Safeway-1733, Show Low",
+    "rep": "Cameron Gould",
+    "attendees": [
+      {
+        "email": "cameron.gould@indoormedia.com",
+        "name": "",
+        "status": "needsAction"
+      }
+    ],
+    "is_prospect_visit": false,
+    "creator": "tyler.vansant@indoormedia.com"
+  },
+  {
+    "event_id": "1j7nqrtp7jra24g8js6p1seosk",
+    "title": "\ud83d\udd0d Audit #2: Quality Food Center, Portland, Quality Food Center-0205 \u2014 check in w/ Ali Alshujery/K&H Auto Shop",
+    "start": "2026-09-19T10:00:00-07:00",
+    "end": "2026-09-19T11:00:00-07:00",
+    "location": "",
+    "description": "AUDIT & CHECK-IN #2 (135 days in)\nContract: J426965E\nBusiness: K&H Auto Shop\nCustomer: Ali Alshujery\nRep: Adan Ramos\nStore: Quality Food Center Quality Food Center-0205, Portland\nEst. Start: 05/17/2026\n\nVerify tape display. Check in with Ali Alshujery at K&H Auto Shop.",
+    "prospect_name": "",
+    "phone": "",
+    "address": "",
+    "store": "Quality Food Center Quality Food Center-0205, Portland",
+    "rep": "Adan Ramos",
+    "attendees": [
+      {
+        "email": "adan.ramos@indoormedia.com",
+        "name": "",
+        "status": "needsAction"
+      }
+    ],
+    "is_prospect_visit": false,
+    "creator": "tyler.vansant@indoormedia.com"
+  },
+  {
+    "event_id": "1u2l1dj2pkn6klpceh6d8kfcc4",
+    "title": "\ud83d\udd0d Audit #2: Safeway, La Grande, Safeway-1827 \u2014 check in w/ Armando Robles/La Fiesta Mexican restaurant",
+    "start": "2026-09-19T10:00:00-07:00",
+    "end": "2026-09-19T11:00:00-07:00",
+    "location": "",
+    "description": "AUDIT & CHECK-IN #2 (135 days in)\nContract: J427093E\nBusiness: La Fiesta Mexican restaurant\nCustomer: Armando Robles\nRep: Tyler VanSant\nStore: Safeway Safeway-1827, La Grande\nEst. Start: 05/17/2026\n\nVerify tape display. Check in with Armando Robles at La Fiesta Mexican restaurant.",
+    "prospect_name": "",
+    "phone": "",
+    "address": "",
+    "store": "Safeway Safeway-1827, La Grande",
+    "rep": "Tyler VanSant",
+    "attendees": [
+      {
+        "email": "tyler.vansant@indoormedia.com",
+        "name": "",
+        "status": "needsAction"
+      }
+    ],
+    "is_prospect_visit": false,
+    "creator": "tyler.vansant@indoormedia.com"
+  },
+  {
+    "event_id": "38uf410o9c63nshrivm2t70eds",
+    "title": "\ud83d\udd0d Audit #2: Safeway, Newberg, Safeway-2623 \u2014 check in w/ Rigo Lopez/La Sierra Mexican Restaurant &",
+    "start": "2026-09-19T10:00:00-07:00",
+    "end": "2026-09-19T11:00:00-07:00",
+    "location": "",
+    "description": "AUDIT & CHECK-IN #2 (135 days in)\nContract: J428880E\nBusiness: La Sierra Mexican Restaurant &\nCustomer: Rigo Lopez\nRep: Anthony Marty Eng\nStore: Safeway Safeway-2623, Newberg\nEst. Start: 05/17/2026\n\nVerify tape display. Check in with Rigo Lopez at La Sierra Mexican Restaurant &.",
+    "prospect_name": "",
+    "phone": "",
+    "address": "",
+    "store": "Safeway Safeway-2623, Newberg",
+    "rep": "Anthony Marty Eng",
+    "attendees": [
+      {
+        "email": "anthony.eng@indoormedia.com",
+        "name": "",
+        "status": "accepted"
+      }
+    ],
+    "is_prospect_visit": false,
+    "creator": "tyler.vansant@indoormedia.com"
+  },
+  {
+    "event_id": "5t629rhdios4lum7eg7n4aike0",
+    "title": "\ud83d\udd0d Audit #2: Fred Meyer, Beaverton, Fred Meyer-0035 \u2014 check in w/ Lazaro Villasenor/Si Senor",
+    "start": "2026-09-19T10:00:00-07:00",
+    "end": "2026-09-19T11:00:00-07:00",
+    "location": "",
+    "description": "AUDIT & CHECK-IN #2 (135 days in)\nContract: J425353E\nBusiness: Si Senor\nCustomer: Lazaro Villasenor\nRep: Amy Dixon\nStore: Fred Meyer Fred Meyer-0035, Beaverton\nEst. Start: 05/17/2026\n\nVerify tape display. Check in with Lazaro Villasenor at Si Senor.",
+    "prospect_name": "",
+    "phone": "",
+    "address": "",
+    "store": "Fred Meyer Fred Meyer-0035, Beaverton",
+    "rep": "Amy Dixon",
+    "attendees": [
+      {
+        "email": "amy.dixon@indoormedia.com",
+        "name": "",
+        "status": "needsAction"
+      }
+    ],
+    "is_prospect_visit": false,
+    "creator": "tyler.vansant@indoormedia.com"
+  },
+  {
+    "event_id": "6drd507h4p98e07ollgq899sro",
+    "title": "\ud83d\udd0d Audit #2: Fred Meyer, Bremerton, Fred Meyer-0171 \u2014 check in w/ David Comeau/Better Vape",
+    "start": "2026-09-19T10:00:00-07:00",
+    "end": "2026-09-19T11:00:00-07:00",
+    "location": "",
+    "description": "AUDIT & CHECK-IN #2 (135 days in)\nContract: J430273E\nBusiness: Better Vape\nCustomer: David Comeau\nRep: Ryan Rohner-talton\nStore: Fred Meyer Fred Meyer-0171, Bremerton\nEst. Start: 05/17/2026\n\nVerify tape display. Check in with David Comeau at Better Vape.",
+    "prospect_name": "",
+    "phone": "",
+    "address": "",
+    "store": "Fred Meyer Fred Meyer-0171, Bremerton",
+    "rep": "Ryan Rohner-talton",
+    "attendees": [
+      {
+        "email": "ryan.rohner-talton@indoormedia.com",
+        "name": "",
+        "status": "needsAction"
+      }
+    ],
+    "is_prospect_visit": false,
+    "creator": "tyler.vansant@indoormedia.com"
+  },
+  {
+    "event_id": "6gh3pb9d089ollukanh9ktt5b8",
+    "title": "\ud83d\udd0d Audit #2: Fred Meyer, Portland, Fred Meyer-0040 \u2014 check in w/ Nayeli Sanchez/La Real",
+    "start": "2026-09-19T10:00:00-07:00",
+    "end": "2026-09-19T11:00:00-07:00",
+    "location": "",
+    "description": "AUDIT & CHECK-IN #2 (135 days in)\nContract: J428190E\nBusiness: La Real\nCustomer: Nayeli Sanchez\nRep: Megan Wink\nStore: Fred Meyer Fred Meyer-0040, Portland\nEst. Start: 05/17/2026\n\nVerify tape display. Check in with Nayeli Sanchez at La Real.",
+    "prospect_name": "",
+    "phone": "",
+    "address": "",
+    "store": "Fred Meyer Fred Meyer-0040, Portland",
+    "rep": "Megan Wink",
+    "attendees": [
+      {
+        "email": "megan.wink@indoormedia.com",
+        "name": "",
+        "status": "needsAction"
+      }
+    ],
+    "is_prospect_visit": false,
+    "creator": "tyler.vansant@indoormedia.com"
+  },
+  {
+    "event_id": "6lfi86ptb1im96a9p5m2soqjc8",
+    "title": "\ud83d\udd0d Audit #2: Albertsons, Port Orchard, Albertsons-0475 \u2014 check in w/ cheryl sonneman/Novus glass repair &",
+    "start": "2026-09-19T10:00:00-07:00",
+    "end": "2026-09-19T11:00:00-07:00",
+    "location": "",
+    "description": "AUDIT & CHECK-IN #2 (135 days in)\nContract: J429707E\nBusiness: Novus glass repair &\nCustomer: cheryl sonneman\nRep: Ryan Rohner-talton\nStore: Albertsons Albertsons-0475, Port Orchard\nEst. Start: 05/17/2026\n\nVerify tape display. Check in with cheryl sonneman at Novus glass repair &.",
+    "prospect_name": "",
+    "phone": "",
+    "address": "",
+    "store": "Albertsons Albertsons-0475, Port Orchard",
+    "rep": "Ryan Rohner-talton",
+    "attendees": [
+      {
+        "email": "ryan.rohner-talton@indoormedia.com",
+        "name": "",
+        "status": "needsAction"
+      }
+    ],
+    "is_prospect_visit": false,
+    "creator": "tyler.vansant@indoormedia.com"
+  },
+  {
+    "event_id": "7k86vj1hkkg8rr8vdulfoov164",
+    "title": "\ud83d\udd0d Audit #2: Safeway, Olympia, Safeway-1173 \u2014 check in w/ Ana Maria Meza Andrade //The Port Taco Truck & Bar",
+    "start": "2026-09-19T10:00:00-07:00",
+    "end": "2026-09-19T11:00:00-07:00",
+    "location": "",
+    "description": "AUDIT & CHECK-IN #2 (135 days in)\nContract: J429344E\nBusiness: The Port Taco Truck & Bar\nCustomer: Ana Maria Meza Andrade /\nRep: Justin Rich\nStore: Safeway Safeway-1173, Olympia\nEst. Start: 05/17/2026\n\nVerify tape display. Check in with Ana Maria Meza Andrade / at The Port Taco Truck & Bar.",
+    "prospect_name": "",
+    "phone": "",
+    "address": "",
+    "store": "Safeway Safeway-1173, Olympia",
+    "rep": "Justin Rich",
+    "attendees": [
+      {
+        "email": "justin.rich@indoormedia.com",
+        "name": "",
+        "status": "needsAction"
+      }
+    ],
+    "is_prospect_visit": false,
+    "creator": "tyler.vansant@indoormedia.com"
+  },
+  {
+    "event_id": "d9d2ecejai2vml3hl8c8o4el4k",
+    "title": "\ud83d\udd0d Audit #2: Safeway, Bremerton, Safeway-1524 \u2014 check in w/ Moe Tariq/Complete Auto Repair",
+    "start": "2026-09-19T10:00:00-07:00",
+    "end": "2026-09-19T11:00:00-07:00",
+    "location": "",
+    "description": "AUDIT & CHECK-IN #2 (135 days in)\nContract: J428501E\nBusiness: Complete Auto Repair\nCustomer: Moe Tariq\nRep: Ryan Rohner-talton\nStore: Safeway Safeway-1524, Bremerton\nEst. Start: 05/17/2026\n\nVerify tape display. Check in with Moe Tariq at Complete Auto Repair.",
+    "prospect_name": "",
+    "phone": "",
+    "address": "",
+    "store": "Safeway Safeway-1524, Bremerton",
+    "rep": "Ryan Rohner-talton",
+    "attendees": [
+      {
+        "email": "ryan.rohner-talton@indoormedia.com",
+        "name": "",
+        "status": "needsAction"
+      }
+    ],
+    "is_prospect_visit": false,
+    "creator": "tyler.vansant@indoormedia.com"
+  },
+  {
+    "event_id": "f14ji7p0svfo9la98bjkid4rqs",
+    "title": "\ud83d\udd0d Audit #2: Fred Meyer, Portland, Fred Meyer-0150 \u2014 check in w/ Aaron Ballenger/Papa Zuzu\u2019s Pizza",
+    "start": "2026-09-19T10:00:00-07:00",
+    "end": "2026-09-19T11:00:00-07:00",
+    "location": "",
+    "description": "AUDIT & CHECK-IN #2 (135 days in)\nContract: J426746E\nBusiness: Papa Zuzu\u2019s Pizza\nCustomer: Aaron Ballenger\nRep: Tyler VanSant\nStore: Fred Meyer Fred Meyer-0150, Portland\nEst. Start: 05/17/2026\n\nVerify tape display. Check in with Aaron Ballenger at Papa Zuzu\u2019s Pizza.",
+    "prospect_name": "",
+    "phone": "",
+    "address": "",
+    "store": "Fred Meyer Fred Meyer-0150, Portland",
+    "rep": "Tyler VanSant",
+    "attendees": [
+      {
+        "email": "tyler.vansant@indoormedia.com",
+        "name": "",
+        "status": "needsAction"
+      }
+    ],
+    "is_prospect_visit": false,
+    "creator": "tyler.vansant@indoormedia.com"
+  },
+  {
+    "event_id": "ijrdfe14ads0gjsjf349kmdu14",
+    "title": "\ud83d\udd0d Audit #2: Safeway, Belfair, Safeway-1571 \u2014 check in w/ Noel Martinez/Taqueria El Guero 2",
+    "start": "2026-09-19T10:00:00-07:00",
+    "end": "2026-09-19T11:00:00-07:00",
+    "location": "",
+    "description": "AUDIT & CHECK-IN #2 (135 days in)\nContract: J428428E\nBusiness: Taqueria El Guero 2\nCustomer: Noel Martinez\nRep: Ryan Rohner-talton\nStore: Safeway Safeway-1571, Belfair\nEst. Start: 05/17/2026\n\nVerify tape display. Check in with Noel Martinez at Taqueria El Guero 2.",
+    "prospect_name": "",
+    "phone": "",
+    "address": "",
+    "store": "Safeway Safeway-1571, Belfair",
+    "rep": "Ryan Rohner-talton",
+    "attendees": [
+      {
+        "email": "ryan.rohner-talton@indoormedia.com",
+        "name": "",
+        "status": "needsAction"
+      }
+    ],
+    "is_prospect_visit": false,
+    "creator": "tyler.vansant@indoormedia.com"
+  },
+  {
+    "event_id": "qn8norci8goan0cbfqpgdjp0lk",
+    "title": "\ud83d\udd0d Audit #5: Safeway, Show Low, Safeway-1733 \u2014 check in w/ Sam upshaw/First bullion corp",
+    "start": "2026-09-19T10:00:00-07:00",
+    "end": "2026-09-19T11:00:00-07:00",
+    "location": "",
+    "description": "AUDIT & CHECK-IN #5 (405 days in)\nContract: J412382E\nBusiness: First bullion corp\nCustomer: Sam upshaw\nRep: Cameron Gould\nStore: Safeway Safeway-1733, Show Low\nEst. Start: 08/20/2025\nTerm: 5Q (15 months)\n\nVerify tape display. Check in with Sam upshaw at First bullion corp.",
+    "prospect_name": "",
+    "phone": "",
+    "address": "",
+    "store": "Safeway Safeway-1733, Show Low",
+    "rep": "Cameron Gould",
+    "attendees": [
+      {
+        "email": "cameron.gould@indoormedia.com",
+        "name": "",
+        "status": "needsAction"
+      }
+    ],
+    "is_prospect_visit": false,
+    "creator": "tyler.vansant@indoormedia.com"
+  },
+  {
+    "event_id": "stbk970t5lulatk0li0o9vec28",
+    "title": "\ud83d\udd0d Audit #2: Fred Meyer, Portland, Fred Meyer-0125 \u2014 check in w/ Fernando Garcia/Muchas Gracias Mexican Food",
+    "start": "2026-09-19T10:00:00-07:00",
+    "end": "2026-09-19T11:00:00-07:00",
+    "location": "",
+    "description": "AUDIT & CHECK-IN #2 (135 days in)\nContract: J428939E\nBusiness: Muchas Gracias Mexican Food\nCustomer: Fernando Garcia\nRep: Dave Boring\nStore: Fred Meyer Fred Meyer-0125, Portland\nEst. Start: 05/17/2026\n\nVerify tape display. Check in with Fernando Garcia at Muchas Gracias Mexican Food.",
+    "prospect_name": "",
+    "phone": "",
+    "address": "",
+    "store": "Fred Meyer Fred Meyer-0125, Portland",
+    "rep": "Dave Boring",
+    "attendees": [
+      {
+        "email": "dave.boring@indoormedia.com",
+        "name": "",
+        "status": "needsAction"
+      }
+    ],
+    "is_prospect_visit": false,
+    "creator": "tyler.vansant@indoormedia.com"
+  },
+  {
+    "event_id": "uj4h80hn8a5tli59cru5hipp2c",
+    "title": "\ud83d\udd0d Audit #2: Safeway, Sherwood, Safeway-1800 \u2014 check in w/ Mary Vega/Bolt on Motors",
+    "start": "2026-09-19T10:00:00-07:00",
+    "end": "2026-09-19T11:00:00-07:00",
+    "location": "",
+    "description": "AUDIT & CHECK-IN #2 (135 days in)\nContract: J429244E\nBusiness: Bolt on Motors\nCustomer: Mary Vega\nRep: Jan Banks\nStore: Safeway Safeway-1800, Sherwood\nEst. Start: 05/17/2026\n\nVerify tape display. Check in with Mary Vega at Bolt on Motors.",
+    "prospect_name": "",
+    "phone": "",
+    "address": "",
+    "store": "Safeway Safeway-1800, Sherwood",
+    "rep": "Jan Banks",
+    "attendees": [
+      {
+        "email": "jan.banks@indoormedia.com",
+        "name": "",
+        "status": "needsAction"
+      }
+    ],
+    "is_prospect_visit": false,
+    "creator": "tyler.vansant@indoormedia.com"
+  },
+  {
+    "event_id": "vn8d90m56d4ihnih763d9aaaa8",
+    "title": "\ud83d\udd0d Audit #2: Quality Food Center, Vancouver, Quality Food Center-0212 \u2014 check in w/ Cheri Craig/Grapes \u2018n Hops",
+    "start": "2026-09-19T10:00:00-07:00",
+    "end": "2026-09-19T11:00:00-07:00",
+    "location": "",
+    "description": "AUDIT & CHECK-IN #2 (135 days in)\nContract: J428509E\nBusiness: Grapes \u2018n Hops\nCustomer: Cheri Craig\nRep: Adan Ramos\nStore: Quality Food Center Quality Food Center-0212, Vancouver\nEst. Start: 05/17/2026\n\nVerify tape display. Check in with Cheri Craig at Grapes \u2018n Hops.",
+    "prospect_name": "",
+    "phone": "",
+    "address": "",
+    "store": "Quality Food Center Quality Food Center-0212, Vancouver",
+    "rep": "Adan Ramos",
+    "attendees": [
+      {
+        "email": "adan.ramos@indoormedia.com",
+        "name": "",
+        "status": "needsAction"
+      }
+    ],
+    "is_prospect_visit": false,
+    "creator": "tyler.vansant@indoormedia.com"
+  },
+  {
+    "event_id": "dbpj7u1okn4munehucnpdpnbp8",
+    "title": "Lynnae out of town",
+    "start": "2026-09-21T00:00:00-07:00",
+    "end": "2026-09-21T23:59:59-07:00",
+    "location": "Albany",
+    "description": "",
+    "prospect_name": "",
+    "phone": "",
+    "address": "",
+    "store": "",
+    "rep": "Tyler VanSant",
+    "attendees": [],
+    "is_prospect_visit": false,
+    "creator": "tyler.vansant@indoormedia.com"
+  },
+  {
+    "event_id": "4a2735ne6kjo5pbiaigsim6cok_20260921T160000Z",
+    "title": "Check Aging Report",
+    "start": "2026-09-21T09:00:00-07:00",
+    "end": "2026-09-21T10:00:00-07:00",
+    "location": "",
+    "description": "",
+    "prospect_name": "",
+    "phone": "",
+    "address": "",
+    "store": "",
+    "rep": "Tyler VanSant",
+    "attendees": [
+      {
+        "email": "richard.leibowitz@rtui.com",
+        "name": "",
+        "status": "needsAction"
+      },
+      {
+        "email": "tyler.vansant@indoormedia.com",
+        "name": "",
+        "status": "accepted"
+      }
+    ],
+    "is_prospect_visit": false,
+    "creator": "tyler.vansant@indoormedia.com"
+  },
+  {
+    "event_id": "v70pp9i8dtsm4tt4h5o1fj4vps_20260921T160000Z",
+    "title": "Audit B Cycles Stores-Focal Point Accounts",
+    "start": "2026-09-21T09:00:00-07:00",
+    "end": "2026-09-21T10:30:00-07:00",
+    "location": "",
+    "description": "",
+    "prospect_name": "",
+    "phone": "",
+    "address": "",
+    "store": "",
+    "rep": "Tyler VanSant",
+    "attendees": [],
+    "is_prospect_visit": false,
+    "creator": "tyler.vansant@indoormedia.com"
+  },
+  {
+    "event_id": "69u2hcvge0c1bpcu4m13p42r2a_20260921T163000Z",
+    "title": "Weekly 7Y & 7Z Oregon/Washington Team Kick-Off",
+    "start": "2026-09-21T09:30:00-07:00",
+    "end": "2026-09-21T10:00:00-07:00",
+    "location": "",
+    "description": "This will be our once a week opportunity to meet as a team to sharpen our skills, discuss what we are working on, and collaborate with each other",
+    "prospect_name": "",
+    "phone": "",
+    "address": "",
+    "store": "",
+    "rep": "Tyler VanSant",
+    "attendees": [
+      {
+        "email": "dave.boring@indoormedia.com",
+        "name": "",
+        "status": "needsAction"
+      },
+      {
+        "email": "tyler.vansant@indoormedia.com",
+        "name": "",
+        "status": "accepted"
+      },
+      {
+        "email": "jan.banks@indoormedia.com",
+        "name": "",
+        "status": "needsAction"
+      },
+      {
+        "email": "amy.dixon@rtui.com",
+        "name": "",
+        "status": "needsAction"
+      },
+      {
+        "email": "anthony.eng@indoormedia.com",
+        "name": "",
+        "status": "needsAction"
+      },
+      {
+        "email": "matthew.boozer@indoormedia.com",
+        "name": "",
+        "status": "needsAction"
+      },
+      {
+        "email": "richard.diamond@indoormedia.com",
+        "name": "",
+        "status": "needsAction"
+      },
+      {
+        "email": "adan.ramos@indoormedia.com",
+        "name": "",
+        "status": "needsAction"
+      },
+      {
+        "email": "megan.wink@indoormedia.com",
+        "name": "",
+        "status": "needsAction"
+      },
+      {
+        "email": "dawna.henehan@indoormedia.com",
+        "name": "",
+        "status": "needsAction"
+      },
+      {
+        "email": "tony.ortega@rtui.com",
+        "name": "",
+        "status": "needsAction"
+      },
+      {
+        "email": "daniel.barchini@indoormedia.com",
+        "name": "",
+        "status": "needsAction"
+      }
+    ],
+    "is_prospect_visit": false,
+    "creator": "tyler.vansant@indoormedia.com"
+  },
+  {
+    "event_id": "009ourlc08qih4t98j49ta7ch0",
+    "title": "\ud83d\udd0d Audit #4: Safeway, Pinetop-Lakeside, Safeway-2069 \u2014 check in w/ Derek daley/R & r pizza express",
+    "start": "2026-09-21T10:00:00-07:00",
+    "end": "2026-09-21T11:00:00-07:00",
+    "location": "",
+    "description": "AUDIT & CHECK-IN #4 (315 days in)\nContract: J412587E\nBusiness: R & r pizza express\nCustomer: Derek daley\nRep: Cameron Gould\nStore: Safeway Safeway-2069, Pinetop-Lakeside\nEst. Start: 11/20/2025\nTerm: 4Q (12 months)\n\nVerify tape display. Check in with Derek daley at R & r pizza express.",
+    "prospect_name": "",
+    "phone": "",
+    "address": "",
+    "store": "Safeway Safeway-2069, Pinetop-Lakeside",
+    "rep": "Cameron Gould",
+    "attendees": [
+      {
+        "email": "cameron.gould@indoormedia.com",
+        "name": "",
+        "status": "needsAction"
+      }
+    ],
+    "is_prospect_visit": false,
+    "creator": "tyler.vansant@indoormedia.com"
+  },
+  {
+    "event_id": "0atl6bcft6dfavg4s801bd9r8k",
+    "title": "\ud83d\udd0d Audit #1: Fred Meyer, Salem, Fred Meyer-0355 \u2014 check in w/ Jiaxin Li/Ginza Sushi & Ramen",
+    "start": "2026-09-21T10:00:00-07:00",
+    "end": "2026-09-21T11:00:00-07:00",
+    "location": "",
+    "description": "AUDIT & CHECK-IN #1 (45 days in)\nContract: J432460E\nBusiness: Ginza Sushi & Ramen\nCustomer: Jiaxin Li\nRep: Anthony Marty Eng\nStore: Fred Meyer Fred Meyer-0355, Salem\nEst. Start: 08/17/2026\nTerm: 5Q (15 months)\n\nVerify tape display. Check in with Jiaxin Li at Ginza Sushi & Ramen.",
+    "prospect_name": "",
+    "phone": "",
+    "address": "",
+    "store": "Fred Meyer Fred Meyer-0355, Salem",
+    "rep": "Anthony Marty Eng",
+    "attendees": [
+      {
+        "email": "anthony.eng@indoormedia.com",
+        "name": "",
+        "status": "accepted"
+      }
+    ],
+    "is_prospect_visit": false,
+    "creator": "tyler.vansant@indoormedia.com"
+  },
+  {
+    "event_id": "0eh4eg01igh3ltpl22kv9esfes",
+    "title": "\ud83d\udd0d Audit #1: Safeway, Sequim, Safeway-1448 \u2014 check in w/ Amen Singh/Domino\u2019s Pizza",
+    "start": "2026-09-21T10:00:00-07:00",
+    "end": "2026-09-21T11:00:00-07:00",
+    "location": "",
+    "description": "AUDIT & CHECK-IN #1 (45 days in)\nContract: J432747E\nBusiness: Domino\u2019s Pizza\nCustomer: Amen Singh\nRep: Ryan Rohner-talton\nStore: Safeway Safeway-1448, Sequim\nEst. Start: 08/17/2026\nTerm: 8Q (24 months)\n\nVerify tape display. Check in with Amen Singh at Domino\u2019s Pizza.",
+    "prospect_name": "",
+    "phone": "",
+    "address": "",
+    "store": "Safeway Safeway-1448, Sequim",
+    "rep": "Ryan Rohner-talton",
+    "attendees": [
+      {
+        "email": "ryan.rohner-talton@indoormedia.com",
+        "name": "",
+        "status": "needsAction"
+      }
+    ],
+    "is_prospect_visit": false,
+    "creator": "tyler.vansant@indoormedia.com"
+  },
+  {
+    "event_id": "2c73um8mfg3l1hdboq13tjcquo",
+    "title": "\ud83d\udd0d Audit #1: Safeway, Sherwood, Safeway-1800 \u2014 check in w/ David Song/Hamji Bak",
+    "start": "2026-09-21T10:00:00-07:00",
+    "end": "2026-09-21T11:00:00-07:00",
+    "location": "",
+    "description": "AUDIT & CHECK-IN #1 (45 days in)\nContract: J431517E\nBusiness: Hamji Bak\nCustomer: David Song\nRep: Adan Ramos\nStore: Safeway Safeway-1800, Sherwood\nEst. Start: 08/17/2026\nTerm: 5Q (15 months)\n\nVerify tape display. Check in with David Song at Hamji Bak.",
+    "prospect_name": "",
+    "phone": "",
+    "address": "",
+    "store": "Safeway Safeway-1800, Sherwood",
+    "rep": "Adan Ramos",
+    "attendees": [
+      {
+        "email": "adan.ramos@indoormedia.com",
+        "name": "",
+        "status": "needsAction"
+      }
+    ],
+    "is_prospect_visit": false,
+    "creator": "tyler.vansant@indoormedia.com"
+  },
+  {
+    "event_id": "3cbggc636figbnnqv6rllao1c4",
+    "title": "\ud83d\udd0d Audit #1: Fred Meyer, Happy Valley, Fred Meyer-0153 \u2014 check in w/ Damian Enrique Zeledon/Oregon Tires Auto Care",
+    "start": "2026-09-21T10:00:00-07:00",
+    "end": "2026-09-21T11:00:00-07:00",
+    "location": "",
+    "description": "AUDIT & CHECK-IN #1 (45 days in)\nContract: J432295E\nBusiness: Oregon Tires Auto Care\nCustomer: Damian Enrique Zeledon\nRep: Megan Wink\nStore: Fred Meyer Fred Meyer-0153, Happy Valley\nEst. Start: 08/17/2026\nTerm: 5Q (15 months)\n\nVerify tape display. Check in with Damian Enrique Zeledon at Oregon Tires Auto Care.",
+    "prospect_name": "",
+    "phone": "",
+    "address": "",
+    "store": "Fred Meyer Fred Meyer-0153, Happy Valley",
+    "rep": "Megan Wink",
+    "attendees": [
+      {
+        "email": "megan.wink@indoormedia.com",
+        "name": "",
+        "status": "needsAction"
+      }
+    ],
+    "is_prospect_visit": false,
+    "creator": "tyler.vansant@indoormedia.com"
+  },
+  {
+    "event_id": "5l0uh7ihmgujln4h38rt2iitb4",
+    "title": "\ud83d\udd0d Audit #1: Safeway, Portland, Safeway-1627 \u2014 check in w/ Aaron Barnes/Pizza Machine",
+    "start": "2026-09-21T10:00:00-07:00",
+    "end": "2026-09-21T11:00:00-07:00",
+    "location": "",
+    "description": "AUDIT & CHECK-IN #1 (45 days in)\nContract: J434019E\nBusiness: Pizza Machine\nCustomer: Aaron Barnes\nRep: Megan Wink\nStore: Safeway Safeway-1627, Portland\nEst. Start: 08/17/2026\nTerm: 5Q (15 months)\n\nVerify tape display. Check in with Aaron Barnes at Pizza Machine.",
+    "prospect_name": "",
+    "phone": "",
+    "address": "",
+    "store": "Safeway Safeway-1627, Portland",
+    "rep": "Megan Wink",
+    "attendees": [
+      {
+        "email": "megan.wink@indoormedia.com",
+        "name": "",
+        "status": "needsAction"
+      }
+    ],
+    "is_prospect_visit": false,
+    "creator": "tyler.vansant@indoormedia.com"
+  },
+  {
+    "event_id": "6gd3ue4p4s7mfi4n91e4tt6bjk",
+    "title": "\ud83d\udd0d Audit #1: Rosauers, Hood River, Rosauers-0016 \u2014 check in w/ Jacobe Krizman/Hoody's Oil Change",
+    "start": "2026-09-21T10:00:00-07:00",
+    "end": "2026-09-21T11:00:00-07:00",
+    "location": "",
+    "description": "AUDIT & CHECK-IN #1 (45 days in)\nContract: J433177E\nBusiness: Hoody's Oil Change\nCustomer: Jacobe Krizman\nRep: Megan Wink\nStore: Rosauers Rosauers-0016, Hood River\nEst. Start: 08/17/2026\nTerm: 5Q (15 months)\n\nVerify tape display. Check in with Jacobe Krizman at Hoody's Oil Change.",
+    "prospect_name": "",
+    "phone": "",
+    "address": "",
+    "store": "Rosauers Rosauers-0016, Hood River",
+    "rep": "Megan Wink",
+    "attendees": [
+      {
+        "email": "megan.wink@indoormedia.com",
+        "name": "",
+        "status": "needsAction"
+      }
+    ],
+    "is_prospect_visit": false,
+    "creator": "tyler.vansant@indoormedia.com"
+  },
+  {
+    "event_id": "6r55c1khig8s857ckmvhctsib0",
+    "title": "\ud83d\udd0d Audit #1: Fred Meyer, Salem, Fred Meyer-0355 \u2014 check in w/ Erika Vera/La Hacienda Real",
+    "start": "2026-09-21T10:00:00-07:00",
+    "end": "2026-09-21T11:00:00-07:00",
+    "location": "",
+    "description": "AUDIT & CHECK-IN #1 (45 days in)\nContract: J433242E\nBusiness: La Hacienda Real\nCustomer: Erika Vera\nRep: Megan Wink\nStore: Fred Meyer Fred Meyer-0355, Salem\nEst. Start: 08/17/2026\nTerm: 4Q (12 months)\n\nVerify tape display. Check in with Erika Vera at La Hacienda Real.",
+    "prospect_name": "",
+    "phone": "",
+    "address": "",
+    "store": "Fred Meyer Fred Meyer-0355, Salem",
+    "rep": "Megan Wink",
+    "attendees": [
+      {
+        "email": "megan.wink@indoormedia.com",
+        "name": "",
+        "status": "needsAction"
+      }
+    ],
+    "is_prospect_visit": false,
+    "creator": "tyler.vansant@indoormedia.com"
+  },
+  {
+    "event_id": "8hq3uisojp454arogphdgqql50",
+    "title": "\ud83d\udd0d Audit #1: Fred Meyer, Salem, Fred Meyer-0355 \u2014 check in w/ Cristina Sanchez/Habaneros",
+    "start": "2026-09-21T10:00:00-07:00",
+    "end": "2026-09-21T11:00:00-07:00",
+    "location": "",
+    "description": "AUDIT & CHECK-IN #1 (45 days in)\nContract: J430883E\nBusiness: Habaneros\nCustomer: Cristina Sanchez\nRep: Megan Wink\nStore: Fred Meyer Fred Meyer-0355, Salem\nEst. Start: 08/17/2026\n\nVerify tape display. Check in with Cristina Sanchez at Habaneros.",
+    "prospect_name": "",
+    "phone": "",
+    "address": "",
+    "store": "Fred Meyer Fred Meyer-0355, Salem",
+    "rep": "Megan Wink",
+    "attendees": [
+      {
+        "email": "megan.wink@indoormedia.com",
+        "name": "",
+        "status": "needsAction"
+      }
+    ],
+    "is_prospect_visit": false,
+    "creator": "tyler.vansant@indoormedia.com"
+  },
+  {
+    "event_id": "c5sr6b3m3h0prfl72mj1na9ed8",
+    "title": "\ud83d\udd0d Audit #1: Safeway, Hillsboro, Safeway-1230 \u2014 check in w/ Jonathan Allen/Galaxy Car Wash LLC",
+    "start": "2026-09-21T10:00:00-07:00",
+    "end": "2026-09-21T11:00:00-07:00",
+    "location": "",
+    "description": "AUDIT & CHECK-IN #1 (45 days in)\nContract: J433870E\nBusiness: Galaxy Car Wash LLC\nCustomer: Jonathan Allen\nRep: Anthony Marty Eng\nStore: Safeway Safeway-1230, Hillsboro\nEst. Start: 08/17/2026\nTerm: 4Q (12 months)\n\nVerify tape display. Check in with Jonathan Allen at Galaxy Car Wash LLC.",
+    "prospect_name": "",
+    "phone": "",
+    "address": "",
+    "store": "Safeway Safeway-1230, Hillsboro",
+    "rep": "Anthony Marty Eng",
+    "attendees": [
+      {
+        "email": "anthony.eng@indoormedia.com",
+        "name": "",
+        "status": "accepted"
+      }
+    ],
+    "is_prospect_visit": false,
+    "creator": "tyler.vansant@indoormedia.com"
+  },
+  {
+    "event_id": "e459vjvrmsktj4av46fbsfvgic",
+    "title": "\ud83d\udd0d Audit #1: Quality Food Center, Vancouver, Quality Food Center-0212 \u2014 check in w/ Mallory Geer/Hiddenbrook Dental",
+    "start": "2026-09-21T10:00:00-07:00",
+    "end": "2026-09-21T11:00:00-07:00",
+    "location": "",
+    "description": "AUDIT & CHECK-IN #1 (45 days in)\nContract: J424505E\nBusiness: Hiddenbrook Dental\nCustomer: Mallory Geer\nRep: Anthony Marty Eng\nStore: Quality Food Center Quality Food Center-0212, Vancouver\nEst. Start: 08/17/2026\n\nVerify tape display. Check in with Mallory Geer at Hiddenbrook Dental.",
+    "prospect_name": "",
+    "phone": "",
+    "address": "",
+    "store": "Quality Food Center Quality Food Center-0212, Vancouver",
+    "rep": "Anthony Marty Eng",
+    "attendees": [
+      {
+        "email": "anthony.eng@indoormedia.com",
+        "name": "",
+        "status": "accepted"
+      }
+    ],
+    "is_prospect_visit": false,
+    "creator": "tyler.vansant@indoormedia.com"
+  },
+  {
+    "event_id": "v4sebrpcf47oti6vjuf5rnofec",
+    "title": "\ud83d\udd0d Audit #1: Safeway, Salem, Safeway-0429 \u2014 check in w/ Juan Flores/El Rinconcito Los Flores",
+    "start": "2026-09-21T10:00:00-07:00",
+    "end": "2026-09-21T11:00:00-07:00",
+    "location": "",
+    "description": "AUDIT & CHECK-IN #1 (45 days in)\nContract: J432617E\nBusiness: El Rinconcito Los Flores\nCustomer: Juan Flores\nRep: Megan Wink\nStore: Safeway Safeway-0429, Salem\nEst. Start: 08/17/2026\nTerm: 5Q (15 months)\n\nVerify tape display. Check in with Juan Flores at El Rinconcito Los Flores.",
+    "prospect_name": "",
+    "phone": "",
+    "address": "",
+    "store": "Safeway Safeway-0429, Salem",
+    "rep": "Megan Wink",
+    "attendees": [
+      {
+        "email": "megan.wink@indoormedia.com",
+        "name": "",
+        "status": "needsAction"
+      }
+    ],
+    "is_prospect_visit": false,
+    "creator": "tyler.vansant@indoormedia.com"
+  },
+  {
+    "event_id": "v54tc2lkq36rr4v99lpphf7d60",
+    "title": "\ud83d\udd0d Audit #1: Safeway, Springfield, Safeway-1094 \u2014 check in w/ Aloe Rochon/Nerdy Gnomes Tax Solutions",
+    "start": "2026-09-21T10:00:00-07:00",
+    "end": "2026-09-21T11:00:00-07:00",
+    "location": "",
+    "description": "AUDIT & CHECK-IN #1 (45 days in)\nContract: J433016E\nBusiness: Nerdy Gnomes Tax Solutions\nCustomer: Aloe Rochon\nRep: Matthew Boozer\nStore: Safeway Safeway-1094, Springfield\nEst. Start: 08/17/2026\nTerm: 1Q (3 months)\n\nVerify tape display. Check in with Aloe Rochon at Nerdy Gnomes Tax Solutions.",
+    "prospect_name": "",
+    "phone": "",
+    "address": "",
+    "store": "Safeway Safeway-1094, Springfield",
+    "rep": "Matthew Boozer",
+    "attendees": [
+      {
+        "email": "matthew.boozer@indoormedia.com",
+        "name": "",
+        "status": "needsAction"
+      }
+    ],
+    "is_prospect_visit": false,
+    "creator": "tyler.vansant@indoormedia.com"
+  },
+  {
+    "event_id": "fcvk6bodtiad8ge1mgnukdn7h0",
+    "title": "\ud83d\udce6 Install Q3: Hi-tech home repair at Smiths, St. George, Smiths-0189",
+    "start": "2026-09-22T10:00:00-07:00",
+    "end": "2026-09-22T11:00:00-07:00",
+    "location": "",
+    "description": "INSTALL QUARTER 3 (180 days in)\nContract: J424482E\nBusiness: Hi-tech home repair\nCustomer: Matt wyson\nRep: Cameron Gould\nStore: Smiths Smiths-0189, St. George\nEst. Start: 04/05/2026\nTerm: 4Q (12 months)\n\nInstall tape at Hi-tech home repair.",
+    "prospect_name": "",
+    "phone": "",
+    "address": "",
+    "store": "Smiths Smiths-0189, St. George",
+    "rep": "Cameron Gould",
+    "attendees": [
+      {
+        "email": "cameron.gould@indoormedia.com",
+        "name": "",
+        "status": "needsAction"
+      }
+    ],
+    "is_prospect_visit": true,
+    "creator": "tyler.vansant@indoormedia.com"
+  },
+  {
+    "event_id": "91r7jhu15vd0ciek1r5f3ser2g",
+    "title": "\ud83d\udd0d Audit #5: Fresh Market, OGDEN, Fresh Market-2382 \u2014 check in w/ Shaniah day/Garden of ink",
+    "start": "2026-09-23T10:00:00-07:00",
+    "end": "2026-09-23T11:00:00-07:00",
+    "location": "",
+    "description": "AUDIT & CHECK-IN #5 (405 days in)\nContract: J411397E\nBusiness: Garden of ink\nCustomer: Shaniah day\nRep: Cameron Gould\nStore: Fresh Market Fresh Market-2382, OGDEN\nEst. Start: 08/24/2025\nTerm: 5Q (15 months)\n\nVerify tape display. Check in with Shaniah day at Garden of ink.",
+    "prospect_name": "",
+    "phone": "",
+    "address": "",
+    "store": "Fresh Market Fresh Market-2382, OGDEN",
+    "rep": "Cameron Gould",
+    "attendees": [
+      {
+        "email": "cameron.gould@indoormedia.com",
+        "name": "",
+        "status": "needsAction"
+      }
+    ],
+    "is_prospect_visit": false,
+    "creator": "tyler.vansant@indoormedia.com"
+  },
+  {
+    "event_id": "fkqj3lq126di0udfothd1ovi6s",
+    "title": "\ud83d\udce6 Install Q1: Menchies Frozen Yogurt at Safeway, Roseville, Safeway-1617",
+    "start": "2026-09-24T10:00:00-07:00",
+    "end": "2026-09-24T11:00:00-07:00",
+    "location": "",
+    "description": "INSTALL QUARTER 1 (0 days in)\nContract: J434000E\nBusiness: Menchies Frozen Yogurt\nCustomer: Barinder Kaur\nRep: Tyler VanSant\nStore: Safeway Safeway-1617, Roseville\nEst. Start: 10/04/2026\nTerm: 4Q (12 months)\n\nInstall tape at Menchies Frozen Yogurt.",
+    "prospect_name": "",
+    "phone": "",
+    "address": "",
+    "store": "Safeway Safeway-1617, Roseville",
+    "rep": "Tyler VanSant",
+    "attendees": [
+      {
+        "email": "tyler.vansant@indoormedia.com",
+        "name": "",
+        "status": "needsAction"
+      }
+    ],
+    "is_prospect_visit": true,
+    "creator": "tyler.vansant@indoormedia.com"
+  },
+  {
+    "event_id": "_8d13ihhk8l336b9h74p38b9k8opk2ba27534ab9k71142cpl6kqjgh9j70_20260925T030000Z",
+    "title": "Take out garbage - STOP what I\u2019m doing or I will forget",
+    "start": "2026-09-24T20:00:00-07:00",
+    "end": "2026-09-24T21:00:00-07:00",
+    "location": "",
+    "description": "",
+    "prospect_name": "",
+    "phone": "",
+    "address": "",
+    "store": "",
+    "rep": "Tyler VanSant",
+    "attendees": [],
+    "is_prospect_visit": false,
+    "creator": "tyler.vansant@indoormedia.com"
+  },
+  {
+    "event_id": "b23kqu0edtddo33klh0l822ick_20260925T160000Z",
+    "title": "Check with Reps on Last Minute Renewals and email Jordan Encarguez",
+    "start": "2026-09-25T09:00:00-07:00",
+    "end": "2026-09-25T10:00:00-07:00",
+    "location": "",
+    "description": "",
+    "prospect_name": "",
+    "phone": "",
+    "address": "",
+    "store": "",
+    "rep": "Tyler VanSant",
+    "attendees": [
+      {
+        "email": "richard.leibowitz@indoormedia.com",
+        "name": "",
+        "status": "needsAction"
+      },
+      {
+        "email": "tyler.vansant@indoormedia.com",
+        "name": "",
+        "status": "accepted"
+      }
+    ],
+    "is_prospect_visit": false,
+    "creator": "tyler.vansant@indoormedia.com"
+  },
+  {
+    "event_id": "2k53l335vf1lou0498rd5s9o54",
+    "title": "\ud83d\udd0d Audit #4: Maceys, Providence, Maceys-0971 \u2014 check in w/ Neil godfrey/Northern glass pros",
+    "start": "2026-09-25T10:00:00-07:00",
+    "end": "2026-09-25T11:00:00-07:00",
+    "location": "",
+    "description": "AUDIT & CHECK-IN #4 (315 days in)\nContract: J417901E\nBusiness: Northern glass pros\nCustomer: Neil godfrey\nRep: Cameron Gould\nStore: Maceys Maceys-0971, Providence\nEst. Start: 11/24/2025\nTerm: 4Q (12 months)\n\nVerify tape display. Check in with Neil godfrey at Northern glass pros.",
+    "prospect_name": "",
+    "phone": "",
+    "address": "",
+    "store": "Maceys Maceys-0971, Providence",
+    "rep": "Cameron Gould",
+    "attendees": [
+      {
+        "email": "cameron.gould@indoormedia.com",
+        "name": "",
+        "status": "needsAction"
+      }
+    ],
+    "is_prospect_visit": false,
+    "creator": "tyler.vansant@indoormedia.com"
+  },
+  {
+    "event_id": "7p1f24jjsfip6q768ghqcvs9r0",
+    "title": "\ud83d\udd0d Audit #4: Fresh Market, OGDEN, Fresh Market-2382 \u2014 check in w/ Stephanie ginn/Beehive naturals",
+    "start": "2026-09-25T10:00:00-07:00",
+    "end": "2026-09-25T11:00:00-07:00",
+    "location": "",
+    "description": "AUDIT & CHECK-IN #4 (315 days in)\nContract: J419184E\nBusiness: Beehive naturals\nCustomer: Stephanie ginn\nRep: Cameron Gould\nStore: Fresh Market Fresh Market-2382, OGDEN\nEst. Start: 11/24/2025\nTerm: 4Q (12 months)\n\nVerify tape display. Check in with Stephanie ginn at Beehive naturals.",
+    "prospect_name": "",
+    "phone": "",
+    "address": "",
+    "store": "Fresh Market Fresh Market-2382, OGDEN",
+    "rep": "Cameron Gould",
+    "attendees": [
+      {
+        "email": "cameron.gould@indoormedia.com",
+        "name": "",
+        "status": "needsAction"
+      }
+    ],
+    "is_prospect_visit": false,
+    "creator": "tyler.vansant@indoormedia.com"
+  },
+  {
+    "event_id": "cch7a3kjiqrjgc43g9g9jfpam8",
+    "title": "\ud83d\udd0d Audit #4: Maceys, Providence, Maceys-0971 \u2014 check in w/ Matt perry/A pizza",
+    "start": "2026-09-25T10:00:00-07:00",
+    "end": "2026-09-25T11:00:00-07:00",
+    "location": "",
+    "description": "AUDIT & CHECK-IN #4 (315 days in)\nContract: J418536E\nBusiness: A pizza\nCustomer: Matt perry\nRep: Cameron Gould\nStore: Maceys Maceys-0971, Providence\nEst. Start: 11/24/2025\nTerm: 4Q (12 months)\n\nVerify tape display. Check in with Matt perry at A pizza.",
+    "prospect_name": "",
+    "phone": "",
+    "address": "",
+    "store": "Maceys Maceys-0971, Providence",
+    "rep": "Cameron Gould",
+    "attendees": [
+      {
+        "email": "cameron.gould@indoormedia.com",
+        "name": "",
+        "status": "needsAction"
+      }
+    ],
+    "is_prospect_visit": false,
+    "creator": "tyler.vansant@indoormedia.com"
+  },
+  {
+    "event_id": "h7jik6fcrf95ba6bjavh6tvudk",
+    "title": "\ud83d\udd0d Audit #4: Smiths, North Ogden, Smiths-0279 \u2014 check in w/ Josh shaw/Ultimate express car wash",
+    "start": "2026-09-25T10:00:00-07:00",
+    "end": "2026-09-25T11:00:00-07:00",
+    "location": "",
+    "description": "AUDIT & CHECK-IN #4 (315 days in)\nContract: J414806E\nBusiness: Ultimate express car wash\nCustomer: Josh shaw\nRep: Cameron Gould\nStore: Smiths Smiths-0279, North Ogden\nEst. Start: 11/24/2025\nTerm: 4Q (12 months)\n\nVerify tape display. Check in with Josh shaw at Ultimate express car wash.",
+    "prospect_name": "",
+    "phone": "",
+    "address": "",
+    "store": "Smiths Smiths-0279, North Ogden",
+    "rep": "Cameron Gould",
+    "attendees": [
+      {
+        "email": "cameron.gould@indoormedia.com",
+        "name": "",
+        "status": "needsAction"
+      }
+    ],
+    "is_prospect_visit": false,
+    "creator": "tyler.vansant@indoormedia.com"
+  },
+  {
+    "event_id": "kc6o75ov594q3opfvuo5r3ukv8",
+    "title": "\ud83d\udd0d Audit #4: Maceys, Providence, Maceys-0971 \u2014 check in w/ Brenton stewart/Acadia homes",
+    "start": "2026-09-25T10:00:00-07:00",
+    "end": "2026-09-25T11:00:00-07:00",
+    "location": "",
+    "description": "AUDIT & CHECK-IN #4 (315 days in)\nContract: J418805E\nBusiness: Acadia homes\nCustomer: Brenton stewart\nRep: Cameron Gould\nStore: Maceys Maceys-0971, Providence\nEst. Start: 11/24/2025\nTerm: 4Q (12 months)\n\nVerify tape display. Check in with Brenton stewart at Acadia homes.",
+    "prospect_name": "",
+    "phone": "",
+    "address": "",
+    "store": "Maceys Maceys-0971, Providence",
+    "rep": "Cameron Gould",
+    "attendees": [
+      {
+        "email": "cameron.gould@indoormedia.com",
+        "name": "",
+        "status": "needsAction"
+      }
+    ],
+    "is_prospect_visit": false,
+    "creator": "tyler.vansant@indoormedia.com"
+  },
+  {
+    "event_id": "lc24v8scmdjboigq2pllvd0hts",
+    "title": "\ud83d\udd0d Audit #4: Smiths, Chubbuck, Smiths-0061 \u2014 check in w/ Juan huizar/Los gavilanes Mexican grill",
+    "start": "2026-09-25T10:00:00-07:00",
+    "end": "2026-09-25T11:00:00-07:00",
+    "location": "",
+    "description": "AUDIT & CHECK-IN #4 (315 days in)\nContract: J419429E\nBusiness: Los gavilanes Mexican grill\nCustomer: Juan huizar\nRep: Cameron Gould\nStore: Smiths Smiths-0061, Chubbuck\nEst. Start: 11/24/2025\nTerm: 4Q (12 months)\n\nVerify tape display. Check in with Juan huizar at Los gavilanes Mexican grill.",
+    "prospect_name": "",
+    "phone": "",
+    "address": "",
+    "store": "Smiths Smiths-0061, Chubbuck",
+    "rep": "Cameron Gould",
+    "attendees": [
+      {
+        "email": "cameron.gould@indoormedia.com",
+        "name": "",
+        "status": "needsAction"
+      }
+    ],
+    "is_prospect_visit": false,
+    "creator": "tyler.vansant@indoormedia.com"
+  },
+  {
+    "event_id": "luqo1o8ne74dng20j5rjbc6ts8",
+    "title": "\ud83d\udd0d Audit #4: Smiths, Logan, Smiths-0477 \u2014 check in w/ adam manassra/habibi mediterranean",
+    "start": "2026-09-25T10:00:00-07:00",
+    "end": "2026-09-25T11:00:00-07:00",
+    "location": "",
+    "description": "AUDIT & CHECK-IN #4 (315 days in)\nContract: J417088E\nBusiness: habibi mediterranean\nCustomer: adam manassra\nRep: Cameron Gould\nStore: Smiths Smiths-0477, Logan\nEst. Start: 11/24/2025\nTerm: 4Q (12 months)\n\nVerify tape display. Check in with adam manassra at habibi mediterranean.",
+    "prospect_name": "",
+    "phone": "",
+    "address": "",
+    "store": "Smiths Smiths-0477, Logan",
+    "rep": "Cameron Gould",
+    "attendees": [
+      {
+        "email": "cameron.gould@indoormedia.com",
+        "name": "",
+        "status": "needsAction"
+      }
+    ],
+    "is_prospect_visit": false,
+    "creator": "tyler.vansant@indoormedia.com"
+  },
+  {
+    "event_id": "m80m2pbv187idbnq1sstrovhm0",
+    "title": "\ud83d\udd0d Audit #4: Smiths, Logan, Smiths-0477 \u2014 check in w/ Jocelin ong/Neu ink",
+    "start": "2026-09-25T10:00:00-07:00",
+    "end": "2026-09-25T11:00:00-07:00",
+    "location": "",
+    "description": "AUDIT & CHECK-IN #4 (315 days in)\nContract: J418022E\nBusiness: Neu ink\nCustomer: Jocelin ong\nRep: Cameron Gould\nStore: Smiths Smiths-0477, Logan\nEst. Start: 11/24/2025\nTerm: 4Q (12 months)\n\nVerify tape display. Check in with Jocelin ong at Neu ink.",
+    "prospect_name": "",
+    "phone": "",
+    "address": "",
+    "store": "Smiths Smiths-0477, Logan",
+    "rep": "Cameron Gould",
+    "attendees": [
+      {
+        "email": "cameron.gould@indoormedia.com",
+        "name": "",
+        "status": "needsAction"
+      }
+    ],
+    "is_prospect_visit": false,
+    "creator": "tyler.vansant@indoormedia.com"
+  },
+  {
+    "event_id": "nia830m9u9le0trflvpg8m4o8k",
+    "title": "\ud83d\udd0d Audit #4: Ridleys, Hyrum, Ridleys-1150 \u2014 check in w/ Brad Lee/Hit it hard",
+    "start": "2026-09-25T10:00:00-07:00",
+    "end": "2026-09-25T11:00:00-07:00",
+    "location": "",
+    "description": "AUDIT & CHECK-IN #4 (315 days in)\nContract: J417672E\nBusiness: Hit it hard\nCustomer: Brad Lee\nRep: Cameron Gould\nStore: Ridleys Ridleys-1150, Hyrum\nEst. Start: 11/24/2025\nTerm: 4Q (12 months)\n\nVerify tape display. Check in with Brad Lee at Hit it hard.",
+    "prospect_name": "",
+    "phone": "",
+    "address": "",
+    "store": "Ridleys Ridleys-1150, Hyrum",
+    "rep": "Cameron Gould",
+    "attendees": [
+      {
+        "email": "cameron.gould@indoormedia.com",
+        "name": "",
+        "status": "needsAction"
+      }
+    ],
+    "is_prospect_visit": false,
+    "creator": "tyler.vansant@indoormedia.com"
+  },
+  {
+    "event_id": "p8aov8utdr1flp8mf0qde8b3h8",
+    "title": "\ud83d\udd0d Audit #4: Smiths, Chubbuck, Smiths-0061 \u2014 check in w/ Danielle cooper/Geraldine\u2019s bake shoppe and",
+    "start": "2026-09-25T10:00:00-07:00",
+    "end": "2026-09-25T11:00:00-07:00",
+    "location": "",
+    "description": "AUDIT & CHECK-IN #4 (315 days in)\nContract: J419494E\nBusiness: Geraldine\u2019s bake shoppe and\nCustomer: Danielle cooper\nRep: Cameron Gould\nStore: Smiths Smiths-0061, Chubbuck\nEst. Start: 11/24/2025\nTerm: 4Q (12 months)\n\nVerify tape display. Check in with Danielle cooper at Geraldine\u2019s bake shoppe and.",
+    "prospect_name": "",
+    "phone": "",
+    "address": "",
+    "store": "Smiths Smiths-0061, Chubbuck",
+    "rep": "Cameron Gould",
+    "attendees": [
+      {
+        "email": "cameron.gould@indoormedia.com",
+        "name": "",
+        "status": "needsAction"
+      }
+    ],
+    "is_prospect_visit": false,
+    "creator": "tyler.vansant@indoormedia.com"
+  },
+  {
+    "event_id": "pecl5sugc25uckvls20uutsn88",
+    "title": "\ud83d\udd0d Audit #4: Ridleys, Hyrum, Ridleys-1150 \u2014 check in w/ Chris neilsen/Jensen motor",
+    "start": "2026-09-25T10:00:00-07:00",
+    "end": "2026-09-25T11:00:00-07:00",
+    "location": "",
+    "description": "AUDIT & CHECK-IN #4 (315 days in)\nContract: J417897E\nBusiness: Jensen motor\nCustomer: Chris neilsen\nRep: Cameron Gould\nStore: Ridleys Ridleys-1150, Hyrum\nEst. Start: 11/24/2025\nTerm: 4Q (12 months)\n\nVerify tape display. Check in with Chris neilsen at Jensen motor.",
+    "prospect_name": "",
+    "phone": "",
+    "address": "",
+    "store": "Ridleys Ridleys-1150, Hyrum",
+    "rep": "Cameron Gould",
+    "attendees": [
+      {
+        "email": "cameron.gould@indoormedia.com",
+        "name": "",
+        "status": "needsAction"
+      }
+    ],
+    "is_prospect_visit": false,
+    "creator": "tyler.vansant@indoormedia.com"
+  },
+  {
+    "event_id": "t50rphmgf0kbv9p0vjo7cadh7c",
+    "title": "\ud83d\udd0d Audit #4: Smiths, Murray, Smiths-0083 \u2014 check in w/ Amanda alves/The beauty hall",
+    "start": "2026-09-25T10:00:00-07:00",
+    "end": "2026-09-25T11:00:00-07:00",
+    "location": "",
+    "description": "AUDIT & CHECK-IN #4 (315 days in)\nContract: J414739E\nBusiness: The beauty hall\nCustomer: Amanda alves\nRep: Cameron Gould\nStore: Smiths Smiths-0083, Murray\nEst. Start: 11/24/2025\nTerm: 4Q (12 months)\n\nVerify tape display. Check in with Amanda alves at The beauty hall.",
+    "prospect_name": "",
+    "phone": "",
+    "address": "",
+    "store": "Smiths Smiths-0083, Murray",
+    "rep": "Cameron Gould",
+    "attendees": [
+      {
+        "email": "cameron.gould@indoormedia.com",
+        "name": "",
+        "status": "needsAction"
+      }
+    ],
+    "is_prospect_visit": false,
+    "creator": "tyler.vansant@indoormedia.com"
+  },
+  {
+    "event_id": "3sef2se73a8k9p80265k85u880",
+    "title": "\ud83d\udd0d Audit #2: Smiths, North Ogden, Smiths-0279 \u2014 check in w/ Veronica Estrada/Taco rico",
+    "start": "2026-09-26T10:00:00-07:00",
+    "end": "2026-09-26T11:00:00-07:00",
+    "location": "",
+    "description": "AUDIT & CHECK-IN #2 (135 days in)\nContract: J428474E\nBusiness: Taco rico\nCustomer: Veronica Estrada\nRep: Cameron Gould\nStore: Smiths Smiths-0279, North Ogden\nEst. Start: 05/24/2026\nTerm: 4Q (12 months)\n\nVerify tape display. Check in with Veronica Estrada at Taco rico.",
+    "prospect_name": "",
+    "phone": "",
+    "address": "",
+    "store": "Smiths Smiths-0279, North Ogden",
+    "rep": "Cameron Gould",
+    "attendees": [
+      {
+        "email": "cameron.gould@indoormedia.com",
+        "name": "",
+        "status": "needsAction"
+      }
+    ],
+    "is_prospect_visit": false,
+    "creator": "tyler.vansant@indoormedia.com"
+  },
+  {
+    "event_id": "e7or6ffv6n9frl3gpd2080e9hk",
+    "title": "\ud83d\udd0d Audit #2: Maceys, Providence, Maceys-0971 \u2014 check in w/ Tortilla la Fuentes/Angel Gutierrez",
+    "start": "2026-09-26T10:00:00-07:00",
+    "end": "2026-09-26T11:00:00-07:00",
+    "location": "",
+    "description": "AUDIT & CHECK-IN #2 (135 days in)\nContract: J429051E\nBusiness: Angel Gutierrez\nCustomer: Tortilla la Fuentes\nRep: Cameron Gould\nStore: Maceys Maceys-0971, Providence\nEst. Start: 05/24/2026\nTerm: 4Q (12 months)\n\nVerify tape display. Check in with Tortilla la Fuentes at Angel Gutierrez.",
+    "prospect_name": "",
+    "phone": "",
+    "address": "",
+    "store": "Maceys Maceys-0971, Providence",
+    "rep": "Cameron Gould",
+    "attendees": [
+      {
+        "email": "cameron.gould@indoormedia.com",
+        "name": "",
+        "status": "needsAction"
+      }
+    ],
+    "is_prospect_visit": false,
+    "creator": "tyler.vansant@indoormedia.com"
+  },
+  {
+    "event_id": "iive3425nab69ur29f8uohlphc",
+    "title": "\ud83d\udd0d Audit #2: Smiths, Salt Lake City, Smiths-0077 \u2014 check in w/ Blake Ellsworth/Peak healthspan",
+    "start": "2026-09-26T10:00:00-07:00",
+    "end": "2026-09-26T11:00:00-07:00",
+    "location": "",
+    "description": "AUDIT & CHECK-IN #2 (135 days in)\nContract: J428176E\nBusiness: Peak healthspan\nCustomer: Blake Ellsworth\nRep: Cameron Gould\nStore: Smiths Smiths-0077, Salt Lake City\nEst. Start: 05/24/2026\nTerm: 4Q (12 months)\n\nVerify tape display. Check in with Blake Ellsworth at Peak healthspan.",
+    "prospect_name": "",
+    "phone": "",
+    "address": "",
+    "store": "Smiths Smiths-0077, Salt Lake City",
+    "rep": "Cameron Gould",
+    "attendees": [
+      {
+        "email": "cameron.gould@indoormedia.com",
+        "name": "",
+        "status": "needsAction"
+      }
+    ],
+    "is_prospect_visit": false,
+    "creator": "tyler.vansant@indoormedia.com"
+  },
+  {
+    "event_id": "jd54ti1728691jt489cjlc78mc",
+    "title": "\ud83d\udd0d Audit #2: Ridleys, Morgan, Ridleys-1161 \u2014 check in w/ Nicole Casey/Corner cover wellness",
+    "start": "2026-09-26T10:00:00-07:00",
+    "end": "2026-09-26T11:00:00-07:00",
+    "location": "",
+    "description": "AUDIT & CHECK-IN #2 (135 days in)\nContract: N428590E\nBusiness: Corner cover wellness\nCustomer: Nicole Casey\nRep: Cameron Gould\nStore: Ridleys Ridleys-1161, Morgan\nEst. Start: 05/24/2026\nTerm: 4Q (12 months)\n\nVerify tape display. Check in with Nicole Casey at Corner cover wellness.",
+    "prospect_name": "",
+    "phone": "",
+    "address": "",
+    "store": "Ridleys Ridleys-1161, Morgan",
+    "rep": "Cameron Gould",
+    "attendees": [
+      {
+        "email": "cameron.gould@indoormedia.com",
+        "name": "",
+        "status": "needsAction"
+      }
+    ],
+    "is_prospect_visit": false,
+    "creator": "tyler.vansant@indoormedia.com"
+  },
+  {
+    "event_id": "l1b5fjhuja899052cek1plp840",
+    "title": "\ud83d\udd0d Audit #2: Maceys, Providence, Maceys-0971 \u2014 check in w/ Luis Ramos/Rio Brazilian grill",
+    "start": "2026-09-26T10:00:00-07:00",
+    "end": "2026-09-26T11:00:00-07:00",
+    "location": "",
+    "description": "AUDIT & CHECK-IN #2 (135 days in)\nContract: J429307E\nBusiness: Rio Brazilian grill\nCustomer: Luis Ramos\nRep: Cameron Gould\nStore: Maceys Maceys-0971, Providence\nEst. Start: 05/24/2026\nTerm: 4Q (12 months)\n\nVerify tape display. Check in with Luis Ramos at Rio Brazilian grill.",
+    "prospect_name": "",
+    "phone": "",
+    "address": "",
+    "store": "Maceys Maceys-0971, Providence",
+    "rep": "Cameron Gould",
+    "attendees": [
+      {
+        "email": "cameron.gould@indoormedia.com",
+        "name": "",
+        "status": "needsAction"
+      }
+    ],
+    "is_prospect_visit": false,
+    "creator": "tyler.vansant@indoormedia.com"
+  },
+  {
+    "event_id": "l8bb9angsreroel3bjos90ssh4",
+    "title": "\ud83d\udd0d Audit #2: Smiths, Magna, Smiths-0068 \u2014 check in w/ Jordan bateman/Bubba b\u2019s barbershop",
+    "start": "2026-09-26T10:00:00-07:00",
+    "end": "2026-09-26T11:00:00-07:00",
+    "location": "",
+    "description": "AUDIT & CHECK-IN #2 (135 days in)\nContract: J428942E\nBusiness: Bubba b\u2019s barbershop\nCustomer: Jordan bateman\nRep: Cameron Gould\nStore: Smiths Smiths-0068, Magna\nEst. Start: 05/24/2026\nTerm: 4Q (12 months)\n\nVerify tape display. Check in with Jordan bateman at Bubba b\u2019s barbershop.",
+    "prospect_name": "",
+    "phone": "",
+    "address": "",
+    "store": "Smiths Smiths-0068, Magna",
+    "rep": "Cameron Gould",
+    "attendees": [
+      {
+        "email": "cameron.gould@indoormedia.com",
+        "name": "",
+        "status": "needsAction"
+      }
+    ],
+    "is_prospect_visit": false,
+    "creator": "tyler.vansant@indoormedia.com"
+  },
+  {
+    "event_id": "la6100bfem2jluo2jfg85coc18",
+    "title": "\ud83d\udd0d Audit #2: Smiths, North Ogden, Smiths-0279 \u2014 check in w/ Kamara Edes/Hand and stone",
+    "start": "2026-09-26T10:00:00-07:00",
+    "end": "2026-09-26T11:00:00-07:00",
+    "location": "",
+    "description": "AUDIT & CHECK-IN #2 (135 days in)\nContract: J428460E\nBusiness: Hand and stone\nCustomer: Kamara Edes\nRep: Cameron Gould\nStore: Smiths Smiths-0279, North Ogden\nEst. Start: 05/24/2026\nTerm: 4Q (12 months)\n\nVerify tape display. Check in with Kamara Edes at Hand and stone.",
+    "prospect_name": "",
+    "phone": "",
+    "address": "",
+    "store": "Smiths Smiths-0279, North Ogden",
+    "rep": "Cameron Gould",
+    "attendees": [
+      {
+        "email": "cameron.gould@indoormedia.com",
+        "name": "",
+        "status": "needsAction"
+      }
+    ],
+    "is_prospect_visit": false,
+    "creator": "tyler.vansant@indoormedia.com"
+  },
+  {
+    "event_id": "lbfh3asggugep6298o50eoi24c",
+    "title": "\ud83d\udd0d Audit #2: Smiths, North Ogden, Smiths-0279 \u2014 check in w/ Judy gomez/Lost texan bbq",
+    "start": "2026-09-26T10:00:00-07:00",
+    "end": "2026-09-26T11:00:00-07:00",
+    "location": "",
+    "description": "AUDIT & CHECK-IN #2 (135 days in)\nContract: J428277E\nBusiness: Lost texan bbq\nCustomer: Judy gomez\nRep: Cameron Gould\nStore: Smiths Smiths-0279, North Ogden\nEst. Start: 05/24/2026\nTerm: 4Q (12 months)\n\nVerify tape display. Check in with Judy gomez at Lost texan bbq.",
+    "prospect_name": "",
+    "phone": "",
+    "address": "",
+    "store": "Smiths Smiths-0279, North Ogden",
+    "rep": "Cameron Gould",
+    "attendees": [
+      {
+        "email": "cameron.gould@indoormedia.com",
+        "name": "",
+        "status": "needsAction"
+      }
+    ],
+    "is_prospect_visit": false,
+    "creator": "tyler.vansant@indoormedia.com"
+  },
+  {
+    "event_id": "v4h6hp2lh54psv9gofu78vuklo",
+    "title": "\ud83d\udd0d Audit #2: Ridleys, Morgan, Ridleys-1161 \u2014 check in w/ Rudy Cordeiro/Morgan valley music",
+    "start": "2026-09-26T10:00:00-07:00",
+    "end": "2026-09-26T11:00:00-07:00",
+    "location": "",
+    "description": "AUDIT & CHECK-IN #2 (135 days in)\nContract: N428905E\nBusiness: Morgan valley music\nCustomer: Rudy Cordeiro\nRep: Cameron Gould\nStore: Ridleys Ridleys-1161, Morgan\nEst. Start: 05/24/2026\nTerm: 4Q (12 months)\n\nVerify tape display. Check in with Rudy Cordeiro at Morgan valley music.",
+    "prospect_name": "",
+    "phone": "",
+    "address": "",
+    "store": "Ridleys Ridleys-1161, Morgan",
+    "rep": "Cameron Gould",
+    "attendees": [
+      {
+        "email": "cameron.gould@indoormedia.com",
+        "name": "",
+        "status": "needsAction"
+      }
+    ],
+    "is_prospect_visit": false,
+    "creator": "tyler.vansant@indoormedia.com"
+  },
+  {
+    "event_id": "qucsthjlmb64rcdh9hjnirq3gc_20260927T160000Z",
+    "title": "Send Out Next C Cycle Renewal Report to Reps",
+    "start": "2026-09-27T09:00:00-07:00",
+    "end": "2026-09-27T10:00:00-07:00",
+    "location": "",
+    "description": "",
+    "prospect_name": "",
+    "phone": "",
+    "address": "",
+    "store": "",
+    "rep": "Tyler VanSant",
+    "attendees": [
+      {
+        "email": "richard.leibowitz@rtui.com",
+        "name": "",
+        "status": "needsAction"
+      },
+      {
+        "email": "tyler.vansant@indoormedia.com",
+        "name": "",
+        "status": "accepted"
+      }
+    ],
+    "is_prospect_visit": false,
+    "creator": "tyler.vansant@indoormedia.com"
+  },
+  {
+    "event_id": "m2r6dn5je4na7aichr5ltbol9k",
+    "title": "\ud83d\udd0d Audit #3: Smiths, Murray, Smiths-0083 \u2014 check in w/ Corbin mcphee/Papa murphys",
+    "start": "2026-09-27T10:00:00-07:00",
+    "end": "2026-09-27T11:00:00-07:00",
+    "location": "",
+    "description": "AUDIT & CHECK-IN #3 (225 days in)\nContract: J421143E\nBusiness: Papa murphys\nCustomer: Corbin mcphee\nRep: Cameron Gould\nStore: Smiths Smiths-0083, Murray\nEst. Start: 02/24/2026\nTerm: 4Q (12 months)\n\nVerify tape display. Check in with Corbin mcphee at Papa murphys.",
+    "prospect_name": "",
+    "phone": "",
+    "address": "",
+    "store": "Smiths Smiths-0083, Murray",
+    "rep": "Cameron Gould",
+    "attendees": [
+      {
+        "email": "cameron.gould@indoormedia.com",
+        "name": "",
+        "status": "needsAction"
+      }
+    ],
+    "is_prospect_visit": false,
+    "creator": "tyler.vansant@indoormedia.com"
+  },
+  {
+    "event_id": "4a2735ne6kjo5pbiaigsim6cok_20260928T160000Z",
+    "title": "Check Aging Report",
+    "start": "2026-09-28T09:00:00-07:00",
+    "end": "2026-09-28T10:00:00-07:00",
+    "location": "",
+    "description": "",
+    "prospect_name": "",
+    "phone": "",
+    "address": "",
+    "store": "",
+    "rep": "Tyler VanSant",
+    "attendees": [
+      {
+        "email": "richard.leibowitz@rtui.com",
+        "name": "",
+        "status": "needsAction"
+      },
+      {
+        "email": "tyler.vansant@indoormedia.com",
+        "name": "",
+        "status": "accepted"
+      }
+    ],
+    "is_prospect_visit": false,
+    "creator": "tyler.vansant@indoormedia.com"
+  },
+  {
+    "event_id": "69u2hcvge0c1bpcu4m13p42r2a_20260928T163000Z",
+    "title": "Weekly 7Y & 7Z Oregon/Washington Team Kick-Off",
+    "start": "2026-09-28T09:30:00-07:00",
+    "end": "2026-09-28T10:00:00-07:00",
+    "location": "",
+    "description": "This will be our once a week opportunity to meet as a team to sharpen our skills, discuss what we are working on, and collaborate with each other",
+    "prospect_name": "",
+    "phone": "",
+    "address": "",
+    "store": "",
+    "rep": "Tyler VanSant",
+    "attendees": [
+      {
+        "email": "dave.boring@indoormedia.com",
+        "name": "",
+        "status": "needsAction"
+      },
+      {
+        "email": "tyler.vansant@indoormedia.com",
+        "name": "",
+        "status": "accepted"
+      },
+      {
+        "email": "jan.banks@indoormedia.com",
+        "name": "",
+        "status": "needsAction"
+      },
+      {
+        "email": "amy.dixon@rtui.com",
+        "name": "",
+        "status": "needsAction"
+      },
+      {
+        "email": "anthony.eng@indoormedia.com",
+        "name": "",
+        "status": "needsAction"
+      },
+      {
+        "email": "matthew.boozer@indoormedia.com",
+        "name": "",
+        "status": "needsAction"
+      },
+      {
+        "email": "richard.diamond@indoormedia.com",
+        "name": "",
+        "status": "needsAction"
+      },
+      {
+        "email": "adan.ramos@indoormedia.com",
+        "name": "",
+        "status": "needsAction"
+      },
+      {
+        "email": "megan.wink@indoormedia.com",
+        "name": "",
+        "status": "needsAction"
+      },
+      {
+        "email": "dawna.henehan@indoormedia.com",
+        "name": "",
+        "status": "needsAction"
+      },
+      {
+        "email": "tony.ortega@rtui.com",
+        "name": "",
+        "status": "needsAction"
+      },
+      {
+        "email": "daniel.barchini@indoormedia.com",
+        "name": "",
+        "status": "needsAction"
+      }
+    ],
+    "is_prospect_visit": false,
+    "creator": "tyler.vansant@indoormedia.com"
+  },
+  {
+    "event_id": "vfsikuqv4b6j1m2oc0vp2khg4g",
+    "title": "\ud83d\udd0d Audit #1: Ridleys, Morgan, Ridleys-1161 \u2014 check in w/ Carly Crossley/Sideline thrift",
+    "start": "2026-09-28T10:00:00-07:00",
+    "end": "2026-09-28T11:00:00-07:00",
+    "location": "",
+    "description": "AUDIT & CHECK-IN #1 (45 days in)\nContract: J428896E\nBusiness: Sideline thrift\nCustomer: Carly Crossley\nRep: Cameron Gould\nStore: Ridleys Ridleys-1161, Morgan\nEst. Start: 08/24/2026\nTerm: 4Q (12 months)\n\nVerify tape display. Check in with Carly Crossley at Sideline thrift.",
+    "prospect_name": "",
+    "phone": "",
+    "address": "",
+    "store": "Ridleys Ridleys-1161, Morgan",
+    "rep": "Cameron Gould",
+    "attendees": [
+      {
+        "email": "cameron.gould@indoormedia.com",
+        "name": "",
+        "status": "needsAction"
+      }
+    ],
+    "is_prospect_visit": false,
+    "creator": "tyler.vansant@indoormedia.com"
+  },
+  {
+    "event_id": "_8d13ihhk8l336b9h74p38b9k8opk2ba27534ab9k71142cpl6kqjgh9j70_20261002T030000Z",
+    "title": "Take out garbage - STOP what I\u2019m doing or I will forget",
+    "start": "2026-10-01T20:00:00-07:00",
+    "end": "2026-10-01T21:00:00-07:00",
+    "location": "",
+    "description": "",
+    "prospect_name": "",
+    "phone": "",
+    "address": "",
+    "store": "",
+    "rep": "Tyler VanSant",
+    "attendees": [],
+    "is_prospect_visit": false,
+    "creator": "tyler.vansant@indoormedia.com"
+  },
+  {
+    "event_id": "0h1dpvagegnedc0rim5c5nue24",
+    "title": "\ud83d\udce6 Install Q3: Lunaitas at Safeway, Dallas, Safeway-4404",
+    "start": "2026-10-04T10:00:00-07:00",
+    "end": "2026-10-04T11:00:00-07:00",
+    "location": "",
+    "description": "INSTALL QUARTER 3 (180 days in)\nContract: J427523E\nBusiness: Lunaitas\nCustomer: Diana Luna\nRep: Amy Dixon\nStore: Safeway Safeway-4404, Dallas\nEst. Start: 04/17/2026\n\nInstall tape at Lunaitas.",
+    "prospect_name": "",
+    "phone": "",
+    "address": "",
+    "store": "Safeway Safeway-4404, Dallas",
+    "rep": "Amy Dixon",
+    "attendees": [
+      {
+        "email": "amy.dixon@indoormedia.com",
+        "name": "",
+        "status": "needsAction"
+      }
+    ],
+    "is_prospect_visit": true,
+    "creator": "tyler.vansant@indoormedia.com"
+  },
+  {
+    "event_id": "14oefukeaid5h74g9i2ffdrdjk",
+    "title": "\ud83d\udce6 Install Q3: Crazy Sushi Shoten at Fred Meyer, Beaverton, Fred Meyer-0482",
+    "start": "2026-10-04T10:00:00-07:00",
+    "end": "2026-10-04T11:00:00-07:00",
+    "location": "",
+    "description": "INSTALL QUARTER 3 (180 days in)\nContract: J422772E\nBusiness: Crazy Sushi Shoten\nCustomer: Jason Tan\nRep: Ben Patacsil\nStore: Fred Meyer Fred Meyer-0482, Beaverton\nEst. Start: 04/17/2026\n\nInstall tape at Crazy Sushi Shoten.",
+    "prospect_name": "",
+    "phone": "",
+    "address": "",
+    "store": "Fred Meyer Fred Meyer-0482, Beaverton",
+    "rep": "Ben Patacsil",
+    "attendees": [
+      {
+        "email": "ben.patacsil@indoormedia.com",
+        "name": "",
+        "status": "needsAction"
+      }
+    ],
+    "is_prospect_visit": true,
+    "creator": "tyler.vansant@indoormedia.com"
+  },
+  {
+    "event_id": "2miub1ndfqlclif3cee3o5q8eg",
+    "title": "\ud83d\udd01 Renewal: First bullion corp (Sam upshaw) \u2014 Safeway, Show Low",
+    "start": "2026-10-04T10:00:00-07:00",
+    "end": "2026-10-04T11:00:00-07:00",
+    "location": "",
+    "description": "RENEWAL DATE\nContract: J412382E\nBusiness: First bullion corp\nCustomer: Sam upshaw\nRep: Cameron Gould\nStore: Safeway Safeway-1733, Show Low\nEst. Start: 08/20/2025\nTerm: 5Q (15 months)\n\n1 year since install. Renewal date for Sam upshaw at First bullion corp.",
+    "prospect_name": "",
+    "phone": "",
+    "address": "",
+    "store": "Safeway Safeway-1733, Show Low",
+    "rep": "Cameron Gould",
+    "attendees": [
+      {
+        "email": "cameron.gould@indoormedia.com",
+        "name": "",
+        "status": "needsAction"
+      }
+    ],
+    "is_prospect_visit": false,
+    "creator": "tyler.vansant@indoormedia.com"
+  },
+  {
+    "event_id": "3qj94b3motacv1i67icuvq4fvg",
+    "title": "\u267b\ufe0f Renewal Conversation #3: Safeway, Show Low, Safeway-1733 \u2014 Sam upshaw/First bullion corp",
+    "start": "2026-10-04T10:00:00-07:00",
+    "end": "2026-10-04T11:00:00-07:00",
+    "location": "",
+    "description": "RENEWAL CONVERSATION #3 (420 days in)\nContract: J412382E\nBusiness: First bullion corp\nCustomer: Sam upshaw\nRep: Cameron Gould\nStore: Safeway Safeway-1733, Show Low\nEst. Start: 08/20/2025\nTerm: 5Q (15 months)\n\nDiscuss renewal options with Sam upshaw at First bullion corp.",
+    "prospect_name": "",
+    "phone": "",
+    "address": "",
+    "store": "Safeway Safeway-1733, Show Low",
+    "rep": "Cameron Gould",
+    "attendees": [
+      {
+        "email": "cameron.gould@indoormedia.com",
+        "name": "",
+        "status": "needsAction"
+      }
+    ],
+    "is_prospect_visit": false,
+    "creator": "tyler.vansant@indoormedia.com"
+  },
+  {
+    "event_id": "5e2qn5bpqng8q1g6k3ffiqqt8o",
+    "title": "\ud83d\udce6 Install Q3: Dizzy Dean\u2019s Donuts at Fred Meyer, Eugene, Fred Meyer-0417",
+    "start": "2026-10-04T10:00:00-07:00",
+    "end": "2026-10-04T11:00:00-07:00",
+    "location": "",
+    "description": "INSTALL QUARTER 3 (180 days in)\nContract: J428479E\nBusiness: Dizzy Dean\u2019s Donuts\nCustomer: Dean Weaver\nRep: Matthew Boozer\nStore: Fred Meyer Fred Meyer-0417, Eugene\nEst. Start: 04/17/2026\n\nInstall tape at Dizzy Dean\u2019s Donuts.",
+    "prospect_name": "",
+    "phone": "",
+    "address": "",
+    "store": "Fred Meyer Fred Meyer-0417, Eugene",
+    "rep": "Matthew Boozer",
+    "attendees": [
+      {
+        "email": "matthew.boozer@indoormedia.com",
+        "name": "",
+        "status": "needsAction"
+      }
+    ],
+    "is_prospect_visit": true,
+    "creator": "tyler.vansant@indoormedia.com"
+  },
+  {
+    "event_id": "6bn9r6cst6500d2oa839ofhhu0",
+    "title": "\ud83d\udce6 Install Q3: Sumo Sushi & Grill AYCE at Fred Meyer, Longview, Fred Meyer-0185",
+    "start": "2026-10-04T10:00:00-07:00",
+    "end": "2026-10-04T11:00:00-07:00",
+    "location": "",
+    "description": "INSTALL QUARTER 3 (180 days in)\nContract: J427893E\nBusiness: Sumo Sushi & Grill AYCE\nCustomer: Anna Zhang\nRep: Megan Wink\nStore: Fred Meyer Fred Meyer-0185, Longview\nEst. Start: 04/17/2026\n\nInstall tape at Sumo Sushi & Grill AYCE.",
+    "prospect_name": "",
+    "phone": "",
+    "address": "",
+    "store": "Fred Meyer Fred Meyer-0185, Longview",
+    "rep": "Megan Wink",
+    "attendees": [
+      {
+        "email": "megan.wink@indoormedia.com",
+        "name": "",
+        "status": "needsAction"
+      }
+    ],
+    "is_prospect_visit": true,
+    "creator": "tyler.vansant@indoormedia.com"
+  },
+  {
+    "event_id": "9vvckdpltiprqg6s9mc7uns7ms",
+    "title": "\ud83d\udce6 Install Q3: Autotek International LLC at Quality Food Center, Portland, Quality Food Center-0206",
+    "start": "2026-10-04T10:00:00-07:00",
+    "end": "2026-10-04T11:00:00-07:00",
+    "location": "",
+    "description": "INSTALL QUARTER 3 (180 days in)\nContract: J426747E\nBusiness: Autotek International LLC\nCustomer: Zack Hager\nRep: Tyler VanSant\nStore: Quality Food Center Quality Food Center-0206, Portland\nEst. Start: 04/17/2026\n\nInstall tape at Autotek International LLC.",
+    "prospect_name": "",
+    "phone": "",
+    "address": "",
+    "store": "Quality Food Center Quality Food Center-0206, Portland",
+    "rep": "Tyler VanSant",
+    "attendees": [
+      {
+        "email": "tyler.vansant@indoormedia.com",
+        "name": "",
+        "status": "needsAction"
+      }
+    ],
+    "is_prospect_visit": true,
+    "creator": "tyler.vansant@indoormedia.com"
+  },
+  {
+    "event_id": "b6vqgq0hnp186t0rnkmpfn20rg",
+    "title": "\ud83d\udce6 Install Q3: Two Wolves Taproom at Safeway, Dallas, Safeway-4404",
+    "start": "2026-10-04T10:00:00-07:00",
+    "end": "2026-10-04T11:00:00-07:00",
+    "location": "",
+    "description": "INSTALL QUARTER 3 (180 days in)\nContract: J427209E\nBusiness: Two Wolves Taproom\nCustomer: Anthony Noonkester\nRep: Amy Dixon\nStore: Safeway Safeway-4404, Dallas\nEst. Start: 04/17/2026\n\nInstall tape at Two Wolves Taproom.",
+    "prospect_name": "",
+    "phone": "",
+    "address": "",
+    "store": "Safeway Safeway-4404, Dallas",
+    "rep": "Amy Dixon",
+    "attendees": [
+      {
+        "email": "amy.dixon@indoormedia.com",
+        "name": "",
+        "status": "needsAction"
+      }
+    ],
+    "is_prospect_visit": true,
+    "creator": "tyler.vansant@indoormedia.com"
+  },
+  {
+    "event_id": "bpkad10glb7vd3115hhsder5rg",
+    "title": "\ud83d\udce6 Install Q3: Bento\u2019s Teriyaki 3 at Fred Meyer, Beaverton, Fred Meyer-0482",
+    "start": "2026-10-04T10:00:00-07:00",
+    "end": "2026-10-04T11:00:00-07:00",
+    "location": "",
+    "description": "INSTALL QUARTER 3 (180 days in)\nContract: J426238E\nBusiness: Bento\u2019s Teriyaki 3\nCustomer: Alvaro Flores\nRep: Ben Patacsil\nStore: Fred Meyer Fred Meyer-0482, Beaverton\nEst. Start: 04/17/2026\n\nInstall tape at Bento\u2019s Teriyaki 3.",
+    "prospect_name": "",
+    "phone": "",
+    "address": "",
+    "store": "Fred Meyer Fred Meyer-0482, Beaverton",
+    "rep": "Ben Patacsil",
+    "attendees": [
+      {
+        "email": "ben.patacsil@indoormedia.com",
+        "name": "",
+        "status": "needsAction"
+      }
+    ],
+    "is_prospect_visit": true,
+    "creator": "tyler.vansant@indoormedia.com"
+  },
+  {
+    "event_id": "d2qv26acv45os2b8g8o4pig608",
+    "title": "\ud83d\udce6 Install Q3: Dadash Grill Turkish Cuisine at Fred Meyer, Vancouver, Fred Meyer-0208",
+    "start": "2026-10-04T10:00:00-07:00",
+    "end": "2026-10-04T11:00:00-07:00",
+    "location": "",
+    "description": "INSTALL QUARTER 3 (180 days in)\nContract: J426153E\nBusiness: Dadash Grill Turkish Cuisine\nCustomer: Kemran Khalilow\nRep: Megan Wink\nStore: Fred Meyer Fred Meyer-0208, Vancouver\nEst. Start: 04/17/2026\n\nInstall tape at Dadash Grill Turkish Cuisine.",
+    "prospect_name": "",
+    "phone": "",
+    "address": "",
+    "store": "Fred Meyer Fred Meyer-0208, Vancouver",
+    "rep": "Megan Wink",
+    "attendees": [
+      {
+        "email": "megan.wink@indoormedia.com",
+        "name": "",
+        "status": "needsAction"
+      }
+    ],
+    "is_prospect_visit": true,
+    "creator": "tyler.vansant@indoormedia.com"
+  },
+  {
+    "event_id": "d8tl77etsc3o9r4264t7v6n9ts",
+    "title": "\ud83d\udce6 Install Q3: Grandma's Corner at Safeway, Seaside, Safeway-1260",
+    "start": "2026-10-04T10:00:00-07:00",
+    "end": "2026-10-04T11:00:00-07:00",
+    "location": "",
+    "description": "INSTALL QUARTER 3 (180 days in)\nContract: J426077E\nBusiness: Grandma's Corner\nCustomer: Yutana Imvitaya\nRep: Megan Wink\nStore: Safeway Safeway-1260, Seaside\nEst. Start: 04/17/2026\n\nInstall tape at Grandma's Corner.",
+    "prospect_name": "",
+    "phone": "",
+    "address": "",
+    "store": "Safeway Safeway-1260, Seaside",
+    "rep": "Megan Wink",
+    "attendees": [
+      {
+        "email": "megan.wink@indoormedia.com",
+        "name": "",
+        "status": "needsAction"
+      }
+    ],
+    "is_prospect_visit": true,
+    "creator": "tyler.vansant@indoormedia.com"
+  },
+  {
+    "event_id": "g1ag4t3rqmequiavlt1d1gj1mc",
+    "title": "\ud83d\udd01 Renewal: Arizona suspension specialist (Alex Gibbs) \u2014 Safeway, Show Low",
+    "start": "2026-10-04T10:00:00-07:00",
+    "end": "2026-10-04T11:00:00-07:00",
+    "location": "",
+    "description": "RENEWAL DATE\nContract: J412420E\nBusiness: Arizona suspension specialist\nCustomer: Alex Gibbs\nRep: Cameron Gould\nStore: Safeway Safeway-1733, Show Low\nEst. Start: 08/20/2025\nTerm: 5Q (15 months)\n\n1 year since install. Renewal date for Alex Gibbs at Arizona suspension specialist.",
+    "prospect_name": "",
+    "phone": "",
+    "address": "",
+    "store": "Safeway Safeway-1733, Show Low",
+    "rep": "Cameron Gould",
+    "attendees": [
+      {
+        "email": "cameron.gould@indoormedia.com",
+        "name": "",
+        "status": "needsAction"
+      }
+    ],
+    "is_prospect_visit": false,
+    "creator": "tyler.vansant@indoormedia.com"
+  },
+  {
+    "event_id": "gl5hm6us02270ae5emkf6n3bjo",
+    "title": "\ud83d\udce6 Install Q3: Laurel Market at Safeway, Woodland, Safeway-1762",
+    "start": "2026-10-04T10:00:00-07:00",
+    "end": "2026-10-04T11:00:00-07:00",
+    "location": "",
+    "description": "INSTALL QUARTER 3 (180 days in)\nContract: J426489E\nBusiness: Laurel Market\nCustomer: Felicia Ek\nRep: Dave Boring\nStore: Safeway Safeway-1762, Woodland\nEst. Start: 04/17/2026\n\nInstall tape at Laurel Market.",
+    "prospect_name": "",
+    "phone": "",
+    "address": "",
+    "store": "Safeway Safeway-1762, Woodland",
+    "rep": "Dave Boring",
+    "attendees": [
+      {
+        "email": "dave.boring@indoormedia.com",
+        "name": "",
+        "status": "needsAction"
+      }
+    ],
+    "is_prospect_visit": true,
+    "creator": "tyler.vansant@indoormedia.com"
+  },
+  {
+    "event_id": "mpad3iplddfb0iu437n6fi4jpo",
+    "title": "\u267b\ufe0f Renewal Conversation #3: Safeway, Show Low, Safeway-1733 \u2014 Alex Gibbs/Arizona suspension specialist",
+    "start": "2026-10-04T10:00:00-07:00",
+    "end": "2026-10-04T11:00:00-07:00",
+    "location": "",
+    "description": "RENEWAL CONVERSATION #3 (420 days in)\nContract: J412420E\nBusiness: Arizona suspension specialist\nCustomer: Alex Gibbs\nRep: Cameron Gould\nStore: Safeway Safeway-1733, Show Low\nEst. Start: 08/20/2025\nTerm: 5Q (15 months)\n\nDiscuss renewal options with Alex Gibbs at Arizona suspension specialist.",
+    "prospect_name": "",
+    "phone": "",
+    "address": "",
+    "store": "Safeway Safeway-1733, Show Low",
+    "rep": "Cameron Gould",
+    "attendees": [
+      {
+        "email": "cameron.gould@indoormedia.com",
+        "name": "",
+        "status": "needsAction"
+      }
+    ],
+    "is_prospect_visit": false,
+    "creator": "tyler.vansant@indoormedia.com"
+  },
+  {
+    "event_id": "nce5qjkhitdso00ld6r06l7cjg",
+    "title": "\ud83d\udce6 Install Q3: Felony Pizza at Safeway, Vancouver, Safeway-1704",
+    "start": "2026-10-04T10:00:00-07:00",
+    "end": "2026-10-04T11:00:00-07:00",
+    "location": "",
+    "description": "INSTALL QUARTER 3 (180 days in)\nContract: J425900E\nBusiness: Felony Pizza\nCustomer: Travis McDonald\nRep: Adan Ramos\nStore: Safeway Safeway-1704, Vancouver\nEst. Start: 04/17/2026\n\nInstall tape at Felony Pizza.",
+    "prospect_name": "",
+    "phone": "",
+    "address": "",
+    "store": "Safeway Safeway-1704, Vancouver",
+    "rep": "Adan Ramos",
+    "attendees": [
+      {
+        "email": "adan.ramos@indoormedia.com",
+        "name": "",
+        "status": "needsAction"
+      }
+    ],
+    "is_prospect_visit": true,
+    "creator": "tyler.vansant@indoormedia.com"
+  },
+  {
+    "event_id": "ot7ke23s76bd5r3tsmavrtpt9c",
+    "title": "\ud83d\udce6 Install Q3: Enza Cafe + Wood Fired Pizza at Safeway, The Dalles, Safeway-1489",
+    "start": "2026-10-04T10:00:00-07:00",
+    "end": "2026-10-04T11:00:00-07:00",
+    "location": "",
+    "description": "INSTALL QUARTER 3 (180 days in)\nContract: J426699E\nBusiness: Enza Cafe + Wood Fired Pizza\nCustomer: David Sullivan\nRep: Megan Wink\nStore: Safeway Safeway-1489, The Dalles\nEst. Start: 04/17/2026\n\nInstall tape at Enza Cafe + Wood Fired Pizza.",
+    "prospect_name": "",
+    "phone": "",
+    "address": "",
+    "store": "Safeway Safeway-1489, The Dalles",
+    "rep": "Megan Wink",
+    "attendees": [
+      {
+        "email": "megan.wink@indoormedia.com",
+        "name": "",
+        "status": "needsAction"
+      }
+    ],
+    "is_prospect_visit": true,
+    "creator": "tyler.vansant@indoormedia.com"
+  },
+  {
+    "event_id": "qm7l6lubk3qvhs9840t083hvl4",
+    "title": "\ud83d\udce6 Install Q3: N.Y.C Pizzeria at Fred Meyer, Vancouver, Fred Meyer-0208",
+    "start": "2026-10-04T10:00:00-07:00",
+    "end": "2026-10-04T11:00:00-07:00",
+    "location": "",
+    "description": "INSTALL QUARTER 3 (180 days in)\nContract: J426212E\nBusiness: N.Y.C Pizzeria\nCustomer: Makhan Uppal\nRep: Megan Wink\nStore: Fred Meyer Fred Meyer-0208, Vancouver\nEst. Start: 04/17/2026\n\nInstall tape at N.Y.C Pizzeria.",
+    "prospect_name": "",
+    "phone": "",
+    "address": "",
+    "store": "Fred Meyer Fred Meyer-0208, Vancouver",
+    "rep": "Megan Wink",
+    "attendees": [
+      {
+        "email": "megan.wink@indoormedia.com",
+        "name": "",
+        "status": "needsAction"
+      }
+    ],
+    "is_prospect_visit": true,
+    "creator": "tyler.vansant@indoormedia.com"
+  },
+  {
+    "event_id": "rchf27gtc2ps152gedga06lmds",
+    "title": "\ud83d\udce6 Install Q3: Si Senor at Fred Meyer, Tigard, Fred Meyer-0375",
+    "start": "2026-10-04T10:00:00-07:00",
+    "end": "2026-10-04T11:00:00-07:00",
+    "location": "",
+    "description": "INSTALL QUARTER 3 (180 days in)\nContract: J426906E\nBusiness: Si Senor\nCustomer: Lazaro villasenor\nRep: Amy Dixon\nStore: Fred Meyer Fred Meyer-0375, Tigard\nEst. Start: 04/17/2026\n\nInstall tape at Si Senor.",
+    "prospect_name": "",
+    "phone": "",
+    "address": "",
+    "store": "Fred Meyer Fred Meyer-0375, Tigard",
+    "rep": "Amy Dixon",
+    "attendees": [
+      {
+        "email": "amy.dixon@indoormedia.com",
+        "name": "",
+        "status": "needsAction"
+      }
+    ],
+    "is_prospect_visit": true,
+    "creator": "tyler.vansant@indoormedia.com"
+  },
+  {
+    "event_id": "vo419rpmu376n260nidteutog0",
+    "title": "\ud83d\udce6 Install Q3: The Brake Shop at Fred Meyer, Vancouver, Fred Meyer-0208",
+    "start": "2026-10-04T10:00:00-07:00",
+    "end": "2026-10-04T11:00:00-07:00",
+    "location": "",
+    "description": "INSTALL QUARTER 3 (180 days in)\nContract: J425814E\nBusiness: The Brake Shop\nCustomer: Luke Hendrickson\nRep: Megan Wink\nStore: Fred Meyer Fred Meyer-0208, Vancouver\nEst. Start: 04/17/2026\nTerm: 4Q (12 months)\n\nInstall tape at The Brake Shop.",
+    "prospect_name": "",
+    "phone": "",
+    "address": "",
+    "store": "Fred Meyer Fred Meyer-0208, Vancouver",
+    "rep": "Megan Wink",
+    "attendees": [
+      {
+        "email": "megan.wink@indoormedia.com",
+        "name": "",
+        "status": "needsAction"
+      }
+    ],
+    "is_prospect_visit": true,
+    "creator": "tyler.vansant@indoormedia.com"
+  },
+  {
+    "event_id": "3p2qcov113eb3n56sjv1hsh9e8_20261005T160000Z",
+    "title": "Send out Delivery/renewal reports to reps",
+    "start": "2026-10-05T09:00:00-07:00",
+    "end": "2026-10-05T10:00:00-07:00",
+    "location": "",
+    "description": "",
+    "prospect_name": "",
+    "phone": "",
+    "address": "",
+    "store": "",
+    "rep": "Tyler VanSant",
+    "attendees": [],
+    "is_prospect_visit": false,
+    "creator": "tyler.vansant@indoormedia.com"
+  },
+  {
+    "event_id": "4a2735ne6kjo5pbiaigsim6cok_20261005T160000Z",
+    "title": "Check Aging Report",
+    "start": "2026-10-05T09:00:00-07:00",
+    "end": "2026-10-05T10:00:00-07:00",
+    "location": "",
+    "description": "",
+    "prospect_name": "",
+    "phone": "",
+    "address": "",
+    "store": "",
+    "rep": "Tyler VanSant",
+    "attendees": [
+      {
+        "email": "richard.leibowitz@rtui.com",
+        "name": "",
+        "status": "needsAction"
+      },
+      {
+        "email": "tyler.vansant@indoormedia.com",
+        "name": "",
+        "status": "accepted"
+      }
+    ],
+    "is_prospect_visit": false,
+    "creator": "tyler.vansant@indoormedia.com"
+  },
+  {
+    "event_id": "69u2hcvge0c1bpcu4m13p42r2a_20261005T163000Z",
+    "title": "Weekly 7Y & 7Z Oregon/Washington Team Kick-Off",
+    "start": "2026-10-05T09:30:00-07:00",
+    "end": "2026-10-05T10:00:00-07:00",
+    "location": "",
+    "description": "This will be our once a week opportunity to meet as a team to sharpen our skills, discuss what we are working on, and collaborate with each other",
+    "prospect_name": "",
+    "phone": "",
+    "address": "",
+    "store": "",
+    "rep": "Tyler VanSant",
+    "attendees": [
+      {
+        "email": "dave.boring@indoormedia.com",
+        "name": "",
+        "status": "needsAction"
+      },
+      {
+        "email": "tyler.vansant@indoormedia.com",
+        "name": "",
+        "status": "accepted"
+      },
+      {
+        "email": "jan.banks@indoormedia.com",
+        "name": "",
+        "status": "needsAction"
+      },
+      {
+        "email": "amy.dixon@rtui.com",
+        "name": "",
+        "status": "needsAction"
+      },
+      {
+        "email": "anthony.eng@indoormedia.com",
+        "name": "",
+        "status": "needsAction"
+      },
+      {
+        "email": "matthew.boozer@indoormedia.com",
+        "name": "",
+        "status": "needsAction"
+      },
+      {
+        "email": "richard.diamond@indoormedia.com",
+        "name": "",
+        "status": "needsAction"
+      },
+      {
+        "email": "adan.ramos@indoormedia.com",
+        "name": "",
+        "status": "needsAction"
+      },
+      {
+        "email": "megan.wink@indoormedia.com",
+        "name": "",
+        "status": "needsAction"
+      },
+      {
+        "email": "dawna.henehan@indoormedia.com",
+        "name": "",
+        "status": "needsAction"
+      },
+      {
+        "email": "tony.ortega@rtui.com",
+        "name": "",
+        "status": "needsAction"
+      },
+      {
+        "email": "daniel.barchini@indoormedia.com",
+        "name": "",
+        "status": "needsAction"
+      }
+    ],
+    "is_prospect_visit": false,
+    "creator": "tyler.vansant@indoormedia.com"
+  },
+  {
+    "event_id": "0mjefhab2p2lfeb2cc62o9r0t8",
+    "title": "\ud83d\udce6 Install Q2: Slabtown Coffee at Safeway, Cottage Grove, Safeway-1458",
+    "start": "2026-10-05T10:00:00-07:00",
+    "end": "2026-10-05T11:00:00-07:00",
+    "location": "",
+    "description": "INSTALL QUARTER 2 (90 days in)\nContract: J432535E\nBusiness: Slabtown Coffee\nCustomer: Erika Peterson & Urban Moore\nRep: Matthew Boozer\nStore: Safeway Safeway-1458, Cottage Grove\nEst. Start: 07/17/2026\nTerm: 2Q (6 months)\n\nInstall tape at Slabtown Coffee.",
+    "prospect_name": "",
+    "phone": "",
+    "address": "",
+    "store": "Safeway Safeway-1458, Cottage Grove",
+    "rep": "Matthew Boozer",
+    "attendees": [
+      {
+        "email": "matthew.boozer@indoormedia.com",
+        "name": "",
+        "status": "needsAction"
+      }
+    ],
+    "is_prospect_visit": true,
+    "creator": "tyler.vansant@indoormedia.com"
+  },
+  {
+    "event_id": "0nqcv2e7jvknn7qqov9d53oehg",
+    "title": "\ud83d\udce6 Install Q2: Las Mesitas Restaurant at Fred Meyer, Battle Ground, Fred Meyer-0614",
+    "start": "2026-10-05T10:00:00-07:00",
+    "end": "2026-10-05T11:00:00-07:00",
+    "location": "",
+    "description": "INSTALL QUARTER 2 (90 days in)\nContract: J429187E\nBusiness: Las Mesitas Restaurant\nCustomer: Lupe Ramos\nRep: Dave Boring\nStore: Fred Meyer Fred Meyer-0614, Battle Ground\nEst. Start: 07/17/2026\nTerm: 5Q (15 months)\n\nInstall tape at Las Mesitas Restaurant.",
+    "prospect_name": "",
+    "phone": "",
+    "address": "",
+    "store": "Fred Meyer Fred Meyer-0614, Battle Ground",
+    "rep": "Dave Boring",
+    "attendees": [
+      {
+        "email": "dave.boring@indoormedia.com",
+        "name": "",
+        "status": "needsAction"
+      }
+    ],
+    "is_prospect_visit": true,
+    "creator": "tyler.vansant@indoormedia.com"
+  },
+  {
+    "event_id": "0q6sgn69juqjkcp09ob5n19n10",
+    "title": "\ud83d\udce6 Install Q2: El Tapatio at Safeway, Cottage Grove, Safeway-1458",
+    "start": "2026-10-05T10:00:00-07:00",
+    "end": "2026-10-05T11:00:00-07:00",
+    "location": "",
+    "description": "INSTALL QUARTER 2 (90 days in)\nContract: J432773E\nBusiness: El Tapatio\nCustomer: Margarita Craven\nRep: Matthew Boozer\nStore: Safeway Safeway-1458, Cottage Grove\nEst. Start: 07/17/2026\nTerm: 4Q (12 months)\n\nInstall tape at El Tapatio.",
+    "prospect_name": "",
+    "phone": "",
+    "address": "",
+    "store": "Safeway Safeway-1458, Cottage Grove",
+    "rep": "Matthew Boozer",
+    "attendees": [
+      {
+        "email": "matthew.boozer@indoormedia.com",
+        "name": "",
+        "status": "needsAction"
+      }
+    ],
+    "is_prospect_visit": true,
+    "creator": "tyler.vansant@indoormedia.com"
+  },
+  {
+    "event_id": "3o2t9l2iqi5hovu0c21js7iaic",
+    "title": "\ud83d\udce6 Install Q2: Muchas Gracias Mexican Food at Fred Meyer, Vancouver, Fred Meyer-0236",
+    "start": "2026-10-05T10:00:00-07:00",
+    "end": "2026-10-05T11:00:00-07:00",
+    "location": "",
+    "description": "INSTALL QUARTER 2 (90 days in)\nContract: J432009E\nBusiness: Muchas Gracias Mexican Food\nCustomer: Ricardo Sanchez\nRep: Dave Boring\nStore: Fred Meyer Fred Meyer-0236, Vancouver\nEst. Start: 07/17/2026\nTerm: 4Q (12 months)\n\nInstall tape at Muchas Gracias Mexican Food.",
+    "prospect_name": "",
+    "phone": "",
+    "address": "",
+    "store": "Fred Meyer Fred Meyer-0236, Vancouver",
+    "rep": "Dave Boring",
+    "attendees": [
+      {
+        "email": "dave.boring@indoormedia.com",
+        "name": "",
+        "status": "needsAction"
+      }
+    ],
+    "is_prospect_visit": true,
+    "creator": "tyler.vansant@indoormedia.com"
+  },
+  {
+    "event_id": "3vhatklohvq4f6f2m0q29nrjck",
+    "title": "\ud83d\udce6 Install Q2: Sub Shop at Fred Meyer, Eugene, Fred Meyer-0417",
+    "start": "2026-10-05T10:00:00-07:00",
+    "end": "2026-10-05T11:00:00-07:00",
+    "location": "",
+    "description": "INSTALL QUARTER 2 (90 days in)\nContract: J432703E\nBusiness: Sub Shop\nCustomer: Terrance Kimble -Amandeep\nRep: Matthew Boozer\nStore: Fred Meyer Fred Meyer-0417, Eugene\nEst. Start: 07/17/2026\nTerm: 4Q (12 months)\n\nInstall tape at Sub Shop.",
+    "prospect_name": "",
+    "phone": "",
+    "address": "",
+    "store": "Fred Meyer Fred Meyer-0417, Eugene",
+    "rep": "Matthew Boozer",
+    "attendees": [
+      {
+        "email": "matthew.boozer@indoormedia.com",
+        "name": "",
+        "status": "needsAction"
+      }
+    ],
+    "is_prospect_visit": true,
+    "creator": "tyler.vansant@indoormedia.com"
+  },
+  {
+    "event_id": "42fgb266k3d1smv20tsr9l1vvk",
+    "title": "\ud83d\udce6 Install Q2: Triad Wellness at Safeway, Silverdale, Safeway-1680",
+    "start": "2026-10-05T10:00:00-07:00",
+    "end": "2026-10-05T11:00:00-07:00",
+    "location": "",
+    "description": "INSTALL QUARTER 2 (90 days in)\nContract: J429002E\nBusiness: Triad Wellness\nCustomer: Stefanie Nyland\nRep: Ryan Rohner-talton\nStore: Safeway Safeway-1680, Silverdale\nEst. Start: 07/17/2026\n\nInstall tape at Triad Wellness.",
+    "prospect_name": "",
+    "phone": "",
+    "address": "",
+    "store": "Safeway Safeway-1680, Silverdale",
+    "rep": "Ryan Rohner-talton",
+    "attendees": [
+      {
+        "email": "ryan.rohner-talton@indoormedia.com",
+        "name": "",
+        "status": "needsAction"
+      }
+    ],
+    "is_prospect_visit": true,
+    "creator": "tyler.vansant@indoormedia.com"
+  },
+  {
+    "event_id": "5lslknkih455lkdpmfroq02424",
+    "title": "\ud83d\udce6 Install Q2: Peak Exteriors at Fred Meyer, Portland, Fred Meyer-0285",
+    "start": "2026-10-05T10:00:00-07:00",
+    "end": "2026-10-05T11:00:00-07:00",
+    "location": "",
+    "description": "INSTALL QUARTER 2 (90 days in)\nContract: J432389E\nBusiness: Peak Exteriors\nCustomer: Ted Robinson\nRep: Jan Banks\nStore: Fred Meyer Fred Meyer-0285, Portland\nEst. Start: 07/17/2026\nTerm: 4Q (12 months)\n\nInstall tape at Peak Exteriors.",
+    "prospect_name": "",
+    "phone": "",
+    "address": "",
+    "store": "Fred Meyer Fred Meyer-0285, Portland",
+    "rep": "Jan Banks",
+    "attendees": [
+      {
+        "email": "jan.banks@indoormedia.com",
+        "name": "",
+        "status": "needsAction"
+      }
+    ],
+    "is_prospect_visit": true,
+    "creator": "tyler.vansant@indoormedia.com"
+  },
+  {
+    "event_id": "8tbt25m2e16jqt886cbnita6c0",
+    "title": "\ud83d\udce6 Install Q2: Casa Luna at Safeway, Poulsbo, Safeway-3148",
+    "start": "2026-10-05T10:00:00-07:00",
+    "end": "2026-10-05T11:00:00-07:00",
+    "location": "",
+    "description": "INSTALL QUARTER 2 (90 days in)\nContract: J430283E\nBusiness: Casa Luna\nCustomer: Juanita Gonzales\nRep: Ryan Rohner-talton\nStore: Safeway Safeway-3148, Poulsbo\nEst. Start: 07/17/2026\nTerm: 5Q (15 months)\n\nInstall tape at Casa Luna.",
+    "prospect_name": "",
+    "phone": "",
+    "address": "",
+    "store": "Safeway Safeway-3148, Poulsbo",
+    "rep": "Ryan Rohner-talton",
+    "attendees": [
+      {
+        "email": "ryan.rohner-talton@indoormedia.com",
+        "name": "",
+        "status": "needsAction"
+      }
+    ],
+    "is_prospect_visit": true,
+    "creator": "tyler.vansant@indoormedia.com"
+  },
+  {
+    "event_id": "9ahnrcdbbjcqr5cd0s69qr55qg",
+    "title": "\ud83d\udce6 Install Q2: Billing Information at Fred Meyer, Portland, Fred Meyer-0285",
+    "start": "2026-10-05T10:00:00-07:00",
+    "end": "2026-10-05T11:00:00-07:00",
+    "location": "",
+    "description": "INSTALL QUARTER 2 (90 days in)\nContract: J432091E\nBusiness: Billing Information\nCustomer: Raul's Family Mexican Restaurant\nRep: Jan Banks\nStore: Fred Meyer Fred Meyer-0285, Portland\nEst. Start: 07/17/2026\nTerm: 2Q (6 months)\n\nInstall tape at Billing Information.",
+    "prospect_name": "",
+    "phone": "",
+    "address": "",
+    "store": "Fred Meyer Fred Meyer-0285, Portland",
+    "rep": "Jan Banks",
+    "attendees": [
+      {
+        "email": "jan.banks@indoormedia.com",
+        "name": "",
+        "status": "needsAction"
+      }
+    ],
+    "is_prospect_visit": true,
+    "creator": "tyler.vansant@indoormedia.com"
+  },
+  {
+    "event_id": "d5f8ft8pjv08qr1qsd5lkajjdc",
+    "title": "\ud83d\udce6 Install Q2: Snowmoon at Fred Meyer, Portland, Fred Meyer-0285",
+    "start": "2026-10-05T10:00:00-07:00",
+    "end": "2026-10-05T11:00:00-07:00",
+    "location": "",
+    "description": "INSTALL QUARTER 2 (90 days in)\nContract: J431619E\nBusiness: Snowmoon\nCustomer: Ann Marie Mossman\nRep: Megan Wink\nStore: Fred Meyer Fred Meyer-0285, Portland\nEst. Start: 07/17/2026\nTerm: 5Q (15 months)\n\nInstall tape at Snowmoon.",
+    "prospect_name": "",
+    "phone": "",
+    "address": "",
+    "store": "Fred Meyer Fred Meyer-0285, Portland",
+    "rep": "Megan Wink",
+    "attendees": [
+      {
+        "email": "megan.wink@indoormedia.com",
+        "name": "",
+        "status": "needsAction"
+      }
+    ],
+    "is_prospect_visit": true,
+    "creator": "tyler.vansant@indoormedia.com"
+  },
+  {
+    "event_id": "e19i55uuq4i6k6c89nqdffqrvg",
+    "title": "\ud83d\udce6 Install Q2: Portland's Best Auto Repair & Towing at Safeway, Portland, Safeway-1523",
+    "start": "2026-10-05T10:00:00-07:00",
+    "end": "2026-10-05T11:00:00-07:00",
+    "location": "",
+    "description": "INSTALL QUARTER 2 (90 days in)\nContract: J431896E\nBusiness: Portland's Best Auto Repair & Towing\nCustomer: Harley and Tiffany Smith\nRep: Megan Wink\nStore: Safeway Safeway-1523, Portland\nEst. Start: 07/17/2026\nTerm: 5Q (15 months)\n\nInstall tape at Portland's Best Auto Repair & Towing.",
+    "prospect_name": "",
+    "phone": "",
+    "address": "",
+    "store": "Safeway Safeway-1523, Portland",
+    "rep": "Megan Wink",
+    "attendees": [
+      {
+        "email": "megan.wink@indoormedia.com",
+        "name": "",
+        "status": "needsAction"
+      }
+    ],
+    "is_prospect_visit": true,
+    "creator": "tyler.vansant@indoormedia.com"
+  },
+  {
+    "event_id": "g5e00egps9qhlu3fp321m1q6pk",
+    "title": "\ud83d\udce6 Install Q2: B & G Tire & Auto at Fred Meyer, Vancouver, Fred Meyer-0236",
+    "start": "2026-10-05T10:00:00-07:00",
+    "end": "2026-10-05T11:00:00-07:00",
+    "location": "",
+    "description": "INSTALL QUARTER 2 (90 days in)\nContract: J431323E\nBusiness: B & G Tire & Auto\nCustomer: Ryan Gutenberger\nRep: Megan Wink\nStore: Fred Meyer Fred Meyer-0236, Vancouver\nEst. Start: 07/17/2026\nTerm: 4Q (12 months)\n\nInstall tape at B & G Tire & Auto.",
+    "prospect_name": "",
+    "phone": "",
+    "address": "",
+    "store": "Fred Meyer Fred Meyer-0236, Vancouver",
+    "rep": "Megan Wink",
+    "attendees": [
+      {
+        "email": "megan.wink@indoormedia.com",
+        "name": "",
+        "status": "needsAction"
+      }
+    ],
+    "is_prospect_visit": true,
+    "creator": "tyler.vansant@indoormedia.com"
+  },
+  {
+    "event_id": "jgpvmmfvfkv5c5k7q3sigri4o8",
+    "title": "\ud83d\udce6 Install Q2: Ginn Imm at Safeway, Silverdale, Safeway-1680",
+    "start": "2026-10-05T10:00:00-07:00",
+    "end": "2026-10-05T11:00:00-07:00",
+    "location": "",
+    "description": "INSTALL QUARTER 2 (90 days in)\nContract: J430678E\nBusiness: Ginn Imm\nCustomer: Jirawat Wichyasomboon\nRep: Tyler VanSant\nStore: Safeway Safeway-1680, Silverdale\nEst. Start: 07/17/2026\n\nInstall tape at Ginn Imm.",
+    "prospect_name": "",
+    "phone": "",
+    "address": "",
+    "store": "Safeway Safeway-1680, Silverdale",
+    "rep": "Tyler VanSant",
+    "attendees": [
+      {
+        "email": "tyler.vansant@indoormedia.com",
+        "name": "",
+        "status": "needsAction"
+      }
+    ],
+    "is_prospect_visit": true,
+    "creator": "tyler.vansant@indoormedia.com"
+  },
+  {
+    "event_id": "kui6hj8l3lj0gh5oko0bobrbi4",
+    "title": "\ud83d\udce6 Install Q2: Boom Street Burgers at Safeway, Poulsbo, Safeway-3148",
+    "start": "2026-10-05T10:00:00-07:00",
+    "end": "2026-10-05T11:00:00-07:00",
+    "location": "",
+    "description": "INSTALL QUARTER 2 (90 days in)\nContract: J430441E\nBusiness: Boom Street Burgers\nCustomer: Edwin Cos\nRep: Ryan Rohner-talton\nStore: Safeway Safeway-3148, Poulsbo\nEst. Start: 07/17/2026\n\nInstall tape at Boom Street Burgers.",
+    "prospect_name": "",
+    "phone": "",
+    "address": "",
+    "store": "Safeway Safeway-3148, Poulsbo",
+    "rep": "Ryan Rohner-talton",
+    "attendees": [
+      {
+        "email": "ryan.rohner-talton@indoormedia.com",
+        "name": "",
+        "status": "needsAction"
+      }
+    ],
+    "is_prospect_visit": true,
+    "creator": "tyler.vansant@indoormedia.com"
+  },
+  {
+    "event_id": "l6h2v0fe7jvri34l535aje1m4g",
+    "title": "\ud83d\udce6 Install Q2: St Vincent de Paul Society of at Safeway, Cottage Grove, Safeway-1458",
+    "start": "2026-10-05T10:00:00-07:00",
+    "end": "2026-10-05T11:00:00-07:00",
+    "location": "",
+    "description": "INSTALL QUARTER 2 (90 days in)\nContract: J432808E\nBusiness: St Vincent de Paul Society of\nCustomer: Lane County\nRep: Matthew Boozer\nStore: Safeway Safeway-1458, Cottage Grove\nEst. Start: 07/17/2026\nTerm: 4Q (12 months)\n\nInstall tape at St Vincent de Paul Society of.",
+    "prospect_name": "",
+    "phone": "",
+    "address": "",
+    "store": "Safeway Safeway-1458, Cottage Grove",
+    "rep": "Matthew Boozer",
+    "attendees": [
+      {
+        "email": "matthew.boozer@indoormedia.com",
+        "name": "",
+        "status": "needsAction"
+      }
+    ],
+    "is_prospect_visit": true,
+    "creator": "tyler.vansant@indoormedia.com"
+  },
+  {
+    "event_id": "mgn1pigqes05979cvhqbgs11ds",
+    "title": "\ud83d\udce6 Install Q2: A & W All American Food at Safeway, Stayton, Safeway-1527",
+    "start": "2026-10-05T10:00:00-07:00",
+    "end": "2026-10-05T11:00:00-07:00",
+    "location": "",
+    "description": "INSTALL QUARTER 2 (90 days in)\nContract: J432459E\nBusiness: A & W All American Food\nCustomer: Brenda Kederer\nRep: Amy Dixon\nStore: Safeway Safeway-1527, Stayton\nEst. Start: 07/17/2026\nTerm: 4Q (12 months)\n\nInstall tape at A & W All American Food.",
+    "prospect_name": "",
+    "phone": "",
+    "address": "",
+    "store": "Safeway Safeway-1527, Stayton",
+    "rep": "Amy Dixon",
+    "attendees": [
+      {
+        "email": "amy.dixon@indoormedia.com",
+        "name": "",
+        "status": "needsAction"
+      }
+    ],
+    "is_prospect_visit": true,
+    "creator": "tyler.vansant@indoormedia.com"
+  },
+  {
+    "event_id": "oqmk3n2h3sesv0j3fqpe0gq364",
+    "title": "\ud83d\udce6 Install Q2: Snap Fitness at Safeway, Poulsbo, Safeway-3148",
+    "start": "2026-10-05T10:00:00-07:00",
+    "end": "2026-10-05T11:00:00-07:00",
+    "location": "",
+    "description": "INSTALL QUARTER 2 (90 days in)\nContract: J432237E\nBusiness: Snap Fitness\nCustomer: Arthur Thomas\nRep: Ryan Rohner-talton\nStore: Safeway Safeway-3148, Poulsbo\nEst. Start: 07/17/2026\nTerm: 5Q (15 months)\n\nInstall tape at Snap Fitness.",
+    "prospect_name": "",
+    "phone": "",
+    "address": "",
+    "store": "Safeway Safeway-3148, Poulsbo",
+    "rep": "Ryan Rohner-talton",
+    "attendees": [
+      {
+        "email": "ryan.rohner-talton@indoormedia.com",
+        "name": "",
+        "status": "needsAction"
+      }
+    ],
+    "is_prospect_visit": true,
+    "creator": "tyler.vansant@indoormedia.com"
+  },
+  {
+    "event_id": "05nf1pmntig1gttcg7i5ksq214",
+    "title": "\ud83d\udd01 Renewal: R & r pizza express (Derek daley) \u2014 Safeway, Pinetop-Lakeside",
+    "start": "2026-10-06T10:00:00-07:00",
+    "end": "2026-10-06T11:00:00-07:00",
+    "location": "",
+    "description": "RENEWAL DATE\nContract: J412587E\nBusiness: R & r pizza express\nCustomer: Derek daley\nRep: Cameron Gould\nStore: Safeway Safeway-2069, Pinetop-Lakeside\nEst. Start: 11/20/2025\nTerm: 4Q (12 months)\n\n1 year since install. Renewal date for Derek daley at R & r pizza express.",
+    "prospect_name": "",
+    "phone": "",
+    "address": "",
+    "store": "Safeway Safeway-2069, Pinetop-Lakeside",
+    "rep": "Cameron Gould",
+    "attendees": [
+      {
+        "email": "cameron.gould@indoormedia.com",
+        "name": "",
+        "status": "needsAction"
+      }
+    ],
+    "is_prospect_visit": false,
+    "creator": "tyler.vansant@indoormedia.com"
+  },
+  {
+    "event_id": "8og2bete1ko0v2lrubbi38uklo",
+    "title": "\u267b\ufe0f Renewal Conversation #3: Safeway, Pinetop-Lakeside, Safeway-2069 \u2014 Derek daley/R & r pizza express",
+    "start": "2026-10-06T10:00:00-07:00",
+    "end": "2026-10-06T11:00:00-07:00",
+    "location": "",
+    "description": "RENEWAL CONVERSATION #3 (330 days in)\nContract: J412587E\nBusiness: R & r pizza express\nCustomer: Derek daley\nRep: Cameron Gould\nStore: Safeway Safeway-2069, Pinetop-Lakeside\nEst. Start: 11/20/2025\nTerm: 4Q (12 months)\n\nDiscuss renewal options with Derek daley at R & r pizza express.",
+    "prospect_name": "",
+    "phone": "",
+    "address": "",
+    "store": "Safeway Safeway-2069, Pinetop-Lakeside",
+    "rep": "Cameron Gould",
+    "attendees": [
+      {
+        "email": "cameron.gould@indoormedia.com",
+        "name": "",
+        "status": "needsAction"
+      }
+    ],
+    "is_prospect_visit": false,
+    "creator": "tyler.vansant@indoormedia.com"
+  },
+  {
+    "event_id": "m012d789fpa9jjl6i5co6v7v0k",
+    "title": "\u267b\ufe0f Renewal Conversation #1: Safeway, Springfield, Safeway-1094 \u2014 Aloe Rochon/Nerdy Gnomes Tax Solutions",
+    "start": "2026-10-06T10:00:00-07:00",
+    "end": "2026-10-06T11:00:00-07:00",
+    "location": "",
+    "description": "RENEWAL CONVERSATION #1 (60 days in)\nContract: J433016E\nBusiness: Nerdy Gnomes Tax Solutions\nCustomer: Aloe Rochon\nRep: Matthew Boozer\nStore: Safeway Safeway-1094, Springfield\nEst. Start: 08/17/2026\nTerm: 1Q (3 months)\n\nDiscuss renewal options with Aloe Rochon at Nerdy Gnomes Tax Solutions.",
+    "prospect_name": "",
+    "phone": "",
+    "address": "",
+    "store": "Safeway Safeway-1094, Springfield",
+    "rep": "Matthew Boozer",
+    "attendees": [
+      {
+        "email": "matthew.boozer@indoormedia.com",
+        "name": "",
+        "status": "needsAction"
+      }
+    ],
+    "is_prospect_visit": false,
+    "creator": "tyler.vansant@indoormedia.com"
+  },
+  {
+    "event_id": "vn0o65vevs28nnriflmphkp8j8",
+    "title": "\ud83d\udd01 Renewal: Nerdy Gnomes Tax Solutions (Aloe Rochon) \u2014 Safeway, Springfield",
+    "start": "2026-10-06T10:00:00-07:00",
+    "end": "2026-10-06T11:00:00-07:00",
+    "location": "",
+    "description": "RENEWAL DATE\nContract: J433016E\nBusiness: Nerdy Gnomes Tax Solutions\nCustomer: Aloe Rochon\nRep: Matthew Boozer\nStore: Safeway Safeway-1094, Springfield\nEst. Start: 08/17/2026\nTerm: 1Q (3 months)\n\n1 year since install. Renewal date for Aloe Rochon at Nerdy Gnomes Tax Solutions.",
+    "prospect_name": "",
+    "phone": "",
+    "address": "",
+    "store": "Safeway Safeway-1094, Springfield",
+    "rep": "Matthew Boozer",
+    "attendees": [
+      {
+        "email": "matthew.boozer@indoormedia.com",
+        "name": "",
+        "status": "needsAction"
+      }
+    ],
+    "is_prospect_visit": false,
+    "creator": "tyler.vansant@indoormedia.com"
+  },
+  {
+    "event_id": "2vdiumt1b9aqhmi97vabviosb0",
+    "title": "\ud83d\udce6 Install Q1: Mazama Sporting Goods at Fred Meyer, Eugene, Fred Meyer-0417",
+    "start": "2026-10-07T10:00:00-07:00",
+    "end": "2026-10-07T11:00:00-07:00",
+    "location": "",
+    "description": "INSTALL QUARTER 1 (0 days in)\nContract: J434361E\nBusiness: Mazama Sporting Goods\nCustomer: Adam Braatz\nRep: Matthew Boozer\nStore: Fred Meyer Fred Meyer-0417, Eugene\nEst. Start: 10/17/2026\nTerm: 4Q (12 months)\n\nInstall tape at Mazama Sporting Goods.",
+    "prospect_name": "",
+    "phone": "",
+    "address": "",
+    "store": "Fred Meyer Fred Meyer-0417, Eugene",
+    "rep": "Matthew Boozer",
+    "attendees": [
+      {
+        "email": "matthew.boozer@indoormedia.com",
+        "name": "",
+        "status": "needsAction"
+      }
+    ],
+    "is_prospect_visit": true,
+    "creator": "tyler.vansant@indoormedia.com"
+  },
+  {
+    "event_id": "39tb45be6uif067ep28klgrdio",
+    "title": "\ud83d\udd0d Audit #2: Food 4 Less, Rialto, Food 4 Less-0303 \u2014 check in w/ Malak Guirgis/Pisa Pizza",
+    "start": "2026-10-07T10:00:00-07:00",
+    "end": "2026-10-07T11:00:00-07:00",
+    "location": "",
+    "description": "AUDIT & CHECK-IN #2 (135 days in)\nContract: J429424E\nBusiness: Pisa Pizza\nCustomer: Malak Guirgis\nRep: Christian Johnson\nStore: Food 4 Less Food 4 Less-0303, Rialto\nEst. Start: 06/04/2026\n\nVerify tape display. Check in with Malak Guirgis at Pisa Pizza.",
+    "prospect_name": "",
+    "phone": "",
+    "address": "",
+    "store": "Food 4 Less Food 4 Less-0303, Rialto",
+    "rep": "Christian Johnson",
+    "attendees": [
+      {
+        "email": "christian.johnson@indoormedia.com",
+        "name": "",
+        "status": "declined"
+      }
+    ],
+    "is_prospect_visit": false,
+    "creator": "tyler.vansant@indoormedia.com"
+  },
+  {
+    "event_id": "70iuedbhq11f59mgvgv44lgk7s",
+    "title": "\ud83d\udce6 Install Q1: More Boba at Albertsons, Springfield, Albertsons-0574",
+    "start": "2026-10-07T10:00:00-07:00",
+    "end": "2026-10-07T11:00:00-07:00",
+    "location": "",
+    "description": "INSTALL QUARTER 1 (0 days in)\nContract: J433014E\nBusiness: More Boba\nCustomer: Trang Le\nRep: Matthew Boozer\nStore: Albertsons Albertsons-0574, Springfield\nEst. Start: 10/17/2026\nTerm: 1Q (3 months)\n\nInstall tape at More Boba.",
+    "prospect_name": "",
+    "phone": "",
+    "address": "",
+    "store": "Albertsons Albertsons-0574, Springfield",
+    "rep": "Matthew Boozer",
+    "attendees": [
+      {
+        "email": "matthew.boozer@indoormedia.com",
+        "name": "",
+        "status": "needsAction"
+      }
+    ],
+    "is_prospect_visit": true,
+    "creator": "tyler.vansant@indoormedia.com"
+  },
+  {
+    "event_id": "90hr9c509g0k954574trm5ar0g",
+    "title": "\ud83d\udce6 Install Q1: Faded Habits at Safeway, Kelso, Safeway-2637",
+    "start": "2026-10-07T10:00:00-07:00",
+    "end": "2026-10-07T11:00:00-07:00",
+    "location": "",
+    "description": "INSTALL QUARTER 1 (0 days in)\nContract: J438100E\nBusiness: Faded Habits\nCustomer: Pat Casi\nRep: Megan Wink\nStore: Safeway Safeway-2637, Kelso\nEst. Start: 10/17/2026\nTerm: 4Q (12 months)\n\nInstall tape at Faded Habits.",
+    "prospect_name": "",
+    "phone": "",
+    "address": "",
+    "store": "Safeway Safeway-2637, Kelso",
+    "rep": "Megan Wink",
+    "attendees": [
+      {
+        "email": "megan.wink@indoormedia.com",
+        "name": "",
+        "status": "needsAction"
+      }
+    ],
+    "is_prospect_visit": true,
+    "creator": "tyler.vansant@indoormedia.com"
+  },
+  {
+    "event_id": "gur5e6k8ksmkpo6ibf2vg476pg_20261007T170000Z",
+    "title": "Remind Reps to do Installs",
+    "start": "2026-10-07T10:00:00-07:00",
+    "end": "2026-10-07T11:00:00-07:00",
+    "location": "",
+    "description": "",
+    "prospect_name": "",
+    "phone": "",
+    "address": "",
+    "store": "",
+    "rep": "Tyler VanSant",
+    "attendees": [],
+    "is_prospect_visit": false,
+    "creator": "tyler.vansant@indoormedia.com"
+  },
+  {
+    "event_id": "k85kcc8qm8scnoe0e01hrjpk0s",
+    "title": "\ud83d\udce6 Install Q1: Track Town Pizza at Albertsons, Springfield, Albertsons-0574",
+    "start": "2026-10-07T10:00:00-07:00",
+    "end": "2026-10-07T11:00:00-07:00",
+    "location": "",
+    "description": "INSTALL QUARTER 1 (0 days in)\nContract: J435258E\nBusiness: Track Town Pizza\nCustomer: Tim Hill\nRep: Matthew Boozer\nStore: Albertsons Albertsons-0574, Springfield\nEst. Start: 10/17/2026\nTerm: 4Q (12 months)\n\nInstall tape at Track Town Pizza.",
+    "prospect_name": "",
+    "phone": "",
+    "address": "",
+    "store": "Albertsons Albertsons-0574, Springfield",
+    "rep": "Matthew Boozer",
+    "attendees": [
+      {
+        "email": "matthew.boozer@indoormedia.com",
+        "name": "",
+        "status": "needsAction"
+      }
+    ],
+    "is_prospect_visit": true,
+    "creator": "tyler.vansant@indoormedia.com"
+  },
+  {
+    "event_id": "kmk8a83q52o7et7vddqn8rdmmc",
+    "title": "\ud83d\udce6 Install Q1: ETECH at Safeway, Vancouver, Safeway-1704",
+    "start": "2026-10-07T10:00:00-07:00",
+    "end": "2026-10-07T11:00:00-07:00",
+    "location": "",
+    "description": "INSTALL QUARTER 1 (0 days in)\nContract: J437105E\nBusiness: ETECH\nCustomer: Eric Varivoda\nRep: Megan Wink\nStore: Safeway Safeway-1704, Vancouver\nEst. Start: 10/17/2026\nTerm: 4Q (12 months)\n\nInstall tape at ETECH.",
+    "prospect_name": "",
+    "phone": "",
+    "address": "",
+    "store": "Safeway Safeway-1704, Vancouver",
+    "rep": "Megan Wink",
+    "attendees": [
+      {
+        "email": "megan.wink@indoormedia.com",
+        "name": "",
+        "status": "needsAction"
+      }
+    ],
+    "is_prospect_visit": true,
+    "creator": "tyler.vansant@indoormedia.com"
+  },
+  {
+    "event_id": "ngta956dho5kqc0jnhkv2q1j9g",
+    "title": "\ud83d\udce6 Install Q1: Blue Star Gas at Safeway, Cottage Grove, Safeway-1458",
+    "start": "2026-10-07T10:00:00-07:00",
+    "end": "2026-10-07T11:00:00-07:00",
+    "location": "",
+    "description": "INSTALL QUARTER 1 (0 days in)\nContract: J432859E\nBusiness: Blue Star Gas\nCustomer: Jason Trinder\nRep: Matthew Boozer\nStore: Safeway Safeway-1458, Cottage Grove\nEst. Start: 10/17/2026\nTerm: 4Q (12 months)\n\nInstall tape at Blue Star Gas.",
+    "prospect_name": "",
+    "phone": "",
+    "address": "",
+    "store": "Safeway Safeway-1458, Cottage Grove",
+    "rep": "Matthew Boozer",
+    "attendees": [
+      {
+        "email": "matthew.boozer@indoormedia.com",
+        "name": "",
+        "status": "needsAction"
+      }
+    ],
+    "is_prospect_visit": true,
+    "creator": "tyler.vansant@indoormedia.com"
+  },
+  {
+    "event_id": "otvl4ks55kpu975i8bm9uqaut8",
+    "title": "\ud83d\udce6 Install Q1: OILSTOP at Fred Meyer, Eugene, Fred Meyer-0417",
+    "start": "2026-10-07T10:00:00-07:00",
+    "end": "2026-10-07T11:00:00-07:00",
+    "location": "",
+    "description": "INSTALL QUARTER 1 (0 days in)\nContract: J435300E\nBusiness: OILSTOP\nCustomer: Jeff Lee\nRep: Matthew Boozer\nStore: Fred Meyer Fred Meyer-0417, Eugene\nEst. Start: 10/17/2026\nTerm: 2Q (6 months)\n\nInstall tape at OILSTOP.",
+    "prospect_name": "",
+    "phone": "",
+    "address": "",
+    "store": "Fred Meyer Fred Meyer-0417, Eugene",
+    "rep": "Matthew Boozer",
+    "attendees": [
+      {
+        "email": "matthew.boozer@indoormedia.com",
+        "name": "",
+        "status": "needsAction"
+      }
+    ],
+    "is_prospect_visit": true,
+    "creator": "tyler.vansant@indoormedia.com"
+  },
+  {
+    "event_id": "q4cl62634nhto031qactlq8p9c",
+    "title": "\ud83d\udce6 Install Q1: Taqueria Chanita Mexican Food at Safeway, Poulsbo, Safeway-3148",
+    "start": "2026-10-07T10:00:00-07:00",
+    "end": "2026-10-07T11:00:00-07:00",
+    "location": "",
+    "description": "INSTALL QUARTER 1 (0 days in)\nContract: J434904E\nBusiness: Taqueria Chanita Mexican Food\nCustomer: Miguel Gonzalez\nRep: Ryan Rohner-talton\nStore: Safeway Safeway-3148, Poulsbo\nEst. Start: 10/17/2026\nTerm: 2Q (6 months)\n\nInstall tape at Taqueria Chanita Mexican Food.",
+    "prospect_name": "",
+    "phone": "",
+    "address": "",
+    "store": "Safeway Safeway-3148, Poulsbo",
+    "rep": "Ryan Rohner-talton",
+    "attendees": [
+      {
+        "email": "ryan.rohner-talton@indoormedia.com",
+        "name": "",
+        "status": "needsAction"
+      }
+    ],
+    "is_prospect_visit": true,
+    "creator": "tyler.vansant@indoormedia.com"
+  },
+  {
+    "event_id": "upp5khjm7j3nsnh6bolac24aog",
+    "title": "\ud83d\udce6 Install Q1: The Recyclers at Albertsons, Eugene, Albertsons-3564",
+    "start": "2026-10-07T10:00:00-07:00",
+    "end": "2026-10-07T11:00:00-07:00",
+    "location": "",
+    "description": "INSTALL QUARTER 1 (0 days in)\nContract: J437702E\nBusiness: The Recyclers\nCustomer: Ambar Romero\nRep: Matthew Boozer\nStore: Albertsons Albertsons-3564, Eugene\nEst. Start: 10/17/2026\nTerm: 4Q (12 months)\n\nInstall tape at The Recyclers.",
+    "prospect_name": "",
+    "phone": "",
+    "address": "",
+    "store": "Albertsons Albertsons-3564, Eugene",
+    "rep": "Matthew Boozer",
+    "attendees": [
+      {
+        "email": "matthew.boozer@indoormedia.com",
+        "name": "",
+        "status": "needsAction"
+      }
+    ],
+    "is_prospect_visit": true,
+    "creator": "tyler.vansant@indoormedia.com"
+  },
+  {
+    "event_id": "e8cobllcfgj7s522qq038pl2a8",
+    "title": "\ud83d\udd01 Renewal: Garden of ink (Shaniah day) \u2014 Fresh Market, OGDEN",
+    "start": "2026-10-08T10:00:00-07:00",
+    "end": "2026-10-08T11:00:00-07:00",
+    "location": "",
+    "description": "RENEWAL DATE\nContract: J411397E\nBusiness: Garden of ink\nCustomer: Shaniah day\nRep: Cameron Gould\nStore: Fresh Market Fresh Market-2382, OGDEN\nEst. Start: 08/24/2025\nTerm: 5Q (15 months)\n\n1 year since install. Renewal date for Shaniah day at Garden of ink.",
+    "prospect_name": "",
+    "phone": "",
+    "address": "",
+    "store": "Fresh Market Fresh Market-2382, OGDEN",
+    "rep": "Cameron Gould",
+    "attendees": [
+      {
+        "email": "cameron.gould@indoormedia.com",
+        "name": "",
+        "status": "needsAction"
+      }
+    ],
+    "is_prospect_visit": false,
+    "creator": "tyler.vansant@indoormedia.com"
+  },
+  {
+    "event_id": "nu7fc5j8r609vdngp4le04guo8",
+    "title": "\u267b\ufe0f Renewal Conversation #3: Fresh Market, OGDEN, Fresh Market-2382 \u2014 Shaniah day/Garden of ink",
+    "start": "2026-10-08T10:00:00-07:00",
+    "end": "2026-10-08T11:00:00-07:00",
+    "location": "",
+    "description": "RENEWAL CONVERSATION #3 (420 days in)\nContract: J411397E\nBusiness: Garden of ink\nCustomer: Shaniah day\nRep: Cameron Gould\nStore: Fresh Market Fresh Market-2382, OGDEN\nEst. Start: 08/24/2025\nTerm: 5Q (15 months)\n\nDiscuss renewal options with Shaniah day at Garden of ink.",
+    "prospect_name": "",
+    "phone": "",
+    "address": "",
+    "store": "Fresh Market Fresh Market-2382, OGDEN",
+    "rep": "Cameron Gould",
+    "attendees": [
+      {
+        "email": "cameron.gould@indoormedia.com",
+        "name": "",
+        "status": "needsAction"
+      }
+    ],
+    "is_prospect_visit": false,
+    "creator": "tyler.vansant@indoormedia.com"
+  },
+  {
+    "event_id": "_8d13ihhk8l336b9h74p38b9k8opk2ba27534ab9k71142cpl6kqjgh9j70_20261009T030000Z",
+    "title": "Take out garbage - STOP what I\u2019m doing or I will forget",
+    "start": "2026-10-08T20:00:00-07:00",
+    "end": "2026-10-08T21:00:00-07:00",
+    "location": "",
+    "description": "",
+    "prospect_name": "",
+    "phone": "",
+    "address": "",
+    "store": "",
+    "rep": "Tyler VanSant",
+    "attendees": [],
+    "is_prospect_visit": false,
+    "creator": "tyler.vansant@indoormedia.com"
+  },
+  {
+    "event_id": "1fgru35d1fgetprn8nlpmm4ec8",
+    "title": "\u267b\ufe0f Renewal Conversation #1: Smiths, Farmington, Smiths-0135 \u2014 Casey kauer/Papa murphys",
+    "start": "2026-10-09T10:00:00-07:00",
+    "end": "2026-10-09T11:00:00-07:00",
+    "location": "",
+    "description": "RENEWAL CONVERSATION #1 (360 days in)\nContract: J412022E\nBusiness: Papa murphys\nCustomer: Casey kauer\nRep: Cameron Gould\nStore: Smiths Smiths-0135, Farmington\nEst. Start: 10/24/2025\nTerm: 5Q (15 months)\n\nDiscuss renewal options with Casey kauer at Papa murphys.",
+    "prospect_name": "",
+    "phone": "",
+    "address": "",
+    "store": "Smiths Smiths-0135, Farmington",
+    "rep": "Cameron Gould",
+    "attendees": [
+      {
+        "email": "cameron.gould@indoormedia.com",
+        "name": "",
+        "status": "needsAction"
+      }
+    ],
+    "is_prospect_visit": false,
+    "creator": "tyler.vansant@indoormedia.com"
+  },
+  {
+    "event_id": "65rjrkcfmj17f484dpva6ko9lo",
+    "title": "\ud83d\udce6 Install Q5: Papa murphys at Smiths, Farmington, Smiths-0135",
+    "start": "2026-10-09T10:00:00-07:00",
+    "end": "2026-10-09T11:00:00-07:00",
+    "location": "",
+    "description": "INSTALL QUARTER 5 (360 days in)\nContract: J412022E\nBusiness: Papa murphys\nCustomer: Casey kauer\nRep: Cameron Gould\nStore: Smiths Smiths-0135, Farmington\nEst. Start: 10/24/2025\nTerm: 5Q (15 months)\n\nInstall tape at Papa murphys.",
+    "prospect_name": "",
+    "phone": "",
+    "address": "",
+    "store": "Smiths Smiths-0135, Farmington",
+    "rep": "Cameron Gould",
+    "attendees": [
+      {
+        "email": "cameron.gould@indoormedia.com",
+        "name": "",
+        "status": "needsAction"
+      }
+    ],
+    "is_prospect_visit": true,
+    "creator": "tyler.vansant@indoormedia.com"
+  },
+  {
+    "event_id": "19cgpp045f3a5cmjvujc33lhf0",
+    "title": "\u267b\ufe0f Renewal Conversation #3: Maceys, Providence, Maceys-0971 \u2014 Brenton stewart/Acadia homes",
+    "start": "2026-10-10T10:00:00-07:00",
+    "end": "2026-10-10T11:00:00-07:00",
+    "location": "",
+    "description": "RENEWAL CONVERSATION #3 (330 days in)\nContract: J418805E\nBusiness: Acadia homes\nCustomer: Brenton stewart\nRep: Cameron Gould\nStore: Maceys Maceys-0971, Providence\nEst. Start: 11/24/2025\nTerm: 4Q (12 months)\n\nDiscuss renewal options with Brenton stewart at Acadia homes.",
+    "prospect_name": "",
+    "phone": "",
+    "address": "",
+    "store": "Maceys Maceys-0971, Providence",
+    "rep": "Cameron Gould",
+    "attendees": [
+      {
+        "email": "cameron.gould@indoormedia.com",
+        "name": "",
+        "status": "needsAction"
+      }
+    ],
+    "is_prospect_visit": false,
+    "creator": "tyler.vansant@indoormedia.com"
+  },
+  {
+    "event_id": "1nre24r9vi30mmujs2ib7pfc7o",
+    "title": "\u267b\ufe0f Renewal Conversation #3: Fresh Market, OGDEN, Fresh Market-2382 \u2014 Stephanie ginn/Beehive naturals",
+    "start": "2026-10-10T10:00:00-07:00",
+    "end": "2026-10-10T11:00:00-07:00",
+    "location": "",
+    "description": "RENEWAL CONVERSATION #3 (330 days in)\nContract: J419184E\nBusiness: Beehive naturals\nCustomer: Stephanie ginn\nRep: Cameron Gould\nStore: Fresh Market Fresh Market-2382, OGDEN\nEst. Start: 11/24/2025\nTerm: 4Q (12 months)\n\nDiscuss renewal options with Stephanie ginn at Beehive naturals.",
+    "prospect_name": "",
+    "phone": "",
+    "address": "",
+    "store": "Fresh Market Fresh Market-2382, OGDEN",
+    "rep": "Cameron Gould",
+    "attendees": [
+      {
+        "email": "cameron.gould@indoormedia.com",
+        "name": "",
+        "status": "needsAction"
+      }
+    ],
+    "is_prospect_visit": false,
+    "creator": "tyler.vansant@indoormedia.com"
+  },
+  {
+    "event_id": "5bfe781ujupe76l0ttcsj91vlk",
+    "title": "\ud83d\udd01 Renewal: Neu ink (Jocelin ong) \u2014 Smiths, Logan",
+    "start": "2026-10-10T10:00:00-07:00",
+    "end": "2026-10-10T11:00:00-07:00",
+    "location": "",
+    "description": "RENEWAL DATE\nContract: J418022E\nBusiness: Neu ink\nCustomer: Jocelin ong\nRep: Cameron Gould\nStore: Smiths Smiths-0477, Logan\nEst. Start: 11/24/2025\nTerm: 4Q (12 months)\n\n1 year since install. Renewal date for Jocelin ong at Neu ink.",
+    "prospect_name": "",
+    "phone": "",
+    "address": "",
+    "store": "Smiths Smiths-0477, Logan",
+    "rep": "Cameron Gould",
+    "attendees": [
+      {
+        "email": "cameron.gould@indoormedia.com",
+        "name": "",
+        "status": "needsAction"
+      }
+    ],
+    "is_prospect_visit": false,
+    "creator": "tyler.vansant@indoormedia.com"
+  },
+  {
+    "event_id": "6h0bun6m4dpfantnhrms3ahptk",
+    "title": "\ud83d\udd01 Renewal: Northern glass pros (Neil godfrey) \u2014 Maceys, Providence",
+    "start": "2026-10-10T10:00:00-07:00",
+    "end": "2026-10-10T11:00:00-07:00",
+    "location": "",
+    "description": "RENEWAL DATE\nContract: J417901E\nBusiness: Northern glass pros\nCustomer: Neil godfrey\nRep: Cameron Gould\nStore: Maceys Maceys-0971, Providence\nEst. Start: 11/24/2025\nTerm: 4Q (12 months)\n\n1 year since install. Renewal date for Neil godfrey at Northern glass pros.",
+    "prospect_name": "",
+    "phone": "",
+    "address": "",
+    "store": "Maceys Maceys-0971, Providence",
+    "rep": "Cameron Gould",
+    "attendees": [
+      {
+        "email": "cameron.gould@indoormedia.com",
+        "name": "",
+        "status": "needsAction"
+      }
+    ],
+    "is_prospect_visit": false,
+    "creator": "tyler.vansant@indoormedia.com"
+  },
+  {
+    "event_id": "6s62m8mgospk5d835a204nq4ko",
+    "title": "\ud83d\udd01 Renewal: A pizza (Matt perry) \u2014 Maceys, Providence",
+    "start": "2026-10-10T10:00:00-07:00",
+    "end": "2026-10-10T11:00:00-07:00",
+    "location": "",
+    "description": "RENEWAL DATE\nContract: J418536E\nBusiness: A pizza\nCustomer: Matt perry\nRep: Cameron Gould\nStore: Maceys Maceys-0971, Providence\nEst. Start: 11/24/2025\nTerm: 4Q (12 months)\n\n1 year since install. Renewal date for Matt perry at A pizza.",
+    "prospect_name": "",
+    "phone": "",
+    "address": "",
+    "store": "Maceys Maceys-0971, Providence",
+    "rep": "Cameron Gould",
+    "attendees": [
+      {
+        "email": "cameron.gould@indoormedia.com",
+        "name": "",
+        "status": "needsAction"
+      }
+    ],
+    "is_prospect_visit": false,
+    "creator": "tyler.vansant@indoormedia.com"
+  },
+  {
+    "event_id": "71gr8ps1fmn8h5q1p7g2ic3krs",
+    "title": "\u267b\ufe0f Renewal Conversation #3: Smiths, Logan, Smiths-0477 \u2014 Jocelin ong/Neu ink",
+    "start": "2026-10-10T10:00:00-07:00",
+    "end": "2026-10-10T11:00:00-07:00",
+    "location": "",
+    "description": "RENEWAL CONVERSATION #3 (330 days in)\nContract: J418022E\nBusiness: Neu ink\nCustomer: Jocelin ong\nRep: Cameron Gould\nStore: Smiths Smiths-0477, Logan\nEst. Start: 11/24/2025\nTerm: 4Q (12 months)\n\nDiscuss renewal options with Jocelin ong at Neu ink.",
+    "prospect_name": "",
+    "phone": "",
+    "address": "",
+    "store": "Smiths Smiths-0477, Logan",
+    "rep": "Cameron Gould",
+    "attendees": [
+      {
+        "email": "cameron.gould@indoormedia.com",
+        "name": "",
+        "status": "needsAction"
+      }
+    ],
+    "is_prospect_visit": false,
+    "creator": "tyler.vansant@indoormedia.com"
+  },
+  {
+    "event_id": "89cppfn068vmqfuplq05cgr75o",
+    "title": "\u267b\ufe0f Renewal Conversation #3: Ridleys, Hyrum, Ridleys-1150 \u2014 Brad Lee/Hit it hard",
+    "start": "2026-10-10T10:00:00-07:00",
+    "end": "2026-10-10T11:00:00-07:00",
+    "location": "",
+    "description": "RENEWAL CONVERSATION #3 (330 days in)\nContract: J417672E\nBusiness: Hit it hard\nCustomer: Brad Lee\nRep: Cameron Gould\nStore: Ridleys Ridleys-1150, Hyrum\nEst. Start: 11/24/2025\nTerm: 4Q (12 months)\n\nDiscuss renewal options with Brad Lee at Hit it hard.",
+    "prospect_name": "",
+    "phone": "",
+    "address": "",
+    "store": "Ridleys Ridleys-1150, Hyrum",
+    "rep": "Cameron Gould",
+    "attendees": [
+      {
+        "email": "cameron.gould@indoormedia.com",
+        "name": "",
+        "status": "needsAction"
+      }
+    ],
+    "is_prospect_visit": false,
+    "creator": "tyler.vansant@indoormedia.com"
+  },
+  {
+    "event_id": "91baeqgjrac0dbmni8i85ei1q0",
+    "title": "\u267b\ufe0f Renewal Conversation #3: Smiths, Chubbuck, Smiths-0061 \u2014 Juan huizar/Los gavilanes Mexican grill",
+    "start": "2026-10-10T10:00:00-07:00",
+    "end": "2026-10-10T11:00:00-07:00",
+    "location": "",
+    "description": "RENEWAL CONVERSATION #3 (330 days in)\nContract: J419429E\nBusiness: Los gavilanes Mexican grill\nCustomer: Juan huizar\nRep: Cameron Gould\nStore: Smiths Smiths-0061, Chubbuck\nEst. Start: 11/24/2025\nTerm: 4Q (12 months)\n\nDiscuss renewal options with Juan huizar at Los gavilanes Mexican grill.",
+    "prospect_name": "",
+    "phone": "",
+    "address": "",
+    "store": "Smiths Smiths-0061, Chubbuck",
+    "rep": "Cameron Gould",
+    "attendees": [
+      {
+        "email": "cameron.gould@indoormedia.com",
+        "name": "",
+        "status": "needsAction"
+      }
+    ],
+    "is_prospect_visit": false,
+    "creator": "tyler.vansant@indoormedia.com"
+  },
+  {
+    "event_id": "a8s1q03bssrb3hkgj5ko46jejg",
+    "title": "\ud83d\udd01 Renewal: Los gavilanes Mexican grill (Juan huizar) \u2014 Smiths, Chubbuck",
+    "start": "2026-10-10T10:00:00-07:00",
+    "end": "2026-10-10T11:00:00-07:00",
+    "location": "",
+    "description": "RENEWAL DATE\nContract: J419429E\nBusiness: Los gavilanes Mexican grill\nCustomer: Juan huizar\nRep: Cameron Gould\nStore: Smiths Smiths-0061, Chubbuck\nEst. Start: 11/24/2025\nTerm: 4Q (12 months)\n\n1 year since install. Renewal date for Juan huizar at Los gavilanes Mexican grill.",
+    "prospect_name": "",
+    "phone": "",
+    "address": "",
+    "store": "Smiths Smiths-0061, Chubbuck",
+    "rep": "Cameron Gould",
+    "attendees": [
+      {
+        "email": "cameron.gould@indoormedia.com",
+        "name": "",
+        "status": "needsAction"
+      }
+    ],
+    "is_prospect_visit": false,
+    "creator": "tyler.vansant@indoormedia.com"
+  },
+  {
+    "event_id": "chajk8qhkjph5idofakirsnnj4",
+    "title": "\u267b\ufe0f Renewal Conversation #2: Dicks, Bountiful, Dicks-0567 \u2014 Michael solosko/Scenthound",
+    "start": "2026-10-10T10:00:00-07:00",
+    "end": "2026-10-10T11:00:00-07:00",
+    "location": "",
+    "description": "RENEWAL CONVERSATION #2 (300 days in)\nContract: J420932E\nBusiness: Scenthound\nCustomer: Michael solosko\nRep: Cameron Gould\nStore: Dicks Dicks-0567, Bountiful\nEst. Start: 12/24/2025\nTerm: 4Q (12 months)\n\nDiscuss renewal options with Michael solosko at Scenthound.",
+    "prospect_name": "",
+    "phone": "",
+    "address": "",
+    "store": "Dicks Dicks-0567, Bountiful",
+    "rep": "Cameron Gould",
+    "attendees": [
+      {
+        "email": "cameron.gould@indoormedia.com",
+        "name": "",
+        "status": "needsAction"
+      }
+    ],
+    "is_prospect_visit": false,
+    "creator": "tyler.vansant@indoormedia.com"
+  },
+  {
+    "event_id": "d761k1r71tpr5sdpdl1mdo5un8",
+    "title": "\ud83d\udd01 Renewal: Jensen motor (Chris neilsen) \u2014 Ridleys, Hyrum",
+    "start": "2026-10-10T10:00:00-07:00",
+    "end": "2026-10-10T11:00:00-07:00",
+    "location": "",
+    "description": "RENEWAL DATE\nContract: J417897E\nBusiness: Jensen motor\nCustomer: Chris neilsen\nRep: Cameron Gould\nStore: Ridleys Ridleys-1150, Hyrum\nEst. Start: 11/24/2025\nTerm: 4Q (12 months)\n\n1 year since install. Renewal date for Chris neilsen at Jensen motor.",
+    "prospect_name": "",
+    "phone": "",
+    "address": "",
+    "store": "Ridleys Ridleys-1150, Hyrum",
+    "rep": "Cameron Gould",
+    "attendees": [
+      {
+        "email": "cameron.gould@indoormedia.com",
+        "name": "",
+        "status": "needsAction"
+      }
+    ],
+    "is_prospect_visit": false,
+    "creator": "tyler.vansant@indoormedia.com"
+  },
+  {
+    "event_id": "dm4crd5rsphkgmc0slst67udbc",
+    "title": "\u267b\ufe0f Renewal Conversation #3: Smiths, Logan, Smiths-0477 \u2014 adam manassra/habibi mediterranean",
+    "start": "2026-10-10T10:00:00-07:00",
+    "end": "2026-10-10T11:00:00-07:00",
+    "location": "",
+    "description": "RENEWAL CONVERSATION #3 (330 days in)\nContract: J417088E\nBusiness: habibi mediterranean\nCustomer: adam manassra\nRep: Cameron Gould\nStore: Smiths Smiths-0477, Logan\nEst. Start: 11/24/2025\nTerm: 4Q (12 months)\n\nDiscuss renewal options with adam manassra at habibi mediterranean.",
+    "prospect_name": "",
+    "phone": "",
+    "address": "",
+    "store": "Smiths Smiths-0477, Logan",
+    "rep": "Cameron Gould",
+    "attendees": [
+      {
+        "email": "cameron.gould@indoormedia.com",
+        "name": "",
+        "status": "needsAction"
+      }
+    ],
+    "is_prospect_visit": false,
+    "creator": "tyler.vansant@indoormedia.com"
+  },
+  {
+    "event_id": "ed0mbvn2jbs2ad97s1t7haec08",
+    "title": "\u267b\ufe0f Renewal Conversation #2: Dicks, Centerville, Dicks-0565 \u2014 Russell steinfels/Russell\u2019s Main Street garage",
+    "start": "2026-10-10T10:00:00-07:00",
+    "end": "2026-10-10T11:00:00-07:00",
+    "location": "",
+    "description": "RENEWAL CONVERSATION #2 (300 days in)\nContract: J421132E\nBusiness: Russell\u2019s Main Street garage\nCustomer: Russell steinfels\nRep: Cameron Gould\nStore: Dicks Dicks-0565, Centerville\nEst. Start: 12/24/2025\nTerm: 4Q (12 months)\n\nDiscuss renewal options with Russell steinfels at Russell\u2019s Main Street garage.",
+    "prospect_name": "",
+    "phone": "",
+    "address": "",
+    "store": "Dicks Dicks-0565, Centerville",
+    "rep": "Cameron Gould",
+    "attendees": [
+      {
+        "email": "cameron.gould@indoormedia.com",
+        "name": "",
+        "status": "needsAction"
+      }
+    ],
+    "is_prospect_visit": false,
+    "creator": "tyler.vansant@indoormedia.com"
+  },
+  {
+    "event_id": "gji97o0oqr7bt5j9el8ld42o9o",
+    "title": "\ud83d\udd01 Renewal: habibi mediterranean (adam manassra) \u2014 Smiths, Logan",
+    "start": "2026-10-10T10:00:00-07:00",
+    "end": "2026-10-10T11:00:00-07:00",
+    "location": "",
+    "description": "RENEWAL DATE\nContract: J417088E\nBusiness: habibi mediterranean\nCustomer: adam manassra\nRep: Cameron Gould\nStore: Smiths Smiths-0477, Logan\nEst. Start: 11/24/2025\nTerm: 4Q (12 months)\n\n1 year since install. Renewal date for adam manassra at habibi mediterranean.",
+    "prospect_name": "",
+    "phone": "",
+    "address": "",
+    "store": "Smiths Smiths-0477, Logan",
+    "rep": "Cameron Gould",
+    "attendees": [
+      {
+        "email": "cameron.gould@indoormedia.com",
+        "name": "",
+        "status": "needsAction"
+      }
+    ],
+    "is_prospect_visit": false,
+    "creator": "tyler.vansant@indoormedia.com"
+  },
+  {
+    "event_id": "gmo2qr0g84njqhslere11lo7p4",
+    "title": "\ud83d\udd01 Renewal: Acadia homes (Brenton stewart) \u2014 Maceys, Providence",
+    "start": "2026-10-10T10:00:00-07:00",
+    "end": "2026-10-10T11:00:00-07:00",
+    "location": "",
+    "description": "RENEWAL DATE\nContract: J418805E\nBusiness: Acadia homes\nCustomer: Brenton stewart\nRep: Cameron Gould\nStore: Maceys Maceys-0971, Providence\nEst. Start: 11/24/2025\nTerm: 4Q (12 months)\n\n1 year since install. Renewal date for Brenton stewart at Acadia homes.",
+    "prospect_name": "",
+    "phone": "",
+    "address": "",
+    "store": "Maceys Maceys-0971, Providence",
+    "rep": "Cameron Gould",
+    "attendees": [
+      {
+        "email": "cameron.gould@indoormedia.com",
+        "name": "",
+        "status": "needsAction"
+      }
+    ],
+    "is_prospect_visit": false,
+    "creator": "tyler.vansant@indoormedia.com"
+  },
+  {
+    "event_id": "gvib11ed08h78g4fkchum1jih8",
+    "title": "\u267b\ufe0f Renewal Conversation #2: Dicks, Centerville, Dicks-0565 \u2014 Dave day/Papa murphys",
+    "start": "2026-10-10T10:00:00-07:00",
+    "end": "2026-10-10T11:00:00-07:00",
+    "location": "",
+    "description": "RENEWAL CONVERSATION #2 (300 days in)\nContract: N420551E\nBusiness: Papa murphys\nCustomer: Dave day\nRep: Cameron Gould\nStore: Dicks Dicks-0565, Centerville\nEst. Start: 12/24/2025\nTerm: 4Q (12 months)\n\nDiscuss renewal options with Dave day at Papa murphys.",
+    "prospect_name": "",
+    "phone": "",
+    "address": "",
+    "store": "Dicks Dicks-0565, Centerville",
+    "rep": "Cameron Gould",
+    "attendees": [
+      {
+        "email": "cameron.gould@indoormedia.com",
+        "name": "",
+        "status": "needsAction"
+      }
+    ],
+    "is_prospect_visit": false,
+    "creator": "tyler.vansant@indoormedia.com"
+  },
+  {
+    "event_id": "hhq98bej14vsgdn03oerctcs28",
+    "title": "\u267b\ufe0f Renewal Conversation #3: Maceys, Providence, Maceys-0971 \u2014 Matt perry/A pizza",
+    "start": "2026-10-10T10:00:00-07:00",
+    "end": "2026-10-10T11:00:00-07:00",
+    "location": "",
+    "description": "RENEWAL CONVERSATION #3 (330 days in)\nContract: J418536E\nBusiness: A pizza\nCustomer: Matt perry\nRep: Cameron Gould\nStore: Maceys Maceys-0971, Providence\nEst. Start: 11/24/2025\nTerm: 4Q (12 months)\n\nDiscuss renewal options with Matt perry at A pizza.",
+    "prospect_name": "",
+    "phone": "",
+    "address": "",
+    "store": "Maceys Maceys-0971, Providence",
+    "rep": "Cameron Gould",
+    "attendees": [
+      {
+        "email": "cameron.gould@indoormedia.com",
+        "name": "",
+        "status": "needsAction"
+      }
+    ],
+    "is_prospect_visit": false,
+    "creator": "tyler.vansant@indoormedia.com"
+  },
+  {
+    "event_id": "hqf40m1fhd58rgnoedv10sm6bg",
+    "title": "\ud83d\udd01 Renewal: Ultimate express car wash (Josh shaw) \u2014 Smiths, North Ogden",
+    "start": "2026-10-10T10:00:00-07:00",
+    "end": "2026-10-10T11:00:00-07:00",
+    "location": "",
+    "description": "RENEWAL DATE\nContract: J414806E\nBusiness: Ultimate express car wash\nCustomer: Josh shaw\nRep: Cameron Gould\nStore: Smiths Smiths-0279, North Ogden\nEst. Start: 11/24/2025\nTerm: 4Q (12 months)\n\n1 year since install. Renewal date for Josh shaw at Ultimate express car wash.",
+    "prospect_name": "",
+    "phone": "",
+    "address": "",
+    "store": "Smiths Smiths-0279, North Ogden",
+    "rep": "Cameron Gould",
+    "attendees": [
+      {
+        "email": "cameron.gould@indoormedia.com",
+        "name": "",
+        "status": "needsAction"
+      }
+    ],
+    "is_prospect_visit": false,
+    "creator": "tyler.vansant@indoormedia.com"
+  },
+  {
+    "event_id": "ji6pq9jrssuln8u8qng05ilvkc",
+    "title": "\u267b\ufe0f Renewal Conversation #3: Smiths, North Ogden, Smiths-0279 \u2014 Josh shaw/Ultimate express car wash",
+    "start": "2026-10-10T10:00:00-07:00",
+    "end": "2026-10-10T11:00:00-07:00",
+    "location": "",
+    "description": "RENEWAL CONVERSATION #3 (330 days in)\nContract: J414806E\nBusiness: Ultimate express car wash\nCustomer: Josh shaw\nRep: Cameron Gould\nStore: Smiths Smiths-0279, North Ogden\nEst. Start: 11/24/2025\nTerm: 4Q (12 months)\n\nDiscuss renewal options with Josh shaw at Ultimate express car wash.",
+    "prospect_name": "",
+    "phone": "",
+    "address": "",
+    "store": "Smiths Smiths-0279, North Ogden",
+    "rep": "Cameron Gould",
+    "attendees": [
+      {
+        "email": "cameron.gould@indoormedia.com",
+        "name": "",
+        "status": "needsAction"
+      }
+    ],
+    "is_prospect_visit": false,
+    "creator": "tyler.vansant@indoormedia.com"
+  },
+  {
+    "event_id": "kk7f5p4fdts5hvmclmov0f709o",
+    "title": "\u267b\ufe0f Renewal Conversation #2: Maceys, Ogden, Maceys-0990 \u2014 Thiago alves/Thiago Alves Brazilian jujitsu",
+    "start": "2026-10-10T10:00:00-07:00",
+    "end": "2026-10-10T11:00:00-07:00",
+    "location": "",
+    "description": "RENEWAL CONVERSATION #2 (300 days in)\nContract: J419755E\nBusiness: Thiago Alves Brazilian jujitsu\nCustomer: Thiago alves\nRep: Cameron Gould\nStore: Maceys Maceys-0990, Ogden\nEst. Start: 12/24/2025\nTerm: 4Q (12 months)\n\nDiscuss renewal options with Thiago alves at Thiago Alves Brazilian jujitsu.",
+    "prospect_name": "",
+    "phone": "",
+    "address": "",
+    "store": "Maceys Maceys-0990, Ogden",
+    "rep": "Cameron Gould",
+    "attendees": [
+      {
+        "email": "cameron.gould@indoormedia.com",
+        "name": "",
+        "status": "needsAction"
+      }
+    ],
+    "is_prospect_visit": false,
+    "creator": "tyler.vansant@indoormedia.com"
+  },
+  {
+    "event_id": "l2euf8b533qrcpm9dt88c3oris",
+    "title": "\ud83d\udd01 Renewal: Beehive naturals (Stephanie ginn) \u2014 Fresh Market, OGDEN",
+    "start": "2026-10-10T10:00:00-07:00",
+    "end": "2026-10-10T11:00:00-07:00",
+    "location": "",
+    "description": "RENEWAL DATE\nContract: J419184E\nBusiness: Beehive naturals\nCustomer: Stephanie ginn\nRep: Cameron Gould\nStore: Fresh Market Fresh Market-2382, OGDEN\nEst. Start: 11/24/2025\nTerm: 4Q (12 months)\n\n1 year since install. Renewal date for Stephanie ginn at Beehive naturals.",
+    "prospect_name": "",
+    "phone": "",
+    "address": "",
+    "store": "Fresh Market Fresh Market-2382, OGDEN",
+    "rep": "Cameron Gould",
+    "attendees": [
+      {
+        "email": "cameron.gould@indoormedia.com",
+        "name": "",
+        "status": "needsAction"
+      }
+    ],
+    "is_prospect_visit": false,
+    "creator": "tyler.vansant@indoormedia.com"
+  },
+  {
+    "event_id": "l9pt7lkgm4dgnj0vso16vuqa9s",
+    "title": "\ud83d\udd01 Renewal: Hit it hard (Brad Lee) \u2014 Ridleys, Hyrum",
+    "start": "2026-10-10T10:00:00-07:00",
+    "end": "2026-10-10T11:00:00-07:00",
+    "location": "",
+    "description": "RENEWAL DATE\nContract: J417672E\nBusiness: Hit it hard\nCustomer: Brad Lee\nRep: Cameron Gould\nStore: Ridleys Ridleys-1150, Hyrum\nEst. Start: 11/24/2025\nTerm: 4Q (12 months)\n\n1 year since install. Renewal date for Brad Lee at Hit it hard.",
+    "prospect_name": "",
+    "phone": "",
+    "address": "",
+    "store": "Ridleys Ridleys-1150, Hyrum",
+    "rep": "Cameron Gould",
+    "attendees": [
+      {
+        "email": "cameron.gould@indoormedia.com",
+        "name": "",
+        "status": "needsAction"
+      }
+    ],
+    "is_prospect_visit": false,
+    "creator": "tyler.vansant@indoormedia.com"
+  },
+  {
+    "event_id": "le86k492nrrvfcfvduppts9ke4",
+    "title": "\u267b\ufe0f Renewal Conversation #3: Maceys, Providence, Maceys-0971 \u2014 Neil godfrey/Northern glass pros",
+    "start": "2026-10-10T10:00:00-07:00",
+    "end": "2026-10-10T11:00:00-07:00",
+    "location": "",
+    "description": "RENEWAL CONVERSATION #3 (330 days in)\nContract: J417901E\nBusiness: Northern glass pros\nCustomer: Neil godfrey\nRep: Cameron Gould\nStore: Maceys Maceys-0971, Providence\nEst. Start: 11/24/2025\nTerm: 4Q (12 months)\n\nDiscuss renewal options with Neil godfrey at Northern glass pros.",
+    "prospect_name": "",
+    "phone": "",
+    "address": "",
+    "store": "Maceys Maceys-0971, Providence",
+    "rep": "Cameron Gould",
+    "attendees": [
+      {
+        "email": "cameron.gould@indoormedia.com",
+        "name": "",
+        "status": "needsAction"
+      }
+    ],
+    "is_prospect_visit": false,
+    "creator": "tyler.vansant@indoormedia.com"
+  },
+  {
+    "event_id": "mkllcd7h1idnf1f8r69qgvdk70",
+    "title": "\ud83d\udd01 Renewal: The beauty hall (Amanda alves) \u2014 Smiths, Murray",
+    "start": "2026-10-10T10:00:00-07:00",
+    "end": "2026-10-10T11:00:00-07:00",
+    "location": "",
+    "description": "RENEWAL DATE\nContract: J414739E\nBusiness: The beauty hall\nCustomer: Amanda alves\nRep: Cameron Gould\nStore: Smiths Smiths-0083, Murray\nEst. Start: 11/24/2025\nTerm: 4Q (12 months)\n\n1 year since install. Renewal date for Amanda alves at The beauty hall.",
+    "prospect_name": "",
+    "phone": "",
+    "address": "",
+    "store": "Smiths Smiths-0083, Murray",
+    "rep": "Cameron Gould",
+    "attendees": [
+      {
+        "email": "cameron.gould@indoormedia.com",
+        "name": "",
+        "status": "needsAction"
+      }
+    ],
+    "is_prospect_visit": false,
+    "creator": "tyler.vansant@indoormedia.com"
+  },
+  {
+    "event_id": "q8n10psvepdif7l15ijudk6u7g",
+    "title": "\u267b\ufe0f Renewal Conversation #3: Smiths, Murray, Smiths-0083 \u2014 Amanda alves/The beauty hall",
+    "start": "2026-10-10T10:00:00-07:00",
+    "end": "2026-10-10T11:00:00-07:00",
+    "location": "",
+    "description": "RENEWAL CONVERSATION #3 (330 days in)\nContract: J414739E\nBusiness: The beauty hall\nCustomer: Amanda alves\nRep: Cameron Gould\nStore: Smiths Smiths-0083, Murray\nEst. Start: 11/24/2025\nTerm: 4Q (12 months)\n\nDiscuss renewal options with Amanda alves at The beauty hall.",
+    "prospect_name": "",
+    "phone": "",
+    "address": "",
+    "store": "Smiths Smiths-0083, Murray",
+    "rep": "Cameron Gould",
+    "attendees": [
+      {
+        "email": "cameron.gould@indoormedia.com",
+        "name": "",
+        "status": "needsAction"
+      }
+    ],
+    "is_prospect_visit": false,
+    "creator": "tyler.vansant@indoormedia.com"
+  },
+  {
+    "event_id": "rmm00dufm396gato9emt155ln0",
+    "title": "\u267b\ufe0f Renewal Conversation #2: Ridleys, Pocatello, Ridleys-7152 \u2014 Ross gregerson/Aquatic oasis",
+    "start": "2026-10-10T10:00:00-07:00",
+    "end": "2026-10-10T11:00:00-07:00",
+    "location": "",
+    "description": "RENEWAL CONVERSATION #2 (300 days in)\nContract: J419757E\nBusiness: Aquatic oasis\nCustomer: Ross gregerson\nRep: Cameron Gould\nStore: Ridleys Ridleys-7152, Pocatello\nEst. Start: 12/24/2025\nTerm: 4Q (12 months)\n\nDiscuss renewal options with Ross gregerson at Aquatic oasis.",
+    "prospect_name": "",
+    "phone": "",
+    "address": "",
+    "store": "Ridleys Ridleys-7152, Pocatello",
+    "rep": "Cameron Gould",
+    "attendees": [
+      {
+        "email": "cameron.gould@indoormedia.com",
+        "name": "",
+        "status": "needsAction"
+      }
+    ],
+    "is_prospect_visit": false,
+    "creator": "tyler.vansant@indoormedia.com"
+  },
+  {
+    "event_id": "uu571842d2fih9q8441tg00m40",
+    "title": "\u267b\ufe0f Renewal Conversation #3: Smiths, Chubbuck, Smiths-0061 \u2014 Danielle cooper/Geraldine\u2019s bake shoppe and",
+    "start": "2026-10-10T10:00:00-07:00",
+    "end": "2026-10-10T11:00:00-07:00",
+    "location": "",
+    "description": "RENEWAL CONVERSATION #3 (330 days in)\nContract: J419494E\nBusiness: Geraldine\u2019s bake shoppe and\nCustomer: Danielle cooper\nRep: Cameron Gould\nStore: Smiths Smiths-0061, Chubbuck\nEst. Start: 11/24/2025\nTerm: 4Q (12 months)\n\nDiscuss renewal options with Danielle cooper at Geraldine\u2019s bake shoppe and.",
+    "prospect_name": "",
+    "phone": "",
+    "address": "",
+    "store": "Smiths Smiths-0061, Chubbuck",
+    "rep": "Cameron Gould",
+    "attendees": [
+      {
+        "email": "cameron.gould@indoormedia.com",
+        "name": "",
+        "status": "needsAction"
+      }
+    ],
+    "is_prospect_visit": false,
+    "creator": "tyler.vansant@indoormedia.com"
+  },
+  {
+    "event_id": "vmuhj6kgksu3hijrm0l6uke92k",
+    "title": "\ud83d\udd01 Renewal: Geraldine\u2019s bake shoppe and (Danielle cooper) \u2014 Smiths, Chubbuck",
+    "start": "2026-10-10T10:00:00-07:00",
+    "end": "2026-10-10T11:00:00-07:00",
+    "location": "",
+    "description": "RENEWAL DATE\nContract: J419494E\nBusiness: Geraldine\u2019s bake shoppe and\nCustomer: Danielle cooper\nRep: Cameron Gould\nStore: Smiths Smiths-0061, Chubbuck\nEst. Start: 11/24/2025\nTerm: 4Q (12 months)\n\n1 year since install. Renewal date for Danielle cooper at Geraldine\u2019s bake shoppe and.",
+    "prospect_name": "",
+    "phone": "",
+    "address": "",
+    "store": "Smiths Smiths-0061, Chubbuck",
+    "rep": "Cameron Gould",
+    "attendees": [
+      {
+        "email": "cameron.gould@indoormedia.com",
+        "name": "",
+        "status": "needsAction"
+      }
+    ],
+    "is_prospect_visit": false,
+    "creator": "tyler.vansant@indoormedia.com"
+  },
+  {
+    "event_id": "vst9nmnd6po4lh0rg8jbotak5c",
+    "title": "\u267b\ufe0f Renewal Conversation #3: Ridleys, Hyrum, Ridleys-1150 \u2014 Chris neilsen/Jensen motor",
+    "start": "2026-10-10T10:00:00-07:00",
+    "end": "2026-10-10T11:00:00-07:00",
+    "location": "",
+    "description": "RENEWAL CONVERSATION #3 (330 days in)\nContract: J417897E\nBusiness: Jensen motor\nCustomer: Chris neilsen\nRep: Cameron Gould\nStore: Ridleys Ridleys-1150, Hyrum\nEst. Start: 11/24/2025\nTerm: 4Q (12 months)\n\nDiscuss renewal options with Chris neilsen at Jensen motor.",
+    "prospect_name": "",
+    "phone": "",
+    "address": "",
+    "store": "Ridleys Ridleys-1150, Hyrum",
+    "rep": "Cameron Gould",
+    "attendees": [
+      {
+        "email": "cameron.gould@indoormedia.com",
+        "name": "",
+        "status": "needsAction"
+      }
+    ],
+    "is_prospect_visit": false,
+    "creator": "tyler.vansant@indoormedia.com"
+  },
+  {
+    "event_id": "00f9gj069hlh3p2fo227pr3pc8",
+    "title": "\ud83d\udce6 Install Q3: Wash pros at Smiths, Brigham City, Smiths-0178",
+    "start": "2026-10-11T10:00:00-07:00",
+    "end": "2026-10-11T11:00:00-07:00",
+    "location": "",
+    "description": "INSTALL QUARTER 3 (180 days in)\nContract: J428360E\nBusiness: Wash pros\nCustomer: Kc Anderson\nRep: Cameron Gould\nStore: Smiths Smiths-0178, Brigham City\nEst. Start: 04/24/2026\nTerm: 4Q (12 months)\n\nInstall tape at Wash pros.",
+    "prospect_name": "",
+    "phone": "",
+    "address": "",
+    "store": "Smiths Smiths-0178, Brigham City",
+    "rep": "Cameron Gould",
+    "attendees": [
+      {
+        "email": "cameron.gould@indoormedia.com",
+        "name": "",
+        "status": "needsAction"
+      }
+    ],
+    "is_prospect_visit": true,
+    "creator": "tyler.vansant@indoormedia.com"
+  },
+  {
+    "event_id": "0cbd6ignapoiqjuduteui4fqlo",
+    "title": "\ud83d\udce6 Install Q3: J and D's at Smiths, Brigham City, Smiths-0178",
+    "start": "2026-10-11T10:00:00-07:00",
+    "end": "2026-10-11T11:00:00-07:00",
+    "location": "",
+    "description": "INSTALL QUARTER 3 (180 days in)\nContract: J428039E\nBusiness: J and D's\nCustomer: Meggan london\nRep: Cameron Gould\nStore: Smiths Smiths-0178, Brigham City\nEst. Start: 04/24/2026\nTerm: 4Q (12 months)\n\nInstall tape at J and D's.",
+    "prospect_name": "",
+    "phone": "",
+    "address": "",
+    "store": "Smiths Smiths-0178, Brigham City",
+    "rep": "Cameron Gould",
+    "attendees": [
+      {
+        "email": "cameron.gould@indoormedia.com",
+        "name": "",
+        "status": "needsAction"
+      }
+    ],
+    "is_prospect_visit": true,
+    "creator": "tyler.vansant@indoormedia.com"
+  },
+  {
+    "event_id": "5uk0l2t23gbdpv72va1segemhs",
+    "title": "\ud83d\udce6 Install Q3: Tropical smoothie cafe at Smiths, Brigham City, Smiths-0178",
+    "start": "2026-10-11T10:00:00-07:00",
+    "end": "2026-10-11T11:00:00-07:00",
+    "location": "",
+    "description": "INSTALL QUARTER 3 (180 days in)\nContract: J427400E\nBusiness: Tropical smoothie cafe\nCustomer: Bryce Mortenson\nRep: Cameron Gould\nStore: Smiths Smiths-0178, Brigham City\nEst. Start: 04/24/2026\nTerm: 4Q (12 months)\n\nInstall tape at Tropical smoothie cafe.",
+    "prospect_name": "",
+    "phone": "",
+    "address": "",
+    "store": "Smiths Smiths-0178, Brigham City",
+    "rep": "Cameron Gould",
+    "attendees": [
+      {
+        "email": "cameron.gould@indoormedia.com",
+        "name": "",
+        "status": "needsAction"
+      }
+    ],
+    "is_prospect_visit": true,
+    "creator": "tyler.vansant@indoormedia.com"
+  },
+  {
+    "event_id": "6f1ln963s93mg3066nnntkp5ec",
+    "title": "\ud83d\udce6 Install Q3: RLB HOLDING at Smiths, Bountiful, Smiths-0444",
+    "start": "2026-10-11T10:00:00-07:00",
+    "end": "2026-10-11T11:00:00-07:00",
+    "location": "",
+    "description": "INSTALL QUARTER 3 (180 days in)\nContract: J422483E\nBusiness: RLB HOLDING\nCustomer: Bryce beatie\nRep: Cameron Gould\nStore: Smiths Smiths-0444, Bountiful\nEst. Start: 04/24/2026\nTerm: 4Q (12 months)\n\nInstall tape at RLB HOLDING.",
+    "prospect_name": "",
+    "phone": "",
+    "address": "",
+    "store": "Smiths Smiths-0444, Bountiful",
+    "rep": "Cameron Gould",
+    "attendees": [
+      {
+        "email": "cameron.gould@indoormedia.com",
+        "name": "",
+        "status": "needsAction"
+      }
+    ],
+    "is_prospect_visit": true,
+    "creator": "tyler.vansant@indoormedia.com"
+  },
+  {
+    "event_id": "9rpqs29jn9e3mddpl9su72f7nc",
+    "title": "\u267b\ufe0f Renewal Conversation #1: Fresh Market, Ogden, Fresh Market-2388 \u2014 Jami rubio/Cedar village",
+    "start": "2026-10-11T10:00:00-07:00",
+    "end": "2026-10-11T11:00:00-07:00",
+    "location": "",
+    "description": "RENEWAL CONVERSATION #1 (270 days in)\nContract: J420269E\nBusiness: Cedar village\nCustomer: Jami rubio\nRep: Cameron Gould\nStore: Fresh Market Fresh Market-2388, Ogden\nEst. Start: 01/24/2026\nTerm: 4Q (12 months)\n\nDiscuss renewal options with Jami rubio at Cedar village.",
+    "prospect_name": "",
+    "phone": "",
+    "address": "",
+    "store": "Fresh Market Fresh Market-2388, Ogden",
+    "rep": "Cameron Gould",
+    "attendees": [
+      {
+        "email": "cameron.gould@indoormedia.com",
+        "name": "",
+        "status": "needsAction"
+      }
+    ],
+    "is_prospect_visit": false,
+    "creator": "tyler.vansant@indoormedia.com"
+  },
+  {
+    "event_id": "dukutd7687v4997nsc176iihi8",
+    "title": "\ud83d\udce6 Install Q4: Cedar village at Fresh Market, Ogden, Fresh Market-2388",
+    "start": "2026-10-11T10:00:00-07:00",
+    "end": "2026-10-11T11:00:00-07:00",
+    "location": "",
+    "description": "INSTALL QUARTER 4 (270 days in)\nContract: J420269E\nBusiness: Cedar village\nCustomer: Jami rubio\nRep: Cameron Gould\nStore: Fresh Market Fresh Market-2388, Ogden\nEst. Start: 01/24/2026\nTerm: 4Q (12 months)\n\nInstall tape at Cedar village.",
+    "prospect_name": "",
+    "phone": "",
+    "address": "",
+    "store": "Fresh Market Fresh Market-2388, Ogden",
+    "rep": "Cameron Gould",
+    "attendees": [
+      {
+        "email": "cameron.gould@indoormedia.com",
+        "name": "",
+        "status": "needsAction"
+      }
+    ],
+    "is_prospect_visit": true,
+    "creator": "tyler.vansant@indoormedia.com"
+  },
+  {
+    "event_id": "erbpeie1n811oofrakg6gdqubg",
+    "title": "\ud83d\udce6 Install Q3: Papa Murphys at Smiths, Brigham City, Smiths-0178",
+    "start": "2026-10-11T10:00:00-07:00",
+    "end": "2026-10-11T11:00:00-07:00",
+    "location": "",
+    "description": "INSTALL QUARTER 3 (180 days in)\nContract: J426659E\nBusiness: Papa Murphys\nCustomer: Robyn Rawlins\nRep: Cameron Gould\nStore: Smiths Smiths-0178, Brigham City\nEst. Start: 04/24/2026\nTerm: 4Q (12 months)\n\nInstall tape at Papa Murphys.",
+    "prospect_name": "",
+    "phone": "",
+    "address": "",
+    "store": "Smiths Smiths-0178, Brigham City",
+    "rep": "Cameron Gould",
+    "attendees": [
+      {
+        "email": "cameron.gould@indoormedia.com",
+        "name": "",
+        "status": "needsAction"
+      }
+    ],
+    "is_prospect_visit": true,
+    "creator": "tyler.vansant@indoormedia.com"
+  },
+  {
+    "event_id": "jbi74a3qc6dggnf3ab6lhbfgf4",
+    "title": "\ud83d\udce6 Install Q3: Masterclass at Smiths, Sunset, Smiths-0140",
+    "start": "2026-10-11T10:00:00-07:00",
+    "end": "2026-10-11T11:00:00-07:00",
+    "location": "",
+    "description": "INSTALL QUARTER 3 (180 days in)\nContract: J426887E\nBusiness: Masterclass\nCustomer: Parker nichols\nRep: Cameron Gould\nStore: Smiths Smiths-0140, Sunset\nEst. Start: 04/24/2026\nTerm: 4Q (12 months)\n\nInstall tape at Masterclass.",
+    "prospect_name": "",
+    "phone": "",
+    "address": "",
+    "store": "Smiths Smiths-0140, Sunset",
+    "rep": "Cameron Gould",
+    "attendees": [
+      {
+        "email": "cameron.gould@indoormedia.com",
+        "name": "",
+        "status": "needsAction"
+      }
+    ],
+    "is_prospect_visit": true,
+    "creator": "tyler.vansant@indoormedia.com"
+  },
+  {
+    "event_id": "l9b9ct2sb2djfdlnnl78uksidg",
+    "title": "\u267b\ufe0f Renewal Conversation #1: Smiths, Bountiful, Smiths-0444 \u2014 detailed payment schedule on final page./Matt young",
+    "start": "2026-10-11T10:00:00-07:00",
+    "end": "2026-10-11T11:00:00-07:00",
+    "location": "",
+    "description": "RENEWAL CONVERSATION #1 (270 days in)\nContract: J421091E\nBusiness: Matt young\nCustomer: detailed payment schedule on final page.\nRep: Cameron Gould\nStore: Smiths Smiths-0444, Bountiful\nEst. Start: 01/24/2026\nTerm: 4Q (12 months)\n\nDiscuss renewal options with detailed payment schedule on final page. at Matt young.",
+    "prospect_name": "",
+    "phone": "",
+    "address": "",
+    "store": "Smiths Smiths-0444, Bountiful",
+    "rep": "Cameron Gould",
+    "attendees": [
+      {
+        "email": "cameron.gould@indoormedia.com",
+        "name": "",
+        "status": "needsAction"
+      }
+    ],
+    "is_prospect_visit": false,
+    "creator": "tyler.vansant@indoormedia.com"
+  },
+  {
+    "event_id": "moh2il9o6ak75j4bh9ggv5edro",
+    "title": "\ud83d\udce6 Install Q3: Solasta at Smiths, Syracuse, Smiths-0142",
+    "start": "2026-10-11T10:00:00-07:00",
+    "end": "2026-10-11T11:00:00-07:00",
+    "location": "",
+    "description": "INSTALL QUARTER 3 (180 days in)\nContract: J427280E\nBusiness: Solasta\nCustomer: Jamie maredith\nRep: Cameron Gould\nStore: Smiths Smiths-0142, Syracuse\nEst. Start: 04/24/2026\nTerm: 4Q (12 months)\n\nInstall tape at Solasta.",
+    "prospect_name": "",
+    "phone": "",
+    "address": "",
+    "store": "Smiths Smiths-0142, Syracuse",
+    "rep": "Cameron Gould",
+    "attendees": [
+      {
+        "email": "cameron.gould@indoormedia.com",
+        "name": "",
+        "status": "needsAction"
+      }
+    ],
+    "is_prospect_visit": true,
+    "creator": "tyler.vansant@indoormedia.com"
+  },
+  {
+    "event_id": "p46lti77kcasekekpsb4o2r89c",
+    "title": "\ud83d\udce6 Install Q4: Matt young at Smiths, Bountiful, Smiths-0444",
+    "start": "2026-10-11T10:00:00-07:00",
+    "end": "2026-10-11T11:00:00-07:00",
+    "location": "",
+    "description": "INSTALL QUARTER 4 (270 days in)\nContract: J421091E\nBusiness: Matt young\nCustomer: detailed payment schedule on final page.\nRep: Cameron Gould\nStore: Smiths Smiths-0444, Bountiful\nEst. Start: 01/24/2026\nTerm: 4Q (12 months)\n\nInstall tape at Matt young.",
+    "prospect_name": "",
+    "phone": "",
+    "address": "",
+    "store": "Smiths Smiths-0444, Bountiful",
+    "rep": "Cameron Gould",
+    "attendees": [
+      {
+        "email": "cameron.gould@indoormedia.com",
+        "name": "",
+        "status": "needsAction"
+      }
+    ],
+    "is_prospect_visit": true,
+    "creator": "tyler.vansant@indoormedia.com"
+  },
+  {
+    "event_id": "samatqvh3j4tv1r5ibarmojt3c",
+    "title": "\ud83d\udce6 Install Q3: Papa murphys at Smiths, Sunset, Smiths-0140",
+    "start": "2026-10-11T10:00:00-07:00",
+    "end": "2026-10-11T11:00:00-07:00",
+    "location": "",
+    "description": "INSTALL QUARTER 3 (180 days in)\nContract: J425572E\nBusiness: Papa murphys\nCustomer: Casey kauer\nRep: Cameron Gould\nStore: Smiths Smiths-0140, Sunset\nEst. Start: 04/24/2026\nTerm: 4Q (12 months)\n\nInstall tape at Papa murphys.",
+    "prospect_name": "",
+    "phone": "",
+    "address": "",
+    "store": "Smiths Smiths-0140, Sunset",
+    "rep": "Cameron Gould",
+    "attendees": [
+      {
+        "email": "cameron.gould@indoormedia.com",
+        "name": "",
+        "status": "needsAction"
+      }
+    ],
+    "is_prospect_visit": true,
+    "creator": "tyler.vansant@indoormedia.com"
+  },
+  {
+    "event_id": "4a2735ne6kjo5pbiaigsim6cok_20261012T160000Z",
+    "title": "Check Aging Report",
+    "start": "2026-10-12T09:00:00-07:00",
+    "end": "2026-10-12T10:00:00-07:00",
+    "location": "",
+    "description": "",
+    "prospect_name": "",
+    "phone": "",
+    "address": "",
+    "store": "",
+    "rep": "Tyler VanSant",
+    "attendees": [
+      {
+        "email": "richard.leibowitz@rtui.com",
+        "name": "",
+        "status": "needsAction"
+      },
+      {
+        "email": "tyler.vansant@indoormedia.com",
+        "name": "",
+        "status": "accepted"
+      }
+    ],
+    "is_prospect_visit": false,
+    "creator": "tyler.vansant@indoormedia.com"
+  },
+  {
+    "event_id": "69u2hcvge0c1bpcu4m13p42r2a_20261012T163000Z",
+    "title": "Weekly 7Y & 7Z Oregon/Washington Team Kick-Off",
+    "start": "2026-10-12T09:30:00-07:00",
+    "end": "2026-10-12T10:00:00-07:00",
+    "location": "",
+    "description": "This will be our once a week opportunity to meet as a team to sharpen our skills, discuss what we are working on, and collaborate with each other",
+    "prospect_name": "",
+    "phone": "",
+    "address": "",
+    "store": "",
+    "rep": "Tyler VanSant",
+    "attendees": [
+      {
+        "email": "dave.boring@indoormedia.com",
+        "name": "",
+        "status": "needsAction"
+      },
+      {
+        "email": "tyler.vansant@indoormedia.com",
+        "name": "",
+        "status": "accepted"
+      },
+      {
+        "email": "jan.banks@indoormedia.com",
+        "name": "",
+        "status": "needsAction"
+      },
+      {
+        "email": "amy.dixon@rtui.com",
+        "name": "",
+        "status": "needsAction"
+      },
+      {
+        "email": "anthony.eng@indoormedia.com",
+        "name": "",
+        "status": "needsAction"
+      },
+      {
+        "email": "matthew.boozer@indoormedia.com",
+        "name": "",
+        "status": "needsAction"
+      },
+      {
+        "email": "richard.diamond@indoormedia.com",
+        "name": "",
+        "status": "needsAction"
+      },
+      {
+        "email": "adan.ramos@indoormedia.com",
+        "name": "",
+        "status": "needsAction"
+      },
+      {
+        "email": "megan.wink@indoormedia.com",
+        "name": "",
+        "status": "needsAction"
+      },
+      {
+        "email": "dawna.henehan@indoormedia.com",
+        "name": "",
+        "status": "needsAction"
+      },
+      {
+        "email": "tony.ortega@rtui.com",
+        "name": "",
+        "status": "needsAction"
+      },
+      {
+        "email": "daniel.barchini@indoormedia.com",
+        "name": "",
+        "status": "needsAction"
+      }
+    ],
+    "is_prospect_visit": false,
+    "creator": "tyler.vansant@indoormedia.com"
+  },
+  {
+    "event_id": "5svgi1v6nl8m82cnp8s45kaa7o",
+    "title": "\ud83d\udce6 Install Q2: Xeriscape at Smiths, West Point, Smiths-0272",
+    "start": "2026-10-12T10:00:00-07:00",
+    "end": "2026-10-12T11:00:00-07:00",
+    "location": "",
+    "description": "INSTALL QUARTER 2 (90 days in)\nContract: J432002E\nBusiness: Xeriscape\nCustomer: Eastlin kielsmeier\nRep: Cameron Gould\nStore: Smiths Smiths-0272, West Point\nEst. Start: 07/24/2026\nTerm: 4Q (12 months)\n\nInstall tape at Xeriscape.",
+    "prospect_name": "",
+    "phone": "",
+    "address": "",
+    "store": "Smiths Smiths-0272, West Point",
+    "rep": "Cameron Gould",
+    "attendees": [
+      {
+        "email": "cameron.gould@indoormedia.com",
+        "name": "",
+        "status": "needsAction"
+      }
+    ],
+    "is_prospect_visit": true,
+    "creator": "tyler.vansant@indoormedia.com"
+  },
+  {
+    "event_id": "c12d7khb84f7t78mar7efge9tc",
+    "title": "\ud83d\udce6 Install Q2: Nestor\u2019s auto repair at Smiths, Sunset, Smiths-0140",
+    "start": "2026-10-12T10:00:00-07:00",
+    "end": "2026-10-12T11:00:00-07:00",
+    "location": "",
+    "description": "INSTALL QUARTER 2 (90 days in)\nContract: J430556E\nBusiness: Nestor\u2019s auto repair\nCustomer: Pablo Nestor\nRep: Cameron Gould\nStore: Smiths Smiths-0140, Sunset\nEst. Start: 07/24/2026\nTerm: 4Q (12 months)\n\nInstall tape at Nestor\u2019s auto repair.",
+    "prospect_name": "",
+    "phone": "",
+    "address": "",
+    "store": "Smiths Smiths-0140, Sunset",
+    "rep": "Cameron Gould",
+    "attendees": [
+      {
+        "email": "cameron.gould@indoormedia.com",
+        "name": "",
+        "status": "needsAction"
+      }
+    ],
+    "is_prospect_visit": true,
+    "creator": "tyler.vansant@indoormedia.com"
+  },
+  {
+    "event_id": "chahsp9hl65jc07q43kdrf8bco",
+    "title": "\ud83d\udce6 Install Q2: Chou Chou Teas at Fresh Market, Ogden, Fresh Market-2388",
+    "start": "2026-10-12T10:00:00-07:00",
+    "end": "2026-10-12T11:00:00-07:00",
+    "location": "",
+    "description": "INSTALL QUARTER 2 (90 days in)\nContract: J430502E\nBusiness: Chou Chou Teas\nCustomer: Tan Pham\nRep: Cameron Gould\nStore: Fresh Market Fresh Market-2388, Ogden\nEst. Start: 07/24/2026\nTerm: 4Q (12 months)\n\nInstall tape at Chou Chou Teas.",
+    "prospect_name": "",
+    "phone": "",
+    "address": "",
+    "store": "Fresh Market Fresh Market-2388, Ogden",
+    "rep": "Cameron Gould",
+    "attendees": [
+      {
+        "email": "cameron.gould@indoormedia.com",
+        "name": "",
+        "status": "needsAction"
+      }
+    ],
+    "is_prospect_visit": true,
+    "creator": "tyler.vansant@indoormedia.com"
+  },
+  {
+    "event_id": "d8h29pp46gjcco9h8q5f695p54",
+    "title": "\ud83d\udce6 Install Q2: ChouChou Tea at Smiths, Ogden, Smiths-0030",
+    "start": "2026-10-12T10:00:00-07:00",
+    "end": "2026-10-12T11:00:00-07:00",
+    "location": "",
+    "description": "INSTALL QUARTER 2 (90 days in)\nContract: J430503E\nBusiness: ChouChou Tea\nCustomer: Tan Pham\nRep: Cameron Gould\nStore: Smiths Smiths-0030, Ogden\nEst. Start: 07/24/2026\nTerm: 12Q (36 months)\n\nInstall tape at ChouChou Tea.",
+    "prospect_name": "",
+    "phone": "",
+    "address": "",
+    "store": "Smiths Smiths-0030, Ogden",
+    "rep": "Cameron Gould",
+    "attendees": [
+      {
+        "email": "cameron.gould@indoormedia.com",
+        "name": "",
+        "status": "needsAction"
+      }
+    ],
+    "is_prospect_visit": true,
+    "creator": "tyler.vansant@indoormedia.com"
+  },
+  {
+    "event_id": "f1bntlgn5i5cb63spgh94q1aj0",
+    "title": "\ud83d\udce6 Install Q2: Trove of collectibles at Smiths, Sunset, Smiths-0140",
+    "start": "2026-10-12T10:00:00-07:00",
+    "end": "2026-10-12T11:00:00-07:00",
+    "location": "",
+    "description": "INSTALL QUARTER 2 (90 days in)\nContract: J431958E\nBusiness: Trove of collectibles\nCustomer: Ben groat\nRep: Cameron Gould\nStore: Smiths Smiths-0140, Sunset\nEst. Start: 07/24/2026\nTerm: 4Q (12 months)\n\nInstall tape at Trove of collectibles.",
+    "prospect_name": "",
+    "phone": "",
+    "address": "",
+    "store": "Smiths Smiths-0140, Sunset",
+    "rep": "Cameron Gould",
+    "attendees": [
+      {
+        "email": "cameron.gould@indoormedia.com",
+        "name": "",
+        "status": "needsAction"
+      }
+    ],
+    "is_prospect_visit": true,
+    "creator": "tyler.vansant@indoormedia.com"
+  },
+  {
+    "event_id": "lsbm64dtmcmeh7adgm604frkq8",
+    "title": "\ud83d\udce6 Install Q2: Xeriscapes of Utah at Smiths, West Point, Smiths-0272",
+    "start": "2026-10-12T10:00:00-07:00",
+    "end": "2026-10-12T11:00:00-07:00",
+    "location": "",
+    "description": "INSTALL QUARTER 2 (90 days in)\nContract: J432141E\nBusiness: Xeriscapes of Utah\nCustomer: Eastlin kielsmeier\nRep: Cameron Gould\nStore: Smiths Smiths-0272, West Point\nEst. Start: 07/24/2026\nTerm: 4Q (12 months)\n\nInstall tape at Xeriscapes of Utah.",
+    "prospect_name": "",
+    "phone": "",
+    "address": "",
+    "store": "Smiths Smiths-0272, West Point",
+    "rep": "Cameron Gould",
+    "attendees": [
+      {
+        "email": "cameron.gould@indoormedia.com",
+        "name": "",
+        "status": "needsAction"
+      }
+    ],
+    "is_prospect_visit": true,
+    "creator": "tyler.vansant@indoormedia.com"
+  },
+  {
+    "event_id": "vnvl9uf8h0j0eoec4fas6fnh98",
+    "title": "\ud83d\udce6 Install Q2: Ally\u2019s pizza at Smiths, Sunset, Smiths-0140",
+    "start": "2026-10-12T10:00:00-07:00",
+    "end": "2026-10-12T11:00:00-07:00",
+    "location": "",
+    "description": "INSTALL QUARTER 2 (90 days in)\nContract: J432151E\nBusiness: Ally\u2019s pizza\nCustomer: James Westley steel\nRep: Cameron Gould\nStore: Smiths Smiths-0140, Sunset\nEst. Start: 07/24/2026\nTerm: 4Q (12 months)\n\nInstall tape at Ally\u2019s pizza.",
+    "prospect_name": "",
+    "phone": "",
+    "address": "",
+    "store": "Smiths Smiths-0140, Sunset",
+    "rep": "Cameron Gould",
+    "attendees": [
+      {
+        "email": "cameron.gould@indoormedia.com",
+        "name": "",
+        "status": "needsAction"
+      }
+    ],
+    "is_prospect_visit": true,
+    "creator": "tyler.vansant@indoormedia.com"
+  },
+  {
+    "event_id": "_8d13ihhk8l336b9h74p38b9k8opk2ba27534ab9k71142cpl6kqjgh9j70_20261016T030000Z",
+    "title": "Take out garbage - STOP what I\u2019m doing or I will forget",
+    "start": "2026-10-15T20:00:00-07:00",
+    "end": "2026-10-15T21:00:00-07:00",
+    "location": "",
+    "description": "",
+    "prospect_name": "",
+    "phone": "",
+    "address": "",
+    "store": "",
+    "rep": "Tyler VanSant",
+    "attendees": [],
+    "is_prospect_visit": false,
+    "creator": "tyler.vansant@indoormedia.com"
+  }
+]
