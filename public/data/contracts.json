@@ -11338,6 +11338,27 @@
       "paid_in_full": true
     },
     {
+      "contract_number": "J438046E",
+      "date": "2026-09-16 00:00",
+      "business_name": "Ixtapa",
+      "contact_name": "Samuel",
+      "contact_email": "Encisogutierrez95@gmail.com",
+      "contact_phone": "(503) 421-1553",
+      "sales_rep": "Daniel Barchini",
+      "store_name": "Safeway",
+      "store_number": "1070",
+      "zone": "07Z",
+      "product_description": "Single Ad",
+      "total_amount": 5724.0,
+      "payment_date": "9/16/2026",
+      "address": "1001 SW Highland Dr, Gresham, 97080",
+      "extracted_at": "2026-09-16T20:01:00.137356",
+      "quarters": 4,
+      "term_months": 12,
+      "is_renewal": false,
+      "paid_in_full": false
+    },
+    {
       "contract_number": "J438100E",
       "date": "2026-09-14 00:00",
       "business_name": "Faded Habits",
@@ -11353,6 +11374,27 @@
       "payment_date": "9/14/2026",
       "address": "411 Three River Drive, Kelso, 98626",
       "extracted_at": "2026-09-14T20:01:04.134756",
+      "quarters": 4,
+      "term_months": 12,
+      "is_renewal": false,
+      "paid_in_full": false
+    },
+    {
+      "contract_number": "J438252E",
+      "date": "2026-09-16 00:00",
+      "business_name": "The Hot Spot",
+      "contact_name": "Ame williams",
+      "contact_email": "Amewilliams0955@gmail.com",
+      "contact_phone": "(971) 300-0633",
+      "sales_rep": "Daniel Barchini",
+      "store_name": "Fred Meyer",
+      "store_number": "0127",
+      "zone": "07Z",
+      "product_description": "Single Ad",
+      "total_amount": 5724.0,
+      "payment_date": "9/16/2026",
+      "address": "2497 SE Burnside Rd, Gresham, 97080-1299",
+      "extracted_at": "2026-09-16T20:01:00.166868",
       "quarters": 4,
       "term_months": 12,
       "is_renewal": false,
@@ -14111,5 +14153,5 @@
       "paid_in_full": false
     }
   ],
-  "last_scan": "2026-09-15T20:00:11.716051"
+  "last_scan": "2026-09-16T20:01:00.196788"
 }
