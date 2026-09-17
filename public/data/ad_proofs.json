@@ -1,5 +1,439 @@
 [
   {
+    "message_id": "1a0abffc93fb94f9",
+    "date": "2026-09-16 13:54",
+    "from": "Sydney Miller <Zone.07Z@indoormedia.com>",
+    "subject": "Your Digital Boost Ad Proof from IndoorMedia, Tuke's Public House & Garden - J437072E",
+    "client_name": "Tuke's Public House & Garden",
+    "contact_name": "James Townley",
+    "client_email": "james@bghospitality.org",
+    "location": "J437072E",
+    "zone": "",
+    "cycle": "",
+    "contract_number": "",
+    "store": "",
+    "ad_size": "",
+    "install_month": "",
+    "run_months": "",
+    "image_url": "",
+    "review_deadline": "",
+    "recipients": [
+      "james@bghospitality.org",
+      "tyler.vansant@rtui.com",
+      "dave.boring@indoormedia.com",
+      "richard.leibowitz@rtui.com"
+    ],
+    "reps": [
+      {
+        "email": "tyler.vansant@rtui.com",
+        "name": "Tyler Van Sant"
+      },
+      {
+        "email": "dave.boring@indoormedia.com",
+        "name": "Dave Boring"
+      }
+    ]
+  },
+  {
+    "message_id": "1a0abfd49990dd18",
+    "date": "2026-09-16 13:51",
+    "from": "Zone 07Z - Sydney Miller <zone.07z@indoormedia.com>",
+    "subject": "Re: Ad Proof from IndoorMedia , Battle Ground Farmer's Market [07Z - A4 - J434608E]",
+    "client_name": "Battle Ground Farmer's Market",
+    "contact_name": "will see a new proof email as soon as it becomes available*",
+    "client_email": "james@bghospitality.org",
+    "location": "",
+    "zone": "07Z",
+    "cycle": "A4",
+    "contract_number": "J434608E",
+    "store": ">> Tape Ad at Fred Meyer 0614, 401 Northwest 12Th Avenue, Battle Ground, WA",
+    "ad_size": "Single",
+    "install_month": "",
+    "run_months": "",
+    "image_url": "https://lh3.googleusercontent.com/d/1PzRMKVlZ4npMXBNiEse-HXvIN0aLhTJw",
+    "review_deadline": "09/16/2026",
+    "recipients": [
+      "james@bghospitality.org",
+      "tyler.vansant@rtui.com",
+      "dave.boring@indoormedia.com",
+      "richard.leibowitz@rtui.com"
+    ],
+    "reps": [
+      {
+        "email": "tyler.vansant@rtui.com",
+        "name": "Tyler Van Sant"
+      },
+      {
+        "email": "dave.boring@indoormedia.com",
+        "name": "Dave Boring"
+      }
+    ]
+  },
+  {
+    "message_id": "1a0abca381a28d9d",
+    "date": "2026-09-16 12:55",
+    "from": "Sydney Miller <Zone.07Z@indoormedia.com>",
+    "subject": "Ad Proof from IndoorMedia , Tuke's Public House & Garden [07Z - A4 - J437072E]",
+    "client_name": "Tuke's Public House & Garden",
+    "contact_name": "James Townley",
+    "client_email": "james@bghospitality.org",
+    "location": "",
+    "zone": "07Z",
+    "cycle": "A4",
+    "contract_number": "J437072E",
+    "store": "Tape Ad at Fred Meyer 0614, 401 Northwest 12Th Avenue, Battle Ground, WA",
+    "ad_size": "Single",
+    "install_month": "",
+    "run_months": "",
+    "image_url": "https://lh3.googleusercontent.com/d/1l9EgYLm1M5RQAcEQclVMtctyu5Z4PJsG",
+    "review_deadline": "09/16/2026",
+    "recipients": [
+      "james@bghospitality.org",
+      "tyler.vansant@rtui.com",
+      "dave.boring@indoormedia.com",
+      "richard.leibowitz@rtui.com"
+    ],
+    "reps": [
+      {
+        "email": "tyler.vansant@rtui.com",
+        "name": "Tyler Van Sant"
+      },
+      {
+        "email": "dave.boring@indoormedia.com",
+        "name": "Dave Boring"
+      }
+    ]
+  },
+  {
+    "message_id": "1a0abc8b8f0d9a03",
+    "date": "2026-09-16 12:54",
+    "from": "Sydney Miller <Zone.07Z@indoormedia.com>",
+    "subject": "Ad Proof from IndoorMedia , Battle Ground Farmer's Market [07Z - A4 - J434608E]",
+    "client_name": "Battle Ground Farmer's Market",
+    "contact_name": "James Townley",
+    "client_email": "james@bghospitality.org",
+    "location": "",
+    "zone": "07Z",
+    "cycle": "A4",
+    "contract_number": "J434608E",
+    "store": "Tape Ad at Fred Meyer 0614, 401 Northwest 12Th Avenue, Battle Ground, WA",
+    "ad_size": "Single",
+    "install_month": "",
+    "run_months": "",
+    "image_url": "https://lh3.googleusercontent.com/d/1PzRMKVlZ4npMXBNiEse-HXvIN0aLhTJw",
+    "review_deadline": "09/16/2026",
+    "recipients": [
+      "james@bghospitality.org",
+      "tyler.vansant@rtui.com",
+      "dave.boring@indoormedia.com",
+      "richard.leibowitz@rtui.com"
+    ],
+    "reps": [
+      {
+        "email": "tyler.vansant@rtui.com",
+        "name": "Tyler Van Sant"
+      },
+      {
+        "email": "dave.boring@indoormedia.com",
+        "name": "Dave Boring"
+      }
+    ]
+  },
+  {
+    "message_id": "1a0abc4bdcb226bd",
+    "date": "2026-09-16 12:49",
+    "from": "Zone 07Z - Sydney Miller <zone.07z@indoormedia.com>",
+    "subject": "Re: Ad Proof from IndoorMedia , The Lost Gen [07Z - A4 - J420810E]",
+    "client_name": "The Lost Gen",
+    "contact_name": "Good afternoon",
+    "client_email": "evincorioso2@gmail.com",
+    "location": "",
+    "zone": "07Z",
+    "cycle": "A4",
+    "contract_number": "J420810E",
+    "store": "> Tape Ad at Safeway 2640, 13308 E Meridian Ave, Puyallup, WA",
+    "ad_size": "Single",
+    "install_month": "",
+    "run_months": "",
+    "image_url": "https://lh3.googleusercontent.com/d/1r19sGuttpeCsCvFfoQMk3159qW5eWcFh",
+    "review_deadline": "08/26/2026",
+    "recipients": [
+      "richard.leibowitz@rtui.com",
+      "tyler.vansant@rtui.com",
+      "evincorioso2@gmail.com"
+    ],
+    "reps": [
+      {
+        "email": "tyler.vansant@rtui.com",
+        "name": "Tyler Van Sant"
+      }
+    ]
+  },
+  {
+    "message_id": "1a0ab800efe66bb8",
+    "date": "2026-09-16 11:34",
+    "from": "Sydney Miller <Zone.07Y@indoormedia.com>",
+    "subject": "Ad Proof from IndoorMedia , Oilstop [07Y - A4 - J435300E]",
+    "client_name": "Oilstop",
+    "contact_name": "Jeff Lee",
+    "client_email": "jeff@oilstopinc.com",
+    "location": "",
+    "zone": "07Y",
+    "cycle": "A4",
+    "contract_number": "J435300E",
+    "store": "Tape Ad at Fred Meyer 0417, 3333 W 11th Ave, Eugene, OR",
+    "ad_size": "Double",
+    "install_month": "",
+    "run_months": "",
+    "image_url": "https://lh3.googleusercontent.com/d/1ywDRHyraZFIwPkvyRQrRrF4N8abRppS4",
+    "review_deadline": "09/16/2026",
+    "recipients": [
+      "richard.leibowitz@rtui.com",
+      "tyler.vansant@rtui.com",
+      "matthew.boozer@indoormedia.com",
+      "jeff@oilstopinc.com"
+    ],
+    "reps": [
+      {
+        "email": "tyler.vansant@rtui.com",
+        "name": "Tyler Van Sant"
+      },
+      {
+        "email": "matthew.boozer@indoormedia.com",
+        "name": "Matthew Boozer"
+      }
+    ]
+  },
+  {
+    "message_id": "1a0aadd23e174930",
+    "date": "2026-09-16 08:36",
+    "from": "Zone 07Z - Sydney Miller <zone.07z@indoormedia.com>",
+    "subject": "Re: Your Digital Boost Ad Proof from IndoorMedia, Tuke's Public House & Garden - J437072E",
+    "client_name": "Tuke's Public House & Garden",
+    "contact_name": "will see a new proof email as soon as it becomes available*",
+    "client_email": "james@bghospitality.org",
+    "location": "J437072E",
+    "zone": "",
+    "cycle": "",
+    "contract_number": "",
+    "store": "",
+    "ad_size": "",
+    "install_month": "",
+    "run_months": "",
+    "image_url": "",
+    "review_deadline": "",
+    "recipients": [
+      "james@bghospitality.org",
+      "tyler.vansant@rtui.com",
+      "dave.boring@indoormedia.com",
+      "richard.leibowitz@rtui.com"
+    ],
+    "reps": [
+      {
+        "email": "tyler.vansant@rtui.com",
+        "name": "Tyler Van Sant"
+      },
+      {
+        "email": "dave.boring@indoormedia.com",
+        "name": "Dave Boring"
+      }
+    ]
+  },
+  {
+    "message_id": "1a0aadb2633b0d58",
+    "date": "2026-09-16 08:34",
+    "from": "Sydney Miller <Zone.07Z@indoormedia.com>",
+    "subject": "Ad Proof from IndoorMedia , Nothing Bundt Cakes [07Z - A4 - J437225E]",
+    "client_name": "Nothing Bundt Cakes",
+    "contact_name": "Cindy Cullen",
+    "client_email": "prescottvalley-az@nothingbundtcakes.com",
+    "location": "",
+    "zone": "07Z",
+    "cycle": "A4",
+    "contract_number": "J437225E",
+    "store": "Tape Ad at Fred Meyer 0424, 17404 Meridian E, South Hill, WA",
+    "ad_size": "Single",
+    "install_month": "",
+    "run_months": "",
+    "image_url": "https://lh3.googleusercontent.com/d/1ln-7Ker7DgpDk_Ec22iiSsEW1B4pEuXZ",
+    "review_deadline": "09/16/2026",
+    "recipients": [
+      "richard.leibowitz@rtui.com",
+      "tyler.vansant@rtui.com",
+      "kelly.baldwin@indoormedia.com",
+      "prescottvalley-az@nothingbundtcakes.com"
+    ],
+    "reps": [
+      {
+        "email": "tyler.vansant@rtui.com",
+        "name": "Tyler Van Sant"
+      }
+    ]
+  },
+  {
+    "message_id": "1a0aa446bcc6a937",
+    "date": "2026-09-16 05:50",
+    "from": "Sydney Miller <Zone.07Z@indoormedia.com>",
+    "subject": "Ad Proof from IndoorMedia , Sushi Dash [07Z - A4 - J437533E]",
+    "client_name": "Sushi Dash",
+    "contact_name": "Carmen Chin",
+    "client_email": "carmenlianchin@yahoo.com",
+    "location": "",
+    "zone": "07Z",
+    "cycle": "A4",
+    "contract_number": "J437533E",
+    "store": "Tape Ad at Safeway 1523, 4515 SE Woodstock Blvd, Portland, OR",
+    "ad_size": "Single",
+    "install_month": "",
+    "run_months": "",
+    "image_url": "https://lh3.googleusercontent.com/d/1LyP_9uQBM77K3A_oT4Ki3F0GsQ2l-7gs",
+    "review_deadline": "09/16/2026",
+    "recipients": [
+      "richard.leibowitz@rtui.com",
+      "tyler.vansant@rtui.com",
+      "kari.weller@indoormedia.com",
+      "carmenlianchin@yahoo.com"
+    ],
+    "reps": [
+      {
+        "email": "tyler.vansant@rtui.com",
+        "name": "Tyler Van Sant"
+      }
+    ]
+  },
+  {
+    "message_id": "1a0aa42f0ae3ae90",
+    "date": "2026-09-16 05:48",
+    "from": "Sydney Miller <Zone.07Z@indoormedia.com>",
+    "subject": "Your Digital Boost Ad Proof from IndoorMedia, Tuke's Public House & Garden - J437072E",
+    "client_name": "Tuke's Public House & Garden",
+    "contact_name": "James Townley",
+    "client_email": "james@bghospitality.org",
+    "location": "J437072E",
+    "zone": "",
+    "cycle": "",
+    "contract_number": "",
+    "store": "",
+    "ad_size": "",
+    "install_month": "",
+    "run_months": "",
+    "image_url": "",
+    "review_deadline": "",
+    "recipients": [
+      "james@bghospitality.org",
+      "tyler.vansant@rtui.com",
+      "dave.boring@indoormedia.com",
+      "richard.leibowitz@rtui.com"
+    ],
+    "reps": [
+      {
+        "email": "tyler.vansant@rtui.com",
+        "name": "Tyler Van Sant"
+      },
+      {
+        "email": "dave.boring@indoormedia.com",
+        "name": "Dave Boring"
+      }
+    ]
+  },
+  {
+    "message_id": "1a0aa415bc0dc5bc",
+    "date": "2026-09-16 05:46",
+    "from": "Zone 07Z - Sydney Miller <zone.07z@indoormedia.com>",
+    "subject": "Re: Ad Proof from IndoorMedia , Pro Prick Body Piercing [07Z - B4 - J436332E]",
+    "client_name": "Pro Prick Body Piercing",
+    "contact_name": "will see a new proof email as soon as it becomes available*",
+    "client_email": "maxwelldannen@gmail.com",
+    "location": "",
+    "zone": "07Z",
+    "cycle": "B4",
+    "contract_number": "J436332E",
+    "store": ">> Tape Ad at Quality Food Center 0105, 11104 Pacific Ave S, Tacoma, WA",
+    "ad_size": "Double",
+    "install_month": "",
+    "run_months": "",
+    "image_url": "https://lh3.googleusercontent.com/d/1H08wnU5FTTmnjgN5NyjMewT4diZhvOWw",
+    "review_deadline": "09/18/2026",
+    "recipients": [
+      "richard.leibowitz@rtui.com",
+      "tyler.vansant@rtui.com",
+      "ryan.rohner-talton@indoormedia.com",
+      "maxwelldannen@gmail.com"
+    ],
+    "reps": [
+      {
+        "email": "tyler.vansant@rtui.com",
+        "name": "Tyler Van Sant"
+      }
+    ]
+  },
+  {
+    "message_id": "1a0aa401ba001779",
+    "date": "2026-09-16 05:44",
+    "from": "Zone 07Z - Sydney Miller <zone.07z@indoormedia.com>",
+    "subject": "Re: Ad Proof from IndoorMedia , Cajun & Clover [07Z - B4 - J436074E]",
+    "client_name": "Cajun & Clover",
+    "contact_name": "will see a new proof email as soon as it becomes available*",
+    "client_email": "info@cajunandclover.com",
+    "location": "",
+    "zone": "07Z",
+    "cycle": "B4",
+    "contract_number": "J436074E",
+    "store": "> Tape Ad at Rosauers 0016, 1867 12th Street, Hood River, OR",
+    "ad_size": "Single",
+    "install_month": "",
+    "run_months": "",
+    "image_url": "https://lh3.googleusercontent.com/d/1rxeo9-zBHyavb63AXlV2Y8tXGKM6wsN-",
+    "review_deadline": "09/18/2026",
+    "recipients": [
+      "richard.leibowitz@rtui.com",
+      "tyler.vansant@rtui.com",
+      "info@cajunandclover.com",
+      "megan.wink@indoormedia.com"
+    ],
+    "reps": [
+      {
+        "email": "tyler.vansant@rtui.com",
+        "name": "Tyler Van Sant"
+      },
+      {
+        "email": "megan.wink@indoormedia.com",
+        "name": "Megan Wink"
+      }
+    ]
+  },
+  {
+    "message_id": "1a0aa3bcb8e04f3a",
+    "date": "2026-09-16 05:40",
+    "from": "Zone 07Z - Sydney Miller <zone.07z@indoormedia.com>",
+    "subject": "Re: Ad Proof from IndoorMedia , Nothing Bundt Cakes [07Z - A4 - J437225E]",
+    "client_name": "Nothing Bundt Cakes",
+    "contact_name": "will see a new proof email as soon as it becomes available*",
+    "client_email": "kelly.baldwin@indoormedia.com",
+    "location": "",
+    "zone": "07Z",
+    "cycle": "A4",
+    "contract_number": "J437225E",
+    "store": ">> Tape Ad at Fred Meyer 0424, 17404 Meridian E, South Hill, WA",
+    "ad_size": "Single",
+    "install_month": "",
+    "run_months": "",
+    "image_url": "https://lh3.googleusercontent.com/d/1zMjI5HXGt-c0Fbo-YFVaInq-LO-Vc4kB",
+    "review_deadline": "09/16/2026",
+    "recipients": [
+      "richard.leibowitz@rtui.com",
+      "tyler.vansant@rtui.com",
+      "prescottvalley-az@nothingbundtcakes.com",
+      "kelly.baldwin@indoormedia.com"
+    ],
+    "reps": [
+      {
+        "email": "tyler.vansant@rtui.com",
+        "name": "Tyler Van Sant"
+      }
+    ]
+  },
+  {
     "message_id": "1a0a6da63dc39728",
     "date": "2026-09-15 13:55",
     "from": "Sydney Miller <Zone.07Z@indoormedia.com>",
@@ -94,37 +528,6 @@
         "email": "megan.wink@indoormedia.com",
         "name": "Megan Wink"
       },
-      {
-        "email": "tyler.vansant@rtui.com",
-        "name": "Tyler Van Sant"
-      }
-    ]
-  },
-  {
-    "message_id": "1a0a5579cc5db776",
-    "date": "2026-09-15 06:52",
-    "from": "Sydney Miller <Zone.07Z@indoormedia.com>",
-    "subject": "Ad Proof from IndoorMedia , Nothing Bundt Cakes [07Z - A4 - J437225E]",
-    "client_name": "Nothing Bundt Cakes",
-    "contact_name": "Cindy Cullen",
-    "client_email": "prescottvalley-az@nothingbundtcakes.com",
-    "location": "",
-    "zone": "07Z",
-    "cycle": "A4",
-    "contract_number": "J437225E",
-    "store": "Tape Ad at Fred Meyer 0424, 17404 Meridian E, South Hill, WA",
-    "ad_size": "Single",
-    "install_month": "",
-    "run_months": "",
-    "image_url": "https://lh3.googleusercontent.com/d/1zMjI5HXGt-c0Fbo-YFVaInq-LO-Vc4kB",
-    "review_deadline": "09/16/2026",
-    "recipients": [
-      "richard.leibowitz@rtui.com",
-      "prescottvalley-az@nothingbundtcakes.com",
-      "tyler.vansant@rtui.com",
-      "kelly.baldwin@indoormedia.com"
-    ],
-    "reps": [
       {
         "email": "tyler.vansant@rtui.com",
         "name": "Tyler Van Sant"
@@ -237,41 +640,6 @@
     ]
   },
   {
-    "message_id": "1a0a55148e8829ec",
-    "date": "2026-09-15 06:46",
-    "from": "Sydney Miller <Zone.07Z@indoormedia.com>",
-    "subject": "Ad Proof from IndoorMedia , Battle Ground Farmer's Market [07Z - A4 - J434608E]",
-    "client_name": "Battle Ground Farmer's Market",
-    "contact_name": "James Townley",
-    "client_email": "james@bghospitality.org",
-    "location": "",
-    "zone": "07Z",
-    "cycle": "A4",
-    "contract_number": "J434608E",
-    "store": "Tape Ad at Fred Meyer 0614, 401 Northwest 12Th Avenue, Battle Ground, WA",
-    "ad_size": "Single",
-    "install_month": "",
-    "run_months": "",
-    "image_url": "https://lh3.googleusercontent.com/d/1q-06hFs92anwjakaBuIIMhUZTUIvBW1W",
-    "review_deadline": "09/16/2026",
-    "recipients": [
-      "richard.leibowitz@rtui.com",
-      "james@bghospitality.org",
-      "dave.boring@indoormedia.com",
-      "tyler.vansant@rtui.com"
-    ],
-    "reps": [
-      {
-        "email": "dave.boring@indoormedia.com",
-        "name": "Dave Boring"
-      },
-      {
-        "email": "tyler.vansant@rtui.com",
-        "name": "Tyler Van Sant"
-      }
-    ]
-  },
-  {
     "message_id": "1a0a54fbb22998f6",
     "date": "2026-09-15 06:43",
     "from": "Zone 07Y - Sydney Miller <zone.07y@indoormedia.com>",
@@ -335,37 +703,6 @@
         "email": "matthew.boozer@indoormedia.com",
         "name": "Matthew Boozer"
       },
-      {
-        "email": "tyler.vansant@rtui.com",
-        "name": "Tyler Van Sant"
-      }
-    ]
-  },
-  {
-    "message_id": "1a0a0280492176f1",
-    "date": "2026-09-14 06:42",
-    "from": "Sydney Miller <Zone.07Z@indoormedia.com>",
-    "subject": "Ad Proof from IndoorMedia , Sushi Dash [07Z - A4 - J437533E]",
-    "client_name": "Sushi Dash",
-    "contact_name": "Carmen Chin",
-    "client_email": "carmenlianchin@yahoo.com",
-    "location": "",
-    "zone": "07Z",
-    "cycle": "A4",
-    "contract_number": "J437533E",
-    "store": "Tape Ad at Safeway 1523, 4515 SE Woodstock Blvd, Portland, OR",
-    "ad_size": "Single",
-    "install_month": "",
-    "run_months": "",
-    "image_url": "https://lh3.googleusercontent.com/d/1LyP_9uQBM77K3A_oT4Ki3F0GsQ2l-7gs",
-    "review_deadline": "09/15/2026",
-    "recipients": [
-      "tyler.vansant@rtui.com",
-      "carmenlianchin@yahoo.com",
-      "richard.leibowitz@rtui.com",
-      "kari.weller@indoormedia.com"
-    ],
-    "reps": [
       {
         "email": "tyler.vansant@rtui.com",
         "name": "Tyler Van Sant"
@@ -460,41 +797,6 @@
     "run_months": "",
     "image_url": "",
     "review_deadline": "",
-    "recipients": [
-      "dave.boring@indoormedia.com",
-      "tyler.vansant@rtui.com",
-      "richard.leibowitz@rtui.com",
-      "james@bghospitality.org"
-    ],
-    "reps": [
-      {
-        "email": "dave.boring@indoormedia.com",
-        "name": "Dave Boring"
-      },
-      {
-        "email": "tyler.vansant@rtui.com",
-        "name": "Tyler Van Sant"
-      }
-    ]
-  },
-  {
-    "message_id": "1a0867db85780d23",
-    "date": "2026-09-09 07:06",
-    "from": "Sydney Miller <Zone.07Z@indoormedia.com>",
-    "subject": "Ad Proof from IndoorMedia , Tuke's Public House & Garden [07Z - A4 - J437072E]",
-    "client_name": "Tuke's Public House & Garden",
-    "contact_name": "James Townley",
-    "client_email": "james@bghospitality.org",
-    "location": "",
-    "zone": "07Z",
-    "cycle": "A4",
-    "contract_number": "J437072E",
-    "store": "Tape Ad at Fred Meyer 0614, 401 Northwest 12Th Avenue, Battle Ground, WA",
-    "ad_size": "Single",
-    "install_month": "",
-    "run_months": "",
-    "image_url": "https://lh3.googleusercontent.com/d/1voodruvBJ5viPSwPPZ2NG1cFrAO0QHof",
-    "review_deadline": "09/14/2026",
     "recipients": [
       "dave.boring@indoormedia.com",
       "tyler.vansant@rtui.com",
