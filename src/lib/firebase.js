@@ -155,7 +155,9 @@ export async function getAllRepActivity(days = 7) {
   if (!db) return [];
   try {
     const cutoff = new Date();
-    cutoff.setDate(cutoff.getDate() - days);
+    // Inclusive window: last N days = today + (N-1) prior days.
+    // Using (days - 1) prevents an off-by-one that produced e.g. "8/7 days active".
+    cutoff.setDate(cutoff.getDate() - (days - 1));
     const cutoffStr = cutoff.toISOString().slice(0, 10);
     
     const q = query(
@@ -179,7 +181,7 @@ export async function getRepActivity(repId, days = 30) {
   if (!db) return [];
   try {
     const cutoff = new Date();
-    cutoff.setDate(cutoff.getDate() - days);
+    cutoff.setDate(cutoff.getDate() - (days - 1));
     const cutoffStr = cutoff.toISOString().slice(0, 10);
     
     const q = query(

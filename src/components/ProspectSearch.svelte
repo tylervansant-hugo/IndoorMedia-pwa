@@ -1245,17 +1245,17 @@
   });
 
     const CATEGORIES = {
-    '🚗 Automotive': ['Auto Repair', 'Body Shop', 'Car Dealer', 'Car Wash', 'Detailing', 'Glass Repair', 'Oil Change', 'Tires', 'Towing', 'Transmission'],
-    '💄 Beauty & Wellness': ['Barber', 'Gym', 'Hair Salon', 'Lashes/Brows', 'Massage', 'Med Spa', 'Nails', 'Spa', 'Tanning', 'Tattoo/Piercing', 'Yoga'],
-    '👶 Care Centers': ['Adult Care', 'After School', 'Assisted Living', 'Daycare'],
+    '🚗 Automotive': ['Auto Parts', 'Auto Repair', 'Body Shop', 'Brakes/Mufflers', 'Car Dealer', 'Car Wash', 'Detailing', 'Glass Repair', 'Motorcycle/Powersports', 'Oil Change', 'RV/Trailer', 'Tires', 'Towing', 'Transmission', 'Window Tint'],
+    '💄 Beauty & Wellness': ['Barber', 'Cryotherapy/Recovery', 'Float Spa', 'Gym', 'Hair Salon', 'IV Therapy', 'Lashes/Brows', 'Massage', 'Med Spa', 'Nails', 'Permanent Makeup', 'Pilates', 'Spa', 'Tanning', 'Tattoo/Piercing', 'Waxing', 'Weight Loss', 'Wellness Center', 'Yoga'],
+    '👶 Care Centers': ['Adult Care', 'After School', 'Assisted Living', 'Daycare', 'Home Care', 'Memory Care', 'Preschool', 'Senior Living'],
     '🎡 Family Entertainment': ['Amusement/Theme Park', 'Aquarium/Zoo', 'Arcade/FEC', 'Axe Throwing/Bar Games', 'Bounce/Play Center', 'Bowling', 'Climbing Gym', 'Escape Room', 'Go-Karts/Fun Center', 'Golf Courses', 'Golf/Driving Range', 'Indoor Water Park Resort', 'Laser Tag', 'Mini Golf', 'Movie Theater', 'Museum/Kids Museum', 'Party/Event Venue', 'Skating Rink', 'Sports Complex', 'Trampoline Park', 'Water Park'],
-    '🏥 Health/Medical': ['Chiropractor', 'Dentist', 'Dermatologist', 'Eye Care', 'Hearing Aid', 'Mental Health', 'Pediatrician', 'Pharmacy', 'Physical Therapy', 'Urgent Care', 'Vet'],
-    '🏠 Home Services': ['Cleaning', 'Contractor', 'Electrician', 'Fencing', 'Garage Door', 'HVAC', 'Landscaping', 'Moving', 'Painting', 'Pest Control', 'Plumber', 'Roofing'],
-    '👦 Kids & Tutoring': ['Camps', 'Dance', 'Martial Arts', 'Music', 'Sports', 'Tutoring', 'General'],
-    '🐾 Pet Services': ['Boarding/Kennel', 'Dog Training', 'Grooming', 'Pet Sitting', 'Pet Store', 'Vet'],
-    '👔 Professionals': ['Accountant', 'Financial', 'Insurance', 'Lawyer', 'Mortgage', 'Notary', 'Printing/Signs', 'Real Estate', 'Tax Prep'],
-    '🍽️ Restaurants': ['Bakery', 'Bar/Pub', 'BBQ', 'Breakfast/Brunch', 'Brewery/Taproom', 'Burgers', 'Catering', 'Chinese', 'Coffee', 'Deli', 'Donut Shop', 'Fast Food', 'Food Truck', 'Ice Cream/Dessert', 'Indian', 'Italian', 'Juice/Smoothie', 'Korean', 'Mediterranean', 'Mexican', 'Pizza', 'Sandwich Shop', 'Seafood', 'Sushi', 'Thai', 'Vietnamese', 'Winery', 'Wings', 'All'],
-    '🛍️ Retail': ['Cell Phone', 'Clothing', 'Dispensary', 'Dry Cleaning', 'Florist', 'Furniture', 'Gift Shop', 'Hardware', 'Jewelry', 'Liquor', 'Pet Store', 'Smoke Shop', 'Thrift/Consignment'],
+    '🏥 Health/Medical': ['Chiropractor', 'Dentist', 'Dermatologist', 'Eye Care', 'Fertility/OBGYN', 'Hearing Aid', 'Mental Health', 'Orthodontist', 'Pediatrician', 'Pharmacy', 'Physical Therapy', 'Podiatrist', 'Primary Care', 'Urgent Care', 'Vet'],
+    '🏠 Home Services': ['Appliance Repair', 'Cleaning', 'Concrete/Paving', 'Contractor', 'Electrician', 'Fencing', 'Flooring', 'Garage Door', 'Gutters', 'Handyman', 'HVAC', 'Junk Removal', 'Kitchen/Bath Remodel', 'Landscaping', 'Locksmith', 'Moving', 'Painting', 'Pest Control', 'Plumber', 'Pool/Spa Service', 'Pressure Washing', 'Roofing', 'Security/Alarm', 'Solar', 'Tree Service', 'Windows/Doors'],
+    '👦 Kids & Tutoring': ['Camps', 'Cheer/Gymnastics', 'Dance', 'Learning Center', 'Martial Arts', 'Music', 'STEM/Coding', 'Sports', 'Swim Lessons', 'Tutoring', 'General'],
+    '🐾 Pet Services': ['Boarding/Kennel', 'Dog Training', 'Doggy Daycare', 'Grooming', 'Mobile Grooming', 'Pet Sitting', 'Pet Store', 'Vet'],
+    '👔 Professionals': ['Accountant', 'Bookkeeping', 'Estate Planning', 'Financial', 'Insurance', 'IT Services', 'Lawyer', 'Marketing/Web', 'Mortgage', 'Notary', 'Payroll/HR', 'Printing/Signs', 'Property Management', 'Real Estate', 'Staffing/Recruiting', 'Tax Prep', 'Title/Escrow'],
+    '🍽️ Restaurants': ['American/Diner', 'Bakery', 'Bar/Pub', 'BBQ', 'Bistro/Fine Dining', 'Boba/Tea', 'Breakfast/Brunch', 'Brewery/Taproom', 'Buffet', 'Burgers', 'Cajun/Creole', 'Catering', 'Chicken', 'Chinese', 'Cocktail Lounge', 'Coffee', 'Deli', 'Dessert/Bakery', 'Donut Shop', 'Fast Food', 'Filipino', 'Food Truck', 'Greek', 'Hawaiian/Poke', 'Hot Dog', 'Ice Cream/Dessert', 'Indian', 'Italian', 'Japanese', 'Juice/Smoothie', 'Korean', 'Mediterranean', 'Mexican', 'Middle Eastern', 'Pho/Noodles', 'Pizza', 'Ramen', 'Salad/Healthy', 'Sandwich Shop', 'Seafood', 'Southern/Soul', 'Steakhouse', 'Sushi', 'Taco Shop', 'Thai', 'Vegan/Vegetarian', 'Vietnamese', 'Winery', 'Wings', 'All'],
+    '🛍️ Retail': ['Antiques', 'Appliance Store', 'Bike Shop', 'Bookstore', 'Cell Phone', 'Clothing', 'Consignment', 'Craft/Hobby', 'Dispensary', 'Dry Cleaning', 'Florist', 'Furniture', 'Gift Shop', 'Grocery/Market', 'Hardware', 'Health/Supplements', 'Jewelry', 'Liquor', 'Mattress', 'Nutrition/Vitamins', 'Pawn Shop', 'Pet Store', 'Shoe Store', 'Smoke Shop', 'Sporting Goods', 'Thrift/Consignment', 'Toy Store', 'Vape Shop'],
 
   };
 
@@ -1365,7 +1365,102 @@
     'Museum/Kids Museum': 'children museum kids museum science museum discovery center',
     'Sports Complex': 'sports complex batting cages indoor sports facility sportsplex',
     'Climbing Gym': 'rock climbing gym indoor climbing bouldering',
-    'Party/Event Venue': 'party venue event venue kids birthday party place'
+    'Party/Event Venue': 'party venue event venue kids birthday party place',
+    // Restaurants / Food & Drink
+    'American/Diner': 'american restaurant diner',
+    'Bistro/Fine Dining': 'fine dining restaurant bistro upscale',
+    'Boba/Tea': 'boba tea bubble tea shop',
+    'Buffet': 'buffet restaurant all you can eat',
+    'Cajun/Creole': 'cajun creole restaurant crawfish',
+    'Chicken': 'fried chicken restaurant rotisserie chicken',
+    'Cocktail Lounge': 'cocktail lounge bar',
+    'Dessert/Bakery': 'dessert shop bakery cake',
+    'Filipino': 'filipino restaurant',
+    'Greek': 'greek restaurant',
+    'Hawaiian/Poke': 'hawaiian poke bowl restaurant',
+    'Hot Dog': 'hot dog restaurant',
+    'Japanese': 'japanese restaurant',
+    'Middle Eastern': 'middle eastern restaurant halal',
+    'Pho/Noodles': 'pho noodle house restaurant',
+    'Ramen': 'ramen restaurant',
+    'Salad/Healthy': 'salad healthy restaurant bowls',
+    'Southern/Soul': 'soul food southern restaurant',
+    'Steakhouse': 'steakhouse steak restaurant',
+    'Taco Shop': 'taco shop taqueria',
+    'Vegan/Vegetarian': 'vegan vegetarian restaurant plant based',
+    // Automotive
+    'Auto Parts': 'auto parts store',
+    'Brakes/Mufflers': 'brake repair muffler shop',
+    'Motorcycle/Powersports': 'motorcycle powersports dealer',
+    'RV/Trailer': 'rv trailer dealer repair',
+    'Window Tint': 'window tint auto tinting',
+    // Beauty & Wellness
+    'Cryotherapy/Recovery': 'cryotherapy recovery wellness',
+    'Float Spa': 'float spa sensory deprivation tank',
+    'IV Therapy': 'iv therapy iv hydration drip',
+    'Permanent Makeup': 'permanent makeup microblading',
+    'Pilates': 'pilates studio',
+    'Waxing': 'waxing salon hair removal',
+    'Weight Loss': 'weight loss clinic',
+    'Wellness Center': 'wellness center holistic health',
+    // Care Centers
+    'Home Care': 'home care in home caregiver senior',
+    'Memory Care': 'memory care alzheimer dementia',
+    'Preschool': 'preschool early learning',
+    'Senior Living': 'senior living retirement community',
+    // Health/Medical
+    'Fertility/OBGYN': 'obgyn fertility clinic womens health',
+    'Orthodontist': 'orthodontist braces invisalign',
+    'Podiatrist': 'podiatrist foot doctor',
+    'Primary Care': 'primary care family medicine doctor',
+    // Home Services
+    'Appliance Repair': 'appliance repair service',
+    'Concrete/Paving': 'concrete paving driveway contractor',
+    'Flooring': 'flooring carpet tile hardwood',
+    'Gutters': 'gutter installation repair',
+    'Handyman': 'handyman service',
+    'Junk Removal': 'junk removal hauling',
+    'Kitchen/Bath Remodel': 'kitchen bath remodel remodeling',
+    'Locksmith': 'locksmith',
+    'Pool/Spa Service': 'pool service pool cleaning spa',
+    'Pressure Washing': 'pressure washing power washing',
+    'Security/Alarm': 'home security alarm system',
+    'Solar': 'solar installer solar panels',
+    'Tree Service': 'tree service arborist tree removal',
+    'Windows/Doors': 'window door replacement installation',
+    // Kids & Tutoring
+    'Cheer/Gymnastics': 'gymnastics cheer tumbling gym kids',
+    'Learning Center': 'learning center tutoring kids education',
+    'STEM/Coding': 'stem coding robotics classes kids',
+    'Swim Lessons': 'swim lessons swim school',
+    // Pet Services
+    'Doggy Daycare': 'doggy daycare dog daycare',
+    'Mobile Grooming': 'mobile pet grooming mobile dog grooming',
+    // Professionals
+    'Bookkeeping': 'bookkeeping bookkeeper',
+    'Estate Planning': 'estate planning attorney',
+    'IT Services': 'it services managed it computer repair business',
+    'Marketing/Web': 'marketing agency web design',
+    'Payroll/HR': 'payroll hr services',
+    'Property Management': 'property management company',
+    'Staffing/Recruiting': 'staffing agency recruiting',
+    'Title/Escrow': 'title company escrow',
+    // Retail
+    'Antiques': 'antique store',
+    'Appliance Store': 'appliance store',
+    'Bike Shop': 'bike shop bicycle store',
+    'Bookstore': 'bookstore books',
+    'Consignment': 'consignment shop',
+    'Craft/Hobby': 'craft store hobby store',
+    'Grocery/Market': 'grocery store market',
+    'Health/Supplements': 'health food supplements store',
+    'Mattress': 'mattress store',
+    'Nutrition/Vitamins': 'nutrition vitamins supplement store',
+    'Pawn Shop': 'pawn shop',
+    'Shoe Store': 'shoe store',
+    'Sporting Goods': 'sporting goods store',
+    'Toy Store': 'toy store',
+    'Vape Shop': 'vape shop e cigarette'
   };
 
   onMount(async () => {
@@ -1689,6 +1784,10 @@
     sharedSelectedStore.set(store);
     lookupStorePhone(store);
     view = 'categories';
+    // Looking at a store (opening Prospect Store) counts as a search per manager spec.
+    try {
+      logActivity('store_view', { rep: $user?.name || 'Unknown', store: store?.StoreName || '' });
+    } catch {}
   }
 
   function selectCategory(cat) {
@@ -3426,6 +3525,12 @@ IndoorMedia`
       const searches = JSON.parse(localStorage.getItem('impro_searches') || '[]');
       searches.push({ category, subcategory, store: storeName, date: new Date().toISOString(), rep: $user?.name || 'Unknown' });
       localStorage.setItem('impro_searches', JSON.stringify(searches.slice(-500))); // keep last 500
+      // Log to activity/analytics (local daily summary + Firebase cross-device rollup).
+      // This is what makes the "Searches" column populate for managers.
+      logActivity('search', {
+        rep: $user?.name || 'Unknown',
+        category, subcategory, store: storeName || ''
+      });
     } catch (e) { console.warn('Track search error:', e); }
   }
 
@@ -3531,6 +3636,9 @@ IndoorMedia`
     storeSearchQuery = '';
     filteredStoreResults = [];
     view = 'categories';
+    try {
+      logActivity('store_view', { rep: $user?.name || 'Unknown', store: store?.StoreName || '' });
+    } catch {}
   }
 
   function goBack() {

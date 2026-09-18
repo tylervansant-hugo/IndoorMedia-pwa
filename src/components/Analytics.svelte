@@ -98,7 +98,8 @@
     
     if (isFirebaseReady()) {
       try {
-        const allActivity = await getAllRepActivity(7);
+        const WINDOW_DAYS = 7;
+        const allActivity = await getAllRepActivity(WINDOW_DAYS);
         if (allActivity.length > 0) {
           const byRep = {};
           allActivity.forEach(a => {
@@ -106,17 +107,19 @@
             const r = byRep[a.repName];
             r.logins += a.logins || 0;
             r.pageViews += a.pageViews || 0;
-            r.searches += a.searches || 0;
+            // A "search" = looking at a store or running a prospect-category search.
+            // Roll store/prospect views into the searches metric so the count reflects real usage.
+            r.searches += (a.searches || 0) + (a.storeViews || 0) + (a.prospectViews || 0);
             r.calls += a.calls || 0;
             r.emails += a.emails || 0;
-            r.days.add(a.date);
+            if (a.date) r.days.add(a.date);
             if (a.lastActive > r.lastActive) r.lastActive = a.lastActive;
           });
           
           local.allReps = Object.entries(byRep).map(([name, data]) => ({
             name,
             ...data,
-            activeDays: data.days.size,
+            activeDays: Math.min(data.days.size, WINDOW_DAYS),
             lastActive: data.lastActive ? new Date(data.lastActive).toLocaleString() : 'Never'
           })).sort((a, b) => b.pageViews - a.pageViews);
           
