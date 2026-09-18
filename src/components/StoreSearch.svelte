@@ -2545,16 +2545,22 @@ Store: ${store.StoreName}
   }
 
   .cycle-btn {
-    flex: 1;
-    padding: 10px;
+    flex: 1 1 0;
+    min-width: 0;
+    padding: 10px 8px;
     border: 2px solid #ddd;
     border-radius: 8px;
     background: white;
-    font-size: 13px;
+    font-size: clamp(11px, 3.2vw, 13px);
     font-weight: 600;
     color: #666;
     cursor: pointer;
     transition: all 0.2s;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    text-align: center;
+    line-height: 1.15;
   }
 
   .cycle-btn.active {

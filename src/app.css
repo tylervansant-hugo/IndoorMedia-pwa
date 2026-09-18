@@ -468,3 +468,78 @@ input[type="email"]:focus, input[type="number"]:focus, select:focus, textarea:fo
   .callin-home-card:hover, .today-card-full:hover { transform: none !important; }
   .main-btn:active, .action-btn:active, .qa-btn:active { transform: none !important; }
 }
+
+/* ============================================================
+   BUTTON TEXT CONTAINMENT LAYER (additive, global)
+   Goal: text inside buttons always stays within the button's
+   confines no matter the chosen text size / zoom. Keyed on
+   generic <button> + shared button classes so no component
+   markup or logic changes are required.
+   ============================================================ */
+
+/* Core: let buttons participate in flex shrink and clip cleanly.
+   min-width:0 is the critical bit — without it flex/grid buttons
+   refuse to shrink below their content and text overflows. */
+button,
+.main-btn, .action-btn, .qa-btn, .cycle-btn, .theme-card, .font-btn,
+.tab-btn, .nav-btn, .filter-btn, .status-btn, .book-appt-btn,
+.cartvert-store-btn, .prospect-store-btn, .navigate-store-btn,
+.audit-store-btn, .addtape-store-btn, .rating-btn, .roi-store-btn,
+.callin-sort-row select, .callin-filter-bar select {
+  min-width: 0;
+  max-width: 100%;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+  hyphens: auto;
+}
+
+/* Tab bar labels/icons: never let a long label blow out a tab.
+   Keep them single-line and ellipsis if truly enormous text. */
+.tab-bar .tab-btn,
+.nav-tabs .tab-btn {
+  min-width: 0;
+  overflow: hidden;
+}
+.tab-bar .tab-btn span,
+.tab-bar .tab-label,
+.nav-tabs .tab-btn span {
+  display: block;
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* Short-label pill/segmented buttons (cycle, status, filter chips):
+   prefer shrinking the font over wrapping so "Cycle A" stays on one
+   line inside its box at large text scales, then clip if needed. */
+.cycle-btn, .status-btn, .filter-btn, .rating-btn {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-align: center;
+}
+
+/* Wide CTA / action buttons with longer text: allow up to 2 lines,
+   centered, then clip — never spill outside the rounded box. */
+.main-btn, .action-btn, .qa-btn, .book-appt-btn,
+.cartvert-store-btn, .prospect-store-btn, .navigate-store-btn,
+.audit-store-btn, .addtape-store-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  text-align: center;
+  line-height: 1.2;
+}
+
+/* Absolute safety net: if a text-bearing button still can't fit even
+   after shrinking/wrapping, clip it to the box instead of overflowing
+   the layout. Scoped to known text buttons so we never clip icon
+   buttons that host absolutely-positioned badges (e.g. cart count). */
+.main-btn, .action-btn, .qa-btn, .cycle-btn, .status-btn, .filter-btn,
+.rating-btn, .theme-card, .font-btn, .book-appt-btn,
+.cartvert-store-btn, .prospect-store-btn, .navigate-store-btn,
+.audit-store-btn, .addtape-store-btn, .roi-store-btn {
+  overflow: hidden;
+}
