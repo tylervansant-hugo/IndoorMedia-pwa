@@ -1248,7 +1248,7 @@
     '🚗 Automotive': ['Auto Repair', 'Body Shop', 'Car Dealer', 'Car Wash', 'Detailing', 'Glass Repair', 'Oil Change', 'Tires', 'Towing', 'Transmission'],
     '💄 Beauty & Wellness': ['Barber', 'Gym', 'Hair Salon', 'Lashes/Brows', 'Massage', 'Med Spa', 'Nails', 'Spa', 'Tanning', 'Tattoo/Piercing', 'Yoga'],
     '👶 Care Centers': ['Adult Care', 'After School', 'Assisted Living', 'Daycare'],
-    '🎡 Family Entertainment': ['Arcade/FEC', 'Axe Throwing/Bar Games', 'Bounce/Play Center', 'Bowling', 'Escape Room', 'Go-Karts/Fun Center', 'Golf Courses', 'Golf/Driving Range', 'Laser Tag', 'Mini Golf', 'Movie Theater', 'Skating Rink', 'Trampoline Park'],
+    '🎡 Family Entertainment': ['Amusement/Theme Park', 'Aquarium/Zoo', 'Arcade/FEC', 'Axe Throwing/Bar Games', 'Bounce/Play Center', 'Bowling', 'Climbing Gym', 'Escape Room', 'Go-Karts/Fun Center', 'Golf Courses', 'Golf/Driving Range', 'Indoor Water Park Resort', 'Laser Tag', 'Mini Golf', 'Movie Theater', 'Museum/Kids Museum', 'Party/Event Venue', 'Skating Rink', 'Sports Complex', 'Trampoline Park', 'Water Park'],
     '🏥 Health/Medical': ['Chiropractor', 'Dentist', 'Dermatologist', 'Eye Care', 'Hearing Aid', 'Mental Health', 'Pediatrician', 'Pharmacy', 'Physical Therapy', 'Urgent Care', 'Vet'],
     '🏠 Home Services': ['Cleaning', 'Contractor', 'Electrician', 'Fencing', 'Garage Door', 'HVAC', 'Landscaping', 'Moving', 'Painting', 'Pest Control', 'Plumber', 'Roofing'],
     '👦 Kids & Tutoring': ['Camps', 'Dance', 'Martial Arts', 'Music', 'Sports', 'Tutoring', 'General'],
@@ -1357,7 +1357,15 @@
     'Golf/Driving Range': 'golf course driving range topgolf golf simulator',
     'Golf Courses': 'golf course country club',
     'Go-Karts/Fun Center': 'go kart go-kart fun center family fun park',
-    'Axe Throwing/Bar Games': 'axe throwing pool hall billiards dart bar entertainment'
+    'Axe Throwing/Bar Games': 'axe throwing pool hall billiards dart bar entertainment',
+    'Water Park': 'water park aquatic center wave pool splash pad',
+    'Indoor Water Park Resort': 'indoor water park resort great wolf lodge water park hotel',
+    'Amusement/Theme Park': 'amusement park theme park fun park',
+    'Aquarium/Zoo': 'aquarium zoo wildlife park',
+    'Museum/Kids Museum': 'children museum kids museum science museum discovery center',
+    'Sports Complex': 'sports complex batting cages indoor sports facility sportsplex',
+    'Climbing Gym': 'rock climbing gym indoor climbing bouldering',
+    'Party/Event Venue': 'party venue event venue kids birthday party place'
   };
 
   onMount(async () => {
