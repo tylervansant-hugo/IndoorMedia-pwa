@@ -479,7 +479,12 @@ input[type="email"]:focus, input[type="number"]:focus, select:focus, textarea:fo
 
 /* Core: let buttons participate in flex shrink and clip cleanly.
    min-width:0 is the critical bit — without it flex/grid buttons
-   refuse to shrink below their content and text overflows. */
+   refuse to shrink below their content and text overflows.
+   IMPORTANT: use overflow-wrap:break-word (NOT word-break:break-word /
+   overflow-wrap:anywhere). Those force per-CHARACTER wrapping in narrow
+   cells at large text sizes — the "one letter per line" look. break-word
+   wraps at word boundaries first and only splits a single word when it
+   truly cannot fit. */
 button,
 .main-btn, .action-btn, .qa-btn, .cycle-btn, .theme-card, .font-btn,
 .tab-btn, .nav-btn, .filter-btn, .status-btn, .book-appt-btn,
@@ -488,9 +493,8 @@ button,
 .callin-sort-row select, .callin-filter-bar select {
   min-width: 0;
   max-width: 100%;
-  overflow-wrap: anywhere;
-  word-break: break-word;
-  hyphens: auto;
+  overflow-wrap: break-word;
+  word-break: normal;
 }
 
 /* Tab bar labels/icons: never let a long label blow out a tab.
@@ -520,26 +524,69 @@ button,
   text-align: center;
 }
 
-/* Wide CTA / action buttons with longer text: allow up to 2 lines,
-   centered, then clip — never spill outside the rounded box. */
-.main-btn, .action-btn, .qa-btn, .book-appt-btn,
+/* Wide CTA / action buttons: keep text centered and readable. We do
+   NOT force flex-direction here — card-style buttons (icon over label
+   over desc) set their own column layout; overriding it would flip them
+   sideways. Just ensure sane wrapping/centering. */
+.action-btn, .qa-btn, .book-appt-btn,
 .cartvert-store-btn, .prospect-store-btn, .navigate-store-btn,
 .audit-store-btn, .addtape-store-btn {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 6px;
   text-align: center;
   line-height: 1.2;
 }
 
-/* Absolute safety net: if a text-bearing button still can't fit even
-   after shrinking/wrapping, clip it to the box instead of overflowing
-   the layout. Scoped to known text buttons so we never clip icon
-   buttons that host absolutely-positioned badges (e.g. cart count). */
-.main-btn, .action-btn, .qa-btn, .cycle-btn, .status-btn, .filter-btn,
-.rating-btn, .theme-card, .font-btn, .book-appt-btn,
-.cartvert-store-btn, .prospect-store-btn, .navigate-store-btn,
-.audit-store-btn, .addtape-store-btn, .roi-store-btn {
+/* Stacked "card" buttons (icon + label + description). Keep the label
+   and description whole and centered; never split words per-character. */
+.main-btn .btn-text, .main-btn .btn-desc,
+.qa-btn .qa-label, .action-btn .btn-text {
+  max-width: 100%;
+  overflow-wrap: break-word;
+  word-break: normal;
+  text-align: center;
+  line-height: 1.2;
+}
+/* Numeric / short stat tokens must stay on one piece — never stack
+   digits like 5 / 2 / 8. */
+.btn-desc, .stat-number, .stat-value, .dash-stat-num,
+.growth-badge, .leaderboard-badge {
+  overflow-wrap: normal;
+  word-break: keep-all;
+}
+
+/* Safety net for SHORT single-line pill/segmented buttons only: if text
+   still can't fit, clip+ellipsis instead of overflowing. We deliberately
+   EXCLUDE stacked card buttons (.main-btn) and store list buttons — those
+   must be allowed to grow TALLER at large text sizes rather than clip
+   their labels. Icon buttons with badges are also excluded (kept above). */
+.cycle-btn, .status-btn, .filter-btn, .rating-btn, .font-btn {
   overflow: hidden;
+}
+
+/* ------------------------------------------------------------------
+   GRID REFLOW: at large text sizes / narrow effective widths, card
+   grids must give each card MORE width (drop to fewer columns) instead
+   of squeezing text into a sliver that wraps one letter per line.
+   auto-fit + minmax(min(100%, N), 1fr) collapses to a single column
+   automatically when a cell can no longer hold N px of content. This is
+   the real fix for the "enlarged text looks silly" cards. ------------- */
+.button-grid, .action-buttons {
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 150px), 1fr)) !important;
+}
+.dashboard-grid, .stat-grid, .stats-grid, .qa-grid {
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 130px), 1fr)) !important;
+}
+
+/* Card buttons: let them grow to fit enlarged text, keep contents
+   centered and never overflow horizontally. */
+.main-btn {
+  height: auto;
+  overflow-wrap: break-word;
+  word-break: normal;
+}
+
+/* When text is very large, allow the letter-per-line failure mode to be
+   impossible: a word that is genuinely wider than its cell hyphenates /
+   breaks as a LAST resort only, never eagerly. */
+.btn-text, .qa-label, .action-btn, .main-btn {
+  hyphens: auto;
 }
