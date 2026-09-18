@@ -3452,6 +3452,46 @@ IndoorMedia`
     } catch { return ''; }
   }
 
+  // Pull the saved contact info a rep entered on the prospect card
+  // (Owner/Decision Maker, Contact Phone, Contact Email, Notes) so it can
+  // be embedded into calendar events and elsewhere. Falls back across the
+  // Firebase lead cache, the prospect object, and local prospectNotes.
+  function getProspectContactDetails(prospect) {
+    if (!prospect) return { ownerName: '', contactPhone: '', contactEmail: '', notes: '' };
+    let ld = {};
+    try { ld = leadDataCache[getLeadHash(prospect)] || {}; } catch { ld = {}; }
+    const ownerName = (ld.ownerName || prospect.contactName || prospect.contact_name || '').trim();
+    const contactPhone = (ld.contactPhone || prospect.contactPhone || prospect.contact_phone || '').trim();
+    const contactEmail = (ld.contactEmail || prospect.contactEmail || prospect.contact_email || '').trim();
+    const notes = (ld.notes || getProspectNote(prospect.id || prospect.name) || '').trim();
+    return { ownerName, contactPhone, contactEmail, notes };
+  }
+
+  // Build the Google Calendar "Book Appointment" URL for a prospect, including
+  // the rep-entered contact details so nothing gets lost on the calendar event.
+  function buildAppointmentUrl(prospect) {
+    const c = getProspectContactDetails(prospect);
+    const lines = [
+      'Prospect: ' + (prospect.name || ''),
+      'Address: ' + (prospect.address || '')
+    ];
+    if (prospect.phone) lines.push('Business Phone: ' + prospect.phone);
+    if (prospect.website) lines.push('Website: ' + prospect.website);
+    if (c.ownerName) lines.push('Owner/Decision Maker: ' + c.ownerName);
+    if (c.contactPhone) lines.push('Contact Phone: ' + c.contactPhone);
+    if (c.contactEmail) lines.push('Contact Email: ' + c.contactEmail);
+    lines.push('Store: ' + ((selectedStore?.GroceryChain || '') + ' ' + (selectedStore?.StoreName || '')).trim());
+    lines.push('Rep: ' + ($user?.name || ''));
+    let details = lines.join('\n');
+    if (c.notes) details += '\n\n📝 Notes:\n' + c.notes;
+    const add = 'tyler.vansant@indoormedia.com' + (inviteRepEmail ? ',' + inviteRepEmail : '');
+    return 'https://calendar.google.com/calendar/render?action=TEMPLATE'
+      + '&text=' + encodeURIComponent('Visit: ' + (prospect.name || ''))
+      + '&details=' + encodeURIComponent(details)
+      + '&location=' + encodeURIComponent(prospect.address || '')
+      + '&add=' + encodeURIComponent(add);
+  }
+
   function saveProspectNote(id, text) {
     try {
       const notes = JSON.parse(localStorage.getItem('prospectNotes') || '{}');
@@ -4541,7 +4581,7 @@ IndoorMedia`
                 {/each}
               </select>
             </div>
-            <a href="https://calendar.google.com/calendar/render?action=TEMPLATE&text={encodeURIComponent('Visit: ' + prospect.name)}&details={encodeURIComponent('Prospect: ' + prospect.name + '\nAddress: ' + prospect.address + (prospect.phone ? '\nPhone: ' + prospect.phone : '') + (prospect.website ? '\nWebsite: ' + prospect.website : '') + '\nStore: ' + (selectedStore?.GroceryChain || '') + ' ' + (selectedStore?.StoreName || '') + '\nRep: ' + ($user?.name || '') + (getProspectNote(prospect.id || prospect.name) ? '\n\n📝 Notes:\n' + getProspectNote(prospect.id || prospect.name) : ''))}&location={encodeURIComponent(prospect.address)}&add={encodeURIComponent('tyler.vansant@indoormedia.com')}{inviteRepEmail ? ',' + encodeURIComponent(inviteRepEmail) : ''}" target="_blank" class="action-btn btn-book-appt">📅 Book Appointment{inviteRepEmail ? ' (+ rep)' : ''}</a>
+            <button type="button" class="action-btn btn-book-appt" on:click={() => window.open(buildAppointmentUrl(prospect), '_blank')}>📅 Book Appointment{inviteRepEmail ? ' (+ rep)' : ''}</button>
             {#if prospect.address}
               <a href="https://maps.apple.com/?daddr={encodeURIComponent(prospect.address)}" target="_blank" class="action-btn btn-navigate">🗺️ Navigate</a>
             {/if}
