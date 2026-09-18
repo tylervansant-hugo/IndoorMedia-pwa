@@ -1,35 +1,57 @@
 [
   {
-    "event_id": "ffdrfi61rhv1i51mpnqioeu90s",
-    "title": "Visit: Robs Auto Repair LLC",
-    "start": "2026-09-16T12:00:00-07:00",
-    "end": "2026-09-16T13:00:00-07:00",
-    "location": "3775 W Powell Loop, Gresham, OR 97030, USA",
-    "description": "Prospect: Robs Auto Repair LLC\nAddress: 3775 W Powell Loop, Gresham, OR 97030, USA\nPhone: (503) 756-3529\nWebsite: https://robsautorepairllc.com/\nStore: Safeway SAF07Z-1070\nRep: Tyler Van Sant",
-    "prospect_name": "Robs Auto Repair LLC",
-    "phone": "(503) 756-3529",
-    "address": "3775 W Powell Loop, Gresham, OR 97030, USA",
-    "store": "Safeway SAF07Z-1070",
-    "rep": "Tyler Van Sant",
+    "event_id": "6hi38dhhcpgj6bb26thjab9k74smcbb2cgr3ebb36thj2c1g6dim2eb16g",
+    "title": "Visit: Don Pedro #5 | Vancouver Pedro owner",
+    "start": "2026-09-17T15:00:00-07:00",
+    "end": "2026-09-17T16:00:00-07:00",
+    "location": "6501 NE Hwy 99, Vancouver, WA 98665, USA",
+    "description": "Prospect: Don Pedro #5 | Vancouver\nAddress: 6501 NE Hwy 99, Vancouver, WA 98665, USA\nPhone: (360) 993-2000\nWebsite: https://donpedro5.com/\nStore: Fred Meyer FME07Z-0140\nRep: Megan Wink",
+    "prospect_name": "Don Pedro #5 | Vancouver",
+    "phone": "(360) 993-2000",
+    "address": "6501 NE Hwy 99, Vancouver, WA 98665, USA",
+    "store": "Fred Meyer FME07Z-0140",
+    "rep": "Megan Wink",
     "attendees": [
       {
-        "email": "daniel.barchini@indoormedia.com",
-        "name": "",
-        "status": "needsAction"
-      },
-      {
-        "email": "tyler.vansant@indoormedia.com",
+        "email": "megan.wink@indoormedia.com",
         "name": "",
         "status": "accepted"
       },
       {
-        "email": "richard.leibowitz@indoormedia.com",
+        "email": "tyler.vansant@indoormedia.com",
         "name": "",
         "status": "needsAction"
       }
     ],
     "is_prospect_visit": true,
-    "creator": "tyler.vansant@indoormedia.com"
+    "creator": "megan.wink@indoormedia.com"
+  },
+  {
+    "event_id": "6oo68d36c8sj6b9gc9j32b9kcdi34b9p6cq34b9i61hm6cr261h30d9o68",
+    "title": "Visit: Le's Hair Salon Henry son Lee owner",
+    "start": "2026-09-17T18:30:00-07:00",
+    "end": "2026-09-17T19:30:00-07:00",
+    "location": "14612 NE Fourth Plain Blvd Suite F, Vancouver, WA 98682, USA",
+    "description": "Prospect: Le's Hair Salon\nAddress: 14612 NE Fourth Plain Blvd Suite F, Vancouver, WA 98682, USA\nPhone: (360) 892-4171\nWebsite: https://leshairsalon.wixsite.com/website\nStore: Safeway SAF07Z-1704\nRep: Megan Wink\n\n\ud83d\udcdd Notes:\nCall back in 2 weeks on vacation",
+    "prospect_name": "Le's Hair Salon",
+    "phone": "(360) 892-4171",
+    "address": "14612 NE Fourth Plain Blvd Suite F, Vancouver, WA 98682, USA",
+    "store": "Safeway SAF07Z-1704",
+    "rep": "Megan Wink",
+    "attendees": [
+      {
+        "email": "megan.wink@indoormedia.com",
+        "name": "",
+        "status": "accepted"
+      },
+      {
+        "email": "tyler.vansant@indoormedia.com",
+        "name": "",
+        "status": "needsAction"
+      }
+    ],
+    "is_prospect_visit": true,
+    "creator": "megan.wink@indoormedia.com"
   },
   {
     "event_id": "_8d13ihhk8l336b9h74p38b9k8opk2ba27534ab9k71142cpl6kqjgh9j70_20260918T030000Z",
@@ -44,6 +66,54 @@
     "store": "",
     "rep": "Tyler VanSant",
     "attendees": [],
+    "is_prospect_visit": false,
+    "creator": "tyler.vansant@indoormedia.com"
+  },
+  {
+    "event_id": "65j30o9hc8rm4bb469gj2b9kc5hjgbb26lim2b9i6srjac9m6krm8d9k64",
+    "title": "Visit: Gyro On The Go",
+    "start": "2026-09-17T23:30:00-07:00",
+    "end": "2026-09-18T00:30:00-07:00",
+    "location": "9908 NE Hwy 99, Vancouver, WA 98686, USA",
+    "description": "Prospect: Gyro On The Go\nAddress: 9908 NE Hwy 99, Vancouver, WA 98686, USA\nPhone: (503) 800-3176\nStore: Safeway SAF07Z-4405\nRep: Tyler Van Sant",
+    "prospect_name": "Gyro On The Go",
+    "phone": "(503) 800-3176",
+    "address": "9908 NE Hwy 99, Vancouver, WA 98686, USA",
+    "store": "Safeway SAF07Z-4405",
+    "rep": "Tyler Van Sant",
+    "attendees": [],
+    "is_prospect_visit": true,
+    "creator": "tyler.vansant@indoormedia.com"
+  },
+  {
+    "event_id": "64sjccpiccoj0b9h71hmab9kc8sjgb9o64r3ebb370p34opj6lij2e1mco",
+    "title": "Safeway sending customers to Gyro on the Go",
+    "start": "2026-09-18T14:30:00-07:00",
+    "end": "2026-09-18T15:30:00-07:00",
+    "location": "9908 NE Hwy 99, Vancouver, WA 98686, USA",
+    "description": "Prospect: Gyro On The Go\nAddress: 9908 NE Hwy 99, Vancouver, WA 98686, USA\nPhone: (503) 800-3176\nStore: Safeway SAF07Z-4405\nRep: Tyler Van Sant",
+    "prospect_name": "Gyro On The Go",
+    "phone": "(503) 800-3176",
+    "address": "9908 NE Hwy 99, Vancouver, WA 98686, USA",
+    "store": "Safeway SAF07Z-4405",
+    "rep": "Tyler Van Sant",
+    "attendees": [
+      {
+        "email": "tyler.vansant@indoormedia.com",
+        "name": "",
+        "status": "accepted"
+      },
+      {
+        "email": "abdeljawab9294@icloud.com",
+        "name": "",
+        "status": "needsAction"
+      },
+      {
+        "email": "richard.leibowitz@indoormedia.com",
+        "name": "",
+        "status": "needsAction"
+      }
+    ],
     "is_prospect_visit": false,
     "creator": "tyler.vansant@indoormedia.com"
   },
