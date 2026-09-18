@@ -48,6 +48,33 @@
     "creator": "tyler.vansant@indoormedia.com"
   },
   {
+    "event_id": "c4oj2c1i74p3gbb2clj3gb9k6pijib9pcop3abb471hj8ob66or3cc9gc4",
+    "title": "Visit: Gyro On The Go Adam & Brother",
+    "start": "2026-09-18T14:30:00-07:00",
+    "end": "2026-09-18T15:30:00-07:00",
+    "location": "9908 NE Hwy 99, Vancouver, WA 98686, USA",
+    "description": "Prospect: Gyro On The Go\nAddress: 9908 NE Hwy 99, Vancouver, WA 98686, USA\nPhone: (503) 800-3176\nStore: Fred Meyer FME07Z-0140\nRep: Megan Wink",
+    "prospect_name": "Gyro On The Go",
+    "phone": "(503) 800-3176",
+    "address": "9908 NE Hwy 99, Vancouver, WA 98686, USA",
+    "store": "Fred Meyer FME07Z-0140",
+    "rep": "Megan Wink",
+    "attendees": [
+      {
+        "email": "megan.wink@indoormedia.com",
+        "name": "",
+        "status": "accepted"
+      },
+      {
+        "email": "tyler.vansant@indoormedia.com",
+        "name": "",
+        "status": "needsAction"
+      }
+    ],
+    "is_prospect_visit": true,
+    "creator": "megan.wink@indoormedia.com"
+  },
+  {
     "event_id": "0ht3imnfsvvcodq3tautkub63k",
     "title": "\ud83d\udd0d Audit #2: Albertsons, Billings, Albertsons-4041 \u2014 check in w/ Frozen Yogurt/Banano Smoothies/Spinners",
     "start": "2026-09-19T10:00:00-07:00",
