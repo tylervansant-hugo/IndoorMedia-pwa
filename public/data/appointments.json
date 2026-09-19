@@ -75,6 +75,33 @@
     "creator": "megan.wink@indoormedia.com"
   },
   {
+    "event_id": "6th38c1gc8qmcbb3cdij8b9k6gs62bb16cp36b9pccqjiob670qm8dpp70",
+    "title": "Visit: J C Nails & Spa",
+    "start": "2026-09-18T18:00:00-07:00",
+    "end": "2026-09-18T19:00:00-07:00",
+    "location": "13105 Meridian E #104, Puyallup, WA 98373, USA",
+    "description": "Prospect: J C Nails & Spa\nAddress: 13105 Meridian E #104, Puyallup, WA 98373, USA\nPhone: (253) 845-5561\nWebsite: http://jcnailsandspa.com/\nStore: Safeway SAF07Z-2640\nRep: Tyler Van Sant",
+    "prospect_name": "J C Nails & Spa",
+    "phone": "(253) 845-5561",
+    "address": "13105 Meridian E #104, Puyallup, WA 98373, USA",
+    "store": "Safeway SAF07Z-2640",
+    "rep": "Tyler Van Sant",
+    "attendees": [
+      {
+        "email": "dawna.henehan@indoormedia.com",
+        "name": "",
+        "status": "needsAction"
+      },
+      {
+        "email": "tyler.vansant@indoormedia.com",
+        "name": "",
+        "status": "accepted"
+      }
+    ],
+    "is_prospect_visit": true,
+    "creator": "tyler.vansant@indoormedia.com"
+  },
+  {
     "event_id": "0ht3imnfsvvcodq3tautkub63k",
     "title": "\ud83d\udd0d Audit #2: Albertsons, Billings, Albertsons-4041 \u2014 check in w/ Frozen Yogurt/Banano Smoothies/Spinners",
     "start": "2026-09-19T10:00:00-07:00",
@@ -913,6 +940,33 @@
     ],
     "is_prospect_visit": false,
     "creator": "tyler.vansant@indoormedia.com"
+  },
+  {
+    "event_id": "61h36e9ncksjcb9p6limcb9k6tj3cbb2cpimab9l6lh64d3268sm6p9j6k",
+    "title": "Visit: Mis Tres Amigos Mexican Restaurant & Cantina",
+    "start": "2026-09-23T12:00:00-07:00",
+    "end": "2026-09-23T13:00:00-07:00",
+    "location": "17530 Meridian E #109, Puyallup, WA 98375, USA",
+    "description": "Prospect: Mis Tres Amigos Mexican Restaurant & Cantina\nAddress: 17530 Meridian E #109, Puyallup, WA 98375, USA\nPhone: (253) 864-8250\nWebsite: https://www.mistresamigosfamily.com/\nStore: Fred Meyer FME07Z-0424\nRep: Dawna Henehan",
+    "prospect_name": "Mis Tres Amigos Mexican Restaurant & Cantina",
+    "phone": "(253) 864-8250",
+    "address": "17530 Meridian E #109, Puyallup, WA 98375, USA",
+    "store": "Fred Meyer FME07Z-0424",
+    "rep": "Dawna Henehan",
+    "attendees": [
+      {
+        "email": "dawna.henehan@indoormedia.com",
+        "name": "",
+        "status": "accepted"
+      },
+      {
+        "email": "tyler.vansant@indoormedia.com",
+        "name": "",
+        "status": "needsAction"
+      }
+    ],
+    "is_prospect_visit": true,
+    "creator": "dawna.henehan@indoormedia.com"
   },
   {
     "event_id": "fkqj3lq126di0udfothd1ovi6s",
