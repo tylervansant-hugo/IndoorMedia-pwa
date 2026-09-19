@@ -11401,6 +11401,27 @@
       "paid_in_full": false
     },
     {
+      "contract_number": "J438349E",
+      "date": "2026-09-17 00:00",
+      "business_name": "Insert Coin WA LLC",
+      "contact_name": "Keli Coleman",
+      "contact_email": "insertcoinwa@gmail.com",
+      "contact_phone": "(360) 807-4825",
+      "sales_rep": "Tyler VanSant",
+      "store_name": "Albertsons",
+      "store_number": "3417",
+      "zone": "07Z",
+      "product_description": "Single Ad",
+      "total_amount": 3925.0,
+      "payment_date": "9/17/2026",
+      "address": "3520 Pacific Ave S E, Olympia, 98501",
+      "extracted_at": "2026-09-18T20:00:37.419262",
+      "quarters": 4,
+      "term_months": 12,
+      "is_renewal": true,
+      "paid_in_full": false
+    },
+    {
       "contract_number": "N433325E",
       "date": "",
       "business_name": "Sprinkles on Top",
@@ -14153,5 +14174,5 @@
       "paid_in_full": false
     }
   ],
-  "last_scan": "2026-09-17T20:00:10.659336"
+  "last_scan": "2026-09-18T20:00:37.448737"
 }
