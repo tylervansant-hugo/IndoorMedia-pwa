@@ -1,7 +1,7 @@
 [
   {
     "event_id": "dbpj7u1okn4munehucnpdpnbp8",
-    "title": "Lynnae out of town",
+    "title": "Lanea out of town",
     "start": "2026-09-21T00:00:00-07:00",
     "end": "2026-09-21T23:59:59-07:00",
     "location": "Albany",
@@ -447,7 +447,7 @@
       {
         "email": "tyler.vansant@indoormedia.com",
         "name": "",
-        "status": "needsAction"
+        "status": "accepted"
       }
     ],
     "is_prospect_visit": false,
