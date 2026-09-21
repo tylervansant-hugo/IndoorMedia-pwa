@@ -378,6 +378,33 @@
     "creator": "tyler.vansant@indoormedia.com"
   },
   {
+    "event_id": "k3kdietrc1t77eubb7did91f8s",
+    "title": "Visit: Hacienda las Juanitas",
+    "start": "2026-09-21T10:00:00-07:00",
+    "end": "2026-09-21T11:00:00-07:00",
+    "location": "555 S Columbia River Hwy, St Helens, OR 97051, USA",
+    "description": "Prospect: Hacienda las Juanitas\nAddress: 555 S Columbia River Hwy, St Helens, OR 97051, USA\nBusiness Phone: (503) 369-7834\nWebsite: https://haciendalasjuanitasor.com/\nOwner/Decision Maker: Juanita\nContact Phone: 503-222-2222\nContact Email: juanita@juanitas.com\nStore: Safeway SAF07Z-0424\nRep: Tyler Van Sant\n\n\ud83d\udcdd Notes:\nJaunita is in at 3pm",
+    "prospect_name": "Hacienda las Juanitas",
+    "phone": "",
+    "address": "555 S Columbia River Hwy, St Helens, OR 97051, USA",
+    "store": "Safeway SAF07Z-0424",
+    "rep": "Tyler Van Sant",
+    "attendees": [
+      {
+        "email": "tyler.vansant@indoormedia.com",
+        "name": "",
+        "status": "accepted"
+      },
+      {
+        "email": "adan.ramos@indoormedia.com",
+        "name": "",
+        "status": "needsAction"
+      }
+    ],
+    "is_prospect_visit": true,
+    "creator": "tyler.vansant@indoormedia.com"
+  },
+  {
     "event_id": "v4sebrpcf47oti6vjuf5rnofec",
     "title": "\ud83d\udd0d Audit #1: Safeway, Salem, Safeway-0429 \u2014 check in w/ Juan Flores/El Rinconcito Los Flores",
     "start": "2026-09-21T10:00:00-07:00",
