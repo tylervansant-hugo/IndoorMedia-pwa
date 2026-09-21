@@ -3905,5 +3905,445 @@
     ],
     "is_prospect_visit": false,
     "creator": "tyler.vansant@indoormedia.com"
+  },
+  {
+    "event_id": "0k749mbfs5ngnh9s7hhmggkeu4",
+    "title": "\ud83d\udd0d Audit #2: Fred Meyer, Eugene, Fred Meyer-0325 \u2014 check in w/ Benjamin and Rossy Magana/Mami\u2019s Mexican Grill",
+    "start": "2026-10-20T10:00:00-07:00",
+    "end": "2026-10-20T11:00:00-07:00",
+    "location": "",
+    "description": "AUDIT & CHECK-IN #2 (135 days in)\nContract: J427203E\nBusiness: Mami\u2019s Mexican Grill\nCustomer: Benjamin and Rossy Magana\nRep: Matthew Boozer\nStore: Fred Meyer Fred Meyer-0325, Eugene\nEst. Start: 06/17/2026\n\nVerify tape display. Check in with Benjamin and Rossy Magana at Mami\u2019s Mexican Grill.",
+    "prospect_name": "",
+    "phone": "",
+    "address": "",
+    "store": "Fred Meyer Fred Meyer-0325, Eugene",
+    "rep": "Matthew Boozer",
+    "attendees": [
+      {
+        "email": "matthew.boozer@indoormedia.com",
+        "name": "",
+        "status": "needsAction"
+      }
+    ],
+    "is_prospect_visit": false,
+    "creator": "tyler.vansant@indoormedia.com"
+  },
+  {
+    "event_id": "3r5gfvdhn3bgco208e3jjv73nk",
+    "title": "\ud83d\udd0d Audit #2: Safeway, Salem, Safeway-0412 \u2014 check in w/ Brian Ott/Penny's pizza",
+    "start": "2026-10-20T10:00:00-07:00",
+    "end": "2026-10-20T11:00:00-07:00",
+    "location": "",
+    "description": "AUDIT & CHECK-IN #2 (135 days in)\nContract: J430966E\nBusiness: Penny's pizza\nCustomer: Brian Ott\nRep: Megan Wink\nStore: Safeway Safeway-0412, Salem\nEst. Start: 06/17/2026\n\nVerify tape display. Check in with Brian Ott at Penny's pizza.",
+    "prospect_name": "",
+    "phone": "",
+    "address": "",
+    "store": "Safeway Safeway-0412, Salem",
+    "rep": "Megan Wink",
+    "attendees": [
+      {
+        "email": "megan.wink@indoormedia.com",
+        "name": "",
+        "status": "needsAction"
+      }
+    ],
+    "is_prospect_visit": false,
+    "creator": "tyler.vansant@indoormedia.com"
+  },
+  {
+    "event_id": "52irvb080mj6fbq6o3jubsruk0",
+    "title": "\ud83d\udd0d Audit #2: Safeway, Eugene, Safeway-0420 \u2014 check in w/ Mike Morgan/Clean Juice Eugene",
+    "start": "2026-10-20T10:00:00-07:00",
+    "end": "2026-10-20T11:00:00-07:00",
+    "location": "",
+    "description": "AUDIT & CHECK-IN #2 (135 days in)\nContract: J427207E\nBusiness: Clean Juice Eugene\nCustomer: Mike Morgan\nRep: Matthew Boozer\nStore: Safeway Safeway-0420, Eugene\nEst. Start: 06/17/2026\n\nVerify tape display. Check in with Mike Morgan at Clean Juice Eugene.",
+    "prospect_name": "",
+    "phone": "",
+    "address": "",
+    "store": "Safeway Safeway-0420, Eugene",
+    "rep": "Matthew Boozer",
+    "attendees": [
+      {
+        "email": "matthew.boozer@indoormedia.com",
+        "name": "",
+        "status": "needsAction"
+      }
+    ],
+    "is_prospect_visit": false,
+    "creator": "tyler.vansant@indoormedia.com"
+  },
+  {
+    "event_id": "57t7hq6sp79jot3lkfvk7teo58",
+    "title": "\ud83d\udd0d Audit #2: Safeway, King City, Safeway-1478 \u2014 check in w/ Beth Drake/Bark Avenue Luxury Dog Care",
+    "start": "2026-10-20T10:00:00-07:00",
+    "end": "2026-10-20T11:00:00-07:00",
+    "location": "",
+    "description": "AUDIT & CHECK-IN #2 (135 days in)\nContract: J428189E\nBusiness: Bark Avenue Luxury Dog Care\nCustomer: Beth Drake\nRep: Megan Wink\nStore: Safeway Safeway-1478, King City\nEst. Start: 06/17/2026\n\nVerify tape display. Check in with Beth Drake at Bark Avenue Luxury Dog Care.",
+    "prospect_name": "",
+    "phone": "",
+    "address": "",
+    "store": "Safeway Safeway-1478, King City",
+    "rep": "Megan Wink",
+    "attendees": [
+      {
+        "email": "megan.wink@indoormedia.com",
+        "name": "",
+        "status": "needsAction"
+      }
+    ],
+    "is_prospect_visit": false,
+    "creator": "tyler.vansant@indoormedia.com"
+  },
+  {
+    "event_id": "6jjaevd9b7g79tcji87h4ogu4s",
+    "title": "\ud83d\udd0d Audit #2: Rosauers, Ridgefield, Rosauers-0042 \u2014 check in w/ Hung Truong/Men\u2019s Barber",
+    "start": "2026-10-20T10:00:00-07:00",
+    "end": "2026-10-20T11:00:00-07:00",
+    "location": "",
+    "description": "AUDIT & CHECK-IN #2 (135 days in)\nContract: J430003E\nBusiness: Men\u2019s Barber\nCustomer: Hung Truong\nRep: Adan Ramos\nStore: Rosauers Rosauers-0042, Ridgefield\nEst. Start: 06/17/2026\n\nVerify tape display. Check in with Hung Truong at Men\u2019s Barber.",
+    "prospect_name": "",
+    "phone": "",
+    "address": "",
+    "store": "Rosauers Rosauers-0042, Ridgefield",
+    "rep": "Adan Ramos",
+    "attendees": [
+      {
+        "email": "adan.ramos@indoormedia.com",
+        "name": "",
+        "status": "needsAction"
+      }
+    ],
+    "is_prospect_visit": false,
+    "creator": "tyler.vansant@indoormedia.com"
+  },
+  {
+    "event_id": "8a4seuo7sk3lnnos4t88t3j1k8",
+    "title": "\ud83d\udd0d Audit #2: Safeway, Gresham, Safeway-0430 \u2014 check in w/ Lucila Alvarado-Cruz/La Cocina Oaxaca",
+    "start": "2026-10-20T10:00:00-07:00",
+    "end": "2026-10-20T11:00:00-07:00",
+    "location": "",
+    "description": "AUDIT & CHECK-IN #2 (135 days in)\nContract: J429649E\nBusiness: La Cocina Oaxaca\nCustomer: Lucila Alvarado-Cruz\nRep: Megan Wink\nStore: Safeway Safeway-0430, Gresham\nEst. Start: 06/17/2026\n\nVerify tape display. Check in with Lucila Alvarado-Cruz at La Cocina Oaxaca.",
+    "prospect_name": "",
+    "phone": "",
+    "address": "",
+    "store": "Safeway Safeway-0430, Gresham",
+    "rep": "Megan Wink",
+    "attendees": [
+      {
+        "email": "megan.wink@indoormedia.com",
+        "name": "",
+        "status": "needsAction"
+      }
+    ],
+    "is_prospect_visit": false,
+    "creator": "tyler.vansant@indoormedia.com"
+  },
+  {
+    "event_id": "8vrspimee31t16lvf06tvvmrtg",
+    "title": "\ud83d\udd0d Audit #2: Safeway, Kingston, Safeway-0186 \u2014 check in w/ Roberto Garcia/Tres Compadres Taqueria",
+    "start": "2026-10-20T10:00:00-07:00",
+    "end": "2026-10-20T11:00:00-07:00",
+    "location": "",
+    "description": "AUDIT & CHECK-IN #2 (135 days in)\nContract: J430429E\nBusiness: Tres Compadres Taqueria\nCustomer: Roberto Garcia\nRep: Tyler VanSant\nStore: Safeway Safeway-0186, Kingston\nEst. Start: 06/17/2026\n\nVerify tape display. Check in with Roberto Garcia at Tres Compadres Taqueria.",
+    "prospect_name": "",
+    "phone": "",
+    "address": "",
+    "store": "Safeway Safeway-0186, Kingston",
+    "rep": "Tyler VanSant",
+    "attendees": [
+      {
+        "email": "tyler.vansant@indoormedia.com",
+        "name": "",
+        "status": "needsAction"
+      }
+    ],
+    "is_prospect_visit": false,
+    "creator": "tyler.vansant@indoormedia.com"
+  },
+  {
+    "event_id": "926m4uand4840bfe5lv9pb3ac0",
+    "title": "\ud83d\udd0d Audit #2: Albertsons, Eugene, Albertsons-0572 \u2014 check in w/ Mike Morgan/Clean Juice Eugene",
+    "start": "2026-10-20T10:00:00-07:00",
+    "end": "2026-10-20T11:00:00-07:00",
+    "location": "",
+    "description": "AUDIT & CHECK-IN #2 (135 days in)\nContract: J424801E\nBusiness: Clean Juice Eugene\nCustomer: Mike Morgan\nRep: Matthew Boozer\nStore: Albertsons Albertsons-0572, Eugene\nEst. Start: 06/17/2026\n\nVerify tape display. Check in with Mike Morgan at Clean Juice Eugene.",
+    "prospect_name": "",
+    "phone": "",
+    "address": "",
+    "store": "Albertsons Albertsons-0572, Eugene",
+    "rep": "Matthew Boozer",
+    "attendees": [
+      {
+        "email": "matthew.boozer@indoormedia.com",
+        "name": "",
+        "status": "needsAction"
+      }
+    ],
+    "is_prospect_visit": false,
+    "creator": "tyler.vansant@indoormedia.com"
+  },
+  {
+    "event_id": "9aspb26rcls23n5sfu9o06thdk",
+    "title": "\ud83d\udd0d Audit #2: Fred Meyer, Eugene, Fred Meyer-0325 \u2014 check in w/ Huan Truong/Kim\u2019s Asian Cuisine",
+    "start": "2026-10-20T10:00:00-07:00",
+    "end": "2026-10-20T11:00:00-07:00",
+    "location": "",
+    "description": "AUDIT & CHECK-IN #2 (135 days in)\nContract: J427617E\nBusiness: Kim\u2019s Asian Cuisine\nCustomer: Huan Truong\nRep: Matthew Boozer\nStore: Fred Meyer Fred Meyer-0325, Eugene\nEst. Start: 06/17/2026\n\nVerify tape display. Check in with Huan Truong at Kim\u2019s Asian Cuisine.",
+    "prospect_name": "",
+    "phone": "",
+    "address": "",
+    "store": "Fred Meyer Fred Meyer-0325, Eugene",
+    "rep": "Matthew Boozer",
+    "attendees": [
+      {
+        "email": "matthew.boozer@indoormedia.com",
+        "name": "",
+        "status": "needsAction"
+      }
+    ],
+    "is_prospect_visit": false,
+    "creator": "tyler.vansant@indoormedia.com"
+  },
+  {
+    "event_id": "c3cakqni0kt7v86mltvdglm1p0",
+    "title": "\ud83d\udd0d Audit #2: Rosauers, Ridgefield, Rosauers-0042 \u2014 check in w/ Jaswander Singh/Ridgefield Travel Center",
+    "start": "2026-10-20T10:00:00-07:00",
+    "end": "2026-10-20T11:00:00-07:00",
+    "location": "",
+    "description": "AUDIT & CHECK-IN #2 (135 days in)\nContract: J428973E\nBusiness: Ridgefield Travel Center\nCustomer: Jaswander Singh\nRep: Adan Ramos\nStore: Rosauers Rosauers-0042, Ridgefield\nEst. Start: 06/17/2026\n\nVerify tape display. Check in with Jaswander Singh at Ridgefield Travel Center.",
+    "prospect_name": "",
+    "phone": "",
+    "address": "",
+    "store": "Rosauers Rosauers-0042, Ridgefield",
+    "rep": "Adan Ramos",
+    "attendees": [
+      {
+        "email": "adan.ramos@indoormedia.com",
+        "name": "",
+        "status": "needsAction"
+      }
+    ],
+    "is_prospect_visit": false,
+    "creator": "tyler.vansant@indoormedia.com"
+  },
+  {
+    "event_id": "f5kg4rkfp8alf5qnialpgcl958",
+    "title": "\ud83d\udd0d Audit #2: Safeway, Vancouver, Safeway-1653 \u2014 check in w/ Rodolfo Sanchez, Jr./Muchas Gracias - 28th St.",
+    "start": "2026-10-20T10:00:00-07:00",
+    "end": "2026-10-20T11:00:00-07:00",
+    "location": "",
+    "description": "AUDIT & CHECK-IN #2 (135 days in)\nContract: J428957E\nBusiness: Muchas Gracias - 28th St.\nCustomer: Rodolfo Sanchez, Jr.\nRep: Dave Boring\nStore: Safeway Safeway-1653, Vancouver\nEst. Start: 06/17/2026\n\nVerify tape display. Check in with Rodolfo Sanchez, Jr. at Muchas Gracias - 28th St..",
+    "prospect_name": "",
+    "phone": "",
+    "address": "",
+    "store": "Safeway Safeway-1653, Vancouver",
+    "rep": "Dave Boring",
+    "attendees": [
+      {
+        "email": "dave.boring@indoormedia.com",
+        "name": "",
+        "status": "needsAction"
+      }
+    ],
+    "is_prospect_visit": false,
+    "creator": "tyler.vansant@indoormedia.com"
+  },
+  {
+    "event_id": "gsnakck1b13dni2qe4qrg8hpoo",
+    "title": "\ud83d\udd0d Audit #2: Safeway, Junction City, Safeway-0386 \u2014 check in w/ Lane County Inc./St.Vincent de Paul Society of",
+    "start": "2026-10-20T10:00:00-07:00",
+    "end": "2026-10-20T11:00:00-07:00",
+    "location": "",
+    "description": "AUDIT & CHECK-IN #2 (135 days in)\nContract: J428357E\nBusiness: St.Vincent de Paul Society of\nCustomer: Lane County Inc.\nRep: Matthew Boozer\nStore: Safeway Safeway-0386, Junction City\nEst. Start: 06/17/2026\n\nVerify tape display. Check in with Lane County Inc. at St.Vincent de Paul Society of.",
+    "prospect_name": "",
+    "phone": "",
+    "address": "",
+    "store": "Safeway Safeway-0386, Junction City",
+    "rep": "Matthew Boozer",
+    "attendees": [
+      {
+        "email": "matthew.boozer@indoormedia.com",
+        "name": "",
+        "status": "needsAction"
+      }
+    ],
+    "is_prospect_visit": false,
+    "creator": "tyler.vansant@indoormedia.com"
+  },
+  {
+    "event_id": "he6is2r2gi1sv9fiha4msrmg3o",
+    "title": "\ud83d\udd0d Audit #2: Safeway, Hood River, Safeway-1123 \u2014 check in w/ Mario Bobadilla/El Ricon Taqueria",
+    "start": "2026-10-20T10:00:00-07:00",
+    "end": "2026-10-20T11:00:00-07:00",
+    "location": "",
+    "description": "AUDIT & CHECK-IN #2 (135 days in)\nContract: J428795E\nBusiness: El Ricon Taqueria\nCustomer: Mario Bobadilla\nRep: Megan Wink\nStore: Safeway Safeway-1123, Hood River\nEst. Start: 06/17/2026\n\nVerify tape display. Check in with Mario Bobadilla at El Ricon Taqueria.",
+    "prospect_name": "",
+    "phone": "",
+    "address": "",
+    "store": "Safeway Safeway-1123, Hood River",
+    "rep": "Megan Wink",
+    "attendees": [
+      {
+        "email": "megan.wink@indoormedia.com",
+        "name": "",
+        "status": "needsAction"
+      }
+    ],
+    "is_prospect_visit": false,
+    "creator": "tyler.vansant@indoormedia.com"
+  },
+  {
+    "event_id": "hf3tv9dfn7q13naimhsuo1j1cg",
+    "title": "\ud83d\udd0d Audit #2: Safeway, Eugene, Safeway-0420 \u2014 check in w/ Huan Truong/La Belle Nails",
+    "start": "2026-10-20T10:00:00-07:00",
+    "end": "2026-10-20T11:00:00-07:00",
+    "location": "",
+    "description": "AUDIT & CHECK-IN #2 (135 days in)\nContract: J427808E\nBusiness: La Belle Nails\nCustomer: Huan Truong\nRep: Matthew Boozer\nStore: Safeway Safeway-0420, Eugene\nEst. Start: 06/17/2026\n\nVerify tape display. Check in with Huan Truong at La Belle Nails.",
+    "prospect_name": "",
+    "phone": "",
+    "address": "",
+    "store": "Safeway Safeway-0420, Eugene",
+    "rep": "Matthew Boozer",
+    "attendees": [
+      {
+        "email": "matthew.boozer@indoormedia.com",
+        "name": "",
+        "status": "needsAction"
+      }
+    ],
+    "is_prospect_visit": false,
+    "creator": "tyler.vansant@indoormedia.com"
+  },
+  {
+    "event_id": "iefn41mamlea3i3j19lpppamoc",
+    "title": "\ud83d\udd0d Audit #2: Safeway, Bothell, Safeway-1864 \u2014 check in w/ Sergio Dominguez/Sergio's General Construction",
+    "start": "2026-10-20T10:00:00-07:00",
+    "end": "2026-10-20T11:00:00-07:00",
+    "location": "",
+    "description": "AUDIT & CHECK-IN #2 (135 days in)\nContract: J431130E\nBusiness: Sergio's General Construction\nCustomer: Sergio Dominguez\nRep: Richard Diamond\nStore: Safeway Safeway-1864, Bothell\nEst. Start: 06/17/2026\nTerm: 4Q (12 months)\n\nVerify tape display. Check in with Sergio Dominguez at Sergio's General Construction.",
+    "prospect_name": "",
+    "phone": "",
+    "address": "",
+    "store": "Safeway Safeway-1864, Bothell",
+    "rep": "Richard Diamond",
+    "attendees": [
+      {
+        "email": "richard.diamond@indoormedia.com",
+        "name": "",
+        "status": "needsAction"
+      }
+    ],
+    "is_prospect_visit": false,
+    "creator": "tyler.vansant@indoormedia.com"
+  },
+  {
+    "event_id": "loige9rt59r7q9qc383vjve738",
+    "title": "\ud83d\udd0d Audit #2: Safeway, Kingston, Safeway-0186 \u2014 check in w/ Toni Houck/Toni\u2019s Ponies",
+    "start": "2026-10-20T10:00:00-07:00",
+    "end": "2026-10-20T11:00:00-07:00",
+    "location": "",
+    "description": "AUDIT & CHECK-IN #2 (135 days in)\nContract: J430393E\nBusiness: Toni\u2019s Ponies\nCustomer: Toni Houck\nRep: Tyler VanSant\nStore: Safeway Safeway-0186, Kingston\nEst. Start: 06/17/2026\n\nVerify tape display. Check in with Toni Houck at Toni\u2019s Ponies.",
+    "prospect_name": "",
+    "phone": "",
+    "address": "",
+    "store": "Safeway Safeway-0186, Kingston",
+    "rep": "Tyler VanSant",
+    "attendees": [
+      {
+        "email": "tyler.vansant@indoormedia.com",
+        "name": "",
+        "status": "needsAction"
+      }
+    ],
+    "is_prospect_visit": false,
+    "creator": "tyler.vansant@indoormedia.com"
+  },
+  {
+    "event_id": "q076cbg6vf2mfo2bj8m24stfio",
+    "title": "\ud83d\udd0d Audit #2: Safeway, West Linn, Safeway-1713 \u2014 check in w/ Calvin Krech/Cal's Moving & Storage",
+    "start": "2026-10-20T10:00:00-07:00",
+    "end": "2026-10-20T11:00:00-07:00",
+    "location": "",
+    "description": "AUDIT & CHECK-IN #2 (135 days in)\nContract: D430557E\nBusiness: Cal's Moving & Storage\nCustomer: Calvin Krech\nRep: Jan Banks\nStore: Safeway Safeway-1713, West Linn\nEst. Start: 06/17/2026\n\nVerify tape display. Check in with Calvin Krech at Cal's Moving & Storage.",
+    "prospect_name": "",
+    "phone": "",
+    "address": "",
+    "store": "Safeway Safeway-1713, West Linn",
+    "rep": "Jan Banks",
+    "attendees": [
+      {
+        "email": "jan.banks@indoormedia.com",
+        "name": "",
+        "status": "needsAction"
+      }
+    ],
+    "is_prospect_visit": false,
+    "creator": "tyler.vansant@indoormedia.com"
+  },
+  {
+    "event_id": "q3fvleq112hscipvmesr2i3emo",
+    "title": "\ud83d\udd0d Audit #2: Safeway, Gresham, Safeway-0430 \u2014 check in w/ Ben Berry/Ink & Drink",
+    "start": "2026-10-20T10:00:00-07:00",
+    "end": "2026-10-20T11:00:00-07:00",
+    "location": "",
+    "description": "AUDIT & CHECK-IN #2 (135 days in)\nContract: J430533E\nBusiness: Ink & Drink\nCustomer: Ben Berry\nRep: Megan Wink\nStore: Safeway Safeway-0430, Gresham\nEst. Start: 06/17/2026\n\nVerify tape display. Check in with Ben Berry at Ink & Drink.",
+    "prospect_name": "",
+    "phone": "",
+    "address": "",
+    "store": "Safeway Safeway-0430, Gresham",
+    "rep": "Megan Wink",
+    "attendees": [
+      {
+        "email": "megan.wink@indoormedia.com",
+        "name": "",
+        "status": "needsAction"
+      }
+    ],
+    "is_prospect_visit": false,
+    "creator": "tyler.vansant@indoormedia.com"
+  },
+  {
+    "event_id": "qfe2o2utu6pad3mfk9a9gnlo64",
+    "title": "\ud83d\udd0d Audit #2: Safeway, Milwaukie, Safeway-2696 \u2014 check in w/ Hector Sanchez/Green Bee's Landscaping",
+    "start": "2026-10-20T10:00:00-07:00",
+    "end": "2026-10-20T11:00:00-07:00",
+    "location": "",
+    "description": "AUDIT & CHECK-IN #2 (135 days in)\nContract: J429914E\nBusiness: Green Bee's Landscaping\nCustomer: Hector Sanchez\nRep: Jan Banks\nStore: Safeway Safeway-2696, Milwaukie\nEst. Start: 06/17/2026\n\nVerify tape display. Check in with Hector Sanchez at Green Bee's Landscaping.",
+    "prospect_name": "",
+    "phone": "",
+    "address": "",
+    "store": "Safeway Safeway-2696, Milwaukie",
+    "rep": "Jan Banks",
+    "attendees": [
+      {
+        "email": "jan.banks@indoormedia.com",
+        "name": "",
+        "status": "needsAction"
+      }
+    ],
+    "is_prospect_visit": false,
+    "creator": "tyler.vansant@indoormedia.com"
+  },
+  {
+    "event_id": "t94fpf61k27b7qgm83edfrmr4g",
+    "title": "\ud83d\udd0d Audit #2: Safeway, Vancouver, Safeway-0400 \u2014 check in w/ Jose Vazquez/Restaurant Taqueria Don Jose",
+    "start": "2026-10-20T10:00:00-07:00",
+    "end": "2026-10-20T11:00:00-07:00",
+    "location": "",
+    "description": "AUDIT & CHECK-IN #2 (135 days in)\nContract: J426608E\nBusiness: Restaurant Taqueria Don Jose\nCustomer: Jose Vazquez\nRep: Dave Boring\nStore: Safeway Safeway-0400, Vancouver\nEst. Start: 06/17/2026\n\nVerify tape display. Check in with Jose Vazquez at Restaurant Taqueria Don Jose.",
+    "prospect_name": "",
+    "phone": "",
+    "address": "",
+    "store": "Safeway Safeway-0400, Vancouver",
+    "rep": "Dave Boring",
+    "attendees": [
+      {
+        "email": "dave.boring@indoormedia.com",
+        "name": "",
+        "status": "needsAction"
+      }
+    ],
+    "is_prospect_visit": false,
+    "creator": "tyler.vansant@indoormedia.com"
   }
 ]
