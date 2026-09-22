@@ -292,7 +292,7 @@ const PIN_EXCLUDE_SELECTOR = [
 
 // Map the active bottom-tab label to our internal tab id.
 const TAB_LABEL_TO_ID = {
-  'Stores': 'stores', 'Present': 'present', 'Home': 'dashboard',
+  'Stores': 'stores', 'Products': 'present', 'Present': 'present', 'Home': 'dashboard',
   'Clients': 'clients', 'Tools': 'tools',
 };
 

@@ -1431,7 +1431,7 @@
     <button class="tab-bar-item" class:active={currentTab === 'present'} on:click={() => handleTabClick('present')}>
       <div class="tab-bar-indicator"></div>
       <svg class="tab-bar-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
-      <span class="tab-bar-label">Present</span>
+      <span class="tab-bar-label">Products</span>
     </button>
     <button class="tab-bar-item tab-home" class:active={currentTab === 'dashboard'} on:click={() => handleTabClick('dashboard')}>
       <div class="tab-bar-indicator"></div>
