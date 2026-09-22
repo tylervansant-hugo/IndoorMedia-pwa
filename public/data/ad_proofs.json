@@ -1,5 +1,346 @@
 [
   {
+    "message_id": "1a0c9fb79e996a91",
+    "date": "2026-09-22 09:38",
+    "from": "Sydney Miller <Zone.07Y@indoormedia.com>",
+    "subject": "Your Digital Boost Ad Proof from IndoorMedia, St Vincent de Paul Society of Lane County - D437715E",
+    "client_name": "St Vincent de Paul Society of Lane County",
+    "contact_name": "Chance Fortune",
+    "client_email": "chance.fortune@svdp.us",
+    "location": "D437715E",
+    "zone": "",
+    "cycle": "",
+    "contract_number": "",
+    "store": "",
+    "ad_size": "",
+    "install_month": "",
+    "run_months": "",
+    "image_url": "",
+    "review_deadline": "",
+    "recipients": [
+      "matthew.boozer@indoormedia.com",
+      "tyler.vansant@rtui.com",
+      "richard.leibowitz@rtui.com",
+      "chance.fortune@svdp.us",
+      "bethany.cartledge@svdp.us"
+    ],
+    "reps": [
+      {
+        "email": "matthew.boozer@indoormedia.com",
+        "name": "Matthew Boozer"
+      },
+      {
+        "email": "tyler.vansant@rtui.com",
+        "name": "Tyler Van Sant"
+      }
+    ]
+  },
+  {
+    "message_id": "1a0c9ca491cdab21",
+    "date": "2026-09-22 08:43",
+    "from": "Zone 07W - Sydney Miller <zone.07w@indoormedia.com>",
+    "subject": "Re: Ad Proof from IndoorMedia , Crumbl [07W - A4 - J421811E]",
+    "client_name": "Crumbl",
+    "contact_name": "great day. *",
+    "client_email": "ranae32@gmail.com",
+    "location": "",
+    "zone": "07W",
+    "cycle": "A4",
+    "contract_number": "J421811E",
+    "store": "> Tape Ad at Safeway 3252, 601 South Pioneer Way, Moses Lake, WA",
+    "ad_size": "Single",
+    "install_month": "",
+    "run_months": "",
+    "image_url": "https://lh3.googleusercontent.com/d/1iHewO-jtdVWcryhXjojWJrlBSN5h8qGR",
+    "review_deadline": "09/22/2026",
+    "recipients": [
+      "tyler.vansant@indoormedia.com",
+      "ranae32@gmail.com",
+      "richard.leibowitz@rtui.com",
+      "tyler.vansant@rtui.com"
+    ],
+    "reps": [
+      {
+        "email": "tyler.vansant@indoormedia.com",
+        "name": "Tyler Van Sant"
+      },
+      {
+        "email": "tyler.vansant@rtui.com",
+        "name": "Tyler Van Sant"
+      }
+    ]
+  },
+  {
+    "message_id": "1a0c9c54362471f2",
+    "date": "2026-09-22 08:39",
+    "from": "Sydney Miller <Zone.07W@indoormedia.com>",
+    "subject": "Ad Proof from IndoorMedia , Crumbl [07W - A4 - J421811E]",
+    "client_name": "Crumbl",
+    "contact_name": "Ranae Rusk",
+    "client_email": "ranae32@gmail.com",
+    "location": "",
+    "zone": "07W",
+    "cycle": "A4",
+    "contract_number": "J421811E",
+    "store": "Tape Ad at Safeway 3252, 601 South Pioneer Way, Moses Lake, WA",
+    "ad_size": "Single",
+    "install_month": "",
+    "run_months": "",
+    "image_url": "https://lh3.googleusercontent.com/d/1iHewO-jtdVWcryhXjojWJrlBSN5h8qGR",
+    "review_deadline": "09/22/2026",
+    "recipients": [
+      "tyler.vansant@indoormedia.com",
+      "ranae32@gmail.com",
+      "richard.leibowitz@rtui.com",
+      "tyler.vansant@rtui.com"
+    ],
+    "reps": [
+      {
+        "email": "tyler.vansant@indoormedia.com",
+        "name": "Tyler Van Sant"
+      },
+      {
+        "email": "tyler.vansant@rtui.com",
+        "name": "Tyler Van Sant"
+      }
+    ]
+  },
+  {
+    "message_id": "1a0c9ba76e5151b0",
+    "date": "2026-09-22 08:27",
+    "from": "Sydney Miller <Zone.07Y@indoormedia.com>",
+    "subject": "Ad Proof from IndoorMedia , Spray N shine Car Wash [07Y - A4 - J438286E]",
+    "client_name": "Spray N shine Car Wash",
+    "contact_name": "Clyde King",
+    "client_email": "clyde@c-raytrucking.com",
+    "location": "",
+    "zone": "07Y",
+    "cycle": "A4",
+    "contract_number": "J438286E",
+    "store": "Tape Ad at Safeway 4404, 138 W Ellendale Ave, Dallas, OR",
+    "ad_size": "Single",
+    "install_month": "",
+    "run_months": "",
+    "image_url": "https://lh3.googleusercontent.com/d/1tBFNUlN0oVYAHSSutrVFRgWrVZ6HEuv5",
+    "review_deadline": "09/22/2026",
+    "recipients": [
+      "richard.leibowitz@rtui.com",
+      "tyler.vansant@indoormedia.com",
+      "clyde@c-raytrucking.com",
+      "tyler.vansant@rtui.com",
+      "sprayshine05@gmail.com"
+    ],
+    "reps": [
+      {
+        "email": "tyler.vansant@indoormedia.com",
+        "name": "Tyler Van Sant"
+      },
+      {
+        "email": "tyler.vansant@rtui.com",
+        "name": "Tyler Van Sant"
+      }
+    ]
+  },
+  {
+    "message_id": "1a0c98e207b798e0",
+    "date": "2026-09-22 07:38",
+    "from": "Zone 07W - Sydney Miller <zone.07w@indoormedia.com>",
+    "subject": "Re: Ad Proof from IndoorMedia , Crumbl [07W - A4 - J421811E]",
+    "client_name": "Crumbl",
+    "contact_name": "Good morning",
+    "client_email": "tyler.vansant@indoormedia.com",
+    "location": "",
+    "zone": "07W",
+    "cycle": "A4",
+    "contract_number": "J421811E",
+    "store": ">>>> Tape Ad at Safeway 3252, 601 South Pioneer Way, Moses Lake, WA",
+    "ad_size": "Single",
+    "install_month": "",
+    "run_months": "",
+    "image_url": "https://lh3.googleusercontent.com/d/1pGMqDETh7OzYFqrdofc57cSxKNY1A2F6",
+    "review_deadline": "09/17/2026",
+    "recipients": [
+      "tyler.vansant@indoormedia.com"
+    ],
+    "reps": [
+      {
+        "email": "tyler.vansant@indoormedia.com",
+        "name": "Tyler Van Sant"
+      }
+    ]
+  },
+  {
+    "message_id": "1a0c52eefeebf236",
+    "date": "2026-09-21 11:16",
+    "from": "Sydney Miller <Zone.07Y@indoormedia.com>",
+    "subject": "Ad Proof from IndoorMedia , Claw City [07Y - A4 - J438365E]",
+    "client_name": "Claw City",
+    "contact_name": "James Pepion",
+    "client_email": "jamespepion2016@gmail.com",
+    "location": "",
+    "zone": "07Y",
+    "cycle": "A4",
+    "contract_number": "J438365E",
+    "store": "Tape Ad at Safeway 0415, 4101 NW Logan Road, Lincoln City, OR",
+    "ad_size": "Single",
+    "install_month": "",
+    "run_months": "",
+    "image_url": "https://lh3.googleusercontent.com/d/1tcPW5GnbXiQ2Ex9zVprwDNzU8pqgQuaF",
+    "review_deadline": "09/24/2026",
+    "recipients": [
+      "kari.weller@indoormedia.com",
+      "jamespepion2016@gmail.com",
+      "richard.leibowitz@rtui.com",
+      "tyler.vansant@rtui.com"
+    ],
+    "reps": [
+      {
+        "email": "tyler.vansant@rtui.com",
+        "name": "Tyler Van Sant"
+      }
+    ]
+  },
+  {
+    "message_id": "1a0c4648144bfe0d",
+    "date": "2026-09-21 07:35",
+    "from": "Sydney Miller <Zone.07Z@indoormedia.com>",
+    "subject": "Ad Proof from IndoorMedia , Crooked Creek Brewery [07Z - B4 - J422768E]",
+    "client_name": "Crooked Creek Brewery",
+    "contact_name": "Dave Lauridsen",
+    "client_email": "d@crookedcreekbrewery.com",
+    "location": "",
+    "zone": "07Z",
+    "cycle": "B4",
+    "contract_number": "J422768E",
+    "store": "Tape Ad at Safeway 0424, 795 Columbia River Highway, St. Helens, OR",
+    "ad_size": "Double",
+    "install_month": "",
+    "run_months": "",
+    "image_url": "https://lh3.googleusercontent.com/d/1gvsFjTIWy9Enr-7CTy4Yd435Ol46sUJA",
+    "review_deadline": "09/24/2026",
+    "recipients": [
+      "tyler.vansant@rtui.com",
+      "megan.wink@indoormedia.com",
+      "richard.leibowitz@rtui.com",
+      "d@crookedcreekbrewery.com"
+    ],
+    "reps": [
+      {
+        "email": "tyler.vansant@rtui.com",
+        "name": "Tyler Van Sant"
+      },
+      {
+        "email": "megan.wink@indoormedia.com",
+        "name": "Megan Wink"
+      }
+    ]
+  },
+  {
+    "message_id": "1a0c44a537784c87",
+    "date": "2026-09-21 07:06",
+    "from": "Zone 07Y - Sydney Miller <zone.07y@indoormedia.com>",
+    "subject": "Re: Ad Proofs from IndoorMedia , Center Street Ridez [07Y - A4 - J435858E]",
+    "client_name": "Center Street Ridez",
+    "contact_name": "will see a new proof email as soon as it becomes available*",
+    "client_email": "centerstreetridez1@gmail.com",
+    "location": "",
+    "zone": "07Y",
+    "cycle": "A4",
+    "contract_number": "J435858E",
+    "store": "",
+    "ad_size": "Double",
+    "install_month": "",
+    "run_months": "",
+    "image_url": "https://lh3.googleusercontent.com/d/1VqC1XuXIQ7D_MvGrFmgxEb9L1c8xp0AM",
+    "review_deadline": "09/18/2026",
+    "recipients": [
+      "tyler.vansant@rtui.com",
+      "matthew.boozer@indoormedia.com",
+      "richard.leibowitz@rtui.com",
+      "centerstreetridez1@gmail.com"
+    ],
+    "reps": [
+      {
+        "email": "tyler.vansant@rtui.com",
+        "name": "Tyler Van Sant"
+      },
+      {
+        "email": "matthew.boozer@indoormedia.com",
+        "name": "Matthew Boozer"
+      }
+    ]
+  },
+  {
+    "message_id": "1a0c3fbd8630ac5e",
+    "date": "2026-09-21 05:40",
+    "from": "Zone 07Y - Sydney Miller <zone.07y@indoormedia.com>",
+    "subject": "Re: Your Digital Boost Ad Proof from IndoorMedia, St Vincent de Paul Society of Lane County - D437715E",
+    "client_name": "St Vincent de Paul Society of Lane County",
+    "contact_name": "will see a new proof email as soon as it becomes available*",
+    "client_email": "chance.fortune@svdp.us",
+    "location": "D437715E",
+    "zone": "",
+    "cycle": "",
+    "contract_number": "",
+    "store": "",
+    "ad_size": "",
+    "install_month": "",
+    "run_months": "",
+    "image_url": "",
+    "review_deadline": "",
+    "recipients": [
+      "chance.fortune@svdp.us",
+      "matthew.boozer@indoormedia.com",
+      "richard.leibowitz@rtui.com",
+      "tyler.vansant@rtui.com"
+    ],
+    "reps": [
+      {
+        "email": "matthew.boozer@indoormedia.com",
+        "name": "Matthew Boozer"
+      },
+      {
+        "email": "tyler.vansant@rtui.com",
+        "name": "Tyler Van Sant"
+      }
+    ]
+  },
+  {
+    "message_id": "1a0c3f72827afc37",
+    "date": "2026-09-21 05:35",
+    "from": "Sydney Miller <Zone.07Y@indoormedia.com>",
+    "subject": "Ad Proof from IndoorMedia , Amazon Creek Dental [07Y - A4 - J435441E]",
+    "client_name": "Amazon Creek Dental",
+    "contact_name": "Edward Costa",
+    "client_email": "admin@amazoncreekdental.com",
+    "location": "",
+    "zone": "07Y",
+    "cycle": "A4",
+    "contract_number": "J435441E",
+    "store": "Tape Ad at Albertsons 3564, 3075 Hilyard St., Eugene, OR",
+    "ad_size": "Double",
+    "install_month": "",
+    "run_months": "",
+    "image_url": "https://lh3.googleusercontent.com/d/1Rr5ALUQAArNZ_9tao4k_oytDrn-8l37_",
+    "review_deadline": "09/21/2026",
+    "recipients": [
+      "matthew.boozer@indoormedia.com",
+      "admin@amazoncreekdental.com",
+      "richard.leibowitz@rtui.com",
+      "tyler.vansant@rtui.com"
+    ],
+    "reps": [
+      {
+        "email": "matthew.boozer@indoormedia.com",
+        "name": "Matthew Boozer"
+      },
+      {
+        "email": "tyler.vansant@rtui.com",
+        "name": "Tyler Van Sant"
+      }
+    ]
+  },
+  {
     "message_id": "1a0b62d2ccd2e0f0",
     "date": "2026-09-18 13:20",
     "from": "Sydney Miller <Zone.07Z@indoormedia.com>",
@@ -28,37 +369,6 @@
         "email": "megan.wink@indoormedia.com",
         "name": "Megan Wink"
       },
-      {
-        "email": "tyler.vansant@rtui.com",
-        "name": "Tyler Van Sant"
-      }
-    ]
-  },
-  {
-    "message_id": "1a0b5260b1be5694",
-    "date": "2026-09-18 08:32",
-    "from": "Sydney Miller <Zone.07Y@indoormedia.com>",
-    "subject": "Ad Proof from IndoorMedia , Claw City [07Y - A4 - J438365E]",
-    "client_name": "Claw City",
-    "contact_name": "James Pepion",
-    "client_email": "jamespepion2016@gmail.com",
-    "location": "",
-    "zone": "07Y",
-    "cycle": "A4",
-    "contract_number": "J438365E",
-    "store": "Tape Ad at Safeway 0415, 4101 NW Logan Road, Lincoln City, OR",
-    "ad_size": "Single",
-    "install_month": "",
-    "run_months": "",
-    "image_url": "https://lh3.googleusercontent.com/d/1SLrDtaX2-WwR-DzrlLsXzruAkYCpKWZw",
-    "review_deadline": "09/18/2026",
-    "recipients": [
-      "tyler.vansant@rtui.com",
-      "jamespepion2016@gmail.com",
-      "richard.leibowitz@rtui.com",
-      "kari.weller@indoormedia.com"
-    ],
-    "reps": [
       {
         "email": "tyler.vansant@rtui.com",
         "name": "Tyler Van Sant"
@@ -198,41 +508,6 @@
       {
         "email": "dave.boring@indoormedia.com",
         "name": "Dave Boring"
-      }
-    ]
-  },
-  {
-    "message_id": "1a0b47f8b3d3ae3c",
-    "date": "2026-09-18 05:30",
-    "from": "Sydney Miller <Zone.07Y@indoormedia.com>",
-    "subject": "Ad Proofs from IndoorMedia , Center Street Ridez [07Y - A4 - J435858E]",
-    "client_name": "Center Street Ridez",
-    "contact_name": "David Moore",
-    "client_email": "centerstreetridez1@gmail.com",
-    "location": "",
-    "zone": "07Y",
-    "cycle": "A4",
-    "contract_number": "J435858E",
-    "store": "",
-    "ad_size": "Double",
-    "install_month": "",
-    "run_months": "",
-    "image_url": "https://lh3.googleusercontent.com/d/1VqC1XuXIQ7D_MvGrFmgxEb9L1c8xp0AM",
-    "review_deadline": "09/18/2026",
-    "recipients": [
-      "tyler.vansant@rtui.com",
-      "richard.leibowitz@rtui.com",
-      "matthew.boozer@indoormedia.com",
-      "centerstreetridez1@gmail.com"
-    ],
-    "reps": [
-      {
-        "email": "tyler.vansant@rtui.com",
-        "name": "Tyler Van Sant"
-      },
-      {
-        "email": "matthew.boozer@indoormedia.com",
-        "name": "Matthew Boozer"
       }
     ]
   },
@@ -402,35 +677,6 @@
       {
         "email": "matthew.boozer@indoormedia.com",
         "name": "Matthew Boozer"
-      }
-    ]
-  },
-  {
-    "message_id": "1a0afa7e820430e7",
-    "date": "2026-09-17 06:56",
-    "from": "Sydney Miller <Zone.07W@indoormedia.com>",
-    "subject": "Ad Proof from IndoorMedia , Crumbl [07W - A4 - J421811E]",
-    "client_name": "Crumbl",
-    "contact_name": "Ranae Rusk",
-    "client_email": "ranae32@gmail.com",
-    "location": "",
-    "zone": "07W",
-    "cycle": "A4",
-    "contract_number": "J421811E",
-    "store": "Tape Ad at Safeway 3252, 601 South Pioneer Way, Moses Lake, WA",
-    "ad_size": "Single",
-    "install_month": "",
-    "run_months": "",
-    "image_url": "https://lh3.googleusercontent.com/d/1pGMqDETh7OzYFqrdofc57cSxKNY1A2F6",
-    "review_deadline": "09/17/2026",
-    "recipients": [
-      "tyler.vansant@indoormedia.com",
-      "ranae32@gmail.com"
-    ],
-    "reps": [
-      {
-        "email": "tyler.vansant@indoormedia.com",
-        "name": "Tyler Van Sant"
       }
     ]
   },
