@@ -14,6 +14,28 @@
   let searchQuery = '';
   let expandedCustomer = null;
   let emailDraft = null;
+  let emailLandingUrl = '';
+
+  // Normalize a landing-page URL (same website format used for counter-sign QR codes).
+  function normalizeLandingUrl(url) {
+    if (!url) return '';
+    let u = String(url).trim();
+    if (!u || u.toLowerCase() === 'none') return '';
+    if (!/^https?:\/\//i.test(u)) u = 'https://' + u;
+    return u;
+  }
+
+  // Email body with an optional landing-page link appended before the sign-off.
+  function draftBodyWithLanding(body) {
+    const landing = normalizeLandingUrl(emailLandingUrl);
+    if (!body || !landing) return body || '';
+    const lines = body.split('\n');
+    let signoffIdx = lines.lastIndexOf('Best,');
+    if (signoffIdx < 0) signoffIdx = lines.lastIndexOf('All the best,');
+    const insertAt = signoffIdx > 0 ? signoffIdx : lines.length;
+    lines.splice(insertAt, 0, `\n👉 See your custom landing page:\n${landing}\n`);
+    return lines.join('\n');
+  }
   
   // Pending Renewals
   let pendingRenewals = [];
@@ -774,7 +796,7 @@ IndoorMedia`;
 
   function copyEmail() {
     if (!emailDraft) return;
-    const text = `Subject: ${emailDraft.subject}\n\n${emailDraft.body}`;
+    const text = `Subject: ${emailDraft.subject}\n\n${draftBodyWithLanding(emailDraft.body)}`;
     navigator.clipboard.writeText(text).then(() => {
       emailDraft = { ...emailDraft, copied: true };
       setTimeout(() => { emailDraft = { ...emailDraft, copied: false }; }, 2000);
@@ -1076,13 +1098,16 @@ IndoorMedia`;
 
                 {#if emailDraft}
                   <div class="draft-box">
+                    <label class="landing-label">🔗 Link landing page (optional — same as counter-sign QR)</label>
+                    <input class="landing-input" type="url" inputmode="url"
+                      placeholder="Paste landing page URL…" bind:value={emailLandingUrl} />
                     <p class="draft-subject"><strong>Subject:</strong> {emailDraft.subject}</p>
-                    <pre class="draft-body">{emailDraft.body}</pre>
+                    <pre class="draft-body">{draftBodyWithLanding(emailDraft.body)}</pre>
                     <button class="copy-btn" on:click={copyEmail}>
                       {emailDraft.copied ? '✅ Copied!' : '📋 Copy Email'}
                     </button>
                     {#if c.contact_email}
-                      <a href="mailto:{c.contact_email}?subject={encodeURIComponent(emailDraft.subject)}&body={encodeURIComponent(emailDraft.body)}" class="send-btn">📤 Open in Mail</a>
+                      <a href="mailto:{c.contact_email}?subject={encodeURIComponent(emailDraft.subject)}&body={encodeURIComponent(draftBodyWithLanding(emailDraft.body))}" class="send-btn">📤 Open in Mail</a>
                     {/if}
                   </div>
                 {/if}
@@ -1761,6 +1786,8 @@ IndoorMedia`;
   .email-tmpl-btn:hover { border-color: #CC0000; background: #fff5f5; }
 
   .draft-box { background: var(--bg-secondary, #f5f5f5); border-radius: 8px; padding: 12px; margin-bottom: 12px; }
+  .landing-label { display: block; font-size: 12px; font-weight: 600; color: var(--text-secondary, #555); margin-bottom: 4px; }
+  .landing-input { width: 100%; box-sizing: border-box; padding: 8px 10px; border: 1px solid var(--border-color, #ccc); border-radius: 6px; font-size: 13px; margin-bottom: 10px; background: var(--bg-primary, #fff); color: var(--text-primary, #111); }
   .draft-subject { margin: 0 0 8px; font-size: 13px; color: var(--text-primary); }
   .draft-body { margin: 0; font-size: 12px; color: var(--text-secondary); white-space: pre-wrap; font-family: inherit; line-height: 1.5; max-height: 200px; overflow-y: auto; }
   .copy-btn { padding: 8px 16px; background: #CC0000; color: white; border: none; border-radius: 6px; font-size: 13px; font-weight: 600; cursor: pointer; margin-top: 8px; margin-right: 8px; }

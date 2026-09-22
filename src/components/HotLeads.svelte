@@ -16,6 +16,7 @@
   
   // Email template variables
   let contactName = '';
+  let landingUrl = '';
   let emailToSend = '';
   
   onMount(async () => {
@@ -75,6 +76,7 @@
     selectedLead = lead;
     viewMode = 'detail';
     contactName = '';
+    landingUrl = '';
     emailToSend = '';
   }
   
@@ -83,12 +85,30 @@
     selectedLead = null;
   }
   
+  // Normalize a landing-page URL (same website format used for counter-sign QR codes).
+  function normalizeLandingUrl(url) {
+    if (!url) return '';
+    let u = String(url).trim();
+    if (!u || u.toLowerCase() === 'none') return '';
+    if (!/^https?:\/\//i.test(u)) u = 'https://' + u;
+    return u;
+  }
+
   function renderEmailTemplate(lead, contact = '[Contact Name]', rep = user?.name || 'Your Rep') {
     const template = lead._email_body_template || '';
-    return template
+    let body = template
       .replace(/\{business\}/g, lead.business_name)
       .replace(/\{contact\}/g, contact)
       .replace(/\{rep\}/g, rep);
+    const landing = normalizeLandingUrl(landingUrl);
+    if (landing) {
+      const lines = body.split('\n');
+      const signoffIdx = lines.lastIndexOf('Best,');
+      const insertAt = signoffIdx > 0 ? signoffIdx : lines.length;
+      lines.splice(insertAt, 0, `\n👉 See your custom landing page:\n${landing}\n`);
+      body = lines.join('\n');
+    }
+    return body;
   }
   
   function renderSubjectTemplate(lead) {
@@ -262,6 +282,12 @@
             type="text"
             placeholder="Contact's first name (optional)"
             bind:value={contactName}
+          />
+          <input
+            type="url"
+            inputmode="url"
+            placeholder="🔗 Landing page URL (optional — same as counter-sign QR)"
+            bind:value={landingUrl}
           />
         </div>
         

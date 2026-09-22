@@ -3221,6 +3221,23 @@ IndoorMedia`
   // When the device supports the Web Share API with files, the "Share" button
   // can also hand the real file to the native mail app.
 
+  // Normalize a landing-page URL entered by the rep. These are the same
+  // websites used when generating a counter-sign QR code: a full http(s)
+  // link. We accept a bare domain and prepend https:// for convenience,
+  // and return '' for blanks / the literal "none".
+  function normalizeLandingUrl(url) {
+    if (!url) return '';
+    let u = String(url).trim();
+    if (!u || u.toLowerCase() === 'none') return '';
+    if (!/^https?:\/\//i.test(u)) u = 'https://' + u;
+    return u;
+  }
+
+  function clearEmailLanding(prospect) {
+    prospect._emailLandingUrl = '';
+    prospects = prospects;
+  }
+
   // Normalize a Google Drive share URL to a clean, openable link.
   function normalizeDriveLink(url) {
     if (!url) return '';
@@ -3308,6 +3325,11 @@ IndoorMedia`
     const rawBody = tpl._dynamic && typeof tpl.body === 'function' ? tpl.body(prospect) : tpl.body;
     let body = fillTemplate(rawBody, prospect);
     const extras = [];
+    // Landing page link (same URL format the rep uses for counter-sign QR codes).
+    const landing = normalizeLandingUrl(prospect._emailLandingUrl);
+    if (landing) {
+      extras.push(`👉 See your custom landing page:\n${landing}`);
+    }
     if (prospect._emailAttachUrl) {
       const isVideo = prospect._emailAttachType === 'drive' || prospect._emailAttachType === 'video';
       const label = isVideo ? '🎥 Watch a quick video' : '🖼️ See the details';
@@ -4345,6 +4367,25 @@ IndoorMedia`
                     {@const g = SHARE_GRAPHICS.find(x => x.id === prospect._emailGraphic)}
                     {#if g}<img class="email-graphic-thumb" src={graphicUrl(g)} alt={g.title} loading="lazy" />{/if}
                   {/if}
+
+                  <!-- Landing page link (same URL format as counter-sign QR codes) -->
+                  <div class="email-landing">
+                    <span class="email-addon-label">🔗 Link their landing page:</span>
+                    <div class="email-attach-row">
+                      <input class="email-drive-input" type="url" inputmode="url"
+                        placeholder="Paste landing page URL (same as counter-sign QR)…"
+                        bind:value={prospect._emailLandingUrl}
+                        on:input={() => prospects = prospects} />
+                      {#if prospect._emailLandingUrl}
+                        <button class="email-attach-add" on:click={() => clearEmailLanding(prospect)}>Clear</button>
+                      {/if}
+                    </div>
+                    {#if normalizeLandingUrl(prospect._emailLandingUrl)}
+                      <p class="email-attach-hint">✓ Landing page link will be added to the email: {normalizeLandingUrl(prospect._emailLandingUrl)}</p>
+                    {:else}
+                      <p class="email-attach-hint">Optional. Adds a tap-to-open link to their landing page (the same website you’d use for a counter-sign QR code).</p>
+                    {/if}
+                  </div>
 
                   <!-- Attach a video / image (Google Drive link or phone gallery) -->
                   <div class="email-attach">
