@@ -3238,6 +3238,28 @@ IndoorMedia`
     prospects = prospects;
   }
 
+  // Build the rep's IndoorMedia advertise-with landing page URL from their name.
+  // Pattern (confirmed live): https://www.indoormedia.com/tape-sales/advertise-with-<first>-<last>/
+  // Slug = lowercase, accents stripped, apostrophes/periods removed, any run of
+  // non-alphanumerics -> single hyphen (so "Tyler Van Sant" -> tyler-van-sant).
+  function repLandingUrl() {
+    const name = ($user?.name || $user?.display_name || '').trim();
+    if (!name) return '';
+    const slug = name
+      .normalize('NFD').replace(/[\u0300-\u036f]/g, '')
+      .toLowerCase()
+      .replace(/['’.]/g, '')
+      .replace(/[^a-z0-9]+/g, '-')
+      .replace(/^-+|-+$/g, '');
+    if (!slug) return '';
+    return `https://www.indoormedia.com/tape-sales/advertise-with-${slug}/`;
+  }
+
+  function useRepLanding(prospect) {
+    const url = repLandingUrl();
+    if (url) { prospect._emailLandingUrl = url; prospects = prospects; }
+  }
+
   // Normalize a Google Drive share URL to a clean, openable link.
   function normalizeDriveLink(url) {
     if (!url) return '';
@@ -4380,6 +4402,9 @@ IndoorMedia`
                         <button class="email-attach-add" on:click={() => clearEmailLanding(prospect)}>Clear</button>
                       {/if}
                     </div>
+                    {#if repLandingUrl()}
+                      <button class="email-gallery-btn secondary" on:click={() => useRepLanding(prospect)}>🏠 Use my IndoorMedia page</button>
+                    {/if}
                     {#if normalizeLandingUrl(prospect._emailLandingUrl)}
                       <p class="email-attach-hint">✓ Landing page link will be added to the email: {normalizeLandingUrl(prospect._emailLandingUrl)}</p>
                     {:else}

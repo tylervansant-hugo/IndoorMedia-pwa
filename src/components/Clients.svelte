@@ -25,6 +25,21 @@
     return u;
   }
 
+  // Build the rep's IndoorMedia advertise-with landing page from their name.
+  // https://www.indoormedia.com/tape-sales/advertise-with-<first>-<last>/
+  function repLandingUrl() {
+    const name = ($user?.name || $user?.first_name || '').trim();
+    if (!name) return '';
+    const slug = name
+      .normalize('NFD').replace(/[\u0300-\u036f]/g, '')
+      .toLowerCase()
+      .replace(/['’.]/g, '')
+      .replace(/[^a-z0-9]+/g, '-')
+      .replace(/^-+|-+$/g, '');
+    if (!slug) return '';
+    return `https://www.indoormedia.com/tape-sales/advertise-with-${slug}/`;
+  }
+
   // Email body with an optional landing-page link appended before the sign-off.
   function draftBodyWithLanding(body) {
     const landing = normalizeLandingUrl(emailLandingUrl);
@@ -1101,6 +1116,9 @@ IndoorMedia`;
                     <label class="landing-label">🔗 Link landing page (optional — same as counter-sign QR)</label>
                     <input class="landing-input" type="url" inputmode="url"
                       placeholder="Paste landing page URL…" bind:value={emailLandingUrl} />
+                    {#if repLandingUrl()}
+                      <button class="landing-mine-btn" on:click={() => emailLandingUrl = repLandingUrl()}>🏠 Use my IndoorMedia page</button>
+                    {/if}
                     <p class="draft-subject"><strong>Subject:</strong> {emailDraft.subject}</p>
                     <pre class="draft-body">{draftBodyWithLanding(emailDraft.body)}</pre>
                     <button class="copy-btn" on:click={copyEmail}>
@@ -1787,7 +1805,9 @@ IndoorMedia`;
 
   .draft-box { background: var(--bg-secondary, #f5f5f5); border-radius: 8px; padding: 12px; margin-bottom: 12px; }
   .landing-label { display: block; font-size: 12px; font-weight: 600; color: var(--text-secondary, #555); margin-bottom: 4px; }
-  .landing-input { width: 100%; box-sizing: border-box; padding: 8px 10px; border: 1px solid var(--border-color, #ccc); border-radius: 6px; font-size: 13px; margin-bottom: 10px; background: var(--bg-primary, #fff); color: var(--text-primary, #111); }
+  .landing-input { width: 100%; box-sizing: border-box; padding: 8px 10px; border: 1px solid var(--border-color, #ccc); border-radius: 6px; font-size: 13px; margin-bottom: 8px; background: var(--bg-primary, #fff); color: var(--text-primary, #111); }
+  .landing-mine-btn { display: inline-block; margin-bottom: 10px; padding: 7px 12px; background: #fff; border: 1.5px solid #CC0000; color: #CC0000; border-radius: 6px; font-size: 12px; font-weight: 600; cursor: pointer; }
+  .landing-mine-btn:hover { background: #CC0000; color: #fff; }
   .draft-subject { margin: 0 0 8px; font-size: 13px; color: var(--text-primary); }
   .draft-body { margin: 0; font-size: 12px; color: var(--text-secondary); white-space: pre-wrap; font-family: inherit; line-height: 1.5; max-height: 200px; overflow-y: auto; }
   .copy-btn { padding: 8px 16px; background: #CC0000; color: white; border: none; border-radius: 6px; font-size: 13px; font-weight: 600; cursor: pointer; margin-top: 8px; margin-right: 8px; }

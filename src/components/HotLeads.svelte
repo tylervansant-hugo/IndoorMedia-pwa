@@ -94,6 +94,21 @@
     return u;
   }
 
+  // Build the rep's IndoorMedia advertise-with landing page from their name.
+  // https://www.indoormedia.com/tape-sales/advertise-with-<first>-<last>/
+  function repLandingUrl() {
+    const name = (user?.name || user?.display_name || '').trim();
+    if (!name) return '';
+    const slug = name
+      .normalize('NFD').replace(/[\u0300-\u036f]/g, '')
+      .toLowerCase()
+      .replace(/['’.]/g, '')
+      .replace(/[^a-z0-9]+/g, '-')
+      .replace(/^-+|-+$/g, '');
+    if (!slug) return '';
+    return `https://www.indoormedia.com/tape-sales/advertise-with-${slug}/`;
+  }
+
   function renderEmailTemplate(lead, contact = '[Contact Name]', rep = user?.name || 'Your Rep') {
     const template = lead._email_body_template || '';
     let body = template
@@ -289,6 +304,9 @@
             placeholder="🔗 Landing page URL (optional — same as counter-sign QR)"
             bind:value={landingUrl}
           />
+          {#if repLandingUrl()}
+            <button class="landing-btn" on:click={() => landingUrl = repLandingUrl()}>🏠 Use my IndoorMedia page</button>
+          {/if}
         </div>
         
         <div class="email-preview">
@@ -686,9 +704,23 @@
   
   .personalize {
     display: flex;
+    flex-wrap: wrap;
     gap: 8px;
     margin-bottom: 12px;
   }
+
+  .landing-btn {
+    flex: 1 1 100%;
+    padding: 9px 12px;
+    background: #fff;
+    border: 2px solid #CC0000;
+    color: #CC0000;
+    border-radius: 6px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+  }
+  .landing-btn:hover { background: #CC0000; color: #fff; }
   
   .personalize input {
     flex: 1;
