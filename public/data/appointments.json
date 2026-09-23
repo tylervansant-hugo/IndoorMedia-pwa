@@ -1,81 +1,5 @@
 [
   {
-    "event_id": "fcvk6bodtiad8ge1mgnukdn7h0",
-    "title": "\ud83d\udce6 Install Q3: Hi-tech home repair at Smiths, St. George, Smiths-0189",
-    "start": "2026-09-22T10:00:00-07:00",
-    "end": "2026-09-22T11:00:00-07:00",
-    "location": "",
-    "description": "INSTALL QUARTER 3 (180 days in)\nContract: J424482E\nBusiness: Hi-tech home repair\nCustomer: Matt wyson\nRep: Cameron Gould\nStore: Smiths Smiths-0189, St. George\nEst. Start: 04/05/2026\nTerm: 4Q (12 months)\n\nInstall tape at Hi-tech home repair.",
-    "prospect_name": "",
-    "phone": "",
-    "address": "",
-    "store": "Smiths Smiths-0189, St. George",
-    "rep": "Cameron Gould",
-    "attendees": [
-      {
-        "email": "cameron.gould@indoormedia.com",
-        "name": "",
-        "status": "needsAction"
-      }
-    ],
-    "is_prospect_visit": true,
-    "creator": "tyler.vansant@indoormedia.com"
-  },
-  {
-    "event_id": "qdfnb9garvbt0oa2mrom2v87tg",
-    "title": "Visit: Sabye with Chris",
-    "start": "2026-09-22T10:30:00-07:00",
-    "end": "2026-09-22T11:30:00-07:00",
-    "location": "16840 SW Edy Rd Ste 133, Sherwood, OR 97140, USA",
-    "description": "Prospect: Sabye\nAddress: 16840 SW Edy Rd Ste 133, Sherwood, OR 97140, USA\nBusiness Phone: (503) 610-1897\nWebsite: http://sabyestreetfoods.com/\nStore: Safeway SAF07Y-1800\nRep: Marty Eng\n\n\ud83d\udcdd Notes:\nDidn\u2019t get a chance to ask his name but sounds like owners are brother and sister. Said sister wasn\u2019t in at the moment so it wouldn\u2019t be a good time. But also stated they have been approached before by people in marketing and have been scammed, sounded like google/seo/facebook type of deals. And paid a couple thousands. Tried to explain a little of what we do and work with currently there. To try and bring guard down but got a customer walk in and said he had to go and he would call back if he wanted more info.",
-    "prospect_name": "Sabye",
-    "phone": "",
-    "address": "16840 SW Edy Rd Ste 133, Sherwood, OR 97140, USA",
-    "store": "Safeway SAF07Y-1800",
-    "rep": "Marty Eng",
-    "attendees": [
-      {
-        "email": "anthony.eng@indoormedia.com",
-        "name": "",
-        "status": "accepted"
-      },
-      {
-        "email": "tyler.vansant@indoormedia.com",
-        "name": "",
-        "status": "needsAction"
-      }
-    ],
-    "is_prospect_visit": true,
-    "creator": "anthony.eng@indoormedia.com"
-  },
-  {
-    "event_id": "64p3ecj2c5gjcbb664p3gb9kccomab9o70r3eb9m70s6acb668qj8o9p68",
-    "title": "Visit: El Sazon Mexicano PDX Yusenia daughter",
-    "start": "2026-09-22T14:30:00-07:00",
-    "end": "2026-09-22T15:30:00-07:00",
-    "location": "4708 NW Bethany Blvd e10, Portland, OR 97229, USA",
-    "description": "Prospect: El Sazon Mexicano PDX\nAddress: 4708 NW Bethany Blvd e10, Portland, OR 97229, USA\nBusiness Phone: (503) 479-2101\nWebsite: http://restaurantelsazonmexicano.com/\nOwner/Decision Maker: Yusenia owners daughter mgr\nStore: Quality Food Center QFC07Y-0201\nRep: Megan Wink",
-    "prospect_name": "El Sazon Mexicano PDX",
-    "phone": "",
-    "address": "4708 NW Bethany Blvd e10, Portland, OR 97229, USA",
-    "store": "Quality Food Center QFC07Y-0201",
-    "rep": "Megan Wink",
-    "attendees": [
-      {
-        "email": "megan.wink@indoormedia.com",
-        "name": "",
-        "status": "accepted"
-      },
-      {
-        "email": "tyler.vansant@indoormedia.com",
-        "name": "",
-        "status": "needsAction"
-      }
-    ],
-    "is_prospect_visit": true,
-    "creator": "megan.wink@indoormedia.com"
-  },
-  {
     "event_id": "91r7jhu15vd0ciek1r5f3ser2g",
     "title": "\ud83d\udd0d Audit #5: Fresh Market, OGDEN, Fresh Market-2382 \u2014 check in w/ Shaniah day/Garden of ink",
     "start": "2026-09-23T10:00:00-07:00",
@@ -3973,6 +3897,440 @@
     "title": "Audit C Cycle Stores-Focal Point Accounts",
     "start": "2026-10-21T10:00:00-07:00",
     "end": "2026-10-21T11:30:00-07:00",
+    "location": "",
+    "description": "",
+    "prospect_name": "",
+    "phone": "",
+    "address": "",
+    "store": "",
+    "rep": "Tyler VanSant",
+    "attendees": [],
+    "is_prospect_visit": false,
+    "creator": "tyler.vansant@indoormedia.com"
+  },
+  {
+    "event_id": "1blckeba2ofsrvb7uguf6o7fr8",
+    "title": "\ud83d\udd0d Audit #1: Albertsons, Springfield, Albertsons-0570 \u2014 check in w/ Trang Le/More Boba",
+    "start": "2026-10-22T10:00:00-07:00",
+    "end": "2026-10-22T11:00:00-07:00",
+    "location": "",
+    "description": "AUDIT & CHECK-IN #1 (45 days in)\nContract: J432953E\nBusiness: More Boba\nCustomer: Trang Le\nRep: Matthew Boozer\nStore: Albertsons Albertsons-0570, Springfield\nEst. Start: 09/17/2026\nTerm: 4Q (12 months)\n\nVerify tape display. Check in with Trang Le at More Boba.",
+    "prospect_name": "",
+    "phone": "",
+    "address": "",
+    "store": "Albertsons Albertsons-0570, Springfield",
+    "rep": "Matthew Boozer",
+    "attendees": [
+      {
+        "email": "matthew.boozer@indoormedia.com",
+        "name": "",
+        "status": "needsAction"
+      }
+    ],
+    "is_prospect_visit": false,
+    "creator": "tyler.vansant@indoormedia.com"
+  },
+  {
+    "event_id": "7tbi5blfp95pv45shs810jfvr8",
+    "title": "\ud83d\udd0d Audit #1: Fred Meyer, Albany, Fred Meyer-0005 \u2014 check in w/ Jaymes Clark/The Chicken Shanty",
+    "start": "2026-10-22T10:00:00-07:00",
+    "end": "2026-10-22T11:00:00-07:00",
+    "location": "",
+    "description": "AUDIT & CHECK-IN #1 (45 days in)\nContract: J432380E\nBusiness: The Chicken Shanty\nCustomer: Jaymes Clark\nRep: Anthony Marty Eng\nStore: Fred Meyer Fred Meyer-0005, Albany\nEst. Start: 09/17/2026\nTerm: 4Q (12 months)\n\nVerify tape display. Check in with Jaymes Clark at The Chicken Shanty.",
+    "prospect_name": "",
+    "phone": "",
+    "address": "",
+    "store": "Fred Meyer Fred Meyer-0005, Albany",
+    "rep": "Anthony Marty Eng",
+    "attendees": [
+      {
+        "email": "anthony.eng@indoormedia.com",
+        "name": "",
+        "status": "accepted"
+      }
+    ],
+    "is_prospect_visit": false,
+    "creator": "tyler.vansant@indoormedia.com"
+  },
+  {
+    "event_id": "9c546dsqthmuo9cvl0dodgt4t8",
+    "title": "\ud83d\udd0d Audit #1: Fred Meyer, Brookings, Fred Meyer-0030 \u2014 check in w/ Jude Hodge/RE/MAX Coast & Country - Jude",
+    "start": "2026-10-22T10:00:00-07:00",
+    "end": "2026-10-22T11:00:00-07:00",
+    "location": "",
+    "description": "AUDIT & CHECK-IN #1 (45 days in)\nContract: J433820E\nBusiness: RE/MAX Coast & Country - Jude\nCustomer: Jude Hodge\nRep: Tyler VanSant\nStore: Fred Meyer Fred Meyer-0030, Brookings\nEst. Start: 09/17/2026\nTerm: 8Q (24 months)\n\nVerify tape display. Check in with Jude Hodge at RE/MAX Coast & Country - Jude.",
+    "prospect_name": "",
+    "phone": "",
+    "address": "",
+    "store": "Fred Meyer Fred Meyer-0030, Brookings",
+    "rep": "Tyler VanSant",
+    "attendees": [
+      {
+        "email": "tyler.vansant@indoormedia.com",
+        "name": "",
+        "status": "needsAction"
+      }
+    ],
+    "is_prospect_visit": false,
+    "creator": "tyler.vansant@indoormedia.com"
+  },
+  {
+    "event_id": "9sc3tk9q0ckvmvf8c1f2rd4gvo",
+    "title": "\ud83d\udd0d Audit #1: Fred Meyer, Eugene, Fred Meyer-0325 \u2014 check in w/ Eric Gilbert/Putters\u2019s Pizza & Family Fun",
+    "start": "2026-10-22T10:00:00-07:00",
+    "end": "2026-10-22T11:00:00-07:00",
+    "location": "",
+    "description": "AUDIT & CHECK-IN #1 (45 days in)\nContract: J435742E\nBusiness: Putters\u2019s Pizza & Family Fun\nCustomer: Eric Gilbert\nRep: Matthew Boozer\nStore: Fred Meyer Fred Meyer-0325, Eugene\nEst. Start: 09/17/2026\nTerm: 4Q (12 months)\n\nVerify tape display. Check in with Eric Gilbert at Putters\u2019s Pizza & Family Fun.",
+    "prospect_name": "",
+    "phone": "",
+    "address": "",
+    "store": "Fred Meyer Fred Meyer-0325, Eugene",
+    "rep": "Matthew Boozer",
+    "attendees": [
+      {
+        "email": "matthew.boozer@indoormedia.com",
+        "name": "",
+        "status": "needsAction"
+      }
+    ],
+    "is_prospect_visit": false,
+    "creator": "tyler.vansant@indoormedia.com"
+  },
+  {
+    "event_id": "aj3kha2a2ojmgnabd675svgmac",
+    "title": "\ud83d\udd0d Audit #1: Safeway, Hood River, Safeway-1123 \u2014 check in w/ Babita Kainth/Hindustani",
+    "start": "2026-10-22T10:00:00-07:00",
+    "end": "2026-10-22T11:00:00-07:00",
+    "location": "",
+    "description": "AUDIT & CHECK-IN #1 (45 days in)\nContract: J435995E\nBusiness: Hindustani\nCustomer: Babita Kainth\nRep: Megan Wink\nStore: Safeway Safeway-1123, Hood River\nEst. Start: 09/17/2026\nTerm: 5Q (15 months)\n\nVerify tape display. Check in with Babita Kainth at Hindustani.",
+    "prospect_name": "",
+    "phone": "",
+    "address": "",
+    "store": "Safeway Safeway-1123, Hood River",
+    "rep": "Megan Wink",
+    "attendees": [
+      {
+        "email": "megan.wink@indoormedia.com",
+        "name": "",
+        "status": "needsAction"
+      }
+    ],
+    "is_prospect_visit": false,
+    "creator": "tyler.vansant@indoormedia.com"
+  },
+  {
+    "event_id": "cc5bdgg1sg095crtach8hik26o",
+    "title": "\ud83d\udd0d Audit #1: Fred Meyer, Houston, Fred Meyer-0093 \u2014 check in w/ Rodney Terry/Juliano\u2019s Pizzeria",
+    "start": "2026-10-22T10:00:00-07:00",
+    "end": "2026-10-22T11:00:00-07:00",
+    "location": "",
+    "description": "AUDIT & CHECK-IN #1 (45 days in)\nContract: J434350E\nBusiness: Juliano\u2019s Pizzeria\nCustomer: Rodney Terry\nRep: Megan Wink\nStore: Fred Meyer Fred Meyer-0093, Houston\nEst. Start: 09/17/2026\nTerm: 5Q (15 months)\n\nVerify tape display. Check in with Rodney Terry at Juliano\u2019s Pizzeria.",
+    "prospect_name": "",
+    "phone": "",
+    "address": "",
+    "store": "Fred Meyer Fred Meyer-0093, Houston",
+    "rep": "Megan Wink",
+    "attendees": [
+      {
+        "email": "megan.wink@indoormedia.com",
+        "name": "",
+        "status": "needsAction"
+      }
+    ],
+    "is_prospect_visit": false,
+    "creator": "tyler.vansant@indoormedia.com"
+  },
+  {
+    "event_id": "cnrlsd096808u9hu3p6doh9vms",
+    "title": "\ud83d\udd0d Audit #1: Safeway, Salem, Safeway-1935 \u2014 check in w/ Cory Flickinger/John's Car Wash",
+    "start": "2026-10-22T10:00:00-07:00",
+    "end": "2026-10-22T11:00:00-07:00",
+    "location": "",
+    "description": "AUDIT & CHECK-IN #1 (45 days in)\nContract: J434018E\nBusiness: John's Car Wash\nCustomer: Cory Flickinger\nRep: Tyler VanSant\nStore: Safeway Safeway-1935, Salem\nEst. Start: 09/17/2026\nTerm: 4Q (12 months)\n\nVerify tape display. Check in with Cory Flickinger at John's Car Wash.",
+    "prospect_name": "",
+    "phone": "",
+    "address": "",
+    "store": "Safeway Safeway-1935, Salem",
+    "rep": "Tyler VanSant",
+    "attendees": [
+      {
+        "email": "tyler.vansant@indoormedia.com",
+        "name": "",
+        "status": "needsAction"
+      }
+    ],
+    "is_prospect_visit": false,
+    "creator": "tyler.vansant@indoormedia.com"
+  },
+  {
+    "event_id": "dvojp011skb6l1edhfg98atdso",
+    "title": "\ud83d\udd0d Audit #1: Safeway, Salem, Safeway-0412 \u2014 check in w/ Kurtis Kent/Jiffy Lube Multicare",
+    "start": "2026-10-22T10:00:00-07:00",
+    "end": "2026-10-22T11:00:00-07:00",
+    "location": "",
+    "description": "AUDIT & CHECK-IN #1 (45 days in)\nContract: J433884E\nBusiness: Jiffy Lube Multicare\nCustomer: Kurtis Kent\nRep: Megan Wink\nStore: Safeway Safeway-0412, Salem\nEst. Start: 09/17/2026\nTerm: 2Q (6 months)\n\nVerify tape display. Check in with Kurtis Kent at Jiffy Lube Multicare.",
+    "prospect_name": "",
+    "phone": "",
+    "address": "",
+    "store": "Safeway Safeway-0412, Salem",
+    "rep": "Megan Wink",
+    "attendees": [
+      {
+        "email": "megan.wink@indoormedia.com",
+        "name": "",
+        "status": "needsAction"
+      }
+    ],
+    "is_prospect_visit": false,
+    "creator": "tyler.vansant@indoormedia.com"
+  },
+  {
+    "event_id": "eld6tkphgs29nhh5o6unch6l7c",
+    "title": "\ud83d\udd0d Audit #1: Safeway, Portland, Safeway-1627 \u2014 check in w/ Hector Mejia Zamora/Cafe Zamora",
+    "start": "2026-10-22T10:00:00-07:00",
+    "end": "2026-10-22T11:00:00-07:00",
+    "location": "",
+    "description": "AUDIT & CHECK-IN #1 (45 days in)\nContract: J434543E\nBusiness: Cafe Zamora\nCustomer: Hector Mejia Zamora\nRep: Megan Wink\nStore: Safeway Safeway-1627, Portland\nEst. Start: 09/17/2026\nTerm: 5Q (15 months)\n\nVerify tape display. Check in with Hector Mejia Zamora at Cafe Zamora.",
+    "prospect_name": "",
+    "phone": "",
+    "address": "",
+    "store": "Safeway Safeway-1627, Portland",
+    "rep": "Megan Wink",
+    "attendees": [
+      {
+        "email": "megan.wink@indoormedia.com",
+        "name": "",
+        "status": "needsAction"
+      }
+    ],
+    "is_prospect_visit": false,
+    "creator": "tyler.vansant@indoormedia.com"
+  },
+  {
+    "event_id": "g4d633lajb3jiejigdb4rd8eb0",
+    "title": "\ud83d\udd0d Audit #1: Safeway, Port Angeles, Safeway-1922 \u2014 check in w/ Benjamin Rodocker/Benny B\u2019s Pizza",
+    "start": "2026-10-22T10:00:00-07:00",
+    "end": "2026-10-22T11:00:00-07:00",
+    "location": "",
+    "description": "AUDIT & CHECK-IN #1 (45 days in)\nContract: J432959E\nBusiness: Benny B\u2019s Pizza\nCustomer: Benjamin Rodocker\nRep: Ryan Rohner-talton\nStore: Safeway Safeway-1922, Port Angeles\nEst. Start: 09/17/2026\nTerm: 5Q (15 months)\n\nVerify tape display. Check in with Benjamin Rodocker at Benny B\u2019s Pizza.",
+    "prospect_name": "",
+    "phone": "",
+    "address": "",
+    "store": "Safeway Safeway-1922, Port Angeles",
+    "rep": "Ryan Rohner-talton",
+    "attendees": [
+      {
+        "email": "ryan.rohner-talton@indoormedia.com",
+        "name": "",
+        "status": "needsAction"
+      }
+    ],
+    "is_prospect_visit": false,
+    "creator": "tyler.vansant@indoormedia.com"
+  },
+  {
+    "event_id": "g8laru8t9l8i6hig91pdqc3bso",
+    "title": "\ud83d\udd0d Audit #1: Fred Meyer, Tualatin, Fred Meyer-0393 \u2014 check in w/ Kim Nguyen/Top Solar Nails",
+    "start": "2026-10-22T10:00:00-07:00",
+    "end": "2026-10-22T11:00:00-07:00",
+    "location": "",
+    "description": "AUDIT & CHECK-IN #1 (45 days in)\nContract: J435794E\nBusiness: Top Solar Nails\nCustomer: Kim Nguyen\nRep: Jan Banks\nStore: Fred Meyer Fred Meyer-0393, Tualatin\nEst. Start: 09/17/2026\nTerm: 1Q (3 months)\n\nVerify tape display. Check in with Kim Nguyen at Top Solar Nails.",
+    "prospect_name": "",
+    "phone": "",
+    "address": "",
+    "store": "Fred Meyer Fred Meyer-0393, Tualatin",
+    "rep": "Jan Banks",
+    "attendees": [
+      {
+        "email": "jan.banks@indoormedia.com",
+        "name": "",
+        "status": "needsAction"
+      }
+    ],
+    "is_prospect_visit": false,
+    "creator": "tyler.vansant@indoormedia.com"
+  },
+  {
+    "event_id": "jmrf5fcmtvl8f0k3u40ddnvlt4",
+    "title": "\ud83d\udd0d Audit #1: Safeway, Tacoma, Safeway-1978 \u2014 check in w/ Sandra Pinedo/Welcome Restaurant & Bar",
+    "start": "2026-10-22T10:00:00-07:00",
+    "end": "2026-10-22T11:00:00-07:00",
+    "location": "",
+    "description": "AUDIT & CHECK-IN #1 (45 days in)\nContract: J434323E\nBusiness: Welcome Restaurant & Bar\nCustomer: Sandra Pinedo\nRep: Tyler VanSant\nStore: Safeway Safeway-1978, Tacoma\nEst. Start: 09/17/2026\nTerm: 4Q (12 months)\n\nVerify tape display. Check in with Sandra Pinedo at Welcome Restaurant & Bar.",
+    "prospect_name": "",
+    "phone": "",
+    "address": "",
+    "store": "Safeway Safeway-1978, Tacoma",
+    "rep": "Tyler VanSant",
+    "attendees": [
+      {
+        "email": "tyler.vansant@indoormedia.com",
+        "name": "",
+        "status": "needsAction"
+      }
+    ],
+    "is_prospect_visit": false,
+    "creator": "tyler.vansant@indoormedia.com"
+  },
+  {
+    "event_id": "johb00vbl5j483dosh10s8ofs4",
+    "title": "\ud83d\udd0d Audit #1: Fred Meyer, Portland, Fred Meyer-0600 \u2014 check in w/ Michael Christopherson/Pro Tek",
+    "start": "2026-10-22T10:00:00-07:00",
+    "end": "2026-10-22T11:00:00-07:00",
+    "location": "",
+    "description": "AUDIT & CHECK-IN #1 (45 days in)\nContract: J434774E\nBusiness: Pro Tek\nCustomer: Michael Christopherson\nRep: Megan Wink\nStore: Fred Meyer Fred Meyer-0600, Portland\nEst. Start: 09/17/2026\nTerm: 5Q (15 months)\n\nVerify tape display. Check in with Michael Christopherson at Pro Tek.",
+    "prospect_name": "",
+    "phone": "",
+    "address": "",
+    "store": "Fred Meyer Fred Meyer-0600, Portland",
+    "rep": "Megan Wink",
+    "attendees": [
+      {
+        "email": "megan.wink@indoormedia.com",
+        "name": "",
+        "status": "needsAction"
+      }
+    ],
+    "is_prospect_visit": false,
+    "creator": "tyler.vansant@indoormedia.com"
+  },
+  {
+    "event_id": "m760h1539tfsighbiiesart7o4",
+    "title": "\ud83d\udd0d Audit #1: Safeway, Portland, Safeway-1447 \u2014 check in w/ Megan E Pecoraro/Walt\u2019s Barbershop",
+    "start": "2026-10-22T10:00:00-07:00",
+    "end": "2026-10-22T11:00:00-07:00",
+    "location": "",
+    "description": "AUDIT & CHECK-IN #1 (45 days in)\nContract: J435450E\nBusiness: Walt\u2019s Barbershop\nCustomer: Megan E Pecoraro\nRep: Megan Wink\nStore: Safeway Safeway-1447, Portland\nEst. Start: 09/17/2026\nTerm: 5Q (15 months)\n\nVerify tape display. Check in with Megan E Pecoraro at Walt\u2019s Barbershop.",
+    "prospect_name": "",
+    "phone": "",
+    "address": "",
+    "store": "Safeway Safeway-1447, Portland",
+    "rep": "Megan Wink",
+    "attendees": [
+      {
+        "email": "megan.wink@indoormedia.com",
+        "name": "",
+        "status": "needsAction"
+      }
+    ],
+    "is_prospect_visit": false,
+    "creator": "tyler.vansant@indoormedia.com"
+  },
+  {
+    "event_id": "ndqc4jgrt7kp045gtu5fv8okj8",
+    "title": "\ud83d\udd0d Audit #1: Safeway, Salem, Safeway-0412 \u2014 check in w/ Nathan Nelson/In his name Automotive",
+    "start": "2026-10-22T10:00:00-07:00",
+    "end": "2026-10-22T11:00:00-07:00",
+    "location": "",
+    "description": "AUDIT & CHECK-IN #1 (45 days in)\nContract: J430551E\nBusiness: In his name Automotive\nCustomer: Nathan Nelson\nRep: Anthony Marty Eng\nStore: Safeway Safeway-0412, Salem\nEst. Start: 09/17/2026\nTerm: 4Q (12 months)\n\nVerify tape display. Check in with Nathan Nelson at In his name Automotive.",
+    "prospect_name": "",
+    "phone": "",
+    "address": "",
+    "store": "Safeway Safeway-0412, Salem",
+    "rep": "Anthony Marty Eng",
+    "attendees": [
+      {
+        "email": "anthony.eng@indoormedia.com",
+        "name": "",
+        "status": "accepted"
+      }
+    ],
+    "is_prospect_visit": false,
+    "creator": "tyler.vansant@indoormedia.com"
+  },
+  {
+    "event_id": "o9jgt0kgtcuuc69ks1a2ob6b50",
+    "title": "\ud83d\udd0d Audit #1: Fred Meyer, Albany, Fred Meyer-0005 \u2014 check in w/ Lane County/St. Vincent De Paul Society of",
+    "start": "2026-10-22T10:00:00-07:00",
+    "end": "2026-10-22T11:00:00-07:00",
+    "location": "",
+    "description": "AUDIT & CHECK-IN #1 (45 days in)\nContract: J432790E\nBusiness: St. Vincent De Paul Society of\nCustomer: Lane County\nRep: Matthew Boozer\nStore: Fred Meyer Fred Meyer-0005, Albany\nEst. Start: 09/17/2026\nTerm: 4Q (12 months)\n\nVerify tape display. Check in with Lane County at St. Vincent De Paul Society of.",
+    "prospect_name": "",
+    "phone": "",
+    "address": "",
+    "store": "Fred Meyer Fred Meyer-0005, Albany",
+    "rep": "Matthew Boozer",
+    "attendees": [
+      {
+        "email": "matthew.boozer@indoormedia.com",
+        "name": "",
+        "status": "needsAction"
+      }
+    ],
+    "is_prospect_visit": false,
+    "creator": "tyler.vansant@indoormedia.com"
+  },
+  {
+    "event_id": "p3rssiseasdgolcmogamldjvus",
+    "title": "\ud83d\udd0d Audit #1: Fred Meyer, Lacey, Fred Meyer-0186 \u2014 check in w/ Keli Coleman/Insert Coin WA LLC",
+    "start": "2026-10-22T10:00:00-07:00",
+    "end": "2026-10-22T11:00:00-07:00",
+    "location": "",
+    "description": "AUDIT & CHECK-IN #1 (45 days in)\nContract: J433990E\nBusiness: Insert Coin WA LLC\nCustomer: Keli Coleman\nRep: Tyler VanSant\nStore: Fred Meyer Fred Meyer-0186, Lacey\nEst. Start: 09/17/2026\nTerm: 4Q (12 months)\n\nVerify tape display. Check in with Keli Coleman at Insert Coin WA LLC.",
+    "prospect_name": "",
+    "phone": "",
+    "address": "",
+    "store": "Fred Meyer Fred Meyer-0186, Lacey",
+    "rep": "Tyler VanSant",
+    "attendees": [
+      {
+        "email": "tyler.vansant@indoormedia.com",
+        "name": "",
+        "status": "needsAction"
+      }
+    ],
+    "is_prospect_visit": false,
+    "creator": "tyler.vansant@indoormedia.com"
+  },
+  {
+    "event_id": "sq7rauoarp927bi20a1k5e297g",
+    "title": "\ud83d\udd0d Audit #1: Safeway, Tacoma, Safeway-1978 \u2014 check in w/ Jack Clevenger/Tan Republic",
+    "start": "2026-10-22T10:00:00-07:00",
+    "end": "2026-10-22T11:00:00-07:00",
+    "location": "",
+    "description": "AUDIT & CHECK-IN #1 (45 days in)\nContract: J436232E\nBusiness: Tan Republic\nCustomer: Jack Clevenger\nRep: Dawna Henehan\nStore: Safeway Safeway-1978, Tacoma\nEst. Start: 09/17/2026\nTerm: 5Q (15 months)\n\nVerify tape display. Check in with Jack Clevenger at Tan Republic.",
+    "prospect_name": "",
+    "phone": "",
+    "address": "",
+    "store": "Safeway Safeway-1978, Tacoma",
+    "rep": "Dawna Henehan",
+    "attendees": [
+      {
+        "email": "dawna.henehan@indoormedia.com",
+        "name": "",
+        "status": "needsAction"
+      }
+    ],
+    "is_prospect_visit": false,
+    "creator": "tyler.vansant@indoormedia.com"
+  },
+  {
+    "event_id": "tvaa5m819a4lq4n5arg34g437c",
+    "title": "\ud83d\udd0d Audit #1: Safeway, Tacoma, Safeway-1978 \u2014 check in w/ Olivia Escobar/California Burrito",
+    "start": "2026-10-22T10:00:00-07:00",
+    "end": "2026-10-22T11:00:00-07:00",
+    "location": "",
+    "description": "AUDIT & CHECK-IN #1 (45 days in)\nContract: J414833E\nBusiness: California Burrito\nCustomer: Olivia Escobar\nRep: Dawna Henehan\nStore: Safeway Safeway-1978, Tacoma\nEst. Start: 09/17/2026\nTerm: 4Q (12 months)\n\nVerify tape display. Check in with Olivia Escobar at California Burrito.",
+    "prospect_name": "",
+    "phone": "",
+    "address": "",
+    "store": "Safeway Safeway-1978, Tacoma",
+    "rep": "Dawna Henehan",
+    "attendees": [
+      {
+        "email": "dawna.henehan@indoormedia.com",
+        "name": "",
+        "status": "needsAction"
+      }
+    ],
+    "is_prospect_visit": false,
+    "creator": "tyler.vansant@indoormedia.com"
+  },
+  {
+    "event_id": "_8d13ihhk8l336b9h74p38b9k8opk2ba27534ab9k71142cpl6kqjgh9j70_20261023T030000Z",
+    "title": "Take out garbage - STOP what I\u2019m doing or I will forget",
+    "start": "2026-10-22T20:00:00-07:00",
+    "end": "2026-10-22T21:00:00-07:00",
     "location": "",
     "description": "",
     "prospect_name": "",
