@@ -1931,6 +1931,28 @@
     "creator": "tyler.vansant@indoormedia.com"
   },
   {
+    "event_id": "am97ds5chcpltn77h4a3shph00",
+    "title": "\ud83d\udce6 Install Q1: Spray N shine Car Wash at Safeway, Dallas, Safeway-4404",
+    "start": "2026-10-07T10:00:00-07:00",
+    "end": "2026-10-07T11:00:00-07:00",
+    "location": "",
+    "description": "INSTALL QUARTER 1 (0 days in)\nContract: J438286E\nBusiness: Spray N shine Car Wash\nCustomer: Clyde King\nRep: Tyler VanSant\nStore: Safeway Safeway-4404, Dallas\nEst. Start: 10/17/2026\nTerm: 4Q (12 months)\n\nInstall tape at Spray N shine Car Wash.",
+    "prospect_name": "",
+    "phone": "",
+    "address": "",
+    "store": "Safeway Safeway-4404, Dallas",
+    "rep": "Tyler VanSant",
+    "attendees": [
+      {
+        "email": "tyler.vansant@indoormedia.com",
+        "name": "",
+        "status": "needsAction"
+      }
+    ],
+    "is_prospect_visit": true,
+    "creator": "tyler.vansant@indoormedia.com"
+  },
+  {
     "event_id": "gur5e6k8ksmkpo6ibf2vg476pg_20261007T170000Z",
     "title": "Remind Reps to do Installs",
     "start": "2026-10-07T10:00:00-07:00",
