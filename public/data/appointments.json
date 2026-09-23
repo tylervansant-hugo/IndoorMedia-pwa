@@ -22,6 +22,33 @@
     "creator": "tyler.vansant@indoormedia.com"
   },
   {
+    "event_id": "qdfnb9garvbt0oa2mrom2v87tg",
+    "title": "Visit: Sabye with Chris",
+    "start": "2026-09-22T10:30:00-07:00",
+    "end": "2026-09-22T11:30:00-07:00",
+    "location": "16840 SW Edy Rd Ste 133, Sherwood, OR 97140, USA",
+    "description": "Prospect: Sabye\nAddress: 16840 SW Edy Rd Ste 133, Sherwood, OR 97140, USA\nBusiness Phone: (503) 610-1897\nWebsite: http://sabyestreetfoods.com/\nStore: Safeway SAF07Y-1800\nRep: Marty Eng\n\n\ud83d\udcdd Notes:\nDidn\u2019t get a chance to ask his name but sounds like owners are brother and sister. Said sister wasn\u2019t in at the moment so it wouldn\u2019t be a good time. But also stated they have been approached before by people in marketing and have been scammed, sounded like google/seo/facebook type of deals. And paid a couple thousands. Tried to explain a little of what we do and work with currently there. To try and bring guard down but got a customer walk in and said he had to go and he would call back if he wanted more info.",
+    "prospect_name": "Sabye",
+    "phone": "",
+    "address": "16840 SW Edy Rd Ste 133, Sherwood, OR 97140, USA",
+    "store": "Safeway SAF07Y-1800",
+    "rep": "Marty Eng",
+    "attendees": [
+      {
+        "email": "anthony.eng@indoormedia.com",
+        "name": "",
+        "status": "accepted"
+      },
+      {
+        "email": "tyler.vansant@indoormedia.com",
+        "name": "",
+        "status": "needsAction"
+      }
+    ],
+    "is_prospect_visit": true,
+    "creator": "anthony.eng@indoormedia.com"
+  },
+  {
     "event_id": "64p3ecj2c5gjcbb664p3gb9kccomab9o70r3eb9m70s6acb668qj8o9p68",
     "title": "Visit: El Sazon Mexicano PDX Yusenia daughter",
     "start": "2026-09-22T14:30:00-07:00",
