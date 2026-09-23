@@ -77,7 +77,12 @@
   import Clients from './Clients.svelte';
   import ManageReps from './ManageReps.svelte';
   import HotLeadsSubmit from './HotLeadsSubmit.svelte';
-  import DrivingMode from './DrivingMode.svelte';
+  // Drive Mode is temporarily archived/sidelined. Component moved to
+  // ./_archived/DrivingMode.svelte and all entry points gated behind
+  // DRIVE_MODE_ENABLED. Flip this to true (and restore the import path) to
+  // bring it back.
+  const DRIVE_MODE_ENABLED = false;
+  // import DrivingMode from './_archived/DrivingMode.svelte';
   import UniversalSearch from './UniversalSearch.svelte';
   import LastActivity from './LastActivity.svelte';
 
@@ -97,7 +102,7 @@
     const sc = d.shortcut || d;
 
     // Explicit, well-known homepage quick-actions run directly.
-    if (sc.action === 'driving') { showDrivingMode = true; return; }
+    if (sc.action === 'driving') { if (DRIVE_MODE_ENABLED) showDrivingMode = true; return; }
     if (sc.action === 'book-appt') { bookAppointment(); return; }
     if (sc.action === 'prospects') { storesView = 'prospects'; currentTab = 'stores'; return; }
 
@@ -1155,7 +1160,7 @@
 
     // URL parameter actions (for Siri Shortcuts / deep links)
     const params = new URLSearchParams(window.location.search);
-    if (params.get('mode') === 'driving') {
+    if (DRIVE_MODE_ENABLED && params.get('mode') === 'driving') {
       showDrivingMode = true;
       // Clean URL
       window.history.replaceState({}, '', window.location.pathname);
@@ -1548,11 +1553,13 @@
             <span class="qa-icon">📅</span>
             <span class="qa-label">Book Appt</span>
           </button>
+          {#if DRIVE_MODE_ENABLED}
           <button class="qa-btn qa-driving" on:click={() => showDrivingMode = true}
             use:addToHome={{ label: 'Drive Mode', icon: '🚗', tab: 'dashboard', action: 'driving' }}>
             <span class="qa-icon">🚗</span>
             <span class="qa-label">Drive Mode</span>
           </button>
+          {/if}
         </div>
         </div><!-- /dash-sec quickactions -->
 
@@ -2005,12 +2012,14 @@
     {/if}
   </div>
 
-  {#if showDrivingMode}
+  <!-- Drive Mode archived (see DRIVE_MODE_ENABLED). Restore import + this block to re-enable.
+  {#if DRIVE_MODE_ENABLED && showDrivingMode}
     <DrivingMode
       appointments={upcomingAppointments}
       onClose={() => showDrivingMode = false}
     />
   {/if}
+  -->
 </div>
 
 <style>
