@@ -22,6 +22,33 @@
     "creator": "tyler.vansant@indoormedia.com"
   },
   {
+    "event_id": "70s3ecph70pmcb9mc4sj0b9k68rj0b9ocgrj2b9p6tgj4dpm65j68d9n6g",
+    "title": "Visit: Family Painting Corp | Painting Contractor Portland | Remodel Contractor Portland Alex",
+    "start": "2026-09-24T12:00:00-07:00",
+    "end": "2026-09-24T13:00:00-07:00",
+    "location": "5370 SW Lombard Ave, Beaverton, OR 97005, USA",
+    "description": "Prospect: Family Painting Corp | Painting Contractor Portland | Remodel Contractor Portland\nAddress: 5370 SW Lombard Ave, Beaverton, OR 97005, USA\nBusiness Phone: (503) 354-9363\nWebsite: https://familypaintingcorp.com/\nStore: Safeway SAF07Y-1073\nRep: Megan Wink",
+    "prospect_name": "Family Painting Corp | Painting Contractor Portland | Remodel Contractor Portland",
+    "phone": "",
+    "address": "5370 SW Lombard Ave, Beaverton, OR 97005, USA",
+    "store": "Safeway SAF07Y-1073",
+    "rep": "Megan Wink",
+    "attendees": [
+      {
+        "email": "megan.wink@indoormedia.com",
+        "name": "",
+        "status": "accepted"
+      },
+      {
+        "email": "tyler.vansant@indoormedia.com",
+        "name": "",
+        "status": "needsAction"
+      }
+    ],
+    "is_prospect_visit": true,
+    "creator": "megan.wink@indoormedia.com"
+  },
+  {
     "event_id": "60pj4eb3cgs66b9j64qm2b9kcoqj8b9pc8r68bb26kp3epb5c9i3edr470",
     "title": "Visit: RevLab Auto Repair Sajjad owner",
     "start": "2026-09-24T13:00:00-07:00",
