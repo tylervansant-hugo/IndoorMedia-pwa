@@ -71,6 +71,33 @@
     "creator": "tyler.vansant@indoormedia.com"
   },
   {
+    "event_id": "60pj4eb3cgs66b9j64qm2b9kcoqj8b9pc8r68bb26kp3epb5c9i3edr470",
+    "title": "Visit: RevLab Auto Repair Sajjad owner",
+    "start": "2026-09-24T13:00:00-07:00",
+    "end": "2026-09-24T14:00:00-07:00",
+    "location": "12595 SW Beaverdam Rd, Beaverton, OR 97005, USA",
+    "description": "Prospect: RevLab Auto Repair\nAddress: 12595 SW Beaverdam Rd, Beaverton, OR 97005, USA\nBusiness Phone: (503) 544-3120\nWebsite: https://revlabautorepair.com/\nOwner/Decision Maker: Sajjad owner\nStore: Fred Meyer FME07Y-0035\nRep: Megan Wink",
+    "prospect_name": "RevLab Auto Repair",
+    "phone": "",
+    "address": "12595 SW Beaverdam Rd, Beaverton, OR 97005, USA",
+    "store": "Fred Meyer FME07Y-0035",
+    "rep": "Megan Wink",
+    "attendees": [
+      {
+        "email": "megan.wink@indoormedia.com",
+        "name": "",
+        "status": "accepted"
+      },
+      {
+        "email": "tyler.vansant@indoormedia.com",
+        "name": "",
+        "status": "needsAction"
+      }
+    ],
+    "is_prospect_visit": true,
+    "creator": "megan.wink@indoormedia.com"
+  },
+  {
     "event_id": "_8d13ihhk8l336b9h74p38b9k8opk2ba27534ab9k71142cpl6kqjgh9j70_20260925T030000Z",
     "title": "Take out garbage - STOP what I\u2019m doing or I will forget",
     "start": "2026-09-24T20:00:00-07:00",
