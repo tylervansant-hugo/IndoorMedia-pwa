@@ -1838,6 +1838,28 @@
     "creator": "tyler.vansant@indoormedia.com"
   },
   {
+    "event_id": "530nsheghrfqptv20c2019d0dk",
+    "title": "\ud83d\udce6 Install Q1: Qdoba Oregon at Fred Meyer, Corvallis, Fred Meyer-0070",
+    "start": "2026-10-07T10:00:00-07:00",
+    "end": "2026-10-07T11:00:00-07:00",
+    "location": "",
+    "description": "INSTALL QUARTER 1 (0 days in)\nContract: J438639E\nBusiness: Qdoba Oregon\nCustomer: Doug Kramer\nRep: Amy Dixon\nStore: Fred Meyer Fred Meyer-0070, Corvallis\nEst. Start: 10/17/2026\nTerm: 4Q (12 months)\n\nInstall tape at Qdoba Oregon.",
+    "prospect_name": "",
+    "phone": "",
+    "address": "",
+    "store": "Fred Meyer Fred Meyer-0070, Corvallis",
+    "rep": "Amy Dixon",
+    "attendees": [
+      {
+        "email": "amy.dixon@indoormedia.com",
+        "name": "",
+        "status": "needsAction"
+      }
+    ],
+    "is_prospect_visit": true,
+    "creator": "tyler.vansant@indoormedia.com"
+  },
+  {
     "event_id": "70iuedbhq11f59mgvgv44lgk7s",
     "title": "\ud83d\udce6 Install Q1: More Boba at Albertsons, Springfield, Albertsons-0574",
     "start": "2026-10-07T10:00:00-07:00",
