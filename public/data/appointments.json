@@ -1,54 +1,5 @@
 [
   {
-    "event_id": "91r7jhu15vd0ciek1r5f3ser2g",
-    "title": "\ud83d\udd0d Audit #5: Fresh Market, OGDEN, Fresh Market-2382 \u2014 check in w/ Shaniah day/Garden of ink",
-    "start": "2026-09-23T10:00:00-07:00",
-    "end": "2026-09-23T11:00:00-07:00",
-    "location": "",
-    "description": "AUDIT & CHECK-IN #5 (405 days in)\nContract: J411397E\nBusiness: Garden of ink\nCustomer: Shaniah day\nRep: Cameron Gould\nStore: Fresh Market Fresh Market-2382, OGDEN\nEst. Start: 08/24/2025\nTerm: 5Q (15 months)\n\nVerify tape display. Check in with Shaniah day at Garden of ink.",
-    "prospect_name": "",
-    "phone": "",
-    "address": "",
-    "store": "Fresh Market Fresh Market-2382, OGDEN",
-    "rep": "Cameron Gould",
-    "attendees": [
-      {
-        "email": "cameron.gould@indoormedia.com",
-        "name": "",
-        "status": "needsAction"
-      }
-    ],
-    "is_prospect_visit": false,
-    "creator": "tyler.vansant@indoormedia.com"
-  },
-  {
-    "event_id": "61h36e9ncksjcb9p6limcb9k6tj3cbb2cpimab9l6lh64d3268sm6p9j6k",
-    "title": "Visit: Mis Tres Amigos Mexican Restaurant & Cantina",
-    "start": "2026-09-23T12:00:00-07:00",
-    "end": "2026-09-23T13:00:00-07:00",
-    "location": "17530 Meridian E #109, Puyallup, WA 98375, USA",
-    "description": "Prospect: Mis Tres Amigos Mexican Restaurant & Cantina\nAddress: 17530 Meridian E #109, Puyallup, WA 98375, USA\nPhone: (253) 864-8250\nWebsite: https://www.mistresamigosfamily.com/\nStore: Fred Meyer FME07Z-0424\nRep: Dawna Henehan",
-    "prospect_name": "Mis Tres Amigos Mexican Restaurant & Cantina",
-    "phone": "(253) 864-8250",
-    "address": "17530 Meridian E #109, Puyallup, WA 98375, USA",
-    "store": "Fred Meyer FME07Z-0424",
-    "rep": "Dawna Henehan",
-    "attendees": [
-      {
-        "email": "dawna.henehan@indoormedia.com",
-        "name": "",
-        "status": "needsAction"
-      },
-      {
-        "email": "tyler.vansant@indoormedia.com",
-        "name": "",
-        "status": "needsAction"
-      }
-    ],
-    "is_prospect_visit": true,
-    "creator": "dawna.henehan@indoormedia.com"
-  },
-  {
     "event_id": "fkqj3lq126di0udfothd1ovi6s",
     "title": "\ud83d\udce6 Install Q1: Menchies Frozen Yogurt at Safeway, Roseville, Safeway-1617",
     "start": "2026-09-24T10:00:00-07:00",
