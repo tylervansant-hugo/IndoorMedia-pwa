@@ -1,296 +1,5 @@
 [
   {
-    "event_id": "b23kqu0edtddo33klh0l822ick_20260925T160000Z",
-    "title": "Check with Reps on Last Minute Renewals and email Jordan Encarguez",
-    "start": "2026-09-25T09:00:00-07:00",
-    "end": "2026-09-25T10:00:00-07:00",
-    "location": "",
-    "description": "",
-    "prospect_name": "",
-    "phone": "",
-    "address": "",
-    "store": "",
-    "rep": "Tyler VanSant",
-    "attendees": [
-      {
-        "email": "richard.leibowitz@indoormedia.com",
-        "name": "",
-        "status": "needsAction"
-      },
-      {
-        "email": "tyler.vansant@indoormedia.com",
-        "name": "",
-        "status": "accepted"
-      }
-    ],
-    "is_prospect_visit": false,
-    "creator": "tyler.vansant@indoormedia.com"
-  },
-  {
-    "event_id": "2k53l335vf1lou0498rd5s9o54",
-    "title": "\ud83d\udd0d Audit #4: Maceys, Providence, Maceys-0971 \u2014 check in w/ Neil godfrey/Northern glass pros",
-    "start": "2026-09-25T10:00:00-07:00",
-    "end": "2026-09-25T11:00:00-07:00",
-    "location": "",
-    "description": "AUDIT & CHECK-IN #4 (315 days in)\nContract: J417901E\nBusiness: Northern glass pros\nCustomer: Neil godfrey\nRep: Cameron Gould\nStore: Maceys Maceys-0971, Providence\nEst. Start: 11/24/2025\nTerm: 4Q (12 months)\n\nVerify tape display. Check in with Neil godfrey at Northern glass pros.",
-    "prospect_name": "",
-    "phone": "",
-    "address": "",
-    "store": "Maceys Maceys-0971, Providence",
-    "rep": "Cameron Gould",
-    "attendees": [
-      {
-        "email": "cameron.gould@indoormedia.com",
-        "name": "",
-        "status": "needsAction"
-      }
-    ],
-    "is_prospect_visit": false,
-    "creator": "tyler.vansant@indoormedia.com"
-  },
-  {
-    "event_id": "7p1f24jjsfip6q768ghqcvs9r0",
-    "title": "\ud83d\udd0d Audit #4: Fresh Market, OGDEN, Fresh Market-2382 \u2014 check in w/ Stephanie ginn/Beehive naturals",
-    "start": "2026-09-25T10:00:00-07:00",
-    "end": "2026-09-25T11:00:00-07:00",
-    "location": "",
-    "description": "AUDIT & CHECK-IN #4 (315 days in)\nContract: J419184E\nBusiness: Beehive naturals\nCustomer: Stephanie ginn\nRep: Cameron Gould\nStore: Fresh Market Fresh Market-2382, OGDEN\nEst. Start: 11/24/2025\nTerm: 4Q (12 months)\n\nVerify tape display. Check in with Stephanie ginn at Beehive naturals.",
-    "prospect_name": "",
-    "phone": "",
-    "address": "",
-    "store": "Fresh Market Fresh Market-2382, OGDEN",
-    "rep": "Cameron Gould",
-    "attendees": [
-      {
-        "email": "cameron.gould@indoormedia.com",
-        "name": "",
-        "status": "needsAction"
-      }
-    ],
-    "is_prospect_visit": false,
-    "creator": "tyler.vansant@indoormedia.com"
-  },
-  {
-    "event_id": "cch7a3kjiqrjgc43g9g9jfpam8",
-    "title": "\ud83d\udd0d Audit #4: Maceys, Providence, Maceys-0971 \u2014 check in w/ Matt perry/A pizza",
-    "start": "2026-09-25T10:00:00-07:00",
-    "end": "2026-09-25T11:00:00-07:00",
-    "location": "",
-    "description": "AUDIT & CHECK-IN #4 (315 days in)\nContract: J418536E\nBusiness: A pizza\nCustomer: Matt perry\nRep: Cameron Gould\nStore: Maceys Maceys-0971, Providence\nEst. Start: 11/24/2025\nTerm: 4Q (12 months)\n\nVerify tape display. Check in with Matt perry at A pizza.",
-    "prospect_name": "",
-    "phone": "",
-    "address": "",
-    "store": "Maceys Maceys-0971, Providence",
-    "rep": "Cameron Gould",
-    "attendees": [
-      {
-        "email": "cameron.gould@indoormedia.com",
-        "name": "",
-        "status": "needsAction"
-      }
-    ],
-    "is_prospect_visit": false,
-    "creator": "tyler.vansant@indoormedia.com"
-  },
-  {
-    "event_id": "h7jik6fcrf95ba6bjavh6tvudk",
-    "title": "\ud83d\udd0d Audit #4: Smiths, North Ogden, Smiths-0279 \u2014 check in w/ Josh shaw/Ultimate express car wash",
-    "start": "2026-09-25T10:00:00-07:00",
-    "end": "2026-09-25T11:00:00-07:00",
-    "location": "",
-    "description": "AUDIT & CHECK-IN #4 (315 days in)\nContract: J414806E\nBusiness: Ultimate express car wash\nCustomer: Josh shaw\nRep: Cameron Gould\nStore: Smiths Smiths-0279, North Ogden\nEst. Start: 11/24/2025\nTerm: 4Q (12 months)\n\nVerify tape display. Check in with Josh shaw at Ultimate express car wash.",
-    "prospect_name": "",
-    "phone": "",
-    "address": "",
-    "store": "Smiths Smiths-0279, North Ogden",
-    "rep": "Cameron Gould",
-    "attendees": [
-      {
-        "email": "cameron.gould@indoormedia.com",
-        "name": "",
-        "status": "needsAction"
-      }
-    ],
-    "is_prospect_visit": false,
-    "creator": "tyler.vansant@indoormedia.com"
-  },
-  {
-    "event_id": "kc6o75ov594q3opfvuo5r3ukv8",
-    "title": "\ud83d\udd0d Audit #4: Maceys, Providence, Maceys-0971 \u2014 check in w/ Brenton stewart/Acadia homes",
-    "start": "2026-09-25T10:00:00-07:00",
-    "end": "2026-09-25T11:00:00-07:00",
-    "location": "",
-    "description": "AUDIT & CHECK-IN #4 (315 days in)\nContract: J418805E\nBusiness: Acadia homes\nCustomer: Brenton stewart\nRep: Cameron Gould\nStore: Maceys Maceys-0971, Providence\nEst. Start: 11/24/2025\nTerm: 4Q (12 months)\n\nVerify tape display. Check in with Brenton stewart at Acadia homes.",
-    "prospect_name": "",
-    "phone": "",
-    "address": "",
-    "store": "Maceys Maceys-0971, Providence",
-    "rep": "Cameron Gould",
-    "attendees": [
-      {
-        "email": "cameron.gould@indoormedia.com",
-        "name": "",
-        "status": "needsAction"
-      }
-    ],
-    "is_prospect_visit": false,
-    "creator": "tyler.vansant@indoormedia.com"
-  },
-  {
-    "event_id": "lc24v8scmdjboigq2pllvd0hts",
-    "title": "\ud83d\udd0d Audit #4: Smiths, Chubbuck, Smiths-0061 \u2014 check in w/ Juan huizar/Los gavilanes Mexican grill",
-    "start": "2026-09-25T10:00:00-07:00",
-    "end": "2026-09-25T11:00:00-07:00",
-    "location": "",
-    "description": "AUDIT & CHECK-IN #4 (315 days in)\nContract: J419429E\nBusiness: Los gavilanes Mexican grill\nCustomer: Juan huizar\nRep: Cameron Gould\nStore: Smiths Smiths-0061, Chubbuck\nEst. Start: 11/24/2025\nTerm: 4Q (12 months)\n\nVerify tape display. Check in with Juan huizar at Los gavilanes Mexican grill.",
-    "prospect_name": "",
-    "phone": "",
-    "address": "",
-    "store": "Smiths Smiths-0061, Chubbuck",
-    "rep": "Cameron Gould",
-    "attendees": [
-      {
-        "email": "cameron.gould@indoormedia.com",
-        "name": "",
-        "status": "needsAction"
-      }
-    ],
-    "is_prospect_visit": false,
-    "creator": "tyler.vansant@indoormedia.com"
-  },
-  {
-    "event_id": "luqo1o8ne74dng20j5rjbc6ts8",
-    "title": "\ud83d\udd0d Audit #4: Smiths, Logan, Smiths-0477 \u2014 check in w/ adam manassra/habibi mediterranean",
-    "start": "2026-09-25T10:00:00-07:00",
-    "end": "2026-09-25T11:00:00-07:00",
-    "location": "",
-    "description": "AUDIT & CHECK-IN #4 (315 days in)\nContract: J417088E\nBusiness: habibi mediterranean\nCustomer: adam manassra\nRep: Cameron Gould\nStore: Smiths Smiths-0477, Logan\nEst. Start: 11/24/2025\nTerm: 4Q (12 months)\n\nVerify tape display. Check in with adam manassra at habibi mediterranean.",
-    "prospect_name": "",
-    "phone": "",
-    "address": "",
-    "store": "Smiths Smiths-0477, Logan",
-    "rep": "Cameron Gould",
-    "attendees": [
-      {
-        "email": "cameron.gould@indoormedia.com",
-        "name": "",
-        "status": "needsAction"
-      }
-    ],
-    "is_prospect_visit": false,
-    "creator": "tyler.vansant@indoormedia.com"
-  },
-  {
-    "event_id": "m80m2pbv187idbnq1sstrovhm0",
-    "title": "\ud83d\udd0d Audit #4: Smiths, Logan, Smiths-0477 \u2014 check in w/ Jocelin ong/Neu ink",
-    "start": "2026-09-25T10:00:00-07:00",
-    "end": "2026-09-25T11:00:00-07:00",
-    "location": "",
-    "description": "AUDIT & CHECK-IN #4 (315 days in)\nContract: J418022E\nBusiness: Neu ink\nCustomer: Jocelin ong\nRep: Cameron Gould\nStore: Smiths Smiths-0477, Logan\nEst. Start: 11/24/2025\nTerm: 4Q (12 months)\n\nVerify tape display. Check in with Jocelin ong at Neu ink.",
-    "prospect_name": "",
-    "phone": "",
-    "address": "",
-    "store": "Smiths Smiths-0477, Logan",
-    "rep": "Cameron Gould",
-    "attendees": [
-      {
-        "email": "cameron.gould@indoormedia.com",
-        "name": "",
-        "status": "needsAction"
-      }
-    ],
-    "is_prospect_visit": false,
-    "creator": "tyler.vansant@indoormedia.com"
-  },
-  {
-    "event_id": "nia830m9u9le0trflvpg8m4o8k",
-    "title": "\ud83d\udd0d Audit #4: Ridleys, Hyrum, Ridleys-1150 \u2014 check in w/ Brad Lee/Hit it hard",
-    "start": "2026-09-25T10:00:00-07:00",
-    "end": "2026-09-25T11:00:00-07:00",
-    "location": "",
-    "description": "AUDIT & CHECK-IN #4 (315 days in)\nContract: J417672E\nBusiness: Hit it hard\nCustomer: Brad Lee\nRep: Cameron Gould\nStore: Ridleys Ridleys-1150, Hyrum\nEst. Start: 11/24/2025\nTerm: 4Q (12 months)\n\nVerify tape display. Check in with Brad Lee at Hit it hard.",
-    "prospect_name": "",
-    "phone": "",
-    "address": "",
-    "store": "Ridleys Ridleys-1150, Hyrum",
-    "rep": "Cameron Gould",
-    "attendees": [
-      {
-        "email": "cameron.gould@indoormedia.com",
-        "name": "",
-        "status": "needsAction"
-      }
-    ],
-    "is_prospect_visit": false,
-    "creator": "tyler.vansant@indoormedia.com"
-  },
-  {
-    "event_id": "p8aov8utdr1flp8mf0qde8b3h8",
-    "title": "\ud83d\udd0d Audit #4: Smiths, Chubbuck, Smiths-0061 \u2014 check in w/ Danielle cooper/Geraldine\u2019s bake shoppe and",
-    "start": "2026-09-25T10:00:00-07:00",
-    "end": "2026-09-25T11:00:00-07:00",
-    "location": "",
-    "description": "AUDIT & CHECK-IN #4 (315 days in)\nContract: J419494E\nBusiness: Geraldine\u2019s bake shoppe and\nCustomer: Danielle cooper\nRep: Cameron Gould\nStore: Smiths Smiths-0061, Chubbuck\nEst. Start: 11/24/2025\nTerm: 4Q (12 months)\n\nVerify tape display. Check in with Danielle cooper at Geraldine\u2019s bake shoppe and.",
-    "prospect_name": "",
-    "phone": "",
-    "address": "",
-    "store": "Smiths Smiths-0061, Chubbuck",
-    "rep": "Cameron Gould",
-    "attendees": [
-      {
-        "email": "cameron.gould@indoormedia.com",
-        "name": "",
-        "status": "needsAction"
-      }
-    ],
-    "is_prospect_visit": false,
-    "creator": "tyler.vansant@indoormedia.com"
-  },
-  {
-    "event_id": "pecl5sugc25uckvls20uutsn88",
-    "title": "\ud83d\udd0d Audit #4: Ridleys, Hyrum, Ridleys-1150 \u2014 check in w/ Chris neilsen/Jensen motor",
-    "start": "2026-09-25T10:00:00-07:00",
-    "end": "2026-09-25T11:00:00-07:00",
-    "location": "",
-    "description": "AUDIT & CHECK-IN #4 (315 days in)\nContract: J417897E\nBusiness: Jensen motor\nCustomer: Chris neilsen\nRep: Cameron Gould\nStore: Ridleys Ridleys-1150, Hyrum\nEst. Start: 11/24/2025\nTerm: 4Q (12 months)\n\nVerify tape display. Check in with Chris neilsen at Jensen motor.",
-    "prospect_name": "",
-    "phone": "",
-    "address": "",
-    "store": "Ridleys Ridleys-1150, Hyrum",
-    "rep": "Cameron Gould",
-    "attendees": [
-      {
-        "email": "cameron.gould@indoormedia.com",
-        "name": "",
-        "status": "needsAction"
-      }
-    ],
-    "is_prospect_visit": false,
-    "creator": "tyler.vansant@indoormedia.com"
-  },
-  {
-    "event_id": "t50rphmgf0kbv9p0vjo7cadh7c",
-    "title": "\ud83d\udd0d Audit #4: Smiths, Murray, Smiths-0083 \u2014 check in w/ Amanda alves/The beauty hall",
-    "start": "2026-09-25T10:00:00-07:00",
-    "end": "2026-09-25T11:00:00-07:00",
-    "location": "",
-    "description": "AUDIT & CHECK-IN #4 (315 days in)\nContract: J414739E\nBusiness: The beauty hall\nCustomer: Amanda alves\nRep: Cameron Gould\nStore: Smiths Smiths-0083, Murray\nEst. Start: 11/24/2025\nTerm: 4Q (12 months)\n\nVerify tape display. Check in with Amanda alves at The beauty hall.",
-    "prospect_name": "",
-    "phone": "",
-    "address": "",
-    "store": "Smiths Smiths-0083, Murray",
-    "rep": "Cameron Gould",
-    "attendees": [
-      {
-        "email": "cameron.gould@indoormedia.com",
-        "name": "",
-        "status": "needsAction"
-      }
-    ],
-    "is_prospect_visit": false,
-    "creator": "tyler.vansant@indoormedia.com"
-  },
-  {
     "event_id": "3sef2se73a8k9p80265k85u880",
     "title": "\ud83d\udd0d Audit #2: Smiths, North Ogden, Smiths-0279 \u2014 check in w/ Veronica Estrada/Taco rico",
     "start": "2026-09-26T10:00:00-07:00",
@@ -4274,6 +3983,242 @@
     "store": "",
     "rep": "Tyler VanSant",
     "attendees": [],
+    "is_prospect_visit": false,
+    "creator": "tyler.vansant@indoormedia.com"
+  },
+  {
+    "event_id": "nivfi35ts371mu4pplmiv40hf4_20261025T160000Z",
+    "title": "Check On Current C Cycle Renewals",
+    "start": "2026-10-25T09:00:00-07:00",
+    "end": "2026-10-25T10:30:00-07:00",
+    "location": "",
+    "description": "",
+    "prospect_name": "",
+    "phone": "",
+    "address": "",
+    "store": "",
+    "rep": "Tyler VanSant",
+    "attendees": [],
+    "is_prospect_visit": false,
+    "creator": "tyler.vansant@indoormedia.com"
+  },
+  {
+    "event_id": "34rl7s858cbtf990r5b1k4gh1s",
+    "title": "\ud83d\udd0d Audit #3: Smiths, Layton, Smiths-0149 \u2014 check in w/ Bob Harvey/Bob Harvey Roofing Inc",
+    "start": "2026-10-25T10:00:00-07:00",
+    "end": "2026-10-25T11:00:00-07:00",
+    "location": "",
+    "description": "AUDIT & CHECK-IN #3 (225 days in)\nContract: J425261E\nBusiness: Bob Harvey Roofing Inc\nCustomer: Bob Harvey\nRep: Cameron Gould\nStore: Smiths Smiths-0149, Layton\nEst. Start: 03/24/2026\nTerm: 4Q (12 months)\n\nVerify tape display. Check in with Bob Harvey at Bob Harvey Roofing Inc.",
+    "prospect_name": "",
+    "phone": "",
+    "address": "",
+    "store": "Smiths Smiths-0149, Layton",
+    "rep": "Cameron Gould",
+    "attendees": [
+      {
+        "email": "cameron.gould@indoormedia.com",
+        "name": "",
+        "status": "needsAction"
+      }
+    ],
+    "is_prospect_visit": false,
+    "creator": "tyler.vansant@indoormedia.com"
+  },
+  {
+    "event_id": "7d6783ttp9vkj1v0tj13hmipp8",
+    "title": "\ud83d\udd0d Audit #4: Dicks, Bountiful, Dicks-0567 \u2014 check in w/ Michael solosko/Scenthound",
+    "start": "2026-10-25T10:00:00-07:00",
+    "end": "2026-10-25T11:00:00-07:00",
+    "location": "",
+    "description": "AUDIT & CHECK-IN #4 (315 days in)\nContract: J420932E\nBusiness: Scenthound\nCustomer: Michael solosko\nRep: Cameron Gould\nStore: Dicks Dicks-0567, Bountiful\nEst. Start: 12/24/2025\nTerm: 4Q (12 months)\n\nVerify tape display. Check in with Michael solosko at Scenthound.",
+    "prospect_name": "",
+    "phone": "",
+    "address": "",
+    "store": "Dicks Dicks-0567, Bountiful",
+    "rep": "Cameron Gould",
+    "attendees": [
+      {
+        "email": "cameron.gould@indoormedia.com",
+        "name": "",
+        "status": "needsAction"
+      }
+    ],
+    "is_prospect_visit": false,
+    "creator": "tyler.vansant@indoormedia.com"
+  },
+  {
+    "event_id": "clesh6ph8patnpnq42ivmipc48",
+    "title": "\ud83d\udd0d Audit #3: Fresh Market, Layton, Fresh Market-2377 \u2014 check in w/ Simon brewer/Twice built",
+    "start": "2026-10-25T10:00:00-07:00",
+    "end": "2026-10-25T11:00:00-07:00",
+    "location": "",
+    "description": "AUDIT & CHECK-IN #3 (225 days in)\nContract: J424545E\nBusiness: Twice built\nCustomer: Simon brewer\nRep: Cameron Gould\nStore: Fresh Market Fresh Market-2377, Layton\nEst. Start: 03/24/2026\nTerm: 4Q (12 months)\n\nVerify tape display. Check in with Simon brewer at Twice built.",
+    "prospect_name": "",
+    "phone": "",
+    "address": "",
+    "store": "Fresh Market Fresh Market-2377, Layton",
+    "rep": "Cameron Gould",
+    "attendees": [
+      {
+        "email": "cameron.gould@indoormedia.com",
+        "name": "",
+        "status": "needsAction"
+      }
+    ],
+    "is_prospect_visit": false,
+    "creator": "tyler.vansant@indoormedia.com"
+  },
+  {
+    "event_id": "clgfp2kniro193v6gl1jqgsj9k",
+    "title": "\ud83d\udd0d Audit #4: Dicks, Centerville, Dicks-0565 \u2014 check in w/ Russell steinfels/Russell\u2019s Main Street garage",
+    "start": "2026-10-25T10:00:00-07:00",
+    "end": "2026-10-25T11:00:00-07:00",
+    "location": "",
+    "description": "AUDIT & CHECK-IN #4 (315 days in)\nContract: J421132E\nBusiness: Russell\u2019s Main Street garage\nCustomer: Russell steinfels\nRep: Cameron Gould\nStore: Dicks Dicks-0565, Centerville\nEst. Start: 12/24/2025\nTerm: 4Q (12 months)\n\nVerify tape display. Check in with Russell steinfels at Russell\u2019s Main Street garage.",
+    "prospect_name": "",
+    "phone": "",
+    "address": "",
+    "store": "Dicks Dicks-0565, Centerville",
+    "rep": "Cameron Gould",
+    "attendees": [
+      {
+        "email": "cameron.gould@indoormedia.com",
+        "name": "",
+        "status": "needsAction"
+      }
+    ],
+    "is_prospect_visit": false,
+    "creator": "tyler.vansant@indoormedia.com"
+  },
+  {
+    "event_id": "cpsgm8tlt9oqaodf3snq63g1nc",
+    "title": "\ud83d\udd0d Audit #4: Ridleys, Pocatello, Ridleys-7152 \u2014 check in w/ Ross gregerson/Aquatic oasis",
+    "start": "2026-10-25T10:00:00-07:00",
+    "end": "2026-10-25T11:00:00-07:00",
+    "location": "",
+    "description": "AUDIT & CHECK-IN #4 (315 days in)\nContract: J419757E\nBusiness: Aquatic oasis\nCustomer: Ross gregerson\nRep: Cameron Gould\nStore: Ridleys Ridleys-7152, Pocatello\nEst. Start: 12/24/2025\nTerm: 4Q (12 months)\n\nVerify tape display. Check in with Ross gregerson at Aquatic oasis.",
+    "prospect_name": "",
+    "phone": "",
+    "address": "",
+    "store": "Ridleys Ridleys-7152, Pocatello",
+    "rep": "Cameron Gould",
+    "attendees": [
+      {
+        "email": "cameron.gould@indoormedia.com",
+        "name": "",
+        "status": "needsAction"
+      }
+    ],
+    "is_prospect_visit": false,
+    "creator": "tyler.vansant@indoormedia.com"
+  },
+  {
+    "event_id": "egkk2coiv9rdtmjbd46reu3qfk",
+    "title": "\ud83d\udd0d Audit #4: Maceys, Ogden, Maceys-0990 \u2014 check in w/ Thiago alves/Thiago Alves Brazilian jujitsu",
+    "start": "2026-10-25T10:00:00-07:00",
+    "end": "2026-10-25T11:00:00-07:00",
+    "location": "",
+    "description": "AUDIT & CHECK-IN #4 (315 days in)\nContract: J419755E\nBusiness: Thiago Alves Brazilian jujitsu\nCustomer: Thiago alves\nRep: Cameron Gould\nStore: Maceys Maceys-0990, Ogden\nEst. Start: 12/24/2025\nTerm: 4Q (12 months)\n\nVerify tape display. Check in with Thiago alves at Thiago Alves Brazilian jujitsu.",
+    "prospect_name": "",
+    "phone": "",
+    "address": "",
+    "store": "Maceys Maceys-0990, Ogden",
+    "rep": "Cameron Gould",
+    "attendees": [
+      {
+        "email": "cameron.gould@indoormedia.com",
+        "name": "",
+        "status": "needsAction"
+      }
+    ],
+    "is_prospect_visit": false,
+    "creator": "tyler.vansant@indoormedia.com"
+  },
+  {
+    "event_id": "fthtpju862cejmakuqc5t70hvo",
+    "title": "\ud83d\udd0d Audit #3: Fresh Market, Layton, Fresh Market-2377 \u2014 check in w/ Adam dowden/Good ol boys LLC",
+    "start": "2026-10-25T10:00:00-07:00",
+    "end": "2026-10-25T11:00:00-07:00",
+    "location": "",
+    "description": "AUDIT & CHECK-IN #3 (225 days in)\nContract: J425515E\nBusiness: Good ol boys LLC\nCustomer: Adam dowden\nRep: Cameron Gould\nStore: Fresh Market Fresh Market-2377, Layton\nEst. Start: 03/24/2026\nTerm: 4Q (12 months)\n\nVerify tape display. Check in with Adam dowden at Good ol boys LLC.",
+    "prospect_name": "",
+    "phone": "",
+    "address": "",
+    "store": "Fresh Market Fresh Market-2377, Layton",
+    "rep": "Cameron Gould",
+    "attendees": [
+      {
+        "email": "cameron.gould@indoormedia.com",
+        "name": "",
+        "status": "needsAction"
+      }
+    ],
+    "is_prospect_visit": false,
+    "creator": "tyler.vansant@indoormedia.com"
+  },
+  {
+    "event_id": "lqhpog6p5vface88fqh4kqf130",
+    "title": "\ud83d\udd0d Audit #3: Fresh Market, Layton, Fresh Market-2377 \u2014 check in w/ Janet Clark/Pizza pie cafe Layton",
+    "start": "2026-10-25T10:00:00-07:00",
+    "end": "2026-10-25T11:00:00-07:00",
+    "location": "",
+    "description": "AUDIT & CHECK-IN #3 (225 days in)\nContract: J425415E\nBusiness: Pizza pie cafe Layton\nCustomer: Janet Clark\nRep: Cameron Gould\nStore: Fresh Market Fresh Market-2377, Layton\nEst. Start: 03/24/2026\nTerm: 4Q (12 months)\n\nVerify tape display. Check in with Janet Clark at Pizza pie cafe Layton.",
+    "prospect_name": "",
+    "phone": "",
+    "address": "",
+    "store": "Fresh Market Fresh Market-2377, Layton",
+    "rep": "Cameron Gould",
+    "attendees": [
+      {
+        "email": "cameron.gould@indoormedia.com",
+        "name": "",
+        "status": "needsAction"
+      }
+    ],
+    "is_prospect_visit": false,
+    "creator": "tyler.vansant@indoormedia.com"
+  },
+  {
+    "event_id": "qcce31440f1hhimboon87r8f24",
+    "title": "\ud83d\udd0d Audit #3: Smiths, Layton, Smiths-0149 \u2014 check in w/ Braedyn Kidd/Culver\u2019s",
+    "start": "2026-10-25T10:00:00-07:00",
+    "end": "2026-10-25T11:00:00-07:00",
+    "location": "",
+    "description": "AUDIT & CHECK-IN #3 (225 days in)\nContract: J421362E\nBusiness: Culver\u2019s\nCustomer: Braedyn Kidd\nRep: Cameron Gould\nStore: Smiths Smiths-0149, Layton\nEst. Start: 03/24/2026\nTerm: 4Q (12 months)\n\nVerify tape display. Check in with Braedyn Kidd at Culver\u2019s.",
+    "prospect_name": "",
+    "phone": "",
+    "address": "",
+    "store": "Smiths Smiths-0149, Layton",
+    "rep": "Cameron Gould",
+    "attendees": [
+      {
+        "email": "cameron.gould@indoormedia.com",
+        "name": "",
+        "status": "needsAction"
+      }
+    ],
+    "is_prospect_visit": false,
+    "creator": "tyler.vansant@indoormedia.com"
+  },
+  {
+    "event_id": "uu7qvt3trj3cv1lcrfhir1oegs",
+    "title": "\ud83d\udd0d Audit #4: Dicks, Centerville, Dicks-0565 \u2014 check in w/ Dave day/Papa murphys",
+    "start": "2026-10-25T10:00:00-07:00",
+    "end": "2026-10-25T11:00:00-07:00",
+    "location": "",
+    "description": "AUDIT & CHECK-IN #4 (315 days in)\nContract: N420551E\nBusiness: Papa murphys\nCustomer: Dave day\nRep: Cameron Gould\nStore: Dicks Dicks-0565, Centerville\nEst. Start: 12/24/2025\nTerm: 4Q (12 months)\n\nVerify tape display. Check in with Dave day at Papa murphys.",
+    "prospect_name": "",
+    "phone": "",
+    "address": "",
+    "store": "Dicks Dicks-0565, Centerville",
+    "rep": "Cameron Gould",
+    "attendees": [
+      {
+        "email": "cameron.gould@indoormedia.com",
+        "name": "",
+        "status": "needsAction"
+      }
+    ],
     "is_prospect_visit": false,
     "creator": "tyler.vansant@indoormedia.com"
   }
