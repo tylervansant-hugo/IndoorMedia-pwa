@@ -1,5 +1,617 @@
 [
   {
+    "message_id": "1a0d9e09e7a5a7ca",
+    "date": "2026-09-25 11:42",
+    "from": "Zone 07W - Sydney Miller <zone.07w@indoormedia.com>",
+    "subject": "Re: Ad Proof from IndoorMedia , Rancho Veijo [07W - B4 - J423879E]",
+    "client_name": "Rancho Veijo",
+    "contact_name": "",
+    "client_email": "jesusmhotmail.com@icloud.com",
+    "location": "",
+    "zone": "07W",
+    "cycle": "B4",
+    "contract_number": "J423879E",
+    "store": "> Tape Ad at Albertsons 0243, 220 Ironwood Dr, Coeur D'Alene, ID",
+    "ad_size": "Double",
+    "install_month": "",
+    "run_months": "",
+    "image_url": "https://lh3.googleusercontent.com/d/1M485gsf2w7BvW6tEtlBI1-j1ylzQi5Ws",
+    "review_deadline": "10/02/2026",
+    "recipients": [
+      "lorin.clark@indoormedia.com",
+      "tyler.vansant@rtui.com",
+      "jesusmhotmail.com@icloud.com",
+      "richard.leibowitz@indoormedia.com"
+    ],
+    "reps": [
+      {
+        "email": "tyler.vansant@rtui.com",
+        "name": "Tyler Van Sant"
+      },
+      {
+        "email": "richard.leibowitz@indoormedia.com",
+        "name": "Rick Leibowitz"
+      }
+    ]
+  },
+  {
+    "message_id": "1a0d9a2346a1a1bf",
+    "date": "2026-09-25 10:34",
+    "from": "Zone 07Y - Sydney Miller <zone.07y@indoormedia.com>",
+    "subject": "Re: Ad Proofs from IndoorMedia , Amazon Creek Dental [07Y - B4 - J435441E]",
+    "client_name": "Amazon Creek Dental",
+    "contact_name": "good day!*",
+    "client_email": "admin@amazoncreekdental.com",
+    "location": "",
+    "zone": "07Y",
+    "cycle": "B4",
+    "contract_number": "J435441E",
+    "store": "",
+    "ad_size": "Double",
+    "install_month": "",
+    "run_months": "",
+    "image_url": "https://lh3.googleusercontent.com/d/1tvp1NoOgY4hZ9-s5mCxx4wFBDvJqBk-k",
+    "review_deadline": "09/25/2026",
+    "recipients": [
+      "richard.leibowitz@rtui.com",
+      "admin@amazoncreekdental.com",
+      "tyler.vansant@rtui.com",
+      "morgan@haywardcreative.com",
+      "matthew.boozer@indoormedia.com"
+    ],
+    "reps": [
+      {
+        "email": "tyler.vansant@rtui.com",
+        "name": "Tyler Van Sant"
+      },
+      {
+        "email": "matthew.boozer@indoormedia.com",
+        "name": "Matthew Boozer"
+      }
+    ]
+  },
+  {
+    "message_id": "1a0d97b518f06659",
+    "date": "2026-09-25 09:51",
+    "from": "Zone 07Z - Sydney Miller <zone.07z@indoormedia.com>",
+    "subject": "Re: Ad Proof from IndoorMedia , Hoody\u2019s Oil Change [07Z - B4 - J433177E]",
+    "client_name": "Hoody\u2019s Oil Change",
+    "contact_name": "great day.*",
+    "client_email": "hoodysoilchange@gmail.com",
+    "location": "",
+    "zone": "07Z",
+    "cycle": "B4",
+    "contract_number": "J433177E",
+    "store": ">> Tape Ad at Rosauers 0016, 1867 12th Street, Hood River, OR",
+    "ad_size": "Single",
+    "install_month": "",
+    "run_months": "",
+    "image_url": "https://lh3.googleusercontent.com/d/1BXrwP6gvY74zIJVmpxcM4C-DIpzLtbo5",
+    "review_deadline": "10/01/2026",
+    "recipients": [
+      "tyler.vansant@rtui.com",
+      "megan.wink@indoormedia.com",
+      "hoodysoilchange@gmail.com",
+      "richard.leibowitz@indoormedia.com"
+    ],
+    "reps": [
+      {
+        "email": "tyler.vansant@rtui.com",
+        "name": "Tyler Van Sant"
+      },
+      {
+        "email": "megan.wink@indoormedia.com",
+        "name": "Megan Wink"
+      },
+      {
+        "email": "richard.leibowitz@indoormedia.com",
+        "name": "Rick Leibowitz"
+      }
+    ]
+  },
+  {
+    "message_id": "1a0d979dd2738dff",
+    "date": "2026-09-25 09:49",
+    "from": "Zone 07Y - Sydney Miller <zone.07y@indoormedia.com>",
+    "subject": "Re: Ad Proof from IndoorMedia , Bark Avenue Luxury Dog Care [07Y - B4 - J428189E]",
+    "client_name": "Bark Avenue Luxury Dog Care",
+    "contact_name": "good day!*",
+    "client_email": "barkavenuepdx@gmail.com",
+    "location": "",
+    "zone": "07Y",
+    "cycle": "B4",
+    "contract_number": "J428189E",
+    "store": ">> Tape Ad at Safeway 1478, 15570 SW Pacific Hwy, King City, OR",
+    "ad_size": "Single",
+    "install_month": "",
+    "run_months": "",
+    "image_url": "https://lh3.googleusercontent.com/d/1tnp5J9IkwYiC8fFulKavLDKVdBoil3Oc",
+    "review_deadline": "10/01/2026",
+    "recipients": [
+      "megan.wink@indoormedia.com",
+      "tyler.vansant@rtui.com",
+      "barkavenuepdx@gmail.com",
+      "richard.leibowitz@indoormedia.com"
+    ],
+    "reps": [
+      {
+        "email": "megan.wink@indoormedia.com",
+        "name": "Megan Wink"
+      },
+      {
+        "email": "tyler.vansant@rtui.com",
+        "name": "Tyler Van Sant"
+      },
+      {
+        "email": "richard.leibowitz@indoormedia.com",
+        "name": "Rick Leibowitz"
+      }
+    ]
+  },
+  {
+    "message_id": "1a0d9796e03d3723",
+    "date": "2026-09-25 09:49",
+    "from": "Zone 07Y - Sydney Miller <zone.07y@indoormedia.com>",
+    "subject": "Re: Ad Proofs from IndoorMedia , Qdoba Oregon [07Y - B4 - J423227E]",
+    "client_name": "Qdoba Oregon",
+    "contact_name": "will see a new proof email as soon as it becomes available*",
+    "client_email": "angela@energizemarketingservices.com",
+    "location": "",
+    "zone": "07Y",
+    "cycle": "B4",
+    "contract_number": "J423227E",
+    "store": "",
+    "ad_size": "Single",
+    "install_month": "",
+    "run_months": "",
+    "image_url": "https://lh3.googleusercontent.com/d/10mfNgi_Ss3g-o6eb5fBva99D1lq7U80T",
+    "review_deadline": "10/01/2026",
+    "recipients": [
+      "tyler.vansant@rtui.com",
+      "angela@energizemarketingservices.com",
+      "amy.dixon@indoormedia.com",
+      "richard.leibowitz@indoormedia.com"
+    ],
+    "reps": [
+      {
+        "email": "tyler.vansant@rtui.com",
+        "name": "Tyler Van Sant"
+      },
+      {
+        "email": "amy.dixon@indoormedia.com",
+        "name": "Amy Dixon"
+      },
+      {
+        "email": "richard.leibowitz@indoormedia.com",
+        "name": "Rick Leibowitz"
+      }
+    ]
+  },
+  {
+    "message_id": "1a0d978ab5342860",
+    "date": "2026-09-25 09:48",
+    "from": "Zone 07Y - Sydney Miller <zone.07y@indoormedia.com>",
+    "subject": "Re: Ad Proof from IndoorMedia , Oregon Army National Guard [07Y - B4 - J422420E]",
+    "client_name": "Oregon Army National Guard",
+    "contact_name": "good day!*",
+    "client_email": "daniel.s.mora.mil@army.mil",
+    "location": "",
+    "zone": "07Y",
+    "cycle": "B4",
+    "contract_number": "J422420E",
+    "store": "> Tape Ad at Safeway 4288, 145 E 18th Ave, Eugene, OR",
+    "ad_size": "Double",
+    "install_month": "",
+    "run_months": "",
+    "image_url": "https://lh3.googleusercontent.com/d/1Z6BnHXSL-IG7TW1qjnQ_mbfVQM3Mt6K7",
+    "review_deadline": "10/01/2026",
+    "recipients": [
+      "bailee.m.strauchwilliams.mil@army.mil",
+      "tyler.vansant@rtui.com",
+      "matthew.boozer@indoormedia.com",
+      "richard.leibowitz@indoormedia.com",
+      "daniel.s.mora.mil@army.mil"
+    ],
+    "reps": [
+      {
+        "email": "tyler.vansant@rtui.com",
+        "name": "Tyler Van Sant"
+      },
+      {
+        "email": "matthew.boozer@indoormedia.com",
+        "name": "Matthew Boozer"
+      },
+      {
+        "email": "richard.leibowitz@indoormedia.com",
+        "name": "Rick Leibowitz"
+      }
+    ]
+  },
+  {
+    "message_id": "1a0d9781a46875c2",
+    "date": "2026-09-25 09:48",
+    "from": "Zone 07Y - Sydney Miller <zone.07y@indoormedia.com>",
+    "subject": "Re: Ad Proof from IndoorMedia , Vijay Gopalswamy [07Y - B4 - V29189D]",
+    "client_name": "Vijay Gopalswamy",
+    "contact_name": "good day!*",
+    "client_email": "vijay@vijayrealtygroup.com",
+    "location": "",
+    "zone": "07Y",
+    "cycle": "B4",
+    "contract_number": "V29189D",
+    "store": ">> Tape Ad at Quality Food Center 0201, 4756 Northwest Bethany Boulevard,",
+    "ad_size": "Single",
+    "install_month": "",
+    "run_months": "",
+    "image_url": "https://lh3.googleusercontent.com/d/11rp4qH3hhT1koGPziF8PFCE1bPrkY4rr",
+    "review_deadline": "10/01/2026",
+    "recipients": [
+      "vijay@vijayrealtygroup.com",
+      "tyler.vansant@indoormedia.com",
+      "tyler.vansant@rtui.com",
+      "richard.leibowitz@indoormedia.com"
+    ],
+    "reps": [
+      {
+        "email": "tyler.vansant@indoormedia.com",
+        "name": "Tyler Van Sant"
+      },
+      {
+        "email": "tyler.vansant@rtui.com",
+        "name": "Tyler Van Sant"
+      },
+      {
+        "email": "richard.leibowitz@indoormedia.com",
+        "name": "Rick Leibowitz"
+      }
+    ]
+  },
+  {
+    "message_id": "1a0d9752d7a2b1df",
+    "date": "2026-09-25 09:44",
+    "from": "Zone 07Y - Sydney Miller <zone.07y@indoormedia.com>",
+    "subject": "Re: Ad Proof from IndoorMedia , St Vincent de Paul Society of Lane County [07Y - B4 - J418864E]",
+    "client_name": "St Vincent de Paul Society of Lane County",
+    "contact_name": "good day!*",
+    "client_email": "chance.fortune@svdp.us",
+    "location": "",
+    "zone": "07Y",
+    "cycle": "B4",
+    "contract_number": "J418864E",
+    "store": "> Tape Ad at Fred Meyer 0464, 4701 Highway 101, Florence, OR",
+    "ad_size": "Double",
+    "install_month": "",
+    "run_months": "",
+    "image_url": "https://lh3.googleusercontent.com/d/1pTGmuSx07okIwaDk-V-a7pnGbVV81-Qk",
+    "review_deadline": "10/01/2026",
+    "recipients": [
+      "tyler.vansant@rtui.com",
+      "chance.fortune@svdp.us",
+      "matthew.boozer@indoormedia.com",
+      "bethany.cartledge@svdp.us",
+      "richard.leibowitz@indoormedia.com"
+    ],
+    "reps": [
+      {
+        "email": "tyler.vansant@rtui.com",
+        "name": "Tyler Van Sant"
+      },
+      {
+        "email": "matthew.boozer@indoormedia.com",
+        "name": "Matthew Boozer"
+      },
+      {
+        "email": "richard.leibowitz@indoormedia.com",
+        "name": "Rick Leibowitz"
+      }
+    ]
+  },
+  {
+    "message_id": "1a0d9735bd28d9b8",
+    "date": "2026-09-25 09:42",
+    "from": "Zone 07Y - Sydney Miller <zone.07y@indoormedia.com>",
+    "subject": "Re: Your Digital Boost Ad Proof from IndoorMedia, St Vincent de Paul Society of Lane County - D437715E",
+    "client_name": "St Vincent de Paul Society of Lane County",
+    "contact_name": "good day!*",
+    "client_email": "chance.fortune@svdp.us",
+    "location": "D437715E",
+    "zone": "",
+    "cycle": "",
+    "contract_number": "",
+    "store": "",
+    "ad_size": "",
+    "install_month": "",
+    "run_months": "",
+    "image_url": "",
+    "review_deadline": "",
+    "recipients": [
+      "richard.leibowitz@rtui.com",
+      "tyler.vansant@rtui.com",
+      "chance.fortune@svdp.us",
+      "bethany.cartledge@svdp.us",
+      "matthew.boozer@indoormedia.com"
+    ],
+    "reps": [
+      {
+        "email": "tyler.vansant@rtui.com",
+        "name": "Tyler Van Sant"
+      },
+      {
+        "email": "matthew.boozer@indoormedia.com",
+        "name": "Matthew Boozer"
+      }
+    ]
+  },
+  {
+    "message_id": "1a0d8d331e7dcdee",
+    "date": "2026-09-25 06:48",
+    "from": "Sydney Miller <Zone.07W@indoormedia.com>",
+    "subject": "Ad Proof from IndoorMedia , Rancho Veijo [07W - B4 - J423879E]",
+    "client_name": "Rancho Veijo",
+    "contact_name": "Miguel Lopez",
+    "client_email": "jesusmhotmail.com@icloud.com",
+    "location": "",
+    "zone": "07W",
+    "cycle": "B4",
+    "contract_number": "J423879E",
+    "store": "Tape Ad at Albertsons 0243, 220 Ironwood Dr, Coeur D'Alene, ID",
+    "ad_size": "Double",
+    "install_month": "",
+    "run_months": "",
+    "image_url": "https://lh3.googleusercontent.com/d/1M485gsf2w7BvW6tEtlBI1-j1ylzQi5Ws",
+    "review_deadline": "10/02/2026",
+    "recipients": [
+      "lorin.clark@indoormedia.com",
+      "tyler.vansant@rtui.com",
+      "jesusmhotmail.com@icloud.com",
+      "richard.leibowitz@indoormedia.com"
+    ],
+    "reps": [
+      {
+        "email": "tyler.vansant@rtui.com",
+        "name": "Tyler Van Sant"
+      },
+      {
+        "email": "richard.leibowitz@indoormedia.com",
+        "name": "Rick Leibowitz"
+      }
+    ]
+  },
+  {
+    "message_id": "1a0d8bf2a916c382",
+    "date": "2026-09-25 06:26",
+    "from": "Sydney Miller <Zone.07Z@indoormedia.com>",
+    "subject": "Ad Proof from IndoorMedia , Little Otters Play Cafe [07Z - B4 - J422458E]",
+    "client_name": "Little Otters Play Cafe",
+    "contact_name": "Nicole Butterfield",
+    "client_email": "nbutter5@littleotterspc.com",
+    "location": "",
+    "zone": "07Z",
+    "cycle": "B4",
+    "contract_number": "J422458E",
+    "store": "Tape Ad at Safeway 1687, 3307 SE Evergreen Way Ste 5, Washougal, WA",
+    "ad_size": "Single",
+    "install_month": "",
+    "run_months": "",
+    "image_url": "https://lh3.googleusercontent.com/d/1FgZdJ0KcmFTD8lzgjYhnIb2lmVjin3GY",
+    "review_deadline": "10/02/2026",
+    "recipients": [
+      "adan.ramos@indoormedia.com",
+      "tyler.vansant@rtui.com",
+      "nbutter5@littleotterspc.com",
+      "richard.leibowitz@indoormedia.com"
+    ],
+    "reps": [
+      {
+        "email": "adan.ramos@indoormedia.com",
+        "name": "Adan Ramos"
+      },
+      {
+        "email": "tyler.vansant@rtui.com",
+        "name": "Tyler Van Sant"
+      },
+      {
+        "email": "richard.leibowitz@indoormedia.com",
+        "name": "Rick Leibowitz"
+      }
+    ]
+  },
+  {
+    "message_id": "1a0d8bdbfbf2091a",
+    "date": "2026-09-25 06:25",
+    "from": "Sydney Miller <Zone.07Z@indoormedia.com>",
+    "subject": "Ad Proof from IndoorMedia , Dean\u2019s Homestyle Cafe [07Z - B4 - J412496E]",
+    "client_name": "Dean\u2019s Homestyle Cafe",
+    "contact_name": "Aaron Thornburg",
+    "client_email": "ketterburgllc@gmail.com",
+    "location": "",
+    "zone": "07Z",
+    "cycle": "B4",
+    "contract_number": "J412496E",
+    "store": "Tape Ad at Safeway 1231, 12032 SE Sunnyside Rd, Clackamas, OR",
+    "ad_size": "Single",
+    "install_month": "",
+    "run_months": "",
+    "image_url": "https://lh3.googleusercontent.com/d/1nz3acqAGIv4jWYRKFmOjDhmiCmn1USHq",
+    "review_deadline": "10/02/2026",
+    "recipients": [
+      "ketterburgllc@gmail.com",
+      "dave.boring@indoormedia.com",
+      "tyler.vansant@rtui.com",
+      "richard.leibowitz@indoormedia.com"
+    ],
+    "reps": [
+      {
+        "email": "dave.boring@indoormedia.com",
+        "name": "Dave Boring"
+      },
+      {
+        "email": "tyler.vansant@rtui.com",
+        "name": "Tyler Van Sant"
+      },
+      {
+        "email": "richard.leibowitz@indoormedia.com",
+        "name": "Rick Leibowitz"
+      }
+    ]
+  },
+  {
+    "message_id": "1a0d8bbf5e8753a5",
+    "date": "2026-09-25 06:23",
+    "from": "Sydney Miller <Zone.07Z@indoormedia.com>",
+    "subject": "Ad Proof from IndoorMedia , Victorico's Mexican Food [07Z - B4 - J423845E]",
+    "client_name": "Victorico's Mexican Food",
+    "contact_name": "Victor Sanchez",
+    "client_email": "victor@victoricos.com",
+    "location": "",
+    "zone": "07Z",
+    "cycle": "B4",
+    "contract_number": "J423845E",
+    "store": "Tape Ad at Safeway 0424, 795 Columbia River Highway, St. Helens, OR",
+    "ad_size": "Single",
+    "install_month": "",
+    "run_months": "",
+    "image_url": "https://lh3.googleusercontent.com/d/1F3mgfOvfRvWs9p5Jhbpo4nA3gw6nke_K",
+    "review_deadline": "10/02/2026",
+    "recipients": [
+      "tyler.vansant@indoormedia.com",
+      "tyler.vansant@rtui.com",
+      "victor@victoricos.com",
+      "richard.leibowitz@indoormedia.com"
+    ],
+    "reps": [
+      {
+        "email": "tyler.vansant@indoormedia.com",
+        "name": "Tyler Van Sant"
+      },
+      {
+        "email": "tyler.vansant@rtui.com",
+        "name": "Tyler Van Sant"
+      },
+      {
+        "email": "richard.leibowitz@indoormedia.com",
+        "name": "Rick Leibowitz"
+      }
+    ]
+  },
+  {
+    "message_id": "1a0d8bab750d6c3d",
+    "date": "2026-09-25 06:21",
+    "from": "Sydney Miller <Zone.07Z@indoormedia.com>",
+    "subject": "Ad Proof from IndoorMedia , Sip N Flip [07Z - B4 - J423204E]",
+    "client_name": "Sip N Flip",
+    "contact_name": "Racheal Matlock",
+    "client_email": "rachealmatlock@hotmail.com",
+    "location": "",
+    "zone": "07Z",
+    "cycle": "B4",
+    "contract_number": "J423204E",
+    "store": "Tape Ad at Safeway 0424, 795 Columbia River Highway, St. Helens, OR",
+    "ad_size": "Single",
+    "install_month": "",
+    "run_months": "",
+    "image_url": "https://lh3.googleusercontent.com/d/1UhrPIWLYGPCochBeVtC15_hDKvVcV5PP",
+    "review_deadline": "10/02/2026",
+    "recipients": [
+      "megan.wink@indoormedia.com",
+      "rachealmatlock@hotmail.com",
+      "tyler.vansant@rtui.com",
+      "richard.leibowitz@indoormedia.com"
+    ],
+    "reps": [
+      {
+        "email": "megan.wink@indoormedia.com",
+        "name": "Megan Wink"
+      },
+      {
+        "email": "tyler.vansant@rtui.com",
+        "name": "Tyler Van Sant"
+      },
+      {
+        "email": "richard.leibowitz@indoormedia.com",
+        "name": "Rick Leibowitz"
+      }
+    ]
+  },
+  {
+    "message_id": "1a0d8b932fbd358f",
+    "date": "2026-09-25 06:20",
+    "from": "Sydney Miller <Zone.07Z@indoormedia.com>",
+    "subject": "Ad Proof from IndoorMedia , Lightning Treats & Sweets [07Z - B4 - J421812E]",
+    "client_name": "Lightning Treats & Sweets",
+    "contact_name": "Lenore Thawley",
+    "client_email": "lightningcupcakes@gmail.com",
+    "location": "",
+    "zone": "07Z",
+    "cycle": "B4",
+    "contract_number": "J421812E",
+    "store": "Tape Ad at Safeway 0424, 795 Columbia River Highway, St. Helens, OR",
+    "ad_size": "Double",
+    "install_month": "",
+    "run_months": "",
+    "image_url": "https://lh3.googleusercontent.com/d/1piBIJw67sLDUOsoOXefCgJWuqMotRt1j",
+    "review_deadline": "10/02/2026",
+    "recipients": [
+      "richard.leibowitz@indoormedia.com",
+      "megan.wink@indoormedia.com",
+      "tyler.vansant@rtui.com",
+      "lightningcupcakes@gmail.com"
+    ],
+    "reps": [
+      {
+        "email": "richard.leibowitz@indoormedia.com",
+        "name": "Rick Leibowitz"
+      },
+      {
+        "email": "megan.wink@indoormedia.com",
+        "name": "Megan Wink"
+      },
+      {
+        "email": "tyler.vansant@rtui.com",
+        "name": "Tyler Van Sant"
+      }
+    ]
+  },
+  {
+    "message_id": "1a0d8b774de4938f",
+    "date": "2026-09-25 06:18",
+    "from": "Sydney Miller <Zone.07Z@indoormedia.com>",
+    "subject": "Ad Proof from IndoorMedia , Eaton's Tire & Auto [07Z - B4 - J423673E]",
+    "client_name": "Eaton's Tire & Auto",
+    "contact_name": "Misty Plank",
+    "client_email": "misty@eatonstire.com",
+    "location": "",
+    "zone": "07Z",
+    "cycle": "B4",
+    "contract_number": "J423673E",
+    "store": "Tape Ad at Safeway 0424, 795 Columbia River Highway, St. Helens, OR",
+    "ad_size": "Single",
+    "install_month": "",
+    "run_months": "",
+    "image_url": "https://lh3.googleusercontent.com/d/1LhUtrvzblkw532ytkzm2p33ncK6MpFMB",
+    "review_deadline": "10/02/2026",
+    "recipients": [
+      "tyler.vansant@rtui.com",
+      "megan.wink@indoormedia.com",
+      "misty@eatonstire.com",
+      "richard.leibowitz@indoormedia.com"
+    ],
+    "reps": [
+      {
+        "email": "tyler.vansant@rtui.com",
+        "name": "Tyler Van Sant"
+      },
+      {
+        "email": "megan.wink@indoormedia.com",
+        "name": "Megan Wink"
+      },
+      {
+        "email": "richard.leibowitz@indoormedia.com",
+        "name": "Rick Leibowitz"
+      }
+    ]
+  },
+  {
     "message_id": "1a0d56dd87ccc906",
     "date": "2026-09-24 14:59",
     "from": "Sydney Miller <Zone.07Z@indoormedia.com>",
@@ -699,45 +1311,6 @@
       {
         "email": "tyler.vansant@rtui.com",
         "name": "Tyler Van Sant"
-      }
-    ]
-  },
-  {
-    "message_id": "1a0d5326c039305b",
-    "date": "2026-09-24 13:54",
-    "from": "Sydney Miller <Zone.07Y@indoormedia.com>",
-    "subject": "Ad Proofs from IndoorMedia , Qdoba Oregon [07Y - B4 - J423227E]",
-    "client_name": "Qdoba Oregon",
-    "contact_name": "Doug Kramer",
-    "client_email": "angela@energizemarketingservices.com",
-    "location": "",
-    "zone": "07Y",
-    "cycle": "B4",
-    "contract_number": "J423227E",
-    "store": "",
-    "ad_size": "Single",
-    "install_month": "",
-    "run_months": "",
-    "image_url": "https://lh3.googleusercontent.com/d/10mfNgi_Ss3g-o6eb5fBva99D1lq7U80T",
-    "review_deadline": "10/01/2026",
-    "recipients": [
-      "tyler.vansant@rtui.com",
-      "amy.dixon@indoormedia.com",
-      "richard.leibowitz@indoormedia.com",
-      "angela@energizemarketingservices.com"
-    ],
-    "reps": [
-      {
-        "email": "tyler.vansant@rtui.com",
-        "name": "Tyler Van Sant"
-      },
-      {
-        "email": "amy.dixon@indoormedia.com",
-        "name": "Amy Dixon"
-      },
-      {
-        "email": "richard.leibowitz@indoormedia.com",
-        "name": "Rick Leibowitz"
       }
     ]
   },
@@ -2932,41 +3505,6 @@
       {
         "email": "tyler.vansant@rtui.com",
         "name": "Tyler Van Sant"
-      }
-    ]
-  },
-  {
-    "message_id": "1a08157af01e275c",
-    "date": "2026-09-08 07:06",
-    "from": "Zone 07Y - Sydney Miller <zone.07y@indoormedia.com>",
-    "subject": "Re: Ad Proofs from IndoorMedia , Amazon Creek Dental [07Y - B4 - J435441E]",
-    "client_name": "Amazon Creek Dental",
-    "contact_name": "will see a new proof email as soon as it becomes available*",
-    "client_email": "admin@amazoncreekdental.com",
-    "location": "",
-    "zone": "07Y",
-    "cycle": "B4",
-    "contract_number": "J435441E",
-    "store": "",
-    "ad_size": "Double",
-    "install_month": "",
-    "run_months": "",
-    "image_url": "https://lh3.googleusercontent.com/d/1GhilWpFnZgBT1fs_n_57nwwwY5abEQYb",
-    "review_deadline": "09/09/2026",
-    "recipients": [
-      "tyler.vansant@rtui.com",
-      "admin@amazoncreekdental.com",
-      "matthew.boozer@indoormedia.com",
-      "richard.leibowitz@rtui.com"
-    ],
-    "reps": [
-      {
-        "email": "tyler.vansant@rtui.com",
-        "name": "Tyler Van Sant"
-      },
-      {
-        "email": "matthew.boozer@indoormedia.com",
-        "name": "Matthew Boozer"
       }
     ]
   },
@@ -9686,41 +10224,6 @@
       {
         "email": "matthew.boozer@indoormedia.com",
         "name": "Matthew Boozer"
-      }
-    ]
-  },
-  {
-    "message_id": "19f3cda1e2ac4b00",
-    "date": "2026-07-07 06:51",
-    "from": "Zone 07Z - Sydney Miller <zone.07z@indoormedia.com>",
-    "subject": "Re: Ad Proof from IndoorMedia , Hoody\u2019s Oil Change [07Z - B3 - J433177E]",
-    "client_name": "Hoody\u2019s Oil Change",
-    "contact_name": "great day.*",
-    "client_email": "hoodysoilchange@gmail.com",
-    "location": "",
-    "zone": "07Z",
-    "cycle": "B3",
-    "contract_number": "J433177E",
-    "store": ">> Tape Ad at Rosauers 0016, 1867 12th Street, Hood River, OR",
-    "ad_size": "Single",
-    "install_month": "",
-    "run_months": "",
-    "image_url": "https://lh3.googleusercontent.com/d/1t4KJIWtHySNqb5h5EXmw8LrSyGmxJJqr",
-    "review_deadline": "07/10/2026",
-    "recipients": [
-      "tyler.vansant@rtui.com",
-      "richard.leibowitz@rtui.com",
-      "megan.wink@indoormedia.com",
-      "hoodysoilchange@gmail.com"
-    ],
-    "reps": [
-      {
-        "email": "tyler.vansant@rtui.com",
-        "name": "Tyler Van Sant"
-      },
-      {
-        "email": "megan.wink@indoormedia.com",
-        "name": "Megan Wink"
       }
     ]
   },
