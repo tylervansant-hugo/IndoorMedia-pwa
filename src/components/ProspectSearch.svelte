@@ -3334,12 +3334,47 @@ IndoorMedia`
       const subject = fillTemplate(tpl.subject, prospect);
       const text = composeEmailBody(tpl, prospect);
       const data = { title: subject, text };
-      if (prospect._emailAttachFile && navigator.canShare && navigator.canShare({ files: [prospect._emailAttachFile] })) {
-        data.files = [prospect._emailAttachFile];
+      const files = [];
+      // Real gallery/camera file already in hand.
+      if (prospect._emailAttachFile) files.push(prospect._emailAttachFile);
+      // Fetch the selected marketing graphic as a real file so it attaches
+      // to the native mail/share sheet (image embedded as an attachment).
+      if (prospect._emailGraphic) {
+        const g = SHARE_GRAPHICS.find(x => x.id === prospect._emailGraphic);
+        if (g) {
+          const f = await urlToFile(graphicUrl(g), fileNameFor(g.title, g.file));
+          if (f) files.push(f);
+        }
+      }
+      if (files.length && navigator.canShare && navigator.canShare({ files })) {
+        data.files = files;
       }
       await navigator.share(data);
       handleLeadAction(prospect, 'email');
     } catch (e) { /* user cancelled or unsupported */ }
+  }
+
+  // Fetch a same-origin asset URL and wrap it as a File for the Share API.
+  async function urlToFile(url, filename) {
+    try {
+      const res = await fetch(url);
+      if (!res.ok) return null;
+      const blob = await res.blob();
+      return new File([blob], filename, { type: blob.type || 'image/jpeg' });
+    } catch { return null; }
+  }
+  function fileNameFor(title, srcPath) {
+    const ext = (srcPath.match(/\.(jpe?g|png|webp|gif)$/i) || [,'jpg'])[1].toLowerCase();
+    const base = String(title || 'graphic').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '') || 'graphic';
+    return `${base}.${ext}`;
+  }
+  // True when this device can share files AND the rep has picked something to attach.
+  function canShareGraphic(prospect) {
+    try {
+      if (!(navigator.canShare && navigator.share)) return false;
+      const hasPick = !!prospect._emailGraphic || !!prospect._emailAttachFile;
+      return hasPick && navigator.canShare({ files: [new File([''], 'x.jpg', { type: 'image/jpeg' })] });
+    } catch { return false; }
   }
 
   // Build the email body with optional graphic + testimonial appended.
@@ -4569,8 +4604,11 @@ IndoorMedia`
                     window.open('mailto:' + (prospect.email || '') + '?subject=' + subject + '&body=' + body);
                   }}>📧 Open in Email App</button>
                   <button class="action-btn full-width email-btn-secondary" on:click={() => copyEmailRich(tpl, prospect)}>{prospect._emailCopied ? '✅ Copied (image embedded)!' : '📋 Copy Email'}</button>
+                  {#if canShareGraphic(prospect)}
+                    <button class="action-btn full-width email-btn-secondary" on:click={() => shareEmailWithFile(tpl, prospect)}>📤 Share with image attached</button>
+                  {/if}
                   {#if prospect._emailGraphic || (prospect._emailAttachUrl && prospect._emailAttachType !== 'drive' && prospect._emailAttachType !== 'video')}
-                    <p class="email-embed-hint">🖼️ Use <strong>Copy Email</strong> then paste into Gmail/Outlook — the image embeds inline. (“Open in Email App” uses plaintext, so it can only link.)</p>
+                    <p class="email-embed-hint">🖼️ <strong>On desktop:</strong> use <strong>Copy Email</strong> → paste into Gmail/Outlook and the image embeds inline.{#if canShareGraphic(prospect)} <strong>On phone:</strong> tap <strong>Share with image attached</strong> to send it as a real attachment.{/if} (“Open in Email App” is plaintext-only, so it can only link.)</p>
                   {/if}
                 </div>
               {/if}
