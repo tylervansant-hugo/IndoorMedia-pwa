@@ -120,7 +120,7 @@
       const lines = body.split('\n');
       const signoffIdx = lines.lastIndexOf('Best,');
       const insertAt = signoffIdx > 0 ? signoffIdx : lines.length;
-      lines.splice(insertAt, 0, `\n👉 See your custom landing page:\n${landing}\n`);
+      lines.splice(insertAt, 0, `\n👉 See what we can do for your business:\n${landing}\n`);
       body = lines.join('\n');
     }
     return body;
@@ -301,7 +301,7 @@
           <input
             type="url"
             inputmode="url"
-            placeholder="🔗 Landing page URL (optional — same as counter-sign QR)"
+            placeholder="🔗 Your IndoorMedia page URL (optional — same as counter-sign QR)"
             bind:value={landingUrl}
           />
           {#if repLandingUrl()}

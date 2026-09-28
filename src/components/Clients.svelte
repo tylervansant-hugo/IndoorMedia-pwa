@@ -48,7 +48,7 @@
     let signoffIdx = lines.lastIndexOf('Best,');
     if (signoffIdx < 0) signoffIdx = lines.lastIndexOf('All the best,');
     const insertAt = signoffIdx > 0 ? signoffIdx : lines.length;
-    lines.splice(insertAt, 0, `\n👉 See your custom landing page:\n${landing}\n`);
+    lines.splice(insertAt, 0, `\n👉 See what we can do for your business:\n${landing}\n`);
     return lines.join('\n');
   }
   
@@ -1113,9 +1113,9 @@ IndoorMedia`;
 
                 {#if emailDraft}
                   <div class="draft-box">
-                    <label class="landing-label">🔗 Link landing page (optional — same as counter-sign QR)</label>
+                    <label class="landing-label">🔗 Link your IndoorMedia page (optional — same as counter-sign QR)</label>
                     <input class="landing-input" type="url" inputmode="url"
-                      placeholder="Paste landing page URL…" bind:value={emailLandingUrl} />
+                      placeholder="Paste your IndoorMedia page URL…" bind:value={emailLandingUrl} />
                     {#if repLandingUrl()}
                       <button class="landing-mine-btn" on:click={() => emailLandingUrl = repLandingUrl()}>🏠 Use my IndoorMedia page</button>
                     {/if}

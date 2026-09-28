@@ -3382,10 +3382,12 @@ IndoorMedia`
     const rawBody = tpl._dynamic && typeof tpl.body === 'function' ? tpl.body(prospect) : tpl.body;
     let body = fillTemplate(rawBody, prospect);
     const extras = [];
-    // Landing page link (same URL format the rep uses for counter-sign QR codes).
+    // Landing page link — this is the REP'S IndoorMedia advertise-with page
+    // (where prospects learn what the rep can do for their business), NOT the
+    // prospect's own website.
     const landing = normalizeLandingUrl(prospect._emailLandingUrl);
     if (landing) {
-      extras.push(`👉 See your custom landing page:\n${landing}`);
+      extras.push(`👉 See what we can do for your business:\n${landing}`);
     }
     if (prospect._emailAttachUrl) {
       const isVideo = prospect._emailAttachType === 'drive' || prospect._emailAttachType === 'video';
@@ -3450,7 +3452,7 @@ IndoorMedia`
     const extras = [];
     const landing = normalizeLandingUrl(prospect._emailLandingUrl);
     if (landing) {
-      extras.push(`<p style="margin:14px 0;">👉 See your custom landing page:<br><a href="${escapeHtml(landing)}">${escapeHtml(landing)}</a></p>`);
+      extras.push(`<p style="margin:14px 0;">👉 See what we can do for your business:<br><a href="${escapeHtml(landing)}">${escapeHtml(landing)}</a></p>`);
     }
     if (prospect._emailAttachUrl) {
       const isVideo = prospect._emailAttachType === 'drive' || prospect._emailAttachType === 'video';
@@ -4524,12 +4526,12 @@ IndoorMedia`
                     {#if g}<img class="email-graphic-thumb" src={graphicUrl(g)} alt={g.title} loading="lazy" />{/if}
                   {/if}
 
-                  <!-- Landing page link (same URL format as counter-sign QR codes) -->
+                  <!-- Landing page link = the REP'S IndoorMedia advertise-with page -->
                   <div class="email-landing">
-                    <span class="email-addon-label">🔗 Link their landing page:</span>
+                    <span class="email-addon-label">🔗 Link your IndoorMedia page:</span>
                     <div class="email-attach-row">
                       <input class="email-drive-input" type="url" inputmode="url"
-                        placeholder="Paste landing page URL (same as counter-sign QR)…"
+                        placeholder="Paste your IndoorMedia landing page URL…"
                         bind:value={prospect._emailLandingUrl}
                         on:input={() => prospects = prospects} />
                       {#if prospect._emailLandingUrl}
@@ -4542,7 +4544,7 @@ IndoorMedia`
                     {#if normalizeLandingUrl(prospect._emailLandingUrl)}
                       <p class="email-attach-hint">✓ Landing page link will be added to the email: {normalizeLandingUrl(prospect._emailLandingUrl)}</p>
                     {:else}
-                      <p class="email-attach-hint">Optional. Adds a tap-to-open link to their landing page (the same website you’d use for a counter-sign QR code).</p>
+                      <p class="email-attach-hint">Optional. Adds a tap-to-open link to <strong>your</strong> IndoorMedia advertise-with page (the same website you’d use for a counter-sign QR code) — it invites the prospect to “see what we can do for your business.”</p>
                     {/if}
                   </div>
 
