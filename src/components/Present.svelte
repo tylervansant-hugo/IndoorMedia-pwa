@@ -26,6 +26,10 @@
   });
 
   const VIDEO_LINKS = {
+    'digital': {
+      // Full Digital Suite overview deck (covers the whole digital lineup).
+      presentation: (import.meta.env.BASE_URL || '/') + 'products/digital-suite-presentation.pdf'
+    },
     'register-tape': {
       presentation: 'https://docs.google.com/presentation/d/1Xs60nX3i6MJkC81GgnK-50jBrkWVPu06xRpmv8z4PIc/edit?usp=sharing',
       explainer: 'https://youtu.be/_gdlyEszHfY?si=0_kHou89WrMhvNY_'
@@ -692,6 +696,11 @@
 
     {#if !selectedDigital}
       <h2>📱 Digital Solutions</h2>
+      {#if VIDEO_LINKS['digital']?.presentation}
+        <div class="video-links">
+          <a href={VIDEO_LINKS['digital'].presentation} target="_blank" class="video-btn">🎬 Digital Suite Presentation</a>
+        </div>
+      {/if}
       <div class="digital-grid">
         {#each Object.entries(digitalProducts) as [key, dp]}
           <button class="digital-card" on:click={() => selectedDigital = key}>
