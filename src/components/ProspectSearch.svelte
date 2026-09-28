@@ -3776,25 +3776,44 @@ IndoorMedia`
     const stopWords = new Set(['the','and','inc','llc','corp','auto','car','wash','restaurant','cafe','shop','store','bar','grill','pizza','salon','spa','dental','repair','service','services','center','east','west','north','south','new','old','big','little','great']);
     
     const pWords = pName.split(' ').filter(w => w.length > 2 && !stopWords.has(w));
-    
-    // Find matching contract
-    const match = allContracts.find(c => {
-      const cName = norm(c.business_name);
-      const cPhone = (c.contact_phone || '').replace(/\D/g, '');
-      
-      // Phone match — must be 7+ digits and exact
-      if (pPhone.length >= 7 && cPhone.length >= 7 && pPhone.slice(-7) === cPhone.slice(-7)) return true;
-      
-      // Exact business name match
-      if (pName === cName) return true;
-      
-      // Substantial name overlap — require 2+ meaningful words matching AND at least 60% overlap
-      const cWords = cName.split(' ').filter(w => w.length > 2 && !stopWords.has(w));
-      if (pWords.length === 0 || cWords.length === 0) return false;
-      const common = pWords.filter(w => cWords.some(cw => cw === w));
-      return common.length >= 2 && (common.length / Math.max(pWords.length, cWords.length)) >= 0.6;
-    });
-    
+    const pZip = ((prospect.address || '').match(/\b(\d{5})\b/) || [])[1] || '';
+
+    // Priority-ordered matching so the CORRECT record always wins over a
+    // coincidental fuzzy hit. Many customers share generic names (e.g. several
+    // "X Mexican Food" restaurants), so a single .find() that mixes exact +
+    // fuzzy rules can return the wrong (earlier) record. We do three passes
+    // across ALL contracts: exact phone → exact name → corroborated fuzzy.
+
+    // Pass 1: exact phone (7+ digits). Strongest signal.
+    let match = null;
+    if (pPhone.length >= 7) {
+      match = allContracts.find(c => {
+        const cPhone = (c.contact_phone || '').replace(/\D/g, '');
+        return cPhone.length >= 7 && pPhone.slice(-7) === cPhone.slice(-7);
+      }) || null;
+    }
+
+    // Pass 2: exact normalized business-name match.
+    if (!match) {
+      match = allContracts.find(c => norm(c.business_name) === pName) || null;
+    }
+
+    // Pass 3: substantial name overlap — 2+ meaningful words AND ≥60% overlap.
+    // To avoid generic-name false positives ("mexican food", "taco"), when the
+    // prospect address has a ZIP, prefer a fuzzy candidate whose address shares
+    // that ZIP; only fall back to the first fuzzy candidate if none corroborate.
+    if (!match && pWords.length) {
+      const fuzzy = allContracts.filter(c => {
+        const cWords = norm(c.business_name).split(' ').filter(w => w.length > 2 && !stopWords.has(w));
+        if (!cWords.length) return false;
+        const common = pWords.filter(w => cWords.includes(w));
+        return common.length >= 2 && (common.length / Math.max(pWords.length, cWords.length)) >= 0.6;
+      });
+      if (fuzzy.length) {
+        match = (pZip && fuzzy.find(c => (c.address || '').includes(pZip))) || fuzzy[0];
+      }
+    }
+
     if (!match) return null;
     
     // Check if there's a phone click for this prospect
