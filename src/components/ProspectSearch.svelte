@@ -3387,6 +3387,105 @@ IndoorMedia`
     return body;
   }
 
+  // ── Rich HTML email body (image EMBEDDED inline via <img>) ──
+  // The plaintext composeEmailBody() can only ever show a link to a graphic.
+  // This builds an HTML version where the selected marketing graphic and any
+  // attached image are placed inline as <img> tags. Copying this as text/html
+  // to the clipboard means pasting into Gmail / Outlook shows the image
+  // embedded in the email, not a bare URL.
+  function escapeHtml(s) {
+    return String(s == null ? '' : s)
+      .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+  }
+  function linkifyLine(line) {
+    // Turn a bare URL on its own line into a clickable anchor.
+    const t = line.trim();
+    if (/^https?:\/\/\S+$/i.test(t)) {
+      return `<a href="${escapeHtml(t)}">${escapeHtml(t)}</a>`;
+    }
+    return escapeHtml(line);
+  }
+
+  function composeEmailHtml(tpl, prospect) {
+    const rawBody = tpl._dynamic && typeof tpl.body === 'function' ? tpl.body(prospect) : tpl.body;
+    let body = fillTemplate(rawBody, prospect);
+
+    // Build the HTML extras (embedded images instead of links).
+    const extras = [];
+    const landing = normalizeLandingUrl(prospect._emailLandingUrl);
+    if (landing) {
+      extras.push(`<p style="margin:14px 0;">👉 See your custom landing page:<br><a href="${escapeHtml(landing)}">${escapeHtml(landing)}</a></p>`);
+    }
+    if (prospect._emailAttachUrl) {
+      const isVideo = prospect._emailAttachType === 'drive' || prospect._emailAttachType === 'video';
+      if (isVideo) {
+        extras.push(`<p style="margin:14px 0;">🎥 Watch a quick video:<br><a href="${escapeHtml(prospect._emailAttachUrl)}">${escapeHtml(prospect._emailAttachUrl)}</a></p>`);
+      } else {
+        // Attached image → embed inline.
+        extras.push(`<p style="margin:14px 0;"><img src="${escapeHtml(prospect._emailAttachUrl)}" alt="IndoorMedia" style="max-width:100%;height:auto;border-radius:8px;" /></p>`);
+      }
+    }
+    if (prospect._emailGraphic) {
+      const g = SHARE_GRAPHICS.find(x => x.id === prospect._emailGraphic);
+      if (g) {
+        extras.push(`<p style="margin:14px 0;">Here's a quick look at how it works:<br><img src="${escapeHtml(graphicUrl(g))}" alt="${escapeHtml(g.title)}" style="max-width:100%;height:auto;border-radius:8px;" /></p>`);
+      }
+    }
+    if (prospect._emailTestimonial && prospect._emailTestimonialData) {
+      const t = prospect._emailTestimonialData;
+      const biz = (t.business_name || 'A local business').replace(/&#x27;/g, "'").replace(/&amp;/g, '&');
+      const quote = (t.comments || 'Great results with IndoorMedia!').replace(/&#x27;/g, "'").replace(/&amp;/g, '&');
+      let block = `<p style="margin:14px 0;">What other businesses are saying:<br><em>\u201c${escapeHtml(quote)}\u201d</em><br>\u2014 ${escapeHtml(biz)}`;
+      const contactBits = [];
+      if (t.grocery) contactBits.push('Advertising at ' + t.grocery);
+      if (t.addr) contactBits.push(t.addr);
+      if (t.phone) contactBits.push(t.phone);
+      if (contactBits.length) block += `<br><span style="color:#555;">(${escapeHtml(contactBits.join('  |  '))})</span>`;
+      if (t.url) block += `<br>See their ad: <a href="${escapeHtml(t.url)}">${escapeHtml(t.url)}</a>`;
+      block += `</p>`;
+      extras.push(block);
+    }
+
+    // Convert the plaintext body into HTML paragraphs, inserting the extras
+    // right before the sign-off line ("Best,").
+    const lines = body.split('\n');
+    const signoffIdx = lines.lastIndexOf('Best,');
+    const insertAt = signoffIdx > 0 ? signoffIdx : lines.length;
+    const beforeLines = lines.slice(0, insertAt);
+    const afterLines = lines.slice(insertAt);
+    const toHtmlBlock = (arr) => arr.map(l => l.trim() === '' ? '<br>' : linkifyLine(l)).join('<br>\n');
+    const htmlParts = [];
+    htmlParts.push(`<div style="font-family:Arial,Helvetica,sans-serif;font-size:14px;line-height:1.5;color:#222;">`);
+    htmlParts.push(toHtmlBlock(beforeLines));
+    if (extras.length) htmlParts.push(extras.join('\n'));
+    if (afterLines.length) htmlParts.push('<br>\n' + toHtmlBlock(afterLines));
+    htmlParts.push(`</div>`);
+    return htmlParts.join('\n');
+  }
+
+  // Copy the email as BOTH rich HTML (image embedded) and plaintext fallback.
+  // Falls back to plaintext-only copy if the browser lacks ClipboardItem.
+  async function copyEmailRich(tpl, prospect) {
+    const plain = composeEmailBody(tpl, prospect);
+    const html = composeEmailHtml(tpl, prospect);
+    try {
+      if (typeof ClipboardItem !== 'undefined' && navigator.clipboard && navigator.clipboard.write) {
+        const item = new ClipboardItem({
+          'text/html': new Blob([html], { type: 'text/html' }),
+          'text/plain': new Blob([plain], { type: 'text/plain' }),
+        });
+        await navigator.clipboard.write([item]);
+      } else {
+        await navigator.clipboard.writeText(plain);
+      }
+    } catch (e) {
+      try { await navigator.clipboard.writeText(plain); } catch { /* ignore */ }
+    }
+    prospect._emailCopied = true; prospects = prospects;
+    setTimeout(() => { prospect._emailCopied = false; prospects = prospects; }, 2000);
+  }
+
   async function toggleEmailTestimonial(prospect, checked) {
     prospect._emailTestimonial = checked;
     prospects = prospects;
@@ -4377,7 +4476,7 @@ IndoorMedia`
                     {/if}
                   </div>
                   <div class="email-graphic-picker">
-                    <span class="email-addon-label">🖼️ Attach a graphic (link):</span>
+                    <span class="email-addon-label">🖼️ Attach a graphic (embeds inline):</span>
                     <select bind:value={prospect._emailGraphic} on:change={() => prospects = prospects} class="email-graphic-select">
                       <option value={undefined}>None</option>
                       {#each SHARE_GRAPHICS as g}
@@ -4469,11 +4568,10 @@ IndoorMedia`
                     const body = encodeURIComponent(rawBody.replace(/\n\n/g, '\r\n\r\n').replace(/(?<!\r)\n/g, '\r\n'));
                     window.open('mailto:' + (prospect.email || '') + '?subject=' + subject + '&body=' + body);
                   }}>📧 Open in Email App</button>
-                  <button class="action-btn full-width email-btn-secondary" on:click={() => {
-                    navigator.clipboard.writeText(composeEmailBody(tpl, prospect));
-                    prospect._emailCopied = true; prospects = prospects;
-                    setTimeout(() => { prospect._emailCopied = false; prospects = prospects; }, 2000);
-                  }}>{prospect._emailCopied ? '✅ Copied!' : '📋 Copy Email'}</button>
+                  <button class="action-btn full-width email-btn-secondary" on:click={() => copyEmailRich(tpl, prospect)}>{prospect._emailCopied ? '✅ Copied (image embedded)!' : '📋 Copy Email'}</button>
+                  {#if prospect._emailGraphic || (prospect._emailAttachUrl && prospect._emailAttachType !== 'drive' && prospect._emailAttachType !== 'video')}
+                    <p class="email-embed-hint">🖼️ Use <strong>Copy Email</strong> then paste into Gmail/Outlook — the image embeds inline. (“Open in Email App” uses plaintext, so it can only link.)</p>
+                  {/if}
                 </div>
               {/if}
             </div>
@@ -7094,6 +7192,7 @@ IndoorMedia`
   .email-gallery-btn:active { background: #e3f0fc; }
   .email-gallery-btn.secondary { border-color: #888; color: #555; margin-left: 6px; }
   .email-attach-hint { font-size: 11px; color: #888; margin: 0; line-height: 1.4; }
+  .email-embed-hint { font-size: 11px; color: #2c7a2c; margin: 8px 0 0; line-height: 1.4; background: #f0f9f0; border-radius: 6px; padding: 8px 10px; }
   /* Searchable testimonial picker (prospect email) */
   .email-testi-block { margin-bottom: 6px; }
   .email-testi-add { width: 100%; padding: 9px; background: #fff; color: #b8860b; border: 1.5px dashed #d4a017; border-radius: 8px; font-size: 13px; font-weight: 700; cursor: pointer; }
