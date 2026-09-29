@@ -54,6 +54,33 @@
     "creator": "anthony.eng@indoormedia.com"
   },
   {
+    "event_id": "c4qm6dr2cpijgbb675i66b9k6phjibb1c9ij4b9g6hi66e1l6hhjacr46o",
+    "title": "Visit: Thai Corner Cuisine Ed owner (Thai Time Vancouver)",
+    "start": "2026-10-01T10:30:00-07:00",
+    "end": "2026-10-01T11:30:00-07:00",
+    "location": "11310 NE 49th St, Vancouver, WA 98682, USA",
+    "description": "Prospect: Thai Corner Cuisine\nAddress: 1109 SW 1st Ave A, Canby, OR 97013, USA\nBusiness Phone: (503) 263-2442\nWebsite: http://www.thaicornercuisine.com/\nOwner/Decision Maker: Mom & son Ed\nStore: Safeway SAF07Y-2604\nRep: Megan Wink\n\n\ud83d\udcdd Notes:\nSon has number will call back?",
+    "prospect_name": "Thai Corner Cuisine",
+    "phone": "",
+    "address": "1109 SW 1st Ave A, Canby, OR 97013, USA",
+    "store": "Safeway SAF07Y-2604",
+    "rep": "Megan Wink",
+    "attendees": [
+      {
+        "email": "megan.wink@indoormedia.com",
+        "name": "",
+        "status": "accepted"
+      },
+      {
+        "email": "tyler.vansant@indoormedia.com",
+        "name": "",
+        "status": "needsAction"
+      }
+    ],
+    "is_prospect_visit": true,
+    "creator": "megan.wink@indoormedia.com"
+  },
+  {
     "event_id": "r4qtj68vapsfvjuf2ddvi9rtrk",
     "title": "Meet with coup at wasabi sushi",
     "start": "2026-10-01T11:30:00-07:00",
