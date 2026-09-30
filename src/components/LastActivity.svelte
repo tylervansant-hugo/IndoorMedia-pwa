@@ -21,35 +21,43 @@
     { emoji: '✅', text: 'Available' },
   ];
 
-  // How each logged action renders in the feed.
+  // How each logged action renders in the feed. `tap` describes what happens
+  // when the item is clicked (routed via the `open-activity` event in Main).
   function describe(e) {
     const who = (e.store || e.business || '').trim();
     switch (e.action) {
       case 'call':
-        return { emoji: '📞', verb: 'Called', target: who || 'a prospect' };
+        return { emoji: '📞', verb: 'Called', target: who || 'a prospect', tap: e.phone ? 'Call again' : '', can: !!e.phone };
       case 'email':
-        return { emoji: '✉️', verb: e.kind === 'renewal' ? 'Emailed renewal to' : 'Emailed', target: who || 'a contact' };
+        return { emoji: '✉️', verb: e.kind === 'renewal' ? 'Emailed renewal to' : 'Emailed', target: who || 'a contact', tap: e.email ? 'Email again' : '', can: !!e.email };
       case 'text':
-        return { emoji: '💬', verb: 'Texted', target: who || 'a contact' };
+        return { emoji: '💬', verb: 'Texted', target: who || 'a contact', tap: e.phone ? 'Text again' : '', can: !!e.phone };
       case 'quote':
-        return { emoji: '🧾', verb: 'Built a quote', target: who ? `for ${who}` : `(${e.items || 0} item${e.items === 1 ? '' : 's'})` };
+        return { emoji: '🧾', verb: 'Built a quote', target: who ? `for ${who}` : `(${e.items || 0} item${e.items === 1 ? '' : 's'})`, tap: 'Open cart', can: true };
       case 'contract':
-        return { emoji: '📝', verb: 'Contract', target: who || 'submitted' };
+        return { emoji: '📝', verb: 'Contract', target: who || 'submitted', tap: '', can: false };
       case 'appointment':
-        return { emoji: '📅', verb: 'Booked appt', target: who ? `with ${who}` : '' };
+        return { emoji: '📅', verb: 'Booked appt', target: who ? `with ${who}` : '', tap: '', can: false };
       case 'store_view':
-        return { emoji: '🏪', verb: 'Looked up store', target: who || '' };
+        return { emoji: '🏪', verb: 'Looked up store', target: who || '', tap: who ? 'Reopen store' : '', can: !!who };
       case 'prospect_view':
-        return { emoji: '🎯', verb: 'Viewed prospect', target: who || '' };
+        return { emoji: '🎯', verb: 'Viewed prospect', target: who || '', tap: who ? 'Reopen' : '', can: !!who };
       case 'renewal_view':
-        return { emoji: '🔄', verb: 'Reviewed renewal', target: who || '' };
+        return { emoji: '🔄', verb: 'Reviewed renewal', target: who || '', tap: 'Open renewals', can: true };
       case 'search': {
         const t = (e.store || e.subcategory || e.category || '').trim();
-        return { emoji: '🔍', verb: 'Searched', target: t || '' };
+        return { emoji: '🔍', verb: 'Searched', target: t || '', tap: e.storeName || e.store ? 'Rerun search' : '', can: !!(e.storeName || e.store) };
       }
       default:
-        return { emoji: '•', verb: e.action, target: who };
+        return { emoji: '•', verb: e.action, target: who, tap: '', can: false };
     }
+  }
+
+  // Fire the app-wide router (handled in Main.svelte) to reopen this item.
+  function openItem(e) {
+    try {
+      document.dispatchEvent(new CustomEvent('open-activity', { detail: e }));
+    } catch {}
   }
 
   let feed = [];
@@ -154,14 +162,26 @@
       {#each feed as e}
         {@const d = describe(e)}
         <li class="la-item">
-          <span class="la-item-emoji">{d.emoji}</span>
-          <span class="la-item-body">
-            <span class="la-item-text">
-              <span class="la-item-verb">{d.verb}</span>
-              {#if d.target}<span class="la-item-target"> {d.target}</span>{/if}
+          <button
+            class="la-item-btn"
+            class:tappable={d.can}
+            disabled={!d.can}
+            on:click={() => d.can && openItem(e)}
+            title={d.can ? d.tap : ''}
+          >
+            <span class="la-item-emoji">{d.emoji}</span>
+            <span class="la-item-body">
+              <span class="la-item-text">
+                <span class="la-item-verb">{d.verb}</span>
+                {#if d.target}<span class="la-item-target"> {d.target}</span>{/if}
+              </span>
+              <span class="la-item-meta">
+                {#if d.can}<span class="la-item-tap">{d.tap}</span>{/if}
+                <span class="la-item-ago">{(now, ago(new Date(e.timestamp).getTime()))}</span>
+              </span>
             </span>
-            <span class="la-item-ago">{(now, ago(new Date(e.timestamp).getTime()))}</span>
-          </span>
+            {#if d.can}<span class="la-item-arrow">›</span>{/if}
+          </button>
         </li>
       {/each}
     </ul>
@@ -245,17 +265,25 @@
 
   /* Feed */
   .la-feed { list-style: none; margin: 0 0 12px; padding: 0; display: flex; flex-direction: column; }
-  .la-item {
-    display: flex; align-items: flex-start; gap: 11px;
-    padding: 9px 4px; border-bottom: 1px solid var(--border-color, #f0f0f0);
-  }
+  .la-item { border-bottom: 1px solid var(--border-color, #f0f0f0); }
   .la-item:last-child { border-bottom: none; }
+  .la-item-btn {
+    display: flex; align-items: center; gap: 11px; width: 100%;
+    padding: 9px 4px; background: transparent; border: none; text-align: left;
+    color: inherit; font: inherit; border-radius: 8px;
+  }
+  .la-item-btn.tappable { cursor: pointer; }
+  .la-item-btn.tappable:active { background: var(--bg-secondary, #f2f2f4); transform: scale(0.995); }
+  .la-item-btn:disabled { cursor: default; }
   .la-item-emoji { font-size: 19px; line-height: 1.3; flex-shrink: 0; width: 22px; text-align: center; }
   .la-item-body { display: flex; align-items: baseline; justify-content: space-between; gap: 10px; flex: 1; min-width: 0; }
   .la-item-text { font-size: 14px; color: var(--text-primary, #1a1a1a); line-height: 1.35; min-width: 0; overflow-wrap: break-word; }
   .la-item-verb { font-weight: 700; }
   .la-item-target { color: var(--text-secondary, #555); font-weight: 500; }
+  .la-item-meta { display: flex; align-items: baseline; gap: 8px; flex-shrink: 0; }
+  .la-item-tap { font-size: 11px; font-weight: 700; color: var(--accent, #cc0000); white-space: nowrap; }
   .la-item-ago { font-size: 12px; color: var(--text-secondary, #999); flex-shrink: 0; white-space: nowrap; }
+  .la-item-arrow { font-size: 18px; color: var(--text-secondary, #bbb); flex-shrink: 0; line-height: 1; }
 
   /* Status toggle */
   .la-status-wrap { border-top: 1px solid var(--border-color, #eee); padding-top: 10px; }

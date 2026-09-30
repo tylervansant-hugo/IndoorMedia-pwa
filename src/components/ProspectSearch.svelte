@@ -478,6 +478,25 @@
     }
     // Record a per-prospect activity-log entry (who / what / when).
     recordProspectActivity(prospect, action, repName, repId);
+    // Feed the Home "Last Activity" log too. Calls are already logged via
+    // trackPhoneClick (with phone), so only log text/email here to avoid dupes.
+    try {
+      if (action === 'text') {
+        logActivity('text', {
+          rep: repName,
+          business: prospect.name || '',
+          phone: prospect.phone || '',
+          address: prospect.address || '',
+        });
+      } else if (action === 'email') {
+        logActivity('email', {
+          rep: repName,
+          business: prospect.name || '',
+          email: prospect.email || resolveProspectEmail(prospect) || '',
+          address: prospect.address || '',
+        });
+      }
+    } catch {}
   }
 
   // Append a contact event to the prospect's activity log (local cache +
@@ -1786,7 +1805,11 @@
     view = 'categories';
     // Looking at a store (opening Prospect Store) counts as a search per manager spec.
     try {
-      logActivity('store_view', { rep: $user?.name || 'Unknown', store: store?.StoreName || '' });
+      logActivity('store_view', {
+        rep: $user?.name || 'Unknown',
+        store: store?.StoreName || '',
+        openTarget: 'prospect-store',
+      });
     } catch {}
   }
 
@@ -3749,7 +3772,9 @@ IndoorMedia`
       // This is what makes the "Searches" column populate for managers.
       logActivity('search', {
         rep: $user?.name || 'Unknown',
-        category, subcategory, store: storeName || ''
+        category, subcategory, store: storeName || '',
+        // Deep-link back into the same category/subcategory under this store.
+        openTarget: 'prospect-search', storeName: storeName || '',
       });
     } catch (e) { console.warn('Track search error:', e); }
   }
@@ -3760,7 +3785,12 @@ IndoorMedia`
       clicks.push({ business: prospect.name, phone: prospect.phone, address: prospect.address || '', date: new Date().toISOString(), rep: $user?.name || 'Unknown' });
       localStorage.setItem('impro_phone_clicks', JSON.stringify(clicks.slice(-500)));
       phoneClicks = clicks;
-      logActivity('call', { business: prospect.name, rep: $user?.name || 'Unknown' });
+      logActivity('call', {
+        business: prospect.name,
+        rep: $user?.name || 'Unknown',
+        phone: prospect.phone || '',
+        address: prospect.address || '',
+      });
     } catch (e) { console.warn('Track phone click error:', e); }
   }
 
@@ -3876,7 +3906,11 @@ IndoorMedia`
     filteredStoreResults = [];
     view = 'categories';
     try {
-      logActivity('store_view', { rep: $user?.name || 'Unknown', store: store?.StoreName || '' });
+      logActivity('store_view', {
+        rep: $user?.name || 'Unknown',
+        store: store?.StoreName || '',
+        openTarget: 'prospect-store',
+      });
     } catch {}
   }
 

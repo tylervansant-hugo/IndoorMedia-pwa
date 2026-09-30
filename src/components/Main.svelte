@@ -1189,9 +1189,59 @@
     }
     document.addEventListener('map-action', handleMapAction);
 
+    // "Last Activity" feed item tapped -> reopen what the rep was doing.
+    function handleOpenActivity(e) {
+      const a = e.detail || {};
+      const biz = (a.store || a.business || '').trim();
+      switch (a.action) {
+        case 'call':
+          if (a.phone) window.open('tel:' + a.phone.replace(/[^0-9+]/g, ''));
+          break;
+        case 'text':
+          if (a.phone) window.open('sms:' + a.phone.replace(/[^0-9+]/g, ''));
+          break;
+        case 'email':
+          if (a.email) window.open('mailto:' + a.email);
+          break;
+        case 'quote':
+          currentTab = 'cart';
+          break;
+        case 'renewal_view':
+          currentTab = 'clients';
+          break;
+        case 'store_view': {
+          currentTab = 'stores';
+          if (a.openTarget === 'store-search') {
+            storesView = 'rates';
+            if (biz) setTimeout(() => document.dispatchEvent(new CustomEvent('universal-store-search', { detail: { term: biz, storeName: biz } })), 300);
+          } else {
+            storesView = 'prospects';
+            if (biz) setTimeout(() => document.dispatchEvent(new CustomEvent('select-store-from-map', { detail: biz })), 300);
+          }
+          break;
+        }
+        case 'search': {
+          // Rerun a prospect search under the store it was run against.
+          const store = a.storeName || a.store || '';
+          currentTab = 'stores';
+          storesView = 'prospects';
+          if (store) setTimeout(() => document.dispatchEvent(new CustomEvent('select-store-from-map', { detail: store })), 300);
+          break;
+        }
+        case 'prospect_view':
+          currentTab = 'stores';
+          storesView = 'prospects';
+          break;
+        default:
+          break;
+      }
+    }
+    document.addEventListener('open-activity', handleOpenActivity);
+
     return () => {
       clearInterval(interval);
       document.removeEventListener('map-action', handleMapAction);
+      document.removeEventListener('open-activity', handleOpenActivity);
     };
   });
 

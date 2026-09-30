@@ -2,6 +2,8 @@
   import { searchResults, loading, error, setLoading, setError, addToCart, padAmount, currentUser, sharedNearbyStores, sharedUserLocation, sharedStoreSearch } from '../lib/stores.js';
   import { onMount } from 'svelte';
   import { readCart, writeCart, markCartWritten } from '../lib/cart.js';
+  import { logActivity } from '../lib/activity.js';
+  import { user } from '../lib/stores.js';
   import CartIcon from './CartIcon.svelte';
   import Icon from './Icon.svelte';
   import AuditStore from './AuditStore.svelte';
@@ -864,6 +866,13 @@ Store: ${store.StoreName}
       const store = filtered.find(s => s.StoreName === storeName) || allStores.find(s => s.StoreName === storeName);
       if (store) lookupStorePhone(store);
       try { localStorage.setItem('impro_focus_store', storeName); } catch {}
+      try {
+        logActivity('store_view', {
+          rep: $user?.name || 'Unknown',
+          store: storeName || '',
+          openTarget: 'store-search',
+        });
+      } catch {}
     } else {
       try { localStorage.removeItem('impro_focus_store'); } catch {}
     }
