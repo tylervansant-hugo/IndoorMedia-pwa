@@ -4131,5 +4131,21 @@
     ],
     "is_prospect_visit": false,
     "creator": "tyler.vansant@indoormedia.com"
+  },
+  {
+    "event_id": "_8d13ihhk8l336b9h74p38b9k8opk2ba27534ab9k71142cpl6kqjgh9j70_20261030T030000Z",
+    "title": "Take out garbage - STOP what I\u2019m doing or I will forget",
+    "start": "2026-10-29T20:00:00-07:00",
+    "end": "2026-10-29T21:00:00-07:00",
+    "location": "",
+    "description": "",
+    "prospect_name": "",
+    "phone": "",
+    "address": "",
+    "store": "",
+    "rep": "Tyler VanSant",
+    "attendees": [],
+    "is_prospect_visit": false,
+    "creator": "tyler.vansant@indoormedia.com"
   }
 ]
