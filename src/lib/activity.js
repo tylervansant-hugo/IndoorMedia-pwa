@@ -41,7 +41,7 @@ function updateDailySummary(entry) {
     const summaries = JSON.parse(localStorage.getItem(ACTIVITY_SYNC_KEY) || '{}');
     const date = entry.date;
     if (!summaries[date]) {
-      summaries[date] = { logins: 0, searches: 0, calls: 0, emails: 0, appointments: 0, pageViews: 0, storeViews: 0, prospectViews: 0, renewalViews: 0 };
+      summaries[date] = { logins: 0, searches: 0, calls: 0, emails: 0, texts: 0, quotes: 0, appointments: 0, pageViews: 0, storeViews: 0, prospectViews: 0, renewalViews: 0 };
     }
     const s = summaries[date];
     switch (entry.action) {
@@ -49,6 +49,8 @@ function updateDailySummary(entry) {
       case 'search': s.searches++; break;
       case 'call': s.calls++; break;
       case 'email': s.emails++; break;
+      case 'text': s.texts = (s.texts || 0) + 1; break;
+      case 'quote': s.quotes = (s.quotes || 0) + 1; break;
       case 'appointment': s.appointments++; break;
       case 'page_view': s.pageViews++; break;
       case 'store_view': s.storeViews++; break;
@@ -68,6 +70,36 @@ export function getDailySummaries() {
   try {
     return JSON.parse(localStorage.getItem(ACTIVITY_SYNC_KEY) || '{}');
   } catch { return {}; }
+}
+
+/**
+ * Recent real activity feed for the Home screen — the actual things the rep
+ * did in the app (searches, calls, store/prospect lookups, emails, texts,
+ * quotes, contracts, appointments). Filters out low-signal noise (raw page
+ * views, logins, manual status updates) and de-dupes rapid repeats.
+ */
+const FEED_ACTIONS = new Set([
+  'search', 'call', 'text', 'email', 'quote', 'contract',
+  'appointment', 'store_view', 'prospect_view', 'renewal_view',
+]);
+
+export function getRecentActivity(limit = 8) {
+  const log = getActivityLog();
+  const out = [];
+  let lastKey = '';
+  // Walk newest-first.
+  for (let i = log.length - 1; i >= 0; i--) {
+    const e = log[i];
+    if (!e || !FEED_ACTIONS.has(e.action)) continue;
+    const label = (e.store || e.business || e.subcategory || e.category || e.tab || '').toString();
+    // Collapse immediate duplicate (same action+target logged twice in a row).
+    const key = e.action + '|' + label.toLowerCase();
+    if (key === lastKey) continue;
+    lastKey = key;
+    out.push(e);
+    if (out.length >= limit) break;
+  }
+  return out;
 }
 
 export function getRepActivityReport() {

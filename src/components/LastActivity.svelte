@@ -1,11 +1,13 @@
 <script>
   import { onMount } from 'svelte';
   import { user } from '../lib/stores.js';
-  import { logActivity } from '../lib/activity.js';
+  import { logActivity, getRecentActivity } from '../lib/activity.js';
 
-  // A lightweight "what am I doing right now" status the rep can update from the
-  // Home Screen. Persisted per-device to localStorage so it survives reloads.
-  //   home_status -> { text, emoji, ts }
+  // The Home "Last Activity" card now shows the rep's REAL recent actions in the
+  // app — stores looked up, prospects called, emails/texts sent, quotes built,
+  // contracts written — pulled from the activity log (localStorage, synced to
+  // Firebase). The old manual "what am I doing" status picker is preserved but
+  // tucked away behind a collapsible "Set status" section.
   const KEY = 'home_status';
 
   const PRESETS = [
@@ -19,22 +21,60 @@
     { emoji: '✅', text: 'Available' },
   ];
 
+  // How each logged action renders in the feed.
+  function describe(e) {
+    const who = (e.store || e.business || '').trim();
+    switch (e.action) {
+      case 'call':
+        return { emoji: '📞', verb: 'Called', target: who || 'a prospect' };
+      case 'email':
+        return { emoji: '✉️', verb: e.kind === 'renewal' ? 'Emailed renewal to' : 'Emailed', target: who || 'a contact' };
+      case 'text':
+        return { emoji: '💬', verb: 'Texted', target: who || 'a contact' };
+      case 'quote':
+        return { emoji: '🧾', verb: 'Built a quote', target: who ? `for ${who}` : `(${e.items || 0} item${e.items === 1 ? '' : 's'})` };
+      case 'contract':
+        return { emoji: '📝', verb: 'Contract', target: who || 'submitted' };
+      case 'appointment':
+        return { emoji: '📅', verb: 'Booked appt', target: who ? `with ${who}` : '' };
+      case 'store_view':
+        return { emoji: '🏪', verb: 'Looked up store', target: who || '' };
+      case 'prospect_view':
+        return { emoji: '🎯', verb: 'Viewed prospect', target: who || '' };
+      case 'renewal_view':
+        return { emoji: '🔄', verb: 'Reviewed renewal', target: who || '' };
+      case 'search': {
+        const t = (e.store || e.subcategory || e.category || '').trim();
+        return { emoji: '🔍', verb: 'Searched', target: t || '' };
+      }
+      default:
+        return { emoji: '•', verb: e.action, target: who };
+    }
+  }
+
+  let feed = [];
   let status = null;      // { text, emoji, ts }
+  let showStatus = false; // collapsed by default
   let editing = false;
   let draftText = '';
   let draftEmoji = '💬';
 
-  function load() {
+  function loadFeed() {
+    try { feed = getRecentActivity(8); } catch { feed = []; }
+  }
+
+  function loadStatus() {
     try {
       const raw = localStorage.getItem(KEY);
       status = raw ? JSON.parse(raw) : null;
     } catch { status = null; }
   }
 
+  function refresh() { loadFeed(); loadStatus(); now = Date.now(); }
+
   function save(next) {
     status = next;
     try { localStorage.setItem(KEY, JSON.stringify(next)); } catch {}
-    // Log it so managers can see rep activity cross-device.
     const repName = $user?.name || $user?.first_name || 'unknown';
     logActivity('status_update', {
       rep: repName,
@@ -53,6 +93,7 @@
     draftText = status?.text || '';
     draftEmoji = status?.emoji || '💬';
     editing = true;
+    showStatus = true;
   }
 
   function saveCustom() {
@@ -72,7 +113,7 @@
   function ago(ts) {
     if (!ts) return '';
     const s = Math.floor((Date.now() - ts) / 1000);
-    if (s < 60) return 'just now';
+    if (s < 45) return 'just now';
     const m = Math.floor(s / 60);
     if (m < 60) return `${m}m ago`;
     const h = Math.floor(m / 60);
@@ -85,75 +126,103 @@
 
   let now = Date.now();
   onMount(() => {
-    load();
-    // Refresh the relative "ago" label every minute.
-    const t = setInterval(() => { now = Date.now(); }, 60000);
-    window.addEventListener('storage', load);
-    return () => { clearInterval(t); window.removeEventListener('storage', load); };
+    refresh();
+    // Refresh relative time + pick up new activity every 30s.
+    const t = setInterval(refresh, 30000);
+    // Cross-tab / cross-component updates (activity + status both write localStorage).
+    window.addEventListener('storage', refresh);
+    // When the rep returns to the Home tab, re-read the log.
+    document.addEventListener('visibilitychange', refresh);
+    return () => {
+      clearInterval(t);
+      window.removeEventListener('storage', refresh);
+      document.removeEventListener('visibilitychange', refresh);
+    };
   });
-  // Reference `now` so the label recomputes on the interval tick.
-  $: agoLabel = status ? (now, ago(status.ts)) : '';
+
+  $: statusAgo = status ? (now, ago(status.ts)) : '';
 </script>
 
 <div class="la-widget">
   <div class="la-head">
     <span class="la-title">📍 Last Activity</span>
-    {#if status && !editing}
-      <button class="la-edit" on:click={startCustom}>Update</button>
-    {/if}
+    <button class="la-refresh" on:click={refresh} title="Refresh">Refresh</button>
   </div>
 
-  {#if editing}
-    <div class="la-editor">
-      <div class="la-emoji-row">
-        {#each EMOJI_CHOICES as e}
-          <button class="la-emoji" class:sel={draftEmoji === e} on:click={() => draftEmoji = e}>{e}</button>
-        {/each}
-      </div>
-      <div class="la-input-row">
-        <span class="la-input-emoji">{draftEmoji}</span>
-        <input
-          class="la-input"
-          type="text"
-          maxlength="60"
-          placeholder="What are you up to?"
-          bind:value={draftText}
-          on:keydown={(e) => e.key === 'Enter' && saveCustom()}
-        />
-      </div>
-      <div class="la-actions">
-        <button class="la-save" on:click={saveCustom}>Save status</button>
-        <button class="la-cancel" on:click={() => editing = false}>Cancel</button>
-        {#if status}<button class="la-clear" on:click={clearStatus}>Clear</button>{/if}
-      </div>
-    </div>
-  {:else if status}
-    <button class="la-current" on:click={startCustom}>
-      <span class="la-current-emoji">{status.emoji}</span>
-      <span class="la-current-body">
-        <span class="la-current-text">{status.text}</span>
-        <span class="la-current-ago">Updated {agoLabel}</span>
-      </span>
-      <span class="la-current-arrow">✎</span>
-    </button>
+  {#if feed.length}
+    <ul class="la-feed">
+      {#each feed as e}
+        {@const d = describe(e)}
+        <li class="la-item">
+          <span class="la-item-emoji">{d.emoji}</span>
+          <span class="la-item-body">
+            <span class="la-item-text">
+              <span class="la-item-verb">{d.verb}</span>
+              {#if d.target}<span class="la-item-target"> {d.target}</span>{/if}
+            </span>
+            <span class="la-item-ago">{(now, ago(new Date(e.timestamp).getTime()))}</span>
+          </span>
+        </li>
+      {/each}
+    </ul>
   {:else}
-    <p class="la-empty">Set your current status so your team knows what you're working on.</p>
+    <p class="la-empty">Your recent activity will show up here — the stores you look up, prospects you call, and emails, texts &amp; quotes you send from the app.</p>
   {/if}
 
-  {#if !editing}
-    <div class="la-presets">
-      {#each PRESETS as p}
-        <button
-          class="la-chip"
-          class:active={status && status.text === p.text}
-          on:click={() => setPreset(p)}
-        >
-          <span class="la-chip-emoji">{p.emoji}</span>{p.text}
-        </button>
-      {/each}
-      <button class="la-chip la-chip-custom" on:click={startCustom}>✏️ Custom…</button>
-    </div>
-  {/if}
+  <!-- Manual status (collapsed by default) -->
+  <div class="la-status-wrap">
+    <button class="la-status-toggle" on:click={() => (showStatus = !showStatus)}>
+      <span>{status ? `${status.emoji} ${status.text}` : '💬 Set your status'}</span>
+      <span class="la-caret" class:open={showStatus}>▾</span>
+    </button>
+
+    {#if showStatus}
+      {#if editing}
+        <div class="la-editor">
+          <div class="la-emoji-row">
+            {#each EMOJI_CHOICES as em}
+              <button class="la-emoji" class:sel={draftEmoji === em} on:click={() => (draftEmoji = em)}>{em}</button>
+            {/each}
+          </div>
+          <div class="la-input-row">
+            <span class="la-input-emoji">{draftEmoji}</span>
+            <input
+              class="la-input"
+              type="text"
+              maxlength="60"
+              placeholder="What are you up to?"
+              bind:value={draftText}
+              on:keydown={(e) => e.key === 'Enter' && saveCustom()}
+            />
+          </div>
+          <div class="la-actions">
+            <button class="la-save" on:click={saveCustom}>Save status</button>
+            <button class="la-cancel" on:click={() => (editing = false)}>Cancel</button>
+            {#if status}<button class="la-clear" on:click={clearStatus}>Clear</button>{/if}
+          </div>
+        </div>
+      {:else}
+        {#if status}
+          <div class="la-status-current">
+            <span class="la-status-ago">Set {statusAgo}</span>
+            <button class="la-edit" on:click={startCustom}>Update</button>
+          </div>
+        {/if}
+        <div class="la-presets">
+          {#each PRESETS as p}
+            <button
+              class="la-chip"
+              class:active={status && status.text === p.text}
+              on:click={() => setPreset(p)}
+            >
+              <span class="la-chip-emoji">{p.emoji}</span>{p.text}
+            </button>
+          {/each}
+          <button class="la-chip la-chip-custom" on:click={startCustom}>✏️ Custom…</button>
+        </div>
+      {/if}
+    {/if}
+  </div>
 </div>
 
 <style>
@@ -165,29 +234,49 @@
     margin-bottom: 16px;
     box-shadow: 0 1px 3px var(--card-shadow, rgba(0,0,0,0.06));
   }
-  .la-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; }
+  .la-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; }
   .la-title { font-weight: 800; font-size: 15px; color: var(--text-primary, #1a1a1a); }
-  .la-edit {
+  .la-refresh {
     border: 1px solid var(--border-color, #ddd); background: transparent;
     color: var(--accent, #cc0000); font-weight: 700; font-size: 13px;
     padding: 4px 12px; border-radius: 8px; cursor: pointer;
   }
-  .la-empty { font-size: 13px; color: var(--text-secondary, #888); margin: 0 0 12px; line-height: 1.5; }
+  .la-empty { font-size: 13px; color: var(--text-secondary, #888); margin: 4px 0 12px; line-height: 1.5; }
 
-  .la-current {
-    display: flex; align-items: center; gap: 12px; width: 100%;
-    background: var(--bg-secondary, #f6f6f8); border: 1px solid var(--border-color, #e8e8e8);
-    border-radius: 12px; padding: 12px 14px; margin-bottom: 12px;
-    cursor: pointer; text-align: left; color: inherit;
+  /* Feed */
+  .la-feed { list-style: none; margin: 0 0 12px; padding: 0; display: flex; flex-direction: column; }
+  .la-item {
+    display: flex; align-items: flex-start; gap: 11px;
+    padding: 9px 4px; border-bottom: 1px solid var(--border-color, #f0f0f0);
   }
-  .la-current:active { transform: scale(0.99); }
-  .la-current-emoji { font-size: 28px; line-height: 1; flex-shrink: 0; }
-  .la-current-body { display: flex; flex-direction: column; gap: 2px; flex: 1; min-width: 0; }
-  .la-current-text { font-weight: 700; font-size: 15px; color: var(--text-primary, #1a1a1a); overflow: hidden; text-overflow: ellipsis; }
-  .la-current-ago { font-size: 12px; color: var(--text-secondary, #888); }
-  .la-current-arrow { font-size: 16px; color: var(--text-secondary, #999); flex-shrink: 0; }
+  .la-item:last-child { border-bottom: none; }
+  .la-item-emoji { font-size: 19px; line-height: 1.3; flex-shrink: 0; width: 22px; text-align: center; }
+  .la-item-body { display: flex; align-items: baseline; justify-content: space-between; gap: 10px; flex: 1; min-width: 0; }
+  .la-item-text { font-size: 14px; color: var(--text-primary, #1a1a1a); line-height: 1.35; min-width: 0; overflow-wrap: break-word; }
+  .la-item-verb { font-weight: 700; }
+  .la-item-target { color: var(--text-secondary, #555); font-weight: 500; }
+  .la-item-ago { font-size: 12px; color: var(--text-secondary, #999); flex-shrink: 0; white-space: nowrap; }
 
-  .la-presets { display: flex; flex-wrap: wrap; gap: 8px; }
+  /* Status toggle */
+  .la-status-wrap { border-top: 1px solid var(--border-color, #eee); padding-top: 10px; }
+  .la-status-toggle {
+    width: 100%; display: flex; align-items: center; justify-content: space-between;
+    background: var(--bg-secondary, #f6f6f8); border: 1px solid var(--border-color, #e8e8e8);
+    border-radius: 10px; padding: 10px 12px; cursor: pointer;
+    color: var(--text-primary, #333); font-weight: 600; font-size: 14px;
+  }
+  .la-caret { transition: transform .15s; color: var(--text-secondary, #888); }
+  .la-caret.open { transform: rotate(180deg); }
+
+  .la-status-current { display: flex; align-items: center; justify-content: space-between; margin: 10px 0 6px; }
+  .la-status-ago { font-size: 12px; color: var(--text-secondary, #888); }
+  .la-edit {
+    border: 1px solid var(--border-color, #ddd); background: transparent;
+    color: var(--accent, #cc0000); font-weight: 700; font-size: 12px;
+    padding: 3px 10px; border-radius: 8px; cursor: pointer;
+  }
+
+  .la-presets { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; }
   .la-chip {
     display: inline-flex; align-items: center; gap: 5px;
     border: 1px solid var(--border-color, #ddd); background: var(--card-bg, #fff);
@@ -201,7 +290,7 @@
   .la-chip-custom { color: var(--text-secondary, #666); }
 
   /* Editor */
-  .la-editor { display: flex; flex-direction: column; gap: 12px; }
+  .la-editor { display: flex; flex-direction: column; gap: 12px; margin-top: 10px; }
   .la-emoji-row { display: flex; flex-wrap: wrap; gap: 6px; }
   .la-emoji {
     width: 38px; height: 38px; border-radius: 10px; font-size: 20px;

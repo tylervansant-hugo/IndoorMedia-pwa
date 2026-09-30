@@ -1,6 +1,7 @@
 <script>
   import { onMount, onDestroy } from 'svelte';
   import { user } from '../lib/stores.js';
+  import { logActivity } from '../lib/activity.js';
   import * as pdfjsLib from 'pdfjs-dist';
   import ARForm from './ARForm.svelte';
   
@@ -272,6 +273,13 @@
 
   function openInEmailApp() {
     if (!draftPreview) return;
+    try {
+      logActivity('email', {
+        rep: $user?.name || 'Unknown',
+        business: draftPreview.business || draftPreview.name || '',
+        subject: draftPreview.subject || '',
+      });
+    } catch {}
     window.open(`mailto:${draftPreview.email}?subject=${encodeURIComponent(draftPreview.subject)}&body=${encodeURIComponent(draftPreview.body)}`);
   }
 
@@ -470,6 +478,14 @@ IndoorMedia`;
     // Open mailto — replace \n\n with double CRLF for proper paragraph spacing in mail apps
     const formattedBody = body.replace(/\n\n/g, '\r\n\r\n').replace(/(?<!\r)\n/g, '\r\n');
     const mailto = `mailto:${renewal.email || ''}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(formattedBody)}`;
+    try {
+      logActivity('email', {
+        rep: $user?.name || 'Unknown',
+        business: renewal.business || '',
+        subject: subject || '',
+        kind: 'renewal',
+      });
+    } catch {}
     window.open(mailto);
   }
 

@@ -1,6 +1,7 @@
 <script>
   import { onMount, onDestroy } from 'svelte';
   import { padAmount, user } from '../lib/stores.js';
+  import { logActivity } from '../lib/activity.js';
   import { readCart, writeCart, markCartWritten, syncCartFromCloud } from '../lib/cart.js';
 
   // When true, this tab is the active/visible one. Reload from storage on show
@@ -868,6 +869,17 @@
   async function exportQuotePdf() {
     if (cartItems.length === 0) return;
     try {
+      try {
+        const biz = cartItems.find(i => i.storeName || i.store)?.storeName
+          || cartItems.find(i => i.storeName || i.store)?.store || '';
+        const total = cartItems.reduce((s, i) => s + (Number(i.price) || 0) * (Number(i.qty) || 1), 0);
+        logActivity('quote', {
+          rep: $user?.name || 'Unknown',
+          business: biz,
+          items: cartItems.length,
+          total,
+        });
+      } catch {}
       await _exportQuotePdf();
     } catch (e) {
       console.error('[Quote PDF] export failed:', e);
