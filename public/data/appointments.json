@@ -1,32 +1,5 @@
 [
   {
-    "event_id": "7qse2oh88ksf1k02ep27e2mcmg",
-    "title": "Meet with Susan at Sakura noodle house",
-    "start": "2026-09-30T10:30:00-07:00",
-    "end": "2026-09-30T11:30:00-07:00",
-    "location": "",
-    "description": "",
-    "prospect_name": "",
-    "phone": "",
-    "address": "",
-    "store": "",
-    "rep": "Tyler VanSant",
-    "attendees": [
-      {
-        "email": "anthony.eng@indoormedia.com",
-        "name": "",
-        "status": "accepted"
-      },
-      {
-        "email": "tyler.vansant@indoormedia.com",
-        "name": "",
-        "status": "needsAction"
-      }
-    ],
-    "is_prospect_visit": false,
-    "creator": "anthony.eng@indoormedia.com"
-  },
-  {
     "event_id": "2j8hb4qqf0qdgr4h58uovcl200",
     "title": "Meet with Maher at tok tok at happy valley station",
     "start": "2026-10-01T10:30:00-07:00",
