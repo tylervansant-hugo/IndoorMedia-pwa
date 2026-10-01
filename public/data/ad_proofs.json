@@ -1,5 +1,331 @@
 [
   {
+    "message_id": "1a0f42f492b6416a",
+    "date": "2026-09-30 14:18",
+    "from": "Sydney Miller <Zone.07Y@indoormedia.com>",
+    "subject": "Ad Proofs from IndoorMedia , Qdoba Oregon [07Y - B4 - J423227E]",
+    "client_name": "Qdoba Oregon",
+    "contact_name": "Doug Kramer",
+    "client_email": "angela@energizemarketingservices.com",
+    "location": "",
+    "zone": "07Y",
+    "cycle": "B4",
+    "contract_number": "J423227E",
+    "store": "",
+    "ad_size": "Single",
+    "install_month": "",
+    "run_months": "",
+    "image_url": "https://lh3.googleusercontent.com/d/1sOu_v3FkDpbCysYvhG8xO-GfIrmvxRe0",
+    "review_deadline": "10/05/2026",
+    "recipients": [
+      "amy.dixon@indoormedia.com",
+      "angela@energizemarketingservices.com",
+      "richard.leibowitz@rtui.com",
+      "tyler.vansant@rtui.com"
+    ],
+    "reps": [
+      {
+        "email": "amy.dixon@indoormedia.com",
+        "name": "Amy Dixon"
+      },
+      {
+        "email": "tyler.vansant@rtui.com",
+        "name": "Tyler Van Sant"
+      }
+    ]
+  },
+  {
+    "message_id": "1a0f3de7b8881001",
+    "date": "2026-09-30 12:50",
+    "from": "Zone 07Y - Sydney Miller <zone.07y@indoormedia.com>",
+    "subject": "Re: Ad Proof from IndoorMedia , SideQuest Games [07Y - C3 - J432619E]",
+    "client_name": "SideQuest Games",
+    "contact_name": "Good afternoon",
+    "client_email": "josh@sidequestgamestore.com",
+    "location": "",
+    "zone": "07Y",
+    "cycle": "C3",
+    "contract_number": "J432619E",
+    "store": "> Fred Meyer 0240, 14700 SE Mcloughlin Blvd, Milwaukie, OR",
+    "ad_size": "Single",
+    "install_month": "",
+    "run_months": "",
+    "image_url": "",
+    "review_deadline": "06/25/2026",
+    "recipients": [
+      "richard.leibowitz@rtui.com",
+      "kari.weller@indoormedia.com",
+      "josh@sidequestgamestore.com",
+      "tyler.vansant@rtui.com"
+    ],
+    "reps": [
+      {
+        "email": "tyler.vansant@rtui.com",
+        "name": "Tyler Van Sant"
+      }
+    ]
+  },
+  {
+    "message_id": "1a0f3c31f443a8e5",
+    "date": "2026-09-30 12:20",
+    "from": "Sydney Miller <Zone.07Y@indoormedia.com>",
+    "subject": "Ad Proof from IndoorMedia , Qdoba Oregon [07Y - A4 - J438639E]",
+    "client_name": "Qdoba Oregon",
+    "contact_name": "Doug Kramer",
+    "client_email": "angela@energizemarketingservices.com",
+    "location": "",
+    "zone": "07Y",
+    "cycle": "A4",
+    "contract_number": "J438639E",
+    "store": "Tape Ad at Fred Meyer 0070, 777 Kings Boulevard, Corvallis, OR",
+    "ad_size": "Single",
+    "install_month": "",
+    "run_months": "",
+    "image_url": "https://lh3.googleusercontent.com/d/14TnCvETqrT3kO0-gPfut7PYhWkvo0VRM",
+    "review_deadline": "09/30/2026",
+    "recipients": [
+      "amy.dixon@indoormedia.com",
+      "angela@energizemarketingservices.com",
+      "richard.leibowitz@rtui.com",
+      "tyler.vansant@rtui.com"
+    ],
+    "reps": [
+      {
+        "email": "amy.dixon@indoormedia.com",
+        "name": "Amy Dixon"
+      },
+      {
+        "email": "tyler.vansant@rtui.com",
+        "name": "Tyler Van Sant"
+      }
+    ]
+  },
+  {
+    "message_id": "1a0f38ffd2acf5b6",
+    "date": "2026-09-30 11:24",
+    "from": "Zone 07Z - Sydney Miller <zone.07z@indoormedia.com>",
+    "subject": "Re: Ad Proof from IndoorMedia , The Hot Spot [07Z - B4 - J438252E]",
+    "client_name": "The Hot Spot",
+    "contact_name": "Hi Daniel",
+    "client_email": "daniel.barchini@indoormedia.com",
+    "location": "",
+    "zone": "07Z",
+    "cycle": "B4",
+    "contract_number": "J438252E",
+    "store": ">>>> Tape Ad at Fred Meyer 0127, 2497 SE Burnside Rd, Gresham, OR",
+    "ad_size": "Single",
+    "install_month": "",
+    "run_months": "",
+    "image_url": "https://lh3.googleusercontent.com/d/1EerR57pkzF-v_E_FcNKRKI3-WWrKZHA6",
+    "review_deadline": "10/05/2026",
+    "recipients": [
+      "daniel.barchini@indoormedia.com",
+      "amewilliams0955@gmail.com",
+      "richard.leibowitz@rtui.com",
+      "tyler.vansant@rtui.com"
+    ],
+    "reps": [
+      {
+        "email": "tyler.vansant@rtui.com",
+        "name": "Tyler Van Sant"
+      }
+    ]
+  },
+  {
+    "message_id": "1a0f3746975b3ed5",
+    "date": "2026-09-30 10:54",
+    "from": "Zone 07Z - Sydney Miller <zone.07z@indoormedia.com>",
+    "subject": "Re: Ad Proof from IndoorMedia , The Hot Spot [07Z - B4 - J438252E]",
+    "client_name": "The Hot Spot",
+    "contact_name": "will see a new proof email as soon as it becomes available*",
+    "client_email": "amewilliams0955@gmail.com",
+    "location": "",
+    "zone": "07Z",
+    "cycle": "B4",
+    "contract_number": "J438252E",
+    "store": ">> Tape Ad at Fred Meyer 0127, 2497 SE Burnside Rd, Gresham, OR",
+    "ad_size": "Single",
+    "install_month": "",
+    "run_months": "",
+    "image_url": "https://lh3.googleusercontent.com/d/1EerR57pkzF-v_E_FcNKRKI3-WWrKZHA6",
+    "review_deadline": "10/05/2026",
+    "recipients": [
+      "daniel.barchini@indoormedia.com",
+      "amewilliams0955@gmail.com",
+      "richard.leibowitz@rtui.com",
+      "tyler.vansant@rtui.com"
+    ],
+    "reps": [
+      {
+        "email": "tyler.vansant@rtui.com",
+        "name": "Tyler Van Sant"
+      }
+    ]
+  },
+  {
+    "message_id": "1a0f372e43dcbc60",
+    "date": "2026-09-30 10:52",
+    "from": "Zone 07Z - Sydney Miller <zone.07z@indoormedia.com>",
+    "subject": "Re: Ad Proof from IndoorMedia , Hiddenbrook Dental [07Z - B4 - J424505E]",
+    "client_name": "Hiddenbrook Dental",
+    "contact_name": "will see a new proof email as soon as it becomes available*",
+    "client_email": "malloryg@hiddenbrookdental.com",
+    "location": "",
+    "zone": "07Z",
+    "cycle": "B4",
+    "contract_number": "J424505E",
+    "store": "> Tape Ad at Quality Food Center 0212, 3505 SE 192nd Ave, Vancouver, WA",
+    "ad_size": "Double",
+    "install_month": "",
+    "run_months": "",
+    "image_url": "https://lh3.googleusercontent.com/d/1FiIHUOsl5Pd4VVU-s5uEV9jQnLHHr7jH",
+    "review_deadline": "10/01/2026",
+    "recipients": [
+      "anthony.eng@indoormedia.com",
+      "richard.leibowitz@indoormedia.com",
+      "malloryg@hiddenbrookdental.com",
+      "tyler.vansant@rtui.com"
+    ],
+    "reps": [
+      {
+        "email": "richard.leibowitz@indoormedia.com",
+        "name": "Rick Leibowitz"
+      },
+      {
+        "email": "tyler.vansant@rtui.com",
+        "name": "Tyler Van Sant"
+      }
+    ]
+  },
+  {
+    "message_id": "1a0f372529055144",
+    "date": "2026-09-30 10:51",
+    "from": "Zone 07Y - Sydney Miller <zone.07y@indoormedia.com>",
+    "subject": "Re: Ad Proof from IndoorMedia , Qdoba Oregon [07Y - A4 - J438639E]",
+    "client_name": "Qdoba Oregon",
+    "contact_name": "will see a new proof email as soon as it becomes available*",
+    "client_email": "angela@energizemarketingservices.com",
+    "location": "",
+    "zone": "07Y",
+    "cycle": "A4",
+    "contract_number": "J438639E",
+    "store": "> Tape Ad at Fred Meyer 0070, 777 Kings Boulevard, Corvallis, OR",
+    "ad_size": "Single",
+    "install_month": "",
+    "run_months": "",
+    "image_url": "https://lh3.googleusercontent.com/d/1LMxkHgFMOOGQXlLUGiRRrX3Yy7A1VJqw",
+    "review_deadline": "09/30/2026",
+    "recipients": [
+      "amy.dixon@indoormedia.com",
+      "angela@energizemarketingservices.com",
+      "richard.leibowitz@rtui.com",
+      "tyler.vansant@rtui.com"
+    ],
+    "reps": [
+      {
+        "email": "amy.dixon@indoormedia.com",
+        "name": "Amy Dixon"
+      },
+      {
+        "email": "tyler.vansant@rtui.com",
+        "name": "Tyler Van Sant"
+      }
+    ]
+  },
+  {
+    "message_id": "1a0f329a54253ff2",
+    "date": "2026-09-30 09:33",
+    "from": "Sydney Miller <Zone.07Y@indoormedia.com>",
+    "subject": "Ad Proof from IndoorMedia , La Michoacana NW [07Y - B4 - J412681E]",
+    "client_name": "La Michoacana NW",
+    "contact_name": "Norma Ramirez ",
+    "client_email": "lamichoacananw2017@gmail.com",
+    "location": "",
+    "zone": "07Y",
+    "cycle": "B4",
+    "contract_number": "J412681E",
+    "store": "Tape Ad at Safeway 0591, 888 N.E. 25th Ave, Hillsboro, OR",
+    "ad_size": "Single",
+    "install_month": "",
+    "run_months": "",
+    "image_url": "https://lh3.googleusercontent.com/d/12HzgLpY64Hf7fGDTZ5HeDxIjNJu71mr5",
+    "review_deadline": "10/07/2026",
+    "recipients": [
+      "anthony.eng@indoormedia.com",
+      "lamichoacananw2017@gmail.com",
+      "richard.leibowitz@rtui.com",
+      "tyler.vansant@rtui.com"
+    ],
+    "reps": [
+      {
+        "email": "tyler.vansant@rtui.com",
+        "name": "Tyler Van Sant"
+      }
+    ]
+  },
+  {
+    "message_id": "1a0f2b3de1c20087",
+    "date": "2026-09-30 07:24",
+    "from": "Sydney Miller <Zone.07Z@indoormedia.com>",
+    "subject": "Ad Proof from IndoorMedia , Ixtapa [07Z - B4 - J438046E]",
+    "client_name": "Ixtapa",
+    "contact_name": "Samuel Gutierrez",
+    "client_email": "encisogutierrez95@gmail.com",
+    "location": "",
+    "zone": "07Z",
+    "cycle": "B4",
+    "contract_number": "J438046E",
+    "store": "Tape Ad at Safeway 1070, 1001 SW Highland Dr, Gresham, OR",
+    "ad_size": "Double",
+    "install_month": "",
+    "run_months": "",
+    "image_url": "https://lh3.googleusercontent.com/d/1zxZ-tfC6BzkOynIV984J6zYVPnh6-vux",
+    "review_deadline": "10/05/2026",
+    "recipients": [
+      "encisogutierrez95@gmail.com",
+      "daniel.barchini@indoormedia.com",
+      "richard.leibowitz@rtui.com",
+      "tyler.vansant@rtui.com"
+    ],
+    "reps": [
+      {
+        "email": "tyler.vansant@rtui.com",
+        "name": "Tyler Van Sant"
+      }
+    ]
+  },
+  {
+    "message_id": "1a0f28ff4c62282f",
+    "date": "2026-09-30 06:45",
+    "from": "Sydney Miller <Zone.07Z@indoormedia.com>",
+    "subject": "Ad Proof from IndoorMedia , The Hot Spot [07Z - B4 - J438252E]",
+    "client_name": "The Hot Spot",
+    "contact_name": "Ame Williams",
+    "client_email": "amewilliams0955@gmail.com",
+    "location": "",
+    "zone": "07Z",
+    "cycle": "B4",
+    "contract_number": "J438252E",
+    "store": "Tape Ad at Fred Meyer 0127, 2497 SE Burnside Rd, Gresham, OR",
+    "ad_size": "Single",
+    "install_month": "",
+    "run_months": "",
+    "image_url": "https://lh3.googleusercontent.com/d/1EerR57pkzF-v_E_FcNKRKI3-WWrKZHA6",
+    "review_deadline": "10/05/2026",
+    "recipients": [
+      "daniel.barchini@indoormedia.com",
+      "amewilliams0955@gmail.com",
+      "richard.leibowitz@rtui.com",
+      "tyler.vansant@rtui.com"
+    ],
+    "reps": [
+      {
+        "email": "tyler.vansant@rtui.com",
+        "name": "Tyler Van Sant"
+      }
+    ]
+  },
+  {
     "message_id": "1a0eef8c4fb46bdb",
     "date": "2026-09-29 14:01",
     "from": "Sydney Miller <Zone.07Z@indoormedia.com>",
@@ -57,72 +383,6 @@
       "tyler.vansant@rtui.com",
       "richard.leibowitz@rtui.com",
       "anthony.eng@indoormedia.com"
-    ],
-    "reps": [
-      {
-        "email": "tyler.vansant@rtui.com",
-        "name": "Tyler Van Sant"
-      }
-    ]
-  },
-  {
-    "message_id": "1a0edd4c8df00a95",
-    "date": "2026-09-29 08:42",
-    "from": "Sydney Miller <Zone.07Y@indoormedia.com>",
-    "subject": "Ad Proofs from IndoorMedia , Qdoba Oregon [07Y - B4 - J423227E]",
-    "client_name": "Qdoba Oregon",
-    "contact_name": "Doug Kramer",
-    "client_email": "angela@energizemarketingservices.com",
-    "location": "",
-    "zone": "07Y",
-    "cycle": "B4",
-    "contract_number": "J423227E",
-    "store": "",
-    "ad_size": "Single",
-    "install_month": "",
-    "run_months": "",
-    "image_url": "https://lh3.googleusercontent.com/d/10mfNgi_Ss3g-o6eb5fBva99D1lq7U80T",
-    "review_deadline": "10/02/2026",
-    "recipients": [
-      "angela@energizemarketingservices.com",
-      "tyler.vansant@rtui.com",
-      "richard.leibowitz@rtui.com",
-      "amy.dixon@indoormedia.com"
-    ],
-    "reps": [
-      {
-        "email": "tyler.vansant@rtui.com",
-        "name": "Tyler Van Sant"
-      },
-      {
-        "email": "amy.dixon@indoormedia.com",
-        "name": "Amy Dixon"
-      }
-    ]
-  },
-  {
-    "message_id": "1a0ed95c925040b8",
-    "date": "2026-09-29 07:32",
-    "from": "Zone 07Y - Sydney Miller <zone.07y@indoormedia.com>",
-    "subject": "Re: Ad Proof from IndoorMedia , SideQuest Games [07Y - C3 - J432619E]",
-    "client_name": "SideQuest Games",
-    "contact_name": "Hi Josh",
-    "client_email": "josh@sidequestgamestore.com",
-    "location": "",
-    "zone": "07Y",
-    "cycle": "C3",
-    "contract_number": "J432619E",
-    "store": "> Fred Meyer 0240, 14700 SE Mcloughlin Blvd, Milwaukie, OR",
-    "ad_size": "Single",
-    "install_month": "",
-    "run_months": "",
-    "image_url": "",
-    "review_deadline": "06/25/2026",
-    "recipients": [
-      "josh@sidequestgamestore.com",
-      "richard.leibowitz@rtui.com",
-      "tyler.vansant@rtui.com",
-      "kari.weller@indoormedia.com"
     ],
     "reps": [
       {
