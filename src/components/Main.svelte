@@ -1170,6 +1170,32 @@
       window.history.replaceState({}, '', window.location.pathname);
     }
 
+    // Home-screen (Android/iOS) manifest shortcut deep-links.
+    // ?action=<quick-action> runs the action; ?tab=<name> just lands on a tab.
+    const scAction = params.get('action');
+    const scTab = params.get('tab');
+    if (scAction === 'prospects') {
+      storesView = 'prospects';
+      currentTab = 'stores';
+      window.history.replaceState({}, '', window.location.pathname);
+    } else if (scAction === 'callin') {
+      // New Call-In Lead: open prospects then trigger the call-in leads panel.
+      storesView = 'prospects';
+      currentTab = 'stores';
+      setTimeout(() => document.dispatchEvent(new CustomEvent('show-callin-leads')), 300);
+      window.history.replaceState({}, '', window.location.pathname);
+    } else if (scAction === 'book-appt') {
+      try { bookAppointment(); } catch (e) {}
+      window.history.replaceState({}, '', window.location.pathname);
+    } else if (scAction === 'cart') {
+      currentTab = 'cart';
+      window.history.replaceState({}, '', window.location.pathname);
+    } else if (scTab) {
+      const allowed = ['dashboard', 'stores', 'present', 'clients', 'tools', 'cart', 'products'];
+      if (allowed.includes(scTab)) currentTab = scTab;
+      window.history.replaceState({}, '', window.location.pathname);
+    }
+
     // Listen for map action events (Prospect/Rates from StoreMap popups)
     function handleMapAction(e) {
       const { action, store } = e.detail || {};
