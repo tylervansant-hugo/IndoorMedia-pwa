@@ -4,12 +4,13 @@
   import { logActivity } from '../lib/activity.js';
   import * as pdfjsLib from 'pdfjs-dist';
   import ARForm from './ARForm.svelte';
+  import RenewalWaiver from './RenewalWaiver.svelte';
   import { generateCounterSignPdf } from '../lib/counterSign.js';
   
   // Set worker source for pdfjs
   pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.9.155/pdf.worker.min.mjs';
 
-  let view = 'main'; // main, customers, sales, submit-contract, renewals, ad-proofs, digital, ar-form
+  let view = 'main'; // main, customers, sales, submit-contract, renewals, ad-proofs, digital, ar-form, renewal-waiver
   let contracts = [];
   let allStores = [];
   let loading = true;
@@ -1194,6 +1195,12 @@ IndoorMedia`;
         <div class="btn-text">A/R Adjustment</div>
         <div class="btn-desc">Fill &amp; export request</div>
       </button>
+
+      <button class="main-btn" on:click={() => view = 'renewal-waiver'}>
+        <div class="btn-icon">📝</div>
+        <div class="btn-text">Renewal Waiver</div>
+        <div class="btn-desc">Fill &amp; export waiver</div>
+      </button>
     </div>
 
   {/if}
@@ -1202,6 +1209,12 @@ IndoorMedia`;
   {#if view === 'ar-form'}
     <button class="back-btn" on:click={goBack}>&larr; Back</button>
     <ARForm />
+  {/if}
+
+  <!-- Renewal Waiver Form -->
+  {#if view === 'renewal-waiver'}
+    <button class="back-btn" on:click={goBack}>&larr; Back</button>
+    <RenewalWaiver />
   {/if}
 
   <!-- My Customers -->
