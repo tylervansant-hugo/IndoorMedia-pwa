@@ -3482,12 +3482,12 @@ IndoorMedia`
     const extras = [];
     const landing = normalizeLandingUrl(prospect._emailLandingUrl);
     if (landing) {
-      extras.push(`<p style="margin:14px 0;">👉 See what we can do for your business:<br><a href="${escapeHtml(landing)}">${escapeHtml(landing)}</a></p>`);
+      extras.push(`<p style="margin:14px 0;">👉 <a href="${escapeHtml(landing)}">See what we can do for your business</a></p>`);
     }
     if (prospect._emailAttachUrl) {
       const isVideo = prospect._emailAttachType === 'drive' || prospect._emailAttachType === 'video';
       if (isVideo) {
-        extras.push(`<p style="margin:14px 0;">🎥 Watch a quick video:<br><a href="${escapeHtml(prospect._emailAttachUrl)}">${escapeHtml(prospect._emailAttachUrl)}</a></p>`);
+        extras.push(`<p style="margin:14px 0;">🎥 <a href="${escapeHtml(prospect._emailAttachUrl)}">Watch a quick video</a></p>`);
       } else {
         // Attached image → embed inline.
         extras.push(`<p style="margin:14px 0;"><img src="${escapeHtml(prospect._emailAttachUrl)}" alt="IndoorMedia" style="max-width:100%;height:auto;border-radius:8px;" /></p>`);
@@ -3509,7 +3509,7 @@ IndoorMedia`
       if (t.addr) contactBits.push(t.addr);
       if (t.phone) contactBits.push(t.phone);
       if (contactBits.length) block += `<br><span style="color:#555;">(${escapeHtml(contactBits.join('  |  '))})</span>`;
-      if (t.url) block += `<br>See their ad: <a href="${escapeHtml(t.url)}">${escapeHtml(t.url)}</a>`;
+      if (t.url) block += `<br><a href="${escapeHtml(t.url)}">See their ad</a>`;
       block += `</p>`;
       extras.push(block);
     }
@@ -4620,11 +4620,12 @@ IndoorMedia`
                         <button class="email-attach-add" disabled={!prospect._emailDriveInput}
                           on:click={() => setEmailDriveLink(prospect, prospect._emailDriveInput)}>Add link</button>
                       </div>
+                      <span class="email-drive-quick-label">Browse a testimonial library, then copy a video's share link and paste it above:</span>
                       <div class="email-drive-quick">
                         <button type="button" class="email-drive-quick-btn"
-                          on:click={() => setEmailDriveLink(prospect, 'https://drive.google.com/drive/folders/1GHr0Ds5aJKY56dhSKYDYy8B3bdhMn6Mv')}>📁 Drive Folder 1</button>
+                          on:click={() => window.open('https://drive.google.com/drive/folders/1GHr0Ds5aJKY56dhSKYDYy8B3bdhMn6Mv', '_blank', 'noopener')}>📁 Testimonials 1</button>
                         <button type="button" class="email-drive-quick-btn"
-                          on:click={() => setEmailDriveLink(prospect, 'https://drive.google.com/drive/folders/16QAHNvkEcWp7VUWk-S2yWT3Pka73dFRP')}>📁 Drive Folder 2</button>
+                          on:click={() => window.open('https://drive.google.com/drive/folders/16QAHNvkEcWp7VUWk-S2yWT3Pka73dFRP', '_blank', 'noopener')}>📁 Testimonials 2</button>
                       </div>
                       <label class="email-gallery-btn">
                         🖼️ Choose from gallery
@@ -7281,11 +7282,18 @@ IndoorMedia`
     white-space: nowrap;
   }
   .email-attach-add:disabled { opacity: 0.5; cursor: default; }
+  .email-drive-quick-label {
+    display: block;
+    font-size: 11px;
+    color: #666;
+    margin-top: 8px;
+    line-height: 1.35;
+  }
   .email-drive-quick {
     display: flex;
     gap: 6px;
     flex-wrap: wrap;
-    margin-top: 6px;
+    margin-top: 4px;
   }
   .email-drive-quick-btn {
     flex: 1 1 0;
