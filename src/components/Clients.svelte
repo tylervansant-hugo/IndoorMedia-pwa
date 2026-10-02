@@ -4,6 +4,7 @@
   import { logActivity } from '../lib/activity.js';
   import * as pdfjsLib from 'pdfjs-dist';
   import ARForm from './ARForm.svelte';
+  import { generateCounterSignPdf } from '../lib/counterSign.js';
   
   // Set worker source for pdfjs
   pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.9.155/pdf.worker.min.mjs';
@@ -289,13 +290,147 @@
   let contractParsed = null;
   let contractError = '';
 
+  // ── Auto counter-sign generation (ad proof -> finished counter sign) ──
+  let chainMap = {};        // { 'Safeway': 'SAF', ... } chain name -> template code
+  let chainMapEntries = []; // [[normName, code, rawName], ...] sorted longest-first
+  let repCards = [];        // business_cards.json cards[]
+  let csRegistry = {};      // rep_registry.json
+  let autoCsBusy = {};      // { [message_id]: true } while generating
+  let autoCsMsg = {};       // { [message_id]: 'status text' }
+
+  function csNorm(x) { return String(x || '').toLowerCase().replace(/[^a-z0-9]+/g, ' ').trim(); }
+  function csSlug(name) {
+    return String(name || '')
+      .normalize('NFD').replace(/[\u0300-\u036f]/g, '')
+      .toLowerCase().replace(/['’.]/g, '')
+      .replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '');
+  }
+
+  // Match a free-text store/chain string to a template code.
+  function detectChainCode(storeText) {
+    const n = csNorm(storeText);
+    if (!n) return null;
+    // chainMapEntries sorted longest name first so 'fred meyer' beats 'market'.
+    for (const [normName, code] of chainMapEntries) {
+      if (normName && n.includes(normName)) return code;
+    }
+    return null;
+  }
+
+  function csRepLandingUrl(name) {
+    const parts = String(name || '').trim().split(/\s+/);
+    if (parts.length < 1 || !parts[0]) return '';
+    const first = parts[0].toLowerCase();
+    const last = (parts[parts.length - 1] || '').toLowerCase();
+    return `https://www.indoormedia.com/tape-sales/advertise-with-${first}-${last}/`;
+  }
+
+  function csFindCard(name) {
+    if (!name || !repCards.length) return null;
+    const nm = String(name).trim().toLowerCase();
+    const slug = csSlug(name);
+    return repCards.find(c =>
+      (c.display_name && c.display_name.toLowerCase() === nm) ||
+      (c.aliases && c.aliases.some(a => a.toLowerCase() === nm)) ||
+      c.slug === slug
+    ) || null;
+  }
+
+  // Pick the best rep for a proof: skip generic rtui.com Tyler-attribution when
+  // another named rep is present; otherwise first rep. Returns a name string.
+  function csPickRep(proof) {
+    const reps = (proof.reps || []).filter(r => r && r.name);
+    if (!reps.length) return '';
+    // Prefer a rep that actually has a business card on file.
+    const withCard = reps.find(r => csFindCard(r.name));
+    if (withCard) return withCard.name;
+    return reps[0].name;
+  }
+
+  async function csUrlToFile(url, fallbackName) {
+    const res = await fetch(url, { referrerPolicy: 'no-referrer' });
+    if (!res.ok) throw new Error('image ' + res.status);
+    const blob = await res.blob();
+    const type = blob.type || 'image/jpeg';
+    const ext = type.includes('png') ? 'png' : 'jpg';
+    return new File([blob], (fallbackName || 'ad_proof') + '.' + ext, { type });
+  }
+
+  async function csRepCardFile(name) {
+    const card = csFindCard(name);
+    if (!card) return null;
+    try {
+      const res = await fetch(import.meta.env.BASE_URL + 'data/' + card.file + '?t=' + Date.now());
+      if (!res.ok) return null;
+      const blob = await res.blob();
+      return new File([blob], card.file.split('/').pop(), { type: blob.type || 'image/jpeg' });
+    } catch { return null; }
+  }
+
+  function csDownload(blob, filename) {
+    const url = window.URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url; a.download = filename;
+    document.body.appendChild(a); a.click();
+    window.URL.revokeObjectURL(url); a.remove();
+  }
+
+  // Fully automatic: ad proof -> counter sign PDF, zero manual input.
+  async function autoGenerateCounterSign(proof, style = 'clean') {
+    const id = proof.message_id;
+    if (autoCsBusy[id]) return;
+    autoCsBusy = { ...autoCsBusy, [id]: true };
+    autoCsMsg = { ...autoCsMsg, [id]: 'Working…' };
+    try {
+      // 1. Chain code from the proof store/location text.
+      const chainCode = detectChainCode(proof.store) || detectChainCode(proof.location) || detectChainCode(proof.subject);
+      if (!chainCode) throw new Error('Could not detect a store chain with a counter-sign template from "' + (proof.store || proof.location || '?') + '".');
+
+      // 2. Ad proof image -> File.
+      if (!proof.image_url) throw new Error('This ad proof has no image attached.');
+      const adFile = await csUrlToFile(proof.image_url, (proof.client_name || 'ad') .replace(/[^a-z0-9]+/gi, '_'));
+
+      // 3. Rep -> card + landing page.
+      const repName = csPickRep(proof);
+      const cardFile = repName ? await csRepCardFile(repName) : null;
+      const landing = repName ? csRepLandingUrl(repName) : '';
+      let repCell = '';
+      if (repName) {
+        for (const k in csRegistry) {
+          const r = csRegistry[k];
+          if (r && (r.display_name === repName || r.contract_name === repName)) { repCell = r.cell || r.phone || r.cell_phone || ''; break; }
+        }
+      }
+
+      // 4. Generate.
+      const blob = await generateCounterSignPdf({
+        chainCode,
+        adImageFiles: [adFile],
+        businessCardFile: cardFile,
+        landingPageUrl: landing,
+        style,
+        repCell,
+      });
+      const safeName = (proof.client_name || 'client').replace(/[^a-z0-9]+/gi, '_');
+      csDownload(blob, `${chainCode}_${safeName}_CounterSign.pdf`);
+      autoCsMsg = { ...autoCsMsg, [id]: `✅ ${chainCode} sign generated` + (cardFile ? ` (${repName}'s card)` : ' (no card on file)') };
+    } catch (err) {
+      autoCsMsg = { ...autoCsMsg, [id]: '❌ ' + err.message };
+    } finally {
+      autoCsBusy = { ...autoCsBusy, [id]: false };
+    }
+  }
+
   onMount(async () => {
     try {
-      const [contractsRes, storesRes, renewalsRes, proofsRes] = await Promise.all([
+      const [contractsRes, storesRes, renewalsRes, proofsRes, chainRes, cardsRes, regRes] = await Promise.all([
         fetch(import.meta.env.BASE_URL + 'data/contracts.json?t=' + Date.now()),
         fetch(import.meta.env.BASE_URL + 'data/stores.json?t=' + Date.now()),
         fetch(import.meta.env.BASE_URL + 'data/pending_renewals.json?t=' + Date.now()).catch(() => ({ json: () => [] })),
-        fetch(import.meta.env.BASE_URL + 'data/ad_proofs.json?t=' + Date.now()).catch(() => ({ json: () => [] }))
+        fetch(import.meta.env.BASE_URL + 'data/ad_proofs.json?t=' + Date.now()).catch(() => ({ json: () => [] })),
+        fetch(import.meta.env.BASE_URL + 'data/chain_map.json?t=' + Date.now()).catch(() => ({ json: () => ({}) })),
+        fetch(import.meta.env.BASE_URL + 'data/business_cards.json?t=' + Date.now()).catch(() => ({ json: () => ({}) })),
+        fetch(import.meta.env.BASE_URL + 'data/rep_registry.json?t=' + Date.now()).catch(() => ({ json: () => ({}) }))
       ]);
       const data = await contractsRes.json();
       contracts = data.contracts || [];
@@ -305,6 +440,16 @@
       // Load contracts for renewal matching
       const cData = await contractsRes.json().catch(() => ({}));
       contractsData = cData.contracts || cData || [];
+      // Auto counter-sign reference data
+      const cm = await chainRes.json().catch(() => ({}));
+      chainMap = (cm && cm.chains) || {};
+      const combined = { ...(cm && cm.aliases || {}), ...chainMap };
+      chainMapEntries = Object.entries(combined)
+        .map(([name, code]) => [csNorm(name), code, name])
+        .sort((a, b) => b[0].length - a[0].length);
+      const bc = await cardsRes.json().catch(() => ({}));
+      repCards = (bc && bc.cards) || [];
+      csRegistry = await regRes.json().catch(() => ({}));
     } catch (err) {
       console.error('Failed to load data:', err);
     }
@@ -1632,6 +1777,27 @@ IndoorMedia`;
                 </div>
               {/if}
 
+              <!-- Auto Counter Sign -->
+              <div class="auto-cs-section">
+                <h4>🎯 Auto Counter Sign</h4>
+                <p class="auto-cs-hint">One tap: detects the store chain, pulls {csPickRep(proof) || 'the rep'}'s business card + landing-page QR, and drops in this ad proof.</p>
+                <div class="auto-cs-btns">
+                  <button class="auto-cs-btn" disabled={autoCsBusy[proof.message_id] || !proof.image_url}
+                    on:click={() => autoGenerateCounterSign(proof, 'clean')}>
+                    {autoCsBusy[proof.message_id] ? '⏳ Generating…' : '✨ Generate (Clean)'}
+                  </button>
+                  <button class="auto-cs-btn secondary" disabled={autoCsBusy[proof.message_id] || !proof.image_url}
+                    on:click={() => autoGenerateCounterSign(proof, 'classic')}>
+                    🏷️ Classic
+                  </button>
+                </div>
+                {#if !proof.image_url}
+                  <p class="auto-cs-status warn">⚠️ No ad proof image on this record — can't auto-generate.</p>
+                {:else if autoCsMsg[proof.message_id]}
+                  <p class="auto-cs-status" class:warn={autoCsMsg[proof.message_id].startsWith('❌')}>{autoCsMsg[proof.message_id]}</p>
+                {/if}
+              </div>
+
               <!-- Contact Actions -->
               {#if proof.client_email || proof.contact_name}
                 <div class="proof-contact-actions">
@@ -1968,6 +2134,15 @@ IndoorMedia`;
   .proof-image { max-width: 100%; border-radius: 8px; border: 1px solid var(--border-color); }
   .view-full-btn { display: inline-block; margin-top: 8px; padding: 8px 16px; background: #cc0000; color: white; border-radius: 8px; text-decoration: none; font-size: 13px; font-weight: 600; }
   .view-full-btn:hover { background: #aa0000; }
+  .auto-cs-section { margin-top: 20px; padding: 14px; border: 1px solid #0b8043; background: #e9f7ef; border-radius: 10px; }
+  .auto-cs-section h4 { margin: 0 0 6px; font-size: 15px; color: #0b8043; }
+  .auto-cs-hint { margin: 0 0 10px; font-size: 12px; color: #555; line-height: 1.4; }
+  .auto-cs-btns { display: flex; gap: 8px; flex-wrap: wrap; }
+  .auto-cs-btn { flex: 1 1 0; min-width: 0; padding: 11px 12px; border-radius: 8px; border: none; background: #0b8043; color: #fff; font-size: 13px; font-weight: 700; cursor: pointer; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .auto-cs-btn.secondary { flex: 0 0 auto; background: #fff; color: #0b8043; border: 1px solid #0b8043; }
+  .auto-cs-btn:disabled { opacity: 0.55; cursor: default; }
+  .auto-cs-status { margin: 10px 0 0; font-size: 12px; font-weight: 600; color: #0b8043; line-height: 1.4; }
+  .auto-cs-status.warn { color: #cc0000; }
   .filter-bar { margin-top: 12px; }
   .search-input { width: 100%; padding: 10px 14px; border: 2px solid var(--border-color); border-radius: 10px; font-size: 14px; background: var(--input-bg); color: var(--text-primary); box-sizing: border-box; }
   .filter-row { display: flex; gap: 8px; margin-top: 8px; flex-wrap: wrap; }
