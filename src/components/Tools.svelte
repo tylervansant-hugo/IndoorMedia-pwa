@@ -424,6 +424,76 @@ Store: ${store}
   let counterSignStyle = 'classic'; // 'classic' or 'clean'
   let generating = false;
 
+  // Rep business cards (auto-fill the counter sign). Loaded from
+  // data/business_cards.json; keyed by a normalized name slug.
+  let repBusinessCards = [];
+  let autoCardLoaded = false;   // true when we pulled the card from the registry
+  let autoCardName = '';        // which rep the auto card belongs to
+  let loadingRepCard = false;
+
+  function slugifyName(name) {
+    return String(name || '')
+      .normalize('NFD').replace(/[\u0300-\u036f]/g, '')
+      .toLowerCase()
+      .replace(/['’.]/g, '')
+      .replace(/[^a-z0-9]+/g, '-')
+      .replace(/^-+|-+$/g, '');
+  }
+
+  function loadBusinessCards() {
+    fetch(import.meta.env.BASE_URL + 'data/business_cards.json?t=' + Date.now())
+      .then(r => r.json())
+      .then(d => { repBusinessCards = (d && d.cards) || []; })
+      .catch(() => { repBusinessCards = []; });
+  }
+
+  // Find a stored card for a rep by exact display_name, alias, or name slug.
+  function findRepCard(name) {
+    if (!name || !repBusinessCards.length) return null;
+    const n = String(name).trim().toLowerCase();
+    const slug = slugifyName(name);
+    return repBusinessCards.find(c =>
+      (c.display_name && c.display_name.toLowerCase() === n) ||
+      (c.aliases && c.aliases.some(a => a.toLowerCase() === n)) ||
+      c.slug === slug
+    ) || null;
+  }
+
+  // Pull the rep's stored business-card image and turn it into a File so the
+  // PDF generator can embed it (unless the rep already uploaded a custom one).
+  async function loadRepBusinessCard(name) {
+    const card = findRepCard(name);
+    if (!card) { autoCardLoaded = false; autoCardName = ''; return false; }
+    try {
+      loadingRepCard = true;
+      const res = await fetch(import.meta.env.BASE_URL + 'data/' + card.file + '?t=' + Date.now());
+      if (!res.ok) throw new Error('card ' + res.status);
+      const blob = await res.blob();
+      const fname = card.file.split('/').pop();
+      const file = new File([blob], fname, { type: blob.type || 'image/jpeg' });
+      counterData.business_card_image = file;
+      counterData = counterData; // trigger reactivity
+      autoCardLoaded = true;
+      autoCardName = card.display_name || name;
+      return true;
+    } catch (e) {
+      autoCardLoaded = false; autoCardName = '';
+      return false;
+    } finally {
+      loadingRepCard = false;
+    }
+  }
+
+  // Selecting a rep auto-fills BOTH their landing page and their business card.
+  async function applyRepDefaults(name) {
+    selectedRepName = name;
+    updateRepLandingPage();
+    // Only auto-load the card if the rep hasn't manually uploaded one.
+    if (!counterData.business_card_image || autoCardLoaded) {
+      await loadRepBusinessCard(name);
+    }
+  }
+
   // Load all reps from registry
   function loadRepNames() {
     fetch(import.meta.env.BASE_URL + 'data/rep_registry.json?t=' + Date.now())
@@ -454,6 +524,7 @@ Store: ${store}
 
   onMount(() => {
     loadRepNames();
+    loadBusinessCards();
   });
   // Counter Sign is now fully client-side (pdf-lib). No backend/tunnel required.
 
@@ -1292,15 +1363,45 @@ Store: ${store}
     {/if}
 
     {#if counterSignStep === 2}
-      <h2>1. Business Card</h2>
+      <h2>1. Who is this for?</h2>
       <p class="subtitle">{selectedChainCode}</p>
 
-      <div class="upload-card">
+      <div class="form-card">
+        <div class="form-group">
+          <label>Select Rep (auto-fills business card + landing page)</label>
+          <div class="combo-box-wrapper">
+            <input
+              type="text"
+              bind:value={selectedRepName}
+              on:change={(e) => applyRepDefaults(e.target.value)}
+              on:input={(e) => { if (repNames.includes(e.target.value)) applyRepDefaults(e.target.value); }}
+              placeholder="Type or select rep name..."
+              list="rep-names-list-card"
+              autocomplete="off"
+            />
+            <datalist id="rep-names-list-card">
+              {#each repNames as rep}
+                <option value={rep}>{rep}</option>
+              {/each}
+            </datalist>
+          </div>
+          {#if loadingRepCard}
+            <p class="auto-fill">⏳ Loading {selectedRepName}'s business card…</p>
+          {:else if autoCardLoaded}
+            <p class="success-text">✅ Auto-loaded {autoCardName}'s business card on file</p>
+          {:else if selectedRepName && repNames.includes(selectedRepName)}
+            <p class="warning-text">⚠️ No card on file for {selectedRepName} — upload one below</p>
+          {/if}
+        </div>
+
         <div class="upload-box">
-          <p>📸 Upload your personal business card image</p>
-          <input type="file" accept="image/*" on:change={(e) => counterData.business_card_image = e.target.files?.[0]} />
+          <p>📸 {autoCardLoaded ? 'Or upload a different business card' : 'Upload business card image'}</p>
+          <input type="file" accept="image/*" on:change={(e) => {
+            const f = e.target.files?.[0];
+            if (f) { counterData.business_card_image = f; autoCardLoaded = false; autoCardName = ''; }
+          }} />
           {#if counterData.business_card_image}
-            <p class="upload-ok">✅ {counterData.business_card_image.name}</p>
+            <p class="upload-ok">✅ {autoCardLoaded ? 'On-file card' : counterData.business_card_image.name}</p>
           {/if}
         </div>
 
