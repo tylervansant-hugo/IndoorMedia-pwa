@@ -297,6 +297,10 @@
   let csRegistry = {};      // rep_registry.json
   let autoCsBusy = {};      // { [message_id]: true } while generating
   let autoCsMsg = {};       // { [message_id]: 'status text' }
+  let autoCsCardRep = {};   // { [message_id]: 'Rep Name' } -> override whose CARD to use
+
+  // Reps that have a business card on file (for the override dropdown).
+  $: cardRepNames = repCards.map(c => c.display_name).filter(Boolean).sort();
 
   function csNorm(x) { return String(x || '').toLowerCase().replace(/[^a-z0-9]+/g, ' ').trim(); }
   function csSlug(name) {
@@ -336,16 +340,30 @@
     ) || null;
   }
 
-  // Pick the best rep for a proof: skip generic rtui.com Tyler-attribution when
-  // another named rep is present; otherwise first rep. Returns a name string.
-  function csPickRep(proof) {
+  // Authoritative rep = the "Sales Representative" on the matching contract
+  // (the circled line). Join proof.contract_number -> contracts.sales_rep.
+  // Falls back to the proof's email attribution (ignoring generic rtui Tyler).
+  function csContractRep(proof) {
+    const cn = (proof.contract_number || '').trim().toUpperCase();
+    if (cn && contracts && contracts.length) {
+      const c = contracts.find(x => (x.contract_number || '').trim().toUpperCase() === cn);
+      if (c && c.sales_rep && c.sales_rep.trim()) return c.sales_rep.trim();
+    }
+    // Fallback: proof reps[], skipping the generic rtui.com Tyler-attribution
+    // when a different named rep exists.
     const reps = (proof.reps || []).filter(r => r && r.name);
     if (!reps.length) return '';
-    // Prefer a rep that actually has a business card on file.
-    const withCard = reps.find(r => csFindCard(r.name));
-    if (withCard) return withCard.name;
-    return reps[0].name;
+    const nonGeneric = reps.find(r => !/@rtui\.com$/i.test(r.email || ''));
+    return (nonGeneric || reps[0]).name;
   }
+
+  // Which rep's CARD to use for a proof: explicit override, else contract rep.
+  function csCardRepFor(proof) {
+    return autoCsCardRep[proof.message_id] || csContractRep(proof);
+  }
+
+  // Back-compat alias used in a couple of labels.
+  function csPickRep(proof) { return csContractRep(proof); }
 
   async function csUrlToFile(url, fallbackName) {
     const res = await fetch(url, { referrerPolicy: 'no-referrer' });
@@ -390,15 +408,17 @@
       if (!proof.image_url) throw new Error('This ad proof has no image attached.');
       const adFile = await csUrlToFile(proof.image_url, (proof.client_name || 'ad') .replace(/[^a-z0-9]+/gi, '_'));
 
-      // 3. Rep -> card + landing page.
-      const repName = csPickRep(proof);
-      const cardFile = repName ? await csRepCardFile(repName) : null;
-      const landing = repName ? csRepLandingUrl(repName) : '';
+      // 3. Rep -> landing page comes from the CONTRACT's sales rep (circled line).
+      //    Card comes from the override rep if chosen, else the contract rep.
+      const landingRep = csContractRep(proof);
+      const cardRep = csCardRepFor(proof);
+      const landing = landingRep ? csRepLandingUrl(landingRep) : '';
+      const cardFile = cardRep ? await csRepCardFile(cardRep) : null;
       let repCell = '';
-      if (repName) {
+      if (landingRep) {
         for (const k in csRegistry) {
           const r = csRegistry[k];
-          if (r && (r.display_name === repName || r.contract_name === repName)) { repCell = r.cell || r.phone || r.cell_phone || ''; break; }
+          if (r && (r.display_name === landingRep || r.contract_name === landingRep)) { repCell = r.cell || r.phone || r.cell_phone || ''; break; }
         }
       }
 
@@ -413,7 +433,8 @@
       });
       const safeName = (proof.client_name || 'client').replace(/[^a-z0-9]+/gi, '_');
       csDownload(blob, `${chainCode}_${safeName}_CounterSign.pdf`);
-      autoCsMsg = { ...autoCsMsg, [id]: `✅ ${chainCode} sign generated` + (cardFile ? ` (${repName}'s card)` : ' (no card on file)') };
+      const cardNote = cardFile ? `${cardRep}'s card` : `no card on file for ${cardRep || 'rep'}`;
+      autoCsMsg = { ...autoCsMsg, [id]: `✅ ${chainCode} sign — landing: ${landingRep || 'n/a'} — ${cardNote}` };
     } catch (err) {
       autoCsMsg = { ...autoCsMsg, [id]: '❌ ' + err.message };
     } finally {
@@ -1780,7 +1801,21 @@ IndoorMedia`;
               <!-- Auto Counter Sign -->
               <div class="auto-cs-section">
                 <h4>🎯 Auto Counter Sign</h4>
-                <p class="auto-cs-hint">One tap: detects the store chain, pulls {csPickRep(proof) || 'the rep'}'s business card + landing-page QR, and drops in this ad proof.</p>
+                <p class="auto-cs-hint">
+                  Detects the store chain, uses <strong>{csContractRep(proof) || 'the contract rep'}</strong>'s landing-page QR (from this contract's Sales Rep), and drops in this ad proof.
+                </p>
+                <div class="auto-cs-reppick">
+                  <label>Business card:</label>
+                  <select bind:value={autoCsCardRep[proof.message_id]}>
+                    <option value="">⭐ {csContractRep(proof) || 'Contract rep'} (default){csFindCard(csContractRep(proof)) ? '' : ' — no card'}</option>
+                    {#each cardRepNames as rn}
+                      <option value={rn}>{rn}'s card</option>
+                    {/each}
+                  </select>
+                </div>
+                {#if !csFindCard(csCardRepFor(proof))}
+                  <p class="auto-cs-status warn">⚠️ No card on file for {csCardRepFor(proof) || 'this rep'} — pick another rep's card above, or the sign generates without a card.</p>
+                {/if}
                 <div class="auto-cs-btns">
                   <button class="auto-cs-btn" disabled={autoCsBusy[proof.message_id] || !proof.image_url}
                     on:click={() => autoGenerateCounterSign(proof, 'clean')}>
@@ -2137,6 +2172,9 @@ IndoorMedia`;
   .auto-cs-section { margin-top: 20px; padding: 14px; border: 1px solid #0b8043; background: #e9f7ef; border-radius: 10px; }
   .auto-cs-section h4 { margin: 0 0 6px; font-size: 15px; color: #0b8043; }
   .auto-cs-hint { margin: 0 0 10px; font-size: 12px; color: #555; line-height: 1.4; }
+  .auto-cs-reppick { display: flex; align-items: center; gap: 8px; margin-bottom: 10px; }
+  .auto-cs-reppick label { font-size: 12px; font-weight: 700; color: #0b8043; white-space: nowrap; }
+  .auto-cs-reppick select { flex: 1 1 0; min-width: 0; padding: 8px 10px; border-radius: 8px; border: 1px solid #0b8043; background: #fff; font-size: 13px; color: #333; }
   .auto-cs-btns { display: flex; gap: 8px; flex-wrap: wrap; }
   .auto-cs-btn { flex: 1 1 0; min-width: 0; padding: 11px 12px; border-radius: 8px; border: none; background: #0b8043; color: #fff; font-size: 13px; font-weight: 700; cursor: pointer; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
   .auto-cs-btn.secondary { flex: 0 0 auto; background: #fff; color: #0b8043; border: 1px solid #0b8043; }
