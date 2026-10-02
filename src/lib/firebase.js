@@ -199,6 +199,81 @@ export async function getRepActivity(repId, days = 30) {
   }
 }
 
+/**
+ * Append an itemized activity EVENT to a per-rep, per-day events doc so managers
+ * can drill into a specific day and see exactly what a rep did. Stored as an
+ * array on activity_events/{repId}_{date} (one doc per rep per day = cheap).
+ * Only meaningful feed actions are passed in (see activity.js FEED_ACTIONS).
+ */
+export async function syncActivityEvent(repName, repId, event) {
+  if (!db) return false;
+  try {
+    const date = (event && event.date) || new Date().toISOString().slice(0, 10);
+    const docId = `${repId}_${date}`;
+    const docRef = doc(db, 'activity_events', docId);
+    const { getDoc, arrayUnion, updateDoc } = await import('firebase/firestore');
+    // Keep a compact event record.
+    const compact = {
+      action: event.action || '',
+      timestamp: event.timestamp || new Date().toISOString(),
+      store: event.store || event.business || '',
+      category: event.category || event.subcategory || '',
+      phone: event.phone || '',
+      email: event.email || '',
+      kind: event.kind || '',
+      items: event.items != null ? event.items : '',
+      tab: event.tab || '',
+      storeName: event.storeName || '',
+    };
+    const existing = await getDoc(docRef);
+    if (existing.exists()) {
+      // Cap at 300 events/day to bound the doc size.
+      const cur = existing.data().events || [];
+      if (cur.length >= 300) return true;
+      await updateDoc(docRef, { events: arrayUnion(compact), repName, repId, date, lastActive: compact.timestamp });
+    } else {
+      await setDoc(docRef, { repName, repId, date, lastActive: compact.timestamp, events: [compact] });
+    }
+    return true;
+  } catch (e) {
+    console.warn('Firebase event sync error:', e);
+    return false;
+  }
+}
+
+/**
+ * Get the itemized events for a specific rep on a specific day.
+ * Matches by repId when known, else by repName (fallback).
+ */
+export async function getRepDayEvents({ repId, repName, date }) {
+  if (!db || !date) return [];
+  try {
+    const { getDoc } = await import('firebase/firestore');
+    // Fast path: exact doc id by repId.
+    if (repId) {
+      const snap = await getDoc(doc(db, 'activity_events', `${repId}_${date}`));
+      if (snap.exists()) return (snap.data().events || []);
+    }
+    // Fallback: query by repName + date (events may have been written under a
+    // different repId derivation).
+    if (repName) {
+      const q = query(
+        collection(db, 'activity_events'),
+        where('repName', '==', repName),
+        where('date', '==', date)
+      );
+      const snapshot = await getDocs(q);
+      const all = [];
+      snapshot.docs.forEach(d => { (d.data().events || []).forEach(ev => all.push(ev)); });
+      return all;
+    }
+    return [];
+  } catch (e) {
+    console.warn('Firebase day-events read error:', e);
+    return [];
+  }
+}
+
 export function saveFirebaseConfig(config) {
   localStorage.setItem('impro_firebase_config', JSON.stringify(config));
 }

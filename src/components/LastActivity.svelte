@@ -2,7 +2,7 @@
   import { onMount } from 'svelte';
   import { user } from '../lib/stores.js';
   import { logActivity, getRecentActivity } from '../lib/activity.js';
-  import { isFirebaseReady, getAllRepActivity } from '../lib/firebase.js';
+  import { isFirebaseReady, getAllRepActivity, getRepDayEvents } from '../lib/firebase.js';
 
   // Manager view: Tyler (or role manager/admin) can select a rep to see their
   // recent activity. Individual feed events live only in each rep's local
@@ -52,12 +52,45 @@
   }
 
   async function onRepChange() {
+    expandedDay = null; dayEvents = [];
     if (selectedRep === '__me__') { repReport = null; loadFeed(); return; }
     repLoading = true;
     try {
       if (!repAllActivity.length) await loadRepOptions();
       repReport = buildRepReport(selectedRep);
     } finally { repLoading = false; }
+  }
+
+  // ── Day drill-down: itemized events for a rep on a specific day ──
+  let expandedDay = null;   // date string currently expanded
+  let dayEvents = [];       // itemized events for expandedDay
+  let dayLoading = false;
+
+  // Resolve the selected rep's repId the same way activity.js derives it, so
+  // the fast doc-id lookup hits; falls back to repName query inside firebase.
+  function repIdFor(name) {
+    // Prefer the id stored on any synced daily doc for this rep.
+    const row = repAllActivity.find(a => a.repName === name && a.repId);
+    if (row && row.repId) return row.repId;
+    return (name || '').toLowerCase().replace(/\s+/g, '_');
+  }
+
+  async function toggleDay(date) {
+    if (expandedDay === date) { expandedDay = null; dayEvents = []; return; }
+    expandedDay = date;
+    dayEvents = [];
+    dayLoading = true;
+    try {
+      const evs = await getRepDayEvents({ repId: repIdFor(selectedRep), repName: selectedRep, date });
+      // Newest first.
+      dayEvents = (evs || []).slice().sort((a, b) => (a.timestamp < b.timestamp ? 1 : -1));
+    } catch { dayEvents = []; }
+    finally { dayLoading = false; }
+  }
+
+  function evTime(ts) {
+    try { return new Date(ts).toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' }); }
+    catch { return ''; }
   }
 
   function fmtDay(iso) {
@@ -255,18 +288,40 @@
       {/if}
       <ul class="la-feed">
         {#each repReport.days as d}
+          {@const hasAny = d.searches || d.calls || d.emails || d.storeViews || d.prospectViews || d.appointments || d.renewalViews}
           <li class="la-item">
-            <div class="la-repday">
+            <button class="la-repday la-repday-btn" class:tappable={hasAny} disabled={!hasAny} on:click={() => hasAny && toggleDay(d.date)}>
               <span class="la-repday-date">{fmtDay(d.date)}</span>
               <span class="la-repday-stats">
                 {#if d.searches}🔍{d.searches} {/if}{#if d.calls}📞{d.calls} {/if}{#if d.emails}✉️{d.emails} {/if}{#if d.storeViews}🏪{d.storeViews} {/if}{#if d.prospectViews}🎯{d.prospectViews} {/if}{#if d.appointments}📅{d.appointments} {/if}{#if d.renewalViews}🔄{d.renewalViews} {/if}
-                {#if !d.searches && !d.calls && !d.emails && !d.storeViews && !d.prospectViews && !d.appointments && !d.renewalViews}—{/if}
+                {#if !hasAny}—{/if}
               </span>
-            </div>
+              {#if hasAny}<span class="la-repday-caret" class:open={expandedDay === d.date}>›</span>{/if}
+            </button>
+            {#if expandedDay === d.date}
+              <div class="la-day-detail">
+                {#if dayLoading}
+                  <p class="la-day-loading">⏳ Loading…</p>
+                {:else if dayEvents.length}
+                  <ul class="la-day-events">
+                    {#each dayEvents as ev}
+                      {@const dd = describe(ev)}
+                      <li class="la-day-ev">
+                        <span class="la-day-ev-emoji">{dd.emoji}</span>
+                        <span class="la-day-ev-text"><span class="la-item-verb">{dd.verb}</span>{#if dd.target}<span class="la-item-target"> {dd.target}</span>{/if}</span>
+                        <span class="la-day-ev-time">{evTime(ev.timestamp)}</span>
+                      </li>
+                    {/each}
+                  </ul>
+                {:else}
+                  <p class="la-day-loading">No itemized detail synced for this day. (Older activity may only have daily totals.)</p>
+                {/if}
+              </div>
+            {/if}
           </li>
         {/each}
       </ul>
-      <p class="la-rep-note">Showing {selectedRep}'s synced daily activity. Tap-to-reopen items only appear on your own device.</p>
+      <p class="la-rep-note">Showing {selectedRep}'s synced activity — tap any day to see itemized actions.</p>
     {:else}
       <p class="la-empty">No synced activity found for {selectedRep} yet.</p>
     {/if}
@@ -388,9 +443,24 @@
   .la-rep-totals { display: flex; flex-wrap: wrap; gap: 6px 12px; margin: 0 0 10px; font-size: 12px; font-weight: 600; color: var(--text-primary, #333); }
   .la-rep-totals span { background: var(--bg-secondary, #f4f4f6); border-radius: 12px; padding: 4px 9px; }
   .la-repday { display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 9px 4px; }
+  .la-repday-btn { width: 100%; background: transparent; border: none; text-align: left; color: inherit; font: inherit; border-radius: 8px; }
+  .la-repday-btn.tappable { cursor: pointer; }
+  .la-repday-btn.tappable:active { background: var(--bg-secondary, #f2f2f4); }
+  .la-repday-btn:disabled { cursor: default; opacity: 0.7; }
   .la-repday-date { font-size: 14px; font-weight: 700; color: var(--text-primary, #1a1a1a); }
-  .la-repday-stats { font-size: 13px; color: var(--text-secondary, #555); text-align: right; }
+  .la-repday-stats { font-size: 13px; color: var(--text-secondary, #555); text-align: right; flex: 1; }
+  .la-repday-caret { font-size: 18px; color: var(--text-secondary, #bbb); line-height: 1; transition: transform .15s; }
+  .la-repday-caret.open { transform: rotate(90deg); }
   .la-rep-note { font-size: 11px; color: var(--text-secondary, #999); margin: 8px 0 12px; line-height: 1.4; }
+
+  /* Day drill-down */
+  .la-day-detail { padding: 2px 4px 10px 8px; }
+  .la-day-loading { font-size: 12px; color: var(--text-secondary, #999); margin: 6px 0; }
+  .la-day-events { list-style: none; margin: 4px 0 0; padding: 0; display: flex; flex-direction: column; gap: 2px; border-left: 2px solid var(--border-color, #eee); }
+  .la-day-ev { display: flex; align-items: baseline; gap: 9px; padding: 6px 4px 6px 10px; }
+  .la-day-ev-emoji { font-size: 15px; width: 18px; text-align: center; flex-shrink: 0; }
+  .la-day-ev-text { flex: 1; min-width: 0; font-size: 13px; color: var(--text-primary, #1a1a1a); line-height: 1.3; overflow-wrap: break-word; }
+  .la-day-ev-time { font-size: 11px; color: var(--text-secondary, #999); flex-shrink: 0; white-space: nowrap; }
 
   /* Feed */
   .la-feed { list-style: none; margin: 0 0 12px; padding: 0; display: flex; flex-direction: column; }

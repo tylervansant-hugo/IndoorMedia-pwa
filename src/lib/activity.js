@@ -2,7 +2,14 @@
  * Activity Tracker — logs rep usage to localStorage + Firebase (cross-device)
  * Tracks: logins, page views, searches, calls, emails, appointments booked
  */
-import { isFirebaseReady, syncActivity } from './firebase.js';
+import { isFirebaseReady, syncActivity, syncActivityEvent } from './firebase.js';
+
+// Actions that are meaningful enough to sync as itemized events (for the
+// manager day-drilldown). Mirrors FEED_ACTIONS below.
+const EVENT_SYNC_ACTIONS = new Set([
+  'search', 'call', 'text', 'email', 'quote', 'contract',
+  'appointment', 'store_view', 'prospect_view', 'renewal_view',
+]);
 
 const ACTIVITY_KEY = 'impro_activity';
 const ACTIVITY_SYNC_KEY = 'impro_activity_sync';
@@ -32,6 +39,10 @@ export function logActivity(action, details = {}) {
     if (isFirebaseReady() && details.rep) {
       const repId = details.repId || details.rep.toLowerCase().replace(/\s+/g, '_');
       syncActivity(details.rep, repId, action, details).catch(() => {});
+      // Also sync the itemized event so managers can drill into a specific day.
+      if (EVENT_SYNC_ACTIONS.has(action)) {
+        syncActivityEvent(details.rep, repId, entry).catch(() => {});
+      }
     }
   } catch {}
 }
