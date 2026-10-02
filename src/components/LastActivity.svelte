@@ -2,6 +2,73 @@
   import { onMount } from 'svelte';
   import { user } from '../lib/stores.js';
   import { logActivity, getRecentActivity } from '../lib/activity.js';
+  import { isFirebaseReady, getAllRepActivity } from '../lib/firebase.js';
+
+  // Manager view: Tyler (or role manager/admin) can select a rep to see their
+  // recent activity. Individual feed events live only in each rep's local
+  // device, but per-rep DAILY activity summaries are synced to Firebase, so for
+  // another rep we show their day-by-day activity breakdown + last-active time.
+  $: repName_me = ($user?.name || $user?.first_name || '').trim();
+  $: isManager = repName_me.toLowerCase().includes('tyler') || $user?.role === 'manager' || $user?.role === 'admin';
+
+  let repOptions = [];        // [{name}] from Firebase activity (managers)
+  let selectedRep = '__me__'; // '__me__' = my own live feed
+  let repReport = null;       // { days:[{date,...}], lastActive } for selected rep
+  let repLoading = false;
+  let repAllActivity = [];    // raw Firebase docs cache
+
+  async function loadRepOptions() {
+    if (!isManager || !isFirebaseReady()) return;
+    try {
+      repAllActivity = await getAllRepActivity(30);
+      const names = [...new Set(repAllActivity.map(a => a.repName).filter(Boolean))].sort();
+      repOptions = names.map(name => ({ name }));
+    } catch { repOptions = []; }
+  }
+
+  function buildRepReport(name) {
+    const rows = repAllActivity.filter(a => a.repName === name);
+    if (!rows.length) return { days: [], lastActive: '', totals: null };
+    const days = rows
+      .map(a => ({
+        date: a.date,
+        searches: a.searches || 0,
+        calls: a.calls || 0,
+        emails: a.emails || 0,
+        storeViews: a.storeViews || 0,
+        prospectViews: a.prospectViews || 0,
+        renewalViews: a.renewalViews || 0,
+        appointments: a.appointments || 0,
+        pageViews: a.pageViews || 0,
+        lastActive: a.lastActive || '',
+      }))
+      .sort((a, b) => (a.date < b.date ? 1 : -1));
+    const lastActive = days.reduce((m, d) => (d.lastActive > m ? d.lastActive : m), '');
+    const totals = days.reduce((t, d) => {
+      for (const k of ['searches','calls','emails','storeViews','prospectViews','renewalViews','appointments']) t[k] = (t[k]||0) + d[k];
+      return t;
+    }, {});
+    return { days: days.slice(0, 14), lastActive, totals };
+  }
+
+  async function onRepChange() {
+    if (selectedRep === '__me__') { repReport = null; loadFeed(); return; }
+    repLoading = true;
+    try {
+      if (!repAllActivity.length) await loadRepOptions();
+      repReport = buildRepReport(selectedRep);
+    } finally { repLoading = false; }
+  }
+
+  function fmtDay(iso) {
+    try { return new Date(iso + 'T00:00:00').toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' }); }
+    catch { return iso; }
+  }
+  function fmtLast(iso) {
+    if (!iso) return 'Never';
+    try { return new Date(iso).toLocaleString('en-US', { month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit' }); }
+    catch { return iso; }
+  }
 
   // The Home "Last Activity" card now shows the rep's REAL recent actions in the
   // app — stores looked up, prospects called, emails/texts sent, quotes built,
@@ -135,6 +202,7 @@
   let now = Date.now();
   onMount(() => {
     refresh();
+    loadRepOptions();
     // Refresh relative time + pick up new activity every 30s.
     const t = setInterval(refresh, 30000);
     // Cross-tab / cross-component updates (activity + status both write localStorage).
@@ -157,7 +225,52 @@
     <button class="la-refresh" on:click={refresh} title="Refresh">Refresh</button>
   </div>
 
-  {#if feed.length}
+  {#if isManager && repOptions.length}
+    <div class="la-reppick">
+      <label for="la-rep-select">View:</label>
+      <select id="la-rep-select" bind:value={selectedRep} on:change={onRepChange}>
+        <option value="__me__">👤 Me ({repName_me || 'My activity'})</option>
+        {#each repOptions as r}
+          <option value={r.name}>{r.name}</option>
+        {/each}
+      </select>
+    </div>
+  {/if}
+
+  {#if selectedRep !== '__me__'}
+    <!-- Manager: selected rep's activity (daily summary, synced cross-device) -->
+    {#if repLoading}
+      <p class="la-empty">⏳ Loading {selectedRep}'s activity…</p>
+    {:else if repReport && repReport.days.length}
+      <p class="la-rep-last">Last active: <strong>{fmtLast(repReport.lastActive)}</strong></p>
+      {#if repReport.totals}
+        <div class="la-rep-totals">
+          <span>🔍 {repReport.totals.searches} searches</span>
+          <span>📞 {repReport.totals.calls} calls</span>
+          <span>✉️ {repReport.totals.emails} emails</span>
+          <span>🏪 {repReport.totals.storeViews} stores</span>
+          <span>🎯 {repReport.totals.prospectViews} prospects</span>
+          <span>📅 {repReport.totals.appointments} appts</span>
+        </div>
+      {/if}
+      <ul class="la-feed">
+        {#each repReport.days as d}
+          <li class="la-item">
+            <div class="la-repday">
+              <span class="la-repday-date">{fmtDay(d.date)}</span>
+              <span class="la-repday-stats">
+                {#if d.searches}🔍{d.searches} {/if}{#if d.calls}📞{d.calls} {/if}{#if d.emails}✉️{d.emails} {/if}{#if d.storeViews}🏪{d.storeViews} {/if}{#if d.prospectViews}🎯{d.prospectViews} {/if}{#if d.appointments}📅{d.appointments} {/if}{#if d.renewalViews}🔄{d.renewalViews} {/if}
+                {#if !d.searches && !d.calls && !d.emails && !d.storeViews && !d.prospectViews && !d.appointments && !d.renewalViews}—{/if}
+              </span>
+            </div>
+          </li>
+        {/each}
+      </ul>
+      <p class="la-rep-note">Showing {selectedRep}'s synced daily activity. Tap-to-reopen items only appear on your own device.</p>
+    {:else}
+      <p class="la-empty">No synced activity found for {selectedRep} yet.</p>
+    {/if}
+  {:else if feed.length}
     <ul class="la-feed">
       {#each feed as e}
         {@const d = describe(e)}
@@ -262,6 +375,22 @@
     padding: 4px 12px; border-radius: 8px; cursor: pointer;
   }
   .la-empty { font-size: 13px; color: var(--text-secondary, #888); margin: 4px 0 12px; line-height: 1.5; }
+
+  /* Manager rep picker */
+  .la-reppick { display: flex; align-items: center; gap: 8px; margin-bottom: 12px; }
+  .la-reppick label { font-size: 13px; font-weight: 700; color: var(--text-secondary, #666); }
+  .la-reppick select {
+    flex: 1; min-width: 0; padding: 8px 10px; border-radius: 8px;
+    border: 1px solid var(--border-color, #ddd); background: var(--input-bg, #fff);
+    color: var(--text-primary, #222); font-size: 13px; font-weight: 600;
+  }
+  .la-rep-last { font-size: 13px; color: var(--text-secondary, #666); margin: 0 0 8px; }
+  .la-rep-totals { display: flex; flex-wrap: wrap; gap: 6px 12px; margin: 0 0 10px; font-size: 12px; font-weight: 600; color: var(--text-primary, #333); }
+  .la-rep-totals span { background: var(--bg-secondary, #f4f4f6); border-radius: 12px; padding: 4px 9px; }
+  .la-repday { display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 9px 4px; }
+  .la-repday-date { font-size: 14px; font-weight: 700; color: var(--text-primary, #1a1a1a); }
+  .la-repday-stats { font-size: 13px; color: var(--text-secondary, #555); text-align: right; }
+  .la-rep-note { font-size: 11px; color: var(--text-secondary, #999); margin: 8px 0 12px; line-height: 1.4; }
 
   /* Feed */
   .la-feed { list-style: none; margin: 0 0 12px; padding: 0; display: flex; flex-direction: column; }
