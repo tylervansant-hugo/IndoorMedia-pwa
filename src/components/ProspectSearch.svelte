@@ -3301,8 +3301,9 @@ IndoorMedia`
 
   function setEmailDriveLink(prospect, url) {
     const link = normalizeDriveLink(url);
+    const isFolder = /\/drive\/folders\//i.test(link);
     prospect._emailAttachUrl = link;
-    prospect._emailAttachName = 'Video (Google Drive)';
+    prospect._emailAttachName = isFolder ? 'Folder (Google Drive)' : 'Video (Google Drive)';
     prospect._emailAttachType = 'drive';
     prospect._emailAttachFile = null;
     prospects = prospects;
@@ -4618,6 +4619,12 @@ IndoorMedia`
                           on:keydown={(e) => { if (e.key === 'Enter' && prospect._emailDriveInput) setEmailDriveLink(prospect, prospect._emailDriveInput); }} />
                         <button class="email-attach-add" disabled={!prospect._emailDriveInput}
                           on:click={() => setEmailDriveLink(prospect, prospect._emailDriveInput)}>Add link</button>
+                      </div>
+                      <div class="email-drive-quick">
+                        <button type="button" class="email-drive-quick-btn"
+                          on:click={() => setEmailDriveLink(prospect, 'https://drive.google.com/drive/folders/1GHr0Ds5aJKY56dhSKYDYy8B3bdhMn6Mv')}>📁 Drive Folder 1</button>
+                        <button type="button" class="email-drive-quick-btn"
+                          on:click={() => setEmailDriveLink(prospect, 'https://drive.google.com/drive/folders/16QAHNvkEcWp7VUWk-S2yWT3Pka73dFRP')}>📁 Drive Folder 2</button>
                       </div>
                       <label class="email-gallery-btn">
                         🖼️ Choose from gallery
@@ -7274,6 +7281,28 @@ IndoorMedia`
     white-space: nowrap;
   }
   .email-attach-add:disabled { opacity: 0.5; cursor: default; }
+  .email-drive-quick {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+    margin-top: 6px;
+  }
+  .email-drive-quick-btn {
+    flex: 1 1 0;
+    min-width: 0;
+    padding: 8px 10px;
+    border-radius: 8px;
+    border: 1px solid #0b8043;
+    background: #e9f7ef;
+    color: #0b8043;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .email-drive-quick-btn:active { background: #d4efdf; }
   .email-gallery-btn {
     display: inline-flex;
     align-items: center;
