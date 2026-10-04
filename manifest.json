@@ -1,0 +1,70 @@
+{
+  "name": "IndoorMedia Sales Rep Portal",
+  "short_name": "IndoorMedia",
+  "description": "Mobile-first PWA for IndoorMedia sales representatives",
+  "start_url": "/IndoorMedia-pwa/",
+  "scope": "/IndoorMedia-pwa/",
+  "display": "standalone",
+  "display_override": ["standalone", "minimal-ui"],
+  "orientation": "any",
+  "background_color": "#CC0000",
+  "theme_color": "#CC0000",
+  "icons": [
+    {
+      "src": "/IndoorMedia-pwa/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/IndoorMedia-pwa/icon-192-maskable.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "maskable"
+    },
+    {
+      "src": "/IndoorMedia-pwa/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/IndoorMedia-pwa/icon-512-maskable.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ],
+  "categories": ["productivity", "business"],
+  "shortcuts": [
+    {
+      "name": "New Call-In Lead",
+      "short_name": "Call-In Lead",
+      "description": "Log a new call-in lead",
+      "url": "/IndoorMedia-pwa/?action=callin",
+      "icons": [{ "src": "/IndoorMedia-pwa/icon-192-maskable.png", "sizes": "192x192", "type": "image/png" }]
+    },
+    {
+      "name": "Prospect a Store",
+      "short_name": "Prospect",
+      "description": "Open the prospecting tab",
+      "url": "/IndoorMedia-pwa/?action=prospects",
+      "icons": [{ "src": "/IndoorMedia-pwa/icon-192-maskable.png", "sizes": "192x192", "type": "image/png" }]
+    },
+    {
+      "name": "New Quote / Cart",
+      "short_name": "Quote",
+      "description": "Open the cart to build a quote",
+      "url": "/IndoorMedia-pwa/?action=cart",
+      "icons": [{ "src": "/IndoorMedia-pwa/icon-192-maskable.png", "sizes": "192x192", "type": "image/png" }]
+    },
+    {
+      "name": "Book Appointment",
+      "short_name": "Book Appt",
+      "description": "Create a calendar appointment",
+      "url": "/IndoorMedia-pwa/?action=book-appt",
+      "icons": [{ "src": "/IndoorMedia-pwa/icon-192-maskable.png", "sizes": "192x192", "type": "image/png" }]
+    }
+  ],
+  "prefer_related_applications": false
+}
