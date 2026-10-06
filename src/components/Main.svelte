@@ -1107,7 +1107,26 @@
     installGlobalAddToHome(); // long-press any pinnable button → “Add to Home Screen”
     loadDashOrder(); // restore saved dashboard card order
     updateCartCount();
-    const interval = setInterval(updateCartCount, 2000);
+    // Battery fix: the cart badge is already updated INSTANTLY by the
+    // 'cart-updated' and 'storage' events below, so we don't need a fast
+    // forever-poll. Keep only a slow safety re-sync, and pause it entirely
+    // while the tab is hidden/backgrounded (where polling just drains battery).
+    let interval = null;
+    const CART_POLL_MS = 30000; // was 2000 — 15x fewer wakeups
+    const startCartPoll = () => {
+      if (interval == null && document.visibilityState === 'visible') {
+        interval = setInterval(updateCartCount, CART_POLL_MS);
+      }
+    };
+    const stopCartPoll = () => {
+      if (interval != null) { clearInterval(interval); interval = null; }
+    };
+    const onVisCart = () => {
+      if (document.visibilityState === 'visible') { updateCartCount(); startCartPoll(); }
+      else { stopCartPoll(); }
+    };
+    document.addEventListener('visibilitychange', onVisCart);
+    startCartPoll();
     // Instant badge update when any component changes the cart.
     window.addEventListener('cart-updated', updateCartCount);
     window.addEventListener('storage', updateCartCount);
@@ -1265,7 +1284,8 @@
     document.addEventListener('open-activity', handleOpenActivity);
 
     return () => {
-      clearInterval(interval);
+      stopCartPoll();
+      document.removeEventListener('visibilitychange', onVisCart);
       document.removeEventListener('map-action', handleMapAction);
       document.removeEventListener('open-activity', handleOpenActivity);
     };

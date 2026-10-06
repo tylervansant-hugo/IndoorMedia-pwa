@@ -236,16 +236,21 @@
   onMount(() => {
     refresh();
     loadRepOptions();
-    // Refresh relative time + pick up new activity every 30s.
-    const t = setInterval(refresh, 30000);
+    // Refresh relative time + pick up new activity every 30s — but PAUSE the
+    // timer while the tab is hidden/backgrounded so it doesn't drain battery.
+    let t = null;
+    const start = () => { if (t == null && document.visibilityState === 'visible') t = setInterval(refresh, 30000); };
+    const stop = () => { if (t != null) { clearInterval(t); t = null; } };
+    const onVis = () => { if (document.visibilityState === 'visible') { refresh(); start(); } else { stop(); } };
+    start();
     // Cross-tab / cross-component updates (activity + status both write localStorage).
     window.addEventListener('storage', refresh);
-    // When the rep returns to the Home tab, re-read the log.
-    document.addEventListener('visibilitychange', refresh);
+    // When the rep returns to the Home tab, re-read the log + resume polling.
+    document.addEventListener('visibilitychange', onVis);
     return () => {
-      clearInterval(t);
+      stop();
       window.removeEventListener('storage', refresh);
-      document.removeEventListener('visibilitychange', refresh);
+      document.removeEventListener('visibilitychange', onVis);
     };
   });
 

@@ -269,15 +269,49 @@
       { enableHighAccuracy: true, timeout: 10000 }
     );
 
+    // Battery fix: the continuous watch does NOT need high-accuracy GPS — a
+    // network/wifi fix is plenty to show a "you are here" dot on a store map,
+    // and it uses a fraction of the power. Also cache fixes for 30s and only
+    // report meaningful moves (>20m) so we aren't waking the radio constantly.
     geoWatchId = navigator.geolocation.watchPosition(
       (pos) => {
-        userLatLng = [pos.coords.latitude, pos.coords.longitude];
+        const next = [pos.coords.latitude, pos.coords.longitude];
+        if (userLatLng) {
+          const moved = haversineMeters(userLatLng, next);
+          if (moved < 20) return; // ignore GPS jitter, skip marker churn
+        }
+        userLatLng = next;
         userAccuracy = pos.coords.accuracy;
         updateUserLocationMarker();
       },
       () => {},
-      { enableHighAccuracy: true, maximumAge: 15000 }
+      { enableHighAccuracy: false, maximumAge: 30000, timeout: 27000 }
     );
+  }
+
+  // Rough distance in meters between two [lat,lng] points.
+  function haversineMeters(a, b) {
+    const R = 6371000;
+    const toRad = (d) => (d * Math.PI) / 180;
+    const dLat = toRad(b[0] - a[0]);
+    const dLng = toRad(b[1] - a[1]);
+    const lat1 = toRad(a[0]);
+    const lat2 = toRad(b[0]);
+    const h = Math.sin(dLat / 2) ** 2 +
+      Math.cos(lat1) * Math.cos(lat2) * Math.sin(dLng / 2) ** 2;
+    return 2 * R * Math.asin(Math.sqrt(h));
+  }
+
+  // Stop the GPS watch while the map/tab is hidden; resume on return.
+  function pauseGeoWatch() {
+    if (geoWatchId !== null) {
+      navigator.geolocation.clearWatch(geoWatchId);
+      geoWatchId = null;
+    }
+  }
+  function handleGeoVisibility() {
+    if (document.visibilityState === 'hidden') pauseGeoWatch();
+    else if (geoWatchId === null && map) initGeolocation();
   }
 
   // Chain name → prefix mapping (built from stores data)
@@ -550,6 +584,8 @@
     window.addEventListener('keydown', handleEscKey);
     // Auto-focus a store selected on the Stores tab when switching to Map
     document.addEventListener('map-focus-store', handleMapFocusStore);
+    // Battery: pause/resume the GPS watch with tab visibility.
+    document.addEventListener('visibilitychange', handleGeoVisibility);
 
     try {
       const [storesRes, contractsRes] = await Promise.all([
@@ -646,6 +682,7 @@
   onDestroy(() => {
     window.removeEventListener('keydown', handleEscKey);
     document.removeEventListener('map-focus-store', handleMapFocusStore);
+    document.removeEventListener('visibilitychange', handleGeoVisibility);
     if (mapResizeObserver) { try { mapResizeObserver.disconnect(); } catch {} mapResizeObserver = null; }
     if (geoWatchId !== null) {
       navigator.geolocation.clearWatch(geoWatchId);
