@@ -28,11 +28,11 @@ export function getShortcuts() {
   return Array.isArray(list) ? list : [];
 }
 
-export function addShortcut({ label, icon, tab, action, storesView, matchText }) {
+export function addShortcut({ label, icon, tab, action, storesView, matchText, href }) {
   const list = getShortcuts();
-  // De-dupe on label+tab+action+matchText so the same button isn't added twice.
-  const key = `${label}|${tab}|${action || ''}|${matchText || ''}`;
-  if (list.some(s => `${s.label}|${s.tab}|${s.action || ''}|${s.matchText || ''}` === key)) return { added: false, list };
+  // De-dupe on label+tab+action+matchText+href so the same button isn't added twice.
+  const key = `${label}|${tab}|${action || ''}|${matchText || ''}|${href || ''}`;
+  if (list.some(s => `${s.label}|${s.tab}|${s.action || ''}|${s.matchText || ''}|${s.href || ''}` === key)) return { added: false, list };
   const id = 'sc_' + Date.now().toString(36) + Math.random().toString(36).slice(2, 6);
   const next = [...list, {
     id,
@@ -44,6 +44,9 @@ export function addShortcut({ label, icon, tab, action, storesView, matchText })
     // matchText lets the shortcut re-find and click the ACTUAL button (not just
     // land on the page). Falls back to the visible label when omitted.
     matchText: matchText || label || '',
+    // href lets a pinned LINK (e.g. "DigitalBoost Examples") open its URL
+    // directly when the real element can't be re-found on the page.
+    href: href || '',
   }];
   write(SHORTCUTS_KEY, next);
   emit();
@@ -258,7 +261,15 @@ export function replayShortcut(sc, { retries = 12, interval = 60 } = {}) {
         resolve(true);
         return;
       }
-      if (++tries >= retries) { resolve(false); return; }
+      if (++tries >= retries) {
+        // Couldn't find the real button on the target tab. If this shortcut was
+        // a plain LINK, open its URL directly so the pin still does something.
+        if (sc.href) {
+          try { window.open(sc.href, '_blank', 'noopener'); resolve(true); return; } catch {}
+        }
+        resolve(false);
+        return;
+      }
       setTimeout(attempt, interval);
     };
     attempt();
@@ -271,23 +282,30 @@ export function replayShortcut(sc, { retries = 12, interval = 60 } = {}) {
 // label + the tab it lives on automatically. Call installGlobalAddToHome()
 // once at app start.
 
-// Selector for buttons that can be pinned. Primary menu/action buttons across
-// the tabs; excludes tiny utility buttons (back, remove, edit, tab bar, etc.).
+// ANY clickable element can now be pinned. Instead of an allowlist of a few
+// button classes, we treat every <button>, link, or role=button as pinnable
+// (so e.g. "DigitalBoost Examples", video links, product buttons, etc. all
+// work), and only EXCLUDE a small set of navigation/utility controls that
+// would make no sense as a Home shortcut.
 const PINNABLE_SELECTOR = [
-  '.main-btn', '.action-btn', '.template-btn', '.tmpl-btn',
+  'button', 'a[href]', '[role="button"]', '.main-btn', '.action-btn',
+  '.template-btn', '.tmpl-btn', '.video-btn', '.roi-btn',
   '.prospect-store-btn', '.navigate-store-btn', '.audit-store-btn',
-  '.addtape-store-btn', '.cartvert-store-btn', '.roi-btn', '.callin-home-card',
+  '.addtape-store-btn', '.cartvert-store-btn', '.callin-home-card',
   '.today-card-full',
 ].join(',');
 
-// Buttons we never want to offer pinning on (navigation/utility, or buttons
-// that already carry an explicit use:addToHome with richer action metadata
-// like the dashboard quick-actions).
+// Controls we never offer pinning on: bottom tab bar, header icons, back/close/
+// cancel/reset, the Home Shortcuts widget's own tiles + edit/remove handles,
+// drag handles, tiny +/- steppers, and anything already carrying an explicit
+// use:addToHome. Keep this list focused — everything else is pinnable.
 const PIN_EXCLUDE_SELECTOR = [
-  '.back-btn', '.hs-item', '.hs-edit', '.hs-remove', '.tab-bar-item',
-  '.header-icon-btn', '.font-slider-reset', '.font-slider-done',
-  '.cancel-btn', '.mini-clear', '.reset-btn', '.qa-btn',
-  '[data-has-addtohome]',
+  '.back-btn', '.hs-item', '.hs-edit', '.hs-remove', '.hs-add', '.hs-drag',
+  '.tab-bar-item', '.header-icon-btn', '.font-slider-reset', '.font-slider-done',
+  '.font-btn', '.cancel-btn', '.close-btn', '.mini-clear', '.reset-btn',
+  '.qa-btn', '.cart-icon-btn', '.remove-btn', '.delete-btn', '.qty-btn',
+  '.stepper-btn', '.cycle-btn', '.status-btn', '.filter-btn', '.rating-btn',
+  '.pagination-btn', '.page-btn', '[aria-label="Close"]', '[data-has-addtohome]',
 ].join(',');
 
 // Map the active bottom-tab label to our internal tab id.
@@ -302,7 +320,7 @@ function currentTabId() {
   return TAB_LABEL_TO_ID[label] || 'dashboard';
 }
 
-// Pull a clean icon (emoji) + label out of a button's DOM.
+// Pull a clean icon (emoji) + label (+ href, for links) out of a button's DOM.
 function extractIconLabel(btn) {
   let icon = '⭐';
   let label = '';
@@ -319,7 +337,14 @@ function extractIconLabel(btn) {
     label = raw.replace(/\p{Extended_Pictographic}/gu, '').trim();
   }
   label = label.slice(0, 40);
-  return { icon, label: label || 'Shortcut' };
+  // If it's a real link to an http(s) URL, capture it so the pin can open it.
+  let href = '';
+  const a = btn.matches('a[href]') ? btn : btn.querySelector('a[href]');
+  if (a) {
+    const h = a.getAttribute('href') || '';
+    if (/^https?:\/\//i.test(h)) href = h;
+  }
+  return { icon, label: label || 'Shortcut', href };
 }
 
 let globalInstalled = false;
@@ -336,8 +361,17 @@ export function installGlobalAddToHome() {
     if (el.closest(PIN_EXCLUDE_SELECTOR)) return null;
     const btn = el.closest(PINNABLE_SELECTOR);
     if (!btn) return null;
-    // Don't offer pinning for the Home Shortcuts widget's own tiles.
+    // Don't offer pinning for the Home Shortcuts widget's own tiles, the bottom
+    // tab bar, or the app header (navigation chrome, not content actions).
     if (btn.closest('.hs-widget')) return null;
+    if (btn.closest('.tab-bar, .app-header, .modal-close, .appearance-panel')) return null;
+    // Must have a human-readable label to show on the Home tile.
+    const { label } = extractIconLabel(btn);
+    if (!label || label === 'Shortcut') {
+      // Allow it only if there's at least some text/aria to use.
+      const txt = (btn.getAttribute('aria-label') || btn.textContent || '').trim();
+      if (!txt) return null;
+    }
     return btn;
   }
 
@@ -352,7 +386,7 @@ export function installGlobalAddToHome() {
   }
 
   function showChip(btn) {
-    const { icon, label } = extractIconLabel(btn);
+    const { icon, label, href } = extractIconLabel(btn);
     const tab = currentTabId();
     const existing = document.getElementById('add-to-home-chip');
     if (existing) existing.remove();
@@ -372,8 +406,9 @@ export function installGlobalAddToHome() {
     chip.addEventListener('click', (e) => {
       e.stopPropagation();
       // matchText = the button's own visible label, used later to re-find and
-      // click the ACTUAL button so the shortcut runs its real action.
-      const res = addShortcut({ label, icon, tab, matchText: label });
+      // click the ACTUAL button so the shortcut runs its real action. href is
+      // captured for plain links so the pin can open the URL directly.
+      const res = addShortcut({ label, icon, tab, matchText: label, href });
       chip.textContent = res.added ? '✅ Added to Home Screen' : 'ℹ️ Already on Home Screen';
       chip.style.background = res.added ? '#0a7a0a' : '#555';
       setTimeout(remove, 1100);
