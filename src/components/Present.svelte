@@ -8,7 +8,11 @@
 
   let view = 'menu'; 
 
-  function _handleEdgeBack() { if (view !== 'menu') view = 'menu'; }
+  function _handleEdgeBack() {
+    // Step back ONE level: a drilled-in Digital detail first, then to menu.
+    if (view === 'graphics' && selectedDigital) { selectedDigital = null; return; }
+    if (view !== 'menu') view = 'menu';
+  }
   // Second tap on the Present tab (while already on it) -> reset to menu.
   function _handleResetTabView(e) {
     if (e?.detail?.tab !== 'present') return;
@@ -16,13 +20,24 @@
     selectedTier = null;
     selectedDigital = null;
   }
+
+  // Report back-able state to Main's hardware/gesture BACK handler.
+  function _reportNavDepth() {
+    const depth = (view !== 'menu') ? 1 : 0;
+    if (typeof document !== 'undefined') {
+      document.dispatchEvent(new CustomEvent('nav-depth-change', { detail: { tab: 'present', depth } }));
+    }
+  }
+  $: (view, selectedDigital, _reportNavDepth());
   onMount(() => {
     document.addEventListener('edge-swipe-back', _handleEdgeBack);
     document.addEventListener('reset-tab-view', _handleResetTabView);
+    document.addEventListener('request-nav-depth', _reportNavDepth);
   });
   onDestroy(() => {
     document.removeEventListener('edge-swipe-back', _handleEdgeBack);
     document.removeEventListener('reset-tab-view', _handleResetTabView);
+    document.removeEventListener('request-nav-depth', _reportNavDepth);
   });
 
   const VIDEO_LINKS = {

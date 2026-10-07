@@ -729,6 +729,18 @@ Store: ${store}
   }
 
   function _handleEdgeBack() { if (view !== 'main') goBack(); }
+
+  // Report whether this tab currently has a back-able sub-view, so Main's
+  // hardware/gesture BACK handler knows to intercept (vs. close the app).
+  // Each BACK pops ONE level via goBack(); after each pop this re-reports, so
+  // multi-step flows (counter-sign steps) unwind one press at a time.
+  function _reportNavDepth() {
+    const depth = view !== 'main' ? 1 : 0;
+    if (typeof document !== 'undefined') {
+      document.dispatchEvent(new CustomEvent('nav-depth-change', { detail: { tab: 'tools', depth } }));
+    }
+  }
+  $: (view, counterSignStep, _reportNavDepth());
   // Second tap on the Tools tab (while already on it) -> jump straight to main
   // (skip the counter-sign step-back; go all the way to the top-level screen).
   function _handleResetTabView(e) {
@@ -743,10 +755,12 @@ Store: ${store}
   onMount(() => {
     document.addEventListener('edge-swipe-back', _handleEdgeBack);
     document.addEventListener('reset-tab-view', _handleResetTabView);
+    document.addEventListener('request-nav-depth', _reportNavDepth);
   });
   onDestroy(() => {
     document.removeEventListener('edge-swipe-back', _handleEdgeBack);
     document.removeEventListener('reset-tab-view', _handleResetTabView);
+    document.removeEventListener('request-nav-depth', _reportNavDepth);
   });
 
   async function loadTestimonialData() {

@@ -1130,6 +1130,16 @@ IndoorMedia`;
   }
 
   function _handleEdgeBack() { if (view !== 'main') goBack(); }
+
+  // Report back-able state to Main's hardware/gesture BACK handler.
+  function _reportNavDepth() {
+    const depth = (view !== 'main') ? 1 : 0;
+    if (typeof document !== 'undefined') {
+      document.dispatchEvent(new CustomEvent('nav-depth-change', { detail: { tab: 'clients', depth } }));
+    }
+  }
+  $: (view, _reportNavDepth());
+
   function _handleUniversalClientSearch(e) {
     const d = e.detail || {};
     if (d.term != null) { searchQuery = d.term; view = 'main'; }
@@ -1140,11 +1150,13 @@ IndoorMedia`;
     document.addEventListener('edge-swipe-back', _handleEdgeBack);
     document.addEventListener('universal-client-search', _handleUniversalClientSearch);
     document.addEventListener('reset-tab-view', _handleResetTabView);
+    document.addEventListener('request-nav-depth', _reportNavDepth);
   });
   onDestroy(() => {
     document.removeEventListener('edge-swipe-back', _handleEdgeBack);
     document.removeEventListener('universal-client-search', _handleUniversalClientSearch);
     document.removeEventListener('reset-tab-view', _handleResetTabView);
+    document.removeEventListener('request-nav-depth', _reportNavDepth);
   });
 </script>
 

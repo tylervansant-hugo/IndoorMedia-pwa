@@ -148,7 +148,134 @@
   let _appEdgeSwipe = false;
   let _appEdgeStartX = 0;
   let _appEdgeDX = 0;
-  
+
+  // ──────────────────────────────────────────────────────────────────────
+  // Hardware / gesture BACK handling (Samsung & any Android swipe-back, plus
+  // browser Back button). Without this the OS back gesture pops the single
+  // history entry and CLOSES the PWA. We instead intercept popstate and step
+  // back ONE in-app level (same as the existing edge-swipe-back flow), only
+  // letting the app close when there is genuinely nothing left to go back to.
+  //
+  // Children (Tools/Prospects/Clients/Present/StoreDetail) report how many
+  // back-able levels they currently have via the 'nav-depth-change' event.
+  // Main adds its own back-able state (open modals, non-home tab, sub-views).
+  // ──────────────────────────────────────────────────────────────────────
+  let _childNavDepth = 0;            // deepest child's current back-able depth
+  let _popGuard = false;             // re-entrancy guard around history ops
+
+  // Everything at the Main level that a single BACK should unwind, in the
+  // same priority order the popstate handler uses below.
+  function _mainCanGoBack() {
+    return (
+      showFontSlider ||
+      showDrivingMode ||
+      showProspectDetail ||
+      showRevenueDetail ||
+      showStreakDetail ||
+      showAppointmentsDetail ||
+      showSummerSalesDetail ||
+      (currentTab === 'stores' && storesView !== 'rates') ||
+      currentTab !== 'dashboard'
+    );
+  }
+
+  // True when a hardware BACK has somewhere to go WITHOUT closing the app.
+  function _canGoBackInApp() {
+    return _childNavDepth > 0 || _mainCanGoBack();
+  }
+
+  // Perform exactly ONE level of in-app back-navigation.
+  // Children get first crack (they own the deepest views); if none of them is
+  // in a sub-view, Main unwinds its own modals / sub-views / tab.
+  function _stepBackOneLevel() {
+    // 1. Let any child that is in a sub-view step back one level.
+    if (_childNavDepth > 0) {
+      document.dispatchEvent(new CustomEvent('edge-swipe-back'));
+      return;
+    }
+    // 2. Main-level overlays / modals first.
+    if (showFontSlider) { showFontSlider = false; return; }
+    if (showDrivingMode) { showDrivingMode = false; return; }
+    if (showProspectDetail) { showProspectDetail = false; return; }
+    if (showRevenueDetail) { showRevenueDetail = false; return; }
+    if (showStreakDetail) { showStreakDetail = false; return; }
+    if (showAppointmentsDetail) { showAppointmentsDetail = false; return; }
+    if (showSummerSalesDetail) { showSummerSalesDetail = false; return; }
+    // 3. Stores sub-view (map/prospects) -> back to rates.
+    if (currentTab === 'stores' && storesView !== 'rates') { storesView = 'rates'; return; }
+    // 4. Any non-home tab -> Home.
+    if (currentTab !== 'dashboard') { currentTab = 'dashboard'; return; }
+  }
+
+  // Keep a sentinel history entry in front of us whenever there is in-app
+  // state to unwind, so the FIRST OS back gesture lands on popstate (handled
+  // here) instead of closing the app. Safe to call repeatedly.
+  function _ensureBackSentinel() {
+    if (typeof window === 'undefined' || _popGuard) return;
+    try {
+      if (_canGoBackInApp() && !(window.history.state && window.history.state.imProBack)) {
+        window.history.pushState({ imProBack: true }, '');
+      }
+    } catch (e) { /* history unavailable (rare) */ }
+  }
+
+  function _handlePopState() {
+    if (_popGuard) return;
+    if (_canGoBackInApp()) {
+      _popGuard = true;
+      _stepBackOneLevel();
+      // Re-arm a sentinel on the next tick once state has settled, so the
+      // NEXT back gesture is intercepted too (until nothing is left).
+      setTimeout(() => {
+        _popGuard = false;
+        _ensureBackSentinel();
+      }, 0);
+    }
+    // else: nothing to unwind -> let the browser/OS proceed (closes the PWA).
+  }
+
+  // Children announce their current back-able depth here.
+  function _handleChildNavDepth(e) {
+    const d = Number(e?.detail?.depth) || 0;
+    const tab = e?.detail?.tab;
+    // Only the active tab's child should drive depth; ignore stale background
+    // components so a hidden tab's leftover sub-view can't trap BACK. Children
+    // stay mounted via display:none, so filter by the active tab.
+    if (tab && tab !== currentTab) return;
+    // The Stores tab hosts rates/map/prospects in one mount; only the
+    // Prospects sub-view's depth counts (rates/map have no child back levels;
+    // map is handled by Main's own storesView check).
+    if (tab === 'stores' && storesView !== 'prospects') return;
+    _childNavDepth = d;
+    _ensureBackSentinel();
+  }
+
+  // On ANY tab/sub-view change, drop stale child depth and ask the now-active
+  // child to re-announce its depth (children stay mounted via display:none, so
+  // they don't re-fire on tab switch by themselves).
+  let _lastNavKey = '';
+  $: {
+    const navKey = currentTab + '/' + storesView;
+    if (navKey !== _lastNavKey) {
+      _lastNavKey = navKey;
+      _childNavDepth = 0;
+      if (typeof document !== 'undefined') {
+        // Next tick so the child's reactive state is current.
+        setTimeout(() => document.dispatchEvent(new CustomEvent('request-nav-depth')), 0);
+      }
+    }
+  }
+
+  // Whenever Main-level back-able state changes, make sure a sentinel exists.
+  $: if (
+    typeof window !== 'undefined' &&
+    (currentTab || storesView || showFontSlider || showDrivingMode ||
+     showProspectDetail || showRevenueDetail || showStreakDetail ||
+     showAppointmentsDetail || showSummerSalesDetail || _childNavDepth >= 0)
+  ) {
+    _ensureBackSentinel();
+  }
+
   // Track tab changes
   $: if (currentTab && typeof window !== 'undefined') {
     if (currentTab !== previousTab) previousTab = currentTab;
@@ -1092,6 +1219,15 @@
     });
     applyFontScale(); // ensure saved text-size pref is applied app-wide on load
     applyAppearance(); // apply saved Appearance theme (theme/mode/font) — sets data-theme
+
+    // Hardware/gesture BACK: intercept the Samsung & Android swipe-back (and
+    // browser Back) so it steps back one in-app level instead of closing the
+    // PWA. Seed a sentinel + listen for popstate and child depth reports.
+    if (typeof window !== 'undefined') {
+      window.addEventListener('popstate', _handlePopState);
+      document.addEventListener('nav-depth-change', _handleChildNavDepth);
+      _ensureBackSentinel();
+    }
     // When the Appearance panel changes the text size, re-read + re-apply the
     // content zoom so the header slider and the panel stay perfectly in sync.
     window.addEventListener('appearance-changed', (ev) => {

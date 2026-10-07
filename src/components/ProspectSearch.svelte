@@ -713,6 +713,18 @@
     if (e?.detail?.tab === 'stores') view = 'main';
   }
 
+  // Report back-able state to Main's hardware/gesture BACK handler. Each BACK
+  // pops one level via goBack(); this re-reports after every change so the
+  // multi-level chain (results->subcategories->categories->...->main) unwinds
+  // one press at a time instead of closing the app.
+  function _reportNavDepth() {
+    const depth = view !== 'main' ? 1 : 0;
+    if (typeof document !== 'undefined') {
+      document.dispatchEvent(new CustomEvent('nav-depth-change', { detail: { tab: 'stores', depth } }));
+    }
+  }
+  $: (view, _reportNavDepth());
+
   // Friendly date formatter for lead cards (e.g. "Jun 29, 2026")
   function fmtLeadDate(s) {
     if (!s) return '';
@@ -871,6 +883,7 @@
     document.addEventListener('show-callin-leads', handleShowCallIn);
     document.addEventListener('universal-prospect-search', handleUniversalProspectSearch);
     document.addEventListener('reset-tab-view', handleResetTabView);
+    document.addEventListener('request-nav-depth', _reportNavDepth);
     loadStoreClaims();
     loadLeadClaims();
     loadAllLeadData();
@@ -924,6 +937,7 @@
     document.removeEventListener('edge-swipe-back', handleEdgeSwipeBack);
     document.removeEventListener('show-callin-leads', handleShowCallIn);
     document.removeEventListener('reset-tab-view', handleResetTabView);
+    document.removeEventListener('request-nav-depth', _reportNavDepth);
 
   });
 
