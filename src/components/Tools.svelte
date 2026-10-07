@@ -775,6 +775,56 @@ Store: ${store}
     }
   }
 
+  // ─── Training Library (Google Drive "0001 Training materials") ───
+  let trainingLibrary = null;        // { root_folder_id, categories: [...] }
+  let trainingLoading = false;
+  let trainingError = '';
+  let trainingSearch = '';
+  async function loadTrainingLibrary() {
+    if (trainingLibrary || trainingLoading) return;
+    trainingLoading = true;
+    trainingError = '';
+    try {
+      const res = await fetch(import.meta.env.BASE_URL + 'data/training_library.json?t=' + Date.now());
+      if (!res.ok) throw new Error('Failed to load');
+      trainingLibrary = await res.json();
+    } catch (err) {
+      trainingError = 'Could not load the training library. Tap “Open in Drive” below to browse all materials.';
+    } finally {
+      trainingLoading = false;
+    }
+  }
+  function trainingItemUrl(item) {
+    if (!item || !item.id) return '#';
+    return item.kind === 'folder'
+      ? `https://drive.google.com/drive/folders/${item.id}`
+      : `https://drive.google.com/file/d/${item.id}/view`;
+  }
+  function trainingIcon(kind) {
+    switch (kind) {
+      case 'folder': return '📁';
+      case 'video': return '🎥';
+      case 'sheet': return '📊';
+      case 'doc': return '📝';
+      case 'pdf': return '📄';
+      default: return '🔗';
+    }
+  }
+  // Filtered view of the library honoring the search box.
+  $: trainingFiltered = (() => {
+    if (!trainingLibrary) return [];
+    const q = trainingSearch.trim().toLowerCase();
+    if (!q) return trainingLibrary.categories;
+    return trainingLibrary.categories
+      .map(cat => ({
+        ...cat,
+        items: cat.items.filter(it =>
+          it.name.toLowerCase().includes(q) || cat.title.toLowerCase().includes(q)
+        ),
+      }))
+      .filter(cat => cat.items.length > 0);
+  })();
+
   async function searchTestimonials() {
     if (!testimonialQuery.trim()) {
       testimonialResults = [];
@@ -899,8 +949,8 @@ Store: ${store}
 <div class="tools-container">
   <!-- Main Tools Menu -->
   {#if view === 'main'}
-    <h2>🛠️ Tools</h2>
-    <p class="subtitle">Sales support & management tools</p>
+    <h2>🛠️ Tools & Training</h2>
+    <p class="subtitle">Sales support, management tools & training library</p>
 
     <div class="button-grid">
       <button class="main-btn" on:click={() => view = 'roi'}
@@ -934,6 +984,13 @@ Store: ${store}
         <div class="btn-icon">🎨</div>
         <div class="btn-text">Counter Sign</div>
         <div class="btn-desc">Generate counter signs</div>
+      </button>
+
+      <button class="main-btn" on:click={() => { view = 'training'; loadTrainingLibrary(); }}
+        use:addToHome={{ label: 'Training Library', icon: '🎓', tab: 'tools' }}>
+        <div class="btn-icon">🎓</div>
+        <div class="btn-text">Training Library</div>
+        <div class="btn-desc">Contracts, scripts, videos & resources</div>
       </button>
 
       <button class="main-btn" on:click={() => view = 'submit-testimonial'}>
@@ -1296,6 +1353,67 @@ Store: ${store}
       </div>
     {:else if testimonialQuery && !testimonialLoading}
       <p class="hint">Press Enter or click Search to find testimonials</p>
+    {/if}
+  {/if}
+
+  <!-- Training Library -->
+  {#if view === 'training'}
+    <button class="back-btn" on:click={goBack}>← Back</button>
+    <h2>🎓 Training Library</h2>
+    <p class="subtitle">Contracts, scripts, presentations, videos & reference materials</p>
+
+    <a
+      class="video-testimonials-banner"
+      href="https://drive.google.com/drive/folders/{trainingLibrary?.root_folder_id || '1h1BVrCR7SttuszR-AsqKHsErR4xar43f'}"
+      target="_blank"
+      rel="noopener"
+    >
+      <span class="vt-icon">📁</span>
+      <span class="vt-text">
+        <strong>Open full library in Google Drive</strong>
+        <small>Browse everything in the “0001 Training materials” folder →</small>
+      </span>
+    </a>
+
+    <div class="search-box">
+      <input
+        type="text"
+        placeholder="Search materials (e.g. contract, script, video, ROI)..."
+        bind:value={trainingSearch}
+      />
+    </div>
+
+    {#if trainingLoading}
+      <p class="hint">Loading library…</p>
+    {/if}
+    {#if trainingError}
+      <div class="error-card">{trainingError}</div>
+    {/if}
+
+    {#if trainingLibrary}
+      {#each trainingFiltered as cat}
+        <div class="training-category">
+          <h3 class="training-cat-title">{cat.icon} {cat.title}</h3>
+          <p class="training-cat-desc">{cat.desc}</p>
+          <div class="training-list">
+            {#each cat.items as item}
+              <a
+                class="training-item"
+                href={trainingItemUrl(item)}
+                target="_blank"
+                rel="noopener"
+              >
+                <span class="training-item-icon">{trainingIcon(item.kind)}</span>
+                <span class="training-item-name">{item.name}</span>
+                <span class="training-item-arrow">→</span>
+              </a>
+            {/each}
+          </div>
+        </div>
+      {/each}
+      {#if trainingSearch.trim() && trainingFiltered.length === 0}
+        <p class="hint">No materials match “{trainingSearch}”. Try the full Drive library above.</p>
+      {/if}
     {/if}
   {/if}
 
@@ -2468,6 +2586,57 @@ Store: ${store}
   .video-testimonials-banner .vt-text { display: flex; flex-direction: column; }
   .video-testimonials-banner .vt-text strong { font-size: 16px; font-weight: 800; }
   .video-testimonials-banner .vt-text small { font-size: 12px; opacity: 0.9; }
+
+  /* Training Library */
+  .training-category { margin: 0 0 20px; }
+  .training-cat-title {
+    font-size: 16px;
+    font-weight: 800;
+    margin: 0 0 2px;
+    color: var(--text-primary, #222);
+  }
+  .training-cat-desc {
+    font-size: 12px;
+    color: #888;
+    margin: 0 0 10px;
+  }
+  .training-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .training-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 13px 14px;
+    background: var(--card-bg, #fff);
+    border: 1px solid var(--border-color, #e6e6e6);
+    border-radius: 11px;
+    text-decoration: none;
+    color: var(--text-primary, #222);
+    transition: transform 0.08s ease, box-shadow 0.15s ease, border-color 0.15s ease;
+  }
+  .training-item:active {
+    transform: scale(0.985);
+    border-color: var(--accent-color, #2563eb);
+  }
+  .training-item-icon { font-size: 20px; line-height: 1; flex-shrink: 0; }
+  .training-item-name {
+    flex: 1;
+    min-width: 0;
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 1.25;
+    overflow-wrap: break-word;
+    word-break: normal;
+  }
+  .training-item-arrow {
+    font-size: 16px;
+    color: var(--accent-color, #2563eb);
+    flex-shrink: 0;
+    opacity: 0.7;
+  }
 
   .testimonial-item {
     padding: 12px 0;
