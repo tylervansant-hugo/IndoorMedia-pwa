@@ -42,28 +42,44 @@
       "short_name": "Call-In Lead",
       "description": "Log a new call-in lead",
       "url": "/IndoorMedia-pwa/?action=callin",
-      "icons": [{ "src": "/IndoorMedia-pwa/icon-192-maskable.png", "sizes": "192x192", "type": "image/png" }]
+      "icons": [
+        { "src": "/IndoorMedia-pwa/sc-callin-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+        { "src": "/IndoorMedia-pwa/sc-callin-192-maskable.png", "sizes": "192x192", "type": "image/png", "purpose": "maskable" },
+        { "src": "/IndoorMedia-pwa/sc-callin-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" }
+      ]
     },
     {
       "name": "Prospect a Store",
       "short_name": "Prospect",
       "description": "Open the prospecting tab",
       "url": "/IndoorMedia-pwa/?action=prospects",
-      "icons": [{ "src": "/IndoorMedia-pwa/icon-192-maskable.png", "sizes": "192x192", "type": "image/png" }]
+      "icons": [
+        { "src": "/IndoorMedia-pwa/sc-prospect-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+        { "src": "/IndoorMedia-pwa/sc-prospect-192-maskable.png", "sizes": "192x192", "type": "image/png", "purpose": "maskable" },
+        { "src": "/IndoorMedia-pwa/sc-prospect-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" }
+      ]
     },
     {
       "name": "New Quote / Cart",
       "short_name": "Quote",
       "description": "Open the cart to build a quote",
       "url": "/IndoorMedia-pwa/?action=cart",
-      "icons": [{ "src": "/IndoorMedia-pwa/icon-192-maskable.png", "sizes": "192x192", "type": "image/png" }]
+      "icons": [
+        { "src": "/IndoorMedia-pwa/sc-quote-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+        { "src": "/IndoorMedia-pwa/sc-quote-192-maskable.png", "sizes": "192x192", "type": "image/png", "purpose": "maskable" },
+        { "src": "/IndoorMedia-pwa/sc-quote-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" }
+      ]
     },
     {
       "name": "Book Appointment",
       "short_name": "Book Appt",
       "description": "Create a calendar appointment",
       "url": "/IndoorMedia-pwa/?action=book-appt",
-      "icons": [{ "src": "/IndoorMedia-pwa/icon-192-maskable.png", "sizes": "192x192", "type": "image/png" }]
+      "icons": [
+        { "src": "/IndoorMedia-pwa/sc-appt-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+        { "src": "/IndoorMedia-pwa/sc-appt-192-maskable.png", "sizes": "192x192", "type": "image/png", "purpose": "maskable" },
+        { "src": "/IndoorMedia-pwa/sc-appt-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" }
+      ]
     }
   ],
   "prefer_related_applications": false
