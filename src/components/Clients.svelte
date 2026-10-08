@@ -299,6 +299,32 @@
   let autoCsBusy = {};      // { [message_id]: true } while generating
   let autoCsMsg = {};       // { [message_id]: 'status text' }
   let autoCsCardRep = {};   // { [message_id]: 'Rep Name' } -> override whose CARD to use
+  let autoCsChainOverride = {}; // { [message_id]: 'SAF' } -> manual chain pick when none is auto-detected
+
+  // Alphabetical chain-code list for the manual fallback dropdown (ALB, SAF, FME, ...).
+  // Collapses the name->code map to unique codes, labeled "CODE — Chain Name".
+  $: chainCodeOptions = (() => {
+    const byCode = {};
+    for (const [name, code] of Object.entries(chainMap || {})) {
+      if (!code) continue;
+      // Prefer the shortest/cleanest display name per code.
+      if (!byCode[code] || name.length < byCode[code].length) byCode[code] = name;
+    }
+    return Object.entries(byCode)
+      .map(([code, name]) => ({ code, name, label: `${code} — ${name}` }))
+      .sort((a, b) => a.code.localeCompare(b.code));
+  })();
+
+  // Only the AUTO-detected chain (ignores the manual override) — used to decide
+  // whether to show the manual dropdown fallback.
+  function csAutoDetectChain(proof) {
+    return detectChainCode(proof.store) || detectChainCode(proof.location)
+      || detectChainCode(proof.subject) || null;
+  }
+  // The chain code used for a proof: auto-detected, else the manual override.
+  function csChainCodeFor(proof) {
+    return csAutoDetectChain(proof) || autoCsChainOverride[proof.message_id] || null;
+  }
 
   // Reps that have a business card on file (for the override dropdown).
   $: cardRepNames = repCards.map(c => c.display_name).filter(Boolean).sort();
@@ -401,9 +427,11 @@
     autoCsBusy = { ...autoCsBusy, [id]: true };
     autoCsMsg = { ...autoCsMsg, [id]: 'Working…' };
     try {
-      // 1. Chain code from the proof store/location text.
-      const chainCode = detectChainCode(proof.store) || detectChainCode(proof.location) || detectChainCode(proof.subject);
-      if (!chainCode) throw new Error('Could not detect a store chain with a counter-sign template from "' + (proof.store || proof.location || '?') + '".');
+      // 1. Chain code from the proof store/location text; fall back to the
+      //    manually-picked chain from the dropdown when nothing is detected.
+      const chainCode = detectChainCode(proof.store) || detectChainCode(proof.location)
+        || detectChainCode(proof.subject) || autoCsChainOverride[proof.message_id] || null;
+      if (!chainCode) throw new Error('No store chain detected from "' + (proof.store || proof.location || '?') + '". Pick a store chain from the dropdown and try again.');
 
       // 2. Ad proof image -> File.
       if (!proof.image_url) throw new Error('This ad proof has no image attached.');
@@ -1829,6 +1857,19 @@ IndoorMedia`;
                 <p class="auto-cs-hint">
                   Detects the store chain, uses <strong>{csContractRep(proof) || 'the contract rep'}</strong>'s landing-page QR (from this contract's Sales Rep), and drops in this ad proof.
                 </p>
+                {#if csAutoDetectChain(proof)}
+                  <p class="auto-cs-chain-ok">🏬 Store chain detected: <strong>{csAutoDetectChain(proof)}</strong></p>
+                {:else}
+                  <div class="auto-cs-chainpick">
+                    <label>⚠️ No store chain detected — select one:</label>
+                    <select bind:value={autoCsChainOverride[proof.message_id]}>
+                      <option value="">— Select store chain —</option>
+                      {#each chainCodeOptions as opt}
+                        <option value={opt.code}>{opt.label}</option>
+                      {/each}
+                    </select>
+                  </div>
+                {/if}
                 <div class="auto-cs-reppick">
                   <label>Business card:</label>
                   <select bind:value={autoCsCardRep[proof.message_id]}>
@@ -1842,11 +1883,11 @@ IndoorMedia`;
                   <p class="auto-cs-status warn">⚠️ No card on file for {csCardRepFor(proof) || 'this rep'} — pick another rep's card above, or the sign generates without a card.</p>
                 {/if}
                 <div class="auto-cs-btns">
-                  <button class="auto-cs-btn" disabled={autoCsBusy[proof.message_id] || !proof.image_url}
+                  <button class="auto-cs-btn" disabled={autoCsBusy[proof.message_id] || !proof.image_url || !csChainCodeFor(proof)}
                     on:click={() => autoGenerateCounterSign(proof, 'clean')}>
                     {autoCsBusy[proof.message_id] ? '⏳ Generating…' : '✨ Generate (Clean)'}
                   </button>
-                  <button class="auto-cs-btn secondary" disabled={autoCsBusy[proof.message_id] || !proof.image_url}
+                  <button class="auto-cs-btn secondary" disabled={autoCsBusy[proof.message_id] || !proof.image_url || !csChainCodeFor(proof)}
                     on:click={() => autoGenerateCounterSign(proof, 'classic')}>
                     🏷️ Classic
                   </button>
@@ -2200,6 +2241,12 @@ IndoorMedia`;
   .auto-cs-reppick { display: flex; align-items: center; gap: 8px; margin-bottom: 10px; }
   .auto-cs-reppick label { font-size: 12px; font-weight: 700; color: #0b8043; white-space: nowrap; }
   .auto-cs-reppick select { flex: 1 1 0; min-width: 0; padding: 8px 10px; border-radius: 8px; border: 1px solid #0b8043; background: #fff; font-size: 13px; color: #333; }
+  .auto-cs-chain-ok { margin: 0 0 10px; font-size: 12px; font-weight: 600; color: #0b8043; }
+  .auto-cs-chainpick { display: flex; flex-direction: column; gap: 6px; margin-bottom: 10px; padding: 10px; border: 1px dashed #e65100; background: #fff8f2; border-radius: 8px; }
+  .auto-cs-chainpick label { font-size: 12px; font-weight: 700; color: #e65100; }
+  .auto-cs-chainpick select { width: 100%; box-sizing: border-box; padding: 9px 10px; border-radius: 8px; border: 1px solid #e65100; background: #fff; font-size: 13px; color: #333; }
+  :global([data-theme='dark']) .auto-cs-chainpick { background: #3a2110; border-color: #a65a28; }
+  :global([data-theme='dark']) .auto-cs-chainpick select { background: #2a2a2a; color: #eee; border-color: #a65a28; }
   .auto-cs-btns { display: flex; gap: 8px; flex-wrap: wrap; }
   .auto-cs-btn { flex: 1 1 0; min-width: 0; padding: 11px 12px; border-radius: 8px; border: none; background: #0b8043; color: #fff; font-size: 13px; font-weight: 700; cursor: pointer; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
   .auto-cs-btn.secondary { flex: 0 0 auto; background: #fff; color: #0b8043; border: 1px solid #0b8043; }
