@@ -3967,6 +3967,125 @@ IndoorMedia`
       view = 'main';
     }
   }
+
+  // ── OBJECTIONS & REBUTTALS (from Appointment Setting Packet) ──────────────
+  // Quick comebacks for reps while live on a call. Tap an objection to expand.
+  // The "phrase that pays" closes nearly every rebuttal: "My product works! And it's so low cost!"
+  const OBJECTIONS = [
+    {
+      id: 'budget',
+      q: '\"I just spent all my advertising budget.\"',
+      tags: ['budget', 'money', 'spent', 'afford', 'expensive', 'cost'],
+      rebuttals: [
+        "Boy am I glad you said that. It's amazing how many of our customers felt the same way until they found out how well it's working for their business neighbors. Again \u2014 my product works, and it's so low cost!",
+        "First off, congratulations on having a budget \u2014 most business people I deal with don't. A budget is a guideline; once you see the responses my other clients get and how inexpensive it is, I'm sure you can find a way to make room. My product works, and it's so low cost!"
+      ]
+    },
+    {
+      id: 'tried-before',
+      q: '\"I tried it before and it doesn\u2019t work.\"',
+      tags: ['tried', 'before', "doesn't work", 'failed', 'didnt work', 'past'],
+      rebuttals: [
+        "(If you know they've been on before) There are only two reasons our product wouldn't work: either the layout/offer was lacking, or the store didn't install the paper. I'm an expert at design and offers and I'll get it working for you. My product works, and it's so low cost!",
+        "The register tape product has changed so much over the last few years \u2014 it's become a much more accepted, mainstream media. Our sales are up 500% in the last four years and renewal rates are through the roof. My product works, and it's so low cost!",
+        "Most owners who say \u2018it doesn't work' never actually tried OUR product \u2014 they did a coupon with a different company that failed and lumped us in with it. This isn't 1 of 70 coupons in a mailer or hung on a door. I have the one place every potential customer has to go. 85% of the store's shoppers use coupons or a club card, and 2,000\u20135,000 times a day I put your coupon into a coupon-user's hands. My product works, and it's so low cost!"
+      ]
+    },
+    {
+      id: 'never-look',
+      q: '\"I shop there and never look at them / people don\u2019t look at those coupons.\"',
+      tags: ['never look', "don't look", 'coupons', 'ignore', 'nobody looks'],
+      rebuttals: [
+        "I can appreciate that \u2014 most business owners are too busy to clip coupons. The fact is 85%+ of the shoppers there use coupons or their club card to save on groceries. All I do, 2,000\u20135,000 times a day, is put your coupon into a coupon-user's hands. My product works, and it's so low cost!",
+        "You sound like someone who keeps up with the news \u2014 you've seen the stories about coupon usage at all-time highs. All I do is put your coupon into a coupon-user's hands. My product works, and it's so low cost!",
+        "Between the clients that have been on and renewing, there are hundreds of coupons being redeemed every week. The shoppers know they're there. My product works, and it's so low cost!",
+        "Let me ask you \u2014 how many people go to the grocery store to find a dentist? (Probably none.) Yet Dr. Watson across from the store just renewed and wrote me a letter saying it's the best patient-referral program he's ever used. Imagine what I can do for you. And it's so low cost!",
+        "85% of shoppers use coupons or their club card now, and ours are done in such high-impact color you can't help but notice them. My product works, and it's so low cost!"
+      ]
+    },
+    {
+      id: 'all-business',
+      q: '\"I have all the business I can handle.\"',
+      tags: ['all the business', 'busy', 'too busy', 'handle', 'full', 'slammed'],
+      rebuttals: [
+        "I'm sure if I brought my clothes to you in the next couple hours you wouldn't turn me away! We're not like other media that gives a quick, chaotic burst that overwhelms you for a week and dies \u2014 we drive a steady, growing response. My product works, and it's so low cost!",
+        "The time to keep things going is when they're good. Buy your media while business is strong, and it's not a burden to come up with money when things get slow. My product works, and it's so low cost!"
+      ]
+    },
+    {
+      id: 'no-coupons',
+      q: '\"I don\u2019t do coupons.\"',
+      tags: ["don't do coupons", 'no coupons', 'discount', 'no discount'],
+      rebuttals: [
+        "You'd be amazed what running an ad with value to your target consumer will do. Many of my restaurants tell me the average ticket of a table using our coupon is actually HIGHER than tables without one. My product works, and it's so low cost!",
+        "There are many ways to design this so it does exactly what you need. I even have letters from advertisers who don't run a coupon, bragging about how many customers mentioned they saw their ad on the tape. My product works, and it's so low cost!",
+        "Many of our clients don't discount at all \u2014 they just get their name in front of ~2,000 families a day. They don't need you while they're shopping or putting groceries away \u2014 but when they DO need your type of business, they go to the name they've seen most often: the one handed to them 2\u20133 times every week. My product works, and it's so low cost!"
+      ]
+    },
+    {
+      id: 'thrown-away',
+      q: '\"Those coupons just get thrown away.\"',
+      tags: ['thrown away', 'trash', 'garbage', 'throw away', 'waste'],
+      rebuttals: [
+        "I'd be lying if I said everyone looked at them. But even if just one in a hundred used them, you'd get back 8,000 coupons over the year. My product works, and it's so low cost!"
+      ]
+    },
+    {
+      id: 'wrong-time',
+      q: '\"It\u2019s the wrong time of year.\"',
+      tags: ['wrong time', 'time of year', 'season', 'slow season', 'later'],
+      rebuttals: [
+        "We have seasonal businesses running with us all over the country \u2014 you can make the ad more or less aggressive each quarter based on when you need traffic. It's never the wrong time to keep your name in the hands of thousands of shoppers a week who live within 3 miles. My product works, and it's so low cost!",
+        "The adage in marketing is 'advertise when you're busy and promote when you're slow.' Notice when Coke, Pepsi, and McDonald's spend most of their budget? When they're busiest. And it's so low cost!"
+      ]
+    },
+    {
+      id: 'across-street',
+      q: '\"I\u2019m right across from the store / everyone knows I\u2019m here.\"',
+      tags: ['across the street', 'next to', 'everyone knows', 'close to store', 'right there'],
+      rebuttals: [
+        "There are 5 other businesses like yours within a mile. All I do, 2,000\u20135,000 times a day, is give everyone headed to your competitor a reason to come try you instead. My product works, and it's so low cost!",
+        "That store runs 18,000 transactions a week. If we polled the first 100 shoppers leaving whether they'd ever been to your business, the answer would be an overwhelming no. I won't get them all, but definitely more than you're getting now. My product works, and it's so low cost!",
+        "I have letters from customers all over the country who thought the same thing \u2014 then wrote to tell us how many people didn't realize they were right across from the store until they got the coupon. I'm confident we can surprise you too. My product works, and it's so low cost!"
+      ]
+    },
+    {
+      id: 'years-in-business',
+      q: '\"I\u2019ve been in business for years \u2014 I don\u2019t need to advertise.\"',
+      tags: ['years', 'established', "don't need to advertise", 'word of mouth', 'regulars'],
+      rebuttals: [
+        "The average area has a 15\u201325% turnover from move-ins and move-outs \u2014 and those move-outs include the loyal customers you've had for years. When new people move into the neighborhood, the first place they go is the grocery store. Yours is the first message they get. My product works, and it's so low cost!"
+      ]
+    },
+    {
+      id: 'professional',
+      q: '\"I\u2019m a professional \u2014 that\u2019s not the right image for me.\"',
+      tags: ['professional', 'image', 'doctor', 'dentist', 'lawyer', 'not for me'],
+      rebuttals: [
+        "I understand \u2014 and the supermarket is one of the most trusted places in town. People buy their family's food there, which is exactly why Fortune 500 companies like Procter & Gamble and Colgate market in the supermarket. Doesn't it make sense to have people receive your message in that high-trust environment? And it's so low cost!",
+        "We service over 9,000 grocery stores in North America, and a significant portion of our revenue comes from professionals just like you. Your patient base is the same group as my pizza place's \u2014 residents within a 4-mile radius \u2014 and I have the one place they all have to go. My product works, and it's so low cost!",
+        "I'm glad you said that \u2014 it's not just pizza shops and salons using our ads. I have a stack of letters from caterers, optometrists, craft stores, day cares, even well diggers, all saying the same thing: 'It brings me money and business.' Some were skeptical at first, but it really works. And it's so low cost!"
+      ]
+    },
+    {
+      id: 'wrong-store',
+      q: '\"My customers don\u2019t shop at that store.\"',
+      tags: ["don't shop there", 'wrong store', 'different store', 'my customers'],
+      rebuttals: [
+        "That just tells me how important I am to you \u2014 I have the least expensive way to pull a customer who lives within 3 miles that you're NOT getting now. My product works, and it's so low cost!",
+        "I'm sure if you hung a sign saying 'no shoppers from that store allowed,' your business would drop off dramatically. I have a fantastic way of getting you into the hands and minds of those shoppers. My product works, and it's so low cost!"
+      ]
+    },
+    {
+      id: 'if-other-store',
+      q: '\"If it were the [other store] I\u2019d do it.\"',
+      tags: ['other store', 'different chain', 'if it were', 'competitor store'],
+      rebuttals: [
+        "If you watched three different supermarket parking lots on a Saturday morning, you'd see the same cars going to each \u2014 one for meat, one for produce, another for the sale flyer. That's why they're called shoppers: people shop the ads and go where the items they need are on sale. My product works, and it's so low cost!"
+      ]
+    }
+  ];
+  const PHRASE_THAT_PAYS = "My product works! And it's so low cost!";
 </script>
 
 <div class="prospects-container">
@@ -4766,7 +4885,8 @@ IndoorMedia`
             <!-- Row 3: Sales tools -->
             <button class="action-btn btn-add-product" on:click={() => openContractForProspect(prospect)}>📄 Add Products / Contract</button>
             <div class="action-row">
-              <button class="action-btn btn-outline" on:click={() => { prospect._showScript = !prospect._showScript; prospect._showEmail = false; prospect._showNotes = false; prospects = prospects; }}>📋 Scripts</button>
+              <button class="action-btn btn-outline" on:click={() => { prospect._showScript = !prospect._showScript; prospect._showEmail = false; prospect._showNotes = false; prospect._showObjections = false; prospects = prospects; }}>📋 Scripts</button>
+              <button class="action-btn btn-objections" on:click={() => { prospect._showObjections = !prospect._showObjections; prospect._showScript = false; prospect._showEmail = false; prospect._showNotes = false; prospects = prospects; }}>🛡️ Objections</button>
               <button class="action-btn btn-outline" on:click={async () => { 
                 prospect._showTestimonials = !prospect._showTestimonials;
                 if (prospect._showTestimonials) {
@@ -4831,6 +4951,37 @@ IndoorMedia`
                     alert('✅ Script copied!');
                   }}>📋 Copy Script</button>
                 </div>
+              {/if}
+            </div>
+          {/if}
+          {#if prospect._showObjections}
+            <!-- OBJECTIONS & REBUTTALS - quick comebacks for live calls -->
+            <div class="objections-section">
+              <h4 class="objections-title">🛡️ Objections &amp; Rebuttals</h4>
+              <p class="objections-hint">Tap an objection to see the comeback. Close with the phrase that pays:</p>
+              <p class="phrase-that-pays">💰 “{PHRASE_THAT_PAYS}”</p>
+              <input type="text" class="objections-search" placeholder="🔍 Search objections (e.g. budget, coupons, busy)…" bind:value={prospect._objSearch} on:click|stopPropagation />
+              {#each OBJECTIONS.filter(o => { const q = (prospect._objSearch || '').toLowerCase().trim(); if (!q) return true; return o.q.toLowerCase().includes(q) || o.tags.some(t => t.includes(q)) || o.rebuttals.some(r => r.toLowerCase().includes(q)); }) as obj (obj.id)}
+                <div class="objection-card" class:open={prospect._openObjection === obj.id}>
+                  <button class="objection-q" on:click={() => { prospect._openObjection = prospect._openObjection === obj.id ? null : obj.id; prospects = prospects; }}>
+                    <span class="objection-q-text">{obj.q}</span>
+                    <span class="objection-arrow">{prospect._openObjection === obj.id ? '−' : '+'}</span>
+                  </button>
+                  {#if prospect._openObjection === obj.id}
+                    <div class="objection-rebuttals">
+                      {#each obj.rebuttals as reb, i}
+                        <div class="rebuttal-row">
+                          {#if obj.rebuttals.length > 1}<span class="rebuttal-num">{i + 1}</span>{/if}
+                          <p class="rebuttal-text">{reb}</p>
+                          <button class="rebuttal-copy" title="Copy" on:click|stopPropagation={() => { navigator.clipboard.writeText(reb); prospect._copiedReb = obj.id + '-' + i; prospects = prospects; setTimeout(() => { prospect._copiedReb = null; prospects = prospects; }, 1200); }}>{prospect._copiedReb === obj.id + '-' + i ? '✅' : '📋'}</button>
+                        </div>
+                      {/each}
+                    </div>
+                  {/if}
+                </div>
+              {/each}
+              {#if OBJECTIONS.filter(o => { const q = (prospect._objSearch || '').toLowerCase().trim(); if (!q) return true; return o.q.toLowerCase().includes(q) || o.tags.some(t => t.includes(q)) || o.rebuttals.some(r => r.toLowerCase().includes(q)); }).length === 0}
+                <p class="no-objections">No match. Try “budget”, “coupons”, “busy”, “tried before”…</p>
               {/if}
             </div>
           {/if}
@@ -6966,6 +7117,127 @@ IndoorMedia`
     color: var(--text-secondary);
   }
   .script-notes li { margin-bottom: 6px; }
+
+  /* ── OBJECTIONS & REBUTTALS ────────────────────────────── */
+  .btn-objections {
+    background: #fff3e0 !important;
+    color: #e65100 !important;
+    border: 1px solid #ffb74d !important;
+    font-weight: 700 !important;
+  }
+  .btn-objections:hover { background: #ffe0b2 !important; border-color: #fb8c00 !important; }
+  .objections-section {
+    margin-top: 12px;
+    padding: 14px;
+    background: var(--card-bg, #fafafa);
+    border: 1px solid var(--border-color, #eee);
+    border-radius: 12px;
+  }
+  .objections-title { margin: 0 0 6px; font-size: 15px; color: var(--text-primary); }
+  .objections-hint { margin: 0 0 6px; font-size: 12px; color: var(--text-secondary, #777); }
+  .phrase-that-pays {
+    margin: 0 0 12px;
+    padding: 8px 10px;
+    background: #fff8e1;
+    border: 1px dashed #f9a825;
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 800;
+    color: #e65100;
+    text-align: center;
+  }
+  .objections-search {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 10px 12px;
+    margin-bottom: 10px;
+    border: 1px solid var(--border-color, #ddd);
+    border-radius: 10px;
+    font-size: 14px;
+    background: var(--input-bg, #fff);
+    color: var(--text-primary, #222);
+  }
+  .objection-card {
+    border: 1px solid var(--border-color, #e4e4e4);
+    border-radius: 10px;
+    margin-bottom: 8px;
+    overflow: hidden;
+    background: var(--input-bg, #fff);
+  }
+  .objection-card.open { border-color: #fb8c00; box-shadow: 0 2px 8px rgba(251, 140, 0, 0.15); }
+  .objection-q {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    padding: 12px 14px;
+    background: none;
+    border: none;
+    text-align: left;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--text-primary, #222);
+  }
+  .objection-q-text { flex: 1; min-width: 0; line-height: 1.3; }
+  .objection-arrow {
+    flex: none;
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: #fff3e0;
+    color: #e65100;
+    font-size: 18px;
+    font-weight: 800;
+    line-height: 1;
+  }
+  .objection-rebuttals { padding: 2px 14px 12px; }
+  .rebuttal-row {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    padding: 10px 0;
+    border-top: 1px solid var(--border-color, #f0f0f0);
+  }
+  .rebuttal-row:first-child { border-top: none; }
+  .rebuttal-num {
+    flex: none;
+    width: 20px;
+    height: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: #e65100;
+    color: #fff;
+    font-size: 11px;
+    font-weight: 800;
+    margin-top: 2px;
+  }
+  .rebuttal-text {
+    flex: 1;
+    min-width: 0;
+    margin: 0;
+    font-size: 14px;
+    line-height: 1.5;
+    color: var(--text-primary, #333);
+  }
+  .rebuttal-copy {
+    flex: none;
+    padding: 4px 8px;
+    background: none;
+    border: 1px solid var(--border-color, #ddd);
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 14px;
+    line-height: 1;
+  }
+  .rebuttal-copy:hover { background: var(--card-bg, #f5f5f5); }
+  .no-objections { font-size: 13px; color: var(--text-secondary, #888); text-align: center; padding: 10px; }
 
   .note-saved { margin: 4px 0 0; font-size: 11px; color: #2e7d32; font-weight: 600; text-align: right; }
 
