@@ -4410,11 +4410,13 @@ IndoorMedia`
           <div class="prospect-header">
             <span class="score-emoji">{prospect.score >= 80 ? '🔥' : prospect.score >= 70 ? '⭐' : '👀'}</span>
             <h4>{prospect.name}</h4>
+            <span class="score-badge" class:score-hot={prospect.score >= 80} class:score-warm={prospect.score >= 70 && prospect.score < 80} class:score-cool={prospect.score < 70} title="Prospect score">{prospect.score}%</span>
           </div>
           <p class="prospect-address" style="cursor:pointer;" on:click={() => { navigator.clipboard.writeText(prospect.address); copiedAddress = prospect.address; setTimeout(() => copiedAddress = '', 2000); }}>📍 {copiedAddress === prospect.address ? '✅ Copied!' : prospect.address}</p>
-          <p class="prospect-meta">
-            ⭐ {prospect.rating.toFixed(1)} ({prospect.reviews} reviews){prospect.distance != null ? ` • ${prospect.distance} mi` : ''} • Score: {prospect.score}%
-          </p>
+          <div class="prospect-meta">
+            <span class="meta-pill meta-rating">⭐ {prospect.rating.toFixed(1)} <small>({prospect.reviews})</small></span>
+            {#if prospect.distance != null}<span class="meta-pill meta-dist">📍 {prospect.distance} mi</span>{/if}
+          </div>
           {#if prospect._adSpend != null}
             <div class="hotlist-signals">
               <button class="hl-chip hl-spend hl-tappable" on:click|stopPropagation={() => { prospect._showAdSignals = !prospect._showAdSignals; prospects = prospects; }} title="Tap to see the advertising signals behind this">💰 Ad spend: {prospect._adSpend >= 70 ? 'High' : prospect._adSpend >= 45 ? 'Medium' : 'Low'} <span class="hl-caret">{prospect._showAdSignals ? '▲' : '▼'}</span></button>
@@ -4884,16 +4886,20 @@ IndoorMedia`
 
             <!-- Row 3: Sales tools -->
             <button class="action-btn btn-add-product" on:click={() => openContractForProspect(prospect)}>📄 Add Products / Contract</button>
-            <div class="action-row">
-              <button class="action-btn btn-outline" on:click={() => { prospect._showScript = !prospect._showScript; prospect._showEmail = false; prospect._showNotes = false; prospect._showObjections = false; prospects = prospects; }}>📋 Scripts</button>
-              <button class="action-btn btn-objections" on:click={() => { prospect._showObjections = !prospect._showObjections; prospect._showScript = false; prospect._showEmail = false; prospect._showNotes = false; prospects = prospects; }}>🛡️ Objections</button>
-              <button class="action-btn btn-outline" on:click={async () => { 
-                prospect._showTestimonials = !prospect._showTestimonials;
-                if (prospect._showTestimonials) {
-                  prospect._testimonialData = await getTestimonialsForCategory();
-                }
-                prospects = prospects;
-              }}>⭐ Testimonials</button>
+            <div class="sales-tools-seg">
+              <span class="seg-label">Sales Tools</span>
+              <div class="seg-group">
+                <button class="seg-btn" class:seg-active={prospect._showScript} on:click={() => { prospect._showScript = !prospect._showScript; prospect._showEmail = false; prospect._showNotes = false; prospect._showObjections = false; prospect._showTestimonials = false; prospects = prospects; }}>📋 Scripts</button>
+                <button class="seg-btn" class:seg-active={prospect._showObjections} on:click={() => { prospect._showObjections = !prospect._showObjections; prospect._showScript = false; prospect._showEmail = false; prospect._showNotes = false; prospect._showTestimonials = false; prospects = prospects; }}>🛡️ Objections</button>
+                <button class="seg-btn" class:seg-active={prospect._showTestimonials} on:click={async () => { 
+                  prospect._showTestimonials = !prospect._showTestimonials;
+                  prospect._showScript = false; prospect._showObjections = false;
+                  if (prospect._showTestimonials) {
+                    prospect._testimonialData = await getTestimonialsForCategory();
+                  }
+                  prospects = prospects;
+                }}>⭐ Testimonials</button>
+              </div>
             </div>
           {#if prospect._showScript}
             <!-- CALL SCRIPTS FEATURE - LIVE AS OF MAR 30 2026 -->
@@ -6825,10 +6831,10 @@ IndoorMedia`
 
   .prospect-card {
     background: var(--card-bg, #ffffff);
-    border-radius: 12px;
-    padding: 16px;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
-    border: 1px solid #e8e8e8;
+    border-radius: 16px;
+    padding: 18px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.07);
+    border: 1px solid #ececec;
     color: var(--text-primary);
     transition: box-shadow 0.2s;
     position: relative;
@@ -6846,11 +6852,86 @@ IndoorMedia`
     border-color: #333;
   }
 
-  .prospect-header { display: flex; align-items: center; gap: 6px; margin-bottom: 6px; }
-  .score-emoji { font-size: 18px; }
-  .prospect-card h4 { margin: 0; color: var(--text-primary); font-weight: 600; font-size: 15px; }
-  .prospect-address { margin: 4px 0; font-size: 13px; color: var(--text-secondary); }
-  .prospect-meta { margin: 6px 0; font-size: 12px; color: var(--text-tertiary); }
+  .prospect-header { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; }
+  .score-emoji { font-size: 20px; flex: none; }
+  .prospect-card h4 { margin: 0; color: var(--text-primary); font-weight: 700; font-size: 16px; flex: 1; min-width: 0; line-height: 1.25; }
+  .score-badge {
+    flex: none;
+    font-size: 13px;
+    font-weight: 800;
+    padding: 4px 10px;
+    border-radius: 999px;
+    letter-spacing: 0.2px;
+    color: #fff;
+    white-space: nowrap;
+  }
+  .score-badge.score-hot { background: linear-gradient(135deg, #ff6d00, #e53935); }
+  .score-badge.score-warm { background: linear-gradient(135deg, #fbc02d, #f57f17); }
+  .score-badge.score-cool { background: #90a4ae; }
+  .prospect-address { margin: 4px 0; font-size: 13px; color: var(--text-secondary); line-height: 1.35; }
+  .prospect-meta { display: flex; flex-wrap: wrap; gap: 6px; margin: 8px 0; }
+  .meta-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 3px;
+    font-size: 12px;
+    font-weight: 600;
+    padding: 3px 9px;
+    border-radius: 999px;
+    background: var(--bg-secondary, #f2f3f5);
+    color: var(--text-secondary, #555);
+    border: 1px solid var(--border-color, #e6e6e6);
+  }
+  .meta-pill small { font-weight: 500; opacity: 0.75; }
+  .meta-rating { color: #b26a00; background: #fff8e1; border-color: #ffe0a3; }
+  :global([data-theme='dark']) .meta-pill { background: #2a2a2a; border-color: #3a3a3a; color: #bbb; }
+  :global([data-theme='dark']) .meta-rating { background: #3a2f12; border-color: #5a4a1c; color: #ffcf6b; }
+
+  /* ── Sales Tools segmented control ──────────────────── */
+  .sales-tools-seg { margin-top: 2px; }
+  .seg-label {
+    display: block;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.6px;
+    text-transform: uppercase;
+    color: var(--text-tertiary, #999);
+    margin: 0 0 5px 2px;
+  }
+  .seg-group {
+    display: flex;
+    gap: 0;
+    background: var(--bg-secondary, #f0f1f3);
+    border: 1px solid var(--border-color, #e2e2e2);
+    border-radius: 10px;
+    padding: 3px;
+    width: 100%;
+    box-sizing: border-box;
+  }
+  .seg-btn {
+    flex: 1;
+    min-width: 0;
+    padding: 9px 4px;
+    background: transparent;
+    border: none;
+    border-radius: 7px;
+    cursor: pointer;
+    font-size: 0.82rem;
+    font-weight: 700;
+    color: var(--text-secondary, #666);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    transition: all 0.15s;
+  }
+  .seg-btn:hover { color: var(--text-primary, #222); }
+  .seg-btn.seg-active {
+    background: var(--card-bg, #fff);
+    color: #CC0000;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.12);
+  }
+  :global([data-theme='dark']) .seg-group { background: #262626; border-color: #3a3a3a; }
+  :global([data-theme='dark']) .seg-btn.seg-active { background: #1e1e1e; color: #ff6b6b; }
   .prospect-phone { margin: 6px 0 4px; font-size: 15px; font-weight: 600; color: var(--text-primary); }
   .prospect-email { margin: 2px 0 10px; font-size: 14px; font-weight: 500; color: var(--text-secondary, #555); }
   .prospect-hours { margin: 2px 0 8px; font-size: 12px; color: var(--text-secondary); cursor: pointer; }
@@ -6917,6 +6998,29 @@ IndoorMedia`
 
   .btn-orange { background: #E65100 !important; color: white !important; border-color: #E65100 !important; }
   .btn-orange:hover { background: #BF360C !important; }
+
+  /* Contact row hierarchy: Call = one bold primary (green);
+     Text / Email / Walk-In demoted to calm tinted-outline so the row
+     isn't a rainbow of competing CTAs. Scoped to the first contact row. */
+  .prospect-actions .action-row .btn-green {
+    background: #2e7d32 !important; color: #fff !important; border-color: #2e7d32 !important;
+    flex: 1.4 !important; font-weight: 700 !important;
+  }
+  .prospect-actions .action-row .btn-blue {
+    background: #e8f0fe !important; color: #1565C0 !important; border: 1px solid #bcd3f7 !important;
+  }
+  .prospect-actions .action-row .btn-blue:hover { background: #1565C0 !important; color: #fff !important; }
+  .prospect-actions .action-row .btn-purple {
+    background: #f3e9fa !important; color: #6A1B9A !important; border: 1px solid #ddc4ee !important;
+  }
+  .prospect-actions .action-row .btn-purple:hover { background: #6A1B9A !important; color: #fff !important; }
+  .prospect-actions .action-row .btn-orange {
+    background: #fff1e6 !important; color: #E65100 !important; border: 1px solid #ffd2ac !important;
+  }
+  .prospect-actions .action-row .btn-orange:hover { background: #E65100 !important; color: #fff !important; }
+  :global([data-theme='dark']) .prospect-actions .action-row .btn-blue { background: #15233a !important; color: #7fb0f0 !important; border-color: #294a73 !important; }
+  :global([data-theme='dark']) .prospect-actions .action-row .btn-purple { background: #2a1838 !important; color: #c79bea !important; border-color: #4a2d63 !important; }
+  :global([data-theme='dark']) .prospect-actions .action-row .btn-orange { background: #3a2110 !important; color: #f0a56b !important; border-color: #663c1c !important; }
 
   .lead-claim-badge {
     display: flex; align-items: center; gap: 6px;
