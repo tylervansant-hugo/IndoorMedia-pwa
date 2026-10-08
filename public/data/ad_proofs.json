@@ -1,5 +1,207 @@
 [
   {
+    "message_id": "1a117d7fdd91fe79",
+    "date": "2026-10-07 12:29",
+    "from": "Zone 07Z - Sydney Miller <zone.07z@indoormedia.com>",
+    "subject": "Re: Ad Proof from IndoorMedia , Hindustani [07Z - C4 - J435995E]",
+    "client_name": "Hindustani",
+    "contact_name": "will see a new proof email as soon as it becomes available*",
+    "client_email": "megan.wink@indoormedia.com",
+    "location": "",
+    "zone": "07Z",
+    "cycle": "C4",
+    "contract_number": "J435995E",
+    "store": ">> Tape Ad at Safeway 1123, 2249 Cascade Avenue, Hood River, OR",
+    "ad_size": "Single",
+    "install_month": "",
+    "run_months": "",
+    "image_url": "https://lh3.googleusercontent.com/d/1D-LBki_HvxRWZbqSwmQWTeVDf6mMDSZl",
+    "review_deadline": "10/12/2026",
+    "recipients": [
+      "megan.wink@indoormedia.com",
+      "richard.leibowitz@rtui.com",
+      "tyler.vansant@rtui.com",
+      "ahindustani.hr@gmail.com"
+    ],
+    "reps": [
+      {
+        "email": "megan.wink@indoormedia.com",
+        "name": "Megan Wink"
+      },
+      {
+        "email": "tyler.vansant@rtui.com",
+        "name": "Tyler Van Sant"
+      }
+    ]
+  },
+  {
+    "message_id": "1a117d75532a4ccd",
+    "date": "2026-10-07 12:28",
+    "from": "Zone 07Z - Sydney Miller <zone.07z@indoormedia.com>",
+    "subject": "Re: Ad Proof from IndoorMedia , Wishful Cleanning LLC [07Z - B4 - J437836E]",
+    "client_name": "Wishful Cleanning LLC",
+    "contact_name": "Good afternoon",
+    "client_email": "jill@wishfulcleaning.com",
+    "location": "",
+    "zone": "07Z",
+    "cycle": "B4",
+    "contract_number": "J437836E",
+    "store": "> Tape Ad at Fred Meyer 0135, 3805 SE Hawthorne Blvd, Portland, OR",
+    "ad_size": "Single",
+    "install_month": "",
+    "run_months": "",
+    "image_url": "https://lh3.googleusercontent.com/d/18LuROW9fABpnsllENB5wh8cagLvxL8JY",
+    "review_deadline": "10/09/2026",
+    "recipients": [
+      "tyler.vansant@rtui.com",
+      "richard.leibowitz@rtui.com",
+      "jill@wishfulcleaning.com",
+      "megan.wink@indoormedia.com"
+    ],
+    "reps": [
+      {
+        "email": "tyler.vansant@rtui.com",
+        "name": "Tyler Van Sant"
+      },
+      {
+        "email": "megan.wink@indoormedia.com",
+        "name": "Megan Wink"
+      }
+    ]
+  },
+  {
+    "message_id": "1a1170a72dc4a445",
+    "date": "2026-10-07 08:45",
+    "from": "Sydney Miller <Zone.07Z@indoormedia.com>",
+    "subject": "Ad Proof from IndoorMedia , Hindustani [07Z - C4 - J435995E]",
+    "client_name": "Hindustani",
+    "contact_name": "Babita Kainth",
+    "client_email": "ahindustani.hr@gmail.com",
+    "location": "",
+    "zone": "07Z",
+    "cycle": "C4",
+    "contract_number": "J435995E",
+    "store": "Tape Ad at Safeway 1123, 2249 Cascade Avenue, Hood River, OR",
+    "ad_size": "Single",
+    "install_month": "",
+    "run_months": "",
+    "image_url": "https://lh3.googleusercontent.com/d/1D-LBki_HvxRWZbqSwmQWTeVDf6mMDSZl",
+    "review_deadline": "10/12/2026",
+    "recipients": [
+      "megan.wink@indoormedia.com",
+      "richard.leibowitz@rtui.com",
+      "tyler.vansant@rtui.com",
+      "ahindustani.hr@gmail.com"
+    ],
+    "reps": [
+      {
+        "email": "megan.wink@indoormedia.com",
+        "name": "Megan Wink"
+      },
+      {
+        "email": "tyler.vansant@rtui.com",
+        "name": "Tyler Van Sant"
+      }
+    ]
+  },
+  {
+    "message_id": "1a1170749d72b1c4",
+    "date": "2026-10-07 08:41",
+    "from": "Sydney Miller <Zone.07Z@indoormedia.com>",
+    "subject": "Ad Proof from IndoorMedia , Ixtapa [07Z - B4 - J438046E]",
+    "client_name": "Ixtapa",
+    "contact_name": "Samuel Gutierrez",
+    "client_email": "encisogutierrez95@gmail.com",
+    "location": "",
+    "zone": "07Z",
+    "cycle": "B4",
+    "contract_number": "J438046E",
+    "store": "Tape Ad at Safeway 1070, 1001 SW Highland Dr, Gresham, OR",
+    "ad_size": "Double",
+    "install_month": "",
+    "run_months": "",
+    "image_url": "https://lh3.googleusercontent.com/d/1mj8ZpW1HFTqNWrMz6d4xpO_AcIv24Gja",
+    "review_deadline": "10/12/2026",
+    "recipients": [
+      "encisogutierrez95@gmail.com",
+      "richard.leibowitz@rtui.com",
+      "daniel.barchini@indoormedia.com",
+      "tyler.vansant@rtui.com"
+    ],
+    "reps": [
+      {
+        "email": "tyler.vansant@rtui.com",
+        "name": "Tyler Van Sant"
+      }
+    ]
+  },
+  {
+    "message_id": "1a11706820c87a46",
+    "date": "2026-10-07 08:41",
+    "from": "Sydney Miller <Zone.07Z@indoormedia.com>",
+    "subject": "Ad Proof from IndoorMedia , The Hot Spot [07Z - B4 - J438252E]",
+    "client_name": "The Hot Spot",
+    "contact_name": "Ame Williams",
+    "client_email": "amewilliams0955@gmail.com",
+    "location": "",
+    "zone": "07Z",
+    "cycle": "B4",
+    "contract_number": "J438252E",
+    "store": "Tape Ad at Fred Meyer 0127, 2497 SE Burnside Rd, Gresham, OR",
+    "ad_size": "Single",
+    "install_month": "",
+    "run_months": "",
+    "image_url": "https://lh3.googleusercontent.com/d/1FU73uHERFhJmkBTaJBEeJgAuiwZz1MrL",
+    "review_deadline": "10/12/2026",
+    "recipients": [
+      "richard.leibowitz@rtui.com",
+      "amewilliams0955@gmail.com",
+      "tyler.vansant@rtui.com",
+      "daniel.barchini@indoormedia.com"
+    ],
+    "reps": [
+      {
+        "email": "tyler.vansant@rtui.com",
+        "name": "Tyler Van Sant"
+      }
+    ]
+  },
+  {
+    "message_id": "1a1166802c1a2b34",
+    "date": "2026-10-07 05:47",
+    "from": "Sydney Miller <Zone.07Y@indoormedia.com>",
+    "subject": "Ad Proof from IndoorMedia , La Sierra Mexican Restaurant & Cantina [07Y - B4 - J348469]",
+    "client_name": "La Sierra Mexican Restaurant & Cantina",
+    "contact_name": "Victor Lopez",
+    "client_email": "lasierragrill@gmail.com",
+    "location": "",
+    "zone": "07Y",
+    "cycle": "B4",
+    "contract_number": "J348469",
+    "store": "Tape Ad at Safeway 1800, 20685 SW Roy Rogers Road, Sherwood, OR",
+    "ad_size": "Single",
+    "install_month": "",
+    "run_months": "",
+    "image_url": "https://lh3.googleusercontent.com/d/1VtRYkD8j-xVFOVyelr8P5-VGMMYn-JFK",
+    "review_deadline": "10/12/2026",
+    "recipients": [
+      "lasierragrill@gmail.com",
+      "richard.leibowitz@rtui.com",
+      "tyler.vansant@rtui.com",
+      "amy.dixon@indoormedia.com"
+    ],
+    "reps": [
+      {
+        "email": "tyler.vansant@rtui.com",
+        "name": "Tyler Van Sant"
+      },
+      {
+        "email": "amy.dixon@indoormedia.com",
+        "name": "Amy Dixon"
+      }
+    ]
+  },
+  {
     "message_id": "1a11302332ea9f45",
     "date": "2026-10-06 13:57",
     "from": "Zone 07Z - Sydney Miller <zone.07z@indoormedia.com>",
@@ -92,41 +294,6 @@
       "tyler.vansant@rtui.com",
       "richard.leibowitz@rtui.com",
       "megan.wink@indoormedia.com"
-    ],
-    "reps": [
-      {
-        "email": "tyler.vansant@rtui.com",
-        "name": "Tyler Van Sant"
-      },
-      {
-        "email": "megan.wink@indoormedia.com",
-        "name": "Megan Wink"
-      }
-    ]
-  },
-  {
-    "message_id": "1a1115149fe108a6",
-    "date": "2026-10-06 06:04",
-    "from": "Zone 07Z - Sydney Miller <zone.07z@indoormedia.com>",
-    "subject": "Re: Ad Proof from IndoorMedia , Wishful Cleanning LLC [07Z - B4 - J437836E]",
-    "client_name": "Wishful Cleanning LLC",
-    "contact_name": "will see a new proof email as soon as it becomes available*",
-    "client_email": "jill@wishfulcleaning.com",
-    "location": "",
-    "zone": "07Z",
-    "cycle": "B4",
-    "contract_number": "J437836E",
-    "store": "> Tape Ad at Fred Meyer 0135, 3805 SE Hawthorne Blvd, Portland, OR",
-    "ad_size": "Single",
-    "install_month": "",
-    "run_months": "",
-    "image_url": "https://lh3.googleusercontent.com/d/1xjLQKDdQ0B543ZrjBhY83_Ky1hjpAx7n",
-    "review_deadline": "10/02/2026",
-    "recipients": [
-      "tyler.vansant@rtui.com",
-      "jill@wishfulcleaning.com",
-      "megan.wink@indoormedia.com",
-      "richard.leibowitz@rtui.com"
     ],
     "reps": [
       {
@@ -393,68 +560,6 @@
     "recipients": [
       "anthony.eng@indoormedia.com",
       "lamichoacananw2017@gmail.com",
-      "richard.leibowitz@rtui.com",
-      "tyler.vansant@rtui.com"
-    ],
-    "reps": [
-      {
-        "email": "tyler.vansant@rtui.com",
-        "name": "Tyler Van Sant"
-      }
-    ]
-  },
-  {
-    "message_id": "1a0f2b3de1c20087",
-    "date": "2026-09-30 07:24",
-    "from": "Sydney Miller <Zone.07Z@indoormedia.com>",
-    "subject": "Ad Proof from IndoorMedia , Ixtapa [07Z - B4 - J438046E]",
-    "client_name": "Ixtapa",
-    "contact_name": "Samuel Gutierrez",
-    "client_email": "encisogutierrez95@gmail.com",
-    "location": "",
-    "zone": "07Z",
-    "cycle": "B4",
-    "contract_number": "J438046E",
-    "store": "Tape Ad at Safeway 1070, 1001 SW Highland Dr, Gresham, OR",
-    "ad_size": "Double",
-    "install_month": "",
-    "run_months": "",
-    "image_url": "https://lh3.googleusercontent.com/d/1zxZ-tfC6BzkOynIV984J6zYVPnh6-vux",
-    "review_deadline": "10/05/2026",
-    "recipients": [
-      "encisogutierrez95@gmail.com",
-      "daniel.barchini@indoormedia.com",
-      "richard.leibowitz@rtui.com",
-      "tyler.vansant@rtui.com"
-    ],
-    "reps": [
-      {
-        "email": "tyler.vansant@rtui.com",
-        "name": "Tyler Van Sant"
-      }
-    ]
-  },
-  {
-    "message_id": "1a0f28ff4c62282f",
-    "date": "2026-09-30 06:45",
-    "from": "Sydney Miller <Zone.07Z@indoormedia.com>",
-    "subject": "Ad Proof from IndoorMedia , The Hot Spot [07Z - B4 - J438252E]",
-    "client_name": "The Hot Spot",
-    "contact_name": "Ame Williams",
-    "client_email": "amewilliams0955@gmail.com",
-    "location": "",
-    "zone": "07Z",
-    "cycle": "B4",
-    "contract_number": "J438252E",
-    "store": "Tape Ad at Fred Meyer 0127, 2497 SE Burnside Rd, Gresham, OR",
-    "ad_size": "Single",
-    "install_month": "",
-    "run_months": "",
-    "image_url": "https://lh3.googleusercontent.com/d/1EerR57pkzF-v_E_FcNKRKI3-WWrKZHA6",
-    "review_deadline": "10/05/2026",
-    "recipients": [
-      "daniel.barchini@indoormedia.com",
-      "amewilliams0955@gmail.com",
       "richard.leibowitz@rtui.com",
       "tyler.vansant@rtui.com"
     ],
@@ -4399,41 +4504,6 @@
     "reps": [
       {
         "email": "tyler.vansant@indoormedia.com",
-        "name": "Tyler Van Sant"
-      }
-    ]
-  },
-  {
-    "message_id": "1a00198341e4d922",
-    "date": "2026-08-14 11:45",
-    "from": "Sydney Miller <Zone.07Z@indoormedia.com>",
-    "subject": "Ad Proof from IndoorMedia , Hindustani [07Z - C3 - J435995E]",
-    "client_name": "Hindustani",
-    "contact_name": "Babita Kainth",
-    "client_email": "ahindustani.hr@gmail.com",
-    "location": "",
-    "zone": "07Z",
-    "cycle": "C3",
-    "contract_number": "J435995E",
-    "store": "Tape Ad at Safeway 1123, 2249 Cascade Avenue, Hood River, OR",
-    "ad_size": "Single",
-    "install_month": "",
-    "run_months": "",
-    "image_url": "https://lh3.googleusercontent.com/d/1c8uMVUbNPV3MVV1UICIF21pAQSpvjDls",
-    "review_deadline": "08/16/2026",
-    "recipients": [
-      "ahindustani.hr@gmail.com",
-      "megan.wink@indoormedia.com",
-      "tyler.vansant@rtui.com",
-      "richard.leibowitz@rtui.com"
-    ],
-    "reps": [
-      {
-        "email": "megan.wink@indoormedia.com",
-        "name": "Megan Wink"
-      },
-      {
-        "email": "tyler.vansant@rtui.com",
         "name": "Tyler Van Sant"
       }
     ]
