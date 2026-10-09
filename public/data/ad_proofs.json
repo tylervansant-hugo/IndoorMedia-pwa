@@ -1,5 +1,36 @@
 [
   {
+    "message_id": "1a11ba1acc808df0",
+    "date": "2026-10-08 06:08",
+    "from": "Zone 07Z - Sydney Miller <zone.07z@indoormedia.com>",
+    "subject": "Re: Ad Proof from IndoorMedia , The Hot Spot [07Z - B4 - J438252E]",
+    "client_name": "The Hot Spot",
+    "contact_name": "great day.*",
+    "client_email": "amewilliams0955@gmail.com",
+    "location": "",
+    "zone": "07Z",
+    "cycle": "B4",
+    "contract_number": "J438252E",
+    "store": ">> Tape Ad at Fred Meyer 0127, 2497 SE Burnside Rd, Gresham, OR",
+    "ad_size": "Single",
+    "install_month": "",
+    "run_months": "",
+    "image_url": "https://lh3.googleusercontent.com/d/1FU73uHERFhJmkBTaJBEeJgAuiwZz1MrL",
+    "review_deadline": "10/12/2026",
+    "recipients": [
+      "tyler.vansant@rtui.com",
+      "amewilliams0955@gmail.com",
+      "daniel.barchini@indoormedia.com",
+      "richard.leibowitz@rtui.com"
+    ],
+    "reps": [
+      {
+        "email": "tyler.vansant@rtui.com",
+        "name": "Tyler Van Sant"
+      }
+    ]
+  },
+  {
     "message_id": "1a117d7fdd91fe79",
     "date": "2026-10-07 12:29",
     "from": "Zone 07Z - Sydney Miller <zone.07z@indoormedia.com>",
@@ -420,37 +451,6 @@
     "cycle": "B4",
     "contract_number": "J438252E",
     "store": ">>>> Tape Ad at Fred Meyer 0127, 2497 SE Burnside Rd, Gresham, OR",
-    "ad_size": "Single",
-    "install_month": "",
-    "run_months": "",
-    "image_url": "https://lh3.googleusercontent.com/d/1EerR57pkzF-v_E_FcNKRKI3-WWrKZHA6",
-    "review_deadline": "10/05/2026",
-    "recipients": [
-      "daniel.barchini@indoormedia.com",
-      "amewilliams0955@gmail.com",
-      "richard.leibowitz@rtui.com",
-      "tyler.vansant@rtui.com"
-    ],
-    "reps": [
-      {
-        "email": "tyler.vansant@rtui.com",
-        "name": "Tyler Van Sant"
-      }
-    ]
-  },
-  {
-    "message_id": "1a0f3746975b3ed5",
-    "date": "2026-09-30 10:54",
-    "from": "Zone 07Z - Sydney Miller <zone.07z@indoormedia.com>",
-    "subject": "Re: Ad Proof from IndoorMedia , The Hot Spot [07Z - B4 - J438252E]",
-    "client_name": "The Hot Spot",
-    "contact_name": "will see a new proof email as soon as it becomes available*",
-    "client_email": "amewilliams0955@gmail.com",
-    "location": "",
-    "zone": "07Z",
-    "cycle": "B4",
-    "contract_number": "J438252E",
-    "store": ">> Tape Ad at Fred Meyer 0127, 2497 SE Burnside Rd, Gresham, OR",
     "ad_size": "Single",
     "install_month": "",
     "run_months": "",
