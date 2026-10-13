@@ -230,7 +230,151 @@
   let allCallInLeads = []; // full inbound pool before assignment filtering (manager assigns from here)
   let callInAssignments = {}; // leadKey -> { repId, repName } assignment map from Firebase
   let repRoster = []; // [{ id, name }] reps available to assign call-in leads to
-  let view = 'main'; // main, nearby-stores, categories, subcategories, results, saved, hot-leads, call-in, pending, submit-lead
+  let view = 'main'; // main, nearby-stores, categories, subcategories, results, saved, hot-leads, call-in, pending, submit-lead, ad-intel
+
+  // ── Local Ad Intelligence (see who's advertising locally) ──
+  let adIntelLocation = ''; // city, state or ZIP the rep is scouting
+  let adIntelBrand = '';    // optional: a specific business name to look up
+
+  // Platforms to scout. Each builds a deep link seeded by location (+ optional brand).
+  const AD_INTEL_PLATFORMS = [
+    {
+      id: 'meta',
+      icon: '📘',
+      name: 'Meta Ad Library',
+      desc: 'Live Facebook & Instagram ads running now',
+      tint: '#1877f2',
+      build: ({ loc, brand }) => {
+        const q = (brand || loc || '').trim();
+        // Meta Ad Library: all active ads, all media, US, keyword search
+        const params = new URLSearchParams({
+          active_status: 'active',
+          ad_type: 'all',
+          country: 'US',
+          media_type: 'all',
+          search_type: 'keyword_unordered'
+        });
+        if (q) params.set('q', q);
+        return 'https://www.facebook.com/ads/library/?' + params.toString();
+      }
+    },
+    {
+      id: 'groupon',
+      icon: '🏷️',
+      name: 'Groupon',
+      desc: 'Local deals = businesses paying to acquire customers',
+      tint: '#53a318',
+      build: ({ loc, brand }) => {
+        const q = (brand || loc || '').trim();
+        return 'https://www.groupon.com/browse/search?query=' + encodeURIComponent(q);
+      }
+    },
+    {
+      id: 'doordash',
+      icon: '🛵',
+      name: 'DoorDash',
+      desc: 'Restaurants spending on delivery promos',
+      tint: '#ff3008',
+      build: ({ loc, brand }) => {
+        const q = (brand || loc || '').trim();
+        return 'https://www.doordash.com/search/store/' + encodeURIComponent(q) + '/';
+      }
+    },
+    {
+      id: 'yelp',
+      icon: '⭐',
+      name: 'Yelp Ads',
+      desc: 'Sponsored listings reveal active advertisers',
+      tint: '#d32323',
+      build: ({ loc, brand }) => {
+        const params = new URLSearchParams();
+        params.set('find_desc', (brand || '').trim());
+        params.set('find_loc', (loc || '').trim());
+        return 'https://www.yelp.com/search?' + params.toString();
+      }
+    },
+    {
+      id: 'google',
+      icon: '🔎',
+      name: 'Google Local Ads',
+      desc: 'Search ads + sponsored map pins',
+      tint: '#4285f4',
+      build: ({ loc, brand }) => {
+        const q = [brand, loc].filter(Boolean).join(' ').trim() || 'local businesses';
+        return 'https://www.google.com/search?q=' + encodeURIComponent(q + ' near me');
+      }
+    },
+    {
+      id: 'nextdoor',
+      icon: '🏡',
+      name: 'Nextdoor',
+      desc: 'Neighborhood business sponsors & recs',
+      tint: '#8ed500',
+      build: ({ loc, brand }) => {
+        const q = (brand || loc || '').trim();
+        return 'https://nextdoor.com/search/?query=' + encodeURIComponent(q);
+      }
+    },
+    {
+      id: 'valpak',
+      icon: '✉️',
+      name: 'Valpak',
+      desc: 'Direct-mail coupon advertisers (our rivals)',
+      tint: '#005baa',
+      build: ({ loc }) => {
+        const zip = (String(loc).match(/\b\d{5}\b/) || [''])[0];
+        return zip
+          ? 'https://www.valpak.com/coupons/local/' + zip
+          : 'https://www.valpak.com/coupons';
+      }
+    },
+    {
+      id: 'moneymailer',
+      icon: '💌',
+      name: 'Money Mailer',
+      desc: 'More mailed-coupon competitors',
+      tint: '#e4002b',
+      build: () => 'https://www.moneymailer.com/find-local-coupons/'
+    },
+    {
+      id: 'magazines',
+      icon: '📰',
+      name: 'Local Magazines & Papers',
+      desc: 'Who’s buying print ad space nearby',
+      tint: '#6d4c41',
+      build: ({ loc }) => {
+        const q = ((loc || 'local') + ' community magazine advertisers').trim();
+        return 'https://www.google.com/search?q=' + encodeURIComponent(q);
+      }
+    },
+    {
+      id: 'instagram',
+      icon: '📸',
+      name: 'Instagram Local',
+      desc: 'Businesses with active social presence',
+      tint: '#c13584',
+      build: ({ loc, brand }) => {
+        const tag = (brand || loc || '').replace(/[^a-z0-9]/gi, '').toLowerCase();
+        return tag
+          ? 'https://www.instagram.com/explore/tags/' + tag + '/'
+          : 'https://www.instagram.com/explore/';
+      }
+    }
+  ];
+
+  function seedAdIntelLocation() {
+    if (adIntelLocation) return;
+    // Prefer a saved prospect's city/state, else any store context
+    const sp = (savedProspects || []).find(p => p.city);
+    if (sp && sp.city) {
+      adIntelLocation = [sp.city, sp.state].filter(Boolean).join(', ');
+    }
+  }
+
+  function openAdIntel(platform) {
+    const url = platform.build({ loc: adIntelLocation.trim(), brand: adIntelBrand.trim() });
+    window.open(url, '_blank', 'noopener');
+  }
 
   // ── Store Claims (Dibs) ──
   let storeClaims = {};
@@ -3965,6 +4109,8 @@ IndoorMedia`
       filteredStoreResults = [];
     } else if (view === 'saved') {
       view = 'main';
+    } else if (view === 'ad-intel') {
+      view = 'main';
     }
   }
 
@@ -4110,6 +4256,12 @@ IndoorMedia`
         <div class="btn-text">Nearby Advertisers</div>
         <div class="btn-desc">See who's already advertising</div>
       </a>
+
+      <button class="main-btn" on:click={() => { seedAdIntelLocation(); view = 'ad-intel'; }}>
+        <div class="btn-icon">📡</div>
+        <div class="btn-text">Local Ad Intel</div>
+        <div class="btn-desc">Meta, Groupon, DoorDash &amp; more</div>
+      </button>
 
       <button class="main-btn" on:click={startNearMeSearch}>
         <div class="btn-icon">📍</div>
@@ -5565,6 +5717,37 @@ IndoorMedia`
     </div>
   {/if}
 
+  <!-- Local Ad Intelligence: see who's advertising locally across platforms -->
+  {#if view === 'ad-intel'}
+    <button class="back-btn" on:click={() => view = 'main'}>← Back</button>
+    <h2>📡 Local Ad Intel</h2>
+    <p class="subtitle">See who’s already advertising locally — then go win them over.</p>
+
+    <div class="ai-inputs">
+      <label class="ai-label">📍 Area (city, state or ZIP)</label>
+      <input class="ai-input" bind:value={adIntelLocation} placeholder="e.g. Gresham, OR or 97030" inputmode="text" />
+      <label class="ai-label">🏪 Business name <span class="ai-opt">(optional — look up one advertiser)</span></label>
+      <input class="ai-input" bind:value={adIntelBrand} placeholder="e.g. Joe’s Pizza" inputmode="text" />
+    </div>
+
+    <p class="ai-hint">Tap a platform to open its live listings in a new tab, seeded with what you entered above.</p>
+
+    <div class="ai-grid">
+      {#each AD_INTEL_PLATFORMS as p}
+        <button class="ai-card" style={`--ai-tint:${p.tint}`} on:click={() => openAdIntel(p)}>
+          <span class="ai-card-icon">{p.icon}</span>
+          <span class="ai-card-body">
+            <span class="ai-card-name">{p.name}</span>
+            <span class="ai-card-desc">{p.desc}</span>
+          </span>
+          <span class="ai-card-go">↗</span>
+        </button>
+      {/each}
+    </div>
+
+    <p class="ai-foot">💡 A business already running ads is a business that believes in advertising — the easiest kind to upsell onto IndoorMedia.</p>
+  {/if}
+
   <!-- Meeting Prep overlay (launched from a prospect card) -->
   {#if meetingPrepProspect}
     <div class="meeting-prep-overlay" on:click|self={() => meetingPrepProspect = null}>
@@ -5699,6 +5882,40 @@ IndoorMedia`
 </div>
 
 <style>
+  /* ── Local Ad Intel ── */
+  .ai-inputs { display: flex; flex-direction: column; gap: 6px; margin: 4px 0 10px; }
+  .ai-label { font-size: 13px; font-weight: 700; color: var(--text-primary, #222); }
+  .ai-opt { font-weight: 500; color: var(--text-secondary, #999); font-size: 12px; }
+  .ai-input {
+    width: 100%; box-sizing: border-box; padding: 11px 13px; font-size: 15px;
+    border: 1.5px solid var(--border-color, #ddd); border-radius: 11px;
+    background: var(--card-bg, #fff); color: var(--text-primary, #222);
+  }
+  .ai-input:focus { outline: none; border-color: #c81e1e; }
+  .ai-hint { font-size: 12.5px; color: var(--text-secondary, #888); margin: 2px 0 12px; }
+  .ai-grid { display: flex; flex-direction: column; gap: 10px; }
+  .ai-card {
+    display: flex; align-items: center; gap: 12px; width: 100%; box-sizing: border-box;
+    padding: 13px 14px; border-radius: 13px; cursor: pointer; text-align: left;
+    background: var(--card-bg, #fff);
+    border: 1.5px solid var(--border-color, #e6e6e6);
+    border-left: 5px solid var(--ai-tint, #c81e1e);
+    transition: transform .08s ease, box-shadow .15s ease;
+  }
+  .ai-card:active { transform: scale(0.985); }
+  .ai-card:hover { box-shadow: 0 3px 12px rgba(0,0,0,0.08); }
+  .ai-card-icon { font-size: 26px; flex: 0 0 auto; width: 34px; text-align: center; }
+  .ai-card-body { display: flex; flex-direction: column; min-width: 0; flex: 1 1 auto; gap: 2px; }
+  .ai-card-name { font-size: 15px; font-weight: 700; color: var(--text-primary, #222); overflow-wrap: break-word; }
+  .ai-card-desc { font-size: 12.5px; color: var(--text-secondary, #888); line-height: 1.3; overflow-wrap: break-word; }
+  .ai-card-go { flex: 0 0 auto; font-size: 18px; font-weight: 800; color: var(--ai-tint, #c81e1e); opacity: 0.85; }
+  .ai-foot {
+    margin: 16px 0 4px; padding: 11px 13px; border-radius: 11px; font-size: 13px; line-height: 1.4;
+    background: var(--highlight-bg, #fff8e1); color: var(--text-primary, #5a4a1c);
+    border: 1px solid var(--border-color, #ffe0a3);
+  }
+  :global([data-theme='dark']) .ai-foot { background: #2e2a18; color: #e8dca0; border-color: #4a4320; }
+
   /* Create New Business (manual lead) */
   .saved-head { display: flex; align-items: center; justify-content: space-between; gap: 10px; flex-wrap: wrap; }
   .new-lead-btn { background: #c81e1e; color: #fff; border: none; border-radius: 10px; padding: 8px 14px; font-weight: 700; font-size: 14px; cursor: pointer; white-space: nowrap; }
