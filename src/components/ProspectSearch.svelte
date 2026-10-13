@@ -376,21 +376,27 @@
     window.open(url, '_blank', 'noopener');
   }
 
-  // Open Local Ad Intel for a specific store (from the "Prospect Store" button)
+  // Remember which view to return to when leaving Local Ad Intel
+  let adIntelReturnView = 'main';
+
+  // Open Local Ad Intel for a specific store (seeded from that store's city/state)
   function openAdIntelForStore(store) {
-    selectedStore = store;
-    try { sharedSelectedStore.set(store); } catch {}
-    // Seed the scouting area from the store's city/state (fall back to ZIP/address)
-    const loc = [store?.City, store?.State].filter(Boolean).join(', ').trim();
+    adIntelReturnView = view; // so Back returns to wherever we came from (e.g. categories)
+    if (store) {
+      selectedStore = store;
+      try { sharedSelectedStore.set(store); } catch {}
+    }
+    const s = store || selectedStore;
+    // Seed the scouting area from the store's city/state (fall back to ZIP)
+    const loc = [s?.City, s?.State].filter(Boolean).join(', ').trim();
     if (loc) adIntelLocation = loc;
-    else if (store?.Zip || store?.zip) adIntelLocation = String(store.Zip || store.zip);
+    else if (s?.Zip || s?.zip) adIntelLocation = String(s.Zip || s.zip);
     adIntelBrand = ''; // scouting the AREA around this store, not one business
     view = 'ad-intel';
-    // Opening Prospect Store counts as a search per manager spec.
     try {
       logActivity('store_view', {
         rep: $user?.name || 'Unknown',
-        store: store?.StoreName || '',
+        store: s?.StoreName || '',
         openTarget: 'ad-intel',
       });
     } catch {}
@@ -838,9 +844,9 @@
   // Load video library on mount
   function handleStoreSelectFromMap(e) {
     const payload = e.detail;
-    // If a full store object was passed, open Local Ad Intel seeded from it
+    // If a full store object was passed, select it directly (skip lookup/intermediate screens)
     if (payload && typeof payload === 'object' && payload.StoreName) {
-      openAdIntelForStore(payload);
+      selectStore(payload);
       return;
     }
     const storeName = payload;
@@ -848,7 +854,7 @@
     function trySelect() {
       const store = nearbyStores.find(s => s.StoreName === storeName) || allStores.find(s => s.StoreName === storeName);
       if (store) {
-        openAdIntelForStore(store);
+        selectStore(store);
         return true;
       }
       return false;
@@ -4130,7 +4136,7 @@ IndoorMedia`
     } else if (view === 'saved') {
       view = 'main';
     } else if (view === 'ad-intel') {
-      view = 'main';
+      view = adIntelReturnView || 'main';
     }
   }
 
@@ -4277,7 +4283,7 @@ IndoorMedia`
         <div class="btn-desc">See who's already advertising</div>
       </a>
 
-      <button class="main-btn" on:click={() => { seedAdIntelLocation(); view = 'ad-intel'; }}>
+      <button class="main-btn" on:click={() => { selectedStore = null; adIntelReturnView = 'main'; seedAdIntelLocation(); view = 'ad-intel'; }}>
         <div class="btn-icon">📡</div>
         <div class="btn-text">Local Ad Intel</div>
         <div class="btn-desc">Meta, Groupon, DoorDash &amp; more</div>
@@ -4527,6 +4533,11 @@ IndoorMedia`
     <button class="new-biz-banner" on:click={searchNewBusinesses}>
       🆕 New Businesses
       <span class="new-biz-hint">Opened in the last year near this store</span>
+    </button>
+
+    <button class="ad-intel-banner" on:click={() => openAdIntelForStore(selectedStore)}>
+      📡 Local Ad Intel
+      <span class="ad-intel-hint">See who’s advertising near this store — Meta, Groupon, DoorDash &amp; more</span>
     </button>
 
     <div class="category-grid">
@@ -5739,7 +5750,7 @@ IndoorMedia`
 
   <!-- Local Ad Intelligence: see who's advertising locally across platforms -->
   {#if view === 'ad-intel'}
-    <button class="back-btn" on:click={() => view = 'main'}>← Back</button>
+    <button class="back-btn" on:click={() => view = adIntelReturnView || 'main'}>← Back</button>
     <h2>📡 Local Ad Intel</h2>
     {#if selectedStore}
       <p class="subtitle">Scouting advertisers near <strong>{selectedStore.StoreName}</strong>{#if selectedStore.City} — {selectedStore.City}{selectedStore.State ? ', ' + selectedStore.State : ''}{/if}.</p>
@@ -6983,6 +6994,16 @@ IndoorMedia`
   }
   .new-biz-banner:active { transform: scale(0.97); }
   .new-biz-hint { font-size: 11px; font-weight: 400; opacity: 0.8; }
+
+  .ad-intel-banner {
+    width: 100%; padding: 14px 16px; border-radius: 12px; font-size: 16px; font-weight: 700;
+    background: linear-gradient(135deg, #7b2ff7, #2d6cdf); color: white;
+    border: none; cursor: pointer; text-align: center; margin-bottom: 12px;
+    display: flex; flex-direction: column; align-items: center; gap: 2px;
+    transition: transform 0.1s;
+  }
+  .ad-intel-banner:active { transform: scale(0.97); }
+  .ad-intel-hint { font-size: 11px; font-weight: 400; opacity: 0.85; line-height: 1.3; }
 
   .hotlist-banner {
     width: 100%; padding: 14px 16px; border-radius: 12px; font-size: 16px; font-weight: 800;
