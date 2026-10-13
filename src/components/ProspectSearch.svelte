@@ -376,6 +376,26 @@
     window.open(url, '_blank', 'noopener');
   }
 
+  // Open Local Ad Intel for a specific store (from the "Prospect Store" button)
+  function openAdIntelForStore(store) {
+    selectedStore = store;
+    try { sharedSelectedStore.set(store); } catch {}
+    // Seed the scouting area from the store's city/state (fall back to ZIP/address)
+    const loc = [store?.City, store?.State].filter(Boolean).join(', ').trim();
+    if (loc) adIntelLocation = loc;
+    else if (store?.Zip || store?.zip) adIntelLocation = String(store.Zip || store.zip);
+    adIntelBrand = ''; // scouting the AREA around this store, not one business
+    view = 'ad-intel';
+    // Opening Prospect Store counts as a search per manager spec.
+    try {
+      logActivity('store_view', {
+        rep: $user?.name || 'Unknown',
+        store: store?.StoreName || '',
+        openTarget: 'ad-intel',
+      });
+    } catch {}
+  }
+
   // ── Store Claims (Dibs) ──
   let storeClaims = {};
   let claimLoading = {};
@@ -818,9 +838,9 @@
   // Load video library on mount
   function handleStoreSelectFromMap(e) {
     const payload = e.detail;
-    // If a full store object was passed, select it directly (skip lookup/intermediate screens)
+    // If a full store object was passed, open Local Ad Intel seeded from it
     if (payload && typeof payload === 'object' && payload.StoreName) {
-      selectStore(payload);
+      openAdIntelForStore(payload);
       return;
     }
     const storeName = payload;
@@ -828,7 +848,7 @@
     function trySelect() {
       const store = nearbyStores.find(s => s.StoreName === storeName) || allStores.find(s => s.StoreName === storeName);
       if (store) {
-        selectStore(store);
+        openAdIntelForStore(store);
         return true;
       }
       return false;
@@ -5721,7 +5741,11 @@ IndoorMedia`
   {#if view === 'ad-intel'}
     <button class="back-btn" on:click={() => view = 'main'}>← Back</button>
     <h2>📡 Local Ad Intel</h2>
-    <p class="subtitle">See who’s already advertising locally — then go win them over.</p>
+    {#if selectedStore}
+      <p class="subtitle">Scouting advertisers near <strong>{selectedStore.StoreName}</strong>{#if selectedStore.City} — {selectedStore.City}{selectedStore.State ? ', ' + selectedStore.State : ''}{/if}.</p>
+    {:else}
+      <p class="subtitle">See who’s already advertising locally — then go win them over.</p>
+    {/if}
 
     <div class="ai-inputs">
       <label class="ai-label">📍 Area (city, state or ZIP)</label>
