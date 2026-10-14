@@ -32,7 +32,7 @@
     ? Math.ceil(pfiAnnual / pfiMarginPerCustomer) : 0;
   // "What if" upside: pick a modest new-customers-per-week assumption and
   // show the net. Default 2 new customers/week from a register-tape coupon.
-  let pfiNewPerWeek = 2;
+  let pfiNewPerWeek = 10;
   let pfiCopied = false;
   $: pfiNewPerMonth = pfiNewPerWeek * 4.33;
   $: pfiGrossMonthly = pfiNewPerMonth * pfiTicket;
