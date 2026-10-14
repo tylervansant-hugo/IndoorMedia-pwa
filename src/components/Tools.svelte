@@ -11,7 +11,42 @@
   
   export let contracts = [];
 
-  let view = 'main'; // main, roi, rates, testimonials, counter-sign, submit-testimonial, analytics, scripts
+  let view = 'main'; // main, roi, pays-for-itself, rates, testimonials, counter-sign, submit-testimonial, analytics, scripts
+
+  // === "Pays For Itself" quick objection-flipper ===
+  // Dead-simple frame for the "no budget" moment: store price ranges
+  // $200/mo ($2,400/yr) up to $700/mo ($8,400/yr). Shows how few new
+  // customers per month cover the cost, then the upside past break-even.
+  let pfiMonthly = 350;        // monthly ad price ($200–$700)
+  let pfiTicket = 25;          // average customer ticket/spend ($)
+  let pfiCogs = 35;            // cost of goods % (what it costs to serve)
+  // Gross margin kept per customer dollar (what's left after COGS).
+  $: pfiMargin = Math.max(0, 1 - pfiCogs / 100);
+  $: pfiMarginPerCustomer = pfiTicket * pfiMargin;
+  // New customers/month needed to break even on the monthly cost.
+  $: pfiBreakevenMonthly = pfiMarginPerCustomer > 0
+    ? Math.ceil(pfiMonthly / pfiMarginPerCustomer) : 0;
+  // Annualized view.
+  $: pfiAnnual = pfiMonthly * 12;
+  $: pfiBreakevenAnnual = pfiMarginPerCustomer > 0
+    ? Math.ceil(pfiAnnual / pfiMarginPerCustomer) : 0;
+  // "What if" upside: pick a modest new-customers-per-week assumption and
+  // show the net. Default 2 new customers/week from a register-tape coupon.
+  let pfiNewPerWeek = 2;
+  let pfiCopied = false;
+  $: pfiNewPerMonth = pfiNewPerWeek * 4.33;
+  $: pfiGrossMonthly = pfiNewPerMonth * pfiTicket;
+  $: pfiMarginMonthly = pfiNewPerMonth * pfiMarginPerCustomer;
+  $: pfiNetMonthly = pfiMarginMonthly - pfiMonthly;
+  $: pfiNetAnnual = pfiNetMonthly * 12;
+  // Return multiple: margin dollars produced per dollar invested.
+  $: pfiReturnX = pfiMonthly > 0 ? pfiMarginMonthly / pfiMonthly : 0;
+  // Days-per-month the business needs the coupon to work (break-even/open days).
+  $: pfiPerWeekToBreakeven = pfiBreakevenMonthly / 4.33;
+
+  function pfiMoney(n) {
+    return '$' + Math.round(n).toLocaleString();
+  }
 
   // Sales Scripts state
   let scriptsData = [];
@@ -960,6 +995,13 @@ Store: ${store}
         <div class="btn-desc">Calculate campaign ROI before pitching</div>
       </button>
 
+      <button class="main-btn pfi-btn" on:click={() => view = 'pays-for-itself'}
+        use:addToHome={{ label: 'Pays For Itself', icon: '💸', tab: 'tools' }}>
+        <div class="btn-icon">💸</div>
+        <div class="btn-text">Pays For Itself</div>
+        <div class="btn-desc">Flip "no budget" in 10 seconds</div>
+      </button>
+
       <button class="main-btn" on:click={() => view = 'rates'}>
         <div class="btn-icon">💰</div>
         <div class="btn-text">Store Rates</div>
@@ -1045,6 +1087,130 @@ Store: ${store}
         </div>
       </div>
     {/if}
+  {/if}
+
+  <!-- Pays For Itself — quick "no budget" objection-flipper -->
+  {#if view === 'pays-for-itself'}
+    <button class="back-btn" on:click={goBack}>← Back</button>
+    <h2>💸 Pays For Itself</h2>
+    <p class="subtitle">The 10-second answer to “we don’t have the budget”</p>
+
+    <div class="pfi-wrap">
+      <div class="pfi-lead">
+        This program is built to <strong>make</strong> money, not cost it.
+        Here’s exactly how few customers it takes to cover the whole thing.
+      </div>
+
+      <!-- Inputs -->
+      <div class="pfi-inputs">
+        <div class="pfi-input">
+          <label>Their monthly price</label>
+          <input type="range" min="200" max="700" step="10" bind:value={pfiMonthly} />
+          <div class="pfi-input-val">{pfiMoney(pfiMonthly)}<span class="pfi-sub">/mo</span></div>
+          <div class="pfi-input-note">{pfiMoney(pfiAnnual)} total / year</div>
+        </div>
+
+        <div class="pfi-input">
+          <label>Average customer ticket</label>
+          <input type="range" min="5" max="150" step="1" bind:value={pfiTicket} />
+          <div class="pfi-input-val">{pfiMoney(pfiTicket)}</div>
+          <div class="pfi-input-note">What a typical customer spends per visit</div>
+        </div>
+
+        <div class="pfi-input">
+          <label>Cost of goods (COGS)</label>
+          <input type="range" min="0" max="70" step="5" bind:value={pfiCogs} />
+          <div class="pfi-input-val">{pfiCogs}%</div>
+          <div class="pfi-input-note">They keep {pfiMoney(pfiMarginPerCustomer)} profit on every {pfiMoney(pfiTicket)} ticket</div>
+        </div>
+      </div>
+
+      <!-- The hero line: break-even -->
+      <div class="pfi-hero">
+        <div class="pfi-hero-top">To completely pay for itself, they need just</div>
+        <div class="pfi-hero-num">{pfiBreakevenMonthly}</div>
+        <div class="pfi-hero-unit">new customers a month</div>
+        <div class="pfi-hero-sub">
+          That’s about <strong>{pfiPerWeekToBreakeven < 1 ? pfiPerWeekToBreakeven.toFixed(1) : Math.round(pfiPerWeekToBreakeven)}</strong>
+          a week — roughly <strong>{pfiBreakevenMonthly / 30 < 1 ? (pfiBreakevenMonthly / 30).toFixed(2) : (pfiBreakevenMonthly / 30).toFixed(1)}</strong> a day.
+          Everything past that is pure profit.
+        </div>
+      </div>
+
+      <!-- Reframe pills -->
+      <div class="pfi-pills">
+        <div class="pfi-pill">
+          <div class="pfi-pill-num">{pfiMoney(pfiMonthly / 30)}<span>/day</span></div>
+          <div class="pfi-pill-lbl">Less than a daily coffee run</div>
+        </div>
+        <div class="pfi-pill">
+          <div class="pfi-pill-num">{pfiBreakevenAnnual}</div>
+          <div class="pfi-pill-lbl">New customers all year to break even</div>
+        </div>
+      </div>
+
+      <!-- The upside "what if" -->
+      <div class="pfi-upside">
+        <div class="pfi-upside-head">📈 Now the upside</div>
+        <div class="pfi-upside-q">
+          If it brings in just
+          <span class="pfi-stepper">
+            <button type="button" on:click={() => pfiNewPerWeek = Math.max(1, pfiNewPerWeek - 1)}>−</button>
+            <strong>{pfiNewPerWeek}</strong>
+            <button type="button" on:click={() => pfiNewPerWeek = Math.min(30, pfiNewPerWeek + 1)}>+</button>
+          </span>
+          new customers a week…
+        </div>
+
+        <div class="pfi-upside-grid">
+          <div class="pfi-up-card">
+            <div class="pfi-up-lbl">New revenue / mo</div>
+            <div class="pfi-up-val">{pfiMoney(pfiGrossMonthly)}</div>
+          </div>
+          <div class="pfi-up-card">
+            <div class="pfi-up-lbl">Profit kept / mo</div>
+            <div class="pfi-up-val">{pfiMoney(pfiMarginMonthly)}</div>
+          </div>
+          <div class="pfi-up-card net" class:pos={pfiNetMonthly >= 0} class:neg={pfiNetMonthly < 0}>
+            <div class="pfi-up-lbl">Net after the ad / mo</div>
+            <div class="pfi-up-val">{pfiNetMonthly >= 0 ? '+' : ''}{pfiMoney(pfiNetMonthly)}</div>
+          </div>
+          <div class="pfi-up-card net" class:pos={pfiNetAnnual >= 0} class:neg={pfiNetAnnual < 0}>
+            <div class="pfi-up-lbl">Net / year</div>
+            <div class="pfi-up-val">{pfiNetAnnual >= 0 ? '+' : ''}{pfiMoney(pfiNetAnnual)}</div>
+          </div>
+        </div>
+
+        <div class="pfi-return">
+          That’s <strong>{pfiReturnX.toFixed(1)}×</strong> their money back — every
+          <strong>{pfiMoney(1)}</strong> spent returns <strong>{pfiMoney(pfiReturnX)}</strong> in profit.
+        </div>
+      </div>
+
+      <!-- Talk track -->
+      <div class="pfi-talk">
+        <div class="pfi-talk-head">🎤 Say it like this</div>
+        <p>
+          “I hear you on budget — but this isn’t a cost, it’s a customer machine.
+          At {pfiMoney(pfiMonthly)} a month, you only need
+          <strong>{pfiBreakevenMonthly} new customers</strong> — about
+          {pfiPerWeekToBreakeven < 1 ? pfiPerWeekToBreakeven.toFixed(1) : Math.round(pfiPerWeekToBreakeven)} a week —
+          and you’ve already paid for the whole thing. Do you think we can find you
+          {pfiBreakevenMonthly} new customers a month? Because everything after that
+          is money in your pocket.”
+        </p>
+        <button class="pfi-copy" on:click={() => {
+          const t = `I hear you on budget — but this isn't a cost, it's a customer machine. At ${pfiMoney(pfiMonthly)} a month, you only need ${pfiBreakevenMonthly} new customers — about ${pfiPerWeekToBreakeven < 1 ? pfiPerWeekToBreakeven.toFixed(1) : Math.round(pfiPerWeekToBreakeven)} a week — and you've already paid for the whole thing. Everything after that is money in your pocket.`;
+          navigator.clipboard.writeText(t).then(() => { pfiCopied = true; setTimeout(() => pfiCopied = false, 2000); }).catch(() => {});
+        }}>{pfiCopied ? '✅ Copied' : '📋 Copy talk track'}</button>
+      </div>
+
+      <p class="pfi-foot">
+        Conservative, single-transaction math — no inflated “lifetime value.” Break-even uses their own
+        margin ({pfiMoney(pfiMarginPerCustomer)} kept per {pfiMoney(pfiTicket)} ticket). Register-tape
+        coupons keep loyal customers AND bring new ones, so real numbers usually run higher.
+      </p>
+    </div>
   {/if}
 
   <!-- ROI Calculator -->
@@ -1922,6 +2088,133 @@ Store: ${store}
   .btn-icon { font-size: 2rem; margin-bottom: 0.5rem; }
   .btn-text { font-weight: 600; color: var(--text-primary, #eee); margin-bottom: 0.25rem; }
   .btn-desc { font-size: 0.85rem; color: var(--text-tertiary, #999); }
+
+  /* "Pays For Itself" menu card accent (green = money) */
+  .pfi-btn:hover { border-color: #2e7d32; box-shadow: 0 4px 12px rgba(46,125,50,0.18); }
+
+  /* === Pays For Itself view === */
+  .pfi-wrap { max-width: 620px; margin: 0 auto; }
+  .pfi-lead {
+    background: linear-gradient(135deg, #2e7d32, #43a047);
+    color: #fff; border-radius: 14px; padding: 16px 18px;
+    font-size: 15px; line-height: 1.45; margin-bottom: 18px;
+    box-shadow: 0 4px 14px rgba(46,125,50,0.25);
+  }
+  .pfi-lead strong { font-weight: 800; }
+
+  .pfi-inputs {
+    background: var(--card-bg, #fff);
+    border: 1px solid var(--border-color, #e8e8e8);
+    border-radius: 14px; padding: 16px 18px; margin-bottom: 18px;
+    display: flex; flex-direction: column; gap: 18px;
+  }
+  .pfi-input label {
+    display: block; font-size: 13px; font-weight: 700;
+    color: var(--text-primary, #333); margin-bottom: 8px;
+  }
+  .pfi-input input[type="range"] {
+    width: 100%; accent-color: #2e7d32; height: 6px;
+  }
+  .pfi-input-val {
+    font-size: 24px; font-weight: 800; color: var(--text-primary, #1a1a1a);
+    margin-top: 6px;
+  }
+  .pfi-input-val .pfi-sub { font-size: 14px; font-weight: 600; color: #888; margin-left: 2px; }
+  .pfi-input-note { font-size: 12px; color: #888; margin-top: 2px; }
+
+  .pfi-hero {
+    background: #e8f5e9; border: 2px solid #2e7d32;
+    border-radius: 16px; padding: 22px 18px; text-align: center;
+    margin-bottom: 18px;
+  }
+  .pfi-hero-top { font-size: 14px; color: #2e7d32; font-weight: 600; }
+  .pfi-hero-num {
+    font-size: 72px; font-weight: 900; line-height: 1;
+    color: #1b5e20; margin: 6px 0;
+  }
+  .pfi-hero-unit { font-size: 18px; font-weight: 800; color: #2e7d32; }
+  .pfi-hero-sub { font-size: 14px; color: #33691e; margin-top: 12px; line-height: 1.5; }
+  .pfi-hero-sub strong { color: #1b5e20; }
+
+  .pfi-pills { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 18px; }
+  .pfi-pill {
+    background: var(--card-bg, #fff); border: 1px solid var(--border-color, #e8e8e8);
+    border-radius: 12px; padding: 14px; text-align: center;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+  }
+  .pfi-pill-num { font-size: 26px; font-weight: 800; color: #2e7d32; }
+  .pfi-pill-num span { font-size: 14px; font-weight: 600; color: #888; }
+  .pfi-pill-lbl { font-size: 12px; color: #777; margin-top: 4px; }
+
+  .pfi-upside {
+    background: var(--card-bg, #fff); border: 1px solid var(--border-color, #e8e8e8);
+    border-radius: 14px; padding: 16px 18px; margin-bottom: 18px;
+  }
+  .pfi-upside-head { font-size: 15px; font-weight: 800; color: var(--text-primary, #1a1a1a); margin-bottom: 10px; }
+  .pfi-upside-q { font-size: 15px; color: var(--text-primary, #333); margin-bottom: 14px; }
+  .pfi-stepper {
+    display: inline-flex; align-items: center; gap: 10px;
+    vertical-align: middle; margin: 0 4px;
+  }
+  .pfi-stepper button {
+    width: 30px; height: 30px; border-radius: 50%;
+    border: 2px solid #2e7d32; background: #fff; color: #2e7d32;
+    font-size: 18px; font-weight: 800; cursor: pointer; line-height: 1;
+    display: inline-flex; align-items: center; justify-content: center;
+  }
+  .pfi-stepper button:active { background: #2e7d32; color: #fff; }
+  .pfi-stepper strong { font-size: 22px; font-weight: 800; color: #1b5e20; min-width: 26px; text-align: center; display: inline-block; }
+
+  .pfi-upside-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .pfi-up-card {
+    background: var(--bg-secondary, #f6f8f6); border-radius: 10px;
+    padding: 12px; text-align: center;
+  }
+  .pfi-up-lbl { font-size: 11px; color: #777; margin-bottom: 4px; }
+  .pfi-up-val { font-size: 20px; font-weight: 800; color: var(--text-primary, #1a1a1a); }
+  .pfi-up-card.net.pos { background: #e8f5e9; }
+  .pfi-up-card.net.pos .pfi-up-val { color: #1b5e20; }
+  .pfi-up-card.net.neg { background: #fdecea; }
+  .pfi-up-card.net.neg .pfi-up-val { color: #c62828; }
+
+  .pfi-return {
+    margin-top: 14px; padding: 12px 14px; background: #e8f5e9;
+    border-radius: 10px; font-size: 14px; color: #33691e; text-align: center;
+  }
+  .pfi-return strong { color: #1b5e20; font-weight: 800; }
+
+  .pfi-talk {
+    background: #fff8e1; border: 1px solid #ffe082;
+    border-radius: 14px; padding: 16px 18px; margin-bottom: 16px;
+  }
+  .pfi-talk-head { font-size: 15px; font-weight: 800; color: #7a5c00; margin-bottom: 8px; }
+  .pfi-talk p { font-size: 14px; line-height: 1.55; color: #5d4700; margin: 0 0 12px; font-style: italic; }
+  .pfi-talk strong { color: #3e2f00; font-style: normal; }
+  .pfi-copy {
+    background: #ffb300; color: #3e2f00; border: none; border-radius: 10px;
+    padding: 10px 16px; font-size: 14px; font-weight: 700; cursor: pointer;
+  }
+  .pfi-copy:active { background: #ffa000; }
+
+  .pfi-foot { font-size: 12px; color: #999; text-align: center; line-height: 1.5; font-style: italic; margin-top: 4px; }
+
+  :global([data-theme='dark']) .pfi-inputs,
+  :global([data-theme='dark']) .pfi-pill,
+  :global([data-theme='dark']) .pfi-upside { background: #1e1e1e; border-color: #333; }
+  :global([data-theme='dark']) .pfi-up-card { background: #262626; }
+  :global([data-theme='dark']) .pfi-hero { background: #14321a; border-color: #2e7d32; }
+  :global([data-theme='dark']) .pfi-hero-num { color: #a5d6a7; }
+  :global([data-theme='dark']) .pfi-hero-sub { color: #c8e6c9; }
+  :global([data-theme='dark']) .pfi-hero-sub strong { color: #e8f5e9; }
+  :global([data-theme='dark']) .pfi-return { background: #14321a; color: #c8e6c9; }
+  :global([data-theme='dark']) .pfi-talk { background: #2a2410; border-color: #5d4b14; }
+  :global([data-theme='dark']) .pfi-talk p { color: #e8dba8; }
+  :global([data-theme='dark']) .pfi-talk strong { color: #fff3c4; }
+
+  @media (max-width: 420px) {
+    .pfi-upside-grid { grid-template-columns: 1fr 1fr; }
+    .pfi-hero-num { font-size: 60px; }
+  }
 
   .search-box {
     margin: 15px 0;
