@@ -3988,6 +3988,276 @@ IndoorMedia`
   // Attribution: match prospect phone clicks → contracts
   function norm(s) { return (s || '').toLowerCase().replace(/[^a-z0-9 ]/g, ' ').replace(/\s+/g, ' ').trim(); }
 
+  // ============================================================================
+  // SMART CONTACTS — Import (vCard/CSV) + Export (“Save to Contacts” via vCard)
+  // ----------------------------------------------------------------------------
+  // A web PWA can't silently read/write the phone address book (no portable
+  // browser API). The universal mechanism that works on BOTH iOS and Android is
+  // the vCard (.vcf) file: exporting one hands it to the OS Contacts app;
+  // importing one is the user's own exported address book. We parse that,
+  // detect which entries look like BUSINESSES, and match them against the
+  // customer/store database so Tyler instantly sees who's already a customer,
+  // who's a known store-area prospect, and who's brand new.
+  // ============================================================================
+  let contactsView = 'intro';   // intro | review
+  let contactsImporting = false;
+  let contactsParsed = [];      // [{ name, org, phone, email, address, title, _biz, _match }]
+  let contactsError = '';
+  let contactsStats = { total: 0, businesses: 0, customers: 0, prospects: 0, nouveau: 0 };
+  let contactsFilter = 'business'; // business | all
+  let contactsImported = 0;
+
+  // Words that strongly suggest a contact is a BUSINESS, not a person.
+  const BIZ_HINTS = /\b(inc|llc|l\.l\.c|corp|co\.?|company|ltd|restaurants?|cafe|caf\u00e9|grill|bar|pub|pizza|pizzeria|tacos?|burritos?|sushi|bbq|bakery|donuts?|deli|market|grocery|store|shop|boutique|salons?|spa|barber|nails?|dental|dentist|clinic|medical|chiropract|auto|automotive|tires?|repair|mechanic|collision|body shop|detailing|car wash|realty|realtor|insurance|law|attorney|legal|cpa|accounting|tax|plumbing|plumber|hvac|heating|cooling|electric|roofing|landscap|lawn|cleaners?|cleaning|janitorial|construction|contractor|remodel|flooring|painting|fitness|gym|yoga|studio|academy|school|daycare|church|bank|credit union|pharmacy|florist|flowers|jewelry|jeweler|optical|vision|eye care|vet|veterinar|pets?|grooming|hotel|motel|inn|catering|brewery|winery|distillery|liquor|smoke|vape|dispensary|cannabis|tattoo|photography|print|signs?|apparel|clothing|furniture|mattress|hardware|nursery|gas|fuel|towing|transmission|muffler|windshield|glass|locksmith|moving|storage|laundry|dry clean|massage|wellness|therapy|urgent care|orthodont)\b/i;
+
+  function looksLikeBusiness(name, org, title) {
+    const hay = `${name || ''} ${org || ''} ${title || ''}`;
+    if (org && org.trim()) return true;               // has an ORG field → business
+    if (BIZ_HINTS.test(hay)) return true;             // keyword hit
+    // Name with no spaces + ampersand ("Joe & Sons") or ALLCAPS brand-ish.
+    if (/[&@]/.test(name || '')) return true;
+    return false;
+  }
+
+  // Unescape vCard values (\n \, \; \\).
+  function vcUnescape(v) {
+    return (v || '').replace(/\\n/gi, ' ').replace(/\\,/g, ',').replace(/\\;/g, ';').replace(/\\\\/g, '\\').trim();
+  }
+
+  // Parse a vCard (.vcf) text blob into contact records. Handles multiple
+  // VCARD blocks, folded lines, TYPE params, and quoted-printable lightly.
+  function parseVCard(text) {
+    const out = [];
+    // Unfold: continuation lines start with a space/tab.
+    const unfolded = text.replace(/\r\n/g, '\n').replace(/\n[ \t]/g, '');
+    const blocks = unfolded.split(/BEGIN:VCARD/i).slice(1);
+    for (const blk of blocks) {
+      const lines = blk.split('\n');
+      let rec = { name: '', org: '', phone: '', email: '', address: '', title: '', _phones: [], _emails: [] };
+      for (let line of lines) {
+        if (/^END:VCARD/i.test(line)) break;
+        const ci = line.indexOf(':');
+        if (ci < 0) continue;
+        const rawKey = line.slice(0, ci);
+        const val = line.slice(ci + 1);
+        const key = rawKey.split(';')[0].toUpperCase().replace(/^ITEM\d+\./, '');
+        if (key === 'FN') rec.name = vcUnescape(val);
+        else if (key === 'N' && !rec.name) {
+          const parts = val.split(';').map(vcUnescape);
+          rec.name = [parts[1], parts[0]].filter(Boolean).join(' ').trim();
+        } else if (key === 'ORG') rec.org = vcUnescape(val.split(';')[0]);
+        else if (key === 'TITLE') rec.title = vcUnescape(val);
+        else if (key === 'TEL') rec._phones.push(vcUnescape(val));
+        else if (key === 'EMAIL') rec._emails.push(vcUnescape(val));
+        else if (key === 'ADR') {
+          const p = val.split(';').map(vcUnescape).filter(Boolean);
+          rec.address = p.join(', ').replace(/^,\s*/, '');
+        }
+      }
+      rec.phone = rec._phones[0] || '';
+      rec.email = rec._emails[0] || '';
+      if (rec.name || rec.org || rec.phone) out.push(rec);
+    }
+    return out;
+  }
+
+  // Parse a CSV address-book export (Google/Outlook style). Best-effort header
+  // sniffing for name/company/phone/email/address columns.
+  function parseContactsCSV(text) {
+    const rows = csvToRows(text);
+    if (rows.length < 2) return [];
+    const header = rows[0].map(h => h.toLowerCase().trim());
+    const find = (...keys) => header.findIndex(h => keys.some(k => h.includes(k)));
+    const iName = find('name', 'full name', 'display name');
+    const iFirst = find('first name', 'given');
+    const iLast = find('last name', 'family', 'surname');
+    const iOrg = find('organization', 'company', 'org');
+    const iPhone = header.findIndex(h => h.includes('phone') || h.includes('mobile') || h.includes('tel'));
+    const iEmail = header.findIndex(h => h.includes('e-mail') || h.includes('email'));
+    const iAddr = header.findIndex(h => h.includes('address') || h.includes('street'));
+    const out = [];
+    for (let r = 1; r < rows.length; r++) {
+      const row = rows[r];
+      if (!row || !row.length) continue;
+      let name = iName >= 0 ? (row[iName] || '').trim() : '';
+      if (!name && (iFirst >= 0 || iLast >= 0)) name = [row[iFirst], row[iLast]].filter(Boolean).join(' ').trim();
+      const org = iOrg >= 0 ? (row[iOrg] || '').trim() : '';
+      const phone = iPhone >= 0 ? (row[iPhone] || '').trim() : '';
+      const email = iEmail >= 0 ? (row[iEmail] || '').trim() : '';
+      const address = iAddr >= 0 ? (row[iAddr] || '').trim() : '';
+      if (name || org || phone) out.push({ name, org, phone, email, address, title: '' });
+    }
+    return out;
+  }
+
+  // Minimal CSV tokenizer (handles quoted fields + embedded commas/quotes).
+  function csvToRows(text) {
+    const rows = [];
+    let row = [], field = '', inQ = false;
+    const s = text.replace(/\r\n/g, '\n');
+    for (let i = 0; i < s.length; i++) {
+      const c = s[i];
+      if (inQ) {
+        if (c === '"') { if (s[i + 1] === '"') { field += '"'; i++; } else inQ = false; }
+        else field += c;
+      } else {
+        if (c === '"') inQ = true;
+        else if (c === ',') { row.push(field); field = ''; }
+        else if (c === '\n') { row.push(field); rows.push(row); row = []; field = ''; }
+        else field += c;
+      }
+    }
+    if (field.length || row.length) { row.push(field); rows.push(row); }
+    return rows;
+  }
+
+  // Match a parsed business contact against the customer DB (contracts) and the
+  // store/prospect DB. Returns { type, label, record } — type in
+  // customer | prospect | new.
+  function matchContactToDb(rec) {
+    const bizName = norm(rec.org || rec.name);
+    const digits = (rec.phone || '').replace(/\D/g, '');
+    const last7 = digits.length >= 7 ? digits.slice(-7) : '';
+    const stop = new Set(['the','and','inc','llc','corp','co','company','ltd','auto','car','wash','restaurant','cafe','shop','store','bar','grill','pizza','salon','spa','dental','repair','service','services','center','new','old']);
+    const words = bizName.split(' ').filter(w => w.length > 2 && !stop.has(w));
+
+    // 1) Existing CUSTOMER (contracts): exact phone → exact name → fuzzy.
+    let cust = null;
+    if (last7) cust = allContracts.find(c => { const d = (c.contact_phone || '').replace(/\D/g, ''); return d.length >= 7 && d.slice(-7) === last7; });
+    if (!cust && bizName) cust = allContracts.find(c => norm(c.business_name) === bizName);
+    if (!cust && words.length) {
+      cust = allContracts.find(c => {
+        const cw = norm(c.business_name).split(' ').filter(w => w.length > 2 && !stop.has(w));
+        if (!cw.length) return false;
+        const common = words.filter(w => cw.includes(w));
+        return common.length >= 2 && common.length / Math.max(words.length, cw.length) >= 0.6;
+      });
+    }
+    if (cust) return { type: 'customer', label: `Customer of ${cust.sales_rep || 'IndoorMedia'}`, record: cust };
+
+    // 2) Already a SAVED prospect of this rep.
+    if (bizName) {
+      const sp = savedProspects.find(p => norm(p.name) === bizName);
+      if (sp) return { type: 'prospect', label: 'Already in your saved leads', record: sp };
+    }
+    return { type: 'new', label: 'New — not in database yet', record: null };
+  }
+
+  async function handleContactsFile(e) {
+    contactsError = '';
+    const file = e.target.files && e.target.files[0];
+    if (!file) return;
+    contactsImporting = true;
+    contactsImported = 0;
+    try {
+      const text = await file.text();
+      let parsed = [];
+      if (/BEGIN:VCARD/i.test(text)) parsed = parseVCard(text);
+      else if (/[,;].*[,;]/.test(text.split('\n')[0] || '')) parsed = parseContactsCSV(text);
+      else { contactsError = 'Unrecognized file. Export your contacts as a .vcf (vCard) or .csv file and try again.'; contactsImporting = false; return; }
+
+      // Flag businesses + match against DB.
+      parsed.forEach(r => {
+        r._biz = looksLikeBusiness(r.name, r.org, r.title);
+        r._match = r._biz ? matchContactToDb(r) : { type: 'person', label: 'Looks like a person', record: null };
+        r._selected = r._biz && r._match.type !== 'customer'; // default-select importable prospects
+      });
+      // Business contacts first, then by match type.
+      const rank = { new: 0, prospect: 1, customer: 2, person: 3 };
+      parsed.sort((a, b) => (b._biz - a._biz) || (rank[a._match.type] - rank[b._match.type]) || (a.name || a.org || '').localeCompare(b.name || b.org || ''));
+      contactsParsed = parsed;
+      const biz = parsed.filter(r => r._biz);
+      contactsStats = {
+        total: parsed.length,
+        businesses: biz.length,
+        customers: biz.filter(r => r._match.type === 'customer').length,
+        prospects: biz.filter(r => r._match.type === 'prospect').length,
+        nouveau: biz.filter(r => r._match.type === 'new').length,
+      };
+      contactsFilter = 'business';
+      contactsView = 'review';
+    } catch (err) {
+      console.warn('[contacts import] failed:', err);
+      contactsError = 'Could not read that file. Make sure it\u2019s a .vcf or .csv export.';
+    } finally {
+      contactsImporting = false;
+      e.target.value = '';
+    }
+  }
+
+  // Import the selected new-business contacts as saved prospects.
+  function importSelectedContacts() {
+    const picks = contactsParsed.filter(r => r._biz && r._selected && r._match.type === 'new');
+    let added = 0;
+    for (const r of picks) {
+      const name = (r.org || r.name || '').trim();
+      if (!name) continue;
+      if (savedProspects.some(p => norm(p.name) === norm(name))) continue;
+      savedProspects = [...savedProspects, {
+        name,
+        address: r.address || '',
+        category: '', mainCategory: '',
+        contactName: r.org ? r.name : '',
+        phone: r.phone || '',
+        email: r.email || '',
+        rating: 0, reviews: 0,
+        score: 60,
+        savedAt: new Date().toISOString(),
+        status: 'new',
+        notes: 'Imported from contacts' + (r.email ? ` · ${r.email}` : ''),
+        _imported: true,
+      }];
+      added++;
+    }
+    persistProspects();
+    contactsImported = added;
+  }
+
+  // ---- EXPORT: build a vCard for a prospect and hand it to the OS ----
+  function vcEscape(v) { return (v || '').toString().replace(/\\/g, '\\\\').replace(/\n/g, '\\n').replace(/,/g, '\\,').replace(/;/g, '\\;'); }
+
+  function prospectVCard(prospect) {
+    const biz = prospect.name || 'Business';
+    const owner = (leadDataCache[getLeadHash(prospect)]?.ownerName) || prospect.contactName || prospect._scrapedOwner || '';
+    const phone = prospect.phone || (leadDataCache[getLeadHash(prospect)]?.contactPhone) || prospect._scrapedPhone || '';
+    const email = prospect.email || resolveProspectEmail(prospect) || (leadDataCache[getLeadHash(prospect)]?.contactEmail) || '';
+    const addr = prospect.address || '';
+    const fn = owner || biz; // display name: owner if known, else the business
+    const lines = [
+      'BEGIN:VCARD', 'VERSION:3.0',
+      `FN:${vcEscape(fn)}`,
+      `N:${vcEscape(fn)};;;;`,
+      `ORG:${vcEscape(biz)}`,
+    ];
+    if (phone) lines.push(`TEL;TYPE=WORK,VOICE:${vcEscape(phone)}`);
+    if (email) lines.push(`EMAIL;TYPE=WORK:${vcEscape(email)}`);
+    if (addr) lines.push(`ADR;TYPE=WORK:;;${vcEscape(addr)};;;;`);
+    if (prospect.website) lines.push(`URL:${vcEscape(prospect.website)}`);
+    lines.push(`NOTE:${vcEscape('IndoorMedia prospect' + (prospect.category ? ' · ' + prospect.category : ''))}`);
+    lines.push('END:VCARD');
+    return lines.join('\r\n');
+  }
+
+  function saveProspectToContacts(prospect) {
+    try {
+      const vcf = prospectVCard(prospect);
+      const blob = new Blob([vcf], { type: 'text/vcard;charset=utf-8' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      const safe = (prospect.name || 'contact').replace(/[^a-z0-9]+/gi, '-').replace(/^-+|-+$/g, '').toLowerCase() || 'contact';
+      a.download = `${safe}.vcf`;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      setTimeout(() => URL.revokeObjectURL(url), 4000);
+      prospect._savedToContacts = true;
+      prospects = prospects;
+    } catch (err) {
+      console.warn('[save to contacts] failed:', err);
+    }
+  }
+
   function getAttribution(prospect) {
     if (!allContracts.length) return null;
     const pName = norm(prospect.name);
@@ -4135,6 +4405,9 @@ IndoorMedia`
       filteredStoreResults = [];
     } else if (view === 'saved') {
       view = 'main';
+    } else if (view === 'contacts') {
+      if (contactsView === 'review') { contactsView = 'intro'; contactsParsed = []; }
+      else view = 'main';
     } else if (view === 'ad-intel') {
       view = adIntelReturnView || 'main';
     }
@@ -4311,6 +4584,12 @@ IndoorMedia`
         <div class="btn-icon">➕</div>
         <div class="btn-text">New Business</div>
         <div class="btn-desc">Add a lead manually</div>
+      </button>
+
+      <button class="main-btn" on:click={() => { contactsView = 'intro'; contactsError = ''; view = 'contacts'; }}>
+        <div class="btn-icon">📇</div>
+        <div class="btn-text">Import Contacts</div>
+        <div class="btn-desc">Scan your phone contacts for businesses</div>
       </button>
 
       <button class="main-btn" on:click={() => view = 'hot-leads'}>
@@ -5008,6 +5287,7 @@ IndoorMedia`
               {/if}
               <button class="action-btn btn-gray" on:click={() => saveProspect(prospect)}>💾 Save</button>
               <button class="action-btn btn-gray" on:click={() => { prospect._showNotes = !prospect._showNotes; prospects = prospects; }}>📝 Notes</button>
+              <button class="action-btn btn-teal" on:click={() => saveProspectToContacts(prospect)}>{prospect._savedToContacts ? '✅ Added' : '📇 Save to Contacts'}</button>
             </div>
           {#if prospect._showNotes}
             {@const ldHash = getLeadHash(prospect)}
@@ -5424,6 +5704,7 @@ IndoorMedia`
                   {#if prospect.website}
                     <a href={prospect.website} target="_blank" class="action-btn">🌐 Web</a>
                   {/if}
+                  <button class="action-btn btn-teal" on:click={() => saveProspectToContacts(prospect)}>{prospect._savedToContacts ? '✅ Added' : '📇 Contacts'}</button>
                 </div>
 
                 <!-- Contact info -->
@@ -5746,6 +6027,88 @@ IndoorMedia`
       <button class="back-btn" on:click={() => view = 'main'}>← Back</button>
       <HotLeadsSubmit user={$user} onLeadSubmitted={() => view = 'main'} />
     </div>
+  {/if}
+
+  <!-- Smart Contacts: import phone contacts, detect businesses, match to DB -->
+  {#if view === 'contacts'}
+    <button class="back-btn" on:click={goBack}>← Back</button>
+    <h2>📇 Import Contacts</h2>
+    <p class="subtitle">Find the businesses hiding in your phone’s address book</p>
+
+    {#if contactsView === 'intro'}
+      <div class="ct-intro">
+        <p class="ct-lead">Upload your contacts and I’ll comb through them — flag every <strong>business</strong>, then match each one against the customer &amp; store database so you instantly see who’s already a customer, who’s a known lead, and who’s brand new to go after.</p>
+
+        <label class="ct-upload">
+          <input type="file" accept=".vcf,.csv,text/vcard,text/csv" on:change={handleContactsFile} hidden />
+          {#if contactsImporting}⏳ Reading…{:else}📁 Choose contacts file (.vcf or .csv){/if}
+        </label>
+        {#if contactsError}<p class="ct-error">⚠️ {contactsError}</p>{/if}
+
+        <div class="ct-how">
+          <div class="ct-how-head">📲 How to export your contacts</div>
+          <div class="ct-how-grid">
+            <div class="ct-how-card">
+              <strong>iPhone</strong>
+              <ol><li>Open <em>Contacts</em></li><li>Tap <em>Lists</em> → long-press <em>All Contacts</em> → <em>Export</em></li><li>Or AirDrop/Share a group as a .vcf and open it here</li></ol>
+            </div>
+            <div class="ct-how-card">
+              <strong>Android / Google</strong>
+              <ol><li>Go to <a href="https://contacts.google.com/" target="_blank" rel="noreferrer">contacts.google.com</a></li><li><em>Export</em> → choose <em>vCard</em> or <em>Google CSV</em></li><li>Upload that file here</li></ol>
+            </div>
+          </div>
+          <p class="ct-priv">🔒 Everything is parsed <strong>on your device</strong> — nothing is uploaded to a server.</p>
+        </div>
+      </div>
+    {/if}
+
+    {#if contactsView === 'review'}
+      <div class="ct-stats">
+        <div class="ct-stat"><div class="ct-stat-num">{contactsStats.businesses}</div><div class="ct-stat-lbl">Businesses found</div></div>
+        <div class="ct-stat ct-cust"><div class="ct-stat-num">{contactsStats.customers}</div><div class="ct-stat-lbl">Already customers</div></div>
+        <div class="ct-stat ct-prosp"><div class="ct-stat-num">{contactsStats.prospects}</div><div class="ct-stat-lbl">Saved leads</div></div>
+        <div class="ct-stat ct-new"><div class="ct-stat-num">{contactsStats.nouveau}</div><div class="ct-stat-lbl">New to pursue</div></div>
+      </div>
+
+      <div class="ct-toolbar">
+        <div class="ct-filter">
+          <button class:active={contactsFilter === 'business'} on:click={() => contactsFilter = 'business'}>Businesses ({contactsStats.businesses})</button>
+          <button class:active={contactsFilter === 'all'} on:click={() => contactsFilter = 'all'}>All ({contactsStats.total})</button>
+        </div>
+        <button class="ct-import-btn" on:click={importSelectedContacts}>
+          ➕ Import {contactsParsed.filter(r => r._biz && r._selected && r._match.type === 'new').length} new leads
+        </button>
+      </div>
+
+      {#if contactsImported > 0}
+        <div class="ct-imported">✅ Added {contactsImported} new {contactsImported === 1 ? 'lead' : 'leads'} to your Saved prospects.</div>
+      {/if}
+
+      <div class="ct-list">
+        {#each contactsParsed.filter(r => contactsFilter === 'all' || r._biz) as r}
+          <div class="ct-row" class:ct-row-new={r._match.type === 'new'} class:ct-row-cust={r._match.type === 'customer'}>
+            {#if r._biz && r._match.type === 'new'}
+              <input type="checkbox" class="ct-check" bind:checked={r._selected} />
+            {:else}
+              <span class="ct-check-spacer"></span>
+            {/if}
+            <div class="ct-info">
+              <div class="ct-name">{r.org || r.name || '(no name)'}{#if r.org && r.name} · <span class="ct-person">{r.name}</span>{/if}</div>
+              <div class="ct-sub">
+                {#if r.phone}📞 {r.phone}{/if}
+                {#if r.email} · 📧 {r.email}{/if}
+              </div>
+            </div>
+            <div class="ct-tag ct-tag-{r._match.type}">
+              {#if r._match.type === 'customer'}✅ Customer
+              {:else if r._match.type === 'prospect'}💾 Saved
+              {:else if r._match.type === 'new'}🆕 New
+              {:else}👤 Person{/if}
+            </div>
+          </div>
+        {/each}
+      </div>
+    {/if}
   {/if}
 
   <!-- Local Ad Intelligence: see who's advertising locally across platforms -->
@@ -8158,4 +8521,67 @@ IndoorMedia`
   :global([data-theme='dark']) .dibs-badge { background: #3e2c00; color: #FFB74D; }
   :global([data-theme='dark']) .dibs-claim-btn { border-top-color: #FF9800; color: #FFB74D; }
   :global([data-theme='dark']) .dibs-claim-btn:hover { background: #3e2c00; }
+
+  /* ===== Smart Contacts (import/export) ===== */
+  .btn-teal { background: #e0f2f1 !important; color: #00695c !important; border-color: #80cbc4 !important; }
+  .btn-teal:hover { background: #b2dfdb !important; }
+  :global([data-theme='dark']) .btn-teal { background: #10302c !important; color: #80cbc4 !important; border-color: #2a4d48 !important; }
+
+  .ct-intro { max-width: 620px; margin: 0 auto; }
+  .ct-lead { font-size: 15px; line-height: 1.5; color: var(--text-primary, #333); background: var(--card-bg, #fff); border: 1px solid var(--border-color, #e8e8e8); border-radius: 12px; padding: 16px 18px; }
+  .ct-lead strong { color: #00695c; }
+  .ct-upload {
+    display: block; text-align: center; margin: 18px 0 10px;
+    background: linear-gradient(135deg, #00897b, #26a69a); color: #fff;
+    padding: 16px; border-radius: 12px; font-size: 16px; font-weight: 700;
+    cursor: pointer; box-shadow: 0 4px 14px rgba(0,137,123,0.3);
+  }
+  .ct-upload:hover { filter: brightness(1.05); }
+  .ct-error { color: #c62828; font-size: 14px; text-align: center; margin: 8px 0; }
+  .ct-how { margin-top: 20px; background: var(--bg-secondary, #f6f8f8); border: 1px solid var(--border-color, #e8e8e8); border-radius: 12px; padding: 16px; }
+  .ct-how-head { font-weight: 800; font-size: 14px; color: var(--text-primary, #1a1a1a); margin-bottom: 12px; }
+  .ct-how-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .ct-how-card { background: var(--card-bg, #fff); border-radius: 10px; padding: 12px 14px; font-size: 13px; }
+  .ct-how-card strong { display: block; color: #00695c; margin-bottom: 6px; }
+  .ct-how-card ol { margin: 0; padding-left: 18px; color: var(--text-secondary, #555); line-height: 1.5; }
+  .ct-how-card a { color: #00897b; }
+  .ct-priv { margin: 12px 0 0; font-size: 12px; color: #888; text-align: center; }
+
+  .ct-stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-bottom: 14px; }
+  .ct-stat { background: var(--card-bg, #fff); border: 1px solid var(--border-color, #e8e8e8); border-radius: 10px; padding: 12px 6px; text-align: center; }
+  .ct-stat-num { font-size: 26px; font-weight: 800; color: var(--text-primary, #1a1a1a); }
+  .ct-stat-lbl { font-size: 10.5px; color: #777; margin-top: 2px; line-height: 1.2; }
+  .ct-stat.ct-cust { background: #e8f5e9; } .ct-stat.ct-cust .ct-stat-num { color: #2e7d32; }
+  .ct-stat.ct-prosp { background: #e3f2fd; } .ct-stat.ct-prosp .ct-stat-num { color: #1565c0; }
+  .ct-stat.ct-new { background: #fff3e0; } .ct-stat.ct-new .ct-stat-num { color: #e65100; }
+
+  .ct-toolbar { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-bottom: 12px; flex-wrap: wrap; }
+  .ct-filter { display: inline-flex; gap: 6px; }
+  .ct-filter button { background: var(--card-bg, #fff); border: 1px solid var(--border-color, #ddd); border-radius: 20px; padding: 7px 14px; font-size: 13px; font-weight: 600; color: var(--text-secondary, #555); cursor: pointer; }
+  .ct-filter button.active { background: #00897b; color: #fff; border-color: #00897b; }
+  .ct-import-btn { background: #00897b; color: #fff; border: none; border-radius: 10px; padding: 9px 16px; font-size: 14px; font-weight: 700; cursor: pointer; }
+  .ct-import-btn:hover { filter: brightness(1.05); }
+  .ct-imported { background: #e8f5e9; color: #1b5e20; border-radius: 10px; padding: 10px 14px; font-size: 14px; font-weight: 600; margin-bottom: 12px; text-align: center; }
+
+  .ct-list { display: flex; flex-direction: column; gap: 8px; }
+  .ct-row { display: flex; align-items: center; gap: 10px; background: var(--card-bg, #fff); border: 1px solid var(--border-color, #e8e8e8); border-radius: 10px; padding: 10px 12px; }
+  .ct-row-new { border-left: 3px solid #e65100; }
+  .ct-row-cust { opacity: 0.72; }
+  .ct-check { width: 18px; height: 18px; accent-color: #00897b; flex-shrink: 0; }
+  .ct-check-spacer { width: 18px; flex-shrink: 0; }
+  .ct-info { flex: 1; min-width: 0; }
+  .ct-name { font-size: 14px; font-weight: 700; color: var(--text-primary, #1a1a1a); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .ct-person { font-weight: 500; color: #888; }
+  .ct-sub { font-size: 12px; color: #888; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .ct-tag { font-size: 11px; font-weight: 700; padding: 4px 9px; border-radius: 20px; white-space: nowrap; flex-shrink: 0; }
+  .ct-tag-customer { background: #e8f5e9; color: #2e7d32; }
+  .ct-tag-prospect { background: #e3f2fd; color: #1565c0; }
+  .ct-tag-new { background: #fff3e0; color: #e65100; }
+  .ct-tag-person { background: #f0f0f0; color: #999; }
+  :global([data-theme='dark']) .ct-lead, :global([data-theme='dark']) .ct-how-card, :global([data-theme='dark']) .ct-stat, :global([data-theme='dark']) .ct-row, :global([data-theme='dark']) .ct-filter button { background: #1e1e1e; border-color: #333; }
+  :global([data-theme='dark']) .ct-how { background: #181818; border-color: #333; }
+  @media (max-width: 480px) {
+    .ct-stats { grid-template-columns: repeat(2, 1fr); }
+    .ct-how-grid { grid-template-columns: 1fr; }
+  }
 </style>
