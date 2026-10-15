@@ -1,5 +1,269 @@
 [
   {
+    "message_id": "1a13c1d0b05eecb7",
+    "date": "2026-10-14 13:31",
+    "from": "Sydney Miller <Zone.07Y@indoormedia.com>",
+    "subject": "Ad Proofs from IndoorMedia , InterMountain Education Service District [07Y - B4 - J437109E]",
+    "client_name": "InterMountain Education Service District",
+    "contact_name": "Mark Mulvihill, IMESD",
+    "client_email": "michelle.gomez@imesd.k12.or.us",
+    "location": "",
+    "zone": "07Y",
+    "cycle": "B4",
+    "contract_number": "J437109E",
+    "store": "",
+    "ad_size": "Single",
+    "install_month": "",
+    "run_months": "",
+    "image_url": "https://lh3.googleusercontent.com/d/1kCvxQ0isaQfZEg4QU2vJ0oZUHktbBdjR",
+    "review_deadline": "10/16/2026",
+    "recipients": [
+      "richard.leibowitz@rtui.com",
+      "dave.boring@indoormedia.com",
+      "tyler.vansant@rtui.com",
+      "michelle.gomez@imesd.k12.or.us"
+    ],
+    "reps": [
+      {
+        "email": "dave.boring@indoormedia.com",
+        "name": "Dave Boring"
+      },
+      {
+        "email": "tyler.vansant@rtui.com",
+        "name": "Tyler Van Sant"
+      }
+    ]
+  },
+  {
+    "message_id": "1a13c1cae5eb2c72",
+    "date": "2026-10-14 13:31",
+    "from": "Sydney Miller <Zone.07Y@indoormedia.com>",
+    "subject": "Ad Proof from IndoorMedia , Cadwell Realty [07Y - B4 - J436361E]",
+    "client_name": "Cadwell Realty",
+    "contact_name": "Wendi Melcher",
+    "client_email": "wendi@wendimelcher.com",
+    "location": "",
+    "zone": "07Y",
+    "cycle": "B4",
+    "contract_number": "J436361E",
+    "store": "Tape Ad at Safeway 1558, 1983 South Main Street, Lebanon, OR",
+    "ad_size": "Double",
+    "install_month": "",
+    "run_months": "",
+    "image_url": "https://lh3.googleusercontent.com/d/1AhZ7pnTAbz2KGPO0Oa6D46DCQPYKEzkP",
+    "review_deadline": "10/15/2026",
+    "recipients": [
+      "richard.leibowitz@rtui.com",
+      "tyler.vansant@rtui.com",
+      "wendy.gamble@indoormedia.com",
+      "wendi@wendimelcher.com"
+    ],
+    "reps": [
+      {
+        "email": "tyler.vansant@rtui.com",
+        "name": "Tyler Van Sant"
+      }
+    ]
+  },
+  {
+    "message_id": "1a13bdc6713d14c9",
+    "date": "2026-10-14 12:20",
+    "from": "Zone 07Y - Sydney Miller <zone.07y@indoormedia.com>",
+    "subject": "Re: Ad Proof from IndoorMedia , Les Schwab [07Y - C4 - J421628E]",
+    "client_name": "Les Schwab",
+    "contact_name": "Hi Jacob",
+    "client_email": "jacob.t.marine@lesschwab.com",
+    "location": "",
+    "zone": "07Y",
+    "cycle": "C4",
+    "contract_number": "J421628E",
+    "store": ">> Tape Ad at Fred Meyer 0030, 325 5th St, Brookings, OR",
+    "ad_size": "Single",
+    "install_month": "",
+    "run_months": "",
+    "image_url": "https://lh3.googleusercontent.com/d/1PYaNlsEW_MvoFHjw7T6oMEpWgOkTlHMf",
+    "review_deadline": "10/19/2026",
+    "recipients": [
+      "jacob.t.marine@lesschwab.com",
+      "richard.leibowitz@rtui.com",
+      "kenneth.abbay@indoormedia.com",
+      "tyler.vansant@rtui.com"
+    ],
+    "reps": [
+      {
+        "email": "tyler.vansant@rtui.com",
+        "name": "Tyler Van Sant"
+      }
+    ]
+  },
+  {
+    "message_id": "1a13bd5c2b8b8c49",
+    "date": "2026-10-14 12:13",
+    "from": "Sydney Miller <Zone.07Z@indoormedia.com>",
+    "subject": "Ad Proof from IndoorMedia , Wishful Cleanning LLC [07Z - B4 - J437836E]",
+    "client_name": "Wishful Cleanning LLC",
+    "contact_name": "Jill Ohle",
+    "client_email": "jill@wishfulcleaning.com",
+    "location": "",
+    "zone": "07Z",
+    "cycle": "B4",
+    "contract_number": "J437836E",
+    "store": "Tape Ad at Fred Meyer 0135, 3805 SE Hawthorne Blvd, Portland, OR",
+    "ad_size": "Single",
+    "install_month": "",
+    "run_months": "",
+    "image_url": "https://lh3.googleusercontent.com/d/1h0FAyk7N_FqQqD9rB6HMPZCtsSA0gUmO",
+    "review_deadline": "10/16/2026",
+    "recipients": [
+      "jill@wishfulcleaning.com",
+      "richard.leibowitz@rtui.com",
+      "megan.wink@indoormedia.com",
+      "tyler.vansant@rtui.com"
+    ],
+    "reps": [
+      {
+        "email": "megan.wink@indoormedia.com",
+        "name": "Megan Wink"
+      },
+      {
+        "email": "tyler.vansant@rtui.com",
+        "name": "Tyler Van Sant"
+      }
+    ]
+  },
+  {
+    "message_id": "1a13bbe645eafcac",
+    "date": "2026-10-14 11:48",
+    "from": "Sydney Miller <Zone.07Y@indoormedia.com>",
+    "subject": "Ad Proof from IndoorMedia , Les Schwab [07Y - C4 - J421628E]",
+    "client_name": "Les Schwab",
+    "contact_name": "Cody Agee",
+    "client_email": "jacob.t.marine@lesschwab.com",
+    "location": "",
+    "zone": "07Y",
+    "cycle": "C4",
+    "contract_number": "J421628E",
+    "store": "Tape Ad at Fred Meyer 0030, 325 5th St, Brookings, OR",
+    "ad_size": "Single",
+    "install_month": "",
+    "run_months": "",
+    "image_url": "https://lh3.googleusercontent.com/d/1PYaNlsEW_MvoFHjw7T6oMEpWgOkTlHMf",
+    "review_deadline": "10/19/2026",
+    "recipients": [
+      "jacob.t.marine@lesschwab.com",
+      "richard.leibowitz@rtui.com",
+      "kenneth.abbay@indoormedia.com",
+      "tyler.vansant@rtui.com"
+    ],
+    "reps": [
+      {
+        "email": "tyler.vansant@rtui.com",
+        "name": "Tyler Van Sant"
+      }
+    ]
+  },
+  {
+    "message_id": "1a13bbdf31f5cdc8",
+    "date": "2026-10-14 11:47",
+    "from": "Sydney Miller <Zone.07Y@indoormedia.com>",
+    "subject": "Ad Proof from IndoorMedia , The Digital PCS Store [07Y - C4 - J439059E]",
+    "client_name": "The Digital PCS Store",
+    "contact_name": "Raul Garcia",
+    "client_email": "services@digitalpcs.net",
+    "location": "",
+    "zone": "07Y",
+    "cycle": "C4",
+    "contract_number": "J439059E",
+    "store": "Tape Ad at Safeway 0577, 5500 S 6th St, Klamath Falls, OR",
+    "ad_size": "Single",
+    "install_month": "",
+    "run_months": "",
+    "image_url": "https://lh3.googleusercontent.com/d/1c7r1_yEl-x_nXu9qyWuIYOFU4NYzvja3",
+    "review_deadline": "10/19/2026",
+    "recipients": [
+      "tyler.vansant@rtui.com",
+      "richard.leibowitz@rtui.com",
+      "kenneth.abbay@indoormedia.com",
+      "digitalpcsmedia@gmail.com",
+      "services@digitalpcs.net"
+    ],
+    "reps": [
+      {
+        "email": "tyler.vansant@rtui.com",
+        "name": "Tyler Van Sant"
+      }
+    ]
+  },
+  {
+    "message_id": "1a13aa939fcae5e2",
+    "date": "2026-10-14 06:44",
+    "from": "Zone 07Z - Sydney Miller <zone.07z@indoormedia.com>",
+    "subject": "Re: Ad Proof from IndoorMedia , Wishful Cleanning LLC [07Z - B4 - J437836E]",
+    "client_name": "Wishful Cleanning LLC",
+    "contact_name": "Good morning",
+    "client_email": "jill@wishfulcleaning.com",
+    "location": "",
+    "zone": "07Z",
+    "cycle": "B4",
+    "contract_number": "J437836E",
+    "store": "> Tape Ad at Fred Meyer 0135, 3805 SE Hawthorne Blvd, Portland, OR",
+    "ad_size": "Single",
+    "install_month": "",
+    "run_months": "",
+    "image_url": "https://lh3.googleusercontent.com/d/18LuROW9fABpnsllENB5wh8cagLvxL8JY",
+    "review_deadline": "10/09/2026",
+    "recipients": [
+      "jill@wishfulcleaning.com",
+      "richard.leibowitz@rtui.com",
+      "megan.wink@indoormedia.com",
+      "tyler.vansant@rtui.com"
+    ],
+    "reps": [
+      {
+        "email": "megan.wink@indoormedia.com",
+        "name": "Megan Wink"
+      },
+      {
+        "email": "tyler.vansant@rtui.com",
+        "name": "Tyler Van Sant"
+      }
+    ]
+  },
+  {
+    "message_id": "1a13a9a847c615e4",
+    "date": "2026-10-14 06:20",
+    "from": "Zone 07Y - Sydney Miller <zone.07y@indoormedia.com>",
+    "subject": "Re: Ad Proof from IndoorMedia , Papa Murphy's Pizza [07Y - B4 - V229556]",
+    "client_name": "Papa Murphy's Pizza",
+    "contact_name": "good day!*",
+    "client_email": "justinalford71@gmail.com",
+    "location": "",
+    "zone": "07Y",
+    "cycle": "B4",
+    "contract_number": "V229556",
+    "store": "> Tape Ad at Fred Meyer 0227, 150 Northeast 20Th Street, Newport, OR",
+    "ad_size": "Single",
+    "install_month": "",
+    "run_months": "",
+    "image_url": "https://lh3.googleusercontent.com/d/133R8xgArXqv-qxFbuuGwlq-8jvk0reAX",
+    "review_deadline": "10/01/2026",
+    "recipients": [
+      "richard.leibowitz@indoormedia.com",
+      "justinalford71@gmail.com",
+      "tyler.vansant@rtui.com"
+    ],
+    "reps": [
+      {
+        "email": "richard.leibowitz@indoormedia.com",
+        "name": "Rick Leibowitz"
+      },
+      {
+        "email": "tyler.vansant@rtui.com",
+        "name": "Tyler Van Sant"
+      }
+    ]
+  },
+  {
     "message_id": "1a1367f6466f3da5",
     "date": "2026-10-13 11:20",
     "from": "Zone 07Z - Sydney Miller <zone.07z@indoormedia.com>",
@@ -124,41 +388,6 @@
       {
         "email": "megan.wink@indoormedia.com",
         "name": "Megan Wink"
-      }
-    ]
-  },
-  {
-    "message_id": "1a130b923afe0e4a",
-    "date": "2026-10-12 08:26",
-    "from": "Zone 07Z - Sydney Miller <zone.07z@indoormedia.com>",
-    "subject": "Re: Ad Proof from IndoorMedia , Wishful Cleanning LLC [07Z - B4 - J437836E]",
-    "client_name": "Wishful Cleanning LLC",
-    "contact_name": "Good morning",
-    "client_email": "jill@wishfulcleaning.com",
-    "location": "",
-    "zone": "07Z",
-    "cycle": "B4",
-    "contract_number": "J437836E",
-    "store": "> Tape Ad at Fred Meyer 0135, 3805 SE Hawthorne Blvd, Portland, OR",
-    "ad_size": "Single",
-    "install_month": "",
-    "run_months": "",
-    "image_url": "https://lh3.googleusercontent.com/d/18LuROW9fABpnsllENB5wh8cagLvxL8JY",
-    "review_deadline": "10/09/2026",
-    "recipients": [
-      "megan.wink@indoormedia.com",
-      "jill@wishfulcleaning.com",
-      "tyler.vansant@rtui.com",
-      "richard.leibowitz@rtui.com"
-    ],
-    "reps": [
-      {
-        "email": "megan.wink@indoormedia.com",
-        "name": "Megan Wink"
-      },
-      {
-        "email": "tyler.vansant@rtui.com",
-        "name": "Tyler Van Sant"
       }
     ]
   },
@@ -458,41 +687,6 @@
       {
         "email": "tyler.vansant@rtui.com",
         "name": "Tyler Van Sant"
-      }
-    ]
-  },
-  {
-    "message_id": "1a112afa5e3a64ec",
-    "date": "2026-10-06 12:27",
-    "from": "Sydney Miller <Zone.07Z@indoormedia.com>",
-    "subject": "Ad Proof from IndoorMedia , Wishful Cleanning LLC [07Z - B4 - J437836E]",
-    "client_name": "Wishful Cleanning LLC",
-    "contact_name": "Jill Ohle",
-    "client_email": "jill@wishfulcleaning.com",
-    "location": "",
-    "zone": "07Z",
-    "cycle": "B4",
-    "contract_number": "J437836E",
-    "store": "Tape Ad at Fred Meyer 0135, 3805 SE Hawthorne Blvd, Portland, OR",
-    "ad_size": "Single",
-    "install_month": "",
-    "run_months": "",
-    "image_url": "https://lh3.googleusercontent.com/d/18LuROW9fABpnsllENB5wh8cagLvxL8JY",
-    "review_deadline": "10/09/2026",
-    "recipients": [
-      "jill@wishfulcleaning.com",
-      "tyler.vansant@rtui.com",
-      "richard.leibowitz@rtui.com",
-      "megan.wink@indoormedia.com"
-    ],
-    "reps": [
-      {
-        "email": "tyler.vansant@rtui.com",
-        "name": "Tyler Van Sant"
-      },
-      {
-        "email": "megan.wink@indoormedia.com",
-        "name": "Megan Wink"
       }
     ]
   },
@@ -9797,37 +9991,6 @@
         "email": "adan.ramos@indoormedia.com",
         "name": "Adan Ramos"
       },
-      {
-        "email": "tyler.vansant@rtui.com",
-        "name": "Tyler Van Sant"
-      }
-    ]
-  },
-  {
-    "message_id": "19fa46284142cf36",
-    "date": "2026-07-27 09:22",
-    "from": "Sydney Miller <Zone.07Y@indoormedia.com>",
-    "subject": "Ad Proof from IndoorMedia , Les Schwab [07Y - C3 - J421628E]",
-    "client_name": "Les Schwab",
-    "contact_name": "Cody Agee",
-    "client_email": "cody.j.agee@lesschwab.com",
-    "location": "",
-    "zone": "07Y",
-    "cycle": "C3",
-    "contract_number": "J421628E",
-    "store": "Tape Ad at Fred Meyer 0030, 325 5th St, Brookings, OR",
-    "ad_size": "Single",
-    "install_month": "",
-    "run_months": "",
-    "image_url": "https://lh3.googleusercontent.com/d/1Cr7UEZZGsVsFsLntedkGCZjbs7FBI20r",
-    "review_deadline": "07/30/2026",
-    "recipients": [
-      "richard.leibowitz@rtui.com",
-      "tyler.vansant@rtui.com",
-      "cody.j.agee@lesschwab.com",
-      "kenneth.abbay@indoormedia.com"
-    ],
-    "reps": [
       {
         "email": "tyler.vansant@rtui.com",
         "name": "Tyler Van Sant"
