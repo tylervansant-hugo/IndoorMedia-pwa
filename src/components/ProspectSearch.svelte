@@ -4528,6 +4528,17 @@ IndoorMedia`
       rebuttals: [
         "If you watched three different supermarket parking lots on a Saturday morning, you'd see the same cars going to each \u2014 one for meat, one for produce, another for the sale flyer. That's why they're called shoppers: people shop the ads and go where the items they need are on sale. My product works, and it's so low cost!"
       ]
+    },
+    {
+      id: 'think-it-over',
+      q: '\"I don\u2019t make decisions the same day / I need to think it over.\"',
+      tags: ['think it over', 'think about it', 'same day', "don't decide", 'sleep on it', 'get back to you', 'need time', 'decision', 'not today'],
+      rebuttals: [
+        "I completely respect that \u2014 a big decision deserves time. But let's right-size this one: we're talking about roughly $10 to $20 a day. That's not a bet-the-business decision, it's a cup-of-coffee-and-a-sandwich decision. The only thing 'thinking it over' costs you is another week of those shoppers walking into your competitor instead of you. My product works, and it's so low cost!",
+        "Fair enough \u2014 and I'd never want you to rush something that mattered. Here's the thing: this is about $10\u2013$20 a day. Did you decide yesterday what you were going to have for lunch today? Probably not \u2014 because it's a small, everyday call you make when it's in front of you. This is the same size decision, except instead of feeding you once, it feeds you new customers 2,000\u20135,000 times a day. And it's so low cost!",
+        "I love that your manager uses the lunch line \u2014 because here's where it actually lands: you don't pre-plan lunch because the stakes are low and you trust yourself to make a good small call. This IS that call. At $10\u2013$20 a day, the risk isn't in saying yes today \u2014 the risk is spending a week 'thinking' while the program that could've paid for itself in a handful of new customers sits on the shelf. Let's start it; you can always adjust the offer next cycle. My product works, and it's so low cost!",
+        "What is it you'd want to think about \u2014 the price, whether it works, or who else is doing it? Because if it's the money, it breaks down to about the cost of a daily coffee run. If it's whether it works, I've got a stack of letters from owners right near you. And if it's who else, your competitors are exactly who I'd rather have you beat to the shelf. Let's not let a $15-a-day decision cost you a whole cycle. And it's so low cost!"
+      ]
     }
   ];
   const PHRASE_THAT_PAYS = "My product works! And it's so low cost!";
