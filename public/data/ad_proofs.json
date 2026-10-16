@@ -1,5 +1,110 @@
 [
   {
+    "message_id": "1a13faf24c03cd76",
+    "date": "2026-10-15 06:09",
+    "from": "Zone 07Z - Sydney Miller <zone.07z@indoormedia.com>",
+    "subject": "Re: Ad Proof from IndoorMedia , Lightning Treats & Sweets [07Z - B4 - J421812E]",
+    "client_name": "Lightning Treats & Sweets",
+    "contact_name": "great day.*",
+    "client_email": "megan.wink@indoormedia.com",
+    "location": "",
+    "zone": "07Z",
+    "cycle": "B4",
+    "contract_number": "J421812E",
+    "store": ">> Tape Ad at Safeway 0424, 795 Columbia River Highway, St. Helens, OR",
+    "ad_size": "Double",
+    "install_month": "",
+    "run_months": "",
+    "image_url": "https://lh3.googleusercontent.com/d/1piBIJw67sLDUOsoOXefCgJWuqMotRt1j",
+    "review_deadline": "10/02/2026",
+    "recipients": [
+      "lightningcupcakes@gmail.com",
+      "richard.leibowitz@indoormedia.com",
+      "tyler.vansant@rtui.com",
+      "megan.wink@indoormedia.com"
+    ],
+    "reps": [
+      {
+        "email": "richard.leibowitz@indoormedia.com",
+        "name": "Rick Leibowitz"
+      },
+      {
+        "email": "tyler.vansant@rtui.com",
+        "name": "Tyler Van Sant"
+      },
+      {
+        "email": "megan.wink@indoormedia.com",
+        "name": "Megan Wink"
+      }
+    ]
+  },
+  {
+    "message_id": "1a13fae0d5166fe3",
+    "date": "2026-10-15 06:08",
+    "from": "Sydney Miller <Zone.07Z@indoormedia.com>",
+    "subject": "Ad Proof from IndoorMedia , Dadash Grill Turkish Cuisine [07Z - A1 - J426153E]",
+    "client_name": "Dadash Grill Turkish Cuisine",
+    "contact_name": "Kemran Khalilow",
+    "client_email": "dadashgrillwa@gmail.com",
+    "location": "",
+    "zone": "07Z",
+    "cycle": "A1",
+    "contract_number": "J426153E",
+    "store": "Tape Ad at Fred Meyer 0208, 11325 Southeast Mill Plain Blvd, Vancouver, WA",
+    "ad_size": "Double",
+    "install_month": "",
+    "run_months": "",
+    "image_url": "https://lh3.googleusercontent.com/d/1M3_H2r01Ex3u9pZHaW7DhU4kf1hmODvU",
+    "review_deadline": "10/20/2026",
+    "recipients": [
+      "dadashgrillwa@gmail.com",
+      "tyler.vansant@rtui.com",
+      "megan.wink@indoormedia.com",
+      "richard.leibowitz@rtui.com"
+    ],
+    "reps": [
+      {
+        "email": "tyler.vansant@rtui.com",
+        "name": "Tyler Van Sant"
+      },
+      {
+        "email": "megan.wink@indoormedia.com",
+        "name": "Megan Wink"
+      }
+    ]
+  },
+  {
+    "message_id": "1a13f9b32c4aa56c",
+    "date": "2026-10-15 05:47",
+    "from": "Zone 07Y - Sydney Miller <zone.07y@indoormedia.com>",
+    "subject": "Re: Ad Proof from IndoorMedia , Cadwell Realty [07Y - B4 - J436361E]",
+    "client_name": "Cadwell Realty",
+    "contact_name": "good day!*",
+    "client_email": "wendi@wendimelcher.com",
+    "location": "",
+    "zone": "07Y",
+    "cycle": "B4",
+    "contract_number": "J436361E",
+    "store": "> Tape Ad at Safeway 1558, 1983 South Main Street, Lebanon, OR",
+    "ad_size": "Double",
+    "install_month": "",
+    "run_months": "",
+    "image_url": "https://lh3.googleusercontent.com/d/1AhZ7pnTAbz2KGPO0Oa6D46DCQPYKEzkP",
+    "review_deadline": "10/15/2026",
+    "recipients": [
+      "wendi@wendimelcher.com",
+      "wendy.gamble@indoormedia.com",
+      "tyler.vansant@rtui.com",
+      "richard.leibowitz@rtui.com"
+    ],
+    "reps": [
+      {
+        "email": "tyler.vansant@rtui.com",
+        "name": "Tyler Van Sant"
+      }
+    ]
+  },
+  {
     "message_id": "1a13c1d0b05eecb7",
     "date": "2026-10-14 13:31",
     "from": "Sydney Miller <Zone.07Y@indoormedia.com>",
