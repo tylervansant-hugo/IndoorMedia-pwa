@@ -136,6 +136,66 @@
     return url || '';
   }
 
+  // Pull a bare email address out of a "Name <addr@x>" style From header (or a
+  // raw address). Returns '' if nothing email-like is found.
+  function extractEmail(fromStr) {
+    if (!fromStr) return '';
+    const m = ('' + fromStr).match(/<\s*([^<>\s]+@[^<>\s]+)\s*>/);
+    if (m) return m[1].trim();
+    const m2 = ('' + fromStr).match(/[^\s<>"']+@[^\s<>"']+/);
+    return m2 ? m2[0].trim() : '';
+  }
+
+  // Compose an "ad changes for next run" email to the zone inbox that originally
+  // sent the proof (TO), CC'ing the client. Prefilled with the contract/store
+  // details so the rep just types the actual change request.
+  function emailAdChanges(adv) {
+    const p = adv && adv._proof;
+    if (!p) return;
+    const zoneEmail = extractEmail(p.from);
+    const clientEmail = (p.client_email || adv.contact_email || '').trim();
+    if (!zoneEmail) {
+      alert('No proof sender email on file for this advertiser, so I can\u2019t route the change request. You can still reply to the original proof email in your inbox.');
+      return;
+    }
+    const rep = $currentUser?.name || $currentUser?.display_name || $user?.name || '';
+    const biz = p.client_name || adv.business_name || 'this advertiser';
+    const contract = (p.contract_number || adv.contract_number || '').trim();
+    const cycle = (p.cycle || '').trim();
+    const zone = (p.zone || '').trim();
+    const size = (p.ad_size || adv.product_description || adv.product_type || '').trim();
+    const store = (p.store || activeAdsModal?.storeLabel || '').trim();
+
+    // Subject mirrors the proof-email tag format: [ZONE - CYCLE - CONTRACT]
+    const tag = [zone, cycle, contract].filter(Boolean).join(' - ');
+    const subject = `Ad changes for next run \u2014 ${biz}` + (tag ? ` [${tag}]` : '');
+
+    const lines = [
+      `Hi team,`,
+      ``,
+      `We'd like to make some changes to ${biz}'s ad for the next run. Details below:`,
+      ``,
+      store ? `\u2022 Store: ${store}` : null,
+      contract ? `\u2022 Contract: ${contract}` : null,
+      cycle ? `\u2022 Current cycle: ${cycle}` : null,
+      size ? `\u2022 Ad size: ${size}` : null,
+      p.image_url ? `\u2022 Current proof: ${p.image_url}` : null,
+      ``,
+      `Requested changes:`,
+      `- `,
+      ``,
+      `Thanks!`,
+      rep ? `${rep}` : null,
+      `IndoorMedia`,
+    ].filter((l) => l !== null);
+    const body = lines.join('\n');
+
+    let href = `mailto:${encodeURIComponent(zoneEmail)}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+    if (clientEmail) href += `&cc=${encodeURIComponent(clientEmail)}`;
+    try { logActivity('ad_change_email', { business: biz, contract, zone, cycle }); } catch {}
+    window.location.href = href;
+  }
+
   // Summarize active ads for a store into short product labels for the badge.
   function activeAdSummary(storeName) {
     const list = activeAdsByStore[storeName];
@@ -1831,6 +1891,10 @@ Store: ${store.StoreName}
                   {:else}
                     <div class="aads-proof-none">Proof on file (no image link).</div>
                   {/if}
+                  <div class="aads-actions">
+                    <button class="aads-change-btn" on:click={() => emailAdChanges(adv)} title="Email the zone inbox that sent this proof (CC the client) to request ad changes for next run">✏️ Email ad changes for next run</button>
+                    {#if extractEmail(adv._proof.from)}<div class="aads-change-hint">To {extractEmail(adv._proof.from)}{adv._proof.client_email ? ' · CC ' + adv._proof.client_email : ''}</div>{/if}
+                  </div>
                 </div>
               {:else}
                 <div class="aads-proof-none">No ad proof on file yet for this advertiser.</div>
@@ -2743,6 +2807,16 @@ Store: ${store.StoreName}
   }
   .aads-proof-full { display: inline-block; margin-top: 6px; font-size: 12.5px; font-weight: 700; color: #1a73e8; text-decoration: none; }
   .aads-proof-none { font-size: 12.5px; color: var(--text-secondary, #999); margin-top: 8px; font-style: italic; }
+  .aads-actions { margin-top: 10px; }
+  .aads-change-btn {
+    display: inline-block; padding: 8px 14px; border: none; border-radius: 9px;
+    background: linear-gradient(135deg, #0f9d58, #0b8043); color: #fff;
+    font-size: 13px; font-weight: 800; cursor: pointer; width: 100%;
+    box-shadow: 0 2px 6px rgba(15,157,88,0.25);
+  }
+  .aads-change-btn:hover { filter: brightness(1.05); }
+  .aads-change-btn:active { transform: translateY(1px); }
+  .aads-change-hint { font-size: 11px; color: var(--text-secondary, #888); margin-top: 5px; text-align: center; word-break: break-word; }
   .active-ads-text {
     font-size: 13px;
     font-weight: 800;
