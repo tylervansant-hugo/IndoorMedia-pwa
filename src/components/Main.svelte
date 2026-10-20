@@ -3001,10 +3001,13 @@
     box-shadow: 0 4px 10px rgba(0,0,0,0.12);
   }
   .obk-main:active { transform: scale(0.95); }
-  .obk-calls   { background: linear-gradient(135deg, #2563eb, #3b82f6); }
-  .obk-texts   { background: linear-gradient(135deg, #7c3aed, #a855f7); }
-  .obk-emails  { background: linear-gradient(135deg, #0891b2, #06b6d4); }
-  .obk-walkins { background: linear-gradient(135deg, #ea580c, #f97316); }
+  /* Match the call/text/email/walk-in button colors on the prospect cards:
+     call #2e7d32 (green), text #1565C0 (blue), email #1565c0 (blue),
+     walk-in #E65100 (orange). */
+  .obk-calls   { background: linear-gradient(135deg, #2e7d32, #1b5e20); }
+  .obk-texts   { background: linear-gradient(135deg, #1565C0, #0D47A1); }
+  .obk-emails  { background: linear-gradient(135deg, #1565c0, #0d47a1); }
+  .obk-walkins { background: linear-gradient(135deg, #E65100, #BF360C); }
   .obk-icon { font-size: 18px; line-height: 1; }
   .obk-count { font-size: 22px; font-weight: 900; line-height: 1.05; }
   .obk-label { font-size: 11px; font-weight: 700; opacity: 0.95; }
