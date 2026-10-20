@@ -1498,8 +1498,18 @@
     }
     document.addEventListener('open-activity', handleOpenActivity);
 
+    // Relocated prospecting shortcuts on the Store Network page ask to enter the
+    // prospecting flow (Saved / Import Contacts / Call-In). Flip the Prospect
+    // tab into its prospects sub-view; ProspectSearch handles the exact view.
+    function handleOpenProspectView() {
+      currentTab = 'stores';
+      storesView = 'prospects';
+    }
+    document.addEventListener('open-prospect-view', handleOpenProspectView);
+
     return () => {
       stopCartPoll();
+      document.removeEventListener('open-prospect-view', handleOpenProspectView);
       document.removeEventListener('visibilitychange', onVisCart);
       document.removeEventListener('map-action', handleMapAction);
       document.removeEventListener('open-activity', handleOpenActivity);
@@ -1741,8 +1751,8 @@
   <nav class="tab-bar">
     <button class="tab-bar-item" class:active={currentTab === 'stores'} on:click={() => handleTabClick('stores')}>
       <div class="tab-bar-indicator"></div>
-      <svg class="tab-bar-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
-      <span class="tab-bar-label">Stores</span>
+      <svg class="tab-bar-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      <span class="tab-bar-label">Prospect</span>
     </button>
     <button class="tab-bar-item" class:active={currentTab === 'present'} on:click={() => handleTabClick('present')}>
       <div class="tab-bar-indicator"></div>

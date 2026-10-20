@@ -878,6 +878,15 @@
     view = 'call-in';
   }
 
+  // Open a specific prospecting view on request (from the relocated Saved /
+  // Import Contacts / Call-In buttons that now live on the Store Network page).
+  function handleOpenProspectView(e) {
+    const v = e?.detail?.view;
+    if (!v) return;
+    if (v === 'contacts') { contactsView = 'intro'; contactsError = ''; view = 'contacts'; }
+    else { view = v; }
+  }
+
   // Second tap on the Stores tab (while already on it) -> reset to main screen.
   function handleResetTabView(e) {
     if (e?.detail?.tab === 'stores') view = 'main';
@@ -1085,6 +1094,7 @@
     document.addEventListener('select-store-from-map', handleStoreSelectFromMap);
     document.addEventListener('edge-swipe-back', handleEdgeSwipeBack);
     document.addEventListener('show-callin-leads', handleShowCallIn);
+    document.addEventListener('open-prospect-view', handleOpenProspectView);
     document.addEventListener('universal-prospect-search', handleUniversalProspectSearch);
     document.addEventListener('reset-tab-view', handleResetTabView);
     document.addEventListener('request-nav-depth', _reportNavDepth);
@@ -1140,6 +1150,7 @@
     document.removeEventListener('select-store-from-map', handleStoreSelectFromMap);
     document.removeEventListener('edge-swipe-back', handleEdgeSwipeBack);
     document.removeEventListener('show-callin-leads', handleShowCallIn);
+    document.removeEventListener('open-prospect-view', handleOpenProspectView);
     document.removeEventListener('reset-tab-view', handleResetTabView);
     document.removeEventListener('request-nav-depth', _reportNavDepth);
 
@@ -4487,6 +4498,10 @@ IndoorMedia`
       else view = 'main';
     } else if (view === 'ad-intel') {
       view = adIntelReturnView || 'main';
+    } else if (view !== 'main') {
+      // Any other leaf view (call-in, hot-leads, pending, submit-lead, team)
+      // backs out to main, which Main.svelte flips to the Store Network.
+      view = 'main';
     }
   }
 

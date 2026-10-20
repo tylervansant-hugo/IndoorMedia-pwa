@@ -917,6 +917,25 @@ Store: ${store.StoreName}
   let coopUnlocked = {}; // { storeName: true/false }
   let storeQuarters = {}; // { storeName: 1|2|3|4 }
 
+  // ── Recently viewed stores (per device) ───────────────────────────────
+  // A rolling list of StoreNames the rep recently opened, newest first.
+  let recentStoreNames = [];
+  const RECENT_STORES_KEY = 'impro_recent_stores';
+  const RECENT_STORES_MAX = 12;
+  function loadRecentStores() {
+    try { recentStoreNames = JSON.parse(localStorage.getItem(RECENT_STORES_KEY) || '[]'); }
+    catch { recentStoreNames = []; }
+  }
+  function recordRecentStore(storeName) {
+    if (!storeName) return;
+    try {
+      let list = JSON.parse(localStorage.getItem(RECENT_STORES_KEY) || '[]');
+      list = [storeName, ...list.filter(n => n !== storeName)].slice(0, RECENT_STORES_MAX);
+      localStorage.setItem(RECENT_STORES_KEY, JSON.stringify(list));
+      recentStoreNames = list;
+    } catch {}
+  }
+
   function toggleExpand(storeName) {
     expandedStore = expandedStore === storeName ? null : storeName;
     if (!adType[storeName]) adType[storeName] = 'single';
@@ -925,6 +944,7 @@ Store: ${store.StoreName}
     if (expandedStore === storeName) {
       const store = filtered.find(s => s.StoreName === storeName) || allStores.find(s => s.StoreName === storeName);
       if (store) lookupStorePhone(store);
+      recordRecentStore(storeName);
       try { localStorage.setItem('impro_focus_store', storeName); } catch {}
       try {
         logActivity('store_view', {
@@ -1341,9 +1361,43 @@ Store: ${store.StoreName}
     }
   }
 
+  // Stores to surface in the "Recently viewed / Your dibs" strip beneath the
+  // search box: any store the rep has an active dib on (first), then recently
+  // opened stores. De-duped, resolved against allStores.
+  $: myName = ($currentUser?.name || $currentUser?.display_name || '').toLowerCase();
+  $: myDibStoreNames = Object.values(storeClaims)
+      .filter(c => c && c.storeName && (!c.expiresAt || new Date(c.expiresAt) > new Date())
+        && (isManager($currentUser) ? true : (c.repName || '').toLowerCase() === myName))
+      .map(c => c.storeName);
+  $: quickStoreNames = [...new Set([...(myDibStoreNames || []), ...(recentStoreNames || [])])].slice(0, 12);
+  $: quickStores = quickStoreNames
+      .map(n => allStores.find(s => s.StoreName === n))
+      .filter(Boolean);
+
+  function openQuickStore(store) {
+    searchTerm = '';
+    filterStores();
+    // Expand it (records recent + logs view) and scroll into view.
+    setTimeout(() => {
+      try {
+        if (expandedStore !== store.StoreName) toggleExpand(store.StoreName);
+        const el = document.getElementById('store-card-' + store.StoreName);
+        if (el) el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      } catch (_) {}
+    }, 60);
+  }
+
+  // The three relocated menu buttons (Saved / Import Contacts / Call-In Leads)
+  // now live here, beneath the search. They flip the Prospect tab into the
+  // prospecting flow and open the requested view.
+  function openProspectView(targetView) {
+    document.dispatchEvent(new CustomEvent('open-prospect-view', { detail: { view: targetView } }));
+  }
+
   onMount(() => {
     loadStores();
     loadClaims();
+    loadRecentStores();
     // Universal search (homepage) can drive this view: prefill + filter, then
     // optionally expand a specific store.
     const onUniversalStore = (e) => {
@@ -1381,6 +1435,42 @@ Store: ${store.StoreName}
     <button class="cycle-btn" class:active={storeCycleFilter === 'A'} on:click={() => storeCycleFilter = 'A'}>Cycle A</button>
     <button class="cycle-btn" class:active={storeCycleFilter === 'B'} on:click={() => storeCycleFilter = 'B'}>Cycle B</button>
     <button class="cycle-btn" class:active={storeCycleFilter === 'C'} on:click={() => storeCycleFilter = 'C'}>Cycle C</button>
+  </div>
+
+  <!-- Recently viewed / Your dibs — quick jump back into a store -->
+  {#if !searchTerm && quickStores.length > 0}
+    <div class="quick-stores">
+      <p class="quick-stores-label">⭐ Recently viewed{#if myDibStoreNames.length > 0} · 🔒 Your dibs{/if}</p>
+      <div class="quick-stores-row">
+        {#each quickStores as qs (qs.StoreName)}
+          {@const dib = storeClaims[qs.StoreName]}
+          <button class="quick-store-chip" class:has-dib={!!dib} on:click={() => openQuickStore(qs)}>
+            <span class="qs-chain">{qs.GroceryChain}</span>
+            <span class="qs-city">{qs.City}, {qs.State}</span>
+            {#if dib}<span class="qs-dib">🔒 {getShortName(dib.repName)}</span>{/if}
+          </button>
+        {/each}
+      </div>
+    </div>
+  {/if}
+
+  <!-- Relocated prospecting shortcuts (was the “Find Prospects” menu) -->
+  <div class="prospect-shortcuts">
+    <button class="psc-btn psc-saved" on:click={() => openProspectView('saved')}>
+      <span class="psc-icon">💾</span>
+      <span class="psc-text">Saved</span>
+      <span class="psc-sub">Your prospects</span>
+    </button>
+    <button class="psc-btn psc-contacts" on:click={() => openProspectView('contacts')}>
+      <span class="psc-icon">📇</span>
+      <span class="psc-text">Import Contacts</span>
+      <span class="psc-sub">From your phone</span>
+    </button>
+    <button class="psc-btn psc-callin" on:click={() => openProspectView('call-in')}>
+      <span class="psc-icon">📞</span>
+      <span class="psc-text">Call-In Leads</span>
+      <span class="psc-sub">Inbound callers</span>
+    </button>
   </div>
 
   <!-- Pricing Mode Toggle (Summer Promo archived — gated behind summerPromoActive) -->
@@ -2615,6 +2705,47 @@ Store: ${store.StoreName}
     display: flex;
     gap: 8px;
     margin-bottom: 16px;
+  }
+
+  /* ── Recently viewed / dibs quick-jump strip ───────────────────── */
+  .quick-stores { margin: 4px 0 14px; }
+  .quick-stores-label { font-size: 12px; font-weight: 700; color: var(--text-secondary, #777); margin: 0 0 8px; }
+  .quick-stores-row { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 4px; -webkit-overflow-scrolling: touch; scrollbar-width: none; }
+  .quick-stores-row::-webkit-scrollbar { display: none; }
+  .quick-store-chip {
+    flex: 0 0 auto; min-width: 128px; max-width: 170px; text-align: left;
+    background: #fff; border: 1.5px solid #e2e8f0; border-radius: 12px;
+    padding: 9px 12px; cursor: pointer; display: flex; flex-direction: column; gap: 2px;
+    transition: border-color 0.15s ease, box-shadow 0.15s ease, transform 0.1s ease;
+  }
+  .quick-store-chip:hover { border-color: #CC0000; box-shadow: 0 4px 12px rgba(204,0,0,0.1); }
+  .quick-store-chip:active { transform: scale(0.97); }
+  .quick-store-chip.has-dib { border-color: #FF9800; background: #FFF8EE; }
+  .qs-chain { font-size: 13px; font-weight: 700; color: var(--text-primary, #1a1a2e); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .qs-city { font-size: 11px; color: var(--text-secondary, #888); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .qs-dib { font-size: 10.5px; font-weight: 700; color: #E65100; margin-top: 1px; }
+  :global([data-theme='dark']) .quick-store-chip { background: #23232f; border-color: #3a3a4a; }
+  :global([data-theme='dark']) .quick-store-chip.has-dib { background: #3a2c12; border-color: #8a5a1c; }
+
+  /* ── Relocated prospecting shortcuts (Saved / Import / Call-In) ───── */
+  .prospect-shortcuts { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin: 0 0 18px; }
+  .psc-btn {
+    display: flex; flex-direction: column; align-items: center; gap: 2px; text-align: center;
+    padding: 14px 8px; border-radius: 14px; border: 1.5px solid #e2e8f0; background: #fff;
+    cursor: pointer; transition: transform 0.1s ease, box-shadow 0.15s ease, border-color 0.15s ease;
+  }
+  .psc-btn:hover { box-shadow: 0 6px 16px rgba(0,0,0,0.08); transform: translateY(-1px); }
+  .psc-btn:active { transform: scale(0.97); }
+  .psc-icon { font-size: 24px; line-height: 1; }
+  .psc-text { font-size: 13px; font-weight: 700; color: var(--text-primary, #1a1a2e); line-height: 1.15; }
+  .psc-sub { font-size: 10.5px; color: var(--text-secondary, #888); line-height: 1.1; }
+  .psc-saved:hover { border-color: #2e7d32; }
+  .psc-contacts:hover { border-color: #1565C0; }
+  .psc-callin:hover { border-color: #E65100; }
+  :global([data-theme='dark']) .psc-btn { background: #23232f; border-color: #3a3a4a; }
+  @media (max-width: 380px) {
+    .psc-text { font-size: 12px; }
+    .psc-sub { display: none; }
   }
 
   .cycle-btn {
