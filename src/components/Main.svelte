@@ -13,7 +13,7 @@
   // downs stay intact. Only the big movable sections participate.
   // Full reorder: every major Home block participates (the greeting header stays
   // pinned at the very top as the "cockpit"). Order is persisted per-device.
-  const DASH_CARDS_DEFAULT = ['search', 'quickactions', 'shortcuts', 'callin', 'activity', 'today', 'revenue', 'stats', 'goal'];
+  const DASH_CARDS_DEFAULT = ['search', 'quickactions', 'outreach', 'shortcuts', 'callin', 'activity', 'today', 'revenue', 'stats', 'goal'];
   let dashOrder = DASH_CARDS_DEFAULT;
   let editHome = false;
   let dashDragIdx = null;
@@ -25,6 +25,7 @@
     search: '🔎 Search', quickactions: '⚡ Quick Actions', shortcuts: '⭐ Shortcuts',
     callin: '📞 Call-In Leads', activity: '📝 Last Activity', today: '📅 Today',
     revenue: '💰 Revenue', stats: '📊 Stats', goal: '🎯 Goal',
+    outreach: '🌡️ Outreach Meter',
   };
   function loadDashOrder() { dashOrder = getWidgetOrder(DASH_CARDS_DEFAULT); dashHidden = getHiddenWidgets(); }
   function isDashHidden(id) { return dashHidden.includes(id); }
@@ -785,6 +786,82 @@
     saveDailyGoal();
   }
 
+  // ─── OUTREACH THERMOMETER ────────────────────────────────────────────────
+  // Daily goal: 40 combined touches (calls + texts + emails + walk-ins).
+  // AUTO-tallies from the app's own activity log (calls/texts/emails get logged
+  // automatically when the rep taps call/text/email in Prospects, Clients,
+  // etc.) and adds a per-day manual counter so reps can log the touches they
+  // make off-app (a phone call from their own phone, a walk-in, etc.).
+  const OUTREACH_TARGET = 40;
+  let outreach = { calls: 0, texts: 0, emails: 0, walkins: 0 };
+  let outreachTotal = 0;
+  let outreachPct = 0;
+
+  function getOutreachKey() {
+    const uid = $user?.id || 'default';
+    const today = new Date().toISOString().slice(0, 10);
+    return `impro_outreach_${uid}_${today}`;
+  }
+
+  // Manual nudges the rep logged today (persisted per user+day).
+  function loadOutreachManual() {
+    try {
+      const raw = JSON.parse(localStorage.getItem(getOutreachKey()) || 'null');
+      return raw && typeof raw === 'object'
+        ? { calls: raw.calls || 0, texts: raw.texts || 0, emails: raw.emails || 0, walkins: raw.walkins || 0 }
+        : { calls: 0, texts: 0, emails: 0, walkins: 0 };
+    } catch { return { calls: 0, texts: 0, emails: 0, walkins: 0 }; }
+  }
+
+  function saveOutreachManual(manual) {
+    try { localStorage.setItem(getOutreachKey(), JSON.stringify(manual)); } catch {}
+  }
+
+  // Rebuild the live tally = auto-logged activity (today) + manual nudges.
+  function computeOutreach() {
+    const today = new Date().toISOString().slice(0, 10);
+    let auto = { calls: 0, texts: 0, emails: 0 };
+    try {
+      const summaries = getDailySummaries();
+      const s = summaries[today];
+      if (s) { auto.calls = s.calls || 0; auto.texts = s.texts || 0; auto.emails = s.emails || 0; }
+    } catch {}
+    const manual = loadOutreachManual();
+    outreach = {
+      calls: auto.calls + manual.calls,
+      texts: auto.texts + manual.texts,
+      emails: auto.emails + manual.emails,
+      walkins: manual.walkins, // walk-ins are always manual (no auto source)
+    };
+    outreachTotal = outreach.calls + outreach.texts + outreach.emails + outreach.walkins;
+    outreachPct = Math.min(Math.round((outreachTotal / OUTREACH_TARGET) * 100), 100);
+  }
+
+  // +1 a bucket. calls/texts/emails bump the manual counter (stacks on top of
+  // any auto-logged activity); walk-ins are manual-only.
+  function logOutreach(kind) {
+    const manual = loadOutreachManual();
+    if (manual[kind] === undefined) return;
+    manual[kind] = (manual[kind] || 0) + 1;
+    saveOutreachManual(manual);
+    computeOutreach();
+    if (typeof navigator !== 'undefined' && navigator.vibrate) { try { navigator.vibrate(10); } catch {} }
+  }
+
+  // −1 a bucket (only affects the manual portion — won't go below 0).
+  function unlogOutreach(kind) {
+    const manual = loadOutreachManual();
+    if (!manual[kind]) return;
+    manual[kind] = Math.max(0, manual[kind] - 1);
+    saveOutreachManual(manual);
+    computeOutreach();
+  }
+
+  function resetOutreach() {
+    saveOutreachManual({ calls: 0, texts: 0, emails: 0, walkins: 0 });
+    computeOutreach();
+  }
+
   function calcStreak() {
     try {
       const searches = JSON.parse(localStorage.getItem('impro_searches') || '[]');
@@ -1199,6 +1276,7 @@
 
     getNextCycle();
     loadDailyGoal();
+    computeOutreach();
     calcStreak();
     loadRepSync();
     initFirebase();
@@ -1306,6 +1384,7 @@
       }
       try {
         computeDashboardStats();
+        computeOutreach();
       } catch (statsErr) {
         console.error('[Dashboard] computeDashboardStats ERROR:', statsErr);
       }
@@ -1794,6 +1873,83 @@
           {/if}
         </div>
         </div><!-- /dash-sec quickactions -->
+
+        <!-- OUTREACH THERMOMETER — 40 combined touches/day goal (movable) -->
+        <div class="dash-sec" class:editing={editHome} class:dash-hidden-card={isDashHidden('outreach')} style="order: {(dashOrderMap.outreach ?? 2) + 1}"
+          draggable={editHome}
+          on:dragstart={() => onDashDragStart('outreach')}
+          on:dragover|preventDefault={() => {}}
+          on:drop={() => onDashDrop('outreach')}>
+          {#if editHome}<div class="dash-move"><button on:click|stopPropagation={() => moveDashCard('outreach', -1)} aria-label="Move up">↑</button><button on:click|stopPropagation={() => moveDashCard('outreach', 1)} aria-label="Move down">↓</button><button class="dash-del" on:click|stopPropagation={() => hideDashCard('outreach')} aria-label="Remove card">✕</button></div>{/if}
+
+          <div class="outreach-card" class:goal-hit={outreachTotal >= OUTREACH_TARGET}>
+            <div class="outreach-head">
+              <div class="outreach-title-wrap">
+                <span class="outreach-title">🌡️ Today's Outreach</span>
+                <span class="outreach-sub">
+                  {#if outreachTotal >= OUTREACH_TARGET}Goal crushed — keep rolling!{:else}{OUTREACH_TARGET - outreachTotal} to go for 40{/if}
+                </span>
+              </div>
+              <div class="outreach-bigcount">
+                <span class="outreach-num">{outreachTotal}</span>
+                <span class="outreach-den">/ {OUTREACH_TARGET}</span>
+              </div>
+            </div>
+
+            <div class="outreach-body">
+              <!-- Vertical thermometer -->
+              <div class="thermo" role="img" aria-label="{outreachPct}% of daily outreach goal">
+                <div class="thermo-track">
+                  <div class="thermo-fill" style="height: {outreachPct}%"></div>
+                  <!-- tick marks at 25/50/75% -->
+                  <span class="thermo-tick" style="bottom:25%"></span>
+                  <span class="thermo-tick" style="bottom:50%"></span>
+                  <span class="thermo-tick" style="bottom:75%"></span>
+                </div>
+                <div class="thermo-bulb" class:full={outreachTotal >= OUTREACH_TARGET}>
+                  <span class="thermo-bulb-pct">{outreachPct}%</span>
+                </div>
+              </div>
+
+              <!-- Buckets with quick +1 log -->
+              <div class="outreach-buckets">
+                <div class="obk">
+                  <button class="obk-main obk-calls" on:click={() => logOutreach('calls')} on:contextmenu|preventDefault={() => unlogOutreach('calls')}>
+                    <span class="obk-icon">📞</span>
+                    <span class="obk-count">{outreach.calls}</span>
+                    <span class="obk-label">Calls</span>
+                  </button>
+                </div>
+                <div class="obk">
+                  <button class="obk-main obk-texts" on:click={() => logOutreach('texts')} on:contextmenu|preventDefault={() => unlogOutreach('texts')}>
+                    <span class="obk-icon">💬</span>
+                    <span class="obk-count">{outreach.texts}</span>
+                    <span class="obk-label">Texts</span>
+                  </button>
+                </div>
+                <div class="obk">
+                  <button class="obk-main obk-emails" on:click={() => logOutreach('emails')} on:contextmenu|preventDefault={() => unlogOutreach('emails')}>
+                    <span class="obk-icon">✉️</span>
+                    <span class="obk-count">{outreach.emails}</span>
+                    <span class="obk-label">Emails</span>
+                  </button>
+                </div>
+                <div class="obk">
+                  <button class="obk-main obk-walkins" on:click={() => logOutreach('walkins')} on:contextmenu|preventDefault={() => unlogOutreach('walkins')}>
+                    <span class="obk-icon">🚶</span>
+                    <span class="obk-count">{outreach.walkins}</span>
+                    <span class="obk-label">Walk-ins</span>
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <div class="outreach-foot">
+              <span class="outreach-hint">Tap a tile to log · long-press / right-click to remove</span>
+              <button class="outreach-reset" on:click={resetOutreach} aria-label="Reset today's outreach">↺ Reset</button>
+            </div>
+          </div>
+        </div><!-- /dash-sec outreach -->
 
         <!-- Home Screen shortcuts (user-pinned buttons, drag to reorder) -->
         <div class="dash-sec" class:editing={editHome} class:dash-hidden-card={isDashHidden('shortcuts')} style="order: {(dashOrderMap.shortcuts ?? 2) + 1}"
@@ -2773,6 +2929,105 @@
   .goal-progress { margin-bottom: 8px; }
   .goal-bar { height: 12px; background: #333; border-radius: 6px; overflow: hidden; }
   .goal-fill { height: 100%; background: linear-gradient(90deg, #CC0000, #ff4444); border-radius: 6px; transition: width 0.3s; }
+
+  /* ─── OUTREACH THERMOMETER ────────────────────────────────────────── */
+  .outreach-card {
+    background: linear-gradient(160deg, #ffffff 0%, #fff6f6 100%);
+    border: 1px solid rgba(204, 0, 0, 0.12);
+    border-radius: 18px;
+    padding: 18px 18px 14px;
+    box-shadow: 0 8px 24px rgba(204, 0, 0, 0.08);
+    position: relative;
+    overflow: hidden;
+  }
+  .outreach-card::before {
+    content: '';
+    position: absolute; inset: 0 0 auto 0; height: 4px;
+    background: linear-gradient(90deg, #ff512f, #ff9966, #ffd200);
+  }
+  .outreach-card.goal-hit {
+    border-color: rgba(34, 197, 94, 0.4);
+    box-shadow: 0 10px 30px rgba(34, 197, 94, 0.18);
+    background: linear-gradient(160deg, #ffffff 0%, #f1fff4 100%);
+  }
+  .outreach-card.goal-hit::before { background: linear-gradient(90deg, #16a34a, #22c55e, #86efac); }
+
+  .outreach-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 10px; }
+  .outreach-title-wrap { display: flex; flex-direction: column; }
+  .outreach-title { font-size: 16px; font-weight: 800; color: var(--text-primary, #1a1a2e); letter-spacing: -0.2px; }
+  .outreach-sub { font-size: 12px; font-weight: 600; color: #ef5a3c; margin-top: 2px; }
+  .outreach-card.goal-hit .outreach-sub { color: #16a34a; }
+  .outreach-bigcount { display: flex; align-items: baseline; gap: 3px; }
+  .outreach-num { font-size: 32px; font-weight: 900; line-height: 1; color: var(--text-primary, #1a1a2e);
+    background: linear-gradient(90deg, #ff512f, #ff9966); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; }
+  .outreach-card.goal-hit .outreach-num { background: linear-gradient(90deg, #16a34a, #22c55e); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; }
+  .outreach-den { font-size: 15px; font-weight: 700; color: var(--text-secondary, #94a3b8); }
+
+  .outreach-body { display: flex; align-items: stretch; gap: 16px; margin-top: 14px; }
+
+  /* Thermometer */
+  .thermo { display: flex; flex-direction: column; align-items: center; width: 54px; flex: 0 0 auto; }
+  .thermo-track {
+    position: relative; width: 20px; flex: 1 1 auto; min-height: 120px;
+    background: #ffe3dc; border-radius: 12px;
+    box-shadow: inset 0 2px 4px rgba(0,0,0,0.12);
+    overflow: hidden; display: flex; align-items: flex-end;
+  }
+  .thermo-fill {
+    width: 100%;
+    background: linear-gradient(180deg, #ffd200 0%, #ff9966 45%, #ff512f 100%);
+    border-radius: 12px 12px 0 0;
+    transition: height 0.6s cubic-bezier(.22,1,.36,1);
+    box-shadow: 0 0 10px rgba(255, 81, 47, 0.5);
+  }
+  .outreach-card.goal-hit .thermo-fill { background: linear-gradient(180deg, #86efac 0%, #22c55e 55%, #16a34a 100%); box-shadow: 0 0 12px rgba(34,197,94,0.55); }
+  .thermo-tick { position: absolute; left: 0; right: 0; height: 1px; background: rgba(0,0,0,0.12); }
+  .thermo-bulb {
+    width: 40px; height: 40px; border-radius: 50%; margin-top: -8px;
+    background: linear-gradient(135deg, #ff512f, #ff9966);
+    display: flex; align-items: center; justify-content: center;
+    box-shadow: 0 4px 10px rgba(255, 81, 47, 0.45), inset 0 2px 3px rgba(255,255,255,0.4);
+  }
+  .thermo-bulb.full { background: linear-gradient(135deg, #16a34a, #22c55e); box-shadow: 0 4px 12px rgba(34,197,94,0.5), inset 0 2px 3px rgba(255,255,255,0.4); }
+  .thermo-bulb-pct { font-size: 11px; font-weight: 800; color: #fff; }
+
+  /* Buckets */
+  .outreach-buckets { flex: 1 1 auto; display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .obk { display: flex; }
+  .obk-main {
+    position: relative; width: 100%; border: none; border-radius: 14px; cursor: pointer;
+    padding: 10px 8px 8px; display: flex; flex-direction: column; align-items: center; gap: 2px;
+    color: #fff; font-family: inherit; transition: transform 0.12s ease, box-shadow 0.12s ease;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.12);
+  }
+  .obk-main:active { transform: scale(0.95); }
+  .obk-calls   { background: linear-gradient(135deg, #2563eb, #3b82f6); }
+  .obk-texts   { background: linear-gradient(135deg, #7c3aed, #a855f7); }
+  .obk-emails  { background: linear-gradient(135deg, #0891b2, #06b6d4); }
+  .obk-walkins { background: linear-gradient(135deg, #ea580c, #f97316); }
+  .obk-icon { font-size: 18px; line-height: 1; }
+  .obk-count { font-size: 22px; font-weight: 900; line-height: 1.05; }
+  .obk-label { font-size: 11px; font-weight: 700; opacity: 0.95; }
+
+  .outreach-foot { display: flex; align-items: center; justify-content: space-between; margin-top: 12px; gap: 8px; }
+  .outreach-hint { font-size: 10.5px; color: var(--text-secondary, #94a3b8); }
+  .outreach-reset {
+    background: transparent; border: 1px solid rgba(0,0,0,0.12); color: var(--text-secondary, #64748b);
+    border-radius: 8px; padding: 4px 10px; font-size: 12px; font-weight: 600; cursor: pointer; font-family: inherit;
+  }
+  .outreach-reset:active { transform: scale(0.96); }
+
+  :global([data-theme='dark']) .outreach-card { background: linear-gradient(160deg, #1f1f2e 0%, #2a1f22 100%); border-color: rgba(255,120,90,0.2); }
+  :global([data-theme='dark']) .outreach-card.goal-hit { background: linear-gradient(160deg, #1f1f2e 0%, #1c2a20 100%); }
+  :global([data-theme='dark']) .thermo-track { background: #3a2a28; }
+  :global([data-theme='dark']) .outreach-reset { border-color: rgba(255,255,255,0.18); }
+
+  @media (max-width: 400px) {
+    .outreach-buckets { gap: 8px; }
+    .obk-count { font-size: 20px; }
+    .thermo-track { min-height: 104px; }
+  }
+
   .goal-count { text-align: center; font-size: 24px; font-weight: 700; color: var(--text-primary); margin-top: 8px; }
   .goal-label { text-align: center; font-size: 13px; color: var(--text-secondary, #999); margin: 4px 0 12px; }
   .goal-actions { display: flex; gap: 8px; align-items: center; }
