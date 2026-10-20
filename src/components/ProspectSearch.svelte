@@ -3861,6 +3861,49 @@ IndoorMedia`
     return { ownerName, contactPhone, contactEmail, notes };
   }
 
+  // Extract a clean, human street NAME from a full street address: drop the
+  // leading house number + leading compass direction, and strip the trailing
+  // street-type suffix (St/Ave/Blvd/Hwy/etc) so "3805 SE Hawthorne Blvd" -> "Hawthorne".
+  function streetNameFromAddress(addr) {
+    if (!addr) return '';
+    let s = String(addr).split(',')[0].trim();                 // before city/zip
+    s = s.replace(/^\s*\d+\s*/, '');                            // drop house number
+    s = s.replace(/^(N|S|E|W|NE|NW|SE|SW|North|South|East|West)\s+/i, ''); // drop leading direction
+    s = s.replace(/\s+(Street|St|Avenue|Ave|Boulevard|Blvd|Road|Rd|Drive|Dr|Lane|Ln|Way|Highway|Hwy|Place|Pl|Court|Ct|Parkway|Pkwy|Circle|Cir|Terrace|Ter|Loop|Square|Sq)\.?\s*(N|S|E|W|NE|NW|SE|SW|North|South|East|West)?\.?$/i, '');
+    return s.trim();
+  }
+
+  // Smart appointment title for meetings booked from a prospect card:
+  //   "<Street|City> <Store Chain> Featuring <Business Name> to Their Shoppers"
+  // Use the STREET name when the same chain has multiple stores in that city
+  // (to disambiguate), otherwise use the CITY. Examples:
+  //   "Centralia Safeway Featuring Quiznos to Their Shoppers"  (one Safeway in Centralia)
+  //   "Hawthorne Fred Meyer Featuring Jiffy Lube to Their Shoppers"  (many Fred Meyers in Portland)
+  function buildAppointmentTitle(prospect) {
+    const store = selectedStore || {};
+    const chain = (store.GroceryChain || store.StoreName || '').trim();
+    const city = (store.City || '').trim();
+    const business = (prospect?.name || '').trim();
+    // Fallback to the old simple title if we lack store context.
+    if (!chain || !business) return 'Visit: ' + business;
+    // Count stores of the same chain in the same city.
+    let sameCityCount = 0;
+    try {
+      sameCityCount = (allStores || []).filter(s =>
+        (s.GroceryChain || '').toLowerCase() === chain.toLowerCase() &&
+        (s.City || '').toLowerCase() === city.toLowerCase()
+      ).length;
+    } catch { sameCityCount = 0; }
+    // >1 of this chain in the city -> disambiguate by street; else use city.
+    let locale = city;
+    if (sameCityCount > 1) {
+      const street = streetNameFromAddress(store.Address);
+      if (street) locale = street;
+    }
+    if (!locale) locale = city || chain;
+    return `${locale} ${chain} Featuring ${business} to Their Shoppers`;
+  }
+
   // Build the Google Calendar "Book Appointment" URL for a prospect, including
   // the rep-entered contact details so nothing gets lost on the calendar event.
   function buildAppointmentUrl(prospect) {
@@ -3880,7 +3923,7 @@ IndoorMedia`
     if (c.notes) details += '\n\n📝 Notes:\n' + c.notes;
     const add = 'tyler.vansant@indoormedia.com' + (inviteRepEmail ? ',' + inviteRepEmail : '');
     return 'https://calendar.google.com/calendar/render?action=TEMPLATE'
-      + '&text=' + encodeURIComponent('Visit: ' + (prospect.name || ''))
+      + '&text=' + encodeURIComponent(buildAppointmentTitle(prospect))
       + '&details=' + encodeURIComponent(details)
       + '&location=' + encodeURIComponent(prospect.address || '')
       + '&add=' + encodeURIComponent(add);
@@ -5778,7 +5821,7 @@ IndoorMedia`
                       const tomorrow = new Date(); tomorrow.setDate(tomorrow.getDate() + 1); tomorrow.setHours(10,0,0,0);
                       const end = new Date(tomorrow); end.setHours(11);
                       const fmt = d => d.toISOString().replace(/[-:]/g,'').split('.')[0]+'Z';
-                      window.open(`https://calendar.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent('🚗 Visit: ' + prospect.name)}&dates=${fmt(tomorrow)}/${fmt(end)}&details=${encodeURIComponent('Prospect visit\nBusiness: ' + prospect.name + '\nPhone: ' + (prospect.phone||'N/A'))}&location=${encodeURIComponent(prospect.address||'')}&add=${encodeURIComponent('tyler.vansant@indoormedia.com')}`, '_blank');
+                      window.open(`https://calendar.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent(buildAppointmentTitle(prospect))}&dates=${fmt(tomorrow)}/${fmt(end)}&details=${encodeURIComponent('Prospect visit\nBusiness: ' + prospect.name + '\nPhone: ' + (prospect.phone||'N/A'))}&location=${encodeURIComponent(prospect.address||'')}&add=${encodeURIComponent('tyler.vansant@indoormedia.com')}`, '_blank');
                     }}>🚗 Schedule Visit</button>
                   </div>
                 </div>
