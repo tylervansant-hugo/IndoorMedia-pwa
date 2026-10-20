@@ -1375,16 +1375,25 @@ Store: ${store.StoreName}
       .filter(Boolean);
 
   function openQuickStore(store) {
-    searchTerm = '';
+    // Search by the unique store number so exactly this store's card renders,
+    // then open the full (expanded) card and scroll to it.
+    searchTerm = store.StoreName;
     filterStores();
-    // Expand it (records recent + logs view) and scroll into view.
     setTimeout(() => {
       try {
         if (expandedStore !== store.StoreName) toggleExpand(store.StoreName);
         const el = document.getElementById('store-card-' + store.StoreName);
-        if (el) el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
       } catch (_) {}
-    }, 60);
+    }, 80);
+  }
+
+  // Estimated daily ad impressions (traffic proxy) from case count — mirrors the
+  // store card's impressions preview: annual = cases × 50 × 137 × 2 × 4.
+  function estDailyTraffic(store) {
+    const cases = parseInt(store && store['Case Count']) || 0;
+    if (!cases) return 0;
+    return Math.round((cases * 50 * 137 * 2 * 4) / 365);
   }
 
   // The three relocated menu buttons (Saved / Import Contacts / Call-In Leads)
@@ -1444,9 +1453,16 @@ Store: ${store.StoreName}
       <div class="quick-stores-row">
         {#each quickStores as qs (qs.StoreName)}
           {@const dib = storeClaims[qs.StoreName]}
+          {@const traffic = estDailyTraffic(qs)}
           <button class="quick-store-chip" class:has-dib={!!dib} on:click={() => openQuickStore(qs)}>
             <span class="qs-chain">{qs.GroceryChain}</span>
-            <span class="qs-city">{qs.City}, {qs.State}</span>
+            <span class="qs-num">#{qs.StoreName}</span>
+            <span class="qs-city">{qs.Address}</span>
+            <span class="qs-city qs-citystate">{qs.City}, {qs.State}</span>
+            <div class="qs-stats">
+              <span class="qs-stat">📦 {qs['Case Count'] || 0} cases</span>
+              {#if traffic > 0}<span class="qs-stat">👁️ {traffic.toLocaleString()}/day</span>{/if}
+            </div>
             {#if dib}<span class="qs-dib">🔒 {getShortName(dib.repName)}</span>{/if}
           </button>
         {/each}
@@ -2713,17 +2729,22 @@ Store: ${store.StoreName}
   .quick-stores-row { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 4px; -webkit-overflow-scrolling: touch; scrollbar-width: none; }
   .quick-stores-row::-webkit-scrollbar { display: none; }
   .quick-store-chip {
-    flex: 0 0 auto; min-width: 128px; max-width: 170px; text-align: left;
+    flex: 0 0 auto; min-width: 162px; max-width: 200px; text-align: left;
     background: #fff; border: 1.5px solid #e2e8f0; border-radius: 12px;
-    padding: 9px 12px; cursor: pointer; display: flex; flex-direction: column; gap: 2px;
+    padding: 10px 12px; cursor: pointer; display: flex; flex-direction: column; gap: 1px;
     transition: border-color 0.15s ease, box-shadow 0.15s ease, transform 0.1s ease;
   }
   .quick-store-chip:hover { border-color: #CC0000; box-shadow: 0 4px 12px rgba(204,0,0,0.1); }
   .quick-store-chip:active { transform: scale(0.97); }
   .quick-store-chip.has-dib { border-color: #FF9800; background: #FFF8EE; }
   .qs-chain { font-size: 13px; font-weight: 700; color: var(--text-primary, #1a1a2e); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .qs-num { font-size: 10px; font-weight: 600; color: #CC0000; letter-spacing: 0.2px; }
   .qs-city { font-size: 11px; color: var(--text-secondary, #888); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-  .qs-dib { font-size: 10.5px; font-weight: 700; color: #E65100; margin-top: 1px; }
+  .qs-citystate { font-size: 10.5px; }
+  .qs-stats { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 4px; }
+  .qs-stat { font-size: 10px; font-weight: 600; color: var(--text-secondary, #666); background: rgba(0,0,0,0.05); border-radius: 6px; padding: 2px 6px; white-space: nowrap; }
+  .qs-dib { font-size: 10.5px; font-weight: 700; color: #E65100; margin-top: 3px; }
+  :global([data-theme='dark']) .qs-stat { background: rgba(255,255,255,0.08); color: #aaa; }
   :global([data-theme='dark']) .quick-store-chip { background: #23232f; border-color: #3a3a4a; }
   :global([data-theme='dark']) .quick-store-chip.has-dib { background: #3a2c12; border-color: #8a5a1c; }
 
