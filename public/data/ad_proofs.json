@@ -1,7 +1,38 @@
 [
   {
-    "message_id": "1a155e10a719d895",
-    "date": "2026-10-19 13:35",
+    "message_id": "1a15a899e5f2cb1d",
+    "date": "2026-10-20 11:18",
+    "from": "Sydney Miller <Zone.07Z@indoormedia.com>",
+    "subject": "Ad Proof from IndoorMedia , Creole Soul PDX [07Z - B4 - J440084E]",
+    "client_name": "Creole Soul PDX",
+    "contact_name": "Jeff Homsley",
+    "client_email": "creolesoulpdx@gmail.com",
+    "location": "",
+    "zone": "07Z",
+    "cycle": "B4",
+    "contract_number": "J440084E",
+    "store": "Tape Ad at Fred Meyer 0135, 3805 SE Hawthorne Blvd, Portland, OR",
+    "ad_size": "Single",
+    "install_month": "",
+    "run_months": "",
+    "image_url": "https://lh3.googleusercontent.com/d/1DcXVnK0zuguLcoMp3FQHcqwexogYKAcd",
+    "review_deadline": "10/20/2026",
+    "recipients": [
+      "daniel.barchini@indoormedia.com",
+      "richard.leibowitz@rtui.com",
+      "tyler.vansant@rtui.com",
+      "creolesoulpdx@gmail.com"
+    ],
+    "reps": [
+      {
+        "email": "tyler.vansant@rtui.com",
+        "name": "Tyler Van Sant"
+      }
+    ]
+  },
+  {
+    "message_id": "1a15a5ea85856862",
+    "date": "2026-10-20 10:31",
     "from": "Zone 07Z - Sydney Miller <zone.07z@indoormedia.com>",
     "subject": "Re: Ad Proof from IndoorMedia , Creole Soul PDX [07Z - B4 - J440084E]",
     "client_name": "Creole Soul PDX",
@@ -15,11 +46,42 @@
     "ad_size": "Single",
     "install_month": "",
     "run_months": "",
-    "image_url": "https://lh3.googleusercontent.com/d/1OKC8_8bUuhrTfCpN9NGuQjnS9KT2eK1q",
-    "review_deadline": "10/19/2026",
+    "image_url": "https://lh3.googleusercontent.com/d/1i_9YWLh23RlzxsgaLG2qcf5pDcH-WtAS",
+    "review_deadline": "10/20/2026",
     "recipients": [
-      "creolesoulpdx@gmail.com",
       "daniel.barchini@indoormedia.com",
+      "richard.leibowitz@rtui.com",
+      "tyler.vansant@rtui.com",
+      "creolesoulpdx@gmail.com"
+    ],
+    "reps": [
+      {
+        "email": "tyler.vansant@rtui.com",
+        "name": "Tyler Van Sant"
+      }
+    ]
+  },
+  {
+    "message_id": "1a15a518b20df1cd",
+    "date": "2026-10-20 10:17",
+    "from": "Sydney Miller <Zone.07Y@indoormedia.com>",
+    "subject": "Ad Proof from IndoorMedia , Hacienda [07Y - B4 - J427671E]",
+    "client_name": "Hacienda",
+    "contact_name": "Carlos Lepe",
+    "client_email": "carlosmlepe0524@yahoo.com",
+    "location": "",
+    "zone": "07Y",
+    "cycle": "B4",
+    "contract_number": "J427671E",
+    "store": "Tape Ad at Safeway 1666, 1539 NE Stephens St., Roseburg, OR",
+    "ad_size": "Single",
+    "install_month": "",
+    "run_months": "",
+    "image_url": "https://lh3.googleusercontent.com/d/1Lk7azOMgApm9-2pRuW_4kc4drlGbWd3k",
+    "review_deadline": "10/20/2026",
+    "recipients": [
+      "carlosmlepe0524@yahoo.com",
+      "kenneth.abbay@indoormedia.com",
       "tyler.vansant@rtui.com",
       "richard.leibowitz@rtui.com"
     ],
@@ -27,6 +89,76 @@
       {
         "email": "tyler.vansant@rtui.com",
         "name": "Tyler Van Sant"
+      }
+    ]
+  },
+  {
+    "message_id": "1a159f5c79227484",
+    "date": "2026-10-20 08:37",
+    "from": "Sydney Miller <Zone.07Z@indoormedia.com>",
+    "subject": "Your Digital Boost Ad Proof from IndoorMedia, Battle Ground Farmer's Market - J434608E",
+    "client_name": "Battle Ground Farmer's Market",
+    "contact_name": "James Townley",
+    "client_email": "james@bghospitality.org",
+    "location": "J434608E",
+    "zone": "",
+    "cycle": "",
+    "contract_number": "",
+    "store": "",
+    "ad_size": "",
+    "install_month": "",
+    "run_months": "",
+    "image_url": "",
+    "review_deadline": "",
+    "recipients": [
+      "james@bghospitality.org",
+      "dave.boring@indoormedia.com",
+      "tyler.vansant@rtui.com",
+      "richard.leibowitz@rtui.com"
+    ],
+    "reps": [
+      {
+        "email": "dave.boring@indoormedia.com",
+        "name": "Dave Boring"
+      },
+      {
+        "email": "tyler.vansant@rtui.com",
+        "name": "Tyler Van Sant"
+      }
+    ]
+  },
+  {
+    "message_id": "1a159f35e5b98137",
+    "date": "2026-10-20 08:34",
+    "from": "Sydney Miller <Zone.07Z@indoormedia.com>",
+    "subject": "Ad Proof from IndoorMedia , El Burrito Mojado [07Z - B4 - J425443E]",
+    "client_name": "El Burrito Mojado",
+    "contact_name": "Rene Martinez",
+    "client_email": "kensy_40@icloud.com",
+    "location": "",
+    "zone": "07Z",
+    "cycle": "B4",
+    "contract_number": "J425443E",
+    "store": "Tape Ad at Fred Meyer 0255, 6850 N Lombard St, Portland, OR",
+    "ad_size": "Single",
+    "install_month": "",
+    "run_months": "",
+    "image_url": "https://lh3.googleusercontent.com/d/1qn5nAQGTbpGmQj2eoMSJ97DI-MvsUg1X",
+    "review_deadline": "10/20/2026",
+    "recipients": [
+      "tyler.vansant@rtui.com",
+      "kensy_40@icloud.com",
+      "richard.leibowitz@rtui.com",
+      "adan.ramos@indoormedia.com"
+    ],
+    "reps": [
+      {
+        "email": "tyler.vansant@rtui.com",
+        "name": "Tyler Van Sant"
+      },
+      {
+        "email": "adan.ramos@indoormedia.com",
+        "name": "Adan Ramos"
       }
     ]
   },
@@ -62,72 +194,6 @@
       {
         "email": "dave.boring@indoormedia.com",
         "name": "Dave Boring"
-      }
-    ]
-  },
-  {
-    "message_id": "1a155618ce9194b7",
-    "date": "2026-10-19 11:16",
-    "from": "Sydney Miller <Zone.07Z@indoormedia.com>",
-    "subject": "Ad Proof from IndoorMedia , Creole Soul PDX [07Z - B4 - J440084E]",
-    "client_name": "Creole Soul PDX",
-    "contact_name": "Jeff Homsley",
-    "client_email": "creolesoulpdx@gmail.com",
-    "location": "",
-    "zone": "07Z",
-    "cycle": "B4",
-    "contract_number": "J440084E",
-    "store": "Tape Ad at Fred Meyer 0135, 3805 SE Hawthorne Blvd, Portland, OR",
-    "ad_size": "Single",
-    "install_month": "",
-    "run_months": "",
-    "image_url": "https://lh3.googleusercontent.com/d/1OKC8_8bUuhrTfCpN9NGuQjnS9KT2eK1q",
-    "review_deadline": "10/19/2026",
-    "recipients": [
-      "creolesoulpdx@gmail.com",
-      "daniel.barchini@indoormedia.com",
-      "tyler.vansant@rtui.com",
-      "richard.leibowitz@rtui.com"
-    ],
-    "reps": [
-      {
-        "email": "tyler.vansant@rtui.com",
-        "name": "Tyler Van Sant"
-      }
-    ]
-  },
-  {
-    "message_id": "1a154965e5514e70",
-    "date": "2026-10-19 07:35",
-    "from": "Sydney Miller <Zone.07Z@indoormedia.com>",
-    "subject": "Ad Proof from IndoorMedia , El Burrito Mojado [07Z - B4 - J425443E]",
-    "client_name": "El Burrito Mojado",
-    "contact_name": "Rene Martinez",
-    "client_email": "kensy_40@icloud.com",
-    "location": "",
-    "zone": "07Z",
-    "cycle": "B4",
-    "contract_number": "J425443E",
-    "store": "Tape Ad at Fred Meyer 0255, 6850 N Lombard St, Portland, OR",
-    "ad_size": "Single",
-    "install_month": "",
-    "run_months": "",
-    "image_url": "https://lh3.googleusercontent.com/d/10F1GVfyV9wZmZY6SRR_Rx45Q4zwOdPtN",
-    "review_deadline": "10/19/2026",
-    "recipients": [
-      "tyler.vansant@rtui.com",
-      "kensy_40@icloud.com",
-      "adan.ramos@indoormedia.com",
-      "richard.leibowitz@rtui.com"
-    ],
-    "reps": [
-      {
-        "email": "tyler.vansant@rtui.com",
-        "name": "Tyler Van Sant"
-      },
-      {
-        "email": "adan.ramos@indoormedia.com",
-        "name": "Adan Ramos"
       }
     ]
   },
@@ -2740,41 +2806,6 @@
       {
         "email": "tyler.vansant@indoormedia.com",
         "name": "Tyler Van Sant"
-      },
-      {
-        "email": "tyler.vansant@rtui.com",
-        "name": "Tyler Van Sant"
-      }
-    ]
-  },
-  {
-    "message_id": "1a0d52371e5119fc",
-    "date": "2026-09-24 13:37",
-    "from": "Sydney Miller <Zone.07Y@indoormedia.com>",
-    "subject": "Ad Proof from IndoorMedia , Hacienda [07Y - B4 - J427671E]",
-    "client_name": "Hacienda",
-    "contact_name": "Carlos Lepe",
-    "client_email": "carlosmlepe0524@yahoo.com",
-    "location": "",
-    "zone": "07Y",
-    "cycle": "B4",
-    "contract_number": "J427671E",
-    "store": "Tape Ad at Safeway 1666, 1539 NE Stephens St., Roseburg, OR",
-    "ad_size": "Single",
-    "install_month": "",
-    "run_months": "",
-    "image_url": "https://lh3.googleusercontent.com/d/1hG3QcYxfq9qEUJR0KgxYfvNEIO2r8owB",
-    "review_deadline": "10/01/2026",
-    "recipients": [
-      "carlosmlepe0524@yahoo.com",
-      "kenneth.abbay@indoormedia.com",
-      "richard.leibowitz@indoormedia.com",
-      "tyler.vansant@rtui.com"
-    ],
-    "reps": [
-      {
-        "email": "richard.leibowitz@indoormedia.com",
-        "name": "Rick Leibowitz"
       },
       {
         "email": "tyler.vansant@rtui.com",
