@@ -1,0 +1,81 @@
+{
+  "_comment": "Tools & Training library. Mirrors the '0001 Training materials' Google Drive folder, organized into categories. file ID = Google Drive file/folder id. kind: 'folder' | 'pdf' | 'video' | 'sheet' | 'doc'. Folders open the Drive folder view; files open the Drive file preview. Edit here to add/reorganize items.",
+  "root_folder_id": "1h1BVrCR7SttuszR-AsqKHsErR4xar43f",
+  "categories": [
+    {
+      "title": "Contracts & Forms",
+      "icon": "📄",
+      "desc": "Fillable contracts, addendums, authorization letters & order forms",
+      "items": [
+        { "name": "RTUI Fillable Contract", "id": "1An5jV1P4hfYSm0bM2IAdJHJpfsahx7RD", "kind": "pdf" },
+        { "name": "Addendum — Type-able Excel", "id": "1Stxzc-oWDpQMvwgaAdPCzi9JwPyXRFfE", "kind": "sheet" },
+        { "name": "All Forms", "id": "1oYQygrO0EJpCKfgBDM8WNGFN5VlnDagj", "kind": "folder" },
+        { "name": "Authorization Letters", "id": "1nbOVIrewjAQuoIojmSSHqo_qIBY28Jau", "kind": "pdf" },
+        { "name": "Essential Business Letter", "id": "1OWPCFZSGNJyJDMaiqe3JYrPGDEMBDH-w", "kind": "pdf" },
+        { "name": "Emailing POS Template", "id": "1Y_OcLIXyhKn2Z9daC6m_e3HdGI3WO-3x", "kind": "pdf" },
+        { "name": "Emailing POS Order Form", "id": "1Y_O22rP_6rj5tdtOs5VaVHH0ALkFP3-T", "kind": "pdf" },
+        { "name": "W9 (2023)", "id": "17SgNKarTYWksh7aqKTrcjsDR6c7HYcgm", "kind": "pdf" }
+      ]
+    },
+    {
+      "title": "Sales Training & Scripts",
+      "icon": "🎓",
+      "desc": "Appointment setting, call scripts, one-liners & money-making rules",
+      "items": [
+        { "name": "Appointment Setting", "id": "1wlYxm4GGTDeugx-xlKcTQWhv4eaRupZl", "kind": "folder" },
+        { "name": "Conference Calls", "id": "195icoy5gNMg1ZDflMUrf5zBCAeTDICGJ", "kind": "folder" },
+        { "name": "One Liners", "id": "1eZSGqCmD7IKMYDedClY2aX0QOicqBHMv", "kind": "doc" },
+        { "name": "Email Sample", "id": "1NBUnI5rsAPPW8CN3cSZiKQyoTvyBPRdm", "kind": "folder" },
+        { "name": "Rules To Make More Money", "id": "1S-i5_T767HmXJOJ_aB0Vvk4_ajMo21n6", "kind": "pdf" },
+        { "name": "5 Renewal Steps", "id": "13BOOpc-kNn_-7pfxupQYZFA1GaFNht_5", "kind": "pdf" },
+        { "name": "Rules, Exclusive Categories & Credit Policy", "id": "1kgapDgZ7cLpflarfq7-GyffAxxtfuowH", "kind": "pdf" }
+      ]
+    },
+    {
+      "title": "Presentations & Pitch Materials",
+      "icon": "🖥️",
+      "desc": "In-person decks, manuals & digital one-pagers",
+      "items": [
+        { "name": "In Person Presentations", "id": "1AKjkSDDmtDSXsNyypXPHCS8iWLYvNB-P", "kind": "folder" },
+        { "name": "Manual & Presentation Books", "id": "1oidcEWaLhSZXtF6drbZjaAHJUoTv31E2", "kind": "folder" },
+        { "name": "Digital One-Pager", "id": "1AJ0iZEcCfj0192Q_PpaIqBoj77bt5I4A", "kind": "pdf" },
+        { "name": "Digital Domination (James Walters)", "id": "1PMPOYKs4YR679iGvQ5Z_nFE8sCHZ6M4G", "kind": "folder" }
+      ]
+    },
+    {
+      "title": "Videos",
+      "icon": "🎬",
+      "desc": "Explainers, production & install walkthroughs",
+      "items": [
+        { "name": "Explainer Videos", "id": "1dzgxHtGxzkNb5nFdAJoYciQbYNM98t5i", "kind": "folder" },
+        { "name": "RTUI Production", "id": "1ploFef_MIgRyHyG8-kmVb4Izkz_41vlN", "kind": "video" },
+        { "name": "Install Video", "id": "1QO6m9papjJakhsbXeXZHADhK0Ds-C8uH", "kind": "video" },
+        { "name": "Firehouse Subs — How It Works", "id": "1QNHONHY9HKs6fFdXDZzR5dZVS2xhXXyc", "kind": "video" }
+      ]
+    },
+    {
+      "title": "Testimonials & Press",
+      "icon": "⭐",
+      "desc": "Customer success stories & media coverage",
+      "items": [
+        { "name": "Testimonials", "id": "1nkRkK1kUcC1pVMvxUcbiNWM0gpaF-c0G", "kind": "folder" },
+        { "name": "MediaLife Register Tape Article", "id": "14kVQN30_IR1cSDydxpeiJaPO0vtOsw-T", "kind": "pdf" }
+      ]
+    },
+    {
+      "title": "Reference & Rates",
+      "icon": "📊",
+      "desc": "Spec sheets, rate charts, ROI calculator & policy lists",
+      "items": [
+        { "name": "RTUI Spec Sheet", "id": "10TaRKpoflQ4RUKUml0ywoDB0AVQfP7ku", "kind": "pdf" },
+        { "name": "Zone Sales Rate Chart", "id": "13i-uncDkTUZagPZPXxvTqD_Etd7ldD7a", "kind": "pdf" },
+        { "name": "ROI Calculator", "id": "13alCbPW3BeO4MF6cUbGeFJsNQ3cZRcm6", "kind": "sheet" },
+        { "name": "RTUI Core Values", "id": "1YumFRuUIDYZ7Ru9sJDR1Vg_iJ-4XZiJC", "kind": "pdf" },
+        { "name": "2025 Cut-off Date List", "id": "1v_THDJqP08UHe6s9d5vWzP6NQR1sJAD2", "kind": "pdf" },
+        { "name": "Master Exclusions List", "id": "1JaWJMO46KaQPj-pUUsT6qut6TWE-kO4s", "kind": "pdf" },
+        { "name": "Planned Divestiture Locations", "id": "15ouIvKKI-ST0PftCQOZmg_BbsqbiohSO", "kind": "pdf" },
+        { "name": "IL Lottery", "id": "1k5_iLEVJ0FMfzsmlqfPYU__p9uKeTAjz", "kind": "pdf" }
+      ]
+    }
+  ]
+}
