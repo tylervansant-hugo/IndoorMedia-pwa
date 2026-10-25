@@ -1,6 +1,6 @@
 <script>
   import {
-    THEMES, MODE_OPTIONS, FONT_OPTIONS,
+    THEMES, MODE_OPTIONS, FONT_OPTIONS, SURFACE_OPTIONS,
     getAppearance, setAppearance, resetAppearance, resolveMode,
     setTextScale, TEXT_SCALE_MIN, TEXT_SCALE_MAX,
   } from '../lib/appearance.js';
@@ -15,6 +15,7 @@
   function pickTheme(id) { prefs = setAppearance({ theme: id }); }
   function pickMode(id) { prefs = setAppearance({ mode: id }); }
   function pickFont(id) { prefs = setAppearance({ font: id }); }
+  function pickSurface(id) { prefs = setAppearance({ surface: id }); }
   function reset() { prefs = (resetAppearance(), getAppearance()); }
 
   // Build a small preview palette for a theme card in a given mode, mirroring
@@ -95,6 +96,33 @@
     <p class="hint">Every theme guarantees readable text and buttons — no washed-out or low-contrast combos.</p>
   </section>
 
+  <!-- Surface Style -->
+  <section>
+    <h3>Surface Style</h3>
+    <div class="surface-grid">
+      {#each SURFACE_OPTIONS as s}
+        <button
+          class="surface-card {s.id}"
+          class:active={(prefs.surface ?? 'standard') === s.id}
+          on:click={() => pickSurface(s.id)}
+        >
+          <div class="surface-preview {s.id}">
+            <div class="sp-pane">
+              <div class="sp-line sp-title"></div>
+              <div class="sp-line sp-sub"></div>
+            </div>
+          </div>
+          <div class="surface-meta">
+            <span class="surface-name">{s.emoji} {s.label}</span>
+            {#if (prefs.surface ?? 'standard') === s.id}<span class="theme-check">✓</span>{/if}
+          </div>
+          <span class="surface-desc">{s.desc}</span>
+        </button>
+      {/each}
+    </div>
+    <p class="hint">“Liquid Glass” gives cards, the header &amp; tab bar a frosted, translucent look layered over your theme. Falls back gracefully on older devices.</p>
+  </section>
+
   <!-- Font -->
   <section>
     <h3>Font</h3>
@@ -173,6 +201,45 @@
   .theme-name { font-weight: 700; font-size: 13px; color: var(--text-primary, #1a1a1a); }
   .theme-check { color: var(--accent, #cc0000); font-weight: 900; }
 
+  /* Surface style grid */
+  .surface-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
+  .surface-card {
+    border: 2px solid var(--border-color, #e2e2e2); border-radius: 16px;
+    padding: 0 0 10px; overflow: hidden; cursor: pointer; background: var(--card-bg, #fff);
+    transition: border-color .15s, transform .1s; text-align: left;
+  }
+  .surface-card:active { transform: scale(0.98); }
+  .surface-card.active { border-color: var(--accent, #cc0000); outline: 2px solid var(--accent, #cc0000); outline-offset: 1px; }
+  .surface-preview {
+    height: 84px; padding: 14px; display: flex; align-items: center; justify-content: center;
+    background: linear-gradient(135deg, var(--accent, #cc0000) 0%, color-mix(in srgb, var(--accent,#cc0000) 55%, #7c3aed) 100%);
+  }
+  .sp-pane {
+    width: 100%; border-radius: 10px; padding: 10px 12px;
+  }
+  .surface-preview.standard .sp-pane {
+    background: var(--card-bg, #fff);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.18);
+  }
+  .surface-preview.glass .sp-pane {
+    background: rgba(255,255,255,0.35);
+    -webkit-backdrop-filter: blur(6px) saturate(160%);
+    backdrop-filter: blur(6px) saturate(160%);
+    border: 1px solid rgba(255,255,255,0.55);
+    box-shadow: inset 0 1px 0 rgba(255,255,255,0.6), 0 4px 12px rgba(0,0,0,0.15);
+  }
+  .sp-line { border-radius: 4px; }
+  .sp-title { height: 8px; width: 68%; background: rgba(255,255,255,0.95); }
+  .surface-preview.standard .sp-title { background: var(--text-primary, #333); }
+  .sp-sub { height: 6px; width: 44%; margin-top: 7px; background: rgba(255,255,255,0.7); }
+  .surface-preview.standard .sp-sub { background: var(--text-secondary, #999); }
+  .surface-meta {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 9px 12px 2px;
+  }
+  .surface-name { font-weight: 700; font-size: 13px; color: var(--text-primary, #1a1a1a); }
+  .surface-desc { display: block; padding: 0 12px; font-size: 11px; color: var(--text-secondary, #888); }
+
   /* Font grid */
   .font-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
   .font-btn {
@@ -211,4 +278,6 @@
   @media (max-width: 380px) {
     .font-grid { grid-template-columns: repeat(2, 1fr); }
   }
+
+  :global([data-theme='dark']) .surface-card { background: #1e1e1e; border-color: #333; }
 </style>

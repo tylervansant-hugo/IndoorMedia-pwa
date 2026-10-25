@@ -88,7 +88,39 @@ export const THEMES = [
     light: { bg: '#f4f4f5', wash: '' },
     dark:  { bg: '#101012', wash: '' },
   },
+  {
+    id: 'aurora', name: 'Aurora', emoji: '🌌',
+    accent: '#8b5cf6',
+    light: { bg: '#eef0fb', wash: 'linear-gradient(160deg,#eae6fb 0%,#e2ecfb 45%,#ddf3f0 100%)' },
+    dark:  { bg: '#0d0f1e', wash: 'linear-gradient(160deg,#160f2e 0%,#101a32 50%,#0c2420 100%)' },
+  },
+  {
+    id: 'rose', name: 'Rose', emoji: '🌸',
+    accent: '#e11d74',
+    light: { bg: '#fdecf2', wash: 'linear-gradient(160deg,#fde6ef 0%,#fbdce8 100%)' },
+    dark:  { bg: '#1c0f16', wash: 'linear-gradient(160deg,#1c0f16 0%,#2a1521 100%)' },
+  },
+  {
+    id: 'graphite', name: 'Graphite', emoji: '◼️',
+    accent: '#0ea5e9',
+    light: { bg: '#eceef1', wash: 'linear-gradient(160deg,#eef0f3 0%,#e4e7ec 100%)' },
+    dark:  { bg: '#0b0d10', wash: 'linear-gradient(160deg,#0b0d10 0%,#15191f 100%)' },
+  },
 ];
+
+// ── Surface styles ────────────────────────────────────
+// Orthogonal to the color theme: the SURFACE style controls how cards, the
+// header and the tab bar are rendered. 'standard' is the solid, high-contrast
+// look. 'glass' is "liquid glass" — translucent frosted surfaces with a blur
+// backdrop and a soft highlight, layered over whatever color theme is active.
+// Applied via a root attribute `data-surface` that app.css keys off of. The
+// legibility engine still guarantees readable text in both styles.
+export const SURFACE_OPTIONS = [
+  { id: 'standard', label: 'Standard', emoji: '🧾', desc: 'Solid, crisp cards' },
+  { id: 'glass', label: 'Liquid Glass', emoji: '🫧', desc: 'Frosted translucent' },
+];
+const VALID_SURFACE_IDS = SURFACE_OPTIONS.map(s => s.id);
+export const DEFAULT_SURFACE = 'standard';
 
 export const MODE_OPTIONS = [
   { id: 'auto', label: 'Auto', emoji: '🌗' },
@@ -212,12 +244,15 @@ export function getAppearance() {
   if (!VALID_MODES.includes(mode)) mode = 'auto';
   let font = lsGet('appearance_font') || 'system';
   if (!VALID_FONT_IDS.includes(font)) font = 'system';
+  let surface = lsGet('appearance_surface') || DEFAULT_SURFACE;
+  if (!VALID_SURFACE_IDS.includes(surface)) surface = DEFAULT_SURFACE;
   const textScale = clampScale(lsGet('appearance_text_scale') ?? lsGet('impro_font_scale') ?? DEFAULT_TEXT_SCALE);
   const t = themeById(themeId);
   return {
     theme: themeId,
     mode,
     font,
+    surface,
     textScale,
     // Legacy fields some callers still read:
     accent: t.accent,
@@ -283,6 +318,10 @@ export function applyAppearance(prefs) {
 
   root.setAttribute('data-icons', 'emoji');
   root.setAttribute('data-appearance-theme', t.id);
+
+  // Surface style (standard vs. liquid glass). Keyed by app.css.
+  const surface = VALID_SURFACE_IDS.includes(p.surface) ? p.surface : DEFAULT_SURFACE;
+  root.setAttribute('data-surface', surface);
 }
 
 export function setAppearance(patch) {
@@ -291,6 +330,7 @@ export function setAppearance(patch) {
   if (patch.theme !== undefined) lsSet('appearance_theme', next.theme);
   if (patch.mode !== undefined) lsSet('appearance_mode', next.mode);
   if (patch.font !== undefined) lsSet('appearance_font', next.font);
+  if (patch.surface !== undefined) lsSet('appearance_surface', next.surface);
   if (patch.textScale !== undefined) {
     next.textScale = clampScale(next.textScale);
     lsSet('appearance_text_scale', String(next.textScale));
@@ -316,7 +356,7 @@ export function setTextScale(scale) { return setAppearance({ textScale: clampSca
 
 export function resetAppearance() {
   // Clear new keys.
-  ['appearance_theme', 'appearance_mode', 'appearance_font', 'appearance_text_scale', 'impro_font_scale'].forEach(k => { try { localStorage.removeItem(k); } catch {} });
+  ['appearance_theme', 'appearance_mode', 'appearance_font', 'appearance_surface', 'appearance_text_scale', 'impro_font_scale'].forEach(k => { try { localStorage.removeItem(k); } catch {} });
   // Clear all legacy à-la-carte keys so nothing stale lingers.
   [
     'appearance_accent', 'appearance_wallpaper', 'appearance_bg_color', 'appearance_bg_image',
