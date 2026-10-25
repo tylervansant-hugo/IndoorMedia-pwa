@@ -1,5 +1,6 @@
 <script>
   import { onMount, onDestroy } from 'svelte';
+  import QRCode from 'qrcode';
   import { PDFDocument, rgb, StandardFonts } from 'pdf-lib';
   import { generateCounterSignPdf } from '../lib/counterSign.js';
   import { user, padAmount } from '../lib/stores.js';
@@ -11,7 +12,76 @@
   
   export let contracts = [];
 
-  let view = 'main'; // main, roi, pays-for-itself, rates, testimonials, counter-sign, submit-testimonial, analytics, scripts
+  let view = 'main'; // main, roi, pays-for-itself, rates, testimonials, counter-sign, submit-testimonial, analytics, scripts, share-app
+
+  // === Share / Install App (QR + link) ===
+  // Canonical hosted PWA URL (GitHub Pages). Falls back to the current origin
+  // so a custom domain still works without a code change.
+  const APP_URL = (typeof window !== 'undefined' && window.location && window.location.hostname
+    && window.location.hostname !== 'localhost'
+    && window.location.hostname !== '127.0.0.1')
+    ? (window.location.origin + '/IndoorMedia-pwa/')
+    : 'https://tylervansant-hugo.github.io/IndoorMedia-pwa/';
+  let shareQrDataUrl = '';
+  let shareLinkCopied = false;
+  let shareQrError = '';
+  let shareCopyTimer = null;
+
+  async function generateShareQR() {
+    shareQrError = '';
+    try {
+      shareQrDataUrl = await QRCode.toDataURL(APP_URL, {
+        width: 640,
+        margin: 2,
+        errorCorrectionLevel: 'M',
+        color: { dark: '#CC0000', light: '#FFFFFF' }
+      });
+    } catch (e) {
+      shareQrError = 'Could not generate QR code.';
+      console.error('QR generation failed', e);
+    }
+  }
+
+  async function copyShareLink() {
+    try {
+      await navigator.clipboard.writeText(APP_URL);
+      shareLinkCopied = true;
+      if (navigator.vibrate) navigator.vibrate(10);
+      clearTimeout(shareCopyTimer);
+      shareCopyTimer = setTimeout(() => (shareLinkCopied = false), 2000);
+    } catch (e) {
+      // Fallback: select-and-prompt
+      try { window.prompt('Copy this link:', APP_URL); } catch (_) {}
+    }
+  }
+
+  async function nativeShareApp() {
+    const payload = {
+      title: 'IndoorMedia Rep Portal',
+      text: 'Install the IndoorMedia Sales Rep app:',
+      url: APP_URL
+    };
+    if (navigator.share) {
+      try { await navigator.share(payload); } catch (_) { /* user cancelled */ }
+    } else {
+      copyShareLink();
+    }
+  }
+
+  function downloadShareQR() {
+    if (!shareQrDataUrl) return;
+    const a = document.createElement('a');
+    a.href = shareQrDataUrl;
+    a.download = 'indoormedia-app-qr.png';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+  }
+
+  // Build the QR as soon as the share view opens (dataURL is cached after).
+  $: if (view === 'share-app' && !shareQrDataUrl && !shareQrError) {
+    generateShareQR();
+  }
 
   // === "Pays For Itself" quick objection-flipper ===
   // Dead-simple frame for the "no budget" moment: store price ranges
@@ -1053,6 +1123,13 @@ Store: ${store}
         <div class="btn-text">Appearance</div>
         <div class="btn-desc">Fonts, icons, accent color & wallpapers</div>
       </button>
+
+      <button class="main-btn share-app-btn" on:click={() => view = 'share-app'}
+        use:addToHome={{ label: 'Share App', icon: '📲', tab: 'tools' }}>
+        <div class="btn-icon">📲</div>
+        <div class="btn-text">Share / Install App</div>
+        <div class="btn-desc">QR code & link to download the app</div>
+      </button>
     </div>
 
     <!-- My Pricing Pad (visible to all reps) -->
@@ -1520,6 +1597,58 @@ Store: ${store}
     {:else if testimonialQuery && !testimonialLoading}
       <p class="hint">Press Enter or click Search to find testimonials</p>
     {/if}
+  {/if}
+
+  <!-- Share / Install App -->
+  {#if view === 'share-app'}
+    <button class="back-btn" on:click={goBack}>← Back</button>
+    <h2>📲 Share / Install App</h2>
+    <p class="subtitle">Scan, tap, or copy the link to put the app on any phone</p>
+
+    <div class="share-card">
+      <div class="share-qr-wrap">
+        {#if shareQrDataUrl}
+          <img class="share-qr" src={shareQrDataUrl} alt="QR code to download the IndoorMedia app" />
+        {:else if shareQrError}
+          <div class="share-qr-err">{shareQrError}</div>
+        {:else}
+          <div class="share-qr-loading">🔄 Generating QR…</div>
+        {/if}
+      </div>
+      <p class="share-scan-hint">📷 Point a phone camera at the code</p>
+
+      <div class="share-link-row">
+        <input class="share-link-input" type="text" readonly value={APP_URL}
+          on:focus={(e) => e.target.select()} />
+        <button class="share-copy-btn" class:copied={shareLinkCopied} on:click={copyShareLink}>
+          {shareLinkCopied ? '✅ Copied' : '📋 Copy'}
+        </button>
+      </div>
+
+      <div class="share-actions">
+        <button class="share-action-btn primary" on:click={nativeShareApp}>📤 Share link…</button>
+        <button class="share-action-btn" on:click={downloadShareQR} disabled={!shareQrDataUrl}>⬇️ Save QR</button>
+      </div>
+    </div>
+
+    <div class="install-help">
+      <h3>📱 How to install</h3>
+      <div class="install-step">
+        <span class="ihs-badge">🍎</span>
+        <div>
+          <strong>iPhone / iPad (Safari)</strong>
+          <p>Open the link → tap <b>Share</b> → <b>Add to Home Screen</b>.</p>
+        </div>
+      </div>
+      <div class="install-step">
+        <span class="ihs-badge">🤖</span>
+        <div>
+          <strong>Android (Chrome)</strong>
+          <p>Open the link → tap <b>⋮</b> menu → <b>Install app</b> / <b>Add to Home screen</b>.</p>
+        </div>
+      </div>
+      <p class="install-note">Once installed it opens full-screen like a native app — no app store needed.</p>
+    </div>
   {/if}
 
   <!-- Training Library -->
@@ -2996,4 +3125,141 @@ Store: ${store}
     font-size: 12px !important;
     color: var(--text-secondary);
   }
+
+  /* === Share / Install App view === */
+  .share-app-btn .btn-icon { filter: none; }
+  .share-card {
+    background: var(--card-bg, #fff);
+    border: 1px solid var(--border-color, #e0e0e0);
+    border-radius: 16px;
+    padding: 20px;
+    text-align: center;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+  }
+  .share-qr-wrap {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 240px;
+  }
+  .share-qr {
+    width: 240px;
+    height: 240px;
+    max-width: 70vw;
+    max-height: 70vw;
+    border-radius: 14px;
+    background: #fff;
+    padding: 10px;
+    box-shadow: 0 4px 16px rgba(204,0,0,0.12);
+  }
+  .share-qr-loading, .share-qr-err {
+    font-size: 14px;
+    color: var(--text-secondary, #888);
+    padding: 40px 0;
+  }
+  .share-qr-err { color: #CC0000; }
+  .share-scan-hint {
+    margin: 12px 0 18px;
+    font-size: 13px;
+    color: var(--text-secondary, #888);
+  }
+  .share-link-row {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 14px;
+  }
+  .share-link-input {
+    flex: 1;
+    min-width: 0;
+    padding: 12px 14px;
+    border: 1px solid var(--border-color, #ddd);
+    border-radius: 10px;
+    font-size: 13px;
+    background: var(--input-bg, #f7f7f7);
+    color: var(--text-primary, #333);
+    text-overflow: ellipsis;
+  }
+  .share-copy-btn {
+    flex: 0 0 auto;
+    padding: 12px 16px;
+    border: none;
+    border-radius: 10px;
+    background: #CC0000;
+    color: #fff;
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background 0.2s, transform 0.1s;
+  }
+  .share-copy-btn:active { transform: scale(0.96); }
+  .share-copy-btn.copied { background: #2e7d32; }
+  .share-actions {
+    display: flex;
+    gap: 10px;
+  }
+  .share-action-btn {
+    flex: 1;
+    padding: 13px 10px;
+    border: 1px solid var(--border-color, #ddd);
+    border-radius: 10px;
+    background: var(--input-bg, #f7f7f7);
+    color: var(--text-primary, #333);
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: transform 0.1s, background 0.2s;
+  }
+  .share-action-btn:active { transform: scale(0.97); }
+  .share-action-btn.primary {
+    background: linear-gradient(135deg, #CC0000, #e53935);
+    color: #fff;
+    border-color: transparent;
+  }
+  .share-action-btn:disabled { opacity: 0.5; cursor: default; }
+
+  .install-help {
+    margin-top: 20px;
+    background: var(--bg-secondary, #f5f5f5);
+    border: 1px solid var(--border-color, #e0e0e0);
+    border-radius: 14px;
+    padding: 16px 18px;
+  }
+  .install-help h3 {
+    margin: 0 0 12px;
+    font-size: 15px;
+    color: var(--text-primary, #333);
+  }
+  .install-step {
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+    margin-bottom: 12px;
+  }
+  .ihs-badge {
+    font-size: 22px;
+    line-height: 1.2;
+    flex: 0 0 auto;
+  }
+  .install-step strong {
+    display: block;
+    font-size: 14px;
+    color: var(--text-primary, #333);
+    margin-bottom: 2px;
+  }
+  .install-step p {
+    margin: 0;
+    font-size: 13px;
+    color: var(--text-secondary, #666);
+    line-height: 1.4;
+  }
+  .install-note {
+    margin: 6px 0 0;
+    font-size: 12px;
+    color: var(--text-secondary, #888);
+    font-style: italic;
+  }
+  :global([data-theme='dark']) .share-card,
+  :global([data-theme='dark']) .install-help { background: #1e1e1e; border-color: #333; }
+  :global([data-theme='dark']) .share-link-input,
+  :global([data-theme='dark']) .share-action-btn { background: #262626; border-color: #333; color: #eee; }
 </style>
