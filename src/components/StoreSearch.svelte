@@ -261,6 +261,22 @@
     return item;
   }
   let storeCycleFilter = 'all';
+  // Max store cards rendered for a text search. Raised from 50 so broad
+  // searches (by chain/city with hundreds of stores) don't silently drop
+  // stores. Paired with a "showing X of Y" note when the cap is hit.
+  const STORE_RESULT_CAP = 200;
+  let totalMatchCount = 0;
+  // Relevance rank: lower = shown first. Exact store# match, then store#
+  // prefix/contains, then address, then everything else.
+  function storeRank(store, term) {
+    const name = (store.StoreName || '').toLowerCase();
+    const addr = (store.Address || '').toLowerCase();
+    if (name === term) return 0;
+    if (name.startsWith(term)) return 1;
+    if (name.includes(term)) return 2;
+    if (addr.includes(term)) return 3;
+    return 4;
+  }
 
   // Multilingual pricing sheet export
   const TRANSLATIONS = {
@@ -701,14 +717,23 @@ Store: ${store.StoreName}
     }
 
     const term = searchTerm.toLowerCase();
-    filtered = allStores.filter(store => 
+    // Match on store #, chain, city, address, state, or zip.
+    const matches = allStores.filter(store => 
       (store.StoreName && store.StoreName.toLowerCase().includes(term)) ||
       (store.GroceryChain && store.GroceryChain.toLowerCase().includes(term)) ||
       (store.City && store.City.toLowerCase().includes(term)) ||
       (store.Address && store.Address.toLowerCase().includes(term)) ||
       (store.State && store.State.toLowerCase().includes(term)) ||
       (store.PostalCode && store.PostalCode.includes(term))
-    ).slice(0, 50);
+    );
+    // Rank the most relevant hits first so a broad term (e.g. a chain or city
+    // with hundreds of stores) never buries/drops an exact store-number match
+    // past the display cap. Store-number matches win, then address, then rest.
+    matches.sort((a, b) => storeRank(a, term) - storeRank(b, term));
+    // Track the true match count so we can tell the user when results are capped
+    // (previously a silent .slice(0,50) made real stores look "missing").
+    totalMatchCount = matches.length;
+    filtered = matches.slice(0, STORE_RESULT_CAP);
 
     searchResults.set(filtered);
 
@@ -1521,6 +1546,9 @@ Store: ${store.StoreName}
     {:else if filtered.length === 0}
       <p class="hint">Start typing to search for stores</p>
     {:else}
+      {#if searchTerm && totalMatchCount > filtered.length}
+        <p class="results-cap-note">Showing first {filtered.length} of {totalMatchCount} matches — type more of the store #, city, or address to narrow it down.</p>
+      {/if}
       <div class="store-grid">
         {#each filtered.filter(s => storeCycleFilter === 'all' || s.Cycle === storeCycleFilter) as store (store.StoreName)}
           {@const currentAdType = adType[store.StoreName] || 'single'}
@@ -2161,6 +2189,18 @@ Store: ${store.StoreName}
     color: #999;
     padding: 40px 20px;
     font-size: 14px;
+  }
+
+  .results-cap-note {
+    margin: 0 0 12px;
+    padding: 10px 14px;
+    border-radius: 10px;
+    background: color-mix(in srgb, var(--accent, #cc0000) 10%, transparent);
+    border: 1px solid color-mix(in srgb, var(--accent, #cc0000) 30%, transparent);
+    color: var(--text-secondary, #666);
+    font-size: 12.5px;
+    line-height: 1.4;
+    text-align: center;
   }
 
   .store-grid {
