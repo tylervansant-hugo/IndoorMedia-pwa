@@ -225,6 +225,17 @@ function safeAccent(accentHex) {
   return rgbToHex(c.r, c.g, c.b);
 }
 
+// Pick the most legible text/icon color (white or near-black) to sit ON a given
+// background color. Guarantees the header/tab-bar labels stay readable no matter
+// what accent a theme uses (e.g. pale accents get dark text, deep ones white).
+function onColor(bgRgb) {
+  return contrast(bgRgb, WHITE) >= contrast(bgRgb, BLACK)
+    ? '#ffffff' : '#111111';
+}
+// Darken/lighten a color by mixing toward black/white (t in 0..1).
+function shade(rgb, t) { return mix(rgb, BLACK, t); }
+function tint(rgb, t) { return mix(rgb, WHITE, t); }
+
 // ── Resolve the effective light/dark mode ─────────────────────
 export function resolveMode(mode) {
   if (mode === 'light' || mode === 'dark') return mode;
@@ -318,6 +329,31 @@ export function applyAppearance(prefs) {
 
   root.setAttribute('data-icons', 'emoji');
   root.setAttribute('data-appearance-theme', t.id);
+
+  // ── Theme-matched chrome: header (top bar) + tab bar (bottom nav) ──────
+  // Both are derived from the theme accent so they VISUALLY MATCH the theme
+  // instead of staying hardcoded black/red. Night mode uses a deeper shade.
+  // The on-color (label/icon color) is contrast-picked so text is ALWAYS
+  // legible on whatever accent the theme uses.
+  const accentRgb = hexToRgb(accent) || hexToRgb(DEFAULT_ACCENT);
+  // Header gradient: a touch deeper than the accent for a rich top bar.
+  const hdrA = isDark ? shade(accentRgb, 0.42) : shade(accentRgb, 0.12);
+  const hdrB = isDark ? shade(accentRgb, 0.62) : shade(accentRgb, 0.34);
+  const onHeader = onColor(hdrA);
+  root.style.setProperty('--header-bg', `linear-gradient(135deg, ${rgbToHex(hdrA.r,hdrA.g,hdrA.b)} 0%, ${rgbToHex(hdrB.r,hdrB.g,hdrB.b)} 100%)`);
+  root.style.setProperty('--header-fg', onHeader);
+  // Translucent chip tints for header icon buttons that read on either on-color.
+  root.style.setProperty('--header-chip', onHeader === '#ffffff' ? 'rgba(255,255,255,0.15)' : 'rgba(0,0,0,0.10)');
+  root.style.setProperty('--header-chip-hover', onHeader === '#ffffff' ? 'rgba(255,255,255,0.28)' : 'rgba(0,0,0,0.18)');
+
+  // Tab bar gradient: the accent itself (slightly deeper in night).
+  const tabA = isDark ? shade(accentRgb, 0.30) : accentRgb;
+  const tabB = isDark ? shade(accentRgb, 0.52) : shade(accentRgb, 0.22);
+  const onTab = onColor(tabA);
+  root.style.setProperty('--tabbar-bg', `linear-gradient(135deg, ${rgbToHex(tabA.r,tabA.g,tabA.b)} 0%, ${rgbToHex(tabB.r,tabB.g,tabB.b)} 100%)`);
+  root.style.setProperty('--tabbar-fg', onTab);
+  root.style.setProperty('--tabbar-fg-dim', onTab === '#ffffff' ? 'rgba(255,255,255,0.62)' : 'rgba(0,0,0,0.55)');
+  root.style.setProperty('--tabbar-border', onTab === '#ffffff' ? tint(tabA, 0.28) && rgbToHex(tint(tabA,0.28).r,tint(tabA,0.28).g,tint(tabA,0.28).b) : rgbToHex(shade(tabA,0.2).r,shade(tabA,0.2).g,shade(tabA,0.2).b));
 
   // Surface style (standard vs. liquid glass). Keyed by app.css.
   const surface = VALID_SURFACE_IDS.includes(p.surface) ? p.surface : DEFAULT_SURFACE;

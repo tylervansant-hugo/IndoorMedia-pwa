@@ -2533,8 +2533,8 @@
 
   /* Header */
   .header {
-    background: linear-gradient(135deg, #1a1a1a 0%, #000000 100%);
-    color: white;
+    background: var(--header-bg, linear-gradient(135deg, #1a1a1a 0%, #000000 100%));
+    color: var(--header-fg, white);
     padding: 0;
     margin: 0;
     margin-left: calc(-1 * env(safe-area-inset-left));
@@ -2639,9 +2639,9 @@
   }
 
   .header-icon-btn {
-    background: rgba(255, 255, 255, 0.15);
+    background: var(--header-chip, rgba(255, 255, 255, 0.15));
     border: none;
-    color: white;
+    color: var(--header-fg, white);
     cursor: pointer;
     position: relative;
     width: 36px;
@@ -2656,11 +2656,11 @@
   }
 
   .header-icon-btn:hover {
-    background: rgba(255, 255, 255, 0.25);
+    background: var(--header-chip-hover, rgba(255, 255, 255, 0.25));
     transform: translateY(-1px);
   }
 
-  .font-size-label { font-size: 14px; font-weight: 800; color: white; font-family: inherit; letter-spacing: -0.5px; }
+  .font-size-label { font-size: 14px; font-weight: 800; color: var(--header-fg, white); font-family: inherit; letter-spacing: -0.5px; }
 
   .font-size-wrap { position: relative; display: inline-flex; }
   .font-slider-backdrop { position: fixed; inset: 0; z-index: 400; background: transparent; }
@@ -2731,16 +2731,14 @@
     left: 0;
     right: 0;
     z-index: 1000;
-    background: linear-gradient(135deg, #CC0000 0%, #990000 100%);
-    border-top: 3px solid #ff3333;
+    background: var(--tabbar-bg, linear-gradient(135deg, #CC0000 0%, #990000 100%));
+    border-top: 1px solid var(--tabbar-border, rgba(255,255,255,0.18));
     box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.15);
     display: flex;
     align-items: flex-start;
     padding-bottom: env(safe-area-inset-bottom, 0px);
   }
   :global([data-theme='dark']) .tab-bar {
-    background: linear-gradient(135deg, #990000 0%, #660000 100%);
-    border-top: none;
     box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.3);
   }
 
@@ -2753,7 +2751,7 @@
     gap: 2px;
     background: none;
     border: none;
-    color: rgba(255, 255, 255, 0.6);
+    color: var(--tabbar-fg-dim, rgba(255, 255, 255, 0.6));
     cursor: pointer;
     position: relative;
     padding: 10px 2px 10px;
@@ -2762,11 +2760,11 @@
   }
 
   .tab-bar-item:hover {
-    color: rgba(255, 255, 255, 0.85);
+    color: var(--tabbar-fg, rgba(255, 255, 255, 0.85));
   }
 
   .tab-bar-item.active {
-    color: #ffffff;
+    color: var(--tabbar-fg, #ffffff);
   }
 
   .tab-bar-indicator {
@@ -2782,7 +2780,7 @@
   }
 
   .tab-bar-item.active .tab-bar-indicator {
-    background: #ffffff;
+    background: var(--tabbar-fg, #ffffff);
   }
 
   .tab-bar-icon {

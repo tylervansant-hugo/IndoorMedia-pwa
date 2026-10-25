@@ -672,18 +672,25 @@ button,
 :root[data-surface="glass"] .theme-card > *,
 :root[data-surface="glass"] .share-card > * { position: relative; z-index: 1; }
 
-/* Frosted, floating header. */
+/* Frosted, floating header — keeps the THEME color showing through the frost
+   (the themed --header-bg sits under a translucent frost veil) so the top bar
+   still matches the theme while looking like liquid glass. --header-fg keeps
+   the title/icons legible. */
 :root[data-surface="glass"] .header {
-  background: var(--glass-fill-strong) !important;
+  background:
+    linear-gradient(var(--glass-fill), var(--glass-fill)),
+    var(--header-bg, linear-gradient(135deg, #1a1a1a 0%, #000000 100%)) !important;
   -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-sat));
   backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-sat));
   border-bottom: 1px solid var(--glass-hairline);
   box-shadow: 0 4px 20px rgba(16,24,40,0.08);
 }
 
-/* Frosted, floating tab bar — reads like liquid glass pinned to the bottom. */
+/* Frosted, floating tab bar — theme color shows through the frost veil. */
 :root[data-surface="glass"] .tab-bar {
-  background: var(--glass-fill-strong) !important;
+  background:
+    linear-gradient(var(--glass-fill), var(--glass-fill)),
+    var(--tabbar-bg, linear-gradient(135deg, #CC0000 0%, #990000 100%)) !important;
   -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-sat));
   backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-sat));
   border-top: 1px solid var(--glass-hairline);
@@ -734,10 +741,70 @@ button,
   :root[data-surface="glass"] .stat-card,
   :root[data-surface="glass"] .main-btn,
   :root[data-surface="glass"] .theme-card,
-  :root[data-surface="glass"] .header,
-  :root[data-surface="glass"] .tab-bar,
   :root[data-surface="glass"] .share-card,
   :root[data-surface="glass"] .install-help {
     background: var(--glass-fill-strong) !important;
   }
+  /* Chrome falls back to its solid themed color (no see-through). */
+  :root[data-surface="glass"] .header {
+    background: var(--header-bg, linear-gradient(135deg, #1a1a1a 0%, #000000 100%)) !important;
+  }
+  :root[data-surface="glass"] .tab-bar {
+    background: var(--tabbar-bg, linear-gradient(135deg, #CC0000 0%, #990000 100%)) !important;
+  }
+}
+
+/* ============================================================
+   GLASS LEGIBILITY GUARD (Oct 2026)
+   Under the frosted glass surface, translucent card fills can wash out
+   text that was hardcoded to pale grays (#888/#999/#aaa) in individual
+   components. This guard ONLY runs when data-surface="glass" and forces
+   body text inside glass surfaces to the theme's contrast-checked text
+   colors (--text-primary / --text-secondary), which the appearance engine
+   guarantees to be legible in every theme + day/night. Chrome (header /
+   tab bar) is NOT touched here — it uses its own --header-fg/--tabbar-fg
+   on-colors. We also add a faint text shadow so text stays crisp over any
+   busy frosted backdrop.
+   ============================================================ */
+:root[data-surface="glass"] .content {
+  /* Primary body text inside glass cards/panels. */
+}
+:root[data-surface="glass"] .content h1,
+:root[data-surface="glass"] .content h2,
+:root[data-surface="glass"] .content h3,
+:root[data-surface="glass"] .content h4,
+:root[data-surface="glass"] .content p,
+:root[data-surface="glass"] .content li,
+:root[data-surface="glass"] .content label,
+:root[data-surface="glass"] .content td,
+:root[data-surface="glass"] .content th,
+:root[data-surface="glass"] .content strong,
+:root[data-surface="glass"] .content .btn-text,
+:root[data-surface="glass"] .content .stat-label,
+:root[data-surface="glass"] .content .card-title,
+:root[data-surface="glass"] .content .theme-name {
+  color: var(--text-primary) !important;
+}
+/* Muted/secondary helper text: keep it muted but lift it off pale grays so it
+   stays readable on frosted fills. */
+:root[data-surface="glass"] .content .subtitle,
+:root[data-surface="glass"] .content .hint,
+:root[data-surface="glass"] .content .btn-desc,
+:root[data-surface="glass"] .content small,
+:root[data-surface="glass"] .content .caption,
+:root[data-surface="glass"] .content .muted {
+  color: var(--text-secondary) !important;
+}
+/* Crispness over busy frost: a hair of shadow so glyphs keep their edges. */
+:root[data-surface="glass"][data-theme="light"] .content .dash-card,
+:root[data-surface="glass"][data-theme="light"] .content .im-card,
+:root[data-surface="glass"][data-theme="light"] .content .stat-card,
+:root[data-surface="glass"][data-theme="light"] .content .main-btn {
+  text-shadow: 0 1px 1px rgba(255,255,255,0.35);
+}
+:root[data-surface="glass"][data-theme="dark"] .content .dash-card,
+:root[data-surface="glass"][data-theme="dark"] .content .im-card,
+:root[data-surface="glass"][data-theme="dark"] .content .stat-card,
+:root[data-surface="glass"][data-theme="dark"] .content .main-btn {
+  text-shadow: 0 1px 2px rgba(0,0,0,0.35);
 }
