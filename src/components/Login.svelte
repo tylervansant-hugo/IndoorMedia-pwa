@@ -392,10 +392,17 @@
 
   .login-container {
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
     min-height: 100vh;
+    /* Allow the page to grow and scroll when the card (esp. the taller
+       register form) is bigger than the viewport, instead of clipping
+       the top/bottom (which hid the Register button). */
+    height: auto;
     padding: 20px;
+    box-sizing: border-box;
+    overflow-y: auto;
   }
 
   .login-card {
@@ -404,7 +411,11 @@
     box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
     max-width: 420px;
     width: 100%;
+    /* Keep rounded corners clipping the header, but never shrink below
+       content height so buttons aren't cut off. */
     overflow: hidden;
+    margin: auto;
+    flex-shrink: 0;
   }
 
   .header {
