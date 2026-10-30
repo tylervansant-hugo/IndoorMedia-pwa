@@ -1,5 +1,394 @@
 [
   {
+    "message_id": "1a188f10142cdea9",
+    "date": "2026-10-29 11:33",
+    "from": "Zone 07Z - Sydney Miller <zone.07z@indoormedia.com>",
+    "subject": "Re: Ad Proof from IndoorMedia , Cafe Zamora [07Z - C4 - J434543E]",
+    "client_name": "Cafe Zamora",
+    "contact_name": "will see a new proof email as soon as it becomes available*",
+    "client_email": "cafezamorapdx@gmail.com",
+    "location": "",
+    "zone": "07Z",
+    "cycle": "C4",
+    "contract_number": "J434543E",
+    "store": ">> Tape Ad at Safeway 1627, 3930 Southeast Powell Boulevard, Portland, OR",
+    "ad_size": "Single",
+    "install_month": "",
+    "run_months": "",
+    "image_url": "https://lh3.googleusercontent.com/d/1oC0NUYfzmvUsAXpNClxg65OBooTnUJ-r",
+    "review_deadline": "11/04/2026",
+    "recipients": [
+      "richard.leibowitz@indoormedia.com",
+      "megan.wink@indoormedia.com",
+      "tyler.vansant@rtui.com",
+      "cafezamorapdx@gmail.com"
+    ],
+    "reps": [
+      {
+        "email": "richard.leibowitz@indoormedia.com",
+        "name": "Rick Leibowitz"
+      },
+      {
+        "email": "megan.wink@indoormedia.com",
+        "name": "Megan Wink"
+      },
+      {
+        "email": "tyler.vansant@rtui.com",
+        "name": "Tyler Van Sant"
+      }
+    ]
+  },
+  {
+    "message_id": "1a188eea08a764ed",
+    "date": "2026-10-29 11:31",
+    "from": "Zone 07Y - Sydney Miller <zone.07y@indoormedia.com>",
+    "subject": "Re: Your Digital Boost Ad Proof from IndoorMedia, Cal's Moving & Storage - D430557E",
+    "client_name": "Cal's Moving & Storage",
+    "contact_name": "will see a new proof email as soon as it becomes available*",
+    "client_email": "phil@calsmovinghelp.com",
+    "location": "D430557E",
+    "zone": "",
+    "cycle": "",
+    "contract_number": "",
+    "store": "",
+    "ad_size": "",
+    "install_month": "",
+    "run_months": "",
+    "image_url": "",
+    "review_deadline": "",
+    "recipients": [
+      "jan.banks@indoormedia.com",
+      "tyler.vansant@rtui.com",
+      "calvin@calsmovinghelp.com",
+      "phil@calsmovinghelp.com",
+      "richard.leibowitz@rtui.com"
+    ],
+    "reps": [
+      {
+        "email": "jan.banks@indoormedia.com",
+        "name": "Jan Banks"
+      },
+      {
+        "email": "tyler.vansant@rtui.com",
+        "name": "Tyler Van Sant"
+      }
+    ]
+  },
+  {
+    "message_id": "1a188c9e9eafff96",
+    "date": "2026-10-29 10:51",
+    "from": "Sydney Miller <Zone.07Y@indoormedia.com>",
+    "subject": "Ad Proofs from IndoorMedia , Papa Murphy's [07Y - C4 - J414665E]",
+    "client_name": "Papa Murphy's",
+    "contact_name": "Micki",
+    "client_email": "micki.waters@comcast.net",
+    "location": "",
+    "zone": "07Y",
+    "cycle": "C4",
+    "contract_number": "J414665E",
+    "store": "",
+    "ad_size": "Single",
+    "install_month": "",
+    "run_months": "",
+    "image_url": "https://lh3.googleusercontent.com/d/1abQur2OMDC5JscpmcGceNWSsJGw_dDck",
+    "review_deadline": "11/03/2026",
+    "recipients": [
+      "richard.leibowitz@rtui.com",
+      "micki.waters@comcast.net",
+      "tyler.vansant@rtui.com"
+    ],
+    "reps": [
+      {
+        "email": "tyler.vansant@rtui.com",
+        "name": "Tyler Van Sant"
+      }
+    ]
+  },
+  {
+    "message_id": "1a188c9483701537",
+    "date": "2026-10-29 10:50",
+    "from": "Zone 07Y - Sydney Miller <zone.07y@indoormedia.com>",
+    "subject": "Re: Ad Proof from IndoorMedia , Cal's Moving & Storage [07Y - C4 - D430557E]",
+    "client_name": "Cal's Moving & Storage",
+    "contact_name": "will see a new proof email as soon as it becomes available*",
+    "client_email": "phil@calsmovinghelp.com",
+    "location": "",
+    "zone": "07Y",
+    "cycle": "C4",
+    "contract_number": "D430557E",
+    "store": ">> Tape Ad at Safeway 1713, 22000 Salamo Road, West Linn, OR",
+    "ad_size": "Single",
+    "install_month": "",
+    "run_months": "",
+    "image_url": "https://lh3.googleusercontent.com/d/1Ft6uiBzY9XoeSE-DqaZ4b3AQtmAlV1ec",
+    "review_deadline": "11/03/2026",
+    "recipients": [
+      "jan.banks@indoormedia.com",
+      "tyler.vansant@rtui.com",
+      "calvin@calsmovinghelp.com",
+      "phil@calsmovinghelp.com",
+      "richard.leibowitz@rtui.com"
+    ],
+    "reps": [
+      {
+        "email": "jan.banks@indoormedia.com",
+        "name": "Jan Banks"
+      },
+      {
+        "email": "tyler.vansant@rtui.com",
+        "name": "Tyler Van Sant"
+      }
+    ]
+  },
+  {
+    "message_id": "1a188c86781678ce",
+    "date": "2026-10-29 10:49",
+    "from": "Sydney Miller <Zone.07Y@indoormedia.com>",
+    "subject": "Ad Proof from IndoorMedia , Kim\u2019s Asian Cuisine [07Y - C4 - J427617E]",
+    "client_name": "Kim\u2019s Asian Cuisine",
+    "contact_name": "Huan Truong",
+    "client_email": "hhtruong1@yahoo.com",
+    "location": "",
+    "zone": "07Y",
+    "cycle": "C4",
+    "contract_number": "J427617E",
+    "store": "Tape Ad at Fred Meyer 0325, 60 Division Ave, Eugene, OR",
+    "ad_size": "Single",
+    "install_month": "",
+    "run_months": "",
+    "image_url": "https://lh3.googleusercontent.com/d/1XdTNMPY7MBXbmy7sDBJ-Uf2ppI6CWOka",
+    "review_deadline": "11/03/2026",
+    "recipients": [
+      "richard.leibowitz@rtui.com",
+      "hhtruong1@yahoo.com",
+      "matthew.boozer@indoormedia.com",
+      "tyler.vansant@rtui.com"
+    ],
+    "reps": [
+      {
+        "email": "matthew.boozer@indoormedia.com",
+        "name": "Matthew Boozer"
+      },
+      {
+        "email": "tyler.vansant@rtui.com",
+        "name": "Tyler Van Sant"
+      }
+    ]
+  },
+  {
+    "message_id": "1a188c7846cc70c2",
+    "date": "2026-10-29 10:48",
+    "from": "Sydney Miller <Zone.07Y@indoormedia.com>",
+    "subject": "Ad Proof from IndoorMedia , Cal's Moving & Storage [07Y - C4 - D430557E]",
+    "client_name": "Cal's Moving & Storage",
+    "contact_name": "Calvin Krech",
+    "client_email": "calvin@calsmovinghelp.com",
+    "location": "",
+    "zone": "07Y",
+    "cycle": "C4",
+    "contract_number": "D430557E",
+    "store": "Tape Ad at Safeway 1713, 22000 Salamo Road, West Linn, OR",
+    "ad_size": "Single",
+    "install_month": "",
+    "run_months": "",
+    "image_url": "https://lh3.googleusercontent.com/d/1Ft6uiBzY9XoeSE-DqaZ4b3AQtmAlV1ec",
+    "review_deadline": "11/03/2026",
+    "recipients": [
+      "jan.banks@indoormedia.com",
+      "tyler.vansant@rtui.com",
+      "calvin@calsmovinghelp.com",
+      "phil@calsmovinghelp.com",
+      "richard.leibowitz@rtui.com"
+    ],
+    "reps": [
+      {
+        "email": "jan.banks@indoormedia.com",
+        "name": "Jan Banks"
+      },
+      {
+        "email": "tyler.vansant@rtui.com",
+        "name": "Tyler Van Sant"
+      }
+    ]
+  },
+  {
+    "message_id": "1a188c74b40d8099",
+    "date": "2026-10-29 10:48",
+    "from": "Sydney Miller <Zone.07Z@indoormedia.com>",
+    "subject": "Ad Proof from IndoorMedia , Compass Alyssa Curran Realty Group [07Z - C4 - J423199E]",
+    "client_name": "Compass Alyssa Curran Realty Group",
+    "contact_name": "Alyssa Curran",
+    "client_email": "alyssacurranhomes@gmail.com",
+    "location": "",
+    "zone": "07Z",
+    "cycle": "C4",
+    "contract_number": "J423199E",
+    "store": "Tape Ad at Rosauers 0042, 101 S. 47th Avenue, Ridgefield, WA",
+    "ad_size": "Double",
+    "install_month": "",
+    "run_months": "",
+    "image_url": "https://lh3.googleusercontent.com/d/1zHI4febsWgHvuF9NGce2ghOUvxJGq4SW",
+    "review_deadline": "11/03/2026",
+    "recipients": [
+      "richard.leibowitz@rtui.com",
+      "tyler.vansant@indoormedia.com",
+      "tyler.vansant@rtui.com",
+      "alyssacurranhomes@gmail.com"
+    ],
+    "reps": [
+      {
+        "email": "tyler.vansant@indoormedia.com",
+        "name": "Tyler Van Sant"
+      },
+      {
+        "email": "tyler.vansant@rtui.com",
+        "name": "Tyler Van Sant"
+      }
+    ]
+  },
+  {
+    "message_id": "1a187b4ae3b10746",
+    "date": "2026-10-29 05:48",
+    "from": "Zone 07Z - Sydney Miller <zone.07z@indoormedia.com>",
+    "subject": "Re: Ad Proof from IndoorMedia , Nothing Bundt Cakes [07Z - B4 - J437225E]",
+    "client_name": "Nothing Bundt Cakes",
+    "contact_name": "Hi Kelly",
+    "client_email": "kelly.baldwin@indoormedia.com",
+    "location": "",
+    "zone": "07Z",
+    "cycle": "B4",
+    "contract_number": "J437225E",
+    "store": ">>> Tape Ad at Safeway 1798, 11501 Canyon Rd E, Puyallup, WA",
+    "ad_size": "Single",
+    "install_month": "",
+    "run_months": "",
+    "image_url": "https://lh3.googleusercontent.com/d/1s3OQcuNvMpFJPsWixUmXpZyZUYuzARtn",
+    "review_deadline": "10/14/2026",
+    "recipients": [
+      "richard.leibowitz@rtui.com",
+      "tyler.vansant@rtui.com",
+      "kelly.baldwin@indoormedia.com"
+    ],
+    "reps": [
+      {
+        "email": "tyler.vansant@rtui.com",
+        "name": "Tyler Van Sant"
+      }
+    ]
+  },
+  {
+    "message_id": "1a187b0e2291c71b",
+    "date": "2026-10-29 05:44",
+    "from": "Zone 07Z - Sydney Miller <zone.07z@indoormedia.com>",
+    "subject": "Re: Ad Proof from IndoorMedia , Compass Alyssa Curran Realty Group [07Z - C4 - J423199E]",
+    "client_name": "Compass Alyssa Curran Realty Group",
+    "contact_name": "will see a new proof email as soon as it becomes available*",
+    "client_email": "alyssacurranhomes@gmail.com",
+    "location": "",
+    "zone": "07Z",
+    "cycle": "C4",
+    "contract_number": "J423199E",
+    "store": ">> Tape Ad at Rosauers 0042, 101 S. 47th Avenue, Ridgefield, WA",
+    "ad_size": "Double",
+    "install_month": "",
+    "run_months": "",
+    "image_url": "https://lh3.googleusercontent.com/d/1MuD67-_3OfSwRwGUCjVeVXahO9yOLh-s",
+    "review_deadline": "11/04/2026",
+    "recipients": [
+      "richard.leibowitz@indoormedia.com",
+      "tyler.vansant@indoormedia.com",
+      "tyler.vansant@rtui.com",
+      "alyssacurranhomes@gmail.com"
+    ],
+    "reps": [
+      {
+        "email": "richard.leibowitz@indoormedia.com",
+        "name": "Rick Leibowitz"
+      },
+      {
+        "email": "tyler.vansant@indoormedia.com",
+        "name": "Tyler Van Sant"
+      },
+      {
+        "email": "tyler.vansant@rtui.com",
+        "name": "Tyler Van Sant"
+      }
+    ]
+  },
+  {
+    "message_id": "1a187afd04f29ca6",
+    "date": "2026-10-29 05:42",
+    "from": "Zone 07Y - Sydney Miller <zone.07y@indoormedia.com>",
+    "subject": "Re: Ad Proof from IndoorMedia , Osaka Sushi & Ramen [07Y - C4 - J408525E]",
+    "client_name": "Osaka Sushi & Ramen",
+    "contact_name": "Good morning",
+    "client_email": "osakasushialbany@gmail.com",
+    "location": "",
+    "zone": "07Y",
+    "cycle": "C4",
+    "contract_number": "J408525E",
+    "store": "> Tape Ad at Fred Meyer 0005, 2500 Santiam Highway Southeast, Albany, OR",
+    "ad_size": "Double",
+    "install_month": "",
+    "run_months": "",
+    "image_url": "https://lh3.googleusercontent.com/d/1kBoL-6YVTNfAM44ExFIFTA4-GSnsrYWr",
+    "review_deadline": "11/04/2026",
+    "recipients": [
+      "osakasushialbany@gmail.com",
+      "richard.leibowitz@indoormedia.com",
+      "tyler.vansant@rtui.com"
+    ],
+    "reps": [
+      {
+        "email": "richard.leibowitz@indoormedia.com",
+        "name": "Rick Leibowitz"
+      },
+      {
+        "email": "tyler.vansant@rtui.com",
+        "name": "Tyler Van Sant"
+      }
+    ]
+  },
+  {
+    "message_id": "1a187ab2cf535713",
+    "date": "2026-10-29 05:37",
+    "from": "Zone 07Y - Sydney Miller <zone.07y@indoormedia.com>",
+    "subject": "Re: Ad Proofs from IndoorMedia , John's Car Wash [07Y - C4 - J434018E]",
+    "client_name": "John's Car Wash",
+    "contact_name": "good day!*",
+    "client_email": "coryflick1@gmail.com",
+    "location": "",
+    "zone": "07Y",
+    "cycle": "C4",
+    "contract_number": "J434018E",
+    "store": "",
+    "ad_size": "Single",
+    "install_month": "",
+    "run_months": "",
+    "image_url": "https://lh3.googleusercontent.com/d/1Du9OKXExGuhFvvjkJ_1vA75aNXhwVPjc",
+    "review_deadline": "11/03/2026",
+    "recipients": [
+      "richard.leibowitz@indoormedia.com",
+      "tyler.vansant@indoormedia.com",
+      "coryflick1@gmail.com",
+      "tyler.vansant@rtui.com"
+    ],
+    "reps": [
+      {
+        "email": "richard.leibowitz@indoormedia.com",
+        "name": "Rick Leibowitz"
+      },
+      {
+        "email": "tyler.vansant@indoormedia.com",
+        "name": "Tyler Van Sant"
+      },
+      {
+        "email": "tyler.vansant@rtui.com",
+        "name": "Tyler Van Sant"
+      }
+    ]
+  },
+  {
     "message_id": "1a183947a6005705",
     "date": "2026-10-28 10:34",
     "from": "Zone 07Z - Sydney Miller <zone.07z@indoormedia.com>",
@@ -113,45 +502,6 @@
       {
         "email": "megan.wink@indoormedia.com",
         "name": "Megan Wink"
-      }
-    ]
-  },
-  {
-    "message_id": "1a1835b8d8c32185",
-    "date": "2026-10-28 09:32",
-    "from": "Sydney Miller <Zone.07Z@indoormedia.com>",
-    "subject": "Ad Proof from IndoorMedia , Compass Alyssa Curran Realty Group [07Z - C4 - J423199E]",
-    "client_name": "Compass Alyssa Curran Realty Group",
-    "contact_name": "Alyssa Curran",
-    "client_email": "alyssacurranhomes@gmail.com",
-    "location": "",
-    "zone": "07Z",
-    "cycle": "C4",
-    "contract_number": "J423199E",
-    "store": "Tape Ad at Rosauers 0042, 101 S. 47th Avenue, Ridgefield, WA",
-    "ad_size": "Double",
-    "install_month": "",
-    "run_months": "",
-    "image_url": "https://lh3.googleusercontent.com/d/1MuD67-_3OfSwRwGUCjVeVXahO9yOLh-s",
-    "review_deadline": "11/04/2026",
-    "recipients": [
-      "tyler.vansant@rtui.com",
-      "richard.leibowitz@indoormedia.com",
-      "alyssacurranhomes@gmail.com",
-      "tyler.vansant@indoormedia.com"
-    ],
-    "reps": [
-      {
-        "email": "tyler.vansant@rtui.com",
-        "name": "Tyler Van Sant"
-      },
-      {
-        "email": "richard.leibowitz@indoormedia.com",
-        "name": "Rick Leibowitz"
-      },
-      {
-        "email": "tyler.vansant@indoormedia.com",
-        "name": "Tyler Van Sant"
       }
     ]
   },
@@ -1173,46 +1523,6 @@
     ]
   },
   {
-    "message_id": "1a18290bd6ca3968",
-    "date": "2026-10-28 05:50",
-    "from": "Zone 07Y - Sydney Miller <zone.07y@indoormedia.com>",
-    "subject": "Re: Ad Proof from IndoorMedia , Cal's Moving & Storage [07Y - C4 - D430557E]",
-    "client_name": "Cal's Moving & Storage",
-    "contact_name": "will see a new proof email as soon as it becomes available*",
-    "client_email": "phil@calsmovinghelp.com",
-    "location": "",
-    "zone": "07Y",
-    "cycle": "C4",
-    "contract_number": "D430557E",
-    "store": ">> Tape Ad at Safeway 1713, 22000 Salamo Road, West Linn, OR",
-    "ad_size": "Single",
-    "install_month": "",
-    "run_months": "",
-    "image_url": "https://lh3.googleusercontent.com/d/1Y9GoAPXyAi9AleIV2uKkvKE6OZsrNCMT",
-    "review_deadline": "11/03/2026",
-    "recipients": [
-      "richard.leibowitz@indoormedia.com",
-      "phil@calsmovinghelp.com",
-      "tyler.vansant@rtui.com",
-      "jan.banks@indoormedia.com",
-      "calvin@calsmovinghelp.com"
-    ],
-    "reps": [
-      {
-        "email": "richard.leibowitz@indoormedia.com",
-        "name": "Rick Leibowitz"
-      },
-      {
-        "email": "tyler.vansant@rtui.com",
-        "name": "Tyler Van Sant"
-      },
-      {
-        "email": "jan.banks@indoormedia.com",
-        "name": "Jan Banks"
-      }
-    ]
-  },
-  {
     "message_id": "1a1828f5e06632b1",
     "date": "2026-10-28 05:49",
     "from": "Zone 07Y - Sydney Miller <zone.07y@indoormedia.com>",
@@ -1406,80 +1716,6 @@
     ]
   },
   {
-    "message_id": "1a17f5820f7364b1",
-    "date": "2026-10-27 14:50",
-    "from": "Sydney Miller <Zone.07Y@indoormedia.com>",
-    "subject": "Ad Proofs from IndoorMedia , Papa Murphy's [07Y - C4 - J414665E]",
-    "client_name": "Papa Murphy's",
-    "contact_name": "Micki",
-    "client_email": "micki.waters@comcast.net",
-    "location": "",
-    "zone": "07Y",
-    "cycle": "C4",
-    "contract_number": "J414665E",
-    "store": "",
-    "ad_size": "Single",
-    "install_month": "",
-    "run_months": "",
-    "image_url": "https://lh3.googleusercontent.com/d/1629FHIU_CWT-75CAEGOnoEbkfWMZ2YTP",
-    "review_deadline": "11/03/2026",
-    "recipients": [
-      "micki.waters@comcast.net",
-      "richard.leibowitz@indoormedia.com",
-      "tyler.vansant@rtui.com"
-    ],
-    "reps": [
-      {
-        "email": "richard.leibowitz@indoormedia.com",
-        "name": "Rick Leibowitz"
-      },
-      {
-        "email": "tyler.vansant@rtui.com",
-        "name": "Tyler Van Sant"
-      }
-    ]
-  },
-  {
-    "message_id": "1a17f52b1c9c7a5f",
-    "date": "2026-10-27 14:44",
-    "from": "Sydney Miller <Zone.07Y@indoormedia.com>",
-    "subject": "Ad Proof from IndoorMedia , Cal's Moving & Storage [07Y - C4 - D430557E]",
-    "client_name": "Cal's Moving & Storage",
-    "contact_name": "Calvin Krech",
-    "client_email": "calvin@calsmovinghelp.com",
-    "location": "",
-    "zone": "07Y",
-    "cycle": "C4",
-    "contract_number": "D430557E",
-    "store": "Tape Ad at Safeway 1713, 22000 Salamo Road, West Linn, OR",
-    "ad_size": "Single",
-    "install_month": "",
-    "run_months": "",
-    "image_url": "https://lh3.googleusercontent.com/d/1Y9GoAPXyAi9AleIV2uKkvKE6OZsrNCMT",
-    "review_deadline": "11/03/2026",
-    "recipients": [
-      "phil@calsmovinghelp.com",
-      "tyler.vansant@rtui.com",
-      "richard.leibowitz@indoormedia.com",
-      "jan.banks@indoormedia.com",
-      "calvin@calsmovinghelp.com"
-    ],
-    "reps": [
-      {
-        "email": "tyler.vansant@rtui.com",
-        "name": "Tyler Van Sant"
-      },
-      {
-        "email": "richard.leibowitz@indoormedia.com",
-        "name": "Rick Leibowitz"
-      },
-      {
-        "email": "jan.banks@indoormedia.com",
-        "name": "Jan Banks"
-      }
-    ]
-  },
-  {
     "message_id": "1a17f50f4e57ba36",
     "date": "2026-10-27 14:42",
     "from": "Sydney Miller <Zone.07Y@indoormedia.com>",
@@ -1599,45 +1835,6 @@
     ]
   },
   {
-    "message_id": "1a17f460c24e60be",
-    "date": "2026-10-27 14:30",
-    "from": "Sydney Miller <Zone.07Y@indoormedia.com>",
-    "subject": "Ad Proofs from IndoorMedia , John's Car Wash [07Y - C4 - J434018E]",
-    "client_name": "John's Car Wash",
-    "contact_name": "Cory Flickinger",
-    "client_email": "coryflick1@gmail.com",
-    "location": "",
-    "zone": "07Y",
-    "cycle": "C4",
-    "contract_number": "J434018E",
-    "store": "",
-    "ad_size": "Single",
-    "install_month": "",
-    "run_months": "",
-    "image_url": "https://lh3.googleusercontent.com/d/1Du9OKXExGuhFvvjkJ_1vA75aNXhwVPjc",
-    "review_deadline": "11/03/2026",
-    "recipients": [
-      "tyler.vansant@indoormedia.com",
-      "coryflick1@gmail.com",
-      "tyler.vansant@rtui.com",
-      "richard.leibowitz@indoormedia.com"
-    ],
-    "reps": [
-      {
-        "email": "tyler.vansant@indoormedia.com",
-        "name": "Tyler Van Sant"
-      },
-      {
-        "email": "tyler.vansant@rtui.com",
-        "name": "Tyler Van Sant"
-      },
-      {
-        "email": "richard.leibowitz@indoormedia.com",
-        "name": "Rick Leibowitz"
-      }
-    ]
-  },
-  {
     "message_id": "1a17f3d728037b11",
     "date": "2026-10-27 14:21",
     "from": "Sydney Miller <Zone.07Y@indoormedia.com>",
@@ -1732,45 +1929,6 @@
     "recipients": [
       "mamismexicangrill1@gmail.com",
       "matthew.boozer@indoormedia.com",
-      "tyler.vansant@rtui.com",
-      "richard.leibowitz@indoormedia.com"
-    ],
-    "reps": [
-      {
-        "email": "matthew.boozer@indoormedia.com",
-        "name": "Matthew Boozer"
-      },
-      {
-        "email": "tyler.vansant@rtui.com",
-        "name": "Tyler Van Sant"
-      },
-      {
-        "email": "richard.leibowitz@indoormedia.com",
-        "name": "Rick Leibowitz"
-      }
-    ]
-  },
-  {
-    "message_id": "1a17f1c0997cacbb",
-    "date": "2026-10-27 13:45",
-    "from": "Sydney Miller <Zone.07Y@indoormedia.com>",
-    "subject": "Ad Proof from IndoorMedia , Kim\u2019s Asian Cuisine [07Y - C4 - J427617E]",
-    "client_name": "Kim\u2019s Asian Cuisine",
-    "contact_name": "Huan Truong",
-    "client_email": "hhtruong1@yahoo.com",
-    "location": "",
-    "zone": "07Y",
-    "cycle": "C4",
-    "contract_number": "J427617E",
-    "store": "Tape Ad at Fred Meyer 0325, 60 Division Ave, Eugene, OR",
-    "ad_size": "Single",
-    "install_month": "",
-    "run_months": "",
-    "image_url": "https://lh3.googleusercontent.com/d/19pR5HzF4vwlFRXr0JYRPu9A0_Hs8F_Fg",
-    "review_deadline": "11/03/2026",
-    "recipients": [
-      "matthew.boozer@indoormedia.com",
-      "hhtruong1@yahoo.com",
       "tyler.vansant@rtui.com",
       "richard.leibowitz@indoormedia.com"
     ],
@@ -8451,41 +8609,6 @@
     ]
   },
   {
-    "message_id": "19fec0fff5a06b3c",
-    "date": "2026-08-10 07:24",
-    "from": "Zone 07Z - Sydney Miller <zone.07z@indoormedia.com>",
-    "subject": "Re: Ad Proof from IndoorMedia , Cafe Zamora [07Z - C3 - J434543E]",
-    "client_name": "Cafe Zamora",
-    "contact_name": "will see a new proof email as soon as it becomes available*",
-    "client_email": "cafezamorapdx@gmail.com",
-    "location": "",
-    "zone": "07Z",
-    "cycle": "C3",
-    "contract_number": "J434543E",
-    "store": ">> Tape Ad at Safeway 1627, 3930 Southeast Powell Boulevard, Portland, OR",
-    "ad_size": "Single",
-    "install_month": "",
-    "run_months": "",
-    "image_url": "https://lh3.googleusercontent.com/d/1d9THWfSHucpp8urvI6LZo2tgqkZGmBms",
-    "review_deadline": "08/12/2026",
-    "recipients": [
-      "cafezamorapdx@gmail.com",
-      "richard.leibowitz@rtui.com",
-      "megan.wink@indoormedia.com",
-      "tyler.vansant@rtui.com"
-    ],
-    "reps": [
-      {
-        "email": "megan.wink@indoormedia.com",
-        "name": "Megan Wink"
-      },
-      {
-        "email": "tyler.vansant@rtui.com",
-        "name": "Tyler Van Sant"
-      }
-    ]
-  },
-  {
     "message_id": "19fec0d1c03b891a",
     "date": "2026-08-10 07:21",
     "from": "Zone 07Y - Sydney Miller <zone.07y@indoormedia.com>",
@@ -9510,41 +9633,6 @@
     "reps": [
       {
         "email": "tyler.vansant@rtui.com",
-        "name": "Tyler Van Sant"
-      }
-    ]
-  },
-  {
-    "message_id": "19fb373477a53590",
-    "date": "2026-07-30 07:34",
-    "from": "Zone 07Z - Sydney Miller <zone.07z@indoormedia.com>",
-    "subject": "Re: Ad Proof from IndoorMedia , Compass Alyssa Curran Realty Group [07Z - C3 - J423199E]",
-    "client_name": "Compass Alyssa Curran Realty Group",
-    "contact_name": "great day.*",
-    "client_email": "alyssacurranhomes@gmail.com",
-    "location": "",
-    "zone": "07Z",
-    "cycle": "C3",
-    "contract_number": "J423199E",
-    "store": ">> Tape Ad at Rosauers 0042, 101 S. 47th Avenue, Ridgefield, WA",
-    "ad_size": "Double",
-    "install_month": "",
-    "run_months": "",
-    "image_url": "https://lh3.googleusercontent.com/d/1D2LOur3aDow6jgXU-gPATzcAo8c8kiA_",
-    "review_deadline": "08/03/2026",
-    "recipients": [
-      "tyler.vansant@rtui.com",
-      "richard.leibowitz@rtui.com",
-      "alyssacurranhomes@gmail.com",
-      "tyler.vansant@indoormedia.com"
-    ],
-    "reps": [
-      {
-        "email": "tyler.vansant@rtui.com",
-        "name": "Tyler Van Sant"
-      },
-      {
-        "email": "tyler.vansant@indoormedia.com",
         "name": "Tyler Van Sant"
       }
     ]
