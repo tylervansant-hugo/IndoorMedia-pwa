@@ -904,6 +904,15 @@
   }
   $: (view, _reportNavDepth());
 
+  // The old 'main' tile menu (Find Prospects grid) was removed per request.
+  // Any time a view backs out / resets to 'main', send the user to the Store
+  // Network page instead of rendering that menu. Main.svelte listens for this
+  // and flips storesView back to 'rates'. This keeps every Saved/Import/Call-In
+  // sub-view reachable while the unwanted landing grid never appears.
+  $: if (view === 'main' && typeof document !== 'undefined') {
+    document.dispatchEvent(new CustomEvent('return-to-store-network'));
+  }
+
   // Friendly date formatter for lead cards (e.g. "Jun 29, 2026")
   function fmtLeadDate(s) {
     if (!s) return '';
@@ -4647,86 +4656,13 @@ IndoorMedia`
 
   <!-- Tab strip removed per request; navigation lives in the main menu grid + Back buttons -->
 
-  <!-- Main Menu -->
+  <!-- Main Menu (Find Prospects tile grid) removed per request. The Prospect
+       tab now lands on the Store Network page; this component only renders its
+       sub-views (Saved / Import Contacts / Call-In Leads / Browse / results /
+       etc.). When view==='main' a reactive guard above flips back to Store
+       Network, so nothing renders here. -->
   {#if view === 'main'}
-    <h2>🎯 Find Prospects</h2>
-    <p class="subtitle">Discover new business opportunities</p>
-
-    <div class="button-grid">
-      <a href="https://coupons.indoormedia.com/" target="_blank" class="main-btn" style="text-decoration: none; color: inherit; font-size: inherit; font-family: inherit;">
-        <div class="btn-icon">📋</div>
-        <div class="btn-text">Nearby Advertisers</div>
-        <div class="btn-desc">See who's already advertising</div>
-      </a>
-
-      <button class="main-btn" on:click={() => { selectedStore = null; adIntelReturnView = 'main'; seedAdIntelLocation(); view = 'ad-intel'; }}>
-        <div class="btn-icon">📡</div>
-        <div class="btn-text">Local Ad Intel</div>
-        <div class="btn-desc">Meta, Groupon, DoorDash &amp; more</div>
-      </button>
-
-      <button class="main-btn" on:click={startNearMeSearch}>
-        <div class="btn-icon">📍</div>
-        <div class="btn-text">Near Me</div>
-        <div class="btn-desc">Find stores nearby</div>
-      </button>
-
-      <button class="main-btn" on:click={() => view = 'browse-stores'}>
-        <div class="btn-icon">🏪</div>
-        <div class="btn-text">Browse Stores</div>
-        <div class="btn-desc">Search any store nationwide</div>
-      </button>
-
-      <button class="main-btn" on:click={() => view = 'saved'}>
-        <div class="btn-icon">💾</div>
-        <div class="btn-text">Saved ({savedProspects.length})</div>
-        <div class="btn-desc">Your prospects</div>
-      </button>
-
-      <button class="main-btn" on:click={openNewLead}>
-        <div class="btn-icon">➕</div>
-        <div class="btn-text">New Business</div>
-        <div class="btn-desc">Add a lead manually</div>
-      </button>
-
-      <button class="main-btn" on:click={() => { contactsView = 'intro'; contactsError = ''; view = 'contacts'; }}>
-        <div class="btn-icon">📇</div>
-        <div class="btn-text">Import Contacts</div>
-        <div class="btn-desc">Scan your phone contacts for businesses</div>
-      </button>
-
-      <button class="main-btn" on:click={() => view = 'hot-leads'}>
-        <div class="btn-icon">🔥</div>
-        <div class="btn-text">Hot Leads</div>
-        <div class="btn-desc">{hotLeads.length > 0 ? hotLeads.length + ' ready to call' : 'Coming soon'}</div>
-      </button>
-
-      <button class="main-btn" on:click={() => view = 'call-in'}>
-        <div class="btn-icon">📞</div>
-        <div class="btn-text">Call-In Leads{#if callInLeads.length > 0} ({callInLeads.length}){/if}</div>
-        <div class="btn-desc">Inbound leads to follow up</div>
-      </button>
-
-      <button class="main-btn" on:click={() => view = 'submit-lead'}>
-        <div class="btn-icon">➕</div>
-        <div class="btn-text">Add Lead</div>
-        <div class="btn-desc">Submit a new lead</div>
-      </button>
-
-      {#if isPrivilegedViewer()}
-        <button class="main-btn" on:click={() => view = 'team'}>
-          <div class="btn-icon">👥</div>
-          <div class="btn-text">Team ({teamProspects.length})</div>
-          <div class="btn-desc">Team prospects</div>
-        </button>
-
-        <button class="main-btn" on:click={() => view = 'pending'}>
-          <div class="btn-icon">⏳</div>
-          <div class="btn-text">Pending</div>
-          <div class="btn-desc">Leads awaiting review</div>
-        </button>
-      {/if}
-    </div>
+    <!-- intentionally empty: redirected to Store Network -->
   {/if}
 
   <!-- Browse All Stores -->

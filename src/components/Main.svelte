@@ -105,7 +105,9 @@
     // Explicit, well-known homepage quick-actions run directly.
     if (sc.action === 'driving') { if (DRIVE_MODE_ENABLED) showDrivingMode = true; return; }
     if (sc.action === 'book-appt') { bookAppointment(); return; }
-    if (sc.action === 'prospects') { storesView = 'prospects'; currentTab = 'stores'; return; }
+    // 'prospects' used to open the Find Prospects tile menu (removed). Land on
+    // the Store Network page instead.
+    if (sc.action === 'prospects') { storesView = 'rates'; currentTab = 'stores'; return; }
 
     // Navigate to the tab/view the button lives on first.
     if (sc.storesView) storesView = sc.storesView;
@@ -1409,7 +1411,8 @@
     const scAction = params.get('action');
     const scTab = params.get('tab');
     if (scAction === 'prospects') {
-      storesView = 'prospects';
+      // Find Prospects tile menu removed -> land on Store Network.
+      storesView = 'rates';
       currentTab = 'stores';
       window.history.replaceState({}, '', window.location.pathname);
     } else if (scAction === 'callin') {
@@ -1489,8 +1492,9 @@
           break;
         }
         case 'prospect_view':
+          // Prospect tile menu removed -> Store Network.
           currentTab = 'stores';
-          storesView = 'prospects';
+          storesView = 'rates';
           break;
         default:
           break;
@@ -1507,9 +1511,19 @@
     }
     document.addEventListener('open-prospect-view', handleOpenProspectView);
 
+    // The old ProspectSearch 'main' tile menu was removed. When any prospect
+    // sub-view backs out / resets to its (now empty) main view, it fires this
+    // event; we send the user back to the Store Network page instead of showing
+    // the removed menu.
+    function handleReturnToStoreNetwork() {
+      if (currentTab === 'stores' && storesView === 'prospects') storesView = 'rates';
+    }
+    document.addEventListener('return-to-store-network', handleReturnToStoreNetwork);
+
     return () => {
       stopCartPoll();
       document.removeEventListener('open-prospect-view', handleOpenProspectView);
+      document.removeEventListener('return-to-store-network', handleReturnToStoreNetwork);
       document.removeEventListener('visibilitychange', onVisCart);
       document.removeEventListener('map-action', handleMapAction);
       document.removeEventListener('open-activity', handleOpenActivity);
@@ -1859,7 +1873,7 @@
           on:drop={() => onDashDrop('quickactions')}>
           {#if editHome}<div class="dash-move"><button on:click|stopPropagation={() => moveDashCard('quickactions', -1)} aria-label="Move up">↑</button><button on:click|stopPropagation={() => moveDashCard('quickactions', 1)} aria-label="Move down">↓</button><button class="dash-del" on:click|stopPropagation={() => hideDashCard('quickactions')} aria-label="Remove card">✕</button></div>{/if}
         <div class="quick-actions-top">
-          <button class="qa-btn qa-primary" on:click={() => { storesView = 'prospects'; currentTab = 'stores'; }}
+          <button class="qa-btn qa-primary" on:click={() => { storesView = 'rates'; currentTab = 'stores'; }}
             use:addToHome={{ label: 'Find Prospects', icon: '🎯', tab: 'stores', action: 'prospects' }}>
             <span class="qa-icon">🎯</span>
             <span class="qa-label">Find Prospects</span>
@@ -2221,7 +2235,7 @@
               {/each}
             {/if}
 
-            <button class="drill-goto-btn" on:click={() => { storesView = 'prospects'; currentTab = 'stores'; }}>
+            <button class="drill-goto-btn" on:click={() => { storesView = 'rates'; currentTab = 'stores'; }}>
               🎯 Go to Prospects →
             </button>
           </div>
@@ -2401,7 +2415,7 @@
       <HotLeadsSubmit
         user={$user}
         onLeadSubmitted={() => {
-          storesView = 'prospects'; currentTab = 'stores';
+          storesView = 'rates'; currentTab = 'stores';
         }}
       />
     {/if}
