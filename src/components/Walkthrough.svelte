@@ -20,13 +20,13 @@
   // bottom-nav tabs + the counter-sign flow.
   const slides = [
     {
-      icon: '🐚',
+      logo: true,
       title: 'Welcome to imPRO',
       body: 'Your all-in-one field toolkit — find prospects, present rates, close deals, and manage clients right from your phone. Here\u2019s the 60-second tour.',
     },
     {
       icon: '🏠',
-      title: 'Dashboard',
+      title: 'Home',
       body: 'Your cockpit. See today\u2019s goals, revenue, call-in leads, and recent activity at a glance. Tap \u201cEdit Home\u201d to rearrange or hide cards however you like.',
     },
     {
@@ -36,13 +36,8 @@
     },
     {
       icon: '📊',
-      title: 'Present',
+      title: 'Products',
       body: 'Walk a business through pricing, ROI, and sample ads on the spot. Everything you need to make the pitch — no printouts required.',
-    },
-    {
-      icon: '✍️',
-      title: 'Counter-Sign',
-      body: 'Close on the counter. Generate and sign contracts step-by-step, right in the app, and have the paperwork done before you leave.',
     },
     {
       icon: '👥',
@@ -52,7 +47,7 @@
     {
       icon: '🛠️',
       title: 'Tools & Training',
-      body: 'ROI calculator, sales scripts, testimonials, the training library, appearance themes, and the \u201cShare / Install App\u201d QR code all live here.',
+      body: 'ROI calculator, sales scripts, testimonials, the training library, appearance themes, and the \u201cShare / Install App\u201d QR code all live here. It\u2019s also where you\u2019ll Counter-Sign — generate and sign contracts step-by-step to close right on the counter.',
     },
     {
       icon: '🚀',
@@ -123,7 +118,16 @@
       <div class="wt-stage">
         {#key index}
           <div class="wt-slide">
-            <div class="wt-icon">{slides[index].icon}</div>
+            {#if slides[index].logo}
+              <div class="wt-logo-row">
+                <div class="wt-logo-backdrop">
+                  <img src="{import.meta.env.BASE_URL}logo.png?v=2" alt="IndoorMedia" class="wt-logo-img" />
+                </div>
+                <span class="wt-logo-text">imPro</span>
+              </div>
+            {:else}
+              <div class="wt-icon">{slides[index].icon}</div>
+            {/if}
             <h2 class="wt-title">{slides[index].title}</h2>
             <p class="wt-body">{slides[index].body}</p>
           </div>
@@ -216,6 +220,34 @@
     line-height: 1;
     margin-bottom: 16px;
     filter: drop-shadow(0 6px 14px rgba(0,0,0,0.18));
+  }
+  .wt-logo-row {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    margin-bottom: 18px;
+  }
+  .wt-logo-backdrop {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 64px;
+    height: 64px;
+    border-radius: 16px;
+    background: #fff;
+    box-shadow: 0 6px 16px rgba(0,0,0,0.18);
+  }
+  .wt-logo-img {
+    width: 52px;
+    height: 52px;
+    object-fit: contain;
+  }
+  .wt-logo-text {
+    font-size: 34px;
+    font-weight: 800;
+    letter-spacing: -0.5px;
+    color: var(--text-primary, #1a1a1a);
   }
   .wt-title {
     font-size: 24px;
