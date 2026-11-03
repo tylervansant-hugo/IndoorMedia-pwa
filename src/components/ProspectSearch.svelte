@@ -3845,6 +3845,22 @@ IndoorMedia`
     return p.id || p.placeId || (p.name && p.address ? `${p.name}|${p.address}` : p.name) || JSON.stringify(p);
   }
 
+  // Build the best available Google reviews link for a prospect. Priority:
+  //  1. place_id  -> deep-links straight to the Google reviews panel
+  //  2. mapsUrl   -> the Google Maps listing (Reviews tab is right there)
+  //  3. name+address search -> lands on the place's Google listing
+  function reviewsUrl(p) {
+    const pid = p.place_id || p.placeId;
+    if (pid) return `https://search.google.com/local/reviews?placeid=${encodeURIComponent(pid)}`;
+    if (p.mapsUrl) return p.mapsUrl;
+    const q = [p.name, p.address].filter(Boolean).join(' ').trim();
+    return `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(q || p.name || '')}`;
+  }
+  function openReviews(p) {
+    const url = reviewsUrl(p);
+    if (typeof window !== 'undefined' && url) window.open(url, '_blank', 'noopener');
+  }
+
   // Write the current saved list to both localStorage AND Firestore (per rep)
   function persistProspects() {
     localStorage.setItem(_prospectsLSKey(), JSON.stringify(savedProspects));
@@ -4915,7 +4931,7 @@ IndoorMedia`
           </div>
           <p class="prospect-address" style="cursor:pointer;" on:click={() => { navigator.clipboard.writeText(prospect.address); copiedAddress = prospect.address; setTimeout(() => copiedAddress = '', 2000); }}>📍 {copiedAddress === prospect.address ? '✅ Copied!' : prospect.address}</p>
           <div class="prospect-meta">
-            <span class="meta-pill meta-rating">⭐ {prospect.rating.toFixed(1)} <small>({prospect.reviews})</small></span>
+            <button type="button" class="meta-pill meta-rating meta-rating-link" on:click|stopPropagation={() => openReviews(prospect)} title="See Google reviews" aria-label="Open Google reviews for {prospect.name}">⭐ {prospect.rating.toFixed(1)} <small>({prospect.reviews})</small> <span class="meta-rating-ext">↗</span></button>
             {#if prospect.distance != null}<span class="meta-pill meta-dist">📍 {prospect.distance} mi</span>{/if}
           </div>
           {#if prospect._adSpend != null}
@@ -7426,6 +7442,16 @@ IndoorMedia`
   }
   .meta-pill small { font-weight: 500; opacity: 0.75; }
   .meta-rating { color: #b26a00; background: #fff8e1; border-color: #ffe0a3; }
+  /* Tappable rating -> opens Google reviews */
+  .meta-rating-link {
+    cursor: pointer;
+    font-family: inherit;
+    -webkit-tap-highlight-color: transparent;
+    transition: filter 0.15s ease, transform 0.08s ease;
+  }
+  .meta-rating-link:hover { filter: brightness(0.97); text-decoration: none; }
+  .meta-rating-link:active { transform: scale(0.96); }
+  .meta-rating-ext { font-size: 10px; opacity: 0.7; margin-left: 1px; }
   :global([data-theme='dark']) .meta-pill { background: #2a2a2a; border-color: #3a3a3a; color: #bbb; }
   :global([data-theme='dark']) .meta-rating { background: #3a2f12; border-color: #5a4a1c; color: #ffcf6b; }
 
