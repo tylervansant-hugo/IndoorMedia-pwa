@@ -4932,8 +4932,19 @@ IndoorMedia`
           <p class="prospect-address" style="cursor:pointer;" on:click={() => { navigator.clipboard.writeText(prospect.address); copiedAddress = prospect.address; setTimeout(() => copiedAddress = '', 2000); }}>📍 {copiedAddress === prospect.address ? '✅ Copied!' : prospect.address}</p>
           <div class="prospect-meta">
             <button type="button" class="meta-pill meta-rating meta-rating-link" on:click|stopPropagation={() => openReviews(prospect)} title="See Google reviews" aria-label="Open Google reviews for {prospect.name}">⭐ {prospect.rating.toFixed(1)} <small>({prospect.reviews})</small> <span class="meta-rating-ext">↗</span></button>
-            {#if prospect.distance != null}<span class="meta-pill meta-dist">📍 {prospect.distance} mi</span>{/if}
+            {#if prospect.distance != null}
+              <button type="button" class="meta-pill meta-dist meta-dist-link" on:click|stopPropagation={() => { if (prospect.lat && prospect.lng) { prospect._showMapPopup = !prospect._showMapPopup; prospects = prospects; } }} title="Tap to see distance to nearby stores">📍 {prospect.distance} mi{#if prospect.lat && prospect.lng} <span class="meta-dist-caret">{prospect._showMapPopup ? '▲' : '▼'}</span>{/if}</button>
+            {/if}
           </div>
+          {#if prospect._showMapPopup && prospect.lat && prospect.lng}
+            <div class="minimap-popup">
+              <div class="minimap-popup-head">
+                <span>🗺️ Distance to nearby stores</span>
+                <button type="button" class="minimap-popup-close" on:click|stopPropagation={() => { prospect._showMapPopup = false; prospects = prospects; }} aria-label="Close map">✕</button>
+              </div>
+              <div class="prospect-minimap minimap-popup-map" use:initMiniMap={{ prospect, store: selectedStore }}></div>
+            </div>
+          {/if}
           {#if prospect._adSpend != null}
             <div class="hotlist-signals">
               <button class="hl-chip hl-spend hl-tappable" on:click|stopPropagation={() => { prospect._showAdSignals = !prospect._showAdSignals; prospects = prospects; }} title="Tap to see the advertising signals behind this">💰 Ad spend: {prospect._adSpend >= 70 ? 'High' : prospect._adSpend >= 45 ? 'Medium' : 'Low'} <span class="hl-caret">{prospect._showAdSignals ? '▲' : '▼'}</span></button>
@@ -5545,14 +5556,6 @@ IndoorMedia`
             {#if prospect.address}
               <a href="https://maps.apple.com/?daddr={encodeURIComponent(prospect.address)}" target="_blank" class="action-btn btn-navigate">🗺️ Navigate</a>
             {/if}
-            {#if prospect.lat && prospect.lng}
-              <button class="action-btn btn-showmap" on:click={() => { prospect._showMap = !prospect._showMap; prospects = prospects; }}>
-                {prospect._showMap ? '✕ Close Map' : '📍 Show on Map'}
-              </button>
-            {/if}
-          {#if prospect._showMap && prospect.lat && prospect.lng}
-            <div class="prospect-minimap" use:initMiniMap={{ prospect, store: selectedStore }}></div>
-          {/if}
             <button class="action-btn btn-meeting-prep" on:click={() => runMeetingPrep(prospect)}>🎯 Run Meeting Prep</button>
           </div>
         </div>
@@ -7705,6 +7708,57 @@ IndoorMedia`
     border: 2px solid var(--border-color, #ddd);
     margin-top: 10px;
   }
+  /* Tappable distance pill -> inline map popup near the pill */
+  .meta-dist-link {
+    cursor: pointer;
+    font-family: inherit;
+    -webkit-tap-highlight-color: transparent;
+    transition: filter 0.15s ease, transform 0.08s ease;
+  }
+  .meta-dist-link:hover { filter: brightness(0.97); }
+  .meta-dist-link:active { transform: scale(0.96); }
+  .meta-dist-caret { font-size: 9px; opacity: 0.7; margin-left: 1px; }
+  /* Map popup anchored right under the rating/distance row */
+  .minimap-popup {
+    margin-top: 10px;
+    border: 1px solid var(--border-color, #e0e0e0);
+    border-radius: 14px;
+    overflow: hidden;
+    background: var(--card-bg, #fff);
+    box-shadow: 0 6px 20px rgba(0,0,0,0.14);
+    animation: minimap-pop 0.18s ease;
+  }
+  @keyframes minimap-pop { from { opacity: 0; transform: translateY(-6px); } to { opacity: 1; transform: none; } }
+  .minimap-popup-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 8px 12px;
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--text-primary, #333);
+    background: var(--bg-secondary, #f5f6f8);
+    border-bottom: 1px solid var(--border-color, #e6e6e6);
+  }
+  .minimap-popup-close {
+    background: none;
+    border: none;
+    font-size: 16px;
+    line-height: 1;
+    cursor: pointer;
+    color: var(--text-secondary, #888);
+    padding: 2px 4px;
+    border-radius: 6px;
+  }
+  .minimap-popup-close:hover { background: rgba(0,0,0,0.06); color: var(--text-primary, #333); }
+  .minimap-popup-map {
+    margin-top: 0;
+    border: none;
+    border-radius: 0;
+    height: 240px;
+  }
+  :global([data-theme='dark']) .minimap-popup-head { background: #2a2a2a; }
+  :global([data-theme='dark']) .minimap-popup-close:hover { background: rgba(255,255,255,0.08); }
   .text-btn { background: #1565C0 !important; color: white !important; border-color: #1565C0 !important; }
   .text-btn:hover { background: #0D47A1 !important; }
 
