@@ -92,8 +92,11 @@
   // (gated by localStorage 'impro_seen_walkthrough'); re-openable any time via
   // the 'replay-walkthrough' event fired from Tools → How to Use imPRO.
   let showWalkthrough = false;
+  // Which bottom-nav tab the current walkthrough slide points at (glows it).
+  let walkthroughTab = null;
   function openWalkthrough() { showWalkthrough = true; }
-  function closeWalkthrough() { showWalkthrough = false; }
+  function closeWalkthrough() { showWalkthrough = false; walkthroughTab = null; }
+  function onWalkthroughHighlight(e) { walkthroughTab = (e && e.detail && e.detail.tab) || null; }
 
   // Universal homepage search → route to the right tab/view.
   function handleUniversalNavigate(e) {
@@ -1715,7 +1718,7 @@
     _appEdgeSwipe = false; _appEdgeDX = 0;
   }}>
   <!-- "How to use imPRO" welcome walkthrough overlay -->
-  <Walkthrough open={showWalkthrough} on:close={closeWalkthrough} />
+  <Walkthrough open={showWalkthrough} on:close={closeWalkthrough} on:highlight={onWalkthroughHighlight} />
 
   <!-- Header -->
   <header class="header">
@@ -1786,28 +1789,28 @@
   {/if}
 
   <!-- Tab Bar (fixed bottom) -->
-  <nav class="tab-bar">
-    <button class="tab-bar-item" class:active={currentTab === 'stores'} on:click={() => handleTabClick('stores')}>
+  <nav class="tab-bar" class:wt-lift={showWalkthrough && walkthroughTab}>
+    <button class="tab-bar-item" class:active={currentTab === 'stores'} class:wt-glow={walkthroughTab === 'stores'} on:click={() => handleTabClick('stores')}>
       <div class="tab-bar-indicator"></div>
       <svg class="tab-bar-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
       <span class="tab-bar-label">Prospect</span>
     </button>
-    <button class="tab-bar-item" class:active={currentTab === 'present'} on:click={() => handleTabClick('present')}>
+    <button class="tab-bar-item" class:active={currentTab === 'present'} class:wt-glow={walkthroughTab === 'present'} on:click={() => handleTabClick('present')}>
       <div class="tab-bar-indicator"></div>
       <svg class="tab-bar-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
       <span class="tab-bar-label">Products</span>
     </button>
-    <button class="tab-bar-item tab-home" class:active={currentTab === 'dashboard'} on:click={() => handleTabClick('dashboard')}>
+    <button class="tab-bar-item tab-home" class:active={currentTab === 'dashboard'} class:wt-glow={walkthroughTab === 'dashboard'} on:click={() => handleTabClick('dashboard')}>
       <div class="tab-bar-indicator"></div>
       <svg class="tab-bar-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
       <span class="tab-bar-label">Home</span>
     </button>
-    <button class="tab-bar-item" class:active={currentTab === 'clients'} on:click={() => handleTabClick('clients')}>
+    <button class="tab-bar-item" class:active={currentTab === 'clients'} class:wt-glow={walkthroughTab === 'clients'} on:click={() => handleTabClick('clients')}>
       <div class="tab-bar-indicator"></div>
       <svg class="tab-bar-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
       <span class="tab-bar-label">Clients</span>
     </button>
-    <button class="tab-bar-item" class:active={currentTab === 'tools'} on:click={() => handleTabClick('tools')}>
+    <button class="tab-bar-item" class:active={currentTab === 'tools'} class:wt-glow={walkthroughTab === 'tools'} on:click={() => handleTabClick('tools')}>
       <div class="tab-bar-indicator"></div>
       <svg class="tab-bar-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>
       <span class="tab-bar-label">Tools</span>
@@ -2778,6 +2781,32 @@
   }
   :global([data-theme='dark']) .tab-bar {
     box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.3);
+  }
+
+  /* While the walkthrough is open, lift the tab bar ABOVE the overlay backdrop
+     (z 9999) so the highlighted button is visible and glowing over the dim. */
+  .tab-bar.wt-lift {
+    z-index: 10000;
+  }
+  .tab-bar.wt-lift .tab-bar-item:not(.wt-glow) {
+    opacity: 0.4;
+    transition: opacity 0.3s ease;
+  }
+  .tab-bar-item.wt-glow {
+    color: var(--tabbar-fg, #ffffff);
+    opacity: 1;
+    border-radius: 14px;
+    background: rgba(255, 255, 255, 0.16);
+    box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.55), 0 0 18px 4px var(--accent, #ffd24a);
+    animation: wt-glow-pulse 1.4s ease-in-out infinite;
+  }
+  .tab-bar-item.wt-glow .tab-bar-icon {
+    transform: scale(1.12);
+    transition: transform 0.25s ease;
+  }
+  @keyframes wt-glow-pulse {
+    0%, 100% { box-shadow: 0 0 0 2px rgba(255,255,255,0.45), 0 0 14px 3px rgba(255, 210, 74, 0.6); }
+    50%      { box-shadow: 0 0 0 2px rgba(255,255,255,0.75), 0 0 26px 8px rgba(255, 210, 74, 0.95); }
   }
 
   .tab-bar-item {

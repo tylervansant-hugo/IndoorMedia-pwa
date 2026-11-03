@@ -26,26 +26,31 @@
     },
     {
       icon: '🏠',
+      tab: 'dashboard',
       title: 'Home',
       body: 'Your cockpit. See today\u2019s goals, revenue, call-in leads, and recent activity at a glance. Tap \u201cEdit Home\u201d to rearrange or hide cards however you like.',
     },
     {
       icon: '🎯',
+      tab: 'stores',
       title: 'Prospect',
       body: 'Search the full store network, pull up any store\u2019s rates, cycle, and details, and work your saved, imported, and call-in leads — all from the Prospect tab.',
     },
     {
       icon: '📊',
+      tab: 'present',
       title: 'Products',
       body: 'Walk a business through pricing, ROI, and sample ads on the spot. Everything you need to make the pitch — no printouts required.',
     },
     {
       icon: '👥',
+      tab: 'clients',
       title: 'Clients',
       body: 'Keep your book of business in one place — your customers, their contracts, renewals, and history, ready whenever you need them.',
     },
     {
       icon: '🛠️',
+      tab: 'tools',
       title: 'Tools & Training',
       body: 'ROI calculator, sales scripts, testimonials, the training library, appearance themes, and the \u201cShare / Install App\u201d QR code all live here. It\u2019s also where you\u2019ll Counter-Sign — generate and sign contracts step-by-step to close right on the counter.',
     },
@@ -60,6 +65,10 @@
   $: last = index === slides.length - 1;
   $: first = index === 0;
 
+  // Tell the parent which bottom-nav tab the current slide refers to (or null
+  // for the Welcome / "all set" slides) so it can glow the matching tab button.
+  $: if (open) dispatch('highlight', { tab: slides[index] && slides[index].tab ? slides[index].tab : null });
+
   function next() {
     if (last) { finish(); return; }
     index = Math.min(index + 1, slides.length - 1);
@@ -72,6 +81,7 @@
   function finish() {
     try { localStorage.setItem(SEEN_KEY, '1'); } catch (_) {}
     index = 0;
+    dispatch('highlight', { tab: null });
     dispatch('close');
   }
   // "Skip" and "Done" both mark seen + close. Keeping them distinct lets us
