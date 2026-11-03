@@ -14,6 +14,12 @@
 
   let view = 'main'; // main, roi, pays-for-itself, rates, testimonials, counter-sign, submit-testimonial, analytics, scripts, share-app
 
+  // Replay the "How to use imPRO" walkthrough. Main.svelte owns the overlay and
+  // listens for this event, so it works from any tab and stays in one place.
+  function replayWalkthrough() {
+    if (typeof window !== 'undefined') window.dispatchEvent(new CustomEvent('replay-walkthrough'));
+  }
+
   // === Share / Install App (QR + link) ===
   // Canonical hosted PWA URL (GitHub Pages). Falls back to the current origin
   // so a custom domain still works without a code change.
@@ -1122,6 +1128,13 @@ Store: ${store}
         <div class="btn-icon">🎨</div>
         <div class="btn-text">Appearance</div>
         <div class="btn-desc">Fonts, icons, accent color & wallpapers</div>
+      </button>
+
+      <button class="main-btn" on:click={replayWalkthrough}
+        use:addToHome={{ label: 'How to Use imPRO', icon: '🧭', tab: 'tools' }}>
+        <div class="btn-icon">🧭</div>
+        <div class="btn-text">How to Use imPRO</div>
+        <div class="btn-desc">Replay the new-user walkthrough</div>
       </button>
 
       <button class="main-btn share-app-btn" on:click={() => view = 'share-app'}

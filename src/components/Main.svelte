@@ -86,6 +86,14 @@
   // import DrivingMode from './_archived/DrivingMode.svelte';
   import UniversalSearch from './UniversalSearch.svelte';
   import LastActivity from './LastActivity.svelte';
+  import Walkthrough from './Walkthrough.svelte';
+
+  // "How to use imPRO" welcome walkthrough. Auto-opens once on first login
+  // (gated by localStorage 'impro_seen_walkthrough'); re-openable any time via
+  // the 'replay-walkthrough' event fired from Tools → How to Use imPRO.
+  let showWalkthrough = false;
+  function openWalkthrough() { showWalkthrough = true; }
+  function closeWalkthrough() { showWalkthrough = false; }
 
   // Universal homepage search → route to the right tab/view.
   function handleUniversalNavigate(e) {
@@ -1308,6 +1316,19 @@
       document.addEventListener('nav-depth-change', _handleChildNavDepth);
       _ensureBackSentinel();
     }
+
+    // "How to use imPRO" walkthrough: show once on first login, and allow it to
+    // be replayed on demand from Tools. We only auto-open when a user is
+    // actually logged in (Main only mounts post-login) and hasn't seen it yet.
+    if (typeof window !== 'undefined') {
+      window.addEventListener('replay-walkthrough', openWalkthrough);
+      try {
+        if (!localStorage.getItem('impro_seen_walkthrough')) {
+          // Let the first paint settle so it lands on top of the dashboard.
+          setTimeout(() => { showWalkthrough = true; }, 600);
+        }
+      } catch (_) {}
+    }
     // When the Appearance panel changes the text size, re-read + re-apply the
     // content zoom so the header slider and the panel stay perfectly in sync.
     window.addEventListener('appearance-changed', (ev) => {
@@ -1693,6 +1714,9 @@
     }
     _appEdgeSwipe = false; _appEdgeDX = 0;
   }}>
+  <!-- "How to use imPRO" welcome walkthrough overlay -->
+  <Walkthrough open={showWalkthrough} on:close={closeWalkthrough} />
+
   <!-- Header -->
   <header class="header">
     <div class="header-top">
