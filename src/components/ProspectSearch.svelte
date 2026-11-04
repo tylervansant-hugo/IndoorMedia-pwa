@@ -1228,7 +1228,32 @@
   }
 
   let testimonialCache = null;
-  
+  // True when we have a testimonial tied to the currently-selected store
+  // (matched on grocery chain + city). Gates the per-prospect Testimonials
+  // button — we only show it when there's a same-store testimonial to use.
+  let storeHasTestimonial = false;
+  async function checkStoreTestimonial() {
+    storeHasTestimonial = false;
+    if (!selectedStore) return;
+    if (!testimonialCache) {
+      try {
+        let r = await fetch(import.meta.env.BASE_URL + 'data/testimonials_slim.json?t=' + Date.now()).catch(() => null);
+        if (!r?.ok) r = await fetch(import.meta.env.BASE_URL + 'data/testimonials_cache.json?t=' + Date.now());
+        testimonialCache = await r.json();
+      } catch { return; }
+    }
+    const list = Array.isArray(testimonialCache) ? testimonialCache : (testimonialCache.testimonials || []);
+    const chain = (selectedStore.GroceryChain || '').toLowerCase().trim();
+    const city = (selectedStore.City || '').toLowerCase().trim();
+    if (!chain && !city) return;
+    for (const t of list) {
+      const text = ((t.b || t.business_name || t.business || '') + ' ' + (t.c || t.comments || t.comment || '') + ' ' + (t.searchable || '')).toLowerCase();
+      // Require a chain+city match (both) to count as "this same store" —
+      // keeps it specific rather than firing on a city name alone.
+      if (chain && city && text.includes(chain) && text.includes(city)) { storeHasTestimonial = true; return; }
+    }
+  }
+
   async function getTestimonialsForCategory() {
     if (!testimonialCache) {
       try {
@@ -2069,6 +2094,7 @@
     selectedStore = store;
     sharedSelectedStore.set(store);
     lookupStorePhone(store);
+    checkStoreTestimonial();
     view = 'categories';
     // Looking at a store (opening Prospect Store) counts as a search per manager spec.
     try {
@@ -4585,6 +4611,7 @@ IndoorMedia`
   function selectStoreFromBrowse(store) {
     selectedStore = store;
     lookupStorePhone(store);
+    checkStoreTestimonial();
     storeSearchQuery = '';
     filteredStoreResults = [];
     view = 'categories';
@@ -5124,16 +5151,22 @@ IndoorMedia`
               <button class="action-btn btn-orange big-contact-btn" on:click={() => { handleLeadAction(prospect, 'walk-in'); }}>🚶 Walk-In</button>
             </div>
 
-            <!-- Book Appointment sits right under the primary contact row -->
-            <div class="invite-row">
-              <select bind:value={inviteRepEmail} class="invite-select">
-                <option value="">No invite (just me)</option>
-                {#each Object.entries(repRegistry).filter(([k, v]) => v.email) as [id, rep]}
-                  <option value={rep.email}>{rep.display_name || rep.contract_name}</option>
-                {/each}
-              </select>
-            </div>
-            <button type="button" class="action-btn btn-book-appt" on:click={() => window.open(buildAppointmentUrl(prospect), '_blank')}>📅 Book Appointment{inviteRepEmail ? ' (+ rep)' : ''}</button>
+            <!-- Book Appointment sits right under the primary contact row.
+                 The rep-invite dropdown stays hidden until Book Appointment is
+                 tapped; then pick an invite (or none) and tap again to open. -->
+            {#if !prospect._showBookInvite}
+              <button type="button" class="action-btn btn-book-appt" on:click={() => { prospect._showBookInvite = true; prospects = prospects; }}>📅 Book Appointment</button>
+            {:else}
+              <div class="invite-row">
+                <select bind:value={inviteRepEmail} class="invite-select">
+                  <option value="">No invite (just me)</option>
+                  {#each Object.entries(repRegistry).filter(([k, v]) => v.email) as [id, rep]}
+                    <option value={rep.email}>{rep.display_name || rep.contract_name}</option>
+                  {/each}
+                </select>
+              </div>
+              <button type="button" class="action-btn btn-book-appt" on:click={() => window.open(buildAppointmentUrl(prospect), '_blank')}>📅 Open Calendar{inviteRepEmail ? ' (+ rep)' : ' (just me)'}</button>
+            {/if}
 
             <!-- Multiple numbers: let the rep pick which one to call/text (incl. Notes contact) -->
             {#if callable.length > 1}
@@ -5476,75 +5509,12 @@ IndoorMedia`
               {/if}
             </div>
           {/if}
-            <!-- Row 2: Research -->
+            <!-- Row 2: Research (Website lives up top in the meta chips now;
+                 Save to Contacts moved into the Notes section) -->
             <div class="action-row">
-              {#if prospect.website}
-                <a href={prospect.website} target="_blank" class="action-btn btn-gray">🌐 Website</a>
-              {/if}
               <button class="action-btn btn-gray" on:click={() => saveProspect(prospect)}>💾 Save</button>
               <button class="action-btn btn-gray" on:click={() => { prospect._showNotes = !prospect._showNotes; prospects = prospects; }}>📝 Notes</button>
-              <button class="action-btn btn-teal" on:click={() => saveProspectToContacts(prospect)}>{prospect._savedToContacts ? '✅ Added' : '📇 Save to Contacts'}</button>
             </div>
-          {#if prospect._showNotes}
-            {@const ldHash = getLeadHash(prospect)}
-            {@const ld = leadDataCache[ldHash] || {}}
-            {#if canSeePrivate(ld)}
-            <div class="notes-section" id="oncall-{ldHash}">
-              {#if prospect._onCall}
-                <div class="oncall-banner">📞 On call — scripts, objections &amp; notes are open below. Notes save automatically.</div>
-              {/if}
-              <label class="lead-field-label">👤 Owner / Decision Maker</label>
-              <input 
-                type="text" 
-                class="lead-field-input"
-                placeholder="Owner or decision maker name..."
-                value={ld.ownerName || ''}
-                on:input={(e) => handleSaveLeadData(prospect, 'ownerName', e.target.value)}
-                on:blur={(e) => handleSaveLeadData(prospect, 'ownerName', e.target.value)}
-              />
-              <label class="lead-field-label">📱 Contact Phone</label>
-              <input 
-                type="tel" 
-                class="lead-field-input"
-                placeholder="Contact phone number..."
-                value={ld.contactPhone || ''}
-                on:input={(e) => handleSaveLeadData(prospect, 'contactPhone', e.target.value)}
-                on:blur={(e) => handleSaveLeadData(prospect, 'contactPhone', e.target.value)}
-              />
-              <label class="lead-field-label">📧 Contact Email</label>
-              <input 
-                type="email" 
-                class="lead-field-input"
-                placeholder="Contact email address..."
-                autocomplete="email"
-                value={ld.contactEmail || ''}
-                on:input={(e) => handleSaveLeadData(prospect, 'contactEmail', e.target.value)}
-                on:blur={(e) => handleSaveLeadData(prospect, 'contactEmail', e.target.value)}
-              />
-              <label class="lead-field-label">📝 Notes</label>
-              <textarea 
-                placeholder="Add notes about this prospect..." 
-                rows="3"
-                value={ld.notes || getProspectNote(prospect.id || prospect.name)}
-                on:input={(e) => { saveProspectNote(prospect.id || prospect.name, e.target.value); handleSaveLeadData(prospect, 'notes', e.target.value); }}
-                on:blur={(e) => handleSaveLeadData(prospect, 'notes', e.target.value)}
-              ></textarea>
-              {#if ld.updatedBy}
-                <p class="note-saved">Updated by {ld.updatedBy} on {new Date(ld.updatedAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}</p>
-              {:else if getProspectNote(prospect.id || prospect.name)}
-                <p class="note-saved">Saved locally</p>
-              {/if}
-            </div>
-            {:else}
-            {@const sharedStatus = getSharedStatus(prospect)}
-            <div class="notes-section notes-private">
-              {#if sharedStatus}
-                <span class="status-badge status-{sharedStatus.toLowerCase()}">{sharedStatus}</span>
-              {/if}
-              <p class="note-private-msg">🔒 Contact details and notes for this prospect are private to {ld.updatedBy || 'the rep working it'}.</p>
-            </div>
-            {/if}
-          {/if}
 
             <!-- Row 3: Sales tools -->
             <div class="sales-tools-seg">
@@ -5552,14 +5522,16 @@ IndoorMedia`
               <div class="seg-group">
                 <button class="seg-btn" class:seg-active={prospect._showScript} on:click={() => { prospect._showScript = !prospect._showScript; prospect._showEmail = false; prospect._showNotes = false; prospect._showObjections = false; prospect._showTestimonials = false; prospects = prospects; }}>📋 Scripts</button>
                 <button class="seg-btn" class:seg-active={prospect._showObjections} on:click={() => { prospect._showObjections = !prospect._showObjections; prospect._showScript = false; prospect._showEmail = false; prospect._showNotes = false; prospect._showTestimonials = false; prospects = prospects; }}>🛡️ Objections</button>
-                <button class="seg-btn" class:seg-active={prospect._showTestimonials} on:click={async () => { 
-                  prospect._showTestimonials = !prospect._showTestimonials;
-                  prospect._showScript = false; prospect._showObjections = false;
-                  if (prospect._showTestimonials) {
-                    prospect._testimonialData = await getTestimonialsForCategory();
-                  }
-                  prospects = prospects;
-                }}>⭐ Testimonials</button>
+                {#if storeHasTestimonial}
+                  <button class="seg-btn" class:seg-active={prospect._showTestimonials} on:click={async () => { 
+                    prospect._showTestimonials = !prospect._showTestimonials;
+                    prospect._showScript = false; prospect._showObjections = false;
+                    if (prospect._showTestimonials) {
+                      prospect._testimonialData = await getTestimonialsForCategory();
+                    }
+                    prospects = prospects;
+                  }}>⭐ Testimonials</button>
+                {/if}
               </div>
             </div>
           {#if prospect._showScript}
@@ -5673,6 +5645,69 @@ IndoorMedia`
                 <p class="no-testimonials">No testimonials found for this category. Try a broader category.</p>
               {/if}
             </div>
+          {/if}
+
+          <!-- Notes render last so on-call order reads Scripts → Objections → Notes -->
+          {#if prospect._showNotes}
+            {@const ldHash = getLeadHash(prospect)}
+            {@const ld = leadDataCache[ldHash] || {}}
+            {#if canSeePrivate(ld)}
+            <div class="notes-section" id="oncall-{ldHash}">
+              {#if prospect._onCall}
+                <div class="oncall-banner">📞 On call — scripts, objections &amp; notes are open below. Notes save automatically.</div>
+              {/if}
+              <label class="lead-field-label">👤 Owner / Decision Maker</label>
+              <input 
+                type="text" 
+                class="lead-field-input"
+                placeholder="Owner or decision maker name..."
+                value={ld.ownerName || ''}
+                on:input={(e) => handleSaveLeadData(prospect, 'ownerName', e.target.value)}
+                on:blur={(e) => handleSaveLeadData(prospect, 'ownerName', e.target.value)}
+              />
+              <label class="lead-field-label">📱 Contact Phone</label>
+              <input 
+                type="tel" 
+                class="lead-field-input"
+                placeholder="Contact phone number..."
+                value={ld.contactPhone || ''}
+                on:input={(e) => handleSaveLeadData(prospect, 'contactPhone', e.target.value)}
+                on:blur={(e) => handleSaveLeadData(prospect, 'contactPhone', e.target.value)}
+              />
+              <label class="lead-field-label">📧 Contact Email</label>
+              <input 
+                type="email" 
+                class="lead-field-input"
+                placeholder="Contact email address..."
+                autocomplete="email"
+                value={ld.contactEmail || ''}
+                on:input={(e) => handleSaveLeadData(prospect, 'contactEmail', e.target.value)}
+                on:blur={(e) => handleSaveLeadData(prospect, 'contactEmail', e.target.value)}
+              />
+              <label class="lead-field-label">📝 Notes</label>
+              <textarea 
+                placeholder="Add notes about this prospect..." 
+                rows="3"
+                value={ld.notes || getProspectNote(prospect.id || prospect.name)}
+                on:input={(e) => { saveProspectNote(prospect.id || prospect.name, e.target.value); handleSaveLeadData(prospect, 'notes', e.target.value); }}
+                on:blur={(e) => handleSaveLeadData(prospect, 'notes', e.target.value)}
+              ></textarea>
+              {#if ld.updatedBy}
+                <p class="note-saved">Updated by {ld.updatedBy} on {new Date(ld.updatedAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}</p>
+              {:else if getProspectNote(prospect.id || prospect.name)}
+                <p class="note-saved">Saved locally</p>
+              {/if}
+              <button class="action-btn btn-teal notes-save-contact" on:click={() => saveProspectToContacts(prospect)}>{prospect._savedToContacts ? '✅ Added to Contacts' : '📇 Save to Contacts'}</button>
+            </div>
+            {:else}
+            {@const sharedStatus = getSharedStatus(prospect)}
+            <div class="notes-section notes-private">
+              {#if sharedStatus}
+                <span class="status-badge status-{sharedStatus.toLowerCase()}">{sharedStatus}</span>
+              {/if}
+              <p class="note-private-msg">🔒 Contact details and notes for this prospect are private to {ld.updatedBy || 'the rep working it'}.</p>
+            </div>
+            {/if}
           {/if}
 
             <!-- Bottom: Add Products / Contract + Meeting Prep -->
@@ -7447,7 +7482,7 @@ IndoorMedia`
 
   .hotlist-signals { display: flex; flex-wrap: wrap; gap: 6px; margin: 4px 0 2px; }
   .hl-chip {
-    font-size: 11px; font-weight: 700; padding: 3px 8px; border-radius: 999px;
+    font-size: 13.5px; font-weight: 700; padding: 8px 13px; border-radius: 999px;
     text-decoration: none; line-height: 1.4;
     background: var(--bg-secondary, #f1f1f1); color: var(--text-secondary, #555);
     border: 1px solid var(--border-color, #e3e3e3);
@@ -7564,10 +7599,10 @@ IndoorMedia`
   .meta-pill {
     display: inline-flex;
     align-items: center;
-    gap: 3px;
-    font-size: 12px;
-    font-weight: 600;
-    padding: 3px 9px;
+    gap: 4px;
+    font-size: 13.5px;
+    font-weight: 700;
+    padding: 8px 13px;
     border-radius: 999px;
     background: var(--bg-secondary, #f2f3f5);
     color: var(--text-secondary, #555);
@@ -8693,6 +8728,7 @@ IndoorMedia`
   :global([data-theme='dark']) .dibs-claim-btn:hover { background: #3e2c00; }
 
   /* ===== Smart Contacts (import/export) ===== */
+  .notes-save-contact { width: 100%; margin-top: 10px; }
   .btn-teal { background: #e0f2f1 !important; color: #00695c !important; border-color: #80cbc4 !important; }
   .btn-teal:hover { background: #b2dfdb !important; }
   :global([data-theme='dark']) .btn-teal { background: #10302c !important; color: #80cbc4 !important; border-color: #2a4d48 !important; }
