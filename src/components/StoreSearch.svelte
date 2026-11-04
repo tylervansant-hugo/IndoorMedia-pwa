@@ -122,13 +122,67 @@
     }
   }
 
+  // ---- Contract expiry logic -------------------------------------------
+  // A "running ad" record is a contract. Figure out when it ends so we can
+  // split still-active advertisers from expired (lapsed / not renewed)
+  // campaigns. StoreName shows active ads even when the contract has
+  // expired, so this is the guard against that.
+  function parseContractDate(s) {
+    if (!s) return null;
+    const str = String(s).trim();
+    if (!str) return null;
+    // Accept 'YYYY-MM-DD HH:MM', 'YYYY-MM-DD', ISO, or 'MM/DD/YYYY'.
+    let m = str.match(/^(\d{4})-(\d{2})-(\d{2})/);
+    if (m) return new Date(+m[1], +m[2] - 1, +m[3]);
+    m = str.match(/^(\d{1,2})\/(\d{1,2})\/(\d{2,4})/);
+    if (m) {
+      let y = +m[3]; if (y < 100) y += 2000;
+      return new Date(y, +m[1] - 1, +m[2]);
+    }
+    const t = Date.parse(str.replace(' ', 'T'));
+    return isNaN(t) ? null : new Date(t);
+  }
+
+  // Returns { known, expired, endDate (Date|null), endLabel, daysLeft }.
+  // When we can't resolve a start date OR a term, we treat it as active
+  // (known:false) rather than wrongly flagging it expired.
+  function contractStatus(c) {
+    const start = parseContractDate(c.start_date) || parseContractDate(c.date);
+    let months = Number(c.term_months) || 0;
+    if (!months) months = (Number(c.quarters) || 0) * 3;
+    if (!start || !months) {
+      return { known: false, expired: false, endDate: null, endLabel: '', daysLeft: null };
+    }
+    const end = new Date(start.getTime());
+    end.setMonth(end.getMonth() + months);
+    const now = new Date();
+    const daysLeft = Math.round((end - now) / 86400000);
+    const endLabel = end.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+    return { known: true, expired: end < now, endDate: end, endLabel, daysLeft };
+  }
+
+  // Split a store's contract list into active vs expired campaigns.
+  function splitAdsByStatus(storeName) {
+    const list = activeAdsByStore[storeName];
+    if (!list || !list.length) return { active: [], expired: [] };
+    const active = [], expired = [];
+    for (const c of list) {
+      const st = contractStatus(c);
+      const rec = { ...c, _status: st };
+      if (st.known && st.expired) expired.push(rec);
+      else active.push(rec);
+    }
+    return { active, expired };
+  }
+
   // Modal state for the active-advertisers popup.
-  let activeAdsModal = null; // { storeName, storeLabel, advertisers: [...] }
+  let activeAdsModal = null; // { storeName, storeLabel, active:[], expired:[] }
   function openActiveAds(store) {
     const list = activeAdsByStore[store.StoreName];
     if (!list || !list.length) return;
     const label = `${store.GroceryChain || 'Store'}${store.City ? ' · ' + store.City : ''} (${store.StoreName})`;
-    activeAdsModal = { storeName: store.StoreName, storeLabel: label, advertisers: list };
+    const { active, expired } = splitAdsByStatus(store.StoreName);
+    activeAdsModal = { storeName: store.StoreName, storeLabel: label, active, expired };
   }
   function closeActiveAds() { activeAdsModal = null; }
   function proofImgSrc(url) {
@@ -196,20 +250,95 @@
     window.location.href = href;
   }
 
-  // Summarize active ads for a store into short product labels for the badge.
+  // Summarize ads for a store into short product labels + active/expired
+  // counts for the badge.
   function activeAdSummary(storeName) {
     const list = activeAdsByStore[storeName];
     if (!list || !list.length) return null;
+    const { active, expired } = splitAdsByStatus(storeName);
     const prods = new Set();
-    for (const c of list) {
+    for (const c of active) {
       const p = ((c.product_type || c.product_description || '') + '').toLowerCase();
       if (p.includes('cart') || p.includes('nose')) prods.add('Cartvertising');
       else if (p.includes('digital') || p.includes('boost') || p.includes('geo')) prods.add('Digital');
       else if (p.includes('single') || p.includes('double') || p.includes('tape') || p.includes('ad')) prods.add('Register Tape');
       else if (p.trim()) prods.add('Ads');
     }
-    if (!prods.size) prods.add('Ads');
-    return { count: list.length, products: [...prods] };
+    if (!prods.size && active.length) prods.add('Ads');
+    return {
+      count: active.length,
+      expiredCount: expired.length,
+      products: [...prods],
+    };
+  }
+
+  // ---- Quick messaging (SMS) -------------------------------------------
+  // Mirrors the Clients/"Adverbs" tool: one-tap pre-filled text messages.
+  // Active-advertiser touches (check-in / upsell / testimonial ask) and
+  // winback texts for expired campaigns.
+  function digits(phone) { return String(phone || '').replace(/[^0-9]/g, ''); }
+  function repName() {
+    return $currentUser?.name || $currentUser?.display_name || $user?.name || 'your IndoorMedia rep';
+  }
+  function advBiz(adv) {
+    return adv.business_name || adv._proof?.client_name || 'your business';
+  }
+  function advFirstName(adv) {
+    const n = (adv.contact_name || '').trim();
+    return n ? n.split(/\s+/)[0] : 'there';
+  }
+
+  // Build the SMS body for an ACTIVE advertiser.
+  function activeAdMessage(adv, kind) {
+    const first = advFirstName(adv);
+    const biz = advBiz(adv);
+    const rep = repName();
+    if (kind === 'checkin') {
+      return `Hi ${first}, it’s ${rep} with IndoorMedia. Just checking in on how your register-tape ad for ${biz} is performing. Seeing any new customers mention the coupon? Happy to tweak the offer anytime to keep it working hard for you!`;
+    }
+    if (kind === 'upsell') {
+      return `Hi ${first}, ${rep} with IndoorMedia here. Your ad for ${biz} is running great! A lot of advertisers are adding a second store or upgrading to a double-size ad to reach even more local shoppers. Want me to put together a quick option for you?`;
+    }
+    if (kind === 'testimonial') {
+      return `Hi ${first}! ${rep} with IndoorMedia. So glad the register-tape advertising is working for ${biz}. If you’ve had a good experience, would you mind sharing a quick testimonial? It really helps — and I’d be grateful!`;
+    }
+    return `Hi ${first}, ${rep} with IndoorMedia checking in on ${biz}. Let me know if there’s anything I can do for you!`;
+  }
+
+  // Build the SMS body for an EXPIRED campaign (winback).
+  function winbackMessage(adv, kind) {
+    const first = advFirstName(adv);
+    const biz = advBiz(adv);
+    const rep = repName();
+    const st = adv._status || {};
+    const ended = st.endLabel ? ` (ended ${st.endLabel})` : '';
+    if (kind === 'miss') {
+      return `Hi ${first}, it’s ${rep} with IndoorMedia. I noticed your register-tape advertising for ${biz}${ended} has lapsed and we’d love to have you back! Your ad was reaching every customer at checkout. Can I get you set back up at your previous rate?`;
+    }
+    if (kind === 'offer') {
+      return `Hi ${first}, ${rep} with IndoorMedia. Your ad for ${biz} came up for renewal and I’d hate for you to lose that spot to a competitor. I can offer a win-back rate if we lock it back in this week — want the details?`;
+    }
+    if (kind === 'checkin') {
+      return `Hi ${first}, ${rep} with IndoorMedia. Just following up — your advertising for ${biz} wrapped up${ended ? ' ' + ended.trim() : ''} and I wanted to see if you’d like to pick it back up. The grocery register tape is still one of the best ways to reach local shoppers. Got a few minutes to chat?`;
+    }
+    return `Hi ${first}, ${rep} with IndoorMedia. We’d love to have ${biz} advertising with us again — can we reconnect?`;
+  }
+
+  // Open the device SMS composer prefilled. Falls back to copy if no phone.
+  function sendSms(adv, body, kindTag) {
+    const num = digits(adv.contact_phone);
+    try { logActivity('quick_sms', { business: advBiz(adv), kind: kindTag, store: activeAdsModal?.storeLabel || '' }); } catch {}
+    if (!num) {
+      try {
+        navigator.clipboard?.writeText(body);
+        alert('No phone number on file for this advertiser — the message was copied to your clipboard so you can paste it.');
+      } catch {
+        alert('No phone number on file for this advertiser.');
+      }
+      return;
+    }
+    // iOS uses &body=, Android uses ?body= — ?body works broadly.
+    window.location.href = `sms:${num}?&body=${encodeURIComponent(body)}`;
   }
   let useGeolocation = false;
   let userLocation = null;
@@ -1588,11 +1717,20 @@ Store: ${store.StoreName}
               {/if}
               {#if activeAdSummary(store.StoreName)}
                 {@const ads = activeAdSummary(store.StoreName)}
-                <button class="active-ads-badge" on:click|stopPropagation={() => openActiveAds(store)} title="Tap to see the advertiser{ads.count === 1 ? '' : 's'} and their latest ad proof">
-                  <span class="live-dot"></span>
-                  <span class="active-ads-text">🟢 {ads.count} active ad{ads.count === 1 ? '' : 's'} running</span>
-                  <span class="active-ads-prods">{ads.products.join(' · ')} ›</span>
-                </button>
+                {#if ads.count > 0}
+                  <button class="active-ads-badge" on:click|stopPropagation={() => openActiveAds(store)} title="Tap to see the active advertiser{ads.count === 1 ? '' : 's'} and their latest ad proof">
+                    <span class="live-dot"></span>
+                    <span class="active-ads-text">🟢 {ads.count} active ad{ads.count === 1 ? '' : 's'} running</span>
+                    <span class="active-ads-prods">{ads.products.join(' · ')} ›</span>
+                  </button>
+                {/if}
+                {#if ads.expiredCount > 0}
+                  <button class="expired-ads-badge" on:click|stopPropagation={() => openActiveAds(store)} title="Tap to see expired campaign{ads.expiredCount === 1 ? '' : 's'} and send a win-back message">
+                    <span class="expired-dot"></span>
+                    <span class="expired-ads-text">🔴 {ads.expiredCount} expired campaign{ads.expiredCount === 1 ? '' : 's'}</span>
+                    <span class="expired-ads-cta">Win back ›</span>
+                  </button>
+                {/if}
               {/if}
               <button class="prospect-store-btn" on:click|stopPropagation={() => document.dispatchEvent(new CustomEvent('map-action', { detail: { action: 'prospect', store } }))}>
                 <Icon name="target" size={17} color="#fff" /> Prospect Store
@@ -1996,13 +2134,21 @@ Store: ${store.StoreName}
       <div class="aads-modal" on:click|stopPropagation>
         <div class="aads-head">
           <div>
-            <div class="aads-title"><span class="live-dot"></span> Active Advertisers</div>
+            <div class="aads-title"><span class="live-dot"></span> Advertisers</div>
             <div class="aads-sub">{activeAdsModal.storeLabel}</div>
           </div>
           <button class="aads-close" on:click={closeActiveAds}>✕</button>
         </div>
         <div class="aads-body">
-          {#each activeAdsModal.advertisers as adv}
+          <!-- ===== ACTIVE RUNNING ADS ===== -->
+          <div class="aads-section-head">
+            <span class="live-dot"></span> Active running ads
+            <span class="aads-count-pill">{activeAdsModal.active.length}</span>
+          </div>
+          {#if activeAdsModal.active.length === 0}
+            <div class="aads-empty">No currently-active advertisers at this store.</div>
+          {/if}
+          {#each activeAdsModal.active as adv}
             <div class="aads-card">
               <div class="aads-card-top">
                 <span class="aads-biz">{adv.business_name || adv._proof?.client_name || 'Advertiser'}</span>
@@ -2010,6 +2156,18 @@ Store: ${store.StoreName}
               </div>
               <div class="aads-meta">
                 {[adv.contact_name, adv.contact_phone, adv.sales_rep && ('Rep: ' + adv.sales_rep)].filter(Boolean).join(' · ')}
+              </div>
+              {#if adv._status?.known && adv._status.endLabel}
+                <div class="aads-term aads-term-ok">✅ Runs through {adv._status.endLabel}{adv._status.daysLeft != null && adv._status.daysLeft <= 60 ? ` · ${adv._status.daysLeft} day${adv._status.daysLeft === 1 ? '' : 's'} left` : ''}</div>
+              {/if}
+              <!-- Quick messaging for active advertisers (Adverbs-style) -->
+              <div class="aads-qmsg">
+                <div class="aads-qmsg-label">💬 Quick message</div>
+                <div class="aads-qmsg-row">
+                  <button class="aads-qmsg-btn" on:click={() => sendSms(adv, activeAdMessage(adv, 'checkin'), 'active_checkin')}>👋 Check-in</button>
+                  <button class="aads-qmsg-btn" on:click={() => sendSms(adv, activeAdMessage(adv, 'upsell'), 'active_upsell')}>📈 Upsell</button>
+                  <button class="aads-qmsg-btn" on:click={() => sendSms(adv, activeAdMessage(adv, 'testimonial'), 'active_testimonial')}>⭐ Testimonial</button>
+                </div>
               </div>
               {#if adv._proof}
                 <div class="aads-proof">
@@ -2035,6 +2193,52 @@ Store: ${store.StoreName}
               {/if}
             </div>
           {/each}
+
+          <!-- ===== EXPIRED CAMPAIGNS (WINBACK) ===== -->
+          {#if activeAdsModal.expired.length > 0}
+            <div class="aads-section-head aads-section-expired">
+              <span class="expired-dot"></span> Expired campaigns
+              <span class="aads-count-pill aads-count-expired">{activeAdsModal.expired.length}</span>
+            </div>
+            <div class="aads-section-note">These contracts have ended and haven’t renewed. Send a win-back to bring them back.</div>
+            {#each activeAdsModal.expired as adv}
+              <div class="aads-card aads-card-expired">
+                <div class="aads-card-top">
+                  <span class="aads-biz">{adv.business_name || adv._proof?.client_name || 'Advertiser'}</span>
+                  {#if adv.product_description || adv.product_type}<span class="aads-prod">{adv.product_description || adv.product_type}</span>{/if}
+                </div>
+                <div class="aads-meta">
+                  {[adv.contact_name, adv.contact_phone, adv.sales_rep && ('Rep: ' + adv.sales_rep)].filter(Boolean).join(' · ')}
+                </div>
+                {#if adv._status?.endLabel}
+                  <div class="aads-term aads-term-expired">⏳ Expired {adv._status.endLabel}{adv._status.daysLeft != null ? ` · ${Math.abs(adv._status.daysLeft)} day${Math.abs(adv._status.daysLeft) === 1 ? '' : 's'} ago` : ''}</div>
+                {/if}
+                <!-- Winback quick messaging -->
+                <div class="aads-qmsg aads-qmsg-winback">
+                  <div class="aads-qmsg-label">🤝 Win-back message</div>
+                  <div class="aads-qmsg-row">
+                    <button class="aads-qmsg-btn aads-qmsg-btn-winback" on:click={() => sendSms(adv, winbackMessage(adv, 'miss'), 'winback_miss')}>💖 We miss you</button>
+                    <button class="aads-qmsg-btn aads-qmsg-btn-winback" on:click={() => sendSms(adv, winbackMessage(adv, 'offer'), 'winback_offer')}>🏷️ Win-back rate</button>
+                    <button class="aads-qmsg-btn aads-qmsg-btn-winback" on:click={() => sendSms(adv, winbackMessage(adv, 'checkin'), 'winback_checkin')}>👋 Follow-up</button>
+                  </div>
+                </div>
+                {#if adv._proof}
+                  <div class="aads-proof">
+                    <div class="aads-proof-label">
+                      📄 Last proof{adv._proof.date ? ' · ' + adv._proof.date : ''}{adv._proof.ad_size ? ' · ' + adv._proof.ad_size : ''}{adv._proof.cycle ? ' · Cycle ' + adv._proof.cycle : ''}
+                    </div>
+                    {#if adv._proof.image_url}
+                      <a href={adv._proof.image_url} target="_blank" rel="noreferrer">
+                        <img src={proofImgSrc(adv._proof.image_url)} alt="Ad proof for {adv._proof.client_name}" class="aads-proof-img" loading="lazy" referrerpolicy="no-referrer" on:error={(e) => { e.target.style.display='none'; e.target.nextElementSibling && (e.target.nextElementSibling.style.display='flex'); }} />
+                        <span class="aads-proof-fallback" style="display:none;">📷 Tap to view last ad proof</span>
+                      </a>
+                      <a href={adv._proof.image_url} target="_blank" rel="noreferrer" class="aads-proof-full">View full size ↗</a>
+                    {/if}
+                  </div>
+                {/if}
+              </div>
+            {/each}
+          {/if}
         </div>
       </div>
     </div>
@@ -2947,6 +3151,31 @@ Store: ${store.StoreName}
   .active-ads-badge:hover { background: rgba(10, 125, 44, 0.18); transform: translateY(-1px); }
   .active-ads-badge:active { transform: translateY(0); }
 
+  /* Expired-campaign badge (amber/red, sits under the active-ads badge) */
+  .expired-ads-badge {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 8px;
+    width: 100%;
+    margin: 6px 0 2px;
+    padding: 7px 11px;
+    border-radius: 8px;
+    background: rgba(204, 0, 0, 0.08);
+    border: 1px solid rgba(204, 0, 0, 0.28);
+    cursor: pointer;
+    text-align: left;
+    transition: background 0.15s, transform 0.15s;
+  }
+  .expired-ads-badge:hover { background: rgba(204, 0, 0, 0.16); transform: translateY(-1px); }
+  .expired-ads-badge:active { transform: translateY(0); }
+  .expired-ads-text { font-size: 13px; font-weight: 800; color: #b3261e; }
+  .expired-ads-cta { font-size: 11px; font-weight: 700; color: #b3261e; margin-left: auto; }
+  .expired-dot {
+    width: 9px; height: 9px; border-radius: 50%;
+    background: #cc2b1d; flex-shrink: 0;
+  }
+
   /* Active advertisers modal */
   .aads-overlay {
     position: fixed; inset: 0; z-index: 200;
@@ -3009,6 +3238,50 @@ Store: ${store.StoreName}
   .aads-change-btn:hover { filter: brightness(1.05); }
   .aads-change-btn:active { transform: translateY(1px); }
   .aads-change-hint { font-size: 11px; color: var(--text-secondary, #888); margin-top: 5px; text-align: center; word-break: break-word; }
+
+  /* Section headers inside the modal (Active / Expired) */
+  .aads-section-head {
+    display: flex; align-items: center; gap: 8px;
+    font-size: 13px; font-weight: 800; letter-spacing: 0.3px;
+    text-transform: uppercase; color: #0a7d2c;
+    margin: 2px 0 2px;
+  }
+  .aads-section-expired { color: #b3261e; margin-top: 8px; }
+  .aads-count-pill {
+    font-size: 11px; font-weight: 800; color: #fff; background: #14a33c;
+    border-radius: 999px; padding: 1px 8px; margin-left: 2px;
+  }
+  .aads-count-expired { background: #cc2b1d; }
+  .aads-section-note { font-size: 12px; color: var(--text-secondary, #888); margin: -6px 0 2px; }
+  .aads-empty { font-size: 12.5px; color: var(--text-secondary, #999); font-style: italic; }
+
+  /* Contract term labels on cards */
+  .aads-term { font-size: 11.5px; font-weight: 700; margin-top: 6px; }
+  .aads-term-ok { color: #0a7d2c; }
+  .aads-term-expired { color: #b3261e; }
+
+  /* Expired card tint */
+  .aads-card-expired { border-color: rgba(204,0,0,0.30); background: rgba(204,0,0,0.04); }
+
+  /* Quick-message blocks (Adverbs-style) */
+  .aads-qmsg { margin-top: 10px; }
+  .aads-qmsg-label { font-size: 11.5px; font-weight: 700; color: var(--text-secondary, #777); margin-bottom: 6px; }
+  .aads-qmsg-row { display: flex; flex-wrap: wrap; gap: 7px; }
+  .aads-qmsg-btn {
+    flex: 1 1 auto; min-width: 90px;
+    padding: 8px 10px; border-radius: 9px;
+    border: 1px solid rgba(26,115,232,0.35);
+    background: rgba(26,115,232,0.08); color: #1a73e8;
+    font-size: 12.5px; font-weight: 700; cursor: pointer;
+    transition: background 0.15s, transform 0.12s;
+  }
+  .aads-qmsg-btn:hover { background: rgba(26,115,232,0.16); transform: translateY(-1px); }
+  .aads-qmsg-btn:active { transform: translateY(0); }
+  .aads-qmsg-btn-winback {
+    border-color: rgba(204,0,0,0.35);
+    background: rgba(204,0,0,0.07); color: #b3261e;
+  }
+  .aads-qmsg-btn-winback:hover { background: rgba(204,0,0,0.15); }
   .active-ads-text {
     font-size: 13px;
     font-weight: 800;
