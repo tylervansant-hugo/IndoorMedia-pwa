@@ -625,6 +625,35 @@
     return leadClaims[getLeadHash(prospect)] || null;
   }
 
+  // Call flow: start dialing (tel: hands off to the dialer and returns to the
+  // app/PWA), then open the on-call panel (scripts + objections + notes) and
+  // make sure notes auto-save. Keeps the rep in-app while the phone dials.
+  function startCall(prospect) {
+    const callable = getCallablePhones(prospect);
+    const num = (callable[0] && callable[0].number) || prospect.phone;
+    // Log + claim just like the old Call button did.
+    try { trackPhoneClick(prospect); } catch {}
+    try { handleLeadAction(prospect, 'call'); } catch {}
+    // Open the on-call workspace: scripts + objections + notes, collapse others.
+    prospect._onCall = true;
+    prospect._showScript = true;
+    prospect._showObjections = true;
+    prospect._showNotes = true;
+    prospect._showText = false;
+    prospect._showEmail = false;
+    if (!prospect._selectedScript) prospect._selectedScript = 'tvs-appt';
+    prospects = prospects;
+    // Dial. tel: launches the dialer; the PWA stays open behind it so notes
+    // keep auto-saving. Guard against no-number.
+    if (num) {
+      try { window.location.href = `tel:${num}`; } catch {}
+    }
+    // Scroll the on-call panel into view next tick.
+    setTimeout(() => {
+      try { document.getElementById('oncall-' + getLeadHash(prospect))?.scrollIntoView({ behavior: 'smooth', block: 'start' }); } catch {}
+    }, 120);
+  }
+
   async function handleLeadAction(prospect, action) {
     const u = $user;
     if (!u) return;
@@ -2226,6 +2255,24 @@
     pendingStoreId = null;
   }
 
+  // Force a fresh Google search for the currently-shown results, bypassing
+  // (and updating) the cache. Wired to the "Refresh from Google" button.
+  async function refreshProspectSearch() {
+    const keyword = lastSearchKeyword || CATEGORY_KEYWORDS[selectedSubcategory] || selectedSubcategory;
+    if (!selectedStore || !keyword) return;
+    loading = true;
+    error = '';
+    try {
+      const results = await searchGooglePlaces(selectedStore.latitude, selectedStore.longitude, keyword, { force: true });
+      prospects = results;
+    } catch (err) {
+      console.error('Refresh search failed:', err);
+      error = 'Refresh failed. Try again.';
+    } finally {
+      loading = false;
+    }
+  }
+
   async function searchCustom() {
     if (!customSearch.trim()) return;
     loading = true;
@@ -2538,7 +2585,69 @@
 
   const PLACES_API_KEY = 'AIzaSyBoslNJj8aO6wkQOfkH9e4qTVJZ-G9nOuA';
 
-  async function searchGooglePlaces(lat, lng, keyword) {
+  // ---- Prospect result caching ----------------------------------------
+  // Remember the businesses we find per store+keyword so repeat lookups
+  // (e.g. "Mexican Restaurants" at the same store) don't hit the paid
+  // Places API again. Cached in localStorage with a TTL.
+  const PROSPECT_CACHE_KEY = 'impro_prospect_cache_v1';
+  const PROSPECT_CACHE_TTL = 1000 * 60 * 60 * 24 * 14; // 14 days
+  const PROSPECT_CACHE_MAX = 300; // cap stored queries to keep storage sane
+
+  function prospectCacheKey(keyword) {
+    const store = (selectedStore?.StoreName || selectedStore?.Address || 'nostore').toLowerCase();
+    const k = String(keyword || '').toLowerCase().trim().replace(/\s+/g, ' ');
+    return `${store}::${k}`;
+  }
+  function readProspectCache() {
+    try { return JSON.parse(localStorage.getItem(PROSPECT_CACHE_KEY) || '{}') || {}; }
+    catch { return {}; }
+  }
+  function writeProspectCache(obj) {
+    try { localStorage.setItem(PROSPECT_CACHE_KEY, JSON.stringify(obj)); } catch {}
+  }
+  function getCachedProspects(keyword) {
+    const cache = readProspectCache();
+    const entry = cache[prospectCacheKey(keyword)];
+    if (!entry || !Array.isArray(entry.results)) return null;
+    if (Date.now() - (entry.savedAt || 0) > PROSPECT_CACHE_TTL) return null;
+    // Return a deep-ish copy so per-prospect UI flags don't mutate the cache.
+    try { return entry.results.map(r => ({ ...r })); } catch { return entry.results; }
+  }
+  function setCachedProspects(keyword, results) {
+    if (!results || !results.length) return; // never cache empty/failed searches
+    const cache = readProspectCache();
+    cache[prospectCacheKey(keyword)] = { savedAt: Date.now(), results };
+    // Evict oldest if we're over the cap.
+    const keys = Object.keys(cache);
+    if (keys.length > PROSPECT_CACHE_MAX) {
+      keys.sort((a, b) => (cache[a].savedAt || 0) - (cache[b].savedAt || 0));
+      for (const k of keys.slice(0, keys.length - PROSPECT_CACHE_MAX)) delete cache[k];
+    }
+    writeProspectCache(cache);
+  }
+  // Last-search metadata so the UI can show "from cache" + offer a refresh.
+  let lastSearchFromCache = false;
+  let lastSearchKeyword = '';
+
+  // Public entry: serves cached results when present, else does a live API
+  // search and caches it. Pass {force:true} to bypass the cache (refresh).
+  async function searchGooglePlaces(lat, lng, keyword, opts = {}) {
+    if (!opts.force) {
+      const cached = getCachedProspects(keyword);
+      if (cached && cached.length) {
+        lastSearchFromCache = true;
+        lastSearchKeyword = keyword;
+        return cached;
+      }
+    }
+    const live = await _searchGooglePlacesLive(lat, lng, keyword);
+    lastSearchFromCache = false;
+    lastSearchKeyword = keyword;
+    if (live && live.length) setCachedProspects(keyword, live);
+    return live;
+  }
+
+  async function _searchGooglePlacesLive(lat, lng, keyword) {
     try {
       // Build location-aware query
       const storeCity = selectedStore?.City || '';
@@ -4903,6 +5012,13 @@ IndoorMedia`
     <h3>{selectedCategory} → {selectedSubcategory}</h3>
     <p class="subtitle">Nearby {selectedCategory} near {selectedStore.GroceryChain}</p>
 
+    {#if lastSearchFromCache}
+      <div class="cache-note">
+        💾 Showing saved results (no API charge).
+        <button class="cache-refresh-btn" on:click={refreshProspectSearch}>🔄 Refresh from Google</button>
+      </div>
+    {/if}
+
     <div class="prospect-toolbar">
       <div class="sort-bar">
         <span class="sort-label">Sort:</span>
@@ -4929,7 +5045,10 @@ IndoorMedia`
             <h4>{prospect.name}</h4>
             <span class="score-badge" class:score-hot={prospect.score >= 80} class:score-warm={prospect.score >= 70 && prospect.score < 80} class:score-cool={prospect.score < 70} title="Prospect score">{prospect.score}%</span>
           </div>
-          <p class="prospect-address" style="cursor:pointer;" on:click={() => { navigator.clipboard.writeText(prospect.address); copiedAddress = prospect.address; setTimeout(() => copiedAddress = '', 2000); }}>📍 {copiedAddress === prospect.address ? '✅ Copied!' : prospect.address}</p>
+          <p class="prospect-address">
+            <a class="prospect-address-link" href="https://maps.apple.com/?daddr={encodeURIComponent(prospect.address)}" target="_blank" rel="noreferrer" title="Tap to navigate">📍 {prospect.address}</a>
+            <button type="button" class="addr-copy-btn" on:click|stopPropagation={() => { navigator.clipboard.writeText(prospect.address); copiedAddress = prospect.address; setTimeout(() => copiedAddress = '', 2000); }} title="Copy address">{copiedAddress === prospect.address ? '✅' : '📋'}</button>
+          </p>
           <div class="prospect-meta">
             <button type="button" class="meta-pill meta-rating meta-rating-link" on:click|stopPropagation={() => openReviews(prospect)} title="See Google reviews" aria-label="Open Google reviews for {prospect.name}">⭐ {prospect.rating.toFixed(1)} <small>({prospect.reviews})</small> <span class="meta-rating-ext">↗</span></button>
             {#if prospect.distance != null}
@@ -4995,15 +5114,26 @@ IndoorMedia`
           {/if}
 
           <div class="prospect-actions">
-            <!-- Row 1: Contact -->
-            <div class="action-row">
+            <!-- Row 1: Primary contact actions (big focal point) -->
+            <div class="action-row contact-row-primary">
               {#if primaryNum}
-                <a href="tel:{primaryNum}" class="action-btn btn-green" on:click={() => { trackPhoneClick(prospect); handleLeadAction(prospect, 'call'); }}>📞 Call</a>
-                <button class="action-btn btn-blue" on:click={() => { prospect._showText = !prospect._showText; prospect._showEmail = false; prospect._showScript = false; prospect._showNotes = false; prospects = prospects; if (prospect._showText && prospect._textTestimonial === undefined) { prospect._textTestimonial = null; matchTestimonialForProspect(prospect).then(t => { prospect._textTestimonial = t; prospects = prospects; }); } handleLeadAction(prospect, 'text'); }}>💬 Text</button>
+                <button class="action-btn btn-green big-contact-btn" on:click={() => startCall(prospect)}>📞 Call</button>
+                <button class="action-btn btn-blue big-contact-btn" on:click={() => { prospect._showText = !prospect._showText; prospect._showEmail = false; prospect._showScript = false; prospect._showNotes = false; prospects = prospects; if (prospect._showText && prospect._textTestimonial === undefined) { prospect._textTestimonial = null; matchTestimonialForProspect(prospect).then(t => { prospect._textTestimonial = t; prospects = prospects; }); } handleLeadAction(prospect, 'text'); }}>💬 Text</button>
               {/if}
-              <button class="action-btn btn-purple" on:click={() => { prospect._showEmail = !prospect._showEmail; prospect._showText = false; prospect._showScript = false; prospect._showNotes = false; prospects = prospects; if (prospect._showEmail) { ensureProspectEmail(prospect); if (!prospect._research && !prospect._researching) { prospect._researching = true; researchProspect(prospect).finally(() => { prospect._researching = false; prospects = prospects; }); } handleLeadAction(prospect, 'email'); } }}>✉️ Email</button>
-              <button class="action-btn btn-orange" on:click={() => { handleLeadAction(prospect, 'walk-in'); }}>🚶 Walk-In</button>
+              <button class="action-btn btn-purple big-contact-btn" on:click={() => { prospect._showEmail = !prospect._showEmail; prospect._showText = false; prospect._showScript = false; prospect._showNotes = false; prospects = prospects; if (prospect._showEmail) { ensureProspectEmail(prospect); if (!prospect._research && !prospect._researching) { prospect._researching = true; researchProspect(prospect).finally(() => { prospect._researching = false; prospects = prospects; }); } handleLeadAction(prospect, 'email'); } }}>✉️ Email</button>
+              <button class="action-btn btn-orange big-contact-btn" on:click={() => { handleLeadAction(prospect, 'walk-in'); }}>🚶 Walk-In</button>
             </div>
+
+            <!-- Book Appointment sits right under the primary contact row -->
+            <div class="invite-row">
+              <select bind:value={inviteRepEmail} class="invite-select">
+                <option value="">No invite (just me)</option>
+                {#each Object.entries(repRegistry).filter(([k, v]) => v.email) as [id, rep]}
+                  <option value={rep.email}>{rep.display_name || rep.contract_name}</option>
+                {/each}
+              </select>
+            </div>
+            <button type="button" class="action-btn btn-book-appt" on:click={() => window.open(buildAppointmentUrl(prospect), '_blank')}>📅 Book Appointment{inviteRepEmail ? ' (+ rep)' : ''}</button>
 
             <!-- Multiple numbers: let the rep pick which one to call/text (incl. Notes contact) -->
             {#if callable.length > 1}
@@ -5359,7 +5489,10 @@ IndoorMedia`
             {@const ldHash = getLeadHash(prospect)}
             {@const ld = leadDataCache[ldHash] || {}}
             {#if canSeePrivate(ld)}
-            <div class="notes-section">
+            <div class="notes-section" id="oncall-{ldHash}">
+              {#if prospect._onCall}
+                <div class="oncall-banner">📞 On call — scripts, objections &amp; notes are open below. Notes save automatically.</div>
+              {/if}
               <label class="lead-field-label">👤 Owner / Decision Maker</label>
               <input 
                 type="text" 
@@ -5414,7 +5547,6 @@ IndoorMedia`
           {/if}
 
             <!-- Row 3: Sales tools -->
-            <button class="action-btn btn-add-product" on:click={() => openContractForProspect(prospect)}>📄 Add Products / Contract</button>
             <div class="sales-tools-seg">
               <span class="seg-label">Sales Tools</span>
               <div class="seg-group">
@@ -5543,19 +5675,8 @@ IndoorMedia`
             </div>
           {/if}
 
-            <!-- Big Book Appointment -->
-            <div class="invite-row">
-              <select bind:value={inviteRepEmail} class="invite-select">
-                <option value="">No invite (just me)</option>
-                {#each Object.entries(repRegistry).filter(([k, v]) => v.email) as [id, rep]}
-                  <option value={rep.email}>{rep.display_name || rep.contract_name}</option>
-                {/each}
-              </select>
-            </div>
-            <button type="button" class="action-btn btn-book-appt" on:click={() => window.open(buildAppointmentUrl(prospect), '_blank')}>📅 Book Appointment{inviteRepEmail ? ' (+ rep)' : ''}</button>
-            {#if prospect.address}
-              <a href="https://maps.apple.com/?daddr={encodeURIComponent(prospect.address)}" target="_blank" class="action-btn btn-navigate">🗺️ Navigate</a>
-            {/if}
+            <!-- Bottom: Add Products / Contract + Meeting Prep -->
+            <button class="action-btn btn-add-product" on:click={() => openContractForProspect(prospect)}>📄 Add Products / Contract</button>
             <button class="action-btn btn-meeting-prep" on:click={() => runMeetingPrep(prospect)}>🎯 Run Meeting Prep</button>
           </div>
         </div>
@@ -7105,15 +7226,24 @@ IndoorMedia`
   }
 
   .back-btn {
-    background: none;
-    border: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: var(--bg-secondary, #f2f3f5);
+    border: 1px solid var(--border-color, #e0e0e0);
     color: #CC0000;
-    font-weight: 600;
+    font-weight: 800;
     cursor: pointer;
-    padding: 0;
+    padding: 11px 18px;
     margin-bottom: 16px;
-    font-size: 13px;
+    font-size: 15px;
+    border-radius: 10px;
+    -webkit-tap-highlight-color: transparent;
+    transition: background 0.15s, transform 0.08s;
   }
+  .back-btn:hover { background: var(--hover-bg, #e9eaec); }
+  .back-btn:active { transform: translateY(1px); }
+  :global([data-theme='dark']) .back-btn { background: #2a2a2a; border-color: #3a3a3a; color: #ff6b6b; }
   .prospects-container {
     max-width: 1000px;
     margin: 0 auto;
@@ -7182,7 +7312,7 @@ IndoorMedia`
   }
 
   .loading { text-align: center; padding: 2rem; color: var(--text-tertiary); }
-  .back-btn { background: none; border: none; color: #CC0000; font-weight: 600; cursor: pointer; margin-bottom: 16px; font-size: 14px; }
+  /* (unified .back-btn styling defined above) */
 
   .search-box { margin-bottom: 16px; }
   .search-box input {
@@ -7569,6 +7699,49 @@ IndoorMedia`
 
   .btn-orange { background: #E65100 !important; color: white !important; border-color: #E65100 !important; }
   .btn-orange:hover { background: #BF360C !important; }
+
+  /* Primary contact row = the focal point. Big, tall, bold buttons. */
+  .contact-row-primary { gap: 10px; margin-bottom: 10px; }
+  .contact-row-primary .big-contact-btn {
+    padding: 16px 6px !important;
+    font-size: 1rem !important;
+    font-weight: 800 !important;
+    border-radius: 12px !important;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.10);
+    white-space: normal;
+  }
+  .contact-row-primary .big-contact-btn:active { transform: translateY(1px); }
+
+  /* Address line = tap to navigate */
+  .prospect-address-link { color: var(--text-secondary, #555); text-decoration: none; cursor: pointer; }
+  .prospect-address-link:hover { text-decoration: underline; }
+  .addr-copy-btn {
+    background: none; border: none; cursor: pointer; font-size: 12px;
+    padding: 0 4px; opacity: 0.6; vertical-align: middle;
+  }
+  .addr-copy-btn:hover { opacity: 1; }
+
+  /* On-call banner */
+  .oncall-banner {
+    background: rgba(46,125,50,0.10); border: 1px solid rgba(46,125,50,0.30);
+    color: #1b5e20; border-radius: 9px; padding: 8px 11px; font-size: 12.5px;
+    font-weight: 700; margin-bottom: 10px;
+  }
+  :global([data-theme='dark']) .oncall-banner { background: rgba(46,125,50,0.16); color: #86d390; border-color: rgba(46,125,50,0.4); }
+
+  /* Cached-results note + refresh */
+  .cache-note {
+    display: flex; align-items: center; flex-wrap: wrap; gap: 8px;
+    font-size: 12.5px; color: var(--text-secondary, #777);
+    background: var(--bg-secondary, #f4f5f7); border: 1px solid var(--border-color, #e6e6e6);
+    border-radius: 9px; padding: 8px 11px; margin: 0 0 12px;
+  }
+  .cache-refresh-btn {
+    margin-left: auto; padding: 6px 11px; border-radius: 8px;
+    border: 1px solid rgba(26,115,232,0.35); background: rgba(26,115,232,0.08);
+    color: #1a73e8; font-size: 12px; font-weight: 700; cursor: pointer;
+  }
+  .cache-refresh-btn:hover { background: rgba(26,115,232,0.16); }
 
   /* Contact row hierarchy: Call = one bold primary (green);
      Text / Email / Walk-In demoted to calm tinted-outline so the row
