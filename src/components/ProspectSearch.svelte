@@ -5187,41 +5187,8 @@ IndoorMedia`
               <button class="action-btn btn-orange big-contact-btn" on:click={() => { handleLeadAction(prospect, 'walk-in'); }}>🚶 Walk-In</button>
             </div>
 
-            <!-- Book Appointment sits right under the primary contact row.
-                 The rep-invite dropdown stays hidden until Book Appointment is
-                 tapped; then pick an invite (or none) and tap again to open. -->
-            {#if !prospect._showBookInvite}
-              <button type="button" class="action-btn btn-book-appt" on:click={() => { prospect._showBookInvite = true; prospects = prospects; }}>📅 Book Appointment</button>
-            {:else}
-              <div class="invite-row">
-                <select bind:value={inviteRepEmail} class="invite-select">
-                  <option value="">No invite (just me)</option>
-                  {#each Object.entries(repRegistry).filter(([k, v]) => v.email) as [id, rep]}
-                    <option value={rep.email}>{rep.display_name || rep.contract_name}</option>
-                  {/each}
-                </select>
-              </div>
-              <button type="button" class="action-btn btn-book-appt" on:click={() => window.open(buildAppointmentUrl(prospect), '_blank')}>📅 Open Calendar{inviteRepEmail ? ' (+ rep)' : ' (just me)'}</button>
-            {/if}
-
-            <!-- Meeting Prep sits in the flow right after Book Appointment. -->
-            <button class="action-btn btn-meeting-prep" on:click={() => runMeetingPrep(prospect)}>🎯 Run Meeting Prep</button>
-
-            <!-- Multiple numbers: let the rep pick which one to call/text (incl. Notes contact) -->
-            {#if callable.length > 1}
-              <div class="phone-picker">
-                <span class="phone-picker-label">📞 Numbers on file:</span>
-                {#each callable as ph}
-                  <span class="phone-opt" class:saved={ph.saved}>
-                    <span class="phone-opt-meta">{ph.number}<small>{ph.label}</small></span>
-                    <a href="tel:{ph.number}" class="phone-opt-btn" on:click={() => { trackPhoneClick(prospect); handleLeadAction(prospect, 'call'); }}>📞</a>
-                    <a href="sms:{ph.number}" class="phone-opt-btn" on:click={() => handleLeadAction(prospect, 'text')}>💬</a>
-                  </span>
-                {/each}
-              </div>
-            {/if}
-
-            <!-- Last contact activity -->
+            <!-- Communication log (called/emailed/texted/walked-in by) sits
+                 directly beneath the Call/Text/Email/Walk-In buttons. -->
             {#if getLastActivity(prospect)}
               {@const la = getLastActivity(prospect)}
               {@const lm = activityMeta(la.action)}
@@ -5238,6 +5205,22 @@ IndoorMedia`
               </button>
             {/if}
 
+            <!-- Multiple numbers: let the rep pick which one to call/text (incl. Notes contact) -->
+            {#if callable.length > 1}
+              <div class="phone-picker">
+                <span class="phone-picker-label">📞 Numbers on file:</span>
+                {#each callable as ph}
+                  <span class="phone-opt" class:saved={ph.saved}>
+                    <span class="phone-opt-meta">{ph.number}<small>{ph.label}</small></span>
+                    <a href="tel:{ph.number}" class="phone-opt-btn" on:click={() => { trackPhoneClick(prospect); handleLeadAction(prospect, 'call'); }}>📞</a>
+                    <a href="sms:{ph.number}" class="phone-opt-btn" on:click={() => handleLeadAction(prospect, 'text')}>💬</a>
+                  </span>
+                {/each}
+              </div>
+            {/if}
+
+          <!-- Call/Text/Email flow popups render directly beneath the contact
+               buttons (and comm log) and ABOVE Book Appointment. -->
           {#if prospect._showText}
             <div class="text-templates-section">
               <h4 class="text-templates-title">💬 Text Templates</h4>
@@ -5548,6 +5531,27 @@ IndoorMedia`
               {/if}
             </div>
           {/if}
+
+            <!-- Book Appointment sits below the contact flow popups. The rep-invite
+                 dropdown stays hidden until Book Appointment is tapped; then pick
+                 an invite (or none) and tap again to open the calendar. Run Meeting
+                 Prep only appears AFTER Book Appointment has been pressed. -->
+            {#if !prospect._showBookInvite}
+              <button type="button" class="action-btn btn-book-appt" on:click={() => { prospect._showBookInvite = true; prospects = prospects; }}>📅 Book Appointment</button>
+            {:else}
+              <div class="invite-row">
+                <select bind:value={inviteRepEmail} class="invite-select">
+                  <option value="">No invite (just me)</option>
+                  {#each Object.entries(repRegistry).filter(([k, v]) => v.email) as [id, rep]}
+                    <option value={rep.email}>{rep.display_name || rep.contract_name}</option>
+                  {/each}
+                </select>
+              </div>
+              <button type="button" class="action-btn btn-book-appt" on:click={() => window.open(buildAppointmentUrl(prospect), '_blank')}>📅 Open Calendar{inviteRepEmail ? ' (+ rep)' : ' (just me)'}</button>
+              <!-- Meeting Prep only shows after Book Appointment is pressed. -->
+              <button class="action-btn btn-meeting-prep" on:click={() => runMeetingPrep(prospect)}>🎯 Run Meeting Prep</button>
+            {/if}
+
             <!-- Row 2: Research (Website lives up top in the meta chips now;
                  Save to Contacts moved into the Notes section) -->
             <div class="action-row">

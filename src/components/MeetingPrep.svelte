@@ -34,6 +34,105 @@
   let allTestimonials = [];
   let showTestimonialModal = false;
 
+  // ── Meeting-prep attachments for the calendar event ──────────────────────
+  // Product presentation slideshows the rep can attach to the booked event.
+  // (Mirrors the decks surfaced in Present.svelte.)
+  const PRESENTATIONS = [
+    { id: 'register-tape', name: 'Register Tape', icon: '🧾', url: 'https://docs.google.com/presentation/d/1Xs60nX3i6MJkC81GgnK-50jBrkWVPu06xRpmv8z4PIc/edit?usp=sharing' },
+    { id: 'cartvertising', name: 'Cartvertising', icon: '🛒', url: 'https://docs.google.com/presentation/d/1xwIF4CaTp07AKunGaJysCSIGqN7VCdbL4fgOH3XEpl4/edit?usp=sharing' },
+    { id: 'nose-of-cart', name: 'Nose of Cart', icon: '🛒', url: (import.meta.env.BASE_URL || '/') + 'products/nose-of-cart-presentation.pdf' },
+    { id: 'digital', name: 'Digital Suite', icon: '📱', url: (import.meta.env.BASE_URL || '/') + 'products/digital-suite-presentation.pdf' },
+  ];
+  // Default-offer Register Tape (Tyler's division) as the primary deck.
+  let selectedPresentations = new Set(['register-tape']);
+  let attachedTestimonials = new Set();      // ids of testimonials to drop into the event notes
+  let attachLocalTestimonial = true;         // include the local one by default
+  let listingReport = null;                  // local-listing analysis object
+  let buildingListing = false;
+
+  function togglePresentation(id) {
+    if (selectedPresentations.has(id)) selectedPresentations.delete(id); else selectedPresentations.add(id);
+    selectedPresentations = new Set(selectedPresentations);
+  }
+  function toggleAttachTestimonial(id) {
+    if (attachedTestimonials.has(id)) attachedTestimonials.delete(id); else attachedTestimonials.add(id);
+    attachedTestimonials = new Set(attachedTestimonials);
+  }
+
+  // ── Local Listing Analysis ───────────────────────────────────────────────
+  // Grades the business's online-listing health from the Google Places signals
+  // we already have (name, address, phone, website, category). This is the same
+  // signal set IndoorMedia's Local Listing Management (FindLocal) service scans.
+  // Returns { score, grade, checks:[{label, ok, note}], summary }.
+  function buildListingReport() {
+    const checks = [];
+    const has = (v) => !!(v && String(v).trim());
+    checks.push({ label: 'Business name present', ok: has(businessName), note: has(businessName) ? businessName : 'Missing' });
+    checks.push({ label: 'Complete street address', ok: /\d/.test(businessAddress || '') && (businessAddress || '').includes(','), note: has(businessAddress) ? businessAddress : 'No address on listing' });
+    checks.push({ label: 'Phone number listed', ok: has(businessPhone), note: has(businessPhone) ? businessPhone : 'No phone — customers can’t call' });
+    checks.push({ label: 'Website linked', ok: has(businessWebsite), note: has(businessWebsite) ? businessWebsite.replace(/^https?:\/\//, '').split('/')[0] : 'No website — hurts discovery & trust' });
+    checks.push({ label: 'Category / business type', ok: has(businessCategory), note: has(businessCategory) ? businessCategory : 'No category set' });
+    const okCount = checks.filter(c => c.ok).length;
+    const score = Math.round((okCount / checks.length) * 100);
+    const grade = score >= 90 ? 'A' : score >= 75 ? 'B' : score >= 60 ? 'C' : score >= 40 ? 'D' : 'F';
+    const gaps = checks.filter(c => !c.ok).map(c => c.label.toLowerCase());
+    const summary = gaps.length
+      ? `${businessName} has gaps in their online listing (${gaps.join(', ')}). Inconsistent or incomplete listings across Google, Apple Maps, Yelp, Bing & 50+ directories cost local businesses calls and foot traffic. IndoorMedia's Local Listing Management (FindLocal) syncs and fixes all of them from one dashboard.`
+      : `${businessName}'s core listing fields look complete on Google — but most businesses still have mismatched Name/Address/Phone across the 50+ other directories (Apple Maps, Yelp, Bing, Alexa, GPS systems). IndoorMedia's Local Listing Management (FindLocal) keeps every listing consistent and monitored.`;
+    listingReport = { score, grade, checks, summary, generatedAt: new Date().toISOString() };
+    return listingReport;
+  }
+
+  // Render the listing report + selected testimonials into a calendar-notes block.
+  function buildEventNotes() {
+    const lines = [];
+    lines.push('MEETING PREP — ' + (businessName || 'Business'));
+    if (businessAddress) lines.push('Address: ' + businessAddress);
+    if (businessPhone) lines.push('Phone: ' + businessPhone);
+    if (businessWebsite) lines.push('Website: ' + businessWebsite);
+    if (selectedStore) lines.push('Store: ' + [selectedStore.GroceryChain, selectedStore.City, '(' + selectedStore.StoreName + ')'].filter(Boolean).join(' '));
+    lines.push('Rep: ' + ($user?.name || $user?.first_name || ''));
+
+    // Presentations
+    const decks = PRESENTATIONS.filter(p => selectedPresentations.has(p.id));
+    if (decks.length) {
+      lines.push('');
+      lines.push('📊 PRODUCT PRESENTATIONS:');
+      decks.forEach(d => lines.push(`• ${d.name}: ${d.url}`));
+    }
+
+    // Local listing analysis
+    const rep = listingReport || buildListingReport();
+    lines.push('');
+    lines.push(`📍 LOCAL LISTING ANALYSIS — Grade ${rep.grade} (${rep.score}/100)`);
+    rep.checks.forEach(c => lines.push(`${c.ok ? '✅' : '❌'} ${c.label}${c.note ? ' — ' + c.note : ''}`));
+    lines.push('→ ' + rep.summary);
+    lines.push('Full managed scan & fix: https://www.indoormedia.com/local-listing-management/');
+
+    // Testimonials chosen by the rep
+    const chosen = matchedTestimonials.filter(t => attachedTestimonials.has(t.id));
+    const incLocal = attachLocalTestimonial && localTestimonial;
+    if (chosen.length || incLocal) {
+      lines.push('');
+      lines.push('⭐ TESTIMONIALS TO SHARE:');
+      chosen.forEach(t => { lines.push(`• ${cleanBizName(t.business)}: "${t.comment}"${t.url ? ' — ' + t.url : ''}`); });
+      if (incLocal) lines.push(`• [LOCAL] ${cleanBizName(localTestimonial.business)}: "${localTestimonial.comment}"${localTestimonial.url ? ' — ' + localTestimonial.url : ''}`);
+    }
+    return lines.join('\n');
+  }
+
+  // Open Google Calendar with the business + attachments baked into the notes.
+  function addToCalendarEvent() {
+    const title = 'IndoorMedia Meeting — ' + (businessName || 'Prospect');
+    const details = buildEventNotes();
+    const url = 'https://calendar.google.com/calendar/render?action=TEMPLATE'
+      + '&text=' + encodeURIComponent(title)
+      + '&details=' + encodeURIComponent(details)
+      + '&location=' + encodeURIComponent(businessAddress || '')
+      + '&add=' + encodeURIComponent('tyler.vansant@indoormedia.com');
+    window.open(url, '_blank');
+  }
+
   onMount(async () => {
     try {
       const storeRes = await fetch(import.meta.env.BASE_URL + 'data/stores.json?t=' + Date.now());
@@ -139,10 +238,21 @@
     const { keywords: categoryKeywords, exclude: excludeWords } = extractCategoryKeywords(businessCategory, businessName, businessTypes);
     matchedTestimonials = findMatchingTestimonials(detectedCats, categoryKeywords, excludeWords, businessName, additionalInfo);
 
-    // Find local testimonial
+    // Find local testimonial (local to the BUSINESS being booked)
     loadingStep = 4;
     loadingStatus = '📍 Finding local testimonials...';
     localTestimonial = findLocalTestimonial(detectedCats);
+
+    // Run the local-listing analysis on this business + reset attachment defaults.
+    loadingStep = 5;
+    loadingStatus = '📊 Running local listing analysis...';
+    buildingListing = true;
+    buildListingReport();
+    buildingListing = false;
+    // Defaults: offer Register Tape deck, pre-attach the local testimonial.
+    selectedPresentations = new Set(['register-tape']);
+    attachedTestimonials = new Set();
+    attachLocalTestimonial = !!localTestimonial;
 
     step = 'results';
   }
@@ -409,19 +519,37 @@
     return results;
   }
 
-  function findLocalTestimonial(detectedCats = []) {
-    if (!selectedStore || !allTestimonials.length) return null;
+  // Pull the city (and state) out of the business's own street address, e.g.
+  // "123 Main St, Albany, OR 97321" -> { city:'albany', state:'or' }. This is
+  // what makes the "local testimonial" local to the BUSINESS being booked
+  // (not merely the grocery store), per the rep's requirement.
+  function businessCityState() {
+    const addr = String(businessAddress || '');
+    // Common US format: "..., City, ST ZIP, USA"
+    const m = addr.match(/,\s*([^,]+?),\s*([A-Za-z]{2})\s*\d{5}/);
+    if (m) return { city: m[1].toLowerCase().trim(), state: m[2].toLowerCase().trim() };
+    // Fallback: "..., City, ST"
+    const m2 = addr.match(/,\s*([^,]+?),\s*([A-Za-z]{2})\b/);
+    if (m2) return { city: m2[1].toLowerCase().trim(), state: m2[2].toLowerCase().trim() };
+    return { city: '', state: '' };
+  }
 
-    const city = (selectedStore.City || '').toLowerCase().trim();
-    const state = (selectedStore.State || '').toLowerCase().trim();
-    const rawChain = selectedStore.GroceryChain || '';
+  function findLocalTestimonial(detectedCats = []) {
+    if (!allTestimonials.length) return null;
+
+    // Prefer the BUSINESS's own city/state; fall back to the selected store's.
+    const biz = businessCityState();
+    const city = (biz.city || (selectedStore?.City || '')).toLowerCase().trim();
+    const state = (biz.state || (selectedStore?.State || '')).toLowerCase().trim();
+    if (!city && !selectedStore) return null;
+    const rawChain = selectedStore?.GroceryChain || '';
     const chainNorm = normalizeChain(rawChain);
     const family = chainFamily(chainNorm);
     const catSet = new Set(detectedCats);
 
     // Build list of nearby cities from the stores database (within ~50 mi via lat/lng)
     const nearbyCities = new Set();
-    if (selectedStore.latitude && selectedStore.longitude) {
+    if (selectedStore?.latitude && selectedStore?.longitude) {
       const lat = parseFloat(selectedStore.latitude);
       const lng = parseFloat(selectedStore.longitude);
       allStores.forEach(s => {
@@ -721,6 +849,41 @@
       {#if additionalInfo}<div class="info-row"><span class="info-label">Notes:</span><span>{additionalInfo}</span></div>{/if}
     </div>
 
+    <!-- 📅 Build the calendar event: product decks + local-listing report +
+         testimonials, all attached into the event notes. -->
+    <div class="result-card calendar-card">
+      <h3>📅 Attach to Calendar Event</h3>
+      <p class="result-hint">Pick what to drop into the booked meeting's notes, then add it to your calendar.</p>
+
+      <div class="attach-section">
+        <div class="attach-head">📊 Product presentation slideshows</div>
+        <div class="deck-grid">
+          {#each PRESENTATIONS as d}
+            <button class="deck-chip" class:on={selectedPresentations.has(d.id)} on:click={() => togglePresentation(d.id)}>
+              <span>{d.icon} {d.name}</span>
+              <span class="deck-check">{selectedPresentations.has(d.id) ? '✓' : '+'}</span>
+            </button>
+          {/each}
+        </div>
+      </div>
+
+      {#if listingReport}
+        <div class="attach-section">
+          <div class="attach-head">📍 Local listing analysis <span class="grade grade-{listingReport.grade}">Grade {listingReport.grade} · {listingReport.score}/100</span></div>
+          <ul class="listing-checks">
+            {#each listingReport.checks as c}
+              <li class:bad={!c.ok}>{c.ok ? '✅' : '❌'} {c.label}{#if c.note} <small>— {c.note}</small>{/if}</li>
+            {/each}
+          </ul>
+          <p class="listing-summary">{listingReport.summary}</p>
+          <a class="listing-link" href="https://www.indoormedia.com/local-listing-management/" target="_blank" rel="noreferrer">🔎 Full managed scan on IndoorMedia →</a>
+        </div>
+      {/if}
+
+      <button class="btn-calendar" on:click={addToCalendarEvent}>📅 Add to Calendar Event (with attachments)</button>
+      <p class="attach-note">Opens Google Calendar prefilled. Toggle testimonials below to include them too.</p>
+    </div>
+
     {#if matchedTestimonials.length > 0}
       <div class="result-card">
         <h3>⭐ Similar Business Testimonials</h3>
@@ -735,12 +898,15 @@
         {/if}
 
         {#each matchedTestimonials as t, i}
-          <div class="testimonial" class:clickable={t.url} on:click={() => { if (t.url) window.open(t.url, '_blank'); }}>
+          <div class="testimonial" class:attached={attachedTestimonials.has(t.id)}>
             <div class="test-num">{i + 1}</div>
             <div class="test-body">
               <div class="test-biz">{cleanBizName(t.business)}</div>
               <div class="test-quote">"{t.comment}"</div>
-              {#if t.url}<span class="test-link">🔗 Tap to view full testimonial →</span>{/if}
+              <div class="test-actions">
+                <button class="test-attach" class:on={attachedTestimonials.has(t.id)} on:click|stopPropagation={() => toggleAttachTestimonial(t.id)}>{attachedTestimonials.has(t.id) ? '✅ Attached to event' : '📅 Attach to event'}</button>
+                {#if t.url}<button class="test-view" on:click|stopPropagation={() => window.open(t.url, '_blank')}>🔗 View</button>{/if}
+              </div>
             </div>
           </div>
         {/each}
@@ -755,13 +921,16 @@
     {#if localTestimonial}
       <div class="result-card local-card">
         <h3>📍 Local Testimonial</h3>
-        <p class="result-hint">A business near {selectedStore?.City || 'this area'} — great for "right here in your neighborhood" credibility</p>
-        <div class="testimonial" class:clickable={localTestimonial.url} on:click={() => { if (localTestimonial.url) window.open(localTestimonial.url, '_blank'); }}>
+        <p class="result-hint">A business local to {businessCityState().city ? (businessCityState().city.replace(/\b\w/g, c => c.toUpperCase())) : (selectedStore?.City || 'this area')} — same town as {businessName} for "right here in your neighborhood" credibility</p>
+        <div class="testimonial" class:attached={attachLocalTestimonial}>
           <div class="test-num">📍</div>
           <div class="test-body">
             <div class="test-biz">{cleanBizName(localTestimonial.business)}</div>
             <div class="test-quote">"{localTestimonial.comment}"</div>
-            {#if localTestimonial.url}<span class="test-link">🔗 Tap to view full testimonial →</span>{/if}
+            <div class="test-actions">
+              <button class="test-attach" class:on={attachLocalTestimonial} on:click|stopPropagation={() => { attachLocalTestimonial = !attachLocalTestimonial; }}>{attachLocalTestimonial ? '✅ Attached to event' : '📅 Attach to event'}</button>
+              {#if localTestimonial.url}<button class="test-view" on:click|stopPropagation={() => window.open(localTestimonial.url, '_blank')}>🔗 View</button>{/if}
+            </div>
           </div>
         </div>
       </div>
@@ -848,6 +1017,34 @@
 
   .btn-go { width:100%; padding:16px; background:#CC0000; color:#fff; border:none; border-radius:12px; font-size:17px; font-weight:800; cursor:pointer; }
   .btn-go:hover { background:#a00; }
+
+  /* ── Calendar attachment card ── */
+  .calendar-card { border:2px solid #1a73e8; }
+  .attach-section { margin:12px 0; }
+  .attach-head { font-size:13px; font-weight:800; color:var(--text-primary); margin-bottom:8px; display:flex; align-items:center; gap:8px; flex-wrap:wrap; }
+  .deck-grid { display:flex; flex-wrap:wrap; gap:8px; }
+  .deck-chip { display:inline-flex; align-items:center; gap:8px; padding:9px 13px; border:1.5px solid var(--border-color); border-radius:999px; background:var(--card-bg); color:var(--text-secondary); font-size:13px; font-weight:600; cursor:pointer; transition:all .15s; }
+  .deck-chip.on { background:#1a73e8; border-color:#1a73e8; color:#fff; }
+  .deck-check { font-weight:800; }
+  .grade { font-size:12px; font-weight:800; padding:2px 9px; border-radius:999px; background:#eee; color:#333; }
+  .grade-A { background:rgba(10,125,44,.15); color:#0a7d2c; }
+  .grade-B { background:rgba(10,125,44,.12); color:#0a7d2c; }
+  .grade-C { background:rgba(230,160,0,.18); color:#a5720a; }
+  .grade-D { background:rgba(204,0,0,.12); color:#cc0000; }
+  .grade-F { background:rgba(204,0,0,.16); color:#cc0000; }
+  .listing-checks { list-style:none; padding:0; margin:6px 0; }
+  .listing-checks li { font-size:13px; padding:3px 0; color:var(--text-primary); }
+  .listing-checks li small { color:var(--text-secondary); }
+  .listing-summary { font-size:13px; color:var(--text-secondary); line-height:1.5; margin:8px 0; }
+  .listing-link { display:inline-block; font-size:13px; font-weight:600; color:#1a73e8; text-decoration:none; margin-bottom:6px; }
+  .btn-calendar { width:100%; padding:14px; background:#1a73e8; color:#fff; border:none; border-radius:12px; font-size:15px; font-weight:800; cursor:pointer; margin-top:8px; }
+  .btn-calendar:hover { background:#1558b0; }
+  .attach-note { font-size:12px; color:var(--text-secondary); margin:6px 0 0; text-align:center; }
+  .test-actions { display:flex; gap:8px; margin-top:8px; flex-wrap:wrap; }
+  .test-attach { padding:6px 12px; border:1.5px solid #1a73e8; border-radius:999px; background:var(--card-bg); color:#1a73e8; font-size:12px; font-weight:700; cursor:pointer; }
+  .test-attach.on { background:#1a73e8; color:#fff; }
+  .test-view { padding:6px 12px; border:1.5px solid var(--border-color); border-radius:999px; background:var(--card-bg); color:var(--text-secondary); font-size:12px; font-weight:600; cursor:pointer; }
+  .testimonial.attached { border-color:#1a73e8; box-shadow:0 0 0 1px #1a73e8 inset; }
 
   /* Loading */
   .loading { text-align:center; padding:60px 20px; }
