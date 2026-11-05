@@ -654,6 +654,40 @@
     }, 120);
   }
 
+  // Determine if a prospect is open right now. Prefer Google's live openNow
+  // flag; otherwise parse today's hours string (e.g. "Thursday: 9:00 AM – 6:30 PM").
+  // Returns true / false / null (unknown).
+  function isOpenNow(prospect) {
+    if (prospect && typeof prospect.openNow === 'boolean') return prospect.openNow;
+    try {
+      if (!prospect || !prospect.hours || !prospect.hours.length) return null;
+      const now = new Date();
+      const today = now.toLocaleDateString('en-US', { weekday: 'long' });
+      const line = prospect.hours.find(h => h.startsWith(today));
+      if (!line) return null;
+      const rest = line.split(':').slice(1).join(':').trim();
+      if (/closed/i.test(rest)) return false;
+      if (/open 24 hours/i.test(rest)) return true;
+      // Grab the first time range "9:00 AM – 6:30 PM" (handles – — - separators).
+      const m = rest.match(/(\d{1,2}(?::\d{2})?\s*[AaPp][Mm])\s*[\u2013\u2014-]\s*(\d{1,2}(?::\d{2})?\s*[AaPp][Mm])/);
+      if (!m) return null;
+      const toMin = (s) => {
+        const t = s.trim().match(/(\d{1,2})(?::(\d{2}))?\s*([AaPp])[Mm]/);
+        if (!t) return null;
+        let hr = parseInt(t[1], 10) % 12;
+        if (/p/i.test(t[3])) hr += 12;
+        return hr * 60 + (t[2] ? parseInt(t[2], 10) : 0);
+      };
+      const open = toMin(m[1]);
+      let close = toMin(m[2]);
+      if (open == null || close == null) return null;
+      const cur = now.getHours() * 60 + now.getMinutes();
+      if (close <= open) close += 24 * 60; // overnight (e.g. closes after midnight)
+      const curAdj = cur < open ? cur + 24 * 60 : cur;
+      return curAdj >= open && curAdj < close;
+    } catch { return null; }
+  }
+
   async function handleLeadAction(prospect, action) {
     const u = $user;
     if (!u) return;
@@ -2404,6 +2438,7 @@
               mapsUrl: place.googleMapsUri || null,
               status: place.businessStatus === 'OPERATIONAL' ? 'open' : 'check',
               hours: place.regularOpeningHours?.weekdayDescriptions || null,
+              openNow: (place.regularOpeningHours?.openNow ?? null),
               lat: pLat, lng: pLng,
             });
           }
@@ -2751,6 +2786,7 @@
           mapsUrl: place.googleMapsUri || null,
           status: place.businessStatus === 'OPERATIONAL' ? 'open' : 'check',
           hours: place.regularOpeningHours?.weekdayDescriptions || null,
+          openNow: (place.regularOpeningHours?.openNow ?? null),
           lat: pLat,
           lng: pLng,
           _adSpend: adSpendScore({ reviews, rating, website: place.websiteUri || null }),
@@ -5076,12 +5112,28 @@ IndoorMedia`
             <a class="prospect-address-link" href="https://maps.apple.com/?daddr={encodeURIComponent(prospect.address)}" target="_blank" rel="noreferrer" title="Tap to navigate">📍 {prospect.address}</a>
             <button type="button" class="addr-copy-btn" on:click|stopPropagation={() => { navigator.clipboard.writeText(prospect.address); copiedAddress = prospect.address; setTimeout(() => copiedAddress = '', 2000); }} title="Copy address">{copiedAddress === prospect.address ? '✅' : '📋'}</button>
           </p>
-          <div class="prospect-meta">
+          <!-- All info pills (rating, distance, ad spend, website) on one line beneath the address -->
+          <div class="prospect-meta prospect-meta-line">
             <button type="button" class="meta-pill meta-rating meta-rating-link" on:click|stopPropagation={() => openReviews(prospect)} title="See Google reviews" aria-label="Open Google reviews for {prospect.name}">⭐ {prospect.rating.toFixed(1)} <small>({prospect.reviews})</small> <span class="meta-rating-ext">↗</span></button>
             {#if prospect.distance != null}
               <button type="button" class="meta-pill meta-dist meta-dist-link" on:click|stopPropagation={() => { if (prospect.lat && prospect.lng) { prospect._showMapPopup = !prospect._showMapPopup; prospects = prospects; } }} title="Tap to see distance to nearby stores">📍 {prospect.distance} mi{#if prospect.lat && prospect.lng} <span class="meta-dist-caret">{prospect._showMapPopup ? '▲' : '▼'}</span>{/if}</button>
             {/if}
+            {#if prospect._adSpend != null}
+              <button class="meta-pill meta-spend hl-tappable" on:click|stopPropagation={() => { prospect._showAdSignals = !prospect._showAdSignals; prospects = prospects; }} title="Tap to see the advertising signals behind this">💰 Ad spend: {prospect._adSpend >= 70 ? 'High' : prospect._adSpend >= 45 ? 'Medium' : 'Low'} <span class="hl-caret">{prospect._showAdSignals ? '▲' : '▼'}</span></button>
+            {/if}
+            {#if prospect.website}<a class="meta-pill meta-web" href={prospect.website} target="_blank" rel="noreferrer" on:click|stopPropagation>🌐 Website</a>{/if}
           </div>
+          {#if prospect._showAdSignals && prospect._adSpend != null}
+            {@const sig = adSpendSignals(prospect)}
+            <div class="ad-signals">
+              <p class="ad-signals-head">📣 Advertising signals — <strong>{sig.level}</strong></p>
+              <ul class="ad-signals-list">
+                {#each sig.signals as s}<li><span class="as-ico">{s.icon}</span> {s.text}</li>{/each}
+              </ul>
+              {#if prospect.mapsUrl}<a class="ad-signals-link" href={prospect.mapsUrl} target="_blank" rel="noreferrer" on:click|stopPropagation>🗺️ View on Google →</a>{/if}
+              <p class="ad-signals-note">{sig.note}</p>
+            </div>
+          {/if}
           {#if prospect._showMapPopup && prospect.lat && prospect.lng}
             <div class="minimap-popup">
               <div class="minimap-popup-head">
@@ -5090,24 +5142,6 @@ IndoorMedia`
               </div>
               <div class="prospect-minimap minimap-popup-map" use:initMiniMap={{ prospect, store: selectedStore }}></div>
             </div>
-          {/if}
-          {#if prospect._adSpend != null}
-            <div class="hotlist-signals">
-              <button class="hl-chip hl-spend hl-tappable" on:click|stopPropagation={() => { prospect._showAdSignals = !prospect._showAdSignals; prospects = prospects; }} title="Tap to see the advertising signals behind this">💰 Ad spend: {prospect._adSpend >= 70 ? 'High' : prospect._adSpend >= 45 ? 'Medium' : 'Low'} <span class="hl-caret">{prospect._showAdSignals ? '▲' : '▼'}</span></button>
-              {#if prospect._proximity != null}<span class="hl-chip hl-prox">📍 {prospect._proximity >= 70 ? 'Very close' : prospect._proximity >= 40 ? 'Nearby' : 'In range'}</span>{/if}
-              {#if prospect.website}<a class="hl-chip hl-web" href={prospect.website} target="_blank" rel="noreferrer" on:click|stopPropagation>🌐 Website</a>{/if}
-            </div>
-            {#if prospect._showAdSignals}
-              {@const sig = adSpendSignals(prospect)}
-              <div class="ad-signals">
-                <p class="ad-signals-head">📣 Advertising signals — <strong>{sig.level}</strong></p>
-                <ul class="ad-signals-list">
-                  {#each sig.signals as s}<li><span class="as-ico">{s.icon}</span> {s.text}</li>{/each}
-                </ul>
-                {#if prospect.mapsUrl}<a class="ad-signals-link" href={prospect.mapsUrl} target="_blank" rel="noreferrer" on:click|stopPropagation>🗺️ View on Google →</a>{/if}
-                <p class="ad-signals-note">{sig.note}</p>
-              </div>
-            {/if}
           {/if}
           {#if prospect.phone}
             <p class="prospect-phone">📞 <a href="tel:{prospect.phone}" style="color:inherit;text-decoration:none;">{prospect.phone}</a></p>
@@ -5118,8 +5152,10 @@ IndoorMedia`
           {#if prospect.hours && prospect.hours.length > 0}
             {@const today = new Date().toLocaleDateString('en-US', { weekday: 'long' })}
             {@const todayHours = prospect.hours.find(h => h.startsWith(today))}
+            {@const openState = isOpenNow(prospect)}
             <p class="prospect-hours" on:click|stopPropagation={() => { prospect._showAllHours = !prospect._showAllHours; prospects = prospects; }}>
-              🕐 {todayHours || prospect.hours[0]}
+              {#if openState === true}<span class="open-now open-now-yes">🟢 Open Now</span>{:else if openState === false}<span class="open-now open-now-no">🔴 Closed</span>{/if}
+              <span class="hours-text">🕐 {todayHours || prospect.hours[0]}</span>
             </p>
             {#if prospect._showAllHours}
               <div class="hours-detail">
@@ -5167,6 +5203,9 @@ IndoorMedia`
               </div>
               <button type="button" class="action-btn btn-book-appt" on:click={() => window.open(buildAppointmentUrl(prospect), '_blank')}>📅 Open Calendar{inviteRepEmail ? ' (+ rep)' : ' (just me)'}</button>
             {/if}
+
+            <!-- Meeting Prep sits in the flow right after Book Appointment. -->
+            <button class="action-btn btn-meeting-prep" on:click={() => runMeetingPrep(prospect)}>🎯 Run Meeting Prep</button>
 
             <!-- Multiple numbers: let the rep pick which one to call/text (incl. Notes contact) -->
             {#if callable.length > 1}
@@ -5516,12 +5555,17 @@ IndoorMedia`
               <button class="action-btn btn-gray" on:click={() => { prospect._showNotes = !prospect._showNotes; prospects = prospects; }}>📝 Notes</button>
             </div>
 
-            <!-- Row 3: Sales tools -->
+            <!-- Row 3: Sales tools — Scripts & Objections stay hidden until the
+                 rep presses Call (startCall sets _onCall). Testimonials, when
+                 available for this store, remain accessible any time. -->
+            {#if prospect._onCall || storeHasTestimonial}
             <div class="sales-tools-seg">
               <span class="seg-label">Sales Tools</span>
               <div class="seg-group">
-                <button class="seg-btn" class:seg-active={prospect._showScript} on:click={() => { prospect._showScript = !prospect._showScript; prospect._showEmail = false; prospect._showNotes = false; prospect._showObjections = false; prospect._showTestimonials = false; prospects = prospects; }}>📋 Scripts</button>
-                <button class="seg-btn" class:seg-active={prospect._showObjections} on:click={() => { prospect._showObjections = !prospect._showObjections; prospect._showScript = false; prospect._showEmail = false; prospect._showNotes = false; prospect._showTestimonials = false; prospects = prospects; }}>🛡️ Objections</button>
+                {#if prospect._onCall}
+                  <button class="seg-btn" class:seg-active={prospect._showScript} on:click={() => { prospect._showScript = !prospect._showScript; prospect._showEmail = false; prospect._showNotes = false; prospect._showObjections = false; prospect._showTestimonials = false; prospects = prospects; }}>📋 Scripts</button>
+                  <button class="seg-btn" class:seg-active={prospect._showObjections} on:click={() => { prospect._showObjections = !prospect._showObjections; prospect._showScript = false; prospect._showEmail = false; prospect._showNotes = false; prospect._showTestimonials = false; prospects = prospects; }}>🛡️ Objections</button>
+                {/if}
                 {#if storeHasTestimonial}
                   <button class="seg-btn" class:seg-active={prospect._showTestimonials} on:click={async () => { 
                     prospect._showTestimonials = !prospect._showTestimonials;
@@ -5534,6 +5578,7 @@ IndoorMedia`
                 {/if}
               </div>
             </div>
+            {/if}
           {#if prospect._showScript}
             <!-- CALL SCRIPTS FEATURE - LIVE AS OF MAR 30 2026 -->
             <div class="script-section">
@@ -5710,9 +5755,9 @@ IndoorMedia`
             {/if}
           {/if}
 
-            <!-- Bottom: Add Products / Contract + Meeting Prep -->
+            <!-- Bottom: Add Products / Contract (Meeting Prep now sits up in the
+                 flow right after Book Appointment). -->
             <button class="action-btn btn-add-product" on:click={() => openContractForProspect(prospect)}>📄 Add Products / Contract</button>
-            <button class="action-btn btn-meeting-prep" on:click={() => runMeetingPrep(prospect)}>🎯 Run Meeting Prep</button>
           </div>
         </div>
       {/each}
@@ -7594,8 +7639,16 @@ IndoorMedia`
   .score-badge.score-hot { background: linear-gradient(135deg, #ff6d00, #e53935); }
   .score-badge.score-warm { background: linear-gradient(135deg, #fbc02d, #f57f17); }
   .score-badge.score-cool { background: #90a4ae; }
-  .prospect-address { margin: 4px 0; font-size: 13px; color: var(--text-secondary); line-height: 1.35; }
+  .prospect-address { margin: 6px 0 2px; font-size: 15px; font-weight: 600; color: var(--text-primary); line-height: 1.4; }
   .prospect-meta { display: flex; flex-wrap: wrap; gap: 6px; margin: 8px 0; }
+  /* One horizontal line of info pills directly under the address. */
+  .prospect-meta-line { margin: 6px 0 8px; align-items: center; }
+  .meta-pill.meta-spend { color: #cc0000; background: rgba(204,0,0,0.08); border-color: rgba(204,0,0,0.22); cursor: pointer; font-family: inherit; }
+  .meta-pill.meta-web { color: #1a73e8; background: rgba(26,115,232,0.08); border-color: rgba(26,115,232,0.22); text-decoration: none; }
+  .meta-pill.meta-web:hover { text-decoration: underline; }
+  .meta-pill .hl-caret { font-size: 10px; opacity: 0.7; }
+  :global([data-theme='dark']) .meta-pill.meta-spend { background: rgba(204,0,0,0.16); border-color: rgba(204,0,0,0.35); color: #ff7a7a; }
+  :global([data-theme='dark']) .meta-pill.meta-web { background: rgba(26,115,232,0.16); border-color: rgba(26,115,232,0.35); color: #7bb0ff; }
   .meta-pill {
     display: inline-flex;
     align-items: center;
@@ -7668,9 +7721,15 @@ IndoorMedia`
   }
   :global([data-theme='dark']) .seg-group { background: #262626; border-color: #3a3a3a; }
   :global([data-theme='dark']) .seg-btn.seg-active { background: #1e1e1e; color: #ff6b6b; }
-  .prospect-phone { margin: 6px 0 4px; font-size: 15px; font-weight: 600; color: var(--text-primary); }
+  .prospect-phone { margin: 8px 0 4px; font-size: 17px; font-weight: 700; color: var(--text-primary); }
   .prospect-email { margin: 2px 0 10px; font-size: 14px; font-weight: 500; color: var(--text-secondary, #555); }
-  .prospect-hours { margin: 2px 0 8px; font-size: 12px; color: var(--text-secondary); cursor: pointer; }
+  .prospect-hours { margin: 4px 0 10px; font-size: 14.5px; font-weight: 600; color: var(--text-secondary); cursor: pointer; display: flex; align-items: center; flex-wrap: wrap; gap: 8px; }
+  .prospect-hours .hours-text { font-weight: 600; }
+  .open-now { display: inline-flex; align-items: center; gap: 3px; font-size: 13px; font-weight: 800; padding: 3px 10px; border-radius: 999px; letter-spacing: 0.2px; }
+  .open-now-yes { color: #0a7d2c; background: rgba(10,125,44,0.12); border: 1px solid rgba(10,125,44,0.3); }
+  .open-now-no { color: #cc0000; background: rgba(204,0,0,0.10); border: 1px solid rgba(204,0,0,0.28); }
+  :global([data-theme='dark']) .open-now-yes { color: #5fd38a; background: rgba(10,125,44,0.22); }
+  :global([data-theme='dark']) .open-now-no { color: #ff7a7a; background: rgba(204,0,0,0.20); }
   .hours-detail { background: var(--bg-secondary, #f5f5f5); border-radius: 8px; padding: 8px 12px; margin: 4px 0 8px; }
   .hours-line { margin: 2px 0; font-size: 11px; color: var(--text-secondary); }
   .hours-line.today-line { font-weight: 700; color: #CC0000; }
