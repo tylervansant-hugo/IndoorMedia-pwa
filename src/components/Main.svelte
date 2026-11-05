@@ -1033,6 +1033,29 @@
     const repName = ($user?.name || $user?.first_name || '').toLowerCase();
     const isManager = repName.includes('tyler') || $user?.role === 'manager' || $user?.role === 'admin';
     const now = new Date();
+
+    // Robust rep-attribution matcher (email OR full name OR first+last tokens).
+    // Ensures a rep's dashboard counts ALL of their existing/former/new records
+    // even when the stored name has minor spelling variants.
+    const _norm = (s) => String(s || '').toLowerCase().replace(/[^a-z0-9 ]/g, ' ').replace(/\s+/g, ' ').trim();
+    const _myEmail = ($user?.email || '').toLowerCase().trim();
+    const _myFull = _norm(repName);
+    const _myContract = _norm($user?.contract_name || '');
+    const _myTokens = _myFull.split(' ').filter(Boolean);
+    const repMatchesRec = (recName, recEmail) => {
+      if (_myEmail && recEmail && String(recEmail).toLowerCase().trim() === _myEmail) return true;
+      const rn = _norm(recName);
+      if (!rn) return false;
+      if (rn === _myFull || (_myContract && rn === _myContract)) return true;
+      const rt = rn.split(' ').filter(Boolean);
+      if (_myTokens.length >= 2) {
+        const first = _myTokens[0], last = _myTokens[_myTokens.length - 1];
+        if (rt.includes(first) && rt.includes(last)) return true;
+        if (rt.includes(last) && rt.some(t => t.length >= 3 && (first.startsWith(t) || t.startsWith(first)))) return true;
+        return false;
+      }
+      return rt.includes(_myTokens[0]);
+    };
     
     // Saved prospects this week (per-rep key so reps don't see each other's)
     try {
@@ -1084,10 +1107,7 @@
     
     const myContracts = isManager
       ? contracts.filter(c => MANAGER_ZONES.includes(c.zone || ''))
-      : contracts.filter(c => {
-          const rep = (c.sales_rep || '').toLowerCase();
-          return rep.includes(repName.split(' ')[0]);
-        });
+      : contracts.filter(c => repMatchesRec(c.sales_rep, c.rep_email || c.sales_rep_email));
     
     thisMonthContracts = myContracts.filter(c => {
       const d = parseContractDate(c.date);
@@ -1181,9 +1201,7 @@
     });
     const ranked = Object.entries(repTotals).sort((a, b) => b[1] - a[1]);
     leaderboardTotal = ranked.length;
-    const myRank = ranked.findIndex(([rep]) => {
-      return rep.toLowerCase().includes(repName.split(' ')[0]);
-    });
+    const myRank = ranked.findIndex(([rep]) => repMatchesRec(rep, null));
     leaderboardPosition = myRank >= 0 ? myRank + 1 : 0;
 
     // Pending renewals count + add renewal value to revenue
@@ -1194,7 +1212,7 @@
           pendingRenewalsData = renewals.filter(r => MANAGER_ZONES.includes(r.zone || ''));
           pendingRenewalsCount = pendingRenewalsData.length;
         } else {
-          pendingRenewalsData = renewals.filter(r => (r.rep || '').toLowerCase().includes(repName.split(' ')[0]));
+          pendingRenewalsData = renewals.filter(r => repMatchesRec(r.rep, r.email));
           pendingRenewalsCount = pendingRenewalsData.length;
         }
 

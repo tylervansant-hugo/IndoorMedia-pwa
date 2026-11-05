@@ -509,12 +509,7 @@
   // Get renewals scoped to rep (managers see all, reps see only their own)
   $: myRenewals = isManager
     ? pendingRenewals
-    : pendingRenewals.filter(r => {
-        const rn = (repName || '').toLowerCase();
-        const repLower = (r.rep || '').toLowerCase();
-        // Match first name or full name
-        return repLower.includes(rn.split(' ')[0]) && (rn.split(' ').length < 2 || repLower.includes(rn.split(' ')[1] || ''));
-      });
+    : pendingRenewals.filter(r => repMatches(r.rep, r.email));
 
   $: renewalReps = [...new Set(myRenewals.map(r => r.rep))].sort();
   // Always show the full canonical cycle set (A1-A4, B1-B4, C1-C4) so every
@@ -809,16 +804,52 @@ IndoorMedia`;
   }
   $: isManager = repName?.toLowerCase().includes('tyler') || repName?.toLowerCase().includes('rick leibowitz') || repName?.toLowerCase().includes('richard leibowitz');
 
+  // ── Shared rep-attribution matcher ───────────────────────────────────────
+  // Decides whether a record (by its stored rep NAME and/or EMAIL) belongs to
+  // the signed-in rep. Robust to spelling variants so a rep sees ALL of their
+  // existing, former and new records:
+  //   • exact email match (strongest), or
+  //   • full-name match, or
+  //   • BOTH first AND last name appear (handles "Cam Gould" ≈ "Cameron Gould"
+  //     only when the shared token is the actual first/last, not a loose substr),
+  //   • single-word rep names fall back to that one token.
+  // Managers match everything (handled by callers via isManager).
+  function normName(s) {
+    return String(s || '').toLowerCase().replace(/[^a-z0-9 ]/g, ' ').replace(/\s+/g, ' ').trim();
+  }
+  $: _myNameTokens = normName(repName).split(' ').filter(Boolean);
+  $: _myFullName = normName(repName);
+  $: _myEmail = ($user?.email || '').toLowerCase().trim();
+  $: _myContractName = normName($user?.contract_name || '');
+  function repMatches(recName, recEmail) {
+    // Email is the most reliable signal.
+    if (_myEmail && recEmail && String(recEmail).toLowerCase().trim() === _myEmail) return true;
+    const rn = normName(recName);
+    if (!rn) return false;
+    if (_myFullName && rn === _myFullName) return true;
+    if (_myContractName && rn === _myContractName) return true;
+    const recTokens = rn.split(' ').filter(Boolean);
+    const mine = _myNameTokens;
+    if (mine.length >= 2) {
+      const first = mine[0], last = mine[mine.length - 1];
+      // Require BOTH first and last name present as whole tokens.
+      if (recTokens.includes(first) && recTokens.includes(last)) return true;
+      // Shortened first name (e.g. "cam" for "cameron") + exact last name.
+      if (recTokens.includes(last) && recTokens.some(t => t.length >= 3 && (first.startsWith(t) || t.startsWith(first)))) return true;
+      return false;
+    }
+    // Single-token rep name: match that token as a whole word.
+    return recTokens.includes(mine[0]);
+  }
+
   // Ad proofs scoped to rep (managers see all, reps see only their own)
   $: myAdProofs = isManager
     ? adProofs
     : adProofs.filter(p => {
-        const repLower = (repName || '').toLowerCase();
-        return p.recipients?.some(email => {
-          const mapped = (p.reps || []).find(r => r.email === email);
-          if (mapped) return mapped.name.toLowerCase().includes(repLower.split(' ')[0]);
-          return false;
-        });
+        // Match on the proof's rep mapping (name + email) OR its recipient list.
+        if ((p.reps || []).some(r => repMatches(r.name, r.email))) return true;
+        if ((p.recipients || []).some(email => repMatches(null, email))) return true;
+        return false;
       });
 
   $: proofZones = [...new Set(myAdProofs.map(p => p.zone).filter(Boolean))].sort();
@@ -844,10 +875,7 @@ IndoorMedia`;
   // My Customers = closed deals for this rep (or all for manager)
   $: myCustomers = isManager
     ? contracts
-    : contracts.filter(c => {
-        const rep = (c.sales_rep || '').toLowerCase();
-        return rep.includes((repName || '').toLowerCase().split(' ')[0]);
-      });
+    : contracts.filter(c => repMatches(c.sales_rep, c.rep_email || c.sales_rep_email));
 
   // My Sales = same data but focused on amounts
   $: mySales = myCustomers;
@@ -857,10 +885,7 @@ IndoorMedia`;
   // Digital contracts (FindLocal, ReviewBoost, LoyaltyBoost, DigitalBoost)
   const DIGITAL_PRODUCTS = ['FindLocal', 'ReviewBoost', 'LoyaltyBoost', 'DigitalBoost'];
   $: digitalContracts = (() => {
-    const all = isManager ? contracts : contracts.filter(c => {
-      const rep = (c.sales_rep || '').toLowerCase();
-      return rep.includes((repName || '').toLowerCase().split(' ')[0]);
-    });
+    const all = isManager ? contracts : contracts.filter(c => repMatches(c.sales_rep, c.rep_email || c.sales_rep_email));
     return all.filter(c => DIGITAL_PRODUCTS.includes(c.product_description));
   })();
   $: digitalRevenue = digitalContracts.reduce((sum, c) => sum + (c.total_amount || 0), 0);
