@@ -116,7 +116,7 @@
       lines.push('');
       lines.push('⭐ TESTIMONIALS TO SHARE:');
       chosen.forEach(t => { lines.push(`• ${cleanBizName(t.business)}: "${t.comment}"${t.url ? ' — ' + t.url : ''}`); });
-      if (incLocal) lines.push(`• [LOCAL] ${cleanBizName(localTestimonial.business)}: "${localTestimonial.comment}"${localTestimonial.url ? ' — ' + localTestimonial.url : ''}`);
+      if (incLocal) lines.push(`• [LOCAL${localTestimonial.city ? ' — ' + localTestimonial.city.replace(/\b\w/g, c => c.toUpperCase()) + (localTestimonial.state ? ', ' + localTestimonial.state.toUpperCase() : '') : ''}] ${cleanBizName(localTestimonial.business)}: "${localTestimonial.comment}"${localTestimonial.url ? ' — ' + localTestimonial.url : ''}`);
     }
     return lines.join('\n');
   }
@@ -534,6 +534,39 @@
     return { city: '', state: '' };
   }
 
+  // Parse a testimonial's OWN city/state from its `addr` field.
+  // Handles: "123 Main St, City, ST 12345", "123 Main St City, ST 12345",
+  // "City, ST", "City,". Returns { city, state } lowercased (may be empty).
+  function testimonialCityState(t) {
+    const addr = String(t?.addr || '').replace(/&#x27;/g, "'").trim();
+    if (!addr) return { city: '', state: '' };
+    // Strip trailing country.
+    let a = addr.replace(/,?\s*(usa|united states)\s*$/i, '').trim();
+    // Match "City, ST ZIP" or "City, ST" at the end (ST = 2 letters).
+    let m = a.match(/([A-Za-z][A-Za-z.\- ]+?),\s*([A-Za-z]{2})\.?(?:\s+\d{5}(?:-\d{4})?)?\s*$/);
+    if (m) {
+      // The captured city chunk can still carry a leading street+number; take the
+      // words after the last number as the city (e.g. "8900 Lakeview Parkway Rowlett" -> "rowlett").
+      let cityChunk = m[1].trim();
+      const afterNum = cityChunk.match(/\d[^,]*?\s+([A-Za-z.\- ]+)$/);
+      if (afterNum) cityChunk = afterNum[1].trim();
+      // If there's still a comma-free multiword with a street suffix, keep the last 1-2 words.
+      const streetSuffix = /\b(st|street|ave|avenue|blvd|boulevard|rd|road|pkwy|parkway|dr|drive|ln|lane|way|ct|court|hwy|highway|suite|ste|#|unit)\b/i;
+      if (streetSuffix.test(cityChunk)) {
+        const parts = cityChunk.split(/\s+/);
+        // drop everything up to & including the last street-suffix token
+        let lastIdx = -1;
+        parts.forEach((p, i) => { if (streetSuffix.test(p)) lastIdx = i; });
+        if (lastIdx >= 0 && lastIdx < parts.length - 1) cityChunk = parts.slice(lastIdx + 1).join(' ');
+      }
+      return { city: cityChunk.toLowerCase().trim(), state: m[2].toLowerCase().trim() };
+    }
+    // Fallback: trailing "City," with no state.
+    m = a.match(/([A-Za-z][A-Za-z.\- ]+?),\s*$/);
+    if (m) return { city: m[1].toLowerCase().replace(/\d/g, '').trim(), state: '' };
+    return { city: '', state: '' };
+  }
+
   function findLocalTestimonial(detectedCats = []) {
     if (!allTestimonials.length) return null;
 
@@ -541,78 +574,62 @@
     const biz = businessCityState();
     const city = (biz.city || (selectedStore?.City || '')).toLowerCase().trim();
     const state = (biz.state || (selectedStore?.State || '')).toLowerCase().trim();
-    if (!city && !selectedStore) return null;
-    const rawChain = selectedStore?.GroceryChain || '';
-    const chainNorm = normalizeChain(rawChain);
-    const family = chainFamily(chainNorm);
+    if (!city) return null; // no city to be "local" to -> don't fake one
     const catSet = new Set(detectedCats);
 
-    // Build list of nearby cities from the stores database (within ~50 mi via lat/lng)
+    // Build list of GENUINELY nearby cities (within ~40 mi) from the stores DB,
+    // using the booked business/store coordinates when we have them.
+    const anchorLat = parseFloat(selectedStore?.latitude);
+    const anchorLng = parseFloat(selectedStore?.longitude);
+    const haveAnchor = !isNaN(anchorLat) && !isNaN(anchorLng);
     const nearbyCities = new Set();
-    if (selectedStore?.latitude && selectedStore?.longitude) {
-      const lat = parseFloat(selectedStore.latitude);
-      const lng = parseFloat(selectedStore.longitude);
+    if (haveAnchor) {
       allStores.forEach(s => {
         if (s.latitude && s.longitude && s.City) {
-          const dlat = parseFloat(s.latitude) - lat;
-          const dlng = parseFloat(s.longitude) - lng;
-          const distMiles = Math.sqrt(dlat * dlat + dlng * dlng) * 69; // rough miles
-          if (distMiles < 50) nearbyCities.add(s.City.toLowerCase().trim());
-        }
-      });
-    } else {
-      allStores.forEach(s => {
-        if ((s.State || '').toLowerCase() === state && s.City) {
-          nearbyCities.add(s.City.toLowerCase().trim());
+          const dlat = parseFloat(s.latitude) - anchorLat;
+          const dlng = parseFloat(s.longitude) - anchorLng;
+          const distMiles = Math.sqrt(dlat * dlat + dlng * dlng) * 69;
+          if (distMiles < 40) nearbyCities.add(s.City.toLowerCase().trim());
         }
       });
     }
-    nearbyCities.delete(city); // keep exact-city separate
+    nearbyCities.delete(city);
 
     const matchedIds = new Set(matchedTestimonials.map(t => t.id));
-    const scored = allTestimonials.map(t => {
-      if (matchedIds.has(t.id)) return null;
-      const biz = t.b || t.business || '';
+
+    // Only testimonials whose OWN address city genuinely matches the business's
+    // city (exact) or a verified nearby city IN THE SAME STATE qualify as local.
+    const candidates = [];
+    for (const t of allTestimonials) {
+      if (matchedIds.has(t.id)) continue;
+      const tcs = testimonialCityState(t);
+      if (!tcs.city) continue;
+      let locality = 0;
+      if (tcs.city === city && (!state || !tcs.state || tcs.state === state)) {
+        locality = 2; // exact same city (same state when known)
+      } else if (nearbyCities.has(tcs.city) && (!state || !tcs.state || tcs.state === state)) {
+        locality = 1; // verified nearby city, same state
+      } else {
+        continue; // NOT local -> never surface as the local testimonial
+      }
       const comment = t.c || t.comment || '';
-      // Prefer precomputed cities; fall back to substring scan for old records.
-      const tCities = Array.isArray(t.cities) ? t.cities : null;
-      const search = (biz + ' ' + comment).toLowerCase();
-      let score = 0;
-
-      // ---- Locality (city in comment) ----
-      if (city) {
-        if (tCities ? tCities.includes(city) : search.includes(city)) score += 20;
-        else {
-          for (const nc of nearbyCities) {
-            if (!nc) continue;
-            if (tCities ? tCities.includes(nc) : search.includes(nc)) { score += 10; break; }
-          }
-        }
-      }
-
-      // ---- Chain match (from parsed t.ch tokens) ----
-      const tCh = Array.isArray(t.ch) ? t.ch : [];
-      if (tCh.length) {
-        const tNorm = tCh.map(normalizeChain);
-        if (tNorm.includes(chainNorm)) score += 8;               // exact banner
-        else if (family && tNorm.some(c => chainFamily(c) === family)) score += 4; // same parent co.
-      } else if (chainNorm && search.includes(chainNorm)) {
-        score += 6; // legacy fallback
-      }
-
-      // ---- Same state mention ----
-      if (state && search.includes(state)) score += 2;
-
-      // ---- Relevance + quality tiebreakers ----
-      if (catSet.size && Array.isArray(t.cat) && t.cat.some(tag => catSet.has(tag))) score += 3;
+      let score = locality * 100;
+      // Tiebreakers: category relevance + quality, never enough to beat locality.
+      if (catSet.size && Array.isArray(t.cat) && t.cat.some(tag => catSet.has(tag))) score += 5;
+      if (/return on|renew/i.test(comment)) score += 2;
       if (comment.length > 150) score += 1;
-      if (comment.length > 300) score += 1;
-
-      if (score <= 0) return null;
-      return { business: biz, comment, url: t.u || t.url || '', id: t.id, score };
-    }).filter(Boolean).sort((a, b) => b.score - a.score);
-
-    return scored[0] || null;
+      candidates.push({
+        business: t.b || t.business || '',
+        comment,
+        url: t.u || t.url || '',
+        id: t.id,
+        city: tcs.city,
+        state: tcs.state,
+        score,
+      });
+    }
+    candidates.sort((a, b) => b.score - a.score);
+    return candidates[0] || null;
   }
 
   function cleanBizName(name) {
@@ -919,9 +936,12 @@
     {/if}
 
     {#if localTestimonial}
+      {@const bizCity = (businessCityState().city || selectedStore?.City || '').toLowerCase()}
+      {@const tCity = (localTestimonial.city || '').replace(/\b\w/g, c => c.toUpperCase())}
+      {@const sameTown = localTestimonial.city && bizCity && localTestimonial.city === bizCity}
       <div class="result-card local-card">
         <h3>📍 Local Testimonial</h3>
-        <p class="result-hint">A business local to {businessCityState().city ? (businessCityState().city.replace(/\b\w/g, c => c.toUpperCase())) : (selectedStore?.City || 'this area')} — same town as {businessName} for "right here in your neighborhood" credibility</p>
+        <p class="result-hint">{#if sameTown}A business right in {tCity} — same town as {businessName}{:else if tCity}A business in nearby {tCity}{#if localTestimonial.state}, {localTestimonial.state.toUpperCase()}{/if} — close to {businessName}{:else}A business near {businessName}{/if} for "right here in your neighborhood" credibility</p>
         <div class="testimonial" class:attached={attachLocalTestimonial}>
           <div class="test-num">📍</div>
           <div class="test-body">
