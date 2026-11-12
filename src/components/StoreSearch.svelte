@@ -1256,8 +1256,13 @@ Store: ${store.StoreName}
     { id: 'nose_exclusivity', name: 'Nose of Cart — Exclusivity (per 60 inserts)', price: '$3,995 + prod.', kind: 'nose', nose: true },
   ];
   let cartPkgOpen = {};   // store.StoreName -> bool (package picker open)
+  let agreementOpen = {}; // store.StoreName -> bool (Create Agreement pressed => show Add Product buttons)
   let auditModalStore = null;  // store currently open in the Audit modal (null = closed)
   let contractModalStore = null;  // store currently open in the Contract form (null = closed)
+  function toggleAgreement(storeName) {
+    agreementOpen[storeName] = !agreementOpen[storeName];
+    agreementOpen = agreementOpen;
+  }
   function toggleCartPkg(storeName) {
     cartPkgOpen[storeName] = !cartPkgOpen[storeName];
     cartPkgOpen = cartPkgOpen;
@@ -1732,25 +1737,44 @@ Store: ${store.StoreName}
                   </button>
                 {/if}
               {/if}
-              <button class="prospect-store-btn" on:click|stopPropagation={() => document.dispatchEvent(new CustomEvent('map-action', { detail: { action: 'prospect', store } }))}>
-                <Icon name="target" size={17} color="#fff" /> Prospect Store
+              <!-- Simplified primary menu: Prospect / Claim / Audit / Navigate (big buttons) -->
+              <button class="store-menu-btn prospect-store-btn" on:click|stopPropagation={() => document.dispatchEvent(new CustomEvent('map-action', { detail: { action: 'prospect', store } }))}>
+                <Icon name="target" size={19} color="#fff" /> Prospect Store
               </button>
 
-              <!-- Navigate to store (opens device maps with directions) -->
-              <button class="navigate-store-btn" on:click|stopPropagation={() => navToStore(store)}>
-                <Icon name="compass" size={17} color="#fff" /> Navigate to Store
-              </button>
+              <!-- Claim this store (dibs). Shows claimed-state badge when already claimed. -->
+              {#if isClaimed}
+                <div class="claim-badge">
+                  <span class="claim-info">🔒 {getShortName(claim.repName)} — dibs through Sat</span>
+                  {#if canRelease(claim)}
+                    <button class="claim-release-btn" on:click|stopPropagation={() => handleRelease(store.StoreName)} disabled={claimLoading[store.StoreName]}>
+                      {claimLoading[store.StoreName] ? '...' : '✕ Release'}
+                    </button>
+                  {/if}
+                </div>
+              {:else}
+                <button class="store-menu-btn claim-store-btn" on:click|stopPropagation={() => handleClaim(store)} disabled={claimLoading[store.StoreName]}>
+                  {#if claimLoading[store.StoreName]}⏳ Claiming...{:else}<Icon name="target" size={19} color="#fff" /> Claim Store{/if}
+                </button>
+              {/if}
 
               <!-- Audit this store (register-tape inventory / runout audit) -->
-              <button class="audit-store-btn" on:click|stopPropagation={() => auditModalStore = store}>
+              <button class="store-menu-btn audit-store-btn" on:click|stopPropagation={() => auditModalStore = store}>
                 📋 Audit Store
               </button>
 
-              <!-- Create a new customer contract seeded from this store -->
-              <button class="contract-store-btn" on:click|stopPropagation={() => contractModalStore = store}>
-                📄 New Contract
+              <!-- Navigate to store (opens device maps with directions) -->
+              <button class="store-menu-btn navigate-store-btn" on:click|stopPropagation={() => navToStore(store)}>
+                <Icon name="compass" size={19} color="#fff" /> Navigate to Store
               </button>
 
+              <!-- Create Agreement — reveals the Add Product buttons inline on the card -->
+              <button class="store-menu-btn contract-store-btn" on:click|stopPropagation={() => toggleAgreement(store.StoreName)}>
+                📄 {agreementOpen[store.StoreName] ? 'Close Agreement Products ▲' : 'Create Agreement'}
+              </button>
+
+              {#if agreementOpen[store.StoreName]}
+              <div class="agreement-products" on:click|stopPropagation>
               <!-- Quick-add product buttons: Register Tape → Cartvertising → Digital -->
               <!-- 1. Register Tape — opens the expanded card (single/double, promo, impressions, pricing) -->
               <button class="addtape-store-btn" on:click|stopPropagation={() => handleAddRegisterTape(store.StoreName)}>
@@ -1804,24 +1828,9 @@ Store: ${store.StoreName}
                   {/each}
                 </div>
               {/if}
-            </div>
-
-            <!-- Store Claim (Dibs) -->
-            {#if isClaimed}
-              <div class="claim-badge">
-                <span class="claim-info">🔒 {getShortName(claim.repName)} — dibs through Sat</span>
-                {#if canRelease(claim)}
-                  <button class="claim-release-btn" on:click|stopPropagation={() => handleRelease(store.StoreName)} disabled={claimLoading[store.StoreName]}>
-                    {claimLoading[store.StoreName] ? '...' : '✕ Release'}
-                  </button>
-                  <!-- release keeps its text ✕ for compactness -->
-                {/if}
               </div>
-            {:else}
-              <button class="claim-btn" on:click|stopPropagation={() => handleClaim(store)} disabled={claimLoading[store.StoreName]}>
-                {#if claimLoading[store.StoreName]}⏳ Claiming...{:else}<Icon name="target" size={16} color="currentColor" /> Claim Store{/if}
-              </button>
-            {/if}
+              {/if}
+            </div>
 
             <!-- Ad Type Toggle -->
             <div class="ad-toggle">
@@ -3109,6 +3118,16 @@ Store: ${store.StoreName}
     opacity: 0.5;
     cursor: not-allowed;
   }
+  /* Add-Product group revealed by Create Agreement */
+  .agreement-products {
+    display: flex;
+    flex-direction: column;
+    margin-top: 2px;
+    padding: 10px 10px 4px;
+    border: 1px dashed var(--border-color, #d4a24a);
+    border-radius: 10px;
+    background: rgba(196, 127, 16, 0.06);
+  }
   .prospect-store-btn {
     width: 100%;
     margin-top: 10px;
@@ -3449,6 +3468,33 @@ Store: ${store.StoreName}
   }
   .digital-store-btn:hover { background: #1e45a5; transform: translateY(-1px); }
   .digital-store-btn:active { transform: translateY(0); }
+
+  /* Bigger, simplified primary store-menu buttons (Prospect / Claim / Audit / Navigate / Create Agreement).
+     Defined AFTER the color classes so these shared sizing props win on source order;
+     background colors still come from each button's own class. */
+  .store-menu-btn {
+    padding: 15px 14px;
+    border-radius: 10px;
+    font-size: 16.5px;
+    font-weight: 800;
+    gap: 9px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.12);
+  }
+  .store-menu-btn:active { transform: translateY(1px); }
+  .claim-store-btn {
+    width: 100%;
+    margin-top: 10px;
+    background: #c47f10;
+    border: none;
+    color: #fff;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .claim-store-btn:hover { background: #a86a0b; transform: translateY(-1px); }
+  .claim-store-btn:disabled { opacity: 0.6; cursor: default; }
   .digital-pkg-list {
     display: flex;
     flex-direction: column;
