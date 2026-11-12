@@ -264,6 +264,9 @@
   {:else if name === 'gem'}
     <polygon points="6 3 18 3 22 9 12 22 2 9 6 3" />
     <line x1="2" y1="9" x2="22" y2="9" />
+  {:else if name === 'briefcase'}
+    <rect x="2" y="7" width="20" height="14" rx="2" ry="2" />
+    <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16" />
   {:else if name === 'circle'}
     <circle cx="12" cy="12" r="9" fill={color} stroke="none" />
   {:else}

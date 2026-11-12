@@ -1580,7 +1580,7 @@ Store: ${store.StoreName}
 </script>
 
 <div class="search-container">
-  <h2 class="typo-page-title">🏪 Store Network</h2>
+  <h2 class="typo-page-title"><Icon name="home" size={20} /> Store Network</h2>
   <p class="typo-subtitle">Find pricing and delivery info for 7,835+ stores nationwide</p>
 
   <div class="search-box">
@@ -1592,7 +1592,7 @@ Store: ${store.StoreName}
       on:keydown={(e) => { if (e.key === 'Enter' && searchTerm.trim().length >= 2 && filtered.length <= 3) findByAddress(); }}
       disabled={$loading}
     />
-    <button class="geo-icon-btn" on:click={findNearby} disabled={$loading} title="Use my location">📍</button>
+    <button class="geo-icon-btn" on:click={findNearby} disabled={$loading} title="Use my location"><Icon name="map-pin" size={16} /></button>
     {#if $loading}
       <div class="spinner"></div>
     {/if}
@@ -1608,7 +1608,7 @@ Store: ${store.StoreName}
   <!-- Recently viewed / Your dibs — quick jump back into a store -->
   {#if !searchTerm && quickStores.length > 0}
     <div class="quick-stores">
-      <p class="quick-stores-label">⭐ Recently viewed{#if myDibStoreNames.length > 0} · 🔒 Your dibs{/if}</p>
+      <p class="quick-stores-label"><Icon name="star" size={13} color="#e0a400" /> Recently viewed{#if myDibStoreNames.length > 0} · <Icon name="lock" size={12} /> Your dibs{/if}</p>
       <div class="quick-stores-row">
         {#each quickStores as qs (qs.StoreName)}
           {@const dib = storeClaims[qs.StoreName]}
@@ -1619,10 +1619,10 @@ Store: ${store.StoreName}
             <span class="qs-city">{qs.Address}</span>
             <span class="qs-city qs-citystate">{qs.City}, {qs.State}</span>
             <div class="qs-stats">
-              <span class="qs-stat">📦 {qs['Case Count'] || 0} cases</span>
-              {#if traffic > 0}<span class="qs-stat">👁️ {traffic.toLocaleString()}/day</span>{/if}
+              <span class="qs-stat"><Icon name="package" size={12} /> {qs['Case Count'] || 0} cases</span>
+              {#if traffic > 0}<span class="qs-stat"><Icon name="eye" size={12} /> {traffic.toLocaleString()}/day</span>{/if}
             </div>
-            {#if dib}<span class="qs-dib">🔒 {getShortName(dib.repName)}</span>{/if}
+            {#if dib}<span class="qs-dib"><Icon name="lock" size={11} /> {getShortName(dib.repName)}</span>{/if}
           </button>
         {/each}
       </div>
@@ -1632,17 +1632,17 @@ Store: ${store.StoreName}
   <!-- Relocated prospecting shortcuts (was the “Find Prospects” menu) -->
   <div class="prospect-shortcuts">
     <button class="psc-btn psc-saved" on:click={() => openProspectView('saved')}>
-      <span class="psc-icon">💾</span>
+      <span class="psc-icon"><Icon name="save" size={18} /></span>
       <span class="psc-text">Saved</span>
       <span class="psc-sub">Your prospects</span>
     </button>
     <button class="psc-btn psc-contacts" on:click={() => openProspectView('contacts')}>
-      <span class="psc-icon">📇</span>
+      <span class="psc-icon"><Icon name="users" size={18} /></span>
       <span class="psc-text">Import Contacts</span>
       <span class="psc-sub">From your phone</span>
     </button>
     <button class="psc-btn psc-callin" on:click={() => openProspectView('call-in')}>
-      <span class="psc-icon">📞</span>
+      <span class="psc-icon"><Icon name="phone" size={18} /></span>
       <span class="psc-text">Call-In Leads</span>
       <span class="psc-sub">Inbound callers</span>
     </button>
@@ -1660,7 +1660,7 @@ Store: ${store.StoreName}
   </div>
   {/if}
   {#if summerPromoActive() && pricingMode === 'summer_promo'}
-    <div class="promo-banner">🏆 Summer Sales Contest Active · No Padding · 5% PIF Discount Only</div>
+    <div class="promo-banner"><Icon name="trophy" size={14} /> Summer Sales Contest Active · No Padding · 5% PIF Discount Only</div>
   {/if}
 
   {#if $error}
@@ -1672,7 +1672,7 @@ Store: ${store.StoreName}
       <p class="loading">Loading stores...</p>
     {:else if filtered.length === 0 && searchTerm}
       <p class="no-results">
-        <span style="font-size: 2rem; margin-bottom: 1rem; display: block;">🔍</span>
+        <span style="margin-bottom: 1rem; display: block;"><Icon name="search" size={32} /></span>
         No stores found for "{searchTerm}"<br/>
         <span style="font-size: 0.9rem; color: #999; margin-top: 0.5rem; display: block;">Try searching by:</span>
         <span style="font-size: 0.85rem; color: #999;">Store #, City, Chain, or Address</span>
@@ -1710,9 +1710,9 @@ Store: ${store.StoreName}
               <p class="address">{store.Address}</p>
               <p class="city">{store.City}, {store.State} {store.PostalCode}</p>
               {#if storePhones[store.StoreName] && storePhones[store.StoreName] !== 'loading'}
-                <p class="store-phone"><a href="tel:{storePhones[store.StoreName]}">📞 {storePhones[store.StoreName]}</a></p>
+                <p class="store-phone"><a href="tel:{storePhones[store.StoreName]}"><Icon name="phone" size={14} /> {storePhones[store.StoreName]}</a></p>
               {:else if storePhones[store.StoreName] === 'loading'}
-                <p class="store-phone" style="color: var(--text-secondary, #999);">📞 Looking up...</p>
+                <p class="store-phone" style="color: var(--text-secondary, #999);"><Icon name="phone" size={14} /> Looking up...</p>
               {/if}
               <p class="cycle">Cycle: {store.Cycle} | Cases: {store['Case Count']}{store.InstallDay ? ` | In Stores: ${store.InstallDay}${store.InstallDay == 1 || store.InstallDay == 21 || store.InstallDay == 31 ? 'st' : store.InstallDay == 2 || store.InstallDay == 22 ? 'nd' : store.InstallDay == 3 || store.InstallDay == 23 ? 'rd' : 'th'}` : ''}</p>
               {#if useGeolocation && userLocation && store.latitude && store.longitude}
@@ -1725,14 +1725,14 @@ Store: ${store.StoreName}
                 {#if ads.count > 0}
                   <button class="active-ads-badge" on:click|stopPropagation={() => openActiveAds(store)} title="Tap to see the active advertiser{ads.count === 1 ? '' : 's'} and their latest ad proof">
                     <span class="live-dot"></span>
-                    <span class="active-ads-text">🟢 {ads.count} active ad{ads.count === 1 ? '' : 's'} running</span>
+                    <span class="active-ads-text"><Icon name="circle" size={9} color="#14a33c" /> {ads.count} active ad{ads.count === 1 ? '' : 's'} running</span>
                     <span class="active-ads-prods">{ads.products.join(' · ')} ›</span>
                   </button>
                 {/if}
                 {#if ads.expiredCount > 0}
                   <button class="expired-ads-badge" on:click|stopPropagation={() => openActiveAds(store)} title="Tap to see expired campaign{ads.expiredCount === 1 ? '' : 's'} and send a win-back message">
                     <span class="expired-dot"></span>
-                    <span class="expired-ads-text">🔴 {ads.expiredCount} expired campaign{ads.expiredCount === 1 ? '' : 's'}</span>
+                    <span class="expired-ads-text"><Icon name="circle" size={9} color="#cc2b1d" /> {ads.expiredCount} expired campaign{ads.expiredCount === 1 ? '' : 's'}</span>
                     <span class="expired-ads-cta">Win back ›</span>
                   </button>
                 {/if}
@@ -1745,7 +1745,7 @@ Store: ${store.StoreName}
               <!-- Claim this store (dibs). Shows claimed-state badge when already claimed. -->
               {#if isClaimed}
                 <div class="claim-badge">
-                  <span class="claim-info">🔒 {getShortName(claim.repName)} — dibs through Sat</span>
+                  <span class="claim-info"><Icon name="lock" size={13} /> {getShortName(claim.repName)} — dibs through Sat</span>
                   {#if canRelease(claim)}
                     <button class="claim-release-btn" on:click|stopPropagation={() => handleRelease(store.StoreName)} disabled={claimLoading[store.StoreName]}>
                       {claimLoading[store.StoreName] ? '...' : '✕ Release'}
@@ -1760,7 +1760,7 @@ Store: ${store.StoreName}
 
               <!-- Audit this store (register-tape inventory / runout audit) -->
               <button class="store-menu-btn audit-store-btn" on:click|stopPropagation={() => auditModalStore = store}>
-                📋 Audit Store
+                <Icon name="clipboard" size={17} color="#fff" /> Audit Store
               </button>
 
               <!-- Navigate to store (opens device maps with directions) -->
@@ -1770,7 +1770,7 @@ Store: ${store.StoreName}
 
               <!-- Create Agreement — reveals the Add Product buttons inline on the card -->
               <button class="store-menu-btn contract-store-btn" on:click|stopPropagation={() => toggleAgreement(store.StoreName)}>
-                📄 {agreementOpen[store.StoreName] ? 'Close Agreement Products ▲' : 'Create Agreement'}
+                <Icon name="file-text" size={17} color="#fff" /> {agreementOpen[store.StoreName] ? 'Close Agreement Products ▲' : 'Create Agreement'}
               </button>
 
               {#if agreementOpen[store.StoreName]}
@@ -1865,7 +1865,7 @@ Store: ${store.StoreName}
               {@const totalDays = currentQuarters * 3 * 30}
               <div class="expanded-pricing">
                 <!-- Pricing summary -->
-                <div class="pricing-label">{isPromo ? '🔥 Summer Promo Pricing' : (isCoop ? '🤝 Co-Op Pricing' : '💼 Standard Pricing')}</div>
+                <div class="pricing-label">{#if isPromo}<Icon name="fire" size={14} color="#e2561d" /> Summer Promo Pricing{:else if isCoop}<Icon name="handshake" size={14} /> Co-Op Pricing{:else}<Icon name="briefcase" size={14} /> Standard Pricing{/if}</div>
                 <div class="pricing">
                   <div class="price-row">
                     <span class="price-label">Monthly</span>
@@ -1878,8 +1878,8 @@ Store: ${store.StoreName}
                 </div>
                 {#if isPromo && currentQuarters >= 4}
                   <div class="promo-badges">
-                    <span class="promo-badge free-quarter">🎁 FREE quarter included!</span>
-                    <span class="promo-badge contest-point">🏆 Summer Contest: 1 point earned</span>
+                    <span class="promo-badge free-quarter"><Icon name="gift" size={12} /> FREE quarter included!</span>
+                    <span class="promo-badge contest-point"><Icon name="trophy" size={12} /> Summer Contest: 1 point earned</span>
                   </div>
                 {/if}
 
@@ -1900,7 +1900,7 @@ Store: ${store.StoreName}
                   class:unlocked={coopUnlocked[store.StoreName]}
                   on:click={() => unlockCoop(store.StoreName)}
                 >
-                  {coopUnlocked[store.StoreName] ? '🔓 Padding Removed — Tap to Reset' : '🔒 Manager Approved Co-Op'}
+                  {#if coopUnlocked[store.StoreName]}<Icon name="lock" size={14} /> Padding Removed — Tap to Reset{:else}<Icon name="lock" size={14} /> Manager Approved Co-Op{/if}
                 </button>
                 {:else}
                 <button
@@ -1908,10 +1908,10 @@ Store: ${store.StoreName}
                   class:unlocked={isCoop}
                   on:click={() => unlockCoop(store.StoreName)}
                 >
-                  {isCoop ? '🔓 Showing Co-Op Pricing — Tap to Reset' : '🔒 Manager Approved Co-Op'}
+                  {#if isCoop}<Icon name="lock" size={14} /> Showing Co-Op Pricing — Tap to Reset{:else}<Icon name="lock" size={14} /> Manager Approved Co-Op{/if}
                 </button>
                 {#if isCoop}
-                  <div class="coop-contest-note">⚠️ Co-op pricing disqualifies from Summer Contest</div>
+                  <div class="coop-contest-note"><Icon name="alert" size={13} /> Co-op pricing disqualifies from Summer Contest</div>
                 {/if}
                 {/if}
 
@@ -1937,7 +1937,7 @@ Store: ${store.StoreName}
                 {@const dailyImpressions = Math.round(annualImpressions / 365)}
                 {#if caseCount > 0}
                   <div class="impressions-card">
-                    <div class="impressions-title">👁️ Estimated Ad Impressions</div>
+                    <div class="impressions-title"><Icon name="eye" size={15} /> Estimated Ad Impressions</div>
                     <div class="impressions-grid">
                       <div class="imp-stat"><span class="imp-value">{dailyImpressions.toLocaleString()}</span><span class="imp-label">Daily</span></div>
                       <div class="imp-stat"><span class="imp-value">{monthlyImpressions.toLocaleString()}</span><span class="imp-label">Monthly</span></div>
@@ -1952,57 +1952,57 @@ Store: ${store.StoreName}
                 
                 <div class="plan-card" on:click={() => handleAddToCart(store, currentAdType, 'monthly')}>
                   <div class="plan-header">
-                    <span class="plan-name">📅 Monthly</span>
+                    <span class="plan-name"><Icon name="calendar" size={14} /> Monthly</span>
                     <span class="plan-badge">{pricing.monthlyPayments} payments</span>
                   </div>
                   <div class="plan-price">${pricing.monthly}<span class="per">/month</span></div>
                   <div class="plan-total">Total: ${pricing.monthlyTotal}</div>
                   <div class="plan-daily">That's just <strong>${(parseFloat(pricing.monthlyTotal) / totalDays).toFixed(2)}/day</strong></div>
                   {#if isPromo && currentQuarters >= 4}<div class="plan-promo-note">🎁 Free quarter included!</div>{/if}
-                  <button class="roi-btn" on:click|stopPropagation={() => showROI(pricing.monthlyTotal, store)}>📊 ROI Calculator</button>
+                  <button class="roi-btn" on:click|stopPropagation={() => showROI(pricing.monthlyTotal, store)}><Icon name="bar-chart" size={13} /> ROI Calculator</button>
                 </div>
 
                 <div class="plan-card" on:click={() => handleAddToCart(store, currentAdType, 'threeMonth')}>
                   <div class="plan-header">
-                    <span class="plan-name">📦 {isPromo ? 'Paid in 3' : '3-Month'}</span>
+                    <span class="plan-name"><Icon name="package" size={14} /> {isPromo ? 'Paid in 3' : '3-Month'}</span>
                     <span class="plan-badge{isPromo ? '' : ' save'}">{isPromo ? `${pricing.threeMonthPayments} installments` : 'Save 10%'}</span>
                   </div>
                   <div class="plan-price">${pricing.threeMonth}<span class="per"> × {pricing.threeMonthPayments}</span></div>
                   <div class="plan-total">Total: ${pricing.threeMonthTotal}</div>
                   <div class="plan-daily">That's just <strong>${(parseFloat(pricing.threeMonthTotal) / totalDays).toFixed(2)}/day</strong></div>
                   {#if isPromo && currentQuarters >= 4}<div class="plan-promo-note">🎁 Free quarter included!</div>{/if}
-                  <button class="roi-btn" on:click|stopPropagation={() => showROI(pricing.threeMonthTotal, store)}>📊 ROI Calculator</button>
+                  <button class="roi-btn" on:click|stopPropagation={() => showROI(pricing.threeMonthTotal, store)}><Icon name="bar-chart" size={13} /> ROI Calculator</button>
                 </div>
 
                 <div class="plan-card" on:click={() => handleAddToCart(store, currentAdType, 'sixMonth')}>
                   <div class="plan-header">
-                    <span class="plan-name">📦 {isPromo ? 'Paid in 6' : '6-Month'}</span>
+                    <span class="plan-name"><Icon name="package" size={14} /> {isPromo ? 'Paid in 6' : '6-Month'}</span>
                     <span class="plan-badge{isPromo ? '' : ' save'}">{isPromo ? `${pricing.sixMonthPayments} installments` : 'Save 7.5%'}</span>
                   </div>
                   <div class="plan-price">${pricing.sixMonth}<span class="per"> × {pricing.sixMonthPayments}</span></div>
                   <div class="plan-total">Total: ${pricing.sixMonthTotal}</div>
                   <div class="plan-daily">That's just <strong>${(parseFloat(pricing.sixMonthTotal) / totalDays).toFixed(2)}/day</strong></div>
                   {#if isPromo && currentQuarters >= 4}<div class="plan-promo-note">🎁 Free quarter included!</div>{/if}
-                  <button class="roi-btn" on:click|stopPropagation={() => showROI(pricing.sixMonthTotal, store)}>📊 ROI Calculator</button>
+                  <button class="roi-btn" on:click|stopPropagation={() => showROI(pricing.sixMonthTotal, store)}><Icon name="bar-chart" size={13} /> ROI Calculator</button>
                 </div>
 
                 <div class="plan-card best" on:click={() => handleAddToCart(store, currentAdType, 'pif')}>
                   <div class="plan-header">
-                    <span class="plan-name">⭐ Paid in Full</span>
+                    <span class="plan-name"><Icon name="star" size={14} color="#e0a400" /> Paid in Full</span>
                     <span class="plan-badge best-badge">Best Deal — {isPromo ? '5' : '15'}% off</span>
                   </div>
                   <div class="plan-price">${pricing.pif}</div>
                   <div class="plan-total">One payment — Save ${pricing.savings}</div>
                   <div class="plan-daily">That's just <strong>${(parseFloat(pricing.pif) / totalDays).toFixed(2)}/day</strong></div>
                   {#if isPromo && currentQuarters >= 4}<div class="plan-promo-note">🎁 Free quarter + 🏆 PIF bonus point!</div>{/if}
-                  <button class="roi-btn" on:click|stopPropagation={() => showROI(pricing.pif, store)}>📊 ROI Calculator</button>
+                  <button class="roi-btn" on:click|stopPropagation={() => showROI(pricing.pif, store)}><Icon name="bar-chart" size={13} /> ROI Calculator</button>
                 </div>
 
                 <p class="tap-hint">Tap a plan to add to quote</p>
 
                 <!-- Export pricing sheet -->
                 <div class="export-section">
-                  <button class="export-btn" on:click|stopPropagation={() => exportPricingSheet(store, pricing, currentAdType, 'en')}>📄 Export Pricing Sheet</button>
+                  <button class="export-btn" on:click|stopPropagation={() => exportPricingSheet(store, pricing, currentAdType, 'en')}><Icon name="file-text" size={14} /> Export Pricing Sheet</button>
                   <div class="lang-btns">
                     <button class="lang-btn" on:click|stopPropagation={() => exportPricingSheet(store, pricing, currentAdType, 'es')}>🇪🇸 Español</button>
                     <button class="lang-btn" on:click|stopPropagation={() => exportPricingSheet(store, pricing, currentAdType, 'zh')}>🇨🇳 中文</button>
