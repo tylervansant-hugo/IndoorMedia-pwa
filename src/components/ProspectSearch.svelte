@@ -7611,10 +7611,10 @@ IndoorMedia`
     background: var(--card-bg, #ffffff);
     border-radius: 16px;
     padding: 18px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.07);
-    border: 1px solid #ececec;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+    border: 2px solid #CC0000;
     color: var(--text-primary);
-    transition: box-shadow 0.2s;
+    transition: box-shadow 0.2s, border-color 0.2s;
     position: relative;
     overflow: hidden;
     user-select: none;
@@ -7623,11 +7623,15 @@ IndoorMedia`
     max-width: 100%;
   }
   .prospect-card:hover {
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 14px rgba(204, 0, 0, 0.18);
+    border-color: #A30000;
   }
   :global([data-theme='dark']) .prospect-card {
     background: #1e1e1e;
-    border-color: #333;
+    border-color: #e23b3b;
+  }
+  :global([data-theme='dark']) .prospect-card:hover {
+    border-color: #ff5a5a;
   }
 
   .prospect-header { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; }
