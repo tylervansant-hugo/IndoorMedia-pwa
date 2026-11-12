@@ -66,6 +66,12 @@
     }
     return new Date(dateStr);
   }
+  // Short, human date for a deal row, e.g. "Nov 5, 2026"
+  function fmtDealDate(dateStr) {
+    const d = parseContractDate(dateStr);
+    if (!d || isNaN(d) || d.getFullYear() < 1980) return '—';
+    return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+  }
   import { logActivity, getRepActivityReport, getDailySummaries } from '../lib/activity.js';
   import { summerPromoActive } from '../lib/promos.js';
   import { initFirebase, isFirebaseReady, getAllRepActivity, callInLeadKey, getAllCallInAssignments } from '../lib/firebase.js';
@@ -317,6 +323,10 @@
   let leaderboardPosition = 0;
   let leaderboardTotal = 0;
   let repMonthlyRevenue = 0;
+  // Full per-rep sales scoreboard: [{ rep, revenue, deals:[...], count }] ranked
+  // by this-month revenue. Click a rep name to expand their deals (newest first).
+  let repLeaderboard = [];
+  let repLeaderboardAll = []; // same but ALL-TIME deals per rep (for expanded view)
   let upcomingAppointments = [];
   let dailyGoal = { calls: 0, target: 0 };
   let streak = 0;
@@ -1190,20 +1200,42 @@
     // Set monthly revenue (team total if manager, individual if rep)
     repMonthlyRevenue = revenueThisMonth;
 
-    // Leaderboard — rank by this month's revenue
-    const repTotals = {};
-    contracts.filter(c => {
-      const d = parseContractDate(c.date);
-      if (isManager && !MANAGER_ZONES.includes(c.zone || '')) return false;
-      return d.getMonth() === thisMonth && d.getFullYear() === thisYear;
-    }).forEach(c => {
+    // Leaderboard — rank by this month's revenue.
+    // Also build a full per-rep scoreboard with EVERY deal for that rep so a
+    // name can be clicked to expand all their deals (newest first).
+    const repAgg = {};   // rep -> { monthRevenue, monthCount, allDeals:[], allRevenue, allCount }
+    const inScope = (c) => !(isManager && !MANAGER_ZONES.includes(c.zone || ''));
+    contracts.filter(inScope).forEach(c => {
       const rep = c.sales_rep || 'Unknown';
-      repTotals[rep] = (repTotals[rep] || 0) + (c.total_amount || 0);
+      const d = parseContractDate(c.date);
+      const amt = c.total_amount || 0;
+      if (!repAgg[rep]) repAgg[rep] = { rep, monthRevenue: 0, monthCount: 0, allDeals: [], allRevenue: 0, allCount: 0 };
+      const r = repAgg[rep];
+      r.allDeals.push(c);
+      r.allRevenue += amt;
+      r.allCount += 1;
+      if (d.getMonth() === thisMonth && d.getFullYear() === thisYear) {
+        r.monthRevenue += amt;
+        r.monthCount += 1;
+      }
     });
-    const ranked = Object.entries(repTotals).sort((a, b) => b[1] - a[1]);
+    // Sort each rep's deals newest-first (most recent at top, oldest at bottom)
+    Object.values(repAgg).forEach(r => {
+      r.allDeals.sort((a, b) => parseContractDate(b.date) - parseContractDate(a.date));
+    });
+    // This-month ranking (revenue desc) — only reps with month activity, for the badge
+    const ranked = Object.entries(repAgg)
+      .map(([rep, r]) => [rep, r.monthRevenue])
+      .filter(([, rev]) => rev > 0)
+      .sort((a, b) => b[1] - a[1]);
     leaderboardTotal = ranked.length;
     const myRank = ranked.findIndex(([rep]) => repMatchesRec(rep, null));
     leaderboardPosition = myRank >= 0 ? myRank + 1 : 0;
+    // Full scoreboard: rank by this-month revenue, then by all-time revenue so
+    // reps with no deals this month still appear (sorted sensibly below actives).
+    repLeaderboard = Object.values(repAgg).sort((a, b) =>
+      (b.monthRevenue - a.monthRevenue) || (b.allRevenue - a.allRevenue)
+    );
 
     // Pending renewals count + add renewal value to revenue
     fetch(import.meta.env.BASE_URL + 'data/pending_renewals.json?t=' + Date.now())
@@ -2186,7 +2218,7 @@
               {/each}
             </div>
 
-            <h4 style="margin-top:16px;">💰 All Contracts This Month ({thisMonthContracts.length})</h4>
+            <h4 style="margin-top:16px;"><Icon name="dollar" size={16} /> All Contracts This Month ({thisMonthContracts.length})</h4>
             {#if thisMonthContracts.length === 0}
               <p class="drill-empty">No contracts this month yet.</p>
             {:else}
@@ -2199,6 +2231,46 @@
                   <span class="drill-amount">${(c.total_amount || 0).toLocaleString()}</span>
                 </div>
               {/each}
+            {/if}
+
+            <!-- Per-rep sales scoreboard: click a name to expand ALL that rep's
+                 deals, newest at top → oldest at bottom. -->
+            <h4 style="margin-top:18px;"><Icon name="users" size={16} /> Sales by Rep ({repLeaderboard.length})</h4>
+            {#if repLeaderboard.length === 0}
+              <p class="drill-empty">No rep sales data yet.</p>
+            {:else}
+              <div class="rep-scoreboard">
+                {#each repLeaderboard as r, i (r.rep)}
+                  <div class="rep-sb-item" class:expanded={analyticsExpandedRep === r.rep}>
+                    <button class="rep-sb-head" on:click={() => analyticsExpandedRep = (analyticsExpandedRep === r.rep ? null : r.rep)}>
+                      <span class="rep-sb-rank">#{i + 1}</span>
+                      <span class="rep-sb-name">{r.rep}</span>
+                      <span class="rep-sb-stats">
+                        <span class="rep-sb-rev">${r.monthRevenue.toLocaleString()}</span>
+                        <span class="rep-sb-sub">{r.monthCount} this mo · {r.allCount} total</span>
+                      </span>
+                      <span class="rep-sb-caret"><Icon name={analyticsExpandedRep === r.rep ? 'chevron-up' : 'chevron-down'} size={16} /></span>
+                    </button>
+                    {#if analyticsExpandedRep === r.rep}
+                      <div class="rep-sb-deals">
+                        <div class="rep-sb-deals-head">
+                          <span>All deals ({r.allCount})</span>
+                          <span class="rep-sb-deals-total">${r.allRevenue.toLocaleString()} total</span>
+                        </div>
+                        {#each r.allDeals as c}
+                          <div class="rep-sb-deal">
+                            <div class="rep-sb-deal-info">
+                              <span class="rep-sb-deal-name">{c.business_name || 'Unknown'}{#if c.is_renewal}<span class="rep-sb-tag renew">Renewal</span>{/if}{#if c.paid_in_full}<span class="rep-sb-tag pif">PIF</span>{/if}</span>
+                              <span class="rep-sb-deal-meta">{fmtDealDate(c.date)} · {c.store_name || ''}{c.product_description ? ' · ' + c.product_description : ''}</span>
+                            </div>
+                            <span class="rep-sb-deal-amt">${(c.total_amount || 0).toLocaleString()}</span>
+                          </div>
+                        {/each}
+                      </div>
+                    {/if}
+                  </div>
+                {/each}
+              </div>
             {/if}
           </div>
         {/if}
@@ -3261,6 +3333,64 @@
   .drill-name { font-size: 14px; font-weight: 600; color: var(--text-primary); }
   .drill-meta { font-size: 12px; color: var(--text-secondary, #999); }
   .drill-amount { font-size: 14px; font-weight: 700; color: #2e7d32; white-space: nowrap; }
+
+  /* Per-rep sales scoreboard (click a name to expand their deals) */
+  .rep-scoreboard { display: flex; flex-direction: column; gap: 6px; }
+  .rep-sb-item {
+    border: 1px solid var(--border-color, #2a2a2a);
+    border-radius: 10px;
+    overflow: hidden;
+    background: var(--bg-primary, #111);
+  }
+  .rep-sb-item.expanded { border-color: #CC0000; }
+  .rep-sb-head {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+    padding: 11px 12px;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    text-align: left;
+    color: var(--text-primary);
+  }
+  .rep-sb-head:hover { background: var(--hover-bg, rgba(204,0,0,0.06)); }
+  .rep-sb-rank {
+    font-size: 12px; font-weight: 800; color: #CC0000;
+    min-width: 26px;
+  }
+  .rep-sb-name { font-size: 14.5px; font-weight: 700; flex: 1; min-width: 0; }
+  .rep-sb-stats { display: flex; flex-direction: column; align-items: flex-end; margin-right: 2px; }
+  .rep-sb-rev { font-size: 14px; font-weight: 800; color: #2e7d32; }
+  .rep-sb-sub { font-size: 11px; color: var(--text-secondary, #999); white-space: nowrap; }
+  .rep-sb-caret { display: flex; align-items: center; color: var(--text-secondary, #888); }
+  .rep-sb-deals {
+    padding: 8px 10px 10px;
+    border-top: 1px dashed var(--border-color, #333);
+    display: flex; flex-direction: column; gap: 4px;
+  }
+  .rep-sb-deals-head {
+    display: flex; justify-content: space-between; align-items: baseline;
+    font-size: 11.5px; font-weight: 700; color: var(--text-secondary, #999);
+    text-transform: uppercase; letter-spacing: 0.3px;
+    margin: 2px 2px 6px;
+  }
+  .rep-sb-deals-total { color: #2e7d32; }
+  .rep-sb-deal {
+    display: flex; justify-content: space-between; align-items: center; gap: 8px;
+    padding: 7px 9px; border-radius: 7px; background: var(--card-bg, #1a1a1a);
+  }
+  .rep-sb-deal-info { display: flex; flex-direction: column; min-width: 0; }
+  .rep-sb-deal-name { font-size: 13.5px; font-weight: 600; color: var(--text-primary); display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
+  .rep-sb-deal-meta { font-size: 11.5px; color: var(--text-secondary, #999); }
+  .rep-sb-deal-amt { font-size: 13.5px; font-weight: 700; color: #2e7d32; white-space: nowrap; }
+  .rep-sb-tag {
+    font-size: 9.5px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.3px;
+    padding: 1px 6px; border-radius: 999px;
+  }
+  .rep-sb-tag.renew { background: rgba(21,101,192,0.15); color: #1565C0; }
+  .rep-sb-tag.pif { background: rgba(46,125,50,0.15); color: #2e7d32; }
 
   /* Reset button */
   .goal-btn.reset {
