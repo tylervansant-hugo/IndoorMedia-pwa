@@ -7887,25 +7887,29 @@ IndoorMedia`
   /* Contact row hierarchy: Call = one bold primary (green);
      Text / Email / Walk-In demoted to calm tinted-outline so the row
      isn't a rainbow of competing CTAs. Scoped to the first contact row. */
+  /* Call / Text / Email / Walk-In all share the same SOLID saturation + white
+     text (per Tyler) so the row reads as one consistent set of CTAs. */
   .prospect-actions .action-row .btn-green {
-    background: #2e7d32 !important; color: #fff !important; border-color: #2e7d32 !important;
-    flex: 1.4 !important; font-weight: 700 !important;
+    background: #2e7d32 !important; color: #fff !important; border: 1px solid #2e7d32 !important;
+    flex: 1 !important; font-weight: 800 !important;
   }
   .prospect-actions .action-row .btn-blue {
-    background: #e8f0fe !important; color: #1565C0 !important; border: 1px solid #bcd3f7 !important;
+    background: #1565C0 !important; color: #fff !important; border: 1px solid #1565C0 !important; font-weight: 800 !important;
   }
-  .prospect-actions .action-row .btn-blue:hover { background: #1565C0 !important; color: #fff !important; }
+  .prospect-actions .action-row .btn-blue:hover { background: #0D47A1 !important; color: #fff !important; }
   .prospect-actions .action-row .btn-purple {
-    background: #f3e9fa !important; color: #6A1B9A !important; border: 1px solid #ddc4ee !important;
+    background: #6A1B9A !important; color: #fff !important; border: 1px solid #6A1B9A !important; font-weight: 800 !important;
   }
-  .prospect-actions .action-row .btn-purple:hover { background: #6A1B9A !important; color: #fff !important; }
+  .prospect-actions .action-row .btn-purple:hover { background: #4A148C !important; color: #fff !important; }
   .prospect-actions .action-row .btn-orange {
-    background: #fff1e6 !important; color: #E65100 !important; border: 1px solid #ffd2ac !important;
+    background: #E65100 !important; color: #fff !important; border: 1px solid #E65100 !important; font-weight: 800 !important;
   }
-  .prospect-actions .action-row .btn-orange:hover { background: #E65100 !important; color: #fff !important; }
-  :global([data-theme='dark']) .prospect-actions .action-row .btn-blue { background: #15233a !important; color: #7fb0f0 !important; border-color: #294a73 !important; }
-  :global([data-theme='dark']) .prospect-actions .action-row .btn-purple { background: #2a1838 !important; color: #c79bea !important; border-color: #4a2d63 !important; }
-  :global([data-theme='dark']) .prospect-actions .action-row .btn-orange { background: #3a2110 !important; color: #f0a56b !important; border-color: #663c1c !important; }
+  .prospect-actions .action-row .btn-orange:hover { background: #BF360C !important; color: #fff !important; }
+  /* Dark mode: keep the same saturated fills + white text (no pale tints). */
+  :global([data-theme='dark']) .prospect-actions .action-row .btn-green { background: #2e7d32 !important; color: #fff !important; border-color: #2e7d32 !important; }
+  :global([data-theme='dark']) .prospect-actions .action-row .btn-blue { background: #1565C0 !important; color: #fff !important; border-color: #1565C0 !important; }
+  :global([data-theme='dark']) .prospect-actions .action-row .btn-purple { background: #6A1B9A !important; color: #fff !important; border-color: #6A1B9A !important; }
+  :global([data-theme='dark']) .prospect-actions .action-row .btn-orange { background: #E65100 !important; color: #fff !important; border-color: #E65100 !important; }
 
   .lead-claim-badge {
     display: flex; align-items: center; gap: 6px;
