@@ -1,6 +1,7 @@
 <script>
   import { digitalPadAmount } from '../lib/stores.js';
   import CartIcon from './CartIcon.svelte';
+  import Icon from './Icon.svelte';
 
   let view = 'main'; // main, product-detail, tier-detail, digital-menu, digital-detail
   let selectedProduct = null;
@@ -379,7 +380,7 @@
 <div class="products-container">
   <!-- Main Menu -->
   {#if view === 'main'}
-    <h2>📦 IndoorMedia Products</h2>
+    <h2><Icon name="package" size={18} /> IndoorMedia Products</h2>
     <p class="subtitle">Premium in-store advertising solutions</p>
 
     <div class="button-grid">
@@ -396,20 +397,20 @@
   <!-- Register Tape Detail -->
   {#if view === 'product-detail' && selectedProduct === 'register_tape'}
     <button class="back-btn" on:click={goBack}>← Back</button>
-    <h2>🧾 Register Tape</h2>
+    <h2><Icon name="receipt" size={18} /> Register Tape</h2>
     <p class="detail-subtitle">High-visibility promotional strips at checkout</p>
 
     <div class="links-section">
       <a href={PRODUCT_LINKS.register_tape.presentation} target="_blank" class="link-btn">
-        🎬 Sales Presentation
+        <Icon name="video" size={14} /> Sales Presentation
       </a>
       <a href={PRODUCT_LINKS.register_tape.explainer} target="_blank" class="link-btn">
-        📹 Explainer Video
+        <Icon name="video" size={14} /> Explainer Video
       </a>
     </div>
 
     <button class="share-btn" on:click={() => copyProductPackage('register_tape')}>
-      {copyFeedback === 'register_tape' ? '✅ Sent!' : '📩 Send to Customer'}
+      {#if copyFeedback === 'register_tape'}<Icon name="check" size={14} color="#2e7d32" /> Sent!{:else}<Icon name="send" size={14} /> Send to Customer{/if}
     </button>
 
     <div class="tiers-list">
@@ -449,7 +450,7 @@
       </div>
 
       <button class="share-btn" on:click={() => copyProductPackage('register_tape', null, selectedTier)}>
-        {copyFeedback === 'register_tape' + selectedTier ? '✅ Sent!' : '📩 Send to Customer'}
+        {#if copyFeedback === 'register_tape' + selectedTier}<Icon name="check" size={14} color="#2e7d32" /> Sent!{:else}<Icon name="send" size={14} /> Send to Customer{/if}
       </button>
       <button class="action-btn" on:click={() => addToCart('Register Tape - ' + PRODUCTS.register_tape.tiers[selectedTier].name, 'Store-based', selectedTier)}><CartIcon size={18} color="#fff" /> Add to Cart</button>
     </div>
@@ -463,15 +464,15 @@
 
     <div class="links-section">
       <a href={PRODUCT_LINKS.cartvertising.presentation} target="_blank" class="link-btn">
-        🎬 Sales Presentation
+        <Icon name="video" size={14} /> Sales Presentation
       </a>
       <a href={PRODUCT_LINKS.cartvertising.explainer} target="_blank" class="link-btn">
-        📹 Explainer Video
+        <Icon name="video" size={14} /> Explainer Video
       </a>
     </div>
 
     <button class="share-btn" on:click={() => copyProductPackage('cartvertising')}>
-      {copyFeedback === 'cartvertising' ? '✅ Sent!' : '📩 Send to Customer'}
+      {#if copyFeedback === 'cartvertising'}<Icon name="check" size={14} color="#2e7d32" /> Sent!{:else}<Icon name="send" size={14} /> Send to Customer{/if}
     </button>
 
     <div class="packages-list">
@@ -490,19 +491,19 @@
   <!-- Digital Products Menu -->
   {#if view === 'digital-menu'}
     <button class="back-btn" on:click={goBack}>← Back</button>
-    <h2>📱 Digital Products</h2>
+    <h2><Icon name="smartphone" size={18} /> Digital Products</h2>
     <p class="detail-subtitle">Online advertising & customer engagement solutions</p>
 
     <div class="settings-bar">
       <div class="setting-item">
-        <label>💰 Digital Padding</label>
+        <label><Icon name="dollar" size={14} /> Digital Padding</label>
         <div class="input-row">
           <span>$</span>
           <input type="number" value={localDigitalPad} on:change={updateDigitalPad} min="0" step="100" class="pad-input" />
         </div>
       </div>
       <div class="setting-item">
-        <label>👤 Rep Name</label>
+        <label><Icon name="user" size={14} /> Rep Name</label>
         <input type="text" bind:value={repName} on:blur={saveRepName} placeholder="Your name" class="rep-input" />
       </div>
     </div>
@@ -521,13 +522,13 @@
   <!-- DigitalBoost Detail -->
   {#if view === 'digital-detail' && selectedDigitalProduct === 'digitalboost'}
     <button class="back-btn" on:click={goBack}>← Back</button>
-    <h2>🚀 DigitalBoost</h2>
+    <h2><Icon name="rocket" size={18} /> DigitalBoost</h2>
     <p class="detail-subtitle">Geofence pin delivering digital banner ad impressions</p>
 
     <div class="links-section">
-      <a href={PRODUCT_LINKS.digitalboost.presentation} target="_blank" class="link-btn">🎬 Sales Presentation</a>
-      <a href={PRODUCT_LINKS.digitalboost.explainer} target="_blank" class="link-btn">📹 Explainer Video</a>
-      <a href={PRODUCT_LINKS.digital.connectionHub} target="_blank" class="link-btn">🔗 Connection Hub</a>
+      <a href={PRODUCT_LINKS.digitalboost.presentation} target="_blank" class="link-btn"><Icon name="video" size={14} /> Sales Presentation</a>
+      <a href={PRODUCT_LINKS.digitalboost.explainer} target="_blank" class="link-btn"><Icon name="video" size={14} /> Explainer Video</a>
+      <a href={PRODUCT_LINKS.digital.connectionHub} target="_blank" class="link-btn"><Icon name="link" size={14} /> Connection Hub</a>
     </div>
 
     <div class="detail-card">
@@ -580,7 +581,7 @@
 
       
       <button class="share-btn" on:click={() => copyProductPackage('digitalboost')}>
-        {copyFeedback === 'digitalboost' ? '✅ Sent!' : '📩 Send to Customer'}
+        {#if copyFeedback === 'digitalboost'}<Icon name="check" size={14} color="#2e7d32" /> Sent!{:else}<Icon name="send" size={14} /> Send to Customer{/if}
       </button>
       <button class="action-btn" on:click={() => addToCart("DigitalBoost", fmt(dbStandardPerPin) + "/pin", "240K standalone / 360K bundled impressions")}><CartIcon size={18} color="#fff" /> Add to Cart</button>
     </div>
@@ -589,12 +590,12 @@
   <!-- FindLocal Detail -->
   {#if view === 'digital-detail' && selectedDigitalProduct === 'findlocal'}
     <button class="back-btn" on:click={goBack}>← Back</button>
-    <h2>📍 FindLocal</h2>
+    <h2><Icon name="map-pin" size={18} /> FindLocal</h2>
     <p class="detail-subtitle">Local SEO & listings management across 50+ directories</p>
 
     <div class="links-section">
-      <a href={PRODUCT_LINKS.findlocal.presentation} target="_blank" class="link-btn">🎬 Sales Presentation</a>
-      <a href={PRODUCT_LINKS.findlocal.explainer} target="_blank" class="link-btn">📹 Explainer Video</a>
+      <a href={PRODUCT_LINKS.findlocal.presentation} target="_blank" class="link-btn"><Icon name="video" size={14} /> Sales Presentation</a>
+      <a href={PRODUCT_LINKS.findlocal.explainer} target="_blank" class="link-btn"><Icon name="video" size={14} /> Explainer Video</a>
     </div>
 
     <div class="detail-card">
@@ -608,14 +609,14 @@
         <h4>Features</h4>
         <ul class="features-list">
           {#each PRODUCTS.digital.subproducts.findlocal.features as feature}
-            <li>✓ {feature}</li>
+            <li><Icon name="check" size={13} color="#2e7d32" /> {feature}</li>
           {/each}
         </ul>
       </div>
 
       
       <button class="share-btn" on:click={() => copyProductPackage('findlocal')}>
-        {copyFeedback === 'findlocal' ? '✅ Sent!' : '📩 Send to Customer'}
+        {#if copyFeedback === 'findlocal'}<Icon name="check" size={14} color="#2e7d32" /> Sent!{:else}<Icon name="send" size={14} /> Send to Customer{/if}
       </button>
       <button class="action-btn" on:click={() => addToCart("FindLocal", "$695/location", "50+ directory listings")}><CartIcon size={18} color="#fff" /> Add to Cart</button>
     </div>
@@ -624,12 +625,12 @@
   <!-- ReviewBoost Detail -->
   {#if view === 'digital-detail' && selectedDigitalProduct === 'reviewboost'}
     <button class="back-btn" on:click={goBack}>← Back</button>
-    <h2>⭐ ReviewBoost</h2>
+    <h2><Icon name="star" size={18} /> ReviewBoost</h2>
     <p class="detail-subtitle">Automated review request campaign via Email & SMS</p>
 
     <div class="links-section">
-      <a href={PRODUCT_LINKS.reviewboost.presentation} target="_blank" class="link-btn">🎬 Sales Presentation</a>
-      <a href={PRODUCT_LINKS.reviewboost.explainer} target="_blank" class="link-btn">📹 Explainer Video</a>
+      <a href={PRODUCT_LINKS.reviewboost.presentation} target="_blank" class="link-btn"><Icon name="video" size={14} /> Sales Presentation</a>
+      <a href={PRODUCT_LINKS.reviewboost.explainer} target="_blank" class="link-btn"><Icon name="video" size={14} /> Explainer Video</a>
     </div>
 
     <div class="detail-card">
@@ -649,13 +650,13 @@
         <h4>Includes</h4>
         <ul class="features-list">
           {#each PRODUCTS.digital.subproducts.reviewboost.features as feature}
-            <li>✓ {feature}</li>
+            <li><Icon name="check" size={13} color="#2e7d32" /> {feature}</li>
           {/each}
         </ul>
       </div>
 
       <button class="share-btn" on:click={() => copyProductPackage('reviewboost')}>
-        {copyFeedback === 'reviewboost' ? '✅ Sent!' : '📩 Send to Customer'}
+        {#if copyFeedback === 'reviewboost'}<Icon name="check" size={14} color="#2e7d32" /> Sent!{:else}<Icon name="send" size={14} /> Send to Customer{/if}
       </button>
       <button class="action-btn" on:click={() => addToCart("ReviewBoost", "$695", "4-month campaign, 4000 contacts")}><CartIcon size={18} color="#fff" /> Add to Cart</button>
     </div>
@@ -664,12 +665,12 @@
   <!-- LoyaltyBoost Detail -->
   {#if view === 'digital-detail' && selectedDigitalProduct === 'loyaltyboost'}
     <button class="back-btn" on:click={goBack}>← Back</button>
-    <h2>💎 LoyaltyBoost</h2>
+    <h2><Icon name="gem" size={18} /> LoyaltyBoost</h2>
     <p class="detail-subtitle">Annual loyalty/rewards campaign per location</p>
 
     <div class="links-section">
-      <a href={PRODUCT_LINKS.loyaltyboost.presentation} target="_blank" class="link-btn">🎬 Sales Presentation</a>
-      <a href={PRODUCT_LINKS.loyaltyboost.explainer} target="_blank" class="link-btn">📹 Explainer Video</a>
+      <a href={PRODUCT_LINKS.loyaltyboost.presentation} target="_blank" class="link-btn"><Icon name="video" size={14} /> Sales Presentation</a>
+      <a href={PRODUCT_LINKS.loyaltyboost.explainer} target="_blank" class="link-btn"><Icon name="video" size={14} /> Explainer Video</a>
     </div>
 
     <div class="detail-card">
@@ -694,7 +695,7 @@
       </div>
 
       <button class="share-btn" on:click={() => copyProductPackage('loyaltyboost')}>
-        {copyFeedback === 'loyaltyboost' ? '✅ Sent!' : '📩 Send to Customer'}
+        {#if copyFeedback === 'loyaltyboost'}<Icon name="check" size={14} color="#2e7d32" /> Sent!{:else}<Icon name="send" size={14} /> Send to Customer{/if}
       </button>
       <button class="action-btn" on:click={() => addToCart("LoyaltyBoost", fmt(lbAnnual) + "/year", "Annual loyalty campaign")}><CartIcon size={18} color="#fff" /> Add to Cart</button>
     </div>

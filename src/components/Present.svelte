@@ -4,6 +4,7 @@
   import { readCart, writeCart, markCartWritten } from '../lib/cart.js';
   import MeetingPrep from './MeetingPrep.svelte';
   import CartIcon from './CartIcon.svelte';
+  import Icon from './Icon.svelte';
   import { PDFDocument, rgb, StandardFonts } from 'pdf-lib';
 
   let view = 'menu'; 
@@ -115,7 +116,7 @@
     desc: 'Premium full-color ad mounted on the front (nose) of the shopping cart -- the first thing oncoming shoppers see.',
     valueProps: [
       { icon: '👀', title: 'Front-Facing', text: 'Faces oncoming shoppers -- maximum first-impression exposure' },
-      { icon: '🖼️', title: 'Large Format', text: 'Big 9.94" x 7.72" full-color canvas for your brand' },
+      { icon: '🖼', title: 'Large Format', text: 'Big 9.94" x 7.72" full-color canvas for your brand' },
       { icon: '🏆', title: 'Exclusivity Available', text: 'Lock out competitors with category exclusivity' },
       { icon: '🔁', title: 'All-Trip Exposure', text: 'Seen the entire shopping trip, every visit' },
     ],
@@ -542,11 +543,11 @@
 
 <div class="present">
   {#if view === 'menu'}
-    <h2>🎤 Present</h2>
+    <h2><Icon name="mic" size={18} /> Present</h2>
     <p class="subtitle">Choose a product to present to your prospect</p>
     <button class="prep-card" on:click={() => view = 'meeting-prep'}>
       <div class="prep-left">
-        <div class="prep-icon">📋</div>
+        <div class="prep-icon"><Icon name="clipboard" size={26} /></div>
         <div>
           <h3>Meeting Prep</h3>
           <p>Look up a business, find matching testimonials, and prep for your meeting</p>
@@ -557,7 +558,7 @@
 
     <button class="prep-card graphics-card" on:click={() => view = 'graphics'}>
       <div class="prep-left">
-        <div class="prep-icon">🖼️</div>
+        <div class="prep-icon"><Icon name="image" size={26} /></div>
         <div>
           <h3>Shareable Graphics</h3>
           <p>Send ready-made marketing images to prospects via text or email</p>
@@ -583,27 +584,27 @@
     <button class="back-btn" on:click={() => { view = selectedTier ? 'register-tape' : 'menu'; selectedTier = null; }}>← {selectedTier ? 'Back to Tiers' : 'Back'}</button>
 
     {#if !selectedTier}
-      <h2>🧾 Register Tape Advertising</h2>
+      <h2><Icon name="receipt" size={18} /> Register Tape Advertising</h2>
 
       <div class="video-links">
-        <a href={VIDEO_LINKS['register-tape'].presentation} target="_blank" class="video-btn">🎬 Sales Presentation</a>
-        <a href={VIDEO_LINKS['register-tape'].explainer} target="_blank" class="video-btn">📹 Explainer Video</a>
+        <a href={VIDEO_LINKS['register-tape'].presentation} target="_blank" class="video-btn"><Icon name="video" size={14} /> Sales Presentation</a>
+        <a href={VIDEO_LINKS['register-tape'].explainer} target="_blank" class="video-btn"><Icon name="video" size={14} /> Explainer Video</a>
       </div>
 
       <div class="value-props">
-        <div class="value-card"><span class="vi">🎯</span><h4>100% Reach</h4><p>Every customer gets a receipt -- your ad is seen by every single shopper</p></div>
-        <div class="value-card"><span class="vi">📍</span><h4>Hyper-Local</h4><p>Target customers shopping at stores near your business</p></div>
-        <div class="value-card"><span class="vi">💰</span><h4>Affordable</h4><p>Fraction of the cost of direct mail, billboards, or digital ads</p></div>
-        <div class="value-card"><span class="vi">📊</span><h4>Trackable</h4><p>Coupon codes let you measure exactly how many customers respond</p></div>
+        <div class="value-card"><span class="vi"><Icon name="target" size={22} /></span><h4>100% Reach</h4><p>Every customer gets a receipt -- your ad is seen by every single shopper</p></div>
+        <div class="value-card"><span class="vi"><Icon name="map-pin" size={22} /></span><h4>Hyper-Local</h4><p>Target customers shopping at stores near your business</p></div>
+        <div class="value-card"><span class="vi"><Icon name="dollar" size={22} /></span><h4>Affordable</h4><p>Fraction of the cost of direct mail, billboards, or digital ads</p></div>
+        <div class="value-card"><span class="vi"><Icon name="bar-chart" size={22} /></span><h4>Trackable</h4><p>Coupon codes let you measure exactly how many customers respond</p></div>
       </div>
 
-      <div class="section-divider"><h3>📐 Ad Sizes</h3></div>
+      <div class="section-divider"><h3>Ad Sizes</h3></div>
       <div class="size-comparison">
         <div class="size-box"><div class="size-preview single-sz"><span>SINGLE</span></div><p><strong>Single Ad</strong></p><p class="dims">2.75" x 1.75"</p></div>
         <div class="size-box"><div class="size-preview double-sz"><span>DOUBLE</span></div><p><strong>Double Ad</strong></p><p class="dims">2.75" x 3.6"</p></div>
       </div>
 
-      <div class="section-divider"><h3>💳 Pricing Tiers</h3></div>
+      <div class="section-divider"><h3><Icon name="dollar" size={15} /> Pricing Tiers</h3></div>
       {#each Object.entries(tapeTiers) as [key, tier]}
         <button class="tier-card" on:click={() => selectedTier = key}>
           <div class="tier-left"><span class="tier-emoji">{tier.emoji}</span><div><h4>{tier.name}</h4><p>{tier.desc}</p></div></div>
@@ -622,8 +623,8 @@
       <button class="cart-btn" on:click={() => addToCart('Register Tape -- ' + tapeTiers[selectedTier].name, 'Store-based', selectedTier)}><CartIcon size={18} color="#fff" /> Add to Cart</button>
     {/if}
     <div class="btn-row">
-      <button class="share-btn" on:click={() => shareProduct('register-tape')}>📩 Send to Customer</button>
-      <button class="pdf-btn" disabled={pdfGenerating} on:click={() => downloadProductPdf('register-tape')}>{ pdfGenerating ? "⏳ Generating..." : "📄 Download PDF" }</button>
+      <button class="share-btn" on:click={() => shareProduct('register-tape')}><Icon name="send" size={14} /> Send to Customer</button>
+      <button class="pdf-btn" disabled={pdfGenerating} on:click={() => downloadProductPdf('register-tape')}>{#if pdfGenerating}<Icon name="clock" size={14} /> Generating...{:else}<Icon name="file-text" size={14} /> Download PDF{/if}</button>
     </div>
     {#if shareFeedback}<p class="share-feedback">{shareFeedback}</p>{/if}
     <div style="height:80px;"></div>
@@ -634,18 +635,18 @@
     <h2><CartIcon size={22} /> Cartvertising</h2>
 
     <div class="video-links">
-      <a href={VIDEO_LINKS['cartvertising'].presentation} target="_blank" class="video-btn">🎬 Sales Presentation</a>
-      <a href={VIDEO_LINKS['cartvertising'].explainer} target="_blank" class="video-btn">📹 Explainer Video</a>
+      <a href={VIDEO_LINKS['cartvertising'].presentation} target="_blank" class="video-btn"><Icon name="video" size={14} /> Sales Presentation</a>
+      <a href={VIDEO_LINKS['cartvertising'].explainer} target="_blank" class="video-btn"><Icon name="video" size={14} /> Explainer Video</a>
     </div>
 
     <div class="value-props">
-      <div class="value-card"><span class="vi">👁️</span><h4>Eye-Level</h4><p>Ads mounted at eye level on shopping carts -- impossible to miss</p></div>
-      <div class="value-card"><span class="vi">⏱️</span><h4>40+ Minutes</h4><p>Average shopping trip keeps your ad with them the whole time</p></div>
-      <div class="value-card"><span class="vi">🎨</span><h4>Full Color</h4><p>High-quality, full-color printing for maximum brand impact</p></div>
-      <div class="value-card"><span class="vi">🔄</span><h4>Massive Reach</h4><p>Thousands of shoppers use each cart -- huge impression volume</p></div>
+      <div class="value-card"><span class="vi"><Icon name="eye" size={22} /></span><h4>Eye-Level</h4><p>Ads mounted at eye level on shopping carts -- impossible to miss</p></div>
+      <div class="value-card"><span class="vi"><Icon name="clock" size={22} /></span><h4>40+ Minutes</h4><p>Average shopping trip keeps your ad with them the whole time</p></div>
+      <div class="value-card"><span class="vi"><Icon name="palette" size={22} /></span><h4>Full Color</h4><p>High-quality, full-color printing for maximum brand impact</p></div>
+      <div class="value-card"><span class="vi"><Icon name="refresh" size={22} /></span><h4>Massive Reach</h4><p>Thousands of shoppers use each cart -- huge impression volume</p></div>
     </div>
 
-    <div class="section-divider"><h3>📦 Packages (6-Month Campaigns)</h3></div>
+    <div class="section-divider"><h3><Icon name="package" size={15} /> Packages (6-Month Campaigns)</h3></div>
     {#each cartPackages as pkg}
       <div class="package-row">
         <div><h4>{pkg.name}</h4></div>
@@ -660,9 +661,9 @@
     <p class="nose-desc">{noseOfCart.desc}</p>
 
     <div class="video-links">
-      <a href={VIDEO_LINKS['nose-of-cart'].explainer} target="_blank" class="video-btn">📹 Explainer Video</a>
-      <a href={VIDEO_LINKS['nose-of-cart'].presentation} target="_blank" class="video-btn">🎬 Presentation</a>
-      <a href={VIDEO_LINKS['nose-of-cart'].specs} target="_blank" class="video-btn">📋 Art Specs</a>
+      <a href={VIDEO_LINKS['nose-of-cart'].explainer} target="_blank" class="video-btn"><Icon name="video" size={14} /> Explainer Video</a>
+      <a href={VIDEO_LINKS['nose-of-cart'].presentation} target="_blank" class="video-btn"><Icon name="video" size={14} /> Presentation</a>
+      <a href={VIDEO_LINKS['nose-of-cart'].specs} target="_blank" class="video-btn"><Icon name="clipboard" size={14} /> Art Specs</a>
     </div>
 
     <div class="value-props">
@@ -677,7 +678,7 @@
       <div class="nose-info-row"><strong>Production</strong><span>{noseOfCart.production}</span></div>
     </div>
 
-    <div class="section-divider"><h3>💵 Nose Pricing</h3></div>
+    <div class="section-divider"><h3><Icon name="dollar" size={15} /> Nose Pricing</h3></div>
     {#each noseOfCart.packages as pkg}
       <div class="package-row">
         <div><h4>{pkg.name}</h4></div>
@@ -687,20 +688,20 @@
       </div>
     {/each}
 
-    <div class="section-divider"><h3>📏 Art Specs</h3></div>
+    <div class="section-divider"><h3>Art Specs</h3></div>
     <div class="nose-specs">
       {#each noseOfCart.specs as s}
         <div class="nose-spec-row"><strong>{s.label}</strong><span>{s.value}</span></div>
       {/each}
     </div>
     <div class="btn-row">
-      <button class="share-btn" on:click={() => shareProduct('nose-of-cart')}>📩 Send Nose Info</button>
+      <button class="share-btn" on:click={() => shareProduct('nose-of-cart')}><Icon name="send" size={14} /> Send Nose Info</button>
     </div>
 
     <div class="section-divider"></div>
     <div class="btn-row">
-      <button class="share-btn" on:click={() => shareProduct('cartvertising')}>📩 Send to Customer</button>
-      <button class="pdf-btn" disabled={pdfGenerating} on:click={() => downloadProductPdf('cartvertising')}>{ pdfGenerating ? "⏳ Generating..." : "📄 Download PDF" }</button>
+      <button class="share-btn" on:click={() => shareProduct('cartvertising')}><Icon name="send" size={14} /> Send to Customer</button>
+      <button class="pdf-btn" disabled={pdfGenerating} on:click={() => downloadProductPdf('cartvertising')}>{#if pdfGenerating}<Icon name="clock" size={14} /> Generating...{:else}<Icon name="file-text" size={14} /> Download PDF{/if}</button>
     </div>
     {#if shareFeedback}<p class="share-feedback">{shareFeedback}</p>{/if}
     <div style="height:80px;"></div>
@@ -710,10 +711,10 @@
     <button class="back-btn" on:click={() => { if (selectedDigital) { selectedDigital = null; } else { view = 'menu'; } }}>← {selectedDigital ? 'Back to Digital' : 'Back'}</button>
 
     {#if !selectedDigital}
-      <h2>📱 Digital Solutions</h2>
+      <h2><Icon name="smartphone" size={18} /> Digital Solutions</h2>
       {#if VIDEO_LINKS['digital']?.presentation}
         <div class="video-links">
-          <a href={VIDEO_LINKS['digital'].presentation} target="_blank" class="video-btn">🎬 Digital Suite Presentation</a>
+          <a href={VIDEO_LINKS['digital'].presentation} target="_blank" class="video-btn"><Icon name="video" size={14} /> Digital Suite Presentation</a>
         </div>
       {/if}
       <div class="digital-grid">
@@ -723,20 +724,20 @@
             <h4>{dp.name}</h4>
             <p>{dp.desc}</p>
             {#if VIDEO_LINKS[key]?.explainer}
-              <span class="vid-badge">📹 Video</span>
+              <span class="vid-badge"><Icon name="video" size={12} /> Video</span>
             {/if}
           </button>
         {/each}
       </div>
 
     {:else if selectedDigital === 'digitalboost'}
-      <h2>🚀 DigitalBoost</h2>
+      <h2><Icon name="rocket" size={18} /> DigitalBoost</h2>
       <p class="subtitle">Geofence pin delivering digital banner ad impressions</p>
       <div class="video-links">
-        <a href={VIDEO_LINKS.digitalboost.presentation} target="_blank" class="video-btn">🎬 Presentation</a>
-        <a href={VIDEO_LINKS.digitalboost.explainer} target="_blank" class="video-btn">📹 Video</a>
-        <a href={VIDEO_LINKS.digitalboost.connectionHub} target="_blank" class="video-btn">🔗 Hub</a>
-        <a href="https://www.indoormedia.com/digital-boost-ads/" target="_blank" class="video-btn">📱 DigitalBoost Examples</a>
+        <a href={VIDEO_LINKS.digitalboost.presentation} target="_blank" class="video-btn"><Icon name="video" size={14} /> Presentation</a>
+        <a href={VIDEO_LINKS.digitalboost.explainer} target="_blank" class="video-btn"><Icon name="video" size={14} /> Video</a>
+        <a href={VIDEO_LINKS.digitalboost.connectionHub} target="_blank" class="video-btn"><Icon name="link" size={14} /> Hub</a>
+        <a href="https://www.indoormedia.com/digital-boost-ads/" target="_blank" class="video-btn"><Icon name="smartphone" size={14} /> DigitalBoost Examples</a>
       </div>
       <div class="pricing-card">
         <div class="pricing-row"><span class="plan">Standard (per pin)</span><span class="formula">${dbStandard.toLocaleString()}</span></div>
@@ -745,15 +746,15 @@
         <div class="pricing-row"><span class="plan">Impressions (standalone)</span><span class="formula">240,000</span></div>
         <div class="pricing-row"><span class="plan">Impressions (bundled)</span><span class="formula">360,000</span></div>
       </div>
-      <div class="section-divider"><h3>💰 Pricing Examples</h3></div>
+      <div class="section-divider"><h3><Icon name="dollar" size={15} /> Pricing Examples</h3></div>
       <div class="table-wrap"><table>
         <thead><tr><th>Pins</th><th>Standard</th><th>Co-Op</th></tr></thead>
         <tbody>{#each dbExamples as ex}<tr><td>{ex.pins}</td><td>{ex.standard}</td><td>{ex.coop}</td></tr>{/each}</tbody>
       </table></div>
       <button class="cart-btn" on:click={() => addToCart('DigitalBoost', '$' + dbStandard.toLocaleString() + '/pin', '240K impressions')}><CartIcon size={18} color="#fff" /> Add to Cart</button>
       <div class="btn-row">
-        <button class="share-btn" on:click={() => shareProduct('digitalboost')}>📩 Send to Customer</button>
-        <button class="pdf-btn" disabled={pdfGenerating} on:click={() => downloadProductPdf('digitalboost')}>{ pdfGenerating ? "⏳ Generating..." : "📄 Download PDF" }</button>
+        <button class="share-btn" on:click={() => shareProduct('digitalboost')}><Icon name="send" size={14} /> Send to Customer</button>
+        <button class="pdf-btn" disabled={pdfGenerating} on:click={() => downloadProductPdf('digitalboost')}>{#if pdfGenerating}<Icon name="clock" size={14} /> Generating...{:else}<Icon name="file-text" size={14} /> Download PDF{/if}</button>
       </div>
       {#if shareFeedback}<p class="share-feedback">{shareFeedback}</p>{/if}
 
@@ -763,7 +764,7 @@
       <p class="subtitle">{dp.desc}</p>
       {#if VIDEO_LINKS[selectedDigital]?.explainer}
         <div class="video-links">
-          <a href={VIDEO_LINKS[selectedDigital].explainer} target="_blank" class="video-btn">📹 Explainer Video</a>
+          <a href={VIDEO_LINKS[selectedDigital].explainer} target="_blank" class="video-btn"><Icon name="video" size={14} /> Explainer Video</a>
         </div>
       {/if}
       <div class="pricing-card">
@@ -771,16 +772,16 @@
         {#if dp.note}<div class="pricing-row"><span class="plan">Note</span><span class="formula">{dp.note}</span></div>{/if}
       </div>
       {#if dp.analysisUrl}
-        <a href={dp.analysisUrl} target="_blank" class="analysis-btn">🔍 Run Local Listing Analysis</a>
+        <a href={dp.analysisUrl} target="_blank" class="analysis-btn"><Icon name="search" size={14} /> Run Local Listing Analysis</a>
       {/if}
       {#if dp.features}
-        <div class="section-divider"><h3>✅ Features</h3></div>
-        <ul class="feat-list">{#each dp.features as f}<li>✓ {f}</li>{/each}</ul>
+        <div class="section-divider"><h3><Icon name="check-circle" size={15} /> Features</h3></div>
+        <ul class="feat-list">{#each dp.features as f}<li><Icon name="check" size={13} color="#2e7d32" /> {f}</li>{/each}</ul>
       {/if}
       <button class="cart-btn" on:click={() => addToCart(dp.name, dp.price, dp.desc)}><CartIcon size={18} color="#fff" /> Add to Cart</button>
       <div class="btn-row">
-        <button class="share-btn" on:click={() => shareProduct(selectedDigital)}>📩 Send to Customer</button>
-        <button class="pdf-btn" disabled={pdfGenerating} on:click={() => downloadProductPdf(selectedDigital)}>{ pdfGenerating ? "⏳ Generating..." : "📄 Download PDF" }</button>
+        <button class="share-btn" on:click={() => shareProduct(selectedDigital)}><Icon name="send" size={14} /> Send to Customer</button>
+        <button class="pdf-btn" disabled={pdfGenerating} on:click={() => downloadProductPdf(selectedDigital)}>{#if pdfGenerating}<Icon name="clock" size={14} /> Generating...{:else}<Icon name="file-text" size={14} /> Download PDF{/if}</button>
       </div>
       {#if shareFeedback}<p class="share-feedback">{shareFeedback}</p>{/if}
     {/if}
@@ -789,7 +790,7 @@
   <!-- ========== SHAREABLE GRAPHICS ========== -->
   {:else if view === 'graphics'}
     <button class="back-btn" on:click={() => view = 'menu'}>← Back</button>
-    <h2>🖼️ Shareable Graphics</h2>
+    <h2><Icon name="image" size={18} /> Shareable Graphics</h2>
     <p class="subtitle">Tap Send to text/email the image, or Download to save it</p>
 
     <div class="graphics-grid">
@@ -798,8 +799,8 @@
           <img class="graphic-img" src={BASE + g.file} alt={g.title} loading="lazy" />
           <h4>{g.title}</h4>
           <div class="btn-row">
-            <button class="share-btn" on:click={() => shareGraphic(g)}>📩 Send</button>
-            <button class="pdf-btn" on:click={() => downloadGraphic(g)}>⬇️ Save</button>
+            <button class="share-btn" on:click={() => shareGraphic(g)}><Icon name="send" size={14} /> Send</button>
+            <button class="pdf-btn" on:click={() => downloadGraphic(g)}><Icon name="download" size={14} /> Save</button>
           </div>
         </div>
       {/each}

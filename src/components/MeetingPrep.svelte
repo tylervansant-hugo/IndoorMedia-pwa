@@ -2,6 +2,7 @@
   import { user } from '../lib/stores.js';
   import { onMount } from 'svelte';
   import StoreSearchInput from '../lib/StoreSearchInput.svelte';
+  import Icon from './Icon.svelte';
 
   export let onBack = () => {};
   // Optional: prefill from a prospect card and auto-run the prep.
@@ -790,7 +791,7 @@
 <div class="prep">
   {#if step === 'search'}
     <button class="back-btn" on:click={onBack}>← Back</button>
-    <h2>📋 Meeting Prep</h2>
+    <h2><Icon name="clipboard" size={18} /> Meeting Prep</h2>
     <p class="sub">Look up the business and we'll find the best testimonials to match</p>
 
     <div class="f rel">
@@ -807,7 +808,7 @@
     <div class="f rel">
       <label>Business Name *</label>
       <input type="text" bind:value={businessName} placeholder="e.g. Wow Cow, Joe's Pizza..." on:input={() => { if (businessName.length >= 3) searchBusiness(); }} />
-      {#if searching}<span class="spin">🔍</span>{/if}
+      {#if searching}<span class="spin"><Icon name="search" size={15} /></span>{/if}
       {#if searchResults.length > 0}
         <div class="dd">
           {#each searchResults as b}
@@ -836,12 +837,12 @@
       </div>
     </div>
 
-    <button class="btn-go" on:click={runPrep}>🔍 Run Meeting Prep</button>
+    <button class="btn-go" on:click={runPrep}><Icon name="search" size={15} /> Run Meeting Prep</button>
     <div style="height:80px;"></div>
 
   {:else if step === 'loading'}
     <div class="loading">
-      <div class="loading-icon">⏳</div>
+      <div class="loading-icon"><Icon name="clock" size={28} /></div>
       <h3>{loadingStatus}</h3>
       <div class="progress-bar"><div class="progress-fill" style="width:{loadingStep * 20}%;"></div></div>
       <p class="loading-sub">Analyzing {businessName}...</p>
@@ -849,10 +850,10 @@
 
   {:else if step === 'results'}
     <button class="back-btn" on:click={() => step = 'search'}>← New Search</button>
-    <h2>📋 Meeting Prep: {businessName}</h2>
+    <h2><Icon name="clipboard" size={18} /> Meeting Prep: {businessName}</h2>
     
     <div class="result-card info-card">
-      <h3>🏢 Business Info</h3>
+      <h3><Icon name="briefcase" size={16} /> Business Info</h3>
       <div class="info-row"><span class="info-label">Category:</span><span>{businessCategory || 'N/A'}</span></div>
       <div class="info-row"><span class="info-label">Address:</span><span>{businessAddress || 'N/A'}</span></div>
       {#if businessPhone}<div class="info-row"><span class="info-label">Phone:</span><span>{businessPhone}</span></div>{/if}
@@ -869,16 +870,16 @@
     <!-- 📅 Build the calendar event: product decks + local-listing report +
          testimonials, all attached into the event notes. -->
     <div class="result-card calendar-card">
-      <h3>📅 Attach to Calendar Event</h3>
+      <h3><Icon name="calendar" size={16} /> Attach to Calendar Event</h3>
       <p class="result-hint">Pick what to drop into the booked meeting's notes, then add it to your calendar.</p>
 
       <div class="attach-section">
-        <div class="attach-head">📊 Product presentation slideshows</div>
+        <div class="attach-head"><Icon name="bar-chart" size={14} /> Product presentation slideshows</div>
         <div class="deck-grid">
           {#each PRESENTATIONS as d}
             <button class="deck-chip" class:on={selectedPresentations.has(d.id)} on:click={() => togglePresentation(d.id)}>
               <span>{d.icon} {d.name}</span>
-              <span class="deck-check">{selectedPresentations.has(d.id) ? '✓' : '+'}</span>
+              <span class="deck-check">{#if selectedPresentations.has(d.id)}<Icon name="check" size={13} />{:else}<Icon name="plus" size={13} />{/if}</span>
             </button>
           {/each}
         </div>
@@ -886,24 +887,24 @@
 
       {#if listingReport}
         <div class="attach-section">
-          <div class="attach-head">📍 Local listing analysis <span class="grade grade-{listingReport.grade}">Grade {listingReport.grade} · {listingReport.score}/100</span></div>
+          <div class="attach-head"><Icon name="map-pin" size={14} /> Local listing analysis <span class="grade grade-{listingReport.grade}">Grade {listingReport.grade} · {listingReport.score}/100</span></div>
           <ul class="listing-checks">
             {#each listingReport.checks as c}
-              <li class:bad={!c.ok}>{c.ok ? '✅' : '❌'} {c.label}{#if c.note} <small>— {c.note}</small>{/if}</li>
+              <li class:bad={!c.ok}>{#if c.ok}<Icon name="check" size={13} color="#2e7d32" />{:else}<Icon name="x" size={13} color="#cc2b1d" />{/if} {c.label}{#if c.note} <small>— {c.note}</small>{/if}</li>
             {/each}
           </ul>
           <p class="listing-summary">{listingReport.summary}</p>
-          <a class="listing-link" href="https://www.indoormedia.com/local-listing-management/" target="_blank" rel="noreferrer">🔎 Full managed scan on IndoorMedia →</a>
+          <a class="listing-link" href="https://www.indoormedia.com/local-listing-management/" target="_blank" rel="noreferrer"><Icon name="search" size={13} /> Full managed scan on IndoorMedia →</a>
         </div>
       {/if}
 
-      <button class="btn-calendar" on:click={addToCalendarEvent}>📅 Add to Calendar Event (with attachments)</button>
+      <button class="btn-calendar" on:click={addToCalendarEvent}><Icon name="calendar" size={15} /> Add to Calendar Event (with attachments)</button>
       <p class="attach-note">Opens Google Calendar prefilled. Toggle testimonials below to include them too.</p>
     </div>
 
     {#if matchedTestimonials.length > 0}
       <div class="result-card">
-        <h3>⭐ Similar Business Testimonials</h3>
+        <h3><Icon name="star" size={16} /> Similar Business Testimonials</h3>
         <p class="result-hint">These are from businesses similar to {businessName} — use after the testimonial slide in your presentation. Tap any testimonial to view full details.</p>
         
         {#if matchedTestimonials.some(t => t.url)}
@@ -911,7 +912,7 @@
             const urls = [...matchedTestimonials, localTestimonial].filter(t => t && t.url);
             if (urls.length === 0) return;
             showTestimonialModal = true;
-          }}>🔗 Open All Testimonials ({matchedTestimonials.filter(t => t.url).length + (localTestimonial?.url ? 1 : 0)})</button>
+          }}><Icon name="link" size={14} /> Open All Testimonials ({matchedTestimonials.filter(t => t.url).length + (localTestimonial?.url ? 1 : 0)})</button>
         {/if}
 
         {#each matchedTestimonials as t, i}
@@ -921,8 +922,8 @@
               <div class="test-biz">{cleanBizName(t.business)}</div>
               <div class="test-quote">"{t.comment}"</div>
               <div class="test-actions">
-                <button class="test-attach" class:on={attachedTestimonials.has(t.id)} on:click|stopPropagation={() => toggleAttachTestimonial(t.id)}>{attachedTestimonials.has(t.id) ? '✅ Attached to event' : '📅 Attach to event'}</button>
-                {#if t.url}<button class="test-view" on:click|stopPropagation={() => window.open(t.url, '_blank')}>🔗 View</button>{/if}
+                <button class="test-attach" class:on={attachedTestimonials.has(t.id)} on:click|stopPropagation={() => toggleAttachTestimonial(t.id)}>{#if attachedTestimonials.has(t.id)}<Icon name="check" size={13} color="#2e7d32" /> Attached to event{:else}<Icon name="calendar" size={13} /> Attach to event{/if}</button>
+                {#if t.url}<button class="test-view" on:click|stopPropagation={() => window.open(t.url, '_blank')}><Icon name="link" size={13} /> View</button>{/if}
               </div>
             </div>
           </div>
@@ -930,7 +931,7 @@
       </div>
     {:else}
       <div class="result-card empty">
-        <h3>⭐ Similar Business Testimonials</h3>
+        <h3><Icon name="star" size={16} /> Similar Business Testimonials</h3>
         <p>No closely matching testimonials found. Try broadening the category.</p>
       </div>
     {/if}
@@ -940,16 +941,16 @@
       {@const tCity = (localTestimonial.city || '').replace(/\b\w/g, c => c.toUpperCase())}
       {@const sameTown = localTestimonial.city && bizCity && localTestimonial.city === bizCity}
       <div class="result-card local-card">
-        <h3>📍 Local Testimonial</h3>
+        <h3><Icon name="map-pin" size={16} /> Local Testimonial</h3>
         <p class="result-hint">{#if sameTown}A business right in {tCity} — same town as {businessName}{:else if tCity}A business in nearby {tCity}{#if localTestimonial.state}, {localTestimonial.state.toUpperCase()}{/if} — close to {businessName}{:else}A business near {businessName}{/if} for "right here in your neighborhood" credibility</p>
         <div class="testimonial" class:attached={attachLocalTestimonial}>
-          <div class="test-num">📍</div>
+          <div class="test-num"><Icon name="map-pin" size={16} /></div>
           <div class="test-body">
             <div class="test-biz">{cleanBizName(localTestimonial.business)}</div>
             <div class="test-quote">"{localTestimonial.comment}"</div>
             <div class="test-actions">
-              <button class="test-attach" class:on={attachLocalTestimonial} on:click|stopPropagation={() => { attachLocalTestimonial = !attachLocalTestimonial; }}>{attachLocalTestimonial ? '✅ Attached to event' : '📅 Attach to event'}</button>
-              {#if localTestimonial.url}<button class="test-view" on:click|stopPropagation={() => window.open(localTestimonial.url, '_blank')}>🔗 View</button>{/if}
+              <button class="test-attach" class:on={attachLocalTestimonial} on:click|stopPropagation={() => { attachLocalTestimonial = !attachLocalTestimonial; }}>{#if attachLocalTestimonial}<Icon name="check" size={13} color="#2e7d32" /> Attached to event{:else}<Icon name="calendar" size={13} /> Attach to event{/if}</button>
+              {#if localTestimonial.url}<button class="test-view" on:click|stopPropagation={() => window.open(localTestimonial.url, '_blank')}><Icon name="link" size={13} /> View</button>{/if}
             </div>
           </div>
         </div>
@@ -961,7 +962,7 @@
       <div class="modal-overlay" on:click={() => showTestimonialModal = false}>
         <div class="modal-content" on:click|stopPropagation>
           <div class="modal-header">
-            <h3>📋 All Testimonials for {businessName}</h3>
+            <h3><Icon name="clipboard" size={16} /> All Testimonials for {businessName}</h3>
             <button class="modal-close" on:click={() => showTestimonialModal = false}>✕</button>
           </div>
           <div class="modal-body">
@@ -973,36 +974,36 @@
                 </div>
                 <p class="modal-test-quote">"{t.comment}"</p>
                 {#if t.url}
-                  <a href={t.url} target="_blank" class="modal-test-link">🔗 Open Full Testimonial</a>
+                  <a href={t.url} target="_blank" class="modal-test-link"><Icon name="link" size={13} /> Open Full Testimonial</a>
                 {/if}
               </div>
             {/each}
             {#if localTestimonial}
               <div class="modal-testimonial local">
                 <div class="modal-test-header">
-                  <span class="modal-test-num">📍</span>
+                  <span class="modal-test-num"><Icon name="map-pin" size={14} /></span>
                   <strong>{cleanBizName(localTestimonial.business)}</strong>
                   <span class="local-tag">Local</span>
                 </div>
                 <p class="modal-test-quote">"{localTestimonial.comment}"</p>
                 {#if localTestimonial.url}
-                  <a href={localTestimonial.url} target="_blank" class="modal-test-link">🔗 Open Full Testimonial</a>
+                  <a href={localTestimonial.url} target="_blank" class="modal-test-link"><Icon name="link" size={13} /> Open Full Testimonial</a>
                 {/if}
               </div>
             {/if}
           </div>
           <div class="modal-footer">
-            <button class="btn-pdf" on:click={downloadTestimonialsPdf}>📄 PDF</button>
-            <button class="btn-copy" on:click={copyTestimonials}>📋 Copy</button>
+            <button class="btn-pdf" on:click={downloadTestimonialsPdf}><Icon name="file-text" size={14} /> PDF</button>
+            <button class="btn-copy" on:click={copyTestimonials}><Icon name="copy" size={14} /> Copy</button>
             <button class="btn-secondary" on:click={() => showTestimonialModal = false}>Close</button>
           </div>
         </div>
       </div>
     {/if}
 
-    <button class="btn-pdf" on:click={downloadTestimonialsPdf}>📄 Download as PDF</button>
-    <button class="btn-copy" on:click={copyTestimonials}>📋 Copy All to Clipboard</button>
-    <button class="btn-secondary" on:click={() => step = 'search'}>🔄 New Prep</button>
+    <button class="btn-pdf" on:click={downloadTestimonialsPdf}><Icon name="file-text" size={14} /> Download as PDF</button>
+    <button class="btn-copy" on:click={copyTestimonials}><Icon name="copy" size={14} /> Copy All to Clipboard</button>
+    <button class="btn-secondary" on:click={() => step = 'search'}><Icon name="refresh" size={14} /> New Prep</button>
     <div style="height:80px;"></div>
   {/if}
 </div>

@@ -2,6 +2,7 @@
   import { onMount, onDestroy } from 'svelte';
   import { padAmount, user } from '../lib/stores.js';
   import { logActivity } from '../lib/activity.js';
+  import Icon from './Icon.svelte';
   import { readCart, writeCart, markCartWritten, syncCartFromCloud } from '../lib/cart.js';
 
   // When true, this tab is the active/visible one. Reload from storage on show
@@ -2042,7 +2043,7 @@
       {#if addStep === 'store'}
         <h3>Select Store</h3>
         {#if newItem.hasMap}
-          <button class="map-btn" on:click={useMapArea}>🗺️ Choose Area on Map Instead</button>
+          <button class="map-btn" on:click={useMapArea}><Icon name="map" size={14} /> Choose Area on Map Instead</button>
         {/if}
         <StoreSearchInput
           bind:this={storeSearchInput}
@@ -2069,7 +2070,7 @@
                 <span class="store-launch">Next launch: {getNextLaunch(store.Cycle)}</span>
               {/if}
               {#if store._dist !== undefined}
-                <span class="store-distance">📍 {store._dist.toFixed(1)} mi</span>
+                <span class="store-distance"><Icon name="map-pin" size={13} /> {store._dist.toFixed(1)} mi</span>
               {/if}
             </button>
           {/each}
@@ -2142,12 +2143,12 @@
     <div class="quote-sort-bar">
       <label for="quote-sort">Arrange by</label>
       <select id="quote-sort" class="quote-sort-select" bind:value={sortBy} on:change={onSortChange}>
-        <option value="manual">↕️ Manual (drag to reorder)</option>
-        <option value="price">💰 Price (high → low)</option>
-        <option value="impressions">👁️ Impressions (high → low)</option>
-        <option value="cycle">🗓️ Print cycle (A → C)</option>
-        {#if hasSearchDistance}<option value="distance">📍 Distance (near → far)</option>{/if}
-        <option value="name">🔤 Store name (A → Z)</option>
+        <option value="manual">↕ Manual (drag to reorder)</option>
+        <option value="price">Price (high → low)</option>
+        <option value="impressions">Impressions (high → low)</option>
+        <option value="cycle">Print cycle (A → C)</option>
+        {#if hasSearchDistance}<option value="distance">Distance (near → far)</option>{/if}
+        <option value="name">Store name (A → Z)</option>
       </select>
       {#if hasSearchDistance && searchLocationLabel}
         <span class="quote-sort-origin">from {searchLocationLabel}</span>
@@ -2176,23 +2177,23 @@
           </div>
           <div class="item-info">
             <h4>{item.emoji || ''} {item.name}</h4>
-            {#if item.promoMode}<p class="item-promo-badge">🎁 Free quarter included · 🏆 Summer Contest</p>{/if}
+            {#if item.promoMode}<p class="item-promo-badge"><Icon name="gift" size={13} /> Free quarter included · <Icon name="trophy" size={13} /> Summer Contest</p>{/if}
             {#if item.store}<p class="item-store">{item.store} ({item.storeNum}){#if item.storeCycle} — Cycle {item.storeCycle}{/if}</p>{/if}
             {#if item.storeAddress}<p class="item-addr">{item.storeAddress}</p>{/if}
-            {#if getDistanceFromSearch(item) != null}<p class="item-distance">📍 {getDistanceFromSearch(item).toFixed(1)} mi from {searchLocationLabel || 'searched location'}</p>{/if}
+            {#if getDistanceFromSearch(item) != null}<p class="item-distance"><Icon name="map-pin" size={13} /> {getDistanceFromSearch(item).toFixed(1)} mi from {searchLocationLabel || 'searched location'}</p>{/if}
             {#if item.storeCycle}<p class="item-launch">Next launch: {getNextLaunch(item.storeCycle)}</p>{/if}
             {#if item.plan}<p class="item-plan">{item.plan}</p>{/if}
             {#if getCartCoverage(item)}
               {@const cov = getCartCoverage(item)}
-              <p class="item-cart-coverage">🛒 {cov.showing.toLocaleString()} of {cov.total.toLocaleString()} carts show your {cov.isHeader ? 'header ad' : 'ad'} ({cov.pct}% of all carts)</p>
+              <p class="item-cart-coverage"><Icon name="cart" size={13} /> {cov.showing.toLocaleString()} of {cov.total.toLocaleString()} carts show your {cov.isHeader ? 'header ad' : 'ad'} ({cov.pct}% of all carts)</p>
             {:else if (item.name || '').toLowerCase().includes('cartvertising') && !item.storeCartCount}
-              <p class="item-cart-coverage item-cart-missing">🛒 Add this store's cart count (re-add from the store card) to show cart coverage on the quote</p>
+              <p class="item-cart-coverage item-cart-missing"><Icon name="cart" size={13} /> Add this store's cart count (re-add from the store card) to show cart coverage on the quote</p>
             {/if}
             {#if getDigitalBoostCampaign(item)}
               {@const dbc = getDigitalBoostCampaign(item)}
-              <p class="item-db-impressions">🚀 {dbc.total.toLocaleString()} campaign impressions{#if dbc.pins > 1} ({dbc.perPin.toLocaleString()}/pin × {dbc.pins} pins){/if}</p>
+              <p class="item-db-impressions"><Icon name="rocket" size={13} /> {dbc.total.toLocaleString()} campaign impressions{#if dbc.pins > 1} ({dbc.perPin.toLocaleString()}/pin × {dbc.pins} pins){/if}</p>
               {#if dbc.bundled}
-                <p class="item-db-bundle">✅ Bundle bonus: +50% (360,000/pin) — paired with Register Tape / Cartvertising</p>
+                <p class="item-db-bundle"><Icon name="check-circle" size={13} color="#2e7d32" /> Bundle bonus: +50% (360,000/pin) — paired with Register Tape / Cartvertising</p>
               {:else}
                 <p class="item-db-bundle item-db-standalone">Standalone: 240,000/pin · add Register Tape or Cartvertising for +50%</p>
               {/if}
@@ -2214,7 +2215,7 @@
     {@const contestPoints = promoItems.length + (hasDigitalBoost && promoItems.length > 0 ? 1 : 0) + pifPromoItems.length}
     {#if promoItems.length > 0}
       <div class="contest-summary">
-        <div class="contest-summary-header">🏆 Summer Contest Tracker</div>
+        <div class="contest-summary-header"><Icon name="trophy" size={15} /> Summer Contest Tracker</div>
         <div class="contest-points-row">
           <span>Full Rate Cards</span><span>{promoItems.length} pt{promoItems.length !== 1 ? 's' : ''}</span>
         </div>
@@ -2226,16 +2227,16 @@
         {/if}
         <div class="contest-points-total">Total Points: {contestPoints}</div>
         {#if promoItems.length > 1}
-          <div class="free-quarters-note">🎁 {promoItems.length} free quarters earned ({promoItems.length} stores purchased)</div>
+          <div class="free-quarters-note"><Icon name="gift" size={13} /> {promoItems.length} free quarters earned ({promoItems.length} stores purchased)</div>
         {:else}
-          <div class="free-quarters-note">🎁 1 free quarter earned</div>
+          <div class="free-quarters-note"><Icon name="gift" size={13} /> 1 free quarter earned</div>
         {/if}
       </div>
     {/if}
 
     {#if cartItems.some(i => (i.name || '').toLowerCase().includes('cartvertising'))}
       <div class="cart-diagram">
-        <div class="cd-title">🛒 Ad Placement: Front vs Directory</div>
+        <div class="cd-title"><Icon name="cart" size={15} /> Ad Placement: Front vs Directory</div>
         <div class="cd-row">
           <div class="cd-col">
             <div class="cd-head">Front Side</div>
@@ -2260,7 +2261,7 @@
           </div>
         </div>
         {#if cartItems.some(i => (i.cartKind === 'header') || /header/i.test(i.plan || ''))}
-          <div class="cd-title cd-title-header">🧾 Header Ads</div>
+          <div class="cd-title cd-title-header"><Icon name="receipt" size={15} /> Header Ads</div>
           <div class="cd-row">
             <div class="cd-col">
               <div class="cd-head">Header 50%</div>
@@ -2292,7 +2293,7 @@
         {#if selectedTestimonials.length}
           <div class="testi-selected-list">
             <div class="testi-selected-head">
-              <span>✅ {selectedTestimonials.length} testimonial{selectedTestimonials.length === 1 ? '' : 's'} attached</span>
+              <span><Icon name="check-circle" size={14} color="#2e7d32" /> {selectedTestimonials.length} testimonial{selectedTestimonials.length === 1 ? '' : 's'} attached</span>
               <button class="testi-remove" on:click={clearTestimonial}>Clear all</button>
             </div>
             {#each selectedTestimonials as st, si (st.id)}
@@ -2308,12 +2309,12 @@
         <!-- Search / add another testimonial -->
         {#if !showTestimonialPicker}
           <button class="testi-add-btn" on:click={openTestimonialPicker}>
-            ➕ {selectedTestimonials.length ? 'Add another testimonial' : 'Add Testimonial to Quote'}
+            <Icon name="plus" size={14} /> {selectedTestimonials.length ? 'Add another testimonial' : 'Add Testimonial to Quote'}
           </button>
         {:else}
           <div class="testi-picker">
             <div class="testi-picker-head">
-              <strong>💬 Search testimonials to attach</strong>
+              <strong><Icon name="message" size={14} /> Search testimonials to attach</strong>
               <button class="testi-close" on:click={() => { showTestimonialPicker = false; }}>✕</button>
             </div>
             <input
@@ -2345,9 +2346,9 @@
         <!-- Once at least one testimonial is attached: optional video testimonial -->
         {#if selectedTestimonials.length}
             <div class="video-testi-row">
-              <label class="video-testi-label">🎥 Video testimonial (optional)</label>
+              <label class="video-testi-label"><Icon name="video" size={14} /> Video testimonial (optional)</label>
               <div class="video-src-btns">
-                <button type="button" class="video-src-btn tiktok" on:click={fillTikTok}>🎵 TikTok @tyhasreceipts</button>
+                <button type="button" class="video-src-btn tiktok" on:click={fillTikTok}><Icon name="video" size={13} /> TikTok @tyhasreceipts</button>
               </div>
               <input
                 type="url"
@@ -2359,22 +2360,22 @@
               {#if !videoUrlValid}
                 <p class="video-testi-warn">Link must be Google Drive, IndoorMedia YouTube, or TikTok (@tyhasreceipts).</p>
               {:else if videoTestimonialUrl.trim()}
-                <p class="video-testi-ok">✓ {videoSourceLabel(videoTestimonialUrl)} link — added as a clickable button on the testimonial page.</p>
+                <p class="video-testi-ok"><Icon name="check" size={13} color="#2e7d32" /> {videoSourceLabel(videoTestimonialUrl)} link — added as a clickable button on the testimonial page.</p>
               {/if}
 
               <div class="video-gallery-row">
                 <label class="video-gallery-label">— or attach a video from this device —</label>
                 {#if !videoGalleryFile}
                   <label class="video-gallery-btn">
-                    📱 Choose / record video
+                    <Icon name="smartphone" size={14} /> Choose / record video
                     <input type="file" accept="video/*" capture="environment" on:change={handleVideoGalleryPick} hidden />
                   </label>
                 {:else}
                   <div class="video-gallery-picked">
-                    <span>🎥 {videoGalleryName}</span>
+                    <span><Icon name="video" size={13} /> {videoGalleryName}</span>
                     <button type="button" class="video-gallery-remove" on:click={clearVideoGallery}>Remove</button>
                   </div>
-                  <p class="video-testi-ok">✓ Will be shared as a separate file alongside the PDF.</p>
+                  <p class="video-testi-ok"><Icon name="check" size={13} color="#2e7d32" /> Will be shared as a separate file alongside the PDF.</p>
                 {/if}
               </div>
             </div>
@@ -2383,13 +2384,13 @@
 
       <!-- Custom attachments: any link + any image/file -->
       <div class="attach-box">
-        <div class="attach-head">📎 Attach links or files to this quote</div>
+        <div class="attach-head"><Icon name="link" size={14} /> Attach links or files to this quote</div>
 
         {#if attachLinks.length}
           <div class="attach-list">
             {#each attachLinks as lnk, li}
               <div class="attach-chip link">
-                <span class="attach-chip-ico">🔗</span>
+                <span class="attach-chip-ico"><Icon name="link" size={14} /></span>
                 <a class="attach-chip-text" href={lnk.url} target="_blank" rel="noopener">{lnk.label}</a>
                 <button type="button" class="attach-chip-x" on:click={() => removeAttachLink(li)}>✕</button>
               </div>
@@ -2411,7 +2412,7 @@
                 {#if af.isImage && af.dataUrl}
                   <img class="attach-thumb" src={af.dataUrl} alt={af.name} />
                 {:else}
-                  <span class="attach-file-ico">📄</span>
+                  <span class="attach-file-ico"><Icon name="file-text" size={14} /></span>
                 {/if}
                 <span class="attach-file-name">{af.name}</span>
                 <button type="button" class="attach-chip-x" on:click={() => removeAttachFile(fi)}>✕</button>
@@ -2421,7 +2422,7 @@
         {/if}
 
         <label class="attach-file-btn">
-          📁 Add image or file
+          <Icon name="folder" size={14} /> Add image or file
           <input type="file" multiple on:change={handleAttachFilePick} hidden />
         </label>
         <p class="attach-hint">Images embed in the PDF; other files &amp; links are added as clickable/shared items.</p>
@@ -2430,11 +2431,11 @@
       <div class="business-name-row">
         <input type="text" class="business-name-input" placeholder="Business name (for quote)" bind:value={businessName} />
       </div>
-      <button class="contract-btn" on:click={openContractFromCart}>✍️ Turn Quote into Contract (e-sign)</button>
+      <button class="contract-btn" on:click={openContractFromCart}><Icon name="edit" size={15} /> Turn Quote into Contract (e-sign)</button>
       <div class="footer-actions">
-        <button class="export-btn" on:click={exportQuotePdf}>📄 Download Quote PDF</button>
-        <button class="map-btn" on:click={shareQuoteMap} disabled={mapBuilding}>{mapBuilding ? '🗺️ Building…' : '🗺️ Share Map'}</button>
-        <button class="clear-btn" on:click={clearCart}>🗑️ Clear</button>
+        <button class="export-btn" on:click={exportQuotePdf}><Icon name="file-text" size={15} /> Download Quote PDF</button>
+        <button class="map-btn" on:click={shareQuoteMap} disabled={mapBuilding}>{#if mapBuilding}<Icon name="map" size={15} /> Building…{:else}<Icon name="map" size={15} /> Share Map{/if}</button>
+        <button class="clear-btn" on:click={clearCart}><Icon name="trash" size={15} /> Clear</button>
       </div>
       {#if mapError}<p class="map-error">{mapError}</p>{/if}
     </div>
