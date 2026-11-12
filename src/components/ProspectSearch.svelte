@@ -261,7 +261,7 @@
     },
     {
       id: 'groupon',
-      icon: '🏷️',
+      icon: '🏷',
       name: 'Groupon',
       desc: 'Local deals = businesses paying to acquire customers',
       tint: '#53a318',
@@ -318,7 +318,7 @@
     },
     {
       id: 'valpak',
-      icon: '✉️',
+      icon: '✉',
       name: 'Valpak',
       desc: 'Direct-mail coupon advertisers (our rivals)',
       tint: '#005baa',
@@ -1600,8 +1600,8 @@
     '👦 Kids & Tutoring': ['Camps', 'Cheer/Gymnastics', 'Dance', 'Learning Center', 'Martial Arts', 'Music', 'STEM/Coding', 'Sports', 'Swim Lessons', 'Tutoring', 'General'],
     '🐾 Pet Services': ['Boarding/Kennel', 'Dog Training', 'Doggy Daycare', 'Grooming', 'Mobile Grooming', 'Pet Sitting', 'Pet Store', 'Vet'],
     '👔 Professionals': ['Accountant', 'Bookkeeping', 'Estate Planning', 'Financial', 'Insurance', 'IT Services', 'Lawyer', 'Marketing/Web', 'Mortgage', 'Notary', 'Payroll/HR', 'Printing/Signs', 'Property Management', 'Real Estate', 'Staffing/Recruiting', 'Tax Prep', 'Title/Escrow'],
-    '🍽️ Restaurants': ['American/Diner', 'Bakery', 'Bar/Pub', 'BBQ', 'Bistro/Fine Dining', 'Boba/Tea', 'Breakfast/Brunch', 'Brewery/Taproom', 'Buffet', 'Burgers', 'Cajun/Creole', 'Catering', 'Chicken', 'Chinese', 'Cocktail Lounge', 'Coffee', 'Deli', 'Dessert/Bakery', 'Donut Shop', 'Fast Food', 'Filipino', 'Food Truck', 'Greek', 'Hawaiian/Poke', 'Hot Dog', 'Ice Cream/Dessert', 'Indian', 'Italian', 'Japanese', 'Juice/Smoothie', 'Korean', 'Mediterranean', 'Mexican', 'Middle Eastern', 'Pho/Noodles', 'Pizza', 'Ramen', 'Salad/Healthy', 'Sandwich Shop', 'Seafood', 'Southern/Soul', 'Steakhouse', 'Sushi', 'Taco Shop', 'Thai', 'Vegan/Vegetarian', 'Vietnamese', 'Winery', 'Wings', 'All'],
-    '🛍️ Retail': ['Antiques', 'Appliance Store', 'Bike Shop', 'Bookstore', 'Cell Phone', 'Clothing', 'Consignment', 'Craft/Hobby', 'Dispensary', 'Dry Cleaning', 'Florist', 'Furniture', 'Gift Shop', 'Grocery/Market', 'Hardware', 'Health/Supplements', 'Jewelry', 'Liquor', 'Mattress', 'Nutrition/Vitamins', 'Pawn Shop', 'Pet Store', 'Shoe Store', 'Smoke Shop', 'Sporting Goods', 'Thrift/Consignment', 'Toy Store', 'Vape Shop'],
+    '🍽 Restaurants': ['American/Diner', 'Bakery', 'Bar/Pub', 'BBQ', 'Bistro/Fine Dining', 'Boba/Tea', 'Breakfast/Brunch', 'Brewery/Taproom', 'Buffet', 'Burgers', 'Cajun/Creole', 'Catering', 'Chicken', 'Chinese', 'Cocktail Lounge', 'Coffee', 'Deli', 'Dessert/Bakery', 'Donut Shop', 'Fast Food', 'Filipino', 'Food Truck', 'Greek', 'Hawaiian/Poke', 'Hot Dog', 'Ice Cream/Dessert', 'Indian', 'Italian', 'Japanese', 'Juice/Smoothie', 'Korean', 'Mediterranean', 'Mexican', 'Middle Eastern', 'Pho/Noodles', 'Pizza', 'Ramen', 'Salad/Healthy', 'Sandwich Shop', 'Seafood', 'Southern/Soul', 'Steakhouse', 'Sushi', 'Taco Shop', 'Thai', 'Vegan/Vegetarian', 'Vietnamese', 'Winery', 'Wings', 'All'],
+    '🛍 Retail': ['Antiques', 'Appliance Store', 'Bike Shop', 'Bookstore', 'Cell Phone', 'Clothing', 'Consignment', 'Craft/Hobby', 'Dispensary', 'Dry Cleaning', 'Florist', 'Furniture', 'Gift Shop', 'Grocery/Market', 'Hardware', 'Health/Supplements', 'Jewelry', 'Liquor', 'Mattress', 'Nutrition/Vitamins', 'Pawn Shop', 'Pet Store', 'Shoe Store', 'Smoke Shop', 'Sporting Goods', 'Thrift/Consignment', 'Toy Store', 'Vape Shop'],
 
   };
 
@@ -2809,7 +2809,7 @@
     { id: 'initial', icon: '🎯', name: 'Initial Appointment',
       subject: '{chain} shoppers could be walking into {business}',
       body: 'Hi {contact},\n\nI noticed {business} in the area and wanted to reach out. We work with local businesses to help drive foot traffic through register tape advertising at {store}.\n\nThousands of businesses like yours have seen measurable results, would you be open to a quick 10-minute chat this week?\n\nBest,\n{rep}\nIndoorMedia' },
-    { id: 'community', icon: '🏘️', name: 'Community Connection',
+    { id: 'community', icon: '🏘', name: 'Community Connection',
       subject: 'Connecting {business} to the community through {chain}',
       body: 'Hi {contact},\n\n{store_cap} is one of the biggest supporters of this community, and it\'s the busiest place in town, {customers} neighbors walk through those doors every single week. It\'s where the community gathers, and the store people already know and trust to take care of their families.\n\nWe partner with {store_short} on a program built to connect great local businesses like {business} directly to that community. Instead of shouting at strangers online, you show up right alongside the store your neighbors already rely on, with the implied endorsement that comes with it.\n\nIt\'s a simple way to become a familiar name to the people who live, shop, and spend right here. I\'d love to show you how we\'d connect {business} to the {chain} community, could you spare 10 minutes this week?\n\nBest,\n{rep}\nIndoorMedia' },
     { id: 'roi', icon: '📊', name: 'ROI / Value Focused',
@@ -2916,7 +2916,7 @@
       match: ['restaurant', 'pizza', 'mexican', 'coffee', 'cafe', 'bakery', 'sushi', 'bbq', 'deli', 'food', 'bar', 'pub', 'brewery', 'taco', 'wings'],
       label: 'Restaurant',
       templates: [
-        { id: 'rest-tables', icon: '🍽️', name: 'Restaurant: Fill Tables',
+        { id: 'rest-tables', icon: '🍽', name: 'Restaurant: Fill Tables',
           subject: 'Fill more tables at {business}',
           body: 'Hi {contact},\n\nHungry people are deciding where to eat the second they leave {store_short}. Our register tape ads put {business}, and a tempting offer, right in the hands of {customers} local shoppers every week.\n\nNo 30% delivery fees, no fleeting social posts, just your name in front of customers on their way home. Restaurants nearby are filling slow shifts with this.\n\nGot 10 minutes this week?\n\nBest,\n{rep}\nIndoorMedia' },
       ],
@@ -3050,7 +3050,7 @@ IndoorMedia`
       { key: 'tape',    icon: '🧾', label: 'Register Tape',        badge: 'Tape',    templates: byProgram('Tape') },
       { key: 'cart',    icon: '🛒', label: 'Cartvertising',        badge: 'Cart',    templates: byProgram('Cart') },
       { key: 'digital', icon: '📱', label: 'Digital Marketing',    badge: 'Digital', templates: byProgram('Digital') },
-      { key: 'general', icon: '✉️', label: 'General / By Approach', badge: '',        templates: generic },
+      { key: 'general', icon: '✉', label: 'General / By Approach', badge: '',        templates: generic },
     ].filter(g => g.templates.length > 0);
 
     return { top, groups };
@@ -3834,7 +3834,7 @@ IndoorMedia`
     }
     if (prospect._emailAttachUrl) {
       const isVideo = prospect._emailAttachType === 'drive' || prospect._emailAttachType === 'video';
-      const label = isVideo ? '🎥 Watch a quick video' : '🖼️ See the details';
+      const label = isVideo ? '🎥 Watch a quick video' : '🖼 See the details';
       extras.push(`${label}:\n${prospect._emailAttachUrl}`);
     }
     if (prospect._emailGraphic) {
@@ -4843,7 +4843,7 @@ IndoorMedia`
   {/if}
 
   {#if loading}
-    <div class="loading">⏳ Searching...</div>
+    <div class="loading"><Icon name="clock" size={15} /> Searching...</div>
   {/if}
 
   <!-- Tab strip removed per request; navigation lives in the main menu grid + Back buttons -->
@@ -4860,7 +4860,7 @@ IndoorMedia`
   <!-- Browse All Stores -->
   {#if view === 'browse-stores'}
     <button class="back-btn" on:click={goBack}>← Back</button>
-    <h2>🏪 Browse Stores</h2>
+    <h2><Icon name="home" size={18} /> Browse Stores</h2>
     <p class="subtitle">Search any store to find prospects nearby</p>
 
     <div class="search-box">
@@ -4886,8 +4886,8 @@ IndoorMedia`
             <div class="store-right">
               <div class="store-num">{store.StoreName}</div>
               <div class="store-cycle">Cycle {store.Cycle || '?'}</div>
-              {#if store['Case Count']}<div class="store-cases">📦 {store['Case Count']} cases</div>{/if}
-              {#if store._dist !== undefined}<div class="store-distance">📍 {store._dist.toFixed(1)} mi</div>{/if}
+              {#if store['Case Count']}<div class="store-cases"><Icon name="package" size={13} /> {store['Case Count']} cases</div>{/if}
+              {#if store._dist !== undefined}<div class="store-distance"><Icon name="map-pin" size={13} /> {store._dist.toFixed(1)} mi</div>{/if}
             </div>
           </button>
         {/each}
@@ -4902,7 +4902,7 @@ IndoorMedia`
   <!-- Nearby Stores List -->
   {#if view === 'nearby-stores'}
     <button class="back-btn" on:click={goBack}>← Back</button>
-    <h2>📍 Nearby Stores</h2>
+    <h2><Icon name="map-pin" size={18} /> Nearby Stores</h2>
     <p class="subtitle">Select a store to find prospects nearby</p>
 
     <div class="cycle-filter">
@@ -4920,12 +4920,12 @@ IndoorMedia`
             <div class="store-info">
               <h4>{store.GroceryChain}</h4>
               {#if store.Address}
-                <p class="street-address">📍 {store.Address.split(',')[0]}</p>
+                <p class="street-address"><Icon name="map-pin" size={13} /> {store.Address.split(',')[0]}</p>
               {/if}
               <p class="address">{store.City}, {store.State}</p>
               <p class="distance">{store.distance.toFixed(1)} miles away</p>
               {#if store['Case Count']}
-                <p class="case-count">📦 {store['Case Count']} cases on shelf</p>
+                <p class="case-count"><Icon name="package" size={13} /> {store['Case Count']} cases on shelf</p>
               {/if}
             </div>
             <div class="store-right">
@@ -4935,14 +4935,14 @@ IndoorMedia`
           </button>
           {#if claim}
             <div class="dibs-badge">
-              <span>🔒 {shortName(claim.repName)} — dibs through Sat</span>
+              <span><Icon name="lock" size={13} /> {shortName(claim.repName)} — dibs through Sat</span>
               {#if canReleaseClaim(claim)}
                 <button class="dibs-release" on:click|stopPropagation={() => handleStoreRelease(store.StoreName)} disabled={claimLoading[store.StoreName]}>✕</button>
               {/if}
             </div>
           {:else}
             <button class="dibs-claim-btn" on:click|stopPropagation={() => handleStoreClaim(store)} disabled={claimLoading[store.StoreName]}>
-              {claimLoading[store.StoreName] ? '⏳' : '🎯 Claim'}
+              {#if claimLoading[store.StoreName]}<Icon name="clock" size={13} />{:else}<Icon name="target" size={13} /> Claim{/if}
             </button>
           {/if}
         </div>
@@ -4953,11 +4953,11 @@ IndoorMedia`
   <!-- Category Selection -->
   {#if view === 'categories'}
     <button class="back-btn" on:click={goBack}>← Back</button>
-    <h3>📍 {selectedStore.GroceryChain} - {selectedStore.City}, {selectedStore.State}</h3>
+    <h3><Icon name="map-pin" size={16} /> {selectedStore.GroceryChain} - {selectedStore.City}, {selectedStore.State}</h3>
     {#if selectedStore._phone}
-      <p class="store-phone-display"><a href="tel:{selectedStore._phone}">📞 {selectedStore._phone}</a></p>
+      <p class="store-phone-display"><a href="tel:{selectedStore._phone}"><Icon name="phone" size={13} /> {selectedStore._phone}</a></p>
     {:else if selectedStore._phoneLoading}
-      <p class="store-phone-display" style="color:#999;">📞 Looking up store phone...</p>
+      <p class="store-phone-display" style="color:#999;"><Icon name="phone" size={13} /> Looking up store phone...</p>
     {/if}
     <p class="subtitle">Search by name or choose a category</p>
 
@@ -4971,24 +4971,24 @@ IndoorMedia`
         on:keydown={(e) => e.key === 'Enter' && searchCustom()}
       />
       <button class="search-go-btn" on:click={searchCustom} disabled={!customSearch.trim() || loading}>
-        {loading ? '...' : '🔍'}
+        {#if loading}...{:else}<Icon name="search" size={15} />{/if}
       </button>
     </div>
 
     {#if loadedCustomers}
       <div class="loaded-customers-section">
-        <h3>📊 Current/Past Customers</h3>
+        <h3><Icon name="bar-chart" size={16} /> Current/Past Customers</h3>
         
         {#if loadedCustomers.current.length > 0}
           <div class="customers-subsection">
-            <h4 style="color: #2e7d32;">🟢 Current Customers ({loadedCustomers.current.length})</h4>
+            <h4 style="color: #2e7d32;"><Icon name="circle" size={11} color="#2e7d32" /> Current Customers ({loadedCustomers.current.length})</h4>
             {#each loadedCustomers.current as customer}
               <div class="customer-card current">
                 <div class="customer-name">{customer.businessName}</div>
                 <div class="customer-meta">
-                  <span>📅 Started: {new Date(customer.startDate).toLocaleDateString()}</span>
+                  <span><Icon name="calendar" size={12} /> Started: {new Date(customer.startDate).toLocaleDateString()}</span>
                   {#if customer.endDate}
-                    <span>📅 Ended: {new Date(customer.endDate).toLocaleDateString()}</span>
+                    <span><Icon name="calendar" size={12} /> Ended: {new Date(customer.endDate).toLocaleDateString()}</span>
                   {:else}
                     <span style="color: #2e7d32; font-weight: 600;">• Active</span>
                   {/if}
@@ -4997,7 +4997,7 @@ IndoorMedia`
                   <span>{customer.category}</span> • <span>{customer.contractType}</span>
                 </div>
                 {#if customer.totalSpent}
-                  <div class="customer-revenue">💰 Total Revenue: ${customer.totalSpent.toLocaleString()}</div>
+                  <div class="customer-revenue"><Icon name="dollar" size={13} /> Total Revenue: ${customer.totalSpent.toLocaleString()}</div>
                 {/if}
               </div>
             {/each}
@@ -5006,18 +5006,18 @@ IndoorMedia`
         
         {#if loadedCustomers.past.length > 0}
           <div class="customers-subsection">
-            <h4 style="color: #c33;">🔴 Past Customers ({loadedCustomers.past.length})</h4>
+            <h4 style="color: #c33;"><Icon name="circle" size={11} color="#c33" /> Past Customers ({loadedCustomers.past.length})</h4>
             {#each loadedCustomers.past as customer}
               <div class="customer-card past">
                 <div class="customer-name">{customer.businessName}</div>
                 <div class="customer-meta">
-                  <span>📅 {new Date(customer.startDate).toLocaleDateString()} → {new Date(customer.endDate).toLocaleDateString()}</span>
+                  <span><Icon name="calendar" size={12} /> {new Date(customer.startDate).toLocaleDateString()} → {new Date(customer.endDate).toLocaleDateString()}</span>
                 </div>
                 <div class="customer-details">
                   <span>{customer.category}</span> • <span>{customer.contractType}</span>
                 </div>
                 {#if customer.totalSpent}
-                  <div class="customer-revenue">💰 Total Revenue: ${customer.totalSpent.toLocaleString()}</div>
+                  <div class="customer-revenue"><Icon name="dollar" size={13} /> Total Revenue: ${customer.totalSpent.toLocaleString()}</div>
                 {/if}
               </div>
             {/each}
@@ -5030,23 +5030,23 @@ IndoorMedia`
 
     {#if savedLeadsForStore.length > 0}
       <button class="saved-leads-banner" on:click={showSavedForStore}>
-        💾 Saved Leads ({savedLeadsForStore.length})
+        <Icon name="save" size={14} /> Saved Leads ({savedLeadsForStore.length})
         <span class="saved-leads-hint">Leads you’ve saved for this store</span>
       </button>
     {/if}
 
     <button class="hotlist-banner" on:click={buildHotlist} disabled={hotlistLoading}>
-      {hotlistLoading ? '⏳ Building your hotlist…' : '🔥 Hotlist — Top Targets'}
+      {#if hotlistLoading}<Icon name="clock" size={14} /> Building your hotlist…{:else}<Icon name="fire" size={14} color="#e2561d" /> Hotlist — Top Targets{/if}
       <span class="hotlist-hint">Curated best businesses to go after, ranked by proximity + ad spend (advertisers advertise)</span>
     </button>
 
     <button class="new-biz-banner" on:click={searchNewBusinesses}>
-      🆕 New Businesses
+      <Icon name="plus" size={14} /> New Businesses
       <span class="new-biz-hint">Opened in the last year near this store</span>
     </button>
 
     <button class="ad-intel-banner" on:click={() => openAdIntelForStore(selectedStore)}>
-      📡 Local Ad Intel
+      <Icon name="megaphone" size={14} /> Local Ad Intel
       <span class="ad-intel-hint">See who’s advertising near this store — Meta, Groupon, DoorDash &amp; more</span>
     </button>
 
@@ -5081,18 +5081,18 @@ IndoorMedia`
 
     {#if lastSearchFromCache}
       <div class="cache-note">
-        💾 Showing saved results (no API charge).
-        <button class="cache-refresh-btn" on:click={refreshProspectSearch}>🔄 Refresh from Google</button>
+        <Icon name="save" size={13} /> Showing saved results (no API charge).
+        <button class="cache-refresh-btn" on:click={refreshProspectSearch}><Icon name="refresh" size={13} /> Refresh from Google</button>
       </div>
     {/if}
 
     <div class="prospect-toolbar">
       <div class="sort-bar">
         <span class="sort-label">Sort:</span>
-        <button class="sort-btn" class:active={prospectSort === 'score'} on:click={() => prospectSort = 'score'}>🎯 Score</button>
-        <button class="sort-btn" class:active={prospectSort === 'distance'} on:click={() => prospectSort = 'distance'}>📍 Distance</button>
-        <button class="sort-btn" class:active={prospectSort === 'rating'} on:click={() => prospectSort = 'rating'}>⭐ Rating</button>
-        <button class="sort-btn" class:active={prospectSort === 'reviews'} on:click={() => prospectSort = 'reviews'}>💬 Reviews</button>
+        <button class="sort-btn" class:active={prospectSort === 'score'} on:click={() => prospectSort = 'score'}><Icon name="target" size={13} /> Score</button>
+        <button class="sort-btn" class:active={prospectSort === 'distance'} on:click={() => prospectSort = 'distance'}><Icon name="map-pin" size={13} /> Distance</button>
+        <button class="sort-btn" class:active={prospectSort === 'rating'} on:click={() => prospectSort = 'rating'}><Icon name="star" size={13} color="#e0a400" /> Rating</button>
+        <button class="sort-btn" class:active={prospectSort === 'reviews'} on:click={() => prospectSort = 'reviews'}><Icon name="message" size={13} /> Reviews</button>
       </div>
     </div>
 
@@ -5130,18 +5130,18 @@ IndoorMedia`
           {#if prospect._showAdSignals && prospect._adSpend != null}
             {@const sig = adSpendSignals(prospect)}
             <div class="ad-signals">
-              <p class="ad-signals-head">📣 Advertising signals — <strong>{sig.level}</strong></p>
+              <p class="ad-signals-head"><Icon name="megaphone" size={14} /> Advertising signals — <strong>{sig.level}</strong></p>
               <ul class="ad-signals-list">
                 {#each sig.signals as s}<li><span class="as-ico">{s.icon}</span> {s.text}</li>{/each}
               </ul>
-              {#if prospect.mapsUrl}<a class="ad-signals-link" href={prospect.mapsUrl} target="_blank" rel="noreferrer" on:click|stopPropagation>🗺️ View on Google →</a>{/if}
+              {#if prospect.mapsUrl}<a class="ad-signals-link" href={prospect.mapsUrl} target="_blank" rel="noreferrer" on:click|stopPropagation><Icon name="map" size={13} /> View on Google →</a>{/if}
               <p class="ad-signals-note">{sig.note}</p>
             </div>
           {/if}
           {#if prospect._showMapPopup && prospect.lat && prospect.lng}
             <div class="minimap-popup">
               <div class="minimap-popup-head">
-                <span>🗺️ Distance to nearby stores</span>
+                <span><Icon name="map" size={14} /> Distance to nearby stores</span>
                 <button type="button" class="minimap-popup-close" on:click|stopPropagation={() => { prospect._showMapPopup = false; prospects = prospects; }} aria-label="Close map">✕</button>
               </div>
               <div class="prospect-minimap minimap-popup-map" use:initMiniMap={{ prospect, store: selectedStore }}></div>
@@ -5224,12 +5224,12 @@ IndoorMedia`
             <!-- Multiple numbers: let the rep pick which one to call/text (incl. Notes contact) -->
             {#if callable.length > 1}
               <div class="phone-picker">
-                <span class="phone-picker-label">📞 Numbers on file:</span>
+                <span class="phone-picker-label"><Icon name="phone" size={13} /> Numbers on file:</span>
                 {#each callable as ph}
                   <span class="phone-opt" class:saved={ph.saved}>
                     <span class="phone-opt-meta">{ph.number}<small>{ph.label}</small></span>
-                    <a href="tel:{ph.number}" class="phone-opt-btn" on:click={() => { trackPhoneClick(prospect); handleLeadAction(prospect, 'call'); }}>📞</a>
-                    <a href="sms:{ph.number}" class="phone-opt-btn" on:click={() => handleLeadAction(prospect, 'text')}>💬</a>
+                    <a href="tel:{ph.number}" class="phone-opt-btn" on:click={() => { trackPhoneClick(prospect); handleLeadAction(prospect, 'call'); }}><Icon name="phone" size={14} /></a>
+                    <a href="sms:{ph.number}" class="phone-opt-btn" on:click={() => handleLeadAction(prospect, 'text')}><Icon name="message" size={14} /></a>
                   </span>
                 {/each}
               </div>
@@ -5239,7 +5239,7 @@ IndoorMedia`
                buttons (and comm log) and ABOVE Book Appointment. -->
           {#if prospect._showText}
             <div class="text-templates-section">
-              <h4 class="text-templates-title">💬 Text Templates</h4>
+              <h4 class="text-templates-title"><Icon name="message" size={15} /> Text Templates</h4>
               <p class="text-templates-hint">Tap to copy, then paste into your text. Or tap "Send" to open SMS.</p>
 
               <!-- Optional: attach a specific testimonial link to the Social Proof text -->
@@ -5247,7 +5247,7 @@ IndoorMedia`
                 {#if prospect._textTestimonialData}
                   <div class="email-testi-selected">
                     <div class="ets-head">
-                      <span>⭐ Testimonial link added to Social Proof</span>
+                      <span><Icon name="star" size={13} color="#e0a400" /> Testimonial link added to Social Proof</span>
                       <button class="ets-change" on:click={() => openTextTestiPicker(prospect)}>Change</button>
                       <button class="ets-remove" on:click={() => clearTextTestimonial(prospect)}>Remove</button>
                     </div>
@@ -5257,7 +5257,7 @@ IndoorMedia`
                 {:else if prospect._showTextTestiPicker}
                   <div class="email-testi-picker">
                     <div class="etp-head">
-                      <strong>⭐ Pick a testimonial to link</strong>
+                      <strong><Icon name="star" size={14} color="#e0a400" /> Pick a testimonial to link</strong>
                       <button class="etp-close" on:click={() => { prospect._showTextTestiPicker = false; prospects = prospects; }}>✕</button>
                     </div>
                     <input type="text" class="etp-search" placeholder="Search by keyword, business, or comment…"
@@ -5280,7 +5280,7 @@ IndoorMedia`
                     {/if}
                   </div>
                 {:else}
-                  <button class="email-testi-add" on:click={() => openTextTestiPicker(prospect)}>🔗 Add a testimonial link</button>
+                  <button class="email-testi-add" on:click={() => openTextTestiPicker(prospect)}><Icon name="link" size={13} /> Add a testimonial link</button>
                 {/if}
               </div>
 
@@ -5290,11 +5290,11 @@ IndoorMedia`
                   <div class="text-template-msg">{template.msg}</div>
                   <div class="text-template-actions">
                     <button class="text-copy-btn" on:click|stopPropagation={() => { navigator.clipboard.writeText(template.msg); prospect._copiedText = template.label; prospects = prospects; setTimeout(() => { prospect._copiedText = ''; prospects = prospects; }, 2000); }}>
-                      {prospect._copiedText === template.label ? '✅ Copied!' : '📋 Copy'}
+                      {#if prospect._copiedText === template.label}<Icon name="check" size={13} color="#2e7d32" /> Copied!{:else}<Icon name="copy" size={13} /> Copy{/if}
                     </button>
                     {#if getCallablePhones(prospect).length}
                       {@const smsNum = getCallablePhones(prospect)[0].number}
-                      <a href="sms:{smsNum}?body={encodeURIComponent(template.msg)}" class="text-send-btn">📱 Send</a>
+                      <a href="sms:{smsNum}?body={encodeURIComponent(template.msg)}" class="text-send-btn"><Icon name="smartphone" size={13} /> Send</a>
                     {/if}
                   </div>
                 </div>
@@ -5308,17 +5308,17 @@ IndoorMedia`
               <!-- Email-address status / scrub -->
               <div class="email-to-row">
                 {#if prospect._emailScraping}
-                  <span class="email-to-status scraping">🔍 {prospect._emailDeep ? 'Deep-combing' : 'Scanning'} {prospect.name}'s website for an email…</span>
+                  <span class="email-to-status scraping"><Icon name="search" size={13} /> {prospect._emailDeep ? 'Deep-combing' : 'Scanning'} {prospect.name}'s website for an email…</span>
                 {:else if prospect.email && prospect.email.includes('@')}
-                  <span class="email-to-status found">✉️ To: <strong>{prospect.email}</strong>{#if prospect._emailScraped} <em>(found on website — saved to Notes)</em>{/if}</span>
+                  <span class="email-to-status found"><Icon name="mail" size={13} /> To: <strong>{prospect.email}</strong>{#if prospect._emailScraped} <em>(found on website — saved to Notes)</em>{/if}</span>
                 {:else}
-                  <span class="email-to-status missing">⚠️ No email on file{#if prospect._emailScrapeFailed} (couldn't find one on their site){/if} — add one in 📝 Notes, or send to yourself to forward.</span>
+                  <span class="email-to-status missing"><Icon name="alert" size={13} /> No email on file{#if prospect._emailScrapeFailed} (couldn't find one on their site){/if} — add one in 📝 Notes, or send to yourself to forward.</span>
                 {/if}
                 {#if prospect.website && !prospect._emailScraping}
                   {#if !(prospect.email && prospect.email.includes('@'))}
-                    <button class="email-scrub-btn" on:click={() => { prospect._emailScrapeTried = false; prospect._emailScrapeFailed = false; ensureProspectEmail(prospect); }}>🔍 Find Email</button>
+                    <button class="email-scrub-btn" on:click={() => { prospect._emailScrapeTried = false; prospect._emailScrapeFailed = false; ensureProspectEmail(prospect); }}><Icon name="search" size={13} /> Find Email</button>
                   {/if}
-                  <button class="email-scrub-btn deep" on:click={() => ensureProspectEmail(prospect, { deep: true, force: true })}>🕵️ Deep comb</button>
+                  <button class="email-scrub-btn deep" on:click={() => ensureProspectEmail(prospect, { deep: true, force: true })}>🕵 Deep comb</button>
                 {/if}
               </div>
               {#if prospect._emailCandidates && prospect._emailCandidates.length > 1 && !prospect._emailScraping}
@@ -5334,7 +5334,7 @@ IndoorMedia`
               {#if !prospect._emailScraping && (prospect._scrapedOwner || (leadDataCache[getLeadHash(prospect)]?.ownerName))}
                 {@const savedOwner = leadDataCache[getLeadHash(prospect)]?.ownerName}
                 <div class="owner-found-row">
-                  <span class="owner-found-status">👤 Owner: <strong>{savedOwner || prospect._scrapedOwner}</strong>{#if prospect._ownerScraped && !prospect._ownerManual} <em>(found on website — saved to Notes)</em>{/if}</span>
+                  <span class="owner-found-status"><Icon name="user" size={13} /> Owner: <strong>{savedOwner || prospect._scrapedOwner}</strong>{#if prospect._ownerScraped && !prospect._ownerManual} <em>(found on website — saved to Notes)</em>{/if}</span>
                 </div>
                 {#if prospect._ownerCandidates && prospect._ownerCandidates.length > 1}
                   <div class="email-alt-row">
@@ -5350,7 +5350,7 @@ IndoorMedia`
               {#if !prospect._emailScraping && (prospect._scrapedPhone || (leadDataCache[getLeadHash(prospect)]?.contactPhone))}
                 {@const savedPhone = leadDataCache[getLeadHash(prospect)]?.contactPhone}
                 <div class="owner-found-row">
-                  <span class="owner-found-status">📞 Direct/other #: <strong><a href="tel:{savedPhone || prospect._scrapedPhone}" style="color:inherit;">{savedPhone || prospect._scrapedPhone}</a></strong>{#if prospect._phoneScraped && !prospect._phoneManual} <em>(found on website — saved to Notes)</em>{/if}</span>
+                  <span class="owner-found-status"><Icon name="phone" size={13} /> Direct/other #: <strong><a href="tel:{savedPhone || prospect._scrapedPhone}" style="color:inherit;">{savedPhone || prospect._scrapedPhone}</a></strong>{#if prospect._phoneScraped && !prospect._phoneManual} <em>(found on website — saved to Notes)</em>{/if}</span>
                 </div>
                 {#if prospect._phoneCandidates && prospect._phoneCandidates.length > 1}
                   <div class="email-alt-row">
@@ -5369,7 +5369,7 @@ IndoorMedia`
               <!-- Top band: bundled Multi-Pronged + category-specific (always shown) -->
               {#each tplGroups.top as tpl}
                 <button class="email-tpl-btn" class:featured-tpl={tpl._featured} class:cat-tpl={tpl._categoryLabel} class:active-tpl={prospect._selectedTpl === tpl.id} on:click={() => { prospect._selectedTpl = tpl.id; if (tpl._dynamic && !prospect._research && !prospect._researching) { prospect._researching = true; researchProspect(prospect).finally(() => { prospect._researching = false; prospects = prospects; }); } prospects = prospects; }}>
-                  {tpl.icon} {tpl.name}{#if tpl._featured} <span class="featured-badge">⭐ Best</span>{/if}{#if tpl._categoryLabel} <span class="cat-badge">{tpl._categoryLabel}</span>{/if}
+                  {tpl.icon} {tpl.name}{#if tpl._featured} <span class="featured-badge"><Icon name="star" size={11} color="#e0a400" /> Best</span>{/if}{#if tpl._categoryLabel} <span class="cat-badge">{tpl._categoryLabel}</span>{/if}
                 </button>
               {/each}
 
@@ -5400,7 +5400,7 @@ IndoorMedia`
                     {#if prospect._emailTestimonial && prospect._emailTestimonialData}
                       <div class="email-testi-selected">
                         <div class="ets-head">
-                          <span>⭐ Testimonial attached</span>
+                          <span><Icon name="star" size={13} color="#e0a400" /> Testimonial attached</span>
                           <button class="ets-change" on:click={() => openEmailTestiPicker(prospect)}>Change</button>
                           <button class="ets-remove" on:click={() => clearEmailTestimonial(prospect)}>Remove</button>
                         </div>
@@ -5410,7 +5410,7 @@ IndoorMedia`
                     {:else if prospect._showTestiPicker}
                       <div class="email-testi-picker">
                         <div class="etp-head">
-                          <strong>⭐ Search a testimonial to include</strong>
+                          <strong><Icon name="star" size={14} color="#e0a400" /> Search a testimonial to include</strong>
                           <button class="etp-close" on:click={() => { prospect._showTestiPicker = false; prospects = prospects; }}>✕</button>
                         </div>
                         <input type="text" class="etp-search" placeholder="Search by keyword, business, or comment…"
@@ -5433,11 +5433,11 @@ IndoorMedia`
                         {/if}
                       </div>
                     {:else}
-                      <button class="email-testi-add" on:click={() => openEmailTestiPicker(prospect)}>⭐ Add a testimonial</button>
+                      <button class="email-testi-add" on:click={() => openEmailTestiPicker(prospect)}><Icon name="star" size={13} color="#e0a400" /> Add a testimonial</button>
                     {/if}
                   </div>
                   <div class="email-graphic-picker">
-                    <span class="email-addon-label">🖼️ Attach a graphic (embeds inline):</span>
+                    <span class="email-addon-label"><Icon name="image" size={13} /> Attach a graphic (embeds inline):</span>
                     <select bind:value={prospect._emailGraphic} on:change={() => prospects = prospects} class="email-graphic-select">
                       <option value={undefined}>None</option>
                       {#each SHARE_GRAPHICS as g}
@@ -5452,7 +5452,7 @@ IndoorMedia`
 
                   <!-- Landing page link = the REP'S IndoorMedia advertise-with page -->
                   <div class="email-landing">
-                    <span class="email-addon-label">🔗 Link your IndoorMedia page:</span>
+                    <span class="email-addon-label"><Icon name="link" size={13} /> Link your IndoorMedia page:</span>
                     <div class="email-attach-row">
                       <input class="email-drive-input" type="url" inputmode="url"
                         placeholder="Paste your IndoorMedia landing page URL…"
@@ -5463,10 +5463,10 @@ IndoorMedia`
                       {/if}
                     </div>
                     {#if repLandingUrl()}
-                      <button class="email-gallery-btn secondary" on:click={() => useRepLanding(prospect)}>🏠 Use my IndoorMedia page</button>
+                      <button class="email-gallery-btn secondary" on:click={() => useRepLanding(prospect)}><Icon name="home" size={13} /> Use my IndoorMedia page</button>
                     {/if}
                     {#if normalizeLandingUrl(prospect._emailLandingUrl)}
-                      <p class="email-attach-hint">✓ Landing page link will be added to the email: {normalizeLandingUrl(prospect._emailLandingUrl)}</p>
+                      <p class="email-attach-hint"><Icon name="check" size={12} color="#2e7d32" /> Landing page link will be added to the email: {normalizeLandingUrl(prospect._emailLandingUrl)}</p>
                     {:else}
                       <p class="email-attach-hint">Optional. Adds a tap-to-open link to <strong>your</strong> IndoorMedia advertise-with page (the same website you’d use for a counter-sign QR code) — it invites the prospect to “see what we can do for your business.”</p>
                     {/if}
@@ -5474,7 +5474,7 @@ IndoorMedia`
 
                   <!-- Attach a video / image (Google Drive link or phone gallery) -->
                   <div class="email-attach">
-                    <span class="email-addon-label">🎥 Attach a video or image:</span>
+                    <span class="email-addon-label"><Icon name="video" size={13} /> Attach a video or image:</span>
                     {#if !prospect._emailAttachUrl && !prospect._emailAttachFile}
                       <div class="email-attach-row">
                         <input class="email-drive-input" type="url" inputmode="url"
@@ -5487,36 +5487,36 @@ IndoorMedia`
                       <span class="email-drive-quick-label">Browse a testimonial library, then copy a video's share link and paste it above:</span>
                       <div class="email-drive-quick">
                         <button type="button" class="email-drive-quick-btn"
-                          on:click={() => window.open('https://drive.google.com/drive/folders/1GHr0Ds5aJKY56dhSKYDYy8B3bdhMn6Mv', '_blank', 'noopener')}>📁 Testimonials 1</button>
+                          on:click={() => window.open('https://drive.google.com/drive/folders/1GHr0Ds5aJKY56dhSKYDYy8B3bdhMn6Mv', '_blank', 'noopener')}><Icon name="folder" size={13} /> Testimonials 1</button>
                         <button type="button" class="email-drive-quick-btn"
-                          on:click={() => window.open('https://drive.google.com/drive/folders/16QAHNvkEcWp7VUWk-S2yWT3Pka73dFRP', '_blank', 'noopener')}>📁 Testimonials 2</button>
+                          on:click={() => window.open('https://drive.google.com/drive/folders/16QAHNvkEcWp7VUWk-S2yWT3Pka73dFRP', '_blank', 'noopener')}><Icon name="folder" size={13} /> Testimonials 2</button>
                       </div>
                       <label class="email-gallery-btn">
-                        🖼️ Choose from gallery
+                        <Icon name="image" size={14} /> Choose from gallery
                         <input type="file" accept="image/*,video/*"
                           on:change={(e) => handleEmailFilePick(prospect, e)} hidden />
                       </label>
                       <label class="email-gallery-btn secondary">
-                        📷 Take photo / video
+                        <Icon name="camera" size={14} /> Take photo / video
                         <input type="file" accept="image/*,video/*" capture="environment"
                           on:change={(e) => handleEmailFilePick(prospect, e)} hidden />
                       </label>
                       <p class="email-attach-hint">Drive links & uploaded files embed as a tap-to-watch link. On phones, use “Share” to attach the real file.</p>
                     {:else}
                       <div class="email-attach-chip">
-                        <span class="eac-icon">{prospect._emailAttachType === 'image' ? '🖼️' : '🎥'}</span>
+                        <span class="eac-icon">{#if prospect._emailAttachType === 'image'}<Icon name="image" size={14} />{:else}<Icon name="video" size={14} />{/if}</span>
                         <span class="eac-name">{prospect._emailAttachName || 'Attachment'}</span>
                         {#if prospect._emailAttachUploading}
                           <span class="eac-status">Uploading {prospect._emailAttachProgress || 0}%…</span>
                         {:else if prospect._emailAttachUrl}
-                          <span class="eac-status ok">✓ Linked</span>
+                          <span class="eac-status ok"><Icon name="check" size={12} color="#2e7d32" /> Linked</span>
                         {:else if prospect._emailAttachError}
                           <span class="eac-status warn">{prospect._emailAttachError}</span>
                         {/if}
                         <button class="eac-remove" on:click={() => clearEmailAttachment(prospect)}>✕</button>
                       </div>
                       {#if canShareFile(prospect)}
-                        <button class="email-share-btn" on:click={() => shareEmailWithFile(tpl, prospect)}>📤 Share email with file attached</button>
+                        <button class="email-share-btn" on:click={() => shareEmailWithFile(tpl, prospect)}><Icon name="share" size={13} /> Share email with file attached</button>
                       {/if}
                     {/if}
                   </div>
@@ -5524,9 +5524,9 @@ IndoorMedia`
 
                 <div class="email-preview-box">
                   {#if tpl._dynamic && prospect._researching}
-                    <p class="email-research-hint">🔍 Researching {prospect.name}’s website to personalize this email… (you can send now; it’ll sharpen once done)</p>
+                    <p class="email-research-hint"><Icon name="search" size={13} /> Researching {prospect.name}’s website to personalize this email… (you can send now; it’ll sharpen once done)</p>
                   {:else if tpl._dynamic && prospect._research && !prospect._research.empty}
-                    <p class="email-research-hint done">✅ Personalized using details from {prospect.name}’s website</p>
+                    <p class="email-research-hint done"><Icon name="check-circle" size={13} color="#2e7d32" /> Personalized using details from {prospect.name}’s website</p>
                   {/if}
                   <p class="email-subject">Subject: {fillTemplate(tpl.subject, prospect)}</p>
                   <p class="email-body-text">{composeEmailBody(tpl, prospect)}</p>
@@ -5535,13 +5535,13 @@ IndoorMedia`
                     const rawBody = composeEmailBody(tpl, prospect);
                     const body = encodeURIComponent(rawBody.replace(/\n\n/g, '\r\n\r\n').replace(/(?<!\r)\n/g, '\r\n'));
                     window.open('mailto:' + (prospect.email || '') + '?subject=' + subject + '&body=' + body);
-                  }}>📧 Open in Email App</button>
-                  <button class="action-btn full-width email-btn-secondary" on:click={() => copyEmailRich(tpl, prospect)}>{prospect._emailCopied ? '✅ Copied (image embedded)!' : '📋 Copy Email'}</button>
+                  }}><Icon name="mail" size={14} /> Open in Email App</button>
+                  <button class="action-btn full-width email-btn-secondary" on:click={() => copyEmailRich(tpl, prospect)}>{#if prospect._emailCopied}<Icon name="check" size={13} color="#2e7d32" /> Copied (image embedded)!{:else}<Icon name="copy" size={13} /> Copy Email{/if}</button>
                   {#if canShareGraphic(prospect)}
-                    <button class="action-btn full-width email-btn-secondary" on:click={() => shareEmailWithFile(tpl, prospect)}>📤 Share with image attached</button>
+                    <button class="action-btn full-width email-btn-secondary" on:click={() => shareEmailWithFile(tpl, prospect)}><Icon name="share" size={13} /> Share with image attached</button>
                   {/if}
                   {#if prospect._emailGraphic || (prospect._emailAttachUrl && prospect._emailAttachType !== 'drive' && prospect._emailAttachType !== 'video')}
-                    <p class="email-embed-hint">🖼️ <strong>On desktop:</strong> use <strong>Copy Email</strong> → paste into Gmail/Outlook and the image embeds inline.{#if canShareGraphic(prospect)} <strong>On phone:</strong> tap <strong>Share with image attached</strong> to send it as a real attachment.{/if} (“Open in Email App” is plaintext-only, so it can only link.)</p>
+                    <p class="email-embed-hint"><Icon name="image" size={13} /> <strong>On desktop:</strong> use <strong>Copy Email</strong> → paste into Gmail/Outlook and the image embeds inline.{#if canShareGraphic(prospect)} <strong>On phone:</strong> tap <strong>Share with image attached</strong> to send it as a real attachment.{/if} (“Open in Email App” is plaintext-only, so it can only link.)</p>
                   {/if}
                 </div>
               {/if}
@@ -5602,31 +5602,31 @@ IndoorMedia`
           {#if prospect._showScript}
             <!-- CALL SCRIPTS FEATURE - LIVE AS OF MAR 30 2026 -->
             <div class="script-section">
-              <h4 class="script-title">📋 Call Scripts</h4>
+              <h4 class="script-title"><Icon name="clipboard" size={15} /> Call Scripts</h4>
               <button class="script-select-btn" on:click={() => { prospect._selectedScript = 'tvs-appt'; prospects = prospects; }}>
-                📞 TVS Appointment Setting
+                <Icon name="phone" size={14} /> TVS Appointment Setting
               </button>
               <button class="script-select-btn" on:click={() => { prospect._selectedScript = 'tvs-spanish'; prospects = prospects; }}>
-                📞 Spanish Appointment Setting
+                <Icon name="phone" size={14} /> Spanish Appointment Setting
               </button>
               {#if prospect._selectedScript === 'tvs-appt'}
                 <div class="script-preview-box">
-                  <p class="script-label">🚪 Opener</p>
+                  <p class="script-label">Opener</p>
                   <p class="script-text">Hey there, I was hoping you could point me in the right direction…</p>
                   <p class="script-text">My name is <strong>{$user?.name || $user?.first_name || '[Your Name]'}</strong> and I am working with the <strong>{selectedStore?.GroceryChain || '[Store]'}</strong> store down the road{#if selectedStore?.Address} on <strong>{selectedStore.Address.split(',')[0]}</strong>{/if}.</p>
                   <p class="script-text">Reason for the visit is we're kicking off a big promotion over at the store and will be featuring and recommending just a few local businesses to all their customers.</p>
                   <p class="script-text">We see huge success for other businesses like yours and some of your neighbors as well <em>(give examples if you have them)</em>.</p>
                   <p class="script-text"><em>Who should I talk to about doing the same for your business?</em></p>
 
-                  <p class="script-label">✅ If it's the decision-maker</p>
+                  <p class="script-label"><Icon name="check" size={13} color="#2e7d32" /> If it's the decision-maker</p>
                   <p class="script-text">Oh perfect — what I'd like to do is schedule a brief meeting to learn more about your business, share what we do for similar local businesses, and most importantly what we could do for you.</p>
                   <p class="script-text">I can be back in about 15 minutes or at ____. Which works best for you?</p>
                   <p class="script-text">Great! And I'm sure you're going to love it. If for some reason you don't, you have no problem just telling me no, right?</p>
                   <p class="script-text">But on the other hand, when you love it like I predict — <em>is there anyone else who needs to see my program in order to say yes?</em></p>
 
-                  <p class="script-reminder">⚠️ <strong>Reminder:</strong> Schedule for a time that fits all parties (including any other decision-makers).</p>
+                  <p class="script-reminder"><Icon name="alert" size={13} /> <strong>Reminder:</strong> Schedule for a time that fits all parties (including any other decision-makers).</p>
 
-                  <p class="script-label">💡 Coaching Notes</p>
+                  <p class="script-label"><Icon name="info" size={13} /> Coaching Notes</p>
                   <ul class="script-notes">
                     <li>Pattern interrupt + social proof opens the door without a hard pitch.</li>
                     <li>"Be back in 15 minutes or at ____" is an assumptive close — keep it confident.</li>
@@ -5637,10 +5637,10 @@ IndoorMedia`
                   <button class="action-btn full-width" on:click={() => {
                     const rep = $user?.name || $user?.first_name || '[Your Name]';
                     const store = selectedStore?.GroceryChain || '[Store]';
-                    const script = `TVS COLD WALK-IN / APPOINTMENT SETTING\n\n— OPENER —\nHey there, I was hoping you could point me in the right direction…\n\nMy name is ${rep} and I am working with the ${store} store down the road.\n\nReason for the visit is we're kicking off a big promotion over at the store and will be featuring and recommending just a few local businesses to all their customers.\n\nWe see huge success for other businesses like yours and some of your neighbors as well (give examples if you have them).\n\nWho should I talk to about doing the same for your business?\n\n— IF IT'S THE DECISION-MAKER —\nOh perfect — what I'd like to do is schedule a brief meeting to learn more about your business, share what we do for similar local businesses, and most importantly what we could do for you.\n\nI can be back in about 15 minutes or at ____. Which works best for you?\n\nGreat! And I'm sure you're going to love it. If for some reason you don't, you have no problem just telling me no, right?\n\nBut on the other hand, when you love it like I predict — is there anyone else who needs to see my program in order to say yes?\n\n⚠️ REMINDER: Schedule for a time that fits all parties (including any other decision-makers).`;
+                    const script = `TVS COLD WALK-IN / APPOINTMENT SETTING\n\n— OPENER —\nHey there, I was hoping you could point me in the right direction…\n\nMy name is ${rep} and I am working with the ${store} store down the road.\n\nReason for the visit is we're kicking off a big promotion over at the store and will be featuring and recommending just a few local businesses to all their customers.\n\nWe see huge success for other businesses like yours and some of your neighbors as well (give examples if you have them).\n\nWho should I talk to about doing the same for your business?\n\n— IF IT'S THE DECISION-MAKER —\nOh perfect — what I'd like to do is schedule a brief meeting to learn more about your business, share what we do for similar local businesses, and most importantly what we could do for you.\n\nI can be back in about 15 minutes or at ____. Which works best for you?\n\nGreat! And I'm sure you're going to love it. If for some reason you don't, you have no problem just telling me no, right?\n\nBut on the other hand, when you love it like I predict — is there anyone else who needs to see my program in order to say yes?\n\n⚠ REMINDER: Schedule for a time that fits all parties (including any other decision-makers).`;
                     navigator.clipboard.writeText(script);
                     alert('✅ Script copied!');
-                  }}>📋 Copy Script</button>
+                  }}><Icon name="copy" size={13} /> Copy Script</button>
                 </div>
               {/if}
               {#if prospect._selectedScript === 'tvs-spanish'}
@@ -5653,7 +5653,7 @@ IndoorMedia`
                     const script = `Hola, ¿podría orientarme un poco con algo?\n\nMe llamo ${$user?.name || $user?.first_name || '[Su nombre]'} y le llamaba porque estoy trabajando con la cadena ${selectedStore?.GroceryChain || '[Nombre de la cadena]'} —ubicada en ${selectedStore?.Address?.split(',')[0] || '[Dirección]'}—; me ponía en contacto con usted porque estamos poniendo en marcha una gran promoción para apoyar a los negocios locales.\n\nVamos a destacar y recomendar a un grupo selecto de excelentes negocios de la zona y, en este momento, busco recomendar a un único negocio del sector ${selectedSubcategory || selectedCategory || '[Tipo de negocio]'} a todos sus clientes.\n\nYa trabajamos con una gran cantidad de negocios de la categoría ${selectedSubcategory || selectedCategory || '[Tipo de negocio]'}, logrando un enorme éxito a la hora de atraerles clientes; por ello, me preguntaba: ¿con quién debería hablar para hacer lo mismo por ustedes?`;
                     navigator.clipboard.writeText(script);
                     alert('✅ Script copied!');
-                  }}>📋 Copy Script</button>
+                  }}><Icon name="copy" size={13} /> Copy Script</button>
                 </div>
               {/if}
             </div>
@@ -5661,10 +5661,10 @@ IndoorMedia`
           {#if prospect._showObjections}
             <!-- OBJECTIONS & REBUTTALS - quick comebacks for live calls -->
             <div class="objections-section">
-              <h4 class="objections-title">🛡️ Objections &amp; Rebuttals</h4>
+              <h4 class="objections-title"><Icon name="shield" size={15} /> Objections &amp; Rebuttals</h4>
               <p class="objections-hint">Tap an objection to see the comeback. Close with the phrase that pays:</p>
-              <p class="phrase-that-pays">💰 “{PHRASE_THAT_PAYS}”</p>
-              <input type="text" class="objections-search" placeholder="🔍 Search objections (e.g. budget, coupons, busy)…" bind:value={prospect._objSearch} on:click|stopPropagation />
+              <p class="phrase-that-pays"><Icon name="dollar" size={13} /> “{PHRASE_THAT_PAYS}”</p>
+              <input type="text" class="objections-search" placeholder="Search objections (e.g. budget, coupons, busy)…" bind:value={prospect._objSearch} on:click|stopPropagation />
               {#each OBJECTIONS.filter(o => { const q = (prospect._objSearch || '').toLowerCase().trim(); if (!q) return true; return o.q.toLowerCase().includes(q) || o.tags.some(t => t.includes(q)) || o.rebuttals.some(r => r.toLowerCase().includes(q)); }) as obj (obj.id)}
                 <div class="objection-card" class:open={prospect._openObjection === obj.id}>
                   <button class="objection-q" on:click={() => { prospect._openObjection = prospect._openObjection === obj.id ? null : obj.id; prospects = prospects; }}>
@@ -5691,13 +5691,13 @@ IndoorMedia`
           {/if}
           {#if prospect._showTestimonials}
             <div class="testimonials-section">
-              <h4 class="testimonials-title">📋 Testimonials for {selectedSubcategory || selectedCategory || 'this category'}</h4>
-              <a class="video-testimonials-link" href="https://youtube.com/playlist?list=PLjTXw9VlAiGP7cKVD_F1rPWERnmjeDCB1&si=oXd6wcbA6uUTCkSs" target="_blank" rel="noopener" on:click|stopPropagation>▶️ Video Testimonials (YouTube playlist)</a>
+              <h4 class="testimonials-title"><Icon name="clipboard" size={15} /> Testimonials for {selectedSubcategory || selectedCategory || 'this category'}</h4>
+              <a class="video-testimonials-link" href="https://youtube.com/playlist?list=PLjTXw9VlAiGP7cKVD_F1rPWERnmjeDCB1&si=oXd6wcbA6uUTCkSs" target="_blank" rel="noopener" on:click|stopPropagation>▶ Video Testimonials (YouTube playlist)</a>
               {#if prospect._testimonialData && prospect._testimonialData.length > 0}
                 {#each prospect._testimonialData as testimonial}
                   <div class="testimonial-card" class:local-testimonial={testimonial._isLocal} class:clickable-testimonial={testimonial.url} on:click|stopPropagation={() => { if (testimonial.url) window.open(testimonial.url, '_blank'); }} role={testimonial.url ? 'link' : undefined}>
                     {#if testimonial._isLocal}
-                      <p class="local-badge">📍 Nearby Business</p>
+                      <p class="local-badge"><Icon name="map-pin" size={12} /> Nearby Business</p>
                     {/if}
                     <p class="testimonial-business"><strong>{(testimonial.business_name || 'Business').replace(/&#x27;/g, "'").replace(/&#x9;/g, '').replace(/&amp;/g, '&')}</strong></p>
                     <p class="testimonial-text">"{testimonial.comments || 'Great experience with IndoorMedia!'}"</p>
@@ -5719,9 +5719,9 @@ IndoorMedia`
             {#if canSeePrivate(ld)}
             <div class="notes-section" id="oncall-{ldHash}">
               {#if prospect._onCall}
-                <div class="oncall-banner">📞 On call — scripts, objections &amp; notes are open below. Notes save automatically.</div>
+                <div class="oncall-banner"><Icon name="phone" size={14} /> On call — scripts, objections &amp; notes are open below. Notes save automatically.</div>
               {/if}
-              <label class="lead-field-label">👤 Owner / Decision Maker</label>
+              <label class="lead-field-label"><Icon name="user" size={13} /> Owner / Decision Maker</label>
               <input 
                 type="text" 
                 class="lead-field-input"
@@ -5730,7 +5730,7 @@ IndoorMedia`
                 on:input={(e) => handleSaveLeadData(prospect, 'ownerName', e.target.value)}
                 on:blur={(e) => handleSaveLeadData(prospect, 'ownerName', e.target.value)}
               />
-              <label class="lead-field-label">📱 Contact Phone</label>
+              <label class="lead-field-label"><Icon name="smartphone" size={13} /> Contact Phone</label>
               <input 
                 type="tel" 
                 class="lead-field-input"
@@ -5739,7 +5739,7 @@ IndoorMedia`
                 on:input={(e) => handleSaveLeadData(prospect, 'contactPhone', e.target.value)}
                 on:blur={(e) => handleSaveLeadData(prospect, 'contactPhone', e.target.value)}
               />
-              <label class="lead-field-label">📧 Contact Email</label>
+              <label class="lead-field-label"><Icon name="mail" size={13} /> Contact Email</label>
               <input 
                 type="email" 
                 class="lead-field-input"
@@ -5749,7 +5749,7 @@ IndoorMedia`
                 on:input={(e) => handleSaveLeadData(prospect, 'contactEmail', e.target.value)}
                 on:blur={(e) => handleSaveLeadData(prospect, 'contactEmail', e.target.value)}
               />
-              <label class="lead-field-label">📝 Notes</label>
+              <label class="lead-field-label"><Icon name="edit" size={13} /> Notes</label>
               <textarea 
                 placeholder="Add notes about this prospect..." 
                 rows="3"
@@ -5770,7 +5770,7 @@ IndoorMedia`
               {#if sharedStatus}
                 <span class="status-badge status-{sharedStatus.toLowerCase()}">{sharedStatus}</span>
               {/if}
-              <p class="note-private-msg">🔒 Contact details and notes for this prospect are private to {ld.updatedBy || 'the rep working it'}.</p>
+              <p class="note-private-msg"><Icon name="lock" size={13} /> Contact details and notes for this prospect are private to {ld.updatedBy || 'the rep working it'}.</p>
             </div>
             {/if}
           {/if}
@@ -5788,7 +5788,7 @@ IndoorMedia`
   <!-- Team Prospects (Manager View) -->
   {#if view === 'team'}
     <button class="back-btn" on:click={() => view = 'main'}>← Back</button>
-    <h2>👥 Team Prospects ({teamProspects.length})</h2>
+    <h2><Icon name="users" size={18} /> Team Prospects ({teamProspects.length})</h2>
     <p class="subtitle">All reps' saved prospects &amp; notes</p>
 
     {#if teamProspects.length === 0}
@@ -5805,7 +5805,7 @@ IndoorMedia`
       </div>
       <div class="filter-chips" style="margin-bottom:12px;">
         <button class="chip" class:active={teamStatusFilter === 'all'} on:click={() => teamStatusFilter = 'all'}>All</button>
-        <button class="chip" class:active={teamStatusFilter === 'new'} on:click={() => teamStatusFilter = 'new'}>🆕 New</button>
+        <button class="chip" class:active={teamStatusFilter === 'new'} on:click={() => teamStatusFilter = 'new'}>New</button>
         <button class="chip" class:active={teamStatusFilter === 'interested'} on:click={() => teamStatusFilter = 'interested'}>🎯 Interested</button>
         <button class="chip" class:active={teamStatusFilter === 'follow-up'} on:click={() => teamStatusFilter = 'follow-up'}>⏳ Follow-up</button>
         <button class="chip" class:active={teamStatusFilter === 'contacted'} on:click={() => teamStatusFilter = 'contacted'}>📞 Contacted</button>
@@ -5829,12 +5829,12 @@ IndoorMedia`
                 <h4>{prospect.name || 'Unknown'}</h4>
                 <p class="saved-addr">{prospect.address || ''}</p>
                 {#if prospect.phone}
-                  <p class="saved-meta">📞 {prospect.phone}</p>
+                  <p class="saved-meta"><Icon name="phone" size={12} /> {prospect.phone}</p>
                 {/if}
-                <p class="saved-meta" style="color: var(--accent-color, #CC0000); font-weight: 600;">👤 {prospect.rep_name}</p>
+                <p class="saved-meta" style="color: var(--accent-color, #CC0000); font-weight: 600;"><Icon name="user" size={12} /> {prospect.rep_name}</p>
               </div>
               <div class="saved-right">
-                <span class="status-badge status-{prospect.status}">{prospect.status === 'new' ? '🆕' : prospect.status === 'interested' ? '🎯' : prospect.status === 'follow-up' ? '⏳' : prospect.status === 'contacted' ? '📞' : prospect.status === 'proposal' ? '📋' : '🎉'} {prospect.status || 'new'}</span>
+                <span class="status-badge status-{prospect.status}">{prospect.status || 'new'}</span>
                 <span class="expand-arrow">{expandedTeam === prospect.id ? '▲' : '▼'}</span>
               </div>
             </div>
@@ -5843,28 +5843,28 @@ IndoorMedia`
               <div class="saved-actions">
                 <div class="action-row">
                   {#if prospect.phone}
-                    <a href="tel:{prospect.phone}" class="action-btn">📞 Call</a>
-                    <a href="sms:{prospect.phone}" class="action-btn text-btn">💬 Text</a>
+                    <a href="tel:{prospect.phone}" class="action-btn"><Icon name="phone" size={13} /> Call</a>
+                    <a href="sms:{prospect.phone}" class="action-btn text-btn"><Icon name="message" size={13} /> Text</a>
                   {/if}
                   {#if prospect.email}
-                    <a href="mailto:{prospect.email}" class="action-btn">✉️ Email</a>
+                    <a href="mailto:{prospect.email}" class="action-btn"><Icon name="mail" size={13} /> Email</a>
                   {/if}
-                  <a href="https://maps.google.com/maps?q={encodeURIComponent((prospect.name || '') + ' ' + (prospect.address || ''))}" target="_blank" class="action-btn">📍 Maps</a>
+                  <a href="https://maps.google.com/maps?q={encodeURIComponent((prospect.name || '') + ' ' + (prospect.address || ''))}" target="_blank" class="action-btn"><Icon name="map-pin" size={13} /> Maps</a>
                 </div>
 
                 <div class="saved-contact-info">
-                  {#if prospect.phone}<p>📞 <a href="tel:{prospect.phone}">{prospect.phone}</a></p>{/if}
-                  {#if prospect.email}<p>✉️ <a href="mailto:{prospect.email}">{prospect.email}</a></p>{/if}
-                  {#if prospect.contact_name}<p>👤 Contact: {prospect.contact_name}</p>{/if}
-                  {#if prospect.rating}<p>⭐ {prospect.rating} ({prospect.reviews || 0} reviews)</p>{/if}
-                  {#if prospect.score}<p>🎯 Score: {prospect.score}%</p>{/if}
-                  <p>📅 Saved: {prospect.saved_date ? new Date(prospect.saved_date).toLocaleDateString() : 'N/A'}</p>
-                  {#if prospect.last_contacted}<p>📞 Last Contact: {new Date(prospect.last_contacted).toLocaleDateString()}</p>{/if}
+                  {#if prospect.phone}<p><Icon name="phone" size={13} /> <a href="tel:{prospect.phone}">{prospect.phone}</a></p>{/if}
+                  {#if prospect.email}<p><Icon name="mail" size={13} /> <a href="mailto:{prospect.email}">{prospect.email}</a></p>{/if}
+                  {#if prospect.contact_name}<p><Icon name="user" size={13} /> Contact: {prospect.contact_name}</p>{/if}
+                  {#if prospect.rating}<p><Icon name="star" size={13} color="#e0a400" /> {prospect.rating} ({prospect.reviews || 0} reviews)</p>{/if}
+                  {#if prospect.score}<p><Icon name="target" size={13} /> Score: {prospect.score}%</p>{/if}
+                  <p><Icon name="calendar" size={13} /> Saved: {prospect.saved_date ? new Date(prospect.saved_date).toLocaleDateString() : 'N/A'}</p>
+                  {#if prospect.last_contacted}<p><Icon name="phone" size={13} /> Last Contact: {new Date(prospect.last_contacted).toLocaleDateString()}</p>{/if}
                 </div>
 
                 {#if prospect.notes}
                   <div class="notes-section" style="margin-top:8px;">
-                    <p class="tmpl-label">📝 Notes:</p>
+                    <p class="tmpl-label"><Icon name="edit" size={13} /> Notes:</p>
                     <div style="background: var(--bg-secondary, #f5f5f5); padding: 10px; border-radius: 8px; font-size: 13px; white-space: pre-wrap;">{prospect.notes}</div>
                   </div>
                 {/if}
@@ -5880,13 +5880,13 @@ IndoorMedia`
   {#if view === 'saved'}
     <button class="back-btn" on:click={() => view = 'main'}>← Back</button>
     <div class="saved-head">
-      <h2>💾 Saved Prospects ({savedProspects.length})</h2>
-      <button class="new-lead-btn" on:click={openNewLead}>➕ New Business</button>
+      <h2><Icon name="save" size={18} /> Saved Prospects ({savedProspects.length})</h2>
+      <button class="new-lead-btn" on:click={openNewLead}><Icon name="plus" size={14} /> New Business</button>
     </div>
 
     {#if savedStoreFilter}
       <div class="saved-store-scope">
-        <span>🏪 Showing leads for <strong>{savedStoreFilter}</strong></span>
+        <span><Icon name="home" size={13} /> Showing leads for <strong>{savedStoreFilter}</strong></span>
         <button class="saved-scope-clear" on:click={() => savedStoreFilter = ''}>✕ Show all</button>
       </div>
     {/if}
@@ -5905,7 +5905,7 @@ IndoorMedia`
         </div>
         <div class="attr-stat highlight">
           <span class="attr-value">{conversions}</span>
-          <span class="attr-label">Converted ✅</span>
+          <span class="attr-label">Converted <Icon name="check" size={12} color="#2e7d32" /></span>
         </div>
         {#if totalCalls > 0 && conversions > 0}
           <div class="attr-stat">
@@ -5946,9 +5946,9 @@ IndoorMedia`
             <!-- Attribution banner -->
             {#if attribution}
               <div class="attribution-banner">
-                ✅ CONTRACT SIGNED — {attribution.contract.business_name} | ${(attribution.contract.total_amount || 0).toLocaleString()} | {attribution.contract.sales_rep}
+                <Icon name="check-circle" size={14} color="#2e7d32" /> CONTRACT SIGNED — {attribution.contract.business_name} | ${(attribution.contract.total_amount || 0).toLocaleString()} | {attribution.contract.sales_rep}
                 {#if attribution.callMade}
-                  <span class="call-tracked">📞 Call tracked {new Date(attribution.callMade.date).toLocaleDateString()}</span>
+                  <span class="call-tracked"><Icon name="phone" size={12} /> Call tracked {new Date(attribution.callMade.date).toLocaleDateString()}</span>
                 {/if}
               </div>
             {/if}
@@ -5959,15 +5959,15 @@ IndoorMedia`
                 <h4>{prospect.name}</h4>
                 <p class="saved-addr">{prospect.address || ''}</p>
                 {#if prospect.phone}
-                  <p class="saved-meta">📞 {prospect.phone} {#if callCount > 0}<span class="call-count">({callCount} call{callCount > 1 ? 's' : ''} made)</span>{/if}</p>
+                  <p class="saved-meta"><Icon name="phone" size={12} /> {prospect.phone} {#if callCount > 0}<span class="call-count">({callCount} call{callCount > 1 ? 's' : ''} made)</span>{/if}</p>
                 {/if}
                 {#if prospect._savedStoreChain || prospect._savedStoreCity}
-                  <p class="saved-store-tag">🏪 {[prospect._savedStoreChain, prospect._savedStoreCity].filter(Boolean).join(' · ')}</p>
+                  <p class="saved-store-tag"><Icon name="home" size={12} /> {[prospect._savedStoreChain, prospect._savedStoreCity].filter(Boolean).join(' · ')}</p>
                 {/if}
               </div>
               <div class="saved-right">
-                <span class="status-badge status-{prospect.status}">{prospect.status === 'new' ? '🆕' : prospect.status === 'contacted' ? '⏳' : prospect.status === 'proposal' ? '📋' : '🎉'} {prospect.status}</span>
-                <button class="saved-del-btn" title="Remove saved lead" on:click|stopPropagation={() => { if (confirm('Remove this saved lead?')) deleteProspect(prospect.id); }}>🗑️</button>
+                <span class="status-badge status-{prospect.status}">{prospect.status}</span>
+                <button class="saved-del-btn" title="Remove saved lead" on:click|stopPropagation={() => { if (confirm('Remove this saved lead?')) deleteProspect(prospect.id); }}><Icon name="trash" size={14} /></button>
                 <span class="open-arrow">→</span>
               </div>
             </div>
@@ -5982,7 +5982,7 @@ IndoorMedia`
   {#if view === 'hot-leads'}
     <div class="hot-leads-section">
       <button class="back-btn" on:click={() => view = 'main'}>← Back</button>
-      <h2>🔥 Hot Leads ({filteredHotLeads.length})</h2>
+      <h2><Icon name="fire" size={18} color="#e2561d" /> Hot Leads ({filteredHotLeads.length})</h2>
       
       <div class="filter-bar">
         <input type="text" placeholder="Search business, address, city..." bind:value={hotLeadSearch} class="filter-input" />
@@ -6025,13 +6025,13 @@ IndoorMedia`
               <div class="lead-header">
                 <h4>{lead.business_name}</h4>
                 {#if lead.rating}
-                  <span class="rating">⭐{lead.rating}</span>
+                  <span class="rating"><Icon name="star" size={12} color="#e0a400" />{lead.rating}</span>
                 {/if}
               </div>
               <div class="lead-cat-row">
                 <span class="lead-category">{lead.category}</span>
                 {#if lead.generated_at}
-                  <span class="lead-date">📅 {fmtLeadDate(lead.generated_at)}</span>
+                  <span class="lead-date"><Icon name="calendar" size={12} /> {fmtLeadDate(lead.generated_at)}</span>
                 {/if}
               </div>
               {#if lead._hook}
@@ -6039,14 +6039,14 @@ IndoorMedia`
               {/if}
               <div class="lead-contact">
                 {#if lead.phone}
-                  <a href="tel:{lead.phone}" class="phone" on:click|stopPropagation>📞 {lead.phone}</a>
+                  <a href="tel:{lead.phone}" class="phone" on:click|stopPropagation><Icon name="phone" size={13} /> {lead.phone}</a>
                 {/if}
                 {#if lead._email || lead.website}
-                  <a href="mailto:{lead._email || ''}" class="email" on:click|stopPropagation>📧 Email</a>
+                  <a href="mailto:{lead._email || ''}" class="email" on:click|stopPropagation><Icon name="mail" size={13} /> Email</a>
                 {/if}
               </div>
               {#if lead.address}
-                <div class="lead-address" style="cursor:pointer;" on:click|stopPropagation={() => { navigator.clipboard.writeText(lead.address); copiedAddress = lead.address; setTimeout(() => copiedAddress = '', 2000); }}>📍 {copiedAddress === lead.address ? '✅ Copied!' : lead.address}</div>
+                <div class="lead-address" style="cursor:pointer;" on:click|stopPropagation={() => { navigator.clipboard.writeText(lead.address); copiedAddress = lead.address; setTimeout(() => copiedAddress = '', 2000); }}><Icon name="map-pin" size={13} /> {copiedAddress === lead.address ? 'Copied!' : lead.address}</div>
               {/if}
               <div class="lead-store">{lead.store_chain} {lead.store_city} ({lead.store_id})</div>
               <button class="open-full-btn" on:click|stopPropagation={() => openLeadAsProspect(lead)}>Open full card →</button>
@@ -6061,8 +6061,8 @@ IndoorMedia`
   {#if view === 'call-in'}
     <div class="hot-leads-section callin-section">
       <button class="back-btn" on:click={() => view = 'main'}>← Back</button>
-      <h2>📞 Call-In Leads ({filteredCallInLeads.length})</h2>
-      <p class="callin-subtitle">Inbound leads — these people called us. Reach out fast! 🔥</p>
+      <h2><Icon name="phone" size={18} /> Call-In Leads ({filteredCallInLeads.length})</h2>
+      <p class="callin-subtitle">Inbound leads — these people called us. Reach out fast!</p>
 
       <div class="filter-bar callin-filter-bar">
         <input type="text" placeholder="Search business, caller, city, zip..." bind:value={callInSearch} class="filter-input" />
@@ -6070,12 +6070,12 @@ IndoorMedia`
           <label class="callin-sort-label">
             <span>Sort</span>
             <select bind:value={callInSort} class="callin-sort-select">
-              <option value="recent">📅 Newest first</option>
-              <option value="oldest">📅 Oldest first</option>
-              <option value="distance">📍 Closest to store</option>
-              <option value="city">🏙️ City (A–Z)</option>
-              <option value="category">🏷️ Category (A–Z)</option>
-              <option value="name">🔤 Business name (A–Z)</option>
+              <option value="recent">Newest first</option>
+              <option value="oldest">Oldest first</option>
+              <option value="distance">Closest to store</option>
+              <option value="city">City (A–Z)</option>
+              <option value="category">Category (A–Z)</option>
+              <option value="name">Business name (A–Z)</option>
             </select>
           </label>
           <label class="callin-sort-label">
@@ -6101,19 +6101,19 @@ IndoorMedia`
               <div class="lead-header">
                 <h4>{lead.business_name}</h4>
                 {#if lead.rating}
-                  <span class="rating">⭐{lead.rating}</span>
+                  <span class="rating"><Icon name="star" size={12} color="#e0a400" />{lead.rating}</span>
                 {/if}
               </div>
               <div class="callin-badge-row">
-                <span class="callin-badge">📞 CALLED IN</span>
+                <span class="callin-badge"><Icon name="phone" size={12} /> CALLED IN</span>
                 {#if lead.call_in_date}
-                  <span class="callin-date">📅 {fmtLeadDate(lead.call_in_date)}</span>
+                  <span class="callin-date"><Icon name="calendar" size={12} /> {fmtLeadDate(lead.call_in_date)}</span>
                 {/if}
                 <span class="lead-category callin-cat">{lead.subcategory || 'Lead'}</span>
                 {#if callInAssignedName(lead)}
-                  <span class="callin-assigned-badge">🎯 {callInAssignedName(lead)}</span>
+                  <span class="callin-assigned-badge"><Icon name="target" size={12} /> {callInAssignedName(lead)}</span>
                 {:else if isPrivilegedViewer()}
-                  <span class="callin-unassigned-badge">⚪ Unassigned</span>
+                  <span class="callin-unassigned-badge"><Icon name="circle" size={10} color="#999" /> Unassigned</span>
                 {/if}
               </div>
               {#if isPrivilegedViewer()}
@@ -6133,24 +6133,24 @@ IndoorMedia`
                 </div>
               {/if}
               {#if lead.contact_name}
-                <div class="callin-contact-name">👤 {lead.contact_name}</div>
+                <div class="callin-contact-name"><Icon name="user" size={13} /> {lead.contact_name}</div>
               {/if}
               {#if lead.lead_comments}
                 <div class="lead-hook callin-comments">“{lead.lead_comments}”</div>
               {/if}
               <div class="lead-contact">
                 {#if lead.phone}
-                  <a href="tel:{lead.phone}" class="phone" on:click|stopPropagation>📞 {lead.phone}</a>
+                  <a href="tel:{lead.phone}" class="phone" on:click|stopPropagation><Icon name="phone" size={13} /> {lead.phone}</a>
                 {/if}
                 {#if lead._email}
-                  <a href="mailto:{lead._email}" class="email" on:click|stopPropagation>📧 {lead._email}</a>
+                  <a href="mailto:{lead._email}" class="email" on:click|stopPropagation><Icon name="mail" size={13} /> {lead._email}</a>
                 {/if}
               </div>
               {#if lead.address}
-                <div class="lead-address" style="cursor:pointer;" on:click|stopPropagation={() => { navigator.clipboard.writeText(lead.address); copiedAddress = lead.address; setTimeout(() => copiedAddress = '', 2000); }}>📍 {copiedAddress === lead.address ? '✅ Copied!' : lead.address}</div>
+                <div class="lead-address" style="cursor:pointer;" on:click|stopPropagation={() => { navigator.clipboard.writeText(lead.address); copiedAddress = lead.address; setTimeout(() => copiedAddress = '', 2000); }}><Icon name="map-pin" size={13} /> {copiedAddress === lead.address ? 'Copied!' : lead.address}</div>
               {/if}
               <div class="callin-store">
-                🏪 Target store: <strong>{lead.store_chain} {lead.store_city}</strong> ({lead.store_id}){#if lead.distance_mi != null} · {lead.distance_mi} mi{/if}
+                <Icon name="home" size={13} /> Target store: <strong>{lead.store_chain} {lead.store_city}</strong> ({lead.store_id}){#if lead.distance_mi != null} · {lead.distance_mi} mi{/if}
               </div>
               <div class="callin-meta">Zip {lead.lead_zip}{#if lead.website} · <a href={lead.website} target="_blank" rel="noopener" on:click|stopPropagation>website</a>{/if}{#if lead._research_note} · <em>{lead._research_note}</em>{/if}</div>
               <button class="open-full-btn callin-open" on:click|stopPropagation={() => openLeadAsProspect(lead)}>Open full card →</button>
@@ -6180,7 +6180,7 @@ IndoorMedia`
   <!-- Smart Contacts: import phone contacts, detect businesses, match to DB -->
   {#if view === 'contacts'}
     <button class="back-btn" on:click={goBack}>← Back</button>
-    <h2>📇 Import Contacts</h2>
+    <h2><Icon name="users" size={18} /> Import Contacts</h2>
     <p class="subtitle">Find the businesses hiding in your phone’s address book</p>
 
     {#if contactsView === 'intro'}
@@ -6189,12 +6189,12 @@ IndoorMedia`
 
         <label class="ct-upload">
           <input type="file" accept=".vcf,.csv,text/vcard,text/csv" on:change={handleContactsFile} hidden />
-          {#if contactsImporting}⏳ Reading…{:else}📁 Choose contacts file (.vcf or .csv){/if}
+          {#if contactsImporting}<Icon name="clock" size={14} /> Reading…{:else}<Icon name="folder" size={14} /> Choose contacts file (.vcf or .csv){/if}
         </label>
-        {#if contactsError}<p class="ct-error">⚠️ {contactsError}</p>{/if}
+        {#if contactsError}<p class="ct-error"><Icon name="alert" size={13} /> {contactsError}</p>{/if}
 
         <div class="ct-how">
-          <div class="ct-how-head">📲 How to export your contacts</div>
+          <div class="ct-how-head"><Icon name="smartphone" size={14} /> How to export your contacts</div>
           <div class="ct-how-grid">
             <div class="ct-how-card">
               <strong>iPhone</strong>
@@ -6205,7 +6205,7 @@ IndoorMedia`
               <ol><li>Go to <a href="https://contacts.google.com/" target="_blank" rel="noreferrer">contacts.google.com</a></li><li><em>Export</em> → choose <em>vCard</em> or <em>Google CSV</em></li><li>Upload that file here</li></ol>
             </div>
           </div>
-          <p class="ct-priv">🔒 Everything is parsed <strong>on your device</strong> — nothing is uploaded to a server.</p>
+          <p class="ct-priv"><Icon name="lock" size={13} /> Everything is parsed <strong>on your device</strong> — nothing is uploaded to a server.</p>
         </div>
       </div>
     {/if}
@@ -6224,12 +6224,12 @@ IndoorMedia`
           <button class:active={contactsFilter === 'all'} on:click={() => contactsFilter = 'all'}>All ({contactsStats.total})</button>
         </div>
         <button class="ct-import-btn" on:click={importSelectedContacts}>
-          ➕ Import {contactsParsed.filter(r => r._biz && r._selected && r._match.type === 'new').length} new leads
+          <Icon name="plus" size={14} /> Import {contactsParsed.filter(r => r._biz && r._selected && r._match.type === 'new').length} new leads
         </button>
       </div>
 
       {#if contactsImported > 0}
-        <div class="ct-imported">✅ Added {contactsImported} new {contactsImported === 1 ? 'lead' : 'leads'} to your Saved prospects.</div>
+        <div class="ct-imported"><Icon name="check-circle" size={14} color="#2e7d32" /> Added {contactsImported} new {contactsImported === 1 ? 'lead' : 'leads'} to your Saved prospects.</div>
       {/if}
 
       <div class="ct-list">
@@ -6243,15 +6243,15 @@ IndoorMedia`
             <div class="ct-info">
               <div class="ct-name">{r.org || r.name || '(no name)'}{#if r.org && r.name} · <span class="ct-person">{r.name}</span>{/if}</div>
               <div class="ct-sub">
-                {#if r.phone}📞 {r.phone}{/if}
-                {#if r.email} · 📧 {r.email}{/if}
+                {#if r.phone}<Icon name="phone" size={12} /> {r.phone}{/if}
+                {#if r.email} · <Icon name="mail" size={12} /> {r.email}{/if}
               </div>
             </div>
             <div class="ct-tag ct-tag-{r._match.type}">
-              {#if r._match.type === 'customer'}✅ Customer
-              {:else if r._match.type === 'prospect'}💾 Saved
-              {:else if r._match.type === 'new'}🆕 New
-              {:else}👤 Person{/if}
+              {#if r._match.type === 'customer'}<Icon name="check" size={12} color="#2e7d32" /> Customer
+              {:else if r._match.type === 'prospect'}<Icon name="save" size={12} /> Saved
+              {:else if r._match.type === 'new'}<Icon name="plus" size={12} /> New
+              {:else}<Icon name="user" size={12} /> Person{/if}
             </div>
           </div>
         {/each}
@@ -6262,7 +6262,7 @@ IndoorMedia`
   <!-- Local Ad Intelligence: see who's advertising locally across platforms -->
   {#if view === 'ad-intel'}
     <button class="back-btn" on:click={() => view = adIntelReturnView || 'main'}>← Back</button>
-    <h2>📡 Local Ad Intel</h2>
+    <h2><Icon name="megaphone" size={18} /> Local Ad Intel</h2>
     {#if selectedStore}
       <p class="subtitle">Scouting advertisers near <strong>{selectedStore.StoreName}</strong>{#if selectedStore.City} — {selectedStore.City}{selectedStore.State ? ', ' + selectedStore.State : ''}{/if}.</p>
     {:else}
@@ -6270,9 +6270,9 @@ IndoorMedia`
     {/if}
 
     <div class="ai-inputs">
-      <label class="ai-label">📍 Area (city, state or ZIP)</label>
+      <label class="ai-label"><Icon name="map-pin" size={13} /> Area (city, state or ZIP)</label>
       <input class="ai-input" bind:value={adIntelLocation} placeholder="e.g. Gresham, OR or 97030" inputmode="text" />
-      <label class="ai-label">🏪 Business name <span class="ai-opt">(optional — look up one advertiser)</span></label>
+      <label class="ai-label"><Icon name="home" size={13} /> Business name <span class="ai-opt">(optional — look up one advertiser)</span></label>
       <input class="ai-input" bind:value={adIntelBrand} placeholder="e.g. Joe’s Pizza" inputmode="text" />
     </div>
 
@@ -6291,7 +6291,7 @@ IndoorMedia`
       {/each}
     </div>
 
-    <p class="ai-foot">💡 A business already running ads is a business that believes in advertising — the easiest kind to upsell onto IndoorMedia.</p>
+    <p class="ai-foot"><Icon name="info" size={13} /> A business already running ads is a business that believes in advertising — the easiest kind to upsell onto IndoorMedia.</p>
   {/if}
 
   <!-- Meeting Prep overlay (launched from a prospect card) -->
@@ -6310,7 +6310,7 @@ IndoorMedia`
     <div class="activity-log-overlay" on:click|self={closeActivityLog}>
       <div class="activity-log-modal">
         <button class="al-close" on:click={closeActivityLog}>✕</button>
-        <h3 class="al-title">📋 Activity Log</h3>
+        <h3 class="al-title"><Icon name="clipboard" size={16} /> Activity Log</h3>
         <p class="al-sub">{activityLogProspect.name}</p>
         {#if entries.length}
           <div class="al-list">
@@ -6345,11 +6345,11 @@ IndoorMedia`
     <div class="nl-overlay" on:click|self={() => showNewLead = false}>
       <div class="nl-modal">
         <div class="nl-head">
-          <h3>➕ New Business Lead</h3>
+          <h3><Icon name="plus" size={16} /> New Business Lead</h3>
           <button class="nl-close" on:click={() => showNewLead = false} aria-label="Close">✕</button>
         </div>
         <div class="nl-body">
-          <label class="nl-label">📍 Google Maps link (auto-fill)</label>
+          <label class="nl-label"><Icon name="map-pin" size={13} /> Google Maps link (auto-fill)</label>
           <div class="nl-row">
             <div class="nl-col">
               <input class="nl-input" bind:value={newLead.googleUrl} inputmode="url" placeholder="Paste a Google Maps place link…" />
@@ -6420,7 +6420,7 @@ IndoorMedia`
         </div>
         <div class="nl-actions">
           <button class="nl-cancel" on:click={() => showNewLead = false}>Cancel</button>
-          <button class="nl-save" on:click={saveNewLead}>💾 Save Lead</button>
+          <button class="nl-save" on:click={saveNewLead}><Icon name="save" size={14} /> Save Lead</button>
         </div>
       </div>
     </div>

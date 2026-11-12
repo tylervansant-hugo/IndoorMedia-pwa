@@ -599,7 +599,7 @@ td{padding:8px;border-bottom:1px solid #eee;font-size:12px}.best{background:#E8F
 <div><strong>${t.adType}:</strong> ${adType === 'double' ? 'Double Ad' : 'Single Ad'}</div>
 <div><strong>${t.cases}:</strong> ${caseCount}</div>
 </div>
-<div class="imp"><h3>👁️ ${t.impressions}</h3>
+<div class="imp"><h3>👁 ${t.impressions}</h3>
 <div class="imp-grid">
 <div class="imp-stat"><span class="imp-val">${dailyImp.toLocaleString()}</span><span class="imp-lbl">${t.daily}</span></div>
 <div class="imp-stat"><span class="imp-val">${monthlyImp.toLocaleString()}</span><span class="imp-lbl">${t.monthly}</span></div>
@@ -1655,7 +1655,7 @@ Store: ${store.StoreName}
       Standard Pricing
     </button>
     <button class="mode-btn promo" class:active={pricingMode === 'summer_promo'} on:click={() => setPricingMode('summer_promo')}>
-      Summer Promo 🔥
+      Summer Promo
     </button>
   </div>
   {/if}
@@ -1717,7 +1717,7 @@ Store: ${store.StoreName}
               <p class="cycle">Cycle: {store.Cycle} | Cases: {store['Case Count']}{store.InstallDay ? ` | In Stores: ${store.InstallDay}${store.InstallDay == 1 || store.InstallDay == 21 || store.InstallDay == 31 ? 'st' : store.InstallDay == 2 || store.InstallDay == 22 ? 'nd' : store.InstallDay == 3 || store.InstallDay == 23 ? 'rd' : 'th'}` : ''}</p>
               {#if useGeolocation && userLocation && store.latitude && store.longitude}
                 <p class="distance">
-                  📍 {(calcDistance(userLocation.lat, userLocation.lng, store.latitude, store.longitude)).toFixed(1)} mi away
+                  <Icon name="map-pin" size={13} /> {(calcDistance(userLocation.lat, userLocation.lng, store.latitude, store.longitude)).toFixed(1)} mi away
                 </p>
               {/if}
               {#if activeAdSummary(store.StoreName)}
@@ -1801,7 +1801,7 @@ Store: ${store.StoreName}
                       <span class="cartvert-pkg-price">{pkg.price}</span>
                     </button>
                   {/each}
-                  <div class="cartvert-pkg-group">👃 Nose of Cart <span class="cartvert-pkg-group-note">(per slot)</span></div>
+                  <div class="cartvert-pkg-group">Nose of Cart <span class="cartvert-pkg-group-note">(per slot)</span></div>
                   {#each CART_PACKAGES.filter(p => p.kind === 'nose') as pkg}
                     <button class="cartvert-pkg-btn" on:click|stopPropagation={() => handleAddCartvertising(store, pkg)}>
                       <span class="cartvert-pkg-name">{pkg.name}</span>
@@ -1857,7 +1857,7 @@ Store: ${store.StoreName}
                 <div class="imp-stat"><span class="imp-num">{monthlyImp.toLocaleString()}</span><span class="imp-label">monthly</span></div>
                 <div class="imp-stat imp-highlight"><span class="imp-num">{annualImp.toLocaleString()}</span><span class="imp-label">annual</span></div>
               </div>
-              <p style="text-align: center; font-size: 11px; color: var(--text-secondary, #888); margin: 4px 0 8px;">👁️ Estimated ad impressions · Tap to see pricing</p>
+              <p style="text-align: center; font-size: 11px; color: var(--text-secondary, #888); margin: 4px 0 8px;"><Icon name="eye" size={12} /> Estimated ad impressions · Tap to see pricing</p>
             {/if}
 
             <!-- Expanded: Pricing + Payment Plans -->
@@ -1958,7 +1958,7 @@ Store: ${store.StoreName}
                   <div class="plan-price">${pricing.monthly}<span class="per">/month</span></div>
                   <div class="plan-total">Total: ${pricing.monthlyTotal}</div>
                   <div class="plan-daily">That's just <strong>${(parseFloat(pricing.monthlyTotal) / totalDays).toFixed(2)}/day</strong></div>
-                  {#if isPromo && currentQuarters >= 4}<div class="plan-promo-note">🎁 Free quarter included!</div>{/if}
+                  {#if isPromo && currentQuarters >= 4}<div class="plan-promo-note"><Icon name="gift" size={12} /> Free quarter included!</div>{/if}
                   <button class="roi-btn" on:click|stopPropagation={() => showROI(pricing.monthlyTotal, store)}><Icon name="bar-chart" size={13} /> ROI Calculator</button>
                 </div>
 
@@ -1970,7 +1970,7 @@ Store: ${store.StoreName}
                   <div class="plan-price">${pricing.threeMonth}<span class="per"> × {pricing.threeMonthPayments}</span></div>
                   <div class="plan-total">Total: ${pricing.threeMonthTotal}</div>
                   <div class="plan-daily">That's just <strong>${(parseFloat(pricing.threeMonthTotal) / totalDays).toFixed(2)}/day</strong></div>
-                  {#if isPromo && currentQuarters >= 4}<div class="plan-promo-note">🎁 Free quarter included!</div>{/if}
+                  {#if isPromo && currentQuarters >= 4}<div class="plan-promo-note"><Icon name="gift" size={12} /> Free quarter included!</div>{/if}
                   <button class="roi-btn" on:click|stopPropagation={() => showROI(pricing.threeMonthTotal, store)}><Icon name="bar-chart" size={13} /> ROI Calculator</button>
                 </div>
 
@@ -1982,7 +1982,7 @@ Store: ${store.StoreName}
                   <div class="plan-price">${pricing.sixMonth}<span class="per"> × {pricing.sixMonthPayments}</span></div>
                   <div class="plan-total">Total: ${pricing.sixMonthTotal}</div>
                   <div class="plan-daily">That's just <strong>${(parseFloat(pricing.sixMonthTotal) / totalDays).toFixed(2)}/day</strong></div>
-                  {#if isPromo && currentQuarters >= 4}<div class="plan-promo-note">🎁 Free quarter included!</div>{/if}
+                  {#if isPromo && currentQuarters >= 4}<div class="plan-promo-note"><Icon name="gift" size={12} /> Free quarter included!</div>{/if}
                   <button class="roi-btn" on:click|stopPropagation={() => showROI(pricing.sixMonthTotal, store)}><Icon name="bar-chart" size={13} /> ROI Calculator</button>
                 </div>
 
@@ -1994,7 +1994,7 @@ Store: ${store.StoreName}
                   <div class="plan-price">${pricing.pif}</div>
                   <div class="plan-total">One payment — Save ${pricing.savings}</div>
                   <div class="plan-daily">That's just <strong>${(parseFloat(pricing.pif) / totalDays).toFixed(2)}/day</strong></div>
-                  {#if isPromo && currentQuarters >= 4}<div class="plan-promo-note">🎁 Free quarter + 🏆 PIF bonus point!</div>{/if}
+                  {#if isPromo && currentQuarters >= 4}<div class="plan-promo-note"><Icon name="gift" size={12} /> Free quarter + <Icon name="trophy" size={12} /> PIF bonus point!</div>{/if}
                   <button class="roi-btn" on:click|stopPropagation={() => showROI(pricing.pif, store)}><Icon name="bar-chart" size={13} /> ROI Calculator</button>
                 </div>
 
@@ -2015,7 +2015,7 @@ Store: ${store.StoreName}
                 <!-- ROI Calculator -->
                 {#if roiStore === store.StoreName}
                   <div class="roi-calculator">
-                    <h4>📊 ROI Calculator</h4>
+                    <h4><Icon name="bar-chart" size={16} /> ROI Calculator</h4>
                     <p class="roi-subtitle">Investment: <strong>${roiInvestment}</strong></p>
                     
                     <div class="roi-field">
@@ -2024,7 +2024,7 @@ Store: ${store.StoreName}
                     </div>
                     
                     <div class="roi-coupon-box">
-                      <div class="roi-coupon-header">🎟️ Coupon Redemptions</div>
+                      <div class="roi-coupon-header"><Icon name="tag" size={14} /> Coupon Redemptions</div>
                       <div class="roi-field">
                         <label>Total Redemptions per Month</label>
                         <input type="number" bind:value={roiCouponRedemptions} placeholder="40" min="0" />
@@ -2050,7 +2050,7 @@ Store: ${store.StoreName}
                     </div>
 
                     <div class="roi-coupon-box roi-offer-box">
-                      <div class="roi-coupon-header roi-offer-header">🏷️ Coupon Offer Cost</div>
+                      <div class="roi-coupon-header roi-offer-header"><Icon name="tag" size={14} /> Coupon Offer Cost</div>
                       <div class="roi-field">
                         <label>Discount — $ Off</label>
                         <input type="number" bind:value={roiDiscountAmount} placeholder="0" min="0" />
@@ -2113,8 +2113,8 @@ Store: ${store.StoreName}
                     {/if}
 
                     <div class="roi-action-btns">
-                      <button class="roi-export-btn" on:click={() => exportROI(store)}>📄 Export Report</button>
-                      <button class="roi-share-btn" on:click={() => shareROI(store)}>📤 Share</button>
+                      <button class="roi-export-btn" on:click={() => exportROI(store)}><Icon name="file-text" size={14} /> Export Report</button>
+                      <button class="roi-share-btn" on:click={() => shareROI(store)}><Icon name="share" size={14} /> Share</button>
                     </div>
                     <div class="lang-btns" style="margin-top:8px;">
                       <button class="lang-btn" on:click={() => exportROI(store, 'es')}>🇪🇸 Español</button>
@@ -2167,33 +2167,33 @@ Store: ${store.StoreName}
                 {[adv.contact_name, adv.contact_phone, adv.sales_rep && ('Rep: ' + adv.sales_rep)].filter(Boolean).join(' · ')}
               </div>
               {#if adv._status?.known && adv._status.endLabel}
-                <div class="aads-term aads-term-ok">✅ Runs through {adv._status.endLabel}{adv._status.daysLeft != null && adv._status.daysLeft <= 60 ? ` · ${adv._status.daysLeft} day${adv._status.daysLeft === 1 ? '' : 's'} left` : ''}</div>
+                <div class="aads-term aads-term-ok"><Icon name="check-circle" size={13} color="#2e7d32" /> Runs through {adv._status.endLabel}{adv._status.daysLeft != null && adv._status.daysLeft <= 60 ? ` · ${adv._status.daysLeft} day${adv._status.daysLeft === 1 ? '' : 's'} left` : ''}</div>
               {/if}
               <!-- Quick messaging for active advertisers (Adverbs-style) -->
               <div class="aads-qmsg">
-                <div class="aads-qmsg-label">💬 Quick message</div>
+                <div class="aads-qmsg-label"><Icon name="message" size={13} /> Quick message</div>
                 <div class="aads-qmsg-row">
-                  <button class="aads-qmsg-btn" on:click={() => sendSms(adv, activeAdMessage(adv, 'checkin'), 'active_checkin')}>👋 Check-in</button>
-                  <button class="aads-qmsg-btn" on:click={() => sendSms(adv, activeAdMessage(adv, 'upsell'), 'active_upsell')}>📈 Upsell</button>
-                  <button class="aads-qmsg-btn" on:click={() => sendSms(adv, activeAdMessage(adv, 'testimonial'), 'active_testimonial')}>⭐ Testimonial</button>
+                  <button class="aads-qmsg-btn" on:click={() => sendSms(adv, activeAdMessage(adv, 'checkin'), 'active_checkin')}><Icon name="thumbs-up" size={13} /> Check-in</button>
+                  <button class="aads-qmsg-btn" on:click={() => sendSms(adv, activeAdMessage(adv, 'upsell'), 'active_upsell')}><Icon name="trending-up" size={13} /> Upsell</button>
+                  <button class="aads-qmsg-btn" on:click={() => sendSms(adv, activeAdMessage(adv, 'testimonial'), 'active_testimonial')}><Icon name="star" size={13} color="#e0a400" /> Testimonial</button>
                 </div>
               </div>
               {#if adv._proof}
                 <div class="aads-proof">
                   <div class="aads-proof-label">
-                    📄 Latest proof{adv._proof.date ? ' · ' + adv._proof.date : ''}{adv._proof.ad_size ? ' · ' + adv._proof.ad_size : ''}{adv._proof.cycle ? ' · Cycle ' + adv._proof.cycle : ''}
+                    <Icon name="file-text" size={13} /> Latest proof{adv._proof.date ? ' · ' + adv._proof.date : ''}{adv._proof.ad_size ? ' · ' + adv._proof.ad_size : ''}{adv._proof.cycle ? ' · Cycle ' + adv._proof.cycle : ''}
                   </div>
                   {#if adv._proof.image_url}
                     <a href={adv._proof.image_url} target="_blank" rel="noreferrer">
                       <img src={proofImgSrc(adv._proof.image_url)} alt="Ad proof for {adv._proof.client_name}" class="aads-proof-img" loading="lazy" referrerpolicy="no-referrer" on:error={(e) => { e.target.style.display='none'; e.target.nextElementSibling && (e.target.nextElementSibling.style.display='flex'); }} />
-                      <span class="aads-proof-fallback" style="display:none;">📷 Tap to view ad proof</span>
+                      <span class="aads-proof-fallback" style="display:none;"><Icon name="camera" size={14} /> Tap to view ad proof</span>
                     </a>
                     <a href={adv._proof.image_url} target="_blank" rel="noreferrer" class="aads-proof-full">View full size ↗</a>
                   {:else}
                     <div class="aads-proof-none">Proof on file (no image link).</div>
                   {/if}
                   <div class="aads-actions">
-                    <button class="aads-change-btn" on:click={() => emailAdChanges(adv)} title="Email the zone inbox that sent this proof (CC the client) to request ad changes for next run">✏️ Email ad changes for next run</button>
+                    <button class="aads-change-btn" on:click={() => emailAdChanges(adv)} title="Email the zone inbox that sent this proof (CC the client) to request ad changes for next run">✏ Email ad changes for next run</button>
                     {#if extractEmail(adv._proof.from)}<div class="aads-change-hint">To {extractEmail(adv._proof.from)}{adv._proof.client_email ? ' · CC ' + adv._proof.client_email : ''}</div>{/if}
                   </div>
                 </div>
@@ -2220,26 +2220,26 @@ Store: ${store.StoreName}
                   {[adv.contact_name, adv.contact_phone, adv.sales_rep && ('Rep: ' + adv.sales_rep)].filter(Boolean).join(' · ')}
                 </div>
                 {#if adv._status?.endLabel}
-                  <div class="aads-term aads-term-expired">⏳ Expired {adv._status.endLabel}{adv._status.daysLeft != null ? ` · ${Math.abs(adv._status.daysLeft)} day${Math.abs(adv._status.daysLeft) === 1 ? '' : 's'} ago` : ''}</div>
+                  <div class="aads-term aads-term-expired"><Icon name="clock" size={13} /> Expired {adv._status.endLabel}{adv._status.daysLeft != null ? ` · ${Math.abs(adv._status.daysLeft)} day${Math.abs(adv._status.daysLeft) === 1 ? '' : 's'} ago` : ''}</div>
                 {/if}
                 <!-- Winback quick messaging -->
                 <div class="aads-qmsg aads-qmsg-winback">
-                  <div class="aads-qmsg-label">🤝 Win-back message</div>
+                  <div class="aads-qmsg-label"><Icon name="handshake" size={13} /> Win-back message</div>
                   <div class="aads-qmsg-row">
                     <button class="aads-qmsg-btn aads-qmsg-btn-winback" on:click={() => sendSms(adv, winbackMessage(adv, 'miss'), 'winback_miss')}>💖 We miss you</button>
-                    <button class="aads-qmsg-btn aads-qmsg-btn-winback" on:click={() => sendSms(adv, winbackMessage(adv, 'offer'), 'winback_offer')}>🏷️ Win-back rate</button>
+                    <button class="aads-qmsg-btn aads-qmsg-btn-winback" on:click={() => sendSms(adv, winbackMessage(adv, 'offer'), 'winback_offer')}>🏷 Win-back rate</button>
                     <button class="aads-qmsg-btn aads-qmsg-btn-winback" on:click={() => sendSms(adv, winbackMessage(adv, 'checkin'), 'winback_checkin')}>👋 Follow-up</button>
                   </div>
                 </div>
                 {#if adv._proof}
                   <div class="aads-proof">
                     <div class="aads-proof-label">
-                      📄 Last proof{adv._proof.date ? ' · ' + adv._proof.date : ''}{adv._proof.ad_size ? ' · ' + adv._proof.ad_size : ''}{adv._proof.cycle ? ' · Cycle ' + adv._proof.cycle : ''}
+                      <Icon name="file-text" size={13} /> Last proof{adv._proof.date ? ' · ' + adv._proof.date : ''}{adv._proof.ad_size ? ' · ' + adv._proof.ad_size : ''}{adv._proof.cycle ? ' · Cycle ' + adv._proof.cycle : ''}
                     </div>
                     {#if adv._proof.image_url}
                       <a href={adv._proof.image_url} target="_blank" rel="noreferrer">
                         <img src={proofImgSrc(adv._proof.image_url)} alt="Ad proof for {adv._proof.client_name}" class="aads-proof-img" loading="lazy" referrerpolicy="no-referrer" on:error={(e) => { e.target.style.display='none'; e.target.nextElementSibling && (e.target.nextElementSibling.style.display='flex'); }} />
-                        <span class="aads-proof-fallback" style="display:none;">📷 Tap to view last ad proof</span>
+                        <span class="aads-proof-fallback" style="display:none;"><Icon name="camera" size={14} /> Tap to view last ad proof</span>
                       </a>
                       <a href={adv._proof.image_url} target="_blank" rel="noreferrer" class="aads-proof-full">View full size ↗</a>
                     {/if}
