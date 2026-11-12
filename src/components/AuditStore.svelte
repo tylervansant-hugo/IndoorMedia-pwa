@@ -1,5 +1,6 @@
 <script>
   import { createEventDispatcher } from 'svelte';
+  import Icon from './Icon.svelte';
   import { PDFDocument, rgb } from 'pdf-lib';
   import { user } from '../lib/stores.js';
   import { normalizeCycle, cycleStartMonths, cycleSummary, sellBySummary } from '../lib/cycleSchedule.js';
@@ -234,17 +235,17 @@
     <button class="audit-close" on:click={close} aria-label="Close">✕</button>
 
     {#if auditStep === 2}
-      <h2>📋 Audit: {auditStoreNum}</h2>
+      <h2><Icon name="clipboard" size={18} /> Audit: {auditStoreNum}</h2>
       <p class="subtitle">{store?.GroceryChain} - {store?.City}</p>
 
       <div class="form-card">
-        <p class="form-label">📅 Dates</p>
-        <p class="hint" style="margin-bottom:10px;">📍 Zone install day: <strong>{getStoreInstallDay(auditStoreNum)}{ordinal(getStoreInstallDay(auditStoreNum))} of each month</strong> | Audit due: <strong>{new Date(getAuditDueDate(auditStoreNum) + 'T12:00:00').toLocaleDateString('en-US', {month:'short', day:'numeric'})}</strong> (45 days post-install)</p>
+        <p class="form-label"><Icon name="calendar" size={14} /> Dates</p>
+        <p class="hint" style="margin-bottom:10px;"><Icon name="map-pin" size={13} /> Zone install day: <strong>{getStoreInstallDay(auditStoreNum)}{ordinal(getStoreInstallDay(auditStoreNum))} of each month</strong> | Audit due: <strong>{new Date(getAuditDueDate(auditStoreNum) + 'T12:00:00').toLocaleDateString('en-US', {month:'short', day:'numeric'})}</strong> (45 days post-install)</p>
         {#if cycleInfo}
-          <p class="hint" style="margin-bottom:10px;">🔄 Cycle <strong>{cycleInfo.cycle}</strong> — new ad cycle starts <strong>{cycleInfo.startMonths}</strong>{#if cycleInfo.currentStart} | current: <strong>{cycleInfo.currentStart.toLocaleDateString('en-US',{month:'short',year:'numeric'})}</strong>, next: <strong>{cycleInfo.nextStart.toLocaleDateString('en-US',{month:'short',year:'numeric'})}</strong>{/if}</p>
+          <p class="hint" style="margin-bottom:10px;"><Icon name="refresh" size={13} /> Cycle <strong>{cycleInfo.cycle}</strong> — new ad cycle starts <strong>{cycleInfo.startMonths}</strong>{#if cycleInfo.currentStart} | current: <strong>{cycleInfo.currentStart.toLocaleDateString('en-US',{month:'short',year:'numeric'})}</strong>, next: <strong>{cycleInfo.nextStart.toLocaleDateString('en-US',{month:'short',year:'numeric'})}</strong>{/if}</p>
         {/if}
         {#if sellByInfo}
-          <p class="hint" style="margin-bottom:10px;">🚀 Next launch (in-store): <strong>{sellByInfo.effLaunch.toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'})}</strong> | 🛑 Last ad sold by: <strong>{sellByInfo.effSellBy.toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'})}</strong> ({sellByInfo.leadDays}-day buffer){#if sellByInfo.daysUntilSellBy >= 0} — <strong>{sellByInfo.daysUntilSellBy}d</strong> left{/if}</p>
+          <p class="hint" style="margin-bottom:10px;"><Icon name="rocket" size={13} /> Next launch (in-store): <strong>{sellByInfo.effLaunch.toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'})}</strong> | <Icon name="alert" size={13} color="#cc2b1d" /> Last ad sold by: <strong>{sellByInfo.effSellBy.toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'})}</strong> ({sellByInfo.leadDays}-day buffer){#if sellByInfo.daysUntilSellBy >= 0} — <strong>{sellByInfo.daysUntilSellBy}d</strong> left{/if}</p>
         {/if}
 
         <div class="form-group">
@@ -270,11 +271,11 @@
       </div>
 
     {:else if auditStep === 3}
-      <h2>📋 Audit: {auditStoreNum}</h2>
+      <h2><Icon name="clipboard" size={18} /> Audit: {auditStoreNum}</h2>
       <p class="subtitle">{store?.GroceryChain} - {store?.City}</p>
 
       <div class="form-card">
-        <p class="form-label">📦 Current Inventory</p>
+        <p class="form-label"><Icon name="package" size={14} /> Current Inventory</p>
 
         <div class="form-group">
           <label>Starting Cases (at delivery)</label>
@@ -292,17 +293,17 @@
         </div>
 
         <div class="form-group">
-          <label>🗑️ Old Cases Discarded</label>
+          <label><Icon name="trash" size={14} /> Old Cases Discarded</label>
           <input type="number" bind:value={auditOldCasesDiscarded} min="0" max="50" placeholder="0" />
         </div>
 
         <div class="form-group">
-          <label>📋 Blank Tape Usage</label>
+          <label><Icon name="clipboard" size={14} /> Blank Tape Usage</label>
           <input type="number" bind:value={auditBlankTapeUsage} min="0" max="50" placeholder="Rolls used for blank tape" />
         </div>
 
         <div class="form-group">
-          <label>📝 Notes</label>
+          <label><Icon name="edit" size={14} /> Notes</label>
           <textarea bind:value={auditNotes} rows="3" placeholder="Any observations, issues, or comments..."></textarea>
         </div>
 
@@ -314,7 +315,7 @@
       </div>
 
     {:else if auditStep === 4 && auditReport}
-      <h2>📋 Audit Report</h2>
+      <h2><Icon name="clipboard" size={18} /> Audit Report</h2>
 
       <div class="report-card">
         <div class="report-header">{auditReport.storeNum}</div>
@@ -337,21 +338,21 @@
           <p>Usage rate: {auditReport.usagePerDay} rolls/day</p>
           <p>Days until runout: {auditReport.daysUntilRunout}</p>
           <p>Est. runout date: {auditReport.runoutDate}</p>
-          <p class="next-delivery-highlight">📅 Next delivery: <strong>{auditReport.nextDeliveryMonth}</strong></p>
+          <p class="next-delivery-highlight"><Icon name="calendar" size={14} /> Next delivery: <strong>{auditReport.nextDeliveryMonth}</strong></p>
           <p class="next-delivery-detail">({auditReport.nextDelivery}, {auditReport.daysUntilDelivery} days away)</p>
         </div>
 
         {#if auditReport.oldCasesDiscarded > 0 || auditReport.blankTapeUsage > 0}
           <div class="report-section">
             <h4>Additional</h4>
-            {#if auditReport.oldCasesDiscarded > 0}<p>🗑️ Old cases discarded: {auditReport.oldCasesDiscarded}</p>{/if}
-            {#if auditReport.blankTapeUsage > 0}<p>📋 Blank tape usage: {auditReport.blankTapeUsage} rolls</p>{/if}
+            {#if auditReport.oldCasesDiscarded > 0}<p><Icon name="trash" size={13} /> Old cases discarded: {auditReport.oldCasesDiscarded}</p>{/if}
+            {#if auditReport.blankTapeUsage > 0}<p><Icon name="clipboard" size={13} /> Blank tape usage: {auditReport.blankTapeUsage} rolls</p>{/if}
           </div>
         {/if}
 
         {#if auditReport.notes}
           <div class="report-section">
-            <h4>📝 Notes</h4>
+            <h4><Icon name="edit" size={15} /> Notes</h4>
             <p style="white-space: pre-wrap;">{auditReport.notes}</p>
           </div>
         {/if}

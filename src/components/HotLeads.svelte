@@ -1,6 +1,7 @@
 <script>
   import { onMount } from 'svelte';
   import PendingLeads from './PendingLeads.svelte';
+  import Icon from './Icon.svelte';
   
   export let user;
   
@@ -152,10 +153,10 @@
 
 <div class="hot-leads-container">
   <div class="header">
-    <h2>🔥 Hot Leads</h2>
+    <h2><Icon name="fire" size={18} color="#e2561d" /> Hot Leads</h2>
     <p class="subtitle">Max 5 per store • Phone + Email ready • {hotLeads.length} total
       {#if user?.name?.toLowerCase().includes('tyler') || user?.role === 'manager'}
-        <span class="manager-badge">👤 MANAGER VIEW (all reps)</span>
+        <span class="manager-badge"><Icon name="user" size={13} /> MANAGER VIEW (all reps)</span>
       {/if}
     </p>
   </div>
@@ -166,14 +167,14 @@
       class:active={currentSection === 'approved'}
       on:click={() => { currentSection = 'approved'; viewMode = 'grid'; }}
     >
-      ✅ Approved ({hotLeads.length})
+      <Icon name="check-circle" size={14} color="#2e7d32" /> Approved ({hotLeads.length})
     </button>
     <button 
       class="section-tab"
       class:active={currentSection === 'pending'}
       on:click={() => { currentSection = 'pending'; }}
     >
-      ⏳ Pending {#if pendingCount > 0}({pendingCount}){/if}
+      <Icon name="clock" size={14} /> Pending {#if pendingCount > 0}({pendingCount}){/if}
     </button>
   </div>
   
@@ -215,7 +216,7 @@
           <div class="lead-card" on:click={() => selectLead(lead)}>
             <div class="lead-header">
               <h3>{lead.business_name}</h3>
-              <span class="rating">⭐{lead.rating}</span>
+              <span class="rating"><Icon name="star" size={12} color="#e0a400" />{lead.rating}</span>
             </div>
             
             <div class="lead-meta">
@@ -233,16 +234,16 @@
             
             <div class="contact-info">
               <a href="tel:{lead.phone}" class="phone" on:click|stopPropagation={() => callBusiness(lead.phone)}>
-                📞 {lead.phone}
+                <Icon name="phone" size={13} /> {lead.phone}
               </a>
               <a href="mailto:{lead._email}" class="email" on:click|stopPropagation={() => emailBusiness(lead._email)}>
-                📧 {lead._email}
+                <Icon name="mail" size={13} /> {lead._email}
               </a>
             </div>
             
             <div class="footer">
               <small class="reviews">{lead.reviews} reviews</small>
-              <small class="template">📧 {lead._email_template_type.toUpperCase()}</small>
+              <small class="template"><Icon name="mail" size={11} /> {lead._email_template_type.toUpperCase()}</small>
             </div>
           </div>
         {/each}
@@ -256,7 +257,7 @@
         <h2>{selectedLead.business_name}</h2>
         <div class="detail-meta">
           <span class="category">{selectedLead.category}</span>
-          <span class="rating">⭐{selectedLead.rating} ({selectedLead.reviews} reviews)</span>
+          <span class="rating"><Icon name="star" size={12} color="#e0a400" />{selectedLead.rating} ({selectedLead.reviews} reviews)</span>
         </div>
       </div>
       
@@ -269,22 +270,22 @@
         <h4>Your Hook</h4>
         <div class="hook-text">
           <p>"{selectedLead._hook}"</p>
-          <button class="copy-btn" on:click={() => copyToClipboard(selectedLead._hook)}>📋 Copy</button>
+          <button class="copy-btn" on:click={() => copyToClipboard(selectedLead._hook)}><Icon name="copy" size={13} /> Copy</button>
         </div>
       </div>
       
       <div class="contact-section">
         <h4>Contact</h4>
         <div class="address">
-          <p>📍 {selectedLead.address}</p>
+          <p><Icon name="map-pin" size={13} /> {selectedLead.address}</p>
         </div>
         
         <div class="action-buttons">
           <button class="btn call" on:click={() => callBusiness(selectedLead.phone)}>
-            📞 Call: {selectedLead.phone}
+            <Icon name="phone" size={14} /> Call: {selectedLead.phone}
           </button>
           <button class="btn email" on:click={() => emailBusiness(selectedLead._email)}>
-            📧 Email: {selectedLead._email}
+            <Icon name="mail" size={14} /> Email: {selectedLead._email}
           </button>
         </div>
       </div>
@@ -301,23 +302,23 @@
           <input
             type="url"
             inputmode="url"
-            placeholder="🔗 Your IndoorMedia page URL (optional — same as counter-sign QR)"
+            placeholder="Your IndoorMedia page URL (optional — same as counter-sign QR)"
             bind:value={landingUrl}
           />
           {#if repLandingUrl()}
-            <button class="landing-btn" on:click={() => landingUrl = repLandingUrl()}>🏠 Use my IndoorMedia page</button>
+            <button class="landing-btn" on:click={() => landingUrl = repLandingUrl()}><Icon name="home" size={13} /> Use my IndoorMedia page</button>
           {/if}
         </div>
         
         <div class="email-preview">
           <div class="subject-line">
             <strong>Subject:</strong> {renderSubjectTemplate(selectedLead)}
-            <button class="copy-btn" on:click={() => copyToClipboard(renderSubjectTemplate(selectedLead))}>📋</button>
+            <button class="copy-btn" on:click={() => copyToClipboard(renderSubjectTemplate(selectedLead))}><Icon name="copy" size={13} /></button>
           </div>
           
           <div class="body-text">
             {renderEmailTemplate(selectedLead, contactName || '[Contact Name]', user?.name || 'Your Rep')}
-            <button class="copy-btn full-width" on:click={() => copyToClipboard(renderEmailTemplate(selectedLead, contactName || '[Contact Name]', user?.name || 'Your Rep'), 'email')}>📋 Copy Full Email</button>
+            <button class="copy-btn full-width" on:click={() => copyToClipboard(renderEmailTemplate(selectedLead, contactName || '[Contact Name]', user?.name || 'Your Rep'), 'email')}><Icon name="copy" size={13} /> Copy Full Email</button>
           </div>
         </div>
       </div>

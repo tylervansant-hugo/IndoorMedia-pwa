@@ -1,6 +1,7 @@
 <script>
   import { onMount } from 'svelte';
   import { user } from '../lib/stores.js';
+  import Icon from './Icon.svelte';
   import { logActivity, getRecentActivity } from '../lib/activity.js';
   import { isFirebaseReady, getAllRepActivity, getRepDayEvents } from '../lib/firebase.js';
 
@@ -116,7 +117,7 @@
     { emoji: '📞', text: 'Making calls' },
     { emoji: '🏪', text: 'Prospecting stores' },
     { emoji: '📝', text: 'Writing a contract' },
-    { emoji: '🍽️', text: 'On a break' },
+    { emoji: '🍽', text: 'On a break' },
     { emoji: '🏁', text: 'Wrapping up' },
     { emoji: '✅', text: 'Available' },
   ];
@@ -129,7 +130,7 @@
       case 'call':
         return { emoji: '📞', verb: 'Called', target: who || 'a prospect', tap: e.phone ? 'Call again' : '', can: !!e.phone };
       case 'email':
-        return { emoji: '✉️', verb: e.kind === 'renewal' ? 'Emailed renewal to' : 'Emailed', target: who || 'a contact', tap: e.email ? 'Email again' : '', can: !!e.email };
+        return { emoji: '✉', verb: e.kind === 'renewal' ? 'Emailed renewal to' : 'Emailed', target: who || 'a contact', tap: e.email ? 'Email again' : '', can: !!e.email };
       case 'text':
         return { emoji: '💬', verb: 'Texted', target: who || 'a contact', tap: e.phone ? 'Text again' : '', can: !!e.phone };
       case 'quote':
@@ -230,7 +231,7 @@
     return d === 1 ? 'yesterday' : `${d}d ago`;
   }
 
-  const EMOJI_CHOICES = ['💬', '🚗', '🤝', '📞', '🏪', '📝', '🍽️', '🏁', '✅', '🔥', '💪', '☕'];
+  const EMOJI_CHOICES = ['💬', '🚗', '🤝', '📞', '🏪', '📝', '🍽', '🏁', '✅', '🔥', '💪', '☕'];
 
   let now = Date.now();
   onMount(() => {
@@ -259,7 +260,7 @@
 
 <div class="la-widget">
   <div class="la-head">
-    <span class="la-title">📍 Last Activity</span>
+    <span class="la-title"><Icon name="clock" size={15} /> Last Activity</span>
     <button class="la-refresh" on:click={refresh} title="Refresh">Refresh</button>
   </div>
 
@@ -267,7 +268,7 @@
     <div class="la-reppick">
       <label for="la-rep-select">View:</label>
       <select id="la-rep-select" bind:value={selectedRep} on:change={onRepChange}>
-        <option value="__me__">👤 Me ({repName_me || 'My activity'})</option>
+        <option value="__me__">Me ({repName_me || 'My activity'})</option>
         {#each repOptions as r}
           <option value={r.name}>{r.name}</option>
         {/each}
@@ -278,17 +279,17 @@
   {#if selectedRep !== '__me__'}
     <!-- Manager: selected rep's activity (daily summary, synced cross-device) -->
     {#if repLoading}
-      <p class="la-empty">⏳ Loading {selectedRep}'s activity…</p>
+      <p class="la-empty"><Icon name="clock" size={14} /> Loading {selectedRep}'s activity…</p>
     {:else if repReport && repReport.days.length}
       <p class="la-rep-last">Last active: <strong>{fmtLast(repReport.lastActive)}</strong></p>
       {#if repReport.totals}
         <div class="la-rep-totals">
-          <span>🔍 {repReport.totals.searches} searches</span>
-          <span>📞 {repReport.totals.calls} calls</span>
-          <span>✉️ {repReport.totals.emails} emails</span>
-          <span>🏪 {repReport.totals.storeViews} stores</span>
-          <span>🎯 {repReport.totals.prospectViews} prospects</span>
-          <span>📅 {repReport.totals.appointments} appts</span>
+          <span><Icon name="search" size={13} /> {repReport.totals.searches} searches</span>
+          <span><Icon name="phone" size={13} /> {repReport.totals.calls} calls</span>
+          <span><Icon name="mail" size={13} /> {repReport.totals.emails} emails</span>
+          <span><Icon name="home" size={13} /> {repReport.totals.storeViews} stores</span>
+          <span><Icon name="target" size={13} /> {repReport.totals.prospectViews} prospects</span>
+          <span><Icon name="calendar" size={13} /> {repReport.totals.appointments} appts</span>
         </div>
       {/if}
       <ul class="la-feed">
@@ -298,7 +299,7 @@
             <button class="la-repday la-repday-btn" class:tappable={hasAny} disabled={!hasAny} on:click={() => hasAny && toggleDay(d.date)}>
               <span class="la-repday-date">{fmtDay(d.date)}</span>
               <span class="la-repday-stats">
-                {#if d.searches}🔍{d.searches} {/if}{#if d.calls}📞{d.calls} {/if}{#if d.emails}✉️{d.emails} {/if}{#if d.storeViews}🏪{d.storeViews} {/if}{#if d.prospectViews}🎯{d.prospectViews} {/if}{#if d.appointments}📅{d.appointments} {/if}{#if d.renewalViews}🔄{d.renewalViews} {/if}
+                {#if d.searches}<Icon name="search" size={11} />{d.searches} {/if}{#if d.calls}<Icon name="phone" size={11} />{d.calls} {/if}{#if d.emails}<Icon name="mail" size={11} />{d.emails} {/if}{#if d.storeViews}<Icon name="home" size={11} />{d.storeViews} {/if}{#if d.prospectViews}<Icon name="target" size={11} />{d.prospectViews} {/if}{#if d.appointments}<Icon name="calendar" size={11} />{d.appointments} {/if}{#if d.renewalViews}<Icon name="refresh" size={11} />{d.renewalViews} {/if}
                 {#if !hasAny}—{/if}
               </span>
               {#if hasAny}<span class="la-repday-caret" class:open={expandedDay === d.date}>›</span>{/if}
@@ -306,7 +307,7 @@
             {#if expandedDay === d.date}
               <div class="la-day-detail">
                 {#if dayLoading}
-                  <p class="la-day-loading">⏳ Loading…</p>
+                  <p class="la-day-loading"><Icon name="clock" size={13} /> Loading…</p>
                 {:else if dayEvents.length}
                   <ul class="la-day-events">
                     {#each dayEvents as ev}
@@ -365,7 +366,7 @@
   <!-- Manual status (collapsed by default) -->
   <div class="la-status-wrap">
     <button class="la-status-toggle" on:click={() => (showStatus = !showStatus)}>
-      <span>{status ? `${status.emoji} ${status.text}` : '💬 Set your status'}</span>
+      {#if status}<span>{status.emoji} {status.text}</span>{:else}<span><Icon name="message" size={14} /> Set your status</span>{/if}
       <span class="la-caret" class:open={showStatus}>▾</span>
     </button>
 
@@ -411,7 +412,7 @@
               <span class="la-chip-emoji">{p.emoji}</span>{p.text}
             </button>
           {/each}
-          <button class="la-chip la-chip-custom" on:click={startCustom}>✏️ Custom…</button>
+          <button class="la-chip la-chip-custom" on:click={startCustom}><Icon name="edit" size={13} /> Custom…</button>
         </div>
       {/if}
     {/if}

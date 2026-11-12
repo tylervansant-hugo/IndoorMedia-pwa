@@ -1,5 +1,6 @@
 <script>
 	import { onMount } from 'svelte';
+	import Icon from './Icon.svelte';
 
 	let prospects = [];
 	let filteredProspects = [];
@@ -162,7 +163,7 @@
 
 <div class="customers-container">
 	<div class="header">
-		<h1>👥 My Customers</h1>
+		<h1><Icon name="users" size={20} /> My Customers</h1>
 		<div class="search-bar">
 			<input
 				type="text"
@@ -197,7 +198,7 @@
 		<div class="prospects-list">
 			{#if filteredProspects.length === 0}
 				<div class="empty-state">
-					<div class="empty-icon">🔍</div>
+					<div class="empty-icon"><Icon name="search" size={30} /></div>
 					<p>No prospects found</p>
 					<p class="empty-subtitle">Try adjusting your filters or search query</p>
 				</div>
@@ -219,10 +220,10 @@
 
 						<div class="prospect-body">
 							<div class="prospect-info">
-								<span class="info-item">📍 {prospect.address}</span>
-								<span class="info-item">📞 {prospect.phone}</span>
+								<span class="info-item"><Icon name="map-pin" size={13} /> {prospect.address}</span>
+								<span class="info-item"><Icon name="phone" size={13} /> {prospect.phone}</span>
 								{#if prospect.email}
-									<span class="info-item">✉️ {prospect.email}</span>
+									<span class="info-item"><Icon name="mail" size={13} /> {prospect.email}</span>
 								{/if}
 							</div>
 
@@ -261,19 +262,19 @@
 						<h3>Contact Information</h3>
 						<div class="info-grid">
 							<div class="info-row">
-								<span class="label">📍 Address</span>
+								<span class="label"><Icon name="map-pin" size={13} /> Address</span>
 								<span class="value">{selectedProspect.address || 'N/A'}</span>
 							</div>
 							<div class="info-row">
-								<span class="label">📞 Phone</span>
+								<span class="label"><Icon name="phone" size={13} /> Phone</span>
 								<span class="value">{selectedProspect.phone || 'N/A'}</span>
 							</div>
 							<div class="info-row">
-								<span class="label">✉️ Email</span>
+								<span class="label"><Icon name="mail" size={13} /> Email</span>
 								<span class="value">{selectedProspect.email || 'N/A'}</span>
 							</div>
 							<div class="info-row">
-								<span class="label">👤 Contact Name</span>
+								<span class="label"><Icon name="user" size={13} /> Contact Name</span>
 								<span class="value">{selectedProspect.contact_name || 'N/A'}</span>
 							</div>
 						</div>
@@ -313,7 +314,7 @@
 					<!-- Notes Section -->
 					{#if selectedProspect.notes && selectedProspect.notes.length > 0}
 						<div class="notes-section">
-							<h3>📝 Notes</h3>
+							<h3><Icon name="edit" size={15} /> Notes</h3>
 							<div class="notes-list">
 								{#each selectedProspect.notes as note (note.date)}
 									<div class="note-item">
@@ -328,13 +329,13 @@
 
 				<div class="modal-footer">
 					<button class="action-btn call" on:click={() => quickAction('call')}>
-						📞 Call
+						<Icon name="phone" size={14} /> Call
 					</button>
 					<button class="action-btn email" on:click={() => quickAction('email')}>
-						✉️ Email
+						<Icon name="mail" size={14} /> Email
 					</button>
 					<button class="action-btn note" on:click={openNoteModal}>
-						📝 Add Note
+						<Icon name="edit" size={14} /> Add Note
 					</button>
 				</div>
 			</div>
