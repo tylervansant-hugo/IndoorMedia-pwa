@@ -5,6 +5,7 @@
   import { cycleLaunchDates, DEFAULT_SELL_BY_LEAD_DAYS } from '../lib/cycleSchedule.js';
   import { get } from 'svelte/store';
   import { applyAppearance, setMode, resolveMode, getAppearance } from '../lib/appearance.js';
+  import Icon from './Icon.svelte';
   import { addToHome, installGlobalAddToHome, getWidgetOrder, reorderWidgets, replayShortcut, getHiddenWidgets, toggleWidgetHidden } from '../lib/homeShortcuts.js';
   import HomeShortcuts from './HomeShortcuts.svelte';
 
@@ -1876,9 +1877,9 @@
         <div class="hero-greeting">
           <h2 class="greeting-text">{new Date().getHours() < 12 ? 'Good morning' : new Date().getHours() < 17 ? 'Good afternoon' : 'Good evening'}, {($user?.name || $user?.first_name || '').split(' ')[0]}!</h2>
           {#if nextInstallCycle}
-            <p class="cycle-pill">📦 {currentSellingCycle} Selling · {secondInstallCycle} installs {secondInstallDate} ({secondInstallDays}d)</p>
+            <p class="cycle-pill"><Icon name="package" size={14} /> {currentSellingCycle} Selling · {secondInstallCycle} installs {secondInstallDate} ({secondInstallDays}d)</p>
             {#if stillSellingCycle}
-              <p class="cycle-pill closing-pill">⏳ Still selling {stillSellingCycle} until {stillSellingUntil}{#if stillSellingDays >= 0} ({stillSellingDays}d left){/if}</p>
+              <p class="cycle-pill closing-pill"><Icon name="clock" size={14} /> Still selling {stillSellingCycle} until {stillSellingUntil}{#if stillSellingDays >= 0} ({stillSellingDays}d left){/if}</p>
             {/if}
           {/if}
         </div>
@@ -1886,7 +1887,7 @@
         <!-- Edit Home: toggle drag/reorder of ALL Home blocks -->
         <div class="edit-home-bar">
           <button class="edit-home-btn" class:active={editHome} on:click={() => editHome = !editHome}>
-            {editHome ? '✓ Done' : '⚙️ Edit Home'}
+            {#if editHome}<Icon name="check" size={15} /> Done{:else}<Icon name="settings" size={15} /> Edit Home{/if}
           </button>
           {#if editHome}<span class="edit-home-hint">Drag or ↑↓ to rearrange · ✕ to remove</span>{/if}
         </div>
@@ -1920,23 +1921,23 @@
         <div class="quick-actions-top">
           <button class="qa-btn qa-primary" on:click={() => { storesView = 'rates'; currentTab = 'stores'; }}
             use:addToHome={{ label: 'Find Prospects', icon: '🎯', tab: 'stores', action: 'prospects' }}>
-            <span class="qa-icon">🎯</span>
+            <span class="qa-icon"><Icon name="target" size={26} /></span>
             <span class="qa-label">Find Prospects</span>
           </button>
           <button class="qa-btn" on:click={() => currentTab = 'stores'}
             use:addToHome={{ label: 'Stores', icon: '🏪', tab: 'stores' }}>
-            <span class="qa-icon">🏪</span>
+            <span class="qa-icon"><Icon name="home" size={26} /></span>
             <span class="qa-label">Stores</span>
           </button>
           <button class="qa-btn" on:click={() => bookAppointment()}
             use:addToHome={{ label: 'Book Appt', icon: '📅', tab: 'dashboard', action: 'book-appt' }}>
-            <span class="qa-icon">📅</span>
+            <span class="qa-icon"><Icon name="calendar" size={26} /></span>
             <span class="qa-label">Book Appt</span>
           </button>
           {#if DRIVE_MODE_ENABLED}
           <button class="qa-btn qa-driving" on:click={() => showDrivingMode = true}
             use:addToHome={{ label: 'Drive Mode', icon: '🚗', tab: 'dashboard', action: 'driving' }}>
-            <span class="qa-icon">🚗</span>
+            <span class="qa-icon"><Icon name="compass" size={26} /></span>
             <span class="qa-label">Drive Mode</span>
           </button>
           {/if}
@@ -1954,7 +1955,7 @@
           <div class="outreach-card" class:goal-hit={outreachTotal >= OUTREACH_TARGET}>
             <div class="outreach-head">
               <div class="outreach-title-wrap">
-                <span class="outreach-title">🌡️ Today's Outreach</span>
+                <span class="outreach-title"><Icon name="bar-chart" size={16} /> Today's Outreach</span>
                 <span class="outreach-sub">
                   {#if outreachTotal >= OUTREACH_TARGET}Goal crushed — keep rolling!{:else}{OUTREACH_TARGET - outreachTotal} to go for 40{/if}
                 </span>
@@ -1984,28 +1985,28 @@
               <div class="outreach-buckets">
                 <div class="obk">
                   <button class="obk-main obk-calls" on:click={() => logOutreach('calls')} on:contextmenu|preventDefault={() => unlogOutreach('calls')}>
-                    <span class="obk-icon">📞</span>
+                    <span class="obk-icon"><Icon name="phone" size={22} /></span>
                     <span class="obk-count">{outreach.calls}</span>
                     <span class="obk-label">Calls</span>
                   </button>
                 </div>
                 <div class="obk">
                   <button class="obk-main obk-texts" on:click={() => logOutreach('texts')} on:contextmenu|preventDefault={() => unlogOutreach('texts')}>
-                    <span class="obk-icon">💬</span>
+                    <span class="obk-icon"><Icon name="message" size={22} /></span>
                     <span class="obk-count">{outreach.texts}</span>
                     <span class="obk-label">Texts</span>
                   </button>
                 </div>
                 <div class="obk">
                   <button class="obk-main obk-emails" on:click={() => logOutreach('emails')} on:contextmenu|preventDefault={() => unlogOutreach('emails')}>
-                    <span class="obk-icon">✉️</span>
+                    <span class="obk-icon"><Icon name="mail" size={22} /></span>
                     <span class="obk-count">{outreach.emails}</span>
                     <span class="obk-label">Emails</span>
                   </button>
                 </div>
                 <div class="obk">
                   <button class="obk-main obk-walkins" on:click={() => logOutreach('walkins')} on:contextmenu|preventDefault={() => unlogOutreach('walkins')}>
-                    <span class="obk-icon">🚶</span>
+                    <span class="obk-icon"><Icon name="walk" size={22} /></span>
                     <span class="obk-count">{outreach.walkins}</span>
                     <span class="obk-label">Walk-ins</span>
                   </button>
@@ -2039,7 +2040,7 @@
           on:drop={() => onDashDrop('callin')}>
           {#if editHome}<div class="dash-move"><button on:click|stopPropagation={() => moveDashCard('callin', -1)} aria-label="Move up">↑</button><button on:click|stopPropagation={() => moveDashCard('callin', 1)} aria-label="Move down">↓</button><button class="dash-del" on:click|stopPropagation={() => hideDashCard('callin')} aria-label="Remove card">✕</button></div>{/if}
         <button class="callin-home-card" on:click={() => { storesView = 'prospects'; currentTab = 'stores'; setTimeout(() => document.dispatchEvent(new CustomEvent('show-callin-leads')), 250); }}>
-          <div class="callin-home-icon">📞</div>
+          <div class="callin-home-icon"><Icon name="phone" size={24} /></div>
           <div class="callin-home-info">
             <span class="callin-home-title">Call-In Leads{#if callInLeadsCount > 0} <span class="callin-home-count">{callInLeadsCount}</span>{/if}</span>
             {#if recentCallInLeads.length > 0}
@@ -2077,7 +2078,7 @@
           </div>
         {/if}
         <button class="today-card-full" on:click={() => { showAppointmentsDetail = !showAppointmentsDetail; showStreakDetail = false; }}>
-          <div class="today-icon">📅</div>
+          <div class="today-icon"><Icon name="calendar" size={24} /></div>
           {#if upcomingAppointments.length > 0}
             {@const next = upcomingAppointments[0]}
             <div class="today-info">
@@ -2097,7 +2098,7 @@
 
         {#if showAppointmentsDetail}
           <div class="drill-down" style="border-top: 3px solid #CC0000; margin-top: 8px;">
-            <h4>📅 Upcoming Appointments</h4>
+            <h4><Icon name="calendar" size={18} /> Upcoming Appointments</h4>
             
             {#if upcomingAppointments.length > 0}
               <div class="appointment-list">
@@ -2114,10 +2115,10 @@
                     <div class="appt-right">
                       <div class="appt-title">{appt.title || 'Appointment'}</div>
                       {#if appt.location}
-                        <div class="appt-location">📍 {appt.location}</div>
+                        <div class="appt-location"><Icon name="map-pin" size={14} /> {appt.location}</div>
                       {/if}
                       {#if appt.attendees?.length > 0}
-                        <div class="appt-attendees">👥 {appt.attendees.map(a => a.name || a.email.split('@')[0]).join(', ')}</div>
+                        <div class="appt-attendees"><Icon name="users" size={14} /> {appt.attendees.map(a => a.name || a.email.split('@')[0]).join(', ')}</div>
                       {/if}
                       {#if appt.type === 'prospect'}
                         <span class="appt-badge prospect">Prospect Visit</span>
@@ -2130,7 +2131,7 @@
             {:else}
               <p class="no-appointments">No upcoming appointments yet.</p>
             {/if}
-            <button class="book-appt-btn" on:click={() => bookAppointment()}>📅 Book New Appointment</button>
+            <button class="book-appt-btn" on:click={() => bookAppointment()}><Icon name="calendar" size={16} /> Book New Appointment</button>
             <div class="sync-bar">
               <button class="sync-refresh-btn" on:click={refreshAppointments}>🔄 Sync Now</button>
               {#if syncStatus}<span class="sync-status">{syncStatus}</span>{/if}
