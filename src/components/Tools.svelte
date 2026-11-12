@@ -1,5 +1,6 @@
 <script>
   import { onMount, onDestroy } from 'svelte';
+  import Icon from './Icon.svelte';
   import QRCode from 'qrcode';
   import { PDFDocument, rgb, StandardFonts } from 'pdf-lib';
   import { generateCounterSignPdf } from '../lib/counterSign.js';
@@ -430,7 +431,7 @@
 </div>
 
 <div class="no-print" style="text-align:center;margin-top:20px;">
-  <button onclick="window.print()" style="padding:12px 32px;background:#CC0000;color:white;border:none;border-radius:8px;font-size:16px;cursor:pointer;">🖨️ Print / Save as PDF</button>
+  <button onclick="window.print()" style="padding:12px 32px;background:#CC0000;color:white;border:none;border-radius:8px;font-size:16px;cursor:pointer;">🖨 Print / Save as PDF</button>
 </div>
 </body></html>`;
 
@@ -1060,86 +1061,86 @@ Store: ${store}
 <div class="tools-container">
   <!-- Main Tools Menu -->
   {#if view === 'main'}
-    <h2>🛠️ Tools & Training</h2>
+    <h2><Icon name="tool" size={18} /> Tools & Training</h2>
     <p class="subtitle">Sales support, management tools & training library</p>
 
     <div class="button-grid">
       <button class="main-btn" on:click={() => view = 'roi'}
         use:addToHome={{ label: 'ROI Calculator', icon: '📊', tab: 'tools' }}>
-        <div class="btn-icon">📊</div>
+        <div class="btn-icon"><Icon name="bar-chart" size={22} /></div>
         <div class="btn-text">ROI Calculator</div>
         <div class="btn-desc">Calculate campaign ROI before pitching</div>
       </button>
 
       <button class="main-btn pfi-btn" on:click={() => view = 'pays-for-itself'}
         use:addToHome={{ label: 'Pays For Itself', icon: '💸', tab: 'tools' }}>
-        <div class="btn-icon">💸</div>
+        <div class="btn-icon"><Icon name="dollar" size={22} /></div>
         <div class="btn-text">Pays For Itself</div>
         <div class="btn-desc">Flip "no budget" in 10 seconds</div>
       </button>
 
       <button class="main-btn" on:click={() => view = 'rates'}>
-        <div class="btn-icon">💰</div>
+        <div class="btn-icon"><Icon name="dollar" size={22} /></div>
         <div class="btn-text">Store Rates</div>
         <div class="btn-desc">Quick pricing lookup by store</div>
       </button>
 
       <button class="main-btn" on:click={() => view = 'testimonials'}>
-        <div class="btn-icon">📋</div>
+        <div class="btn-icon"><Icon name="clipboard" size={22} /></div>
         <div class="btn-text">Testimonials</div>
         <div class="btn-desc">Find relevant case studies</div>
       </button>
 
       <button class="main-btn" on:click={() => { view = 'scripts'; loadScripts(); }}
         use:addToHome={{ label: 'Sales Scripts', icon: '🎤', tab: 'tools' }}>
-        <div class="btn-icon">🎤</div>
+        <div class="btn-icon"><Icon name="mic" size={22} /></div>
         <div class="btn-text">Sales Scripts</div>
         <div class="btn-desc">Cold walk-in & appointment scripts</div>
       </button>
 
       <button class="main-btn" on:click={() => view = 'counter-sign'}
         use:addToHome={{ label: 'Counter Sign', icon: '🎨', tab: 'tools' }}>
-        <div class="btn-icon">🎨</div>
+        <div class="btn-icon"><Icon name="palette" size={22} /></div>
         <div class="btn-text">Counter Sign</div>
         <div class="btn-desc">Generate counter signs</div>
       </button>
 
       <button class="main-btn" on:click={() => { view = 'training'; loadTrainingLibrary(); }}
         use:addToHome={{ label: 'Training Library', icon: '🎓', tab: 'tools' }}>
-        <div class="btn-icon">🎓</div>
+        <div class="btn-icon"><Icon name="package" size={22} /></div>
         <div class="btn-text">Training Library</div>
         <div class="btn-desc">Contracts, scripts, videos & resources</div>
       </button>
 
       <button class="main-btn" on:click={() => view = 'submit-testimonial'}>
-        <div class="btn-icon">⭐</div>
+        <div class="btn-icon"><Icon name="star" size={22} /></div>
         <div class="btn-text">Submit Testimonial</div>
         <div class="btn-desc">Share customer success stories</div>
       </button>
 
       <button class="main-btn" on:click={() => view = 'analytics'}>
-        <div class="btn-icon">📊</div>
+        <div class="btn-icon"><Icon name="bar-chart" size={22} /></div>
         <div class="btn-text">Sales Analytics</div>
         <div class="btn-desc">Revenue, reps & app usage stats</div>
       </button>
 
       <button class="main-btn" on:click={() => view = 'appearance'}
         use:addToHome={{ label: 'Appearance', icon: '🎨', tab: 'tools' }}>
-        <div class="btn-icon">🎨</div>
+        <div class="btn-icon"><Icon name="palette" size={22} /></div>
         <div class="btn-text">Appearance</div>
         <div class="btn-desc">Fonts, icons, accent color & wallpapers</div>
       </button>
 
       <button class="main-btn" on:click={replayWalkthrough}
         use:addToHome={{ label: 'How to Use imPRO', icon: '🧭', tab: 'tools' }}>
-        <div class="btn-icon">🧭</div>
+        <div class="btn-icon"><Icon name="compass" size={22} /></div>
         <div class="btn-text">How to Use imPRO</div>
         <div class="btn-desc">Replay the new-user walkthrough</div>
       </button>
 
       <button class="main-btn share-app-btn" on:click={() => view = 'share-app'}
         use:addToHome={{ label: 'Share App', icon: '📲', tab: 'tools' }}>
-        <div class="btn-icon">📲</div>
+        <div class="btn-icon"><Icon name="share" size={22} /></div>
         <div class="btn-text">Share / Install App</div>
         <div class="btn-desc">QR code & link to download the app</div>
       </button>
@@ -1149,20 +1150,20 @@ Store: ${store}
     {@const myName = $user?.contract_name || $user?.display_name || $user?.name || ''}
     {@const myPad = getRepPad(myName)}
     <div style="margin-top: 24px; padding: 16px; background: var(--bg-secondary, #f5f5f5); border-radius: 12px; border: 1px solid var(--border-color, #e0e0e0);">
-      <h3 style="font-size: 15px; margin-bottom: 4px; color: var(--text-primary, #333);">💰 My Pricing Pad</h3>
+      <h3 style="font-size: 15px; margin-bottom: 4px; color: var(--text-primary, #333);"><Icon name="dollar" size={15} /> My Pricing Pad</h3>
       <p style="font-size: 12px; color: #888; margin-bottom: 12px;">Added to base price before discounts</p>
       <div style="display: flex; align-items: center; gap: 8px;">
         <span style="font-size: 18px; font-weight: 700; color: var(--text-primary, #333);">$</span>
         <input type="number" value={myPad} on:change={(e) => { setRepPad(myName, e.target.value); padAmount.set(parseFloat(e.target.value) || 0); }}
           style="flex: 1; padding: 12px; border: 1px solid var(--border-color, #ddd); border-radius: 8px; font-size: 20px; font-weight: 700; background: var(--input-bg, #fff); color: var(--text-primary, #333);" />
       </div>
-      <p style="margin-top: 8px; font-size: 11px; color: #888;">+ $125 production fee always applied{myPad !== 1200 ? ' · ⚠️ Default is $1,200' : ''}</p>
+      <p style="margin-top: 8px; font-size: 11px; color: #888;">+ $125 production fee always applied{myPad !== 1200 ? ' · Default is $1,200' : ''}</p>
     </div>
 
     <!-- Manager: view all reps' pads -->
     {#if $user?.role === 'manager' || $user?.name?.toLowerCase().includes('tyler')}
       <div style="margin-top: 12px; padding: 16px; background: var(--bg-secondary, #f5f5f5); border-radius: 12px; border: 1px solid var(--border-color, #e0e0e0);">
-        <h3 style="font-size: 15px; margin-bottom: 8px; color: var(--text-primary, #333);">⚙️ Team Pricing Pads</h3>
+        <h3 style="font-size: 15px; margin-bottom: 8px; color: var(--text-primary, #333);"><Icon name="settings" size={15} /> Team Pricing Pads</h3>
         <div style="display: flex; flex-direction: column; gap: 6px;">
           {#each Object.entries(repRegistry).filter(([k, v]) => v.role === 'rep' || v.role === 'manager').sort((a, b) => (a[1].display_name || '').localeCompare(b[1].display_name || '')) as [repId, rep]}
             {@const repName = rep.contract_name || rep.display_name || repId}
@@ -1182,7 +1183,7 @@ Store: ${store}
   <!-- Pays For Itself — quick "no budget" objection-flipper -->
   {#if view === 'pays-for-itself'}
     <button class="back-btn" on:click={goBack}>← Back</button>
-    <h2>💸 Pays For Itself</h2>
+    <h2><Icon name="dollar" size={18} /> Pays For Itself</h2>
     <p class="subtitle">The 10-second answer to “we don’t have the budget”</p>
 
     <div class="pfi-wrap">
@@ -1241,7 +1242,7 @@ Store: ${store}
 
       <!-- The upside "what if" -->
       <div class="pfi-upside">
-        <div class="pfi-upside-head">📈 Now the upside</div>
+        <div class="pfi-upside-head"><Icon name="trending-up" size={15} /> Now the upside</div>
         <div class="pfi-upside-q">
           If it brings in just
           <span class="pfi-stepper">
@@ -1279,7 +1280,7 @@ Store: ${store}
 
       <!-- Talk track -->
       <div class="pfi-talk">
-        <div class="pfi-talk-head">🎤 Say it like this</div>
+        <div class="pfi-talk-head"><Icon name="mic" size={15} /> Say it like this</div>
         <p>
           “I hear you on budget — but this isn’t a cost, it’s a customer machine.
           At {pfiMoney(pfiMonthly)} a month, you only need
@@ -1292,7 +1293,7 @@ Store: ${store}
         <button class="pfi-copy" on:click={() => {
           const t = `I hear you on budget — but this isn't a cost, it's a customer machine. At ${pfiMoney(pfiMonthly)} a month, you only need ${pfiBreakevenMonthly} new customers — about ${pfiPerWeekToBreakeven < 1 ? pfiPerWeekToBreakeven.toFixed(1) : Math.round(pfiPerWeekToBreakeven)} a week — and you've already paid for the whole thing. Everything after that is money in your pocket.`;
           navigator.clipboard.writeText(t).then(() => { pfiCopied = true; setTimeout(() => pfiCopied = false, 2000); }).catch(() => {});
-        }}>{pfiCopied ? '✅ Copied' : '📋 Copy talk track'}</button>
+        }}>{#if pfiCopied}<Icon name="check" size={14} color="#2e7d32" /> Copied{:else}<Icon name="copy" size={14} /> Copy talk track{/if}</button>
       </div>
 
       <p class="pfi-foot">
@@ -1306,11 +1307,11 @@ Store: ${store}
   <!-- ROI Calculator -->
   {#if view === 'roi'}
     <button class="back-btn" on:click={goBack}>← Back</button>
-    <h2>📊 ROI Calculator</h2>
+    <h2><Icon name="bar-chart" size={18} /> ROI Calculator</h2>
     <p class="subtitle">Calculate campaign ROI before pitching</p>
 
     <div class="info-card">
-      <p>💡 Show customers their potential ROI on register tape campaigns.</p>
+      <p><Icon name="info" size={14} /> Show customers their potential ROI on register tape campaigns.</p>
       
       <div class="form-group">
         <label>Business Name *</label>
@@ -1326,10 +1327,10 @@ Store: ${store}
               <button class="clear-btn" on:click={() => { roiSelectedStore = null; roiAdCost = ''; }}>✕</button>
             </div>
             <div class="store-info-details">
-              <span>📍 {roiSelectedStore.City}, {roiSelectedStore.State}</span>
-              <span>🏪 {roiSelectedStore.StoreName}</span>
-              <span>🔄 Cycle {roiSelectedStore.Cycle || '—'}</span>
-              <span>📦 {roiSelectedStore['Case Count'] || '—'} cases</span>
+              <span><Icon name="map-pin" size={13} /> {roiSelectedStore.City}, {roiSelectedStore.State}</span>
+              <span><Icon name="home" size={13} /> {roiSelectedStore.StoreName}</span>
+              <span><Icon name="refresh" size={13} /> Cycle {roiSelectedStore.Cycle || '—'}</span>
+              <span><Icon name="package" size={13} /> {roiSelectedStore['Case Count'] || '—'} cases</span>
             </div>
             <div class="store-info-prices">
               <span class:active={roiAdSize === 'single'}>Single: ${(roiSelectedStore.SingleAd || 0).toLocaleString()}/yr</span>
@@ -1402,7 +1403,7 @@ Store: ${store}
       </div>
 
       <div class="roi-offer-box">
-        <div class="roi-offer-header">🏷️ Coupon Offer Cost</div>
+        <div class="roi-offer-header"><Icon name="tag" size={14} /> Coupon Offer Cost</div>
         <p class="hint">What the business gives up per redemption (optional)</p>
         <div class="form-group">
           <label>Discount — $ Off</label>
@@ -1425,7 +1426,7 @@ Store: ${store}
 
     {#if roiResult}
       <div class="roi-results">
-        <h3>📊 ROI Breakdown</h3>
+        <h3><Icon name="bar-chart" size={16} /> ROI Breakdown</h3>
         
         <div class="roi-stats">
           <div class="roi-stat">
@@ -1497,23 +1498,23 @@ Store: ${store}
 
         <div class="roi-verdict" class:positive={roiResult.roiPercent >= 0} class:negative={roiResult.roiPercent < 0}>
           {#if roiResult.roiPercent >= 100}
-            🚀 Excellent ROI! Customer makes ${roiResult.netProfit.toLocaleString()} profit on a ${roiResult.totalAdCost.toLocaleString()} investment.
+            <Icon name="rocket" size={15} /> Excellent ROI! Customer makes ${roiResult.netProfit.toLocaleString()} profit on a ${roiResult.totalAdCost.toLocaleString()} investment.
           {:else if roiResult.roiPercent >= 0}
-            ✅ Positive ROI. Campaign pays for itself and generates ${roiResult.netProfit.toLocaleString()} in profit.
+            <Icon name="check-circle" size={15} color="#2e7d32" /> Positive ROI. Campaign pays for itself and generates ${roiResult.netProfit.toLocaleString()} in profit.
           {:else}
-            ⚠️ Negative ROI at these numbers. Try adjusting customer count or average spend.
+            <Icon name="alert" size={15} /> Negative ROI at these numbers. Try adjusting customer count or average spend.
           {/if}
         </div>
 
         <div class="roi-export-actions">
           <button class="action-btn" on:click={downloadRoiPdf}>
-            📄 PDF Report
+            <Icon name="file-text" size={15} /> PDF Report
           </button>
           <button class="action-btn" on:click={exportRoiHtml} style="background: #CC0000;">
-            🌐 Export Report
+            <Icon name="globe" size={15} /> Export Report
           </button>
           <button class="action-btn" on:click={shareRoiText} style="background: #2e7d32;">
-            📤 Share
+            <Icon name="share" size={15} /> Share
           </button>
         </div>
       </div>
@@ -1523,7 +1524,7 @@ Store: ${store}
   <!-- Store Rates -->
   {#if view === 'rates'}
     <button class="back-btn" on:click={goBack}>← Back</button>
-    <h2>💰 Store Rates</h2>
+    <h2><Icon name="dollar" size={18} /> Store Rates</h2>
     <p class="subtitle">Quick pricing lookup</p>
 
     <div class="search-box">
@@ -1554,7 +1555,7 @@ Store: ${store}
   <!-- Testimonials -->
   {#if view === 'testimonials'}
     <button class="back-btn" on:click={goBack}>← Back</button>
-    <h2>📋 Testimonials</h2>
+    <h2><Icon name="clipboard" size={18} /> Testimonials</h2>
     <p class="subtitle">Find relevant case studies and social proof</p>
 
     <a
@@ -1563,7 +1564,7 @@ Store: ${store}
       target="_blank"
       rel="noopener"
     >
-      <span class="vt-icon">▶️</span>
+      <span class="vt-icon">▶</span>
       <span class="vt-text">
         <strong>Video Testimonials</strong>
         <small>Watch the full YouTube playlist →</small>
@@ -1579,12 +1580,12 @@ Store: ${store}
         disabled={testimonialLoading}
       />
       <button class="search-btn" on:click={searchTestimonials} disabled={testimonialLoading || !testimonialQuery.trim()}>
-        {testimonialLoading ? '🔄' : '🔍'} Search
+        {#if testimonialLoading}<Icon name="refresh" size={14} />{:else}<Icon name="search" size={14} />{/if} Search
       </button>
     </div>
 
     <div class="info-card">
-      <p>💡 Search examples:</p>
+      <p><Icon name="info" size={14} /> Search examples:</p>
       <ul>
         <li>Business categories: "dental", "restaurant", "salon", "gym"</li>
         <li>Results: "parking lot", "foot traffic", "sales increase", "ROI"</li>
@@ -1615,7 +1616,7 @@ Store: ${store}
   <!-- Share / Install App -->
   {#if view === 'share-app'}
     <button class="back-btn" on:click={goBack}>← Back</button>
-    <h2>📲 Share / Install App</h2>
+    <h2><Icon name="share" size={18} /> Share / Install App</h2>
     <p class="subtitle">Scan, tap, or copy the link to put the app on any phone</p>
 
     <div class="share-card">
@@ -1625,27 +1626,27 @@ Store: ${store}
         {:else if shareQrError}
           <div class="share-qr-err">{shareQrError}</div>
         {:else}
-          <div class="share-qr-loading">🔄 Generating QR…</div>
+          <div class="share-qr-loading"><Icon name="refresh" size={15} /> Generating QR…</div>
         {/if}
       </div>
-      <p class="share-scan-hint">📷 Point a phone camera at the code</p>
+      <p class="share-scan-hint"><Icon name="camera" size={13} /> Point a phone camera at the code</p>
 
       <div class="share-link-row">
         <input class="share-link-input" type="text" readonly value={APP_URL}
           on:focus={(e) => e.target.select()} />
         <button class="share-copy-btn" class:copied={shareLinkCopied} on:click={copyShareLink}>
-          {shareLinkCopied ? '✅ Copied' : '📋 Copy'}
+          {#if shareLinkCopied}<Icon name="check" size={14} color="#2e7d32" /> Copied{:else}<Icon name="copy" size={14} /> Copy{/if}
         </button>
       </div>
 
       <div class="share-actions">
-        <button class="share-action-btn primary" on:click={nativeShareApp}>📤 Share link…</button>
-        <button class="share-action-btn" on:click={downloadShareQR} disabled={!shareQrDataUrl}>⬇️ Save QR</button>
+        <button class="share-action-btn primary" on:click={nativeShareApp}><Icon name="share" size={14} /> Share link…</button>
+        <button class="share-action-btn" on:click={downloadShareQR} disabled={!shareQrDataUrl}><Icon name="download" size={14} /> Save QR</button>
       </div>
     </div>
 
     <div class="install-help">
-      <h3>📱 How to install</h3>
+      <h3><Icon name="smartphone" size={16} /> How to install</h3>
       <div class="install-step">
         <span class="ihs-badge">🍎</span>
         <div>
@@ -1667,7 +1668,7 @@ Store: ${store}
   <!-- Training Library -->
   {#if view === 'training'}
     <button class="back-btn" on:click={goBack}>← Back</button>
-    <h2>🎓 Training Library</h2>
+    <h2><Icon name="package" size={18} /> Training Library</h2>
     <p class="subtitle">Contracts, scripts, presentations, videos & reference materials</p>
 
     <a
@@ -1676,7 +1677,7 @@ Store: ${store}
       target="_blank"
       rel="noopener"
     >
-      <span class="vt-icon">📁</span>
+      <span class="vt-icon"><Icon name="folder" size={16} /></span>
       <span class="vt-text">
         <strong>Open full library in Google Drive</strong>
         <small>Browse everything in the “0001 Training materials” folder →</small>
@@ -1728,7 +1729,7 @@ Store: ${store}
   <!-- Sales Scripts -->
   {#if view === 'scripts'}
     <button class="back-btn" on:click={() => { if (selectedScript) { selectedScript = null; } else { goBack(); } }}>← Back</button>
-    <h2>🎤 Sales Scripts</h2>
+    <h2><Icon name="mic" size={18} /> Sales Scripts</h2>
     <p class="subtitle">Proven scripts for cold walk-ins & appointment setting</p>
 
     {#if scriptsLoading}
@@ -1740,7 +1741,7 @@ Store: ${store}
         <div class="script-detail-head">
           <h3>{selectedScript.title}</h3>
           <button class="copy-script-btn" on:click={() => copyScript(selectedScript)}>
-            {copiedScriptId === selectedScript.id ? '✅ Copied' : '📋 Copy'}
+            {#if copiedScriptId === selectedScript.id}<Icon name="check" size={14} color="#2e7d32" /> Copied{:else}<Icon name="copy" size={14} /> Copy{/if}
           </button>
         </div>
         {#if selectedScript.author}<p class="script-author">by {selectedScript.author}</p>{/if}
@@ -1778,15 +1779,15 @@ Store: ${store}
     <button class="back-btn" on:click={goBack}>← Back</button>
     
     {#if counterSignStep === 1}
-      <h2>🎨 Counter Sign Generator</h2>
+      <h2><Icon name="palette" size={18} /> Counter Sign Generator</h2>
       <p class="subtitle">Select template style & store chain</p>
 
       <div class="style-toggle">
         <button class="style-btn" class:active={counterSignStyle === 'classic'} on:click={() => counterSignStyle = 'classic'}>
-          🏷️ Classic
+          <Icon name="tag" size={14} /> Classic
         </button>
         <button class="style-btn" class:active={counterSignStyle === 'clean'} on:click={() => counterSignStyle = 'clean'}>
-          ✨ Clean
+          <Icon name="star" size={14} /> Clean
         </button>
       </div>
       <p class="style-desc">
@@ -1826,22 +1827,22 @@ Store: ${store}
             </datalist>
           </div>
           {#if loadingRepCard}
-            <p class="auto-fill">⏳ Loading {selectedRepName}'s business card…</p>
+            <p class="auto-fill"><Icon name="clock" size={14} /> Loading {selectedRepName}'s business card…</p>
           {:else if autoCardLoaded}
-            <p class="success-text">✅ Auto-loaded {autoCardName}'s business card on file</p>
+            <p class="success-text"><Icon name="check-circle" size={14} color="#2e7d32" /> Auto-loaded {autoCardName}'s business card on file</p>
           {:else if selectedRepName && repNames.includes(selectedRepName)}
-            <p class="warning-text">⚠️ No card on file for {selectedRepName} — upload one below</p>
+            <p class="warning-text"><Icon name="alert" size={14} /> No card on file for {selectedRepName} — upload one below</p>
           {/if}
         </div>
 
         <div class="upload-box">
-          <p>📸 {autoCardLoaded ? 'Or upload a different business card' : 'Upload business card image'}</p>
+          <p><Icon name="camera" size={14} /> {autoCardLoaded ? 'Or upload a different business card' : 'Upload business card image'}</p>
           <input type="file" accept="image/*" on:change={(e) => {
             const f = e.target.files?.[0];
             if (f) { counterData.business_card_image = f; autoCardLoaded = false; autoCardName = ''; }
           }} />
           {#if counterData.business_card_image}
-            <p class="upload-ok">✅ {autoCardLoaded ? 'On-file card' : counterData.business_card_image.name}</p>
+            <p class="upload-ok"><Icon name="check" size={14} color="#2e7d32" /> {autoCardLoaded ? 'On-file card' : counterData.business_card_image.name}</p>
           {/if}
         </div>
 
@@ -1878,14 +1879,14 @@ Store: ${store}
             <p class="auto-fill">Your landing page URL will be:</p>
             <p class="landing-page-display">{counterData.landing_page_url}</p>
             {#if !repNames.includes(selectedRepName)}
-              <p class="warning-text">⚠️ Name not found in registry — URL will be auto-generated but verify it's correct</p>
+              <p class="warning-text"><Icon name="alert" size={14} /> Name not found in registry — URL will be auto-generated but verify it's correct</p>
             {:else}
-              <p class="success-text">✅ Name matches IndoorMedia Records</p>
+              <p class="success-text"><Icon name="check-circle" size={14} color="#2e7d32" /> Name matches IndoorMedia Records</p>
             {/if}
           {/if}
         </div>
 
-        <p class="info-text">💡 Type your name to auto-generate a landing page URL / QR code — or skip this step to create a sign without a QR code.</p>
+        <p class="info-text"><Icon name="info" size={14} /> Type your name to auto-generate a landing page URL / QR code — or skip this step to create a sign without a QR code.</p>
 
         <button class="next-btn" on:click={() => counterSignStep = 4}>
           {counterData.landing_page_url ? 'Next →' : 'Skip — No QR Code →'}
@@ -1901,7 +1902,7 @@ Store: ${store}
 
       <div class="upload-card">
         <div class="upload-box">
-          <p>📸 Upload ad proof image(s) - select 1-6 images</p>
+          <p><Icon name="camera" size={14} /> Upload ad proof image(s) - select 1-6 images</p>
           <input type="file" accept="image/*" multiple on:change={(e) => {
             const files = Array.from(e.target.files || []).slice(0, 6);
             counterData.ad_proof_images = files;
@@ -1909,7 +1910,7 @@ Store: ${store}
           {#if counterData.ad_proof_images.length > 0}
             <div style="margin-top: 12px;">
               {#each counterData.ad_proof_images as img, idx}
-                <p class="upload-ok">✅ {idx + 1}. {img.name}</p>
+                <p class="upload-ok"><Icon name="check" size={14} color="#2e7d32" /> {idx + 1}. {img.name}</p>
               {/each}
             </div>
           {/if}
@@ -1928,12 +1929,12 @@ Store: ${store}
       <div class="review-card">
         <div class="review-section">
           <h4>Template Style</h4>
-          <p>{counterSignStyle === 'clean' ? '✨ Clean' : '🏷️ Classic'}</p>
+          <p>{#if counterSignStyle === 'clean'}<Icon name="star" size={14} /> Clean{:else}<Icon name="tag" size={14} /> Classic{/if}</p>
         </div>
 
         <div class="review-section">
           <h4>Business Card</h4>
-          <p>{counterData.business_card_image ? `✅ ${counterData.business_card_image.name}` : '(Optional - not provided)'}</p>
+          <p>{#if counterData.business_card_image}<Icon name="check" size={14} color="#2e7d32" /> {counterData.business_card_image.name}{:else}(Optional - not provided){/if}</p>
         </div>
 
         <div class="review-section">
@@ -1944,16 +1945,16 @@ Store: ${store}
         <div class="review-section">
           <h4>Ad Proofs ({counterData.ad_proof_images.length})</h4>
           {#each counterData.ad_proof_images as img, idx}
-            <p>✅ {idx + 1}. {img.name}</p>
+            <p><Icon name="check" size={14} color="#2e7d32" /> {idx + 1}. {img.name}</p>
           {/each}
         </div>
 
         <button class="action-btn" on:click={submitCounterSign} disabled={generating}>
-          {generating ? '⏳ Generating...' : '✅ Generate Counter Sign PDF'}
+          {#if generating}<Icon name="clock" size={14} /> Generating...{:else}<Icon name="check" size={14} /> Generate Counter Sign PDF{/if}
         </button>
         
         <button class="edit-btn" on:click={() => counterSignStep = 2}>
-          ✏️ Edit
+          <Icon name="edit" size={14} /> Edit
         </button>
       </div>
     {/if}
@@ -1962,48 +1963,48 @@ Store: ${store}
   <!-- Submit Testimonial -->
   {#if view === 'submit-testimonial'}
     <button class="back-btn" on:click={() => { if (testStep > 1) testBack(); else { view = 'main'; testStep = 1; } }}>← {testStep > 1 ? 'Previous' : 'Back'}</button>
-    <h2>⭐ Submit Testimonial</h2>
+    <h2><Icon name="star" size={18} /> Submit Testimonial</h2>
     <p class="subtitle">Step {testStep} of 15</p>
     <div class="step-progress"><div class="step-bar" style="width: {(testStep / 15) * 100}%"></div></div>
 
     {#if testSubmitted}
       <div class="success-card">
-        <p>✅ Testimonial submitted!</p>
+        <p><Icon name="check-circle" size={14} color="#2e7d32" /> Testimonial submitted!</p>
         <p>Thank you for sharing. Redirecting...</p>
       </div>
     {:else}
       <div class="form-card">
 
         {#if testStep === 1}
-          <p class="step-label">👤 Contact Name</p>
+          <p class="step-label"><Icon name="user" size={14} /> Contact Name</p>
           <div class="form-group">
             <input type="text" bind:value={testForm.name} placeholder="Owner/Manager name" />
           </div>
           <button class="action-btn" on:click={testNext} disabled={!testForm.name.trim()}>Next →</button>
 
         {:else if testStep === 2}
-          <p class="step-label">🏢 Business Name</p>
+          <p class="step-label"><Icon name="briefcase" size={14} /> Business Name</p>
           <div class="form-group">
             <input type="text" bind:value={testForm.business} placeholder="e.g., Main Street Coffee" />
           </div>
           <button class="action-btn" on:click={testNext} disabled={!testForm.business.trim()}>Next →</button>
 
         {:else if testStep === 3}
-          <p class="step-label">📍 Business Address</p>
+          <p class="step-label"><Icon name="map-pin" size={14} /> Business Address</p>
           <div class="form-group">
             <input type="text" bind:value={testForm.address} placeholder="123 Main St, City, State ZIP" />
           </div>
           <button class="action-btn" on:click={testNext} disabled={!testForm.address.trim()}>Next →</button>
 
         {:else if testStep === 4}
-          <p class="step-label">📞 Phone Number</p>
+          <p class="step-label"><Icon name="phone" size={14} /> Phone Number</p>
           <div class="form-group">
             <input type="tel" bind:value={testForm.phone} placeholder="(555) 123-4567" />
           </div>
           <button class="action-btn" on:click={testNext} disabled={!testForm.phone.trim()}>Next →</button>
 
         {:else if testStep === 5}
-          <p class="step-label">🏪 Grocery Chain</p>
+          <p class="step-label"><Icon name="home" size={14} /> Grocery Chain</p>
           <div class="form-group">
             <input type="text" bind:value={testStoreSearch} placeholder="Search store (Safeway, Kroger, etc.)" />
             {#if testStoreResults.length > 0}
@@ -2017,73 +2018,73 @@ Store: ${store}
               </div>
             {/if}
             {#if testForm.groceryChain}
-              <p class="hint">✅ Selected: {testForm.groceryChain}</p>
+              <p class="hint"><Icon name="check" size={13} color="#2e7d32" /> Selected: {testForm.groceryChain}</p>
             {/if}
           </div>
           <button class="action-btn" on:click={testNext} disabled={!testForm.groceryChain.trim()}>Next →</button>
 
         {:else if testStep === 6}
-          <p class="step-label">🗺️ Zone</p>
+          <p class="step-label"><Icon name="map" size={14} /> Zone</p>
           <div class="form-group">
             <input type="text" bind:value={testForm.zone} placeholder="e.g., 07Z, 05X" />
-            <p class="hint">{testForm.zone ? '✅ ' + testForm.zone : 'Auto-filled from store if available'}</p>
+            <p class="hint">{#if testForm.zone}<Icon name="check" size={13} color="#2e7d32" /> {testForm.zone}{:else}Auto-filled from store if available{/if}</p>
           </div>
           <button class="action-btn" on:click={testNext} disabled={!testForm.zone.trim()}>Next →</button>
 
         {:else if testStep === 7}
-          <p class="step-label">🔢 Store Number</p>
+          <p class="step-label"><Icon name="clipboard" size={14} /> Store Number</p>
           <div class="form-group">
             <input type="text" bind:value={testForm.storeNumber} placeholder="e.g., SAF07Z-0206" />
-            <p class="hint">{testForm.storeNumber ? '✅ ' + testForm.storeNumber : 'Auto-filled from store search'}</p>
+            <p class="hint">{#if testForm.storeNumber}<Icon name="check" size={13} color="#2e7d32" /> {testForm.storeNumber}{:else}Auto-filled from store search{/if}</p>
           </div>
           <button class="action-btn" on:click={testNext} disabled={!testForm.storeNumber.trim()}>Next →</button>
 
         {:else if testStep === 8}
-          <p class="step-label">🎟️ Coupons Redeemed Per Week</p>
+          <p class="step-label"><Icon name="tag" size={14} /> Coupons Redeemed Per Week</p>
           <div class="form-group">
             <input type="number" bind:value={testForm.couponsPerWeek} placeholder="e.g., 15" min="0" />
           </div>
           <button class="action-btn" on:click={testNext} disabled={!testForm.couponsPerWeek}>Next →</button>
 
         {:else if testStep === 9}
-          <p class="step-label">💵 Average Ticket Price</p>
+          <p class="step-label"><Icon name="dollar" size={14} /> Average Ticket Price</p>
           <div class="form-group">
             <input type="number" bind:value={testForm.avgTicket} placeholder="e.g., 45.00" step="0.01" min="0" />
           </div>
           <button class="action-btn" on:click={testNext} disabled={!testForm.avgTicket}>Next →</button>
 
         {:else if testStep === 10}
-          <p class="step-label">📊 ROI Rating</p>
+          <p class="step-label"><Icon name="bar-chart" size={14} /> ROI Rating</p>
           <div class="rating-btns">
-            <button class="rating-btn" class:active={testForm.roi === 'excellent'} on:click={() => { testForm.roi = 'excellent'; testNext(); }}>🔥 Excellent</button>
-            <button class="rating-btn" class:active={testForm.roi === 'good'} on:click={() => { testForm.roi = 'good'; testNext(); }}>⭐ Good</button>
-            <button class="rating-btn" class:active={testForm.roi === 'fair'} on:click={() => { testForm.roi = 'fair'; testNext(); }}>👀 Fair</button>
-            <button class="rating-btn" class:active={testForm.roi === 'poor'} on:click={() => { testForm.roi = 'poor'; testNext(); }}>😞 Poor</button>
+            <button class="rating-btn" class:active={testForm.roi === 'excellent'} on:click={() => { testForm.roi = 'excellent'; testNext(); }}><Icon name="fire" size={14} color="#e2561d" /> Excellent</button>
+            <button class="rating-btn" class:active={testForm.roi === 'good'} on:click={() => { testForm.roi = 'good'; testNext(); }}><Icon name="star" size={14} color="#e0a400" /> Good</button>
+            <button class="rating-btn" class:active={testForm.roi === 'fair'} on:click={() => { testForm.roi = 'fair'; testNext(); }}><Icon name="eye" size={14} /> Fair</button>
+            <button class="rating-btn" class:active={testForm.roi === 'poor'} on:click={() => { testForm.roi = 'poor'; testNext(); }}><Icon name="trending-down" size={14} /> Poor</button>
           </div>
 
         {:else if testStep === 11}
-          <p class="step-label">⏱️ How Long Have They Advertised?</p>
+          <p class="step-label"><Icon name="clock" size={14} /> How Long Have They Advertised?</p>
           <div class="form-group">
             <input type="text" bind:value={testForm.duration} placeholder="e.g., 6 months, 1 year" />
           </div>
           <button class="action-btn" on:click={testNext} disabled={!testForm.duration.trim()}>Next →</button>
 
         {:else if testStep === 12}
-          <p class="step-label">🔄 Would They Renew?</p>
+          <p class="step-label"><Icon name="refresh" size={14} /> Would They Renew?</p>
           <div class="rating-btns">
-            <button class="rating-btn" class:active={testForm.wouldRenew === 'yes'} on:click={() => { testForm.wouldRenew = 'yes'; testNext(); }}>✅ Yes</button>
-            <button class="rating-btn" class:active={testForm.wouldRenew === 'no'} on:click={() => { testForm.wouldRenew = 'no'; testNext(); }}>❌ No</button>
+            <button class="rating-btn" class:active={testForm.wouldRenew === 'yes'} on:click={() => { testForm.wouldRenew = 'yes'; testNext(); }}><Icon name="check" size={14} color="#2e7d32" /> Yes</button>
+            <button class="rating-btn" class:active={testForm.wouldRenew === 'no'} on:click={() => { testForm.wouldRenew = 'no'; testNext(); }}><Icon name="x" size={14} color="#cc2b1d" /> No</button>
           </div>
 
         {:else if testStep === 13}
-          <p class="step-label">👍 Would They Recommend IndoorMedia?</p>
+          <p class="step-label"><Icon name="thumbs-up" size={14} /> Would They Recommend IndoorMedia?</p>
           <div class="rating-btns">
-            <button class="rating-btn" class:active={testForm.recommend === 'yes'} on:click={() => { testForm.recommend = 'yes'; testNext(); }}>✅ Yes</button>
-            <button class="rating-btn" class:active={testForm.recommend === 'no'} on:click={() => { testForm.recommend = 'no'; testNext(); }}>❌ No</button>
+            <button class="rating-btn" class:active={testForm.recommend === 'yes'} on:click={() => { testForm.recommend = 'yes'; testNext(); }}><Icon name="check" size={14} color="#2e7d32" /> Yes</button>
+            <button class="rating-btn" class:active={testForm.recommend === 'no'} on:click={() => { testForm.recommend = 'no'; testNext(); }}><Icon name="x" size={14} color="#cc2b1d" /> No</button>
           </div>
 
         {:else if testStep === 14}
-          <p class="step-label">💬 Additional Comments</p>
+          <p class="step-label"><Icon name="message" size={14} /> Additional Comments</p>
           <div class="form-group">
             <textarea bind:value={testForm.comments} placeholder="Any other details about their experience..." rows="4"></textarea>
           </div>
