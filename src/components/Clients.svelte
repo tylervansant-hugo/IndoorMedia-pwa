@@ -2,6 +2,7 @@
   import { onMount, onDestroy } from 'svelte';
   import { user } from '../lib/stores.js';
   import { logActivity } from '../lib/activity.js';
+  import Icon from './Icon.svelte';
   import * as pdfjsLib from 'pdfjs-dist';
   import ARForm from './ARForm.svelte';
   import RenewalWaiver from './RenewalWaiver.svelte';
@@ -1220,49 +1221,49 @@ IndoorMedia`;
 
     <div class="button-grid">
       <button class="main-btn" on:click={() => view = 'customers'}>
-        <div class="btn-icon">👥</div>
+        <div class="btn-icon"><Icon name="users" size={22} /></div>
         <div class="btn-text">My Customers</div>
         <div class="btn-desc">{myCustomers.length} closed deals</div>
       </button>
 
       <button class="main-btn" on:click={() => view = 'sales'}>
-        <div class="btn-icon">💳</div>
+        <div class="btn-icon"><Icon name="dollar" size={22} /></div>
         <div class="btn-text">My Sales</div>
         <div class="btn-desc">${totalRevenue.toLocaleString()} total</div>
       </button>
 
       <button class="main-btn" on:click={() => view = 'submit-contract'}>
-        <div class="btn-icon">📄</div>
+        <div class="btn-icon"><Icon name="file-text" size={22} /></div>
         <div class="btn-text">Submit Contract</div>
         <div class="btn-desc">Upload signed agreement</div>
       </button>
 
       <button class="main-btn" on:click={() => view = 'renewals'}>
-        <div class="btn-icon">🔄</div>
+        <div class="btn-icon"><Icon name="refresh" size={22} /></div>
         <div class="btn-text">Pending Renewals</div>
         <div class="btn-desc">{myRenewals.length} accounts</div>
       </button>
 
       <button class="main-btn" on:click={() => view = 'ad-proofs'}>
-        <div class="btn-icon">🎨</div>
+        <div class="btn-icon"><Icon name="palette" size={22} /></div>
         <div class="btn-text">Ad Proofs</div>
         <div class="btn-desc">{myAdProofs.length} proofs</div>
       </button>
 
       <button class="main-btn" on:click={() => view = 'digital'}>
-        <div class="btn-icon">📱</div>
+        <div class="btn-icon"><Icon name="smartphone" size={22} /></div>
         <div class="btn-text">Digital Contracts</div>
         <div class="btn-desc">{digitalContracts.length} active</div>
       </button>
 
       <button class="main-btn" on:click={() => view = 'ar-form'}>
-        <div class="btn-icon">🧾</div>
+        <div class="btn-icon"><Icon name="receipt" size={22} /></div>
         <div class="btn-text">A/R Adjustment</div>
         <div class="btn-desc">Fill &amp; export request</div>
       </button>
 
       <button class="main-btn" on:click={() => view = 'renewal-waiver'}>
-        <div class="btn-icon">📝</div>
+        <div class="btn-icon"><Icon name="edit" size={22} /></div>
         <div class="btn-text">Renewal Waiver</div>
         <div class="btn-desc">Fill &amp; export waiver</div>
       </button>
@@ -1318,18 +1319,18 @@ IndoorMedia`;
             </div>
             <p class="contact">{c.contact_name || ''}</p>
             {#if c.contact_phone}
-              <p class="phone">📞 {c.contact_phone}</p>
+              <p class="phone"><Icon name="phone" size={14} /> {c.contact_phone}</p>
             {/if}
             {#if c.contact_email}
-              <p class="email">📧 {c.contact_email}</p>
+              <p class="email"><Icon name="mail" size={14} /> {c.contact_email}</p>
             {/if}
             <div class="card-meta">
-              <span>🏪 {c.store_name || ''} #{c.store_number || ''}</span>
-              <span>📋 {c.product_description || ''}</span>
-              <span>📅 {c.date ? c.date.split(' ')[0] : ''}</span>
+              <span><Icon name="home" size={13} /> {c.store_name || ''} #{c.store_number || ''}</span>
+              <span><Icon name="clipboard" size={13} /> {c.product_description || ''}</span>
+              <span><Icon name="calendar" size={13} /> {c.date ? c.date.split(' ')[0] : ''}</span>
             </div>
             {#if c.address}
-              <p class="address">📍 {c.address}</p>
+              <p class="address"><Icon name="map-pin" size={13} /> {c.address}</p>
             {/if}
             {#if isManager && c.sales_rep}
               <p class="rep-tag">Rep: {c.sales_rep}</p>
@@ -1348,53 +1349,53 @@ IndoorMedia`;
             {/if}
             <div class="card-actions">
               {#if c.contact_phone}
-                <a href="tel:{c.contact_phone}" class="action-btn call">📞 Call</a>
-                <a href="sms:{c.contact_phone}" class="action-btn text-btn">💬 Text</a>
+                <a href="tel:{c.contact_phone}" class="action-btn call"><Icon name="phone" size={14} /> Call</a>
+                <a href="sms:{c.contact_phone}" class="action-btn text-btn"><Icon name="message" size={14} /> Text</a>
               {/if}
               {#if c.contact_email}
-                <a href="mailto:{c.contact_email}" class="action-btn">📧 Email</a>
+                <a href="mailto:{c.contact_email}" class="action-btn"><Icon name="mail" size={14} /> Email</a>
               {/if}
               <button class="action-btn expand-btn" on:click={() => toggleExpand(i)}>
-                {expandedCustomer === i ? '▲ Less' : '🚀 More'}
+                {#if expandedCustomer === i}▲ Less{:else}More{/if}
               </button>
             </div>
 
             {#if expandedCustomer === i}
               <div class="expanded-section">
                 <!-- Email Templates -->
-                <div class="section-header">✉️ Draft Email</div>
+                <div class="section-header"><Icon name="mail" size={15} /> Draft Email</div>
                 <div class="email-btns">
-                  <button class="email-tmpl-btn" on:click={() => showEmailDraft(c, 'kickoff')}>🚀 Kickoff</button>
-                  <button class="email-tmpl-btn" on:click={() => showEmailDraft(c, 'checkin')}>✅ Check-in</button>
-                  <button class="email-tmpl-btn" on:click={() => showEmailDraft(c, 'proofReview')}>🎨 Proof Review</button>
-                  <button class="email-tmpl-btn" on:click={() => showEmailDraft(c, 'upsell')}>⬆️ Upsell</button>
-                  <button class="email-tmpl-btn" on:click={() => showEmailDraft(c, 'renewal')}>🔄 Renewal</button>
+                  <button class="email-tmpl-btn" on:click={() => showEmailDraft(c, 'kickoff')}><Icon name="rocket" size={13} /> Kickoff</button>
+                  <button class="email-tmpl-btn" on:click={() => showEmailDraft(c, 'checkin')}><Icon name="check-circle" size={13} /> Check-in</button>
+                  <button class="email-tmpl-btn" on:click={() => showEmailDraft(c, 'proofReview')}><Icon name="palette" size={13} /> Proof Review</button>
+                  <button class="email-tmpl-btn" on:click={() => showEmailDraft(c, 'upsell')}><Icon name="trending-up" size={13} /> Upsell</button>
+                  <button class="email-tmpl-btn" on:click={() => showEmailDraft(c, 'renewal')}><Icon name="refresh" size={13} /> Renewal</button>
                 </div>
 
                 {#if emailDraft}
                   <div class="draft-box">
-                    <label class="landing-label">🔗 Link your IndoorMedia page (optional — same as counter-sign QR)</label>
+                    <label class="landing-label"><Icon name="link" size={13} /> Link your IndoorMedia page (optional — same as counter-sign QR)</label>
                     <input class="landing-input" type="url" inputmode="url"
                       placeholder="Paste your IndoorMedia page URL…" bind:value={emailLandingUrl} />
                     {#if repLandingUrl()}
-                      <button class="landing-mine-btn" on:click={() => emailLandingUrl = repLandingUrl()}>🏠 Use my IndoorMedia page</button>
+                      <button class="landing-mine-btn" on:click={() => emailLandingUrl = repLandingUrl()}><Icon name="home" size={13} /> Use my IndoorMedia page</button>
                     {/if}
                     <p class="draft-subject"><strong>Subject:</strong> {emailDraft.subject}</p>
                     <pre class="draft-body">{draftBodyWithLanding(emailDraft.body)}</pre>
                     <button class="copy-btn" on:click={copyEmail}>
-                      {emailDraft.copied ? '✅ Copied!' : '📋 Copy Email'}
+                      {#if emailDraft.copied}<Icon name="check" size={14} color="#2e7d32" /> Copied!{:else}<Icon name="copy" size={14} /> Copy Email{/if}
                     </button>
                     {#if c.contact_email}
-                      <a href="mailto:{c.contact_email}?subject={encodeURIComponent(emailDraft.subject)}&body={encodeURIComponent(draftBodyWithLanding(emailDraft.body))}" class="send-btn">📤 Open in Mail</a>
+                      <a href="mailto:{c.contact_email}?subject={encodeURIComponent(emailDraft.subject)}&body={encodeURIComponent(draftBodyWithLanding(emailDraft.body))}" class="send-btn"><Icon name="share" size={14} /> Open in Mail</a>
                     {/if}
                   </div>
                 {/if}
 
                 <!-- Expansion Opportunities -->
-                <div class="section-header">🚀 Expansion Opportunities</div>
+                <div class="section-header"><Icon name="rocket" size={15} /> Expansion Opportunities</div>
                 
                 {#if nearbyStores.length > 0}
-                  <p class="expand-label">🏪 Nearby Stores in {nearbyStores[0]?.City}</p>
+                  <p class="expand-label"><Icon name="home" size={14} /> Nearby Stores in {nearbyStores[0]?.City}</p>
                   <div class="nearby-list">
                     {#each nearbyStores as ns}
                       <div class="nearby-store">
@@ -1407,14 +1408,14 @@ IndoorMedia`;
                   <p class="expand-note">No other stores found in this city</p>
                 {/if}
 
-                <p class="expand-label">📦 Product Upsells</p>
+                <p class="expand-label"><Icon name="package" size={14} /> Product Upsells</p>
                 <div class="upsell-list">
-                  <div class="upsell-item">🚀 <strong>DigitalBoost</strong> — Geofence ads (360K total impressions/pin)</div>
-                  <div class="upsell-item">📍 <strong>FindLocal</strong> — SEO & listings ($695)</div>
-                  <div class="upsell-item">⭐ <strong>ReviewBoost</strong> — Automated reviews ($695)</div>
-                  <div class="upsell-item">💎 <strong>LoyaltyBoost</strong> — Loyalty program ($3,600/yr)</div>
-                  <div class="upsell-item">🛒 <strong>Cartvertising</strong> — Cart ads ($2,995+)</div>
-                  <div class="upsell-item">📰 <strong>Double Ad</strong> — Upgrade ad size</div>
+                  <div class="upsell-item"><Icon name="rocket" size={14} /> <strong>DigitalBoost</strong> — Geofence ads (360K total impressions/pin)</div>
+                  <div class="upsell-item"><Icon name="map-pin" size={14} /> <strong>FindLocal</strong> — SEO & listings ($695)</div>
+                  <div class="upsell-item"><Icon name="star" size={14} /> <strong>ReviewBoost</strong> — Automated reviews ($695)</div>
+                  <div class="upsell-item"><Icon name="gem" size={14} /> <strong>LoyaltyBoost</strong> — Loyalty program ($3,600/yr)</div>
+                  <div class="upsell-item"><Icon name="cart" size={14} /> <strong>Cartvertising</strong> — Cart ads ($2,995+)</div>
+                  <div class="upsell-item"><Icon name="file-text" size={14} /> <strong>Double Ad</strong> — Upgrade ad size</div>
                 </div>
               </div>
             {/if}
@@ -1428,10 +1429,10 @@ IndoorMedia`;
   <!-- Pending Renewals -->
   {#if view === 'renewals'}
     <button class="back-btn" on:click={goBack}>&larr; Back</button>
-    <h2>🔄 Pending Renewals</h2>
+    <h2><Icon name="refresh" size={18} /> Pending Renewals</h2>
     <p class="subtitle">{filteredRenewals.length} of {pendingRenewals.length} accounts — ${pendingRenewals.reduce((sum, r) => sum + (typeof r.contractPrice === 'number' ? r.contractPrice : parseFloat(String(r.contractPrice || '0').replace(/[$,]/g, '')) || 0), 0).toLocaleString()} total value</p>
 
-    <a href="https://coupons.indoormedia.com" target="_blank" class="nearby-advertisers-link">📋 View Current Nearby Advertisers on coupons.indoormedia.com</a>
+    <a href="https://coupons.indoormedia.com" target="_blank" class="nearby-advertisers-link"><Icon name="clipboard" size={13} /> View Current Nearby Advertisers on coupons.indoormedia.com</a>
 
     <input type="text" class="search-input" placeholder="Search by business, rep, store, category..." bind:value={renewalSearch} />
 
@@ -1463,23 +1464,23 @@ IndoorMedia`;
         All ({myRenewals.length})
       </button>
       <button class="status-btn status-overdue" class:active={renewalStatusFilter === 'overdue'} on:click={() => renewalStatusFilter = 'overdue'}>
-        🔴 Overdue ({overdueCount})
+        <Icon name="circle" size={10} color="#cc2b1d" /> Overdue ({overdueCount})
       </button>
       <button class="status-btn status-current" class:active={renewalStatusFilter === 'current'} on:click={() => renewalStatusFilter = 'current'}>
-        🟢 Current ({currentCount})
+        <Icon name="circle" size={10} color="#14a33c" /> Current ({currentCount})
       </button>
     </div>
 
     <div class="select-bar">
       <button class="select-toggle" class:active={selectMode} on:click={() => { selectMode = !selectMode; if (!selectMode) selectedRenewals = new Set(); }}>
-        {selectMode ? '✕ Cancel' : '☑️ Select'}
+        {#if selectMode}✕ Cancel{:else}<Icon name="check" size={13} /> Select{/if}
       </button>
       {#if selectMode}
         <button class="select-all-btn" on:click={selectAll}>
           {selectedRenewals.size === filteredRenewals.length ? 'Deselect All' : 'Select All'} ({selectedRenewals.size})
         </button>
         <button class="export-btn" on:click={exportSelectedPdf} disabled={selectedRenewals.size === 0}>
-          📄 Export PDF ({selectedRenewals.size})
+          <Icon name="file-text" size={14} /> Export PDF ({selectedRenewals.size})
         </button>
       {/if}
     </div>
@@ -1491,7 +1492,7 @@ IndoorMedia`;
         {#each filteredRenewals as renewal}
           <div class="renewal-card" class:selected={selectedRenewals.has(renewal.accountNumber)} on:click={() => { if (selectMode) { toggleSelect(renewal.accountNumber); } else { expandedRenewal = expandedRenewal === renewal.accountNumber ? null : renewal.accountNumber; } }}>
             {#if selectMode}
-              <div class="select-check">{selectedRenewals.has(renewal.accountNumber) ? '☑️' : '⬜'}</div>
+              <div class="select-check">{#if selectedRenewals.has(renewal.accountNumber)}<Icon name="check" size={16} color="#2e7d32" />{:else}<Icon name="circle" size={14} color="#ccc" />{/if}</div>
             {/if}
             <div style="flex:1; min-width:0;">
             <div class="renewal-header">
@@ -1505,16 +1506,16 @@ IndoorMedia`;
               </div>
             </div>
             <div class="renewal-sub">
-              <span>🏪 {renewal.store}</span>
-              <span>👤 {renewal.rep}</span>
-              <span>📅 Ends: {renewal.endDate || '—'}</span>
+              <span><Icon name="home" size={13} /> {renewal.store}</span>
+              <span><Icon name="user" size={13} /> {renewal.rep}</span>
+              <span><Icon name="calendar" size={13} /> Ends: {renewal.endDate || '—'}</span>
             </div>
             {#if getRenewalStatus(renewal) === 'completed'}
-              <div class="renewal-completed-badge">✅ RENEWED</div>
+              <div class="renewal-completed-badge"><Icon name="check-circle" size={14} color="#2e7d32" /> RENEWED</div>
             {/if}
             {#if formatDeadline(renewal) && getRenewalStatus(renewal) !== 'completed'}
               <div class="renewal-deadline" class:overdue={getDeadlineUrgency(renewal) === 'overdue'} class:urgent={getDeadlineUrgency(renewal) === 'urgent'} class:soon={getDeadlineUrgency(renewal) === 'soon'}>
-                ⏰ Renewal due: <strong>{formatDeadline(renewal)}</strong>
+                <Icon name="clock" size={14} /> Renewal due: <strong>{formatDeadline(renewal)}</strong>
                 {#if getDeadlineUrgency(renewal) === 'overdue'} — OVERDUE
                 {:else if getDeadlineUrgency(renewal) === 'urgent'} — Due this week!
                 {:else if getDeadlineUrgency(renewal) === 'soon'} — Due soon
@@ -1555,7 +1556,7 @@ IndoorMedia`;
                   </div>
                   {#if renewal.lateBalance && renewal.lateBalance !== 0}
                   <div class="detail-item warning">
-                    <span class="detail-label">⚠️ Late Balance</span>
+                    <span class="detail-label"><Icon name="alert" size={13} /> Late Balance</span>
                     <span class="detail-value">{fmtPrice(renewal.lateBalance)}</span>
                   </div>
                   {/if}
@@ -1579,34 +1580,34 @@ IndoorMedia`;
 
                 <div class="renewal-actions">
                   {#if renewal.phone}
-                    <a href="tel:{renewal.phone}" class="action-btn call-btn">📞 Call</a>
-                    <a href="sms:{renewal.phone}" class="action-btn text-btn">💬 Text</a>
+                    <a href="tel:{renewal.phone}" class="action-btn call-btn"><Icon name="phone" size={14} /> Call</a>
+                    <a href="sms:{renewal.phone}" class="action-btn text-btn"><Icon name="message" size={14} /> Text</a>
                   {/if}
                   {#if renewal.email}
-                    <a href="mailto:{renewal.email}?subject=Renewal%20—%20{encodeURIComponent(renewal.business)}" class="action-btn email-btn">✉️ Email</a>
+                    <a href="mailto:{renewal.email}?subject=Renewal%20—%20{encodeURIComponent(renewal.business)}" class="action-btn email-btn"><Icon name="mail" size={14} /> Email</a>
                   {/if}
                 </div>
                 
                 <div class="email-templates">
-                  <p class="tmpl-label">📧 Email Templates:</p>
+                  <p class="tmpl-label"><Icon name="mail" size={13} /> Email Templates:</p>
                   <div class="tmpl-btns">
-                    <button class="tmpl-btn" on:click|stopPropagation={() => openRenewalEmail(renewal, 'reminder')}>🔔 Reminder</button>
-                    <button class="tmpl-btn" on:click|stopPropagation={() => openRenewalEmail(renewal, 'value')}>💰 Value</button>
-                    <button class="tmpl-btn" on:click|stopPropagation={() => openRenewalEmail(renewal, 'urgency')}>⏰ Urgency</button>
-                    <button class="tmpl-btn" on:click|stopPropagation={() => openRenewalEmail(renewal, 'winback')}>🤝 Win-Back</button>
+                    <button class="tmpl-btn" on:click|stopPropagation={() => openRenewalEmail(renewal, 'reminder')}><Icon name="bell" size={13} /> Reminder</button>
+                    <button class="tmpl-btn" on:click|stopPropagation={() => openRenewalEmail(renewal, 'value')}><Icon name="dollar" size={13} /> Value</button>
+                    <button class="tmpl-btn" on:click|stopPropagation={() => openRenewalEmail(renewal, 'urgency')}><Icon name="clock" size={13} /> Urgency</button>
+                    <button class="tmpl-btn" on:click|stopPropagation={() => openRenewalEmail(renewal, 'winback')}><Icon name="handshake" size={13} /> Win-Back</button>
                   </div>
                 </div>
 
                 <div class="schedule-section">
-                  <p class="tmpl-label">📅 Schedule Follow-up:</p>
+                  <p class="tmpl-label"><Icon name="calendar" size={13} /> Schedule Follow-up:</p>
                   <div class="tmpl-btns">
-                    <button class="tmpl-btn" on:click|stopPropagation={() => scheduleRenewal(renewal, 'call')}>📞 Schedule Call</button>
-                    <button class="tmpl-btn" on:click|stopPropagation={() => scheduleRenewal(renewal, 'visit')}>🚗 Schedule Visit</button>
+                    <button class="tmpl-btn" on:click|stopPropagation={() => scheduleRenewal(renewal, 'call')}><Icon name="phone" size={13} /> Schedule Call</button>
+                    <button class="tmpl-btn" on:click|stopPropagation={() => scheduleRenewal(renewal, 'visit')}><Icon name="compass" size={13} /> Schedule Visit</button>
                   </div>
                 </div>
 
                 {#if getRenewalStatus(renewal) === 'completed'}
-                  <div class="renewal-completed">✅ RENEWED — Contract matched</div>
+                  <div class="renewal-completed"><Icon name="check-circle" size={14} color="#2e7d32" /> RENEWED — Contract matched</div>
                 {/if}
               </div>
             {/if}
@@ -1619,18 +1620,18 @@ IndoorMedia`;
 
   {#if view === 'submit-contract'}
     <button class="back-btn" on:click={goBack}>&larr; Back</button>
-    <h2>📄 Submit Contract</h2>
+    <h2><Icon name="file-text" size={18} /> Submit Contract</h2>
     <p class="subtitle">Upload a signed IndoorMedia agreement</p>
 
     <div class="upload-area">
       <input type="file" accept=".pdf" on:change={handleContractUpload} id="contract-upload" />
       <label for="contract-upload" class="upload-label">
         {#if contractParsing}
-          ⏳ Reading PDF...
+          <Icon name="clock" size={15} /> Reading PDF...
         {:else if contractFile}
-          📄 {contractFile.name}
+          <Icon name="file-text" size={15} /> {contractFile.name}
         {:else}
-          📎 Tap to select PDF
+          <Icon name="link" size={15} /> Tap to select PDF
         {/if}
       </label>
     </div>
@@ -1641,7 +1642,7 @@ IndoorMedia`;
 
     {#if contractParsed}
       <div class="parsed-card">
-        <h3>✅ Contract Parsed</h3>
+        <h3><Icon name="check-circle" size={16} color="#2e7d32" /> Contract Parsed</h3>
         
         <div class="parsed-field">
           <span class="field-label">Contract #</span>
@@ -1685,10 +1686,10 @@ IndoorMedia`;
         </div>
 
         <button class="submit-btn" on:click={submitContract}>
-          ✅ Confirm & Submit
+          <Icon name="check" size={15} /> Confirm & Submit
         </button>
         <button class="cancel-btn" on:click={() => { contractParsed = null; contractFile = null; }}>
-          ✏️ Try Different PDF
+          <Icon name="edit" size={15} /> Try Different PDF
         </button>
       </div>
     {/if}
@@ -1737,7 +1738,7 @@ IndoorMedia`;
   <!-- Ad Proofs -->
   {#if view === 'digital'}
     <button class="back-btn" on:click={goBack}>&larr; Back</button>
-    <h2>📱 Digital Contracts</h2>
+    <h2><Icon name="smartphone" size={18} /> Digital Contracts</h2>
     <p class="subtitle">{digitalContracts.length} digital products — ${digitalRevenue.toLocaleString()} total value</p>
 
     <div class="digital-filters">
@@ -1768,13 +1769,13 @@ IndoorMedia`;
         </div>
         {#if c.contact_name || c.contact_phone || c.contact_email}
           <div class="digital-contact">
-            {#if c.contact_name}<span>👤 {c.contact_name}</span>{/if}
-            {#if c.contact_phone}<a href="tel:{c.contact_phone}">📞 {c.contact_phone}</a>{/if}
-            {#if c.contact_email}<a href="mailto:{c.contact_email}">✉️ {c.contact_email}</a>{/if}
+            {#if c.contact_name}<span><Icon name="user" size={13} /> {c.contact_name}</span>{/if}
+            {#if c.contact_phone}<a href="tel:{c.contact_phone}"><Icon name="phone" size={13} /> {c.contact_phone}</a>{/if}
+            {#if c.contact_email}<a href="mailto:{c.contact_email}"><Icon name="mail" size={13} /> {c.contact_email}</a>{/if}
           </div>
         {/if}
         {#if c.address}
-          <div class="digital-addr">📍 {c.address}</div>
+          <div class="digital-addr"><Icon name="map-pin" size={13} /> {c.address}</div>
         {/if}
       </div>
     {:else}
@@ -1784,7 +1785,7 @@ IndoorMedia`;
 
   {#if view === 'ad-proofs'}
     <button class="back-btn" on:click={goBack}>&larr; Back</button>
-    <h2>🎨 Ad Proofs</h2>
+    <h2><Icon name="palette" size={18} /> Ad Proofs</h2>
     <p class="subtitle">{filteredProofs.length} proof{filteredProofs.length !== 1 ? 's' : ''}</p>
 
     <div class="filter-bar">
@@ -1871,22 +1872,22 @@ IndoorMedia`;
                 <div class="proof-image-container">
                   <h4>Ad Proof Image</h4>
                   <img src={proof.image_url} alt="Ad proof for {proof.client_name}" class="proof-image" loading="lazy" referrerpolicy="no-referrer" on:error={(e) => { e.target.style.display='none'; }} />
-                  <a href={proof.image_url} target="_blank" class="proof-image-fallback">📷 Tap to view ad proof image</a>
+                  <a href={proof.image_url} target="_blank" class="proof-image-fallback"><Icon name="camera" size={14} /> Tap to view ad proof image</a>
                   <a href={proof.image_url} target="_blank" class="view-full-btn">View Full Size ↗</a>
                 </div>
               {/if}
 
               <!-- Auto Counter Sign -->
               <div class="auto-cs-section">
-                <h4>🎯 Auto Counter Sign</h4>
+                <h4><Icon name="target" size={15} /> Auto Counter Sign</h4>
                 <p class="auto-cs-hint">
                   Detects the store chain, uses <strong>{csContractRep(proof) || 'the contract rep'}</strong>'s landing-page QR (from this contract's Sales Rep), and drops in this ad proof.
                 </p>
                 {#if csAutoDetectChain(proof)}
-                  <p class="auto-cs-chain-ok">🏬 Store chain detected: <strong>{csAutoDetectChain(proof)}</strong></p>
+                  <p class="auto-cs-chain-ok"><Icon name="home" size={13} /> Store chain detected: <strong>{csAutoDetectChain(proof)}</strong></p>
                 {:else}
                   <div class="auto-cs-chainpick">
-                    <label>⚠️ No store chain detected — select one:</label>
+                    <label><Icon name="alert" size={13} /> No store chain detected — select one:</label>
                     <select bind:value={autoCsChainOverride[proof.message_id]}>
                       <option value="">— Select store chain —</option>
                       {#each chainCodeOptions as opt}
@@ -1898,14 +1899,14 @@ IndoorMedia`;
                 <div class="auto-cs-reppick">
                   <label>Business card:</label>
                   <select bind:value={autoCsCardRep[proof.message_id]}>
-                    <option value="">⭐ {csContractRep(proof) || 'Contract rep'} (default){csFindCard(csContractRep(proof)) ? '' : ' — no card'}</option>
+                    <option value="">{csContractRep(proof) || 'Contract rep'} (default){csFindCard(csContractRep(proof)) ? '' : ' — no card'}</option>
                     {#each cardRepNames as rn}
                       <option value={rn}>{rn}'s card</option>
                     {/each}
                   </select>
                 </div>
                 {#if !csFindCard(csCardRepFor(proof))}
-                  <p class="auto-cs-status warn">⚠️ No card on file for {csCardRepFor(proof) || 'this rep'} — pick another rep's card above, or the sign generates without a card.</p>
+                  <p class="auto-cs-status warn"><Icon name="alert" size={13} /> No card on file for {csCardRepFor(proof) || 'this rep'} — pick another rep's card above, or the sign generates without a card.</p>
                 {/if}
                 <div class="auto-cs-btns">
                   <button class="auto-cs-btn" disabled={autoCsBusy[proof.message_id] || !proof.image_url || !csChainCodeFor(proof)}
@@ -1914,11 +1915,11 @@ IndoorMedia`;
                   </button>
                   <button class="auto-cs-btn secondary" disabled={autoCsBusy[proof.message_id] || !proof.image_url || !csChainCodeFor(proof)}
                     on:click={() => autoGenerateCounterSign(proof, 'classic')}>
-                    🏷️ Classic
+                    🏷 Classic
                   </button>
                 </div>
                 {#if !proof.image_url}
-                  <p class="auto-cs-status warn">⚠️ No ad proof image on this record — can't auto-generate.</p>
+                  <p class="auto-cs-status warn">⚠ No ad proof image on this record — can't auto-generate.</p>
                 {:else if autoCsMsg[proof.message_id]}
                   <p class="auto-cs-status" class:warn={autoCsMsg[proof.message_id].startsWith('❌')}>{autoCsMsg[proof.message_id]}</p>
                 {/if}
@@ -1929,7 +1930,7 @@ IndoorMedia`;
                 <div class="proof-contact-actions">
                   <h4>📬 Contact Customer</h4>
                   {#if proof.client_email}
-                    <p class="client-email-display">✉️ {proof.client_email}</p>
+                    <p class="client-email-display"><Icon name="mail" size={13} /> {proof.client_email}</p>
                   {/if}
 
                   <div class="template-section">
@@ -1975,7 +1976,7 @@ IndoorMedia`;
     <div class="draft-overlay" on:click|self={() => draftPreview = null}>
       <div class="draft-modal">
         <div class="draft-header">
-          <h3>📧 Email Draft Preview</h3>
+          <h3><Icon name="mail" size={16} /> Email Draft Preview</h3>
           <button class="draft-close" on:click={() => draftPreview = null}>✕</button>
         </div>
         
@@ -1997,7 +1998,7 @@ IndoorMedia`;
             📋 Copy to Clipboard
           </button>
           <button class="draft-action-btn send-btn" on:click={openInEmailApp}>
-            ✉️ Open in Email App
+            <Icon name="mail" size={15} /> Open in Email App
           </button>
           <button class="draft-action-btn close-btn" on:click={() => draftPreview = null}>
             Close
