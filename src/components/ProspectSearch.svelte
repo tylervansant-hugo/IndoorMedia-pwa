@@ -8,6 +8,7 @@
   import MeetingPrep from './MeetingPrep.svelte';
   import StoreSearchInput from '../lib/StoreSearchInput.svelte';
   import ContractForm from './ContractForm.svelte';
+  import Icon from './Icon.svelte';
   import L from 'leaflet';
   import 'leaflet/dist/leaflet.css';
   
@@ -5183,11 +5184,23 @@ IndoorMedia`
             <!-- Row 1: Primary contact actions (big focal point) -->
             <div class="action-row contact-row-primary">
               {#if primaryNum}
-                <button class="action-btn btn-green big-contact-btn" on:click={() => startCall(prospect)}>📞 Call</button>
-                <button class="action-btn btn-blue big-contact-btn" on:click={() => { prospect._showText = !prospect._showText; prospect._showEmail = false; prospect._showScript = false; prospect._showNotes = false; prospects = prospects; if (prospect._showText && prospect._textTestimonial === undefined) { prospect._textTestimonial = null; matchTestimonialForProspect(prospect).then(t => { prospect._textTestimonial = t; prospects = prospects; }); } handleLeadAction(prospect, 'text'); }}>💬 Text</button>
+                <button class="action-btn btn-green big-contact-btn" on:click={() => startCall(prospect)}>
+                  <span class="bcb-icon"><Icon name="phone" size={26} color="#fff" /></span>
+                  <span class="bcb-label">Call</span>
+                </button>
+                <button class="action-btn btn-blue big-contact-btn" on:click={() => { prospect._showText = !prospect._showText; prospect._showEmail = false; prospect._showScript = false; prospect._showNotes = false; prospects = prospects; if (prospect._showText && prospect._textTestimonial === undefined) { prospect._textTestimonial = null; matchTestimonialForProspect(prospect).then(t => { prospect._textTestimonial = t; prospects = prospects; }); } handleLeadAction(prospect, 'text'); }}>
+                  <span class="bcb-icon"><Icon name="message" size={26} color="#fff" /></span>
+                  <span class="bcb-label">Text</span>
+                </button>
               {/if}
-              <button class="action-btn btn-purple big-contact-btn" on:click={() => { prospect._showEmail = !prospect._showEmail; prospect._showText = false; prospect._showScript = false; prospect._showNotes = false; prospects = prospects; if (prospect._showEmail) { ensureProspectEmail(prospect); if (!prospect._research && !prospect._researching) { prospect._researching = true; researchProspect(prospect).finally(() => { prospect._researching = false; prospects = prospects; }); } handleLeadAction(prospect, 'email'); } }}>✉️ Email</button>
-              <button class="action-btn btn-orange big-contact-btn" on:click={() => { handleLeadAction(prospect, 'walk-in'); }}>🚶 Walk-In</button>
+              <button class="action-btn btn-purple big-contact-btn" on:click={() => { prospect._showEmail = !prospect._showEmail; prospect._showText = false; prospect._showScript = false; prospect._showNotes = false; prospects = prospects; if (prospect._showEmail) { ensureProspectEmail(prospect); if (!prospect._research && !prospect._researching) { prospect._researching = true; researchProspect(prospect).finally(() => { prospect._researching = false; prospects = prospects; }); } handleLeadAction(prospect, 'email'); } }}>
+                <span class="bcb-icon"><Icon name="mail" size={26} color="#fff" /></span>
+                <span class="bcb-label">Email</span>
+              </button>
+              <button class="action-btn btn-orange big-contact-btn" on:click={() => { handleLeadAction(prospect, 'walk-in'); }}>
+                <span class="bcb-icon"><Icon name="walk" size={26} color="#fff" /></span>
+                <span class="bcb-label">Walk-In</span>
+              </button>
             </div>
 
             <!-- Communication log (called/emailed/texted/walked-in by) sits
@@ -7805,15 +7818,38 @@ IndoorMedia`
   .btn-orange { background: #E65100 !important; color: white !important; border-color: #E65100 !important; }
   .btn-orange:hover { background: #BF360C !important; }
 
-  /* Primary contact row = the focal point. Big, tall, bold buttons. */
-  .contact-row-primary { gap: 10px; margin-bottom: 10px; }
+  /* Primary contact row = the focal point. Big, tall, bold buttons with a
+     large clean line-icon on top and the label pinned to the BOTTOM so all
+     four labels sit on the same baseline regardless of icon height. */
+  .contact-row-primary { gap: 10px; margin-bottom: 10px; align-items: stretch; }
   .contact-row-primary .big-contact-btn {
-    padding: 16px 6px !important;
-    font-size: 1rem !important;
+    display: flex !important;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    min-height: 86px;
+    padding: 14px 6px 12px !important;
+    font-size: 1.02rem !important;
     font-weight: 800 !important;
-    border-radius: 12px !important;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.10);
+    border-radius: 14px !important;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.12);
     white-space: normal;
+    overflow: visible;
+    text-overflow: clip;
+  }
+  .contact-row-primary .big-contact-btn .bcb-icon {
+    flex: 1 1 auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .contact-row-primary .big-contact-btn .bcb-label {
+    flex: 0 0 auto;
+    line-height: 1.1;
+    text-align: center;
+    white-space: nowrap;
+    max-width: 100%;
   }
   .contact-row-primary .big-contact-btn:active { transform: translateY(1px); }
 
