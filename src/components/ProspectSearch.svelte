@@ -470,17 +470,17 @@
     } catch {}
   }
 
-  // Human-friendly action label + emoji for an activity entry.
+  // Human-friendly action label + clean line-icon name for an activity entry.
   const ACTIVITY_META = {
-    call:   { icon: '📞', label: 'Called' },
-    text:   { icon: '💬', label: 'Texted' },
-    email:  { icon: '✉️', label: 'Emailed' },
-    'walk-in': { icon: '🚶', label: 'Walk-In' },
-    note:   { icon: '📝', label: 'Note' },
-    status: { icon: '🏷️', label: 'Status' },
+    call:   { iconName: 'phone',    label: 'Called' },
+    text:   { iconName: 'message',  label: 'Texted' },
+    email:  { iconName: 'mail',     label: 'Emailed' },
+    'walk-in': { iconName: 'walk',  label: 'Walk-In' },
+    note:   { iconName: 'edit',     label: 'Note' },
+    status: { iconName: 'tag',      label: 'Status' },
   };
   function activityMeta(action) {
-    return ACTIVITY_META[action] || { icon: '•', label: (action || 'Contact') };
+    return ACTIVITY_META[action] || { iconName: 'circle', label: (action || 'Contact') };
   }
 
   // Relative time like "2h ago", "3d ago", falling back to a date.
@@ -5108,24 +5108,24 @@ IndoorMedia`
         {@const primaryNum = (callable[0] && callable[0].number) || prospect.phone}
         <div class="prospect-card">
           <div class="prospect-header">
-            <span class="score-emoji">{prospect.score >= 80 ? '🔥' : prospect.score >= 70 ? '⭐' : '👀'}</span>
+            <span class="score-emoji"><Icon name={prospect.score >= 80 ? 'fire' : prospect.score >= 70 ? 'star' : 'eye'} size={20} color={prospect.score >= 80 ? '#e2561d' : prospect.score >= 70 ? '#e0a400' : '#666'} /></span>
             <h4>{prospect.name}</h4>
             <span class="score-badge" class:score-hot={prospect.score >= 80} class:score-warm={prospect.score >= 70 && prospect.score < 80} class:score-cool={prospect.score < 70} title="Prospect score">{prospect.score}%</span>
           </div>
           <p class="prospect-address">
-            <a class="prospect-address-link" href="https://maps.apple.com/?daddr={encodeURIComponent(prospect.address)}" target="_blank" rel="noreferrer" title="Tap to navigate">📍 {prospect.address}</a>
-            <button type="button" class="addr-copy-btn" on:click|stopPropagation={() => { navigator.clipboard.writeText(prospect.address); copiedAddress = prospect.address; setTimeout(() => copiedAddress = '', 2000); }} title="Copy address">{copiedAddress === prospect.address ? '✅' : '📋'}</button>
+            <a class="prospect-address-link" href="https://maps.apple.com/?daddr={encodeURIComponent(prospect.address)}" target="_blank" rel="noreferrer" title="Tap to navigate"><Icon name="map-pin" size={14} /> {prospect.address}</a>
+            <button type="button" class="addr-copy-btn" on:click|stopPropagation={() => { navigator.clipboard.writeText(prospect.address); copiedAddress = prospect.address; setTimeout(() => copiedAddress = '', 2000); }} title="Copy address">{#if copiedAddress === prospect.address}<Icon name="check" size={13} color="#0a7d2c" />{:else}<Icon name="copy" size={13} />{/if}</button>
           </p>
           <!-- All info pills (rating, distance, ad spend, website) on one line beneath the address -->
           <div class="prospect-meta prospect-meta-line">
-            <button type="button" class="meta-pill meta-rating meta-rating-link" on:click|stopPropagation={() => openReviews(prospect)} title="See Google reviews" aria-label="Open Google reviews for {prospect.name}">⭐ {prospect.rating.toFixed(1)} <small>({prospect.reviews})</small> <span class="meta-rating-ext">↗</span></button>
+            <button type="button" class="meta-pill meta-rating meta-rating-link" on:click|stopPropagation={() => openReviews(prospect)} title="See Google reviews" aria-label="Open Google reviews for {prospect.name}"><Icon name="star" size={13} color="#e0a400" /> {prospect.rating.toFixed(1)} <small>({prospect.reviews})</small> <span class="meta-rating-ext">↗</span></button>
             {#if prospect.distance != null}
-              <button type="button" class="meta-pill meta-dist meta-dist-link" on:click|stopPropagation={() => { if (prospect.lat && prospect.lng) { prospect._showMapPopup = !prospect._showMapPopup; prospects = prospects; } }} title="Tap to see distance to nearby stores">📍 {prospect.distance} mi{#if prospect.lat && prospect.lng} <span class="meta-dist-caret">{prospect._showMapPopup ? '▲' : '▼'}</span>{/if}</button>
+              <button type="button" class="meta-pill meta-dist meta-dist-link" on:click|stopPropagation={() => { if (prospect.lat && prospect.lng) { prospect._showMapPopup = !prospect._showMapPopup; prospects = prospects; } }} title="Tap to see distance to nearby stores"><Icon name="map-pin" size={13} /> {prospect.distance} mi{#if prospect.lat && prospect.lng} <span class="meta-dist-caret">{prospect._showMapPopup ? '▲' : '▼'}</span>{/if}</button>
             {/if}
             {#if prospect._adSpend != null}
-              <button class="meta-pill meta-spend hl-tappable" on:click|stopPropagation={() => { prospect._showAdSignals = !prospect._showAdSignals; prospects = prospects; }} title="Tap to see the advertising signals behind this">💰 Ad spend: {prospect._adSpend >= 70 ? 'High' : prospect._adSpend >= 45 ? 'Medium' : 'Low'} <span class="hl-caret">{prospect._showAdSignals ? '▲' : '▼'}</span></button>
+              <button class="meta-pill meta-spend hl-tappable" on:click|stopPropagation={() => { prospect._showAdSignals = !prospect._showAdSignals; prospects = prospects; }} title="Tap to see the advertising signals behind this"><Icon name="dollar" size={13} /> Ad spend: {prospect._adSpend >= 70 ? 'High' : prospect._adSpend >= 45 ? 'Medium' : 'Low'} <span class="hl-caret">{prospect._showAdSignals ? '▲' : '▼'}</span></button>
             {/if}
-            {#if prospect.website}<a class="meta-pill meta-web" href={prospect.website} target="_blank" rel="noreferrer" on:click|stopPropagation>🌐 Website</a>{/if}
+            {#if prospect.website}<a class="meta-pill meta-web" href={prospect.website} target="_blank" rel="noreferrer" on:click|stopPropagation><Icon name="globe" size={13} /> Website</a>{/if}
           </div>
           {#if prospect._showAdSignals && prospect._adSpend != null}
             {@const sig = adSpendSignals(prospect)}
@@ -5148,18 +5148,18 @@ IndoorMedia`
             </div>
           {/if}
           {#if prospect.phone}
-            <p class="prospect-phone">📞 <a href="tel:{prospect.phone}" style="color:inherit;text-decoration:none;">{prospect.phone}</a></p>
+            <p class="prospect-phone"><Icon name="phone" size={14} /> <a href="tel:{prospect.phone}" style="color:inherit;text-decoration:none;">{prospect.phone}</a></p>
           {/if}
           {#if prospect.email}
-            <p class="prospect-email">📧 <a href="mailto:{prospect.email}" style="color:inherit;text-decoration:none;">{prospect.email}</a></p>
+            <p class="prospect-email"><Icon name="mail" size={14} /> <a href="mailto:{prospect.email}" style="color:inherit;text-decoration:none;">{prospect.email}</a></p>
           {/if}
           {#if prospect.hours && prospect.hours.length > 0}
             {@const today = new Date().toLocaleDateString('en-US', { weekday: 'long' })}
             {@const todayHours = prospect.hours.find(h => h.startsWith(today))}
             {@const openState = isOpenNow(prospect)}
             <p class="prospect-hours" on:click|stopPropagation={() => { prospect._showAllHours = !prospect._showAllHours; prospects = prospects; }}>
-              {#if openState === true}<span class="open-now open-now-yes">🟢 Open Now</span>{:else if openState === false}<span class="open-now open-now-no">🔴 Closed</span>{/if}
-              <span class="hours-text">🕐 {todayHours || prospect.hours[0]}</span>
+              {#if openState === true}<span class="open-now open-now-yes"><Icon name="circle" size={10} color="#1aa34a" /> Open Now</span>{:else if openState === false}<span class="open-now open-now-no"><Icon name="circle" size={10} color="#d12b2b" /> Closed</span>{/if}
+              <span class="hours-text"><Icon name="clock" size={13} /> {todayHours || prospect.hours[0]}</span>
             </p>
             {#if prospect._showAllHours}
               <div class="hours-detail">
@@ -5173,9 +5173,9 @@ IndoorMedia`
           {#if getLeadClaim(prospect)}
             {@const lc = getLeadClaim(prospect)}
             <div class="lead-claim-badge">
-              🔒 {shortName(lc.repName)} — dibs through {new Date(lc.expiresAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}
+              <Icon name="lock" size={13} /> {shortName(lc.repName)} — dibs through {new Date(lc.expiresAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}
               {#if canReleaseLeadClaim(lc)}
-                <button class="release-lead-btn" on:click|stopPropagation={() => handleLeadRelease(prospect)}>✕</button>
+                <button class="release-lead-btn" on:click|stopPropagation={() => handleLeadRelease(prospect)}><Icon name="x" size={12} /></button>
               {/if}
             </div>
           {/if}
@@ -5209,13 +5209,13 @@ IndoorMedia`
               {@const la = getLastActivity(prospect)}
               {@const lm = activityMeta(la.action)}
               <button class="last-activity" on:click|stopPropagation={() => openActivityLog(prospect)} title="View full activity log">
-                <span class="la-icon">{lm.icon}</span>
+                <span class="la-icon"><Icon name={lm.iconName} size={14} /></span>
                 <span class="la-text">{lm.label}{#if la.rep} by {shortName(la.rep)}{/if} · {timeAgo(la.at)}</span>
                 <span class="la-more">Log ›</span>
               </button>
             {:else}
               <button class="last-activity la-empty" on:click|stopPropagation={() => openActivityLog(prospect)} title="View activity log">
-                <span class="la-icon">🕒</span>
+                <span class="la-icon"><Icon name="clock" size={14} /></span>
                 <span class="la-text">No contact logged yet</span>
                 <span class="la-more">Log ›</span>
               </button>
@@ -5553,7 +5553,7 @@ IndoorMedia`
                  an invite (or none) and tap again to open the calendar. Run Meeting
                  Prep only appears AFTER Book Appointment has been pressed. -->
             {#if !prospect._showBookInvite}
-              <button type="button" class="action-btn btn-book-appt" on:click={() => { prospect._showBookInvite = true; prospects = prospects; }}>📅 Book Appointment</button>
+              <button type="button" class="action-btn btn-book-appt" on:click={() => { prospect._showBookInvite = true; prospects = prospects; }}><Icon name="calendar" size={16} color="#fff" /> Book Appointment</button>
             {:else}
               <div class="invite-row">
                 <select bind:value={inviteRepEmail} class="invite-select">
@@ -5563,16 +5563,16 @@ IndoorMedia`
                   {/each}
                 </select>
               </div>
-              <button type="button" class="action-btn btn-book-appt" on:click={() => window.open(buildAppointmentUrl(prospect), '_blank')}>📅 Open Calendar{inviteRepEmail ? ' (+ rep)' : ' (just me)'}</button>
+              <button type="button" class="action-btn btn-book-appt" on:click={() => window.open(buildAppointmentUrl(prospect), '_blank')}><Icon name="calendar" size={16} color="#fff" /> Open Calendar{inviteRepEmail ? ' (+ rep)' : ' (just me)'}</button>
               <!-- Meeting Prep only shows after Book Appointment is pressed. -->
-              <button class="action-btn btn-meeting-prep" on:click={() => runMeetingPrep(prospect)}>🎯 Run Meeting Prep</button>
+              <button class="action-btn btn-meeting-prep" on:click={() => runMeetingPrep(prospect)}><Icon name="target" size={16} color="#fff" /> Run Meeting Prep</button>
             {/if}
 
             <!-- Row 2: Research (Website lives up top in the meta chips now;
                  Save to Contacts moved into the Notes section) -->
             <div class="action-row">
-              <button class="action-btn btn-gray" on:click={() => saveProspect(prospect)}>💾 Save</button>
-              <button class="action-btn btn-gray" on:click={() => { prospect._showNotes = !prospect._showNotes; prospects = prospects; }}>📝 Notes</button>
+              <button class="action-btn btn-gray" on:click={() => saveProspect(prospect)}><Icon name="save" size={15} /> Save</button>
+              <button class="action-btn btn-gray" on:click={() => { prospect._showNotes = !prospect._showNotes; prospects = prospects; }}><Icon name="edit" size={15} /> Notes</button>
             </div>
 
             <!-- Row 3: Sales tools — Scripts & Objections stay hidden until the
@@ -5583,8 +5583,8 @@ IndoorMedia`
               <span class="seg-label">Sales Tools</span>
               <div class="seg-group">
                 {#if prospect._onCall}
-                  <button class="seg-btn" class:seg-active={prospect._showScript} on:click={() => { prospect._showScript = !prospect._showScript; prospect._showEmail = false; prospect._showNotes = false; prospect._showObjections = false; prospect._showTestimonials = false; prospects = prospects; }}>📋 Scripts</button>
-                  <button class="seg-btn" class:seg-active={prospect._showObjections} on:click={() => { prospect._showObjections = !prospect._showObjections; prospect._showScript = false; prospect._showEmail = false; prospect._showNotes = false; prospect._showTestimonials = false; prospects = prospects; }}>🛡️ Objections</button>
+                  <button class="seg-btn" class:seg-active={prospect._showScript} on:click={() => { prospect._showScript = !prospect._showScript; prospect._showEmail = false; prospect._showNotes = false; prospect._showObjections = false; prospect._showTestimonials = false; prospects = prospects; }}><Icon name="clipboard" size={14} /> Scripts</button>
+                  <button class="seg-btn" class:seg-active={prospect._showObjections} on:click={() => { prospect._showObjections = !prospect._showObjections; prospect._showScript = false; prospect._showEmail = false; prospect._showNotes = false; prospect._showTestimonials = false; prospects = prospects; }}><Icon name="shield" size={14} /> Objections</button>
                 {/if}
                 {#if storeHasTestimonial}
                   <button class="seg-btn" class:seg-active={prospect._showTestimonials} on:click={async () => { 
@@ -5594,7 +5594,7 @@ IndoorMedia`
                       prospect._testimonialData = await getTestimonialsForCategory();
                     }
                     prospects = prospects;
-                  }}>⭐ Testimonials</button>
+                  }}><Icon name="star" size={14} /> Testimonials</button>
                 {/if}
               </div>
             </div>
@@ -5777,7 +5777,7 @@ IndoorMedia`
 
             <!-- Bottom: Add Products / Contract (Meeting Prep now sits up in the
                  flow right after Book Appointment). -->
-            <button class="action-btn btn-add-product" on:click={() => openContractForProspect(prospect)}>📄 Add Products / Contract</button>
+            <button class="action-btn btn-add-product" on:click={() => openContractForProspect(prospect)}><Icon name="file-text" size={16} color="#fff" /> Add Products / Contract</button>
           </div>
         </div>
       {/each}
