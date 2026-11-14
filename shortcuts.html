@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>imPro Siri Shortcuts</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: -apple-system, BlinkMacSystemFont, sans-serif; background: #0a0a0a; color: #fff; padding: 20px; }
+    h1 { font-size: 24px; margin-bottom: 8px; }
+    p.sub { color: #888; font-size: 14px; margin-bottom: 24px; }
+    .shortcut-card {
+      background: #1a1a1a; border-radius: 16px; padding: 20px; margin-bottom: 16px;
+      border: 1px solid #333;
+    }
+    .shortcut-card h3 { font-size: 18px; margin-bottom: 4px; }
+    .shortcut-card .phrase { color: #CC0000; font-size: 14px; margin-bottom: 8px; font-style: italic; }
+    .shortcut-card .desc { color: #aaa; font-size: 13px; margin-bottom: 12px; }
+    .shortcut-card a {
+      display: inline-block; background: #CC0000; color: white; padding: 10px 20px;
+      border-radius: 10px; text-decoration: none; font-weight: 600; font-size: 14px;
+    }
+    .setup { background: #111; border-radius: 12px; padding: 16px; margin-top: 24px; }
+    .setup h2 { font-size: 18px; margin-bottom: 12px; }
+    .setup ol { padding-left: 20px; }
+    .setup li { color: #aaa; font-size: 13px; margin-bottom: 8px; line-height: 1.4; }
+    .setup code { background: #222; padding: 2px 6px; border-radius: 4px; color: #fff; }
+  </style>
+</head>
+<body>
+  <h1>🚗 imPro Siri Shortcuts</h1>
+  <p class="sub">Add these to use imPro hands-free through Siri & CarPlay</p>
+
+  <div class="shortcut-card">
+    <h3>📋 "Hey Siri, sales briefing"</h3>
+    <p class="phrase">"Hey Siri, sales briefing"</p>
+    <p class="desc">Opens imPro's Driving Mode — reads out your next appointment, daily goal progress, and monthly revenue. Big buttons for Navigate, Call, and Log Call.</p>
+    <a href="shortcuts://x-callback-url/run-shortcut?name=imPro%20Briefing">▶️ Run Shortcut</a>
+  </div>
+
+  <div class="shortcut-card">
+    <h3>📅 "Hey Siri, next appointment"</h3>
+    <p class="phrase">"Hey Siri, next appointment"</p>
+    <p class="desc">Opens your next appointment details in imPro with one-tap navigate.</p>
+    <a href="shortcuts://x-callback-url/run-shortcut?name=imPro%20Next%20Appointment">▶️ Run Shortcut</a>
+  </div>
+
+  <div class="shortcut-card">
+    <h3>📞 "Hey Siri, log a call"</h3>
+    <p class="phrase">"Hey Siri, log a call"</p>
+    <p class="desc">Increments your daily call counter without opening the app.</p>
+    <a href="shortcuts://x-callback-url/run-shortcut?name=imPro%20Log%20Call">▶️ Run Shortcut</a>
+  </div>
+
+  <div class="setup">
+    <h2>📱 Setup Instructions</h2>
+    <ol>
+      <li>Open the <strong>Shortcuts</strong> app on your iPhone</li>
+      <li>Tap <strong>+</strong> to create a new shortcut</li>
+      <li>For <strong>"Sales Briefing"</strong>: Add action → <code>Open URL</code> → paste: <code>https://tylervansant-hugo.github.io/IndoorMedia-pwa/?mode=driving</code></li>
+      <li>Tap the name at top → rename to <strong>"imPro Briefing"</strong></li>
+      <li>Tap <strong>ℹ️</strong> → <strong>Add to Siri</strong> → record phrase <strong>"Sales briefing"</strong></li>
+      <li>Repeat for other shortcuts:
+        <ul style="margin-top:4px;">
+          <li><strong>"Next appointment"</strong>: URL = <code>https://tylervansant-hugo.github.io/IndoorMedia-pwa/?mode=driving</code></li>
+          <li><strong>"Log a call"</strong>: URL = <code>https://tylervansant-hugo.github.io/IndoorMedia-pwa/?action=logcall</code></li>
+        </ul>
+      </li>
+      <li>These shortcuts work through <strong>CarPlay</strong> automatically — just say the phrase!</li>
+    </ol>
+  </div>
+</body>
+</html>

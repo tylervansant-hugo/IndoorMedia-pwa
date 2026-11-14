@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Firebase Setup — imPro</title>
+<style>
+body { font-family: -apple-system, sans-serif; max-width: 600px; margin: 20px auto; padding: 16px; background: #111; color: #eee; }
+h1 { font-size: 22px; }
+h2 { font-size: 18px; margin-top: 24px; }
+ol { line-height: 2; }
+a { color: #4fc3f7; }
+input { width: 100%; padding: 10px; margin: 4px 0 12px; border: 1px solid #444; border-radius: 8px; background: #1a1a2e; color: #eee; font-size: 14px; box-sizing: border-box; }
+label { font-size: 13px; font-weight: 600; color: #aaa; }
+button { display: block; width: 100%; padding: 14px; margin: 16px 0; background: #CC0000; color: white; border: none; border-radius: 10px; font-size: 16px; font-weight: 700; cursor: pointer; }
+button:active { background: #aa0000; }
+.success { background: #2e7d32 !important; }
+.status { text-align: center; padding: 12px; font-size: 14px; border-radius: 8px; margin: 12px 0; }
+</style>
+</head>
+<body>
+<h1>🔥 Firebase Setup for imPro</h1>
+<p>This connects the app to Firebase so you can see all reps' activity across devices.</p>
+
+<h2>Step 1: Create Firebase Project</h2>
+<ol>
+<li>Go to <a href="https://console.firebase.google.com" target="_blank">Firebase Console</a></li>
+<li>Click <strong>"Create a project"</strong> → Name it <strong>"impro-sales"</strong></li>
+<li>Disable Google Analytics (not needed) → Create</li>
+<li>Click <strong>"Web" icon (&lt;/&gt;)</strong> to add a web app</li>
+<li>Name it <strong>"imPro PWA"</strong> → Register</li>
+<li>Copy the config values below 👇</li>
+</ol>
+
+<h2>Step 2: Enable Firestore</h2>
+<ol>
+<li>In Firebase Console → <strong>Build → Firestore Database</strong></li>
+<li>Click <strong>"Create database"</strong></li>
+<li>Choose <strong>"Start in test mode"</strong> (we'll secure later)</li>
+<li>Select region: <strong>us-west1</strong> → Create</li>
+</ol>
+
+<h2>Step 3: Paste Config</h2>
+<div>
+<label>API Key</label>
+<input id="apiKey" placeholder="AIza...">
+<label>Auth Domain</label>
+<input id="authDomain" placeholder="impro-sales.firebaseapp.com">
+<label>Project ID</label>
+<input id="projectId" placeholder="impro-sales">
+<label>Storage Bucket</label>
+<input id="storageBucket" placeholder="impro-sales.firebasestorage.app">
+<label>Messaging Sender ID</label>
+<input id="messagingSenderId" placeholder="123456789">
+<label>App ID</label>
+<input id="appId" placeholder="1:123:web:abc123">
+</div>
+
+<button id="saveBtn" onclick="saveConfig()">💾 Save & Connect</button>
+<div id="status" class="status" style="display:none;"></div>
+
+<script>
+// Load existing config
+try {
+  const saved = JSON.parse(localStorage.getItem('impro_firebase_config') || '{}');
+  if (saved.apiKey) document.getElementById('apiKey').value = saved.apiKey;
+  if (saved.authDomain) document.getElementById('authDomain').value = saved.authDomain;
+  if (saved.projectId) document.getElementById('projectId').value = saved.projectId;
+  if (saved.storageBucket) document.getElementById('storageBucket').value = saved.storageBucket;
+  if (saved.messagingSenderId) document.getElementById('messagingSenderId').value = saved.messagingSenderId;
+  if (saved.appId) document.getElementById('appId').value = saved.appId;
+} catch {}
+
+function saveConfig() {
+  const config = {
+    apiKey: document.getElementById('apiKey').value.trim(),
+    authDomain: document.getElementById('authDomain').value.trim(),
+    projectId: document.getElementById('projectId').value.trim(),
+    storageBucket: document.getElementById('storageBucket').value.trim(),
+    messagingSenderId: document.getElementById('messagingSenderId').value.trim(),
+    appId: document.getElementById('appId').value.trim()
+  };
+  
+  if (!config.apiKey || !config.projectId) {
+    showStatus('❌ API Key and Project ID are required', 'red');
+    return;
+  }
+  
+  localStorage.setItem('impro_firebase_config', JSON.stringify(config));
+  showStatus('✅ Firebase config saved! Go back to the app and refresh.', '#2e7d32');
+}
+
+function showStatus(msg, color) {
+  const el = document.getElementById('status');
+  el.style.display = 'block';
+  el.style.background = color;
+  el.textContent = msg;
+}
+</script>
+</body>
+</html>
