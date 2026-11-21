@@ -1,0 +1,1554 @@
+{
+  "categories": {
+    "Real Estate": {
+      "keywords": [
+        "realtor",
+        "real estate",
+        "realty",
+        "property",
+        "agent",
+        "broker"
+      ],
+      "videos": [
+        {
+          "title": "Boost Realtors Shelly Jones & Carrie Hammon - Richard _Rick_ Leibowitz",
+          "id": "1hTSbPFIOrLPnCAcsvEnyqWqDmgj_ncpO",
+          "url": "https://drive.google.com/file/d/1hTSbPFIOrLPnCAcsvEnyqWqDmgj_ncpO/view?usp=drivesdk",
+          "mime": "video/mp4"
+        }
+      ],
+      "count": 1
+    },
+    "Financial Services": {
+      "keywords": [
+        "accountant",
+        "financial",
+        "financial advisor",
+        "cpa",
+        "tax",
+        "bank",
+        "advisor"
+      ],
+      "videos": [
+        {
+          "title": "E-Tax Red Bluff CA",
+          "id": "1-_1lcdMf0frJE977fKzz3kXgdRtqMAw_",
+          "url": "https://drive.google.com/file/d/1-_1lcdMf0frJE977fKzz3kXgdRtqMAw_/view?usp=drivesdk",
+          "mime": "video/mp4"
+        }
+      ],
+      "count": 1
+    },
+    "Dispensaries": {
+      "keywords": [
+        "dispensary",
+        "cannabis",
+        "thc",
+        "cbd",
+        "marijuana"
+      ],
+      "videos": [
+        {
+          "title": "AZ Natural Concepts Dispensary - Phoenix, AZ",
+          "id": "13IsARJ5Gvc50hKflkKYiKTtjizY3rWCq",
+          "url": "https://drive.google.com/file/d/13IsARJ5Gvc50hKflkKYiKTtjizY3rWCq/view?usp=drivesdk",
+          "mime": "video/mp4"
+        },
+        {
+          "title": "Your CBD Store - Ocean Springs, MS",
+          "id": "1IfmqaYO2lPD7kcu6hRDYfC8X2LLJT68B",
+          "url": "https://drive.google.com/file/d/1IfmqaYO2lPD7kcu6hRDYfC8X2LLJT68B/view?usp=drivesdk",
+          "mime": "video/mp4"
+        },
+        {
+          "title": "HouseOfLeaves_Medford",
+          "id": "1IrZd5-5cnLRAAXGmEMeZhVniBpD3tkiS",
+          "url": "https://drive.google.com/file/d/1IrZd5-5cnLRAAXGmEMeZhVniBpD3tkiS/view?usp=drivesdk",
+          "mime": "video/quicktime"
+        },
+        {
+          "title": "Weird Trees-Tavernier, FL.MOV",
+          "id": "1zMsIkCNgxPgah81WX_LUxceIc8NQpa9b",
+          "url": "https://drive.google.com/file/d/1zMsIkCNgxPgah81WX_LUxceIc8NQpa9b/view?usp=drivesdk",
+          "mime": "video/quicktime"
+        }
+      ],
+      "count": 4
+    },
+    "Food & Drink": {
+      "keywords": [
+        "restaurant",
+        "cafe",
+        "coffee",
+        "bar",
+        "deli",
+        "bakery",
+        "pizza",
+        "taco",
+        "food",
+        "drink"
+      ],
+      "videos": [
+        {
+          "title": "JerseyMikes_SantaClaraCA",
+          "id": "1FRluYEL_z77xBiQOUP94bSC9zv1TLWsL",
+          "url": "https://drive.google.com/file/d/1FRluYEL_z77xBiQOUP94bSC9zv1TLWsL/view?usp=drivesdk",
+          "mime": "video/quicktime"
+        },
+        {
+          "title": "RicosPolloArcadiaCA_J416694",
+          "id": "1hF3ik7b0M-OGrZmajWegkT1qHUvDAzAx",
+          "url": "https://drive.google.com/file/d/1hF3ik7b0M-OGrZmajWegkT1qHUvDAzAx/view?usp=drivesdk",
+          "mime": "video/quicktime"
+        },
+        {
+          "title": "FlavorTheory_RiversideCA",
+          "id": "1NzbzxjfwMgjif0iEtfxx-LtJEVOuPtx8",
+          "url": "https://drive.google.com/file/d/1NzbzxjfwMgjif0iEtfxx-LtJEVOuPtx8/view?usp=drivesdk",
+          "mime": "video/mp4"
+        },
+        {
+          "title": "JetsPizzaMorristownTN_Nov2025",
+          "id": "1qIwqar4bk-hCI9EH-s8G1s9rf0nfjdb4",
+          "url": "https://drive.google.com/file/d/1qIwqar4bk-hCI9EH-s8G1s9rf0nfjdb4/view?usp=drivesdk",
+          "mime": "video/mp4"
+        },
+        {
+          "title": "SunberryAcai_GranadaHillsCA",
+          "id": "1ohSag-7Gw0MGGJC9ayUbUKrOSmVF6fiQ",
+          "url": "https://drive.google.com/file/d/1ohSag-7Gw0MGGJC9ayUbUKrOSmVF6fiQ/view?usp=drivesdk",
+          "mime": "video/quicktime"
+        },
+        {
+          "title": "SmoothieKing_AugustaGA_ChristopherLeMar",
+          "id": "1YSif2dkyIKfeWylpm4WPzRM7qk7at7di",
+          "url": "https://drive.google.com/file/d/1YSif2dkyIKfeWylpm4WPzRM7qk7at7di/view?usp=drivesdk",
+          "mime": "video/quicktime"
+        },
+        {
+          "title": "DairyQueenTucson_AndrewLueck",
+          "id": "1MxQiyyNeDanlu2rDRUNdPF5JK4SLUBTs",
+          "url": "https://drive.google.com/file/d/1MxQiyyNeDanlu2rDRUNdPF5JK4SLUBTs/view?usp=drivesdk",
+          "mime": "video/mp4"
+        },
+        {
+          "title": "NikkoSushi_KaysvilleUT",
+          "id": "1VIvAcDBcRARVbyHXr46mXizwDSUuo27V",
+          "url": "https://drive.google.com/file/d/1VIvAcDBcRARVbyHXr46mXizwDSUuo27V/view?usp=drivesdk",
+          "mime": "video/mp4"
+        },
+        {
+          "title": "WingWah_OgdenUT",
+          "id": "102gKfto0NIxrsR81LZ2GYWpbbgWhU7GO",
+          "url": "https://drive.google.com/file/d/102gKfto0NIxrsR81LZ2GYWpbbgWhU7GO/view?usp=drivesdk",
+          "mime": "video/mp4"
+        },
+        {
+          "title": "BlueCowFroYo_BoiseID",
+          "id": "1bv5m1hKcm0p1iWi-HhAbZK-WN2zmBNpi",
+          "url": "https://drive.google.com/file/d/1bv5m1hKcm0p1iWi-HhAbZK-WN2zmBNpi/view?usp=drivesdk",
+          "mime": "video/mp4"
+        },
+        {
+          "title": "JetsPizza_MorristownTN",
+          "id": "1Vq2N8QajEYiEPy4ey7nbI6TqDQPHI01D",
+          "url": "https://drive.google.com/file/d/1Vq2N8QajEYiEPy4ey7nbI6TqDQPHI01D/view?usp=drivesdk",
+          "mime": "video/mp4"
+        },
+        {
+          "title": "Ds-Wine-Liquor_KnoxvilleTN",
+          "id": "1yrZvw_F-4EOJmTWBdzst7psj6F078lBF",
+          "url": "https://drive.google.com/file/d/1yrZvw_F-4EOJmTWBdzst7psj6F078lBF/view?usp=drivesdk",
+          "mime": "video/mp4"
+        },
+        {
+          "title": "ElMariachi_TazewellTN_FarrisLong",
+          "id": "1pfFjuGwICt6uXZNnESlqsw7OBwyOtbtx",
+          "url": "https://drive.google.com/file/d/1pfFjuGwICt6uXZNnESlqsw7OBwyOtbtx/view?usp=drivesdk",
+          "mime": "video/mp4"
+        },
+        {
+          "title": "PlazaMexico_Knoxville",
+          "id": "1OsTdNetuVVgscWlopo0xHUf9Ub9Cf3Ay",
+          "url": "https://drive.google.com/file/d/1OsTdNetuVVgscWlopo0xHUf9Ub9Cf3Ay/view?usp=drivesdk",
+          "mime": "video/mp4"
+        },
+        {
+          "title": "BadBoyBurgers_BoiseID_DavidManning",
+          "id": "1WkTUyMWGk6vrx6_3K2tzakbBx6aS7W2f",
+          "url": "https://drive.google.com/file/d/1WkTUyMWGk6vrx6_3K2tzakbBx6aS7W2f/view?usp=drivesdk",
+          "mime": "video/mp4"
+        },
+        {
+          "title": "PizzaGuys_SanJoseCA_JuddWood",
+          "id": "1kdha08tAH_2kb3DTArYRaO90BQMUTWK0",
+          "url": "https://drive.google.com/file/d/1kdha08tAH_2kb3DTArYRaO90BQMUTWK0/view?usp=drivesdk",
+          "mime": "video/quicktime"
+        },
+        {
+          "title": "Applebees_RedmondOR",
+          "id": "1NSJtUozDv8KWjMzBIvBIwgeR8hoS9ozS",
+          "url": "https://drive.google.com/file/d/1NSJtUozDv8KWjMzBIvBIwgeR8hoS9ozS/view?usp=drivesdk",
+          "mime": "video/mp4"
+        },
+        {
+          "title": "LeadvilleLiquors_LeadvilleCO.MP4",
+          "id": "18aviZkMOg9p_nlEDyByJtXwZ_oMsaCMT",
+          "url": "https://drive.google.com/file/d/18aviZkMOg9p_nlEDyByJtXwZ_oMsaCMT/view?usp=drivesdk",
+          "mime": "video/mp4"
+        },
+        {
+          "title": "KillerBurger Wilsonville - Tyler VanSant",
+          "id": "1_USV0Tekg6xDIoXGV2ItdiF3WdAdubDF",
+          "url": "https://drive.google.com/file/d/1_USV0Tekg6xDIoXGV2ItdiF3WdAdubDF/view?usp=drivesdk",
+          "mime": "video/quicktime"
+        },
+        {
+          "title": "Kabuki_Brea_HectorNazario.MOV",
+          "id": "1lDPWJJzxw9SZBitu0suTn7oURU7JXI2n",
+          "url": "https://drive.google.com/file/d/1lDPWJJzxw9SZBitu0suTn7oURU7JXI2n/view?usp=drivesdk",
+          "mime": "video/quicktime"
+        },
+        {
+          "title": "Vaqueros",
+          "id": "1lpZ0_z9gkE8-xfBToa4PUcdlSnjtE73u",
+          "url": "https://drive.google.com/file/d/1lpZ0_z9gkE8-xfBToa4PUcdlSnjtE73u/view?usp=drivesdk",
+          "mime": "video/mp4"
+        },
+        {
+          "title": "Kindee Thai",
+          "id": "1A7wnylJi8qEIcyPqlDAZbXLamFo7xh7J",
+          "url": "https://drive.google.com/file/d/1A7wnylJi8qEIcyPqlDAZbXLamFo7xh7J/view?usp=drivesdk",
+          "mime": "video/mp4"
+        },
+        {
+          "title": "Von Ebert Brewing & Pizzeria",
+          "id": "1pkGqlOEHdPQJptSej7XYoGsJEhalMVsb",
+          "url": "https://drive.google.com/file/d/1pkGqlOEHdPQJptSej7XYoGsJEhalMVsb/view?usp=drivesdk",
+          "mime": "video/quicktime"
+        },
+        {
+          "title": "Papa Murphy Hood River",
+          "id": "1LjPgpnj9Vgystv5NBUdydAR31ke9g-91",
+          "url": "https://drive.google.com/file/d/1LjPgpnj9Vgystv5NBUdydAR31ke9g-91/view?usp=drivesdk",
+          "mime": "video/mp4"
+        },
+        {
+          "title": "video testimonial in Korean",
+          "id": "1WQ634Js_lTxRm3H8l9QdaQYa7jhfwFKT",
+          "url": "https://drive.google.com/file/d/1WQ634Js_lTxRm3H8l9QdaQYa7jhfwFKT/view?usp=drivesdk",
+          "mime": "video/mp4"
+        },
+        {
+          "title": "Atilano's Mexican Food.MOV",
+          "id": "1wwftUoPXfbX11QQikXY_vigHGiDgmgTU",
+          "url": "https://drive.google.com/file/d/1wwftUoPXfbX11QQikXY_vigHGiDgmgTU/view?usp=drivesdk",
+          "mime": "video/quicktime"
+        },
+        {
+          "title": "Mojo\u2019s Donuts & Ice Cream",
+          "id": "160buxoSFEkwpth3N5AdpZSYJ_GeYQwOE",
+          "url": "https://drive.google.com/file/d/160buxoSFEkwpth3N5AdpZSYJ_GeYQwOE/view?usp=drivesdk",
+          "mime": "video/mp4"
+        },
+        {
+          "title": "Hot Ginger Pho",
+          "id": "1eg9kj0MBt_WBUsx9GsxH3jM5ifgpSXJY",
+          "url": "https://drive.google.com/file/d/1eg9kj0MBt_WBUsx9GsxH3jM5ifgpSXJY/view?usp=drivesdk",
+          "mime": "video/quicktime"
+        },
+        {
+          "title": "Amrutha Vilas",
+          "id": "1vF5ZZn9k_8pxy-DGb_0tTesXs1kafMQ-",
+          "url": "https://drive.google.com/file/d/1vF5ZZn9k_8pxy-DGb_0tTesXs1kafMQ-/view?usp=drivesdk",
+          "mime": "video/mp4"
+        },
+        {
+          "title": "Biryani Junction",
+          "id": "10MD5qwBR4Js8AQKY50Ww1fncCJ2W5ovS",
+          "url": "https://drive.google.com/file/d/10MD5qwBR4Js8AQKY50Ww1fncCJ2W5ovS/view?usp=drivesdk",
+          "mime": "video/mp4"
+        },
+        {
+          "title": "Blue Cow Frozen Yogurt",
+          "id": "1auuLbN2-ezNjSEsez3BaLplM8xi3MXar",
+          "url": "https://drive.google.com/file/d/1auuLbN2-ezNjSEsez3BaLplM8xi3MXar/view?usp=drivesdk",
+          "mime": "video/mp4"
+        },
+        {
+          "title": "Baja Fresh",
+          "id": "1apaoRWUi5Vnsh_f9FpulW4-RKbN8nOPk",
+          "url": "https://drive.google.com/file/d/1apaoRWUi5Vnsh_f9FpulW4-RKbN8nOPk/view?usp=drivesdk",
+          "mime": "video/mp4"
+        },
+        {
+          "title": "Gold Dust Express PIzza",
+          "id": "1KoTt1oWvzSGfTkR88EU0USVYgrs75Rjo",
+          "url": "https://drive.google.com/file/d/1KoTt1oWvzSGfTkR88EU0USVYgrs75Rjo/view?usp=drivesdk",
+          "mime": "video/mp4"
+        },
+        {
+          "title": "Baskin Robbins",
+          "id": "1E0VZB-5mvjpRkh60lx5Ho50ZA6O0FuhM",
+          "url": "https://drive.google.com/file/d/1E0VZB-5mvjpRkh60lx5Ho50ZA6O0FuhM/view?usp=drivesdk",
+          "mime": "video/mp4"
+        },
+        {
+          "title": "Mountain Mike's",
+          "id": "1YimX6Dbmw6jluMz_3YFhnrdNlMlysjeC",
+          "url": "https://drive.google.com/file/d/1YimX6Dbmw6jluMz_3YFhnrdNlMlysjeC/view?usp=drivesdk",
+          "mime": "video/mp4"
+        },
+        {
+          "title": "Perko's Cafe",
+          "id": "1aGPtesXmeP1gYiGddpVDtmEjaNS-2ocb",
+          "url": "https://drive.google.com/file/d/1aGPtesXmeP1gYiGddpVDtmEjaNS-2ocb/view?usp=drivesdk",
+          "mime": "video/mp4"
+        },
+        {
+          "title": "Sourdough and Co Ceres",
+          "id": "1OTabPdGTVIfstjCavljrqpwo8DM6BguE",
+          "url": "https://drive.google.com/file/d/1OTabPdGTVIfstjCavljrqpwo8DM6BguE/view?usp=drivesdk",
+          "mime": "video/mp4"
+        }
+      ],
+      "count": 37
+    },
+    "Clothing": {
+      "keywords": [
+        "apparel",
+        "clothing",
+        "boutique",
+        "fashion",
+        "clothes",
+        "shop",
+        "retail clothing"
+      ],
+      "videos": [
+        {
+          "title": "american_cleaners_f-5",
+          "id": "1Qn4JNScb6Zmi6RPflJMr9P2Ll2_BGj7k",
+          "url": "https://drive.google.com/file/d/1Qn4JNScb6Zmi6RPflJMr9P2Ll2_BGj7k/view?usp=drivesdk",
+          "mime": "video/mp4"
+        },
+        {
+          "title": "Comet Cleaners in Austin, Texas",
+          "id": "1YD9z_5pS0S8hnc_3Jn5FZpBloW3uWJx2",
+          "url": "https://drive.google.com/file/d/1YD9z_5pS0S8hnc_3Jn5FZpBloW3uWJx2/view?usp=drivesdk",
+          "mime": "video/mp4"
+        },
+        {
+          "title": "Benecia Dry Cleaners",
+          "id": "1JmCv4mWhqW37EHhbW4Cggf6AJUV-tEo_",
+          "url": "https://drive.google.com/file/d/1JmCv4mWhqW37EHhbW4Cggf6AJUV-tEo_/view?usp=drivesdk",
+          "mime": "video/mp4"
+        },
+        {
+          "title": "Hilo Hattie in Hawaii",
+          "id": "1yBHIdjQ-Fe_EDqGYl6jD0ZLdPXcoXE48",
+          "url": "https://drive.google.com/file/d/1yBHIdjQ-Fe_EDqGYl6jD0ZLdPXcoXE48/view?usp=drivesdk",
+          "mime": "video/mp4"
+        },
+        {
+          "title": "Blossom Valley Cleaners",
+          "id": "1ldshx7j2fNCiJqz6HsrGWxTNmoW4SFL6",
+          "url": "https://drive.google.com/file/d/1ldshx7j2fNCiJqz6HsrGWxTNmoW4SFL6/view?usp=drivesdk",
+          "mime": "video/mp4"
+        }
+      ],
+      "count": 5
+    },
+    "Pets": {
+      "keywords": [
+        "pet",
+        "vet",
+        "veterinary",
+        "animal",
+        "dog",
+        "cat",
+        "grooming",
+        "pet store"
+      ],
+      "videos": [
+        {
+          "title": "Pet Supplies Plus Copperas Cove TX",
+          "id": "168kcmJvwQnNH5DqQYCZVH6ZxthHvPvCY",
+          "url": "https://drive.google.com/file/d/168kcmJvwQnNH5DqQYCZVH6ZxthHvPvCY/view?usp=drivesdk",
+          "mime": "video/mp4"
+        },
+        {
+          "title": "Loop 363 Animal Hospital_TempleTX_2020",
+          "id": "12yZ81n0LeMr1vZ3bBd92ztk3hErB6YY1",
+          "url": "https://drive.google.com/file/d/12yZ81n0LeMr1vZ3bBd92ztk3hErB6YY1/view?usp=drivesdk",
+          "mime": "video/mp4"
+        },
+        {
+          "title": "Pet Supplies Plus - Maryville, TN",
+          "id": "1acfY2yu2KxO5DxoYTDx5_gcyFoE1xKwA",
+          "url": "https://drive.google.com/file/d/1acfY2yu2KxO5DxoYTDx5_gcyFoE1xKwA/view?usp=drivesdk",
+          "mime": "video/mp4"
+        },
+        {
+          "title": "Molly and Friends Pet Grooming - Surprise, AZ",
+          "id": "1XuaOkHc5mcUNIhbLDkzm4lVrArNn5wbf",
+          "url": "https://drive.google.com/file/d/1XuaOkHc5mcUNIhbLDkzm4lVrArNn5wbf/view?usp=drivesdk",
+          "mime": "video/mp4"
+        },
+        {
+          "title": "Denny's Pet World - Kirkland, WA.MOV",
+          "id": "1xNw0aVEk9uU4TJZuRVxDHop2rqS3v2Xf",
+          "url": "https://drive.google.com/file/d/1xNw0aVEk9uU4TJZuRVxDHop2rqS3v2Xf/view?usp=drivesdk",
+          "mime": "video/quicktime"
+        },
+        {
+          "title": "techridge_animal_hospital",
+          "id": "1RFJjbyTcVGwR_Z1rvTnnTPAo6uU5g0_x",
+          "url": "https://drive.google.com/file/d/1RFJjbyTcVGwR_Z1rvTnnTPAo6uU5g0_x/view?usp=drivesdk",
+          "mime": "video/mp4"
+        },
+        {
+          "title": "Loop 363 Animal Hospital in Temple, Texas",
+          "id": "14rkFxL2RKI-NbtsgpleeMW2CVEL4mFUg",
+          "url": "https://drive.google.com/file/d/14rkFxL2RKI-NbtsgpleeMW2CVEL4mFUg/view?usp=drivesdk",
+          "mime": "video/mp4"
+        },
+        {
+          "title": "Pets R Precious Puyallup WA",
+          "id": "1bIIHT1L4vrTAcGeTgkvRPCNQdCLs-jrI",
+          "url": "https://drive.google.com/file/d/1bIIHT1L4vrTAcGeTgkvRPCNQdCLs-jrI/view?usp=drivesdk",
+          "mime": "video/mp4"
+        },
+        {
+          "title": "Loop 363 Animal Hospital.MOV",
+          "id": "1jX97SzwPj52ZeLto9NTTfZAC5PMDgtmC",
+          "url": "https://drive.google.com/file/d/1jX97SzwPj52ZeLto9NTTfZAC5PMDgtmC/view?usp=drivesdk",
+          "mime": "video/quicktime"
+        }
+      ],
+      "count": 9
+    },
+    "Kids": {
+      "keywords": [
+        "daycare",
+        "preschool",
+        "children",
+        "learning",
+        "school",
+        "toys",
+        "kids"
+      ],
+      "videos": [
+        {
+          "title": "Legacy Christian School - San Jose, CA.MOV",
+          "id": "1DXktM0IuVfEY3I87YRMu9Gdd4yF2gX7f",
+          "url": "https://drive.google.com/file/d/1DXktM0IuVfEY3I87YRMu9Gdd4yF2gX7f/view?usp=drivesdk",
+          "mime": "video/quicktime"
+        },
+        {
+          "title": "Kids R Kids in Sugarland, Texas",
+          "id": "1OiYp4vSY7DcrH03ddeKatXSoJly8i7B9",
+          "url": "https://drive.google.com/file/d/1OiYp4vSY7DcrH03ddeKatXSoJly8i7B9/view?usp=drivesdk",
+          "mime": "video/mp4"
+        }
+      ],
+      "count": 2
+    },
+    "Automotive": {
+      "keywords": [
+        "auto",
+        "car",
+        "mechanic",
+        "service",
+        "repair",
+        "dealer",
+        "garage",
+        "autotek"
+      ],
+      "videos": [
+        {
+          "title": "PowerTagsTitle_QueenCreekAZ",
+          "id": "1_C9r-_hsGYPXDM1mizEqftRmHJx6XCB6",
+          "url": "https://drive.google.com/file/d/1_C9r-_hsGYPXDM1mizEqftRmHJx6XCB6/view?usp=drivesdk",
+          "mime": "video/mp4"
+        },
+        {
+          "title": "Fallbrook Car Wash - Fallbrook, CA",
+          "id": "1sQFXznNIrmWbhnUJ-vC9IAlDUN_4aV7L",
+          "url": "https://drive.google.com/file/d/1sQFXznNIrmWbhnUJ-vC9IAlDUN_4aV7L/view?usp=drivesdk",
+          "mime": "video/mp4"
+        },
+        {
+          "title": "Smog Bro - Fallbrook, CA(Spanish)",
+          "id": "1K6U9dMQrwJs3L0ArutINxxtkJSClnY7s",
+          "url": "https://drive.google.com/file/d/1K6U9dMQrwJs3L0ArutINxxtkJSClnY7s/view?usp=drivesdk",
+          "mime": "video/mp4"
+        },
+        {
+          "title": "Smog Bro - Fallbrook, CA",
+          "id": "1uwup-ANR4bTR9OMdchRPsQCyotIKsX_1",
+          "url": "https://drive.google.com/file/d/1uwup-ANR4bTR9OMdchRPsQCyotIKsX_1/view?usp=drivesdk",
+          "mime": "video/mp4"
+        },
+        {
+          "title": "econo_lube_tune_and_brakes",
+          "id": "1GvHq_d1elNSgyW6akSflB93WIstUFqht",
+          "url": "https://drive.google.com/file/d/1GvHq_d1elNSgyW6akSflB93WIstUFqht/view?usp=drivesdk",
+          "mime": "video/mp4"
+        },
+        {
+          "title": "Z Express Car Wash - Louisville, KY",
+          "id": "1QpLplsS1TqdP4TzWljg0i2JYBBnk5Luz",
+          "url": "https://drive.google.com/file/d/1QpLplsS1TqdP4TzWljg0i2JYBBnk5Luz/view?usp=drivesdk",
+          "mime": "video/mp4"
+        },
+        {
+          "title": "Green Valley Automotive - Green Valley, AZ",
+          "id": "1fua6BkiFFQ08-2OP1KR1az_pPPOM3Ttg",
+          "url": "https://drive.google.com/file/d/1fua6BkiFFQ08-2OP1KR1az_pPPOM3Ttg/view?usp=drivesdk",
+          "mime": "video/mp4"
+        },
+        {
+          "title": "Vavoline Instant Oil - Woodland, WA(2)",
+          "id": "1Me3Jto6cHvfHujy6sg3TsuxMCzjOdKZn",
+          "url": "https://drive.google.com/file/d/1Me3Jto6cHvfHujy6sg3TsuxMCzjOdKZn/view?usp=drivesdk",
+          "mime": "video/mp4"
+        },
+        {
+          "title": "Queen Creek Tire Pro's- Queen Creek, AZ",
+          "id": "1WpP8dVLWxbEuz5cA9lXnh247E9Z1zI_n",
+          "url": "https://drive.google.com/file/d/1WpP8dVLWxbEuz5cA9lXnh247E9Z1zI_n/view?usp=drivesdk",
+          "mime": "video/mp4"
+        },
+        {
+          "title": "Autosaver Max-South Burlington, VT",
+          "id": "1I7p3BO1PzInvVoapAkWllP3yOQ_a5UCA",
+          "url": "https://drive.google.com/file/d/1I7p3BO1PzInvVoapAkWllP3yOQ_a5UCA/view?usp=drivesdk",
+          "mime": "video/quicktime"
+        },
+        {
+          "title": "Superior Tire - Kingman, AZ",
+          "id": "14-254VBiHG665e698bTwCxmO1QqIASWE",
+          "url": "https://drive.google.com/file/d/14-254VBiHG665e698bTwCxmO1QqIASWE/view?usp=drivesdk",
+          "mime": "video/mp4"
+        },
+        {
+          "title": "Pepboys Auto - Mesa,AZ",
+          "id": "1NZd-qbH2UdGxuAkRImglfeCF4jUADjpf",
+          "url": "https://drive.google.com/file/d/1NZd-qbH2UdGxuAkRImglfeCF4jUADjpf/view?usp=drivesdk",
+          "mime": "video/mp4"
+        },
+        {
+          "title": "Octopus Car Wash - Tucson,AZ",
+          "id": "1IatarHv2bGas3wB7kruZt85R4hqnBBHb",
+          "url": "https://drive.google.com/file/d/1IatarHv2bGas3wB7kruZt85R4hqnBBHb/view?usp=drivesdk",
+          "mime": "video/mp4"
+        },
+        {
+          "title": "Francis and Sons Car Wash - Mesa,AZ",
+          "id": "1P9qpsioVN1sIHAeI50pIgD2i9ZDb7PVx",
+          "url": "https://drive.google.com/file/d/1P9qpsioVN1sIHAeI50pIgD2i9ZDb7PVx/view?usp=drivesdk",
+          "mime": "video/mp4"
+        },
+        {
+          "title": "Pacific Car Wash in Santa Fe, California",
+          "id": "1N144YCGdhUbsb7UH4-H6lakLSYi-5BR0",
+          "url": "https://drive.google.com/file/d/1N144YCGdhUbsb7UH4-H6lakLSYi-5BR0/view?usp=drivesdk",
+          "mime": "video/mp4"
+        },
+        {
+          "title": "Valvoline Instant Oil Change-Woodland, WA",
+          "id": "1y-O_N7BGMV6NPrgsc3kKHfqx5Hg3QpuY",
+          "url": "https://drive.google.com/file/d/1y-O_N7BGMV6NPrgsc3kKHfqx5Hg3QpuY/view?usp=drivesdk",
+          "mime": "video/mp4"
+        },
+        {
+          "title": "Faster Lube -Morgan Hill, CA.MOV",
+          "id": "1X_RRX3YCJIwEWVFAc1JUuP-ZR30Z_xmb",
+          "url": "https://drive.google.com/file/d/1X_RRX3YCJIwEWVFAc1JUuP-ZR30Z_xmb/view?usp=drivesdk",
+          "mime": "video/quicktime"
+        },
+        {
+          "title": "Chamois Car Wash - Danville, CA.m4v",
+          "id": "10ctwBY_OYCzGxX5KhKKniLrsOf3Uswcl",
+          "url": "https://drive.google.com/file/d/10ctwBY_OYCzGxX5KhKKniLrsOf3Uswcl/view?usp=drivesdk",
+          "mime": "video/mp4"
+        },
+        {
+          "title": "Milsted-Auto-Register-Tapes-Unlimited-RTUI",
+          "id": "1xnAD2RxF5u06fXIX407qpm3Bs1A7eKw3",
+          "url": "https://drive.google.com/file/d/1xnAD2RxF5u06fXIX407qpm3Bs1A7eKw3/view?usp=drivesdk",
+          "mime": "video/mp4"
+        },
+        {
+          "title": "texas-pride-car-wash-register-tapes-unlimited-(rtui)",
+          "id": "18e_kodNruwTDO7YJQtStNhy7O5AgnRO5",
+          "url": "https://drive.google.com/file/d/18e_kodNruwTDO7YJQtStNhy7O5AgnRO5/view?usp=drivesdk",
+          "mime": "video/mp4"
+        },
+        {
+          "title": "Grease Money Airway Heights",
+          "id": "1uuiN3EZrcOhFaJFNDrR14rXgHs7amnjz",
+          "url": "https://drive.google.com/file/d/1uuiN3EZrcOhFaJFNDrR14rXgHs7amnjz/view?usp=drivesdk",
+          "mime": "video/mp4"
+        }
+      ],
+      "count": 21
+    },
+    "Health & Beauty": {
+      "keywords": [
+        "salon",
+        "spa",
+        "barber",
+        "hair",
+        "beauty",
+        "doctor",
+        "medical",
+        "dental",
+        "clinic",
+        "wellness"
+      ],
+      "videos": [
+        {
+          "title": "Great Clips - Calgary, AB",
+          "id": "1rRiKz7mEAKT-i7fzC7GBeJ8I8uaRwqz8",
+          "url": "https://drive.google.com/file/d/1rRiKz7mEAKT-i7fzC7GBeJ8I8uaRwqz8/view?usp=drivesdk",
+          "mime": "video/mp4"
+        },
+        {
+          "title": "Great Clips - Salt Lake City, UT.MOV",
+          "id": "1e2al7aSK69wHPsB-aiA790EweNHDIck8",
+          "url": "https://drive.google.com/file/d/1e2al7aSK69wHPsB-aiA790EweNHDIck8/view?usp=drivesdk",
+          "mime": "video/quicktime"
+        },
+        {
+          "title": "Great Clips Hillside.MOV",
+          "id": "1Q0Sa5Qm7gHf3fzssxRbPSJx2cz2NB5cl",
+          "url": "https://drive.google.com/file/d/1Q0Sa5Qm7gHf3fzssxRbPSJx2cz2NB5cl/view?usp=drivesdk",
+          "mime": "video/quicktime"
+        },
+        {
+          "title": "Crunch Fitness - Long Beach, Hattiesburg, D'Iberville MS",
+          "id": "1OAJkIgXMtTYtHk9dizgJdS769SYWKKY9",
+          "url": "https://drive.google.com/file/d/1OAJkIgXMtTYtHk9dizgJdS769SYWKKY9/view?usp=drivesdk",
+          "mime": "video/mp4"
+        },
+        {
+          "title": "alla_moda_med_spa_in_hd",
+          "id": "1h7wv-BybjQQYYOM9YyTZix66L1rlMpdH",
+          "url": "https://drive.google.com/file/d/1h7wv-BybjQQYYOM9YyTZix66L1rlMpdH/view?usp=drivesdk",
+          "mime": "video/mp4"
+        },
+        {
+          "title": "Perfect Look Family Hair Salon - Battle Ground,WA",
+          "id": "1gQdGKcdThKnyksTbKwOxtzJ_-5r0jL-a",
+          "url": "https://drive.google.com/file/d/1gQdGKcdThKnyksTbKwOxtzJ_-5r0jL-a/view?usp=drivesdk",
+          "mime": "video/mp4"
+        },
+        {
+          "title": "Great Clips - Vancouver, WA",
+          "id": "1Npa71JRz8k3wjcLqjyGqpe9EGVdDHWzB",
+          "url": "https://drive.google.com/file/d/1Npa71JRz8k3wjcLqjyGqpe9EGVdDHWzB/view?usp=drivesdk",
+          "mime": "video/mp4"
+        },
+        {
+          "title": "Great Clips-Prescott Valley,AZ",
+          "id": "1ypXCFtqIgEOuk89a17UF0phGXMcKfRDX",
+          "url": "https://drive.google.com/file/d/1ypXCFtqIgEOuk89a17UF0phGXMcKfRDX/view?usp=drivesdk",
+          "mime": "video/mp4"
+        },
+        {
+          "title": "Supercuts - Chandler,AZ",
+          "id": "1kzmthh-wBL_5JZyqcpDhYtXAsYzR9qAe",
+          "url": "https://drive.google.com/file/d/1kzmthh-wBL_5JZyqcpDhYtXAsYzR9qAe/view?usp=drivesdk",
+          "mime": "video/mp4"
+        },
+        {
+          "title": "Great Clips - Phoenix,AZ",
+          "id": "1D5223tZEWtJZx5cB4UrkvxmIC51LFnW8",
+          "url": "https://drive.google.com/file/d/1D5223tZEWtJZx5cB4UrkvxmIC51LFnW8/view?usp=drivesdk",
+          "mime": "video/mp4"
+        },
+        {
+          "title": "Majestic Beauty Supply - Morgan Hill, CA",
+          "id": "1_ptKe6yuNUdPSfocmqv2XaqkVxWwh1yv",
+          "url": "https://drive.google.com/file/d/1_ptKe6yuNUdPSfocmqv2XaqkVxWwh1yv/view?usp=drivesdk",
+          "mime": "video/mp4"
+        },
+        {
+          "title": "Styling Company -- Calgary, Alberta, CA.MOV",
+          "id": "1xsWKkAdjmaXzMmtYUNOWKcYG-NNen2ng",
+          "url": "https://drive.google.com/file/d/1xsWKkAdjmaXzMmtYUNOWKcYG-NNen2ng/view?usp=drivesdk",
+          "mime": "video/quicktime"
+        },
+        {
+          "title": "Lena's Nail Spa in Corpus Christi, Texas",
+          "id": "1Nd5Tcl132Aag3CWvnLPT2TL8l7rmAdzN",
+          "url": "https://drive.google.com/file/d/1Nd5Tcl132Aag3CWvnLPT2TL8l7rmAdzN/view?usp=drivesdk",
+          "mime": "video/mp4"
+        },
+        {
+          "title": "Cheryl E. Davis Family Dentistry in San Antonio, Texas",
+          "id": "1KHXNnLgMNxsoiPp4OmzIqb48yjutBzrR",
+          "url": "https://drive.google.com/file/d/1KHXNnLgMNxsoiPp4OmzIqb48yjutBzrR/view?usp=drivesdk",
+          "mime": "video/mp4"
+        },
+        {
+          "title": "richmond_dental",
+          "id": "1IhI-0PUNNT0RBZs6W7OxY5x716pE35yJ",
+          "url": "https://drive.google.com/file/d/1IhI-0PUNNT0RBZs6W7OxY5x716pE35yJ/view?usp=drivesdk",
+          "mime": "video/mp4"
+        },
+        {
+          "title": "cost_cutters_3.m4v",
+          "id": "1U1HYRJBxyNyYt8iDCxpkSJaGIRiskA_Z",
+          "url": "https://drive.google.com/file/d/1U1HYRJBxyNyYt8iDCxpkSJaGIRiskA_Z/view?usp=drivesdk",
+          "mime": "video/mp4"
+        },
+        {
+          "title": "premiercuts_redo",
+          "id": "13TEXFFABJLrM39lchjBR2bsX_4hawknR",
+          "url": "https://drive.google.com/file/d/13TEXFFABJLrM39lchjBR2bsX_4hawknR/view?usp=drivesdk",
+          "mime": "video/mp4"
+        },
+        {
+          "title": "The Styling Company in Calgary, Canada",
+          "id": "1f70GOg1zt8onokaOWva0tcwkoEdCysFT",
+          "url": "https://drive.google.com/file/d/1f70GOg1zt8onokaOWva0tcwkoEdCysFT/view?usp=drivesdk",
+          "mime": "video/mp4"
+        },
+        {
+          "title": "Nails-Of-America-Register-Tapes-Unlimited-RTUI",
+          "id": "1ikdLzznQN4UCVaCsY19vZtUSSopAVxQV",
+          "url": "https://drive.google.com/file/d/1ikdLzznQN4UCVaCsY19vZtUSSopAVxQV/view?usp=drivesdk",
+          "mime": "video/mp4"
+        },
+        {
+          "title": "Cost Cutters in Austin, Texas",
+          "id": "1qq2zMNb6EnFJdEmYid1IL-3TJfEkDLID",
+          "url": "https://drive.google.com/file/d/1qq2zMNb6EnFJdEmYid1IL-3TJfEkDLID/view?usp=drivesdk",
+          "mime": "video/mp4"
+        }
+      ],
+      "count": 20
+    },
+    "Retail": {
+      "keywords": [
+        "retail",
+        "store",
+        "shop",
+        "market",
+        "general merchandise"
+      ],
+      "videos": [
+        {
+          "title": "Big5SporingGoods_ElSegundo.MOV",
+          "id": "17KdbVpUQFIcAvmOKDhLeKhkzI45n0Ih7",
+          "url": "https://drive.google.com/file/d/17KdbVpUQFIcAvmOKDhLeKhkzI45n0Ih7/view?usp=drivesdk",
+          "mime": "video/quicktime"
+        },
+        {
+          "title": "Ds-Wine-Liquor_KnoxvilleTN",
+          "id": "1_BoJJbhjt7k_3hOxTBEYBojO2M-dyDyk",
+          "url": "https://drive.google.com/file/d/1_BoJJbhjt7k_3hOxTBEYBojO2M-dyDyk/view?usp=drivesdk",
+          "mime": "video/mp4"
+        },
+        {
+          "title": "Salvation Army - San Jose, CA.MOV",
+          "id": "1wUBqCClsOMoiJNpOsbkC1XiaVYtOApKn",
+          "url": "https://drive.google.com/file/d/1wUBqCClsOMoiJNpOsbkC1XiaVYtOApKn/view?usp=drivesdk",
+          "mime": "video/quicktime"
+        },
+        {
+          "title": "Wilson Furniture - Bridgeport, OH.MOV",
+          "id": "1-D9qs4zJ5HsUs5B1sEwsJj9A8f07Di-b",
+          "url": "https://drive.google.com/file/d/1-D9qs4zJ5HsUs5B1sEwsJj9A8f07Di-b/view?usp=drivesdk",
+          "mime": "video/quicktime"
+        },
+        {
+          "title": "Ace Hardware",
+          "id": "1zMpMgSEFg6zOcSXgnjNiXVVwWH5LOhYZ",
+          "url": "https://drive.google.com/file/d/1zMpMgSEFg6zOcSXgnjNiXVVwWH5LOhYZ/view?usp=drivesdk",
+          "mime": "video/mp4"
+        },
+        {
+          "title": "FurnitureHutt",
+          "id": "14P90xenleaQqBwpYSRdzY5aJMIfPipop",
+          "url": "https://drive.google.com/file/d/14P90xenleaQqBwpYSRdzY5aJMIfPipop/view?usp=drivesdk",
+          "mime": "video/mp4"
+        },
+        {
+          "title": "Batteries Plus",
+          "id": "1eID63UDwhzVYvEjk7p81M3lEFgVHPydp",
+          "url": "https://drive.google.com/file/d/1eID63UDwhzVYvEjk7p81M3lEFgVHPydp/view?usp=drivesdk",
+          "mime": "video/mp4"
+        },
+        {
+          "title": "dr_phonez",
+          "id": "1Nur9UG63XUQCRAgfRzfJ_U7zXIhMVYi-",
+          "url": "https://drive.google.com/file/d/1Nur9UG63XUQCRAgfRzfJ_U7zXIhMVYi-/view?usp=drivesdk",
+          "mime": "video/mp4"
+        }
+      ],
+      "count": 8
+    }
+  },
+  "all_videos": [
+    {
+      "title": "Boost Realtors Shelly Jones & Carrie Hammon - Richard _Rick_ Leibowitz",
+      "id": "1hTSbPFIOrLPnCAcsvEnyqWqDmgj_ncpO",
+      "url": "https://drive.google.com/file/d/1hTSbPFIOrLPnCAcsvEnyqWqDmgj_ncpO/view?usp=drivesdk",
+      "mime": "video/mp4",
+      "category": "Real Estate"
+    },
+    {
+      "title": "E-Tax Red Bluff CA",
+      "id": "1-_1lcdMf0frJE977fKzz3kXgdRtqMAw_",
+      "url": "https://drive.google.com/file/d/1-_1lcdMf0frJE977fKzz3kXgdRtqMAw_/view?usp=drivesdk",
+      "mime": "video/mp4",
+      "category": "Financial Services"
+    },
+    {
+      "title": "AZ Natural Concepts Dispensary - Phoenix, AZ",
+      "id": "13IsARJ5Gvc50hKflkKYiKTtjizY3rWCq",
+      "url": "https://drive.google.com/file/d/13IsARJ5Gvc50hKflkKYiKTtjizY3rWCq/view?usp=drivesdk",
+      "mime": "video/mp4",
+      "category": "Dispensaries"
+    },
+    {
+      "title": "Your CBD Store - Ocean Springs, MS",
+      "id": "1IfmqaYO2lPD7kcu6hRDYfC8X2LLJT68B",
+      "url": "https://drive.google.com/file/d/1IfmqaYO2lPD7kcu6hRDYfC8X2LLJT68B/view?usp=drivesdk",
+      "mime": "video/mp4",
+      "category": "Dispensaries"
+    },
+    {
+      "title": "HouseOfLeaves_Medford",
+      "id": "1IrZd5-5cnLRAAXGmEMeZhVniBpD3tkiS",
+      "url": "https://drive.google.com/file/d/1IrZd5-5cnLRAAXGmEMeZhVniBpD3tkiS/view?usp=drivesdk",
+      "mime": "video/quicktime",
+      "category": "Dispensaries"
+    },
+    {
+      "title": "Weird Trees-Tavernier, FL.MOV",
+      "id": "1zMsIkCNgxPgah81WX_LUxceIc8NQpa9b",
+      "url": "https://drive.google.com/file/d/1zMsIkCNgxPgah81WX_LUxceIc8NQpa9b/view?usp=drivesdk",
+      "mime": "video/quicktime",
+      "category": "Dispensaries"
+    },
+    {
+      "title": "JerseyMikes_SantaClaraCA",
+      "id": "1FRluYEL_z77xBiQOUP94bSC9zv1TLWsL",
+      "url": "https://drive.google.com/file/d/1FRluYEL_z77xBiQOUP94bSC9zv1TLWsL/view?usp=drivesdk",
+      "mime": "video/quicktime",
+      "category": "Food & Drink"
+    },
+    {
+      "title": "RicosPolloArcadiaCA_J416694",
+      "id": "1hF3ik7b0M-OGrZmajWegkT1qHUvDAzAx",
+      "url": "https://drive.google.com/file/d/1hF3ik7b0M-OGrZmajWegkT1qHUvDAzAx/view?usp=drivesdk",
+      "mime": "video/quicktime",
+      "category": "Food & Drink"
+    },
+    {
+      "title": "FlavorTheory_RiversideCA",
+      "id": "1NzbzxjfwMgjif0iEtfxx-LtJEVOuPtx8",
+      "url": "https://drive.google.com/file/d/1NzbzxjfwMgjif0iEtfxx-LtJEVOuPtx8/view?usp=drivesdk",
+      "mime": "video/mp4",
+      "category": "Food & Drink"
+    },
+    {
+      "title": "JetsPizzaMorristownTN_Nov2025",
+      "id": "1qIwqar4bk-hCI9EH-s8G1s9rf0nfjdb4",
+      "url": "https://drive.google.com/file/d/1qIwqar4bk-hCI9EH-s8G1s9rf0nfjdb4/view?usp=drivesdk",
+      "mime": "video/mp4",
+      "category": "Food & Drink"
+    },
+    {
+      "title": "SunberryAcai_GranadaHillsCA",
+      "id": "1ohSag-7Gw0MGGJC9ayUbUKrOSmVF6fiQ",
+      "url": "https://drive.google.com/file/d/1ohSag-7Gw0MGGJC9ayUbUKrOSmVF6fiQ/view?usp=drivesdk",
+      "mime": "video/quicktime",
+      "category": "Food & Drink"
+    },
+    {
+      "title": "SmoothieKing_AugustaGA_ChristopherLeMar",
+      "id": "1YSif2dkyIKfeWylpm4WPzRM7qk7at7di",
+      "url": "https://drive.google.com/file/d/1YSif2dkyIKfeWylpm4WPzRM7qk7at7di/view?usp=drivesdk",
+      "mime": "video/quicktime",
+      "category": "Food & Drink"
+    },
+    {
+      "title": "DairyQueenTucson_AndrewLueck",
+      "id": "1MxQiyyNeDanlu2rDRUNdPF5JK4SLUBTs",
+      "url": "https://drive.google.com/file/d/1MxQiyyNeDanlu2rDRUNdPF5JK4SLUBTs/view?usp=drivesdk",
+      "mime": "video/mp4",
+      "category": "Food & Drink"
+    },
+    {
+      "title": "NikkoSushi_KaysvilleUT",
+      "id": "1VIvAcDBcRARVbyHXr46mXizwDSUuo27V",
+      "url": "https://drive.google.com/file/d/1VIvAcDBcRARVbyHXr46mXizwDSUuo27V/view?usp=drivesdk",
+      "mime": "video/mp4",
+      "category": "Food & Drink"
+    },
+    {
+      "title": "WingWah_OgdenUT",
+      "id": "102gKfto0NIxrsR81LZ2GYWpbbgWhU7GO",
+      "url": "https://drive.google.com/file/d/102gKfto0NIxrsR81LZ2GYWpbbgWhU7GO/view?usp=drivesdk",
+      "mime": "video/mp4",
+      "category": "Food & Drink"
+    },
+    {
+      "title": "BlueCowFroYo_BoiseID",
+      "id": "1bv5m1hKcm0p1iWi-HhAbZK-WN2zmBNpi",
+      "url": "https://drive.google.com/file/d/1bv5m1hKcm0p1iWi-HhAbZK-WN2zmBNpi/view?usp=drivesdk",
+      "mime": "video/mp4",
+      "category": "Food & Drink"
+    },
+    {
+      "title": "JetsPizza_MorristownTN",
+      "id": "1Vq2N8QajEYiEPy4ey7nbI6TqDQPHI01D",
+      "url": "https://drive.google.com/file/d/1Vq2N8QajEYiEPy4ey7nbI6TqDQPHI01D/view?usp=drivesdk",
+      "mime": "video/mp4",
+      "category": "Food & Drink"
+    },
+    {
+      "title": "Ds-Wine-Liquor_KnoxvilleTN",
+      "id": "1yrZvw_F-4EOJmTWBdzst7psj6F078lBF",
+      "url": "https://drive.google.com/file/d/1yrZvw_F-4EOJmTWBdzst7psj6F078lBF/view?usp=drivesdk",
+      "mime": "video/mp4",
+      "category": "Food & Drink"
+    },
+    {
+      "title": "ElMariachi_TazewellTN_FarrisLong",
+      "id": "1pfFjuGwICt6uXZNnESlqsw7OBwyOtbtx",
+      "url": "https://drive.google.com/file/d/1pfFjuGwICt6uXZNnESlqsw7OBwyOtbtx/view?usp=drivesdk",
+      "mime": "video/mp4",
+      "category": "Food & Drink"
+    },
+    {
+      "title": "PlazaMexico_Knoxville",
+      "id": "1OsTdNetuVVgscWlopo0xHUf9Ub9Cf3Ay",
+      "url": "https://drive.google.com/file/d/1OsTdNetuVVgscWlopo0xHUf9Ub9Cf3Ay/view?usp=drivesdk",
+      "mime": "video/mp4",
+      "category": "Food & Drink"
+    },
+    {
+      "title": "BadBoyBurgers_BoiseID_DavidManning",
+      "id": "1WkTUyMWGk6vrx6_3K2tzakbBx6aS7W2f",
+      "url": "https://drive.google.com/file/d/1WkTUyMWGk6vrx6_3K2tzakbBx6aS7W2f/view?usp=drivesdk",
+      "mime": "video/mp4",
+      "category": "Food & Drink"
+    },
+    {
+      "title": "PizzaGuys_SanJoseCA_JuddWood",
+      "id": "1kdha08tAH_2kb3DTArYRaO90BQMUTWK0",
+      "url": "https://drive.google.com/file/d/1kdha08tAH_2kb3DTArYRaO90BQMUTWK0/view?usp=drivesdk",
+      "mime": "video/quicktime",
+      "category": "Food & Drink"
+    },
+    {
+      "title": "Applebees_RedmondOR",
+      "id": "1NSJtUozDv8KWjMzBIvBIwgeR8hoS9ozS",
+      "url": "https://drive.google.com/file/d/1NSJtUozDv8KWjMzBIvBIwgeR8hoS9ozS/view?usp=drivesdk",
+      "mime": "video/mp4",
+      "category": "Food & Drink"
+    },
+    {
+      "title": "LeadvilleLiquors_LeadvilleCO.MP4",
+      "id": "18aviZkMOg9p_nlEDyByJtXwZ_oMsaCMT",
+      "url": "https://drive.google.com/file/d/18aviZkMOg9p_nlEDyByJtXwZ_oMsaCMT/view?usp=drivesdk",
+      "mime": "video/mp4",
+      "category": "Food & Drink"
+    },
+    {
+      "title": "KillerBurger Wilsonville - Tyler VanSant",
+      "id": "1_USV0Tekg6xDIoXGV2ItdiF3WdAdubDF",
+      "url": "https://drive.google.com/file/d/1_USV0Tekg6xDIoXGV2ItdiF3WdAdubDF/view?usp=drivesdk",
+      "mime": "video/quicktime",
+      "category": "Food & Drink"
+    },
+    {
+      "title": "Kabuki_Brea_HectorNazario.MOV",
+      "id": "1lDPWJJzxw9SZBitu0suTn7oURU7JXI2n",
+      "url": "https://drive.google.com/file/d/1lDPWJJzxw9SZBitu0suTn7oURU7JXI2n/view?usp=drivesdk",
+      "mime": "video/quicktime",
+      "category": "Food & Drink"
+    },
+    {
+      "title": "american_cleaners_f-5",
+      "id": "1Qn4JNScb6Zmi6RPflJMr9P2Ll2_BGj7k",
+      "url": "https://drive.google.com/file/d/1Qn4JNScb6Zmi6RPflJMr9P2Ll2_BGj7k/view?usp=drivesdk",
+      "mime": "video/mp4",
+      "category": "Clothing"
+    },
+    {
+      "title": "Comet Cleaners in Austin, Texas",
+      "id": "1YD9z_5pS0S8hnc_3Jn5FZpBloW3uWJx2",
+      "url": "https://drive.google.com/file/d/1YD9z_5pS0S8hnc_3Jn5FZpBloW3uWJx2/view?usp=drivesdk",
+      "mime": "video/mp4",
+      "category": "Clothing"
+    },
+    {
+      "title": "Benecia Dry Cleaners",
+      "id": "1JmCv4mWhqW37EHhbW4Cggf6AJUV-tEo_",
+      "url": "https://drive.google.com/file/d/1JmCv4mWhqW37EHhbW4Cggf6AJUV-tEo_/view?usp=drivesdk",
+      "mime": "video/mp4",
+      "category": "Clothing"
+    },
+    {
+      "title": "Hilo Hattie in Hawaii",
+      "id": "1yBHIdjQ-Fe_EDqGYl6jD0ZLdPXcoXE48",
+      "url": "https://drive.google.com/file/d/1yBHIdjQ-Fe_EDqGYl6jD0ZLdPXcoXE48/view?usp=drivesdk",
+      "mime": "video/mp4",
+      "category": "Clothing"
+    },
+    {
+      "title": "Blossom Valley Cleaners",
+      "id": "1ldshx7j2fNCiJqz6HsrGWxTNmoW4SFL6",
+      "url": "https://drive.google.com/file/d/1ldshx7j2fNCiJqz6HsrGWxTNmoW4SFL6/view?usp=drivesdk",
+      "mime": "video/mp4",
+      "category": "Clothing"
+    },
+    {
+      "title": "Pet Supplies Plus Copperas Cove TX",
+      "id": "168kcmJvwQnNH5DqQYCZVH6ZxthHvPvCY",
+      "url": "https://drive.google.com/file/d/168kcmJvwQnNH5DqQYCZVH6ZxthHvPvCY/view?usp=drivesdk",
+      "mime": "video/mp4",
+      "category": "Pets"
+    },
+    {
+      "title": "Loop 363 Animal Hospital_TempleTX_2020",
+      "id": "12yZ81n0LeMr1vZ3bBd92ztk3hErB6YY1",
+      "url": "https://drive.google.com/file/d/12yZ81n0LeMr1vZ3bBd92ztk3hErB6YY1/view?usp=drivesdk",
+      "mime": "video/mp4",
+      "category": "Pets"
+    },
+    {
+      "title": "Pet Supplies Plus - Maryville, TN",
+      "id": "1acfY2yu2KxO5DxoYTDx5_gcyFoE1xKwA",
+      "url": "https://drive.google.com/file/d/1acfY2yu2KxO5DxoYTDx5_gcyFoE1xKwA/view?usp=drivesdk",
+      "mime": "video/mp4",
+      "category": "Pets"
+    },
+    {
+      "title": "Molly and Friends Pet Grooming - Surprise, AZ",
+      "id": "1XuaOkHc5mcUNIhbLDkzm4lVrArNn5wbf",
+      "url": "https://drive.google.com/file/d/1XuaOkHc5mcUNIhbLDkzm4lVrArNn5wbf/view?usp=drivesdk",
+      "mime": "video/mp4",
+      "category": "Pets"
+    },
+    {
+      "title": "Denny's Pet World - Kirkland, WA.MOV",
+      "id": "1xNw0aVEk9uU4TJZuRVxDHop2rqS3v2Xf",
+      "url": "https://drive.google.com/file/d/1xNw0aVEk9uU4TJZuRVxDHop2rqS3v2Xf/view?usp=drivesdk",
+      "mime": "video/quicktime",
+      "category": "Pets"
+    },
+    {
+      "title": "techridge_animal_hospital",
+      "id": "1RFJjbyTcVGwR_Z1rvTnnTPAo6uU5g0_x",
+      "url": "https://drive.google.com/file/d/1RFJjbyTcVGwR_Z1rvTnnTPAo6uU5g0_x/view?usp=drivesdk",
+      "mime": "video/mp4",
+      "category": "Pets"
+    },
+    {
+      "title": "Loop 363 Animal Hospital in Temple, Texas",
+      "id": "14rkFxL2RKI-NbtsgpleeMW2CVEL4mFUg",
+      "url": "https://drive.google.com/file/d/14rkFxL2RKI-NbtsgpleeMW2CVEL4mFUg/view?usp=drivesdk",
+      "mime": "video/mp4",
+      "category": "Pets"
+    },
+    {
+      "title": "Legacy Christian School - San Jose, CA.MOV",
+      "id": "1DXktM0IuVfEY3I87YRMu9Gdd4yF2gX7f",
+      "url": "https://drive.google.com/file/d/1DXktM0IuVfEY3I87YRMu9Gdd4yF2gX7f/view?usp=drivesdk",
+      "mime": "video/quicktime",
+      "category": "Kids"
+    },
+    {
+      "title": "Kids R Kids in Sugarland, Texas",
+      "id": "1OiYp4vSY7DcrH03ddeKatXSoJly8i7B9",
+      "url": "https://drive.google.com/file/d/1OiYp4vSY7DcrH03ddeKatXSoJly8i7B9/view?usp=drivesdk",
+      "mime": "video/mp4",
+      "category": "Kids"
+    },
+    {
+      "title": "PowerTagsTitle_QueenCreekAZ",
+      "id": "1_C9r-_hsGYPXDM1mizEqftRmHJx6XCB6",
+      "url": "https://drive.google.com/file/d/1_C9r-_hsGYPXDM1mizEqftRmHJx6XCB6/view?usp=drivesdk",
+      "mime": "video/mp4",
+      "category": "Automotive"
+    },
+    {
+      "title": "Fallbrook Car Wash - Fallbrook, CA",
+      "id": "1sQFXznNIrmWbhnUJ-vC9IAlDUN_4aV7L",
+      "url": "https://drive.google.com/file/d/1sQFXznNIrmWbhnUJ-vC9IAlDUN_4aV7L/view?usp=drivesdk",
+      "mime": "video/mp4",
+      "category": "Automotive"
+    },
+    {
+      "title": "Smog Bro - Fallbrook, CA(Spanish)",
+      "id": "1K6U9dMQrwJs3L0ArutINxxtkJSClnY7s",
+      "url": "https://drive.google.com/file/d/1K6U9dMQrwJs3L0ArutINxxtkJSClnY7s/view?usp=drivesdk",
+      "mime": "video/mp4",
+      "category": "Automotive"
+    },
+    {
+      "title": "Smog Bro - Fallbrook, CA",
+      "id": "1uwup-ANR4bTR9OMdchRPsQCyotIKsX_1",
+      "url": "https://drive.google.com/file/d/1uwup-ANR4bTR9OMdchRPsQCyotIKsX_1/view?usp=drivesdk",
+      "mime": "video/mp4",
+      "category": "Automotive"
+    },
+    {
+      "title": "econo_lube_tune_and_brakes",
+      "id": "1GvHq_d1elNSgyW6akSflB93WIstUFqht",
+      "url": "https://drive.google.com/file/d/1GvHq_d1elNSgyW6akSflB93WIstUFqht/view?usp=drivesdk",
+      "mime": "video/mp4",
+      "category": "Automotive"
+    },
+    {
+      "title": "Z Express Car Wash - Louisville, KY",
+      "id": "1QpLplsS1TqdP4TzWljg0i2JYBBnk5Luz",
+      "url": "https://drive.google.com/file/d/1QpLplsS1TqdP4TzWljg0i2JYBBnk5Luz/view?usp=drivesdk",
+      "mime": "video/mp4",
+      "category": "Automotive"
+    },
+    {
+      "title": "Green Valley Automotive - Green Valley, AZ",
+      "id": "1fua6BkiFFQ08-2OP1KR1az_pPPOM3Ttg",
+      "url": "https://drive.google.com/file/d/1fua6BkiFFQ08-2OP1KR1az_pPPOM3Ttg/view?usp=drivesdk",
+      "mime": "video/mp4",
+      "category": "Automotive"
+    },
+    {
+      "title": "Vavoline Instant Oil - Woodland, WA(2)",
+      "id": "1Me3Jto6cHvfHujy6sg3TsuxMCzjOdKZn",
+      "url": "https://drive.google.com/file/d/1Me3Jto6cHvfHujy6sg3TsuxMCzjOdKZn/view?usp=drivesdk",
+      "mime": "video/mp4",
+      "category": "Automotive"
+    },
+    {
+      "title": "Queen Creek Tire Pro's- Queen Creek, AZ",
+      "id": "1WpP8dVLWxbEuz5cA9lXnh247E9Z1zI_n",
+      "url": "https://drive.google.com/file/d/1WpP8dVLWxbEuz5cA9lXnh247E9Z1zI_n/view?usp=drivesdk",
+      "mime": "video/mp4",
+      "category": "Automotive"
+    },
+    {
+      "title": "Autosaver Max-South Burlington, VT",
+      "id": "1I7p3BO1PzInvVoapAkWllP3yOQ_a5UCA",
+      "url": "https://drive.google.com/file/d/1I7p3BO1PzInvVoapAkWllP3yOQ_a5UCA/view?usp=drivesdk",
+      "mime": "video/quicktime",
+      "category": "Automotive"
+    },
+    {
+      "title": "Superior Tire - Kingman, AZ",
+      "id": "14-254VBiHG665e698bTwCxmO1QqIASWE",
+      "url": "https://drive.google.com/file/d/14-254VBiHG665e698bTwCxmO1QqIASWE/view?usp=drivesdk",
+      "mime": "video/mp4",
+      "category": "Automotive"
+    },
+    {
+      "title": "Pepboys Auto - Mesa,AZ",
+      "id": "1NZd-qbH2UdGxuAkRImglfeCF4jUADjpf",
+      "url": "https://drive.google.com/file/d/1NZd-qbH2UdGxuAkRImglfeCF4jUADjpf/view?usp=drivesdk",
+      "mime": "video/mp4",
+      "category": "Automotive"
+    },
+    {
+      "title": "Octopus Car Wash - Tucson,AZ",
+      "id": "1IatarHv2bGas3wB7kruZt85R4hqnBBHb",
+      "url": "https://drive.google.com/file/d/1IatarHv2bGas3wB7kruZt85R4hqnBBHb/view?usp=drivesdk",
+      "mime": "video/mp4",
+      "category": "Automotive"
+    },
+    {
+      "title": "Francis and Sons Car Wash - Mesa,AZ",
+      "id": "1P9qpsioVN1sIHAeI50pIgD2i9ZDb7PVx",
+      "url": "https://drive.google.com/file/d/1P9qpsioVN1sIHAeI50pIgD2i9ZDb7PVx/view?usp=drivesdk",
+      "mime": "video/mp4",
+      "category": "Automotive"
+    },
+    {
+      "title": "Pacific Car Wash in Santa Fe, California",
+      "id": "1N144YCGdhUbsb7UH4-H6lakLSYi-5BR0",
+      "url": "https://drive.google.com/file/d/1N144YCGdhUbsb7UH4-H6lakLSYi-5BR0/view?usp=drivesdk",
+      "mime": "video/mp4",
+      "category": "Automotive"
+    },
+    {
+      "title": "Valvoline Instant Oil Change-Woodland, WA",
+      "id": "1y-O_N7BGMV6NPrgsc3kKHfqx5Hg3QpuY",
+      "url": "https://drive.google.com/file/d/1y-O_N7BGMV6NPrgsc3kKHfqx5Hg3QpuY/view?usp=drivesdk",
+      "mime": "video/mp4",
+      "category": "Automotive"
+    },
+    {
+      "title": "Faster Lube -Morgan Hill, CA.MOV",
+      "id": "1X_RRX3YCJIwEWVFAc1JUuP-ZR30Z_xmb",
+      "url": "https://drive.google.com/file/d/1X_RRX3YCJIwEWVFAc1JUuP-ZR30Z_xmb/view?usp=drivesdk",
+      "mime": "video/quicktime",
+      "category": "Automotive"
+    },
+    {
+      "title": "Chamois Car Wash - Danville, CA.m4v",
+      "id": "10ctwBY_OYCzGxX5KhKKniLrsOf3Uswcl",
+      "url": "https://drive.google.com/file/d/10ctwBY_OYCzGxX5KhKKniLrsOf3Uswcl/view?usp=drivesdk",
+      "mime": "video/mp4",
+      "category": "Automotive"
+    },
+    {
+      "title": "Milsted-Auto-Register-Tapes-Unlimited-RTUI",
+      "id": "1xnAD2RxF5u06fXIX407qpm3Bs1A7eKw3",
+      "url": "https://drive.google.com/file/d/1xnAD2RxF5u06fXIX407qpm3Bs1A7eKw3/view?usp=drivesdk",
+      "mime": "video/mp4",
+      "category": "Automotive"
+    },
+    {
+      "title": "texas-pride-car-wash-register-tapes-unlimited-(rtui)",
+      "id": "18e_kodNruwTDO7YJQtStNhy7O5AgnRO5",
+      "url": "https://drive.google.com/file/d/18e_kodNruwTDO7YJQtStNhy7O5AgnRO5/view?usp=drivesdk",
+      "mime": "video/mp4",
+      "category": "Automotive"
+    },
+    {
+      "title": "Great Clips - Calgary, AB",
+      "id": "1rRiKz7mEAKT-i7fzC7GBeJ8I8uaRwqz8",
+      "url": "https://drive.google.com/file/d/1rRiKz7mEAKT-i7fzC7GBeJ8I8uaRwqz8/view?usp=drivesdk",
+      "mime": "video/mp4",
+      "category": "Health & Beauty"
+    },
+    {
+      "title": "Great Clips - Salt Lake City, UT.MOV",
+      "id": "1e2al7aSK69wHPsB-aiA790EweNHDIck8",
+      "url": "https://drive.google.com/file/d/1e2al7aSK69wHPsB-aiA790EweNHDIck8/view?usp=drivesdk",
+      "mime": "video/quicktime",
+      "category": "Health & Beauty"
+    },
+    {
+      "title": "Great Clips Hillside.MOV",
+      "id": "1Q0Sa5Qm7gHf3fzssxRbPSJx2cz2NB5cl",
+      "url": "https://drive.google.com/file/d/1Q0Sa5Qm7gHf3fzssxRbPSJx2cz2NB5cl/view?usp=drivesdk",
+      "mime": "video/quicktime",
+      "category": "Health & Beauty"
+    },
+    {
+      "title": "Crunch Fitness - Long Beach, Hattiesburg, D'Iberville MS",
+      "id": "1OAJkIgXMtTYtHk9dizgJdS769SYWKKY9",
+      "url": "https://drive.google.com/file/d/1OAJkIgXMtTYtHk9dizgJdS769SYWKKY9/view?usp=drivesdk",
+      "mime": "video/mp4",
+      "category": "Health & Beauty"
+    },
+    {
+      "title": "alla_moda_med_spa_in_hd",
+      "id": "1h7wv-BybjQQYYOM9YyTZix66L1rlMpdH",
+      "url": "https://drive.google.com/file/d/1h7wv-BybjQQYYOM9YyTZix66L1rlMpdH/view?usp=drivesdk",
+      "mime": "video/mp4",
+      "category": "Health & Beauty"
+    },
+    {
+      "title": "Perfect Look Family Hair Salon - Battle Ground,WA",
+      "id": "1gQdGKcdThKnyksTbKwOxtzJ_-5r0jL-a",
+      "url": "https://drive.google.com/file/d/1gQdGKcdThKnyksTbKwOxtzJ_-5r0jL-a/view?usp=drivesdk",
+      "mime": "video/mp4",
+      "category": "Health & Beauty"
+    },
+    {
+      "title": "Great Clips - Vancouver, WA",
+      "id": "1Npa71JRz8k3wjcLqjyGqpe9EGVdDHWzB",
+      "url": "https://drive.google.com/file/d/1Npa71JRz8k3wjcLqjyGqpe9EGVdDHWzB/view?usp=drivesdk",
+      "mime": "video/mp4",
+      "category": "Health & Beauty"
+    },
+    {
+      "title": "Great Clips-Prescott Valley,AZ",
+      "id": "1ypXCFtqIgEOuk89a17UF0phGXMcKfRDX",
+      "url": "https://drive.google.com/file/d/1ypXCFtqIgEOuk89a17UF0phGXMcKfRDX/view?usp=drivesdk",
+      "mime": "video/mp4",
+      "category": "Health & Beauty"
+    },
+    {
+      "title": "Supercuts - Chandler,AZ",
+      "id": "1kzmthh-wBL_5JZyqcpDhYtXAsYzR9qAe",
+      "url": "https://drive.google.com/file/d/1kzmthh-wBL_5JZyqcpDhYtXAsYzR9qAe/view?usp=drivesdk",
+      "mime": "video/mp4",
+      "category": "Health & Beauty"
+    },
+    {
+      "title": "Great Clips - Phoenix,AZ",
+      "id": "1D5223tZEWtJZx5cB4UrkvxmIC51LFnW8",
+      "url": "https://drive.google.com/file/d/1D5223tZEWtJZx5cB4UrkvxmIC51LFnW8/view?usp=drivesdk",
+      "mime": "video/mp4",
+      "category": "Health & Beauty"
+    },
+    {
+      "title": "Majestic Beauty Supply - Morgan Hill, CA",
+      "id": "1_ptKe6yuNUdPSfocmqv2XaqkVxWwh1yv",
+      "url": "https://drive.google.com/file/d/1_ptKe6yuNUdPSfocmqv2XaqkVxWwh1yv/view?usp=drivesdk",
+      "mime": "video/mp4",
+      "category": "Health & Beauty"
+    },
+    {
+      "title": "Styling Company -- Calgary, Alberta, CA.MOV",
+      "id": "1xsWKkAdjmaXzMmtYUNOWKcYG-NNen2ng",
+      "url": "https://drive.google.com/file/d/1xsWKkAdjmaXzMmtYUNOWKcYG-NNen2ng/view?usp=drivesdk",
+      "mime": "video/quicktime",
+      "category": "Health & Beauty"
+    },
+    {
+      "title": "Lena's Nail Spa in Corpus Christi, Texas",
+      "id": "1Nd5Tcl132Aag3CWvnLPT2TL8l7rmAdzN",
+      "url": "https://drive.google.com/file/d/1Nd5Tcl132Aag3CWvnLPT2TL8l7rmAdzN/view?usp=drivesdk",
+      "mime": "video/mp4",
+      "category": "Health & Beauty"
+    },
+    {
+      "title": "Cheryl E. Davis Family Dentistry in San Antonio, Texas",
+      "id": "1KHXNnLgMNxsoiPp4OmzIqb48yjutBzrR",
+      "url": "https://drive.google.com/file/d/1KHXNnLgMNxsoiPp4OmzIqb48yjutBzrR/view?usp=drivesdk",
+      "mime": "video/mp4",
+      "category": "Health & Beauty"
+    },
+    {
+      "title": "richmond_dental",
+      "id": "1IhI-0PUNNT0RBZs6W7OxY5x716pE35yJ",
+      "url": "https://drive.google.com/file/d/1IhI-0PUNNT0RBZs6W7OxY5x716pE35yJ/view?usp=drivesdk",
+      "mime": "video/mp4",
+      "category": "Health & Beauty"
+    },
+    {
+      "title": "cost_cutters_3.m4v",
+      "id": "1U1HYRJBxyNyYt8iDCxpkSJaGIRiskA_Z",
+      "url": "https://drive.google.com/file/d/1U1HYRJBxyNyYt8iDCxpkSJaGIRiskA_Z/view?usp=drivesdk",
+      "mime": "video/mp4",
+      "category": "Health & Beauty"
+    },
+    {
+      "title": "premiercuts_redo",
+      "id": "13TEXFFABJLrM39lchjBR2bsX_4hawknR",
+      "url": "https://drive.google.com/file/d/13TEXFFABJLrM39lchjBR2bsX_4hawknR/view?usp=drivesdk",
+      "mime": "video/mp4",
+      "category": "Health & Beauty"
+    },
+    {
+      "title": "The Styling Company in Calgary, Canada",
+      "id": "1f70GOg1zt8onokaOWva0tcwkoEdCysFT",
+      "url": "https://drive.google.com/file/d/1f70GOg1zt8onokaOWva0tcwkoEdCysFT/view?usp=drivesdk",
+      "mime": "video/mp4",
+      "category": "Health & Beauty"
+    },
+    {
+      "title": "Nails-Of-America-Register-Tapes-Unlimited-RTUI",
+      "id": "1ikdLzznQN4UCVaCsY19vZtUSSopAVxQV",
+      "url": "https://drive.google.com/file/d/1ikdLzznQN4UCVaCsY19vZtUSSopAVxQV/view?usp=drivesdk",
+      "mime": "video/mp4",
+      "category": "Health & Beauty"
+    },
+    {
+      "title": "Cost Cutters in Austin, Texas",
+      "id": "1qq2zMNb6EnFJdEmYid1IL-3TJfEkDLID",
+      "url": "https://drive.google.com/file/d/1qq2zMNb6EnFJdEmYid1IL-3TJfEkDLID/view?usp=drivesdk",
+      "mime": "video/mp4",
+      "category": "Health & Beauty"
+    },
+    {
+      "title": "Big5SporingGoods_ElSegundo.MOV",
+      "id": "17KdbVpUQFIcAvmOKDhLeKhkzI45n0Ih7",
+      "url": "https://drive.google.com/file/d/17KdbVpUQFIcAvmOKDhLeKhkzI45n0Ih7/view?usp=drivesdk",
+      "mime": "video/quicktime",
+      "category": "Retail"
+    },
+    {
+      "title": "Ds-Wine-Liquor_KnoxvilleTN",
+      "id": "1_BoJJbhjt7k_3hOxTBEYBojO2M-dyDyk",
+      "url": "https://drive.google.com/file/d/1_BoJJbhjt7k_3hOxTBEYBojO2M-dyDyk/view?usp=drivesdk",
+      "mime": "video/mp4",
+      "category": "Retail"
+    },
+    {
+      "title": "Salvation Army - San Jose, CA.MOV",
+      "id": "1wUBqCClsOMoiJNpOsbkC1XiaVYtOApKn",
+      "url": "https://drive.google.com/file/d/1wUBqCClsOMoiJNpOsbkC1XiaVYtOApKn/view?usp=drivesdk",
+      "mime": "video/quicktime",
+      "category": "Retail"
+    },
+    {
+      "title": "Wilson Furniture - Bridgeport, OH.MOV",
+      "id": "1-D9qs4zJ5HsUs5B1sEwsJj9A8f07Di-b",
+      "url": "https://drive.google.com/file/d/1-D9qs4zJ5HsUs5B1sEwsJj9A8f07Di-b/view?usp=drivesdk",
+      "mime": "video/quicktime",
+      "category": "Retail"
+    },
+    {
+      "title": "Ace Hardware",
+      "id": "1zMpMgSEFg6zOcSXgnjNiXVVwWH5LOhYZ",
+      "url": "https://drive.google.com/file/d/1zMpMgSEFg6zOcSXgnjNiXVVwWH5LOhYZ/view?usp=drivesdk",
+      "mime": "video/mp4",
+      "category": "Retail"
+    },
+    {
+      "title": "FurnitureHutt",
+      "id": "14P90xenleaQqBwpYSRdzY5aJMIfPipop",
+      "url": "https://drive.google.com/file/d/14P90xenleaQqBwpYSRdzY5aJMIfPipop/view?usp=drivesdk",
+      "mime": "video/mp4",
+      "category": "Retail"
+    },
+    {
+      "title": "Batteries Plus",
+      "id": "1eID63UDwhzVYvEjk7p81M3lEFgVHPydp",
+      "url": "https://drive.google.com/file/d/1eID63UDwhzVYvEjk7p81M3lEFgVHPydp/view?usp=drivesdk",
+      "mime": "video/mp4",
+      "category": "Retail"
+    },
+    {
+      "title": "dr_phonez",
+      "id": "1Nur9UG63XUQCRAgfRzfJ_U7zXIhMVYi-",
+      "url": "https://drive.google.com/file/d/1Nur9UG63XUQCRAgfRzfJ_U7zXIhMVYi-/view?usp=drivesdk",
+      "mime": "video/mp4",
+      "category": "Retail"
+    },
+    {
+      "title": "Vaqueros",
+      "id": "1lpZ0_z9gkE8-xfBToa4PUcdlSnjtE73u",
+      "url": "https://drive.google.com/file/d/1lpZ0_z9gkE8-xfBToa4PUcdlSnjtE73u/view?usp=drivesdk",
+      "mime": "video/mp4",
+      "category": "Food & Drink"
+    },
+    {
+      "title": "Kindee Thai",
+      "id": "1A7wnylJi8qEIcyPqlDAZbXLamFo7xh7J",
+      "url": "https://drive.google.com/file/d/1A7wnylJi8qEIcyPqlDAZbXLamFo7xh7J/view?usp=drivesdk",
+      "mime": "video/mp4",
+      "category": "Food & Drink"
+    },
+    {
+      "title": "Von Ebert Brewing & Pizzeria",
+      "id": "1pkGqlOEHdPQJptSej7XYoGsJEhalMVsb",
+      "url": "https://drive.google.com/file/d/1pkGqlOEHdPQJptSej7XYoGsJEhalMVsb/view?usp=drivesdk",
+      "mime": "video/quicktime",
+      "category": "Food & Drink"
+    },
+    {
+      "title": "Papa Murphy Hood River",
+      "id": "1LjPgpnj9Vgystv5NBUdydAR31ke9g-91",
+      "url": "https://drive.google.com/file/d/1LjPgpnj9Vgystv5NBUdydAR31ke9g-91/view?usp=drivesdk",
+      "mime": "video/mp4",
+      "category": "Food & Drink"
+    },
+    {
+      "title": "video testimonial in Korean",
+      "id": "1WQ634Js_lTxRm3H8l9QdaQYa7jhfwFKT",
+      "url": "https://drive.google.com/file/d/1WQ634Js_lTxRm3H8l9QdaQYa7jhfwFKT/view?usp=drivesdk",
+      "mime": "video/mp4",
+      "category": "Food & Drink"
+    },
+    {
+      "title": "Atilano's Mexican Food.MOV",
+      "id": "1wwftUoPXfbX11QQikXY_vigHGiDgmgTU",
+      "url": "https://drive.google.com/file/d/1wwftUoPXfbX11QQikXY_vigHGiDgmgTU/view?usp=drivesdk",
+      "mime": "video/quicktime",
+      "category": "Food & Drink"
+    },
+    {
+      "title": "Mojo\u2019s Donuts & Ice Cream",
+      "id": "160buxoSFEkwpth3N5AdpZSYJ_GeYQwOE",
+      "url": "https://drive.google.com/file/d/160buxoSFEkwpth3N5AdpZSYJ_GeYQwOE/view?usp=drivesdk",
+      "mime": "video/mp4",
+      "category": "Food & Drink"
+    },
+    {
+      "title": "Hot Ginger Pho",
+      "id": "1eg9kj0MBt_WBUsx9GsxH3jM5ifgpSXJY",
+      "url": "https://drive.google.com/file/d/1eg9kj0MBt_WBUsx9GsxH3jM5ifgpSXJY/view?usp=drivesdk",
+      "mime": "video/quicktime",
+      "category": "Food & Drink"
+    },
+    {
+      "title": "Amrutha Vilas",
+      "id": "1vF5ZZn9k_8pxy-DGb_0tTesXs1kafMQ-",
+      "url": "https://drive.google.com/file/d/1vF5ZZn9k_8pxy-DGb_0tTesXs1kafMQ-/view?usp=drivesdk",
+      "mime": "video/mp4",
+      "category": "Food & Drink"
+    },
+    {
+      "title": "Biryani Junction",
+      "id": "10MD5qwBR4Js8AQKY50Ww1fncCJ2W5ovS",
+      "url": "https://drive.google.com/file/d/10MD5qwBR4Js8AQKY50Ww1fncCJ2W5ovS/view?usp=drivesdk",
+      "mime": "video/mp4",
+      "category": "Food & Drink"
+    },
+    {
+      "title": "Blue Cow Frozen Yogurt",
+      "id": "1auuLbN2-ezNjSEsez3BaLplM8xi3MXar",
+      "url": "https://drive.google.com/file/d/1auuLbN2-ezNjSEsez3BaLplM8xi3MXar/view?usp=drivesdk",
+      "mime": "video/mp4",
+      "category": "Food & Drink"
+    },
+    {
+      "title": "Baja Fresh",
+      "id": "1apaoRWUi5Vnsh_f9FpulW4-RKbN8nOPk",
+      "url": "https://drive.google.com/file/d/1apaoRWUi5Vnsh_f9FpulW4-RKbN8nOPk/view?usp=drivesdk",
+      "mime": "video/mp4",
+      "category": "Food & Drink"
+    },
+    {
+      "title": "Gold Dust Express PIzza",
+      "id": "1KoTt1oWvzSGfTkR88EU0USVYgrs75Rjo",
+      "url": "https://drive.google.com/file/d/1KoTt1oWvzSGfTkR88EU0USVYgrs75Rjo/view?usp=drivesdk",
+      "mime": "video/mp4",
+      "category": "Food & Drink"
+    },
+    {
+      "title": "Baskin Robbins",
+      "id": "1E0VZB-5mvjpRkh60lx5Ho50ZA6O0FuhM",
+      "url": "https://drive.google.com/file/d/1E0VZB-5mvjpRkh60lx5Ho50ZA6O0FuhM/view?usp=drivesdk",
+      "mime": "video/mp4",
+      "category": "Food & Drink"
+    },
+    {
+      "title": "Mountain Mike's",
+      "id": "1YimX6Dbmw6jluMz_3YFhnrdNlMlysjeC",
+      "url": "https://drive.google.com/file/d/1YimX6Dbmw6jluMz_3YFhnrdNlMlysjeC/view?usp=drivesdk",
+      "mime": "video/mp4",
+      "category": "Food & Drink"
+    },
+    {
+      "title": "Perko's Cafe",
+      "id": "1aGPtesXmeP1gYiGddpVDtmEjaNS-2ocb",
+      "url": "https://drive.google.com/file/d/1aGPtesXmeP1gYiGddpVDtmEjaNS-2ocb/view?usp=drivesdk",
+      "mime": "video/mp4",
+      "category": "Food & Drink"
+    },
+    {
+      "title": "Sourdough and Co Ceres",
+      "id": "1OTabPdGTVIfstjCavljrqpwo8DM6BguE",
+      "url": "https://drive.google.com/file/d/1OTabPdGTVIfstjCavljrqpwo8DM6BguE/view?usp=drivesdk",
+      "mime": "video/mp4",
+      "category": "Food & Drink"
+    },
+    {
+      "title": "Pets R Precious Puyallup WA",
+      "id": "1bIIHT1L4vrTAcGeTgkvRPCNQdCLs-jrI",
+      "url": "https://drive.google.com/file/d/1bIIHT1L4vrTAcGeTgkvRPCNQdCLs-jrI/view?usp=drivesdk",
+      "mime": "video/mp4",
+      "category": "Pets"
+    },
+    {
+      "title": "Loop 363 Animal Hospital.MOV",
+      "id": "1jX97SzwPj52ZeLto9NTTfZAC5PMDgtmC",
+      "url": "https://drive.google.com/file/d/1jX97SzwPj52ZeLto9NTTfZAC5PMDgtmC/view?usp=drivesdk",
+      "mime": "video/quicktime",
+      "category": "Pets"
+    },
+    {
+      "title": "Grease Money Airway Heights",
+      "id": "1uuiN3EZrcOhFaJFNDrR14rXgHs7amnjz",
+      "url": "https://drive.google.com/file/d/1uuiN3EZrcOhFaJFNDrR14rXgHs7amnjz/view?usp=drivesdk",
+      "mime": "video/mp4",
+      "category": "Automotive"
+    }
+  ],
+  "updated_at": "2026-03-04T11:42:00Z"
+}

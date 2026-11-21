@@ -1,0 +1,13 @@
+{
+  "_comment": "Rep business cards for auto-filling the Counter Sign generator. Keyed by normalized rep name slug (lowercase, non-alphanumeric -> hyphen). 'display_name' is the registry display name; 'file' is relative to data/business_cards/. Match a rep by exact display_name first, then by slug.",
+  "cards": [
+    { "slug": "tyler-van-sant", "display_name": "Tyler Van Sant", "aliases": ["Tyler VanSant"], "file": "business_cards/tyler-van-sant.jpg" },
+    { "slug": "dave-boring", "display_name": "Dave Boring", "aliases": [], "file": "business_cards/dave-boring.jpg" },
+    { "slug": "marty-eng", "display_name": "Marty", "aliases": ["Marty Eng", "Anthony Eng"], "file": "business_cards/marty-eng.jpg" },
+    { "slug": "jan-banks", "display_name": "Jan Banks", "aliases": ["Jan T. Banks", "Jan T Banks"], "file": "business_cards/jan-banks.jpg" },
+    { "slug": "matthew-boozer", "display_name": "Matthew Boozer", "aliases": [], "file": "business_cards/matthew-boozer.jpg" },
+    { "slug": "megan-wink", "display_name": "Megan Wink", "aliases": [], "file": "business_cards/megan-wink.jpg" },
+    { "slug": "ryan-rohner-talton", "display_name": "Ryan Rohner Talton", "aliases": ["Ryan Rohner-Talton", "Ryan Rohner-talton"], "file": "business_cards/ryan-rohner-talton.jpg" },
+    { "slug": "dawna-rae-henehan", "display_name": "Dawna Henehan", "aliases": ["Dawna Rae Henehan"], "file": "business_cards/dawna-rae-henehan.jpg" }
+  ]
+}
