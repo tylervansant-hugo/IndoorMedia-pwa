@@ -1,0 +1,218 @@
+{
+  "zones": {
+    "1": {
+      "name": "Houston, OK",
+      "states": ["TX", "OK"],
+      "chains": ["HEB", "Kroger", "Randall's"],
+      "inStoresDay": 30,
+      "month": "May 2022 reference"
+    },
+    "2": {
+      "name": "Dallas, LA",
+      "states": ["TX", "LA"],
+      "chains": ["Kroger", "Tom Thumb"],
+      "inStoresDay": 3,
+      "month": "May 2022 reference"
+    },
+    "3": {
+      "name": "W-TX",
+      "states": ["TX"],
+      "chains": ["Lowes", "United", "HEB"],
+      "inStoresDay": 20,
+      "month": "May 2022 reference"
+    },
+    "4": {
+      "name": "San Antonio, Austin, S-TX",
+      "states": ["TX"],
+      "chains": ["HEB", "Randall's"],
+      "inStoresDay": 23,
+      "month": "May 2022 reference"
+    },
+    "5": {
+      "name": "California",
+      "states": ["CA"],
+      "chains": ["Stater Bros.", "F4L", "Smith's"],
+      "inStoresDay": 19,
+      "month": "May 2022 reference"
+    },
+    "6": {
+      "name": "CT, NY",
+      "states": ["CT", "NY"],
+      "chains": ["SNS", "Shoprite", "Pathmark"],
+      "inStoresDay": 23,
+      "month": "May 2022 reference"
+    },
+    "7Z": {
+      "name": "WA, OR, ID, MT (Zone 7 - West)",
+      "states": ["WA", "OR", "ID", "MT"],
+      "chains": ["QFC", "Fred Meyer", "Safeway", "Carrs"],
+      "inStoresDay": 7,
+      "cycleSchedule": {
+        "A": [1, 4, 7, 10],
+        "B": [2, 5, 8, 11],
+        "C": [3, 6, 9, 12]
+      },
+      "notes": "Tyler's territory. A/B/C cycles launch on the 7th of months 1/4/7/10, 2/5/8/11, 3/6/9/12"
+    },
+    "8": {
+      "name": "MD, DC, N-VA, DE",
+      "states": ["MD", "DC", "VA", "DE"],
+      "chains": ["Giant", "Safeway"],
+      "inStoresDay": 5,
+      "month": "May 2022 reference"
+    },
+    "9": {
+      "name": "CO, WY",
+      "states": ["CO", "WY"],
+      "chains": ["King Soopers", "CM", "Smith's", "Safeway"],
+      "inStoresDay": 14,
+      "month": "May 2022 reference"
+    },
+    "10": {
+      "name": "CA, NV",
+      "states": ["CA", "NV"],
+      "chains": ["Ralph's", "Smith's", "Vons", "F4L"],
+      "inStoresDay": 30,
+      "month": "May 2022 reference"
+    },
+    "11": {
+      "name": "TN, KY, AL, MS, AR",
+      "states": ["TN", "KY", "AL", "MS", "AR"],
+      "chains": ["Kroger"],
+      "inStoresDay": 25,
+      "month": "May 2022 reference"
+    },
+    "12": {
+      "name": "NJ, PA, WV",
+      "states": ["NJ", "PA", "WV"],
+      "chains": ["GTC", "SPR", "Genuardi's"],
+      "inStoresDay": 16,
+      "month": "May 2022 reference"
+    },
+    "13": {
+      "name": "MI, MN, IL",
+      "states": ["MI", "MN", "IL"],
+      "chains": ["Schnucks", "Shop N Save", "Dierbergs", "Cub"],
+      "inStoresDay": 20,
+      "month": "May 2022 reference"
+    },
+    "14": {
+      "name": "Western NY, PA",
+      "states": ["NY", "PA"],
+      "chains": ["Tops"],
+      "inStoresDay": 10,
+      "month": "May 2022 reference"
+    },
+    "15": {
+      "name": "Ohio",
+      "states": ["OH"],
+      "chains": ["Kroger"],
+      "inStoresDay": 18,
+      "month": "May 2022 reference"
+    },
+    "16": {
+      "name": "WI",
+      "states": ["WI"],
+      "chains": ["Pick 'n Save"],
+      "inStoresDay": 7,
+      "month": "May 2022 reference"
+    },
+    "17": {
+      "name": "GA, SC, AL",
+      "states": ["GA", "SC", "AL"],
+      "chains": ["Kroger"],
+      "inStoresDay": 20,
+      "month": "May 2022 reference"
+    },
+    "18": {
+      "name": "IN, MO",
+      "states": ["IN", "MO"],
+      "chains": ["Kroger", "JayC", "Owens", "Ruler", "Payless"],
+      "inStoresDay": 20,
+      "month": "May 2022 reference"
+    },
+    "19": {
+      "name": "KS, MO, OK, NE",
+      "states": ["KS", "MO", "OK", "NE"],
+      "chains": ["Dillon's", "Gerbes", "Reasor's", "Price Cutter", "Kroger"],
+      "inStoresDay": 8,
+      "month": "May 2022 reference"
+    },
+    "20": {
+      "name": "Arizona",
+      "states": ["AZ"],
+      "chains": ["Frys", "Safeway"],
+      "inStoresDay": 10,
+      "month": "May 2022 reference"
+    },
+    "21": {
+      "name": "MI, Toledo OH",
+      "states": ["MI", "OH"],
+      "chains": ["Kroger"],
+      "inStoresDay": 16,
+      "month": "May 2022 reference"
+    },
+    "22": {
+      "name": "VA, NC",
+      "states": ["VA", "NC"],
+      "chains": ["Kroger"],
+      "inStoresDay": 1,
+      "month": "May 2022 reference"
+    },
+    "23": {
+      "name": "DE, MA, RI, NH, ME",
+      "states": ["DE", "MA", "RI", "NH", "ME"],
+      "chains": ["SNS", "Pathmark"],
+      "inStoresDay": 12,
+      "month": "May 2022 reference"
+    },
+    "24": {
+      "name": "NM, UT, WY, ID",
+      "states": ["NM", "UT", "WY", "ID"],
+      "chains": ["Smith's", "Fresh Market", "Reams"],
+      "inStoresDay": 14,
+      "month": "May 2022 reference"
+    },
+    "25": {
+      "name": "IL",
+      "states": ["IL"],
+      "chains": ["Dom", "F4L", "Highlander", "Kroger"],
+      "inStoresDay": 23,
+      "month": "May 2022 reference"
+    },
+    "26Y": {
+      "name": "Northern CA, HI",
+      "states": ["CA", "HI"],
+      "chains": ["Safeway", "Vons", "FoodsCo"],
+      "inStoresDay": 20,
+      "month": "May 2022 reference"
+    },
+    "26Z": {
+      "name": "AK, Northern CA, HI",
+      "states": ["AK", "CA", "HI"],
+      "chains": ["Safeway", "Vons", "FoodsCo"],
+      "inStoresDay": 20,
+      "month": "May 2022 reference"
+    },
+    "27": {
+      "name": "Canada",
+      "states": ["CA"],
+      "chains": ["Safeway"],
+      "inStoresDay": 25,
+      "month": "May 2022 reference"
+    },
+    "28": {
+      "name": "FL, AL, GA, LA, MS",
+      "states": ["FL", "AL", "GA", "LA", "MS"],
+      "chains": ["Winn Dixie"],
+      "inStoresDay": 6,
+      "month": "May 2022 reference"
+    }
+  },
+  "auditSchedule": {
+    "description": "For store audits: count days since last shipment. If approaching 45 days before next expected replenishment, flag for audit.",
+    "example": "Zone 7Z (CA stores) get shipments on the 7th. Next audit should be ~45 days from last delivery to check inventory before reorder needed.",
+    "auditWindow": 45,
+    "notes": "Use 'In Stores' date as reference. Some zones deliver mid-month, others late month. Adjust audit timing per zone."
+  }
+}
